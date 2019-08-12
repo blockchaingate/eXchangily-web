@@ -124,3 +124,6 @@
         </div>
 
     </div>
+
+    <deposit-amount-modal #depositModal (confirmedAmount)="onConfirmedAmount($event)"></deposit-amount-modal>
+    <pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>

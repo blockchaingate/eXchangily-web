@@ -247,7 +247,8 @@ export class CoinService {
         let buf = '';
         buf += this.utilServ.fixedLengh(coinType, 4);
         buf += this.utilServ.fixedLengh(txHash, 64);
-        buf += this.utilServ.fixedLengh(amount, 64);
+        const hexString = amount.toString(16);
+        buf += this.utilServ.fixedLengh(hexString, 64);
         buf += this.utilServ.fixedLengh(address, 64);
         console.log('buf = ' + buf);
         console.log('buf.length=' + buf.length);

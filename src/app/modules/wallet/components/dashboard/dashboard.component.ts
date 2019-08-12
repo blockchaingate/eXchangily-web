@@ -11,6 +11,7 @@ import {KanbanService} from '../../../../services/kanban.service';
 import {Web3Service} from '../../../../services/web3.service';
 import {Signature} from '../../../../interfaces/kanban.interface';
 import { DepositAmountModal } from '../../modals/deposit-amount/deposit-amount.modal';
+import { PinNumberModal } from '../../modals/pin-number/pin-number.modal';
 
 @Component({
     selector: 'app-wallet-dashboard',
@@ -19,7 +20,9 @@ import { DepositAmountModal } from '../../modals/deposit-amount/deposit-amount.m
     encapsulation: ViewEncapsulation.None
 })
 export class WalletDashboardComponent {
-    //@ViewChild('childModal') childModal: DepositAmountModal;
+    @ViewChild('pinModal', {static: true}) pinModal: PinNumberModal;
+    @ViewChild('depositModal', {static: true}) depositModal: DepositAmountModal;
+    
 
     wallet: Wallet; 
     wallets: Wallet[];
@@ -27,6 +30,9 @@ export class WalletDashboardComponent {
     checked = true;
     exgAddress: string;
     currentWalletIndex: number;
+    currentCoin: MyCoin;
+    amount: number;
+    pin: string;
     constructor ( private route: Router, private walletServ: WalletService, private modalServ: BsModalService, 
         private coinServ: CoinService, private utilServ: UtilService, private apiServ:ApiService, 
         private kanbanServ: KanbanService, private web3Serv: Web3Service, private viewContainerRef: ViewContainerRef) {
@@ -105,17 +111,29 @@ export class WalletDashboardComponent {
     } 
     
     deposit(currentCoin: MyCoin) {
-        //this.childModal.show();
+        this.currentCoin = currentCoin;
+        this.depositModal.show();
     }
-
-    async depositdo(currentCoin: MyCoin) {
-        const amount = 15;
-        const pin = '1qaz@WSX';
+    onConfirmedAmount(amount: number) {
+        console.log('amount is:' + amount);
+        this.amount = amount;
+        this.pinModal.show();
+    }
+    onConfirmedPin(pin: string) {
+        console.log('pin is:' + pin);
+        this.pin = pin;
+        this.depositdo();
+    }
+    async depositdo() {
+        const currentCoin = this.currentCoin;
+        const amount = this.amount;
+        const pin = this.pin;
 
         const coinType = this.coinServ.getCoinTypeIdByName(currentCoin.name);
 
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         
+        console.log('seed is:' + seed);
         const keyPairs = this.coinServ.getKeyPairs(currentCoin, seed, 0, 0);
         const officalAddress = this.coinServ.getOfficialAddress(currentCoin);
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
@@ -126,7 +144,8 @@ export class WalletDashboardComponent {
             return;
         }
 
-        const originalMessage = this.coinServ.getOriginalMessage(coinType, txHash.substring(2), amount, addressInKanban.substring(2));
+        const amountInLink = amount * 1e18;
+        const originalMessage = this.coinServ.getOriginalMessage(coinType, txHash.substring(2), amountInLink, addressInKanban.substring(2));
 
         //console.log('address=' + keyPairs.address);
         //console.log('privateKey=' + keyPairs.privateKey);
@@ -134,7 +153,7 @@ export class WalletDashboardComponent {
 
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
 
-        const abiHex = this.web3Serv.getDepositFuncABI(coinType, txHash, amount, addressInKanban, signedMessage);
+        const abiHex = this.web3Serv.getDepositFuncABI(coinType, txHash, amountInLink, addressInKanban, signedMessage);
 
         const txhex = this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairs.privateKey, coinPoolAddress); 
         console.log('txhex=' + txhex);
