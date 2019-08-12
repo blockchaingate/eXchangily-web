@@ -1,0 +1,51 @@
+.outwraper {
+    width: 100%;
+    border-right: 1px solid silver;
+}
+
+.header {
+    font-weight: bold;
+    background-color: #EFEFEF;
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+    margin: 0;
+    width: 100%;
+}
+
+.nav-item {
+    margin-right: 0.5em;
+}
+
+.ordermenu {
+    width: 100%;
+    background-color: silver;
+    height: 28px;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.orders {
+    width: 100%;
+    padding: 0;
+}
+
+.myorderlist {
+    overflow: scroll;
+}
+
+.orderline {
+    width: 100%;
+    display: flex;
+    padding-left: 1.6em;
+}
+
+.orditem {
+    margin-right: 0.4em;
+    font-size: 9pt;
+}
+
+.selected {
+    color: white;
+    font-weight: bold;
+    text-decoration: underline;
+}

@@ -1,0 +1,99 @@
+<div class="panel2">
+    <div class="header">
+        <h3>{{"Verify Mnemonics" | translate }}</h3>
+    </div>
+    <div class="row textarea text-light">
+        <div class="col-2">
+            <img src="/images/icons/verify.png" width="100%">
+        </div>
+        <div class="col-10">
+            {{"VerifyMnemNote" | translate }}
+        </div>
+    </div>
+
+    <div class="row words center">
+        <div class="wordbox col-lg-2 col-md-3 col-sm-4 col-6 text-center">
+            <div class="word">
+                <div class="letterbox">1.</div>
+                <input [(ngModel)]="word1">
+            </div>
+        </div>
+        <div class="wordbox col-lg-2 col-md-3 col-sm-4 col-6 text-center">
+            <div class="word">
+                <div class="letterbox">2.</div>
+                <input [(ngModel)]="word2">
+            </div>
+        </div>
+        <div class="wordbox col-lg-2 col-md-3 col-sm-4 col-6 text-center">
+            <div class="word">
+                <div class="letterbox">3.</div>
+                <input [(ngModel)]="word3">
+            </div>
+        </div>
+        <div class="wordbox col-lg-2 col-md-3 col-sm-4 col-6 text-center">
+            <div class="word">
+                <div class="letterbox">4.</div>
+                <input [(ngModel)]="word4">
+            </div>
+        </div>
+        <div class="wordbox col-lg-2 col-md-3 col-sm-4 col-6 text-center">
+            <div class="word">
+                <div class="letterbox">5.</div>
+                <input [(ngModel)]="word5">
+            </div>
+        </div>
+        <div class="wordbox col-lg-2 col-md-3 col-sm-4 col-6 text-center">
+            <div class="word">
+                <div class="letterbox">6.</div>
+                <input [(ngModel)]="word6">
+            </div>
+        </div>
+        <div class="wordbox col-lg-2 col-md-3 col-sm-4 col-6 text-center">
+            <div class="word">
+                <div class="letterbox">7.</div>
+                <input [(ngModel)]="word7">
+            </div>
+        </div>
+        <div class="wordbox col-lg-2 col-md-3 col-sm-4 col-6 text-center">
+            <div class="word">
+                <div class="letterbox">8.</div>
+                <input [(ngModel)]="word8">
+            </div>
+        </div>
+        <div class="wordbox col-lg-2 col-md-3 col-sm-4 col-6 text-center">
+            <div class="word">
+                <div class="letterbox">9.</div>
+                <input [(ngModel)]="word9">
+            </div>
+        </div>
+        <div class="wordbox col-lg-2 col-md-3 col-sm-4 col-6 text-center">
+            <div class="word">
+                <div class="letterbox">10.</div>
+                <input [(ngModel)]="word10">
+            </div>
+        </div>
+        <div class="wordbox col-lg-2 col-md-3 col-sm-4 col-6 text-center">
+            <div class="word">
+                <div class="letterbox">11.</div>
+                <input [(ngModel)]="word11">
+            </div>
+        </div>
+        <div class="wordbox col-lg-2 col-md-3 col-sm-4 col-6 text-center">
+            <div class="word">
+                <div class="letterbox">12.</div>
+                <input [(ngModel)]="word12">
+            </div>
+        </div>
+    </div>
+    <div style="color: red; margin: 0.5em 1.2em;" *ngIf="clicked">
+        {{"Mnemonics mismatch" | translate}} !
+    </div>
+    <div class="row words">
+        <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+            <button class="btn btn-gradient text-white" (click)="back()">{{"Back"|translate}}</button>
+        </div>
+        <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+           <button class="btn btn-gradient text-white" (click)="confirm()">{{"Confirm"|translate}}</button>
+        </div>
+    </div>
+</div>

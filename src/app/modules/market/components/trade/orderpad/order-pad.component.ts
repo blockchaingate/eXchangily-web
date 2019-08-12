@@ -1,0 +1,177 @@
+import { Component, OnInit, TemplateRef, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { Order } from '../../../models/order';
+import { OrderBookItem, TxRecord } from '../../../models/order-book';
+import { OrderService } from '../../../services/order.service';
+import { Web3Service } from '../../../../../services/web3.service';
+import { KanbanService } from '../../../../../services/kanban.service';
+import { TradeService } from '../../../services/trade.service';
+
+import { UtilService } from '../../../../../services/util.service';
+import { WalletService } from '../../../../../services/wallet.service';
+import { CoinService } from '../../../../../services/coin.service';
+import { Wallet } from '../../../../../models/wallet';
+import * as secureRandom from 'secure-random';
+import { FormBuilder } from '@angular/forms';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {TransactionResp} from '../../../../../interfaces/kanban.interface';
+
+declare let window: any;
+@Component({
+    selector: 'app-order-pad',
+    templateUrl: './order-pad.component.html',
+    styleUrls: ['./order-pad.component.css']
+})
+
+export class OrderPadComponent implements OnInit {
+    @Input() baseCoin: number;
+    @Input() targetCoin: number;
+    @Input() wallet: Wallet;
+    screenheight = screen.height;
+    select = 1;
+    orderType = 1;
+    myorder: Order;
+    bidOrAsk: boolean;
+    sells: OrderBookItem[] = [];
+    buys: OrderBookItem[] = [];
+    txOrders: TxRecord[] = [];
+    currentPrice = 0;
+    change24h = 0;
+    totalBuy = 0.0;
+    totalSell = 0.0;
+    buyPrice = 0;
+    buyQty = 0;
+    sellPrice = 0;
+    sellQty = 0;
+    price = 0;
+    qty = 0;
+    web3: any;
+    pin: string;
+    modalRef: BsModalRef;
+
+    constructor(private ordServ: OrderService, private _router: Router, private web3Serv: Web3Service, private coinService: CoinService,
+      private kanbanService: KanbanService, private utilService: UtilService, private walletService: WalletService, 
+      private fb: FormBuilder, private modalService: BsModalService, private _snackBar: MatSnackBar,private tradeService: TradeService) {
+        this.web3 = this.web3Serv.getWeb3Provider();
+    }
+
+    ngOnInit() {
+        //this.sells = this.ordServ.getSellList('FAB/BTC');
+        //this.buys = this.ordServ.getBuyList('FAB/BTC');
+        //this.txOrders = this.ordServ.getTxRecords('FAB/BTC');
+    }
+
+// This method provides a unique value to track orders with.
+    generateOrderHash (bidOrAsk, orderType, baseCoin, targetCoin, amount, price, timeBeforeExpiration) {
+        const randomString = secureRandom.randomUint8Array(32).map(String).join('');
+        const concatString = [bidOrAsk, orderType, baseCoin, targetCoin, amount, price, timeBeforeExpiration, randomString].join('');
+        return this.web3.utils.sha3(concatString);
+    }
+
+    selectOrder(ord: number) {
+        this.select = ord;
+    }
+
+    confirmPin() {
+      sessionStorage.setItem('pin', this.pin);
+      this.buyOrSell();
+      this.modalRef.hide();
+    }
+
+    openSnackBar(message: string, action: string) {
+      this._snackBar.open(message, action, {
+        duration: 2000,
+      });
+    }
+
+    buy(pinModal: TemplateRef<any>) {
+      if(!this.wallet) {
+        this.openSnackBar('please create wallet before placing order','ok');
+        return;
+      }
+      this.bidOrAsk = true;
+      this.pin = sessionStorage.getItem('pin');
+      this.price = this.buyPrice;
+      this.qty = this.buyQty;      
+      if(this.pin) {
+        this.buyOrSell();
+      }
+      else {
+        this.openModal(pinModal);
+      }
+      
+    }
+
+    sell(pinModal: TemplateRef<any>) {
+      if(!this.wallet) {
+        this.openSnackBar('please create wallet before placing order','ok');
+        return;
+      }      
+      this.bidOrAsk = false;
+      this.pin = sessionStorage.getItem('pin');
+      this.price = this.sellPrice;
+      this.qty = this.sellQty;          
+      if(this.pin) {    
+        this.buyOrSell();
+      }
+      else {
+        this.openModal(pinModal);
+      }
+      
+    }
+
+    openModal(template: TemplateRef<any>) {
+      this.modalRef = this.modalService.show(template, { class: 'second' });
+    }
+
+    async buyOrSell() {
+        console.log('buy something');
+
+        //const pin = '1qaz@WSX';
+        console.log('this.pin' + this.pin + ',this.price=' + this.price + ',this.qty=' + this.qty);
+        const seed = this.utilService.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
+        const privateKey = this.coinService.getExPrivateKey(this.wallet.excoin, seed);
+        const orderType = '1';
+        const baseCoin = this.baseCoin;
+        const targetCoin = this.targetCoin;
+        const timeBeforeExpiration = 423434342432;
+
+        console.log('before getExchangeAddress');
+        this.kanbanService.getExchangeAddress().subscribe((address:string) => {
+          console.log('address is for getExchangeAddress:' + address);
+          const orderHash = this.generateOrderHash(this.bidOrAsk, orderType, baseCoin, targetCoin, this.qty, this.price, timeBeforeExpiration);
+  
+          const abiHex = this.web3Serv.getCreateOrderFuncABI([orderHash, address, this.bidOrAsk, 
+              orderType, baseCoin, targetCoin, this.qty, this.price, timeBeforeExpiration]);
+  
+          const txhex = this.web3Serv.signAbiHexWithPrivateKey(abiHex, privateKey, address); 
+  
+          this.kanbanService.sendRawSignedTransaction(txhex).subscribe((resp:TransactionResp) => {
+  
+              if(resp && resp.transactionHash) {
+                this.openSnackBar('Your order was placed successfully.','Ok');
+                let transaction = {
+                  txid: resp.transactionHash,
+                  baseCoin: this.baseCoin,
+                  targetCoin: this.targetCoin,
+                  bidOrAsk: this.bidOrAsk,
+                  qty: this.qty,
+                  status: '',
+                  created_at: new Date(Date.now()),
+                  price: this.price
+                }
+                this.tradeService.addTransactions(transaction);
+              }
+              else {
+                this.openSnackBar('Something wrong while placing your order.','Ok');
+              }
+          });
+        });
+
+        
+    }
+
+  
+}

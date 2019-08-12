@@ -1,0 +1,54 @@
+<div class="outwraper w-100">
+    <div class="left-area h-100">
+        <div class="menu w-100">
+            <div class="menuitem hand smallfont text-white" [class.selected]="select === 1" (click)="select=1; selectCat(1);">★</div>
+            <div class="menuitem hand smallfont text-white" [class.selected]="select === 2" (click)="select=2; selectCat(2);">USDT</div>
+            <span class="menuitem hand smallfont text-white" [class.selected]="select === 3" (click)="select=3; selectCat(3);">BTC</span>
+            <div class="menuitem hand smallfont text-white" [class.selected]="select === 4" (click)="select=4; selectCat(4);">ETH</div>
+        </div>
+
+        <div class="input-group sarcharea">
+            <input type="text" class="form-control searchbox" [(ngModel)]="searchText" placeholder="{{'Search pair' | translate}}">
+            <div class="input-group-append">
+                <button class="btn btn-secondary" type="button">
+                    <img src="/images/icons/searchicon.svg" width="12px" [hidden]="searchText">
+                    <img src="/images/icons/searchicon-w.svg" width="12px" [hidden]="!searchText">
+                </button>
+            </div>
+        </div>
+
+        <div class="pricelist">
+            <div class="apair header">
+                <div class="leftarea smallfont">{{'Pair'|translate}}</div>
+                <div class="rightarea">
+                    <div class="smallfont">{{'LatestPrice'|translate}}</div>
+                    <div class="smallfont">{{'H24Change'|translate}}</div>
+                </div>
+            </div>
+            <div class="coinlist" [style.height.px]="screenheight-280">
+                <div class="apair" *ngFor="let pr of prices; let i=index">
+                   <div class="leftarea smallfont hand" (click)="loadTradePair(pr.pair)">{{pr.pair}}</div>
+                    <div class="rightarea">
+                        <div class="smallfont">{{pr.price}}</div>
+                        <div class="smallfont" [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>0">
+                            {{pr.change24h | number:'.2'}}%
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="center-area h-100">
+        <div class="w-100">
+            <app-tv-chart-container class="w-100"></app-tv-chart-container>
+        </div>
+        <div class="orderarea">
+            <app-myorders [wallet]="wallet"></app-myorders>
+        </div>
+    </div>
+
+    <div class="right-area h-100">
+        <app-order-pad [baseCoin]="baseCoin" [targetCoin]="targetCoin" [wallet]="wallet"></app-order-pad>
+    </div>
+</div>

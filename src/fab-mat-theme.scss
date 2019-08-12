@@ -1,0 +1,142 @@
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+
+// mat-palette takes a color name as its first argument, and the remaining optional second, third and fourth arguments
+// define a default value, a lighter value and a darker value
+
+$fab-black: #2d2a2a;
+$fab-pale-gray: #f3f7fb;
+$fab-coral-pink: #fd585e;
+$fab-navy: #01183b;
+$fab-sky-blue: #659ff8;
+$fab-light-navy: #143973;
+$fab-topaz: #13cfb0;
+$fab-light-gold: #fed048;
+
+// http://mcg.mbitson.com/
+$fab-navy-palette: (
+        50 : #e1e3e7,
+        100 : #b3bac4,
+        200 : #808c9d,
+        300 : #4d5d76,
+        400 : #273b58,
+        500 : #01183b,
+        600 : #011535,
+        700 : #01112d,
+        800 : #010e26,
+        900 : #000819,
+        A100 : #5871ff,
+        A200 : #2546ff,
+        A400 : #0025f1,
+        A700 : #0021d7,
+        contrast: (
+                50 : #000000,
+                100 : #000000,
+                200 : #000000,
+                300 : #ffffff,
+                400 : #ffffff,
+                500 : #ffffff,
+                600 : #ffffff,
+                700 : #ffffff,
+                800 : #ffffff,
+                900 : #ffffff,
+                A100 : #ffffff,
+                A200 : #ffffff,
+                A400 : #ffffff,
+                A700 : #ffffff,
+        )
+);
+
+$fab-coral-pink-palette: (
+        50 : #ffebec,
+        100 : #fecdcf,
+        200 : #feacaf,
+        300 : #fe8a8e,
+        400 : #fd7176,
+        500 : #fd585e,
+        600 : #fd5056,
+        700 : #fc474c,
+        800 : #fc3d42,
+        900 : #fc2d31,
+        A100 : #ffffff,
+        A200 : #ffffff,
+        A400 : #ffd5d6,
+        A700 : #ffbcbd,
+        contrast: (
+                50 : #000000,
+                100 : #000000,
+                200 : #000000,
+                300 : #000000,
+                400 : #000000,
+                500 : #000000,
+                600 : #000000,
+                700 : #ffffff,
+                800 : #ffffff,
+                900 : #ffffff,
+                A100 : #000000,
+                A200 : #000000,
+                A400 : #000000,
+                A700 : #000000,
+        )
+);
+
+$fab-light-navy-palette: (
+        50 : #e3e7ee,
+        100 : #b9c4d5,
+        200 : #8a9cb9,
+        300 : #5b749d,
+        400 : #375788,
+        500 : #143973,
+        600 : #12336b,
+        700 : #0e2c60,
+        800 : #0b2456,
+        900 : #061743,
+        A100 : #7996ff,
+        A200 : #466eff,
+        A400 : #1346ff,
+        A700 : #0036f8,
+        contrast: (
+                50 : #000000,
+                100 : #000000,
+                200 : #000000,
+                300 : #ffffff,
+                400 : #ffffff,
+                500 : #ffffff,
+                600 : #ffffff,
+                700 : #ffffff,
+                800 : #ffffff,
+                900 : #ffffff,
+                A100 : #000000,
+                A200 : #ffffff,
+                A400 : #ffffff,
+                A700 : #ffffff,
+        )
+);
+
+
+$my-app-primary: mat-palette($fab-light-navy-palette);
+$my-app-accent: mat-palette($fab-coral-pink-palette, 500, 900, A100);
+$my-app-warn: mat-palette($mat-deep-orange); // The warn palette is optional (defaults to red).
+
+// Create the theme object (a Sass map containing all of the palettes).
+$my-app-theme: mat-light-theme($my-app-primary, $my-app-accent, $my-app-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($my-app-theme);
+
+.dark-theme {
+  $my-app-dark-theme: mat-dark-theme($my-app-primary, $my-app-accent, $my-app-warn);
+  @include angular-material-theme($my-app-dark-theme);
+}
+

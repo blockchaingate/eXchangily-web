@@ -1,0 +1,53 @@
+<a (click)="openModal(templateAddAssets)">Add Assets</a>
+<ng-template #templateAddAssets>
+        <div class="modal-header text-center">
+            <h4 class="modal-title w-100">Add Assets</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="form-group">
+                    <label for="inputSendTo">Coin</label>
+                    <div class="row">
+                        <div class="col">
+                            <select class="form-control">
+                                <option>EXG</option>
+                                <option>BTC</option>
+                                <option>ETH</option>
+                                <option>USDT</option>
+                                <option>FAB</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <select class="form-control">
+                                        <option>EXG</option>
+                                        <option>BTC</option>
+                                        <option>ETH</option>
+                                        <option>USDT</option>
+                                        <option>FAB</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputSendTo">Available</label>
+                    <input type="text" class="form-control" id="inputAvailable" aria-describedby="emailHelp" placeholder="0.0000">
+                </div>   
+                <div class="form-group">
+                        <label for="inputSendTo">Frozen</label>
+                        <input type="text" class="form-control" id="inputFrozen" aria-describedby="emailHelp" placeholder="0.0000">
+                </div>     
+                <div class="form-group">
+                        <label for="inputSendTo">Value(USD)</label>
+                        <input type="text" class="form-control" id="inputValue" aria-describedby="emailHelp" placeholder="0.0000">
+                </div>   
+                <div class="form-group">
+                        <label for="inputSendTo">Profit sharing</label>
+                        <input type="text" class="form-control" id="inputProfitSharing" aria-describedby="emailHelp" placeholder="0.0000">
+                </div>                                                              
+                <button class="btn btn1 btn-gradient text-white" (click)="addAsset()">{{"Add" | translate }}</button>
+              </form>
+        </div>
+    </ng-template> 

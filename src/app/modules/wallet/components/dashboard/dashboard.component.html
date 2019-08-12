@@ -1,0 +1,126 @@
+<div class="container text-white">
+    <div class="row">
+        <div class="header">{{"Dashboard" | translate }}</div>
+    </div>
+    <div class="row">
+        <div class="w-100">
+            <div class="exg-bg">
+                <div class="container py-2">
+                    <div class="row">
+                        <div class="col col-md-6">
+                            <div class="small">{{"My Wallet" | translate}}</div>
+                            <div *ngIf="wallet">
+                                <mat-form-field>
+                                    <mat-select panelClass="example-panel" [value]="currentWalletIndex" (selectionChange)="changeWallet($event.value)">
+                                        <mat-option *ngFor="let wallet of wallets;let i = index" [value]="i">
+                                            {{wallet.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="small text-white" *ngIf="wallet">{{"Wallet Address" | translate}}:{{exgAddress}} </div>
+                            <div class="row py-3">
+                                <div class="col col-md-4">
+                                    <modal-receive-coin [wallet]="wallet"></modal-receive-coin>
+                                </div>
+                                <div class="col col-md-4">
+                                    <modal-send-coin [wallet]="wallet"></modal-send-coin>
+                                </div>
+                                <div class="col col-md-4">
+                                    <button class="btn btn-outline btn-basic-outline" (click)="exchangeMoney()">{{"Exchange" | translate }}</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-md-4">
+                            <h4>{{"EXG" | translate}} 0</h4>
+                            <div class="small">+0 {{"USD" | translate}}</div>
+                        </div>
+                        <div class="col col-md-2">
+                            <div class="small">+0%</div>
+                            <div>
+
+                                <div class="btn-group" dropdown>
+                                    <button id="button-basic" dropdownToggle type="button" class="btn btn-link dropdown-toggle" aria-controls="dropdown-basic">
+                                              in USD <span class="caret"></span>
+                                            </button>
+                                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+                                        <li role="menuitem"><a class="dropdown-item">in CAD</a></li>
+                                        <li role="menuitem"><a class="dropdown-item">in RMB</a></li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-2 exg-bg">
+                <div class="container py-2">
+                    <div class="row">
+                        <div class="col col-md-6">
+                            <h5 class="d-inline mr-3">{{"My Asset" | translate}}</h5>
+                            <div class="form-check d-inline small">
+                                <!--
+                                <label class="container">Hide Small Amount Assets
+                                            <input type="checkbox" checked="checked">
+                                            <span class="checkmark"></span>
+                                          </label>
+                                          -->
+
+                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">Hide Small Amount Assets</label>
+
+                            </div>
+                        </div>
+
+                        <div class="col col-md-6 small text-right">
+                            <div class="d-inline mr-3">
+                                <modal-transaction-history></modal-transaction-history>
+                            </div>
+                            <div class="d-inline">
+                                <a (click)="loadBalance()">Refresh Assets</a>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row pt-4">
+                        <table class="table table-dark table-hover table-striped table-fixed">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Symble</th>
+                                    <th scope="col">Digital Asset</th>
+                                    <th scope="col">Available</th>
+                                    <th scope="col">Frozen</th>
+                                    <th scope="col">Value(USD)</th>
+                                    <th scope="col">Profit sharing</th>
+                                    <th>
+
+                                    </th>
+                                    <th>
+
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="wallet">
+                                <tr *ngFor="let mycoin of wallet.mycoins; index as i">
+                                    <td>
+                                        <img *ngIf="mycoin.name == 'BTC'" src="/assets/coins/bitcoin.png" class="icon" />
+                                        <img *ngIf="mycoin.name == 'ETH'" src="/assets/coins/ethereum.png" class="icon" />
+                                    </td>
+                                    <td>{{mycoin.name}}</td>
+                                    <td>{{mycoin.balance}}</td>
+                                    <td>{{mycoin.lockedBalance}}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><button type="button" class="btn btn-primary" (click)="deposit(mycoin)">Deposit</button></td>
+                                    <td><button type="button" class="btn btn-success" (click)="withdraw(mycoin)">Withdraw</button></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>

@@ -1,0 +1,52 @@
+<div class="outwraper">
+    <nav class="navbar navbar-expand-sm ordermenu">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link hand smallfont" [class.selected]="select === 0" (click)="select=0; selectOrder(0);">{{'Open Orders' | translate}}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link hand smallfont" [class.selected]="select === 1" (click)="select=1; selectOrder(1);">{{'Closed Orders' | translate }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link hand smallfont" [class.selected]="select === 100" (click)="select=100; selectOrder(100);">{{'Balances' | translate }}</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="orders w-100">
+        <div class="row orderline w-100 header">
+            <div class="orditem" style="width: 20%; margin-left: -1.2em;">Time</div>
+            <div class="orditem" style="width: 8%;">Symbol</div>
+            <div class="orditem" style="width: 5%;">Type</div>
+            <div class="orditem" style="width: 10%;">Price</div>
+            <div class="orditem" style="width: 10%;">Order Qty</div>
+            <div class="orditem" style="width: 10%;">Filled Qty</div>
+            <div class="orditem" style="width: 10%;">Amount</div>
+            <div class="orditem" style="width: 8%;">Filled%</div>
+            <div class="orditem" style="width: 8%;">Action</div>
+        </div>
+
+        <div class="myorderlist w-100" [style.height.px]="screenheight-680">
+            <div class="row orderline w-100" *ngFor="let order of myorders; let i=index">
+                <div class="orditem text-muted" style="width: 20%;">{{order.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                <div class="orditem text-info" style="width: 8%;">
+                    <p *ngIf="order.baseCoin==0">USDT</p>
+                    <p *ngIf="order.baseCoin==1">BTC</p>
+                    <p *ngIf="order.baseCoin==2">ETH</p>
+                    <p *ngIf="order.baseCoin==3">FAB</p>
+                    <p *ngIf="order.baseCoin==4">EXG</p>
+                </div>
+                <div class="orditem text-muted" style="width: 5%;">
+                    <p *ngIf="order.bidOrAsk">Buy</p>
+                    <p *ngIf="!order.bidOrAsk">Sell</p>
+                </div>
+                <div class="orditem text-muted" style="width: 10%;">{{order.price}}</div>
+                <div class="orditem text-muted" style="width: 10%;">{{order.qty}}</div>
+                <div class="orditem text-muted" style="width: 10%;">{{order.filledQty}}</div>
+                <div class="orditem text-muted" style="width: 10%;">{{order.amount}}</div>
+                <div class="orditem text-muted" style="width: 8%;">{{order.filledQty*100/order.qty|number:'2.2-2'}}</div>
+                <div class="orditem text-muted" style="width: 8%;">cancel</div>
+            </div>
+        </div>
+    </div>
+</div>

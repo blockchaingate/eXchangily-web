@@ -1,0 +1,63 @@
+.containerX {
+    width: 100vw;
+    min-height: 860px;
+    background-color: #1f2233;
+}
+
+.topslogan {
+    padding: 0.6em;
+    text-align: center;
+    height: 380px;
+}
+
+.slogan {
+    display: flex;
+    height: 220px;
+    margin-top: 1em;
+}
+
+.contentarea {
+    font-size: x-small;
+    margin-top: 1em;
+}
+
+.slogan-left {
+    width: 50%;
+    height: 220px;
+    text-align: left;
+    vertical-align: middle;
+    color: white;
+    font-size: 2.2em;
+    padding-right: 1em;
+    padding-top: 1em;
+}
+
+.slogan-right {
+    width: 50%;
+    height: 220px;
+    padding-left: 1em;
+}
+
+.announcement {
+    padding: 0.2em;
+    text-align: center;
+    color: white;
+    font-size: 0.6em;
+    background-color: #333333;
+}
+
+.advblocks {
+    display: flex;
+    margin-top: 2em;
+}
+
+.advblock {
+    width: calc(25% - 1em);
+    height: 72px;
+    text-align: left;
+    color: white;
+}
+
+.right1em {
+    margin-right: 1em;
+}

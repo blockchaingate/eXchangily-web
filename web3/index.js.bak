@@ -1,0 +1,160 @@
+const Web3 = require('web3');
+var http = require('http');
+var querystring = require('querystring');
+
+const apiEndpoint = 'http://169.45.42.108:4000';
+var web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
+
+
+/*
+http.get({
+    hostname: '169.45.42.108',
+    port: 4000,
+    path: '/kanban/getBlock/22',
+    agent: false // Create a new agent just for this one request
+}, (res) => {
+    // Do stuff with response
+    res.setEncoding('utf8')
+    res.on('data', function(body) {
+        console.log(body);
+    });
+});
+
+http.get({
+    hostname: '169.45.42.108',
+    port: 4000,
+    path: '/net/version',
+    agent: false // Create a new agent just for this one request
+}, (res) => {
+    // Do stuff with response
+    res.setEncoding('utf8')
+    res.on('data', function(body) {
+        console.log(body);
+    });
+});
+
+http.get({
+    hostname: '169.45.42.108',
+    port: 4000,
+    path: '/net/peerCount',
+    agent: false // Create a new agent just for this one request
+}, (res) => {
+    // Do stuff with response
+    res.setEncoding('utf8')
+    res.on('data', function(body) {
+        console.log(body);
+    });
+});
+
+http.get({
+    hostname: '169.45.42.108',
+    port: 4000,
+    path: '/kanban/getAccounts',
+    agent: false // Create a new agent just for this one request
+}, (res) => {
+    // Do stuff with response
+    res.setEncoding('utf8')
+    res.on('data', function(body) {
+        console.log(body);
+    });
+});
+*/
+
+
+/*
+http.request({
+    method: 'POST',
+    hostname: '169.45.42.108',
+    port: 4000,
+    path: '/kanban/call',
+    agent: false // Create a new agent just for this one request
+}, (res) => {
+    // Do stuff with response
+    res.setEncoding('utf8')
+    res.on('data', function(body) {
+        console.log(body);
+    });
+
+    res.resume();
+    res.on('end', () => {
+        if (!res.complete)
+            console.error(
+                'The connection was terminated while the message was still being sent');
+    });
+});
+*/
+
+let abi = web3.eth.abi.encodeFunctionSignature({
+    "constant": true,
+    "inputs": [{
+        "name": "_orderHash",
+        "type": "bytes32"
+    }],
+    "name": "getOrderInfo",
+    "outputs": [{
+            "name": "_baseCoin",
+            "type": "uint32"
+        },
+        {
+            "name": "_targetCoin",
+            "type": "uint32"
+        },
+        {
+            "name": "_amount",
+            "type": "uint256"
+        },
+        {
+            "name": "_price",
+            "type": "uint256"
+        }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+},['422e3232312','btc']);
+
+console.log(abi);
+
+const transactionOptions = {
+    from: '0x6456465434545453434343',
+    to: '0x7564654545353343',
+    value: 213,
+    gas: 3,
+    gasPrice: 4,
+    data: abi,
+    nonce: 1
+}
+const postData = querystring.stringify({
+    'transactionOptions': transactionOptions
+});
+
+const options = {
+    hostname: '169.45.42.108',
+    port: 4000,
+    path: '/kanban/call',
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(postData)
+    }
+};
+
+const req = http.request(options, (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    res.setEncoding('utf8');
+    res.on('data', (chunk) => {
+        console.log(`BODY: ${chunk}`);
+    });
+    res.on('end', () => {
+        console.log('No more data in response.');
+    });
+});
+
+req.on('error', (e) => {
+    console.error(`problem with request: ${e.message}`);
+});
+
+// Write data to request body
+req.write(postData);
+req.end();

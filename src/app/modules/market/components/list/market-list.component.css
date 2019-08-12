@@ -1,0 +1,114 @@
+.market-panel {
+    min-height: 600px;
+    padding: 1.4em 0 2em 0;
+}
+
+.mktmenu {
+    margin-right: 0;
+    padding-right: 0;
+}
+
+.nav-item {
+    width: 16em;
+    height: 2.4em;
+    margin-top: 1em;
+    margin-bottom: -0.6em;
+    margin-left: -1px;
+    padding-top: 6px;
+    text-align: center;
+    color: silver;
+}
+
+.pricelist {
+    font-size: 0.9em;
+    width: 100%;
+    min-height: 600px;
+    border: 1px solid #353655;
+    margin-top: -9px;
+    background-color: #343554;
+}
+
+.orderlist {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    color: white;
+    border: 1px solid white;
+    /*width: 100%;*/
+}
+
+.orderlist td,
+th {
+    border: 1px solid black;
+    text-align: center;
+    padding: 8px;
+}
+
+.orderlist tr:nth-child(even) {
+    background-color: rgb(0, 0, 0);
+}
+
+.orderlist tr:nth-child(odd) {
+    background-color: rgb(30, 30, 30);
+}
+
+.orderlist td:nth-child(1) {
+    color: rgb(255, 50, 50);
+}
+
+.orderlist.selllist td:nth-child(1) {
+    color: rgb(100, 255, 100);
+}
+
+.hand {
+    cursor: pointer;
+}
+
+.apair {
+    display: flex;
+    margin-left: 1em;
+    margin-right: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 0.5em;
+    border-bottom: 1px dashed #484969;
+    color: silver;
+    font-size: small;
+}
+
+.dataline:hover {
+    background-color: #3a3b5a;
+}
+
+.header {
+    font-weight: bold;
+    height: 2em;
+    padding-top: 4px;
+    background-color: #2c2c4e;
+    color: white;
+}
+
+.selected {
+    background-color: #2c2c4e;
+    color: white;
+    font-weight: bold;
+}
+
+.redcolor {
+    color: red;
+}
+
+.greencolor {
+    color: green;
+}
+
+.chart {
+    width: 48%;
+    float: left;
+}
+
+.input-group-sm {
+    display: flex;
+    width: 360px;
+    height: 28px;
+    font-size: x-small;
+    margin-right: 1.5em;
+}

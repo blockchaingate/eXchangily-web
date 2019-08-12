@@ -1,0 +1,127 @@
+<header>
+    <nav class="navbar navbar-expand-sm gradient-back-title navbar-dark sticky-top">
+        <a class="navbar-brand" href="/"><img src="./images/exchangily decentralized exchange logo.png" width="40px">eXchangily {{'Title' | translate}}</a>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/market/home" [class.selected]="selected === 1" (click)="selected=1;">{{'Exchange' | translate}}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/wallet" [class.selected]="selected === 2" (click)="selected=2;">{{'Wallet' | translate}}</a>
+            </li>
+        </ul>
+        <!--
+        <div class="btn-group" dropdown>
+            <span dropdownToggle type="button" class="dropdown-toggle">
+                English
+            </span>
+            <ul *dropdownMenu class="dropdown-menu left hand" role="menu">
+                <li role="menuitem">
+                    <a class="dropdown-item" (click)="selectLan('zh')"><img src="./images/flag_zh.svg" width="20px"> 中文</a>
+                </li>
+                <li role="menuitem">
+                    <a class="dropdown-item" (click)="selectLan('en')"><img src="./images/flag_en.svg" width="20px"> English</a>
+                </li>
+            </ul>
+        </div>
+        -->
+        <ul class="navbar-nav">
+            <div class="btn-group" dropdown>
+                <button id="button-basic" dropdownToggle type="button" class="btn  dropdown-toggle text-white" aria-controls="dropdown-basic">
+                          {{currentLang}} <span class="caret"></span>
+                        </button>
+                <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+                    <li role="menuitem"><a class="dropdown-item" (click)="selectLan('en')">English</a></li>
+                    <li role="menuitem"><a class="dropdown-item" (click)="selectLan('zh')">中文</a></li>
+                </ul>
+            </div>
+            <li class="nav-item">
+                <a class="nav-link" href="#">{{'Home' | translate}}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/setting">{{'Setting' | translate}}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/help">{{'Help' | translate}}</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<section class="exg-bg-dark py-1">
+    <router-outlet></router-outlet>
+</section>
+
+<!-- Footer -->
+<footer class="page-footer text-white py-1">
+
+    <!-- Footer Links -->
+    <div class="container text-md-left">
+
+        <!-- Grid row -->
+        <div class="row">
+            <!-- Grid column -->
+            <div class="col-sm-12 col-md-6">
+                <a href="/" class="logo-font"><img src="./images/exchangily decentralized exchange logo.png" width="64px">eXchangily {{'Title' | translate}}</a>
+                <p class="text-white">{{'ExgName' | translate}}</p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-sm-6 col-md-3">
+
+                <!-- Links -->
+                <h5 class="text-uppercase">{{"Links" | translate }}</h5>
+
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="https://exchangily.com" target="_blank">{{"ExgOfflWeb" | translate}}</a>
+                    </li>
+                    <li>
+                        <a href="#">{{'Exchange' | translate}}</a>
+                    </li>
+                    <li>
+                        <a href="/wallet">{{'Wallet' | translate}}</a>
+                    </li>
+                    <li>
+                        <a href="/setting">{{'Setting' | translate}}</a>
+                    </li>
+                </ul>
+
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-sm-6 col-md-3">
+
+                <!-- Links -->
+                <h5 class="text-uppercase">{{"Resource" | translate}}</h5>
+
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="/help">{{"Help" | translate}}</a>
+                    </li>
+                    <li>
+                        <a href="/about">{{"AboutExg" | translate}}</a>
+                    </li>
+                    <li>
+                        <a href="/blog">{{"Blog" | translate}}</a>
+                    </li>
+                    <li>
+                        <a href="/community">{{"Community" | translate}}</a>
+                    </li>
+                </ul>
+
+            </div>
+            <!-- Grid column -->
+
+        </div>
+        <!-- Grid row -->
+
+        <hr>
+        <!-- Copyright -->
+        <div class="text-center small">© {{year}} {{"Copyright" | translate}}:
+            <a href="https://exchangily.com"> eXchangily.com</a>
+        </div>
+        <!-- Copyright -->
+    </div>
+</footer>

@@ -1,0 +1,12 @@
+.container {
+    min-height: 400px;
+}
+
+.sadface {
+    margin-top: 200px;
+    font-size: 64px;
+}
+
+.not-exist {
+    font-size: 32px;
+}

@@ -1,0 +1,16 @@
+.advblock {
+    width: 100%;
+    height: 100%;
+}
+
+.title {
+    font-family: 'Times New Roman', Times, serif;
+    margin: 2px 12px;
+    padding-top: 12px;
+}
+
+.desc {
+    font-size: x-small;
+    margin: 0 12px 0 12px;
+    color: silver;
+}

@@ -1,0 +1,146 @@
+.outwraper {
+    display: flex;
+}
+
+.left-area {
+    display: flex;
+    width: 12%;
+    padding: 0.5em 0 0 1px;
+    flex-direction: column;
+}
+
+.center-area {
+    width: 50%;
+}
+
+.right-area {
+    margin-left: 1px;
+    width: 38%;
+}
+
+.menu {
+    display: flex;
+    margin: 0.6em 0.5em 0.8em 0.5em;
+}
+
+.menuitem {
+    margin-right: 0.6em;
+    color: black;
+}
+
+.sarcharea {
+    width: 99%;
+    height: 2.4em;
+}
+
+.searchbox {
+    width: 4em;
+    font-size: x-small;
+}
+
+.search-entered {
+    background-image: url('/images/icons/searchicon-w.svg');
+}
+
+.smallfont {
+    font-size: 0.8em;
+    margin-top: -0.5em;
+}
+
+.leftarea {
+    margin-top: 0.6em;
+    width: 45%;
+}
+
+.rightarea {
+    margin-top: 0.6em;
+    width: 55%;
+}
+
+.selected {
+    font-weight: bold;
+    border-bottom: 1px solid white;
+    padding-bottom: 0;
+}
+
+.pricelist {
+    font-size: 0.9em;
+    width: 100%;
+    flex: 1;
+    margin-top: 8px;
+    border: 1px solid #AFAFAF;
+    background-color: #EFEFEF;
+}
+
+.coinlist {
+    overflow: scroll;
+}
+
+.orderlist {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    color: white;
+    border: 1px solid white;
+    /*width: 100%;*/
+}
+
+.orderlist td,
+th {
+    border: 1px solid black;
+    text-align: center;
+    padding: 8px;
+}
+
+.orderlist tr:nth-child(even) {
+    background-color: rgb(0, 0, 0);
+}
+
+.orderlist tr:nth-child(odd) {
+    background-color: rgb(30, 30, 30);
+}
+
+.orderlist td:nth-child(1) {
+    color: rgb(255, 50, 50);
+}
+
+.orderlist.selllist td:nth-child(1) {
+    color: rgb(100, 255, 100);
+}
+
+.header {
+    font-size: 1em;
+    font-weight: bold;
+    height: 1.7em;
+}
+
+.hand {
+    cursor: pointer;
+}
+
+.apair {
+    margin-left: 2px;
+    margin-right: 2px;
+    width: 100%;
+    height: 2.2em;
+    display: flex;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: 1px dashed lightgray;
+}
+
+.apair:hover {
+    font-weight: bold;
+}
+
+.redcolor {
+    color: red;
+}
+
+.greencolor {
+    color: green;
+}
+
+.chart {
+    width: 48%;
+    float: left;
+}

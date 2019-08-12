@@ -1,0 +1,45 @@
+html,
+body {
+    height: 100%;
+}
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+body {
+    margin: 0;
+    font-family: "Nunito", serif;
+}
+
+.main-work-area {
+    min-height: 680px;
+}
+
+.hand {
+    cursor: pointer;
+}
+
+.exg-bg {
+    background-color: #282840;
+}
+
+.exg-bg-light {
+    background-color: #2c2c4e;
+}
+
+.exg-bg-dark {
+    background-color: #112233;
+}
+
+.gradient-back-title {
+    background-image: linear-gradient(to right, #e6b572, #d9736e, #95629b, #63539e, #3a4ba3);
+}
+
+.gradient-back-area {
+    color:white;
+    background-image: linear-gradient(to right, #fbc879, #eb7f75, #a26aa7, #695aad, #3e51b0);
+}
+
+.btn-gradient {
+    background-image: linear-gradient(to right, #f2ac0e, #d56a70, #bb2ad1);
+    color: white;
+}
