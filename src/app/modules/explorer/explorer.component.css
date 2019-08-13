@@ -1,7 +1,15 @@
-input[type='text'] {
-    /*
-    background-image: url(images/comment-author.gif);
+input[type='text'],
+input[type='text']:focus {
+    width: 100%;
+    color: white;
+    background: rgba(0, 0, 0, 0);
+    background-image: url('/images/icons/searchicon.svg');
+    background-size: 15px 15px;
+    padding-left: 30px;
     background-position: 7px 7px;
     background-repeat: no-repeat;
-    */
+    outline: none !important;
+    border-style: solid;
+    border-width: 1px;
+    border-color: grey;
 }
