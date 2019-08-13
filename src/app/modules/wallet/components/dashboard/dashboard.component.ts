@@ -140,17 +140,18 @@ export class WalletDashboardComponent {
 
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
         const txHash = await this.coinServ.sendTransaction(currentCoin, seed, officalAddress, amount);   
-        //const txHash = '7f72c0043edce99f3e8c09c14c8919bec81e5fb2938f746d704406ba8e9182da';
+        // const txHash = '7f72c0043edce99f3e8c09c14c8919bec81e5fb2938f746d704406ba8e9182da';
         if (!txHash) {
             return;
         }
 
-        const amountInLink = amount * Math.pow(10, this.utilServ.getDecimal(currentCoin)); //for ethereum 
+        // const amountInLink = amount * Math.pow(10, this.utilServ.getDecimal(currentCoin)); //for ethereum 
 
+        const amountInLink = amount * 1e18; // it's for all coins.
         const originalMessage = this.coinServ.getOriginalMessage(coinType, txHash.substring(2), amountInLink, addressInKanban.substring(2));
 
-        //console.log('address=' + keyPairs.address);
-        //console.log('privateKey=' + keyPairs.privateKey);
+        // console.log('address=' + keyPairs.address);
+        // console.log('privateKey=' + keyPairs.privateKey);
         const signedMessage: Signature = this.coinServ.signedMessage(originalMessage, keyPairs);
 
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();

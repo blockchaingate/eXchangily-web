@@ -1,3 +1,5 @@
+//import { Block } from 'bitcoinjs-lib';
+
 export interface OfficialAddress {
     name: string;
     address: string;
@@ -60,4 +62,36 @@ export interface Signature {
     r: string;
     s: string;
     v: string;
+}
+
+export interface BlockNumber {
+    blockNumber: string;
+    blockNumberHex: string;
+}
+export interface BlockNumberResponse {
+    blockNumber: BlockNumber;
+}
+
+
+export interface Block {
+    difficulty: string;
+    extraData: string;
+    gasLimit: number;
+    gasUsed: number;
+    hash: string;
+    hashNoSignature: string;
+    logsBloom: string;
+    miner: string;
+    mixHash: string;
+    nonce: string;
+    number: number;
+    parentHash: string;
+    receiptsRoot: string;
+    round: number;
+    size: number;
+    timestamp: number;
+    totalDifficulty: string;
+}
+export interface BlockResponse {
+    block: Block;
 }

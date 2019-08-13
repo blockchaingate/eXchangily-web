@@ -1,5 +1,5 @@
-input[type='text'],
-input[type='text']:focus {
+.explorer-container input[type='text'],
+.explorer-container input[type='text']:focus {
     width: 100%;
     color: white;
     background: rgba(0, 0, 0, 0);
@@ -12,4 +12,35 @@ input[type='text']:focus {
     border-style: solid;
     border-width: 1px;
     border-color: grey;
+}
+
+.explorer-container .col-md-4,
+.explorer-container .col-md-8,
+.explorer-container .col-md-6 {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.explorer-container {
+    color: white;
+}
+
+.explorer-container .curve-block,
+.explorer-container .insight-block {
+    height: 150px;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+}
+
+.explorer-container .apair {
+    border-bottom: 1px dashed #484969;
+    color: silver;
+    font-size: small;
+}
+
+.explorer-container .flex-row {
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
 }

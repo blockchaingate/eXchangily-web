@@ -81,7 +81,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         }),
     ],
     providers: [
-        KanbanService,Web3Service
+        KanbanService, Web3Service
     ]
 })
 export class WalletModule { }

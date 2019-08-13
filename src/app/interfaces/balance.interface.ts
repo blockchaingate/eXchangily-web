@@ -80,3 +80,4 @@ export interface EthTransaction {
     jsonrpc: string;
     result: string;
 }
+

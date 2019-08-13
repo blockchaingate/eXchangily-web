@@ -26,14 +26,14 @@ export class ApiService {
     
     async getBtcBalanceFull(address: string): Promise<Balance> {
 
-        let url = 'https://api.blockcypher.com/v1/btc/test3/addrs/' + address + '?token=062d147ef3bc412688fedcaadb1b13c4';
+        const url = 'https://api.blockcypher.com/v1/btc/test3/addrs/' + address + '?token=062d147ef3bc412688fedcaadb1b13c4';
         const response = await this.http.get(url).toPromise() as Balance;  
         return response;
     }
 
     async getBtcBalance(address: string): Promise<number> {
 
-        let url = 'https://api.blockcypher.com/v1/btc/test3/addrs/' + address + '?token=062d147ef3bc412688fedcaadb1b13c4';
+        const url = 'https://api.blockcypher.com/v1/btc/test3/addrs/' + address + '?token=062d147ef3bc412688fedcaadb1b13c4';
         const response = await this.http.get(url).toPromise() as Balance;  
         console.log('response=');
 
@@ -70,7 +70,8 @@ export class ApiService {
     async postEthTx(txHex: string) {
         //account for https://etherscan.io  keninqiu   82239^
         //token: M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB
-        let url = 'https://api-ropsten.etherscan.io/api?module=proxy&action=eth_sendRawTransaction&hex='+txHex+'&apikey=M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB';
+        const url = 'https://api-ropsten.etherscan.io/api?module=proxy&action=eth_sendRawTransaction&hex='
+        + txHex + '&apikey=M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB';
         const response = await this.http.get(url).toPromise() as EthTransaction;
         console.log('response for postEthTx=');
         console.log(response);
@@ -100,11 +101,15 @@ export class ApiService {
 
     async postBtcTx(txHex: string) {
         
-        let url = 'https://api.blockcypher.com/v1/btc/test3' + '/txs/push';
+        const url = 'https://api.blockcypher.com/v1/btc/test3' + '/txs/push';
         const response = await this.http.post(url, {tx: txHex}).toPromise() as BtcTransaction;
+        let ret = '';
         console.log('response from postBtcTx=');
         console.log(response.tx);
-        return response.tx.hash;
+        if (response && response.tx && response.tx.hash) {
+            ret = '0x' + response.tx.hash;
+        }
+        return ret;
     }
 
     async getEthBalance(address: string): Promise<number> {
@@ -112,7 +117,8 @@ export class ApiService {
         //token: M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB
         //post https://faucet.metamask.io/ with raw data address to get some coins
 
-        let url = 'https://api-ropsten.etherscan.io/api?module=account&action=balance&address='+address+'&tag=latest&apikey=M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB';
+        const url = 'https://api-ropsten.etherscan.io/api?module=account&action=balance&address='
+        + address + '&tag=latest&apikey=M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB';
         const response = await this.http.get(url).toPromise()  as EthBalance;    
         console.log('response in eth for balance');  
         console.log(response);

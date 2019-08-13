@@ -1,24 +1,93 @@
-<div class="container">
-    <div class="row">
+<div class="container explorer-container">
+    <div class="row py-3">
         <div class="col-md-5">
             <input type="text" id="input" placeholder="Search by Address / Txn Hash / Block / Token">
         </div>
 
     </div>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 px-1">
+            <div class="exg-bg curve-block">
+                1111
+            </div>
 
         </div>
-        <div class="col-md-8">
-
+        <div class="col-md-8 px-1">
+            <div class="exg-bg insight-block">
+                <div class="container">
+                    <div class="row py-2">
+                        <div class="col-md-3">
+                            Latest Block
+                        </div>
+                        <div class="col-md-3">
+                            #{{latestBlock}}
+                        </div>
+                        <div class="col-md-3">
+                            Time of last block
+                        </div>
+                        <div class="col-md-3">
+                            {{timeOfLastBlock}}
+                        </div>
+                    </div>
+                    <div class="row py-2">
+                        <div class="col-md-3">
+                            Difficulty
+                        </div>
+                        <div class="col-md-3">
+                            {{difficulty}}
+                        </div>
+                        <div class="col-md-3">
+                            Total Address
+                        </div>
+                        <div class="col-md-3">
+                            52,478,521
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-6">
-            Blocks
+    <div class="row py-2">
+        <div class="col-md-6 px-1">
+            <div class="exg-bg">
+                <div class="container">
+                    <div class="row pt-3 pb-1">
+                        <div class="pl-4">
+                            Blocks
+                        </div>
+                        <div class="ml-auto pr-4">
+                            View All
+                        </div>
+                    </div>
+                    <div class="row apair py-2" *ngFor="let block of blocks; let i=index">
+                        <div class="col-md-2 hand align-self-center">{{block.id}}</div>
+                        <div class="col-md-3 align-self-center">{{block.created_at}}</div>
+                        <div class="col-md-4 align-self-center">Include:{{block.include_txns}} Txns</div>
+                        <div class="col-md-3 align-self-center">{{block.mess}}</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-6">
-            Transactions
+        <div class="col-md-6 px-1">
+            <div class="exg-bg">
+                <div class="container">
+                    <div class="row py-3">
+                        <div class="pl-4">
+                            Transactions
+                        </div>
+                        <div class="ml-auto pr-4">
+                            View All
+                        </div>
+                    </div>
+                    <div class="row apair py-2 " *ngFor="let tran of transactions; let i=index">
+                        <div class="col-md-10 pl-3 text-left">Txn #: {{tran.id}}</div>
+                        <div class="col-md-2 pr-3 text-right">{{tran.created_at}}</div>
+
+                        <div class="col-md-6 pl-3 text-left text-muted">From:{{tran.from}}</div>
+                        <div class="col-md-6 pr-3 text-right text-muted">To:{{tran.to}}</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
