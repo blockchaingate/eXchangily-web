@@ -216,12 +216,33 @@ export class CoinService {
             signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
             console.log('signature in signed is ');
             console.log(signature);
+        } else 
+        if (name === 'FAB' || name === 'BTC') {
+            //signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
+            const signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey, keyPair.privateKeyBuffer.compressed);
+            const signHex = `${signBuffer.toString('hex')}`;
+            const v = `0x${signBuffer.slice(0, 1).toString('hex')}`;
+            const r = `0x${signBuffer.slice(1, 33).toString('hex')}`;
+            const s = `0x${signBuffer.slice(33, 65).toString('hex')}`;
+            console.log(r);
+            console.log(s);
+            console.log(v);
+            console.log(signHex);
+            signature = {r: r, s: s, v: v};
+            /*
+            console.log(keyPair.privateKey);
+            console.log(keyPair.privateKeyBuffer);
+            const signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey, keyPair.privateKeyBuffer.compressed);
+            console.log('signBuffer===');
+            console.log(signBuffer);
+            const flagByte = signBuffer.readUInt8(0) - 27;
+            const recover = flagByte & 3;
+            let a = [this.slice(64, this.length(signBuffer), signBuffer), this.slice(0, 32, signBuffer), this.slice(32, 64, signBuffer)];
+            console.log(a);
+            */
         }
-
         return signature;
     }
-
-
 
     formCoinType(v:string, coinType: number) {
         let retString = v;
@@ -266,8 +287,9 @@ export class CoinService {
         const receiveAddsIndexArr = [];
         const changeAddsIndexArr = [];
 
-        let amountNum = amount * 1e8;
-        console.log('toAddress=' + toAddress + ',amountNum=' + amountNum);
+        console.log('mycoin.decimals=' + this.utilServ.getDecimal(mycoin));
+        let amountNum = amount * Math.pow(10, this.utilServ.getDecimal(mycoin));
+        console.log('toAddress=' + toAddress + ',amount=' + amount + ',amountNum=' + amountNum);
         const TestNet = Btc.networks.testnet;
         console.log('TestNet===');
         console.log(TestNet);
@@ -424,8 +446,9 @@ export class CoinService {
                         txb.addInput(utxo.txid, utxo.sequence);
                         receiveAddsIndexArr.push(index);
                         console.log('utxo.txid=' + utxo.txid + ',utxo.sequence=' + utxo.sequence + ',utxo.value=' + utxo.value);
-                        totalInput += utxo.value;
-                        amountNum -= utxo.value;
+                        totalInput += utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
+                        amountNum -= utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
+                        console.log('totalInput=' + totalInput + ',amountNum=' + amountNum);
                         if (amountNum <= 0) {
                             finished = true;
                           totalInput += utxo.value;  break;
@@ -461,8 +484,9 @@ export class CoinService {
                             txb.addInput(utxo.txid, utxo.sequence);
                             changeAddsIndexArr.push(index);
                             console.log('utxo.txid=' + utxo.txid + ',utxo.sequence=' + utxo.sequence + ',utxo.value=' + utxo.value);
-                            totalInput += utxo.value;
-                            amountNum -= utxo.value;
+                            totalInput += utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
+                            amountNum -= utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
+                            console.log('totalInput=' + totalInput + ',amountNum=' + amountNum);
                             if (amountNum <= 0) {
                                 finished = true;
                                 break;
@@ -479,13 +503,15 @@ export class CoinService {
             }
 
             if (!finished) {
+                console.log('not enough fund.');
                 return '';
             }
 
             console.log('totalInput = ' + totalInput);
 
             const changeAddress = mycoin.changeAdds[0];
-            const output1 = Math.round(totalInput * 1e8 - amount * 1e8 - 3000 
+            const output1 = Math.round(totalInput
+            - amount * Math.pow(10, this.utilServ.getDecimal(mycoin)) - 3000 
             - (receiveAddsIndexArr.length + changeAddsIndexArr.length) * 300);
             console.log('output1=' + output1);
             const output2 = amount * 1e8;
@@ -545,7 +571,8 @@ export class CoinService {
               });
             */
             const txhex = txb.build().toHex();
-            this.apiService.postFabTx(txhex);
+            const txhash = this.apiService.postFabTx(txhex);
+            return txhash;
         } else
         if (mycoin.name === 'ETH') {
             amountNum = amount * 1e18;

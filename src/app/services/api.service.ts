@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 
-import {Balance, EthBalance, FabTransaction, BtcTransaction, EthTransaction} from '../interfaces/balance.interface';
+import {Balance, EthBalance, FabTransaction, BtcTransaction, EthTransaction, FabTransactionResponse} from '../interfaces/balance.interface';
 
 @Injectable() 
 export class ApiService {
@@ -42,9 +42,9 @@ export class ApiService {
     }
 
     async getFabTransaction(address: string): Promise<FabTransaction> {
-        let url = 'https://fabtest.info/utxo-api/transactions?address=' + address;
+        const url = 'https://fabtest.info/utxo-api/transactions?address=' + address;
         const response = await this.http.get(url).toPromise() as FabTransaction;
-        console.log('response=');
+        console.log('response from getFabTransaction=');
         console.log(response);
         //const response = JSON.parse(responseString) as FabTransaction;
         return response;
@@ -84,12 +84,18 @@ export class ApiService {
         
         const url = 'http://fabtest.info:9001/fabapi/' + '/sendrawtransaction/' + txHex;
         //new endpoint: https://fabexplorer.info:9003/fabapi/sendrawtransaction/
+        //const url = 'https://fabexplorer.info:9003/fabapi/sendrawtransaction/' + txHex;
         console.log('txHex=' + txHex);
         console.log('url=' + url);
-        const response = await this.http.get(url).toPromise();
-        console.log('response=');
+        const response = await this.http.get(url).toPromise() as FabTransactionResponse;
+        console.log('response from postFabTx=');
         console.log(response);
-        return response;
+        let ret = '';
+        if (response && response.txid) {
+            ret = '0x' + response.txid;
+        }
+        console.log('ret from postFabTx=' + ret);
+        return ret;
     }
 
     async postBtcTx(txHex: string) {

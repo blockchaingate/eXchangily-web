@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
+import { MyCoin } from '../models/mycoin';
 
 @Injectable()
 export class UtilService {
@@ -24,6 +25,15 @@ export class UtilService {
         return Buffer.from(decrytedString, 'base64');
     }
 
+    getDecimal(coin: MyCoin) {
+        if (coin.decimals) {
+            return coin.decimals;
+        }
+        if (coin.name === 'ETH') {
+            return 18;
+        }
+        return 8;
+    }
     SHA256(data: string) {
         return CryptoJS.SHA256(data);
     }

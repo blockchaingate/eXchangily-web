@@ -44,6 +44,10 @@ export interface FabTransaction {
     status: string;
 }
 
+export interface FabTransactionResponse {
+    comments: string;
+    txid: string;
+}
 export interface TxBtc {
     address: [string],
     block_height: number,

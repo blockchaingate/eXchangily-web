@@ -138,13 +138,15 @@ export class WalletDashboardComponent {
         const officalAddress = this.coinServ.getOfficialAddress(currentCoin);
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
 
+        const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
         const txHash = await this.coinServ.sendTransaction(currentCoin, seed, officalAddress, amount);   
-        
+        //const txHash = '7f72c0043edce99f3e8c09c14c8919bec81e5fb2938f746d704406ba8e9182da';
         if (!txHash) {
             return;
         }
 
-        const amountInLink = amount * 1e18;
+        const amountInLink = amount * Math.pow(10, this.utilServ.getDecimal(currentCoin)); //for ethereum 
+
         const originalMessage = this.coinServ.getOriginalMessage(coinType, txHash.substring(2), amountInLink, addressInKanban.substring(2));
 
         //console.log('address=' + keyPairs.address);
@@ -155,7 +157,7 @@ export class WalletDashboardComponent {
 
         const abiHex = this.web3Serv.getDepositFuncABI(coinType, txHash, amountInLink, addressInKanban, signedMessage);
 
-        const txhex = this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairs.privateKey, coinPoolAddress); 
+        const txhex = this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban.privateKey, coinPoolAddress); 
         console.log('txhex=' + txhex);
         this.kanbanServ.sendRawSignedTransaction(txhex).subscribe((resp) => { 
             console.log('resp=' + resp);
