@@ -19,3 +19,29 @@ hr {
 #mydiv>.btn-default {
     background: transparent;
 }
+
+@media only screen and (max-width: 767px) {
+    .hidden-xs {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .visible-xs {
+        display: none;
+    }
+}
+
+mat-sidenav-container,
+mat-sidenav-content,
+mat-sidenav {
+    height: 100%;
+}
+
+mat-sidenav {
+    width: 250px;
+}
+
+main {
+    padding: 10px;
+}

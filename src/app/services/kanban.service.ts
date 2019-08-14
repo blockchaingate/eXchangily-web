@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {BlockNumberResponse, BlockResponse} from '../interfaces/kanban.interface';
+import {BlockNumberResponse, BlockResponse, AccountsResponse} from '../interfaces/kanban.interface';
 
 @Injectable()
 export class KanbanService {
@@ -19,6 +19,11 @@ export class KanbanService {
         return addr;
     }
 
+    async getAccounts() {
+        const path = '/kanban/getAccounts';
+        const res = await this.get(path).toPromise() as AccountsResponse;
+        return res.accounts;
+    }
     async getLatestBlock() {
         //const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
         const path = '/kanban/getBlockNumber';

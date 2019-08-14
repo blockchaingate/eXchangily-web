@@ -4,6 +4,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterModule, RouterStateS
 import { ExplorerComponent } from './explorer.component';
 import { ExplorerDashboardComponent } from './pages/dashboard/dashboard.component';
 import { KanbanService } from '../../services/kanban.service';
+import { UtilService } from '../../services/util.service';
 
 const routes: Routes = [
   { path: '', component: ExplorerComponent}
@@ -19,7 +20,7 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   providers: [
-    KanbanService
+    KanbanService, UtilService
   ]
 })
 

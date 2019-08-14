@@ -95,3 +95,7 @@ export interface Block {
 export interface BlockResponse {
     block: Block;
 }
+
+export interface AccountsResponse {
+    accounts: [string];
+}

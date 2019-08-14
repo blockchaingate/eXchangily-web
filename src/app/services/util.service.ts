@@ -34,6 +34,28 @@ export class UtilService {
         }
         return 8;
     }
+
+    getFormattedDate(date: Date) {
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const hour = date.getHours();
+        const min = date.getMinutes();
+        const sec = date.getSeconds();
+    
+        const monthStr = (month < 10 ? '0' : '') + month;
+        const dayStr = (day < 10 ? '0' : '') + day;
+        const hourStr = (hour < 10 ? '0' : '') + hour;
+        const minStr = (min < 10 ? '0' : '') + min;
+        const secStr = (sec < 10 ? '0' : '') + sec;
+    
+        const str = date.getFullYear() + '-' + monthStr + '-' + dayStr + ' ' +  hourStr + ':' + minStr + ':' + secStr;
+
+        console.log('monthStr=' + monthStr + ',month=' + month);
+        console.log('str=');
+        console.log(str);
+        return str;
+    }
+
     SHA256(data: string) {
         return CryptoJS.SHA256(data);
     }

@@ -4,7 +4,6 @@ body {
 }
 
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-
 body {
     margin: 0;
     font-family: "Nunito", serif;
@@ -35,7 +34,7 @@ body {
 }
 
 .gradient-back-area {
-    color:white;
+    color: white;
     background-image: linear-gradient(to right, #fbc879, #eb7f75, #a26aa7, #695aad, #3e51b0);
 }
 

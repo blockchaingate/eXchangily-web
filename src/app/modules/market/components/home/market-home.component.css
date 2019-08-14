@@ -23,7 +23,6 @@
 
 .slogan-left {
     width: 50%;
-    height: 220px;
     text-align: left;
     vertical-align: middle;
     color: white;
@@ -34,8 +33,21 @@
 
 .slogan-right {
     width: 50%;
-    height: 220px;
     padding-left: 1em;
+}
+
+.topslogan .container {
+    background-image: url('/images/market-main.svg');
+    background-repeat: no-repeat;
+    background-size: auto 380px;
+    background-position: right 120px center;
+}
+
+.topslogan {
+    background-image: url('/images/circle.svg');
+    background-repeat: no-repeat;
+    background-size: 100% 150px;
+    background-position: left bottom;
 }
 
 .announcement {

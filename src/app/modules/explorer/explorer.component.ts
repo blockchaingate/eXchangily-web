@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { KanbanService } from '../../services/kanban.service';
+import { UtilService } from '../../services/util.service';
 import {BlockNumberResponse, BlockResponse} from '../../interfaces/kanban.interface';
 @Component({
     selector: 'app-explorer',
@@ -11,6 +12,7 @@ export class ExplorerComponent implements OnInit {
     latestBlock: string;
     difficulty: string;
     timeOfLastBlock: string;
+    totalAddress: string;
 
     blocks = [
         {
@@ -66,17 +68,19 @@ export class ExplorerComponent implements OnInit {
         }                        
     ];    
 
-    constructor(private kanbanServ: KanbanService) {
+    constructor(private kanbanServ: KanbanService, private utilServ: UtilService) {
         
     }    
 
     async ngOnInit() {
         this.latestBlock = await this.kanbanServ.getLatestBlock();
-        const res = await this.kanbanServ.getBlock(this.latestBlock) as BlockResponse;
+        const res = await this.kanbanServ.getBlock(this.latestBlock);
         console.log(res);
         this.difficulty = res.block.totalDifficulty;
         const timestamp = res.block.timestamp;
         const date = new Date(timestamp * 1000);
-        this.timeOfLastBlock = date.toUTCString();
+        this.timeOfLastBlock = this.utilServ.getFormattedDate(date);
+        const accounts = await this.kanbanServ.getAccounts();
+        this.totalAddress = accounts.length.toString();
     }
 }
