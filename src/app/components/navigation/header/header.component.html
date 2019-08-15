@@ -2,9 +2,12 @@
     <nav class="navbar navbar-expand-sm gradient-back-title navbar-dark sticky-top">
         <mat-toolbar class="transparent">
             <div fxHide.gt-xs>
-                <button mat-icon-button (click)="onToggleSidenav()">
+                <button mat-icon-button (click)="sidenav.toggle()">
                     <mat-icon>menu</mat-icon>
                 </button>
+                <mat-sidenav #sidenav role="navigation">
+                    <app-sidenav-list (sidenavClose)="sidenav.close()"></app-sidenav-list>
+                </mat-sidenav>
             </div>
             <div>
                 <a class="navbar-brand" href="/"><img src="./images/exchangily decentralized exchange logo.png" width="40px">eXchangily {{'Title' | translate}}</a>
@@ -33,12 +36,21 @@
                             <button mat-menu-item (click)="selectLan('zh')">中文</button>
                         </mat-menu>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/" [class.selected]="selected === 4" (click)="selected=4;">{{'Home' | translate}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/setting" [class.selected]="selected === 5" (click)="selected=5;">{{'Setting' | translate}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/help" [class.selected]="selected === 6" (click)="selected=6;">{{'help' | translate}}</a>
+                    </li>
                 </ul>
             </div>
         </mat-toolbar>
     </nav>
 </header>
+
 <!--
 <header>
     <nav class="navbar navbar-expand-sm gradient-back-title navbar-dark sticky-top">
@@ -79,5 +91,5 @@
 
         </div>
     </nav>
-</header>    
+</header>
 -->

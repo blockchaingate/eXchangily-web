@@ -1,7 +1,6 @@
-<app-header (sidenavToggle)="sidenav.toggle()"></app-header>
-<mat-sidenav #sidenav role="navigation">
-    <app-sidenav-list (sidenavClose)="sidenav.close()"></app-sidenav-list>
-</mat-sidenav>
+<app-header (sidenavToggle)="sidenav.toggle()">
+</app-header>
+
 
 <section class="exg-bg-dark py-1">
     <router-outlet></router-outlet>

@@ -49,19 +49,19 @@ export interface FabTransactionResponse {
     txid: string;
 }
 export interface TxBtc {
-    address: [string],
-    block_height: number,
-    block_index: number,
-    confirmations: number,
-    double_spend: boolean,
-    fees: number,
-    hash: string,
-    preference: string,
-    received: string,
-    relayed_by: string,
-    size: number,
-    total: number,
-    ver: number,
+    address: [string];
+    block_height: number;
+    block_index: number;
+    confirmations: number;
+    double_spend: boolean;
+    fees: number;
+    hash: string;
+    preference: string;
+    received: string;
+    relayed_by: string;
+    size: number;
+    total: number;
+    ver: number;
     vin_sz: number;
     vout_sz: number;
 }
@@ -80,4 +80,6 @@ export interface EthTransaction {
     jsonrpc: string;
     result: string;
 }
+
+
 

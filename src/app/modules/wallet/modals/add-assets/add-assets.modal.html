@@ -1,3 +1,86 @@
+<div bsModal #addAssetsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form [formGroup]="addAssetsForm" (ngSubmit)="onSubmit()">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 text-dark">Add Assets</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    <mat-tab-group>
+                        <mat-tab label="FAB Token">
+                            <mat-selection-list #fabtokens (selectionChange)="onFabSelection($event, fabtokens.selectedOptions.selected)">
+                                <mat-list-option *ngFor="let token of fabTokens; let i = index" [value]="i+1">
+                                    {{token.name}}
+                                </mat-list-option>
+                                <mat-list-option value="0">
+                                    Custom
+                                </mat-list-option>
+                            </mat-selection-list>
+
+                            <div *ngIf="showFabCustom">
+                                <div class="form-group">
+                                    <label for="inputSendTo" class="text-muted">Contract Address</label>
+                                    <input type="text" class="form-control" id="inputFabContractAddress" formControlName="fabContractAddress" aria-describedby="fabContractAddress" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputSendTo" class="text-muted">Token Name</label>
+                                    <input type="text" class="form-control" id="inputEthContractAddress" formControlName="ethContractAddress" aria-describedby="ethContractAddress" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputSendTo" class="text-muted">Token Symbol</label>
+                                    <input type="text" class="form-control" id="inputEthContractAddress" formControlName="ethContractAddress" aria-describedby="ethContractAddress" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputSendTo" class="text-muted">Token Decimals</label>
+                                    <input type="text" class="form-control" id="inputEthContractAddress" formControlName="ethContractAddress" aria-describedby="ethContractAddress" placeholder="">
+                                </div>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="ETH Token">
+                            <mat-selection-list #ethtokens (selectionChange)="onEthSelection($event, ethtokens.selectedOptions.selected)">
+                                <mat-list-option *ngFor="let token of ethTokens; let i = index" [value]="i+1">
+                                    {{token.name}}
+                                </mat-list-option>
+                                <mat-list-option value="0">
+                                    Custom
+                                </mat-list-option>
+                            </mat-selection-list>
+
+                            <div *ngIf="showEthCustom">
+                                <div class="form-group">
+                                    <label for="inputSendTo" class="text-muted">Contract Address</label>
+                                    <input type="text" class="form-control" id="inputEthContractAddress" formControlName="ethContractAddress" aria-describedby="ethContractAddress" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputSendTo" class="text-muted">Token Name</label>
+                                    <input type="text" class="form-control" id="inputEthContractAddress" formControlName="ethContractAddress" aria-describedby="ethContractAddress" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputSendTo" class="text-muted">Token Symbol</label>
+                                    <input type="text" class="form-control" id="inputEthContractAddress" formControlName="ethContractAddress" aria-describedby="ethContractAddress" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputSendTo" class="text-muted">Token Decimals</label>
+                                    <input type="text" class="form-control" id="inputEthContractAddress" formControlName="ethContractAddress" aria-describedby="ethContractAddress" placeholder="">
+                                </div>
+                            </div>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="pull-left">
+                        <button class="btn btn-gradient text-white" type="submit"> Confirm </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--
 <a (click)="openModal(templateAddAssets)">Add Assets</a>
 <ng-template #templateAddAssets>
         <div class="modal-header text-center">
@@ -51,3 +134,4 @@
               </form>
         </div>
     </ng-template> 
+-->

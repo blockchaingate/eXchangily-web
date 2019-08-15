@@ -43,6 +43,10 @@
     background-position: right 120px center;
 }
 
+.containerX {
+    margin-top: -20px;
+}
+
 .topslogan {
     background-image: url('/images/circle.svg');
     background-repeat: no-repeat;

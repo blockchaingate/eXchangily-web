@@ -23,6 +23,8 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatListModule} from '@angular/material/list';
 
 import { QRCodeModule } from 'angular2-qrcode';
 
@@ -67,6 +69,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         WalletRoutingModule,
         HttpClientModule,
         QRCodeModule,
+        MatTabsModule,
+        MatListModule,
         MatSelectModule,
         MatSlideToggleModule,
         BsDropdownModule.forRoot(),

@@ -77,6 +77,9 @@
                             <div class="d-inline mr-3">
                                 <modal-transaction-history></modal-transaction-history>
                             </div>
+                            <div class="d-inline mr-3">
+                                <a (click)="addAssets()">Add Assets</a>
+                            </div>
                             <div class="d-inline">
                                 <a (click)="loadBalance()">Refresh Assets</a>
                             </div>
@@ -127,3 +130,4 @@
 
     <deposit-amount-modal #depositModal (confirmedAmount)="onConfirmedAmount($event)"></deposit-amount-modal>
     <pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>
+    <add-assets-modal #addAssetsModal (confirmedAssets)="onConfirmedAssets($event)"></add-assets-modal>

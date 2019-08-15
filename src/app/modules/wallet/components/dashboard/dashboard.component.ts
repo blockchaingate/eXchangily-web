@@ -9,8 +9,9 @@ import { UtilService } from '../../../../services/util.service';
 import { ApiService } from '../../../../services/api.service';
 import {KanbanService} from '../../../../services/kanban.service';
 import {Web3Service} from '../../../../services/web3.service';
-import {Signature} from '../../../../interfaces/kanban.interface';
+import {Signature, Token} from '../../../../interfaces/kanban.interface';
 import { DepositAmountModal } from '../../modals/deposit-amount/deposit-amount.modal';
+import { AddAssetsModal } from '../../modals/add-assets/add-assets.modal';
 import { PinNumberModal } from '../../modals/pin-number/pin-number.modal';
 
 @Component({
@@ -22,7 +23,7 @@ import { PinNumberModal } from '../../modals/pin-number/pin-number.modal';
 export class WalletDashboardComponent {
     @ViewChild('pinModal', {static: true}) pinModal: PinNumberModal;
     @ViewChild('depositModal', {static: true}) depositModal: DepositAmountModal;
-    
+    @ViewChild('addAssetsModal', {static: true}) addAssetsModal: AddAssetsModal;
 
     wallet: Wallet; 
     wallets: Wallet[];
@@ -34,7 +35,7 @@ export class WalletDashboardComponent {
     amount: number;
     pin: string;
     constructor ( private route: Router, private walletServ: WalletService, private modalServ: BsModalService, 
-        private coinServ: CoinService, private utilServ: UtilService, private apiServ:ApiService, 
+        private coinServ: CoinService, private utilServ: UtilService, private apiServ: ApiService, 
         private kanbanServ: KanbanService, private web3Serv: Web3Service, private viewContainerRef: ViewContainerRef) {
         this.loadWallet();
         this.loadBalance();
@@ -119,11 +120,30 @@ export class WalletDashboardComponent {
         this.amount = amount;
         this.pinModal.show();
     }
+
+    addAssets() {
+        this.addAssetsModal.show();
+    }
+
     onConfirmedPin(pin: string) {
         console.log('pin is:' + pin);
         this.pin = pin;
         this.depositdo();
     }
+
+    onConfirmedAssets(assets: [Token]) {
+        for (let i = 0; i < assets.length; i++) {
+            const token = assets[i];
+            const type = token.type;
+            const name = token.name;
+            const addr = token.address;
+            const baseCoinId = this.coinServ.getCoinTypeIdByName(type);
+            const baseCoin = this.wallet.mycoins[baseCoinId];
+            const mytoken = this.coinServ.initToken(type, name, addr, baseCoin);
+            this.wallet.mycoins.push(mytoken);
+        }
+    }
+
     async depositdo() {
         const currentCoin = this.currentCoin;
         const amount = this.amount;

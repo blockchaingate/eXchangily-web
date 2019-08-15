@@ -26,13 +26,22 @@ export class CoinService {
     } 
 
     getCoinTypeIdByName(name: string) {
-        for(let i = 0; i < coin_list.length; i++) {
+        for (let i = 0; i < coin_list.length; i++) {
             const coin = coin_list[i];
             if (coin.name === name) {
                 return coin.id;
             }
         }
         return -1;
+    }
+
+    initToken(type: string, name: string, address: string, baseCoin: MyCoin) {
+        const coin = new MyCoin(name);
+        coin.tokenType = type;
+        coin.contractAddr = address;
+        const addr = new Address(baseCoin.coinType, baseCoin.receiveAdds[0].address, 0);
+        coin.changeAdds.push(addr);
+        return coin;
     }
 
     initMyCoins(seed: Buffer): MyCoin[] {
@@ -252,10 +261,10 @@ export class CoinService {
 
     getOriginalMessage(coinType: number, txHash: string, amount: number, address: string) {
         /*
-        const bufCoin = Buffer.allocUnsafe(2);
-        bufCoin.writeUInt16BE(coinType,0);        
-        const bufTxHash = Buffer.from(txHash);
-        const bufAmount = Buffer.allocUnsafe(32);
+        const bufCoin = Buffer.allocUnsafe(2initMyCoins);
+        bufCoin.writeUInt16BE(coinType,0);  initMyCoins      
+        const bufTxHash = Buffer.from(txHashinitMyCoins);
+        const bufAmount = Buffer.allocUnsafeinitMyCoins(32);
         bufAmount.writeUInt32BE(amount,0);
         const bufAddr = Buffer.from(address);
         const arr = [bufCoin, bufTxHash, bufAmount, bufAddr];

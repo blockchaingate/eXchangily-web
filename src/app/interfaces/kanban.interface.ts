@@ -99,3 +99,11 @@ export interface BlockResponse {
 export interface AccountsResponse {
     accounts: [string];
 }
+
+export interface Token {
+    type: string;     // ETH or FAB
+    address: string;  // Contract Address
+    name: string;
+    symbol: string;
+    decimals: number;
+}
