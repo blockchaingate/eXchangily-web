@@ -16,7 +16,7 @@ export class Web3Service {
         if (typeof window.web3 !== 'undefined') {
           return new Web3(window.web3.currentProvider);
         } else {
-          const web3 = new Web3(Web3.givenProvider || 'ws://localhost:8546');
+          const web3 = new Web3(Web3.givenProvider || 'https://ropsten.infura.io/v3/6c5bdfe73ef54bbab0accf87a6b4b0ef');
           return web3;
         }}
 
