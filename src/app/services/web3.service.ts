@@ -3,7 +3,7 @@ import * as Web3 from 'web3';
 declare let window: any;
 import * as Eth from 'ethereumjs-tx';
 import Common from 'ethereumjs-common';
-import {Signature} from '../interfaces/kanban.interface';
+import {Signature, EthTransactionObj} from '../interfaces/kanban.interface';
 import {UtilService} from './util.service';
 @Injectable({
     providedIn: 'root'
@@ -21,32 +21,27 @@ export class Web3Service {
         }}
 
     signMessageWithPrivateKey(message: string, keyPair: any) {
-      console.log('keyPair=');
-      console.log(keyPair);
+
       const privateKey = `0x${keyPair.privateKey.toString('hex')}`;
-      const address = keyPair.address;
-      console.log('begin signMessageWithPrivateKey');
-      //privateKey = '0x348ce564d427a3311b6536bbcff9390d69395b06ed6c486954e971d960fe8709';
       const web3 = this.getWeb3Provider();
-      console.log('message=' + message);
-      console.log('address=' + address);
-      console.log('privateKey is:' + privateKey);
 
-      /*
-      const messageHash = web3.utils.sha3(message);
-      console.log('messageHash=' + messageHash);
-      */
       const signMess = web3.eth.accounts.sign(message, privateKey);
-      console.log('signMess is:');
-      console.log(signMess);     
-      /* 
-      const signMessHash = web3.eth.accounts.sign(messageHash, privateKey);
-
-      console.log('signMessHash is:');
-      console.log(signMess);
-      */
-      console.log('end signMessageWithPrivateKey');
       return signMess;
+    }
+
+    async signTxWithPrivateKey(txParams: any, keyPair: any) {
+      const privateKey = `0x${keyPair.privateKey.toString('hex')}`;
+      const web3 = this.getWeb3Provider();
+
+      const signMess = await web3.eth.accounts.signTransaction(txParams, privateKey) as EthTransactionObj;
+      console.log('signMess in signMessageWithPrivateKey=');
+      console.log(signMess);
+      return signMess.rawTransaction;
+    }
+
+    async sendSignedTransaction(txhex: string) {
+      const web3 = this.getWeb3Provider();
+      return await web3.eth.sendSignedTransaction(txhex);
     }
 
     signAbiHexWithPrivateKey(abiHex: string, privateKey: string, address: string) {

@@ -72,7 +72,6 @@ export interface BlockNumberResponse {
     blockNumber: BlockNumber;
 }
 
-
 export interface Block {
     difficulty: string;
     extraData: string;
@@ -106,4 +105,13 @@ export interface Token {
     name: string;
     symbol: string;
     decimals: number;
+}
+
+export interface EthTransactionObj {
+    // transaction object from web3.eth.accounts.signTransaction
+    messageHash: string;
+    r: string;
+    s: string;
+    v: string;
+    rawTransaction: string;
 }

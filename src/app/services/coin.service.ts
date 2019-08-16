@@ -608,13 +608,17 @@ export class CoinService {
                 value: amountNum           
             };
 
+            const txhex = await this.web3Serv.signTxWithPrivateKey(txParams, keyPair);
+
+            console.log('txhex=' + txhex);
+            /*
             const tx = new EthereumTx(txParams,{ chain: 'ropsten', hardfork: 'petersburg' })
 
             tx.sign(keyPair.privateKeyBuffer); 
 
             const serializedTx = tx.serialize()
             const txhex = '0x' + serializedTx.toString('hex');
-
+            */
             const txHash = this.apiService.postEthTx(txhex);
             return txHash;
 
