@@ -35,9 +35,10 @@ export class CoinService {
         return -1;
     }
 
-    initToken(type: string, name: string, address: string, baseCoin: MyCoin) {
+    initToken(type: string, name: string, decimals: number, address: string, baseCoin: MyCoin) {
         const coin = new MyCoin(name);
         coin.tokenType = type;
+        coin.decimals = decimals;
         coin.contractAddr = address;
         coin.coinType = baseCoin.coinType;
         const addr = new Address(baseCoin.coinType, baseCoin.receiveAdds[0].address, 0);
@@ -85,7 +86,7 @@ export class CoinService {
         return '';
     }
 
-    async getBlanceByAddress (tokenType: string, contractAddr: string, name: string, addr: string) {
+    async getBlanceByAddress (tokenType: string, contractAddr: string, name: string, addr: string, decimals: number) {
         let balance = 0;
         if (name === 'BTC') {
             balance = await this.apiService.getBtcBalance(addr);
@@ -99,7 +100,11 @@ export class CoinService {
             balance = await this.apiService.getFabBalance(addr);
         } else
         if (tokenType === 'ETH') {
+            if (!decimals) {
+                decimals = 18;
+            }
             balance = await this.apiService.getEthTokenBalance(contractAddr, addr);
+            balance = balance / Math.pow(10, decimals);
         }
         return balance;
     }
@@ -120,14 +125,16 @@ export class CoinService {
 
         for (let i = 0; i < receiveAddsLen; i ++) {
             const addr = myCoin.receiveAdds[i].address;
-            balance = await this.getBlanceByAddress(tokenType, contractAddr, coinName, addr);
+            const decimals = myCoin.decimals;
+            balance = await this.getBlanceByAddress(tokenType, contractAddr, coinName, addr, decimals);
             myCoin.receiveAdds[i].balance = balance;
             totalBalance += balance;
         }
 
         for (let i = 0; i < changeAddsLen; i ++) {
             const addr = myCoin.changeAdds[i].address;
-            balance = await this.getBlanceByAddress(tokenType, contractAddr, coinName, addr);
+            const decimals = myCoin.decimals;
+            balance = await this.getBlanceByAddress(tokenType, contractAddr, coinName, addr, decimals);
             myCoin.changeAdds[i].balance = balance;
             totalBalance += balance;
         }
@@ -631,7 +638,11 @@ export class CoinService {
             const keyPair = this.getKeyPairs(mycoin, seed, 0, currentIndex);
             const nonce = await this.apiService.getEthNonce(address1.address);
 
-            const amountSent = amount * 1e18;
+            let decimals = mycoin.decimals;
+            if (!decimals) {
+                decimals = 18;
+            }
+            const amountSent = amount * Math.pow(10, decimals);
             const toAccount = toAddress;
             const contractAddress = mycoin.contractAddr;
 

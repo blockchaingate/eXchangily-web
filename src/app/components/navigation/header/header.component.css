@@ -34,3 +34,7 @@ button:focus {
     border: none;
     -moz-outline-style: none;
 }
+
+.mat-icon {
+    color: white;
+}

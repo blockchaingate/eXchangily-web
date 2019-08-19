@@ -2,13 +2,20 @@
     <nav class="navbar navbar-expand-sm gradient-back-title navbar-dark sticky-top">
         <mat-toolbar class="transparent">
             <div fxHide.gt-xs>
-                <button mat-icon-button (click)="sidenav.toggle()">
+                <button mat-icon-button [matMenuTriggerFor]="menu2">
                     <mat-icon>menu</mat-icon>
                 </button>
-                <mat-sidenav #sidenav role="navigation">
-                    <app-sidenav-list (sidenavClose)="sidenav.close()"></app-sidenav-list>
-                </mat-sidenav>
+                <mat-menu #menu2="matMenu">
+                    <button mat-menu-item>Home</button>
+                    <button mat-menu-item>Exchange</button>
+                    <button mat-menu-item>Wallet</button>
+                    <button mat-menu-item>Explorer</button>
+                    <button mat-menu-item (click)="selectLan('en')">English</button>
+                    <button mat-menu-item (click)="selectLan('zh')">中文</button>
+                </mat-menu>
+
             </div>
+
             <div>
                 <a class="navbar-brand" href="/"><img src="./images/exchangily decentralized exchange logo.png" width="40px">eXchangily {{'Title' | translate}}</a>
             </div>

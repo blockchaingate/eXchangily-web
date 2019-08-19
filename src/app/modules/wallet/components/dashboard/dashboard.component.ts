@@ -143,11 +143,11 @@ export class WalletDashboardComponent {
             const type = token.type;
             const name = token.name;
             const addr = token.address;
-            
+            const decimals = token.decimals;
             for (let j = 0; j < 5 ; j ++) {
                 if (this.wallet.mycoins[j].name === type) {
                     const baseCoin = this.wallet.mycoins[j];
-                    const mytoken = this.coinServ.initToken(type, name, addr, baseCoin);
+                    const mytoken = this.coinServ.initToken(type, name, decimals, addr, baseCoin);
                     this.wallet.mycoins.push(mytoken);
                     break;
                 }
