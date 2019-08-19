@@ -139,14 +139,16 @@ export class OrderPadComponent implements OnInit {
         const timeBeforeExpiration = 423434342432;
 
         console.log('before getExchangeAddress');
-        this.kanbanService.getExchangeAddress().subscribe((address:string) => {
+
+        /*
+        this.kanbanService.getExchangeAddress().subscribe((address:string) =>{
           console.log('address is for getExchangeAddress:' + address);
           const orderHash = this.generateOrderHash(this.bidOrAsk, orderType, baseCoin, targetCoin, this.qty, this.price, timeBeforeExpiration);
   
           const abiHex = this.web3Serv.getCreateOrderFuncABI([orderHash, address, this.bidOrAsk, 
               orderType, baseCoin, targetCoin, this.qty, this.price, timeBeforeExpiration]);
   
-          const txhex = this.web3Serv.signAbiHexWithPrivateKey(abiHex, privateKey, address); 
+          const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, privateKey, address); 
   
           this.kanbanService.sendRawSignedTransaction(txhex).subscribe((resp:TransactionResp) => {
   
@@ -169,7 +171,7 @@ export class OrderPadComponent implements OnInit {
               }
           });
         });
-
+        */
         
     }
 

@@ -17,6 +17,12 @@ export class AddAssetsModal {
     showEthCustom = false;
     ethTokens = [
         {
+            name: 'EAB', 
+            contractAddress: '0x8278FDC79A8041667e79bBB20331c7c8548DEd20',
+            symbol: 'EAB',
+            decimals: 18
+        },        
+        {
             name: 'TTT', 
             contractAddress: '0xc32ae45504ee9482db99cfa21066a59e877bc0e6',
             symbol: 'Tangany Test Token',

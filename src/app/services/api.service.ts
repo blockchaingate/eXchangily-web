@@ -46,13 +46,14 @@ export class ApiService {
         const response = await this.http.get(url).toPromise() as FabTransaction;
         console.log('response from getFabTransaction=');
         console.log(response);
-        //const response = JSON.parse(responseString) as FabTransaction;
+        // const response = JSON.parse(responseString) as FabTransaction;
         return response;
     }
+
     async getFabBalance(address: string): Promise<number> {
         const tran = await this.getFabTransaction(address);
         let balance = 0;
-        for(let i = 0; i < tran.result.length; i++) {
+        for (let i = 0; i < tran.result.length; i++) {
             const utxos = tran.result[i].utxos;
             for (let j = 0; j < utxos.length; j++) {
                 balance += utxos[j].value;
@@ -113,16 +114,22 @@ export class ApiService {
     }
 
     async getEthBalance(address: string): Promise<number> {
-        //account for https://etherscan.io  keninqiu   82239^
-        //token: M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB
-        //post https://faucet.metamask.io/ with raw data address to get some coins
+        // account for https://etherscan.io  keninqiu   82239^
+        // token: M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB
+        // post https://faucet.metamask.io/ with raw data address to get some coins
 
         const url = 'https://api-ropsten.etherscan.io/api?module=account&action=balance&address='
         + address + '&tag=latest&apikey=M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB';
         const response = await this.http.get(url).toPromise()  as EthBalance;    
-        console.log('response in eth for balance');  
-        console.log(response);
         return response.result;  
     }
 
+    async getEthTokenBalance(contractAddress: string, address: string) {
+        const url = 'https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress='
+        + contractAddress + '&address=' + address + '&tag=latest&apikey=M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB';
+        const response = await this.http.get(url).toPromise()  as EthBalance;    
+        console.log('url=' + url);
+        console.log(response);
+        return response.result;  
+    }
 }

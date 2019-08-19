@@ -48,6 +48,9 @@ export class WalletDashboardComponent {
         let updated = false;
         for ( let i = 0; i < this.wallet.mycoins.length; i++ ) {
             const coin = this.wallet.mycoins[i];
+            if(coin.name === 'BTC') {
+                continue;
+            }
             const balance = await this.coinServ.getBalance(coin);
             if (coin.balance !== balance) {
                 coin.balance = balance;
@@ -113,7 +116,10 @@ export class WalletDashboardComponent {
     
     deposit(currentCoin: MyCoin) {
         this.currentCoin = currentCoin;
-        this.depositModal.show();
+        //this.depositModal.show();
+        this.amount = 0.01;
+        this.pin = '1qaz@WSX';
+        this.depositdo();
     }
     onConfirmedAmount(amount: number) {
         console.log('amount is:' + amount);
@@ -137,14 +143,21 @@ export class WalletDashboardComponent {
             const type = token.type;
             const name = token.name;
             const addr = token.address;
-            const baseCoinId = this.coinServ.getCoinTypeIdByName(type);
-            const baseCoin = this.wallet.mycoins[baseCoinId];
-            const mytoken = this.coinServ.initToken(type, name, addr, baseCoin);
-            this.wallet.mycoins.push(mytoken);
+            
+            for (let j = 0; j < 5 ; j ++) {
+                if (this.wallet.mycoins[j].name === type) {
+                    const baseCoin = this.wallet.mycoins[j];
+                    const mytoken = this.coinServ.initToken(type, name, addr, baseCoin);
+                    this.wallet.mycoins.push(mytoken);
+                    break;
+                }
+            }
+
         }
     }
 
     async depositdo() {
+
         const currentCoin = this.currentCoin;
         const amount = this.amount;
         const pin = this.pin;
@@ -178,7 +191,7 @@ export class WalletDashboardComponent {
 
         const abiHex = this.web3Serv.getDepositFuncABI(coinType, txHash, amountInLink, addressInKanban, signedMessage);
 
-        const txhex = this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban.privateKey, coinPoolAddress); 
+        const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress); 
         console.log('txhex=' + txhex);
         this.kanbanServ.sendRawSignedTransaction(txhex).subscribe((resp) => { 
             console.log('resp=' + resp);

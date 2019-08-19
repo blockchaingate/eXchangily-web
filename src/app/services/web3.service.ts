@@ -31,6 +31,10 @@ export class Web3Service {
 
     async signTxWithPrivateKey(txParams: any, keyPair: any) {
       const privateKey = `0x${keyPair.privateKey.toString('hex')}`;
+      console.log('signTxWithPrivateKey begin');
+      console.log('privateKey=' + privateKey);
+      console.log('address=' + keyPair.address);
+      console.log(txParams);
       const web3 = this.getWeb3Provider();
 
       const signMess = await web3.eth.accounts.signTransaction(txParams, privateKey) as EthTransactionObj;
@@ -44,17 +48,19 @@ export class Web3Service {
       return await web3.eth.sendSignedTransaction(txhex);
     }
 
-    signAbiHexWithPrivateKey(abiHex: string, privateKey: string, address: string) {
+    async signAbiHexWithPrivateKey(abiHex: string, keyPair: any, address: string) {
       console.log('abiHex=' + abiHex);
-      console.log('privateKey=' + privateKey);
+
       const txObject = {
         to: address,
         nonce: 0,
-        data: abiHex,
+        data: '0x' + abiHex,
         gas: 100000,
-        gasPrice: 0.00000000001
+        coin: 1,
+        gasPrice: 10
       };
-
+      const privateKey = keyPair.privateKey;
+      /*
       const prkey = Buffer.from(
         privateKey,
         'hex'
@@ -70,14 +76,26 @@ export class Web3Service {
           chainId: 212
         },
         'homestead',
-      );        
-      const tx = new EthereumTx(txObject, { common: customCommon });
-      tx.sign(prkey);
+      );   
+      */ 
+     /* 
+      const EthereumTx = Eth.Transaction;  
+      const tx = new EthereumTx(txObject);
+      tx.sign(keyPair.privateKeyBuffer);
       console.log(tx.toJSON());
       const serializedTx = tx.serialize();
       const txhex = '0x' + serializedTx.toString('hex'); 
       console.log('txhex in here =' + txhex);
       return txhex;
+     */ 
+     
+     const web3 = this.getWeb3Provider();
+
+     const signMess = await web3.eth.accounts.signTransaction(txObject, privateKey) as EthTransactionObj;
+     console.log('signMess in signMessageWithPrivateKey=');
+     console.log(signMess);
+     return signMess.rawTransaction;   
+       
     }
 
     getCreateOrderFuncABI(paramsArray: any) {
@@ -137,6 +155,14 @@ export class Web3Service {
       const abiHex = web3.eth.abi.encodeFunctionCall(func, paramsArray);
       return abiHex;
     }
+
+    getFuncABI(func) {
+      const web3 = this.getWeb3Provider();
+      const abiHex = web3.eth.abi.encodeFunctionSignature(func).substring(2);
+      return abiHex;
+    }
+
+
 
     getDepositFuncABI(coinType: number, txHash: string, amount: number, addressInKanban: string, signedMessage: Signature) {
         console.log('input of getDepositFuncABI');
