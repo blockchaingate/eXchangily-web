@@ -665,11 +665,11 @@ export class CoinService {
 
             const txData = {
                 nonce: nonce,
-                gasPrice: 1200000000,
+                gasPrice: 100,
                 gasLimit: 25000,
                 to: contractAddress,
                 from: keyPair.address,
-                value: '0x00',         
+                value: 0,         
                 data: '0x' + abiHex + this.utilServ.fixedLengh(toAccount.slice(2), 64) + 
                 this.utilServ.fixedLengh(amountSent.toString(16), 64)
             };

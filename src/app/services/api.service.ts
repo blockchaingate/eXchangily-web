@@ -125,7 +125,7 @@ export class ApiService {
     }
 
     async getEthTokenBalance(contractAddress: string, address: string) {
-        const url = 'https://api.etherscan.io/api?module=account&action=tokenbalance&contractaddress='
+        const url = 'https://api-ropsten.etherscan.io/api?module=account&action=tokenbalance&contractaddress='
         + contractAddress + '&address=' + address + '&tag=latest&apikey=M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB';
         const response = await this.http.get(url).toPromise()  as EthBalance;    
         console.log('url=' + url);
