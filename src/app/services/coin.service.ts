@@ -635,6 +635,7 @@ export class CoinService {
             const toAccount = toAddress;
             const contractAddress = mycoin.contractAddr;
 
+            console.log('nonce = ' + nonce);
             const func =    {  
                 "constant":false,
                 "inputs":[  
@@ -666,10 +667,11 @@ export class CoinService {
             const txData = {
                 nonce: nonce,
                 gasPrice: 100,
-                gasLimit: 25000,
-                to: contractAddress,
+                gasLimit: 55000,
+               // to: contractAddress,
                 from: keyPair.address,
-                value: 0,         
+                value: Number(0),         
+                to : contractAddress,
                 data: '0x' + abiHex + this.utilServ.fixedLengh(toAccount.slice(2), 64) + 
                 this.utilServ.fixedLengh(amountSent.toString(16), 64)
             };
