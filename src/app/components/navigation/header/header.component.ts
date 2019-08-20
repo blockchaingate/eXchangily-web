@@ -1,5 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -10,7 +12,7 @@ export class HeaderComponent implements OnInit {
   
   @Output() public sidenavToggle = new EventEmitter();
  
-  constructor(private translate: TranslateService) { }
+  constructor(private translate: TranslateService, private router: Router) { }
  
   ngOnInit() {
     this.currentLang = 'English';
@@ -21,6 +23,11 @@ export class HeaderComponent implements OnInit {
   public onToggleSidenav = () => {
     this.sidenavToggle.emit();
   }
+
+  linkTo(url: string) {
+    this.router.navigate([url]);
+  }
+
   setLan() {
     let lang = window.localStorage.getItem('Lan');
 
