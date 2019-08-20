@@ -14,6 +14,7 @@ import { DepositAmountModal } from '../../modals/deposit-amount/deposit-amount.m
 import { AddAssetsModal } from '../../modals/add-assets/add-assets.modal';
 import { PinNumberModal } from '../../modals/pin-number/pin-number.modal';
 
+
 @Component({
     selector: 'app-wallet-dashboard',
     templateUrl: './dashboard.component.html',

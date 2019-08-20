@@ -48,7 +48,7 @@ const routes: Routes = [
 
 @NgModule({
     imports: [
-        RouterModule.forChild(routes),
+        RouterModule.forChild(routes)
     ],
     providers: [CanActivateTeam, WalletService, CoinService, ApiService, UtilService],
     exports: [RouterModule]

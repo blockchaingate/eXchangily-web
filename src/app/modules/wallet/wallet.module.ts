@@ -38,6 +38,11 @@ import { PinNumberModal } from './modals/pin-number/pin-number.modal';
 import { KanbanService } from '../../services/kanban.service';
 import { Web3Service } from '../../services/web3.service';
 import {MatSelectModule} from '@angular/material/select'; 
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatMenuModule} from '@angular/material/menu';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -71,8 +76,13 @@ export function HttpLoaderFactory(http: HttpClient) {
         QRCodeModule,
         MatTabsModule,
         MatListModule,
+        MatCheckboxModule,
         MatSelectModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTooltipModule,
         MatSlideToggleModule,
+        MatMenuModule,
         BsDropdownModule.forRoot(),
         CollapseModule.forRoot(),
         ModalModule.forRoot(),

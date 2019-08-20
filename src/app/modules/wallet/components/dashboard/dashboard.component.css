@@ -65,11 +65,31 @@ tbody {
 
 /* Hide the browser's default checkbox */
 
-.form-check .container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
+::ng-deep .mat-checkbox .mat-checkbox-frame {
+    border-color: violet;
+}
+
+::ng-deep .mat-checkbox .mat-checkbox-frame {
+    border-color: violet;
+}
+
+heck .container input {
+     ::ng-deep .mat-checkbox .mat-checkbox-frame {
+        border-color: violet;
+    }
+    ition: absolute;
+     ::ng-deep .mat-checkbox .mat-checkbox-frame {
+        border-color: violet;
+    }
+    city: 0;
+     ::ng-deep .mat-checkbox .mat-checkbox-frame {
+        border-color: violet;
+    }
+    sor: pointer;
+     ::ng-deep .mat-checkbox .mat-checkbox-frame {
+        border-color: violet;
+    }
+    ght: 0;
     width: 0;
 }
 
@@ -115,11 +135,31 @@ tbody {
     display: block;
 }
 
+::ng-deep .mat-checkbox .mat-checkbox-frame {
+    border-color: violet;
+}
 
-/* Style the checkmark/indicator */
+::ng-deep .mat-checkbox .mat-checkbox-frame {
+    border-color: violet;
+}
 
-.form-check .container .checkmark:after {
-    left: 9px;
+::ng-deep .mat-checkbox .mat-checkbox-frame {
+    border-color: violet;
+}
+
+yle the checkmark/indicator */::ng-deep .mat-checkbox .mat-checkbox-frame {
+    border-color: violet;
+}
+
+::ng-deep .mat-checkbox .mat-checkbox-frame {
+    border-color: violet;
+}
+
+-check .container .checkmark:after {
+     ::ng-deep .mat-checkbox .mat-checkbox-frame {
+        border-color: violet;
+    }
+    eft: 9px;
     top: 5px;
     width: 5px;
     height: 10px;
@@ -128,4 +168,35 @@ tbody {
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+}
+
+.mat-checkbox .mat-checkbox-frame {
+    border-color: violet;
+}
+
+.apair {
+    display: flex;
+    margin-left: 1em;
+    margin-right: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 0.5em;
+    border-bottom: 1px dashed #484969;
+    color: silver;
+    font-size: media;
+}
+
+.header {
+    font-weight: bold;
+    height: 2em;
+    padding-top: 4px;
+    background-color: #2c2c4e;
+    color: white;
+}
+
+.dataline:hover {
+    background-color: #3a3b5a;
+}
+
+.col-1 button {
+    display: inline-block;
 }

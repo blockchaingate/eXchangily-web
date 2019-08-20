@@ -30,16 +30,16 @@
 
         </div>
 
-        <div class="apair header" fxHide.xs>
+        <div class="apair header" fxHide.sm>
             <div class="col-2">{{'Pair'|translate}}</div>
             <div class="col-2">{{'LatestPrice'|translate}}</div>
             <div class="col-2">{{'H24Change'|translate}}</div>
             <div class="col-2">{{'H24H'|translate}}</div>
             <div class="col-2">{{'H24L'|translate}}</div>
             <div class="col-2">{{'Vol24'|translate}}</div>
-
         </div>
-        <div class="apair dataline" fxHide.xs *ngFor="let pr of tab_prices; let i=index">
+
+        <div class="apair dataline" fxHide.sm *ngFor="let pr of tab_prices; let i=index">
             <div class="col-md-2 hand align-self-center">
                 <button mat-icon-button [color]="(pr.favorite == 1)?'warn':''" (click)="toggleFavorite(pr)" aria-label="Example icon-button with a heart icon" class="text-right">
                     <mat-icon>
@@ -51,22 +51,21 @@
                 </span>
 
             </div>
-            <div class="col-md-2 align-self-center">{{pr.price}}</div>
-            <div class="col-md-2 align-self-center" [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>0">{{pr.change24h | number:'.2'}}%
+            <div class="col-2 align-self-center">{{pr.price}}</div>
+            <div class="col-2 align-self-center" [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>0">{{pr.change24h | number:'.2'}}%
             </div>
-            <div class="col-md-2 align-self-center">{{pr.price24hh}}</div>
-            <div class="col-md-2 align-self-center">{{pr.price24hl}}</div>
-            <div class="col-md-2 align-self-center">{{pr.vol24h}}</div>
+            <div class="col-2 align-self-center">{{pr.price24hh}}</div>
+            <div class="col-2 align-self-center">{{pr.price24hl}}</div>
+            <div class="col-2 align-self-center">{{pr.vol24h}}</div>
         </div>
 
-
-
-        <div class="row text-white" fxHide.gt-xs>
+        <div class="row apair text-white pt-3" fxHide.gt-sm>
             <div class="col-4">{{'Pair'|translate}}</div>
             <div class="col-4">{{'LatestPrice'|translate}}</div>
             <div class="col-4">{{'H24Change'|translate}}</div>
         </div>
-        <div class="row text-white" fxHide.gt-xs *ngFor="let pr of tab_prices; let i=index">
+
+        <div class="row apair text-white" fxHide.gt-sm *ngFor="let pr of tab_prices; let i=index">
             <div class="col-4 hand align-self-center">
                 <button mat-icon-button [color]="(pr.favorite == 1)?'warn':''" (click)="toggleFavorite(pr)" aria-label="Example icon-button with a heart icon" class="text-right">
                         <mat-icon>
@@ -84,8 +83,6 @@
             <div class="col-12 text-muted">{{'H24L'|translate}}:{{pr.price24hl}}</div>
             <div class="col-12 text-muted">{{'Vol24'|translate}}:{{pr.vol24h}}</div>
         </div>
-
-
 
     </div>
 

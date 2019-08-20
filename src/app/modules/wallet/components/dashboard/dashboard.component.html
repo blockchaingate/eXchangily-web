@@ -57,25 +57,17 @@
             <div class="mt-2 exg-bg">
                 <div class="container py-2">
                     <div class="row">
-                        <div class="col col-md-6">
+                        <div class="col col-8 col-md-6">
                             <h5 class="d-inline mr-3">{{"My Asset" | translate}}</h5>
-                            <div class="form-check d-inline small">
-                                <!--
-                                <label class="container">Hide Small Amount Assets
-                                            <input type="checkbox" checked="checked">
-                                            <span class="checkmark"></span>
-                                          </label>
-                                          -->
-
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                <label class="form-check-label" for="exampleCheck1">Hide Small Amount Assets</label>
-
-                            </div>
+                            <mat-checkbox [(ngModel)]="hideSmall">Hide Small Amount Assets</mat-checkbox>
                         </div>
 
-                        <div class="col col-md-6 small text-right">
+                        <div class="col col-4 col-md-6 small text-right fxHide-xs">
                             <div class="d-inline mr-3">
+                                <!--
                                 <modal-transaction-history></modal-transaction-history>
+                                -->
+                                <a>Transaction History</a>
                             </div>
                             <div class="d-inline mr-3">
                                 <a (click)="addAssets()">Add Assets</a>
@@ -85,9 +77,118 @@
                             </div>
 
                         </div>
+                        <div class="col col-4 col-md-6 small text-right fxHide-gt-xs">
+                            <mat-menu #appMenu="matMenu">
+                                <button mat-menu-item>Transaction History</button>
+                                <button (click)="addAssets()" mat-menu-item>Add Assets</button>
+                                <button (click)="loadBalance()" mat-menu-item>Refresh Assets</button>
+                            </mat-menu>
+
+                            <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                                        <mat-icon>more_vert</mat-icon>
+                            </button>
+                        </div>
                     </div>
                     <div class="row pt-4">
-                        <table class="table table-dark table-hover table-striped table-fixed">
+                        <div class="container fxHide-xs">
+                            <div class="row apair header">
+                                <div class="col-1">
+                                    Symble
+                                </div>
+                                <div class="col-1">
+                                    Asset
+                                </div>
+                                <div class="col-2">
+                                    Available
+                                </div>
+                                <div class="col-2">
+                                    Frozen
+                                </div>
+                                <div class="col-2">
+                                    Value(USD)
+                                </div>
+                                <div class="col-2">
+                                    Profit sharing
+                                </div>
+                                <div class="col-2">
+
+                                </div>
+                            </div>
+                            <div class="row apair dataline" *ngFor="let mycoin of wallet.mycoins; index as i">
+                                <div class="col-1">
+                                    <img *ngIf="mycoin.name == 'BTC'" src="/assets/coins/bitcoin.png" class="icon" />
+                                    <img *ngIf="mycoin.name == 'ETH'" src="/assets/coins/ethereum.png" class="icon" />
+                                </div>
+                                <div class="col-1">
+                                    {{mycoin.name}}
+                                </div>
+                                <div class="col-2">
+                                    {{mycoin.balance}}
+                                </div>
+                                <div class="col-2">
+                                    {{mycoin.lockedBalance}}
+                                </div>
+                                <div class="col-2">
+
+                                </div>
+                                <div class="col-2">
+
+                                </div>
+                                <div class="col-2">
+                                    <button mat-icon-button matTooltip="Deposit" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                        <mat-icon>arrow_downward</mat-icon>
+                                    </button>
+                                    <button mat-icon-button matTooltip="Withdraw" (click)="withdraw(mycoin)" aria-label="Example icon-button with a heart icon">
+                                        <mat-icon>arrow_upward</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="container fxHide-gt-xs">
+                            <div class="row apair header">
+                                <div class="col-2">
+                                    Symble
+                                </div>
+                                <div class="col-2">
+                                    Asset
+                                </div>
+                                <div class="col-4">
+                                    Available
+                                </div>
+
+                                <div class="col-4">
+
+                                </div>
+                            </div>
+                            <div class="row apair dataline" *ngFor="let mycoin of wallet.mycoins; index as i">
+                                <div class="col-2">
+                                    <img *ngIf="mycoin.name == 'BTC'" src="/assets/coins/bitcoin.png" class="icon" />
+                                    <img *ngIf="mycoin.name == 'ETH'" src="/assets/coins/ethereum.png" class="icon" />
+                                </div>
+                                <div class="col-2">
+                                    {{mycoin.name}}
+                                </div>
+                                <div class="col-4">
+                                    {{mycoin.balance}}
+                                </div>
+
+                                <div class="col-4">
+                                    <button mat-icon-button matTooltip="Deposit" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                            <mat-icon>arrow_downward</mat-icon>
+                                        </button>
+                                    <button mat-icon-button matTooltip="Withdraw" (click)="withdraw(mycoin)" aria-label="Example icon-button with a heart icon">
+                                            <mat-icon>arrow_upward</mat-icon>
+                                        </button>
+                                </div>
+                                <div class="col-12 text-muted">Frozen:{{mycoin.lockedBalance}}</div>
+                                <div class="col-12 text-muted">Value(USD):</div>
+                                <div class="col-12 text-muted">Profit sharing:</div>
+                            </div>
+                        </div>
+                        <!--
+                        <table class="table table-dark table-hover table-striped table-fixed" *ngIf="wallet">
                             <thead>
                                 <tr>
                                     <th scope="col">Symble</th>
@@ -104,7 +205,7 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody *ngIf="wallet">
+                            <tbody>
                                 <tr *ngFor="let mycoin of wallet.mycoins; index as i">
                                     <td>
                                         <img *ngIf="mycoin.name == 'BTC'" src="/assets/coins/bitcoin.png" class="icon" />
@@ -121,6 +222,7 @@
 
                             </tbody>
                         </table>
+-->
                     </div>
                 </div>
             </div>

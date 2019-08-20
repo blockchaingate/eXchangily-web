@@ -124,3 +124,8 @@ th {
     height: 24px;
     line-height: 24px;
 }
+
+.pricelist .row {
+    margin-right: 0;
+    margin-left: 0;
+}

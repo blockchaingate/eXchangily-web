@@ -42,3 +42,20 @@ body {
     background-image: linear-gradient(to right, #f2ac0e, #d56a70, #bb2ad1);
     color: white;
 }
+
+@media only screen and (max-width: 959px) {
+    .fxHide-xs {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 960px) {
+    .fxHide-gt-xs {
+        display: none;
+    }
+}
+
+*:focus {
+    outline: none !important;
+    border: 0 !important;
+}
