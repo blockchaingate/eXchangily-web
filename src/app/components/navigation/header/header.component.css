@@ -38,3 +38,12 @@ button:focus {
 .mat-icon {
     color: white;
 }
+
+.mat-button {
+    font-size: 20px;
+}
+
+ul.navigation-items {
+    align-items: center;
+    justify-content: center;
+}

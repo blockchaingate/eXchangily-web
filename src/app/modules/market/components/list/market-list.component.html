@@ -6,19 +6,19 @@
 
             <div class="nav-item hand" [class.selected]="select === 100" (click)="selectCat(100);">{{'Favorites'|translate}}</div>
 
-            <div class="nav-item hand" [class.selected]="select === 0" (click)="selectCat(0);">USDT {{'Markets'|translate}}</div>
+            <div class="nav-item hand" [class.selected]="select === 0" (click)="selectCat(0);">USDT</div>
 
-            <div class="nav-item hand" [class.selected]="select === 1" (click)="selectCat(1);">BTC {{'Markets'|translate}}</div>
+            <div class="nav-item hand" [class.selected]="select === 1" (click)="selectCat(1);">BTC</div>
 
-            <div class="nav-item hand" [class.selected]="select === 2" (click)="selectCat(2);">ETH {{'Markets'|translate}}</div>
+            <div class="nav-item hand" [class.selected]="select === 2" (click)="selectCat(2);">ETH</div>
 
-            <div class="nav-item hand" [class.selected]="select === 3" (click)="selectCat(3);">EXG {{'Markets'|translate}}</div>
+            <div class="nav-item hand" [class.selected]="select === 3" (click)="selectCat(3);">EXG</div>
 
             <div style="width: 100%;">
                 <i class="fas fa-home"></i>
             </div>
 
-            <div class="input-group-sm">
+            <div class="input-group-sm mt-3">
                 <input type="text" class="form-control searchbox" [(ngModel)]="searchText" placeholder="{{'Search pair' | translate}}">
                 <div class="input-group-append">
                     <button class="btn btn-secondary" type="button">
@@ -30,33 +30,56 @@
 
         </div>
 
-        <div class="apair header">
-            <div class="col-1">{{'Pair'|translate}}</div>
+        <div class="apair header" fxHide.xs>
+            <div class="col-2">{{'Pair'|translate}}</div>
             <div class="col-2">{{'LatestPrice'|translate}}</div>
             <div class="col-2">{{'H24Change'|translate}}</div>
             <div class="col-2">{{'H24H'|translate}}</div>
             <div class="col-2">{{'H24L'|translate}}</div>
             <div class="col-2">{{'Vol24'|translate}}</div>
-            <div class="col-1">
 
-            </div>
         </div>
-        <div class="apair dataline" *ngFor="let pr of tab_prices; let i=index">
-            <div class="col-1 hand align-self-center" (click)="gotoTrade(pr.id);">{{COINS[pr.coin_id].name}}/{{COINS[pr.base_id].name}}</div>
-            <div class="col-2 align-self-center">{{pr.price}}</div>
-            <div class="col-2 align-self-center" [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>0">{{pr.change24h | number:'.2'}}%
-            </div>
-            <div class="col-2 align-self-center">{{pr.price24hh}}</div>
-            <div class="col-2 align-self-center">{{pr.price24hl}}</div>
-            <div class="col-2 align-self-center">{{pr.vol24h}}</div>
-            <div class="col-2 d-flex align-self-center">
+        <div class="apair dataline" fxHide.xs *ngFor="let pr of tab_prices; let i=index">
+            <div class="col-md-2 hand align-self-center">
                 <button mat-icon-button [color]="(pr.favorite == 1)?'warn':''" (click)="toggleFavorite(pr)" aria-label="Example icon-button with a heart icon" class="text-right">
                     <mat-icon>
-                        favorite
+                        star
                     </mat-icon>
                 </button>
-            </div>
+                <span (click)="gotoTrade(pr.id);">
+                    {{COINS[pr.coin_id].name}}/{{COINS[pr.base_id].name}}
+                </span>
 
+            </div>
+            <div class="col-md-2 align-self-center">{{pr.price}}</div>
+            <div class="col-md-2 align-self-center" [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>0">{{pr.change24h | number:'.2'}}%
+            </div>
+            <div class="col-md-2 align-self-center">{{pr.price24hh}}</div>
+            <div class="col-md-2 align-self-center">{{pr.price24hl}}</div>
+            <div class="col-md-2 align-self-center">{{pr.vol24h}}</div>
+        </div>
+
+        <div class="apair header" fxHide.gt-xs>
+            <div class="col-4">{{'Pair'|translate}}</div>
+            <div class="col-4">{{'LatestPrice'|translate}}</div>
+            <div class="col-4">{{'H24Change'|translate}}</div>
+
+        </div>
+        <div class="apair dataline" fxHide.gt-xs *ngFor="let pr of tab_prices; let i=index">
+            <div class="col-md-4 hand align-self-center">
+                <button mat-icon-button [color]="(pr.favorite == 1)?'warn':''" (click)="toggleFavorite(pr)" aria-label="Example icon-button with a heart icon" class="text-right">
+                        <mat-icon>
+                            star
+                        </mat-icon>
+                    </button>
+                <span (click)="gotoTrade(pr.id);">
+                        {{COINS[pr.coin_id].name}}/{{COINS[pr.base_id].name}}
+                    </span>
+
+            </div>
+            <div class="col-md-4 align-self-center">{{pr.price}}</div>
+            <div class="col-md-4 align-self-center" [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>0">{{pr.change24h | number:'.2'}}%
+            </div>
         </div>
 
     </div>

@@ -7,7 +7,13 @@
 .topslogan {
     padding: 0.6em;
     text-align: center;
-    height: 380px;
+    height: 350px;
+}
+
+@media only screen and (max-width: 768px) {
+    .topslogan {
+        height: 480px;
+    }
 }
 
 .slogan {
@@ -31,10 +37,19 @@
     padding-top: 1em;
 }
 
+@media only screen and (max-width: 768px) {
+    .slogan-left {
+        width: 100%;
+    }
+}
+
+
+/*
 .slogan-right {
     width: 50%;
     padding-left: 1em;
 }
+*/
 
 .topslogan .container {
     background-image: url('/images/market-main.svg');

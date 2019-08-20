@@ -24,6 +24,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import {MatButtonModule} from '@angular/material/button';
     MatSnackBarModule,
     MatIconModule,
     MatButtonModule,
+    FlexLayoutModule,
     ModalModule.forRoot(),
     AdvModule
   ],

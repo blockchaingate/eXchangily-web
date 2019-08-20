@@ -19,6 +19,12 @@
     color: silver;
 }
 
+@media only screen and (max-width: 768px) {
+    .nav-item {
+        width: auto;
+    }
+}
+
 .pricelist {
     font-size: 0.9em;
     width: 100%;
@@ -111,4 +117,10 @@ th {
     height: 28px;
     font-size: x-small;
     margin-right: 1.5em;
+}
+
+.mat-icon-button {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
 }
