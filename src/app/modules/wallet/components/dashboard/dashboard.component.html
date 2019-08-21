@@ -59,10 +59,10 @@
                     <div class="row">
                         <div class="col col-8 col-md-6">
                             <h5 class="d-inline mr-3">{{"My Asset" | translate}}</h5>
-                            <mat-checkbox [(ngModel)]="hideSmall">Hide Small Amount Assets</mat-checkbox>
+                            <mat-checkbox [(ngModel)]="hideSmall" class="small">Hide Small Amount Assets</mat-checkbox>
                         </div>
 
-                        <div class="col col-4 col-md-6 small text-right fxHide-xs">
+                        <div class="col col-4 col-md-6 small text-right fxHide-sm">
                             <div class="d-inline mr-3">
                                 <!--
                                 <modal-transaction-history></modal-transaction-history>
@@ -77,7 +77,7 @@
                             </div>
 
                         </div>
-                        <div class="col col-4 col-md-6 small text-right fxHide-gt-xs">
+                        <div class="col col-4 col-md-6 small text-right fxHide-gt-sm">
                             <mat-menu #appMenu="matMenu">
                                 <button mat-menu-item>Transaction History</button>
                                 <button (click)="addAssets()" mat-menu-item>Add Assets</button>
@@ -90,7 +90,7 @@
                         </div>
                     </div>
                     <div class="row pt-4">
-                        <div class="container fxHide-xs">
+                        <div class="container fxHide-sm" *ngIf="wallet">
                             <div class="row apair header">
                                 <div class="col-1">
                                     Symble
@@ -146,7 +146,7 @@
                         </div>
 
 
-                        <div class="container fxHide-gt-xs">
+                        <div class="container fxHide-gt-sm" *ngIf="wallet">
                             <div class="row apair header">
                                 <div class="col-2">
                                     Symble

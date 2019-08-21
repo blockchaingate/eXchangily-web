@@ -44,14 +44,14 @@ body {
 }
 
 @media only screen and (max-width: 959px) {
-    .fxHide-xs {
-        display: none;
+    .fxHide-sm {
+        display: none!important;
     }
 }
 
 @media only screen and (min-width: 960px) {
-    .fxHide-gt-xs {
-        display: none;
+    .fxHide-gt-sm {
+        display: none!important;
     }
 }
 

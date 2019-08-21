@@ -191,15 +191,21 @@ export class CoinService {
 
             const childNode = root.derivePath( path );    
                    
-            const privateKey = childNode.toWIF(); 
+            priKey = childNode.toWIF(); 
+            console.log('priKey for EX:' + priKey);
+            buffer = wif.decode(priKey);  
 
-            const privateKeyBuffer = wif.decode(privateKey); 
+            const publicKey = childNode.publicKey;
+            const publicKeyString = `0x${publicKey.toString('hex')}`;
+            addr = this.utilServ.toKanbanAddress(publicKeyString);
+            /*
+            const privateKeyBuffer = wif.decode(priv.ateKey); 
             const wallet = Wallet.fromPrivateKey(privateKeyBuffer.privateKey);  
             const address = `0x${wallet.getAddress().toString('hex')}`;
             addr = address; 
             priKey = wallet.getPrivateKey();    
-            //priKeyHex = `0x${wallet.getPrivateKey().toString('hex')}`;   
-            buffer = wallet.getPrivateKey();     
+            buffer = wallet.getPrivateKey();   
+            */  
               
         }
 

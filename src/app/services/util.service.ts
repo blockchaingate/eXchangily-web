@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { MyCoin } from '../models/mycoin';
+import * as createHash from 'create-hash';
 
 @Injectable()
 export class UtilService {
@@ -72,5 +73,34 @@ export class UtilService {
             str = '0' + str;
         }   
         return str;     
+    }  
+    
+    toKanbanAddress(publicKey: string) {
+        console.log('publicKey for toKanbanAddress is:' + publicKey);
+        if (typeof publicKey === 'string') {
+          switch (publicKey.length) {
+            case 128:
+              publicKey = this.compressPublicKey(publicKey);
+              break;
+            case 130:
+              publicKey = this.compressPublicKey(publicKey.slice(2));
+              break;
+            default:
+          }
+        }
+        
+        return createHash('ripemd160').update(createHash('sha256')
+        .update(publicKey).digest()).digest().toString('hex');
     }    
+
+    compressPublicKey(publicKey) {
+        let prefix;
+        if (parseInt(publicKey, 16) % 2 === 0) {
+          prefix = '02';
+        } else {
+          prefix = '03';
+        }
+        return prefix + publicKey.slice(0, publicKey.length / 2 );    
+      }
+      
 }
