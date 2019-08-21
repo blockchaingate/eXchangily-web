@@ -72,7 +72,7 @@ export class CoinService {
 
     initExCoin(seed: Buffer): MyCoin {
         const coin = new MyCoin('EX');
-        this.fillUpAddress(coin, seed, 1, 1);   
+        this.fillUpAddress(coin, seed, 1, 0);   
         return coin;     
     }
 
@@ -186,7 +186,7 @@ export class CoinService {
             priKey = wallet.getPrivateKey();        
         } else  
         if (name === 'EX') { 
-
+            console.log('name=' + name);
             const root = BIP32.fromSeed(seed, bitcoin_network);
 
             const childNode = root.derivePath( path );    
@@ -198,6 +198,7 @@ export class CoinService {
             const publicKey = childNode.publicKey;
             const publicKeyString = `0x${publicKey.toString('hex')}`;
             addr = this.utilServ.toKanbanAddress(publicKeyString);
+            console.log('addr for EX:' + addr);
             /*
             const privateKeyBuffer = wif.decode(priv.ateKey); 
             const wallet = Wallet.fromPrivateKey(privateKeyBuffer.privateKey);  
@@ -707,6 +708,8 @@ export class CoinService {
     }
 
     fillUpAddress(mycoin: MyCoin, seed: Buffer, numReceiveAdds: number, numberChangeAdds: number) {
+        console.log('fillUpAddress for MyCoin');
+        console.log(mycoin);
         for (let i = 0; i < numReceiveAdds; i++) {
             const keyPair = this.getKeyPairs(mycoin, seed, 0, i);
             const addr = new Address(mycoin.coinType, keyPair.address, i);
