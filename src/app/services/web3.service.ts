@@ -57,7 +57,8 @@ export class Web3Service {
         data: '0x' + abiHex,
         gas: 100000,
         coin: 1,
-        gasPrice: 10
+        gasPrice: 10, 
+        chainId: 212
       };
       const privateKey = keyPair.privateKey;
       /*

@@ -19,7 +19,8 @@ import Common from 'ethereumjs-common';
 import { Web3Service } from './web3.service';
 import {Signature} from '../interfaces/kanban.interface';
 import { UtilService } from './util.service';
-
+import * as abi from 'web3-eth-abi';
+//import * as OPS from 'qtum-opcodes';
 @Injectable()
 export class CoinService {
     constructor(private apiService: ApiService, private web3Serv: Web3Service, private utilServ: UtilService) {
@@ -84,6 +85,62 @@ export class CoinService {
             }
         }
         return '';
+    }
+
+    async depositFab(seed: any, mycoin: MyCoin, amount: number) {
+        // sendTokens in https://github.com/ankitfa/Fab_sc_test1/blob/master/app/walletManager.js
+        const scarContractAddress = '0x02be9b01169d7a6c3f44c792d950ef31c3958895';
+        let gasLimit = 250000;
+        let gasPrice = 40;
+        let totalAmount = gasLimit * gasPrice / 1e8;
+        let cFee = 3000 / 1e8 // fee for the transaction
+    
+        let totalFee = totalAmount + cFee;
+    
+        let inputs = [];
+    
+        let tmpAmount = 0;
+        let i = 0;
+    
+    
+        // -----------------------------------------------------------------------
+        
+
+        const addDepositFunc = {
+            "constant": false,
+            "inputs": [],
+            "name": "addDeposit",
+            "outputs": [
+            {
+            "name": "",
+            "type": "address"
+            }
+            ],
+            "payable": true,
+            "stateMutability": "payable",
+            "type": "function"
+            };
+        
+        let fxnCallHex = abi.encodeFunctionCall(addDepositFunc, []);
+        fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
+
+        let contract = Btc.script.compile([
+            84,
+            this.utilServ.number2Buffer(gasLimit),
+            this.utilServ.number2Buffer(gasPrice),
+            this.utilServ.hex2Buffer(fxnCallHex),
+            this.utilServ.hex2Buffer(scarContractAddress),
+            194
+        ]);
+        
+        let contractSize = contract.toJSON.toString().length;
+
+        totalFee += this.utilServ.convertLiuToFabcoin(contractSize * 10);
+        
+        console.log('totalFee=' + totalFee);
+        const txhex = await this.getFabTransactionHex(seed, mycoin, contract, amount, totalFee);
+        const txhash = this.apiService.postFabTx(txhex);
+        return txhash;
     }
 
     async getBlanceByAddress (tokenType: string, contractAddr: string, name: string, addr: string, decimals: number) {
@@ -280,11 +337,425 @@ export class CoinService {
         return retString;
     }
 
+    async getFabTransactionHex(seed: any, mycoin: MyCoin, to: any, amount: number, defaultTransactionFee: number) {
+        let index = 0;
+        let balance = 0;
+        let finished = false;
+        let address = '';
+        let totalInput = 0;
+        
+
+        const receiveAddsIndexArr = [];
+        const changeAddsIndexArr = [];
+
+        console.log('mycoin=');
+        amount = amount + defaultTransactionFee;
+        console.log('amount=' + amount);
+        console.log(mycoin);
+        let amountNum = amount * Math.pow(10, this.utilServ.getDecimal(mycoin));
+        
+        const TestNet = Btc.networks.testnet;
+
+        const txb = new Btc.TransactionBuilder(TestNet);
+            
+        for (index = 0; index < mycoin.receiveAdds.length; index ++) {
+            balance = mycoin.receiveAdds[index].balance;
+            if (balance <= 0) {
+                continue;
+            }
+            address = mycoin.receiveAdds[index].address;
+
+            const fabTransactions = await this.apiService.getFabTransaction(address);
+
+            for (let i = 0; i < fabTransactions.result.length; i++) {
+                const utxos = fabTransactions.result[i].utxos;
+
+                for (let j = 0; j < utxos.length; j++) {
+                    const utxo = utxos[j];
+                    txb.addInput(utxo.txid, utxo.sequence);
+                    receiveAddsIndexArr.push(index);
+                    totalInput += utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
+                    amountNum -= utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
+                    if (amountNum <= 0) {
+                        finished = true;
+                      totalInput += utxo.value;  break;
+                    }                    
+                }
+                if (finished) {
+                    break;
+                }
+            }    
+            if (finished) {
+                break;
+            }              
+        }
+
+
+
+        if (!finished) {
+            for (index = 0; index < mycoin.changeAdds.length; index ++) {
+                balance = mycoin.changeAdds[index].balance;
+                if (balance <= 0) {
+                    continue;
+                }
+                address = mycoin.changeAdds[index].address;
+
+                const fabTransactions = await this.apiService.getFabTransaction(address);
+
+                for (let i = 0; i < fabTransactions.result.length; i++) {
+
+                    const utxos = fabTransactions.result[i].utxos;
+    
+                    for (let j = 0; j < utxos.length; j++) {
+                        const utxo = utxos[j];
+                        txb.addInput(utxo.txid, utxo.sequence);
+                        changeAddsIndexArr.push(index);
+                        totalInput += utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
+                        amountNum -= utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
+                        if (amountNum <= 0) {
+                            finished = true;
+                            break;
+                        }                    
+                    }
+                    if (finished) {
+                        break;
+                    }
+                }    
+                if (finished) {
+                    break;
+                }              
+            }
+        }
+
+        if (!finished) {
+            console.log('not enough fund.');
+            return '';
+        }
+
+
+        const changeAddress = mycoin.changeAdds[0];
+        const output1 = Math.round(totalInput
+        - amount * Math.pow(10, this.utilServ.getDecimal(mycoin)) - defaultTransactionFee * Math.pow(10, this.utilServ.getDecimal(mycoin))
+        - (receiveAddsIndexArr.length + changeAddsIndexArr.length) * 300);
+        const output2 = Math.round(amount * 1e8);    
+        
+        console.log('amount=' + amount + ',totalInput=' + totalInput);
+        console.log('output1=' + output1 + ',output2=' + output2);
+        txb.addOutput(changeAddress.address, output1);
+        txb.addOutput(to, output2);
+
+        for (index = 0; index < receiveAddsIndexArr.length; index ++) {
+            const keyPair = this.getKeyPairs(mycoin, seed, 0, receiveAddsIndexArr[index]);
+            const alice = Btc.ECPair.fromWIF(keyPair.privateKey, TestNet);
+            txb.sign(index, alice);                
+        }
+
+        for (index = 0; index < changeAddsIndexArr.length; index ++) {
+            const keyPair = this.getKeyPairs(mycoin, seed, 1, changeAddsIndexArr[index]);
+            const alice = Btc.ECPair.fromWIF(keyPair.privateKey, TestNet);
+            txb.sign(receiveAddsIndexArr.length + index, alice);                
+        }            
+
+        const txhex = txb.build().toHex();
+        return txhex;
+    }
+
     getOriginalMessage(coinType: number, txHash: string, amount: number, address: string) {
         /*
-        const bufCoin = Buffer.allocUnsafe(2initMyCoins);
-        bufCoin.writeUInt16BE(coinType,0);  initMyCoins      
-        const bufTxHash = Buffer.from(txHashinitMyCoins);
+        const bufCoin =             const txb = new Btc.TransactionBuilder(TestNet);
+            
+            for (index = 0; index < mycoin.receiveAdds.length; index ++) {
+                balance = mycoin.receiveAdds[index].balance;
+                if (balance <= 0) {
+                    continue;
+                }
+                address = mycoin.receiveAdds[index].address;
+
+                const fabTransactions = await this.apiService.getFabTransaction(address);
+
+                for (let i = 0; i < fabTransactions.result.length; i++) {
+                    const utxos = fabTransactions.result[i].utxos;
+    
+                    for (let j = 0; j < utxos.length; j++) {
+                        const utxo = utxos[j];
+                        txb.addInput(utxo.txid, utxo.sequence);
+                        receiveAddsIndexArr.push(index);
+                        totalInput += utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
+                        amountNum -= utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
+                        if (amountNum <= 0) {
+                            finished = true;
+                          totalInput += utxo.value;  break;
+                        }                    
+                    }
+                    if (finished) {
+                        break;
+                    }
+                }    
+                if (finished) {
+                    break;
+                }              
+            }
+
+
+
+            if (!finished) {
+                for (index = 0; index < mycoin.changeAdds.length; index ++) {
+                    balance = mycoin.changeAdds[index].balance;
+                    if (balance <= 0) {
+                        continue;
+                    }
+                    address = mycoin.changeAdds[index].address;
+    
+                    const fabTransactions = await this.apiService.getFabTransaction(address);
+    
+                    for (let i = 0; i < fabTransactions.result.length; i++) {
+
+                        const utxos = fabTransactions.result[i].utxos;
+        
+                        for (let j = 0; j < utxos.length; j++) {
+                            const utxo = utxos[j];
+                            txb.addInput(utxo.txid, utxo.sequence);
+                            changeAddsIndexArr.push(index);
+                            totalInput += utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
+                            amountNum -= utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
+                            if (amountNum <= 0) {
+                                finished = true;
+                                break;
+                            }                    
+                        }
+                        if (finished) {
+                            break;
+                        }
+                    }    
+                    if (finished) {
+                        break;
+                    }              
+                }
+            }
+
+            if (!finished) {
+                console.log('not enough fund.');
+                return '';
+            }
+
+
+            const changeAddress = mycoin.changeAdds[0];
+            const output1 = Math.round(totalInput
+            - amount * Math.pow(10, this.utilServ.getDecimal(mycoin)) - 3000 
+            - (receiveAddsIndexArr.length + changeAddsIndexArr.length) * 300);
+            const output2 = Math.round(amount * 1e8);         
+            txb.addOutput(changeAddress.address, output1);
+            txb.addOutput(toAddress, output2);
+
+            for (index = 0; index < receiveAddsIndexArr.length; index ++) {
+                const keyPair = this.getKeyPairs(mycoin, seed, 0, receiveAddsIndexArr[index]);
+                const alice = Btc.ECPair.fromWIF(keyPair.privateKey, TestNet);
+                txb.sign(index, alice);                
+            }
+
+            for (index = 0; index < changeAddsIndexArr.length; index ++) {
+                const keyPair = this.getKeyPairs(mycoin, seed, 1, changeAddsIndexArr[index]);
+                const alice = Btc.ECPair.fromWIF(keyPair.privateKey, TestNet);
+                txb.sign(receiveAddsIndexArr.length + index, alice);                
+            }            
+
+            const txhex = txb.build().toHex();uffer.allocUnsafe(2initMyCoins);
+        bufCoin.writeUIn            const txb = new Btc.TransactionBuilder(TestNet);
+            
+            for (index = 0; index < mycoin.receiveAdds.length; index ++) {
+                balance = mycoin.receiveAdds[index].balance;
+                if (balance <= 0) {
+                    continue;
+                }
+                address = mycoin.receiveAdds[index].address;
+
+                const fabTransactions = await this.apiService.getFabTransaction(address);
+
+                for (let i = 0; i < fabTransactions.result.length; i++) {
+                    const utxos = fabTransactions.result[i].utxos;
+    
+                    for (let j = 0; j < utxos.length; j++) {
+                        const utxo = utxos[j];
+                        txb.addInput(utxo.txid, utxo.sequence);
+                        receiveAddsIndexArr.push(index);
+                        totalInput += utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
+                        amountNum -= utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
+                        if (amountNum <= 0) {
+                            finished = true;
+                          totalInput += utxo.value;  break;
+                        }                    
+                    }
+                    if (finished) {
+                        break;
+                    }
+                }    
+                if (finished) {
+                    break;
+                }              
+            }
+
+
+
+            if (!finished) {
+                for (index = 0; index < mycoin.changeAdds.length; index ++) {
+                    balance = mycoin.changeAdds[index].balance;
+                    if (balance <= 0) {
+                        continue;
+                    }
+                    address = mycoin.changeAdds[index].address;
+    
+                    const fabTransactions = await this.apiService.getFabTransaction(address);
+    
+                    for (let i = 0; i < fabTransactions.result.length; i++) {
+
+                        const utxos = fabTransactions.result[i].utxos;
+        
+                        for (let j = 0; j < utxos.length; j++) {
+                            const utxo = utxos[j];
+                            txb.addInput(utxo.txid, utxo.sequence);
+                            changeAddsIndexArr.push(index);
+                            totalInput += utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
+                            amountNum -= utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
+                            if (amountNum <= 0) {
+                                finished = true;
+                                break;
+                            }                    
+                        }
+                        if (finished) {
+                            break;
+                        }
+                    }    
+                    if (finished) {
+                        break;
+                    }              
+                }
+            }
+
+            if (!finished) {
+                console.log('not enough fund.');
+                return '';
+            }
+
+
+            const changeAddress = mycoin.changeAdds[0];
+            const output1 = Math.round(totalInput
+            - amount * Math.pow(10, this.utilServ.getDecimal(mycoin)) - 3000 
+            - (receiveAddsIndexArr.length + changeAddsIndexArr.length) * 300);
+            const output2 = Math.round(amount * 1e8);         
+            txb.addOutput(changeAddress.address, output1);
+            txb.addOutput(toAddress, output2);
+
+            for (index = 0; index < receiveAddsIndexArr.length; index ++) {
+                const keyPair = this.getKeyPairs(mycoin, seed, 0, receiveAddsIndexArr[index]);
+                const alice = Btc.ECPair.fromWIF(keyPair.privateKey, TestNet);
+                txb.sign(index, alice);                
+            }
+
+            for (index = 0; index < changeAddsIndexArr.length; index ++) {
+                const keyPair = this.getKeyPairs(mycoin, seed, 1, changeAddsIndexArr[index]);
+                const alice = Btc.ECPair.fromWIF(keyPair.privateKey, TestNet);
+                txb.sign(receiveAddsIndexArr.length + index, alice);                
+            }            
+
+            const txhex = txb.build().toHex();16BE(coinType,0);  initMyCoins      
+        const bufTxHash             const txb = new Btc.TransactionBuilder(TestNet);
+            
+            for (index = 0; index < mycoin.receiveAdds.length; index ++) {
+                balance = mycoin.receiveAdds[index].balance;
+                if (balance <= 0) {
+                    continue;
+                }
+                address = mycoin.receiveAdds[index].address;
+
+                const fabTransactions = await this.apiService.getFabTransaction(address);
+
+                for (let i = 0; i < fabTransactions.result.length; i++) {
+                    const utxos = fabTransactions.result[i].utxos;
+    
+                    for (let j = 0; j < utxos.length; j++) {
+                        const utxo = utxos[j];
+                        txb.addInput(utxo.txid, utxo.sequence);
+                        receiveAddsIndexArr.push(index);
+                        totalInput += utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
+                        amountNum -= utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
+                        if (amountNum <= 0) {
+                            finished = true;
+                          totalInput += utxo.value;  break;
+                        }                    
+                    }
+                    if (finished) {
+                        break;
+                    }
+                }    
+                if (finished) {
+                    break;
+                }              
+            }
+
+
+
+            if (!finished) {
+                for (index = 0; index < mycoin.changeAdds.length; index ++) {
+                    balance = mycoin.changeAdds[index].balance;
+                    if (balance <= 0) {
+                        continue;
+                    }
+                    address = mycoin.changeAdds[index].address;
+    
+                    const fabTransactions = await this.apiService.getFabTransaction(address);
+    
+                    for (let i = 0; i < fabTransactions.result.length; i++) {
+
+                        const utxos = fabTransactions.result[i].utxos;
+        
+                        for (let j = 0; j < utxos.length; j++) {
+                            const utxo = utxos[j];
+                            txb.addInput(utxo.txid, utxo.sequence);
+                            changeAddsIndexArr.push(index);
+                            totalInput += utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
+                            amountNum -= utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
+                            if (amountNum <= 0) {
+                                finished = true;
+                                break;
+                            }                    
+                        }
+                        if (finished) {
+                            break;
+                        }
+                    }    
+                    if (finished) {
+                        break;
+                    }              
+                }
+            }
+
+            if (!finished) {
+                console.log('not enough fund.');
+                return '';
+            }
+
+
+            const changeAddress = mycoin.changeAdds[0];
+            const output1 = Math.round(totalInput
+            - amount * Math.pow(10, this.utilServ.getDecimal(mycoin)) - 3000 
+            - (receiveAddsIndexArr.length + changeAddsIndexArr.length) * 300);
+            const output2 = Math.round(amount * 1e8);         
+            txb.addOutput(changeAddress.address, output1);
+            txb.addOutput(toAddress, output2);
+
+            for (index = 0; index < receiveAddsIndexArr.length; index ++) {
+                const keyPair = this.getKeyPairs(mycoin, seed, 0, receiveAddsIndexArr[index]);
+                const alice = Btc.ECPair.fromWIF(keyPair.privateKey, TestNet);
+                txb.sign(index, alice);                
+            }
+
+            for (index = 0; index < changeAddsIndexArr.length; index ++) {
+                const keyPair = this.getKeyPairs(mycoin, seed, 1, changeAddsIndexArr[index]);
+                const alice = Btc.ECPair.fromWIF(keyPair.privateKey, TestNet);
+                txb.sign(receiveAddsIndexArr.length + index, alice);                
+            }            
+
+            const txhex = txb.build().toHex(); Buffer.from(txHashinitMyCoins);
         const bufAmount = Buffer.allocUnsafeinitMyCoins(32);
         bufAmount.writeUInt32BE(amount,0);
         const bufAddr = Buffer.from(address);
@@ -394,16 +865,11 @@ export class CoinService {
             const changeAddress = mycoin.changeAdds[0];
             const output1 = Math.round(totalInput - amount * 1e8 - 3000 
             - (receiveAddsIndexArr.length + changeAddsIndexArr.length) * 300);
-            console.log('output1=' + output1);
-            const output2 = amount * 1e8;
-            console.log('output2=' + output2);            
+
+            const output2 = Math.round(amount * 1e8);         
             txb.addOutput(changeAddress.address, output1);
             txb.addOutput(toAddress, output2);
 
-            console.log('receiveAddsIndexArr=');
-            console.log(receiveAddsIndexArr);
-            console.log('changeAddsIndexArr='); 
-            console.log(changeAddsIndexArr);
             for (index = 0; index < receiveAddsIndexArr.length; index ++) {
                 const keyPair = this.getKeyPairs(mycoin, seed, 0, receiveAddsIndexArr[index]);
                 const alice = Btc.ECPair.fromWIF(keyPair.privateKey, TestNet);
@@ -415,195 +881,17 @@ export class CoinService {
                 const alice = Btc.ECPair.fromWIF(keyPair.privateKey, TestNet);
                 txb.sign(receiveAddsIndexArr.length + index, alice);                
             }             
-            /*
-            const address1 = mycoin.receiveAdds[0];
-            const currentIndex = address1.index;
 
-            const keyPair = this.getKeyPairs(mycoin, seed, 0, currentIndex);
-            const alice = Btc.ECPair.fromWIF(keyPair.privateKey, bitcoin_network);
-
-            const txb = new Btc.TransactionBuilder(bitcoin_network);
-            
-            const balanceFull = await this.apiService.getBtcBalanceFull(address1.address);
-
-            txb.setVersion(1);
-   
-            for (let i = 0; i < balanceFull.txrefs.length; i++) {
-                const tx = balanceFull.txrefs[i];
-                console.log('i=' + i);
-                console.log(tx);
-                if (tx.tx_output_n < 0) {
-                    continue;
-                }
-                txb.addInput(tx.tx_hash, tx.tx_output_n);
-                amountNum -= tx.ref_balance;
-                if (amountNum <= 0) {
-                    break;
-                }
-            }
-            
-
-           txb.addOutput(address1.address, parseInt(amount))
-
-            txb.sign({
-              prevOutScriptType: 'p2pkh',
-              vin: 0,
-              keyPair: alice
-            });
-            */
             const txhex = txb.build().toHex();
             const txhash = this.apiService.postBtcTx(txhex);
 
             return txhash;
         } else 
         if (mycoin.name === 'FAB') {
-
-            const txb = new Btc.TransactionBuilder(TestNet);
-            
-            for (index = 0; index < mycoin.receiveAdds.length; index ++) {
-                balance = mycoin.receiveAdds[index].balance;
-                if (balance <= 0) {
-                    continue;
-                }
-                address = mycoin.receiveAdds[index].address;
-
-                const fabTransactions = await this.apiService.getFabTransaction(address);
-
-                for (let i = 0; i < fabTransactions.result.length; i++) {
-                    const utxos = fabTransactions.result[i].utxos;
-    
-                    for (let j = 0; j < utxos.length; j++) {
-                        const utxo = utxos[j];
-                        txb.addInput(utxo.txid, utxo.sequence);
-                        receiveAddsIndexArr.push(index);
-                        console.log('utxo.txid=' + utxo.txid + ',utxo.sequence=' + utxo.sequence + ',utxo.value=' + utxo.value);
-                        totalInput += utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
-                        amountNum -= utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
-                        console.log('totalInput=' + totalInput + ',amountNum=' + amountNum);
-                        if (amountNum <= 0) {
-                            finished = true;
-                          totalInput += utxo.value;  break;
-                        }                    
-                    }
-                    if (finished) {
-                        break;
-                    }
-                }    
-                if (finished) {
-                    break;
-                }              
-            }
-
-
-
-            if (!finished) {
-                for (index = 0; index < mycoin.changeAdds.length; index ++) {
-                    balance = mycoin.changeAdds[index].balance;
-                    if (balance <= 0) {
-                        continue;
-                    }
-                    address = mycoin.changeAdds[index].address;
-    
-                    const fabTransactions = await this.apiService.getFabTransaction(address);
-    
-                    for (let i = 0; i < fabTransactions.result.length; i++) {
-
-                        const utxos = fabTransactions.result[i].utxos;
-        
-                        for (let j = 0; j < utxos.length; j++) {
-                            const utxo = utxos[j];
-                            txb.addInput(utxo.txid, utxo.sequence);
-                            changeAddsIndexArr.push(index);
-                            console.log('utxo.txid=' + utxo.txid + ',utxo.sequence=' + utxo.sequence + ',utxo.value=' + utxo.value);
-                            totalInput += utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
-                            amountNum -= utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
-                            console.log('totalInput=' + totalInput + ',amountNum=' + amountNum);
-                            if (amountNum <= 0) {
-                                finished = true;
-                                break;
-                            }                    
-                        }
-                        if (finished) {
-                            break;
-                        }
-                    }    
-                    if (finished) {
-                        break;
-                    }              
-                }
-            }
-
-            if (!finished) {
-                console.log('not enough fund.');
-                return '';
-            }
-
-            console.log('totalInput = ' + totalInput);
-
-            const changeAddress = mycoin.changeAdds[0];
-            const output1 = Math.round(totalInput
-            - amount * Math.pow(10, this.utilServ.getDecimal(mycoin)) - 3000 
-            - (receiveAddsIndexArr.length + changeAddsIndexArr.length) * 300);
-            console.log('output1=' + output1);
-            const output2 = amount * 1e8;
-            console.log('output2=' + output2);            
-            txb.addOutput(changeAddress.address, output1);
-            txb.addOutput(toAddress, output2);
-
-            console.log('receiveAddsIndexArr=');
-            console.log(receiveAddsIndexArr);
-            console.log('changeAddsIndexArr='); 
-            console.log(changeAddsIndexArr);
-            for (index = 0; index < receiveAddsIndexArr.length; index ++) {
-                const keyPair = this.getKeyPairs(mycoin, seed, 0, receiveAddsIndexArr[index]);
-                const alice = Btc.ECPair.fromWIF(keyPair.privateKey, TestNet);
-                txb.sign(index, alice);                
-            }
-
-            for (index = 0; index < changeAddsIndexArr.length; index ++) {
-                const keyPair = this.getKeyPairs(mycoin, seed, 1, changeAddsIndexArr[index]);
-                const alice = Btc.ECPair.fromWIF(keyPair.privateKey, TestNet);
-                txb.sign(receiveAddsIndexArr.length + index, alice);                
-            }            
-            /*
-            const address1 = mycoin.receiveAdds[0];
-            const exchangeAddress = mycoin.changeAdds[0];
-            const currentIndex = address1.index;
-
-           const keyPair = this.getKeyPairs(mycoin, seed, 0, currentIndex);
-            const alice = Btc.ECPair.fromWIF(keyPair.privateKey, TestNet);
-
-            const fabTransactions = await this.apiService.getFabTransaction(address1.address);
-
-            for (let i = 0; i < fabTransactions.result.length; i++) {
-                const utxos = fabTransactions.result[i].utxos;
-
-                for (let j = 0; j < utxos.length; j++) {
-                    const utxo = utxos[j];
-                    txb.addInput(utxo.txid, utxo.sequence);
-                    amountNum -= utxo.value;
-                    if (amountNum <= 0) {
-                        finished = true;
-                        break;
-                    }                    
-                }
-                if (finished) {
-                    break;
-                }
-            }            
-
-            console.log('amount=' + amount);
-            txb.addOutput(exchangeAddress.address, 100 * 1e8 - parseInt(amount) * 1e8 - 3000);
-            txb.addOutput(toAddress, parseInt(amount) * 1e8);
-            txb.sign({
-                prevOutScriptType: 'p2pkh',
-                vin: 0,
-                keyPair: alice
-              });
-            */
-            const txhex = txb.build().toHex();
+            const txhex = await this.getFabTransactionHex(seed, mycoin, toAddress, amount, 3000 / 1e8);
             const txhash = this.apiService.postFabTx(txhex);
             return txhash;
+
         } else
         if (mycoin.name === 'ETH') {
             amountNum = amount * 1e18;

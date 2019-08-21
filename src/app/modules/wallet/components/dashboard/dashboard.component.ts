@@ -118,7 +118,7 @@ export class WalletDashboardComponent {
     deposit(currentCoin: MyCoin) {
         this.currentCoin = currentCoin;
         //this.depositModal.show();
-        this.amount = 0.01;
+        this.amount = 0.1;
         this.pin = '1qaz@WSX';
         this.depositdo();
     }
@@ -157,9 +157,24 @@ export class WalletDashboardComponent {
         }
     }
 
+    depositFab(currentCoin) {
+        const amount = this.amount;
+        const pin = this.pin;     
+        
+        const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
+        this.coinServ.depositFab(seed, currentCoin, amount);
+
+    }
+
     async depositdo() {
 
         const currentCoin = this.currentCoin;
+
+        if (currentCoin.name === 'FAB') {
+            this.depositFab(currentCoin);
+            return;
+        }       
+
         const amount = this.amount;
         const pin = this.pin;
 
@@ -169,6 +184,8 @@ export class WalletDashboardComponent {
         
         console.log('seed is:' + seed);
         const keyPairs = this.coinServ.getKeyPairs(currentCoin, seed, 0, 0);
+
+
         const officalAddress = this.coinServ.getOfficialAddress(currentCoin);
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
 

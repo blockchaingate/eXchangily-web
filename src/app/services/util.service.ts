@@ -74,7 +74,44 @@ export class UtilService {
         }   
         return str;     
     }  
+
+    stripHexPrefix(str) {
+        if (str.length > 2 && str[0] === '0' && str[1] === 'x') {
+            return str.slice(2);
+        }
+        return str;
+    } 
+    convertLiuToFabcoin(amount) {
+        return Number(Number(amount * 1e-8).toFixed(8));
+    }
+
+    number2Buffer(num) {
+        var buffer = [];
+        var neg = (num < 0);
+        num = Math.abs(num);
+        while (num) {
+            buffer[buffer.length] = num & 0xff;
+            num = num >> 8;
+        }
     
+        var top = buffer[buffer.length - 1];
+        if (top & 0x80) {
+            buffer[buffer.length] = neg ? 0x80 : 0x00;
+        }
+        else if (neg) {
+            buffer[buffer.length - 1] = top | 0x80;
+        }
+        return Buffer.from(buffer);
+    }
+    
+    hex2Buffer(hexString) {
+        var buffer = [];
+        for (var i = 0; i < hexString.length; i += 2) {
+            buffer[buffer.length] = (parseInt(hexString[i], 16) << 4) | parseInt(hexString[i + 1], 16);
+        }
+        return Buffer.from(buffer);
+    }
+
     toKanbanAddress(publicKey: string) {
         console.log('publicKey for toKanbanAddress is:' + publicKey);
         /*
@@ -90,9 +127,13 @@ export class UtilService {
           }
         }
         */
+       /*
        if(publicKey.startsWith('0x')) {
           publicKey = publicKey.slice(2);
        }
+       */
+
+      publicKey = this.stripHexPrefix(publicKey);
        const hash1 = createHash('sha256').update(Buffer.from(publicKey, 'hex')).digest().toString('hex');
        const hash2 = createHash('ripemd160').update(Buffer.from(hash1, 'hex')).digest().toString('hex');
 
