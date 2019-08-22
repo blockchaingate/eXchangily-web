@@ -9,9 +9,9 @@
                     <button mat-menu-item (click)="linkTo('/')">{{'Home' | translate}}</button>
                     <button mat-menu-item (click)="linkTo('/market/home')">{{'Exchange' | translate}}</button>
                     <button mat-menu-item (click)="linkTo('/wallet')">{{'Wallet' | translate}}</button>
-                    <button mat-menu-item (click)="linkTo('/explorer')">{{'Explorer' | translate}}</button>
+                    <button mat-menu-item (click)="linkTo('/explorer')">{{'Explore' | translate}}</button>
                     <button mat-menu-item (click)="linkTo('/setting')">{{'Setting' | translate}}</button>
-                    <button mat-menu-item (click)="linkTo('/help')">{{'help' | translate}}</button>
+                    <button mat-menu-item (click)="linkTo('/help')">{{'Help' | translate}}</button>
 
                     <button mat-menu-item (click)="selectLan('en')">English</button>
                     <button mat-menu-item (click)="selectLan('zh')">中文</button>
@@ -31,7 +31,7 @@
                         <a class="nav-link" routerLink="/wallet" [class.selected]="selected === 2" (click)="selected=2;">{{'Wallet' | translate}}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/explorer" [class.selected]="selected === 3" (click)="selected=3;">{{'Explorer' | translate}}</a>
+                        <a class="nav-link" routerLink="/explorer" [class.selected]="selected === 3" (click)="selected=3;">{{'Explore' | translate}}</a>
                     </li>
                 </ul>
             </div>
@@ -53,7 +53,7 @@
                         <a class="nav-link" routerLink="/setting" [class.selected]="selected === 5" (click)="selected=5;">{{'Setting' | translate}}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/help" [class.selected]="selected === 6" (click)="selected=6;">{{'help' | translate}}</a>
+                        <a class="nav-link" routerLink="/help" [class.selected]="selected === 6" (click)="selected=6;">{{'Help' | translate}}</a>
                     </li>
                 </ul>
             </div>

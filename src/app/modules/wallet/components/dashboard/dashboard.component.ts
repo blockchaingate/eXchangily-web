@@ -13,7 +13,7 @@ import {Signature, Token} from '../../../../interfaces/kanban.interface';
 import { DepositAmountModal } from '../../modals/deposit-amount/deposit-amount.modal';
 import { AddAssetsModal } from '../../modals/add-assets/add-assets.modal';
 import { PinNumberModal } from '../../modals/pin-number/pin-number.modal';
-
+import {CoinsPrice} from '../../../../interfaces/balance.interface';
 
 @Component({
     selector: 'app-wallet-dashboard',
@@ -34,22 +34,41 @@ export class WalletDashboardComponent {
     currentWalletIndex: number;
     currentCoin: MyCoin;
     amount: number;
+    coinsPrice: CoinsPrice;
     pin: string;
+    showMyAssets: boolean;
+    showTransactionHistory: boolean;
+
     constructor ( private route: Router, private walletServ: WalletService, private modalServ: BsModalService, 
         private coinServ: CoinService, private utilServ: UtilService, private apiServ: ApiService, 
         private kanbanServ: KanbanService, private web3Serv: Web3Service, private viewContainerRef: ViewContainerRef) {
+        this.showMyAssets = true;
+        this.showTransactionHistory = false;
         this.loadWallet();
         this.loadBalance();
     }
 
+    onShowMyAssets() {
+        this.showMyAssets = true;
+        this.showTransactionHistory = false;
+    }
+
+    onShowTransactionHistory() {
+        this.showMyAssets = false;
+        this.showTransactionHistory = true;
+    }
+
     async loadBalance() {
+        this.coinsPrice = await this.apiServ.getCoinsPrice();
+        console.log('this.coinsPrice=');
+        console.log(this.coinsPrice);
         if (!this.wallet) {
             return;
         }
         let updated = false;
         for ( let i = 0; i < this.wallet.mycoins.length; i++ ) {
             const coin = this.wallet.mycoins[i];
-            if(coin.name === 'BTC') {
+            if (coin.name === 'BTC') {
                 continue;
             }
             const balance = await this.coinServ.getBalance(coin);
@@ -118,7 +137,7 @@ export class WalletDashboardComponent {
     deposit(currentCoin: MyCoin) {
         this.currentCoin = currentCoin;
         //this.depositModal.show();
-        this.amount = 0.1;
+        this.amount = 0.2;
         this.pin = '1qaz@WSX';
         this.depositdo();
     }

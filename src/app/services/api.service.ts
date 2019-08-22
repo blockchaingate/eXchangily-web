@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import {Balance, EthBalance, FabTransaction, BtcTransaction, EthTransaction, FabTransactionResponse} from '../interfaces/balance.interface';
+import {Balance, EthBalance, FabTransaction, BtcTransaction, EthTransaction
+    , FabTransactionResponse, CoinsPrice} from '../interfaces/balance.interface';
 
 @Injectable() 
 export class ApiService {
@@ -24,6 +25,12 @@ export class ApiService {
         return this.http.get(path);
     }
     
+    async getCoinsPrice() {
+        const url = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,fabcoin,tether&vs_currencies=usd';
+        const response = await this.http.get(url).toPromise() as CoinsPrice;  
+        return response;        
+    }
+
     async getBtcBalanceFull(address: string): Promise<Balance> {
 
         const url = 'https://api.blockcypher.com/v1/btc/test3/addrs/' + address + '?token=062d147ef3bc412688fedcaadb1b13c4';

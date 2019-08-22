@@ -18,7 +18,7 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="small text-white" *ngIf="wallet">{{"Wallet Address" | translate}}:{{exgAddress}} </div>
+                            <div class="small text-white" *ngIf="wallet">{{"Wallet address" | translate }}:{{exgAddress}} </div>
                             <div class="row py-3">
                                 <div class="col col-md-4">
                                     <modal-receive-coin [wallet]="wallet"></modal-receive-coin>
@@ -58,8 +58,8 @@
                 <div class="container py-2">
                     <div class="row">
                         <div class="col col-8 col-md-6">
-                            <h5 class="d-inline mr-3">{{"My Asset" | translate}}</h5>
-                            <mat-checkbox [(ngModel)]="hideSmall" class="small">Hide Small Amount Assets</mat-checkbox>
+                            <h5 class="d-inline mr-3" (click)="onShowMyAssets()">{{"My Assets" | translate}}</h5>
+                            <mat-checkbox [(ngModel)]="hideSmall" class="small">{{"Hide Small Amount Assets" | translate}}</mat-checkbox>
                         </div>
 
                         <div class="col col-4 col-md-6 small text-right fxHide-sm">
@@ -67,21 +67,21 @@
                                 <!--
                                 <modal-transaction-history></modal-transaction-history>
                                 -->
-                                <a>Transaction History</a>
+                                <a (click)="onShowTransactionHistory()">{{"Transaction History" | translate}}</a>
                             </div>
                             <div class="d-inline mr-3">
-                                <a (click)="addAssets()">Add Assets</a>
+                                <a (click)="addAssets()">{{"Add Assets" | translate}}</a>
                             </div>
                             <div class="d-inline">
-                                <a (click)="loadBalance()">Refresh Assets</a>
+                                <a (click)="loadBalance()">{{"Refresh Assets" | translate}}</a>
                             </div>
 
                         </div>
                         <div class="col col-4 col-md-6 small text-right fxHide-gt-sm">
                             <mat-menu #appMenu="matMenu">
-                                <button mat-menu-item>Transaction History</button>
-                                <button (click)="addAssets()" mat-menu-item>Add Assets</button>
-                                <button (click)="loadBalance()" mat-menu-item>Refresh Assets</button>
+                                <button mat-menu-item (click)="onShowTransactionHistory()">{{"Transaction History" | translate}}</button>
+                                <button (click)="addAssets()" mat-menu-item>{{"Add Assets" | translate}}</button>
+                                <button (click)="loadBalance()" mat-menu-item>{{"Refresh Assets" | translate}}</button>
                             </mat-menu>
 
                             <button mat-icon-button [matMenuTriggerFor]="appMenu">
@@ -89,60 +89,70 @@
                             </button>
                         </div>
                     </div>
-                    <div class="row pt-4">
+                    <div class="row pt-4" *ngIf="showTransactionHistory">
+
+                    </div>
+                    <div class="row pt-4" *ngIf="showMyAssets">
                         <div class="container fxHide-sm" *ngIf="wallet">
                             <div class="row apair header">
                                 <div class="col-1">
-                                    Symble
+                                    {{"Symble" | translate}}
                                 </div>
                                 <div class="col-1">
-                                    Asset
+                                    {{"Asset" | translate}}
                                 </div>
                                 <div class="col-2">
-                                    Available
+                                    {{"Available" | translate}}
                                 </div>
                                 <div class="col-2">
-                                    Frozen
+                                    {{"Frozen" | translate}}
                                 </div>
                                 <div class="col-2">
-                                    Value(USD)
+                                    {{"Value(USD)" | translate}}
                                 </div>
                                 <div class="col-2">
-                                    Profit sharing
+                                    {{"Profit sharing" | translate}}
                                 </div>
                                 <div class="col-2">
 
                                 </div>
                             </div>
-                            <div class="row apair dataline" *ngFor="let mycoin of wallet.mycoins; index as i">
-                                <div class="col-1">
-                                    <img *ngIf="mycoin.name == 'BTC'" src="/assets/coins/bitcoin.png" class="icon" />
-                                    <img *ngIf="mycoin.name == 'ETH'" src="/assets/coins/ethereum.png" class="icon" />
-                                </div>
-                                <div class="col-1">
-                                    {{mycoin.name}}
-                                </div>
-                                <div class="col-2">
-                                    {{mycoin.balance}}
-                                </div>
-                                <div class="col-2">
-                                    {{mycoin.lockedBalance}}
-                                </div>
-                                <div class="col-2">
+                            <ng-container *ngFor="let mycoin of wallet.mycoins; index as i">
+                                <div class="row apair dataline" *ngIf="!hideSmall || mycoin.balance >= 0.1">
 
-                                </div>
-                                <div class="col-2">
+                                    <div class="col-1">
+                                        <img *ngIf="mycoin.name == 'BTC'" src="/assets/coins/bitcoin.png" class="icon" />
+                                        <img *ngIf="mycoin.name == 'ETH'" src="/assets/coins/ethereum.png" class="icon" />
+                                    </div>
+                                    <div class="col-1">
+                                        {{mycoin.name}}
+                                    </div>
+                                    <div class="col-2">
+                                        {{mycoin.balance}}
+                                    </div>
+                                    <div class="col-2">
+                                        {{mycoin.lockedBalance}}
+                                    </div>
+                                    <div class="col-2">
+                                        <p *ngIf="mycoin.name == 'BTC'">{{mycoin.balance * coinsPrice.bitcoin.usd}}</p>
+                                        <p *ngIf="mycoin.name == 'FAB'">{{mycoin.balance * coinsPrice.fabcoin.usd}}</p>
+                                        <p *ngIf="mycoin.name == 'ETH'">{{mycoin.balance * coinsPrice.ethereum.usd}}</p>
+                                        <p *ngIf="mycoin.name == 'USDT'">{{mycoin.balance * coinsPrice.tether.usd}}</p>
+                                    </div>
+                                    <div class="col-2">
 
-                                </div>
-                                <div class="col-2">
-                                    <button mat-icon-button matTooltip="Deposit" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                    </div>
+                                    <div class="col-2">
+                                        <button mat-icon-button matTooltip="Deposit" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon>arrow_downward</mat-icon>
                                     </button>
-                                    <button mat-icon-button matTooltip="Withdraw" (click)="withdraw(mycoin)" aria-label="Example icon-button with a heart icon">
+                                        <button mat-icon-button matTooltip="Withdraw" (click)="withdraw(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon>arrow_upward</mat-icon>
                                     </button>
+                                    </div>
+
                                 </div>
-                            </div>
+                            </ng-container>
                         </div>
 
 

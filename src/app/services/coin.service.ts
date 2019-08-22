@@ -89,8 +89,8 @@ export class CoinService {
 
     async depositFab(seed: any, mycoin: MyCoin, amount: number) {
         // sendTokens in https://github.com/ankitfa/Fab_sc_test1/blob/master/app/walletManager.js
-        const scarContractAddress = '0x02be9b01169d7a6c3f44c792d950ef31c3958895';
-        let gasLimit = 250000;
+        const scarContractAddress = '02be9b01169d7a6c3f44c792d950ef31c3958895';
+        let gasLimit = 500000;
         let gasPrice = 40;
         let totalAmount = gasLimit * gasPrice / 1e8;
         let cFee = 3000 / 1e8 // fee for the transaction
@@ -135,6 +135,7 @@ export class CoinService {
         
         let contractSize = contract.toJSON.toString().length;
 
+        console.log('contractSize=' + contractSize);
         totalFee += this.utilServ.convertLiuToFabcoin(contractSize * 10);
         
         console.log('totalFee=' + totalFee);
@@ -216,6 +217,7 @@ export class CoinService {
         const tokenType = coin.tokenType;
         let addr = '';
         let priKey = '';
+        let pubKey = '';
         let buffer = Buffer.alloc(32);
         const path = "m/44'/" + coin.coinType + "'/0'/" + chain + "/" + index;
 
@@ -228,6 +230,7 @@ export class CoinService {
             });
             addr = address;
             priKey = childNode.toWIF();
+            pubKey = `0x${childNode.publicKey.toString('hex')}`;
             buffer = wif.decode(priKey);               
         } else 
         if (name === 'ETH' || name === 'USDT' || name === 'EXG' || tokenType === 'ETH') {
@@ -271,6 +274,7 @@ export class CoinService {
             address: addr,
             privateKey: priKey,
             privateKeyBuffer: buffer,
+            publicKey: pubKey,
             name: name
         };        
 
@@ -344,15 +348,17 @@ export class CoinService {
         let address = '';
         let totalInput = 0;
         
-
+        const feePerInput = 300;
         const receiveAddsIndexArr = [];
         const changeAddsIndexArr = [];
 
         console.log('mycoin=');
-        amount = amount + defaultTransactionFee;
+        console.log('amount=' + amount);
+        console.log('defaultTransactionFee=' + defaultTransactionFee);
+        const totalAmount = amount + defaultTransactionFee;
         console.log('amount=' + amount);
         console.log(mycoin);
-        let amountNum = amount * Math.pow(10, this.utilServ.getDecimal(mycoin));
+        let amountNum = totalAmount * Math.pow(10, this.utilServ.getDecimal(mycoin));
         
         const TestNet = Btc.networks.testnet;
 
@@ -376,6 +382,7 @@ export class CoinService {
                     receiveAddsIndexArr.push(index);
                     totalInput += utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
                     amountNum -= utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
+                    amountNum += feePerInput;
                     if (amountNum <= 0) {
                         finished = true;
                       totalInput += utxo.value;  break;
@@ -399,7 +406,7 @@ export class CoinService {
                     continue;
                 }
                 address = mycoin.changeAdds[index].address;
-
+                
                 const fabTransactions = await this.apiService.getFabTransaction(address);
 
                 for (let i = 0; i < fabTransactions.result.length; i++) {
@@ -412,6 +419,7 @@ export class CoinService {
                         changeAddsIndexArr.push(index);
                         totalInput += utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
                         amountNum -= utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
+                        amountNum += feePerInput;
                         if (amountNum <= 0) {
                             finished = true;
                             break;
@@ -433,25 +441,35 @@ export class CoinService {
         }
 
 
-        const changeAddress = mycoin.changeAdds[0];
+        const changeAddress = mycoin.receiveAdds[0];
         const output1 = Math.round(totalInput
         - amount * Math.pow(10, this.utilServ.getDecimal(mycoin)) - defaultTransactionFee * Math.pow(10, this.utilServ.getDecimal(mycoin))
-        - (receiveAddsIndexArr.length + changeAddsIndexArr.length) * 300);
+        - (receiveAddsIndexArr.length + changeAddsIndexArr.length) * feePerInput);
         const output2 = Math.round(amount * 1e8);    
         
+        if (output1 < 0 || output2 < 0) {
+            console.log('output1 or output2 should be greater than 0.');
+            return '';
+        }
         console.log('amount=' + amount + ',totalInput=' + totalInput);
+        console.log('defaultTransactionFee=' + defaultTransactionFee);
+        console.log('(receiveAddsIndexArr.length + changeAddsIndexArr.length) * feePerInput)=' 
+        + (receiveAddsIndexArr.length + changeAddsIndexArr.length) * feePerInput);
         console.log('output1=' + output1 + ',output2=' + output2);
         txb.addOutput(changeAddress.address, output1);
         txb.addOutput(to, output2);
 
         for (index = 0; index < receiveAddsIndexArr.length; index ++) {
             const keyPair = this.getKeyPairs(mycoin, seed, 0, receiveAddsIndexArr[index]);
+            console.log('keyPair.privateKey=' + keyPair.privateKey + ',keyPair.publicKey=' + keyPair.publicKey);
+            console.log('receiveAddsIndexArr[index]=' + receiveAddsIndexArr[index] + ',address for keypair=' + keyPair.address);
             const alice = Btc.ECPair.fromWIF(keyPair.privateKey, TestNet);
             txb.sign(index, alice);                
         }
 
         for (index = 0; index < changeAddsIndexArr.length; index ++) {
             const keyPair = this.getKeyPairs(mycoin, seed, 1, changeAddsIndexArr[index]);
+            console.log('changeAddsIndexArr[index]=' + changeAddsIndexArr[index] + 'address for keypair=' + keyPair.address);
             const alice = Btc.ECPair.fromWIF(keyPair.privateKey, TestNet);
             txb.sign(receiveAddsIndexArr.length + index, alice);                
         }            

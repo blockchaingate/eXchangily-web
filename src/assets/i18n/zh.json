@@ -75,7 +75,25 @@
     "Login": "登录",
     "Import Wallet": "恢复钱包",
     "Dashboard": "资产中心",
+    "My Wallet": "我的钱包",
 
+    "Receive": "收款",
+    "Currency": "币种",
+    "Wallet address": "钱包地址",
+    "Send": "转账",
+    "My Assets": "我的资产",
+    "Hide Small Amount Assets": "隐藏小额资产",
+    "Transaction History": "交易历史",
+    "Add Assets": "增加资产",
+    "Refresh Assets": "刷新资产",
+
+    "Symble": "符号",
+    "Asset": "资产",
+    "Frozen": "冻结",
+    "Value(USD)": "价值（美元）",
+    "Profit sharing": "利润分成",
+
+    "Explore": "浏览",
     "CONTACTS": {
         "ADD": "添加或修改",
         "ADDRESS": "地址",

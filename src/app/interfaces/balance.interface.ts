@@ -81,5 +81,18 @@ export interface EthTransaction {
     result: string;
 }
 
-
+export interface CoinsPrice {
+    bitcoin: {
+        usd: number
+    };
+    ethereum: {
+        usd: number
+    };
+    fabcoin: {
+        usd: number
+    };
+    tether: {
+        usd: number
+    };           
+}
 
