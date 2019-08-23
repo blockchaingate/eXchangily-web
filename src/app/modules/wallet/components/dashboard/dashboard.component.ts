@@ -133,13 +133,21 @@ export class WalletDashboardComponent {
     openModal(template: TemplateRef<any>) {
         this.modalRef = this.modalServ.show(template);
     } 
-    
+
+    addGasFee() {
+        //this.currentCoin = this.wallet.mycoins[1];
+        this.currentCoin = null;
+        this.depositModal.show();
+    }
+
     deposit(currentCoin: MyCoin) {
         this.currentCoin = currentCoin;
-        //this.depositModal.show();
+        this.depositModal.show();
+        /*
         this.amount = 0.2;
         this.pin = '1qaz@WSX';
         this.depositdo();
+        */
     }
     onConfirmedAmount(amount: number) {
         console.log('amount is:' + amount);
@@ -187,9 +195,10 @@ export class WalletDashboardComponent {
 
     async depositdo() {
 
-        const currentCoin = this.currentCoin;
+        let currentCoin = this.currentCoin;
 
-        if (currentCoin.name === 'FAB') {
+        if (currentCoin == null) {
+            currentCoin = this.wallet.mycoins[1];
             this.depositFab(currentCoin);
             return;
         }       

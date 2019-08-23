@@ -89,19 +89,13 @@ export class CoinService {
 
     async depositFab(seed: any, mycoin: MyCoin, amount: number) {
         // sendTokens in https://github.com/ankitfa/Fab_sc_test1/blob/master/app/walletManager.js
-        const scarContractAddress = '02be9b01169d7a6c3f44c792d950ef31c3958895';
-        let gasLimit = 500000;
-        let gasPrice = 40;
-        let totalAmount = gasLimit * gasPrice / 1e8;
-        let cFee = 3000 / 1e8 // fee for the transaction
+        const scarContractAddress = 'cdc36452cbecfc5e6bf26e43b471df03a36056ae';
+        const gasLimit = 500000;
+        const gasPrice = 40;
+        const totalAmount = gasLimit * gasPrice / 1e8;
+        // let cFee = 3000 / 1e8 // fee for the transaction
     
-        let totalFee = totalAmount + cFee;
-    
-        let inputs = [];
-    
-        let tmpAmount = 0;
-        let i = 0;
-    
+        let totalFee = totalAmount;
     
         // -----------------------------------------------------------------------
         
@@ -124,7 +118,7 @@ export class CoinService {
         let fxnCallHex = abi.encodeFunctionCall(addDepositFunc, []);
         fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
 
-        let contract = Btc.script.compile([
+        const contract = Btc.script.compile([
             84,
             this.utilServ.number2Buffer(gasLimit),
             this.utilServ.number2Buffer(gasPrice),
@@ -133,7 +127,7 @@ export class CoinService {
             194
         ]);
         
-        let contractSize = contract.toJSON.toString().length;
+        const contractSize = contract.toJSON.toString().length;
 
         console.log('contractSize=' + contractSize);
         totalFee += this.utilServ.convertLiuToFabcoin(contractSize * 10);

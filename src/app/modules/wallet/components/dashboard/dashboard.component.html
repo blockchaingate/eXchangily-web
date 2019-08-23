@@ -20,13 +20,16 @@
                             </div>
                             <div class="small text-white" *ngIf="wallet">{{"Wallet address" | translate }}:{{exgAddress}} </div>
                             <div class="row py-3">
-                                <div class="col col-md-4">
+                                <div class="col col-md-3">
                                     <modal-receive-coin [wallet]="wallet"></modal-receive-coin>
                                 </div>
-                                <div class="col col-md-4">
+                                <div class="col col-md-3">
                                     <modal-send-coin [wallet]="wallet"></modal-send-coin>
                                 </div>
-                                <div class="col col-md-4">
+                                <div class="col col-md-3">
+                                    <button class="btn btn-outline btn-basic-outline" (click)="addGasFee()">{{"Add Gas" | translate }}</button>
+                                </div>
+                                <div class="col col-md-3">
                                     <button class="btn btn-outline btn-basic-outline" (click)="exchangeMoney()">{{"Exchange" | translate }}</button>
                                 </div>
                             </div>
@@ -90,7 +93,24 @@
                         </div>
                     </div>
                     <div class="row pt-4" *ngIf="showTransactionHistory">
+                        <div class="container">
+                            <div class="row apair header">
+                                <div class="col-3">
+                                    {{"Type" | translate}}
+                                </div>
+                                <div class="col-3">
+                                    {{"Asset" | translate}}
+                                </div>
+                                <div class="col-3">
+                                    {{"Amount" | translate}}
+                                </div>
+                                <div class="col-3">
+                                    {{"txid" | translate}}
+                                </div>
+                            </div>
+                        </div>
 
+                        <app-transaction-history></app-transaction-history>
                     </div>
                     <div class="row pt-4" *ngIf="showMyAssets">
                         <div class="container fxHide-sm" *ngIf="wallet">

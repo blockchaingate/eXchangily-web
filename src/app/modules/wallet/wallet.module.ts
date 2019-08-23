@@ -17,6 +17,7 @@ import { CreateWalletComponent } from './components/create/createwallet.componen
 import { ConfirmMnemonicsComponent } from './components/create/confirmmnem.component';
 import { WalletPwdComponent } from './components/create/wallet-pwd.component';
 import { RestoreWalletComponent } from './components/restore/restorewallet.component';
+import { TransactionHistoryComponent } from './components/transaction-history/transaction-history.component';
 
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
@@ -54,6 +55,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         NoWalletComponent,
         MnemonicComponent,
         MnemeditComponent,
+        TransactionHistoryComponent,
         CreateWalletComponent,
         ConfirmMnemonicsComponent,
         WalletPwdComponent,

@@ -3,8 +3,7 @@ import { Component, ViewEncapsulation, TemplateRef, ViewChild, ViewContainerRef 
 @Component({
     selector: 'app-transaction-history',
     templateUrl: './transaction-history.component.html',
-    styleUrls: ['./transaction-history.component.css'],
-    encapsulation: ViewEncapsulation.None
+    styleUrls: ['./transaction-history.component.css']
 })
 export class TransactionHistoryComponent {
 }
