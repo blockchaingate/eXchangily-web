@@ -210,7 +210,6 @@ export class WalletDashboardComponent {
 
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         
-        console.log('seed is:' + seed);
         const keyPairs = this.coinServ.getKeyPairs(currentCoin, seed, 0, 0);
 
 
@@ -236,8 +235,10 @@ export class WalletDashboardComponent {
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
 
         const abiHex = this.web3Serv.getDepositFuncABI(coinType, txHash, amountInLink, addressInKanban, signedMessage);
-
-        const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress); 
+        console.log('keyPairsKanban.privateKey=' + keyPairsKanban.privateKey);
+        console.log('keyPairsKanban.address=' + keyPairsKanban.address);
+        const nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
+        const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce); 
         console.log('txhex=' + txhex);
         this.kanbanServ.sendRawSignedTransaction(txhex).subscribe((resp) => { 
             console.log('resp=' + resp);

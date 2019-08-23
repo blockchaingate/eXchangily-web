@@ -90,7 +90,7 @@ export class CoinService {
     async depositFab(seed: any, mycoin: MyCoin, amount: number) {
         // sendTokens in https://github.com/ankitfa/Fab_sc_test1/blob/master/app/walletManager.js
         const scarContractAddress = 'cdc36452cbecfc5e6bf26e43b471df03a36056ae';
-        const gasLimit = 500000;
+        const gasLimit = 1000000;
         const gasPrice = 40;
         const totalAmount = gasLimit * gasPrice / 1e8;
         // let cFee = 3000 / 1e8 // fee for the transaction
@@ -212,6 +212,7 @@ export class CoinService {
         let addr = '';
         let priKey = '';
         let pubKey = '';
+        let priKeyHex = '';
         let buffer = Buffer.alloc(32);
         const path = "m/44'/" + coin.coinType + "'/0'/" + chain + "/" + index;
 
@@ -244,7 +245,10 @@ export class CoinService {
             const root = BIP32.fromSeed(seed, bitcoin_network);
 
             const childNode = root.derivePath( path );    
-                   
+            
+            const originalPrivateKey = childNode.privateKey;
+            priKeyHex = originalPrivateKey.toString('hex');
+            console.log('real private Key:' + priKeyHex);
             priKey = childNode.toWIF(); 
             console.log('priKey for EX:' + priKey);
             buffer = wif.decode(priKey);  
@@ -267,6 +271,7 @@ export class CoinService {
         const keyPairs = {
             address: addr,
             privateKey: priKey,
+            privateKeyHex: priKeyHex,
             privateKeyBuffer: buffer,
             publicKey: pubKey,
             name: name
@@ -997,6 +1002,7 @@ export class CoinService {
             console.log('txData=');
             console.log(txData);
             const txhex = await this.web3Serv.signTxWithPrivateKey(txData, keyPair);
+            
             const txHash = this.apiService.postEthTx(txhex);
             return txHash;
 

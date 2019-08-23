@@ -48,55 +48,55 @@ export class Web3Service {
       return await web3.eth.sendSignedTransaction(txhex);
     }
 
-    async signAbiHexWithPrivateKey(abiHex: string, keyPair: any, address: string) {
+    async signAbiHexWithPrivateKey(abiHex: string, keyPair: any, address: string, nonce: number) {
       console.log('abiHex=' + abiHex);
-
+      console.log('nonce=' + nonce);
       const txObject = {
         to: address,
-        nonce: 0,
+        nonce: nonce,
         data: '0x' + abiHex,
-        gas: 100000,
-        coin: 1,
-        gasPrice: 10, 
-        chainId: 212
+        gas: 1000000,
+        coin: '0x',
+        gasPrice: 40
       };
-      const privateKey = keyPair.privateKey;
-      /*
-      const prkey = Buffer.from(
-        privateKey,
-        'hex'
-      );
+      console.log('txObject');
+      console.log(txObject);
+      const privateKey = '0x' + keyPair.privateKeyHex;
 
-      const EthereumTx = Eth.Transaction;
-
+      
       const customCommon = Common.forCustomChain(
-        'mainnet',
+        'test',
         {
           name: 'test',
           networkId: 212,
           chainId: 212
         },
-        'homestead',
+        'byzantium',
       );   
-      */ 
-     /* 
+      
+      console.log('privateKeyHex before sign' + keyPair.privateKeyHex);
+      const privKey = Buffer.from(keyPair.privateKeyHex, 'hex');
       const EthereumTx = Eth.Transaction;  
-      const tx = new EthereumTx(txObject);
-      tx.sign(keyPair.privateKeyBuffer);
+      const tx = new EthereumTx(txObject, { common: customCommon });
+      
+      tx.sign(privKey);
+      console.log('getSenderPublicKey=' + tx.getSenderPublicKey().toString('hex'));
       console.log(tx.toJSON());
       const serializedTx = tx.serialize();
       const txhex = '0x' + serializedTx.toString('hex'); 
       console.log('txhex in here =' + txhex);
       return txhex;
-     */ 
+      
      
+
+     /*
      const web3 = this.getWeb3Provider();
 
      const signMess = await web3.eth.accounts.signTransaction(txObject, privateKey) as EthTransactionObj;
      console.log('signMess in signMessageWithPrivateKey=');
      console.log(signMess);
      return signMess.rawTransaction;   
-       
+     */  
     }
 
     getCreateOrderFuncABI(paramsArray: any) {

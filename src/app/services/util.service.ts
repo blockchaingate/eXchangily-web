@@ -80,10 +80,14 @@ export class UtilService {
             return str.slice(2);
         }
         return str;
-    } 
+    }
+
     convertLiuToFabcoin(amount) {
+        
         return Number(Number(amount * 1e-8).toFixed(8));
     }
+
+
 
     number2Buffer(num) {
         var buffer = [];

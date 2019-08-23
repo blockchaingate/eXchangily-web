@@ -58,7 +58,7 @@ export class MyordersComponent implements OnInit {
                 this.address = this.wallet.excoin.receiveAdds[0].address;
                 console.log('this.address=' + this.address);
                 if (this.address) {
-                    this.kanbanService.get('/exchangily/getBalances/' + this.address).subscribe((resp) => {
+                    this.kanbanService.get('/kanban/getBalance/' + this.address).subscribe((resp) => {
                         console.log('resp from getBalances===');
                         console.log(resp);
                     });

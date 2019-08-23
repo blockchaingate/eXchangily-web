@@ -95,6 +95,9 @@ export interface BlockResponse {
     block: Block;
 }
 
+export interface TransactionAccountResponse {
+    transactionCount: number;
+}
 export interface AccountsResponse {
     accounts: [string];
 }
