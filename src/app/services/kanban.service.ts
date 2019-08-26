@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {BlockNumberResponse, BlockResponse, AccountsResponse, TransactionAccountResponse} from '../interfaces/kanban.interface';
+import {BlockNumberResponse, BlockResponse, AccountsResponse,
+    KanbanGetBanalceResponse, TransactionAccountResponse} from '../interfaces/kanban.interface';
 
 @Injectable()
 export class KanbanService {
@@ -62,6 +63,13 @@ export class KanbanService {
 
     getBalance(address: string) {
         return this.get('/exchangily/getBalances/' + address);
+    }
+
+    async getGas(address: string) {
+        const path = '/kanban/getBalance/' + address;
+        const ret = await this.get(path).toPromise() as KanbanGetBanalceResponse;
+        const gas = Number(BigInt(ret.balance.FAB).toString(10)) / 1e18;
+        return gas;
     }
     post (path: string, data: any) {
         const httpHeaders = new HttpHeaders({

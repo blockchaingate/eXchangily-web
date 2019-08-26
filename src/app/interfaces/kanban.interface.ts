@@ -102,6 +102,15 @@ export interface AccountsResponse {
     accounts: [string];
 }
 
+export interface KanbanGetBanalceItem {
+    BTC: string;
+    ETH: string;
+    FAB: string;
+}
+
+export interface KanbanGetBanalceResponse {
+    balance: KanbanGetBanalceItem;
+}
 export interface Token {
     type: string;     // ETH or FAB
     address: string;  // Contract Address

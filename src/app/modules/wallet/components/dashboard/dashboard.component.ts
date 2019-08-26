@@ -38,6 +38,7 @@ export class WalletDashboardComponent {
     pin: string;
     showMyAssets: boolean;
     showTransactionHistory: boolean;
+    gas: number;
 
     constructor ( private route: Router, private walletServ: WalletService, private modalServ: BsModalService, 
         private coinServ: CoinService, private utilServ: UtilService, private apiServ: ApiService, 
@@ -65,6 +66,7 @@ export class WalletDashboardComponent {
         if (!this.wallet) {
             return;
         }
+        
         let updated = false;
         for ( let i = 0; i < this.wallet.mycoins.length; i++ ) {
             const coin = this.wallet.mycoins[i];
@@ -105,7 +107,7 @@ export class WalletDashboardComponent {
                 this.currentWalletIndex = wallets.length - 1;
                 
                 this.walletServ.getCurrentWalletIndex().subscribe(
-                    (index: number) => {
+                    async (index: number) => {
                         if (index !== null) {
                             this.currentWalletIndex = index;
                         }
@@ -115,6 +117,7 @@ export class WalletDashboardComponent {
                         console.log('this.wallet is here');
                         console.log(this.wallet);
                         this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
+                        this.gas = await this.kanbanServ.getGas(this.wallet.excoin.receiveAdds[0].address);
                         this.wallets = new Array<Wallet>();
                         wallets.forEach(wl => { this.wallets.push(wl); });
                     }

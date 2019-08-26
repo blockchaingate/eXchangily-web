@@ -19,6 +19,7 @@
                                 </mat-form-field>
                             </div>
                             <div class="small text-white" *ngIf="wallet">{{"Wallet address" | translate }}:{{exgAddress}} </div>
+                            <div class="small text-white" *ngIf="wallet">{{"Gas" | translate }}:{{gas}} </div>
                             <div class="row py-3">
                                 <div class="col col-md-3">
                                     <modal-receive-coin [wallet]="wallet"></modal-receive-coin>
