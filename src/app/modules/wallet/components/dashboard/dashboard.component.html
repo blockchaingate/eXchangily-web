@@ -164,10 +164,10 @@
 
                                     </div>
                                     <div class="col-2">
-                                        <button mat-icon-button matTooltip="Deposit" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                        <button mat-icon-button matTooltip="Deposit" [disabled]="gas <= 0" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon>arrow_downward</mat-icon>
                                     </button>
-                                        <button mat-icon-button matTooltip="Withdraw" (click)="withdraw(mycoin)" aria-label="Example icon-button with a heart icon">
+                                        <button mat-icon-button matTooltip="Withdraw" [disabled]="gas <= 0" (click)="withdraw(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon>arrow_upward</mat-icon>
                                     </button>
                                     </div>
@@ -206,10 +206,10 @@
                                 </div>
 
                                 <div class="col-4">
-                                    <button mat-icon-button matTooltip="Deposit" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                    <button mat-icon-button matTooltip="Deposit" [disabled]="gas <= 0" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                             <mat-icon>arrow_downward</mat-icon>
                                         </button>
-                                    <button mat-icon-button matTooltip="Withdraw" (click)="withdraw(mycoin)" aria-label="Example icon-button with a heart icon">
+                                    <button mat-icon-button matTooltip="Withdraw" [disabled]="gas <= 0" (click)="withdraw(mycoin)" aria-label="Example icon-button with a heart icon">
                                             <mat-icon>arrow_upward</mat-icon>
                                         </button>
                                 </div>
