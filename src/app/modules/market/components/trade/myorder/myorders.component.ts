@@ -28,6 +28,7 @@ export class MyordersComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log('mytokens in myorders=', this.mytokens);
         this.tradeService.getTransactions().subscribe((transactions: Transaction[]) => {
             console.log('transactions=');
             console.log(transactions);

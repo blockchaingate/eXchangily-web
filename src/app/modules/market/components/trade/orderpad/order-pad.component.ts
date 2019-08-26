@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, Input } from '@angular/core';
+import { Component, OnInit, TemplateRef, Input, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Order } from '../../../models/order';
@@ -25,7 +25,7 @@ declare let window: any;
     styleUrls: ['./order-pad.component.css']
 })
 
-export class OrderPadComponent implements OnInit {
+export class OrderPadComponent implements AfterViewInit {
     @Input() baseCoin: number;
     @Input() targetCoin: number;
     @Input() wallet: Wallet;
@@ -51,6 +51,8 @@ export class OrderPadComponent implements OnInit {
     web3: any;
     pin: string;
     modalRef: BsModalRef;
+    baseCoinAvail: number;
+    targetCoinAvail: number;
 
     constructor(private ordServ: OrderService, private _router: Router, private web3Serv: Web3Service, private coinService: CoinService,
       private kanbanService: KanbanService, private utilService: UtilService, private walletService: WalletService, 
@@ -58,10 +60,22 @@ export class OrderPadComponent implements OnInit {
         this.web3 = this.web3Serv.getWeb3Provider();
     }
 
-    ngOnInit() {
-        //this.sells = this.ordServ.getSellList('FAB/BTC');
-        //this.buys = this.ordServ.getBuyList('FAB/BTC');
-        //this.txOrders = this.ordServ.getTxRecords('FAB/BTC');
+    ngAfterViewInit() {
+      setTimeout(() => {
+        if (this.mytokens && this.mytokens.length > 0) {
+          for (let i = 0; i < this.mytokens.length; i++) {
+            if (this.mytokens[i].coinType === this.baseCoin.toString()) {
+              this.baseCoinAvail = Number(this.mytokens[i].unlockedAmount) / 1e18;
+            }
+            if (this.mytokens[i].coinType === this.targetCoin.toString()) {
+              this.targetCoinAvail = Number(this.mytokens[i].unlockedAmount) / 1e18;
+            }  
+          }
+        }
+      }, 1000);
+
+
+
     }
 
 // This method provides a unique value to track orders with.
@@ -96,17 +110,16 @@ export class OrderPadComponent implements OnInit {
       this.pin = sessionStorage.getItem('pin');
       this.price = this.buyPrice;
       this.qty = this.buyQty;      
-      if(this.pin) {
+      if (this.pin) {
         this.buyOrSell();
-      }
-      else {
+      } else {
         this.openModal(pinModal);
       }
       
     }
 
     sell(pinModal: TemplateRef<any>) {
-      if(!this.wallet) {
+      if (!this.wallet) {
         this.openSnackBar('please create wallet before placing order','ok');
         return;
       }      
@@ -114,10 +127,9 @@ export class OrderPadComponent implements OnInit {
       this.pin = sessionStorage.getItem('pin');
       this.price = this.sellPrice;
       this.qty = this.sellQty;          
-      if(this.pin) {    
+      if (this.pin) {    
         this.buyOrSell();
-      }
-      else {
+      } else {
         this.openModal(pinModal);
       }
       
@@ -133,29 +145,31 @@ export class OrderPadComponent implements OnInit {
         //const pin = '1qaz@WSX';
         console.log('this.pin' + this.pin + ',this.price=' + this.price + ',this.qty=' + this.qty);
         const seed = this.utilService.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
-        const privateKey = this.coinService.getExPrivateKey(this.wallet.excoin, seed);
-        const orderType = '1';
+        const keyPairsKanban = this.coinService.getKeyPairs(this.wallet.excoin, seed, 0, 0);
+        const orderType = this.bidOrAsk;
         const baseCoin = this.baseCoin;
         const targetCoin = this.targetCoin;
         const timeBeforeExpiration = 423434342432;
 
         console.log('before getExchangeAddress');
 
-        /*
-        this.kanbanService.getExchangeAddress().subscribe((address:string) =>{
+        this.kanbanService.getExchangeAddress().subscribe( async (address: string) => {
           console.log('address is for getExchangeAddress:' + address);
-          const orderHash = this.generateOrderHash(this.bidOrAsk, orderType, baseCoin, targetCoin, this.qty, this.price, timeBeforeExpiration);
+          const orderHash = this.generateOrderHash(this.bidOrAsk, orderType, baseCoin
+            , targetCoin, this.qty, this.price, timeBeforeExpiration);
   
           const abiHex = this.web3Serv.getCreateOrderFuncABI([orderHash, address, this.bidOrAsk, 
-              orderType, baseCoin, targetCoin, this.qty, this.price, timeBeforeExpiration]);
+              orderType, baseCoin, targetCoin, this.qty, (this.buyQty * 1e18).toString(),
+              timeBeforeExpiration]);
+
+          const nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
+          const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce); 
   
-          const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, privateKey, address); 
+          this.kanbanService.sendRawSignedTransaction(txhex).subscribe((resp: TransactionResp) => {
   
-          this.kanbanService.sendRawSignedTransaction(txhex).subscribe((resp:TransactionResp) => {
-  
-              if(resp && resp.transactionHash) {
-                this.openSnackBar('Your order was placed successfully.','Ok');
-                let transaction = {
+              if (resp && resp.transactionHash) {
+                this.openSnackBar('Your order was placed successfully.', 'Ok');
+                const transaction = {
                   txid: resp.transactionHash,
                   baseCoin: this.baseCoin,
                   targetCoin: this.targetCoin,
@@ -164,15 +178,13 @@ export class OrderPadComponent implements OnInit {
                   status: '',
                   created_at: new Date(Date.now()),
                   price: this.price
-                }
+                };
                 this.tradeService.addTransactions(transaction);
-              }
-              else {
-                this.openSnackBar('Something wrong while placing your order.','Ok');
+              } else {
+                this.openSnackBar('Something wrong while placing your order.', 'Ok');
               }
           });
         });
-        */
         
     }
 

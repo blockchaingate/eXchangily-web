@@ -122,7 +122,7 @@ export class Web3Service {
             {
               "indexed": false,
               "name": "_orderType",
-              "type": "uint8"
+              "type": "bool"
             },
             {
               "indexed": false,

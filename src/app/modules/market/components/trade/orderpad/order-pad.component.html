@@ -56,26 +56,34 @@
     <!--Market Order-->
     <div class="lower w-100">
         <div class="buyorder h-100">
-            <div class="aspace text-success">{{'Available' | translate}} {{coinService.getCoinNameByTypeId(baseCoin)}}:</div>
+            <div class="aspace text-success">
+                {{'Available' | translate}} {{coinService.getCoinNameByTypeId(baseCoin)}}: {{this.baseCoinAvail}}
+            </div>
 
             <div class="aspace text-muted">{{'Price' | translate}}</div>
             <div><input type="number" class="form-control" [disabled]="orderType === 2" [(ngModel)]="buyPrice"> </div>
             <div class="aspace text-muted">{{'Quantity' | translate}}</div>
             <div><input type="number" class="form-control" [(ngModel)]="buyQty"> </div>
-            <div class="aspace text-muted">{{'Total' | translate}} {{coinService.getCoinNameByTypeId(baseCoin)}}</div>
+            <div class="aspace text-muted">
+                {{'Total' | translate}} {{coinService.getCoinNameByTypeId(baseCoin)}}: {{buyPrice * buyQty}}
+            </div>
             <div class="aspace"> <button type="button" class="btn btn-success" (click)="buy(templatePasswd)">
                 {{'Buy' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}
             </button></div>
         </div>
 
         <div class="sellorder h-100">
-            <div class="aspace text-danger">{{'Available' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}:</div>
+            <div class="aspace text-danger">
+                {{'Available' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}: {{this.targetCoinAvail}}
+            </div>
 
             <div class="aspace text-muted">{{'Price' | translate}}</div>
             <div><input type="number" class="form-control" [disabled]="orderType === 2" [(ngModel)]="sellPrice"></div>
             <div class="aspace text-muted">{{'Quantity' | translate}}</div>
             <div><input type="number" class="form-control" [(ngModel)]="sellQty"> </div>
-            <div class="aspace text-muted">{{'Total' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}</div>
+            <div class="aspace text-muted">
+                {{'Total' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}: {{sellPrice * sellQty}}
+            </div>
             <div class="aspace"> <button type="button" class="btn btn-success btn-danger" (click)="sell(templatePasswd)">
                 {{'Sell' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}
             </button></div>

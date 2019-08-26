@@ -11,7 +11,6 @@ import { TradeRoutingModule } from './trade-routing.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { TradeComponent } from './trade.component';
 // import { LiteListComponent } from './litelist/lite-list.component';
-import { TradePairComponent } from './tradepair/trade-pair.component';
 import { TvChartContainerComponent } from './tv-chart-container/tv-chart-container.component';
 import { MyordersComponent } from './myorder/myorders.component';
 import { OrderPadComponent } from './orderpad/order-pad.component';
@@ -47,7 +46,6 @@ import { ApiService } from '../../../../services/api.service';
     declarations: [
         TradeComponent,
         // LiteListComponent,
-        TradePairComponent,
         TvChartContainerComponent,
         MyordersComponent,
         OrderPadComponent
