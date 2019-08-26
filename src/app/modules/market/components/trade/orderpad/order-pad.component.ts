@@ -29,6 +29,7 @@ export class OrderPadComponent implements OnInit {
     @Input() baseCoin: number;
     @Input() targetCoin: number;
     @Input() wallet: Wallet;
+    @Input() mytokens: any;
     screenheight = screen.height;
     select = 1;
     orderType = 1;

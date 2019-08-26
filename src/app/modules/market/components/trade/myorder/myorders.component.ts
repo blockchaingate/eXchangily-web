@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { OrderService } from '../../../services/order.service';
 import { TradeService } from '../../../services/trade.service';
+import { CoinService } from '../../../../../services/coin.service';
+
 import { KanbanService } from '../../../../../services/kanban.service';
 import {TransactionReceipt, TransactionReceiptResp, Transaction} from '../../../../../interfaces/kanban.interface';
 import { Wallet } from '../../../../../models/wallet';
@@ -15,13 +17,14 @@ import { Wallet } from '../../../../../models/wallet';
 
 export class MyordersComponent implements OnInit {
     @Input() wallet: Wallet;
+    @Input() mytokens: any;
     screenheight = screen.height;
-    select = 21;
+    select = 0;
     myorders: Transaction[] = [];
     address: string;
 
     constructor(private ordServ: OrderService, private _router: Router, private tradeService: TradeService, 
-        private kanbanService: KanbanService) {
+        private kanbanService: KanbanService, private coinService: CoinService) {
     }
 
     ngOnInit() {
@@ -53,19 +56,7 @@ export class MyordersComponent implements OnInit {
     }
 
     selectOrder(ord: number) {
-        if (ord === 100) {
-            if (this.wallet && this.wallet.excoin && this.wallet.excoin.receiveAdds) {
-                this.address = this.wallet.excoin.receiveAdds[0].address;
-                console.log('this.address=' + this.address);
-                if (this.address) {
-                    this.kanbanService.get('/kanban/getBalance/' + this.address).subscribe((resp) => {
-                        console.log('resp from getBalances===');
-                        console.log(resp);
-                    });
-                }                
-            }   
-        } 
-     
+
         this.select = ord;
     }
 

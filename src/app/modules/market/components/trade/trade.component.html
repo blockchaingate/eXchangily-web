@@ -27,7 +27,7 @@
             </div>
             <div class="coinlist" [style.height.px]="screenheight-280">
                 <div class="apair" *ngFor="let pr of prices; let i=index">
-                   <div class="leftarea smallfont hand" (click)="loadTradePair(pr.pair)">{{pr.pair}}</div>
+                    <div class="leftarea smallfont hand" (click)="loadTradePair(pr.pair)">{{pr.pair}}</div>
                     <div class="rightarea">
                         <div class="smallfont">{{pr.price}}</div>
                         <div class="smallfont" [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>0">
@@ -44,11 +44,11 @@
             <app-tv-chart-container class="w-100"></app-tv-chart-container>
         </div>
         <div class="orderarea">
-            <app-myorders [wallet]="wallet"></app-myorders>
+            <app-myorders [wallet]="wallet" [mytokens]="mytokens"></app-myorders>
         </div>
     </div>
 
     <div class="right-area h-100">
-        <app-order-pad [baseCoin]="baseCoin" [targetCoin]="targetCoin" [wallet]="wallet"></app-order-pad>
+        <app-order-pad [baseCoin]="baseCoin" [targetCoin]="targetCoin" [wallet]="wallet" [mytokens]="mytokens"></app-order-pad>
     </div>
 </div>

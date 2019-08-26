@@ -13,7 +13,7 @@
         </ul>
     </nav>
 
-    <div class="orders w-100">
+    <div class="orders w-100" *ngIf="select != 100">
         <div class="row orderline w-100 header">
             <div class="orditem" style="width: 20%; margin-left: -1.2em;">Time</div>
             <div class="orditem" style="width: 8%;">Symbol</div>
@@ -46,6 +46,23 @@
                 <div class="orditem text-muted" style="width: 10%;">{{order.amount}}</div>
                 <div class="orditem text-muted" style="width: 8%;">{{order.filledQty*100/order.qty|number:'2.2-2'}}</div>
                 <div class="orditem text-muted" style="width: 8%;">cancel</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="orders w-100" *ngIf="select == 100">
+        <div class="row orderline w-100 header">
+            <div class="orditem" style="width: 30%; margin-left: -1.2em;">Coin</div>
+            <div class="orditem" style="width: 30%;">Amount</div>
+            <div class="orditem" style="width: 30%;">Unlocked Amount</div>
+        </div>
+
+        <div class="myorderlist w-100" [style.height.px]="screenheight-680">
+            <div class="row orderline w-100" *ngFor="let token of mytokens; let i=index">
+
+                <div class="orditem text-muted" style="width: 30%;">{{coinService.getCoinNameByTypeId(token.coinType)}}</div>
+                <div class="orditem text-muted" style="width: 30%;">{{token.unlockedAmount / 1e18}}</div>
+                <div class="orditem text-muted" style="width: 30%;">{{token.lockedAmount / 1e18}}</div>
             </div>
         </div>
     </div>

@@ -51,30 +51,34 @@
         <div class="limitorder text-center w-50 hand" (click)="orderType=1;" [class.selected]="orderType === 1">
             {{'Limit Order' | translate}}</div>
         <div class="marketorder text-center w-50 hand" (click)="orderType=2;" [class.selected]="orderType === 2">
-            {{'Market Order' | translate}}</div>
+            {{'Limit Order' | translate}}</div>
     </div>
-
+    <!--Market Order-->
     <div class="lower w-100">
         <div class="buyorder h-100">
-            <div class="aspace text-success">{{'Available' | translate}} USDT</div>
+            <div class="aspace text-success">{{'Available' | translate}} {{coinService.getCoinNameByTypeId(baseCoin)}}:</div>
 
             <div class="aspace text-muted">{{'Price' | translate}}</div>
             <div><input type="number" class="form-control" [disabled]="orderType === 2" [(ngModel)]="buyPrice"> </div>
             <div class="aspace text-muted">{{'Quantity' | translate}}</div>
             <div><input type="number" class="form-control" [(ngModel)]="buyQty"> </div>
-            <div class="aspace text-muted">{{'Total' | translate}} USDT</div>
-            <div class="aspace"> <button type="button" class="btn btn-success" (click)="buy(templatePasswd)">{{'Buy' | translate}}</button></div>
+            <div class="aspace text-muted">{{'Total' | translate}} {{coinService.getCoinNameByTypeId(baseCoin)}}</div>
+            <div class="aspace"> <button type="button" class="btn btn-success" (click)="buy(templatePasswd)">
+                {{'Buy' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}
+            </button></div>
         </div>
 
         <div class="sellorder h-100">
-            <div class="aspace text-danger">{{'Available' | translate}} FAB</div>
+            <div class="aspace text-danger">{{'Available' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}:</div>
 
             <div class="aspace text-muted">{{'Price' | translate}}</div>
             <div><input type="number" class="form-control" [disabled]="orderType === 2" [(ngModel)]="sellPrice"></div>
             <div class="aspace text-muted">{{'Quantity' | translate}}</div>
             <div><input type="number" class="form-control" [(ngModel)]="sellQty"> </div>
-            <div class="aspace text-muted">{{'Total' | translate}} FAB</div>
-            <div class="aspace"> <button type="button" class="btn btn-success btn-danger" (click)="sell(templatePasswd)">{{'Sell' | translate}}</button></div>
+            <div class="aspace text-muted">{{'Total' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}</div>
+            <div class="aspace"> <button type="button" class="btn btn-success btn-danger" (click)="sell(templatePasswd)">
+                {{'Sell' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}
+            </button></div>
         </div>
     </div>
 </div>
@@ -87,11 +91,11 @@
                   </button>
     </div>
     <div class="modal-body">
-            <div class="pb-4">
-                <input type="password" class="form-control" id="inputPin" [(ngModel)]="pin" aria-describedby="emailHelp" placeholder="Please provide your password to confirm the transaction">
-            </div>
+        <div class="pb-4">
+            <input type="password" class="form-control" id="inputPin" [(ngModel)]="pin" aria-describedby="emailHelp" placeholder="Please provide your password to confirm the transaction">
+        </div>
 
-            <button class="btn btn1 btn-gradient text-white" (click)="confirmPin()">{{"Confirm" | translate }}</button>
+        <button class="btn btn1 btn-gradient text-white" (click)="confirmPin()">{{"Confirm" | translate }}</button>
 
     </div>
 </ng-template>

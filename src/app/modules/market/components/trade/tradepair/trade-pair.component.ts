@@ -25,8 +25,10 @@ export class TradePairComponent implements OnInit {
     buyQty = 0;
     sellPrice = 0;
     sellQty = 0;
+    mytokens: any = [];
 
-    constructor(private ordServ: OrderService, private _router: Router, private activedRoute: ActivatedRoute) {
+    constructor(private ordServ: OrderService, private _router: Router, 
+        private activedRoute: ActivatedRoute) {
         console.log('constructor in TradePairComponent');
     }
 
@@ -44,7 +46,7 @@ export class TradePairComponent implements OnInit {
  
             // In a real app: dispatch action to load the details here.
         });        
-
+ 
     }
 
     selectOrder(ord: number) {

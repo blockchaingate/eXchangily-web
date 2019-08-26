@@ -117,25 +117,6 @@ export class UtilService {
     }
 
     toKanbanAddress(publicKey: string) {
-        console.log('publicKey for toKanbanAddress is:' + publicKey);
-        /*
-        if (typeof publicKey === 'string') {
-          switch (publicKey.length) {
-            case 128:
-              publicKey = this.compressPublicKey(publicKey);
-              break;
-            case 130:
-              publicKey = this.compressPublicKey(publicKey.slice(2));
-              break;
-            default:
-          }
-        }
-        */
-       /*
-       if(publicKey.startsWith('0x')) {
-          publicKey = publicKey.slice(2);
-       }
-       */
 
       publicKey = this.stripHexPrefix(publicKey);
        const hash1 = createHash('sha256').update(Buffer.from(publicKey, 'hex')).digest().toString('hex');
@@ -143,15 +124,5 @@ export class UtilService {
 
        return '0x' + hash2;
     }    
-    /*
-    compressPublicKey(publicKey) {
-        let prefix;
-        if (parseInt(publicKey, 16) % 2 === 0) {
-          prefix = '02';
-        } else {
-          prefix = '03';
-        }
-        return prefix + publicKey.slice(0, publicKey.length / 2 );    
-      }
-    */  
+
 }

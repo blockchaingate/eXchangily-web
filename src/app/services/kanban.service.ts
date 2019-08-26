@@ -60,6 +60,9 @@ export class KanbanService {
         return this.post('/kanban/sendRawTransaction', data);
     }
 
+    getBalance(address: string) {
+        return this.get('/exchangily/getBalances/' + address);
+    }
     post (path: string, data: any) {
         const httpHeaders = new HttpHeaders({
             'Content-Type' : 'application/json',

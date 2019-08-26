@@ -36,6 +36,9 @@ export class CoinService {
         return -1;
     }
 
+    getCoinNameByTypeId(id: number) {
+        return coin_list[id].name;
+    }
     initToken(type: string, name: string, decimals: number, address: string, baseCoin: MyCoin) {
         const coin = new MyCoin(name);
         coin.tokenType = type;

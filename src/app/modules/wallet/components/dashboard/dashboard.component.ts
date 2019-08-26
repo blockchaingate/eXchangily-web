@@ -68,9 +68,7 @@ export class WalletDashboardComponent {
         let updated = false;
         for ( let i = 0; i < this.wallet.mycoins.length; i++ ) {
             const coin = this.wallet.mycoins[i];
-            if (coin.name === 'BTC') {
-                continue;
-            }
+
             const balance = await this.coinServ.getBalance(coin);
             if (coin.balance !== balance) {
                 coin.balance = balance;
