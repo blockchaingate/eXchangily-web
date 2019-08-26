@@ -48,7 +48,7 @@ export class Web3Service {
       return await web3.eth.sendSignedTransaction(txhex);
     }
 
-    async signAbiHexWithPrivateKey(abiHex: string, keyPair: any, address: string, nonce: number) {
+    async signAbiHexWithPrivateKey(abiHex: string, keyPair: any, address: string, nonce: number, includeCoin: boolean) {
       console.log('abiHex=' + abiHex);
       console.log('nonce=' + nonce);
       const txObject = {
@@ -59,11 +59,15 @@ export class Web3Service {
         coin: '0x',
         gasPrice: 40
       };
-      console.log('txObject');
-      console.log(txObject);
-      const privateKey = '0x' + keyPair.privateKeyHex;
+      const txObjectWithoutCoin = {
+        to: address,
+        nonce: nonce,
+        data: '0x' + abiHex,
+        gas: 1000000,
+        gasPrice: 40
+      };
 
-      
+
       const customCommon = Common.forCustomChain(
         'test',
         {
@@ -74,17 +78,13 @@ export class Web3Service {
         'byzantium',
       );   
       
-      console.log('privateKeyHex before sign' + keyPair.privateKeyHex);
       const privKey = Buffer.from(keyPair.privateKeyHex, 'hex');
       const EthereumTx = Eth.Transaction;  
-      const tx = new EthereumTx(txObject, { common: customCommon });
+      const tx = new EthereumTx(includeCoin ? txObject : txObjectWithoutCoin, { common: customCommon });
       
       tx.sign(privKey);
-      console.log('getSenderPublicKey=' + tx.getSenderPublicKey().toString('hex'));
-      console.log(tx.toJSON());
       const serializedTx = tx.serialize();
       const txhex = '0x' + serializedTx.toString('hex'); 
-      console.log('txhex in here =' + txhex);
       return txhex;
       
      
@@ -101,58 +101,53 @@ export class Web3Service {
 
     getCreateOrderFuncABI(paramsArray: any) {
         const web3 = this.getWeb3Provider();
-        const func =   {
-          "anonymous": false,
+        const func =     {
+          "constant": false,
           "inputs": [
             {
-              "indexed": true,
-              "name": "orderHash",
-              "type": "bytes32"
-            },
-            {
-              "indexed": true,
-              "name": "_owner",
-              "type": "address"
-            },
-            {
-              "indexed": false,
               "name": "_bidOrAsk",
               "type": "bool"
             },
             {
-              "indexed": false,
               "name": "_orderType",
-              "type": "bool"
+              "type": "uint8"
             },
             {
-              "indexed": false,
               "name": "_baseCoin",
               "type": "uint32"
             },
             {
-              "indexed": false,
               "name": "_targetCoin",
               "type": "uint32"
             },
             {
-              "indexed": false,
               "name": "_amount",
               "type": "uint256"
             },
             {
-              "indexed": false,
               "name": "_price",
               "type": "uint256"
             },
             {
-              "indexed": false,
               "name": "_expiredTime",
               "type": "uint256"
+            },
+            {
+              "name": "_orderHash",
+              "type": "bytes32"
             }
           ],
-          "name": "CreateOrder",
-          "type": "event"
-      }; 
+          "name": "createOrder",
+          "outputs": [
+            {
+              "name": "",
+              "type": "bytes32"
+            }
+          ],
+          "payable": false,
+          "stateMutability": "nonpayable",
+          "type": "function"
+        }; 
       const abiHex = web3.eth.abi.encodeFunctionCall(func, paramsArray);
       return abiHex;
     }

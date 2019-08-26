@@ -236,7 +236,8 @@ export class WalletDashboardComponent {
         console.log('keyPairsKanban.privateKey=' + keyPairsKanban.privateKey);
         console.log('keyPairsKanban.address=' + keyPairsKanban.address);
         const nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
-        const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce); 
+        const includeCoin = true;
+        const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
         console.log('txhex=' + txhex);
         this.kanbanServ.sendRawSignedTransaction(txhex).subscribe((resp) => { 
             console.log('resp=' + resp);

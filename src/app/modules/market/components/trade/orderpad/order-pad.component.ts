@@ -146,7 +146,7 @@ export class OrderPadComponent implements AfterViewInit {
         console.log('this.pin' + this.pin + ',this.price=' + this.price + ',this.qty=' + this.qty);
         const seed = this.utilService.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
         const keyPairsKanban = this.coinService.getKeyPairs(this.wallet.excoin, seed, 0, 0);
-        const orderType = this.bidOrAsk;
+        const orderType = 1;
         const baseCoin = this.baseCoin;
         const targetCoin = this.targetCoin;
         const timeBeforeExpiration = 423434342432;
@@ -158,12 +158,13 @@ export class OrderPadComponent implements AfterViewInit {
           const orderHash = this.generateOrderHash(this.bidOrAsk, orderType, baseCoin
             , targetCoin, this.qty, this.price, timeBeforeExpiration);
   
-          const abiHex = this.web3Serv.getCreateOrderFuncABI([orderHash, address, this.bidOrAsk, 
-              orderType, baseCoin, targetCoin, this.qty, (this.buyQty * 1e18).toString(),
-              timeBeforeExpiration]);
+          const abiHex = this.web3Serv.getCreateOrderFuncABI([this.bidOrAsk,  
+            orderType, baseCoin, targetCoin, (this.qty * 1e18).toString(), (this.price * 1e18).toString(), 
+            timeBeforeExpiration,  orderHash]);
 
           const nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
-          const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce); 
+          const includeCoin = false;
+          const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce, includeCoin); 
   
           this.kanbanService.sendRawSignedTransaction(txhex).subscribe((resp: TransactionResp) => {
   

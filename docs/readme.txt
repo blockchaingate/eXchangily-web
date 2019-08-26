@@ -36,3 +36,10 @@ EAB address:
 0x8278fdc79a8041667e79bbb20331c7c8548ded20
 
 https://ropsten.etherscan.io/address/0x8278fdc79a8041667e79bbb20331c7c8548ded20#code
+
+https://coinmonster.pw/get-free/usdt:
+
+You are registered successfully!
+Your login: kenin.qiu@gmail.com
+Your password: 85ee460f8c5513da0a5672713c731e8a
+Please copy this login details!
