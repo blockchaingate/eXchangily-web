@@ -5,6 +5,7 @@ import * as Eth from 'ethereumjs-tx';
 import Common from 'ethereumjs-common';
 import {Signature, EthTransactionObj} from '../interfaces/kanban.interface';
 import {UtilService} from './util.service';
+import * as ethUtil from 'ethereumjs-util';
 @Injectable({
     providedIn: 'root'
     })
@@ -27,6 +28,11 @@ export class Web3Service {
 
       const signMess = web3.eth.accounts.sign(message, privateKey);
       return signMess;
+    }
+
+    getTransactionHash(txhex: string) {
+      const hash = ethUtil.keccak(txhex).toString('hex');
+      return '0x' + hash;
     }
 
     async signTxWithPrivateKey(txParams: any, keyPair: any) {

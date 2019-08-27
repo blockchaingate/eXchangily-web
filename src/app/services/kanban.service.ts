@@ -61,6 +61,23 @@ export class KanbanService {
         return this.post('/kanban/sendRawTransaction', data);
     }
 
+    submitDeposit(rawTransaction: string, rawKanbanTransaction: string) {
+        const data = {
+            'rawTransaction': rawTransaction,
+            'rawKanbanTransaction': rawKanbanTransaction
+        };
+        const httpHeaders = new HttpHeaders({
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+       });   
+       const options = {
+        headers: httpHeaders
+        };    
+        console.log('data for submitDeposit=', data);       
+        const path = 'http://169.53.144.184:3000/submitDeposit';
+        return this.http.post(path, data, options);        
+    }
+
     getBalance(address: string) {
         return this.get('/exchangily/getBalances/' + address);
     }

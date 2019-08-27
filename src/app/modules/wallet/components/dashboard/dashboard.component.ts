@@ -218,7 +218,12 @@ export class WalletDashboardComponent {
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
 
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
-        const txHash = await this.coinServ.sendTransaction(currentCoin, seed, officalAddress, amount);   
+        const doSubmit = false;
+        const {txHex, txHash} = await this.coinServ.sendTransaction(currentCoin, seed, officalAddress, amount, doSubmit);   
+
+        console.log('111111111111111111111111111111111111111111111111111111111111');
+        console.log('txHex=' + txHex);
+        console.log('txHash=' + txHash);
         // const txHash = '7f72c0043edce99f3e8c09c14c8919bec81e5fb2938f746d704406ba8e9182da';
         if (!txHash) {
             return;
@@ -236,15 +241,18 @@ export class WalletDashboardComponent {
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
 
         const abiHex = this.web3Serv.getDepositFuncABI(coinType, txHash, amountInLink, addressInKanban, signedMessage);
-        console.log('keyPairsKanban.privateKey=' + keyPairsKanban.privateKey);
-        console.log('keyPairsKanban.address=' + keyPairsKanban.address);
+
         const nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
         const includeCoin = true;
-        const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
-        console.log('txhex=' + txhex);
+        const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
+
+        /*
         this.kanbanServ.sendRawSignedTransaction(txhex).subscribe((resp) => { 
             console.log('resp=' + resp);
         });         
-
+        */
+       this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp) => { 
+            console.log('resp=' + resp);
+        });         
     }
 }

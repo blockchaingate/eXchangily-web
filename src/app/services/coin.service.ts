@@ -20,6 +20,7 @@ import { Web3Service } from './web3.service';
 import {Signature} from '../interfaces/kanban.interface';
 import { UtilService } from './util.service';
 import * as abi from 'web3-eth-abi';
+//import * as EthereumTx from 'ethereumjs-tx';
 //import * as OPS from 'qtum-opcodes';
 @Injectable()
 export class CoinService {
@@ -797,7 +798,7 @@ export class CoinService {
         return buf;
     }
 
-    async sendTransaction(mycoin: MyCoin, seed: Buffer, toAddress: string, amount: number) {
+    async sendTransaction(mycoin: MyCoin, seed: Buffer, toAddress: string, amount: number, doSubmit: boolean) {
         let index = 0;
         let balance = 0;
         let finished = false;
@@ -878,7 +879,7 @@ export class CoinService {
             }
 
             if (!finished) {
-                return '';
+                return {txHex: '', txHash: ''};
             }
 
             
@@ -903,15 +904,26 @@ export class CoinService {
             }             
 
             const txhex = txb.build().toHex();
-            const txhash = this.apiService.postBtcTx(txhex);
+            let txhash = '';
+            if (doSubmit) {
+                txhash = await this.apiService.postBtcTx(txhex);
+            } else {
+                const tx = Btc.Transaction.fromHex(txhex);
+                txhash = '0x' + tx.getId();
+            }
 
-            return txhash;
+            return {txHex: txhex, txHash: txhash};
         } else 
         if (mycoin.name === 'FAB') {
             const txhex = await this.getFabTransactionHex(seed, mycoin, toAddress, amount, 3000 / 1e8);
-            const txhash = this.apiService.postFabTx(txhex);
-            return txhash;
-
+            let txhash = '';
+            if (doSubmit) {
+                txhash = await this.apiService.postFabTx(txhex);
+            } else {
+                const tx = Btc.Transaction.fromHex(txhex);
+                txhash = '0x' + tx.getId();                
+            }
+            return {txHex: txhex, txHash: txhash};
         } else
         if (mycoin.name === 'ETH') {
             amountNum = amount * 1e18;
@@ -932,7 +944,6 @@ export class CoinService {
 
             const txhex = await this.web3Serv.signTxWithPrivateKey(txParams, keyPair);
 
-            console.log('txhex=' + txhex);
             /*
             const tx = new EthereumTx(txParams,{ chain: 'ropsten', hardfork: 'petersburg' })
 
@@ -941,8 +952,13 @@ export class CoinService {
             const serializedTx = tx.serialize()
             const txhex = '0x' + serializedTx.toString('hex');
             */
-            const txHash = this.apiService.postEthTx(txhex);
-            return txHash;
+            let txhash = '';
+            if (doSubmit) {
+                txhash = await this.apiService.postEthTx(txhex);
+            } else {
+                txhash = this.web3Serv.getTransactionHash(txhex);
+            }
+            return {txHex: txhex, txHash: txhash};
 
         } else 
         if (mycoin.tokenType === 'ETH') { // etheruem tokens
@@ -1005,15 +1021,21 @@ export class CoinService {
             console.log('txData=');
             console.log(txData);
             const txhex = await this.web3Serv.signTxWithPrivateKey(txData, keyPair);
+
+            let txhash = '';
+            if (doSubmit) {
+                txhash = await this.apiService.postEthTx(txhex);
+            } else {
+                txhash = this.web3Serv.getTransactionHash(txhex);
+            }
             
-            const txHash = this.apiService.postEthTx(txhex);
-            return txHash;
+            return {txHex: txhex, txHash: txhash};
 
         } else
         if (mycoin.tokenType === 'FAB') { // fab tokens
 
         }
-
+        return {txHex: '', txHash: ''};
     }
 
     fillUpAddress(mycoin: MyCoin, seed: Buffer, numReceiveAdds: number, numberChangeAdds: number) {

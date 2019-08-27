@@ -56,7 +56,9 @@ export class SendCoinModal {
         const seed = this.utilService.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         
         const amount = Number(this.sendCoinForm.get('sendAmount').value);
-        const txHex = await this.coinService.sendTransaction(currentCoin, seed, this.sendCoinForm.get('sendTo').value, amount
+        const doSubmit = true;
+        const txHex = await this.coinService.sendTransaction(currentCoin, seed, 
+            this.sendCoinForm.get('sendTo').value, amount, doSubmit
         );
 
     }

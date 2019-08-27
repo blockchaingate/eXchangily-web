@@ -147,8 +147,12 @@ export class OrderPadComponent implements AfterViewInit {
         const seed = this.utilService.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
         const keyPairsKanban = this.coinService.getKeyPairs(this.wallet.excoin, seed, 0, 0);
         const orderType = 1;
-        const baseCoin = this.baseCoin;
-        const targetCoin = this.targetCoin;
+        let baseCoin = this.baseCoin;
+        let targetCoin = this.targetCoin;
+        if(!this.bidOrAsk) {
+          baseCoin = this.targetCoin;
+          targetCoin = this.baseCoin;
+        }
         const timeBeforeExpiration = 423434342432;
 
         console.log('before getExchangeAddress');
@@ -172,8 +176,8 @@ export class OrderPadComponent implements AfterViewInit {
                 this.openSnackBar('Your order was placed successfully.', 'Ok');
                 const transaction = {
                   txid: resp.transactionHash,
-                  baseCoin: this.baseCoin,
-                  targetCoin: this.targetCoin,
+                  baseCoin: baseCoin,
+                  targetCoin: targetCoin,
                   bidOrAsk: this.bidOrAsk,
                   qty: this.qty,
                   status: '',
