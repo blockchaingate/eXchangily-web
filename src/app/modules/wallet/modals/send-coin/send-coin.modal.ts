@@ -5,6 +5,7 @@ import { ApiService } from '../../../../services/api.service';
 import { UtilService } from '../../../../services/util.service';
 import { CoinService } from '../../../../services/coin.service';
 import { WalletService } from '../../../../services/wallet.service';
+import {StorageService} from '../../../../services/storage.service';
 import { MyCoin} from '../../../../models/mycoin';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
@@ -31,8 +32,9 @@ export class SendCoinModal {
     }); 
 
 
-    constructor(private modalService: BsModalService, private apiService: ApiService, private walletService:WalletService,
-        private fb: FormBuilder, private utilService:UtilService, private coinService: CoinService) {
+    constructor(private modalService: BsModalService, private apiService: ApiService, private walletService: WalletService,
+        private fb: FormBuilder, private utilService: UtilService, 
+        private coinService: CoinService, private storageService: StorageService) {
         this.currentCoinIndex = 0;
     }
     openModal(template: TemplateRef<any>) {
@@ -57,10 +59,21 @@ export class SendCoinModal {
         
         const amount = Number(this.sendCoinForm.get('sendAmount').value);
         const doSubmit = true;
-        const txHex = await this.coinService.sendTransaction(currentCoin, seed, 
+        const {txHex, txHash} = await this.coinService.sendTransaction(currentCoin, seed, 
             this.sendCoinForm.get('sendTo').value, amount, doSubmit
         );
-
+        if (txHex) {
+            const today = new Date();
+            const item = {
+                type: 'Send',
+                coin: currentCoin.name,
+                amount: amount,
+                txid: txHash,
+                time: today, 
+                comment: ''
+            };
+            this.storageService.storeToTransactionHistoryList(item);
+        }
     }
     openPinModal(template: TemplateRef<any>) {
         this.modalRef2 = this.modalService.show(template, { class: 'second' });

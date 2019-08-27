@@ -70,7 +70,6 @@ export class WalletDashboardComponent {
         let updated = false;
         for ( let i = 0; i < this.wallet.mycoins.length; i++ ) {
             const coin = this.wallet.mycoins[i];
-
             const balance = await this.coinServ.getBalance(coin);
             if (coin.balance !== balance) {
                 coin.balance = balance;
@@ -96,7 +95,6 @@ export class WalletDashboardComponent {
         this.walletServ.saveCurrentWalletIndex(value);
         
     }
-
 
     loadWallet() {
         console.log('loading storage...');
@@ -246,14 +244,15 @@ export class WalletDashboardComponent {
         const includeCoin = true;
         const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
 
-        /*
+        
         this.kanbanServ.sendRawSignedTransaction(txKanbanHex).subscribe((resp) => { 
             console.log('resp=' + resp);
         });         
-        */
+        
+       /*
        this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp) => { 
             console.log('resp=' + resp);
         }); 
-                
+       */         
     }
 }

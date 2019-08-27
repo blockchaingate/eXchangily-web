@@ -58,7 +58,7 @@ export class CoinService {
         this.fillUpAddress(coin, seed, 1, 0);
         myCoins.push(coin);
         coin = new MyCoin('FAB');
-        this.fillUpAddress(coin, seed, 100, 100);
+        this.fillUpAddress(coin, seed, 1, 0);
         myCoins.push(coin);
 
         coin = new MyCoin('BTC');
@@ -235,7 +235,6 @@ export class CoinService {
         if (name === 'ETH' || name === 'USDT' || name === 'EXG' || tokenType === 'ETH') {
 
             const root = hdkey.fromMasterSeed(seed);
-            console.log('path=' + path);
             const childNode = root.derivePath( path );
 
             const wallet = childNode.getWallet();
@@ -245,22 +244,18 @@ export class CoinService {
             priKey = wallet.getPrivateKey();        
         } else  
         if (name === 'EX') { 
-            console.log('name=' + name);
             const root = BIP32.fromSeed(seed, bitcoin_network);
 
             const childNode = root.derivePath( path );    
             
             const originalPrivateKey = childNode.privateKey;
             priKeyHex = originalPrivateKey.toString('hex');
-            console.log('real private Key:' + priKeyHex);
             priKey = childNode.toWIF(); 
-            console.log('priKey for EX:' + priKey);
             buffer = wif.decode(priKey);  
 
             const publicKey = childNode.publicKey;
             const publicKeyString = `0x${publicKey.toString('hex')}`;
             addr = this.utilServ.toKanbanAddress(publicKeyString);
-            console.log('addr for EX:' + addr);
             /*
             const privateKeyBuffer = wif.decode(priv.ateKey); 
             const wallet = Wallet.fromPrivateKey(privateKeyBuffer.privateKey);  

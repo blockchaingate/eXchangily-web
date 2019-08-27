@@ -6,6 +6,8 @@ import Common from 'ethereumjs-common';
 import {Signature, EthTransactionObj} from '../interfaces/kanban.interface';
 import {UtilService} from './util.service';
 import * as ethUtil from 'ethereumjs-util';
+import KanbanTxService from './kanban.tx.service';
+
 @Injectable({
     providedIn: 'root'
     })
@@ -85,12 +87,22 @@ export class Web3Service {
       );   
       
       const privKey = Buffer.from(keyPair.privateKeyHex, 'hex');
-      const EthereumTx = Eth.Transaction;  
-      const tx = new EthereumTx(includeCoin ? txObject : txObjectWithoutCoin, { common: customCommon });
+
+      let txhex = '';
       
-      tx.sign(privKey);
-      const serializedTx = tx.serialize();
-      const txhex = '0x' + serializedTx.toString('hex'); 
+      if (!includeCoin) {
+        const EthereumTx = Eth.Transaction;  
+        const tx = new EthereumTx(includeCoin ? txObject : txObjectWithoutCoin, { common: customCommon });
+        
+        tx.sign(privKey);
+        const serializedTx = tx.serialize();
+        txhex = '0x' + serializedTx.toString('hex'); 
+      } else {
+        const tx = new KanbanTxService(txObject, { common: customCommon });
+        tx.sign(privKey);
+        const serializedTx = tx.serialize();
+        txhex = '0x' + serializedTx.toString('hex');         
+      }
       return txhex;
       
      

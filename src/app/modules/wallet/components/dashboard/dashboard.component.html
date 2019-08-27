@@ -93,7 +93,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="row pt-4" *ngIf="showTransactionHistory">
+                    <!--
                         <div class="container">
                             <div class="row apair header">
                                 <div class="col-3">
@@ -110,9 +110,8 @@
                                 </div>
                             </div>
                         </div>
-
-                        <app-transaction-history></app-transaction-history>
-                    </div>
+-->
+                    <app-transaction-history *ngIf="showTransactionHistory"></app-transaction-history>
                     <div class="row pt-4" *ngIf="showMyAssets">
                         <div class="container fxHide-sm" *ngIf="wallet">
                             <div class="row apair header">

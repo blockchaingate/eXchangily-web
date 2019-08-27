@@ -1,16 +1,40 @@
 <div class="container">
-    <div class="row apair header">
-        <div class="col-3">
+    <div class=" row apair header ">
+        <div class="col-2">
             {{"Type" | translate}}
         </div>
-        <div class="col-3">
-            {{"Asset" | translate}}
+        <div class="col-3 ">
+            {{"Digital Asset" | translate}}
         </div>
-        <div class="col-3">
+        <div class="col-3 ">
+            {{"Time" | translate}}
+        </div>
+        <div class="col-2 ">
             {{"Amount" | translate}}
         </div>
-        <div class="col-3">
-            {{"txid" | translate}}
+        <div class="col-2">
+            {{"Comment" | translate}}
+        </div>
+    </div>
+    <div class="row apair dataline" *ngFor="let item of transactionHistory; index as i">
+        <div class="col-2">
+            {{item.type}}
+        </div>
+        <div class="col-3 ">
+            {{item.coin}}
+        </div>
+        <div class="col-3 ">
+            {{item.time}}
+        </div>
+        <div class="col-2 ">
+            {{item.amount}}
+        </div>
+        <div class="col-2 ">
+            {{item.comment}}
+            <button mat-icon-button aria-label="Example icon-button with a heart icon">
+                <mat-icon>details</mat-icon>
+            </button>
         </div>
     </div>
 </div>
+<modal-transaction-history></modal-transaction-history>

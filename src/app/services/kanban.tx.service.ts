@@ -18,7 +18,7 @@ import {
 // secp256k1n/2
 const N_DIV_2 = new BN('7fffffffffffffffffffffffffffffff5d576e7357a4501ddfe92f46681b20a0', 16); 
 
-export class KanbanTxService {
+export default class KanbanTxService {
     public raw!: Buffer[];
     public nonce!: Buffer;
     public gasLimit!: Buffer;
@@ -88,6 +88,11 @@ export class KanbanTxService {
             default: Buffer.from([]),
             },
             {
+              name: 'coin',
+              allowLess: true,
+              default: Buffer.from([]),
+            },            
+            {
             name: 'data',
             alias: 'input',
             allowZero: true,
@@ -126,7 +131,7 @@ export class KanbanTxService {
             enumerable: true,
             configurable: true,
             get: this.getSenderAddress.bind(this),
-        })
+        });
     
         this._validateV(this.v);
         this._overrideVSetterWithValidation();        
@@ -134,21 +139,21 @@ export class KanbanTxService {
 
     private _validateV(v?: Buffer): void {
         if (v === undefined || v.length === 0) {
-          return
+          return;
         }
     
         if (!this._common.gteHardfork('spuriousDragon')) {
-          return
+          return;
         }
     
-        const vInt = bufferToInt(v)
+        const vInt = bufferToInt(v);
     
         if (vInt === 27 || vInt === 28) {
-          return
+          return;
         }
     
         const isValidEIP155V =
-          vInt === this.getChainId() * 2 + 35 || vInt === this.getChainId() * 2 + 36
+          vInt === this.getChainId() * 2 + 35 || vInt === this.getChainId() * 2 + 36;
     
         if (!isValidEIP155V) {
           throw new Error(
@@ -158,7 +163,7 @@ export class KanbanTxService {
       }    
 
       private _overrideVSetterWithValidation() {
-        const vDescriptor = Object.getOwnPropertyDescriptor(this, 'v')!
+        const vDescriptor = Object.getOwnPropertyDescriptor(this, 'v')!;
     
         Object.defineProperty(this, 'v', {
           ...vDescriptor,
@@ -194,6 +199,35 @@ export class KanbanTxService {
         // If the signature was verified successfully the _senderPubKey field is defined
         return this._senderPubKey!;
     }
+
+    /**
+     * Returns the rlp encoding of the transaction
+     */
+    serialize(): Buffer {
+      // Note: This never gets executed, defineProperties overwrites it.
+      return rlp.encode(this.raw);
+    }
+
+    /**
+     * sign a transaction with a given private key
+     * @param privateKey - Must be 32 bytes in length
+     */
+    sign(privateKey: Buffer) {
+      // We clear any previous signature before signing it. Otherwise, _implementsEIP155's can give
+      // different results if this tx was already signed.
+      this.v = Buffer.from([]);
+      this.s = Buffer.from([]);
+      this.r = Buffer.from([]);
+
+      const msgHash = this.hash(false);
+      const sig = ecsign(msgHash, privateKey);
+
+      if (this._implementsEIP155()) {
+        sig.v += this.getChainId() * 2 + 8;
+      }
+
+      Object.assign(this, sig);
+    }    
 
     /**
      * Determines if the signature is valid
@@ -335,7 +369,4 @@ export class KanbanTxService {
         }
     }
 
-    sign(privateKey: string) {
-        
-    }
 }
