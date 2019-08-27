@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {Balance, EthBalance, FabTransaction, BtcTransaction, EthTransaction
-    , FabTransactionResponse, CoinsPrice} from '../interfaces/balance.interface';
+    , FabTransactionResponse, CoinsPrice, BtcUtxo} from '../interfaces/balance.interface';
 
 @Injectable() 
 export class ApiService {
@@ -38,14 +38,30 @@ export class ApiService {
         return response;
     }
 
+    async getBtcUtxos(address: string): Promise<[BtcUtxo]> {
+        const url = 'http://18.188.32.168:8000/getutxos/' + address;
+        const response = await this.http.get(url).toPromise() as [BtcUtxo];
+        return response;
+    }
+    
     async getBtcBalance(address: string): Promise<number> {
-
+        let balance = 0;
+        const utxos = await this.getBtcUtxos(address);
+        if (utxos && utxos.length > 0) {
+            for (let i = 0; i < utxos.length; i++) {
+                balance += utxos[i].value;
+            }
+        }
+        return balance;
+        /*
         const url = 'https://api.blockcypher.com/v1/btc/test3/addrs/' + address + '?token=062d147ef3bc412688fedcaadb1b13c4';
         const response = await this.http.get(url).toPromise() as Balance;  
         console.log('response=');
 
         console.log(response.balance);
         return response.balance;
+        */
+
     }
 
     async getFabTransaction(address: string): Promise<FabTransaction> {

@@ -21,6 +21,14 @@ export interface Balance {
     txrefs: [TxRef];
 }
 
+export interface BtcUtxo {
+    txid: string;
+    idx: number;
+    address: string;
+    value: number;
+    blockheight: number;
+}
+
 export interface EthBalance {
     message: string;
     result: number;

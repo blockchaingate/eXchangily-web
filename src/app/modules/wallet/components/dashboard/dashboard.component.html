@@ -155,10 +155,10 @@
                                         {{mycoin.lockedBalance}}
                                     </div>
                                     <div class="col-2">
-                                        <p *ngIf="mycoin.name == 'BTC'">{{mycoin.balance * coinsPrice.bitcoin.usd}}</p>
-                                        <p *ngIf="mycoin.name == 'FAB'">{{mycoin.balance * coinsPrice.fabcoin.usd}}</p>
-                                        <p *ngIf="mycoin.name == 'ETH'">{{mycoin.balance * coinsPrice.ethereum.usd}}</p>
-                                        <p *ngIf="mycoin.name == 'USDT'">{{mycoin.balance * coinsPrice.tether.usd}}</p>
+                                        <p *ngIf="mycoin.name == 'BTC' && coinsPrice && coinsPrice.bitcoin">{{mycoin.balance * coinsPrice.bitcoin.usd}}</p>
+                                        <p *ngIf="mycoin.name == 'FAB' && coinsPrice && coinsPrice.fabcoin">{{mycoin.balance * coinsPrice.fabcoin.usd}}</p>
+                                        <p *ngIf="mycoin.name == 'ETH' && coinsPrice && coinsPrice.ethereum">{{mycoin.balance * coinsPrice.ethereum.usd}}</p>
+                                        <p *ngIf="mycoin.name == 'USDT' && coinsPrice && coinsPrice.tether">{{mycoin.balance * coinsPrice.tether.usd}}</p>
                                     </div>
                                     <div class="col-2">
 

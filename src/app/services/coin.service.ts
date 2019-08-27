@@ -783,18 +783,14 @@ export class CoinService {
         const arr = [bufCoin, bufTxHash, bufAmount, bufAddr];
         const buf = Buffer.concat(arr);
         */
-        console.log('coinType = ' + coinType);
-        console.log('txHash = ' + txHash);
-        console.log('amount = ' + amount);
-        console.log('address = ' + address);
+
         let buf = '';
         buf += this.utilServ.fixedLengh(coinType, 4);
         buf += this.utilServ.fixedLengh(txHash, 64);
         const hexString = amount.toString(16);
         buf += this.utilServ.fixedLengh(hexString, 64);
         buf += this.utilServ.fixedLengh(address, 64);
-        console.log('buf = ' + buf);
-        console.log('buf.length=' + buf.length);
+
         return buf;
     }
 
@@ -1028,7 +1024,7 @@ export class CoinService {
             } else {
                 txhash = this.web3Serv.getTransactionHash(txhex);
             }
-            
+
             return {txHex: txhex, txHash: txhash};
 
         } else
