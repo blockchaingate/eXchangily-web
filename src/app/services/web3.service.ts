@@ -39,15 +39,11 @@ export class Web3Service {
 
     async signTxWithPrivateKey(txParams: any, keyPair: any) {
       const privateKey = `0x${keyPair.privateKey.toString('hex')}`;
-      console.log('signTxWithPrivateKey begin');
-      console.log('privateKey=' + privateKey);
-      console.log('address=' + keyPair.address);
-      console.log(txParams);
+
       const web3 = this.getWeb3Provider();
 
       const signMess = await web3.eth.accounts.signTransaction(txParams, privateKey) as EthTransactionObj;
-      console.log('signMess in signMessageWithPrivateKey=');
-      console.log(signMess);
+
       return signMess.rawTransaction;
     }
 
@@ -57,8 +53,7 @@ export class Web3Service {
     }
 
     async signAbiHexWithPrivateKey(abiHex: string, keyPair: any, address: string, nonce: number, includeCoin: boolean) {
-      console.log('abiHex=' + abiHex);
-      console.log('nonce=' + nonce);
+
       const txObject = {
         to: address,
         nonce: nonce,
@@ -92,8 +87,8 @@ export class Web3Service {
       
       if (!includeCoin) {
         const EthereumTx = Eth.Transaction;  
-        const tx = new EthereumTx(includeCoin ? txObject : txObjectWithoutCoin, { common: customCommon });
-        
+        //const tx = new EthereumTx(includeCoin ? txObject : txObjectWithoutCoin, { common: customCommon });
+        const tx = new EthereumTx(txObjectWithoutCoin, { common: customCommon });
         tx.sign(privKey);
         const serializedTx = tx.serialize();
         txhex = '0x' + serializedTx.toString('hex'); 
@@ -179,13 +174,7 @@ export class Web3Service {
 
 
     getDepositFuncABI(coinType: number, txHash: string, amount: number, addressInKanban: string, signedMessage: Signature) {
-        console.log('input of getDepositFuncABI');
-        console.log('coinType=' + coinType);
-        console.log('txHash=' + txHash);
-        console.log('amount=' + amount);
-        console.log('addressInKanban=' + addressInKanban);
-        console.log('signedMessage=');
-        console.log(signedMessage);
+
         const web3 = this.getWeb3Provider();
         const func = {
           "constant": false,
@@ -235,8 +224,7 @@ export class Web3Service {
       abiHex += this.utilServ.fixedLengh(addressInKanban.substring(2), 64);
       abiHex += signedMessage.r.substring(2);
       abiHex += signedMessage.s.substring(2);
-      console.log('abiHex=');
-      console.log(abiHex);
+
       return abiHex;
 
     }

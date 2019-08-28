@@ -221,7 +221,9 @@ export default class KanbanTxService {
 
       const msgHash = this.hash(false);
       const sig = ecsign(msgHash, privateKey);
-
+      console.log('msgHash=', msgHash);
+      console.log('privateKey=', privateKey);
+      console.log('sig=', sig);
       if (this._implementsEIP155()) {
         sig.v += this.getChainId() * 2 + 8;
       }
@@ -267,15 +269,24 @@ export default class KanbanTxService {
         items = this.raw;
         } else {
         if (this._implementsEIP155()) {
+          /*
             items = [
-            ...this.raw.slice(0, 6),
+            ...this.raw.slice(0, 7),
             toBuffer(this.getChainId()),
             // TODO: stripping zeros should probably be a responsibility of the rlp module
             stripZeros(toBuffer(0)),
             stripZeros(toBuffer(0)),
             ]
+          */
+
+         items = this.raw.slice(0, 5).concat(this.raw.slice(6, 7), [
+          toBuffer(this.getChainId()),
+          // TODO: stripping zeros should probably be a responsibility of the rlp module
+          stripZeros(toBuffer(0)),
+          stripZeros(toBuffer(0)),
+      ]);          
         } else {
-            items = this.raw.slice(0, 6)
+            items = this.raw.slice(0, 7)
         }
         }
 

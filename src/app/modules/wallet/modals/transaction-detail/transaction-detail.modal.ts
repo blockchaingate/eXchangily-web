@@ -17,6 +17,9 @@ export class TransactionDetailModal {
     }    
     show(item: TransactionItem) {
         this.item = item;
+        if (item.coin === 'ETH') {
+
+        }
         this.transactionDetailModal.show();
     }
 

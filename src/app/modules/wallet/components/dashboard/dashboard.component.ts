@@ -96,7 +96,6 @@ export class WalletDashboardComponent {
     }
 
     changeWallet(value) {
-        console.log(value);
         this.currentWalletIndex = value;
         this.wallet = this.wallets[this.currentWalletIndex];
         this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
@@ -105,27 +104,25 @@ export class WalletDashboardComponent {
     }
 
     loadWallet() {
-        console.log('loading storage...');
         this.walletServ.getWalletList().subscribe((wallets: Wallet[]) => {
-            console.log('wallets in loading..');
-            console.log(wallets);
+
             if (wallets) {
+                this.wallets = wallets;
                 this.currentWalletIndex = wallets.length - 1;
-                
                 this.walletServ.getCurrentWalletIndex().subscribe(
                 async (index: number) => {
                  if (index !== null) {
-                 this.currentWalletIndex = index;
+                    this.currentWalletIndex = index;
                  }
                    
-                 console.log('this.currentWalletIndex===' + this.currentWalletIndex);
                 this.wallet = wallets[this.currentWalletIndex];
-                        console.log('this.wallet is here');
-                        console.log(this.wallet);
-                        this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
-                        this.gas = await this.kanbanServ.getGas(this.wallet.excoin.receiveAdds[0].address);
+
+                this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
+                this.gas = await this.kanbanServ.getGas(this.wallet.excoin.receiveAdds[0].address);
+                        /*
                         this.wallets = new Array<Wallet>();
                         wallets.forEach(wl => { this.wallets.push(wl); });
+                        */
                     }
                 );
 
@@ -145,6 +142,21 @@ export class WalletDashboardComponent {
         //this.currentCoin = this.wallet.mycoins[1];
         this.currentCoin = null;
         this.depositModal.show();
+    }
+
+    async withdraw(currentCoin: MyCoin) {
+        const pin = '1qaz@WSX';
+        const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
+        const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);   
+
+        const abiHex = '379eb8621c000000000000000000000000000000000000000000000000000000000000024df1b18ddc1079c446e23ee6d5008e40f19033c6eb28e44a479e05273553d9810000000000000000000000000000000000000000000000000031bced02db0000000000000000000000000000463fb771ce5c8b5914a790f170074e6a1306204f0ef43686352a67ec8e0d812f8b6e34f952b931911851e23761979d01536ab253020efb2b83e4acabed5869d552b4e9463c6bbc3ae42a3491901bf9b8df14845c';
+        const address = '0xf16a0291680456538c31ab5fb2db383d9b662eaa';
+        const nonce = 0;
+        const hash1 = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce, false);
+        console.log('hash1=', hash1);
+        const hash2 = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce, true);
+        
+        console.log('hash2=', hash2);
     }
 
     deposit(currentCoin: MyCoin) {
@@ -292,15 +304,16 @@ export class WalletDashboardComponent {
         const includeCoin = true;
         const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
 
-        /*
+        
         this.kanbanServ.sendRawSignedTransaction(txKanbanHex).subscribe((resp) => { 
             console.log('resp=' + resp);
         });         
-        */
+        
        
+        /*
        this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp) => { 
             console.log('resp=' + resp);
         }); 
-                
+        */      
     }
 }

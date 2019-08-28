@@ -31,7 +31,6 @@ export class TransactionHistoryComponent implements OnInit {
     }
 
     showTransactionDetail(item: TransactionItem) {
-        console.log('showMe pls');
         this.transactionDetailModal.show(item);
     }
 }

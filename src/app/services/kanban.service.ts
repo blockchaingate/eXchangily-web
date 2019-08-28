@@ -15,8 +15,16 @@ export class KanbanService {
     async getCoinPoolAddress() {
         const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
         let path = '/exchangily/getCoinPoolAddress';
-        path = this.endpoint + path;      
-        const addr = await this.http.get(path, { headers, responseType: 'text'}).toPromise() as string;
+        path = this.endpoint + path;  
+        const addrOrig =  '0xa66c33b1b36a86589421f1632c7d715dd90b04c5';
+        let addr = addrOrig;
+        console.log('addr=' + addr);
+        try {
+            addr = await this.http.get(path, { headers, responseType: 'text'}).toPromise() as string;
+        } catch (e) {
+            return addrOrig;
+        }
+        
         return addr;
     }
 
@@ -85,7 +93,10 @@ export class KanbanService {
     async getGas(address: string) {
         const path = '/kanban/getBalance/' + address;
         const ret = await this.get(path).toPromise() as KanbanGetBanalceResponse;
-        const gas = Number(BigInt(ret.balance.FAB).toString(10)) / 1e18;
+        let gas = 0;
+        try {
+            gas = Number(BigInt(ret.balance.FAB).toString(10)) / 1e18;
+        } catch (e) {}
         return gas;
     }
     post (path: string, data: any) {

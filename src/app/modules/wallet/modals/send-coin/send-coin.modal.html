@@ -17,13 +17,13 @@
                         <label for="inputSendTo" class="text-muted">Currency</label>
                         <div class="row">
                             <div class="col">
-                                <select class="custom-select" formControlName="selectedCoinIndex">
+                                <select class="custom-select" formControlName="selectedCoinIndex" *ngIf="wallet">
                                     <option [value]="i" *ngFor="let coin of wallet.mycoins;let i = index">{{coin.name}}</option>
                                 </select>
 
                             </div>
                             <div class="col">
-                                <div class="pull-right text-muted">
+                                <div class="pull-right text-muted" *ngIf="wallet">
                                     Balnace:{{wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].balance}}
                                 </div>
                             </div>
