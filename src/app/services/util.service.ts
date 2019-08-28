@@ -36,6 +36,10 @@ export class UtilService {
         return 8;
     }
 
+    toPrecision(num: number) {
+        return Math.round(num * 10000) / 10000;
+    }
+
     getFormattedDate(date: Date) {
         const month = date.getMonth() + 1;
         const day = date.getDate();

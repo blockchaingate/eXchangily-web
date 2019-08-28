@@ -200,3 +200,7 @@ yle the checkmark/indicator */::ng-deep .mat-checkbox .mat-checkbox-frame {
 .col-1 button {
     display: inline-block;
 }
+
+.match-my-cols {
+    height: 630px;
+}

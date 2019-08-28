@@ -17,7 +17,7 @@ export class TransactionHistoryComponent implements OnInit {
 
     transactionHistory: TransactionItem[];
     @Input() coinsPrice: CoinsPrice;
-    constructor ( private storageService: StorageService, private utilService: UtilService ) {
+    constructor ( private storageService: StorageService, private utilServ: UtilService ) {
 
     }
     

@@ -54,11 +54,19 @@ export class KanbanService {
         return res.transactionCount;
     }
 
-    getExchangeAddress() {
+    async getExchangeAddress() {
         const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
         let path = '/exchangily/getExchangeAddress';
         path = this.endpoint + path;  
-        const addr = this.http.get(path, { headers, responseType: 'text'});
+        const addr = await this.http.get(path, { headers, responseType: 'text'}).toPromise() as string;
+        return addr;
+    }
+
+    async getScarAddress() {
+        const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
+        let path = '/kanban/getScarAddress';
+        path = this.endpoint + path;  
+        const addr = await this.http.get(path, { headers, responseType: 'text'}).toPromise() as string;
         return addr;
     }
 

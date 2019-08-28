@@ -15,6 +15,8 @@ import { MnemonicComponent } from './components/mnemonic/mnemonic.component';
 import { MnemeditComponent } from './components/mnemonic/mnemedit.component';
 import { CreateWalletComponent } from './components/create/createwallet.component';
 import { ConfirmMnemonicsComponent } from './components/create/confirmmnem.component';
+import { ManageWalletComponent } from './components/manage-wallet/manage-wallet.component';
+import { FaqComponent } from './components/faq/faq.component';
 import { WalletPwdComponent } from './components/create/wallet-pwd.component';
 import { RestoreWalletComponent } from './components/restore/restorewallet.component';
 import { TransactionHistoryComponent } from './components/transaction-history/transaction-history.component';
@@ -61,6 +63,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         WalletPwdComponent,
         RestoreWalletComponent,
         WalletComponent,
+        ManageWalletComponent,
+        FaqComponent,
         TransactionDetailModal,
         AddAssetsModal,
         SendCoinModal,

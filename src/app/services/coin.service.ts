@@ -91,9 +91,8 @@ export class CoinService {
         return '';
     }
 
-    async depositFab(seed: any, mycoin: MyCoin, amount: number) {
+    async depositFab(scarContractAddress: string, seed: any, mycoin: MyCoin, amount: number) {
         // sendTokens in https://github.com/ankitfa/Fab_sc_test1/blob/master/app/walletManager.js
-        const scarContractAddress = 'cdc36452cbecfc5e6bf26e43b471df03a36056ae';
         const gasLimit = 1000000;
         const gasPrice = 40;
         const totalAmount = gasLimit * gasPrice / 1e8;

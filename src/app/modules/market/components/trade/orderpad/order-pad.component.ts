@@ -157,7 +157,7 @@ export class OrderPadComponent implements AfterViewInit {
 
         console.log('before getExchangeAddress');
 
-        this.kanbanService.getExchangeAddress().subscribe( async (address: string) => {
+        const address = await this.kanbanService.getExchangeAddress();
           console.log('address is for getExchangeAddress:' + address);
           const orderHash = this.generateOrderHash(this.bidOrAsk, orderType, baseCoin
             , targetCoin, this.qty, this.price, timeBeforeExpiration);
@@ -189,7 +189,6 @@ export class OrderPadComponent implements AfterViewInit {
                 this.openSnackBar('Something wrong while placing your order.', 'Ok');
               }
           });
-        });
         
     }
 

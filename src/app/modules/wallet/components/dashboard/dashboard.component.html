@@ -1,14 +1,12 @@
 <div class="container text-white">
+
     <div class="row">
-        <div class="header">{{"Dashboard" | translate }}</div>
-    </div>
-    <div class="row">
-        <div class="w-100">
+        <div class="w-75 match-my-cols">
             <div class="exg-bg">
-                <div class="container py-2">
+                <div class="container py-2 ">
                     <div class="row">
                         <div class="col col-md-6">
-                            <div class="small">{{"My Wallet" | translate}}</div>
+                            <div class="small pt-3">{{"My Wallet" | translate}}</div>
                             <div *ngIf="wallet">
                                 <mat-form-field>
                                     <mat-select panelClass="example-panel" [value]="currentWalletIndex" (selectionChange)="changeWallet($event.value)">
@@ -149,16 +147,16 @@
                                         {{mycoin.name}}
                                     </div>
                                     <div class="col-2">
-                                        {{mycoin.balance}}
+                                        {{utilServ.toPrecision(mycoin.balance)}}
                                     </div>
                                     <div class="col-2">
-                                        {{mycoin.lockedBalance}}
+                                        {{utilServ.toPrecision(mycoin.lockedBalance)}}
                                     </div>
                                     <div class="col-2">
-                                        <p *ngIf="mycoin.name == 'BTC' && coinsPrice && coinsPrice.bitcoin">{{mycoin.balance * coinsPrice.bitcoin.usd}}</p>
-                                        <p *ngIf="mycoin.name == 'FAB' && coinsPrice && coinsPrice.fabcoin">{{mycoin.balance * coinsPrice.fabcoin.usd}}</p>
-                                        <p *ngIf="mycoin.name == 'ETH' && coinsPrice && coinsPrice.ethereum">{{mycoin.balance * coinsPrice.ethereum.usd}}</p>
-                                        <p *ngIf="mycoin.name == 'USDT' && coinsPrice && coinsPrice.tether">{{mycoin.balance * coinsPrice.tether.usd}}</p>
+                                        <p *ngIf="mycoin.name == 'BTC' && coinsPrice && coinsPrice.bitcoin">{{utilServ.toPrecision(mycoin.balance * coinsPrice.bitcoin.usd)}}</p>
+                                        <p *ngIf="mycoin.name == 'FAB' && coinsPrice && coinsPrice.fabcoin">{{utilServ.toPrecision(mycoin.balance * coinsPrice.fabcoin.usd)}}</p>
+                                        <p *ngIf="mycoin.name == 'ETH' && coinsPrice && coinsPrice.ethereum">{{utilServ.toPrecision(mycoin.balance * coinsPrice.ethereum.usd)}}</p>
+                                        <p *ngIf="mycoin.name == 'USDT' && coinsPrice && coinsPrice.tether">{{utilServ.toPrecision(mycoin.balance * coinsPrice.tether.usd)}}</p>
                                     </div>
                                     <div class="col-2">
 
@@ -223,7 +221,13 @@
                 </div>
             </div>
         </div>
+        <div class="w-25 match-my-cols">
+            <div class="ml-2">
+                <app-manage-wallet></app-manage-wallet>
+                <app-faq></app-faq>
 
+            </div>
+        </div>
     </div>
 
     <deposit-amount-modal #depositModal (confirmedAmount)="onConfirmedAmount($event)"></deposit-amount-modal>

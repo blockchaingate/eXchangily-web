@@ -218,12 +218,15 @@ export class WalletDashboardComponent {
         }
     }
 
-    depositFab(currentCoin) {
+    async depositFab(currentCoin) {
         const amount = this.amount;
         const pin = this.pin;     
         
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
-        this.coinServ.depositFab(seed, currentCoin, amount);
+
+        const scarAddress = await this.kanbanServ.getScarAddress();
+        console.log('scarAddress=', scarAddress);
+        this.coinServ.depositFab(scarAddress, seed, currentCoin, amount);
 
     }
 
@@ -287,33 +290,31 @@ export class WalletDashboardComponent {
             return;
         }
 
-        // const amountInLink = amount * Math.pow(10, this.utilServ.getDecimal(currentCoin)); //for ethereum 
 
         const amountInLink = amount * 1e18; // it's for all coins.
         const originalMessage = this.coinServ.getOriginalMessage(coinType, txHash.substring(2), amountInLink, addressInKanban.substring(2));
 
-        // console.log('address=' + keyPairs.address);
-        // console.log('privateKey=' + keyPairs.privateKey);
         const signedMessage: Signature = this.coinServ.signedMessage(originalMessage, keyPairs);
 
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
 
         const abiHex = this.web3Serv.getDepositFuncABI(coinType, txHash, amountInLink, addressInKanban, signedMessage);
 
-        const nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
+        let nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
+        //const nonce = 0;
         const includeCoin = true;
         const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
 
-        
+        /*
         this.kanbanServ.sendRawSignedTransaction(txKanbanHex).subscribe((resp) => { 
             console.log('resp=' + resp);
         });         
-        
+        */
        
-        /*
+        
        this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp) => { 
             console.log('resp=' + resp);
         }); 
-        */      
+              
     }
 }
