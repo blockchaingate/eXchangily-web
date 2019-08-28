@@ -1,3 +1,88 @@
+<div bsModal #transactionDetailModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 text-dark">Wallet Transaction History</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+            </div>
+            <div class="modal-body">
+                <div class="py-3">
+                    <div class="d-flex text-dark">
+                        Send {{item.coin}}
+                    </div>
+                    <div class="d-flex">
+                        <div class="text-muted">
+                            Transaction Date
+                        </div>
+                        <div class="ml-auto text-dark">
+                            {{item.time?utilService.getFormattedDate(item.time):''}}
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="text-muted">
+                            Currency
+                        </div>
+                        <div class="ml-auto text-dark">
+                            {{item.coin}}
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="text-muted">
+                            Transaction Total Amount
+                        </div>
+                        <div class="ml-auto text-dark">
+                            {{item.amount}}
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="text-muted">
+                            Gas Fee
+                        </div>
+                        <div class="ml-auto text-dark">
+                            0.0034
+                        </div>
+                    </div>
+                </div>
+                <div class="pd-3">
+                    <div class="text-muted pt-2">
+                        Send to
+                    </div>
+                    <div class="text-dark">
+                        {{item.to}}
+                    </div>
+                    <div class="text-muted pt-2">
+                        Transaction ID
+                    </div>
+                    <div class="text-dark">
+                        <small>{{item.txid}}</small>
+                    </div>
+                    <div class="text-muted pt-2">
+                        Confirmation
+                    </div>
+                    <div>
+                        433453222
+                    </div>
+                    <div class="text-muted pt-2">
+                        Block Hash
+                    </div>
+                    <div>
+                        f343f4334fee433453222
+                    </div>
+                    <div class="text-muted pt-2">
+                        Comment
+                    </div>
+                    <div>
+                        Sent from Mary for reward
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
 <a (click)="openModal(templateTransactionHistory)">Wallet Transaction History</a>
 <ng-template #templateTransactionHistory>
         <div class="modal-header text-center">
@@ -78,3 +163,4 @@
                             </div>
         </div>
     </ng-template> 
+-->

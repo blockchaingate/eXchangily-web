@@ -29,7 +29,7 @@ import {MatListModule} from '@angular/material/list';
 
 import { QRCodeModule } from 'angular2-qrcode';
 
-import { TransactionHistoryModal } from './modals/transaction-history/transaction-history.modal';
+import { TransactionDetailModal } from './modals/transaction-detail/transaction-detail.modal';
 import { AddAssetsModal } from './modals/add-assets/add-assets.modal';
 import { SendCoinModal } from './modals/send-coin/send-coin.modal';
 import { ReceiveCoinModal } from './modals/receive-coin/receive-coin.modal';
@@ -61,7 +61,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         WalletPwdComponent,
         RestoreWalletComponent,
         WalletComponent,
-        TransactionHistoryModal,
+        TransactionDetailModal,
         AddAssetsModal,
         SendCoinModal,
         ReceiveCoinModal,

@@ -41,10 +41,10 @@
         </div>
         <div class="col-2 ">
             {{item.comment}}
-            <button mat-icon-button aria-label="Example icon-button with a heart icon">
+            <button mat-icon-button (click)="showTransactionDetail(item)" aria-label="Example icon-button with a heart icon">
                 <mat-icon>details</mat-icon>
             </button>
         </div>
     </div>
 </div>
-<modal-transaction-history></modal-transaction-history>
+<transaction-detail-modal #transactionDetailModal></transaction-detail-modal>
