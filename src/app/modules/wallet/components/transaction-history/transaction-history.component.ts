@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {StorageService} from '../../../../services/storage.service';
 import { TransactionItem } from '../../../../models/transaction-item';
+import {CoinsPrice} from '../../../../interfaces/balance.interface';
+import {UtilService} from '../../../../services/util.service';
 
 @Component({
     selector: 'app-transaction-history',
@@ -10,8 +12,8 @@ import { TransactionItem } from '../../../../models/transaction-item';
 export class TransactionHistoryComponent implements OnInit {
 
     transactionHistory: TransactionItem[];
-
-    constructor ( private storageService: StorageService ) {
+    @Input() coinsPrice: CoinsPrice;
+    constructor ( private storageService: StorageService, private utilService: UtilService ) {
 
     }
     

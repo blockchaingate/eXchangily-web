@@ -13,7 +13,10 @@ import {Signature, Token} from '../../../../interfaces/kanban.interface';
 import { DepositAmountModal } from '../../modals/deposit-amount/deposit-amount.modal';
 import { AddAssetsModal } from '../../modals/add-assets/add-assets.modal';
 import { PinNumberModal } from '../../modals/pin-number/pin-number.modal';
+import { SendCoinModal } from '../../modals/send-coin/send-coin.modal';
 import {CoinsPrice} from '../../../../interfaces/balance.interface';
+import {SendCoinForm} from '../../../../interfaces/kanban.interface';
+import {StorageService} from '../../../../services/storage.service';
 
 @Component({
     selector: 'app-wallet-dashboard',
@@ -25,7 +28,9 @@ export class WalletDashboardComponent {
     @ViewChild('pinModal', {static: true}) pinModal: PinNumberModal;
     @ViewChild('depositModal', {static: true}) depositModal: DepositAmountModal;
     @ViewChild('addAssetsModal', {static: true}) addAssetsModal: AddAssetsModal;
+    @ViewChild('sendCoinModal', {static: true}) sendCoinModal: SendCoinModal;
 
+    sendCoinForm: SendCoinForm;
     wallet: Wallet; 
     wallets: Wallet[];
     modalRef: BsModalRef;
@@ -39,10 +44,13 @@ export class WalletDashboardComponent {
     showMyAssets: boolean;
     showTransactionHistory: boolean;
     gas: number;
+    opType: string;
 
     constructor ( private route: Router, private walletServ: WalletService, private modalServ: BsModalService, 
         private coinServ: CoinService, private utilServ: UtilService, private apiServ: ApiService, 
-        private kanbanServ: KanbanService, private web3Serv: Web3Service, private viewContainerRef: ViewContainerRef) {
+        private kanbanServ: KanbanService, private web3Serv: Web3Service, private viewContainerRef: ViewContainerRef,
+        private utilService: UtilService, 
+        private coinService: CoinService, private storageService: StorageService) {
         this.showMyAssets = true;
         this.showTransactionHistory = false;
         this.loadWallet();
@@ -105,13 +113,13 @@ export class WalletDashboardComponent {
                 this.currentWalletIndex = wallets.length - 1;
                 
                 this.walletServ.getCurrentWalletIndex().subscribe(
-                    async (index: number) => {
-                        if (index !== null) {
-                            this.currentWalletIndex = index;
-                        }
-                        
-                        console.log('this.currentWalletIndex===' + this.currentWalletIndex);
-                        this.wallet = wallets[this.currentWalletIndex];
+                async (index: number) => {
+                 if (index !== null) {
+                 this.currentWalletIndex = index;
+                 }
+                   
+                 console.log('this.currentWalletIndex===' + this.currentWalletIndex);
+                this.wallet = wallets[this.currentWalletIndex];
                         console.log('this.wallet is here');
                         console.log(this.wallet);
                         this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
@@ -148,9 +156,17 @@ export class WalletDashboardComponent {
         this.depositdo();
         */
     }
+
     onConfirmedAmount(amount: number) {
         console.log('amount is:' + amount);
         this.amount = amount;
+        this.opType = 'deposit';
+        this.pinModal.show();
+    }
+
+    onConfirmedCoinSent(sendCoinForm: SendCoinForm) {
+        this.sendCoinForm = sendCoinForm;
+        this.opType = 'sendCoin';
         this.pinModal.show();
     }
 
@@ -158,10 +174,17 @@ export class WalletDashboardComponent {
         this.addAssetsModal.show();
     }
 
+    sendCoin() {
+        this.sendCoinModal.show();
+    }
     onConfirmedPin(pin: string) {
         console.log('pin is:' + pin);
         this.pin = pin;
-        this.depositdo();
+        if (this.opType === 'deposit') {
+            this.depositdo();
+        } else {
+            this.sendCoinDo();
+        }
     }
 
     onConfirmedAssets(assets: [Token]) {
@@ -190,6 +213,31 @@ export class WalletDashboardComponent {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         this.coinServ.depositFab(seed, currentCoin, amount);
 
+    }
+
+    async sendCoinDo() {
+        const pin = this.pin;
+        const currentCoin = this.wallet.mycoins[this.sendCoinForm.coinIndex];
+
+        const seed = this.utilService.aesDecryptSeed(this.wallet.encryptedSeed, pin);
+        
+        const amount = this.sendCoinForm.amount;
+        const doSubmit = true;
+        const {txHex, txHash} = await this.coinService.sendTransaction(currentCoin, seed, 
+            this.sendCoinForm.to, amount, doSubmit
+        );
+        if (txHex) {
+            const today = new Date();
+            const item = {
+                type: 'Send',
+                coin: currentCoin.name,
+                amount: amount,
+                txid: txHash,
+                time: today, 
+                comment: ''
+            };
+            this.storageService.storeToTransactionHistoryList(item);
+        }
     }
 
     async depositdo() {
@@ -244,15 +292,15 @@ export class WalletDashboardComponent {
         const includeCoin = true;
         const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
 
-        
+        /*
         this.kanbanServ.sendRawSignedTransaction(txKanbanHex).subscribe((resp) => { 
             console.log('resp=' + resp);
         });         
-        
-       /*
+        */
+       
        this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp) => { 
             console.log('resp=' + resp);
         }); 
-       */         
+                
     }
 }

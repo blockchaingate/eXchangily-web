@@ -1,4 +1,6 @@
-import { Component, TemplateRef, Input } from '@angular/core';
+import { Component, ViewChild, EventEmitter, Output, Input } from '@angular/core';
+import {  ModalDirective } from 'ngx-bootstrap/modal';
+import {SendCoinForm} from '../../../../interfaces/kanban.interface';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Wallet } from '../../../../models/wallet';
 import { ApiService } from '../../../../services/api.service';
@@ -11,11 +13,62 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 
 @Component({
-    selector: 'modal-send-coin',
+    selector: 'send-coin-modal',
     templateUrl: './send-coin.modal.html',
     styleUrls: ['./send-coin.modal.css']
 })
 export class SendCoinModal {
+    @Input() wallet: Wallet;
+    @ViewChild('sendCoinModal', {static: true}) public sendCoinModal: ModalDirective;
+    @Output() confirmedCoinSent = new EventEmitter<SendCoinForm>();
+    currentCoinIndex: number;
+    currentCoinBalance: number;
+
+    sendCoinForm = this.fb.group({
+        sendTo: [''],
+        sendAmount: [''],
+        selectedCoinIndex: [0]
+    });     
+    constructor(private fb: FormBuilder) {
+        //this.setCurrentCoinIndex(0);
+    }
+
+
+
+    /*
+    setCurrentCoinIndex(i: number) {
+        this.currentCoinIndex = i;
+        if (this.wallet) {
+            this.currentCoinBalance = this.wallet.mycoins[i].balance;
+        } else {
+            this.currentCoinBalance = 0;
+        }
+    }
+    */
+    onSubmit() {
+        const sendCoinForm = {
+            to: this.sendCoinForm.get('sendTo').value,
+            coinIndex: Number(this.sendCoinForm.get('selectedCoinIndex').value),
+            amount: Number(this.sendCoinForm.get('sendAmount').value)
+        };
+        this.confirmedCoinSent.emit(sendCoinForm);
+        this.hide();        
+    }
+
+    show() {
+        this.sendCoinModal.show();
+    }
+
+    hide() {
+        this.sendCoinModal.hide();
+    }
+
+
+
+
+
+
+    /*
     modalRef: BsModalRef;
     modalRef2: BsModalRef;
     @Input() wallet: Wallet;
@@ -47,9 +100,7 @@ export class SendCoinModal {
         // this.wallet.mycoins[index].receiveAdds[0].address;
         // console.log(selectedValue);
     }     
-    changeCoin(e: any) {
-        this.currentCoinIndex = e;
-    }  
+
 
     async onSubmitPin() {
         const pin = this.pinForm.get('pin').value;
@@ -77,6 +128,12 @@ export class SendCoinModal {
     }
     openPinModal(template: TemplateRef<any>) {
         this.modalRef2 = this.modalService.show(template, { class: 'second' });
-      }
+    }
+
+*/
+
+
+
+
 
 }

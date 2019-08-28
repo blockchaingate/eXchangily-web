@@ -25,7 +25,8 @@
                                     <modal-receive-coin [wallet]="wallet"></modal-receive-coin>
                                 </div>
                                 <div class="col col-md-3">
-                                    <modal-send-coin [wallet]="wallet"></modal-send-coin>
+                                    <button class="btn btn-outline btn-basic-outline" (click)="sendCoin()">{{"Send" | translate }}</button>
+
                                 </div>
                                 <div class="col col-md-3">
                                     <button class="btn btn-outline btn-basic-outline" (click)="addGasFee()">{{"Add Gas" | translate }}</button>
@@ -111,7 +112,7 @@
                             </div>
                         </div>
 -->
-                    <app-transaction-history *ngIf="showTransactionHistory"></app-transaction-history>
+                    <app-transaction-history *ngIf="showTransactionHistory" [coinsPrice]=coinsPrice></app-transaction-history>
                     <div class="row pt-4" *ngIf="showMyAssets">
                         <div class="container fxHide-sm" *ngIf="wallet">
                             <div class="row apair header">
@@ -217,42 +218,7 @@
                                 <div class="col-12 text-muted">Profit sharing:</div>
                             </div>
                         </div>
-                        <!--
-                        <table class="table table-dark table-hover table-striped table-fixed" *ngIf="wallet">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Symble</th>
-                                    <th scope="col">Digital Asset</th>
-                                    <th scope="col">Available</th>
-                                    <th scope="col">Frozen</th>
-                                    <th scope="col">Value(USD)</th>
-                                    <th scope="col">Profit sharing</th>
-                                    <th>
 
-                                    </th>
-                                    <th>
-
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let mycoin of wallet.mycoins; index as i">
-                                    <td>
-                                        <img *ngIf="mycoin.name == 'BTC'" src="/assets/coins/bitcoin.png" class="icon" />
-                                        <img *ngIf="mycoin.name == 'ETH'" src="/assets/coins/ethereum.png" class="icon" />
-                                    </td>
-                                    <td>{{mycoin.name}}</td>
-                                    <td>{{mycoin.balance}}</td>
-                                    <td>{{mycoin.lockedBalance}}</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td><button type="button" class="btn btn-primary" (click)="deposit(mycoin)">Deposit</button></td>
-                                    <td><button type="button" class="btn btn-success" (click)="withdraw(mycoin)">Withdraw</button></td>
-                                </tr>
-
-                            </tbody>
-                        </table>
--->
                     </div>
                 </div>
             </div>
@@ -263,3 +229,4 @@
     <deposit-amount-modal #depositModal (confirmedAmount)="onConfirmedAmount($event)"></deposit-amount-modal>
     <pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>
     <add-assets-modal #addAssetsModal (confirmedAssets)="onConfirmedAssets($event)"></add-assets-modal>
+    <send-coin-modal #sendCoinModal (confirmedCoinSent)="onConfirmedCoinSent($event)" [wallet]="wallet"></send-coin-modal>

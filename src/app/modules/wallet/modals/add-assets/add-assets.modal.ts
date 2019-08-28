@@ -2,6 +2,7 @@ import { Component, ViewChild, EventEmitter, Output } from '@angular/core';
 import {  ModalDirective } from 'ngx-bootstrap/modal';
 import { FormBuilder } from '@angular/forms';
 import {Token} from '../../../../interfaces/kanban.interface';
+
 @Component({
     selector: 'add-assets-modal',
     templateUrl: './add-assets.modal.html',

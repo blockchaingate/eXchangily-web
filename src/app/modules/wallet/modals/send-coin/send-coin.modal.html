@@ -1,4 +1,74 @@
-<button class="btn btn-outline btn-basic-outline" (click)="openModal(templateSend)">{{"Send" | translate }}</button>
+<div bsModal #sendCoinModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form [formGroup]="sendCoinForm" (ngSubmit)="onSubmit()">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 text-dark">Send Coin</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="inputSendTo" class="text-muted">Send to</label>
+                        <input type="text" class="form-control" id="inputSendTo" aria-describedby="emailHelp" formControlName="sendTo" placeholder="Wallet address">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputSendTo" class="text-muted">Currency</label>
+                        <div class="row">
+                            <div class="col">
+                                <select class="custom-select" formControlName="selectedCoinIndex">
+                                    <option [value]="i" *ngFor="let coin of wallet.mycoins;let i = index">{{coin.name}}</option>
+                                </select>
+
+                            </div>
+                            <div class="col">
+                                <div class="pull-right text-muted">
+                                    Balnace:{{wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].balance}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputSendTo" class="text-muted">Send amount</label>
+                        <input type="text" class="form-control" id="inputSendAmount" formControlName="sendAmount" aria-describedby="emailHelp" placeholder="0.0000">
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col text-muted">
+                                Gas fee </div>
+                            <div class="col text-muted">
+                                <div class="pull-right">
+                                    0.000033
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col text-muted">
+                                Gas fee advanced
+                            </div>
+                            <div class="col text-muted">
+                                <div class="pull-right">
+                                    <mat-slide-toggle [checked]="checked">Slide me!</mat-slide-toggle>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="pull-left">
+                        <button class="btn btn-gradient text-white" type="submit"> {{"Send" | translate }} </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--
 <ng-template #templateSend>
     <div class="modal-header text-center">
         <h4 class="modal-title w-100">Send</h4>
@@ -78,3 +148,4 @@
         </form>
     </div>
 </ng-template>
+-->

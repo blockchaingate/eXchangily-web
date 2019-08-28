@@ -127,3 +127,9 @@ export interface EthTransactionObj {
     v: string;
     rawTransaction: string;
 }
+
+export interface SendCoinForm {
+    to: string;
+    coinIndex: number;
+    amount: number;
+}
