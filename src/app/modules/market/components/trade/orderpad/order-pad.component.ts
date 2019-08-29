@@ -165,11 +165,11 @@ export class OrderPadComponent implements AfterViewInit {
           const abiHex = this.web3Serv.getCreateOrderFuncABI([this.bidOrAsk,  
             orderType, baseCoin, targetCoin, (this.qty * 1e18).toString(), (this.price * 1e18).toString(), 
             timeBeforeExpiration,  orderHash]);
-
+            console.log('abiHex=', abiHex);
           const nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
           const includeCoin = true;
           const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce, includeCoin); 
-  
+            console.log('txhex=', txhex);
           this.kanbanService.sendRawSignedTransaction(txhex).subscribe((resp: TransactionResp) => {
   
               if (resp && resp.transactionHash) {
