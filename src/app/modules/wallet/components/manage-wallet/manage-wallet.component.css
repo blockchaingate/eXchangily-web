@@ -4,12 +4,6 @@
     transition: all 0.4s;
 }
 
-.page-content {
-    width: calc(100% - 17rem);
-    margin-left: 17rem;
-    transition: all 0.4s;
-}
-
 
 /* for toggle behavior */
 
@@ -24,4 +18,8 @@
 
 .nav-link:hover {
     background-color: #3a3b5a;
+}
+
+.nav-item {
+    line-height: 0.8;
 }

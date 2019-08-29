@@ -46,6 +46,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -89,6 +90,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         MatTooltipModule,
         MatSlideToggleModule,
         MatMenuModule,
+        MatExpansionModule,
         BsDropdownModule.forRoot(),
         CollapseModule.forRoot(),
         ModalModule.forRoot(),
