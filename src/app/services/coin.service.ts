@@ -93,7 +93,7 @@ export class CoinService {
 
     async depositFab(scarContractAddress: string, seed: any, mycoin: MyCoin, amount: number) {
         // sendTokens in https://github.com/ankitfa/Fab_sc_test1/blob/master/app/walletManager.js
-        const gasLimit = 1000000;
+        const gasLimit = 800000;
         const gasPrice = 40;
         const totalAmount = gasLimit * gasPrice / 1e8;
         // let cFee = 3000 / 1e8 // fee for the transaction
@@ -176,8 +176,12 @@ export class CoinService {
         if (coinName === 'BTC') {
             receiveAddsLen = (receiveAddsLen > 3) ? 3 : receiveAddsLen;
             changeAddsLen = (changeAddsLen > 3) ? 3 : changeAddsLen;
+            return;
         }
-
+        if (coinName === 'FAB') {
+            receiveAddsLen = 1;
+            changeAddsLen = 1;
+        }
         for (let i = 0; i < receiveAddsLen; i ++) {
             const addr = myCoin.receiveAdds[i].address;
             const decimals = myCoin.decimals;
@@ -376,6 +380,8 @@ export class CoinService {
                 for (let j = 0; j < utxos.length; j++) {
                     const utxo = utxos[j];
                     txb.addInput(utxo.txid, utxo.sequence);
+                    console.log('input is');
+                    console.log(utxo.txid, utxo.sequence);
                     receiveAddsIndexArr.push(index);
                     totalInput += utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
                     amountNum -= utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
@@ -413,6 +419,8 @@ export class CoinService {
                     for (let j = 0; j < utxos.length; j++) {
                         const utxo = utxos[j];
                         txb.addInput(utxo.txid, utxo.sequence);
+                        console.log('input2 is');
+                        console.log(utxo.txid, utxo.sequence);                        
                         changeAddsIndexArr.push(index);
                         totalInput += utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
                         amountNum -= utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
