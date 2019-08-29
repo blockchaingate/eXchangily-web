@@ -69,7 +69,11 @@ export class WalletDashboardComponent {
         if (type === 'SHOW_SEED_PHRASE') {
             this.opType = 'showSeedPhrase';
             this.pinModal.show();            
-        }
+        } else 
+        if (type === 'VERIFY_SEED_PHRASE') {
+            this.opType = 'verifySeedPhrase';
+            this.pinModal.show();            
+        }         
     }
 
     onShowTransactionHistory() {
@@ -216,7 +220,7 @@ export class WalletDashboardComponent {
 
     showSeedPhrase() {
         let seedPhrase = '';
-        if(this.wallet.encryptedMnemonic) {
+        if (this.wallet.encryptedMnemonic) {
             seedPhrase = this.utilServ.aesDecrypt(this.wallet.encryptedMnemonic, this.pin);
         }
         this.showSeedPhraseModal.show(seedPhrase);
