@@ -47,7 +47,8 @@ export class WalletService {
         const pwdHashStr = this.utilService.SHA256(pwd).toString();
 
         const encryptedSeed = this.utilService.aesEncryptSeed(seed, pwd);
-        const wallet = new Wallet(seedHashStr.substr(0, 8), name, pwdHashStr, encryptedSeed.toString());
+        const encryptedMnemonic = this.utilService.aesEncrypt(mnemonic, pwd);
+        const wallet = new Wallet(seedHashStr.substr(0, 8), name, pwdHashStr, encryptedSeed.toString(), encryptedMnemonic.toString());
         const myCoins = this.coinService.initMyCoins(seed);
 
         wallet.addCoins(myCoins);

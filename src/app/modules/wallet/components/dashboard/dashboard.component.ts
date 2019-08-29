@@ -62,6 +62,14 @@ export class WalletDashboardComponent {
         this.showTransactionHistory = false;
     }
 
+    onmanageWallet(type: string) {
+        console.log('type in dashboard=' + type);
+        if (type === 'SHOW_SEED_PHRASE') {
+            this.opType = 'showSeedPhrase';
+            this.pinModal.show();            
+        }
+    }
+
     onShowTransactionHistory() {
         this.showMyAssets = false;
         this.showTransactionHistory = true;
@@ -189,16 +197,25 @@ export class WalletDashboardComponent {
     sendCoin() {
         this.sendCoinModal.show();
     }
+
     onConfirmedPin(pin: string) {
         console.log('pin is:' + pin);
         this.pin = pin;
         if (this.opType === 'deposit') {
             this.depositdo();
-        } else {
+        } else 
+        if (this.opType === 'sendCoin') {
             this.sendCoinDo();
+        } else 
+        if (this.opType === 'showSeedPhrase') {
+            this.showSeedPhrase();
         }
     }
 
+    showSeedPhrase() {
+
+    }
+    
     onConfirmedAssets(assets: [Token]) {
         for (let i = 0; i < assets.length; i++) {
             const token = assets[i];
