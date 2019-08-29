@@ -87,7 +87,7 @@ export class Web3Service {
         txhex = '0x' + serializedTx.toString('hex'); 
       } else {
         const customCommon = Common.forCustomChain(
-          'test',
+          'ropsten',
           {
             name: 'test',
             networkId: 212,

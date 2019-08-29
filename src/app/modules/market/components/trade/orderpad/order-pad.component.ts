@@ -167,7 +167,7 @@ export class OrderPadComponent implements AfterViewInit {
             timeBeforeExpiration,  orderHash]);
 
           const nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
-          const includeCoin = false;
+          const includeCoin = true;
           const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce, includeCoin); 
   
           this.kanbanService.sendRawSignedTransaction(txhex).subscribe((resp: TransactionResp) => {
