@@ -71,28 +71,30 @@ export class Web3Service {
       };
 
 
-      const customCommon = Common.forCustomChain(
-        'test',
-        {
-          name: 'test',
-          networkId: 212,
-          chainId: 212
-        },
-        'byzantium',
-      );   
+
       
       const privKey = Buffer.from(keyPair.privateKeyHex, 'hex');
 
       let txhex = '';
       
+      console.log('includeCoin=', includeCoin);
       if (!includeCoin) {
         const EthereumTx = Eth.Transaction;  
         //const tx = new EthereumTx(includeCoin ? txObject : txObjectWithoutCoin, { common: customCommon });
-        const tx = new EthereumTx(txObjectWithoutCoin, { common: customCommon });
+        const tx = new EthereumTx(txObjectWithoutCoin, { chain: 'ropsten', hardfork: 'byzantium' });
         tx.sign(privKey);
         const serializedTx = tx.serialize();
         txhex = '0x' + serializedTx.toString('hex'); 
       } else {
+        const customCommon = Common.forCustomChain(
+          'test',
+          {
+            name: 'test',
+            networkId: 212,
+            chainId: 212
+          },
+          'byzantium',
+        );           
         const tx = new KanbanTxService(txObject, { common: customCommon });
         tx.sign(privKey);
         const serializedTx = tx.serialize();

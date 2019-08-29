@@ -294,18 +294,19 @@ export class WalletDashboardComponent {
 
         const amountInLink = amount * 1e18; // it's for all coins.
         const originalMessage = this.coinServ.getOriginalMessage(coinType, txHash.substring(2), amountInLink, addressInKanban.substring(2));
-
+        console.log('a');
         const signedMessage: Signature = this.coinServ.signedMessage(originalMessage, keyPairs);
-
+        console.log('b');
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
-
+        console.log('c');
         const abiHex = this.web3Serv.getDepositFuncABI(coinType, txHash, amountInLink, addressInKanban, signedMessage);
-
+        console.log('d');
         let nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
         //const nonce = 0;
         const includeCoin = true;
+        console.log('e');
         const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
-
+        console.log('f');
         /*
         this.kanbanServ.sendRawSignedTransaction(txKanbanHex).subscribe((resp) => { 
             console.log('resp=' + resp);
