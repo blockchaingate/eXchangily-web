@@ -179,8 +179,8 @@ export class CoinService {
             return;
         }
         if (coinName === 'FAB') {
-            receiveAddsLen = 1;
-            changeAddsLen = 1;
+            receiveAddsLen = (receiveAddsLen > 1) ? 1 : receiveAddsLen;
+            changeAddsLen = (changeAddsLen > 1) ? 1 : changeAddsLen;
         }
         for (let i = 0; i < receiveAddsLen; i ++) {
             const addr = myCoin.receiveAdds[i].address;

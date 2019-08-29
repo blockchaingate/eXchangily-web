@@ -37,6 +37,7 @@ import { SendCoinModal } from './modals/send-coin/send-coin.modal';
 import { ReceiveCoinModal } from './modals/receive-coin/receive-coin.modal';
 import { DepositAmountModal } from './modals/deposit-amount/deposit-amount.modal';
 import { PinNumberModal } from './modals/pin-number/pin-number.modal';
+import { ShowSeedPhraseModal } from './modals/show-seed-phrase/show-seed-phrase.modal';
 
 import { KanbanService } from '../../services/kanban.service';
 import { Web3Service } from '../../services/web3.service';
@@ -71,7 +72,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         SendCoinModal,
         ReceiveCoinModal,
         DepositAmountModal,
-        PinNumberModal
+        PinNumberModal,
+        ShowSeedPhraseModal
     ],
     imports: [
         // BrowserModule,

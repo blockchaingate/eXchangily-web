@@ -13,6 +13,7 @@ import {Signature, Token} from '../../../../interfaces/kanban.interface';
 import { DepositAmountModal } from '../../modals/deposit-amount/deposit-amount.modal';
 import { AddAssetsModal } from '../../modals/add-assets/add-assets.modal';
 import { PinNumberModal } from '../../modals/pin-number/pin-number.modal';
+import { ShowSeedPhraseModal } from '../../modals/show-seed-phrase/show-seed-phrase.modal';
 import { SendCoinModal } from '../../modals/send-coin/send-coin.modal';
 import {CoinsPrice} from '../../../../interfaces/balance.interface';
 import {SendCoinForm} from '../../../../interfaces/kanban.interface';
@@ -29,6 +30,7 @@ export class WalletDashboardComponent {
     @ViewChild('depositModal', {static: true}) depositModal: DepositAmountModal;
     @ViewChild('addAssetsModal', {static: true}) addAssetsModal: AddAssetsModal;
     @ViewChild('sendCoinModal', {static: true}) sendCoinModal: SendCoinModal;
+    @ViewChild('showSeedPhraseModal', {static: true}) showSeedPhraseModal: ShowSeedPhraseModal;
 
     sendCoinForm: SendCoinForm;
     wallet: Wallet; 
@@ -213,7 +215,11 @@ export class WalletDashboardComponent {
     }
 
     showSeedPhrase() {
-
+        let seedPhrase = '';
+        if(this.wallet.encryptedMnemonic) {
+            seedPhrase = this.utilServ.aesDecrypt(this.wallet.encryptedMnemonic, this.pin);
+        }
+        this.showSeedPhraseModal.show(seedPhrase);
     }
     
     onConfirmedAssets(assets: [Token]) {
