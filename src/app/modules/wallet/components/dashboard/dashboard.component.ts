@@ -14,6 +14,7 @@ import { DepositAmountModal } from '../../modals/deposit-amount/deposit-amount.m
 import { AddAssetsModal } from '../../modals/add-assets/add-assets.modal';
 import { PinNumberModal } from '../../modals/pin-number/pin-number.modal';
 import { ShowSeedPhraseModal } from '../../modals/show-seed-phrase/show-seed-phrase.modal';
+import { VerifySeedPhraseModal } from '../../modals/verify-seed-phrase/verify-seed-phrase.modal';
 import { SendCoinModal } from '../../modals/send-coin/send-coin.modal';
 import {CoinsPrice} from '../../../../interfaces/balance.interface';
 import {SendCoinForm} from '../../../../interfaces/kanban.interface';
@@ -31,6 +32,7 @@ export class WalletDashboardComponent {
     @ViewChild('addAssetsModal', {static: true}) addAssetsModal: AddAssetsModal;
     @ViewChild('sendCoinModal', {static: true}) sendCoinModal: SendCoinModal;
     @ViewChild('showSeedPhraseModal', {static: true}) showSeedPhraseModal: ShowSeedPhraseModal;
+    @ViewChild('verifySeedPhraseModal', {static: true}) verifySeedPhraseModal: VerifySeedPhraseModal;
 
     sendCoinForm: SendCoinForm;
     wallet: Wallet; 
@@ -184,7 +186,6 @@ export class WalletDashboardComponent {
     }
 
     onConfirmedAmount(amount: number) {
-        console.log('amount is:' + amount);
         this.amount = amount;
         this.opType = 'deposit';
         this.pinModal.show();
@@ -215,6 +216,9 @@ export class WalletDashboardComponent {
         } else 
         if (this.opType === 'showSeedPhrase') {
             this.showSeedPhrase();
+        } else
+        if (this.opType === 'verifySeedPhrase') {
+            this.verifySeedPhrase();
         }
     }
 
@@ -226,6 +230,14 @@ export class WalletDashboardComponent {
         this.showSeedPhraseModal.show(seedPhrase);
     }
     
+    verifySeedPhrase() {
+        let seedPhrase = '';
+        if (this.wallet.encryptedMnemonic) {
+            seedPhrase = this.utilServ.aesDecrypt(this.wallet.encryptedMnemonic, this.pin);
+        }
+        this.verifySeedPhraseModal.show(seedPhrase);
+    }
+
     onConfirmedAssets(assets: [Token]) {
         for (let i = 0; i < assets.length; i++) {
             const token = assets[i];
