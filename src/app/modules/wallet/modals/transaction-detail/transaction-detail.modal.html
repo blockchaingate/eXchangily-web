@@ -7,7 +7,7 @@
                         <span aria-hidden="true">&times;</span>
                       </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" *ngIf="item">
                 <div class="py-3">
                     <div class="d-flex text-dark">
                         Send {{item.coin}}

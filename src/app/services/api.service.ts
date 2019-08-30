@@ -45,6 +45,7 @@ export class ApiService {
     }
     
     async getBtcBalance(address: string): Promise<number> {
+        /*
         let balance = 0;
         const utxos = await this.getBtcUtxos(address);
         if (utxos && utxos.length > 0) {
@@ -53,14 +54,18 @@ export class ApiService {
             }
         }
         return balance;
-        /*
-        const url = 'https://api.blockcypher.com/v1/btc/test3/addrs/' + address + '?token=062d147ef3bc412688fedcaadb1b13c4';
-        const response = await this.http.get(url).toPromise() as Balance;  
-        console.log('response=');
-
-        console.log(response.balance);
-        return response.balance;
         */
+        let balance = 0;
+        const url = 'https://api.blockcypher.com/v1/btc/test3/addrs/' + address + '?token=062d147ef3bc412688fedcaadb1b13c4';
+        try {
+            const response = await this.http.get(url).toPromise() as Balance; 
+            balance = response.balance;
+        } catch (e) {
+
+        }
+
+        return balance;
+        
 
     }
 

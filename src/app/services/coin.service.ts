@@ -176,7 +176,7 @@ export class CoinService {
         if (coinName === 'BTC') {
             receiveAddsLen = (receiveAddsLen > 3) ? 3 : receiveAddsLen;
             changeAddsLen = (changeAddsLen > 3) ? 3 : changeAddsLen;
-            return;
+
         }
         if (coinName === 'FAB') {
             receiveAddsLen = (receiveAddsLen > 1) ? 1 : receiveAddsLen;
