@@ -54,7 +54,7 @@ export class Web3Service {
 
     async signAbiHexWithPrivateKey(abiHex: string, keyPair: any, address: string, nonce: number, includeCoin: boolean) {
       console.log('abiHex before', abiHex);
-      if(abiHex.startsWith('0x')) {
+      if (abiHex.startsWith('0x')) {
         abiHex = abiHex.slice(2);
       }
       console.log('abiHex after', abiHex);

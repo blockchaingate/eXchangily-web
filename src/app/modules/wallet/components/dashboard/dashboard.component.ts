@@ -13,12 +13,14 @@ import {Signature, Token} from '../../../../interfaces/kanban.interface';
 import { DepositAmountModal } from '../../modals/deposit-amount/deposit-amount.modal';
 import { AddAssetsModal } from '../../modals/add-assets/add-assets.modal';
 import { PinNumberModal } from '../../modals/pin-number/pin-number.modal';
+import { AddGasModal } from '../../modals/add-gas/add-gas.modal';
 import { ShowSeedPhraseModal } from '../../modals/show-seed-phrase/show-seed-phrase.modal';
 import { VerifySeedPhraseModal } from '../../modals/verify-seed-phrase/verify-seed-phrase.modal';
 import { SendCoinModal } from '../../modals/send-coin/send-coin.modal';
 import {CoinsPrice} from '../../../../interfaces/balance.interface';
 import {SendCoinForm} from '../../../../interfaces/kanban.interface';
 import {StorageService} from '../../../../services/storage.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-wallet-dashboard',
@@ -29,6 +31,7 @@ import {StorageService} from '../../../../services/storage.service';
 export class WalletDashboardComponent {
     @ViewChild('pinModal', {static: true}) pinModal: PinNumberModal;
     @ViewChild('depositModal', {static: true}) depositModal: DepositAmountModal;
+    @ViewChild('addGasModal', {static: true}) addGasModal: AddGasModal;
     @ViewChild('addAssetsModal', {static: true}) addAssetsModal: AddAssetsModal;
     @ViewChild('sendCoinModal', {static: true}) sendCoinModal: SendCoinModal;
     @ViewChild('showSeedPhraseModal', {static: true}) showSeedPhraseModal: ShowSeedPhraseModal;
@@ -53,7 +56,7 @@ export class WalletDashboardComponent {
     constructor ( private route: Router, private walletServ: WalletService, private modalServ: BsModalService, 
         private coinServ: CoinService, private utilServ: UtilService, private apiServ: ApiService, 
         private kanbanServ: KanbanService, private web3Serv: Web3Service, private viewContainerRef: ViewContainerRef,
-        private utilService: UtilService, 
+        private utilService: UtilService, private _snackBar: MatSnackBar,
         private coinService: CoinService, private storageService: StorageService) {
         this.showMyAssets = true;
         this.showTransactionHistory = false;
@@ -75,7 +78,10 @@ export class WalletDashboardComponent {
         if (type === 'VERIFY_SEED_PHRASE') {
             this.opType = 'verifySeedPhrase';
             this.pinModal.show();            
-        }         
+        } else 
+        if (type === 'BACKUP_PRIVATE_KEY') {
+            this.opType = 'backupPrivateKey';
+        }        
     }
 
     onShowTransactionHistory() {
@@ -154,12 +160,12 @@ export class WalletDashboardComponent {
         this.modalRef = this.modalServ.show(template);
     } 
 
+    
     addGasFee() {
         //this.currentCoin = this.wallet.mycoins[1];
-        this.currentCoin = null;
-        this.depositModal.show();
+        this.addGasModal.show();
     }
-
+    
     async withdraw(currentCoin: MyCoin) {
         const pin = '1qaz@WSX';
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
@@ -191,6 +197,12 @@ export class WalletDashboardComponent {
         this.pinModal.show();
     }
 
+    onConfirmedGas(amount: number) {
+        this.amount = amount;
+        this.opType = 'addGas';
+        this.pinModal.show();        
+    }
+
     onConfirmedCoinSent(sendCoinForm: SendCoinForm) {
         this.sendCoinForm = sendCoinForm;
         this.opType = 'sendCoin';
@@ -211,6 +223,9 @@ export class WalletDashboardComponent {
         if (this.opType === 'deposit') {
             this.depositdo();
         } else 
+        if (this.opType === 'addGas') {
+            this.addGasDo();
+        } else
         if (this.opType === 'sendCoin') {
             this.sendCoinDo();
         } else 
@@ -227,15 +242,29 @@ export class WalletDashboardComponent {
         if (this.wallet.encryptedMnemonic) {
             seedPhrase = this.utilServ.aesDecrypt(this.wallet.encryptedMnemonic, this.pin);
         }
-        this.showSeedPhraseModal.show(seedPhrase);
+        if (seedPhrase) {
+            this.showSeedPhraseModal.show(seedPhrase);
+        } else {
+            this._snackBar.open('Your pin number is invalid.', 'Ok', {
+                duration: 2000,
+            });
+        }
     }
-    
+
     verifySeedPhrase() {
         let seedPhrase = '';
         if (this.wallet.encryptedMnemonic) {
             seedPhrase = this.utilServ.aesDecrypt(this.wallet.encryptedMnemonic, this.pin);
         }
-        this.verifySeedPhraseModal.show(seedPhrase);
+
+        if (seedPhrase) {
+            this.verifySeedPhraseModal.show(seedPhrase);
+        } else {
+            this._snackBar.open('Your pin number is invalid.', 'Ok', {
+                duration: 2000,
+            });
+        }        
+        
     }
 
     onConfirmedAssets(assets: [Token]) {
@@ -262,20 +291,34 @@ export class WalletDashboardComponent {
         const pin = this.pin;     
         
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
-
-        //const scarAddress = await this.kanbanServ.getScarAddress();
-        const scarAddress = '98cda3da6813b4711d7f0c1637480b2353b00c1c';
+        if (!seed) {
+            this._snackBar.open('Your pin number is invalid.', 'Ok', {
+                duration: 2000,
+            });        
+            return;   
+        } 
+        const scarAddress = await this.kanbanServ.getScarAddress();
+        //const scarAddress = '98cda3da6813b4711d7f0c1637480b2353b00c1c';
         console.log('scarAddress=', scarAddress);
         this.coinServ.depositFab(scarAddress, seed, currentCoin, amount);
 
     }
 
+    async addGasDo() {
+        const currentCoin = this.wallet.mycoins[1];
+        this.depositFab(currentCoin);        
+    }
     async sendCoinDo() {
         const pin = this.pin;
         const currentCoin = this.wallet.mycoins[this.sendCoinForm.coinIndex];
 
         const seed = this.utilService.aesDecryptSeed(this.wallet.encryptedSeed, pin);
-        
+        if (!seed) {
+            this._snackBar.open('Your pin number is invalid.', 'Ok', {
+                duration: 2000,
+            });        
+            return;   
+        } 
         const amount = this.sendCoinForm.amount;
         const doSubmit = true;
         const {txHex, txHash} = await this.coinService.sendTransaction(currentCoin, seed, 
@@ -299,19 +342,25 @@ export class WalletDashboardComponent {
 
         let currentCoin = this.currentCoin;
 
+        /*
         if (currentCoin == null) {
             currentCoin = this.wallet.mycoins[1];
             this.depositFab(currentCoin);
             return;
         }       
-
+        */
         const amount = this.amount;
         const pin = this.pin;
 
         const coinType = this.coinServ.getCoinTypeIdByName(currentCoin.name);
 
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
-        
+        if (!seed) {
+            this._snackBar.open('Your pin number is invalid.', 'Ok', {
+                duration: 2000,
+            });        
+            return;   
+        }         
         const keyPairs = this.coinServ.getKeyPairs(currentCoin, seed, 0, 0);
 
 
@@ -347,16 +396,16 @@ export class WalletDashboardComponent {
         const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
         console.log('f');
         
-        
+        /*
         this.kanbanServ.sendRawSignedTransaction(txKanbanHex).subscribe((resp) => { 
             console.log('resp=' + resp);
         });         
-        
+        */
        
-       /*
+       
        this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp) => { 
             console.log('resp=' + resp);
         }); 
-        */    
+            
     }
 }

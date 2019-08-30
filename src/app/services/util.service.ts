@@ -5,15 +5,21 @@ import * as createHash from 'create-hash';
 
 @Injectable()
 export class UtilService {
+    auth_code = 'encrypted by crypto-js|';
     // The aesEncrypt method is use for encrypt the message, encrypted is bytes, you can use encrypted.toString() convert to string.
     aesEncrypt(messageToEnc: string, pwd: string) {
-        const encrypted = CryptoJS.AES.encrypt(messageToEnc, pwd);
+        const encrypted = CryptoJS.AES.encrypt(this.auth_code + messageToEnc, pwd).toString();
         return encrypted;
         // return encrypted.toString();
     }
 
     aesDecrypt(encryted: any, pwd: string) {
-        return CryptoJS.AES.decrypt(encryted, pwd).toString(CryptoJS.enc.Utf8);
+        const encryptedRawData = CryptoJS.AES.decrypt(encryted, pwd).toString(CryptoJS.enc.Utf8);
+        if (!encryptedRawData.startsWith(this.auth_code)) {
+            return '';
+            // return encryptedRawData;
+        }
+        return encryptedRawData.slice(this.auth_code.length);
     }   
     
     aesEncryptSeed(seed: Buffer, pwd: string) {
@@ -23,7 +29,10 @@ export class UtilService {
 
     aesDecryptSeed(encryted: any, pwd: string) {
         const decrytedString = this.aesDecrypt(encryted, pwd);
-        return Buffer.from(decrytedString, 'base64');
+        if (decrytedString) {
+            return Buffer.from(decrytedString, 'base64');
+        }
+        return null;
     }
 
     getDecimal(coin: MyCoin) {

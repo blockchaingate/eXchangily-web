@@ -231,6 +231,7 @@
     </div>
 
     <deposit-amount-modal #depositModal (confirmedAmount)="onConfirmedAmount($event)"></deposit-amount-modal>
+    <add-gas-modal #addGasModal (confirmedGas)="onConfirmedGas($event)"></add-gas-modal>
     <pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>
     <add-assets-modal #addAssetsModal (confirmedAssets)="onConfirmedAssets($event)"></add-assets-modal>
     <send-coin-modal #sendCoinModal (confirmedCoinSent)="onConfirmedCoinSent($event)" [wallet]="wallet"></send-coin-modal>
