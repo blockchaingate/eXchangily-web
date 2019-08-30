@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {Balance, EthBalance, FabTransaction, BtcTransaction, EthTransaction
     , FabTransactionResponse, CoinsPrice, BtcUtxo} from '../interfaces/balance.interface';
+import { createHmac } from 'crypto';
 
 @Injectable() 
 export class ApiService {
@@ -40,21 +41,32 @@ export class ApiService {
 
     async getBtcUtxos(address: string): Promise<[BtcUtxo]> {
         const url = 'http://18.188.32.168:8000/getutxos/' + address;
-        const response = await this.http.get(url).toPromise() as [BtcUtxo];
+        let response = null;
+        try {
+            console.log('oo');
+            response = await this.http.get(url).toPromise() as [BtcUtxo];
+            console.log('pp');
+        } catch (e) {console.log ('error2'); }
         return response;
     }
     
     async getBtcBalance(address: string): Promise<number> {
-        /*
+        
         let balance = 0;
-        const utxos = await this.getBtcUtxos(address);
-        if (utxos && utxos.length > 0) {
-            for (let i = 0; i < utxos.length; i++) {
-                balance += utxos[i].value;
+        try {
+            console.log('mm');
+            const utxos = await this.getBtcUtxos(address);
+            console.log('nn');
+            if (utxos && utxos.length > 0) {
+                for (let i = 0; i < utxos.length; i++) {
+                    balance += utxos[i].value;
+                }
             }
-        }
+        } catch (e) { console.log ('error1'); }
+
         return balance;
-        */
+
+        /*
         let balance = 0;
         const url = 'https://api.blockcypher.com/v1/btc/test3/addrs/' + address + '?token=062d147ef3bc412688fedcaadb1b13c4';
         try {
@@ -65,7 +77,7 @@ export class ApiService {
         }
 
         return balance;
-        
+        */
 
     }
 
@@ -79,6 +91,7 @@ export class ApiService {
     }
 
     async getFabBalance(address: string): Promise<number> {
+        /*
         const tran = await this.getFabTransaction(address);
         let balance = 0;
         for (let i = 0; i < tran.result.length; i++) {
@@ -88,12 +101,22 @@ export class ApiService {
             }
         }
         return balance;
+        */
+       let balance = 0;
+       const url = 'http://52.60.97.159:8000/getbalance/' + address;
+       try {
+            const response = await this.http.get(url).toPromise() as string;
+            balance = Number(response);
+       } catch (e) {
+
+       }
+       return balance;       
     }
 
     async getEthNonce (address: string) {
         const url = 'http://3.13.178.231:3000/getnonce/' + address;
         const response = await this.http.get(url).toPromise() as string;
-        return parseInt (response);
+        return Number (response);
     }
 
     async postEthTx(txHex: string) {

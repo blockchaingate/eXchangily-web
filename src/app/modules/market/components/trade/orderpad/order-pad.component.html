@@ -55,7 +55,7 @@
     </div>
     <!--Market Order-->
     <div class="lower w-100">
-        <div class="buyorder h-100">
+        <div class="buyorder h-100" *ngIf="baseCoin">
             <div class="aspace text-success">
                 {{'Available' | translate}} {{coinService.getCoinNameByTypeId(baseCoin)}}: {{this.baseCoinAvail}}
             </div>
@@ -67,12 +67,12 @@
             <div class="aspace text-muted">
                 {{'Total' | translate}} {{coinService.getCoinNameByTypeId(baseCoin)}}: {{buyPrice * buyQty}}
             </div>
-            <div class="aspace"> <button type="button" class="btn btn-success" (click)="buy(templatePasswd)">
+            <div class="aspace" *ngIf="targetCoin"> <button type="button" class="btn btn-success" (click)="buy(templatePasswd)">
                 {{'Buy' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}
             </button></div>
         </div>
 
-        <div class="sellorder h-100">
+        <div class="sellorder h-100" *ngIf="targetCoin">
             <div class="aspace text-danger">
                 {{'Available' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}: {{this.targetCoinAvail}}
             </div>

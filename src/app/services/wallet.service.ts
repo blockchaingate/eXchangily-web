@@ -88,6 +88,15 @@ export class WalletService {
         return this.localSt.getItem('wallets');
     }
 
+    async getCurrentWallet() {
+        const currentWalletIndex = await this.localSt.getItem('currentWalletIndex').toPromise() as number;
+        const wallets = await this.localSt.getItem('wallets').toPromise() as Wallet[];
+        if (currentWalletIndex >= 0 && wallets) {
+            return wallets[currentWalletIndex];
+        }
+        return null;
+    }
+
     storeToWalletList(wallet: Wallet) {
         this.localSt.getItem('wallets').subscribe((wallets: Wallet[]) => {
             if (!wallets) {

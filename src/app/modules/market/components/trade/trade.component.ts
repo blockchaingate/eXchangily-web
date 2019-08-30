@@ -39,12 +39,29 @@ export class TradeComponent implements OnInit {
         setTheme('bs4'); // Bootstrap 4
     }
 
-    ngOnInit() {
+    async ngOnInit() {
+        const wallet = await this.walletService.getCurrentWallet();
+        if (wallet) {
+            this.wallet = wallet;
+            this.address = this.wallet.excoin.receiveAdds[0].address;
+            console.log('address here we go=' + this.address);
+            if (this.address) {
+                this.kanbanService.getBalance(this.address).subscribe((resp) => {
+                    console.log('resp from getBalances===');
+                    console.log(resp);
+                    this.mytokens = resp;
+                });
+            }             
+        }
+
+        /*
         this.walletService.getCurrentWallets().subscribe((wallets: Wallet[]) => {
             if (wallets && wallets.length > 0) {
               this.wallet = wallets[0];
-              if(this.wallet && this.wallet.excoin && this.wallet.excoin.receiveAdds) {
+              if (this.wallet && this.wallet.excoin && this.wallet.excoin.receiveAdds) {
+                console.log(this.wallet);
                 this.address = this.wallet.excoin.receiveAdds[0].address;
+                console.log('address here we go=' + this.address);
                 if (this.address) {
                     this.kanbanService.getBalance(this.address).subscribe((resp) => {
                         console.log('resp from getBalances===');
@@ -55,6 +72,7 @@ export class TradeComponent implements OnInit {
               }
             }
         });
+        */
         //  const Pair = <Price>JSON.parse(pair);
         // alert(Pair.coin);
 
