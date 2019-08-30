@@ -1,0 +1,32 @@
+<div bsModal #backupPrivateKeyModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <form [formGroup]="backupPrivateKeyForm" (ngSubmit)="onSubmit()">
+            <div class="modal-content" *ngIf="wallet">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 text-dark">Backup private key</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="inputSendTo" class="text-muted">{{"Asset" | translate }}</label>
+                        <select class="form-control" (change)="onChange($event.target.value)">
+                            <option [value]="i" *ngFor="let coin of wallet.mycoins;let i = index">{{coin.name}}</option>
+                        </select>
+
+                        <mat-list role="list">
+                            <mat-list-item role="listitem" *ngFor="let addr of currentCoin.receiveAdds">{{addr.address}}</mat-list-item>
+                        </mat-list>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="pull-left">
+                        <button class="btn btn-gradient text-white" type="submit"> Confirm </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

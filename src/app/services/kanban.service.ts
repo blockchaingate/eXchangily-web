@@ -100,9 +100,10 @@ export class KanbanService {
 
     async getGas(address: string) {
         const path = '/kanban/getBalance/' + address;
-        const ret = await this.get(path).toPromise() as KanbanGetBanalceResponse;
+        
         let gas = 0;
         try {
+            const ret = await this.get(path).toPromise() as KanbanGetBanalceResponse;
             gas = Number(BigInt(ret.balance.FAB).toString(10)) / 1e18;
         } catch (e) {}
         return gas;

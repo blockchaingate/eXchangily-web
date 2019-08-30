@@ -7,7 +7,7 @@
               </button>
     </div>
     <div class="modal-body">
-        <div>{{"Currency" | translate }}</div>
+        <div>{{"Asset" | translate }}</div>
         <div class="pt-2 pb-3">
             <select class="form-control" (change)="onChange($event.target.value)">
                     <option [value]="i" *ngFor="let coin of wallet.mycoins;let i = index">{{coin.name}}</option>

@@ -152,7 +152,7 @@ export class CoinService {
             balance = balance / 1e18;
         } else 
         if (name === 'FAB') {
-            balance = await this.apiService.getFabBalance(addr);
+            balance = await this.apiService.getFabBalance(addr) / 1e8;
         } else
         if (tokenType === 'ETH') {
             if (!decimals) {
@@ -823,15 +823,15 @@ export class CoinService {
                     continue;
                 }
                 address = mycoin.receiveAdds[index].address;
-                const balanceFull = await this.apiService.getBtcBalanceFull(address);
-                for (let i = 0; i < balanceFull.txrefs.length; i++) {
-                    const tx = balanceFull.txrefs[i];
+                const balanceFull = await this.apiService.getBtcUtxos(address);
+                for (let i = 0; i < balanceFull.length; i++) {
+                    const tx = balanceFull[i];
                     console.log('i=' + i);
                     console.log(tx);
-                    if ((tx.tx_output_n < 0) || tx.spent) {
+                    if (tx.idx < 0) {
                         continue;
                     }
-                    txb.addInput(tx.tx_hash, tx.tx_output_n);
+                    txb.addInput(tx.txid, tx.idx);
                     amountNum -= tx.value;
                     totalInput += tx.value;
                     receiveAddsIndexArr.push(index);
@@ -852,15 +852,15 @@ export class CoinService {
                         continue;
                     }
                     address = mycoin.changeAdds[index].address;
-                    const balanceFull = await this.apiService.getBtcBalanceFull(address);
-                    for (let i = 0; i < balanceFull.txrefs.length; i++) {
-                        const tx = balanceFull.txrefs[i];
+                    const balanceFull = await this.apiService.getBtcUtxos(address);
+                    for (let i = 0; i < balanceFull.length; i++) {
+                        const tx = balanceFull[i];
                         console.log('i=' + i);
                         console.log(tx);
-                        if ((tx.tx_output_n < 0) || tx.spent) {
+                        if (tx.idx < 0) {
                             continue;
                         }
-                        txb.addInput(tx.tx_hash, tx.tx_output_n);
+                        txb.addInput(tx.txid, tx.idx);
                         amountNum -= tx.value;
                         totalInput += tx.value;
                         changeAddsIndexArr.push(index);

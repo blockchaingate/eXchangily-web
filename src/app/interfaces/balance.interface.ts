@@ -35,6 +35,10 @@ export interface EthBalance {
     status: number;
 }
 
+export interface KEthBalance {
+    balance: number;
+}
+
 export interface Utxo {
     value: number;
     txid: string;

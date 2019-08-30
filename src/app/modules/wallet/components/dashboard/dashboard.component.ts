@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Wallet } from '../../../../models/wallet';
 import { MyCoin } from '../../../../models/mycoin';
 import { WalletService } from '../../../../services/wallet.service';
@@ -17,6 +17,7 @@ import { AddGasModal } from '../../modals/add-gas/add-gas.modal';
 import { ShowSeedPhraseModal } from '../../modals/show-seed-phrase/show-seed-phrase.modal';
 import { VerifySeedPhraseModal } from '../../modals/verify-seed-phrase/verify-seed-phrase.modal';
 import { SendCoinModal } from '../../modals/send-coin/send-coin.modal';
+import { BackupPrivateKeyModal } from '../../modals/backup-private-key/backup-private-key.modal';
 import {CoinsPrice} from '../../../../interfaces/balance.interface';
 import {SendCoinForm} from '../../../../interfaces/kanban.interface';
 import {StorageService} from '../../../../services/storage.service';
@@ -36,6 +37,7 @@ export class WalletDashboardComponent {
     @ViewChild('sendCoinModal', {static: true}) sendCoinModal: SendCoinModal;
     @ViewChild('showSeedPhraseModal', {static: true}) showSeedPhraseModal: ShowSeedPhraseModal;
     @ViewChild('verifySeedPhraseModal', {static: true}) verifySeedPhraseModal: VerifySeedPhraseModal;
+    @ViewChild('backupPrivateKeyModal', {static: true}) backupPrivateKeyModal: BackupPrivateKeyModal;
 
     sendCoinForm: SendCoinForm;
     wallet: Wallet; 
@@ -81,6 +83,7 @@ export class WalletDashboardComponent {
         } else 
         if (type === 'BACKUP_PRIVATE_KEY') {
             this.opType = 'backupPrivateKey';
+            this.pinModal.show();  
         }        
     }
 
@@ -140,6 +143,7 @@ export class WalletDashboardComponent {
                 this.wallet = wallets[this.currentWalletIndex];
 
                 this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
+                console.log('load wallet again.');
                 this.gas = await this.kanbanServ.getGas(this.wallet.excoin.receiveAdds[0].address);
                         /*
                         this.wallets = new Array<Wallet>();
@@ -234,6 +238,9 @@ export class WalletDashboardComponent {
         } else
         if (this.opType === 'verifySeedPhrase') {
             this.verifySeedPhrase();
+        } else 
+        if (this.opType === 'backupPrivateKey') {
+            this.backupPrivateKey();
         }
     }
 
@@ -249,6 +256,17 @@ export class WalletDashboardComponent {
                 duration: 2000,
             });
         }
+    }
+
+    backupPrivateKey() {
+        const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
+        if (!seed) {
+            this._snackBar.open('Your pin number is invalid.', 'Ok', {
+                duration: 2000,
+            });        
+            return;   
+        } 
+        this.backupPrivateKeyModal.show(seed, this.wallet);
     }
 
     verifySeedPhrase() {
@@ -396,16 +414,16 @@ export class WalletDashboardComponent {
         const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
         console.log('f');
         
-        /*
+        
         this.kanbanServ.sendRawSignedTransaction(txKanbanHex).subscribe((resp) => { 
             console.log('resp=' + resp);
         });         
-        */
+        
        
-       
+       /*
        this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp) => { 
             console.log('resp=' + resp);
         }); 
-            
+          */  
     }
 }

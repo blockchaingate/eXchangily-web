@@ -40,6 +40,7 @@ import { AddGasModal } from './modals/add-gas/add-gas.modal';
 import { PinNumberModal } from './modals/pin-number/pin-number.modal';
 import { ShowSeedPhraseModal } from './modals/show-seed-phrase/show-seed-phrase.modal';
 import { VerifySeedPhraseModal } from './modals/verify-seed-phrase/verify-seed-phrase.modal';
+import { BackupPrivateKeyModal } from './modals/backup-private-key/backup-private-key.modal';
 
 import { KanbanService } from '../../services/kanban.service';
 import { Web3Service } from '../../services/web3.service';
@@ -77,7 +78,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         PinNumberModal,
         ShowSeedPhraseModal,
         VerifySeedPhraseModal,
-        AddGasModal
+        AddGasModal,
+        BackupPrivateKeyModal
     ],
     imports: [
         // BrowserModule,
