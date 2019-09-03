@@ -20,6 +20,7 @@ import { FaqComponent } from './components/faq/faq.component';
 import { WalletPwdComponent } from './components/create/wallet-pwd.component';
 import { RestoreWalletComponent } from './components/restore/restorewallet.component';
 import { TransactionHistoryComponent } from './components/transaction-history/transaction-history.component';
+import { AddressKeyComponent } from './modals/components/address-key/address-key.component';
 
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
@@ -51,6 +52,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -70,6 +73,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         WalletComponent,
         ManageWalletComponent,
         FaqComponent,
+        AddressKeyComponent,
         TransactionDetailModal,
         AddAssetsModal,
         SendCoinModal,
@@ -99,6 +103,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         MatSlideToggleModule,
         MatMenuModule,
         MatExpansionModule,
+        MatGridListModule,
+        MatPaginatorModule,
         BsDropdownModule.forRoot(),
         CollapseModule.forRoot(),
         ModalModule.forRoot(),

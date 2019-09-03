@@ -214,12 +214,12 @@ export class CoinService {
     getKeyPairs(coin: MyCoin, seed: Buffer, chain: number, index: number) {
         const name = coin.name;
         
-
         const tokenType = coin.tokenType;
         let addr = '';
         let priKey = '';
         let pubKey = '';
         let priKeyHex = '';
+        let priKeyDisp = '';
         let buffer = Buffer.alloc(32);
         const path = "m/44'/" + coin.coinType + "'/0'/" + chain + "/" + index;
 
@@ -233,7 +233,8 @@ export class CoinService {
             addr = address;
             priKey = childNode.toWIF();
             pubKey = `0x${childNode.publicKey.toString('hex')}`;
-            buffer = wif.decode(priKey);               
+            buffer = wif.decode(priKey); 
+            priKeyDisp = priKey;              
         } else 
         if (name === 'ETH' || name === 'USDT' || name === 'EXG' || tokenType === 'ETH') {
 
@@ -244,7 +245,9 @@ export class CoinService {
             const address = `0x${wallet.getAddress().toString('hex')}`;
             addr = address;
             buffer = wallet.getPrivateKey();  
-            priKey = wallet.getPrivateKey();        
+            priKey = wallet.getPrivateKey();  
+            priKeyDisp = buffer.toString('hex');
+
         } else  
         if (name === 'EX') { 
             const root = BIP32.fromSeed(seed, bitcoin_network);
@@ -254,6 +257,7 @@ export class CoinService {
             const originalPrivateKey = childNode.privateKey;
             priKeyHex = originalPrivateKey.toString('hex');
             priKey = childNode.toWIF(); 
+            priKeyDisp = priKey;
             buffer = wif.decode(priKey);  
 
             const publicKey = childNode.publicKey;
@@ -275,6 +279,7 @@ export class CoinService {
             privateKey: priKey,
             privateKeyHex: priKeyHex,
             privateKeyBuffer: buffer,
+            privateKeyDisplay: priKeyDisp,
             publicKey: pubKey,
             name: name
         };        
@@ -915,12 +920,15 @@ export class CoinService {
         if (mycoin.name === 'FAB') {
             const txhex = await this.getFabTransactionHex(seed, mycoin, toAddress, amount, 3000 / 1e8);
             let txhash = '';
-            if (doSubmit) {
-                txhash = await this.apiService.postFabTx(txhex);
-            } else {
-                const tx = Btc.Transaction.fromHex(txhex);
-                txhash = '0x' + tx.getId();                
+            if (txhex) {
+                if (doSubmit) {
+                    txhash = await this.apiService.postFabTx(txhex);
+                } else {
+                    const tx = Btc.Transaction.fromHex(txhex);
+                    txhash = '0x' + tx.getId();                
+                }
             }
+
             return {txHex: txhex, txHash: txhash};
         } else
         if (mycoin.name === 'ETH') {

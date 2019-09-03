@@ -1,5 +1,5 @@
 <div bsModal #backupPrivateKeyModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-lg">
         <form [formGroup]="backupPrivateKeyForm" (ngSubmit)="onSubmit()">
             <div class="modal-content" *ngIf="wallet">
                 <div class="modal-header text-center">
@@ -15,15 +15,24 @@
                             <option [value]="i" *ngFor="let coin of wallet.mycoins;let i = index">{{coin.name}}</option>
                         </select>
 
-                        <mat-list role="list">
-                            <mat-list-item role="listitem" *ngFor="let addr of currentCoin.receiveAdds">{{addr.address}}</mat-list-item>
-                        </mat-list>
+                        <mat-tab-group *ngIf="currentCoin.changeAdds && currentCoin.changeAdds.length">
+                            <mat-tab label="External">
+                                <app-address-key [chain]="0" [seed]="seed" [currentCoin]="currentCoin"></app-address-key>
+                            </mat-tab>
+                            <mat-tab label="Change">
+                                <app-address-key [chain]="1" [seed]="seed" [currentCoin]="currentCoin"></app-address-key>
+                            </mat-tab>
+                        </mat-tab-group>
+                        <div *ngIf="!(currentCoin.changeAdds && currentCoin.changeAdds.length)" class="pt-2">
+                            <app-address-key [chain]="0" [seed]="seed" [currentCoin]="currentCoin"></app-address-key>
+                        </div>
+
                     </div>
                 </div>
 
                 <div class="modal-footer">
                     <div class="pull-left">
-                        <button class="btn btn-gradient text-white" type="submit"> Confirm </button>
+                        <button class="btn btn-gradient text-white" type="submit"> Export </button>
                     </div>
                 </div>
             </div>

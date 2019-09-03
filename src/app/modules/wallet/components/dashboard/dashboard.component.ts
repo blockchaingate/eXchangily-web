@@ -122,10 +122,10 @@ export class WalletDashboardComponent {
 
     changeWallet(value) {
         this.currentWalletIndex = value;
-        this.wallet = this.wallets[this.currentWalletIndex];
-        this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
+        //this.wallet = this.wallets[this.currentWalletIndex];
+        //this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
         this.walletServ.saveCurrentWalletIndex(value);
-        
+        this.loadWallet();
     }
 
     loadWallet() {
@@ -394,25 +394,28 @@ export class WalletDashboardComponent {
         console.log('txHash=' + txHash);
         // const txHash = '7f72c0043edce99f3e8c09c14c8919bec81e5fb2938f746d704406ba8e9182da';
         if (!txHash) {
+            this._snackBar.open('Not enough fund.', 'Ok', {
+                duration: 2000,
+            });              
             return;
         }
 
 
         const amountInLink = amount * 1e18; // it's for all coins.
         const originalMessage = this.coinServ.getOriginalMessage(coinType, txHash.substring(2), amountInLink, addressInKanban.substring(2));
-        console.log('a');
+        //console.log('a');
         const signedMessage: Signature = this.coinServ.signedMessage(originalMessage, keyPairs);
-        console.log('b');
+        //console.log('b');
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
-        console.log('c');
+        //console.log('c');
         const abiHex = this.web3Serv.getDepositFuncABI(coinType, txHash, amountInLink, addressInKanban, signedMessage);
-        console.log('d');
+        //console.log('d');
         let nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
         //const nonce = 0;
         const includeCoin = true;
-        console.log('e');
+        //console.log('e');
         const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
-        console.log('f');
+        //console.log('f');
         
         
         this.kanbanServ.sendRawSignedTransaction(txKanbanHex).subscribe((resp) => { 
