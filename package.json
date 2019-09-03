@@ -39,6 +39,7 @@
         "angular": "~1.7.8",
         "angular-ts-math": "^1.0.7",
         "angular2-qrcode": "^2.0.3",
+        "angular7-csv": "^0.2.12",
         "bip39": "^3.0.2",
         "bitcoinjs-lib": "^5.1.1",
         "bitcoinjs-message": "^2.1.0",

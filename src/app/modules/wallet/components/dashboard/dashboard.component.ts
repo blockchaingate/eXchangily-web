@@ -22,6 +22,7 @@ import {CoinsPrice} from '../../../../interfaces/balance.interface';
 import {SendCoinForm} from '../../../../interfaces/kanban.interface';
 import {StorageService} from '../../../../services/storage.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { AngularCsv } from 'angular7-csv';
 
 @Component({
     selector: 'app-wallet-dashboard',
@@ -64,6 +65,34 @@ export class WalletDashboardComponent {
         this.showTransactionHistory = false;
         this.loadWallet();
         this.loadBalance();
+    }
+
+    onConfirmedBackupPrivateKey() {
+        var data = [
+            {
+              name: "Test 1",
+              age: 13,
+              average: 8.2,
+              approved: true,
+              description: "using 'Content here, content here' "
+            },
+            {
+              name: 'Test 2',
+              age: 11,
+              average: 8.2,
+              approved: true,
+              description: "using 'Content here, content here' "
+            },
+            {
+              name: 'Test 4',
+              age: 10,
+              average: 8.2,
+              approved: true,
+              description: "using 'Content here, content here' "
+            },
+          ];
+           
+          new AngularCsv(data, 'My Report');
     }
 
     onShowMyAssets() {
@@ -417,16 +446,16 @@ export class WalletDashboardComponent {
         const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
         //console.log('f');
         
-        
+        /*
         this.kanbanServ.sendRawSignedTransaction(txKanbanHex).subscribe((resp) => { 
             console.log('resp=' + resp);
         });         
-        
+        */
        
-       /*
+       
        this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp) => { 
             console.log('resp=' + resp);
         }); 
-          */  
+         
     }
 }

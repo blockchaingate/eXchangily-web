@@ -24,11 +24,13 @@ export class BackupPrivateKeyModal {
     }
 
     onSubmit() {
+        console.log('');
         this.confirmedBackupPrivateKey.emit();
         this.hide();
     }
     onChange(index: number) {
         this.currentCoin = this.wallet.mycoins[index];
+        
         //console.log(selectedValue);
     }  
     show(seed: Buffer, wallet: Wallet) {
