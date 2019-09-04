@@ -24,8 +24,8 @@ export class BackupPrivateKeyModal {
     }
 
     onSubmit() {
-        console.log('');
-        this.confirmedBackupPrivateKey.emit();
+        console.log('onSubmit at BackupPrivateKeyModal');
+        this.confirmedBackupPrivateKey.emit('exportAll');
         this.hide();
     }
     onChange(index: number) {

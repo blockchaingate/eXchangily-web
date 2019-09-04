@@ -51,6 +51,7 @@ export class WalletDashboardComponent {
     amount: number;
     coinsPrice: CoinsPrice;
     pin: string;
+    seed: Buffer;
     showMyAssets: boolean;
     showTransactionHistory: boolean;
     gas: number;
@@ -67,32 +68,38 @@ export class WalletDashboardComponent {
         this.loadBalance();
     }
 
-    onConfirmedBackupPrivateKey() {
-        var data = [
-            {
-              name: "Test 1",
-              age: 13,
-              average: 8.2,
-              approved: true,
-              description: "using 'Content here, content here' "
-            },
-            {
-              name: 'Test 2',
-              age: 11,
-              average: 8.2,
-              approved: true,
-              description: "using 'Content here, content here' "
-            },
-            {
-              name: 'Test 4',
-              age: 10,
-              average: 8.2,
-              approved: true,
-              description: "using 'Content here, content here' "
-            },
-          ];
-           
-          new AngularCsv(data, 'My Report');
+    onConfirmedBackupPrivateKey(cmd: string) {
+        console.log('onConfirmedBackupPrivateKey start, cmd=', cmd);
+
+        const options = { 
+            fieldSeparator: ',',
+            quoteStrings: '"',
+            decimalseparator: '.',
+            showLabels: false, 
+            showTitle: false,
+            title: 'Your title',
+            useBom: true,
+            noDownload: false,
+            headers: ['Coin', 'Chain', 'Index', 'Address', 'Private Key']
+        };        
+        const data = [];
+        
+        for (let i = 0; i < this.wallet.mycoins.length; i++) {
+            const coin = this.wallet.mycoins[i];
+            for (let j = 0; j < coin.receiveAdds.length; j++) {
+                const addr = coin.receiveAdds[j];
+                const keyPair = this.coinServ.getKeyPairs(coin, this.seed, 0, addr.index);
+                const item = {
+                    coin: coin.name,
+                    chain: 'external',
+                    index: addr.index,
+                    address: addr.address,
+                    privateKey: keyPair.privateKeyDisplay
+                };
+                data.push(item);
+            }
+        }
+        const csv = new AngularCsv(data, 'Private Keys for wallet ' + this.wallet.name, options);
     }
 
     onShowMyAssets() {
@@ -289,6 +296,7 @@ export class WalletDashboardComponent {
 
     backupPrivateKey() {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
+        this.seed = seed;
         if (!seed) {
             this._snackBar.open('Your pin number is invalid.', 'Ok', {
                 duration: 2000,
