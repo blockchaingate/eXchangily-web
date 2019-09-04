@@ -1,3 +1,7 @@
+sand entry situate limit upper final add course crisp tornado soap demand
+
+blockstream.info/testnet
+
 http://169.45.42.108:4000/kanban/getTransactionReceipt/0x85863f132bc07c14e34668f88420bd09d9621f9dbbe806ce3d30e1a8699d2ad1
 https://ethereum.stackexchange.com/questions/11253/ethereumjs-how-to-get-public-key-from-private-key/11272
 

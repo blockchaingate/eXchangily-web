@@ -42,6 +42,7 @@ import { PinNumberModal } from './modals/pin-number/pin-number.modal';
 import { ShowSeedPhraseModal } from './modals/show-seed-phrase/show-seed-phrase.modal';
 import { VerifySeedPhraseModal } from './modals/verify-seed-phrase/verify-seed-phrase.modal';
 import { BackupPrivateKeyModal } from './modals/backup-private-key/backup-private-key.modal';
+import { DeleteWalletModal } from './modals/delete-wallet/delete-wallet.modal';
 
 import { KanbanService } from '../../services/kanban.service';
 import { Web3Service } from '../../services/web3.service';
@@ -83,7 +84,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         ShowSeedPhraseModal,
         VerifySeedPhraseModal,
         AddGasModal,
-        BackupPrivateKeyModal
+        BackupPrivateKeyModal,
+        DeleteWalletModal
     ],
     imports: [
         // BrowserModule,

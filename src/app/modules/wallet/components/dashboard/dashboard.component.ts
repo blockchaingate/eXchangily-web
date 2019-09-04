@@ -18,6 +18,7 @@ import { ShowSeedPhraseModal } from '../../modals/show-seed-phrase/show-seed-phr
 import { VerifySeedPhraseModal } from '../../modals/verify-seed-phrase/verify-seed-phrase.modal';
 import { SendCoinModal } from '../../modals/send-coin/send-coin.modal';
 import { BackupPrivateKeyModal } from '../../modals/backup-private-key/backup-private-key.modal';
+import { DeleteWalletModal } from '../../modals/delete-wallet/delete-wallet.modal';
 import {CoinsPrice} from '../../../../interfaces/balance.interface';
 import {SendCoinForm} from '../../../../interfaces/kanban.interface';
 import {StorageService} from '../../../../services/storage.service';
@@ -39,6 +40,7 @@ export class WalletDashboardComponent {
     @ViewChild('showSeedPhraseModal', {static: true}) showSeedPhraseModal: ShowSeedPhraseModal;
     @ViewChild('verifySeedPhraseModal', {static: true}) verifySeedPhraseModal: VerifySeedPhraseModal;
     @ViewChild('backupPrivateKeyModal', {static: true}) backupPrivateKeyModal: BackupPrivateKeyModal;
+    @ViewChild('deleteWalletModal', {static: true}) deleteWalletModal: DeleteWalletModal;
 
     sendCoinForm: SendCoinForm;
     wallet: Wallet; 
@@ -133,12 +135,21 @@ export class WalletDashboardComponent {
         if (type === 'BACKUP_PRIVATE_KEY') {
             this.opType = 'backupPrivateKey';
             this.pinModal.show();  
-        }        
+        } else 
+        if (type === 'DELETE_WALLET') {
+            this.opType = 'deleteWallet';
+            this.pinModal.show();  
+        }         
     }
 
     onShowTransactionHistory() {
         this.showMyAssets = false;
         this.showTransactionHistory = true;
+    }
+
+    onConfirmedDeleteWallet() {
+        console.log('confirm delete it.');
+        this.walletServ.deleteCurrentWallet();
     }
 
     async loadBalance() {
@@ -153,8 +164,9 @@ export class WalletDashboardComponent {
         for ( let i = 0; i < this.wallet.mycoins.length; i++ ) {
             const coin = this.wallet.mycoins[i];
             const balance = await this.coinServ.getBalance(coin);
-            if (coin.balance !== balance) {
-                coin.balance = balance;
+            if (coin.balance !== balance.balance || coin.lockedBalance !== balance.lockbalance) {
+                coin.balance = balance.balance;
+                coin.lockedBalance = balance.lockbalance;
                 updated = true;
             }
         }
@@ -273,6 +285,13 @@ export class WalletDashboardComponent {
     onConfirmedPin(pin: string) {
         console.log('pin is:' + pin);
         this.pin = pin;
+        const pinHash = this.utilService.SHA256(pin).toString();
+        if (pinHash !== this.wallet.pwdHash) {
+            this._snackBar.open('Your pin number is invalid.', 'Ok', {
+                duration: 2000,
+            });
+            return;
+        }
         if (this.opType === 'deposit') {
             this.depositdo();
         } else 
@@ -290,6 +309,9 @@ export class WalletDashboardComponent {
         } else 
         if (this.opType === 'backupPrivateKey') {
             this.backupPrivateKey();
+        } else 
+        if (this.opType === 'deleteWallet') {
+            this.deleteWalletModal.show();
         }
     }
 
@@ -438,11 +460,12 @@ export class WalletDashboardComponent {
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
         const doSubmit = false;
         const {txHex, txHash} = await this.coinServ.sendTransaction(currentCoin, seed, officalAddress, amount, doSubmit);   
-
+        //const txSubmited = await this.coinServ.sendTransaction(currentCoin, seed, officalAddress, amount, true);   
         console.log('111111111111111111111111111111111111111111111111111111111111');
         console.log('txHex=' + txHex);
         console.log('txHash=' + txHash);
-        // const txHash = '7f72c0043edce99f3e8c09c14c8919bec81e5fb2938f746d704406ba8e9182da';
+        //console.log('txSubmited.txHex=' , txSubmited.txHex);
+        //console.log('txSubmited.txHash=' , txSubmited.txHash);
         if (!txHash) {
             this._snackBar.open('Not enough fund.', 'Ok', {
                 duration: 2000,

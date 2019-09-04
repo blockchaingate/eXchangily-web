@@ -8,7 +8,9 @@ export interface TxRef {
     spent: boolean;
     confirmations: number;
 }
+
 export interface Balance {
+    /*
     address: string;
     balance: number;
     total_received: number;
@@ -19,6 +21,9 @@ export interface Balance {
     unconfirmed_n_tx: number;
     final_n_tx: number;
     txrefs: [TxRef];
+    */
+   balance: number;
+   lockbalance: number;
 }
 
 export interface BtcUtxo {
@@ -39,6 +44,31 @@ export interface KEthBalance {
     balance: number;
 }
 
+export interface FabUtxo {
+    txid: string;
+    idx: number;
+    address: string;
+    value: number;
+    blockheight: number;
+}
+
+export interface FabVin {
+    coinbase: string;
+    sequence: number;
+}
+
+export interface FabTransactionJson {
+    txid: string;
+    hash: string;
+    version: number;
+    size: number;
+    vsize: number;
+    locktime: number;
+    vin: [FabVin];
+    hex: number;
+    confirmations: number;
+}
+
 export interface Utxo {
     value: number;
     txid: string;
@@ -54,6 +84,10 @@ export interface FabTransactionResult {
 export interface FabTransaction {
     result: [FabTransactionResult];
     status: string;
+}
+
+export interface BtcTransactionResponse {
+    txid: string;
 }
 
 export interface FabTransactionResponse {

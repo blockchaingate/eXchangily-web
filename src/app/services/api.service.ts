@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {Balance, EthBalance, FabTransaction, BtcTransaction, EthTransaction
-    , FabTransactionResponse, CoinsPrice, BtcUtxo, KEthBalance} from '../interfaces/balance.interface';
+    , FabTransactionResponse, CoinsPrice, BtcUtxo, KEthBalance, FabUtxo, FabTransactionJson, BtcTransactionResponse} from '../interfaces/balance.interface';
 
 
 @Injectable() 
@@ -34,6 +34,7 @@ export class ApiService {
 
     async getBtcUtxos(address: string): Promise<[BtcUtxo]> {
         const url = 'http://18.188.32.168:8000/getutxos/' + address;
+        console.log('url in getBtcUtxos' + url);
         let response = null;
         try {
             response = await this.http.get(url).toPromise() as [BtcUtxo];
@@ -41,7 +42,7 @@ export class ApiService {
         return response;
     }
     
-    async getBtcBalance(address: string): Promise<number> {
+    async getBtcBalance(address: string): Promise<Balance> {
         /*
         let balance = 0;
         try {
@@ -54,12 +55,15 @@ export class ApiService {
         } catch (e) { console.log(e); }
         */
         const url = 'http://18.188.32.168:8000/getbalance/' + address;
+        console.log('url for getBtcBalance=' + url);
         let balance = 0;
         try {
             const response = await this.http.get(url).toPromise() as number;
             balance = response;
         } catch (e) {console.log (e); }
-        return balance;
+        console.log('balance=' + balance);
+        const lockbalance = 0;
+        return {balance, lockbalance};
 
         /*
         let balance = 0;
@@ -76,13 +80,34 @@ export class ApiService {
 
     }
 
+    async isFabTransactionLocked(txid: string): Promise<boolean> {
+        
+        const url = 'http://52.60.97.159:8000/gettransactionjson/' + txid;
+        const response = await this.http.get(url).toPromise() as FabTransactionJson;
+
+        if (response.vin && response.vin.length > 0) {
+            const vin = response.vin[0];
+            if (vin.coinbase) {
+                if (response.confirmations <= 800) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     async getFabTransaction(address: string): Promise<FabTransaction> {
         const url = 'https://fabtest.info/utxo-api/transactions?address=' + address;
         const response = await this.http.get(url).toPromise() as FabTransaction;
         return response;
     }
 
-    async getFabBalance(address: string): Promise<number> {
+    async getFabUtxos(address: string): Promise<[FabUtxo]> {
+        const url = 'http://52.60.97.159:8000/getutxos/' + address;
+        const response = await this.http.get(url).toPromise() as [FabUtxo];
+        return response;
+    }
+    async getFabBalance(address: string): Promise<Balance> {
         /*
         const tran = await this.getFabTransaction(address);
         let balance = 0;
@@ -94,6 +119,8 @@ export class ApiService {
         }
         return balance;
         */
+
+        /*
        let balance = 0;
        const url = 'http://52.60.97.159:8000/getbalance/' + address;
        try {
@@ -106,6 +133,26 @@ export class ApiService {
             console.log('eeeeee', e);
        }
        return balance;       
+       */
+       let balance = 0;
+       let lockbalance = 0;
+       const utxos = await this.getFabUtxos(address);
+       if (utxos) {
+        for (let i = 0; i < utxos.length; i++) {
+            const utxo = utxos[i];
+            const value = utxo.value;
+            const txid = utxo.txid;
+            const isLock = await this.isFabTransactionLocked(txid);
+            if (isLock) {
+                lockbalance += value;
+            } else {
+                balance += value;
+            }
+        }
+       }
+
+       return {balance, lockbalance};
+
     }
 
     async getEthNonce (address: string) {
@@ -159,11 +206,14 @@ export class ApiService {
         return ret;
         */
        const url = 'http://18.188.32.168:8000/sendrawtransaction/' + txHex;
-       const response = await this.http.get(url).toPromise() as string;
-       return '0x' + response;
+       console.log('weird start, url=' + url);
+       const response = await this.http.get(url).toPromise() as BtcTransactionResponse;
+       console.log('weird end');
+       console.log(response.txid);
+       return '0x' + response.txid;
     }
 
-    async getEthBalance(address: string): Promise<number> {
+    async getEthBalance(address: string): Promise<Balance> {
         // account for https://etherscan.io  keninqiu   82239^
         // token: M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB
         // post https://faucet.metamask.io/ with raw data address to get some coins
@@ -177,7 +227,9 @@ export class ApiService {
        const url = 'http://3.13.178.231:3000/getbalance/' + address;
        const response = await this.http.get(url).toPromise()  as KEthBalance;    
        console.log('balance for etheeeee' + response.balance);
-       return response.balance;  
+       const balance = response.balance;
+       const lockbalance = 0;
+       return {balance, lockbalance};  
     }
 
     async getEthTokenBalance(contractAddress: string, address: string) {
@@ -186,6 +238,8 @@ export class ApiService {
         const response = await this.http.get(url).toPromise()  as EthBalance;    
         console.log('url=' + url);
         console.log(response);
-        return response.result;  
+        const balance = response.result;
+        const lockbalance = 0;
+        return {balance, lockbalance}; 
     }
 }

@@ -20,6 +20,7 @@ import { Web3Service } from './web3.service';
 import {Signature} from '../interfaces/kanban.interface';
 import { UtilService } from './util.service';
 import * as abi from 'web3-eth-abi';
+import {Balance} from '../interfaces/balance.interface';
 //import * as EthereumTx from 'ethereumjs-tx';
 //import * as OPS from 'qtum-opcodes';
 @Injectable()
@@ -143,29 +144,37 @@ export class CoinService {
 
     async getBlanceByAddress (tokenType: string, contractAddr: string, name: string, addr: string, decimals: number) {
         let balance = 0;
+        let lockbalance = 0;
         if (name === 'BTC') {
-            balance = await this.apiService.getBtcBalance(addr);
-            balance = balance / 1e8;
+            const balanceObj = await this.apiService.getBtcBalance(addr);
+            balance = balanceObj.balance / 1e8;
+            lockbalance = balanceObj.lockbalance / 1e8;
         } else 
         if (name === 'ETH') {
-            balance = await this.apiService.getEthBalance(addr);
-            balance = balance / 1e18;
+            const balanceObj = await this.apiService.getEthBalance(addr);
+            balance = balanceObj.balance / 1e18;
+            lockbalance = balanceObj.lockbalance / 1e18;
         } else 
         if (name === 'FAB') {
-            balance = await this.apiService.getFabBalance(addr) / 1e8;
+            const balanceObj = await this.apiService.getFabBalance(addr);
+            balance = balanceObj.balance / 1e8;
+            lockbalance = balanceObj.lockbalance / 1e8;
         } else
         if (tokenType === 'ETH') {
             if (!decimals) {
                 decimals = 18;
             }
-            balance = await this.apiService.getEthTokenBalance(contractAddr, addr);
-            balance = balance / Math.pow(10, decimals);
+            const balanceObj = await this.apiService.getEthTokenBalance(contractAddr, addr);
+
+            balance = balanceObj.balance / Math.pow(10, decimals);
+            lockbalance = balanceObj.lockbalance / Math.pow(10, decimals);
         }
-        return balance;
+        return {balance, lockbalance};
     }
     async getBalance(myCoin: MyCoin) {
-        let balance = 0;
+        let balance;
         let totalBalance = 0;
+        let totalLockBalance = 0;
         const coinName = myCoin.name;
         const tokenType = myCoin.tokenType;
         const contractAddr = myCoin.contractAddr;
@@ -186,19 +195,23 @@ export class CoinService {
             const addr = myCoin.receiveAdds[i].address;
             const decimals = myCoin.decimals;
             balance = await this.getBlanceByAddress(tokenType, contractAddr, coinName, addr, decimals);
-            myCoin.receiveAdds[i].balance = balance;
-            totalBalance += balance;
+            myCoin.receiveAdds[i].balance = balance.balance;
+            totalBalance += balance.balance;
+            myCoin.receiveAdds[i].lockedBalance = balance.lockbalance;
+            totalLockBalance += balance.lockbalance;
         }
 
         for (let i = 0; i < changeAddsLen; i ++) {
             const addr = myCoin.changeAdds[i].address;
             const decimals = myCoin.decimals;
             balance = await this.getBlanceByAddress(tokenType, contractAddr, coinName, addr, decimals);
-            myCoin.changeAdds[i].balance = balance;
-            totalBalance += balance;
+            myCoin.changeAdds[i].balance = balance.balance;
+            totalBalance += balance.balance;
+            myCoin.receiveAdds[i].lockedBalance = balance.lockbalance;
+            totalLockBalance += balance.lockbalance;
         }
 
-        return totalBalance;
+        return {balance: totalBalance, lockbalance: totalLockBalance};
     }
 
     getExPrivateKey(excoin: MyCoin, seed: Buffer) {
@@ -264,9 +277,9 @@ export class CoinService {
             const publicKeyString = `0x${publicKey.toString('hex')}`;
             addr = this.utilServ.toKanbanAddress(publicKeyString);
             /*
-            const privateKeyBuffer = wif.decode(priv.ateKey); 
-            const wallet = Wallet.fromPrivateKey(privateKeyBuffer.privateKey);  
-            const address = `0x${wallet.getAddress().toString('hex')}`;
+            const privateKeyBuffer = wif.decode(priv.ateKey); Balance
+            const wallet = Wallet.fromPrivateKey(privateKeyBufBalance
+            const address = `0x${wallet.getAddress().toString(Balance
             addr = address; 
             priKey = wallet.getPrivateKey();    
             buffer = wallet.getPrivateKey();   
@@ -341,7 +354,7 @@ export class CoinService {
         return signature;
     }
 
-    formCoinType(v:string, coinType: number) {
+    formCoinType(v: string, coinType: number) {
         let retString = v;
         retString = retString + this.utilServ.fixedLengh(coinType, 32 - v.length);
         return retString;
@@ -377,35 +390,33 @@ export class CoinService {
             }
             address = mycoin.receiveAdds[index].address;
 
-            const fabTransactions = await this.apiService.getFabTransaction(address);
+            const fabUtxos = await this.apiService.getFabUtxos(address);
 
-            for (let i = 0; i < fabTransactions.result.length; i++) {
-                const utxos = fabTransactions.result[i].utxos;
-
-                for (let j = 0; j < utxos.length; j++) {
-                    const utxo = utxos[j];
-                    txb.addInput(utxo.txid, utxo.sequence);
-                    console.log('input is');
-                    console.log(utxo.txid, utxo.sequence);
-                    receiveAddsIndexArr.push(index);
-                    totalInput += utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
-                    amountNum -= utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
-                    amountNum += feePerInput;
-                    if (amountNum <= 0) {
-                        finished = true;
-                      totalInput += utxo.value;  break;
-                    }                    
+            for (let i = 0; i < fabUtxos.length; i++) {
+                const utxo = fabUtxos[i];
+                const isLocked = await this.apiService.isFabTransactionLocked(utxo.txid);
+                if (isLocked) {
+                    continue;
                 }
-                if (finished) {
+                txb.addInput(utxo.txid, utxo.idx);
+                console.log('input is');
+                console.log(utxo.txid, utxo.idx, utxo.value);
+                receiveAddsIndexArr.push(index);
+                totalInput += utxo.value;
+                console.log('totalInput here=', totalInput);
+                amountNum -= utxo.value;
+                amountNum += feePerInput;
+                if (amountNum <= 0) {
+                    finished = true;
                     break;
-                }
+                }                 
             }    
             if (finished) {
                 break;
             }              
         }
 
-
+        console.log('totalInput here 1=', totalInput);
 
         if (!finished) {
             for (index = 0; index < mycoin.changeAdds.length; index ++) {
@@ -415,36 +426,34 @@ export class CoinService {
                 }
                 address = mycoin.changeAdds[index].address;
                 
-                const fabTransactions = await this.apiService.getFabTransaction(address);
+                const fabUtxos = await this.apiService.getFabUtxos(address);
 
-                for (let i = 0; i < fabTransactions.result.length; i++) {
-
-                    const utxos = fabTransactions.result[i].utxos;
-    
-                    for (let j = 0; j < utxos.length; j++) {
-                        const utxo = utxos[j];
-                        txb.addInput(utxo.txid, utxo.sequence);
-                        console.log('input2 is');
-                        console.log(utxo.txid, utxo.sequence);                        
-                        changeAddsIndexArr.push(index);
-                        totalInput += utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
-                        amountNum -= utxo.value * Math.pow(10, this.utilServ.getDecimal(mycoin));
-                        amountNum += feePerInput;
-                        if (amountNum <= 0) {
-                            finished = true;
-                            break;
-                        }                    
-                    }
-                    if (finished) {
+                for (let i = 0; i < fabUtxos.length; i++) {
+                    const utxo = fabUtxos[i];
+                    const isLocked = await this.apiService.isFabTransactionLocked(utxo.txid);
+                    if (isLocked) {
+                        continue;
+                    }                    
+                    txb.addInput(utxo.txid, utxo.idx);
+                    console.log('input is');
+                    console.log(utxo.txid, utxo.idx, utxo.value);
+                    receiveAddsIndexArr.push(index);
+                    totalInput += utxo.value;
+                    console.log('totalInput here=', totalInput);
+                    amountNum -= utxo.value;
+                    amountNum += feePerInput;
+                    if (amountNum <= 0) {
+                        finished = true;
                         break;
-                    }
+                    }                 
                 }    
+                  
                 if (finished) {
                     break;
                 }              
             }
         }
-
+        console.log('totalInput here 2=', totalInput);
         if (!finished) {
             console.log('not enough fund.');
             return '';
@@ -802,6 +811,7 @@ export class CoinService {
     }
 
     async sendTransaction(mycoin: MyCoin, seed: Buffer, toAddress: string, amount: number, doSubmit: boolean) {
+        console.log('doSubmit in sendTransaction=', doSubmit);
         let index = 0;
         let balance = 0;
         let finished = false;
@@ -908,11 +918,17 @@ export class CoinService {
 
             const txhex = txb.build().toHex();
             let txhash = '';
+            console.log('doSubmit=', doSubmit);
             if (doSubmit) {
+                console.log('1');
                 txhash = await this.apiService.postBtcTx(txhex);
+                console.log(txhash);
+                
             } else {
+                console.log('2');
                 const tx = Btc.Transaction.fromHex(txhex);
                 txhash = '0x' + tx.getId();
+                console.log(txhash);
             }
 
             return {txHex: txhex, txHash: txhash};
