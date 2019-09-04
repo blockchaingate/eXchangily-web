@@ -98,6 +98,19 @@ export class WalletDashboardComponent {
                 };
                 data.push(item);
             }
+
+            for (let j = 0; j < coin.changeAdds.length; j++) {
+                const addr = coin.changeAdds[j];
+                const keyPair = this.coinServ.getKeyPairs(coin, this.seed, 1, addr.index);
+                const item = {
+                    coin: coin.name,
+                    chain: 'change',
+                    index: addr.index,
+                    address: addr.address,
+                    privateKey: keyPair.privateKeyDisplay
+                };
+                data.push(item);
+            }            
         }
         const csv = new AngularCsv(data, 'Private Keys for wallet ' + this.wallet.name, options);
     }
