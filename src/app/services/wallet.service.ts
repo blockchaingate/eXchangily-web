@@ -57,6 +57,18 @@ export class WalletService {
         return wallet;
     }
 
+    updateWalletPassword(wallet: Wallet, oldPassword: string, newPassword: string) {
+        const pwdHashStr = this.utilService.SHA256(newPassword).toString();
+        const  mnemonic = this.utilService.aesDecrypt(wallet.encryptedMnemonic, oldPassword);
+        const seed = BIP39.mnemonicToSeedSync(mnemonic);
+        const encryptedMnemonic = this.utilService.aesEncrypt(mnemonic, newPassword);   
+        const encryptedSeed = this.utilService.aesEncryptSeed(seed, newPassword);
+        wallet.pwdHash = pwdHashStr;
+        wallet.encryptedMnemonic = encryptedMnemonic;
+        wallet.encryptedSeed = encryptedSeed;
+        return wallet;
+    }
+
     // Generate walllet, store it to db and set current wallet to it.
     generateWallet(pwd: string, name: string, mnemonic: string): Wallet {
         const pwdValid = this.pwdStrength(pwd);

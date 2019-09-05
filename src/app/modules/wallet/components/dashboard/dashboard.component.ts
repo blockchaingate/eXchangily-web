@@ -283,6 +283,8 @@ export class WalletDashboardComponent {
 
     onConfirmedLoginSetting(password: string) {
         console.log('new password=' + password);
+        this.wallet = this.walletServ.updateWalletPassword(this.wallet, this.pin, password);
+        this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
     }
 
     onConfirmedGas(amount: number) {
