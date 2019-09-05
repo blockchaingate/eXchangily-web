@@ -55,24 +55,30 @@ export class CoinService {
     initMyCoins(seed: Buffer): MyCoin[] {
         const myCoins = new Array();
 
-        let coin = new MyCoin('EXG');
-        this.fillUpAddress(coin, seed, 1, 0);
-        myCoins.push(coin);
-        coin = new MyCoin('FAB');
-        this.fillUpAddress(coin, seed, 1, 0);
-        myCoins.push(coin);
+        const exgCoin = new MyCoin('EXG');
+        this.fillUpAddress(exgCoin, seed, 1, 0);
+        myCoins.push(exgCoin);
 
-        coin = new MyCoin('BTC');
-        this.fillUpAddress(coin, seed, 100, 100);
+        const fabCoin = new MyCoin('FAB');
+        this.fillUpAddress(fabCoin, seed, 1, 0);
+        myCoins.push(fabCoin);
 
-        myCoins.push(coin);    
-        coin = new MyCoin('ETH');
-        this.fillUpAddress(coin, seed, 1, 0);
-        myCoins.push(coin); 
+        const btcCoin = new MyCoin('BTC');
+        this.fillUpAddress(btcCoin, seed, 100, 100);
+        myCoins.push(btcCoin);  
+
+        const ethCoin = new MyCoin('ETH');
+        this.fillUpAddress(ethCoin, seed, 1, 0);
+        myCoins.push(ethCoin); 
+
+        /*
         coin = new MyCoin('USDT');
         this.fillUpAddress(coin, seed, 1, 0);
         myCoins.push(coin);  
-                        
+        */
+        const usdtCoin = this.initToken('ETH', 'USDT', 6, '0x1c35eCBc06ae6061d925A2fC2920779a1896282c', ethCoin);     
+        myCoins.push(usdtCoin);      
+             
         return myCoins;
     }
 
@@ -1030,7 +1036,7 @@ export class CoinService {
 
             const txData = {
                 nonce: nonce,
-                gasPrice: 100,
+                gasPrice: 1200000000,
                 gasLimit: 55000,
                // to: contractAddress,
                 from: keyPair.address,

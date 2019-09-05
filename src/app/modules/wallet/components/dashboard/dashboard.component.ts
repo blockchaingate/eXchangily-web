@@ -68,7 +68,9 @@ export class WalletDashboardComponent {
         private coinService: CoinService, private storageService: StorageService) {
         this.showMyAssets = true;
         this.showTransactionHistory = false;
+        this.loadCoinsPrice();
         this.loadWallet();
+        //this.startTimer();
         this.loadBalance();
     }
 
@@ -171,10 +173,13 @@ export class WalletDashboardComponent {
         
     }
 
-    async loadBalance() {
+    async loadCoinsPrice() {
         this.coinsPrice = await this.apiServ.getCoinsPrice();
-        console.log('this.coinsPrice=');
-        console.log(this.coinsPrice);
+    }
+    async loadBalance() {
+        
+        //console.log('this.coinsPrice=');
+        //console.log(this.coinsPrice);
         if (!this.wallet) {
             return;
         }

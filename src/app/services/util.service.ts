@@ -72,9 +72,6 @@ export class UtilService {
     
         const str = date.getFullYear() + '-' + monthStr + '-' + dayStr + ' ' +  hourStr + ':' + minStr + ':' + secStr;
 
-        console.log('monthStr=' + monthStr + ',month=' + month);
-        console.log('str=');
-        console.log(str);
         return str;
     }
 

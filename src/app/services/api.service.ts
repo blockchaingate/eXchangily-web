@@ -55,13 +55,13 @@ export class ApiService {
         } catch (e) { console.log(e); }
         */
         const url = 'http://18.188.32.168:8000/getbalance/' + address;
-        console.log('url for getBtcBalance=' + url);
+        //console.log('url for getBtcBalance=' + url);
         let balance = 0;
         try {
             const response = await this.http.get(url).toPromise() as number;
             balance = response;
         } catch (e) {console.log (e); }
-        console.log('balance=' + balance);
+        //console.log('balance=' + balance);
         const lockbalance = 0;
         return {balance, lockbalance};
 
@@ -156,7 +156,7 @@ export class ApiService {
     }
 
     async getEthNonce (address: string) {
-        const url = 'http://3.13.178.231:3000/getnonce/' + address;
+        const url = 'http://3.13.178.231:3000/getnonce/' + address + '/latest';
         const response = await this.http.get(url).toPromise() as string;
         return Number (response);
     }
@@ -226,7 +226,7 @@ export class ApiService {
         */
        const url = 'http://3.13.178.231:3000/getbalance/' + address;
        const response = await this.http.get(url).toPromise()  as KEthBalance;    
-       console.log('balance for etheeeee' + response.balance);
+       //console.log('balance for etheeeee' + response.balance);
        const balance = response.balance;
        const lockbalance = 0;
        return {balance, lockbalance};  
@@ -236,8 +236,8 @@ export class ApiService {
         const url = 'https://api-ropsten.etherscan.io/api?module=account&action=tokenbalance&contractaddress='
         + contractAddress + '&address=' + address + '&tag=latest&apikey=M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB';
         const response = await this.http.get(url).toPromise()  as EthBalance;    
-        console.log('url=' + url);
-        console.log(response);
+        //console.log('url=' + url);
+        //console.log(response);
         const balance = response.result;
         const lockbalance = 0;
         return {balance, lockbalance}; 
