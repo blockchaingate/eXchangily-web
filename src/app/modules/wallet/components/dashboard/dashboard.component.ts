@@ -19,13 +19,14 @@ import { VerifySeedPhraseModal } from '../../modals/verify-seed-phrase/verify-se
 import { SendCoinModal } from '../../modals/send-coin/send-coin.modal';
 import { BackupPrivateKeyModal } from '../../modals/backup-private-key/backup-private-key.modal';
 import { DeleteWalletModal } from '../../modals/delete-wallet/delete-wallet.modal';
+import { LoginSettingModal } from '../../modals/login-setting/login-setting.modal';
 import {CoinsPrice} from '../../../../interfaces/balance.interface';
 import {SendCoinForm} from '../../../../interfaces/kanban.interface';
 import {StorageService} from '../../../../services/storage.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { AngularCsv } from 'angular7-csv';
 
-@Component({
+@Component({ 
     selector: 'app-wallet-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css'],
@@ -41,7 +42,8 @@ export class WalletDashboardComponent {
     @ViewChild('verifySeedPhraseModal', {static: true}) verifySeedPhraseModal: VerifySeedPhraseModal;
     @ViewChild('backupPrivateKeyModal', {static: true}) backupPrivateKeyModal: BackupPrivateKeyModal;
     @ViewChild('deleteWalletModal', {static: true}) deleteWalletModal: DeleteWalletModal;
-
+    @ViewChild('loginSettingModal', {static: true}) loginSettingModal: LoginSettingModal;
+    
     sendCoinForm: SendCoinForm;
     wallet: Wallet; 
     wallets: Wallet[];
@@ -139,7 +141,11 @@ export class WalletDashboardComponent {
         if (type === 'DELETE_WALLET') {
             this.opType = 'deleteWallet';
             this.pinModal.show();  
-        }         
+        } else
+        if (type === 'LOGIN_SETTING') {
+            this.opType = 'loginSetting';
+            this.pinModal.show();
+        }        
     }
 
     onShowTransactionHistory() {
@@ -149,7 +155,20 @@ export class WalletDashboardComponent {
 
     onConfirmedDeleteWallet() {
         console.log('confirm delete it.');
-        this.walletServ.deleteCurrentWallet();
+        //this.walletServ.deleteCurrentWallet();
+        console.log(this.wallets);
+        console.log('this.currentWalletIndex=' + this.currentWalletIndex);
+        if (this.currentWalletIndex >= 0 && this.wallets) {
+            
+            this.wallets.splice(this.currentWalletIndex, 1);
+        }
+        console.log(this.wallets);
+        if (this.wallets.length === this.currentWalletIndex) {
+            this.currentWalletIndex = this.wallets.length - 1;
+            this.walletServ.saveCurrentWalletIndex(this.currentWalletIndex);
+        }
+        this.walletServ.updateWallets(this.wallets);    
+        
     }
 
     async loadBalance() {
@@ -253,13 +272,17 @@ export class WalletDashboardComponent {
         this.amount = 0.2;
         this.pin = '1qaz@WSX';
         this.depositdo();
-        */
+        */ 
     }
 
     onConfirmedAmount(amount: number) {
         this.amount = amount;
         this.opType = 'deposit';
         this.pinModal.show();
+    }
+
+    onConfirmedLoginSetting(password: string) {
+        console.log('new password=' + password);
     }
 
     onConfirmedGas(amount: number) {
@@ -312,6 +335,9 @@ export class WalletDashboardComponent {
         } else 
         if (this.opType === 'deleteWallet') {
             this.deleteWalletModal.show();
+        } else 
+        if (this.opType === 'loginSetting') {
+            this.loginSettingModal.show();
         }
     }
 

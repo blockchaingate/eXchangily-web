@@ -27,6 +27,12 @@ export class MyordersComponent implements OnInit {
         private kanbanService: KanbanService, private coinService: CoinService) {
     }
 
+    onRefreshToken(tokens) {
+        
+        this.mytokens = tokens;
+        console.log('mytokens in myorders', this.mytokens);
+    }
+
     ngOnInit() {
         console.log('mytokens in myorders=', this.mytokens);
         this.tradeService.getTransactions().subscribe((transactions: Transaction[]) => {

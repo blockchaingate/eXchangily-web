@@ -38,6 +38,11 @@ export class UtilService {
         return null;
     }
 
+    arraysEqual(a1, a2) {
+        /* WARNING: arrays must not contain {objects} or behavior may be undefined */
+        return JSON.stringify(a1) === JSON.stringify(a2);
+    }
+
     getDecimal(coin: MyCoin) {
         if (coin.decimals) {
             return coin.decimals;

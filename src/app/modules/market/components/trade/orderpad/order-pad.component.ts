@@ -1,5 +1,5 @@
-import { Component, OnInit, TemplateRef, Input, AfterViewInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, Output, TemplateRef, Input, AfterViewInit, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Order } from '../../../models/order';
 import { OrderBookItem, TxRecord } from '../../../models/order-book';
@@ -30,6 +30,8 @@ export class OrderPadComponent implements AfterViewInit {
     @Input() targetCoin: number;
     @Input() wallet: Wallet;
     @Input() mytokens: any;
+    @Output() refreshToken = new EventEmitter();
+
     screenheight = screen.height;
     select = 1;
     orderType = 1;
@@ -53,14 +55,28 @@ export class OrderPadComponent implements AfterViewInit {
     modalRef: BsModalRef;
     baseCoinAvail: number;
     targetCoinAvail: number;
+    refreshTokenDone: boolean;
+    timer: any;
+    oldNonce: number;
 
     constructor(private ordServ: OrderService, private _router: Router, private web3Serv: Web3Service, private coinService: CoinService,
       private kanbanService: KanbanService, private utilService: UtilService, private walletService: WalletService, 
-      private fb: FormBuilder, private modalService: BsModalService, private _snackBar: MatSnackBar,private tradeService: TradeService) {
+      private fb: FormBuilder, private modalService: BsModalService, private _snackBar: MatSnackBar, private tradeService: TradeService) {
         this.web3 = this.web3Serv.getWeb3Provider();
+        this.refreshTokenDone = true; 
+    }
+
+    onRefreshToken(tokens) {
+      console.log('onRefreshToken in orderPad');
+      if (!this.utilService.arraysEqual(tokens, this.mytokens)) {
+        this.mytokens = tokens;
+        this.refreshTokenDone = true;
+      }
+      
     }
 
     ngAfterViewInit() {
+      this.oldNonce = -1;
       setTimeout(() => {
         if (this.mytokens && this.mytokens.length > 0) {
           for (let i = 0; i < this.mytokens.length; i++) {
@@ -102,7 +118,7 @@ export class OrderPadComponent implements AfterViewInit {
     }
 
     buy(pinModal: TemplateRef<any>) {
-      if(!this.wallet) {
+      if (!this.wallet) {
         this.openSnackBar('please create wallet before placing order','ok');
         return;
       }
@@ -141,7 +157,7 @@ export class OrderPadComponent implements AfterViewInit {
 
     async buyOrSell() {
         console.log('buy something');
-
+        this.refreshTokenDone = false;
         //const pin = '1qaz@WSX';
         console.log('this.pin' + this.pin + ',this.price=' + this.price + ',this.qty=' + this.qty);
         const seed = this.utilService.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
@@ -163,10 +179,15 @@ export class OrderPadComponent implements AfterViewInit {
             , targetCoin, this.qty, this.price, timeBeforeExpiration);
   
           const abiHex = this.web3Serv.getCreateOrderFuncABI([this.bidOrAsk,  
-            orderType, baseCoin, targetCoin, (this.qty * 1e18).toString(), (this.price * 1e18).toString(), 
+            orderType, baseCoin, targetCoin, (Math.floor(this.qty * 1e18)).toString(), (Math.floor(this.price * 1e18)).toString(), 
             timeBeforeExpiration,  orderHash]);
             console.log('abiHex=', abiHex);
           const nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
+          if (this.oldNonce === nonce) {
+            this.openSnackBar('Please wait a sec, no rush.', 'ok');
+            return;
+          }
+          console.log('noncenoncenoncenoncenoncenoncenonce=' + nonce);
           const includeCoin = true;
           const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce, includeCoin); 
             console.log('txhex=', txhex);
@@ -174,6 +195,7 @@ export class OrderPadComponent implements AfterViewInit {
   
               if (resp && resp.transactionHash) {
                 this.openSnackBar('Your order was placed successfully.', 'Ok');
+                this.oldNonce = nonce;
                 const transaction = {
                   txid: resp.transactionHash,
                   baseCoin: baseCoin,
@@ -185,6 +207,15 @@ export class OrderPadComponent implements AfterViewInit {
                   price: this.price
                 };
                 this.tradeService.addTransactions(transaction);
+
+                this.timer = setInterval(() => {
+                  this.refreshToken.emit();
+                  console.log('this.refreshTokenDone=', this.refreshTokenDone);
+                  if (this.refreshTokenDone) {
+                    clearInterval(this.timer);
+                  }
+                }, 1000);                
+                
               } else {
                 this.openSnackBar('Something wrong while placing your order.', 'Ok');
               }

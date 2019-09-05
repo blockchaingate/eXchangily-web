@@ -14,6 +14,8 @@ import { ViewChild, ElementRef } from '@angular/core';
 import { ConditionalExpr, ElementSchemaRegistry } from '@angular/compiler';
 import { Wallet } from '../../../../models/wallet';
 import { WalletService } from '../../../../services/wallet.service';
+import { MyordersComponent } from './myorder/myorders.component';
+import { OrderPadComponent } from './orderpad/order-pad.component';
 
 @Component({
     selector: 'app-trade',
@@ -22,6 +24,9 @@ import { WalletService } from '../../../../services/wallet.service';
 })
 
 export class TradeComponent implements OnInit {
+    @ViewChild('myOrders', {static: true}) myOrders: MyordersComponent;
+    @ViewChild('orderPad', {static: true}) orderPad: OrderPadComponent;
+
     screenheight = screen.height;
     orders: Order[];
     cat = 2;
@@ -39,19 +44,31 @@ export class TradeComponent implements OnInit {
         setTheme('bs4'); // Bootstrap 4
     }
 
+    onRefreshToken() {
+        console.log('onRefreshToken');
+        if (this.address) {
+            this.kanbanService.getBalance(this.address).subscribe((resp) => {
+                console.log('resp from getBalances===');
+                console.log(resp);
+                this.mytokens = resp;
+                if (this.myOrders) {
+                    this.myOrders.onRefreshToken(resp);
+                }
+                if (this.orderPad) {
+                    this.orderPad.onRefreshToken(resp);
+                }
+                
+            });
+        }    
+    }
+
     async ngOnInit() {
         const wallet = await this.walletService.getCurrentWallet();
         if (wallet) {
             this.wallet = wallet;
             this.address = this.wallet.excoin.receiveAdds[0].address;
             console.log('address here we go=' + this.address);
-            if (this.address) {
-                this.kanbanService.getBalance(this.address).subscribe((resp) => {
-                    console.log('resp from getBalances===');
-                    console.log(resp);
-                    this.mytokens = resp;
-                });
-            }             
+            this.onRefreshToken();
         }
 
         /*

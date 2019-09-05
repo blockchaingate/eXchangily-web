@@ -126,18 +126,7 @@ export class WalletService {
         });
     }
 
-    async deleteCurrentWallet() {
-        const currentWalletIndex = await this.localSt.getItem('currentWalletIndex').toPromise() as number;
-        const wallets = await this.localSt.getItem('wallets').toPromise() as Wallet[];
-        console.log('currentWalletIndex=', currentWalletIndex);
-        console.log('wallets1', wallets);
-        if (currentWalletIndex >= 0 && wallets) {
-            wallets.slice(currentWalletIndex);
-        }
-        console.log('wallets2', wallets);
-        if (wallets.length > 0) {
-            this.saveCurrentWalletIndex(0);
-        }
+    updateWallets(wallets) {
         this.localSt.setItem('wallets', wallets).subscribe(() => {
         });
     }
