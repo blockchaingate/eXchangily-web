@@ -300,7 +300,8 @@ export class CoinService {
             privateKeyBuffer: buffer,
             privateKeyDisplay: priKeyDisp,
             publicKey: pubKey,
-            name: name
+            name: name,
+            tokenType: tokenType
         };        
 
         return keyPairs;
@@ -327,23 +328,21 @@ export class CoinService {
         console.log(signature);
         */
         const name = keyPair.name;
+        const tokenType = keyPair.tokenType;
 
-        if (name === 'ETH') {
+        if (name === 'ETH' || tokenType === 'ETH') {
             signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
             console.log('signature in signed is ');
             console.log(signature);
         } else 
-        if (name === 'FAB' || name === 'BTC') {
+        if (name === 'FAB' || name === 'BTC' || tokenType === 'FAB') {
             //signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
             const signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey, keyPair.privateKeyBuffer.compressed);
             const signHex = `${signBuffer.toString('hex')}`;
             const v = `0x${signBuffer.slice(0, 1).toString('hex')}`;
             const r = `0x${signBuffer.slice(1, 33).toString('hex')}`;
             const s = `0x${signBuffer.slice(33, 65).toString('hex')}`;
-            console.log(r);
-            console.log(s);
-            console.log(v);
-            console.log(signHex);
+
             signature = {r: r, s: s, v: v};
             /*
             console.log(keyPair.privateKey);
@@ -1007,7 +1006,7 @@ export class CoinService {
 
             console.log('nonce = ' + nonce);
             const func =    {  
-                "constant":false,
+                "constant": false,
                 "inputs":[  
                    {  
                       "name":"recipient",
