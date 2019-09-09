@@ -47,20 +47,22 @@ export class CoinService {
         coin.decimals = decimals;
         coin.contractAddr = address;
         coin.coinType = baseCoin.coinType;
-        const addr = new Address(baseCoin.coinType, baseCoin.receiveAdds[0].address, 0);
-        coin.receiveAdds.push(addr);
+        coin.baseCoin = baseCoin;
+        //const addr = new Address(baseCoin.coinType, baseCoin.receiveAdds[0].address, 0);
+        //coin.receiveAdds.push(addr);
         return coin;
     }
 
     initMyCoins(seed: Buffer): MyCoin[] {
         const myCoins = new Array();
 
-        const exgCoin = new MyCoin('EXG');
-        this.fillUpAddress(exgCoin, seed, 1, 0);
-        myCoins.push(exgCoin);
-
         const fabCoin = new MyCoin('FAB');
         this.fillUpAddress(fabCoin, seed, 1, 0);
+
+        const exgCoin = this.initToken('FAB', 'EXG', 18, '0x28a6efffaf9f721a1e95667e3de54c622edc5ffa', fabCoin);
+        this.fillUpAddress(exgCoin, seed, 1, 0);
+
+        myCoins.push(exgCoin);
         myCoins.push(fabCoin);
 
         const btcCoin = new MyCoin('BTC');
@@ -77,6 +79,7 @@ export class CoinService {
         myCoins.push(coin);  
         */
         const usdtCoin = this.initToken('ETH', 'USDT', 6, '0x1c35eCBc06ae6061d925A2fC2920779a1896282c', ethCoin);     
+        this.fillUpAddress(usdtCoin, seed, 1, 0);
         myCoins.push(usdtCoin);      
              
         return myCoins;
@@ -97,6 +100,7 @@ export class CoinService {
         }
         return '';
     }
+
 
     async depositFab(scarContractAddress: string, seed: any, mycoin: MyCoin, amount: number) {
         // sendTokens in https://github.com/ankitfa/Fab_sc_test1/blob/master/app/walletManager.js
@@ -127,7 +131,9 @@ export class CoinService {
         
         let fxnCallHex = abi.encodeFunctionCall(addDepositFunc, []);
         fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
-
+        
+        console.log('fxnCallHex=' + fxnCallHex);
+        console.log('scarContractAddress=' + scarContractAddress)
         const contract = Btc.script.compile([
             84,
             this.utilServ.number2Buffer(gasLimit),
@@ -174,6 +180,11 @@ export class CoinService {
 
             balance = balanceObj.balance / Math.pow(10, decimals);
             lockbalance = balanceObj.lockbalance / Math.pow(10, decimals);
+        } else
+        if (tokenType === 'FAB') {
+            const balanceObj = await this.apiService.getFabTokenBalance(contractAddr, addr);
+            balance = balanceObj.balance / Math.pow(10, decimals);
+            lockbalance = balanceObj.lockbalance / Math.pow(10, decimals);        
         }
         return {balance, lockbalance};
     }
@@ -200,6 +211,9 @@ export class CoinService {
         for (let i = 0; i < receiveAddsLen; i ++) {
             const addr = myCoin.receiveAdds[i].address;
             const decimals = myCoin.decimals;
+            if(myCoin.name==='EXG') {
+                console.log('addr=' + addr);
+            }
             balance = await this.getBlanceByAddress(tokenType, contractAddr, coinName, addr, decimals);
             myCoin.receiveAdds[i].balance = balance.balance;
             totalBalance += balance.balance;
@@ -255,7 +269,7 @@ export class CoinService {
             buffer = wif.decode(priKey); 
             priKeyDisp = priKey;              
         } else 
-        if (name === 'ETH' || name === 'USDT' || name === 'EXG' || tokenType === 'ETH') {
+        if (name === 'ETH' || tokenType === 'ETH') {
 
             const root = hdkey.fromMasterSeed(seed);
             const childNode = root.derivePath( path );
@@ -268,7 +282,7 @@ export class CoinService {
             priKeyDisp = buffer.toString('hex');
 
         } else  
-        if (name === 'EX') { 
+        if (name === 'EX' || tokenType === 'FAB') { 
             const root = BIP32.fromSeed(seed, bitcoin_network);
 
             const childNode = root.derivePath( path );    
@@ -394,28 +408,29 @@ export class CoinService {
                 continue;
             }
             address = mycoin.receiveAdds[index].address;
-
+            console.log('address in getFabTransactionHex=' + address);
             const fabUtxos = await this.apiService.getFabUtxos(address);
-
-            for (let i = 0; i < fabUtxos.length; i++) {
-                const utxo = fabUtxos[i];
-                const isLocked = await this.apiService.isFabTransactionLocked(utxo.txid);
-                if (isLocked) {
-                    continue;
-                }
-                txb.addInput(utxo.txid, utxo.idx);
-                console.log('input is');
-                console.log(utxo.txid, utxo.idx, utxo.value);
-                receiveAddsIndexArr.push(index);
-                totalInput += utxo.value;
-                console.log('totalInput here=', totalInput);
-                amountNum -= utxo.value;
-                amountNum += feePerInput;
-                if (amountNum <= 0) {
-                    finished = true;
-                    break;
-                }                 
-            }    
+            if (fabUtxos && fabUtxos.length) {
+                for (let i = 0; i < fabUtxos.length; i++) {
+                    const utxo = fabUtxos[i];
+                    const isLocked = await this.apiService.isFabTransactionLocked(utxo.txid);
+                    if (isLocked) {
+                        continue;
+                    }
+                    txb.addInput(utxo.txid, utxo.idx);
+                    console.log('input is');
+                    console.log(utxo.txid, utxo.idx, utxo.value);
+                    receiveAddsIndexArr.push(index);
+                    totalInput += utxo.value;
+                    console.log('totalInput here=', totalInput);
+                    amountNum -= utxo.value;
+                    amountNum += feePerInput;
+                    if (amountNum <= 0) {
+                        finished = true;
+                        break;
+                    }                 
+                }    
+            }
             if (finished) {
                 break;
             }              
@@ -432,27 +447,27 @@ export class CoinService {
                 address = mycoin.changeAdds[index].address;
                 
                 const fabUtxos = await this.apiService.getFabUtxos(address);
-
-                for (let i = 0; i < fabUtxos.length; i++) {
-                    const utxo = fabUtxos[i];
-                    const isLocked = await this.apiService.isFabTransactionLocked(utxo.txid);
-                    if (isLocked) {
-                        continue;
-                    }                    
-                    txb.addInput(utxo.txid, utxo.idx);
-                    console.log('input is');
-                    console.log(utxo.txid, utxo.idx, utxo.value);
-                    receiveAddsIndexArr.push(index);
-                    totalInput += utxo.value;
-                    console.log('totalInput here=', totalInput);
-                    amountNum -= utxo.value;
-                    amountNum += feePerInput;
-                    if (amountNum <= 0) {
-                        finished = true;
-                        break;
-                    }                 
-                }    
-                  
+                if (fabUtxos && fabUtxos.length) {
+                    for (let i = 0; i < fabUtxos.length; i++) {
+                        const utxo = fabUtxos[i];
+                        const isLocked = await this.apiService.isFabTransactionLocked(utxo.txid);
+                        if (isLocked) {
+                            continue;
+                        }                    
+                        txb.addInput(utxo.txid, utxo.idx);
+                        console.log('input is');
+                        console.log(utxo.txid, utxo.idx, utxo.value);
+                        receiveAddsIndexArr.push(index);
+                        totalInput += utxo.value;
+                        console.log('totalInput here=', totalInput);
+                        amountNum -= utxo.value;
+                        amountNum += feePerInput;
+                        if (amountNum <= 0) {
+                            finished = true;
+                            break;
+                        }                 
+                    }    
+                }
                 if (finished) {
                     break;
                 }              
@@ -969,6 +984,7 @@ export class CoinService {
                 value: amountNum           
             };
 
+            console.log('txParams=', txParams);
             const txhex = await this.web3Serv.signTxWithPrivateKey(txParams, keyPair);
 
             /*
@@ -1060,7 +1076,83 @@ export class CoinService {
 
         } else
         if (mycoin.tokenType === 'FAB') { // fab tokens
+            let decimals = mycoin.decimals;
+            if (!decimals) {
+                decimals = 18;
+            }
+            const amountSent = amount * Math.pow(10, decimals);
+            
+            //const abiHex = this.web3Serv.getFabTransferABI([toAddress, amountSent.toString()]);
 
+            const funcTransfer =	{
+                "constant": false,
+                "inputs": [
+                  {
+                    "name": "to",
+                    "type": "address"
+                  },
+                  {
+                    "name": "value",
+                    "type": "uint256"
+                  }
+                ],
+                "name": "transfer",
+                "outputs": [
+                  {
+                    "name": "",
+                    "type": "bool"
+                  }
+                ],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+              }; 
+            let fxnCallHex = abi.encodeFunctionCall(funcTransfer, [toAddress, amountSent.toString()]);
+            fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
+            let contractAddress = mycoin.contractAddr;
+            
+            //const keyPair = this.getKeyPairs(mycoin, seed, 0, 0);
+            
+            //contractAddress = '0x28a6efffaf9f721a1e95667e3de54c622edc5ffa';
+            contractAddress = this.utilServ.stripHexPrefix(contractAddress);
+            console.log('contractAddress=' + contractAddress);
+            const gasLimit = 800000;
+            const gasPrice = 40;
+            const totalAmount = gasLimit * gasPrice / 1e8;
+            // let cFee = 3000 / 1e8 // fee for the transaction
+              
+            console.log('fxnCallHex=' + fxnCallHex);
+            let totalFee = totalAmount;
+            const contract = Btc.script.compile([
+                84,
+                this.utilServ.number2Buffer(gasLimit),
+                this.utilServ.number2Buffer(gasPrice),
+                this.utilServ.hex2Buffer(fxnCallHex),
+                this.utilServ.hex2Buffer(contractAddress),
+                194
+            ]);
+            
+            const contractSize = contract.toJSON.toString().length;
+    
+            console.log('contractSize=' + contractSize);
+            totalFee += this.utilServ.convertLiuToFabcoin(contractSize * 10);
+            
+            console.log('totalFee=' + totalFee);
+            
+            const txhex = await this.getFabTransactionHex(seed, mycoin.baseCoin, contract, 0, totalFee);
+            const txhash = await this.apiService.postFabTx(txhex);
+            return {txHex: txhex, txHash: txhash};
+
+
+            /*
+            console.log('before txhex');
+            const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPair, contractAddress, 0, true);
+            console.log('txhex=' + txhex);
+            const response = await this.apiService.postFabTx(txhex);
+            */
+            //const response = await this.apiService.fabCallContract(contractAddress, abiHex);
+            ///console.log('response for transfer');
+            //console.log(response);
         }
         return {txHex: '', txHash: ''};
     }

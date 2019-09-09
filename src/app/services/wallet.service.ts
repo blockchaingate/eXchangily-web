@@ -40,8 +40,7 @@ export class WalletService {
     // Format wallet from input data.
     formatWallet(pwd: string, name: string, mnemonic: string) {
         const seed = BIP39.mnemonicToSeedSync(mnemonic);
-        console.log('seed generated');
-        console.log(seed);
+
         const seedHash = this.utilService.SHA256(seed.toString());
         const seedHashStr = seedHash.toString();
         const pwdHashStr = this.utilService.SHA256(pwd).toString();

@@ -226,7 +226,9 @@ export class WalletDashboardComponent {
                  }
                    
                 this.wallet = wallets[this.currentWalletIndex];
-
+                
+                console.log('exg coin');
+                console.log(this.wallet.mycoins[0]);
                 this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
                 console.log('load wallet again.');
                 this.gas = await this.kanbanServ.getGas(this.wallet.excoin.receiveAdds[0].address);

@@ -204,3 +204,9 @@ yle the checkmark/indicator */::ng-deep .mat-checkbox .mat-checkbox-frame {
 .match-my-cols {
     height: 630px;
 }
+
+@media only screen and (max-width: 959px) {
+    .w-75 {
+        width: 100%!important;
+    }
+}

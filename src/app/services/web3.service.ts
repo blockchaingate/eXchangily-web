@@ -85,7 +85,9 @@ export class Web3Service {
       if (!includeCoin) {
         const EthereumTx = Eth.Transaction;  
         //const tx = new EthereumTx(includeCoin ? txObject : txObjectWithoutCoin, { common: customCommon });
+        console.log('txObjectWithoutCoin=', txObjectWithoutCoin);
         const tx = new EthereumTx(txObjectWithoutCoin, { chain: 'ropsten', hardfork: 'byzantium' });
+        console.log('after that');
         tx.sign(privKey);
         const serializedTx = tx.serialize();
         txhex = '0x' + serializedTx.toString('hex'); 
@@ -116,6 +118,60 @@ export class Web3Service {
      console.log(signMess);
      return signMess.rawTransaction;   
      */  
+    }
+
+    getFabBalanceOfABI(paramsArray: any) {
+      const web3 = this.getWeb3Provider();
+      const func =     	{
+        "constant": true,
+        "inputs": [
+          {
+            "name": "accountOwner",
+            "type": "address"
+          }
+        ],
+        "name": "balanceOf",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      }; 
+    const abiHex = web3.eth.abi.encodeFunctionCall(func, paramsArray);
+    return abiHex;      
+    }
+
+    getFabTransferABI(paramsArray: any) {
+      const web3 = this.getWeb3Provider();
+      const func =	{
+        "constant": false,
+        "inputs": [
+          {
+            "name": "to",
+            "type": "address"
+          },
+          {
+            "name": "value",
+            "type": "uint256"
+          }
+        ],
+        "name": "transfer",
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }; 
+      const abiHex = web3.eth.abi.encodeFunctionCall(func, paramsArray);
+      return abiHex;       
     }
 
     getCreateOrderFuncABI(paramsArray: any) {

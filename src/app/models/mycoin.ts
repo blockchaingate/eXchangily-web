@@ -7,6 +7,7 @@ export class MyCoin extends Coin {
     receiveAdds: Address[];
     changeAdds: Address[];
     tokenType: string;
+    baseCoin: MyCoin;
     contractAddr: string;
 
     constructor(name: string) {
@@ -17,6 +18,7 @@ export class MyCoin extends Coin {
         this.contractAddr = '';
         this.receiveAdds = new Array();
         this.changeAdds = new Array();
+        this.baseCoin = null;
     }
 
 }

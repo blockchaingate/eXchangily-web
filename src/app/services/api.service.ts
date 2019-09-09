@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import {Balance, EthBalance, FabTransaction, BtcTransaction, EthTransaction
-    , FabTransactionResponse, CoinsPrice, BtcUtxo, KEthBalance, FabUtxo, FabTransactionJson, BtcTransactionResponse} from '../interfaces/balance.interface';
+import {Balance, EthBalance, FabTransaction, EthTransaction
+    , FabTransactionResponse, CoinsPrice, BtcUtxo, KEthBalance, FabUtxo,
+    FabTokenBalance, FabTransactionJson, BtcTransactionResponse} from '../interfaces/balance.interface';
 
+import {Web3Service} from './web3.service';
+import {UtilService} from './util.service';
 
 @Injectable() 
 export class ApiService {
     endpoint = 'http://169.45.42.108:4000';
    
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private web3Serv: Web3Service, private utilServ: UtilService) { }
     post (path: string, data: any) {
         const httpHeaders = new HttpHeaders({
             'Content-Type' : 'application/json',
@@ -166,7 +169,10 @@ export class ApiService {
         //token: M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB
         const url = 'https://api-ropsten.etherscan.io/api?module=proxy&action=eth_sendRawTransaction&hex='
         + txHex + '&apikey=M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB';
-        const response = await this.http.get(url).toPromise() as EthTransaction;
+        let response = null;
+        if (txHex) {
+            response = await this.http.get(url).toPromise() as EthTransaction;
+        }
         console.log('response for postEthTx=');
         console.log(response);
         if (response && response.result) {
@@ -182,7 +188,10 @@ export class ApiService {
         //const url = 'https://fabexplorer.info:9003/fabapi/sendrawtransaction/' + txHex;
         console.log('txHex=' + txHex);
         console.log('url=' + url);
-        const response = await this.http.get(url).toPromise() as FabTransactionResponse;
+        let response = null;
+        if (txHex) {
+            response = await this.http.get(url).toPromise() as FabTransactionResponse;
+        }
         console.log('response from postFabTx=');
         console.log(response);
         let ret = '';
@@ -207,7 +216,10 @@ export class ApiService {
         */
        const url = 'http://18.188.32.168:8000/sendrawtransaction/' + txHex;
        console.log('weird start, url=' + url);
-       const response = await this.http.get(url).toPromise() as BtcTransactionResponse;
+       let response = null;
+       if (txHex) {
+           response = await this.http.get(url).toPromise() as BtcTransactionResponse;
+       }
        console.log('weird end');
        console.log(response.txid);
        return '0x' + response.txid;
@@ -241,5 +253,38 @@ export class ApiService {
         const balance = response.result;
         const lockbalance = 0;
         return {balance, lockbalance}; 
+    }
+
+    async fabCallContract(contractAddress: string, fxnCallHex: string) {
+        contractAddress = '28a6efffaf9f721a1e95667e3de54c622edc5ffa';
+        //const url = 'http://52.60.97.159:8000/callcontract';
+        const url = 'http://fabtest.info:9001/fabapi/callcontract';
+        const httpHeaders = new HttpHeaders({
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        });   
+        const options = {
+            headers: httpHeaders
+        };       
+        const data = [contractAddress, fxnCallHex];
+        console.log(data);  
+        const response = await this.http.post(url, data, options).toPromise() as FabTokenBalance;
+        return response;
+    }
+
+    async getFabTokenBalance(contractAddress: string, address: string) {
+        
+        console.log('contractAddress=' + contractAddress + ',address=' + address);
+        let fxnCallHex = this.web3Serv.getFabBalanceOfABI([address]);
+        fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
+
+        const response = await this.fabCallContract(contractAddress, fxnCallHex);
+
+        const balanceHex = response.executionResult.output;
+        const balance = parseInt(balanceHex, 16);
+
+
+        const lockbalance = 0;
+        return {balance, lockbalance};
     }
 }
