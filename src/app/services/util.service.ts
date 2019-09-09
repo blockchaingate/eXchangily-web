@@ -17,8 +17,8 @@ export class UtilService {
         try {
             const encryptedRawData = CryptoJS.AES.decrypt(encryted, pwd).toString(CryptoJS.enc.Utf8);
             if (!encryptedRawData.startsWith(this.auth_code)) {
-                return '';
-                // return encryptedRawData;
+                //return '';
+                return encryptedRawData;
             }
             return encryptedRawData.slice(this.auth_code.length);
         } catch (e) {}
