@@ -17,7 +17,7 @@
                         <label for="inputSendTo" class="text-muted">Currency</label>
                         <div class="row">
                             <div class="col">
-                                <select class="custom-select" formControlName="selectedCoinIndex" *ngIf="wallet">
+                                <select class="custom-select" (change)="onChange($event.target.value)" formControlName="selectedCoinIndex" *ngIf="wallet">
                                     <option [value]="i" *ngFor="let coin of wallet.mycoins;let i = index">{{coin.name}}</option>
                                 </select>
 
@@ -32,6 +32,11 @@
                     <div class="form-group">
                         <label for="inputSendTo" class="text-muted">Send amount</label>
                         <input type="text" class="form-control" id="inputSendAmount" formControlName="sendAmount" aria-describedby="emailHelp" placeholder="0.0000">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputSendTo" class="text-muted">Comment</label>
+                        <input type="text" class="form-control" id="inputComment" formControlName="comment" aria-describedby="emailHelp" placeholder="">
                     </div>
 
                     <div class="form-group">
@@ -52,8 +57,26 @@
                             </div>
                             <div class="col text-muted">
                                 <div class="pull-right">
-                                    <mat-slide-toggle [checked]="checked">Slide me!</mat-slide-toggle>
+                                    <mat-slide-toggle formControlName="gasFeeCustomChecked">Slide me!!</mat-slide-toggle>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="sendCoinForm.get('gasFeeCustomChecked').value">
+                        <div *ngIf="wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'ETH' || wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].tokenType === 'ETH'">
+                            <div class="form-group">
+                                <label for="gasPrice" class="text-muted">Gas Price(Gwei)</label>
+                                <input type="text" class="form-control" id="inputGasPrice" formControlName="gasPrice" placeholder="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="gasPrice" class="text-muted">Gas Limit</label>
+                                <input type="text" class="form-control" id="inputGasLimit" formControlName="gasLimit" placeholder="0">
+                            </div>
+                        </div>
+                        <div *ngIf="wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'BTC'">
+                            <div class="form-group">
+                                <label for="gasPrice" class="text-muted">Satoshis/byte</label>
+                                <input type="text" class="form-control" id="inputSatoshisPerByte" formControlName="satoshisPerByte" placeholder="0">
                             </div>
                         </div>
                     </div>
@@ -68,84 +91,3 @@
         </form>
     </div>
 </div>
-<!--
-<ng-template #templateSend>
-    <div class="modal-header text-center">
-        <h4 class="modal-title w-100">Send</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-    </div>
-    <div class="modal-body">
-        <form [formGroup]="sendCoinForm" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-                <label for="inputSendTo">Send to</label>
-                <input type="text" class="form-control" id="inputSendTo" aria-describedby="emailHelp" formControlName="sendTo" placeholder="Wallet address">
-            </div>
-            <div class="form-group">
-                <label for="inputSendTo">Currency</label>
-                <div class="row">
-                    <div class="col">
-                        <select class="custom-select" (change)="changeCoin($event.target.value)" formControlName="coin">
-                            <option [value]="i" *ngFor="let coin of wallet.mycoins;let i = index">{{coin.name}}</option>
-                        </select>
-
-                    </div>
-                    <div class="col">
-                        <div class="pull-right">
-                            Balnace:334432
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputSendTo">Send amount</label>
-                <input type="text" class="form-control" id="inputSendAmount" formControlName="sendAmount" aria-describedby="emailHelp" placeholder="0.0000">
-            </div>
-
-            <div class="form-group">
-                <div class="row">
-                    <div class="col">
-                        Gas fee </div>
-                    <div class="col">
-                        <div class="pull-right">
-                            0.000033
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col">
-                        Gas fee advanced
-                    </div>
-                    <div class="col">
-                        <div class="pull-right">
-                            <mat-slide-toggle [checked]="checked">Slide me!</mat-slide-toggle>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button class="btn btn1 btn-gradient text-white" type="button" (click)="openPinModal(templatePasswd)">{{"Send" | translate }}</button>
-        </form>
-    </div>
-</ng-template>
-
-<ng-template #templatePasswd>
-    <div class="modal-header text-center">
-        <h4 class="modal-title w-100">Pin Number</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef2.hide()">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-    </div>
-    <div class="modal-body">
-        <form [formGroup]="pinForm" (ngSubmit)="onSubmitPin()">
-            <div class="form-group">
-                <input type="password" class="form-control" id="inputPin" aria-describedby="emailHelp" formControlName="pin" placeholder="Please provide your password to confirm the transaction">
-            </div>
-
-            <button class="btn btn1 btn-gradient text-white" type="submit">{{"Confirm" | translate }}</button>
-        </form>
-    </div>
-</ng-template>
--->

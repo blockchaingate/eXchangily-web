@@ -3,6 +3,7 @@ import {StorageService} from '../../../../services/storage.service';
 import { TransactionItem } from '../../../../models/transaction-item';
 import {CoinsPrice} from '../../../../interfaces/balance.interface';
 import {UtilService} from '../../../../services/util.service';
+import {ApiService} from '../../../../services/api.service';
 import { TransactionDetailModal } from '../../modals/transaction-detail/transaction-detail.modal';
 
 @Component({
@@ -17,7 +18,7 @@ export class TransactionHistoryComponent implements OnInit {
 
     transactionHistory: TransactionItem[];
     @Input() coinsPrice: CoinsPrice;
-    constructor ( private storageService: StorageService, private utilServ: UtilService ) {
+    constructor ( private storageService: StorageService, private utilServ: UtilService, private apiServ: ApiService ) {
 
     }
     
@@ -25,12 +26,35 @@ export class TransactionHistoryComponent implements OnInit {
         this.storageService.getTransactionHistoryList().subscribe(
             (transactionHistory: TransactionItem[]) => {
                 console.log('transactionHistory=', transactionHistory);
-                this.transactionHistory = transactionHistory;
+                this.transactionHistory = transactionHistory.reverse();
             }
         );
     }
 
-    showTransactionDetail(item: TransactionItem) {
+    async showTransactionDetail(item: TransactionItem) {
+        console.log('item is:', item);
+        if (item.coin === 'BTC') {
+            const tx = await this.apiServ.getBtcTransaction(item.txid);
+            item.confirmations = tx.confirmations;
+            item.blockhash = tx.blockhash;
+        } else 
+        if (item.coin === 'ETH' || item.tokenType === 'ETH') {
+            const tx = await this.apiServ.getEthTransaction(item.txid);
+            item.confirmations = '0';
+            if (tx.blockNumber) {
+                item.confirmations = tx.confirmations;
+            }
+            item.blockhash = tx.blockHash;            
+        } else
+        if (item.coin === 'FAB' || item.tokenType === 'FAB') {
+            const tx = await this.apiServ.getFabTransactionJson(item.txid);
+            console.log('tx in fab token:', tx);
+            item.confirmations = '0';
+            if (tx.confirmations) {
+                item.confirmations = tx.confirmations.toString();
+            }
+            item.blockhash = tx.blockhash;    
+        } 
         this.transactionDetailModal.show(item);
     }
 }

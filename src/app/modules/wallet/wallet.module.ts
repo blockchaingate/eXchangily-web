@@ -47,6 +47,7 @@ import { LoginSettingModal } from './modals/login-setting/login-setting.modal';
 
 import { KanbanService } from '../../services/kanban.service';
 import { Web3Service } from '../../services/web3.service';
+import { AlertService } from '../../services/alert.service';
 import {MatSelectModule} from '@angular/material/select'; 
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
@@ -121,7 +122,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         }),
     ],
     providers: [
-        KanbanService, Web3Service
+        KanbanService, Web3Service, AlertService
     ]
 })
 export class WalletModule { }

@@ -91,6 +91,7 @@ export interface FabTransactionJson {
     vin: [FabVin];
     hex: number;
     confirmations: number;
+    blockhash: string;
 }
 
 export interface Utxo {
@@ -112,6 +113,34 @@ export interface FabTransaction {
 
 export interface BtcTransactionResponse {
     txid: string;
+}
+
+export interface BtcTransaction {
+    blockhash: string;
+    blocktime: number;
+    confirmation: number;
+    hash: string;
+    hex: string;
+    locktime: number;
+    size: number;
+    time: number;
+    txid: string;
+    version: number;
+    vsize: number;
+    weight: number;
+}
+
+export interface EthTransactionRes {
+    blockHash: string;
+    blockcNumber: number;
+    confirmations: number;
+    from: string;
+    gas: number;
+    gasPrice: number;
+    hash: string;
+    nonce: number;
+    transactionIndex: number;
+    value: number;
 }
 
 export interface FabTransactionResponse {

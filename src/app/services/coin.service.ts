@@ -833,7 +833,7 @@ export class CoinService {
         return buf;
     }
 
-    async sendTransaction(mycoin: MyCoin, seed: Buffer, toAddress: string, amount: number, doSubmit: boolean) {
+    async sendTransaction(mycoin: MyCoin, seed: Buffer, toAddress: string, amount: number, options: any, doSubmit: boolean) {
         console.log('doSubmit in sendTransaction=', doSubmit);
         let index = 0;
         let balance = 0;
@@ -841,6 +841,22 @@ export class CoinService {
         let address = '';
         let totalInput = 0;
         
+        let gasPrice = 1.2;
+        let gasLimit = 21000;
+        let satoshisPerBytes = 14;
+        console.log('options=', options);
+        if (options) {
+            
+            if (options.gasPrice) {
+                gasPrice = options.gasPrice;
+            }
+            if (options.gasLimit) {
+                gasLimit = options.gasLimit;
+            }   
+            if (options.satoshisPerBytes) {
+                satoshisPerBytes = options.satoshisPerBytes;
+            }                      
+        }
 
         const receiveAddsIndexArr = [];
         const changeAddsIndexArr = [];
@@ -918,11 +934,10 @@ export class CoinService {
                 return {txHex: '', txHash: ''};
             }
 
-            
+            const transFee = (receiveAddsIndexArr.length + changeAddsIndexArr.length) * 148 * satoshisPerBytes + 2 * 34 + 10;
             const changeAddress = mycoin.changeAdds[0];
-            const output1 = Math.round(totalInput - amount * 1e8 - 3000 
-            - (receiveAddsIndexArr.length + changeAddsIndexArr.length) * 300);
-
+            const output1 = Math.round(totalInput - amount * 1e8 - transFee);
+            
             const output2 = Math.round(amount * 1e8);         
             txb.addOutput(changeAddress.address, output1);
             txb.addOutput(toAddress, output2);
@@ -981,8 +996,8 @@ export class CoinService {
             const nonce = await this.apiService.getEthNonce(address1.address);
             const txParams = {
                 nonce: nonce,
-                gasPrice: 1200000000,
-                gasLimit: 22000,
+                gasPrice: gasPrice * 1e9,
+                gasLimit: gasLimit,
                 to: toAddress,
                 value: amountNum           
             };
@@ -1054,8 +1069,8 @@ export class CoinService {
 
             const txData = {
                 nonce: nonce,
-                gasPrice: 1200000000,
-                gasLimit: 55000,
+                gasPrice: gasPrice * 1e9,
+                gasLimit: gasLimit,
                // to: contractAddress,
                 from: keyPair.address,
                 value: Number(0),         

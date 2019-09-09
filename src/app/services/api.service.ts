@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import {Balance, EthBalance, FabTransaction, EthTransaction
+import {Balance, EthBalance, FabTransaction, EthTransaction, EthTransactionRes
     , FabTransactionResponse, CoinsPrice, BtcUtxo, KEthBalance, FabUtxo,
-    FabTokenBalance, FabTransactionJson, BtcTransactionResponse} from '../interfaces/balance.interface';
+    FabTokenBalance, FabTransactionJson, BtcTransactionResponse, BtcTransaction} from '../interfaces/balance.interface';
 
 import {Web3Service} from './web3.service';
 import {UtilService} from './util.service';
+import {AlertService} from './alert.service';
 
 @Injectable() 
 export class ApiService {
     endpoint = 'http://169.45.42.108:4000';
    
-    constructor(private http: HttpClient, private web3Serv: Web3Service, private utilServ: UtilService) { }
+    constructor(private http: HttpClient, private web3Serv: Web3Service, private utilServ: UtilService, private alertServ: AlertService) { }
     post (path: string, data: any) {
         const httpHeaders = new HttpHeaders({
             'Content-Type' : 'application/json',
@@ -45,6 +46,27 @@ export class ApiService {
         return response;
     }
     
+    async getBtcTransaction(txid: string) {
+        txid = this.utilServ.stripHexPrefix(txid);
+        const url = 'http://18.188.32.168:8000/gettransactionjson/' + txid;
+        let response = null;
+        try {
+            response = await this.http.get(url).toPromise() as BtcTransaction;
+            console.log('response=', response);
+        } catch (e) {console.log (e); }
+        return response;        
+    }
+
+    async getEthTransaction(txid: string) {
+        const url = 'http://3.13.178.231:3000/gettransaction/' + txid;
+        let response = null;
+        try {
+            response = await this.http.get(url).toPromise() as EthTransactionRes;
+            console.log('response=', response);
+        } catch (e) {console.log (e); }
+        return response; 
+    }
+
     async getBtcBalance(address: string): Promise<Balance> {
         /*
         let balance = 0;
@@ -83,10 +105,15 @@ export class ApiService {
 
     }
 
-    async isFabTransactionLocked(txid: string): Promise<boolean> {
-        
+    async getFabTransactionJson(txid: string): Promise<FabTransactionJson> {
+        txid = this.utilServ.stripHexPrefix(txid);
         const url = 'http://52.60.97.159:8000/gettransactionjson/' + txid;
         const response = await this.http.get(url).toPromise() as FabTransactionJson;
+        return response;
+    }
+    async isFabTransactionLocked(txid: string): Promise<boolean> {
+        
+        const response = await this.getFabTransactionJson(txid);
 
         if (response.vin && response.vin.length > 0) {
             const vin = response.vin[0];
@@ -175,9 +202,15 @@ export class ApiService {
         }
         console.log('response for postEthTx=');
         console.log(response);
-        if (response && response.result) {
-            return response.result;
+        if (response) {
+            if (response.result) {
+                return response.result;
+            }
+            if (response.error && response.error.message) {
+                this.alertServ.openSnackBar(response.error.message, 'Ok');
+            }
         }
+
         return '';
     }
 

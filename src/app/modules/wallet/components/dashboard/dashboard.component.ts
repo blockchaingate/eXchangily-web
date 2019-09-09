@@ -440,26 +440,29 @@ export class WalletDashboardComponent {
         const currentCoin = this.wallet.mycoins[this.sendCoinForm.coinIndex];
 
         const seed = this.utilService.aesDecryptSeed(this.wallet.encryptedSeed, pin);
-        if (!seed) {
-            this._snackBar.open('Your pin number is invalid.', 'Ok', {
-                duration: 2000,
-            });        
-            return;   
-        } 
+
         const amount = this.sendCoinForm.amount;
         const doSubmit = true;
+        const options = {
+            gasPrice: this.sendCoinForm.gasPrice,
+            gasLimit: this.sendCoinForm.gasLimit,
+            satoshisPerByte: this.sendCoinForm.satoshisPerByte
+        };
         const {txHex, txHash} = await this.coinService.sendTransaction(currentCoin, seed, 
-            this.sendCoinForm.to, amount, doSubmit
+            this.sendCoinForm.to, amount, options, doSubmit
         );
         if (txHex) {
             const today = new Date();
             const item = {
                 type: 'Send',
                 coin: currentCoin.name,
+                tokenType: currentCoin.tokenType,
                 amount: amount,
                 txid: txHash,
-                time: today, 
-                comment: ''
+                time: today,
+                confirmations: '0',
+                blockhash: '', 
+                comment: this.sendCoinForm.comment
             };
             this.storageService.storeToTransactionHistoryList(item);
         }
@@ -467,7 +470,7 @@ export class WalletDashboardComponent {
 
     async depositdo() {
 
-        let currentCoin = this.currentCoin;
+        const currentCoin = this.currentCoin;
 
         /*
         if (currentCoin == null) {
@@ -496,7 +499,8 @@ export class WalletDashboardComponent {
 
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
         const doSubmit = false;
-        const {txHex, txHash} = await this.coinServ.sendTransaction(currentCoin, seed, officalAddress, amount, doSubmit);   
+        const options = {};
+        const {txHex, txHash} = await this.coinServ.sendTransaction(currentCoin, seed, officalAddress, amount, options, doSubmit);   
         //const txSubmited = await this.coinServ.sendTransaction(currentCoin, seed, officalAddress, amount, true);   
         console.log('111111111111111111111111111111111111111111111111111111111111');
         console.log('txHex=' + txHex);
