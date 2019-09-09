@@ -278,13 +278,21 @@ export class ApiService {
         let fxnCallHex = this.web3Serv.getFabBalanceOfABI([address]);
         fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
 
-        const response = await this.fabCallContract(contractAddress, fxnCallHex);
+        let response = await this.fabCallContract(contractAddress, fxnCallHex);
 
-        const balanceHex = response.executionResult.output;
+        let balanceHex = response.executionResult.output;
         const balance = parseInt(balanceHex, 16);
 
 
-        const lockbalance = 0;
+        fxnCallHex = this.web3Serv.getFabFrozenBalanceABI([address]);
+        fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
+        response = await this.fabCallContract(contractAddress, fxnCallHex);
+        balanceHex = response.executionResult.output;
+        console.log('response here we go:', response);
+        let lockbalance = 0;
+        if (balanceHex) {
+            lockbalance = parseInt(balanceHex, 16);
+        }
         return {balance, lockbalance};
     }
 }

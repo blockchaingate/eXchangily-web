@@ -133,7 +133,11 @@ export class CoinService {
         fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
         
         console.log('fxnCallHex=' + fxnCallHex);
-        console.log('scarContractAddress=' + scarContractAddress)
+        console.log('scarContractAddress=' + scarContractAddress);
+        console.log('this.utilServ.number2Buffer(gasLimit)=', this.utilServ.number2Buffer(gasLimit));
+        console.log('this.utilServ.number2Buffer(gasPrice)=', this.utilServ.number2Buffer(gasPrice));
+        console.log('this.utilServ.hex2Buffer(fxnCallHex)=', this.utilServ.hex2Buffer(fxnCallHex));
+        console.log('this.utilServ.hex2Buffer(scarContractAddress)=', this.utilServ.hex2Buffer(scarContractAddress));
         const contract = Btc.script.compile([
             84,
             this.utilServ.number2Buffer(gasLimit),
@@ -143,6 +147,7 @@ export class CoinService {
             194
         ]);
         
+        console.log('contract=', contract);
         const contractSize = contract.toJSON.toString().length;
 
         console.log('contractSize=' + contractSize);
@@ -211,9 +216,7 @@ export class CoinService {
         for (let i = 0; i < receiveAddsLen; i ++) {
             const addr = myCoin.receiveAdds[i].address;
             const decimals = myCoin.decimals;
-            if(myCoin.name==='EXG') {
-                console.log('addr=' + addr);
-            }
+
             balance = await this.getBlanceByAddress(tokenType, contractAddr, coinName, addr, decimals);
             myCoin.receiveAdds[i].balance = balance.balance;
             totalBalance += balance.balance;

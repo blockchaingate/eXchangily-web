@@ -50,6 +50,7 @@ export class WalletDashboardComponent {
     modalRef: BsModalRef;
     checked = true;
     exgAddress: string;
+    exgBalance: number;
     currentWalletIndex: number;
     currentCoin: MyCoin;
     amount: number;
@@ -230,6 +231,7 @@ export class WalletDashboardComponent {
                 console.log('exg coin');
                 console.log(this.wallet.mycoins[0]);
                 this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
+                this.exgBalance = this.wallet.mycoins[0].balance;
                 console.log('load wallet again.');
                 this.gas = await this.kanbanServ.getGas(this.wallet.excoin.receiveAdds[0].address);
                         /*
