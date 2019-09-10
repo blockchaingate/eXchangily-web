@@ -210,3 +210,16 @@ yle the checkmark/indicator */::ng-deep .mat-checkbox .mat-checkbox-frame {
         width: 100%!important;
     }
 }
+
+.btn-basic-outline:hover {
+    background-color: #49434a;
+}
+
+a {
+    cursor: pointer;
+}
+
+a:not([href]):not([tabindex]):focus,
+a:not([href]):not([tabindex]):hover {
+    color: #e3caca;
+}

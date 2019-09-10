@@ -289,7 +289,7 @@ export class ApiService {
     }
 
     async fabCallContract(contractAddress: string, fxnCallHex: string) {
-        contractAddress = '28a6efffaf9f721a1e95667e3de54c622edc5ffa';
+        //contractAddress = '28a6efffaf9f721a1e95667e3de54c622edc5ffa';
         const url = 'http://52.60.97.159:8000/callcontract';
         //const url = 'http://fabtest.info:9001/fabapi/callcontract';
         const httpHeaders = new HttpHeaders({
