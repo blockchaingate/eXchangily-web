@@ -10,7 +10,7 @@ import { MarketRoutingModule } from './market-routing.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { TradeModule } from './components/trade/trade.module';
 import { AdvModule } from '../adv/adv.module';
-
+import { AlertService } from '../../services/alert.service';
 // import { MarketComponent } from './market.component';
 import { MarketHomeComponent } from './components/home/market-home.component';
 import { MarketListComponent } from './components/list/market-list.component';
@@ -48,7 +48,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     OrderService,
     Web3Service,
     KanbanService,
-    TradeService
+    TradeService,
+    AlertService
   ],
   declarations: [
     // MarketComponent,

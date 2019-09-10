@@ -59,7 +59,7 @@ export class CoinService {
         const fabCoin = new MyCoin('FAB');
         this.fillUpAddress(fabCoin, seed, 1, 0);
 
-        const exgCoin = this.initToken('FAB', 'EXG', 18, '0x28a6efffaf9f721a1e95667e3de54c622edc5ffa', fabCoin);
+        const exgCoin = this.initToken('FAB', 'EXG', 18, '0x867480ba8e577402fa44f43c33875ce74bdc5df6', fabCoin);
         this.fillUpAddress(exgCoin, seed, 1, 0);
 
         myCoins.push(exgCoin);

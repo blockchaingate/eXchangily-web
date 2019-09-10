@@ -289,19 +289,19 @@ export class ApiService {
     }
 
     async fabCallContract(contractAddress: string, fxnCallHex: string) {
-        //contractAddress = '28a6efffaf9f721a1e95667e3de54c622edc5ffa';
+        contractAddress = '0x867480ba8e577402fa44f43c33875ce74bdc5df6';
+        console.log('haha');
         const url = 'http://52.60.97.159:8000/callcontract';
-        //const url = 'http://fabtest.info:9001/fabapi/callcontract';
-        const httpHeaders = new HttpHeaders({
-            'Content-Type' : 'application/json',
-            'Cache-Control': 'no-cache'
-        });   
-        const options = {
-            headers: httpHeaders
-        };       
-        const data = [contractAddress, fxnCallHex];
+
+        contractAddress = this.utilServ.stripHexPrefix(contractAddress);     
+        const data = {address: contractAddress, data: fxnCallHex};
+
+        const formData: FormData = new FormData(); 
+        formData.append('address', contractAddress); 
+        formData.append('data', fxnCallHex); 
+
         console.log(data);  
-        const response = await this.http.post(url, data, options).toPromise() as FabTokenBalance;
+        const response = await this.http.post(url, formData).toPromise() as FabTokenBalance;
         return response;
     }
 

@@ -122,7 +122,7 @@ export class Web3Service {
 
     getFabFrozenBalanceABI(paramsArray: any) {
       const web3 = this.getWeb3Provider();
-      const func = {
+      const func = 	{
         "constant": true,
         "inputs": [
           {
@@ -130,7 +130,7 @@ export class Web3Service {
             "type": "address"
           }
         ],
-        "name": "getLockerUnreleased",
+        "name": "getUnreleased",
         "outputs": [
           {
             "name": "",
