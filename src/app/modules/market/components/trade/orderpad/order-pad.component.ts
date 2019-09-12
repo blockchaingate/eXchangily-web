@@ -1,7 +1,8 @@
 import { Component, Output, TemplateRef, Input, AfterViewInit, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Order } from '../../../models/order';
+//import { Order } from '../../../models/order';
+import { Order } from '../../../../../interfaces/kanban.interface';
 import { OrderBookItem, TxRecord } from '../../../models/order-book';
 import { OrderService } from '../../../services/order.service';
 import { Web3Service } from '../../../../../services/web3.service';
@@ -37,8 +38,8 @@ export class OrderPadComponent implements AfterViewInit {
     orderType = 1;
     myorder: Order;
     bidOrAsk: boolean;
-    sells: OrderBookItem[] = [];
-    buys: OrderBookItem[] = [];
+    sells: Order[] = [];
+    buys: Order[] = [];
     txOrders: TxRecord[] = [];
     currentPrice = 0;
     change24h = 0;
@@ -58,14 +59,49 @@ export class OrderPadComponent implements AfterViewInit {
     refreshTokenDone: boolean;
     timer: any;
     oldNonce: number;
+    interval;
 
     constructor(private ordServ: OrderService, private _router: Router, private web3Serv: Web3Service, private coinService: CoinService,
       private kanbanService: KanbanService, private utilService: UtilService, private walletService: WalletService, 
       private fb: FormBuilder, private modalService: BsModalService, private _snackBar: MatSnackBar, private tradeService: TradeService) {
         this.web3 = this.web3Serv.getWeb3Provider();
         this.refreshTokenDone = true; 
+        this.interval = setInterval(() => {
+          this.refreshOrders();
+        },2000)
     }
 
+    refreshOrders() {
+      if(!this.baseCoin || !this.targetCoin) {
+        return;
+      }
+      this.kanbanService.getAllOrders().subscribe((orders: Order[]) => {
+        console.log('orders from /exchangily/getAllOrderData');
+        console.log(orders);
+        for (let i = 0 ; i < orders.length; i++) {
+            const order = orders[i];
+            console.log('order.baseCoin=' + order.baseCoin + ",order.targetCoin=" + order.targetCoin);
+            console.log('this.baseCoin=' + this.baseCoin + ",this.targetCoin=" + this.targetCoin);
+            if ((order.baseCoin === this.baseCoin && order.targetCoin === this.targetCoin) 
+            || (order.baseCoin === this.targetCoin && order.targetCoin === this.baseCoin)) {
+              if (order.bidOrAsk) {
+                this.addTo(this.sells, order);
+              } else {
+                this.addTo(this.buys, order);
+              }
+            }
+        }
+
+    }); 
+    }
+    addTo(arr: Order[], item: Order) {
+      for (let i = 0 ; i < arr.length; i++) {
+        if (arr[i].orderHash === item.orderHash) {
+          return;
+        }
+      }
+      arr.push(item);
+    }
     onRefreshToken(tokens) {
       console.log('onRefreshToken in orderPad');
       if (!this.utilService.arraysEqual(tokens, this.mytokens)) {

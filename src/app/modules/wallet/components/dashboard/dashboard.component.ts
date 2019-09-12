@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ViewEncapsulation, TemplateRef, ViewChild, ViewContainerRef, OnInit  } from '@angular/core';
 import { Router } from '@angular/router';
 import { Wallet } from '../../../../models/wallet';
 import { MyCoin } from '../../../../models/mycoin';
@@ -70,11 +70,17 @@ export class WalletDashboardComponent {
         this.showMyAssets = true;
         this.showTransactionHistory = false;
         this.loadCoinsPrice();
-        this.loadWallet();
+
         //this.startTimer();
         this.loadBalance();
     }
 
+    async ngOnInit() {
+        await this.loadWallets();
+        this.currentWalletIndex = await this.walletServ.getCurrentWalletIndex();
+        console.log('this.currentWalletIndex=', this.currentWalletIndex);
+        this.loadWallet(this.wallets[this.currentWalletIndex]);
+    }
     onConfirmedBackupPrivateKey(cmd: string) {
         console.log('onConfirmedBackupPrivateKey start, cmd=', cmd);
 
@@ -156,7 +162,7 @@ export class WalletDashboardComponent {
         this.showTransactionHistory = true;
     }
 
-    onConfirmedDeleteWallet() {
+    async onConfirmedDeleteWallet() {
         console.log('confirm delete it.');
         //this.walletServ.deleteCurrentWallet();
         console.log(this.wallets);
@@ -168,7 +174,7 @@ export class WalletDashboardComponent {
         console.log(this.wallets);
         if (this.wallets.length === this.currentWalletIndex) {
             this.currentWalletIndex = this.wallets.length - 1;
-            this.walletServ.saveCurrentWalletIndex(this.currentWalletIndex);
+            await this.walletServ.saveCurrentWalletIndex(this.currentWalletIndex);
         }
         this.walletServ.updateWallets(this.wallets);    
         
@@ -189,7 +195,10 @@ export class WalletDashboardComponent {
         for ( let i = 0; i < this.wallet.mycoins.length; i++ ) {
             const coin = this.wallet.mycoins[i];
             const balance = await this.coinServ.getBalance(coin);
-            if (coin.balance !== balance.balance || coin.lockedBalance !== balance.lockbalance) {
+            if (coin.balance !== balance.balance || coin.lockedBalance !== balance.lockbalance) {                        /*
+                this.wallets = new Array<Wallet>();
+                wallets.forEach(wl => { this.wallets.push(wl); });
+                */
                 coin.balance = balance.balance;
                 coin.lockedBalance = balance.lockbalance;
                 updated = true;
@@ -206,15 +215,27 @@ export class WalletDashboardComponent {
         },5000)
     }
 
-    changeWallet(value) {
+    async changeWallet(value) {
         this.currentWalletIndex = value;
         //this.wallet = this.wallets[this.currentWalletIndex];
         //this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
-        this.walletServ.saveCurrentWalletIndex(value);
-        this.loadWallet();
+        await this.walletServ.saveCurrentWalletIndex(this.currentWalletIndex);
+        console.log('this.currentWalletIndex=' + this.currentWalletIndex);
+        await this.loadWallet(this.wallets[this.currentWalletIndex]);
     }
-
-    loadWallet() {
+    
+    async loadWallets() {
+        this.wallets = await this.walletServ.getWallets();
+        this.currentWalletIndex = await this.walletServ.getCurrentWalletIndex();
+    }
+    async loadWallet(wallet: Wallet) {
+        this.wallet = wallet;
+        console.log('this.wallet=', this.wallet);
+        this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
+        this.exgBalance = this.wallet.mycoins[0].balance;
+        console.log('load wallet again.');
+        this.gas = await this.kanbanServ.getGas(this.wallet.excoin.receiveAdds[0].address);        
+        /*
         this.walletServ.getWalletList().subscribe((wallets: Wallet[]) => {
 
             if (wallets) {
@@ -234,10 +255,7 @@ export class WalletDashboardComponent {
                 this.exgBalance = this.wallet.mycoins[0].balance;
                 console.log('load wallet again.');
                 this.gas = await this.kanbanServ.getGas(this.wallet.excoin.receiveAdds[0].address);
-                        /*
-                        this.wallets = new Array<Wallet>();
-                        wallets.forEach(wl => { this.wallets.push(wl); });
-                        */
+
                     }
                 );
 
@@ -245,6 +263,7 @@ export class WalletDashboardComponent {
                 this.route.navigate(['/wallet/no-wallet']);
             }
         });
+        */
     }
     exchangeMoney() {
         this.route.navigate(['/market/home']);

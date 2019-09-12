@@ -863,7 +863,10 @@ export class CoinService {
 
         console.log('mycoin=');
         console.log(mycoin);
+        const bytesPerInput = 148;
         let amountNum = amount * Math.pow(10, this.utilServ.getDecimal(mycoin));
+        amountNum += (2 * 34 + 10);
+        // 2 output
         console.log('toAddress=' + toAddress + ',amount=' + amount + ',amountNum=' + amountNum);
         const TestNet = Btc.networks.testnet;
         console.log('TestNet===');
@@ -887,6 +890,7 @@ export class CoinService {
                     }
                     txb.addInput(tx.txid, tx.idx);
                     amountNum -= tx.value;
+                    amountNum += bytesPerInput * satoshisPerBytes;
                     totalInput += tx.value;
                     receiveAddsIndexArr.push(index);
 
@@ -916,6 +920,7 @@ export class CoinService {
                         }
                         txb.addInput(tx.txid, tx.idx);
                         amountNum -= tx.value;
+                        amountNum += bytesPerInput * satoshisPerBytes;
                         totalInput += tx.value;
                         changeAddsIndexArr.push(index);
     
@@ -934,8 +939,11 @@ export class CoinService {
                 return {txHex: '', txHash: ''};
             }
 
-            const transFee = (receiveAddsIndexArr.length + changeAddsIndexArr.length) * 148 * satoshisPerBytes + 2 * 34 + 10;
+            const transFee = (receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput * satoshisPerBytes + 2 * 34 + 10;
             const changeAddress = mycoin.changeAdds[0];
+            console.log('totalInput=' + totalInput);
+            console.log('amount=' + amount);
+            console.log('transFee=' + transFee);
             const output1 = Math.round(totalInput - amount * 1e8 - transFee);
             
             const output2 = Math.round(amount * 1e8);         
@@ -1038,7 +1046,7 @@ export class CoinService {
             const toAccount = toAddress;
             const contractAddress = mycoin.contractAddr;
 
-            console.log('nonce = ' + nonce);
+            console.log('nonce = ' + nonce);totalInput
             const func =    {  
                 "constant": false,
                 "inputs":[  

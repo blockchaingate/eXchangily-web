@@ -10,11 +10,17 @@
                     <button mat-menu-item (click)="linkTo('/market/home')">{{'Exchange' | translate}}</button>
                     <button mat-menu-item (click)="linkTo('/wallet')">{{'Wallet' | translate}}</button>
                     <button mat-menu-item (click)="linkTo('/explorer')">{{'Explore' | translate}}</button>
-
+                    <button mat-menu-item [matMenuTriggerFor]="settingMenu">{{'Setting' | translate}}</button>
                     <button mat-menu-item (click)="selectLan('en')">English</button>
                     <button mat-menu-item (click)="selectLan('zh')">中文</button>
                 </mat-menu>
-
+                <mat-menu #settingMenu="matMenu">
+                    <button mat-menu-item (click)="linkTo('/explorer')">{{'Login Setting' | translate}}</button>
+                    <button mat-menu-item (click)="linkTo('/explorer')">{{'Show seed phrase' | translate}}</button>
+                    <button mat-menu-item (click)="linkTo('/explorer')">{{'Verify seed phrase' | translate}}</button>
+                    <button mat-menu-item (click)="linkTo('/explorer')">{{'Backup private key' | translate}}</button>
+                    <button mat-menu-item (click)="linkTo('/explorer')">{{'Delete wallet' | translate}}</button>
+                </mat-menu>
             </div>
 
             <div>
@@ -47,12 +53,14 @@
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/" [class.selected]="selected === 4" (click)="selected=4;">{{'Home' | translate}}</a>
                     </li>
+                    <!--
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/setting" [class.selected]="selected === 5" (click)="selected=5;">{{'Setting' | translate}}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/help" [class.selected]="selected === 6" (click)="selected=6;">{{'Help' | translate}}</a>
                     </li>
+                    -->
                 </ul>
             </div>
         </mat-toolbar>

@@ -100,12 +100,22 @@ export class WalletService {
     }
 
     async getCurrentWallet() {
-        const currentWalletIndex = await this.localSt.getItem('currentWalletIndex').toPromise() as number;
-        const wallets = await this.localSt.getItem('wallets').toPromise() as Wallet[];
+        const currentWalletIndex = await(this.getCurrentWalletIndex());
+        const wallets = await this.getWallets();
         if (currentWalletIndex >= 0 && wallets) {
             return wallets[currentWalletIndex];
         }
         return null;
+    }
+
+    async getCurrentWalletIndex() {
+        const currentWalletIndex = await this.localSt.getItem('currentWalletIndex').toPromise() as number;
+        return currentWalletIndex;
+    }
+
+    async getWallets() {
+        const wallets = await this.localSt.getItem('wallets').toPromise() as Wallet[];
+        return wallets;
     }
 
     storeToWalletList(wallet: Wallet) {
@@ -146,11 +156,13 @@ export class WalletService {
         return this.localSt.getItem('wallets');
     }
 
+    /*
     getCurrentWalletIndex() {
         return this.localSt.getItem('currentWalletIndex');
     }
-
-    saveCurrentWalletIndex(value: number) {
+    */
+    async saveCurrentWalletIndex(value: number) {
+        console.log('value for saveCurrentWalletIndex=' + value);
         this.localSt.setItem('currentWalletIndex', value).subscribe(() => {});
     }
     
