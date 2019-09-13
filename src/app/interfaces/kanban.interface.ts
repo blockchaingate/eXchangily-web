@@ -1,3 +1,5 @@
+import { OrderBookItem } from '../modules/market/models/order-book';
+
 //import { Block } from 'bitcoinjs-lib';
 
 export interface OfficialAddress {
@@ -17,6 +19,16 @@ export interface TransactionReceipt {
 
 export interface TransactionReceiptResp {
     transactionReceipt: TransactionReceipt;
+}
+
+export interface OrderBookItem {
+    E: number;
+    U: number;
+    a: [][];
+    b: [][];
+    e: string;
+    s: string;
+    u: number;
 }
 
 export interface Transaction {

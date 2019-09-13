@@ -1,0 +1,5 @@
+API key:
+8zNQgKzEC1Q5Yz4RkMwH36bVTKLSojwt7Wx1Aa3j0F5gZxZJi8qZEmctvsdPZ5e4
+
+Secret key:
+ZeOf7YNdAHYerMPyqSEJ8zqRbmobznlTaYH9xl9tIBqxOyTjY1WdQ171dcng3IlU

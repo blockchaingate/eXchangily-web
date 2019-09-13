@@ -1,9 +1,9 @@
-import { Component, Output, TemplateRef, Input, AfterViewInit, EventEmitter } from '@angular/core';
+import { Component, Output, TemplateRef, Input, AfterViewInit, EventEmitter,OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 //import { Order } from '../../../models/order';
-import { Order } from '../../../../../interfaces/kanban.interface';
-import { OrderBookItem, TxRecord } from '../../../models/order-book';
+import { Order, OrderBookItem } from '../../../../../interfaces/kanban.interface';
+import { TxRecord } from '../../../models/order-book';
 import { OrderService } from '../../../services/order.service';
 import { Web3Service } from '../../../../../services/web3.service';
 import { KanbanService } from '../../../../../services/kanban.service';
@@ -18,6 +18,7 @@ import { FormBuilder } from '@angular/forms';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {TransactionResp} from '../../../../../interfaces/kanban.interface';
+import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 
 declare let window: any;
 @Component({
@@ -26,7 +27,7 @@ declare let window: any;
     styleUrls: ['./order-pad.component.css']
 })
 
-export class OrderPadComponent implements AfterViewInit {
+export class OrderPadComponent implements AfterViewInit, OnDestroy {
     @Input() baseCoin: number;
     @Input() targetCoin: number;
     @Input() wallet: Wallet;
@@ -59,22 +60,52 @@ export class OrderPadComponent implements AfterViewInit {
     refreshTokenDone: boolean;
     timer: any;
     oldNonce: number;
-    interval;
+    socket: WebSocketSubject<OrderBookItem>;
+    //interval;
 
     constructor(private ordServ: OrderService, private _router: Router, private web3Serv: Web3Service, private coinService: CoinService,
       private kanbanService: KanbanService, private utilService: UtilService, private walletService: WalletService, 
       private fb: FormBuilder, private modalService: BsModalService, private _snackBar: MatSnackBar, private tradeService: TradeService) {
         this.web3 = this.web3Serv.getWeb3Provider();
         this.refreshTokenDone = true; 
+        /*
         this.interval = setInterval(() => {
           this.refreshOrders();
         },2000)
+        */
+    }
+
+    ngOnDestroy() {
+      this.socket.unsubscribe();
     }
 
     refreshOrders() {
-      if(!this.baseCoin || !this.targetCoin) {
+      console.log('this.baseCoin====' + this.baseCoin);
+      if (!this.baseCoin || !this.targetCoin) {
         return;
       }
+      const baseCoinName = this.coinService.getCoinNameByTypeId(this.baseCoin).toLowerCase();
+      const targetCoinName = this.coinService.getCoinNameByTypeId(this.targetCoin).toLowerCase();      
+      const pair = baseCoinName + targetCoinName;
+      console.log('pair = ' + pair);
+      this.socket = new WebSocketSubject('wss://stream.binance.com:9443/ws/' + pair + '@depth');
+      this.socket.subscribe(
+        (orders) => {
+          console.log('message:', orders);
+          const a = orders.a;
+          this.addTo(true, orders.a);
+          this.addTo(false, orders.b);
+        },
+        (err) => {
+          console.log('err:', err);
+        },
+        () => {
+          console.log('Completed');
+        }
+      );
+
+
+      /*
       this.kanbanService.getAllOrders().subscribe((orders: Order[]) => {
         console.log('orders from /exchangily/getAllOrderData');
         console.log(orders);
@@ -93,14 +124,38 @@ export class OrderPadComponent implements AfterViewInit {
         }
 
     }); 
+    */
     }
-    addTo(arr: Order[], item: Order) {
-      for (let i = 0 ; i < arr.length; i++) {
-        if (arr[i].orderHash === item.orderHash) {
-          return;
+
+
+    addTo(bidOrAsk: boolean, item: [][]) {
+
+      console.log('item.length=' + item.length);
+      for (let i = 0 ; i < item.length; i++) {
+        const orderItem = item[i];
+        const res = orderItem.toString().split(',');
+        console.log('orderItem=' + orderItem);
+        console.log();
+        const amount = parseFloat(res[0]);
+        const price = parseFloat(res[1]);
+        console.log('amount=' + amount);
+        console.log('price=' + price);
+        const item2 = {
+          orderHash: '',
+          bidOrAsk: bidOrAsk,
+          baseCoin: 1,
+          targetCoin: 1,
+          orderType: 1,
+          amount: amount,
+          price: price
+        };
+        if(bidOrAsk) {
+          this.sells.push(item2);
+        }
+        else {
+          this.buys.push(item2);
         }
       }
-      arr.push(item);
     }
     onRefreshToken(tokens) {
       console.log('onRefreshToken in orderPad');
@@ -124,6 +179,7 @@ export class OrderPadComponent implements AfterViewInit {
             }  
           }
         }
+        this.refreshOrders();
       }, 1000);
 
 

@@ -9,9 +9,9 @@
             </div>
             <div class="selllist w-100">
                 <div class="orderbookitem" *ngFor="let sell of sells; let i=index">
-                    <div class="price smallfont text-danger">{{sell.price/1e18 | number:'.4'}}</div>
-                    <div class="quantity smallfont text-muted">{{sell.amount/1e18 | number:'.4'}}</div>
-                    <div class="total smallfont text-muted">{{sell.price/1e18 * sell.amount/1e18 | number:'.4'}}</div>
+                    <div class="price smallfont text-danger">{{sell.price | number:'.4'}}</div>
+                    <div class="quantity smallfont text-muted">{{sell.amount | number:'.4'}}</div>
+                    <div class="total smallfont text-muted">{{sell.price * sell.amount | number:'.4'}}</div>
                 </div>
             </div>
             <!--
@@ -22,9 +22,9 @@
 -->
             <div class="buylist w-100">
                 <div class="orderbookitem" *ngFor="let buy of buys; let l=index">
-                    <div class="price smallfont text-success">{{buy.price/1e18 | number:'.4'}}</div>
-                    <div class="quantity smallfont text-muted">{{buy.amount/1e18 | number:'.4'}}</div>
-                    <div class="total smallfont text-muted">{{buy.price/1e18 * buy.amount/1e18 | number:'.4'}}</div>
+                    <div class="price smallfont text-success">{{buy.price | number:'.4'}}</div>
+                    <div class="quantity smallfont text-muted">{{buy.amount | number:'.4'}}</div>
+                    <div class="total smallfont text-muted">{{buy.price * buy.amount | number:'.4'}}</div>
                 </div>
             </div>
         </div>

@@ -78,6 +78,7 @@
         "rxjs": "~6.5.2",
         "save-canvas-to-image": "^0.1.1",
         "secure-random": "^1.1.2",
+        "socket.io": "^2.2.0",
         "solc": "^0.5.10",
         "sqlite3": "^4.0.9",
         "stream": "0.0.2",
