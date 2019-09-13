@@ -73,7 +73,7 @@
                                 <input type="text" class="form-control" id="inputGasLimit" formControlName="gasLimit" placeholder="0">
                             </div>
                         </div>
-                        <div *ngIf="wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'BTC'">
+                        <div *ngIf="wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'BTC' || wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'FAB' || wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].tokenType === 'FAB'">
                             <div class="form-group">
                                 <label for="gasPrice" class="text-muted">Satoshis/byte</label>
                                 <input type="text" class="form-control" id="inputSatoshisPerByte" formControlName="satoshisPerByte" placeholder="0">

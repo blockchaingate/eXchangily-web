@@ -131,13 +131,7 @@ export class CoinService {
         
         let fxnCallHex = abi.encodeFunctionCall(addDepositFunc, []);
         fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
-        
-        console.log('fxnCallHex=' + fxnCallHex);
-        console.log('scarContractAddress=' + scarContractAddress);
-        console.log('this.utilServ.number2Buffer(gasLimit)=', this.utilServ.number2Buffer(gasLimit));
-        console.log('this.utilServ.number2Buffer(gasPrice)=', this.utilServ.number2Buffer(gasPrice));
-        console.log('this.utilServ.hex2Buffer(fxnCallHex)=', this.utilServ.hex2Buffer(fxnCallHex));
-        console.log('this.utilServ.hex2Buffer(scarContractAddress)=', this.utilServ.hex2Buffer(scarContractAddress));
+
         const contract = Btc.script.compile([
             84,
             this.utilServ.number2Buffer(gasLimit),
@@ -154,7 +148,7 @@ export class CoinService {
         totalFee += this.utilServ.convertLiuToFabcoin(contractSize * 10);
         
         console.log('totalFee=' + totalFee);
-        const txhex = await this.getFabTransactionHex(seed, mycoin, contract, amount, totalFee);
+        const txhex = await this.getFabTransactionHex(seed, mycoin, contract, amount, totalFee, 14);
         const txhash = this.apiService.postFabTx(txhex);
         return txhash;
     }
@@ -382,25 +376,21 @@ export class CoinService {
         return retString;
     }
 
-    async getFabTransactionHex(seed: any, mycoin: MyCoin, to: any, amount: number, defaultTransactionFee: number) {
+    async getFabTransactionHex(seed: any, mycoin: MyCoin, to: any, amount: number, extraTransactionFee: number, satoshisPerBytes: number) {
         let index = 0;
         let balance = 0;
         let finished = false;
         let address = '';
         let totalInput = 0;
         
-        const feePerInput = 300;
+        const bytesPerInput = 148;
+        const feePerInput = bytesPerInput * satoshisPerBytes;
         const receiveAddsIndexArr = [];
         const changeAddsIndexArr = [];
 
-        console.log('mycoin=');
-        console.log('amount=' + amount);
-        console.log('defaultTransactionFee=' + defaultTransactionFee);
-        const totalAmount = amount + defaultTransactionFee;
-        console.log('amount=' + amount);
-        console.log(mycoin);
+        const totalAmount = amount + extraTransactionFee;
         let amountNum = totalAmount * Math.pow(10, this.utilServ.getDecimal(mycoin));
-        
+        amountNum += (2 * 34 + 10);
         const TestNet = Btc.networks.testnet;
 
         const txb = new Btc.TransactionBuilder(TestNet);
@@ -484,9 +474,12 @@ export class CoinService {
 
 
         const changeAddress = mycoin.receiveAdds[0];
+
+        const transFee = (receiveAddsIndexArr.length + changeAddsIndexArr.length) * feePerInput + 2 * 34 + 10;
+
         const output1 = Math.round(totalInput
-        - amount * Math.pow(10, this.utilServ.getDecimal(mycoin)) - defaultTransactionFee * Math.pow(10, this.utilServ.getDecimal(mycoin))
-        - (receiveAddsIndexArr.length + changeAddsIndexArr.length) * feePerInput);
+        - amount * Math.pow(10, this.utilServ.getDecimal(mycoin)) - extraTransactionFee * Math.pow(10, this.utilServ.getDecimal(mycoin))
+        - transFee);
         const output2 = Math.round(amount * 1e8);    
         
         if (output1 < 0 || output2 < 0) {
@@ -494,7 +487,7 @@ export class CoinService {
             return '';
         }
         console.log('amount=' + amount + ',totalInput=' + totalInput);
-        console.log('defaultTransactionFee=' + defaultTransactionFee);
+        console.log('defaultTransactionFee=' + extraTransactionFee);
         console.log('(receiveAddsIndexArr.length + changeAddsIndexArr.length) * feePerInput)=' 
         + (receiveAddsIndexArr.length + changeAddsIndexArr.length) * feePerInput);
         console.log('output1=' + output1 + ',output2=' + output2);
@@ -980,7 +973,7 @@ export class CoinService {
             return {txHex: txhex, txHash: txhash};
         } else 
         if (mycoin.name === 'FAB') {
-            const txhex = await this.getFabTransactionHex(seed, mycoin, toAddress, amount, 3000 / 1e8);
+            const txhex = await this.getFabTransactionHex(seed, mycoin, toAddress, amount, 0, satoshisPerBytes);
             let txhash = '';
             if (txhex) {
                 if (doSubmit) {
@@ -995,7 +988,6 @@ export class CoinService {
         } else
         if (mycoin.name === 'ETH') {
             amountNum = amount * 1e18;
-            const EthereumTx = Eth.Transaction;
 
             const address1 = mycoin.receiveAdds[0];
             const currentIndex = address1.index;    
@@ -1013,14 +1005,6 @@ export class CoinService {
             console.log('txParams=', txParams);
             const txhex = await this.web3Serv.signTxWithPrivateKey(txParams, keyPair);
 
-            /*
-            const tx = new EthereumTx(txParams,{ chain: 'ropsten', hardfork: 'petersburg' })
-
-            tx.sign(keyPair.privateKeyBuffer); 
-
-            const serializedTx = tx.serialize()
-            const txhex = '0x' + serializedTx.toString('hex');
-            */
             let txhash = '';
             if (doSubmit) {
                 txhash = await this.apiService.postEthTx(txhex);
@@ -1142,8 +1126,8 @@ export class CoinService {
             //contractAddress = '0x28a6efffaf9f721a1e95667e3de54c622edc5ffa';
             contractAddress = this.utilServ.stripHexPrefix(contractAddress);
             console.log('contractAddress=' + contractAddress);
-            const gasLimit = 800000;
-            const gasPrice = 40;
+            gasLimit = 800000;
+            gasPrice = 40;
             const totalAmount = gasLimit * gasPrice / 1e8;
             // let cFee = 3000 / 1e8 // fee for the transaction
               
@@ -1165,7 +1149,7 @@ export class CoinService {
             
             console.log('totalFee=' + totalFee);
             
-            const txhex = await this.getFabTransactionHex(seed, mycoin.baseCoin, contract, 0, totalFee);
+            const txhex = await this.getFabTransactionHex(seed, mycoin.baseCoin, contract, 0, totalFee, 14);
             const txhash = await this.apiService.postFabTx(txhex);
             return {txHex: txhex, txHash: txhash};
 

@@ -1,13 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { concatMap, flatMap, map, mergeMap, take } from 'rxjs/operators';
-import { BehaviorSubject, forkJoin, from, Observable, Observer, of, scheduled, Scheduler, SchedulerLike } from 'rxjs';
-// import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 
-
-import * as BIP32 from 'node_modules/bip32';
 import * as BIP39 from 'node_modules/bip39';
-import * as fabcoinjs from 'node_modules/fabcoinjs-lib/src';
 
 import { Wallet } from '../models/wallet';
 
@@ -16,7 +9,6 @@ import { LocalStorage } from '@ngx-pwa/local-storage';
 
 import {CoinService} from './coin.service';
 import {UtilService} from './util.service';
-import * as Btc from 'bitcoinjs-lib';
 enum addressType {
     receive = 'receive',
     change = 'change'
@@ -100,7 +92,7 @@ export class WalletService {
     }
 
     async getCurrentWallet() {
-        const currentWalletIndex = await(this.getCurrentWalletIndex());
+        const currentWalletIndex = await this.getCurrentWalletIndex();
         const wallets = await this.getWallets();
         if (currentWalletIndex >= 0 && wallets) {
             return wallets[currentWalletIndex];
@@ -110,6 +102,7 @@ export class WalletService {
 
     async getCurrentWalletIndex() {
         const currentWalletIndex = await this.localSt.getItem('currentWalletIndex').toPromise() as number;
+        console.log('currentWalletIndex in get', currentWalletIndex);
         return currentWalletIndex;
     }
 
@@ -161,9 +154,18 @@ export class WalletService {
         return this.localSt.getItem('currentWalletIndex');
     }
     */
-    async saveCurrentWalletIndex(value: number) {
+    saveCurrentWalletIndex(value: number) {
         console.log('value for saveCurrentWalletIndex=' + value);
-        this.localSt.setItem('currentWalletIndex', value).subscribe(() => {});
+        /*
+        this.localSt.removeItem('currentWalletIndex').subscribe(() => {
+            this.localSt.setItem('currentWalletIndex', value).subscribe((newValue) => {console.log('newValue=' + newValue);});
+        });
+        */
+        this.localSt.setItem('currentWalletIndex', value).subscribe( async (newValue) => {
+            const index = await this.getCurrentWalletIndex();
+            console.log('index=' + index);
+        });
+        
     }
     
     restoreWallet(mnemonic: string, pwd: string) {

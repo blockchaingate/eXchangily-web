@@ -56,6 +56,12 @@ export class SendCoinModal {
         } else 
         if (this.coin.tokenType === 'ETH') {
             this.sendCoinForm.get('gasLimit').setValue(55000);
+        } else 
+        if (this.coin.name === 'FAB' || this.coin.tokenType === 'FAB') {
+            this.sendCoinForm.get('satoshisPerByte').setValue(18);
+        } else 
+        if (this.coin.name === 'BTC') {
+            this.sendCoinForm.get('satoshisPerByte').setValue(14);
         }
     }
     show() {

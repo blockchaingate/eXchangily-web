@@ -80,8 +80,8 @@ export class OrderPadComponent implements AfterViewInit {
         console.log(orders);
         for (let i = 0 ; i < orders.length; i++) {
             const order = orders[i];
-            console.log('order.baseCoin=' + order.baseCoin + ",order.targetCoin=" + order.targetCoin);
-            console.log('this.baseCoin=' + this.baseCoin + ",this.targetCoin=" + this.targetCoin);
+            console.log('order.baseCoin=' + order.baseCoin + ',order.targetCoin= ' + order.targetCoin);
+            console.log('this.baseCoin=' + this.baseCoin + ',this.targetCoin=' + this.targetCoin);
             if ((order.baseCoin === this.baseCoin && order.targetCoin === this.targetCoin) 
             || (order.baseCoin === this.targetCoin && order.targetCoin === this.baseCoin)) {
               if (order.bidOrAsk) {

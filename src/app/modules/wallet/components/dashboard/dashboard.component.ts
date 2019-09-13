@@ -69,17 +69,21 @@ export class WalletDashboardComponent {
         private coinService: CoinService, private storageService: StorageService) {
         this.showMyAssets = true;
         this.showTransactionHistory = false;
-        this.loadCoinsPrice();
 
-        //this.startTimer();
-        this.loadBalance();
     }
 
     async ngOnInit() {
         await this.loadWallets();
         this.currentWalletIndex = await this.walletServ.getCurrentWalletIndex();
         console.log('this.currentWalletIndex=', this.currentWalletIndex);
+        if(this.currentWalletIndex == null) {
+            this.currentWalletIndex = 0;
+        }
         this.loadWallet(this.wallets[this.currentWalletIndex]);
+        this.loadCoinsPrice();
+
+        //this.startTimer();
+        this.loadBalance();        
     }
     onConfirmedBackupPrivateKey(cmd: string) {
         console.log('onConfirmedBackupPrivateKey start, cmd=', cmd);
@@ -205,6 +209,7 @@ export class WalletDashboardComponent {
             }
         }
         if (updated) {
+            console.log('updated=' + updated);
             this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
         }
     }
@@ -219,7 +224,7 @@ export class WalletDashboardComponent {
         this.currentWalletIndex = value;
         //this.wallet = this.wallets[this.currentWalletIndex];
         //this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
-        await this.walletServ.saveCurrentWalletIndex(this.currentWalletIndex);
+        this.walletServ.saveCurrentWalletIndex(this.currentWalletIndex);
         console.log('this.currentWalletIndex=' + this.currentWalletIndex);
         await this.loadWallet(this.wallets[this.currentWalletIndex]);
     }
@@ -235,35 +240,7 @@ export class WalletDashboardComponent {
         this.exgBalance = this.wallet.mycoins[0].balance;
         console.log('load wallet again.');
         this.gas = await this.kanbanServ.getGas(this.wallet.excoin.receiveAdds[0].address);        
-        /*
-        this.walletServ.getWalletList().subscribe((wallets: Wallet[]) => {
 
-            if (wallets) {
-                this.wallets = wallets;
-                this.currentWalletIndex = wallets.length - 1;
-                this.walletServ.getCurrentWalletIndex().subscribe(
-                async (index: number) => {
-                 if (index !== null) {
-                    this.currentWalletIndex = index;
-                 }
-                   
-                this.wallet = wallets[this.currentWalletIndex];
-                
-                console.log('exg coin');
-                console.log(this.wallet.mycoins[0]);
-                this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
-                this.exgBalance = this.wallet.mycoins[0].balance;
-                console.log('load wallet again.');
-                this.gas = await this.kanbanServ.getGas(this.wallet.excoin.receiveAdds[0].address);
-
-                    }
-                );
-
-            } else {
-                this.route.navigate(['/wallet/no-wallet']);
-            }
-        });
-        */
     }
     exchangeMoney() {
         this.route.navigate(['/market/home']);
