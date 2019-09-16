@@ -1,8 +1,8 @@
-import { Component, Output, TemplateRef, Input, AfterViewInit, EventEmitter,OnDestroy } from '@angular/core';
+import { Component, Output, TemplateRef, Input, AfterViewInit, EventEmitter, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 //import { Order } from '../../../models/order';
-import { Order, OrderBookItem } from '../../../../../interfaces/kanban.interface';
+import { Order, OrderBookItem, OrderItem, TradeItem } from '../../../../../interfaces/kanban.interface';
 import { TxRecord } from '../../../models/order-book';
 import { OrderService } from '../../../services/order.service';
 import { Web3Service } from '../../../../../services/web3.service';
@@ -39,10 +39,13 @@ export class OrderPadComponent implements AfterViewInit, OnDestroy {
     orderType = 1;
     myorder: Order;
     bidOrAsk: boolean;
-    sells: Order[] = [];
-    buys: Order[] = [];
+    sells: OrderItem[] = [];
+    buys: OrderItem[] = [];
+    aArray = [];
+    bArray = [];
     txOrders: TxRecord[] = [];
     currentPrice = 0;
+    currentQuantity = 0;
     change24h = 0;
     totalBuy = 0.0;
     totalSell = 0.0;
@@ -61,6 +64,7 @@ export class OrderPadComponent implements AfterViewInit, OnDestroy {
     timer: any;
     oldNonce: number;
     socket: WebSocketSubject<OrderBookItem>;
+    socket2: WebSocketSubject<TradeItem>;
     //interval;
 
     constructor(private ordServ: OrderService, private _router: Router, private web3Serv: Web3Service, private coinService: CoinService,
@@ -79,22 +83,163 @@ export class OrderPadComponent implements AfterViewInit, OnDestroy {
       this.socket.unsubscribe();
     }
 
+    processArray(arr, bidOrAsk: boolean) {
+      let price, amount;
+      let firstBid = 0;
+      let j = 0;
+      let addedTo = false;
+      while (arr.length > 0) {
+        const item = arr.pop();
+
+        if (bidOrAsk) { // buys
+       
+          for (let i = 0 ; i < item.length; i++) {
+            const orderItem = item[i];
+            const res = orderItem.toString().split(',');
+    
+            price = Number(res[0]);
+            amount = Number(res[1]);
+            if (i === 0) {
+              firstBid = price;
+            } else 
+            if (price > firstBid) {
+              continue;
+            }
+            if (amount <= 0) {
+              continue;
+            }
+            const buyItem = {
+              amount: amount,
+              price: price
+            };  
+            addedTo = true;
+            for (j = 0; j < this.buys.length; j++) {
+              if (this.buys[j].price === price) {
+                addedTo = false;
+                break;
+              } else 
+              if (this.buys[j].price < price) {
+                addedTo = true;
+                break;
+              }
+            }
+            if (addedTo) {
+              this.buys.splice(j, 0, buyItem);
+            }
+            
+            if (this.buys.length >= 12) {
+              this.buys = this.buys.slice(0, 12);
+              break;
+            }
+          }   
+
+
+        } else { // sell
+
+          console.log('item=');
+          console.log(item);             
+          for (let i = 0 ; i < item.length; i++) {
+            const orderItem = item[i];
+            const res = orderItem.toString().split(',');
+    
+            price = Number(res[0]);
+            amount = Number(res[1]);
+            if (i === 0) {
+              firstBid = price;
+            } else 
+            if (price < firstBid) {
+              continue;
+            }
+            if (amount <= 0) {
+              continue;
+            }
+            const sellItem = {
+              amount: amount,
+              price: price
+            };  
+            addedTo = true;
+            for (j = 0; j < this.sells.length; j++) {
+              if (this.sells[j].price === price) {
+                addedTo = false;
+                break;
+              } else 
+              if (this.sells[j].price < price) {
+                addedTo = true;
+                break;
+              }
+            }
+            if (addedTo) {
+              this.sells.splice(j, 0, sellItem);
+            }
+            
+            if (this.sells.length >= 12) {
+              //this.sells.splice(0, this.sells.length - 12);
+              break;
+            }
+          } 
+         
+        }
+      }
+    }
+
+
+
     refreshOrders() {
       console.log('this.baseCoin====' + this.baseCoin);
       if (!this.baseCoin || !this.targetCoin) {
         return;
       }
+
       const baseCoinName = this.coinService.getCoinNameByTypeId(this.baseCoin).toLowerCase();
       const targetCoinName = this.coinService.getCoinNameByTypeId(this.targetCoin).toLowerCase();      
       const pair = baseCoinName + targetCoinName;
-      console.log('pair = ' + pair);
-      this.socket = new WebSocketSubject('wss://stream.binance.com:9443/ws/' + pair + '@depth');
+      // console.log('pair = ' + pair);
+      this.socket = new WebSocketSubject('wss://stream.binance.com:9443/ws/' + pair + '@depth@1000ms');
+      // this.socket = new WebSocketSubject('wss://dex.binance.org/api/ws/BNB_BTCB-1DE@marketDiff');
       this.socket.subscribe(
         (orders) => {
-          console.log('message:', orders);
-          const a = orders.a;
-          this.addTo(true, orders.a);
-          this.addTo(false, orders.b);
+          //this.sells = [];
+          //this.buys = [];    
+          //console.log('orders:', orders);
+          if (this.aArray.length === 10) {
+            this.sells = [];
+            this.processArray(this.aArray, false);
+            this.buys = [];
+            this.processArray(this.bArray, true);
+            this.aArray = [];
+            this.bArray = [];
+          } else {
+            this.aArray.push(orders.a);
+            this.bArray.push(orders.b);
+          }
+
+        },
+        (err) => {
+          console.log('err:', err);
+        },
+        () => {
+          console.log('Completed');
+        }
+      );
+      
+      this.socket2 = new WebSocketSubject('wss://stream.binance.com:9443/ws/' + pair + '@trade');
+      this.socket2.subscribe(
+        (item) => {
+          console.log('tradeItem=');
+          console.log(item);
+          const price = Number(item.p);
+          const quantity = Number(item.q);
+          const txItem = {
+              price: price,
+              quantity: quantity,
+              time: new Date(item.t * 1000)     
+          };
+          this.currentPrice = price;
+          this.currentQuantity = quantity;
+          if (this.txOrders.length > 28) {
+            this.txOrders.splice(0, 1);
+          }
+          this.txOrders.push(txItem);
         },
         (err) => {
           console.log('err:', err);
@@ -104,59 +249,8 @@ export class OrderPadComponent implements AfterViewInit, OnDestroy {
         }
       );
 
-
-      /*
-      this.kanbanService.getAllOrders().subscribe((orders: Order[]) => {
-        console.log('orders from /exchangily/getAllOrderData');
-        console.log(orders);
-        for (let i = 0 ; i < orders.length; i++) {
-            const order = orders[i];
-            console.log('order.baseCoin=' + order.baseCoin + ',order.targetCoin= ' + order.targetCoin);
-            console.log('this.baseCoin=' + this.baseCoin + ',this.targetCoin=' + this.targetCoin);
-            if ((order.baseCoin === this.baseCoin && order.targetCoin === this.targetCoin) 
-            || (order.baseCoin === this.targetCoin && order.targetCoin === this.baseCoin)) {
-              if (order.bidOrAsk) {
-                this.addTo(this.sells, order);
-              } else {
-                this.addTo(this.buys, order);
-              }
-            }
-        }
-
-    }); 
-    */
     }
 
-
-    addTo(bidOrAsk: boolean, item: [][]) {
-
-      console.log('item.length=' + item.length);
-      for (let i = 0 ; i < item.length; i++) {
-        const orderItem = item[i];
-        const res = orderItem.toString().split(',');
-        console.log('orderItem=' + orderItem);
-        console.log();
-        const amount = parseFloat(res[0]);
-        const price = parseFloat(res[1]);
-        console.log('amount=' + amount);
-        console.log('price=' + price);
-        const item2 = {
-          orderHash: '',
-          bidOrAsk: bidOrAsk,
-          baseCoin: 1,
-          targetCoin: 1,
-          orderType: 1,
-          amount: amount,
-          price: price
-        };
-        if(bidOrAsk) {
-          this.sells.push(item2);
-        }
-        else {
-          this.buys.push(item2);
-        }
-      }
-    }
     onRefreshToken(tokens) {
       console.log('onRefreshToken in orderPad');
       if (!this.utilService.arraysEqual(tokens, this.mytokens)) {

@@ -31,6 +31,19 @@ export interface OrderBookItem {
     u: number;
 }
 
+export interface TradeItem {
+    E: number;
+    M: boolean;
+    T: number;
+    a: number;
+    b: number;
+    e: string;
+    m: boolean;
+    p: string;
+    q: string;
+    s: string;
+    t: number;
+}
 export interface Transaction {
     txid: string;
     baseCoin: number;
@@ -40,6 +53,11 @@ export interface Transaction {
     qty: number;
     status: string;
     created_at: Date;
+}
+
+export interface OrderItem {
+    price: number;
+    amount: number;
 }
 
 export interface Order {
