@@ -1,4 +1,8 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { timer } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { MockService } from '../../services/mock.service';
+
 import {
     widget,
     IChartingLibraryWidget,
@@ -14,7 +18,7 @@ import Datafeed from './api/';
     styleUrls: ['./tv-chart-container.component.css']
 })
 export class TvChartContainerComponent implements OnInit, OnDestroy {
-    private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'AAPL';
+    public _symbol: ChartingLibraryWidgetOptions['symbol'] = 'AAPL';
     private _interval: ChartingLibraryWidgetOptions['interval'] = 'D';
     // BEWARE: no trailing slash is expected in feed URL
     private _datafeedUrl = 'https://demo_feed.tradingview.com';
@@ -27,6 +31,9 @@ export class TvChartContainerComponent implements OnInit, OnDestroy {
     private _autosize: ChartingLibraryWidgetOptions['autosize'] = true;
     private _containerId: ChartingLibraryWidgetOptions['container_id'] = 'tv_chart_container';
     private _tvWidget: IChartingLibraryWidget | null = null;
+
+    ws;
+    wsMessage = 'you may need to send specific message to subscribe data, eg: BTC';
 
     @Input()
     set symbol(symbol: ChartingLibraryWidgetOptions['symbol']) {
@@ -83,6 +90,9 @@ export class TvChartContainerComponent implements OnInit, OnDestroy {
         this._containerId = containerId || this._containerId;
     }
 
+    onSearchResultReady(res) {
+
+    }
     ngOnInit() {
         function getLanguageFromURL(): LanguageCode | null {
             const regex = new RegExp('[\\?&]lang=([^&#]*)');
@@ -91,10 +101,10 @@ export class TvChartContainerComponent implements OnInit, OnDestroy {
             return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' ')) as LanguageCode;
         }
 
+
         const widgetOptions: ChartingLibraryWidgetOptions = {
             symbol: this._symbol,
             datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl),
-            // datafeed: Datafeed,
             interval: this._interval,
             container_id: this._containerId,
             library_path: this._libraryPath,

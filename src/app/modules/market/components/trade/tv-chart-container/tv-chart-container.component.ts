@@ -5,6 +5,9 @@ import {
     ChartingLibraryWidgetOptions,
     LanguageCode,
 } from '../../../../../../assets/charting_library/charting_library.min';
+import { timer } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { MockService} from '../../../../../services/mock.service';
 
 @Component({
     selector: 'app-tv-chart-container',
@@ -25,6 +28,25 @@ export class TvChartContainerComponent implements OnInit, OnDestroy {
     private _autosize: ChartingLibraryWidgetOptions['autosize'] = true;
     private _containerId: ChartingLibraryWidgetOptions['container_id'] = 'tv_chart_container';
     private _tvWidget: IChartingLibraryWidget | null = null;
+
+    ws;
+    wsMessage = 'you may need to send specific message to subscribe data, eg: BTC';
+
+    granularityMap = {
+      '1': 60,
+      '3': 180,
+      '5': 300,
+      '30': 30 * 60,
+      '60': 60 * 60,
+      '120': 60 * 60 * 2,
+      '240': 60 * 60 * 4,
+      '360': 60 * 60 * 6,
+      'D': 86400
+    };
+
+    constructor(private mockService: MockService) {
+
+    }
 
     @Input()
     set symbol(symbol: ChartingLibraryWidgetOptions['symbol']) {
@@ -82,16 +104,90 @@ export class TvChartContainerComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+
+      this.ws = this.mockService.fakeWebSocket();
+
+      this.ws.onopen = () => {
+        console.log('connect success');
+      };
+
         function getLanguageFromURL(): LanguageCode | null {
             const regex = new RegExp('[\\?&]lang=([^&#]*)');
             const results = regex.exec(location.search);
 
             return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' ')) as LanguageCode;
         }
+        var that = this;
+        const datafeed = {
+            onReady(x) {
+                timer(0)
+                  .pipe(
+                    tap(() => {
+                      x({
+                        supported_resolutions: ['1', '3', '5', '30', '60', '120', '240', '360', 'D']
+                      });
+                    })
+                  ).subscribe();
+            }, 
+            searchSymbols(userInput: string, exchange: string, symbolType: string, onResultReadyCallback) {
+                onResultReadyCallback('haha');
+            },
+            getBars(symbol, granularity, startTime, endTime, onResult, onError, isFirst) {
+                console.log('getBars:', arguments);
+                that.mockService.getHistoryList({
+                  granularity: that.granularityMap[granularity],
+                  startTime,
+                  endTime
+                }).subscribe((data: any) => {
+                  // push the history data to callback
+                  onResult(data);
+                });
+            },
+            resolveSymbol(symbol, onResolve) {
+                console.log('resolveSymbol:', arguments);
+                timer(1e3)
+                  .pipe(
+                    tap(() => {
+                      onResolve({
+                        name: 'haha',
+                        full_name: 'hehe', // display on the chart
+                        base_name: 'ooo',
+                        has_intraday: true, // enable minute and others
+                      });
+                    })
+                  ).subscribe();
+            },
+            getServerTime() {
+                console.log('serverTime:', arguments);
+            },
+            subscribeBars(symbol, granularity, onTick) {
+                console.log('subscribe, arg:', arguments);
+                that.ws.onmessage = (e) => {
+                  try {
+                    const data = e;
+                    if (data) {
+                      // realtime data
+                      // data's timestamp === recent one ? Update the recent one : A new timestamp data
+                      // in this example mock service always returns a new timestamp(current time)
+                      onTick(data);
+                    }
+                  } catch (e) {
+                    console.error(e);
+                  }
+                };
+      
+                // subscribe the realtime data
+                that.ws.send(`${that.wsMessage}_kline_${that.granularityMap[granularity]}`);
+              },
+            unsubscribeBars() {
+              that.ws.send('stop receiving data or just close websocket');
+              },                       
+        };
 
         const widgetOptions: ChartingLibraryWidgetOptions = {
             symbol: this._symbol,
-            datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl),
+            //datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl),
+            datafeed: datafeed,
             interval: this._interval,
             container_id: this._containerId,
             library_path: this._libraryPath,

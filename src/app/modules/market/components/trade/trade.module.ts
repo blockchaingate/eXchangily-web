@@ -22,6 +22,8 @@ import { UtilService } from '../../../../services/util.service';
 import { WalletService } from '../../../../services/wallet.service';
 import { CoinService } from '../../../../services/coin.service';
 import { ApiService } from '../../../../services/api.service';
+
+import { MockService} from '../../../../services/mock.service';
 @NgModule({
     imports: [
         CommonModule,
@@ -41,7 +43,8 @@ import { ApiService } from '../../../../services/api.service';
         UtilService,
         WalletService,
         CoinService,
-        ApiService
+        ApiService,
+        MockService
     ],
     declarations: [
         TradeComponent,
