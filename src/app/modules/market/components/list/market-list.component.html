@@ -6,7 +6,7 @@
 
             <div class="nav-item hand" [class.selected]="select === 100" (click)="selectCat(100);">{{'Favorites'|translate}}</div>
 
-            <div class="nav-item hand" [class.selected]="select === 0" (click)="selectCat(0);">USDT</div>
+            <div class="nav-item hand" [class.selected]="select === 0" (click)="selectCat(0);">USDT1</div>
 
             <div class="nav-item hand" [class.selected]="select === 1" (click)="selectCat(1);">BTC</div>
 
@@ -19,7 +19,7 @@
             </div>
 
             <div class="input-group-sm mt-3">
-                <input type="text" class="form-control searchbox" [(ngModel)]="searchText" placeholder="{{'Search pair' | translate}}">
+                <input type="text" class="form-control searchbox" [(ngModel)]="searchText" placeholder="{{'Search pair1' | translate}}">
                 <div class="input-group-append">
                     <button class="btn btn-secondary" type="button">
                     <img src="/images/icons/searchicon.svg" width="20px" [hidden]="searchText">

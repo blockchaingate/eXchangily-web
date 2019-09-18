@@ -7,7 +7,7 @@
                 <div class="quantity">{{"Quantity" | translate}}</div>
                 <div class="total">{{"Total" | translate}}</div>
             </div>
-            <div class="selllist w-100">
+            <div class="selllist w-100 pt-3">
                 <div class="orderbookitem" *ngFor="let sell of sells; let i=index">
                     <div class="price smallfont text-danger">{{sell.price | number:'.6'}}</div>
                     <div class="quantity smallfont text-muted">{{sell.amount | number:'.6'}}</div>

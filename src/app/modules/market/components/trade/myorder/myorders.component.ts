@@ -46,12 +46,12 @@ export class MyordersComponent implements OnInit {
                 const tx = this.myorders[i];
 
                 this.kanbanService.get('/kanban/getTransactionReceipt/' + tx.txid).subscribe((resp: TransactionReceiptResp) => {
-                    console.log('resp===');
-                    console.log(resp);
+                    //console.log('resp===');
+                    //console.log(resp);
 
                     if (resp && resp.transactionReceipt) {
                         tx.status = resp.transactionReceipt.status;
-                        console.log('tx.status=' + tx.status);
+                        //console.log('tx.status=' + tx.status);
                     }
 
                 });

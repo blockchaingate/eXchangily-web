@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Observer, interval, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BTC_PRICE_LIST } from '../components/mock/btc-181123_2006-181124_0105';
+import { HttpClient } from '@angular/common/http';
 
 interface BarData {
   time: number;
@@ -29,11 +30,15 @@ export class MockService {
     return obj;
   }
 
-  constructor() {
+  constructor(private http: HttpClient) {
   }
 
-  getHistoryList(param): Observable<BarData[]> {
+  async getHistoryList(param): Promise<BarData[]> {
+    //console.log('getting history');
     const list = [];
+    const interval = param.interval;
+    //console.log('interval=' + interval);
+    /*
     let timePoint = +new Date(param.startTime * 1e3).setSeconds(0, 0);
     const now = +new Date();
     while (timePoint < now) {
@@ -42,11 +47,36 @@ export class MockService {
       timePoint += param.granularity * 1e3;
     }
     console.log(list[list.length - 1]);
+    */
+    // intervals array('1h','30m','15m','5m', '1m')
+    const res = await this.http.get('http://localhost:3004/klines?symbol=ETHBTC&interval=' + interval).toPromise() as string;
 
-    return new Observable((ob: Observer<any>) => {
-      ob.next(list);
-      ob.complete();
-    });
+      const resp = Array.from(res.toString());
+      for (let i = 0; i < resp.length; i++) {
+        const item = res[i];
+        if (!item) {
+          continue;
+        }
+        const itemArray = Array.from(item);
+        const openTime = itemArray[0];
+        const open = itemArray[1];
+        const high = itemArray[2];
+        const low = itemArray[3];
+        const close = itemArray[4];
+        const volume = itemArray[5];
+        const closeTime = itemArray[6];
+        const quoteAssetVolume = itemArray[7];
+        const numberOfTrades = itemArray[8];
+        const takerBuyBaseAssetVolume = itemArray[9];
+        const takerBuyQuoteAssetVolume = itemArray[10];
+        const ignore = itemArray[11];
+        const barItem = {time: closeTime, open: open, high: high, low: low, close: close, volume: volume};
+        list.push(barItem);
+        //console.log('openTime=' + openTime);
+        //console.log('ignore=' + ignore);
+      }
+
+    return list;
   }
 
   fakeWebSocket() {
@@ -62,7 +92,7 @@ export class MockService {
           granularity = +matched[1] * 1e3;
           sendData();
         } else {
-          subscription.unsubscribe();
+          //subscription.unsubscribe();
         }
       },
       close() {

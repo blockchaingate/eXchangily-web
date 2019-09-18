@@ -19,7 +19,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './page-not-found.component';
-import {TvChartContainerComponent} from './components/tv-chart-container/tv-chart-container.component';
+//import {TvChartContainerComponent} from './components/bad.tv-chart-container/tv-chart-container.component';
 import { HeaderComponent } from './components/navigation/header/header.component';
 import { SidenavListComponent } from './components/navigation/sidenav-list/sidenav-list.component';
 // AoT requires an exported function for factories
@@ -31,7 +31,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     AppComponent,
     PageNotFoundComponent,
-    TvChartContainerComponent,
+    //TvChartContainerComponent,
     HeaderComponent,
     SidenavListComponent
   ], 

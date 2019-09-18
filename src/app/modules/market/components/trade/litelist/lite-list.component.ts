@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Price } from '../../../../../interfaces/kanban.interface';
+import { Price, Ticker } from '../../../../../interfaces/kanban.interface';
 import { PriceService } from '../../../../../services/price.service';
+import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 
 @Component({
     selector: 'app-lite-list',
@@ -15,24 +16,43 @@ export class LiteListComponent implements OnInit {
     pair = 'BTC/USDT';
     prices: Price[] = [];
     searchText = '';
+    socket: WebSocketSubject<[Ticker]>;
 
     constructor(private prServ: PriceService, private _route: ActivatedRoute, private _router: Router) {
     }
 
     ngOnInit() {
-        const inPair = this._route.snapshot.paramMap.get('pair');
-        if (inPair) {
-            this.pair = inPair.replace('_', '/');
-        }
+        this.selectCat(1);
+        const streamName = '!ticker@arr';
+        this.socket = new WebSocketSubject('wss://stream.binance.com:9443/ws/' + streamName);
+        this.socket.subscribe(
+          (tickers) => {
+              this.prices = [];
+              for (let i = 0; i < 25; i++) {
+                const ticker = tickers[i];
+                const price = {
+                    id: 0,
+                    base_id: 0,
+                    coin_id: 0,
+                    favorite: 1,
+                    price24hh: 0,
+                    price24hl: 0,
+                    symbol: ticker.s,
+                    price: Number(ticker.c),
+                    change24h: Number(ticker.P),
+                    vol24h: Number(ticker.v)
+                };   
+                this.prices.push(price);              
+              }
+          }
+        );        
     }
 
     selectCat(cat: number) {
+        this.select = cat;
         this.prices = this.prServ.getPriceList();
     }
 
-    loadTradePair(pair: string) {
-        pair = pair.replace('/', '_');
-        this._router.navigate(['market/trade/' + pair]);
-   }
+
 
 }

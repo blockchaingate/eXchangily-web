@@ -10,7 +10,7 @@ import {
     LanguageCode,
 } from '../../../assets/charting_library/charting_library.min';
 
-import Datafeed from './api/';
+import Datafeed from './api';
 
 @Component({
     selector: 'app-tv-chart-container',

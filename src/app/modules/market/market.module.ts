@@ -14,7 +14,7 @@ import { AlertService } from '../../services/alert.service';
 // import { MarketComponent } from './market.component';
 import { MarketHomeComponent } from './components/home/market-home.component';
 import { MarketListComponent } from './components/list/market-list.component';
-import {LiteListComponent} from './components/trade/litelist/lite-list.component';
+//import {LiteListComponent} from './components/trade/litelist/lite-list.component';
 import { PriceService } from '../../services/price.service';
 import { OrderService } from './services/order.service';
 import { Web3Service } from '../../services/web3.service';
@@ -54,8 +54,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
   declarations: [
     // MarketComponent,
     MarketHomeComponent,
-    MarketListComponent,
-    LiteListComponent
+    MarketListComponent
+    //LiteListComponent
   ],
   exports: [
     MarketHomeComponent,

@@ -8,12 +8,23 @@ import {
 import { timer } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { MockService} from '../../../../../services/mock.service';
+import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
+
+interface BarData {
+  time: number;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
+}
 
 @Component({
     selector: 'app-tv-chart-container',
     templateUrl: './tv-chart-container.component.html',
     styleUrls: ['./tv-chart-container.component.css']
 })
+
 export class TvChartContainerComponent implements OnInit, OnDestroy {
     private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'AAPL';
     private _interval: ChartingLibraryWidgetOptions['interval'] = 'D';
@@ -31,6 +42,7 @@ export class TvChartContainerComponent implements OnInit, OnDestroy {
 
     ws;
     wsMessage = 'you may need to send specific message to subscribe data, eg: BTC';
+    socket: WebSocketSubject<BarData>;
 
     granularityMap = {
       '1': 60,
@@ -41,9 +53,22 @@ export class TvChartContainerComponent implements OnInit, OnDestroy {
       '120': 60 * 60 * 2,
       '240': 60 * 60 * 4,
       '360': 60 * 60 * 6,
-      'D': 86400
+      'D': 86400,
+      '1D': 86400
     };
 
+    intervalMap = {
+      '1': '1m',
+      '3': '3m',
+      '5': '5m',
+      '30': '30m',
+      '60': '1h',
+      '120': '2h',
+      '240': '4h',
+      '360': '6h',
+      'D': '1d',
+      '1D': '1d'
+    };    
     constructor(private mockService: MockService) {
 
     }
@@ -117,7 +142,7 @@ export class TvChartContainerComponent implements OnInit, OnDestroy {
 
             return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' ')) as LanguageCode;
         }
-        var that = this;
+        const that = this;
         const datafeed = {
             onReady(x) {
                 timer(0)
@@ -132,16 +157,15 @@ export class TvChartContainerComponent implements OnInit, OnDestroy {
             searchSymbols(userInput: string, exchange: string, symbolType: string, onResultReadyCallback) {
                 onResultReadyCallback('haha');
             },
-            getBars(symbol, granularity, startTime, endTime, onResult, onError, isFirst) {
-                console.log('getBars:', arguments);
-                that.mockService.getHistoryList({
+            async getBars(symbol, granularity, startTime, endTime, onResult, onError, isFirst) {
+                console.log('granularity=' + granularity);
+                const list = await that.mockService.getHistoryList({
                   granularity: that.granularityMap[granularity],
+                  interval: that.intervalMap[granularity],
                   startTime,
                   endTime
-                }).subscribe((data: any) => {
-                  // push the history data to callback
-                  onResult(data);
                 });
+                onResult(list);
             },
             resolveSymbol(symbol, onResolve) {
                 console.log('resolveSymbol:', arguments);
@@ -152,6 +176,9 @@ export class TvChartContainerComponent implements OnInit, OnDestroy {
                         name: 'haha',
                         full_name: 'hehe', // display on the chart
                         base_name: 'ooo',
+                        minmov: 1,
+                        pricescale : 1000000,
+                        volume_precision: 8,
                         has_intraday: true, // enable minute and others
                       });
                     })
@@ -161,8 +188,26 @@ export class TvChartContainerComponent implements OnInit, OnDestroy {
                 console.log('serverTime:', arguments);
             },
             subscribeBars(symbol, granularity, onTick) {
+              const pair = 'ethbtc';
+              this.socket = new WebSocketSubject('wss://stream.binance.com:9443/ws/' + pair + '@kline_' + that.intervalMap[granularity]);
+              this.socket.subscribe(
+                (item) => {
+                  
+                  const itemData = {
+                    time: item.k.T,
+                    open: item.k.o,
+                    high: item.k.h,
+                    low: item.k.l,
+                    close: item.k.c,
+                    volume: item.k.v
+                  };
+                  onTick(itemData);
+                }
+              );
+              /*
                 console.log('subscribe, arg:', arguments);
                 that.ws.onmessage = (e) => {
+                  console.log('e in subscribeBars:', e);
                   try {
                     const data = e;
                     if (data) {
@@ -178,6 +223,7 @@ export class TvChartContainerComponent implements OnInit, OnDestroy {
       
                 // subscribe the realtime data
                 that.ws.send(`${that.wsMessage}_kline_${that.granularityMap[granularity]}`);
+                */
               },
             unsubscribeBars() {
               that.ws.send('stop receiving data or just close websocket');

@@ -10,7 +10,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { TradeRoutingModule } from './trade-routing.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { TradeComponent } from './trade.component';
-// import { LiteListComponent } from './litelist/lite-list.component';
+import { LiteListComponent } from './litelist/lite-list.component';
 import { TvChartContainerComponent } from './tv-chart-container/tv-chart-container.component';
 import { MyordersComponent } from './myorder/myorders.component';
 import { OrderPadComponent } from './orderpad/order-pad.component';
@@ -48,7 +48,7 @@ import { MockService} from '../../../../services/mock.service';
     ],
     declarations: [
         TradeComponent,
-        // LiteListComponent,
+        LiteListComponent,
         TvChartContainerComponent,
         MyordersComponent,
         OrderPadComponent

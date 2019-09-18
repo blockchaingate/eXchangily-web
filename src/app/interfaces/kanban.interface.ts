@@ -22,13 +22,9 @@ export interface TransactionReceiptResp {
 }
 
 export interface OrderBookItem {
-    E: number;
-    U: number;
-    a: [][];
-    b: [][];
-    e: string;
-    s: string;
-    u: number;
+    asks: [][];
+    bids: [][];
+    lastUpdateId: number;
 }
 
 export interface TradeItem {
@@ -72,14 +68,41 @@ export interface Order {
 
 export interface Price {
     id: number;
-    coin_id: number; 
     base_id: number;
+    coin_id: number;
+    symbol: string;
     price: number; // latest price
     change24h: number; // 12.6%
-    price24hh: number; // 24h high
-    price24hl: number; // 24h low
     vol24h: number; // 24h volume
-    favorite: number; // 1 fovorite, 0 not
+    price24hh: number;
+    price24hl: Number;
+    favorite: number;
+}
+
+export interface Ticker {
+    e: string;
+    E: number;
+    s: string;
+    p: string;
+    P: string;
+    w: string;
+    x: string;
+    c: string;
+    Q: string;
+    b: string;
+    B: string;
+    a: string;
+    A: string;
+    o: string;
+    h: string;
+    l: string;
+    v: string;
+    q: string;
+    O: number;
+    C: number;
+    F: number;
+    L: number;
+    n: number;
 }
 
 export interface Coin {
