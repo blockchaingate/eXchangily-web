@@ -122,6 +122,7 @@ export class OrderPadComponent implements AfterViewInit, OnDestroy {
       this.socket = new WebSocketSubject('wss://stream.binance.com:9443/ws/' + pair + '@depth20@1000ms');
       this.socket.subscribe(
         (orders) => {
+          console.log('orders');
           this.addTo(orders.asks, false);
           this.addTo(orders.bids, true);
         },

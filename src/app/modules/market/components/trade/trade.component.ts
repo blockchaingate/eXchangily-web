@@ -26,8 +26,8 @@ import { OrderPadComponent } from './orderpad/order-pad.component';
 export class TradeComponent implements OnInit {
     @ViewChild('myOrders', {static: true}) myOrders: MyordersComponent;
     @ViewChild('orderPad', {static: true}) orderPad: OrderPadComponent;
-
-    screenheight = screen.height;
+    screenwidth: number;
+    screenheight: number;
     orders: Order[];
     cat = 2;
     select = 2;
@@ -63,6 +63,9 @@ export class TradeComponent implements OnInit {
     }
 
     async ngOnInit() {
+        this.screenwidth = window.innerWidth;
+        this.screenheight = window.innerHeight;        
+        //console.log('width=', width);
         const wallet = await this.walletService.getCurrentWallet();
         if (wallet) {
             this.wallet = wallet;

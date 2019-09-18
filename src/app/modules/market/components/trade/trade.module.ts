@@ -22,7 +22,7 @@ import { UtilService } from '../../../../services/util.service';
 import { WalletService } from '../../../../services/wallet.service';
 import { CoinService } from '../../../../services/coin.service';
 import { ApiService } from '../../../../services/api.service';
-
+import {MatTabsModule} from '@angular/material/tabs';
 import { MockService} from '../../../../services/mock.service';
 @NgModule({
     imports: [
@@ -33,6 +33,7 @@ import { MockService} from '../../../../services/mock.service';
         HttpClientModule,
         RouterModule,
         MatSnackBarModule,
+        MatTabsModule,
         TradeRoutingModule,
         TranslateModule,
         ModalModule
