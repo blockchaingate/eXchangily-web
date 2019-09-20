@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 import { TradeRoutingModule } from './trade-routing.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { TradeComponent } from './trade.component';
@@ -37,6 +38,8 @@ import { CallbackPipe } from '../../../shared/pipes/callback.pipe';
         MatSnackBarModule,
         MatTabsModule,
         MatListModule,
+        MatIconModule,
+        MatButtonModule,
         TradeRoutingModule,
         TranslateModule,
         ModalModule

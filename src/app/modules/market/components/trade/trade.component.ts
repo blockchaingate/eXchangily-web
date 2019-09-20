@@ -114,12 +114,6 @@ export class TradeComponent implements OnInit {
         return this.coinService.getCoinTypeIdByName(name);
     }
 
-
-    loadTradePair(pair: string) {
-        pair = pair.replace('/', '_');
-        this._router.navigate(['market/trade/' + pair]);
-    }
-
     selectOrder(selected: number) {
         alert(selected);
     }

@@ -1,13 +1,14 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, Input, TemplateRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { OrderService } from '../../../services/order.service';
 import { TradeService } from '../../../services/trade.service';
 import { CoinService } from '../../../../../services/coin.service';
 
 import { KanbanService } from '../../../../../services/kanban.service';
-import {TransactionReceipt, TransactionReceiptResp, Transaction} from '../../../../../interfaces/kanban.interface';
+import {TransactionReceiptResp, Transaction} from '../../../../../interfaces/kanban.interface';
 import { Wallet } from '../../../../../models/wallet';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
     selector: 'app-myorders',
@@ -22,9 +23,12 @@ export class MyordersComponent implements OnInit {
     select = 0;
     myorders: Transaction[] = [];
     address: string;
+    pin: string;
+    orderHash: string;
+    modalRef: BsModalRef;
 
     constructor(private ordServ: OrderService, private _router: Router, private tradeService: TradeService, 
-        private kanbanService: KanbanService, private coinService: CoinService) {
+        private kanbanService: KanbanService, private coinService: CoinService, private modalService: BsModalService) {
     }
 
     onRefreshToken(tokens) {
@@ -62,9 +66,32 @@ export class MyordersComponent implements OnInit {
 
     }
 
+    openModal(template: TemplateRef<any>) {
+        this.modalRef = this.modalService.show(template, { class: 'second' });
+    }
+
     selectOrder(ord: number) {
 
         this.select = ord;
     }
+    deleteOrder(pinModal: TemplateRef<any>, orderHash: string) {
+        this.orderHash = orderHash;
+        this.pin = sessionStorage.getItem('pin');
+        if (this.pin) {
+            this.deleteOrderDo();
+        
+        } else {
+            this.openModal(pinModal);
+        }
+    }
 
+    confirmPin() {
+        sessionStorage.setItem('pin', this.pin);
+        this.deleteOrderDo();
+        this.modalRef.hide();
+    }
+
+    deleteOrderDo() {
+        console.log('this.pin=' + this.pin);
+    }
 }

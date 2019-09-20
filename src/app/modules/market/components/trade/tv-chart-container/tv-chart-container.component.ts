@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, AfterViewInit, OnDestroy } from '@angular/core';
 import {
     widget,
     IChartingLibraryWidget,
@@ -10,6 +10,7 @@ import { tap } from 'rxjs/operators';
 import { MockService} from '../../../../../services/mock.service';
 import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 import { CoinService } from '../../../../../services/coin.service';
+import { ActivatedRoute } from '@angular/router';
 
 interface BarData {
   time: number;
@@ -26,9 +27,8 @@ interface BarData {
     styleUrls: ['./tv-chart-container.component.css']
 })
 
-export class TvChartContainerComponent implements OnInit, OnDestroy {
-    @Input() baseCoin: number;
-    @Input() targetCoin: number;  
+export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
+
     private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'AAPL';
     private _interval: ChartingLibraryWidgetOptions['interval'] = 'D';
     // BEWARE: no trailing slash is expected in feed URL
@@ -46,6 +46,7 @@ export class TvChartContainerComponent implements OnInit, OnDestroy {
     ws;
     wsMessage = 'you may need to send specific message to subscribe data, eg: BTC';
     socket: WebSocketSubject<BarData>;
+    private sub: any;
 
     granularityMap = {
       '1': 60,
@@ -72,7 +73,7 @@ export class TvChartContainerComponent implements OnInit, OnDestroy {
       'D': '1d',
       '1D': '1d'
     };    
-    constructor(private mockService: MockService, private coinService: CoinService) {
+    constructor(private mockService: MockService, private coinService: CoinService, private route: ActivatedRoute) {
 
     }
 
@@ -131,7 +132,19 @@ export class TvChartContainerComponent implements OnInit, OnDestroy {
         this._containerId = containerId || this._containerId;
     }
 
-    ngOnInit() {
+    ngAfterViewInit() {
+
+      this.sub = this.route.params.subscribe(params => {
+        const pair = params['pair']; // (+) converts string 'id' to a number
+        console.log('pair=' + pair);
+        const pairArray = pair.split('_');
+        this.loadChart(pairArray[0], pairArray[1]);
+        // In a real app: dispatch action to load the details here.
+     });
+
+    }
+
+    loadChart(baseCoinName: string, targetCoinName: string) {
 
       this.ws = this.mockService.fakeWebSocket();
 
@@ -139,12 +152,12 @@ export class TvChartContainerComponent implements OnInit, OnDestroy {
         console.log('connect success');
       };
 
-        function getLanguageFromURL(): LanguageCode | null {
-            const regex = new RegExp('[\\?&]lang=([^&#]*)');
-            const results = regex.exec(location.search);
+      function getLanguageFromURL(): LanguageCode | null {
+        const regex = new RegExp('[\\?&]lang=([^&#]*)');
+        const results = regex.exec(location.search);
 
-            return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' ')) as LanguageCode;
-        }
+        return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' ')) as LanguageCode;
+      }
         const that = this;
         const datafeed = {
             onReady(x) {
@@ -171,18 +184,14 @@ export class TvChartContainerComponent implements OnInit, OnDestroy {
                 });
                 onResult(list);
             },
-            resolveSymbol(symbol, onResolve) {
-                console.log('symbol in resolveSymbol:', symbol);
-                console.log('that.baseCoin=' + that.baseCoin);
-                //const baseCoinName = that.coinService.getCoinNameByTypeId(that.baseCoin).toLowerCase();
-                //const targetCoinName = that.coinService.getCoinNameByTypeId(that.targetCoin).toLowerCase();                  
+            resolveSymbol(symbol, onResolve) {      
                 timer(1e3)
                   .pipe(
                     tap(() => {
                       onResolve({
-                        name: 'ETH-BTC',
-                        full_name: 'ETH', // display on the chart
-                        base_name: 'BTC',
+                        name: baseCoinName.toLowerCase() + targetCoinName.toLowerCase(),
+                        full_name: baseCoinName, // display on the chart
+                        base_name: targetCoinName,
                         minmov: 1,
                         pricescale : 1000000,
                         volume_precision: 8,
@@ -195,7 +204,7 @@ export class TvChartContainerComponent implements OnInit, OnDestroy {
                 console.log('serverTime:', arguments);
             },
             subscribeBars(symbol, granularity, onTick) {
-              const pair = 'ethbtc';
+              const pair = baseCoinName.toLowerCase() + targetCoinName.toLowerCase();
               this.socket = new WebSocketSubject('wss://stream.binance.com:9443/ws/' + pair + '@kline_' + that.intervalMap[granularity]);
               this.socket.subscribe(
                 (item) => {
@@ -211,26 +220,7 @@ export class TvChartContainerComponent implements OnInit, OnDestroy {
                   onTick(itemData);
                 }
               );
-              /*
-                console.log('subscribe, arg:', arguments);
-                that.ws.onmessage = (e) => {
-                  console.log('e in subscribeBars:', e);
-                  try {
-                    const data = e;
-                    if (data) {
-                      // realtime data
-                      // data's timestamp === recent one ? Update the recent one : A new timestamp data
-                      // in this example mock service always returns a new timestamp(current time)
-                      onTick(data);
-                    }
-                  } catch (e) {
-                    console.error(e);
-                  }
-                };
-      
-                // subscribe the realtime data
-                that.ws.send(`${that.wsMessage}_kline_${that.granularityMap[granularity]}`);
-                */
+
               },
             unsubscribeBars() {
               that.ws.send('stop receiving data or just close websocket');
@@ -275,9 +265,12 @@ export class TvChartContainerComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
+      this.sub.unsubscribe();
+      /*
         if (this._tvWidget !== null) {
             this._tvWidget.remove();
             this._tvWidget = null;
         }
+        */
     }
 }

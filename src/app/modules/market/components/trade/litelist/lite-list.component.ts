@@ -62,6 +62,10 @@ export class LiteListComponent implements OnInit {
         this.prices = this.prServ.getPriceList();
     }
 
-
+    loadTradePair(pair: string) {
+        
+        pair = pair.replace('/', '_');
+        this._router.navigate(['market/trade/' + pair]);
+    }
 
 }

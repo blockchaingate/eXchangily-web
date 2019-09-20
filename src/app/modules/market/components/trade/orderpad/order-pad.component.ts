@@ -1,4 +1,4 @@
-import { Component, Output, TemplateRef, Input, AfterViewInit, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, Output, TemplateRef, Input, OnInit, EventEmitter, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 //import { Order } from '../../../models/order';
@@ -19,6 +19,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {TransactionResp} from '../../../../../interfaces/kanban.interface';
 import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
+import { ActivatedRoute } from '@angular/router';
 
 declare let window: any;
 @Component({
@@ -27,9 +28,8 @@ declare let window: any;
     styleUrls: ['./order-pad.component.css']
 })
 
-export class OrderPadComponent implements AfterViewInit, OnDestroy {
-    @Input() baseCoin: number;
-    @Input() targetCoin: number;
+export class OrderPadComponent implements OnInit, OnDestroy {
+
     @Input() wallet: Wallet;
     @Input() mytokens: any;
     @Output() refreshToken = new EventEmitter();
@@ -65,11 +65,15 @@ export class OrderPadComponent implements AfterViewInit, OnDestroy {
     oldNonce: number;
     socket: WebSocketSubject<OrderBookItem>;
     socket2: WebSocketSubject<TradeItem>;
+    sub: any;
+    baseCoin: number;
+    targetCoin: number;
     //interval;
 
     constructor(private ordServ: OrderService, private _router: Router, private web3Serv: Web3Service, private coinService: CoinService,
       private kanbanService: KanbanService, private utilService: UtilService, private walletService: WalletService, 
-      private fb: FormBuilder, private modalService: BsModalService, private _snackBar: MatSnackBar, private tradeService: TradeService) {
+      private fb: FormBuilder, private modalService: BsModalService, private _snackBar: MatSnackBar, private tradeService: TradeService, 
+      private route: ActivatedRoute) {
         this.web3 = this.web3Serv.getWeb3Provider();
         this.refreshTokenDone = true; 
         /*
@@ -80,7 +84,10 @@ export class OrderPadComponent implements AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy() {
-      this.socket.unsubscribe();
+      if (this.socket) {
+        this.socket.unsubscribe();
+      }
+      this.sub.unsubscribe();
     }
 
     addTo(orderArr, bidOrAsk: boolean) {
@@ -111,18 +118,19 @@ export class OrderPadComponent implements AfterViewInit, OnDestroy {
 
     refreshOrders() {
       console.log('this.baseCoin====' + this.baseCoin);
-      if (!this.baseCoin || !this.targetCoin) {
-        return;
-      }
+      console.log('this.targetCoin====' + this.targetCoin);
 
       const baseCoinName = this.coinService.getCoinNameByTypeId(this.baseCoin).toLowerCase();
       const targetCoinName = this.coinService.getCoinNameByTypeId(this.targetCoin).toLowerCase();      
       const pair = baseCoinName + targetCoinName;
       // console.log('pair = ' + pair);
-      this.socket = new WebSocketSubject('wss://stream.binance.com:9443/ws/' + pair + '@depth20@1000ms');
+      const connUrl = 'wss://stream.binance.com:9443/ws/' + pair + '@depth20@1000ms';
+      console.log('connUrl=' + connUrl);
+      this.socket = new WebSocketSubject(connUrl);
       this.socket.subscribe(
         (orders) => {
-          console.log('orders');
+          // console.log('orders in refreshOrders');
+          // console.log(orders);
           this.addTo(orders.asks, false);
           this.addTo(orders.bids, true);
         },
@@ -172,9 +180,16 @@ export class OrderPadComponent implements AfterViewInit, OnDestroy {
       
     }
 
-    ngAfterViewInit() {
+    ngOnInit() {
       this.oldNonce = -1;
-      setTimeout(() => {
+
+      this.sub = this.route.params.subscribe(params => {
+        const pair = params['pair']; // (+) converts string 'id' to a number
+        console.log('pair=' + pair);
+        const pairArray = pair.split('_');
+        this.baseCoin = this.coinService.getCoinTypeIdByName(pairArray[0]);
+        this.targetCoin = this.coinService.getCoinTypeIdByName(pairArray[1]);
+
         if (this.mytokens && this.mytokens.length > 0) {
           for (let i = 0; i < this.mytokens.length; i++) {
             if (this.mytokens[i].coinType === this.baseCoin.toString()) {
@@ -184,11 +199,11 @@ export class OrderPadComponent implements AfterViewInit, OnDestroy {
               this.targetCoinAvail = Number(this.mytokens[i].unlockedAmount) / 1e18;
             }  
           }
-        }
-        this.refreshOrders();
-      }, 1000);
-
-
+        }   
+        this.refreshOrders();     
+        //this.loadChart(pairArray[0], pairArray[1]);
+        // In a real app: dispatch action to load the details here.
+     });      
 
     }
 
@@ -217,7 +232,7 @@ export class OrderPadComponent implements AfterViewInit, OnDestroy {
 
     buy(pinModal: TemplateRef<any>) {
       if (!this.wallet) {
-        this.openSnackBar('please create wallet before placing order','ok');
+        this.openSnackBar('please create wallet before placing order', 'ok');
         return;
       }
       this.bidOrAsk = true;
@@ -295,6 +310,7 @@ export class OrderPadComponent implements AfterViewInit, OnDestroy {
                 this.openSnackBar('Your order was placed successfully.', 'Ok');
                 this.oldNonce = nonce;
                 const transaction = {
+                  orderHash: orderHash,
                   txid: resp.transactionHash,
                   baseCoin: baseCoin,
                   targetCoin: targetCoin,

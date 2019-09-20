@@ -6,12 +6,12 @@
 .topslogan {
     padding: 0.6em;
     text-align: center;
-    height: 350px;
+    height: 410px;
 }
 
 @media only screen and (max-width: 768px) {
     .topslogan {
-        height: 480px;
+        height: 520px;
     }
 }
 
