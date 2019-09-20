@@ -1,20 +1,40 @@
 <div class="menu w-100">
-    <div class="menuitem hand smallfont text-white" [class.selected]="select === 1" (click)="selectCat(1);">★</div>
-    <div class="menuitem hand smallfont text-white" [class.selected]="select === 2" (click)="selectCat(2);">USDT</div>
-    <span class="menuitem hand smallfont text-white" [class.selected]="select === 3" (click)="selectCat(3);">BTC</span>
-    <div class="menuitem hand smallfont text-white" [class.selected]="select === 4" (click)="selectCat(4);">ETH</div>
+    <div class="menuitem hand smallfont text-white" [class.selected]="select === 'USDT'" (click)="selectCat('USDT');">USDT</div>
+    <div class="menuitem hand smallfont text-white" [class.selected]="select === 'BTC'" (click)="selectCat('BTC');">BTC</div>
+    <span class="menuitem hand smallfont text-white" [class.selected]="select === 'ETH'" (click)="selectCat('ETH');">ETH</span>
+    <div class="menuitem hand smallfont text-white" [class.selected]="select === 'EXG'" (click)="selectCat('EXG');">EXG</div>
 </div>
 
 <div class="input-group sarcharea">
     <input type="text" class="form-control searchbox" [(ngModel)]="searchText" placeholder="{{'Search pair' | translate}}">
     <div class="input-group-append">
-        <button class="btn btn-secondary" type="button">
+        <button class="btn btn-secondary" type="button" (click)="setSelect()">
                 <img src="/images/icons/searchicon.svg" width="12px" [hidden]="searchText">
                 <img src="/images/icons/searchicon-w.svg" width="12px" [hidden]="!searchText">
             </button>
     </div>
 </div>
 
+<mat-list>
+    <mat-list-item>
+        <div mat-line class="float-left text-white">{{'Pair'|translate}}</div>
+        <div class="vertical-center">
+            <div class="smallfont text-muted p-1">{{'LatestPrice'|translate}}</div>
+            <div class="smallfont text-white p-1">{{'H24Change'|translate}}</div>
+        </div>
+        <mat-divider></mat-divider>
+    </mat-list-item>
+    <mat-list-item *ngFor="let pr of prices | callback: filterPrice : select; let i=index">
+        <div mat-line class="float-left text-white" (click)="loadTradePair(pr.pair)">{{pr.symbol}}</div>
+        <div class="vertical-center pt-2 pb-2">
+            <div class="text-muted vertical-center">{{pr.price}}</div>
+            <div class="vertical-center" [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>0"> {{pr.change24h | number:'.2'}}% </div>
+        </div>
+        <mat-divider></mat-divider>
+    </mat-list-item>
+
+</mat-list>
+<!--
 <div class="pricelist">
     <div class="apair header">
         <div class="leftarea smallfont">{{'Pair'|translate}}</div>
@@ -23,8 +43,8 @@
             <div class="smallfont">{{'H24Change'|translate}}</div>
         </div>
     </div>
-    <div class="coinlist" [style.height.px]="screenheight-280">
-        <div class="apair" *ngFor="let pr of prices; let i=index">
+    <div class="coinlist">
+        <div class="apair" *ngFor="let pr of prices | callback: filterPrice : select; let i=index">
             <div class="leftarea smallfont hand" (click)="loadTradePair(pr.pair)">{{pr.symbol}}</div>
             <div class="rightarea">
                 <div class="smallfont">{{pr.price}}</div>
@@ -35,6 +55,7 @@
         </div>
     </div>
 </div>
+-->
 <!--
 <div class="container market-panel h-100">
     <div class="menu">

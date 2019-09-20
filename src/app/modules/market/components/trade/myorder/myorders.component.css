@@ -55,6 +55,9 @@
     .navbar-expand-sm .navbar-nav {
         flex-direction: row;
     }
+}
+
+@media (max-width: 959px) {
     .navbar {
         padding: 0rem 1rem;
         padding-bottom: 1rem;

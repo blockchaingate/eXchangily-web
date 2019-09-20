@@ -1758,11 +1758,11 @@ th.mat-header-cell {
 }
 
 .mat-divider {
-    border-top-color: rgba(0, 0, 0, .12)
+    border-top-color: rgba(255, 255, 255, .12)
 }
 
 .mat-divider-vertical {
-    border-right-color: rgba(0, 0, 0, .12)
+    border-right-color: rgba(255, 255, 255, .12)
 }
 
 .mat-expansion-panel {

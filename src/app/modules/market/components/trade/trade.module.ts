@@ -23,7 +23,9 @@ import { WalletService } from '../../../../services/wallet.service';
 import { CoinService } from '../../../../services/coin.service';
 import { ApiService } from '../../../../services/api.service';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatListModule} from '@angular/material/list';
 import { MockService} from '../../../../services/mock.service';
+import { CallbackPipe } from '../../../shared/pipes/callback.pipe';
 @NgModule({
     imports: [
         CommonModule,
@@ -34,6 +36,7 @@ import { MockService} from '../../../../services/mock.service';
         RouterModule,
         MatSnackBarModule,
         MatTabsModule,
+        MatListModule,
         TradeRoutingModule,
         TranslateModule,
         ModalModule
@@ -52,7 +55,8 @@ import { MockService} from '../../../../services/mock.service';
         LiteListComponent,
         TvChartContainerComponent,
         MyordersComponent,
-        OrderPadComponent
+        OrderPadComponent,
+        CallbackPipe
     ],
     exports: [
         TradeComponent

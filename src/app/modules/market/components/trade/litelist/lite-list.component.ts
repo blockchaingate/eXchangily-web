@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { Price, Ticker } from '../../../../../interfaces/kanban.interface';
 import { PriceService } from '../../../../../services/price.service';
 import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 
+export interface Section {
+    name: string;
+    updated: Date;
+  }
 @Component({
     selector: 'app-lite-list',
     templateUrl: './lite-list.component.html',
@@ -12,23 +15,26 @@ import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 })
 
 export class LiteListComponent implements OnInit {
-    select = 1;
+    select = 'USDT';
     pair = 'BTC/USDT';
     prices: Price[] = [];
     searchText = '';
     socket: WebSocketSubject<[Ticker]>;
-
     constructor(private prServ: PriceService, private _route: ActivatedRoute, private _router: Router) {
     }
 
+    filterPrice(price: Price, select: string) {
+        //console.log('this.select=', select);
+        return price.symbol.indexOf(select) >= 0;
+    }
     ngOnInit() {
-        this.selectCat(1);
+        this.selectCat('USDT');
         const streamName = '!ticker@arr';
         this.socket = new WebSocketSubject('wss://stream.binance.com:9443/ws/' + streamName);
         this.socket.subscribe(
           (tickers) => {
               this.prices = [];
-              for (let i = 0; i < 25; i++) {
+              for (let i = 0; i < tickers.length; i++) {
                 const ticker = tickers[i];
                 const price = {
                     id: 0,
@@ -44,11 +50,14 @@ export class LiteListComponent implements OnInit {
                 };   
                 this.prices.push(price);              
               }
+              //this.socket.unsubscribe();
           }
         );        
     }
-
-    selectCat(cat: number) {
+    setSelect() {
+        this.select = this.searchText;
+    }
+    selectCat(cat: string) {
         this.select = cat;
         this.prices = this.prServ.getPriceList();
     }

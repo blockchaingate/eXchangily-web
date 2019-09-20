@@ -9,6 +9,7 @@ import { timer } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { MockService} from '../../../../../services/mock.service';
 import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
+import { CoinService } from '../../../../../services/coin.service';
 
 interface BarData {
   time: number;
@@ -26,6 +27,8 @@ interface BarData {
 })
 
 export class TvChartContainerComponent implements OnInit, OnDestroy {
+    @Input() baseCoin: number;
+    @Input() targetCoin: number;  
     private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'AAPL';
     private _interval: ChartingLibraryWidgetOptions['interval'] = 'D';
     // BEWARE: no trailing slash is expected in feed URL
@@ -69,7 +72,7 @@ export class TvChartContainerComponent implements OnInit, OnDestroy {
       'D': '1d',
       '1D': '1d'
     };    
-    constructor(private mockService: MockService) {
+    constructor(private mockService: MockService, private coinService: CoinService) {
 
     }
 
@@ -158,6 +161,7 @@ export class TvChartContainerComponent implements OnInit, OnDestroy {
                 onResultReadyCallback('haha');
             },
             async getBars(symbol, granularity, startTime, endTime, onResult, onError, isFirst) {
+                console.log('symbol in getBars=', symbol);
                 console.log('granularity=' + granularity);
                 const list = await that.mockService.getHistoryList({
                   granularity: that.granularityMap[granularity],
@@ -168,14 +172,17 @@ export class TvChartContainerComponent implements OnInit, OnDestroy {
                 onResult(list);
             },
             resolveSymbol(symbol, onResolve) {
-                console.log('resolveSymbol:', arguments);
+                console.log('symbol in resolveSymbol:', symbol);
+                console.log('that.baseCoin=' + that.baseCoin);
+                //const baseCoinName = that.coinService.getCoinNameByTypeId(that.baseCoin).toLowerCase();
+                //const targetCoinName = that.coinService.getCoinNameByTypeId(that.targetCoin).toLowerCase();                  
                 timer(1e3)
                   .pipe(
                     tap(() => {
                       onResolve({
-                        name: 'haha',
-                        full_name: 'hehe', // display on the chart
-                        base_name: 'ooo',
+                        name: 'ETH-BTC',
+                        full_name: 'ETH', // display on the chart
+                        base_name: 'BTC',
                         minmov: 1,
                         pricescale : 1000000,
                         volume_precision: 8,

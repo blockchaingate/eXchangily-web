@@ -10,10 +10,10 @@
     margin: 1em 0.5em 0.6em 0.5em;
 }
 
-.menuitem{
+.menuitem {
     margin-right: 0.6em;
     color: black;
- }
+}
 
 .sarcharea {
     width: 99%;
@@ -55,8 +55,6 @@
     width: 100%;
     flex: 1;
     margin-top: 8px;
-    border: 1px solid #AFAFAF;
-    background-color: #EFEFEF;
 }
 
 .orderlist {
@@ -67,7 +65,8 @@
     /*width: 100%;*/
 }
 
-.orderlist td,th {
+.orderlist td,
+th {
     border: 1px solid black;
     text-align: center;
     padding: 8px;
@@ -125,4 +124,21 @@
 .chart {
     width: 48%;
     float: left;
+}
+
+mat-list-item {
+    height: auto!important;
+}
+
+mat-divider {
+    color: white;
+}
+
+mat-list {
+    overflow-y: auto;
+    max-height: 800px;
+}
+
+.vertical-center {
+    vertical-align: middle;
 }
