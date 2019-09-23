@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { setTheme } from 'ngx-bootstrap/utils';
 
@@ -10,7 +10,6 @@ import { CoinService } from '../../../../services/coin.service';
 import { OrderService } from '../../services/order.service';
 import { Chart } from 'chart.js';
 import * as moment from 'moment';
-import { ViewChild, ElementRef } from '@angular/core';
 import { ConditionalExpr, ElementSchemaRegistry } from '@angular/compiler';
 import { Wallet } from '../../../../models/wallet';
 import { WalletService } from '../../../../services/wallet.service';

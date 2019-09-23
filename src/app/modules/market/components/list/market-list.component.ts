@@ -51,18 +51,54 @@ export class MarketListComponent implements OnInit {
         this.select = cat;
         if (cat === 100) {
             this.tab_prices = this.prices.filter((listing: Price) => listing.favorite === 1);
-        } else {
+        } else if (cat === 4) {
+            this.tab_prices = [];
+        }
+        {
             this.tab_prices = this.prices.filter((listing: Price) => listing.base_id === cat);
         }
         
     }
-        
+    
+    search() {
+        console.log('search begin', this.searchText);
+        this.selectCat(4);
+        this.tab_prices = this.prices.filter((listing: Price) => listing.symbol.indexOf(this.searchText) >= 0);
+    }
     gotoTrade(id: number) {
         const pair = this.COINS[this.prices[id].coin_id].name + '_' + this.COINS[this.prices[id].base_id].name;
         this._router.navigate(['market/trade/' + pair]);
     }
 
     toggleFavorite(price: Price) {
+        console.log('price before toggle', price);
+        console.log('price.favorite=', price.favorite);
         price.favorite = 1 - price.favorite;
+        console.log('price.favorite=', price.favorite);
+        console.log('price after toggle', price);
     }
+
+    updateTickerList(arr) {
+        console.log('updateTickerList');
+        for (let i = 0; i < arr.length; i++) {
+            const item = arr[i];
+            const s = item.s;
+            const h = item.h;
+            const c = item.c;
+            const l = item.l;
+            const P = item.P;
+            const v = item.v;
+            for (let j = 0; j < this.tab_prices.length; j++) {
+                const tabItem = this.tab_prices[j];
+                const tabItemSymbol = this.COINS[tabItem.coin_id].name + this.COINS[tabItem.base_id].name;
+                if (s === tabItemSymbol) { 
+                    tabItem.change24h = P;
+                    tabItem.price = c;
+                    tabItem.price24hh = h;
+                    tabItem.price24hl = l;
+                    tabItem.vol24h = v;
+                }
+            }
+        }
+    }    
 }
