@@ -1,5 +1,5 @@
 <header>
-    <nav class="navbar navbar-expand-sm gradient-back-title navbar-dark sticky-top">
+    <nav class="navbar navbar-expand-sm  navbar-dark sticky-top" [ngClass]="background">
         <mat-toolbar class="transparent">
             <div fxHide.gt-xs>
                 <button mat-icon-button [matMenuTriggerFor]="menu2">
@@ -29,13 +29,13 @@
             <div fxFlex fxLayout fxHide.xs>
                 <ul fxLayout fxLayoutGap="15px" class="navigation-items">
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/market/home" [class.selected]="selected === 1" (click)="selected=1;">{{'Exchange' | translate}}</a>
+                        <a class="nav-link" routerLink="/market/home" (click)="background='gradient-back-title'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Exchange' | translate}}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/wallet" [class.selected]="selected === 2" (click)="selected=2;">{{'Wallet' | translate}}</a>
+                        <a class="nav-link" routerLink="/wallet/dashboard" (click)="background='dark-back'" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Wallet' | translate}}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/explorer" [class.selected]="selected === 3" (click)="selected=3;">{{'Explore' | translate}}</a>
+                        <a class="nav-link" routerLink="/explorer" (click)="background='dark-back'" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Explore' | translate}}</a>
                     </li>
                 </ul>
             </div>
@@ -51,61 +51,10 @@
                         </mat-menu>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/" [class.selected]="selected === 4" (click)="selected=4;">{{'Home' | translate}}</a>
+                        <a class="nav-link" routerLink="/market/home" (click)="background='gradient-back-title'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Home' | translate}}</a>
                     </li>
-                    <!--
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/setting" [class.selected]="selected === 5" (click)="selected=5;">{{'Setting' | translate}}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/help" [class.selected]="selected === 6" (click)="selected=6;">{{'Help' | translate}}</a>
-                    </li>
-                    -->
                 </ul>
             </div>
         </mat-toolbar>
     </nav>
 </header>
-
-<!--
-<header>
-    <nav class="navbar navbar-expand-sm gradient-back-title navbar-dark sticky-top">
-        <a class="navbar-brand" href="/"><img src="./images/exchangily decentralized exchange logo.png" width="40px">eXchangily {{'Title' | translate}}</a>
-        <ul class="navbar-nav mr-auto hidden-xs">
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/market/home" [class.selected]="selected === 1" (click)="selected=1;">{{'Exchange' | translate}}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/wallet" [class.selected]="selected === 2" (click)="selected=2;">{{'Wallet' | translate}}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/explorer" [class.selected]="selected === 3" (click)="selected=3;">{{'Explorer' | translate}}</a>
-            </li>
-        </ul>
-
-        <ul class="navbar-nav hidden-xs">
-            <div class="btn-group" dropdown>
-                <button id="button-basic" dropdownToggle type="button" class="btn  dropdown-toggle text-white" aria-controls="dropdown-basic">
-                          {{currentLang}} <span class="caret"></span>
-                        </button>
-                <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
-                    <li role="menuitem"><a class="dropdown-item" (click)="selectLan('en')">English</a></li>
-                    <li role="menuitem"><a class="dropdown-item" (click)="selectLan('zh')">中文</a></li>
-                </ul>
-            </div>
-            <li class="nav-item">
-                <a class="nav-link" href="#">{{'Home' | translate}}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/setting">{{'Setting' | translate}}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/help">{{'Help' | translate}}</a>
-            </li>
-        </ul>
-        <div class="visible-xs">
-
-        </div>
-    </nav>
-</header>
--->

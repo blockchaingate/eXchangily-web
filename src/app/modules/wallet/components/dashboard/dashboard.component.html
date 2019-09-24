@@ -16,7 +16,12 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="small text-white" *ngIf="wallet">{{"Wallet address" | translate }}:{{exgAddress}} </div>
+                            <div class="small text-white" *ngIf="wallet">
+                                {{"Wallet address" | translate }}:{{exgAddress}}
+                                <button mat-icon-button (click)="copyAddress()">
+                                    <mat-icon svgIcon="icon_copy"></mat-icon>
+                                </button>
+                            </div>
                             <div class="small text-white" *ngIf="wallet">{{"Gas" | translate }}:{{gas}} </div>
                             <div class="row py-3">
                                 <div class="col col-md-3">
@@ -73,18 +78,21 @@
                                 <a (click)="onShowTransactionHistory()">{{"Transaction History" | translate}}</a>
                             </div>
                             <div class="d-inline mr-3">
+                                <button (click)="addAssets()" mat-icon-button>
+                                    <mat-icon>add</mat-icon>
+                                </button>
                                 <a (click)="addAssets()">{{"Add Assets" | translate}}</a>
                             </div>
+                            <!--
                             <div class="d-inline">
                                 <a (click)="loadBalance()">{{"Refresh Assets" | translate}}</a>
                             </div>
-
+-->
                         </div>
                         <div class="col col-4 col-md-6 small text-right fxHide-gt-sm">
                             <mat-menu #appMenu="matMenu">
                                 <button mat-menu-item (click)="onShowTransactionHistory()">{{"Transaction History" | translate}}</button>
                                 <button (click)="addAssets()" mat-menu-item>{{"Add Assets" | translate}}</button>
-                                <button (click)="loadBalance()" mat-menu-item>{{"Refresh Assets" | translate}}</button>
                             </mat-menu>
 
                             <button mat-icon-button [matMenuTriggerFor]="appMenu">
@@ -140,8 +148,11 @@
                                 <div class="row apair dataline" *ngIf="!hideSmall || mycoin.balance >= 0.1">
 
                                     <div class="col-1">
-                                        <img *ngIf="mycoin.name == 'BTC'" src="/assets/coins/bitcoin.png" class="icon" />
-                                        <img *ngIf="mycoin.name == 'ETH'" src="/assets/coins/ethereum.png" class="icon" />
+                                        <img *ngIf="mycoin.name == 'BTC'" src="/assets/coins/btc.png" class="icon" />
+                                        <img *ngIf="mycoin.name == 'ETH'" src="/assets/coins/eth.png" class="icon" />
+                                        <img *ngIf="mycoin.name == 'EXG'" src="/assets/coins/exg.png" class="icon" />
+                                        <img *ngIf="mycoin.name == 'FAB'" src="/assets/coins/fab.png" class="icon" />
+                                        <img *ngIf="mycoin.name == 'USDT'" src="/assets/coins/usdt.png" class="icon" />
                                     </div>
                                     <div class="col-1">
                                         {{mycoin.name}}

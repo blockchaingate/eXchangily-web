@@ -1490,12 +1490,12 @@ textarea.cdk-textarea-autosize-measuring {
 
 .mat-checkbox-checked.mat-accent .mat-checkbox-background,
 .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
-    background-color: #ff4081
+    background-color: #6023b0
 }
 
 .mat-checkbox-checked.mat-warn .mat-checkbox-background,
 .mat-checkbox-indeterminate.mat-warn .mat-checkbox-background {
-    background-color: #f44336
+    background-color: #6023b0
 }
 
 .mat-checkbox-disabled.mat-checkbox-checked .mat-checkbox-background,
@@ -1534,12 +1534,12 @@ textarea.cdk-textarea-autosize-measuring {
 
 .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element,
 .mat-checkbox:active:not(.mat-checkbox-disabled).mat-accent .mat-ripple-element {
-    background: #ff4081
+    background: #6023b0
 }
 
 .mat-checkbox-checked:not(.mat-checkbox-disabled).mat-warn .mat-ripple-element,
 .mat-checkbox:active:not(.mat-checkbox-disabled).mat-warn .mat-ripple-element {
-    background: #f44336
+    background: #6023b0
 }
 
 .mat-chip.mat-standard-chip {

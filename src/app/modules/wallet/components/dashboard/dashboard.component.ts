@@ -25,6 +25,8 @@ import {SendCoinForm} from '../../../../interfaces/kanban.interface';
 import {StorageService} from '../../../../services/storage.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { AngularCsv } from 'angular7-csv';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({ 
     selector: 'app-wallet-dashboard',
@@ -65,11 +67,14 @@ export class WalletDashboardComponent {
     constructor ( private route: Router, private walletServ: WalletService, private modalServ: BsModalService, 
         private coinServ: CoinService, private utilServ: UtilService, private apiServ: ApiService, 
         private kanbanServ: KanbanService, private web3Serv: Web3Service, private viewContainerRef: ViewContainerRef,
-        private utilService: UtilService, private _snackBar: MatSnackBar,
-        private coinService: CoinService, private storageService: StorageService) {
+        private utilService: UtilService, private _snackBar: MatSnackBar, private matIconRegistry: MatIconRegistry,
+        private coinService: CoinService, private storageService: StorageService, private domSanitizer: DomSanitizer) {
         this.showMyAssets = true;
         this.showTransactionHistory = false;
-
+        this.matIconRegistry.addSvgIcon(
+            'icon_copy',
+            this.domSanitizer.bypassSecurityTrustResourceUrl('/images/copy.svg')
+          );
     }
 
     async ngOnInit() {
@@ -85,6 +90,12 @@ export class WalletDashboardComponent {
         //this.startTimer();
         this.loadBalance();        
     }
+
+    copyAddress() {
+        this.utilServ.copy(this.exgAddress);
+
+    }
+
     onConfirmedBackupPrivateKey(cmd: string) {
         console.log('onConfirmedBackupPrivateKey start, cmd=', cmd);
 

@@ -18,6 +18,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found.component';
 //import {TvChartContainerComponent} from './components/bad.tv-chart-container/tv-chart-container.component';
 import { HeaderComponent } from './components/navigation/header/header.component';
@@ -46,6 +47,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatMenuModule,
     FlexLayoutModule,
     MatListModule,
+    RouterModule,
     MatButtonModule,
     BsDropdownModule.forRoot(),
     NgbModule,

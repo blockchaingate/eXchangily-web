@@ -11,10 +11,6 @@
     border-style: solid;
 }
 
-.btn-highlight-outline {
-    border-color: #bb2ad1;
-}
-
 .btn-basic-outline {
     border-color: grey;
 }
@@ -73,26 +69,6 @@ tbody {
     border-color: violet;
 }
 
-heck .container input {
-     ::ng-deep .mat-checkbox .mat-checkbox-frame {
-        border-color: violet;
-    }
-    ition: absolute;
-     ::ng-deep .mat-checkbox .mat-checkbox-frame {
-        border-color: violet;
-    }
-    city: 0;
-     ::ng-deep .mat-checkbox .mat-checkbox-frame {
-        border-color: violet;
-    }
-    sor: pointer;
-     ::ng-deep .mat-checkbox .mat-checkbox-frame {
-        border-color: violet;
-    }
-    ght: 0;
-    width: 0;
-}
-
 
 /* Create a custom checkbox */
 
@@ -135,43 +111,8 @@ heck .container input {
     display: block;
 }
 
-::ng-deep .mat-checkbox .mat-checkbox-frame {
-    border-color: violet;
-}
-
-::ng-deep .mat-checkbox .mat-checkbox-frame {
-    border-color: violet;
-}
-
-::ng-deep .mat-checkbox .mat-checkbox-frame {
-    border-color: violet;
-}
-
-yle the checkmark/indicator */::ng-deep .mat-checkbox .mat-checkbox-frame {
-    border-color: violet;
-}
-
-::ng-deep .mat-checkbox .mat-checkbox-frame {
-    border-color: violet;
-}
-
--check .container .checkmark:after {
-     ::ng-deep .mat-checkbox .mat-checkbox-frame {
-        border-color: violet;
-    }
-    eft: 9px;
-    top: 5px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-}
-
 .mat-checkbox .mat-checkbox-frame {
-    border-color: white;
+    border-color: #6023b0;
 }
 
 .apair {
@@ -203,7 +144,7 @@ yle the checkmark/indicator */::ng-deep .mat-checkbox .mat-checkbox-frame {
 
 @media only screen and (min-width: 960px) {
     .match-my-cols {
-        height: 630px;
+        height: 680px;
     }
 }
 

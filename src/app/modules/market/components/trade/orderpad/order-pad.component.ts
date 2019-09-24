@@ -145,8 +145,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       this.socket2 = new WebSocketSubject('wss://stream.binance.com:9443/ws/' + pair + '@trade');
       this.socket2.subscribe(
         (item) => {
-          //console.log('tradeItem=');
-          //console.log(item);
+          // console.log('tradeItem=');
+          // console.log(item);
           const price = Number(item.p);
           const quantity = Number(item.q);
           const txItem = {
@@ -201,7 +201,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           }
         }   
         this.refreshOrders();     
-        //this.loadChart(pairArray[0], pairArray[1]);
+        // this.loadChart(pairArray[0], pairArray[1]);
         // In a real app: dispatch action to load the details here.
      });      
 
@@ -271,7 +271,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     async buyOrSell() {
         console.log('buy something');
         this.refreshTokenDone = false;
-        //const pin = '1qaz@WSX';
+        // const pin = '1qaz@WSX';
         console.log('this.pin' + this.pin + ',this.price=' + this.price + ',this.qty=' + this.qty);
         const seed = this.utilService.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
         const keyPairsKanban = this.coinService.getKeyPairs(this.wallet.excoin, seed, 0, 0);

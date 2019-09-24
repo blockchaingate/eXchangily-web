@@ -38,6 +38,20 @@ export class UtilService {
         return null;
     }
 
+    copy(str: string) {
+        const selBox = document.createElement('textarea');
+        selBox.style.position = 'fixed';
+        selBox.style.left = '0';
+        selBox.style.top = '0';
+        selBox.style.opacity = '0';
+        selBox.value = str;
+        document.body.appendChild(selBox);
+        selBox.focus();
+        selBox.select();
+        document.execCommand('copy');
+        document.body.removeChild(selBox);        
+    }
+
     arraysEqual(a1, a2) {
         /* WARNING: arrays must not contain {objects} or behavior may be undefined */
         return JSON.stringify(a1) === JSON.stringify(a2);

@@ -51,7 +51,7 @@
 */
 
 .topslogan .container {
-    background-image: url('/images/market-main.svg');
+    background-image: url('/assets/market.png');
     background-repeat: no-repeat;
     background-size: auto 380px;
     background-position: right 120px center;

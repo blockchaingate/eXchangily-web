@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -9,15 +10,19 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   currentLang: string;
-  
   @Output() public sidenavToggle = new EventEmitter();
- 
-  constructor(private translate: TranslateService, private router: Router) { }
+  background: string;
+  constructor(private translate: TranslateService, private router: Router, private location: Location) { }
  
   ngOnInit() {
     this.currentLang = 'English';
     this.translate.setDefaultLang('en');
-    this.setLan();    
+    this.setLan();   
+    this.background = 'dark-back';
+    const path = this.location.path();
+    if (path === '/market/home') {
+      this.background = 'gradient-back-title';
+    }
   }
  
   public onToggleSidenav = () => {
