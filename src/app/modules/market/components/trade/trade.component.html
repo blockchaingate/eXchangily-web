@@ -1,5 +1,5 @@
 <div *ngIf="screenwidth >= 960" class="outwraper w-100">
-    <div class="left-area h-100">
+    <div class="left-area h-100 exg-bg">
         <app-lite-list></app-lite-list>
     </div>
 
@@ -16,6 +16,7 @@
         <app-order-pad #orderPad [wallet]="wallet" [mytokens]="mytokens" (refreshToken)="onRefreshToken($event)"></app-order-pad>
     </div>
 </div>
+
 
 <div *ngIf="screenwidth < 960">
     <div class="w-100">

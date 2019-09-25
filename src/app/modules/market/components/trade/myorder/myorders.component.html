@@ -1,32 +1,30 @@
 <div class="outwraper">
-    <nav class="navbar navbar-expand-sm ordermenu">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link hand smallfont" [class.selected]="select === 0" (click)="select=0; selectOrder(0);">{{'Open' | translate}}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link hand smallfont" [class.selected]="select === 1" (click)="select=1; selectOrder(1);">{{'Closed' | translate }}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link hand smallfont" [class.selected]="select === 100" (click)="select=100; selectOrder(100);">{{'Balances' | translate }}</a>
-            </li>
-        </ul>
-    </nav>
 
+    <div class="p-2">
+        <div class="d-inline-block p-2" [ngClass]="select === 0?'text-white':'text-muted'">
+            <a (click)="selectOrder(0);">{{'Open' | translate}}</a>
+        </div>
+        <div class="d-inline-block p-2" [ngClass]="select === 1?'text-white':'text-muted'">
+            <a [class.selected]="select === 1" (click)="selectOrder(1);">{{'Closed' | translate }}</a>
+        </div>
+        <div class="d-inline-block p-2" [ngClass]="select === 100?'text-white':'text-muted'">
+            <a [class.selected]="select === 100" (click)="selectOrder(100);">{{'Balances' | translate }}</a>
+        </div>
+    </div>
     <div class="orders w-100 fxHide-sm" *ngIf="select != 100">
-        <div class="row orderline w-100 header title">
-            <div class="orditem text-dark" style="width: 20%; margin-left: -1.2em;">Time</div>
-            <div class="orditem text-dark" style="width: 8%;">Symbol</div>
-            <div class="orditem text-dark" style="width: 5%;">Type</div>
-            <div class="orditem text-dark" style="width: 10%;">Price</div>
-            <div class="orditem text-dark" style="width: 10%;">Order Qty</div>
-            <div class="orditem text-dark" style="width: 10%;">Filled Qty</div>
-            <div class="orditem text-dark" style="width: 10%;">Amount</div>
-            <div class="orditem text-dark" style="width: 8%;">Filled%</div>
-            <div class="orditem text-dark" style="width: 8%;">Action</div>
+        <div class="row orderline w-100 header title py-3">
+            <div class="orditem" style="width: 20%; margin-left: -1.2em;">Time</div>
+            <div class="orditem" style="width: 8%;">Symbol</div>
+            <div class="orditem" style="width: 5%;">Type</div>
+            <div class="orditem" style="width: 10%;">Price</div>
+            <div class="orditem" style="width: 10%;">Order Qty</div>
+            <div class="orditem" style="width: 10%;">Filled Qty</div>
+            <div class="orditem" style="width: 10%;">Amount</div>
+            <div class="orditem" style="width: 8%;">Filled%</div>
+            <div class="orditem" style="width: 8%;">Action</div>
         </div>
 
-        <div class="myorderlist w-100 pt-2" [style.height.px]="screenheight-680">
+        <div class="myorderlist scroll-bar w-100 pt-2" [style.height.px]="screenheight-680">
             <div class="row orderline w-100" *ngFor="let order of myorders; let i=index">
                 <div class="orditem text-white" style="width: 20%;">
                     <p>
@@ -69,14 +67,14 @@
     </div>
 
     <div class="orders w-100 fxHide-gt-sm container" *ngIf="select != 100">
-        <div class="row  w-100 header title">
-            <div class="orditem text-dark col-5">Time</div>
-            <div class="orditem text-dark col-2">Symbol</div>
-            <div class="orditem text-dark col-2">Price</div>
-            <div class="orditem text-dark col-2">Action</div>
+        <div class="row  w-100 header title py-3">
+            <div class="orditem col-5">Time</div>
+            <div class="orditem col-2">Symbol</div>
+            <div class="orditem col-2">Price</div>
+            <div class="orditem col-2">Action</div>
         </div>
 
-        <div class="myorderlist w-100 pt-2" [style.height.px]="screenheight-680">
+        <div class="myorderlist scroll-bar w-100 pt-2" [style.height.px]="screenheight-680">
             <div class="row row-with-line  w-100" *ngFor="let order of myorders; let i=index">
                 <div class="text-muted col-5">
                     <p>
@@ -123,13 +121,13 @@
     </div>
 
     <div class="orders w-100" *ngIf="select == 100">
-        <div class="row orderline w-100 header title">
-            <div class="orditem text-dark" style="width: 30%; margin-left: -1.2em;">Coin</div>
-            <div class="orditem text-dark" style="width: 30%;">Amount</div>
-            <div class="orditem text-dark" style="width: 30%;">Locked Amount</div>
+        <div class="row orderline w-100 header py-3 title">
+            <div class="orditem" style="width: 30%; margin-left: -1.2em;">Coin</div>
+            <div class="orditem" style="width: 30%;">Amount</div>
+            <div class="orditem" style="width: 30%;">Locked Amount</div>
         </div>
 
-        <div class="myorderlist w-100 pt-2" [style.height.px]="screenheight-680">
+        <div class="myorderlist scroll-bar w-100 pt-2" [style.height.px]="screenheight-680">
             <div class="row orderline w-100" *ngFor="let token of mytokens; let i=index">
 
                 <div class="orditem text-white" style="width: 30%;">{{coinService.getCoinNameByTypeId(token.coinType)}}</div>

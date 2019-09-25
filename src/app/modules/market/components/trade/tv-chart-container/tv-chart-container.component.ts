@@ -11,6 +11,7 @@ import { MockService} from '../../../../../services/mock.service';
 import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 import { CoinService } from '../../../../../services/coin.service';
 import { ActivatedRoute } from '@angular/router';
+import { getCurrencySymbol } from '@angular/common';
 
 interface BarData {
   time: number;
@@ -227,10 +228,12 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
               },                       
         };
 
-        const widgetOptions: ChartingLibraryWidgetOptions = {
+        const widgetOptions: ChartingLibraryWidgetOptions = { 
             symbol: this._symbol,
             //datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl),
             datafeed: datafeed,
+            custom_css_url: '/assets/tradingview-custom.css',
+            theme: 'Dark',
             interval: this._interval,
             container_id: this._containerId,
             library_path: this._libraryPath,

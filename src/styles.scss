@@ -63,3 +63,16 @@ body {
 .container-wallet-main {
     height: 325px;
 }
+
+.color-purple {
+    color: #871fff;
+}
+
+.scroll-bar::-webkit-scrollbar {
+    width: 6px;
+    background-color: transparent;
+}
+
+.scroll-bar::-webkit-scrollbar-thumb {
+    background-color: #424266;
+}

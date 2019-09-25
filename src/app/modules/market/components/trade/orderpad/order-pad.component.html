@@ -1,7 +1,7 @@
 <div class="outwraper w-100 h-100">
     <div class="upper w-100" [style.height.px]="screenheight-460">
         <div class="orderbook w-50 h-100">
-            <div class="w-100 headerl">{{'Order Book' | translate }}</div>
+            <div class="w-100 headerl p-2">{{'Order Book' | translate }}</div>
             <div class="title w-100">
                 <div class="price">{{"Price" | translate}}</div>
                 <div class="quantity">{{"Quantity" | translate}}</div>
@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="trades w-50 h-100">
-            <div class="w-100 headerr">{{'Market Trades' | translate }}</div>
+            <div class="w-100 headerr p-2">{{'Market Trades' | translate }}</div>
             <div class="title w-100">
                 <div class="price">{{"Price" | translate}}</div>
                 <div class="quantity">{{"Quantity" | translate}}</div>
@@ -38,7 +38,7 @@
 
             <div class="transacs w-100" [style.height.px]="screenheight-512">
                 <div class="orderbookitem" *ngFor="let tx of txOrders; let l=index">
-                    <div class="price smallfont text-success">{{tx.price | number:'.6'}}</div>
+                    <div class="price smallfont" [ngClass]="tx.m?'text-success':'text-danger'">{{tx.price | number:'.6'}}</div>
                     <div class="quantity smallfont text-muted">{{tx.quantity | number:'.6'}}</div>
                     <div class="total smallfont text-muted">{{tx.time | date:'HH:MM:ss'}}</div>
                 </div>
@@ -48,9 +48,9 @@
     </div>
 
     <div class="middle w-100">
-        <div class="limitorder text-center w-50 hand" (click)="orderType=1;" [class.selected]="orderType === 1">
+        <div class="limitorder text-center text-white w-50 hand" (click)="orderType=1;" [class.selected]="orderType === 1">
             {{'Limit Order' | translate}}</div>
-        <div class="marketorder text-center w-50 hand" (click)="orderType=2;" [class.selected]="orderType === 2">
+        <div class="marketorder text-center text-white w-50 hand" (click)="orderType=2;" [class.selected]="orderType === 2">
             {{'Limit Order' | translate}}</div>
     </div>
     <!--Market Order-->

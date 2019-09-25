@@ -149,9 +149,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           // console.log(item);
           const price = Number(item.p);
           const quantity = Number(item.q);
+          const buyerMarketMaker = item.m;
           const txItem = {
               price: price,
               quantity: quantity,
+              m: buyerMarketMaker,
               time: new Date(item.t * 1000)     
           };
           this.currentPrice = price;

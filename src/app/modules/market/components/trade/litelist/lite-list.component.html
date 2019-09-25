@@ -6,16 +6,18 @@
 </div>
 
 <div class="input-group sarcharea">
-    <input type="text" class="form-control searchbox" [(ngModel)]="searchText" placeholder="{{'Search pair' | translate}}">
+    <input type="text" class="form-control searchbox" (keydown.enter)="setSelect();false" [(ngModel)]="searchText" placeholder="{{'Search pair' | translate}}">
+    <!--
     <div class="input-group-append">
         <button class="btn btn-secondary" type="button" (click)="setSelect()">
                 <img src="/images/icons/searchicon.svg" width="12px" [hidden]="searchText">
                 <img src="/images/icons/searchicon-w.svg" width="12px" [hidden]="!searchText">
             </button>
     </div>
+    -->
 </div>
 
-<mat-list>
+<mat-list class="scroll-bar">
     <mat-list-item>
         <div mat-line class="float-left text-white">{{'Pair'|translate}}</div>
         <div class="vertical-center">

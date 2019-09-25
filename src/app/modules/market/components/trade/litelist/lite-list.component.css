@@ -22,7 +22,10 @@
 
 .searchbox {
     width: 4em;
-    font-size: x-small;
+    color: white;
+    background: url(/images/icons/search.svg) no-repeat scroll 7px 7px;
+    padding-left: 30px;
+    border: 1px solid grey;
 }
 
 .search-entered {
