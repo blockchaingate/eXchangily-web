@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
     this.setLan();   
     this.background = 'dark-back';
     const path = this.location.path();
-    if (path === '/market/home') {
+    if (path.indexOf('/home') >= 0 || path.indexOf('/login') >= 0) {
       this.background = 'gradient-back-title';
     }
   }

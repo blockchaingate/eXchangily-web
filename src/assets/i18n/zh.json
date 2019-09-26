@@ -1,4 +1,495 @@
 {
+    "Header": {
+        "Title": "eXchangily",
+        "Navigation": {
+            "Home": "首页",
+            "Language": "中文",
+            "Whitepaper": "下载白皮书",
+            "Signin": "登陆",
+            "Signout": "退出",
+            "Signup": "注册",
+            "Account": {
+                "UserInfo": "帐户",
+                "AccountDetails": "账号资料",
+                "Kyc": "KYC"
+            }
+        }
+    },
+    "Admin": {
+        "Symbol": "币种",
+        "Address": "地址"
+    },
+    "Footer": {
+        "Title": "eXchangily",
+        "Navigation": {
+            "Home": "首页",
+            "Whitepaper": "下载白皮书"
+        },
+        "Copyright": "2018 eXchangily All Rights Reserved"
+    },
+    "Home": {
+        "Top": {
+            "Hero": "一个快速、安全、易用且资产完全自主控制的去中心化交易平台",
+            "WhitepaperButton": "下载白皮书",
+            "WhitelistCTA": {
+                "Button": "赞"
+            }
+        },
+        "Overview": {
+            "Title": "什么是eXchangily?",
+            "Disc": {
+                "Content1": "eXchangily是一个高速去中心化的加密货币交易所，是新一代利用Peer-to-Peer技术实施的交易平台。相比当前的中心化加密货币交易模型，其操作、结算和费用更具透明度。",
+                "Content2": "eXchangily亿币去中心化数字货币交易所集中心化交易所之高性能与去中心化交易所的安全、透明于一体，是社区治理、社区拥有的开源系统，亿币的所有交易费收入均分配给平台币EXG持币人，有关平台的一切决策也均由平台币持币人投票表决实施。"
+            }
+        },
+        "Why": {
+            "Title": "为什么选择eXchangily?",
+            "Disc": {
+                "Content1": "在中心化交易系统中，用户将自己的数字资产存入交易所资产帐户，由其托管，交易所完全控制用户资产的所有权，仅给用户提供一个可用于在其平台上交易的IOU凭证。由于中心化交易所采用集中式处理而非链上交易，交易撮合速度非常快，用户体验良好。然而它存在许多致命的缺点，由于交易所完全控制并可以自由支配用户资产，安全隐患巨大，且暗箱操作，决策不公平，过程不透明，操纵市场甚至跑路、侵吞用户资产等现 象频繁发生，危害甚大，并且平台方采用利己经济机制，利用数字货币难以监管的特征， 使自己的经济利益最大化，使中心化交易所成为区块链时代的突出弊端。而eXchangily亿币网集中心化交易所之高性能和良好用户体验与去中心化交易所的安全、公开、透明、用户绝对控制自己资产等优点于一身，代表了区块链技术的发展方向。",
+                "Content2": "更让人兴奋的是，eXchangily亿币交易所采用社区治理、社区拥有的代币经济模型，平台的交易费用等一切收入均按持币量分配给平台币EXG持币人，系统的一切决策也由持币人发起和表决进行实施。这将使亿币平台币EXG成为值得终生持有的数字资产，因为这意味着持有EXG就是亿币平台的主人，任何人都无法剥夺这一权力，即便项目开发者也无能为力，因为这是由去中心化开源系统保证的."
+            }
+        },
+        "Comparison": {
+            "Title": "比较eXchangily"
+        },
+        "Roadmap": {
+            "Title": "路线图与里程碑",
+            "Timestamp1": {
+                "Title": "2017年07月",
+                "Desc": "提出项目方案"
+            },
+            "Timestamp2": {
+                "Title": "2017年09月",
+                "Desc": "开始关键技术研究"
+            },
+            "Timestamp3": {
+                "Title": "2017年10月",
+                "Desc": "开始技术方案设计"
+            },
+            "Timestamp4": {
+                "Title": "2017年12月",
+                "Desc": "完成项目方案设计"
+            },
+            "Timestamp5": {
+                "Title": "2018年 01月",
+                "Desc": "开始试验开发"
+            },
+            "Timestamp6": {
+                "Title": "2018年03月",
+                "Desc": "白皮书设计"
+            },
+            "Timestamp7": {
+                "Title": "2018年03月",
+                "Desc": "开始软件开发"
+            },
+            "Timestamp8": {
+                "Title": "2018年05月",
+                "Desc": "启动市场运作"
+            },
+            "Timestamp9": {
+                "Title": "2018年08月",
+                "Desc": "完成系统框架搭建"
+            },
+            "Timestamp10": {
+                "Title": "2018年09月",
+                "Desc": "代幣銷售"
+            },
+            "Timestamp11": {
+                "Title": "2018年11月",
+                "Desc": "完成交易引擎开发"
+            },
+            "Timestamp12": {
+                "Title": "2018年12月",
+                "Desc": "完成接口开发"
+            },
+            "Timestamp13": {
+                "Title": "2019年3月",
+                "Desc": "完成多功能客户端开发"
+            },
+            "Timestamp14": {
+                "Title": "2019年6月",
+                "Desc": "完成全部开发工作，投入运营"
+            }
+        },
+        "Team": {
+            "Title": "团队",
+            "TeamMembers": {
+                "Member1": {
+                    "Name": "Dora Tang",
+                    "Image": "Dora_Tang_m.jpg",
+                    "Title": "首席执行官",
+                    "Desc": [
+                        "美国区块链技术专家",
+                        "信息系统学博士/区块链研究",
+                        "MBA,国际金融本硕",
+                        "KeyBank金融模型设计与风险审计"
+                    ]
+                },
+                "Member2": {
+                    "Name": "Jamie Tan",
+                    "Title": "首席技术官",
+                    "Image": "Jamie_Tan_m.jpg",
+                    "Desc": [
+                        "美国信息技术专家",
+                        "麻省理工MIT物理学博士",
+                        "Vizseek创始人兼CEO",
+                        "Imaginestics创始人兼CEO"
+                    ]
+                },
+                "Member3": {
+                    "Name": "Liza Horowitz",
+                    "Image": "Liza_Horowitz_m.jpg",
+                    "Title": "首席信息官",
+                    "Desc": [
+                        "CWB Maxium Financial（加拿大西部银行子公司）B2B沟通和数字营销主管",
+                        "SPL GROUP，战略和企业发展ATM技术，安全和区块链顾问",
+                        "Bryan Mills Iradesso可持续发展通信和市场营销副总裁"
+                    ]
+                },
+                "Member4": {
+                    "Name": "Raymond Henry",
+                    "Image": "Raymond_Henry_m.jpg",
+                    "Title": "首席科学家",
+                    "Desc": [
+                        "区块链技术博士生导师",
+                        "匹茨堡大学博士",
+                        "拥有上百份篇出版刊登的终身教授"
+                    ]
+                },
+                "Member5": {
+                    "Name": "Todor Milev",
+                    "Image": "Todor_Milev_m.jpg",
+                    "Title": "密码学及算法专家",
+                    "Desc": [
+                        "美国数学博士",
+                        "密码学研究专家"
+                    ]
+                },
+                "Member6": {
+                    "Name": "Nader Shiri",
+                    "Image": "Nader_Shiri_m.jpg",
+                    "Title": "系统架构师"
+                },
+                "Member7": {
+                    "Name": "Wesam Helou",
+                    "Image": "wesam-m.jpg",
+                    "Title": "软件客服经理，企业系统开发工程师",
+                    "Desc": [
+                        "信息科学博士"
+                    ]
+                },
+                "Member8": {
+                    "Name": "Kaiqing Fan",
+                    "Image": "kaiqing-m.jpg",
+                    "Title": "高级软件工程师，开发组长"
+                },
+                "Member9": {
+                    "Name": "Adil Asim",
+                    "Image": "Adil_Asim_m.jpg",
+                    "Title": "软件工程师"
+                },
+                "Member10": {
+                    "Name": "Bill Li",
+                    "Image": "Bill_Li_m.jpg",
+                    "Title": "软件工程师"
+                },
+                "Member11": {
+                    "Name": "Jerome Alve",
+                    "Image": "Jerome_Alve_m.jpg",
+                    "Title": "软件工程师"
+                }
+            }
+        }
+    },
+    "Account": {
+        "Admin": {
+            "Title": "管理员"
+        },
+        "User Info": {
+            "SideHeading": "用户资料",
+            "Title": "用户资料",
+            "InfoForm": {
+                "Field1": "",
+                "Field2": "",
+                "Field3": "",
+                "Field4": "",
+                "Field5": "",
+                "Field6": "",
+                "Field7": "",
+                "Field8": "",
+                "Field9": "",
+                "Field10": "",
+                "Field11": "",
+                "Field12": {
+                    "Title": "推荐码（如果有）",
+                    "Note": ""
+                }
+            }
+        },
+        "KYC": {
+            "Sideheading": "KYC",
+            "Title": "KYC",
+            "KYCForm": {
+                "NameBox": "姓名",
+                "EmailBox": "电子邮箱",
+                "PhoneNumberBox": "电话号码",
+                "HomeAddressBox": "家庭地址",
+                "DateOfBirth": {
+                    "Title": "出生日期",
+                    "Desc": "必须19岁或以上才允许参与我们的项目。"
+                },
+                "CountryBox": {
+                    "Title": "居住国家",
+                    "Desc": "请选择您现在居住的国家. 备注：美国及加拿大居民必须是合资格投资者才允许参与我们的STO"
+                },
+                "CitizenshipBox": {
+                    "Title": "国籍",
+                    "Desc": "备注：美国及加拿大居民必须是合资格投资者才允许参与我们的STO"
+                },
+                "AccreditedInvestorVerification": {
+                    "Question": "您是合资格投资人吗？",
+                    "Yes": "是",
+                    "No": "否",
+                    "Desc": "如果是，请上传可以证明您资格投资人身份的文件",
+                    "Button": "上传文件"
+                },
+                "SAFT": {
+                    "Button": "上传签署SAFT协议",
+                    "Desc": "请下载，打印并签署SAFT协议，将签署好的协议扫描上传。"
+                },
+                "PhotoID": {
+                    "Title": "证件",
+                    "Button": "上传文件",
+                    "Desc": "请上传证件正反面。请确保照片及文字清晰。符合要求的证件有：护照，驾照，公民卡等等。请上传至少两份证件。",
+                    "IDExample": "示例："
+                },
+                "SelfieWithId": {
+                    "Title": "您的照片",
+                    "Button": "上传文件",
+                    "Desc": {
+                        "Content1": "请手持您的身份证明文件，以及注明了拍照日期，”亿币“字样的便签自拍。请分别拍摄身份证明文件的正面以及背面。",
+                        "Content2": "请确保照片上您本人五官清晰可见",
+                        "Content3": "请确保照片中证件内容文字清晰可见",
+                        "Content4": "便签上需要注明拍照当天日期以及“亿币”字样",
+                        "Content5": "最少需要提供2张照片，证件正反面各一张"
+                    },
+                    "ExamplePicture": "示例："
+                },
+                "SubmitKYC": {
+                    "Button": "提交",
+                    "WindowTitle": "提交KYC",
+                    "Desc": "请检查所有填写资料，确保正确。一旦提交，信息将无法更改。"
+                }
+            }
+        },
+        "Referrals": {
+            "Sideheading": "推广",
+            "Details": "详情",
+            "referrecord": "成果",
+            "Page": {
+                "Title": "推广活动",
+                "Summary": {
+                    "Content1": "分享亿币信息，邀请您的朋友了解亿币，您就可以免费赚取亿币！步骤很简单，将下面的注册链接分享给您的朋友，或者在他们注册的时候填入您的分享码。当您的受邀人购买亿币，您将获得积分点，积分点将可以直接兑换成亿币。",
+                    "Content2": "受邀人购买亿币越多，您获得的积分也将越多。"
+                },
+                "Points": {
+                    "Subtitle": "积分",
+                    "Desc": "您目前的积分："
+                },
+                "Rules": {
+                    "Subtitle": "规则",
+                    "Content1": "每一个积分点将可以兑换成10美分等值的亿币,即",
+                    "Content2": "1个积分 = 10美分等值亿币",
+                    "Content3": "若您的受邀用户购买总额在一百万美元以下，每一美元您将获得1个积分。",
+                    "Content4": "若您的受邀用户购买总额在一百万至五百万美元，每一美元您将获得1.2积分。",
+                    "Content5": "若您的受邀用户购买总额在五百万至八百万美元，每一美元您将获得1.5积分。",
+                    "Content6": "若您的受邀用户购买总额在八百万美元以上，每一美元您将获得2积分。"
+                },
+                "ReferralCode": {
+                    "Link": {
+                        "Desc": "要获得积分，邀请您的朋友使用此链接成为eXchangily会员。",
+                        "Button": "复制邀请链接"
+                    },
+                    "Code": {
+                        "Desc": "或者告诉他们在注册时填入此邀请码，已注册用户也可在用户信息页面输入此邀请码。",
+                        "Button": "复制邀请码"
+                    }
+                },
+                "Discount": {
+                    "Subtitle": "设置折扣",
+                    "Desc": "您可以在下面的订单中为您的推介提供百分比折扣，而不会影响您的积分总额。折扣将在设置24小时后开始应用。"
+                },
+                "ReferralOrderList": {
+                    "Subtitle": "受邀人订单",
+                    "ListFields": {
+                        "Field1": "会员身份",
+                        "Field2": "日期",
+                        "Field3": "订单状态",
+                        "Field4": "估计EXG数量",
+                        "Field5": "支付金额",
+                        "Field6": "积分"
+                    }
+                }
+            }
+        },
+        "View Orders": {
+            "SideHeading": "订单",
+            "ViewOrderPage": {
+                "Title": "订单",
+                "ListFields": {
+                    "Field1": "日期",
+                    "Field2": "支付金额",
+                    "Field3": "估计EXG数量"
+                },
+                "SubHeaders": {
+                    "Pending": "待核实",
+                    "Completed": "完成",
+                    "Deleted": "已删除"
+                }
+            }
+        },
+        "Make Orders": {
+            "Title": "订购",
+            "OrderForm": {
+                "Page1": {
+                    "Title": "新订单",
+                    "Desc": "说明：选择G订单的付款方式并输入付款金额，您还可以选择EXG代币的数量。以下是EXG代币的价格参数，请注意：使用FAB付款将额外获得5%奖励",
+                    "DropDown1": "支付方式",
+                    "DropDown2": "金额",
+                    "DropDown3": "估计EXG数量",
+                    "DropDown4": "比率",
+                    "DropDown5": "折扣率"
+                },
+                "Page2": {
+                    "Title": "确认",
+                    "Timer": "您请在30分钟内完成订单。",
+                    "PayInstructions": {
+                        "Coin": "请扫描二维码，支付您在订单中填写的支付总额，或者可以直接复制粘贴二维码下方地址。支付完成后，请将您用于支付的地址填写到上面的交易信息框中。",
+                        "BTC": "请扫描二维码，支付您在订单中填写的比特币金额，或者可以直接复制粘贴二维码下方地址。支付完成后，请将您用于支付的地址填写到上面的交易信息框中。",
+                        "ETH": {
+                            "Desc1": "请扫描二维码，支付您在订单中填写的以太坊金额，或者可以直接复制粘贴二维码下方地址。支付完成后，请将您用于支付的地址填写到上面的交易信息框中。",
+                            "Desc2": "通过使用ETH付款，您的ETH汇率将以当月的最高价格计算。"
+                        },
+                        "FAB": {
+                            "Desc1": "请扫描二维码，支付您在订单中填写的发币金额，或者可以直接复制粘贴二维码下方地址。支付完成后，请将您用于支付的地址填写到上面的交易信息框中。",
+                            "Desc2": "使用Fabcoin付款，您的Fabcoin汇率将按照当天最高汇率计算。此外，您将获得5％的EXG令牌奖励。"
+                        },
+                        "USD": "请将您填写的美金金额电汇至以下账户，请准确填写所有信息以便我们核实您的付款。",
+                        "RMB": {
+                            "Desc1": "请将您填写的人民币金额电汇至指定的账户，请准确填写所有信息以便我们核实您的付款。",
+                            "Desc2": "通过人民币支付，您的汇率将以当月的最优价格计算。"
+                        }
+                    },
+                    "BackMessage": "请点【退回】并更正以下错误",
+                    "InformationBox": {
+                        "Crypto": {
+                            "BoxHeader": "地址",
+                            "BoxInstructions": "输入您的支付地址"
+                        },
+                        "Fiat": {
+                            "BoxHeader": "交易信息",
+                            "BoxInstructions": "请尽可能输入详细信息以便我们核实您的付款。"
+                        }
+                    }
+                },
+                "Page3": {
+                    "Title": "订单已提交",
+                    "OrderProcessedMessage": "您的订单已经提交成功，订单总数为 EXG 亿币。订单详情已经同时发往您的注册邮箱。该订单状态暂时为“待核实”，我们的管理员将尽快核实付款信息。您可以在【查看订单】页面随时查看订单状态。如果您对付款有任何疑问，请将问题，您的注册邮箱以及付款日期一同发送给管理员。",
+                    "NewOrderButton": "提交新订单",
+                    "ViewOrdersButton": "查看订单"
+                }
+            }
+        }
+    },
+    "Form": {
+        "Email": "邮箱",
+        "Password": "密码",
+        "Next": "下一步",
+        "Back": "返回",
+        "Exit": "退出",
+        "User Info": "用户信息",
+        "Make Order": "下单",
+        "View Order": "查看订单",
+        "Display Name": "显示名称",
+        "First Name": "名字",
+        "Middle Name": "中间名",
+        "Last Name": "姓",
+        "Home Phone": "家庭电话",
+        "Work Number": "工作电话",
+        "Mobile Number": "手机号码",
+        "Work Email": "工作电子邮箱",
+        "Active": "是否激活",
+        "Member Since": "会员起始日期",
+        "Last Updated": "最近更新时间",
+        "Account Details": "帐户详细资料",
+        "Account": "帐户",
+        "EXG": "亿币EXG",
+        "Owner": "所有者",
+        "ETH Address": "ETH地址",
+        "EXG Address": "亿币EXG地址",
+        "ERC20 Return Addr": "ERC20返回地址",
+        "TX History": "交易历史",
+        "KYC": "KYC",
+        "USCitizen": "注意：美国及加拿大居民必须是合资格投资者才允许参与我们的STO",
+        "PhotoID": "照片ID验证",
+        "IDExample": "例如：护照，驾照，公民卡。至少需要1张带照片的证件",
+        "Verify": "请核实所有信息。提交后将无法修改。",
+        "SubmitKYC": "提交KYC",
+        "Sign In": "登录",
+        "ForgotPassword": "忘记密码？",
+        "Sign Up": "注册",
+        "SignUpEmail": "使用电子邮件注册",
+        "Activate": "激活",
+        "Thank You For Signing Up": "感谢注册",
+        "Check Inbox": "请检查您的收件箱",
+        "Click Link": "直接点击电子邮件中的链接，或复制并粘贴以下激活码：",
+        "General": "通用",
+        "Notes": "留言",
+        "Date Created": "创建日期",
+        "Date Paid": "支付日期",
+        "Expand": "展开",
+        "Not Available": "无法使用",
+        "Show Less": "隐藏",
+        "Submit": "提交",
+        "Save": "保存",
+        "Cancel": "取消",
+        "Edit Email": "编辑电子邮箱",
+        "Full Name": "姓名",
+        "Confirm Password": "确认密码",
+        "Activation Code": "激活码",
+        "Activate My Account": "激活我的帐户",
+        "Pay": "支付",
+        "Amount": "数量",
+        "EXG Quantity": "亿币EXG数量",
+        "Status": "状态",
+        "History": "历史",
+        "Personal Member": "个人会员",
+        "Edit": "编辑",
+        "KYCSubmission Thanks": "感谢提交，目前您提交的KYC正在审核中。",
+        "Check Inbox2": "一旦请求重置，系统将发送一封包含重置密码链接的邮件到您的电子邮箱，请注意查收。",
+        "Request Password Reset": "请求密码重置",
+        "Check Inbox3": "检查收件箱中的密码重置电子邮件",
+        "Back to Sign In": "回到登录",
+        "Field Cannot Change": "输入后，此字段无法更改。",
+        "For Payments": "付款",
+        "For Payments Of": "付款",
+        "Total USD Amount": "美金总额",
+        "No Completed Orders": "没有已完成的订单",
+        "No Pending Orders": "没有待审核的订单",
+        "Member ID": "",
+        "Estimated EXG Ordered": "",
+        "Referral Points Earned": "",
+        "Dashboard": ""
+    },
+    "FormErrors": {
+        "FieldRequiredError": "必填",
+        "ValidNameError": "必须填写有效姓名",
+        "ValidEmailError": "必须是有效的电子邮件地址",
+        "PasswordMatchError": "密码不匹配",
+        "MinCharacterError": "至少需要{{value}}位字符",
+        "EmailExistsError": "电子邮件{{value}}已经存在",
+        "ReferralCodeError": "您输入的邀请码不存在"
+    },
     "Title": "亿币",
     "Page not found": "页面不存在",
     "Exchange": "交易",
