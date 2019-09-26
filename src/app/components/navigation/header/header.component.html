@@ -51,7 +51,16 @@
                         </mat-menu>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/market/home" (click)="background='gradient-back-title'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Home' | translate}}</a>
+                        <a class="nav-link" routerLink="/home" (click)="background='gradient-back-title'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{' Home ' | translate}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://medium.com/exchangily-blog" target="_blank">{{'Blog' | translate}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/login/signin" (click)="background='gradient-back-title'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Login' | translate}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/login/signup" (click)="background='gradient-back-title'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Register' | translate}}</a>
                     </li>
                 </ul>
             </div>

@@ -1,240 +1,495 @@
 {
-    "Title": "",
-    "ExgName": "Decentralized crypto exchange",
-    "ExgOfflWeb": "Exchangily Official Website",
-    "AboutExg": "About eXchangily",
-    "Resource": "Resources",
-    "Community": "Community center",
-    "Slid1Title": "Keep Private Key Properly",
-    "Slid1Content": "Keep private key or 12 memory words safely, they are the only way to access your cryptocurreneics.",
-    "Slid2Title": "High Performance, Decentralized",
-    "Slid2Content": "eXchangily is a real decentralized high performance cryptocurrencies exchange, you will domain your digital assets completely.",
-    "Slid3Title": "Different Opportunity",
-    "Slid3Content": "eXchangily brings you a fresh opportunity, learn all its features and functions, you may get a total different interest.",
-
-    "TopSologan": "One-stop Digital Assets Dex & Safeguard",
-    "TopSloganContent": "Universal crypto-currency wallet featured with decentralized exchange, custody, trading, make payment and financial management easily, control your digital assets in your hand all the time and all the way completely, eXchangily defines the new rule of assets management.",
-
-    "Announcement": {
-        "01": "eXchangile will launch for production on July 1st, 2019",
-        "02": "BTC, ETH, ETC, LTC, USDT, FAB, EXG will be listed at the first"
-    },
-    "Markets": "Markets",
-    "Favorites": "Favorite",
-    "Pair": "Pairs",
-    "LatestPrice": "Latest Price",
-    "H24Change": "24H Change",
-    "H24H": "24H High",
-    "H24L": "24H Low",
-    "Vol24": "24H Volume",
-
-    "MnemNote": "Please take down the following twelve mnemonics, they are very important. They must be accurately recorded and kept safely and reliably. Please do not exposure them to any body else. It is recommended not to save them only on your computer or mobile phone for fear of loss in case of damage of your device the device, please do not send these mnemonics via email or other social communication applications.",
-    "PwdNote": "Please note, this password is only for proectting wallet information in this device, it is not wallet private key.",
-    "Wnvalid": "Wallet name must be 2 or more letters or numbers",
-    "Pwdvalid": "Password must be at least 8 characters, 1 upper case letter and 1 special character",
-
-    "CONTACTS": {
-        "ADD": "Add/Edit",
-        "ADDRESS": "Address",
-        "COMMENTS": "Remarks",
-        "COPY": "Copy address",
-        "COPY_TIP": "Click to copy this address to clipboard",
-        "EDIT": "Edit",
-        "LIST": "Contact list",
-        "LOOKUP": "Look Up",
-        "NAME": "Name",
-        "NO_RECORDS": "No contact stored.",
-        "SEARCH": "Search",
-        "SERVICE_FAILED": "Service is not ready. Please check your settings and refresh this page.",
-        "TABLE": "List",
-        "TITLE": "Contacts"
-    },
-    "CONTRACTS": {
-        "CALL_FUNCTION": "Call Function",
-        "INPUTS": "Inputs",
-        "INTERACT_WITH": "Interact with Smart Contract",
-        "NO_CONTRACTS": "No local contracts records.",
-        "OUTPUTS": "Outputs",
-        "PARAMETERS": "Parameters for state-modifying contract calls",
-        "SENDER_ADDRESS": "Sender Address",
-        "TITLE": "Smart Contracts"
-    },
-    "CONTRACTS_ADD": {
-        "ABI": "ABI Interface",
-        "TITLE": "Add an existing Smart Contract"
-    },
-    "CONTRACTS_CREATE": {
-        "CHOOSE_CONTRACT": "Choose which contract you want to deploy",
-        "CREATE_CONTRACT": "Create Smart Contract",
-        "CREATE_ERC20": "Create ERC20 token (optional)",
-        "CREATE_ERC20_TIP": "Fast create ERC20 token contract from templates",
-        "TITLE": "Deploy a new Smart Contract"
-    },
-    "CONTRACTS_FEATURED": {
-        "ADDRESS": "Contract Address",
-        "CREATOR": "Smart Contract Creator",
-        "DELETE": "Delete",
-        "NAME": "Contract Name",
-        "TITLE": "Watchlist"
-    },
-    "DASHBOARD": {
-        "TITLE": "Dashboard",
-        "TO_TOKENS": "Show More Tokens",
-        "TO_HISTORY": "Show More Transaction History",
-        "TO_WALLET": "Show More Wallet Information"
-    },
-    "en": "English",
-    "GENERAL": {
-        "ADD": "Add",
-        "ADDRESS": "Address",
-        "AMOUNT": "Amount",
-        "BACK": "Back",
-        "BALANCE": "Balance",
-        "CANCEL": "Cancel",
-        "CONFIRM": "Confirm",
-        "CONFIRMATION": "CONFIRMATION",
-        "CREATE": "Create",
-        "FABCOINS": "Fabcoins",
-        "FEE": "Fee",
-        "NAME": "Name",
-        "NO": "No",
-        "VERIFY": "Verify",
-        "YES": "Yes"
-    },
-    "HISTORY": {
-        "AMOUNT": "Amount",
-        "COMMENTS": "Remarks",
-        "DATE": "Date",
-        "FROM": "From",
-        "TOOLTIPS": "Scroll down for a few more records",
-        "TOOLTIPS_END": "Click button below to get full records",
-        "NO_RECORDS": "There is no previous records stored at your machine.",
-        "NOT_READY": "History service is not ready, please check your local storage setting and manually synchronize your wallet to get recent transaction history.",
-        "RECEIVE": "Receive",
-        "SEND": "Send",
-        "SORT_BY": "Sort By",
-        "TITLE": "Transaction Histories",
-        "TO": "To",
-        "TXID": "TXID",
-        "TYPE": "Type"
-    },
-    "MESSAGE": {
-        "ERROR": "Error",
-        "NETWORK": "Unable to connect to network",
-        "SUCCESS": "Success"
-    },
-    "NOTIFICATION": {
-        "CLOSE": "Close",
-        "SYNC": "Synchronized"
-    },
-    "PASSWORD": {
-        "DESCRIPTION": "This password is only used to protect your local information. It is not shared over devices. We DO NOT store this password at any place. Sharing this password with others could lead to loss of your coins or tokens.",
-        "LENGTH_ERROR": "The length of the password must be longer than 8 bits.",
-        "NO_INPUT": "No password given. Please try again.",
-        "NO_MATCH": "Passwords don't match.",
-        "NO_PASSWORD": "Password is required.",
-        "PASSWORD_LABEL": "Password",
-        "REPEAT_PASSWORD_LABEL": "Confirm your password",
-        "SET": "Set a password to protect your local wallet.",
-        "SET_FAILED": "Set password failed.",
-        "SET_SUCCESSFUL": "Set password successfully.",
-        "SUBMIT": "Submit",
-        "VERIFIED": "Password verified.",
-        "VERIFY": "Verify your password",
-        "VERIFY_FAILED": "Password verify failed."
-    },
-    "RECEIVE": {
-        "COPY": "COPY",
-        "GENERATE": "Generate QR code",
-        "SAVE": "Save QR code to file",
-        "TITLE": "Receive Fabcoins",
-        "YOUR_ADDRESS": "Your receive address is"
-    },
-    "SEND": {
-        "FEE_LABEL": "Fixed for initial release",
-        "SAVE_TO_CONTACTS": "Save it to contacts",
-        "SELECT_TOOLTIPS": "Wallet will automatically select UTXOs if you leave here blank",
-        "SELECT_UTXO": "Select UTXOs",
-        "SEND": "Send",
-        "TITLE": "Send Fabcoins",
-        "TOOLTIPS": "If you just SUCCESSFULLY send a transaction and you have question about your balance, please be patient and wait for a new block generated. After a new block, please synchronize your wallet, which would give your correct balance. Please DO NOT re-send your transaction."
-    },
-    "SETTINGS": {
-        "LANGUAGE": "Language",
-        "LOCAL_STORE": "Store non-confidential information to local.",
-        "LOCAL_STORE_EXPLAIN": "E.g. language setting, transaction history.",
-        "NETWORK": "Network",
-        "NOT_UPDATED_CONTENT": "Nothing needs to be updated.",
-        "NOT_UPDATED_TITLE": "Successful",
-        "TITLE": "Settings",
-        "UPDATE": "Update",
-        "UPDATED_CONTENT": "Settings has been successfully updated.",
-        "UPDATED_TITLE": "Confirm",
-        "NETWORK_TOOLTIPS": "Switching network needs to re-build your wallet. Your current wallet will be saved."
-    },
-    "TOKEN": {
-        "ADD": "Add to my token watch list",
-        "ADDRESS": "Token Address",
-        "BUY": "Buy",
-        "BUY_PRICE": "Buy Price",
-        "MY_TOKEN": "My Token Watchlist",
-        "NAME": "Token Name",
-        "OFFICIAL_TOKEN": "Officially Supported Token by FAB",
-        "SELL": "Sell",
-        "SELL_PRICE": "Sell Price",
-        "SYMBOL": "Symbol",
-        "TITLE": "Token List",
-        "UPDATE": "Update info",
-        "TOOLTIPS": "Click the token name to see more details",
-        "TOTAL_SUPPLY": "Total supply",
-        "BALANCE_OF": "Balance of",
-        "BALANCE_OF_LOCKED": "Balance of locked"
-
-    },
-    "WALLET_GENERATE": {
-        "GENERATE": "Generate",
-        "MNEMONIC_WARNING": "Make sure you remember them!",
-        "OVERRIDE_WARNING": "This will override your existing wallet!",
-        "TITLE": "Generate New Wallet",
-        "YOUR_MNEMONICS": "Your mnemonics are:"
-    },
-    "WALLET_INFO": {
-        "BALANCE_TOOLTIPS": "If you have question about your balance, please click synchronize to get your recent balance. If this synchronize not solve your question, please wait for a new block generated and click Hard Synchronize to get the most recent balance. But hard wait for a new block synchronize would take longer time to complete.",
-        "CLEAR_WALLET": "Clear Wallet",
-        "CLEAR_WALLET_WARNING": "This will remove all current data, please confirm what you are doing.",
-        "CLEARED": "Wallet info has been cleared.",
-        "DOWNLOAD_SEED_FILE": "Download seed file",
-        "HARD_SYNC_FINISHED": "Hard synchronize has finished.",
-        "HARD_SYNCH": "Hard Synchronize",
-        "SYNCH": "Synchronize",
-        "TITLE": "Wallet Info",
-        "WARNING": "Anyone who has this file with password can own this wallet. DO NOT store it on a public computer or share it with others. Those actions could leads to lose your money."
-    },
-    "WALLET_RESTORE": {
-        "ENTER_YOUR_MNEMONIC": "Enter your 12 mnemonic words...",
-        "INVALID_MNEMONIC": "Invalid mnemonics combination",
-        "INVALID_MNEMONIC_PROMPT": "The words you inputted are not bip39 mnemonics. If your address is generated by this wallet, please recheck your words. Otherwise you can continue",
-        "INVALID_MNEMONIC_SUGGESTION": "The words you inputted can not be used to generate or to restore a wallet. Please check your words are correct and in a correct order.",
-        "MNEMONIC": "mnemonic",
-        "RESTORE": "Restore",
-        "RESTORE_FROM_FILE": "Restore from seed file",
-        "RESTORE_FROM_MNEMONIC": "Restore from mnemonic",
-        "SUCCESS": "Successfully restored wallet!",
-        "TITLE": "Restore Wallet",
-        "UPLOAD_FILE": "Upload file"
-    },
-    "WARNING": {
-        "NOT_SHARED": "All the data are stored at your own machine. We do not back up or store them or have them at any servers. It means, if you clean your browser's cache, information (transaction history, contacts, smart contract address, etc.) which are stored at your local machine could lost. However, it would not affect your balance and you would not lost any FAB coins because of clean the cache.",
-        "ON_NAV": "Development Version",
-        "ON_WELCOME": "This is our first version of FAB HD Wallet. It could have few defects.\nWe are working on providing better and more secure wallet in next few updates. For your own good, before release the new version we suggest to create a new wallet and use this wallet for smart contract development purpose only. Also, ONLY put SMALL amount of FAB coins in the wallet.\nWe would love to hear back from you. If you found any issues using this product, welcome to contact us through Email, Twitter, Telegram, WeChat. \n Thank you for your understanding and supporting."
-    },
-    "WELCOME": {
-        "CONTENT": "Welcome to FAB Wallet. Please select 'Generate Wallet' or 'Restore Wallet' from the left panel.",
-        "TITLE": "Welcome"
-    },
-    "zh": "简体中文",
-    "FEEDBACK": {
-        "BUTTON": "Feedback",
-        "MESSAGE": "Welcome to send your feedback and question to info@fabcoin.co or contact us via Twitter, Facebook, Wechat. Thank you for using our product."
+  "Header": {
+    "Title": "eXchangily",
+    "Navigation": {
+      "Home": "Home",
+      "Blog": "Blog",
+      "Language": "EN",
+      "Whitepaper": "Download Whitepaper",
+      "Signin": "Login",
+      "Signout": "Logout",
+      "Signup": "Register",
+      "Account": {
+        "UserInfo": "Profile",
+        "AccountDetails": "Account Details",
+        "Kyc": "KYC"
+      }
     }
+  },
+  "Admin": {
+    "Symbol": "Symbol",
+    "Address": "Address"
+  },
+  "Footer": {
+    "Title": "eXchangily",
+    "Navigation": {
+      "Home": "Home",
+      "Whitepaper": "Download Whitepaper"
+    },
+    "Copyright": "2018 eXchangily All Rights Reserved"
+  },
+  "Home": {
+    "Top": {
+      "Hero": {
+        "Line1": "The real decentralized exchange",
+        "Line2": "that's fast, secure and simple"
+      },
+      "WhitepaperButton": "Download Whitepaper",
+      "WhitelistCTA": {
+        "Button": "Subscribe for Updates"
+      }
+    },
+    "Overview": {
+      "Title": "What is eXchangily?",
+      "Disc": {
+        "Content1": "eXchangily is a new decentralized exchange model built on the prominent Fast Access Blockchain. It carries the best of a centralized exchange, namely the speed and ease of use, with all the security benefits of a decentralized exchange.",
+        "Content2": "Users retain control over their funds, their private keys, and their transaction information is transparent and secure. Individuals can trade, and enterprises can transact on eXchangily with ERC20 tokens and other cryptocurrencies. It is a fully democratic and autonomous platform."
+      }
+    },
+    "Why": {
+      "Title": "Why eXchangily?",
+      "Disc": {
+        "Content1": "The top 10 centralized exchanges are generating as much as $3 million in fees revenue per day, raking in billions and their model is flawed. They are riddled with security vulnerabilities that put investors at risk and regulators are at the mercy of the exchange management.",
+        "Content2": "eXchangily is a new kind of decentralized exchange (DEX) that trades ERC-20 tokens and other cryptocurrencies. Technically, eXchangily is a side-chain, peer-to-peer trading platform with an on-chain settlement for withdrawals. Transactions are facilitated through a high-speed trading engine that can process payments and redeem transactions fast."
+      }
+    },
+    "Comparison": {
+      "Title": "Compare eXchangily"
+    },
+    "Roadmap": {
+      "Title": "Roadmap",
+      "Timestamp1": {
+        "Title": "July 2017",
+        "Desc": "Project Proposal"
+      },
+      "Timestamp2": {
+        "Title": "September 2017",
+        "Desc": "Start Key Technology Research"
+      },
+      "Timestamp3": {
+        "Title": "October 2017",
+        "Desc": "Begin Technical Design"
+      },
+      "Timestamp4": {
+        "Title": "December 2017",
+        "Desc": "Complete Project Design"
+      },
+      "Timestamp5": {
+        "Title": "January 2018",
+        "Desc": "Started Trial Development"
+      },
+      "Timestamp6": {
+        "Title": "March 2018",
+        "Desc": "Initiated Whitepaper Creation"
+      },
+      "Timestamp7": {
+        "Title": "March 2018",
+        "Desc": "Began Software Development"
+      },
+      "Timestamp8": {
+        "Title": "May 2018",
+        "Desc": "Marketing Operations Commence"
+      },
+      "Timestamp9": {
+        "Title": "August 2018",
+        "Desc": "Completed System Frameworks"
+      },
+      "Timestamp10": {
+        "Title": "September 2018",
+        "Desc": "Token Sale"
+      },
+      "Timestamp11": {
+        "Title": "November 2018",
+        "Desc": "Trading Engine Development Completed"
+      },
+      "Timestamp12": {
+        "Title": "December 2018",
+        "Desc": "Interface Development Completed"
+      },
+      "Timestamp13": {
+        "Title": "March 2019",
+        "Desc": "Multi-function API development completed"
+      },
+      "Timestamp14": {
+        "Title": "June 2019",
+        "Desc": "Development Complete, Full Project in Operation"
+      }
+    },
+    "Team": {
+      "Title": "Team",
+      "TeamMembers": {
+        "Member1": {
+          "Name": "Dora Tang",
+          "Image": "Dora_Tang_m.jpg",
+          "Title": "CEO",
+          "Desc": [
+            "PHD in IS/ Research in Blockchain",
+            "MBA, MA & BA in International Finance",
+            "Model Development & Validation, Keybank"
+          ]
+        },
+        "Member2": {
+          "Name": "Jamie Tan",
+          "Title": "CTO",
+          "Image": "Jamie_Tan_m.jpg",
+          "Desc": [
+            "PHD in Physics, MIT",
+            "Founder & CEO, Vizseek",
+            "Founder & CTO, Imaginestics"
+          ]
+        },
+        "Member3": {
+          "Name": "Liza Horowitz",
+          "Title": "CIO",
+          "Image": "Liza_Horowitz_m.jpg",
+          "Desc": [
+            "Board Member and Canadian Director, Global Women in Blockchain",
+            "Master of Science, Environment and Communications",
+            "Senior marketing and communication lead at Canadian Western Bank, Scotiabank and professional consultants"
+          ]
+        },
+        "Member4": {
+          "Name": "Raymond Henry",
+          "Image": "Raymond_Henry_m.jpg",
+          "Title": "Chief Scientist",
+          "Desc": [
+            "Doctoral Tutor in Blockchain Technology",
+            "PhD, University of Pittsburgh",
+            "Tenured professor with hundreds of publications"
+          ]
+        },
+        "Member5": {
+          "Name": "Todor Milev",
+          "Image": "Todor_Milev_m.jpg",
+          "Title": "Cryptographer",
+          "Desc": [
+            "PhD in Mathematics",
+            "Cryptography Expert"
+          ]
+        },
+        "Member6": {
+          "Name": "Nader Shiri",
+          "Image": "Nader_Shiri_m.jpg",
+          "Title": "Systems Architect"
+        },
+        "Member7": {
+          "Name": "Wesam Helou",
+          "Image": "wesam-m.jpg",
+          "Title": "Manager, Software Support & Enterprise System Developer",
+          "Desc": [
+            "PhD in Information Technology"
+          ]
+        },
+        "Member8": {
+          "Name": "Kaiqing Fan",
+          "Image": "kaiqing-m.jpg",
+          "Title": "Senior Lead Developer"
+        },
+        "Member9": {
+          "Name": "Adil Asim",
+          "Image": "Adil_Asim_m.jpg",
+          "Title": "Software Engineer"
+        },
+        "Member10": {
+          "Name": "Bill Li",
+          "Image": "Bill_Li_m.jpg",
+          "Title": "Software Engineer"
+        },
+        "Member11": {
+          "Name": "Jerome Alve",
+          "Image": "Jerome_Alve_m.jpg",
+          "Title": "Software Engineer"
+        }
+      }
+    }
+  },
+  "Account": {
+    "Admin": {
+      "Title": "Admin"
+    },
+  "User Info": {
+      "SideHeading": "Profile",
+      "Title": "Profile",
+      "InfoForm": {
+        "Field1": "Email",
+        "Field2": "Display Name",
+        "Field3": "First Name",
+        "Field4": "Middle Name",
+        "Field5": "Last Name",
+        "Field6": "Home Phone",
+        "Field7": "Work Number",
+        "Field8": "Mobile Number",
+        "Field9": "Work Email",
+        "Field10": "Member Since",
+        "Field11": "Last Updated",
+        "Field12": {
+          "Title": "Referral Code (optional)",
+          "Note": "Once entered, this field cannot be changed."
+        }
+      }
+    },
+    "KYC": {
+      "Sideheading": "KYC",
+      "Title": "KYC",
+      "KYCForm": {
+        "NameBox": "Full Name",
+        "EmailBox": "Email",
+        "PhoneNumberBox": "Phone Number",
+        "HomeAddressBox": "Home Address",
+        "DateOfBirth": {
+          "Title": "Date of Birth",
+          "Desc": "To participate you must be 19 years of age and older."
+        },
+        "CountryBox": {
+          "Title": "Country of Residence",
+          "Desc": "Choose the country you currently live in. Note: A US or Canadian resident must be an Accredited Investor to participant the STO."
+        },
+        "CitizenshipBox": {
+          "Title": "Citizenship",
+          "Desc": "Note: A US or Canadian resident must be an Accredited Investor to participant the STO"
+        },
+        "AccreditedInvestorVerification": {
+          "Question": "Are you an accredited investor?",
+          "Yes": "Yes",
+          "No": "No",
+          "Desc": "If yes, please upload any documents to help confirm your accredited investor status.",
+          "Button": "Upload File"
+        },
+        "SAFT": {
+          "Button": "Upload Sign SAFT Agreement",
+          "Desc": "Download, print and sign the SAFT Agreement. Upload the SAFT agreement below."
+        },
+        "PhotoID": {
+          "Title": "Photo ID",
+          "Button": "Upload Files",
+          "Desc": "Upload photos of the front and back of your ID. Make sure the pictures are clear.  Passport, Driver's License or Citizenship Card are examples of acceptable ID. Minimum of 2 photos required.",
+          "IDExample": "Example"
+        },
+        "SelfieWithId": {
+          "Title": "Your photo",
+          "Button": "Upload Files",
+          "Desc": {
+            "Content1": "Please take a picture you holding one of your IDs; front and back. For your pictures, make sure:",
+            "Content2": "Your face is clearly visible",
+            "Content3": "The Photo ID is clearly visible",
+            "Content4": "You have a note with today's date in the picture",
+            "Content5": "Minimum of 2 photos required; one front, one back."
+          },
+          "ExamplePicture": "Example"
+        },
+        "SubmitKYC": {
+          "Button": "Submit",
+          "WindowTitle": "Submitting KYC",
+          "Desc": "Please verify all information above is correct before submitting your KYC. Once submitted, you will not be able to change the information."
+        }
+      }
+    },
+    "Referrals": {
+      "Sideheading": "Referral",
+      "Details": "Details",
+      "referrecord": "Subscribers",
+      "Page": {
+        "Title": "Referral Program",
+        "Summary": {
+          "Content1": "Tell others about EXG and at the same time, you can earn points that will be converted to free EXG! How does this work? Simply share the referral link or have them enter the referral code when they sign up.",
+          "Content2": "The more EXG they purchase, the more you, as the inviter, will get rewarded too!"
+        },
+        "Points": {
+          "Subtitle": "Points",
+          "Desc": "Here is the amount of points you have earned:"
+        },
+        "Rules": {
+          "Subtitle": "Rules",
+          "Content1": "For every point you earn, you will receive 10 cents worth of EXG token as reward.",
+          "Content2": "1 point = 10 cents USD in EXG token.",
+          "Content3": "If you refer under $1 million USD, you will receive 1 point for every dollar raised",
+          "Content4": "If you refer between $1 million to $5 million USD, you will receive 1.2 points for every dollar raised",
+          "Content5": "If you refer between $5 million to $8 million USD, you will receive 1.5 points for every dollar raised",
+          "Content6": "If you refer over $8 million USD,you will receive 2 points for every dollar raised"
+        },
+        "ReferralCode": {
+          "Link": {
+            "Desc": "To earn points, have your friends sign up for an eXchangily account using this link.",
+            "Button": "Copy Referral Link"
+          },
+          "Code": {
+            "Desc": "Or tell them to enter in this referral code upon sign up OR in their user info.",
+            "Button": "Copy Referral Code"
+          }
+        },
+        "Discount": {
+          "Subtitle": "Set a Discount",
+          "Desc": "You can give your referrals a percentage discount on their orders below without affecting your point total. Discounts will begin to be applied 24 hours after they are set here."
+        },
+        "ReferralOrderList": {
+          "Subtitle": "Your Invitees",
+          "ListFields": {
+            "Field1": "Member ID",
+            "Field2": "Date",
+            "Field3": "Status",
+            "Field4": "Estimated EXG Ordered",
+            "Field5": "Amount Paid",
+            "Field6": "Points Earned"
+          }
+        }
+      }
+    },
+    "View Orders": {
+      "SideHeading": "Orders",
+      "ViewOrderPage": {
+        "Title": "Orders",
+        "ListFields": {
+          "Field1": "Date",
+          "Field2": "Amount Paid",
+          "Field3": "Estimated EXG Ordered"
+        },
+        "SubHeaders": {
+          "Pending": "Pending",
+          "Completed": "Completed",
+          "Deleted": "Deleted"
+        }
+      }
+    },
+    "Make Orders": {
+      "Title": "Order",
+      "OrderForm": {
+        "Page1": {
+          "Title": "Create New Order",
+          "Desc": " Instructions: Choose the payment method for your EXG order and enter your payment amount， you can also choose the amount of EXG tokens. Below are the price points for EXG tokens, please note: a 5% bonus is pre-applied for FAB payments.",
+          "DropDown1": "Pay Method",
+          "DropDown2": "Amount",
+          "DropDown3": "Estimated EXG Quantity",
+          "DropDown4": "Rate",
+          "DropDown5": "Discounted Rate"
+        },
+        "Page2": {
+          "Title": "Confirm Order",
+          "Timer": "You have 30 minutes to complete your order.",
+          "PayInstructions": {
+            "Coin": "Pay for your EXG tokens now by sending the amount you confirmed on the previous page to the address listed. You can pay using the QR code or with the plaintext address. Enter the address you are paying with in the box when complete.",
+            "BTC": "Pay for your EXG tokens now by sending the Bitcoin amount you confirmed on the previous page to the address listed. You can pay using the QR code or with the plaintext address. Enter the Bitcoin address you are paying with in the box when complete.",
+            "ETH": {
+              "Desc1": "Pay for your EXG tokens now by sending the ether amount you confirmed on the previous page to the address listed You can pay using  the QR code or with the plaintext address. Enter the ether address you are paying with in the box when complete.",
+              "Desc2": "By paying with ETH, your ETH exchange rate will be calcuated at the best price for the month."
+            },
+            "FAB": {
+              "Desc1": "Pay for your EXG tokens now by sending the Fabcoin amount you confirmed on the previous page to the address listed. You can pay using the QR code or with the plaintext address. Enter the Fabcoin address you are paying with in the box when complete.",
+              "Desc2": "By paying with Fabcoin, your Fabcoin exchange rate will be calculated at the best for the day. Also, you will receive a 5% EXG token bonus."
+            },
+            "USD": "Pay for your EXG tokens now by wiring or transferring the US dollars amount you confirmed on the previous page to the account listed below. Enter all information necessary for tracking and confirmation of payment in the box.",
+            "RMB": {
+              "Desc1": "Pay for your EXG tokens now by wiring or transferring the RMB amount you confirmed on the previous page to the account listed below. Enter all information necessary for tracking and confirmation of payment in the box.",
+              "Desc2": "By paying with RMB, your exchange rate will be calculated at the best price for the month."
+            }
+          },
+          "BackMessage": "Press 'Back' to make changes to errors below",
+          "InformationBox": {
+            "Crypto": {
+              "BoxHeader": "Address",
+              "BoxInstructions": "Enter your address."
+            },
+            "Fiat": {
+              "BoxHeader": "Transaction Information",
+              "BoxInstructions": "Enter in all information relevant for identifying your payment."
+            }
+          }
+        },
+        "Page3": {
+          "Title": "Order Sent",
+          "OrderProcessedMessage": "Congratulations, you have placed your order for EXG tokens. A copy of your order will be sent to your email address. Your order status will be 'pending' until an admin reviews it. To view status, visit the 'View Orders' page. If you have a question about your order, contact the admin with your email address and date of payment.",
+          "NewOrderButton": "Place New Order",
+          "ViewOrdersButton": "View Orders"
+        }
+      }
+    }
+  },
+  "Form": {
+    "Email": "Email",
+    "Password": "Password",
+    "Next": "Next",
+    "Back": "Back",
+    "Exit": "Exit",
+    "User Info": "User Info",
+    "Make Order": "Make Order",
+    "View Order": "View Order",
+    "Display Name": "Display Name",
+    "First Name": "First Name",
+    "Middle Name": "Middle Name",
+    "Last Name": "Last Name",
+    "Home Phone": "Home Phone",
+    "Work Number": "Work Number",
+    "Mobile Number": "Mobile Number",
+    "Work Email": "Work Email",
+    "Active": "Active",
+    "Member Since": "Member Since",
+    "Last Updated": "Last Updated",
+    "Account Details": "Account Details",
+    "Account": "Account",
+    "EXG": "EXG",
+    "Owner": "Owner",
+    "ETH Address": "ETH Address",
+    "EXG Address": "EXG Address",
+    "ERC20 Return Addr": "ERC20 EXG Token Return Address",
+    "TX History": "TX History",
+    "KYC": "KYC",
+    "USCitizen": "Note: A US or Canadian resident must be an accredited investor to participant our STO",
+    "PhotoID": "Photo ID Verification",
+    "IDExample": "Example: Passport, Driver's License, Citizenship Card. Minimum 1 photo required",
+    "Verify": "Please verify all information. Once submitted, the information can not be edited.",
+    "SubmitKYC": "Submit KYC",
+    "Sign In": "Sign In",
+    "ForgotPassword": "Forgot password? Reset it here.",
+    "Sign Up": "Sign Up",
+    "SignUpEmail": "Sign Up with Email",
+    "Activate": "Activate",
+    "Thank You": "Thank you for signing up.",
+    "Check Inbox": "Check your inbox to activate.",
+    "Click Link": "Click on the link inside your email directly, or copy and paste the activation code below.",
+    "General": "General",
+    "Notes": "Notes",
+    "Date Created": "Date Created",
+    "Date Paid": "Date Paid",
+    "Expand": "Expand",
+    "Show Less": "Show Less",
+    "Submit": "Submit",
+    "Save": "Save",
+    "Cancel": "Cancel",
+    "Not Available": "Not Available",
+    "Edit Email": "Edit Email",
+    "Full Name": "Full Name",
+    "Confirm Password": "Confirm Password",
+    "Activation Code": "Activation Code",
+    "Activate My Account": "Activate My Account",
+    "Pay": "Pay",
+    "Amount": "Amount",
+    "EXG Quantity": "EXG Qty",
+    "Status": "Status",
+    "History": "History",
+    "Personal Member": "Personal Member",
+    "Edit": "Edit",
+    "KYCSubmission Thanks": "Thank you for submitting your KYC. It is currently under review.",
+    "Check Inbox2": "Once requested, an email containing a link to reset your password will be sent to you. Please check your inbox.",
+    "Request Password Reset": "Request Password Reset",
+    "Check Inbox3": "Check your inbox for the password reset email.",
+    "Back to Sign In": "Back to Sign In",
+    "Field Cannot Change": "Once entered, this field cannot be changed.",
+    "For Payments": "For Payments",
+    "For Payments Of": "For Payments Of",
+    "Total USD Amount": "Total USD Amount",
+    "No Completed Orders": "No Completed Orders",
+    "No Pending Orders": "No Pending Orders",
+    "Member ID": "Member ID",
+    "Estimated EXG Ordered": "Estimated EXG Ordered",
+    "Referral Points Earned": "Referral Points Earned",
+    "Dashboard": "Dashboard"
+  },
+  "FormErrors": {
+    "FieldRequiredError": "This field is required",
+    "ValidNameError": "Must provide valid name",
+    "ValidEmailError": "Must provide valid email address",
+    "PasswordMatchError": "Passwords do not match",
+    "MinCharacterError": "Minimum of {{value}} characters required",
+    "EmailExistsError": "Email {{value}} exists already",
+    "ReferralCodeError": "The referral code you entered does not exist"
+  }
 }

@@ -17,12 +17,18 @@ import {MatListModule} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './app-routing.module';
+import { AppResolver } from './modules/landing/resolvers/app/app.resolve';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found.component';
+import { HttpModule } from '@angular/http';
 //import {TvChartContainerComponent} from './components/bad.tv-chart-container/tv-chart-container.component';
 import { HeaderComponent } from './components/navigation/header/header.component';
 import { SidenavListComponent } from './components/navigation/sidenav-list/sidenav-list.component';
+import { UserAuth } from './modules/landing/service/user-auth/user-auth.service';
+import { UserService } from './modules/landing/service/user/user.service';
+import { JsonFileService } from './modules/landing/service/jsondata/jsondata.service';
+import { HttpHelperService } from './modules/landing/service/http-helper/http-helper.service';
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -48,6 +54,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FlexLayoutModule,
     MatListModule,
     RouterModule,
+    HttpModule,
     MatButtonModule,
     BsDropdownModule.forRoot(),
     NgbModule,
@@ -63,7 +70,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     StorageModule.forRoot({ IDBNoWrap: true, }),
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [AppResolver, UserAuth, UserService, JsonFileService, HttpHelperService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,16 @@
+.coin-info {
+    &__qr {
+      margin: 2em auto 2em auto;
+      width: min-content;
+    }
+  
+    &__text {
+      margin-bottom: 0;
+    }
+  
+    &__add {
+      margin: 0;
+      word-break: break-all;
+    }
+  }
+  

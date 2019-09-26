@@ -76,3 +76,237 @@ body {
 .scroll-bar::-webkit-scrollbar-thumb {
     background-color: #424266;
 }
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap-reboot';
+@import '~bootstrap/scss/bootstrap-grid';
+@import 'colours';
+@import 'fonts';
+@import 'sizing';
+@import 'forms';
+html,
+body {
+    color: $secondary-light;
+    font-family: Poppins;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: inherit;
+}
+
+p {
+    font-weight: 500;
+}
+
+body:not(:-moz-handler-blocked) fieldset {
+    display: table-cell;
+}
+
+fieldset {
+    background: none;
+    border: none;
+    height: inherit;
+    margin: 0;
+    outline: 0;
+    padding: 0;
+    width: inherit;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+// max out spread
+.max-out {
+    margin: 0 auto;
+    max-width: 65em;
+}
+
+.child-route {
+    background-color: $white;
+    min-height: 80vh;
+    padding: 0 0 3em 0 !important;
+    max-height: none !important;
+    @include small-angular {
+        @include padding-default;
+    }
+    &form:before {
+        content: '';
+        margin: 1em;
+        position: absolute;
+    }
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+// vimeo screen
+.custom-vimeo-screen {
+    background-color: rgba(0, 0, 0, .75);
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    z-index: 100;
+    button {
+        background: none;
+        box-shadow: none;
+        color: $white;
+        font-size: 2em;
+        position: absolute;
+        right: 1em;
+        top: 1em;
+    }
+    iframe {
+        @include small-angular {
+            height: calc(100% - 14.5em);
+            margin-left: .5em;
+            margin-top: 7em;
+            width: calc(100% - 4em);
+        }
+        height: 100%;
+        width: 100%;
+    }
+}
+
+// generic util classes
+.inline-block {
+    display: inline-block;
+}
+
+.block {
+    display: block;
+}
+
+.center {
+    text-align: center;
+}
+
+.middle {
+    margin: 0 auto;
+}
+
+.input {
+    background-color: rgba(255, 255, 255, .3);
+    border: none;
+    min-height: 1.8em;
+    padding: .7em 1.3em;
+}
+
+.button {
+    border: none;
+    box-shadow: none;
+    display: inline-block;
+    font-size: .85em;
+    padding: .68em 1.3em;
+    min-height: 1.3em;
+    min-width: 5em;
+    &.white {
+        background-color: $white;
+        color: $secondary;
+    }
+    &.secondary {
+        background-color: $secondary;
+        color: $white;
+    }
+}
+
+.background-primary {
+    background-color: $primary;
+}
+
+.background-primary-bold {
+    background-color: $primary;
+}
+
+.background-secondary {
+    background-color: $secondary;
+}
+
+.background-warning {
+    background-color: $warning;
+}
+
+.color-primary {
+    // @include icon-color($primary);
+    color: $primary !important;
+}
+
+// .color-primary-dark {
+//   @include icon-color($primary-dark);
+//   color: $primary-dark !important;
+// }
+.color-primary-bold {
+    // @include icon-color($primary);
+    color: $primary;
+}
+
+.color-secondary {
+    //   @include icon-color($secondary);
+    color: $secondary;
+}
+
+.color-white {
+    // @include icon-color($white);
+    color: $white !important;
+}
+
+.color-black {
+    // @include icon-color($black);
+    color: $black !important;
+}
+
+.color-warning {
+    // @include icon-color($black);
+    color: $warning !important;
+}
+
+.regular {
+    font-family: Poppins;
+    font-weight: 500;
+}
+
+.semi-bold {
+    font-family: Poppins;
+    font-weight: 600;
+}
+
+.bold {
+    font-family: Poppins;
+    font-weight: 700;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.table {
+    display: table;
+}
+
+.table-row {
+    display: table-row;
+}
+
+.table-cell {
+    display: table-cell;
+}
+
+.text-divider {
+    margin: 0 1em;
+}

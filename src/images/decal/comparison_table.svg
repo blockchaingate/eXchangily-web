@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 946 1030" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="a" x1="50%" x2="50%" y2="100%">
+<stop stop-color="#5465A4" offset="0"/>
+<stop stop-color="#2A356B" offset="1"/>
+</linearGradient>
+</defs>
+<g fill="none" fill-rule="evenodd">
+<path d="M0 1h946v1025H0z" fill="#FFF" fill-rule="nonzero"/>
+<path d="M0 1h946v94H0z" fill="url(#a)" fill-rule="nonzero"/>
+<path d="M0 681h946v73H0zM0 371h946v82H0zM0 921h946v50H0zM0 241h946v50H0zM0 821h946v50H0zM0 531h946v82H0z" fill="#ADA99D" fill-opacity=".1" fill-rule="nonzero"/>
+<path d="M0 1026h946v4H0z" fill="#D8D8D8" fill-opacity=".3" fill-rule="nonzero"/>
+<text fill="#051C34" font-family="Poppins-SemiBold, Poppins" font-size="14" font-weight="500">
+<tspan x="26" y="121">Concept</tspan>
+</text>
+<text fill="#FFF" font-family="Poppins-SemiBold, Poppins" font-size="14" font-weight="500">
+<tspan x="475.247" y="46">IDEX</tspan>
+</text>
+<text fill="#FFF" font-family="Poppins-Black, Poppins" font-size="14" font-weight="700">
+<tspan x="253.052" y="46">eXchangily</tspan>
+</text>
+<text fill="#FFF" font-family="Poppins-SemiBold, Poppins" font-size="14" font-weight="500">
+<tspan x="634.316" y="46">EtherDelta</tspan>
+</text>
+<text fill="#FFF" font-family="Poppins-SemiBold, Poppins" font-size="14" font-weight="500">
+<tspan x="845.001" y="46">Ox</tspan>
+</text>
+<text fill="#BF9B30" font-family="Poppins-Bold, Poppins" font-size="14" font-weight="bold">
+<tspan x="221.433" y="120">Universal side chain,</tspan>
+<tspan x="207.3" y="144">peer-to- peer trading on</tspan>
+<tspan x="230.932" y="168">USL with on-chain</tspan>
+<tspan x="244.309" y="192">settlement for</tspan>
+<tspan x="250.378" y="216">withdrawals</tspan>
+</text>
+<text fill="#BF9B30" font-family="Poppins-Bold, Poppins" font-size="14" font-weight="bold">
+<tspan x="254.999" y="336">Real-time</tspan>
+</text>
+<text fill="#BF9B30" font-family="Poppins-Bold, Poppins" font-size="14" font-weight="bold">
+<tspan x="277.035" y="848">Low</tspan>
+</text>
+<text fill="#BF9B30" font-family="Poppins-Bold, Poppins" font-size="14" font-weight="bold">
+<tspan x="259.36" y="948">Powerful</tspan>
+</text>
+<text fill="#BF9B30" font-family="Poppins-Bold, Poppins" font-size="14" font-weight="bold">
+<tspan x="213.629" y="997">No, support any coins</tspan>
+</text>
+<text fill="#BF9B30" font-family="Poppins-Bold, Poppins" font-size="14" font-weight="bold">
+<tspan x="254.999" y="412">Real-time</tspan>
+</text>
+<text fill="#BF9B30" font-family="Poppins-Bold, Poppins" font-size="14" font-weight="bold">
+<tspan x="275.642" y="481">Fast</tspan>
+</text>
+<text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
+<tspan x="435.68" y="120">Off-chain trade</tspan>
+<tspan x="425.201" y="144">matching with on-</tspan>
+<tspan x="430.626" y="168">chain settlement</tspan>
+<tspan x="425.145" y="192">enforced by smart</tspan>
+<tspan x="415.212" y="216">contracts and arbiter</tspan>
+</text>
+<text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
+<tspan x="455.896" y="336">Real-time</tspan>
+</text>
+<text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
+<tspan x="435.631" y="848">High (Gas Cost)</tspan>
+</text>
+<text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
+<tspan x="456.064" y="948">Moderate</tspan>
+</text>
+<text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
+<tspan x="430.36" y="997">ERCO tokens only</tspan>
+</text>
+<text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
+<tspan x="475.503" y="412">Fast</tspan>
+</text>
+<text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
+<tspan x="473.991" y="481">Slow</tspan>
+</text>
+<text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
+<tspan x="602.906" y="120">Off-chain order book</tspan>
+<tspan x="599.623" y="144">hosting with on-chain</tspan>
+<tspan x="638.081" y="168">settlement</tspan>
+<tspan x="626.076" y="192">and matching</tspan>
+<tspan x="603.347" y="216">determine by miners</tspan>
+</text>
+<text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
+<tspan x="649.943" y="310">Slow –</tspan>
+<tspan x="597.051" y="334">filling order limited by</tspan>
+<tspan x="635.74" y="358">block time</tspan>
+</text>
+<text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
+<tspan x="643.65" y="848">Medium</tspan>
+</text>
+<text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
+<tspan x="662.641" y="948">No</tspan>
+</text>
+<text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
+<tspan x="612.36" y="997">ERCO tokens only</tspan>
+</text>
+<text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
+<tspan x="655.991" y="412">Slow</tspan>
+</text>
+<text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
+<tspan x="649.943" y="481">Slow –</tspan>
+<tspan x="599.732" y="505">limited by block time</tspan>
+</text>
+<text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
+<tspan x="781.906" y="120">Off-chain order book</tspan>
+<tspan x="778.623" y="144">hosting with on-chain</tspan>
+<tspan x="817.081" y="168">settlement</tspan>
+<tspan x="805.076" y="192">and matching</tspan>
+<tspan x="782.347" y="216">determine by miners</tspan>
+</text>
+<text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
+<tspan x="832.943" y="310">Slow –</tspan>
+<tspan x="780.051" y="334">filling order limited by</tspan>
+<tspan x="818.74" y="358">block time</tspan>
+</text>
+<text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
+<tspan x="826.65" y="848">Medium</tspan>
+</text>
+<text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
+<tspan x="845.641" y="948">No</tspan>
+</text>
+<text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
+<tspan x="795.36" y="997">ERCO tokens only</tspan>
+</text>
+<text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
+<tspan x="838.991" y="412">Slow</tspan>
+</text>
+<text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
+<tspan x="832.943" y="481">Slow –</tspan>
+<tspan x="782.732" y="505">limited by block time</tspan>
+</text>
+<text fill="#051C34" font-family="Poppins-SemiBold, Poppins" font-size="14" font-weight="500">
+<tspan x="26" y="334">Trade Speed</tspan>
+</text>
+<text fill="#051C34" font-family="Poppins-SemiBold, Poppins" font-size="14" font-weight="500">
+<tspan x="26" y="270">Trustless</tspan>
+</text>
+<text fill="#051C34" font-family="Poppins-SemiBold, Poppins" font-size="14" font-weight="500">
+<tspan x="26" y="399">Orderbook Update</tspan>
+<tspan x="26" y="429">Speed</tspan>
+</text>
+<text fill="#051C34" font-family="Poppins-SemiBold, Poppins" font-size="14" font-weight="500">
+<tspan x="26" y="477">Time to Cancel an</tspan>
+<tspan x="26" y="507">Order</tspan>
+</text>
+<text fill="#051C34" font-family="Poppins-SemiBold, Poppins" font-size="14" font-weight="500">
+<tspan x="26" y="554">Automatic Trade</tspan>
+<tspan x="26" y="584">Matching</tspan>
+</text>
+<text fill="#051C34" font-family="Poppins-SemiBold, Poppins" font-size="14" font-weight="500">
+<tspan x="26" y="637">Fill Many Orders at</tspan>
+<tspan x="26" y="667">Once</tspan>
+</text>
+<text fill="#051C34" font-family="Poppins-SemiBold, Poppins" font-size="14" font-weight="500">
+<tspan x="26" y="704">Fees to place Limit</tspan>
+<tspan x="26" y="734">Orders</tspan>
+</text>
+<text fill="#051C34" font-family="Poppins-SemiBold, Poppins" font-size="14" font-weight="500">
+<tspan x="26" y="777">Fees to Cancel the</tspan>
+<tspan x="26" y="807">Order</tspan>
+</text>
+<text fill="#051C34" font-family="Poppins-SemiBold, Poppins" font-size="14" font-weight="500">
+<tspan x="26" y="844">Fees Per Trade</tspan>
+</text>
+<text fill="#051C34" font-family="Poppins-SemiBold, Poppins" font-size="14" font-weight="500">
+<tspan x="26" y="897">Race Condition</tspan>
+</text>
+<text fill="#051C34" font-family="Poppins-SemiBold, Poppins" font-size="14" font-weight="500">
+<tspan x="26" y="944">Scaling</tspan>
+</text>
+<text fill="#051C34" font-family="Poppins-SemiBold, Poppins" font-size="14" font-weight="500">
+<tspan x="26" y="998">ERC20 Only</tspan>
+</text>
+<path d="M579.5.686v1023.628M397.25.686v1023.628M178.25.686v1023.628M762.5.686v1023.628" fill-rule="nonzero" opacity=".4" stroke="#979797" stroke-linecap="square"/>
+<path d="m304 258.2l-15.998 16.8-10.002-10.5 3.999-4.2 6 6.3 12.002-12.6zm0 309l-15.998 16.8-10.002-10.5 3.999-4.2 6 6.3 12.002-12.6zm0 74l-15.998 16.8-10.002-10.5 3.999-4.2 6 6.3 12.002-12.6z" fill="#BF9B30"/>
+<path d="m503 258.16l-15.998 16.64-10.002-10.4 3.999-4.16 6 6.24 12.003-12.48zm0 308l-15.998 16.64-10.002-10.4 3.999-4.16 6 6.24 12.003-12.48zm0 75l-15.998 16.64-10.002-10.4 3.999-4.16 6 6.24 12.003-12.48zm182-383l-15.998 16.64-10.002-10.4 3.999-4.16 6 6.24 12.003-12.48zm0 525l-15.998 16.64-10.002-10.4 3.999-4.16 6 6.24 12.003-12.48zm0 108l-15.998 16.64-10.002-10.4 3.999-4.16 6 6.24 12.003-12.48zm183-633l-15.998 16.64-10.002-10.4 3.999-4.16 6 6.24 12.003-12.48zm0 525l-15.998 16.64-10.002-10.4 3.999-4.16 6 6.24 12.003-12.48zm0 108l-15.998 16.64-10.002-10.4 3.999-4.16 6 6.24 12.003-12.48zm-192.7-242.66l5.7 5.7-3.8 3.8-5.7-5.7-5.7 5.7-3.8-3.8 5.7-5.7-5.7-5.7 3.8-3.8 5.7 5.7 5.7-5.7 3.8 3.8zm0 67l5.7 5.7-3.8 3.8-5.7-5.7-5.7 5.7-3.8-3.8 5.7-5.7-5.7-5.7 3.8-3.8 5.7 5.7 5.7-5.7 3.8 3.8z" fill="#051C34" fill-opacity=".75"/>
+<path d="m295.3 715.5l5.7 5.7-3.8 3.8-5.7-5.7-5.7 5.7-3.8-3.8 5.7-5.7-5.7-5.7 3.8-3.8 5.7 5.7 5.7-5.7 3.8 3.8zm0 75l5.7 5.7-3.8 3.8-5.7-5.7-5.7 5.7-3.8-3.8 5.7-5.7-5.7-5.7 3.8-3.8 5.7 5.7 5.7-5.7 3.8 3.8zm0 107l5.7 5.7-3.8 3.8-5.7-5.7-5.7 5.7-3.8-3.8 5.7-5.7-5.7-5.7 3.8-3.8 5.7 5.7 5.7-5.7 3.8 3.8z" fill="#BF9B30"/>
+<path d="m675.3 572.5l5.7 5.7-3.8 3.8-5.7-5.7-5.7 5.7-3.8-3.8 5.7-5.7-5.7-5.7 3.8-3.8 5.7 5.7 5.7-5.7 3.8 3.8zm184 76l5.7 5.7-3.8 3.8-5.7-5.7-5.7 5.7-3.8-3.8 5.7-5.7-5.7-5.7 3.8-3.8 5.7 5.7 5.7-5.7 3.8 3.8zm0 67l5.7 5.7-3.8 3.8-5.7-5.7-5.7 5.7-3.8-3.8 5.7-5.7-5.7-5.7 3.8-3.8 5.7 5.7 5.7-5.7 3.8 3.8zm-365 0l5.7 5.7-3.8 3.8-5.7-5.7-5.7 5.7-3.8-3.8 5.7-5.7-5.7-5.7 3.8-3.8 5.7 5.7 5.7-5.7 3.8 3.8zm0 75l5.7 5.7-3.8 3.8-5.7-5.7-5.7 5.7-3.8-3.8 5.7-5.7-5.7-5.7 3.8-3.8 5.7 5.7 5.7-5.7 3.8 3.8zm0 108l5.7 5.7-3.8 3.8-5.7-5.7-5.7 5.7-3.8-3.8 5.7-5.7-5.7-5.7 3.8-3.8 5.7 5.7 5.7-5.7 3.8 3.8zm365-326l5.7 5.7-3.8 3.8-5.7-5.7-5.7 5.7-3.8-3.8 5.7-5.7-5.7-5.7 3.8-3.8 5.7 5.7 5.7-5.7 3.8 3.8z" fill="#051C34" fill-opacity=".75"/>
+</g>
+</svg>

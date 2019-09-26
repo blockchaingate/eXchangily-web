@@ -1,0 +1,84 @@
+<div class="container">
+    <div class="orderform">
+
+        <h4 *ngIf="order && order.status!=='completed' && order.status!=='deleted'" style="color: orange">{{ 'Account.View Orders.ViewOrderPage.SubHeaders.Pending' | translate }}</h4>
+        <h4 *ngIf="order && order.status==='completed'" style="color: green">{{ 'Account.View Orders.ViewOrderPage.SubHeaders.Completed' | translate }}</h4>
+        <h4 *ngIf="order && order.status==='deleted'" style="color: red">{{ 'Account.View Orders.ViewOrderPage.SubHeaders.Deleted' | translate }}</h4>
+        <div class="Order-details" *ngIf="order">
+          <div fxLayout="row">
+            <div class="itemtitle">Name:</div><div class="itemcontent">{{order.name}}</div>
+            <div class="itemtitle">Email:</div><div class="itemcontent">{{order.email}}</div>
+          </div>
+
+          <div fxLayout="row">
+            <div class="itemtitle">Time:</div><div class="itemcontent">{{order.dateCreated | date:'dd MMM yyyy'}}</div>
+          </div>
+
+          <div fxLayout="row">
+            <div class="itemtitle">Token qty:</div>
+            <div class="itemcontent">
+              <span *ngIf="formEdit===false">{{order.totalAppTokens}}</span>
+              <span *ngIf="formEdit===true">
+                <input type="number" min="1" step="1" required [formControl]="totalAppTokenFm" class="form-input__text block">
+              </span>
+            </div>
+          </div>
+
+          <div fxLayout="row">
+            <div class="itemtitle">Amount to pay:</div>
+            <div class="itemcontent">
+              <span *ngIf="formEdit===false">{{order.totalPaid}}</span>
+              <span *ngIf="formEdit===true">
+                <input type="number" min="1" step="1" required [formControl]="totalToPayFm" class="form-input__text block">
+              </span>
+            </div>
+          </div>
+
+          <div fxLayout="row">
+            <div class="itemtitle">Status:</div><div class="itemcontent">{{order.status}}</div>
+          </div>
+
+          <div fxLayout="row">
+            <div class="itemtitle">Notes:</div><div *ngIf="formEdit===false" class="itemcontent">{{order.notes}}</div>
+            <div> <textarea *ngIf="formEdit===true" class="notearea" [(ngModel)]=order.notes></textarea> </div>
+          </div>
+
+          
+        </div>
+
+        <div class="payments" *ngIf="order && order.payment">
+          <h4>Payments:</h4>
+          <hr>
+
+          <div class="list-title" fxLayout="row">
+              <div class="item4em">Coin</div>
+              <div class="item8em">Pay amount</div>
+              <div class="item12em">Token qty</div>
+              <div class="item12em">Rate</div>
+              <div class="item12em">USD Amount</div>
+              <div class="item12em">Special Discount</div>
+              <div class="item12em">Payment desc</div>
+          </div>
+
+          <div class="list-row" fxLayout="row" *ngFor="let pay of order.payment; let i = index">
+              <div class="item4em">{{ pay.payMethod | uppercase }}</div>
+              <div class="item8em">{{ pay.paidAmount }}</div>
+              <div class="item12em">{{ pay.appTokenQty }}</div>
+              <div class="item12em">{{ pay.payRate }}</div>
+              <div class="item12em">{{ pay.amountUSD }}</div>
+              <div class="item12em">{{ pay.specialDiscount }}</div>
+              <div class="item12em">{{ pay.transitId }}</div>
+          </div>
+
+        </div>
+  
+        <div>
+          <button *ngIf="formEdit===false" type="button" class="form-input__button background-primary color-white mar1em" (click)="formEdit=true">Edit</button>
+          <button *ngIf="formEdit===true" type="button" class="form-input__button background-primary color-white mar1em" (click)="formEdit=false;save()">Save</button>
+          <button *ngIf="order && order.status!=='completed' && order.status!=='deleted'" type="button" class="form-input__button background-primary color-white" (click)="setPaid()">Set as COMPLETE</button>
+          <button *ngIf="order && order.status==='completed' && formEdit" type="button" class="form-input__button background-warning color-white" (click)="setPending()">Set as PENDING</button>
+          <button *ngIf="order && order.status!=='deleted' && order.status!=='completed' && !formEdit" type="button" class="form-input__button background-warning color-white left25" (click)="setDeleted()">Set as DELETED</button>
+        </div>
+    </div>
+
+</div>

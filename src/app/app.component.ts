@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { setTheme } from 'ngx-bootstrap/utils';
-import { Config } from './models/config';
+import { Router, NavigationEnd } from '@angular/router';
 import { ConfigService } from './services/config.service';
 
 @Component({
@@ -15,11 +15,22 @@ export class AppComponent {
   flag = 'flag_zh.svg';
   msg: string;
   currentLang: string;
-
-  constructor( private configServ: ConfigService) {
+  darkBgEnable: boolean;
+  constructor( private configServ: ConfigService, router: Router) {
     setTheme('bs4'); // Bootstrap 4
-
+    this.darkBgEnable = false;
     this.year = (new Date()).getFullYear();
+
+    router.events.subscribe((e) => {
+      if (e instanceof NavigationEnd) {
+        const url = e.url;
+        if ((url.indexOf('/market') >= 0) || (url.indexOf('/wallet') >= 0)) {
+          this.darkBgEnable = true;
+        } else {
+          this.darkBgEnable = false;
+        }
+      }
+    });
   }
 
 

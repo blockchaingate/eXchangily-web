@@ -2,7 +2,7 @@
 </app-header>
 
 
-<section class="exg-bg-dark main-container py-1">
+<section class="main-container py-1" [ngClass]="darkBgEnable?'exg-bg-dark':''">
     <router-outlet></router-outlet>
 </section>
 
