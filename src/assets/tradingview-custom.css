@@ -3,6 +3,9 @@ html.theme-dark>* {
 }
 
 html.theme-dark div[class^='group'],
-html.theme-dark div[class^='fill'] {
-    background-color: #2c2c4d!important;
+html.theme-dark div[class^='fill'],
+html.theme-dark .chart-page,
+html.theme-dark .chart-controls-bar,
+html.theme-dark .chart-page .chart-container {
+    background-color: #282840!important;
 }

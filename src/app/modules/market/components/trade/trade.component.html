@@ -1,13 +1,13 @@
-<div *ngIf="screenwidth >= 960" class="outwraper w-100">
-    <div class="left-area h-100 exg-bg">
+<div *ngIf="screenwidth >= 960" class="outwraper w-100 fixed-height">
+    <div class="left-area exg-bg mr-2 h-100">
         <app-lite-list></app-lite-list>
     </div>
 
-    <div class="center-area h-100">
+    <div class="center-area h-100 mr-2">
         <div class="w-100">
             <app-tv-chart-container class="w-100"></app-tv-chart-container>
         </div>
-        <div class="orderarea">
+        <div class="orderarea exg-bg mt-2">
             <app-myorders #myOrders [wallet]="wallet" [mytokens]="mytokens"></app-myorders>
         </div>
     </div>

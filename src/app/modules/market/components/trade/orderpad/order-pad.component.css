@@ -1,10 +1,15 @@
 .outwraper {
     width: 100%;
-    height: 800px;
+    height: 100%;
 }
 
 .upper {
     display: flex;
+    height: 490px;
+}
+
+.transacs {
+    width: 100%;
 }
 
 .middle {
@@ -31,7 +36,7 @@
 }
 
 .buylist {
-    height: calc(50% - 60px);
+    height: calc(50% - 70px);
     overflow: hidden;
 }
 
@@ -87,11 +92,6 @@
     padding-right: 1em;
 }
 
-.transacs {
-    width: 100%;
-    height: 435px;
-}
-
 .limitorder {
     height: 2em;
     padding-top: 0.25em;
@@ -104,4 +104,10 @@
 
 .selected {
     color: white;
+}
+
+.lower input {
+    color: white;
+    background: transparent;
+    border: 1px solid #424257;
 }

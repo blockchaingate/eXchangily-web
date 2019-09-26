@@ -144,3 +144,7 @@ th {
     width: 48%;
     float: left;
 }
+
+.fixed-height {
+    padding-bottom: 10px;
+}
