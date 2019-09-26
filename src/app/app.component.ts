@@ -24,7 +24,7 @@ export class AppComponent {
     router.events.subscribe((e) => {
       if (e instanceof NavigationEnd) {
         const url = e.url;
-        if ((url.indexOf('/market') >= 0) || (url.indexOf('/wallet') >= 0)) {
+        if ((url.indexOf('/market') >= 0) || (url.indexOf('/wallet') >= 0) || (url.indexOf('/explorer') >= 0)) {
           this.darkBgEnable = true;
         } else {
           this.darkBgEnable = false;
