@@ -1,5 +1,5 @@
 <div bsModal #addGasModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-sm modal-bg-grey">
         <form [formGroup]="depositAmountForm" (ngSubmit)="onSubmit()">
             <div class="modal-content">
                 <div class="modal-header text-center">
@@ -10,15 +10,13 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="inputSendTo" class="text-muted">Gas amount</label>
+                        <label for="inputSendTo" class="text-dark">Gas amount</label>
                         <input type="text" class="form-control" id="inputGasAmount" formControlName="depositAmount" aria-describedby="emailHelp" placeholder="0.0000">
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <div class="pull-left">
-                        <button class="btn btn-gradient text-white" type="submit"> Confirm </button>
-                    </div>
+                <div class="modal-footer  justify-content-center">
+                    <button class="btn btn-gradient text-white py-2 px-5" type="submit"> Confirm </button>
                 </div>
             </div>
         </form>

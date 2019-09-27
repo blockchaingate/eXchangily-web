@@ -1,5 +1,5 @@
 <div bsModal #deleteWalletModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-sm modal-bg-grey">
         <form [formGroup]="deleteWalletForm" (ngSubmit)="onSubmit()">
             <div class="modal-content">
                 <div class="modal-header text-center">
@@ -12,10 +12,8 @@
                     <p class="text-warning">Once you delete your wallet, you can only recover it if you keep your seed phrase.</p>
                 </div>
 
-                <div class="modal-footer">
-                    <div class="pull-left">
-                        <button class="btn btn-gradient text-white" type="submit"> Delete </button>
-                    </div>
+                <div class="modal-footer justify-content-center">
+                    <button class="btn btn-gradient text-white py-2 px-5" type="submit"> Delete </button>
                 </div>
             </div>
         </form>

@@ -30,7 +30,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatListModule} from '@angular/material/list';
 
-import { QRCodeModule } from 'angular2-qrcode';
+import { QRCodeModule } from 'angularx-qrcode';
 
 import { TransactionDetailModal } from './modals/transaction-detail/transaction-detail.modal';
 import { AddAssetsModal } from './modals/add-assets/add-assets.modal';
