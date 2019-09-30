@@ -525,7 +525,19 @@
     "PwdNote": "Please note, this password is only for proectting wallet information in this device, it is not wallet private key.",
     "Wnvalid": "Wallet name must be 2 or more letters or numbers",
     "Pwdvalid": "Password must be at least 8 characters, 1 upper case letter and 1 special character",
-
+    "Manage My Wallet": "My wallet",
+    "Help": "Help",
+    "Directory": "Directory",
+    "Market": "Market",
+    "Trade": "Trade",
+    "FAQ": "FAQ",
+    "Rate statement": "Rate statement",
+    "Law and compliance": "Law and compliance",
+    "About Us": "About eXchangily",
+    "JoinUs": "Join Us",
+    "Community announcement": "Community announcement",
+    "Wallet security": "Wallet security",
+    "Explore": "Explore",
     "CONTACTS": {
         "ADD": "Add/Edit",
         "ADDRESS": "Address",
@@ -729,5 +741,6 @@
     "FEEDBACK": {
         "BUTTON": "Feedback",
         "MESSAGE": "Welcome to send your feedback and question to info@fabcoin.co or contact us via Twitter, Facebook, Wechat. Thank you for using our product."
-    }
+    },
+    "Volume": "Volume"
 }

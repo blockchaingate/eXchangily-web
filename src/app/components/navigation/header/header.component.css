@@ -6,6 +6,10 @@ a.selected {
     color: lightgray;
 }
 
+.nav-link {
+    color: lightgray;
+}
+
 a.selected:after {
     content: "";
     background: -webkit-linear-gradient(left, rgb(229, 159, 18)0%, rgb(122, 28, 229) 100%);

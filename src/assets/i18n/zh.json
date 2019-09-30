@@ -494,7 +494,6 @@
     "Page not found": "页面不存在",
     "Exchange": "交易",
     "Wallet": "钱包",
-    "Home": "首页",
     "Setting": "设置",
     "Help": "帮助",
     "ExgName": "去中心化高速数字资产交易支付网络",
@@ -583,8 +582,19 @@
     "Frozen": "冻结",
     "Value(USD)": "价值（美元）",
     "Profit sharing": "利润分成",
-
-    "Explore": "浏览",
+    "Manage My Wallet": "管理我的钱包",
+    "Directory": "目录",
+    "Market": "市场行情",
+    "Trade": "交易",
+    "Community announcement": "社区公告",
+    "Wallet security": "钱包安全",
+    "About Us": "关于亿币eXchangily",
+    "FAQ": "常见问题",
+    "API term": "API条款",
+    "Rate statement": "费率声明",
+    "Law and compliance": "法律与合规",
+    "JoinUs": "加入社区",
+    "Explore": "区块浏览器",
     "CONTACTS": {
         "ADD": "添加或修改",
         "ADDRESS": "地址",
@@ -787,5 +797,6 @@
     "FEEDBACK": {
         "BUTTON": "联系我们",
         "MESSAGE": "欢迎把任何问题、疑问和反馈发送至 info@fabcoin.co。或者通过微信、推特和脸书联系我们。 感谢您的使用。"
-    }
+    },
+    "Volume": "交易量"
 }

@@ -7,7 +7,7 @@
                 </button>
                 <mat-menu #menu2="matMenu">
                     <button mat-menu-item (click)="linkTo('/')">{{'Home' | translate}}</button>
-                    <button mat-menu-item (click)="linkTo('/market/home')">{{'Exchange' | translate}}</button>
+                    <button mat-menu-item (click)="linkTo('/market/home')">{{'Market' | translate}}</button>
                     <button mat-menu-item (click)="linkTo('/wallet')">{{'Wallet' | translate}}</button>
                     <button mat-menu-item (click)="linkTo('/explorer')">{{'Explore' | translate}}</button>
                     <button mat-menu-item [matMenuTriggerFor]="settingMenu">{{'Setting' | translate}}</button>
@@ -29,13 +29,16 @@
             <div fxFlex fxLayout fxHide.xs>
                 <ul fxLayout fxLayoutGap="15px" class="navigation-items">
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/market/home" (click)="background='gradient-back-title'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Exchange' | translate}}</a>
+                        <a class="nav-link" routerLink="/market/home" (click)="background='gradient-back-title'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Market' | translate}}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/wallet/dashboard" (click)="background='dark-back'" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Wallet' | translate}}</a>
+                        <a class="nav-link" routerLink="/market/trade/ETH_BTC" (click)="background='gradient-back-title'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Trade' | translate}}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/explorer" (click)="background='dark-back'" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Explore' | translate}}</a>
+                        <a class="nav-link" routerLink="/wallet/dashboard" (click)="background='dark-back'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Wallet' | translate}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/explorer" (click)="background='dark-back'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Explore' | translate}}</a>
                     </li>
                 </ul>
             </div>
@@ -51,16 +54,16 @@
                         </mat-menu>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/home" (click)="background='gradient-back-title'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{' Home ' | translate}}</a>
+                        <a class="nav-link" routerLink="/home" (click)="background='gradient-back-title'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Home' | translate}}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="https://medium.com/exchangily-blog" target="_blank">{{'Blog' | translate}}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/login/signin" (click)="background='gradient-back-title'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Login' | translate}}</a>
+                        <a class="nav-link" routerLink="/login/signin" (click)="background='gradient-back-title'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Signin' | translate}}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/login/signup" (click)="background='gradient-back-title'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Register' | translate}}</a>
+                        <a class="nav-link" routerLink="/login/signup" (click)="background='gradient-back-title'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Signup' | translate}}</a>
                     </li>
                 </ul>
             </div>

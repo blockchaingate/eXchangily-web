@@ -26,7 +26,7 @@ import {StorageService} from '../../../../services/storage.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { AngularCsv } from 'angular7-csv';
 import { MatIconRegistry } from '@angular/material/icon';
-import { DomSanitizer } from "@angular/platform-browser";
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({ 
     selector: 'app-wallet-dashboard',
@@ -93,7 +93,6 @@ export class WalletDashboardComponent {
 
     copyAddress() {
         this.utilServ.copy(this.exgAddress);
-
     }
 
     onConfirmedBackupPrivateKey(cmd: string) {

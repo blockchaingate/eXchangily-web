@@ -24,6 +24,7 @@ import { PageNotFoundComponent } from './page-not-found.component';
 import { HttpModule } from '@angular/http';
 //import {TvChartContainerComponent} from './components/bad.tv-chart-container/tv-chart-container.component';
 import { HeaderComponent } from './components/navigation/header/header.component';
+import { FooterComponent } from './components/navigation/footer/footer.component';
 import { SidenavListComponent } from './components/navigation/sidenav-list/sidenav-list.component';
 import { UserAuth } from './modules/landing/service/user-auth/user-auth.service';
 import { UserService } from './modules/landing/service/user/user.service';
@@ -40,6 +41,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     PageNotFoundComponent,
     //TvChartContainerComponent,
     HeaderComponent,
+    FooterComponent,
     SidenavListComponent
   ], 
   imports: [

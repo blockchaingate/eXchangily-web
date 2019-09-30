@@ -11,7 +11,6 @@ import { MockService} from '../../../../../services/mock.service';
 import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 import { CoinService } from '../../../../../services/coin.service';
 import { ActivatedRoute } from '@angular/router';
-import { getCurrencySymbol } from '@angular/common';
 
 interface BarData {
   time: number;
@@ -30,8 +29,8 @@ interface BarData {
 
 export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
 
-    private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'AAPL';
-    private _interval: ChartingLibraryWidgetOptions['interval'] = 'D';
+    private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'BTC/USDT';
+    private _interval: ChartingLibraryWidgetOptions['interval'] = '1';
     // BEWARE: no trailing slash is expected in feed URL
     private _datafeedUrl = 'https://demo_feed.tradingview.com';
     private _libraryPath: ChartingLibraryWidgetOptions['library_path'] = '/assets/charting_library/';
@@ -177,10 +176,12 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
             async getBars(symbol, granularity, startTime, endTime, onResult, onError, isFirst) {
                 console.log('symbol in getBars=', symbol);
                 console.log('granularity=' + granularity);
+                const pair = baseCoinName + targetCoinName;
                 const list = await that.mockService.getHistoryList({
                   granularity: that.granularityMap[granularity],
                   interval: that.intervalMap[granularity],
                   startTime,
+                  symbol: pair,
                   endTime
                 });
                 onResult(list);
@@ -194,6 +195,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
                         full_name: baseCoinName, // display on the chart
                         base_name: targetCoinName,
                         minmov: 1,
+                        minmov2: 2,
                         pricescale : 1000000,
                         volume_precision: 8,
                         has_intraday: true, // enable minute and others
@@ -239,7 +241,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
             library_path: this._libraryPath,
             locale: getLanguageFromURL() || 'en',
             disabled_features: ['use_localstorage_for_settings'],
-            enabled_features: ['study_templates'],
+            //enabled_features: ['study_templates'],
             charts_storage_url: this._chartsStorageUrl,
             charts_storage_api_version: this._chartsStorageApiVersion,
             client_id: this._clientId,

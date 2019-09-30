@@ -36,7 +36,8 @@ export class MockService {
   async getHistoryList(param): Promise<BarData[]> {
     //console.log('getting history');
     const list = [];
-    const interval = param.interval;
+    const inter = param.interval;
+    const symbol = param.symbol;
     //console.log('interval=' + interval);
     /*
     let timePoint = +new Date(param.startTime * 1e3).setSeconds(0, 0);
@@ -49,7 +50,7 @@ export class MockService {
     console.log(list[list.length - 1]);
     */
     // intervals array('1h','30m','15m','5m', '1m')
-    const res = await this.http.get('http://localhost:3004/klines?symbol=ETHBTC&interval=' + interval).toPromise() as string;
+    const res = await this.http.get('http://localhost:3004/klines?symbol=' + symbol + '&interval=' + inter).toPromise() as string;
 
       const resp = Array.from(res.toString());
       for (let i = 0; i < resp.length; i++) {
