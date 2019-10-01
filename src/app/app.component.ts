@@ -11,7 +11,7 @@ import { ConfigService } from './services/config.service';
 })
 export class AppComponent {
   selected = 1;
-  year = 2018;
+  
   flag = 'flag_zh.svg';
   msg: string;
   currentLang: string;
@@ -19,7 +19,7 @@ export class AppComponent {
   constructor( private configServ: ConfigService, router: Router) {
     setTheme('bs4'); // Bootstrap 4
     this.darkBgEnable = false;
-    this.year = (new Date()).getFullYear();
+    
 
     router.events.subscribe((e) => {
       if (e instanceof NavigationEnd) {

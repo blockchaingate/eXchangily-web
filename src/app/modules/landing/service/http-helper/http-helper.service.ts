@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { JsonFileService } from '../jsondata/jsondata.service';
-import { Http, Request, Response, Headers, RequestMethod, RequestOptions } from '@angular/http';
 import { UserAuth } from '../user-auth/user-auth.service';
 import { AppAuthService } from '../app-auth/app-auth.service';
 
@@ -12,6 +11,7 @@ export class HttpHelperService {
     this.path = this._jsonFileService.apiUrl;
   }
 
+  /*
   getRequestObject(method: RequestMethod, url: string, body: any = {}, includeApp: boolean = true) {
     const headers: Headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -30,4 +30,6 @@ export class HttpHelperService {
       body: JSON.stringify(body)
     });
   }
+  */
 }
+

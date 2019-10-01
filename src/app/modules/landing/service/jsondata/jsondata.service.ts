@@ -1,15 +1,13 @@
 
 import {throwError as observableThrowError} from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { Observable } from 'rxjs/Observable';
-import { environment } from '../../../environments/environment';
-
+import { environment } from '../../../../../environments/environment';
+import { HttpService } from '../../../../services/http.service';
 @Injectable()
 export class JsonFileService {
-  constructor(private http: Http) {
+  constructor(private http: HttpService) {
   }
 
   get apiUrl(): string {
@@ -26,7 +24,8 @@ export class JsonFileService {
 
   // Read a Json file
   getJsonFile(filePath: string) {
-    return this.http.get(filePath).map((res: Response) => res.json()).catch(this.logAndPassOn);
+    console.log('filePath=' + filePath);
+    return this.http.get(filePath);
   }
 
   private logAndPassOn (error: Error) {
@@ -38,7 +37,7 @@ export class JsonFileService {
     // alert("Url-: " + sessionStorage .getItem('_ApiUrl'));
     if (!sessionStorage.getItem('_ApiUrl')) {
       this.getJsonFile('data/app-config.json').subscribe(
-        ret => sessionStorage.setItem('_quand', ret.quand),
+        (ret: any) => sessionStorage.setItem('_quand', ret.quand),
         error => observableThrowError(error)
       );
     }

@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
 import { HomeRoutingModule } from './home-routing.module';
@@ -15,7 +16,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { JsonFileService } from '../../service/jsondata/jsondata.service';
 
 import { DirectivesModule } from '../../directives/directives.module';
-
+import { UserAuth } from '../../service/user-auth/user-auth.service';
+import { UserService } from '../../service/user/user.service';
+import { HttpService } from '../../../../services/http.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -24,10 +27,11 @@ import { DirectivesModule } from '../../directives/directives.module';
     TranslateModule,
     RouterModule,
     ComponentsModule,
-    DirectivesModule
+    DirectivesModule,
+    HttpClientModule
   ],
   providers: [
-    JsonFileService
+    JsonFileService, UserAuth, UserService, HttpService
   ],
   declarations: [
     HomeComponent,

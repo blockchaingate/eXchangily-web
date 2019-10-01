@@ -1,13 +1,12 @@
 
 import {throwError as observableThrowError} from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Http, Request, Response, Headers, RequestMethod, RequestOptions } from '@angular/http';
+import { HttpService } from '../../../../services/http.service';
 import { JsonFileService } from '../jsondata/jsondata.service';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { UserAuth } from '../user-auth/user-auth.service';
 
-import { User } from '../../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +14,7 @@ import { User } from '../../models/user';
 export class NewsService {
   categories$: BehaviorSubject<Array<string>>;
 
-  constructor(private http: Http, private _userAuth: UserAuth, private _jsonService: JsonFileService) {}
+  constructor(private http: HttpService, private _userAuth: UserAuth, private _jsonService: JsonFileService) {}
 
   /*
    * getAnnouncements
@@ -26,14 +25,16 @@ export class NewsService {
     const headers: Headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
+    /*
     const requestoptions = new RequestOptions({
       method: RequestMethod.Get,
       url: this._jsonService.apiUrl + '/announcements/' + lang,
       headers: headers
     });
+    */
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.get(this._jsonService.apiUrl + '/announcements/' + lang)
+    .map((res: any) => {
       if (res) {
         const retJson = res.json();
         return retJson.body;
@@ -51,15 +52,16 @@ export class NewsService {
     const headers: Headers = new Headers();
     headers.append('Content-Type', 'application/json');
     // headers.append('x-access-token', this._userAuth.token);
+    /*
     const requestoptions: RequestOptions = new RequestOptions({
       method: RequestMethod.Post,
       url: this._jsonService.apiUrl + '/announcements/updatePostById',
       headers: headers,
       body: JSON.stringify(post)
     });
-
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    */
+    return this.http.post(this._jsonService.apiUrl + '/announcements/updatePostById', JSON.stringify(post))
+    .map((res: any) => {
       const response = (<any>res)._body;
       return JSON.parse(response);
     })
@@ -70,13 +72,14 @@ export class NewsService {
     const headers: Headers = new Headers();
     headers.append('Content-Type', 'application/json');
     // headers.append('x-access-token', this._userAuth.token);
+    /*
     const requestoptions: RequestOptions = new RequestOptions({
       method: RequestMethod.Get,
       url: this._jsonService.apiUrl + '/announcements/delete/' + id,
       headers: headers
     });
-
-    return this.http.request(new Request(requestoptions))
+    */
+    return this.http.get(this._jsonService.apiUrl + '/announcements/delete/' + id)
     .map((res: Response) => {
       const response = (<any>res)._body;
       if (response) { 
@@ -95,14 +98,15 @@ export class NewsService {
     const headers: Headers = new Headers();
     headers.append('Content-Type', 'application/json');
     // headers.append('x-access-token', this._userAuth.token);
+    /*
     const requestoptions: RequestOptions = new RequestOptions({
       method: RequestMethod.Get,
       url: this._jsonService.apiUrl + '/announcements/getCategories',
       headers: headers
     });
-
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    */
+    return this.http.get(this._jsonService.apiUrl + '/announcements/getCategories')
+    .map((res: any) => {
       const response = (<any>res)._body;
       return JSON.parse(response);
     })
@@ -114,16 +118,16 @@ export class NewsService {
   createAnnouncement(data) {
     const headers: Headers = new Headers();
     headers.append('Content-Type', 'application/json');
-
+    /*
     const requestoptions: RequestOptions = new RequestOptions({
       method: RequestMethod.Post,
       url: this._jsonService.apiUrl + '/announcements/create',
       headers: headers,
       body: JSON.stringify(data)
     });
-
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    */
+    return this.http.post(this._jsonService.apiUrl + '/announcements/create', JSON.stringify(data))
+    .map((res: any) => {
       return JSON.parse((<any> res)._body);
     })
     .catch(this.handleIssue);

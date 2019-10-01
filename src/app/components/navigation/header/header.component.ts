@@ -10,7 +10,7 @@ import { Location } from '@angular/common';
 })
 export class HeaderComponent implements OnInit {
   currentLang: string;
-  @Output() public sidenavToggle = new EventEmitter();
+  //@Output() public sidenavToggle = new EventEmitter();
   background: string;
   constructor(private translate: TranslateService, private router: Router, private location: Location) { }
  
@@ -24,11 +24,12 @@ export class HeaderComponent implements OnInit {
       this.background = 'gradient-back-title';
     }
   }
- 
+  
+  /*
   public onToggleSidenav = () => {
     this.sidenavToggle.emit();
   }
-
+  */
   linkTo(url: string) {
     this.router.navigate([url]);
   }

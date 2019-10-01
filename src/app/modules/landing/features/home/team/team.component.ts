@@ -1,12 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { TeamSection, Team } from '../team-block.model';
 
-import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { TranslateService} from '@ngx-translate/core';
 import { JsonFileService } from '../../../service/jsondata/jsondata.service';
 
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
-import { mergeMap ,  map ,  filter } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 
 
 @Component({
@@ -24,6 +23,7 @@ export class TeamComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getTeam().subscribe(res => {
+      console.log('res=', res);
       this.team = res;
     });
 
@@ -44,13 +44,15 @@ export class TeamComponent implements OnInit, OnDestroy {
 
   private getTeam(language = ''): Observable<any> {
     const lang = language || this._translate.currentLang || window.localStorage.getItem('fabLanguagei18n');
+    console.log('lang=' + lang);
     return this._jsonData.getJsonFile('./assets/i18n/' + lang + '.json')
-    .map(team => {
-      let members = [];
+    .map((res: any) => {
+      console.log('res is', res);
+      const members = [];
 
-      for (const key in team.Home.Team.TeamMembers) {
+      for (const key in res.Home.Team.TeamMembers) {
         if (key) {
-          members.push(team.Home.Team.TeamMembers[key]);
+          members.push(res.Home.Team.TeamMembers[key]);
         }
       }
       this.doneLoading = true;

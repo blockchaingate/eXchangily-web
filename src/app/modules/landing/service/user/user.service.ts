@@ -1,23 +1,18 @@
 
 import {throwError as observableThrowError} from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Http, Request, Response, Headers, RequestMethod, RequestOptions } from '@angular/http';
-import { JsonFileService } from '../jsondata/jsondata.service';
-import { Observable } from 'rxjs/Observable';
-import { HttpHelperService } from '../http-helper/http-helper.service';
-
-import { UserAuth } from '../user-auth/user-auth.service';
 import { User } from '../../models/user';
-
+import { HttpService } from '../../../../services/http.service';
 import { app } from '../../app.constants';
-const path = 'members/';
+import { environment } from '../../../../../environments/environment';
+const path = environment.endpoint + 'members/';
 
 @Injectable()
 export class UserService {
 
-  constructor (private http: Http, private _userAuth: UserAuth,
-               private _jsonService: JsonFileService, private httpHelper: HttpHelperService) {
+  constructor (private http: HttpService) {
   }
+
 
   // For signup
   public createUser(data) {
@@ -31,33 +26,24 @@ export class UserService {
       app: app
     };
 
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'Create', theBody);
-
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
-      return res;
-    })
-    .catch(this.logAndPassOn);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'Create', theBody);
+    const url = path + 'Create';
+    console.log('url=' + url);
+    return this.http.post(url, theBody);
   }
 
   // Get member
   public getUser(data) {
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'findOne', data);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'findOne', data);
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
-      if (res) {
-        return this.convertResponseToUser(res);
-      }
-    })
-    .catch(this.logAndPassOn);
+    return this.http.post(path + 'findOne', data);
   }
 
   public setWallets(data) {
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'wallets', data);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'wallets', data);
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.post(path + 'wallets', data)
+    .map((res: any) => {
       if (res) {
         return this.convertResponseToUser(res);
       }
@@ -66,12 +52,13 @@ export class UserService {
   }
 
   public isAdmin(data: { userId: string, appId: string }) {
+    /*
     const requestoptions: RequestOptions = this.httpHelper.getRequestObject(
       RequestMethod.Get, path + 'isAdmin/' + data.userId + '/' + data.appId, {}
     );
-
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    */
+    return this.http.get(path + 'isAdmin/' + data.userId + '/' + data.appId)
+    .map((res: any) => {
       if (res) {
         return this.isAdminResponse(res);
       }
@@ -81,13 +68,16 @@ export class UserService {
 
   // Get members
   public getUsers(data) {
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'find', data);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'find', data);
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.post(path + 'find', data)
+    .map((res: any) => {
       if (res) {
+        /*
         const retJson = res.json();
         return <User[]>retJson;
+        */
+        return res;
         // return [{ status: res.status, json: res.json()}];
       } else {
         return [];
@@ -98,13 +88,16 @@ export class UserService {
 
   // Get all members
   public getAllUsers() {
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path);
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.get(path)
+    .map((res: any) => {
       if (res) {
+        return res;
+        /*
         const retJson = res.json();
         return <User[]>retJson;
+        */
         // return [{ status: res.status, json: res.json()}];
       }
     })
@@ -114,11 +107,11 @@ export class UserService {
   // Login
   loginUser(email: string, password: string) {
     const theBody = {'email': email, 'password': password};
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'login', theBody);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'login', theBody);
     sessionStorage.removeItem('id_token');
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.post(path + 'login', theBody)
+    .map((res: any) => {
       return this.convertResponseToUser(res);
     })
     .catch(this.logAndPassOn);
@@ -126,14 +119,15 @@ export class UserService {
 
   // Activation
   activation(email: string, activeCode: string) {
+    /*
     const requestoptions: RequestOptions = this.httpHelper.getRequestObject(
       RequestMethod.Get,
       path + 'activation/' + email + '/' + activeCode
     );
-
+    */
     sessionStorage.setItem('id_token', '');
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.get(path + 'activation/' + email + '/' + activeCode)
+    .map((res: any) => {
       return res.json();
     })
     .catch(this.logAndPassOn);
@@ -141,22 +135,23 @@ export class UserService {
 
   // Get member by using id
   getUserById(id: number | string) {
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path + id);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path + id);
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
-      return <User>res.json();
+    return this.http.get(path + id)
+    .map((res: any) => {
+      return res;
+      //return <User>res.json();
     })
     .catch(this.logAndPassOn);
   }
 
   getUsersAll() {
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'getAll');
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'getAll');
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
-      const retJson = res.json();
-      return retJson;
+    return this.http.post(path + 'getAll', {})
+    .map((res: any) => {
+      // const retJson = res.json();
+      return res;
       // return [{ status: res.status, json: res.json()}];
     })
     .catch(this.logAndPassOn);
@@ -164,12 +159,13 @@ export class UserService {
 
   // Update member
   updateUser(data) {
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'FindOneAndUpdate', data);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'FindOneAndUpdate', data);
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
-      const retJson = res.json();
-      return <User>retJson;
+    return this.http.post(path + 'FindOneAndUpdate', data)
+    .map((res: any) => {
+      return res;
+      //const retJson = res.json();
+      //return <User>retJson;
       // return [{ status: res.status, json: res.json()}];
     })
     .catch(this.logAndPassOn);
@@ -179,12 +175,12 @@ export class UserService {
   requestPwdReset(email: string) {
     const theBody = {'email': email};
 
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'requestpwdreset', theBody);
+    //const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'requestpwdreset', theBody);
 
     sessionStorage.removeItem('id_token');
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.post(path + 'requestpwdreset', theBody)
+    .map((res: any) => {
       return this.convertResponseToUser(res);
     })
     .catch(this.logAndPassOn);
@@ -198,43 +194,17 @@ export class UserService {
       'passwd': passwd
     };
 
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'exepwdreset', theBody);
+    //const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'exepwdreset', theBody);
 
     sessionStorage.removeItem('id_token');
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.post(path + 'exepwdreset', theBody)
+    .map((res: any) => {
       return res;
     })
     .catch(this.logAndPassOn);
   }
 
-  /*
-     getUsers() {
-     return this.http.get(this.path + '/members/')
-     .map(res => <User[]> res.json().data)
-     .catch(this.logAndPassOn);
-//return Promise.resolve(MEMBERS);
-}
-
-signUp(member:User){
-delete member.id;
-delete member.firstName;
-delete member.lastName;
-
-// alert(JSON.stringify(member));
-
-return this.http.post(this._jsonService.apiUrl + '/members/Create', "{'email':'paullby@gmail.com','password':'123321'}")
-.map(res => <User> res.json().data)
-.catch(this.logAndPassOn);
-}
-
-getUsersSlowly() {
-return new Promise<User[]>(resolve =>
-setTimeout(()=>resolve(MEMBERS), 2000) // 2 seconds
-);
-}
-   */
 
 private convertResponseToUser(res: Response) {
   let thisUser: User;
@@ -262,7 +232,7 @@ private convertResponseToUser(res: Response) {
   return thisUser;
 }
 
-private isAdminResponse(res: Response) {
+private isAdminResponse(res: any) {
   let answer = {};
   if (res && res.status === 200) {
     answer = res.json();

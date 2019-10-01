@@ -1,22 +1,17 @@
-
+import { HttpService } from '../../../../services/http.service';
 import {throwError as observableThrowError} from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Http, Request, Response, Headers, RequestMethod, RequestOptions } from '@angular/http';
-import { JsonFileService } from '../jsondata/jsondata.service';
-import { Observable } from 'rxjs/Observable';
 
 import { UserAuth } from '../user-auth/user-auth.service';
 import { Icotx } from '../../models/icotx';
 
-import { HttpHelperService } from '../http-helper/http-helper.service';
 import { AppAuthService } from '../app-auth/app-auth.service';
 
 const path = 'icotx/';
 
 @Injectable()
 export class IcotxService {
-  constructor (private http: Http, private _userAuth: UserAuth,
-               private _jsonService: JsonFileService, private httpHelper: HttpHelperService,
+  constructor (private http: HttpService, private _userAuth: UserAuth,
               private _appAuth: AppAuthService) {}
 
   // Create subscribe
@@ -25,10 +20,10 @@ export class IcotxService {
     icotx.memberId = this._userAuth.id;
     icotx.appId = this._appAuth.id;
 
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'create', icotx);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'create', icotx);
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.post(path + 'create', icotx)
+    .map((res: any) => {
       const retJson = res.json();
       return this.HandleSingleIcotx(retJson);
     })
@@ -37,10 +32,10 @@ export class IcotxService {
 
   // Retrieve an IcoTx by its id.
   getIcotx(id: number | string) {
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path + id);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path + id);
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.get(path + id)
+    .map((res: any) => {
       const retJson = res.json();
       return this.HandleSingleIcotx(retJson);
     })
@@ -48,10 +43,10 @@ export class IcotxService {
   }
 
   getChildIcotx(id: string) {
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path + 'childOrders/' + id);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path + 'childOrders/' + id);
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.get(path + 'childOrders/' + id)
+    .map((res: any) => {
       return res.json();
     })
     .catch(this.logAndPassOn);
@@ -59,10 +54,10 @@ export class IcotxService {
 
   // Get all Icotxes
   getAll() {
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path);
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.get(path)
+    .map((res: any) => {
       // alert(JSON.stringify(res));
       const retJson = res.json();
       return <Icotx[]>retJson;
@@ -80,10 +75,10 @@ export class IcotxService {
     if (fabAdd) { query['fabAddress'] = fabAdd; }
     query['appId'] = this._appAuth.id;
 
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'find', query);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'find', query);
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.post(path + 'find', query)
+    .map((res: any) => {
       const retJson = res.json();
       return <Icotx[]>retJson;
     })
@@ -92,10 +87,10 @@ export class IcotxService {
 
   // Update icotx
   updateIcotx(icotx: Icotx) {
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'Update', icotx);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'Update', icotx);
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.post(path + 'Update', icotx)
+    .map((res: any) => {
       if (res) {
         const retJson = res.json();
         return this.HandleSingleIcotx(retJson);

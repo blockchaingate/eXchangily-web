@@ -52,7 +52,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
     this._userService.getUser(values)
     .subscribe(
-      ret => {
+      (ret:any) => {
         this._userService.updateUser({id: ret._id, isWriteAccessAdmin: true})
         .subscribe(
           res => {

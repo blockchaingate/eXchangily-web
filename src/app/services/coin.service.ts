@@ -1,28 +1,18 @@
 import { Injectable } from '@angular/core';
 import { MyCoin } from '../models/mycoin';
-import { TxRef } from '../interfaces/balance.interface';
 import * as BIP32 from 'node_modules/bip32';
 import * as Btc from 'bitcoinjs-lib';
 import * as bitcoinMessage from 'bitcoinjs-message';
-import * as fabcoinjs from 'node_modules/fabcoinjs-lib/src';
 import * as hdkey from 'ethereumjs-wallet/hdkey';
-import * as Wallet from 'ethereumjs-wallet';
-import * as EthUtil from 'ethereumjs-util';
-import { BitcoinTransaction } from 'src/app/models/transaction';
 import { Address } from '../models/address';
 import {offical_addresses, coin_list} from '../config/coins';
-import * as Eth from 'ethereumjs-tx';
 import {ApiService} from './api.service';
-import {bitcoin_network} from '../config/networks';
 import * as wif from 'wif';
-import Common from 'ethereumjs-common';
 import { Web3Service } from './web3.service';
 import {Signature} from '../interfaces/kanban.interface';
 import { UtilService } from './util.service';
 import * as abi from 'web3-eth-abi';
-import {Balance} from '../interfaces/balance.interface';
-//import * as EthereumTx from 'ethereumjs-tx';
-//import * as OPS from 'qtum-opcodes';
+import { environment } from '../../environments/environment';
 @Injectable()
 export class CoinService {
     constructor(private apiService: ApiService, private web3Serv: Web3Service, private utilServ: UtilService) {
@@ -59,7 +49,7 @@ export class CoinService {
         const fabCoin = new MyCoin('FAB');
         this.fillUpAddress(fabCoin, seed, 1, 0);
 
-        const exgCoin = this.initToken('FAB', 'EXG', 18, '0x867480ba8e577402fa44f43c33875ce74bdc5df6', fabCoin);
+        const exgCoin = this.initToken('FAB', 'EXG', 18, environment.EXGSmartContractAddress, fabCoin);
         this.fillUpAddress(exgCoin, seed, 1, 0);
 
         myCoins.push(exgCoin);
@@ -78,7 +68,7 @@ export class CoinService {
         this.fillUpAddress(coin, seed, 1, 0);
         myCoins.push(coin);  
         */
-        const usdtCoin = this.initToken('ETH', 'USDT', 6, '0x1c35eCBc06ae6061d925A2fC2920779a1896282c', ethCoin);     
+        const usdtCoin = this.initToken('ETH', 'USDT', 6, environment.USDTSmartContractAddress, ethCoin);     
         this.fillUpAddress(usdtCoin, seed, 1, 0);
         myCoins.push(usdtCoin);      
              
@@ -254,11 +244,11 @@ export class CoinService {
         const path = "m/44'/" + coin.coinType + "'/0'/" + chain + "/" + index;
 
         if (name === 'BTC' || name === 'FAB') {
-            const root = BIP32.fromSeed(seed, bitcoin_network);
+            const root = BIP32.fromSeed(seed, environment.bitcoin_network);
             const childNode = root.derivePath( path );
             const { address } = Btc.payments.p2pkh({
                 pubkey: childNode.publicKey,
-                network: bitcoin_network
+                network: environment.bitcoin_network
             });
             addr = address;
             priKey = childNode.toWIF();
@@ -280,7 +270,7 @@ export class CoinService {
 
         } else  
         if (name === 'EX' || tokenType === 'FAB') { 
-            const root = BIP32.fromSeed(seed, bitcoin_network);
+            const root = BIP32.fromSeed(seed, environment.bitcoin_network);
 
             const childNode = root.derivePath( path );    
             

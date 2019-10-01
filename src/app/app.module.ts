@@ -5,8 +5,6 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { StorageModule } from '@ngx-pwa/local-storage';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { MarketModule } from './modules/market/market.module';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -21,15 +19,10 @@ import { AppResolver } from './modules/landing/resolvers/app/app.resolve';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found.component';
-import { HttpModule } from '@angular/http';
-//import {TvChartContainerComponent} from './components/bad.tv-chart-container/tv-chart-container.component';
 import { HeaderComponent } from './components/navigation/header/header.component';
 import { FooterComponent } from './components/navigation/footer/footer.component';
 import { SidenavListComponent } from './components/navigation/sidenav-list/sidenav-list.component';
-import { UserAuth } from './modules/landing/service/user-auth/user-auth.service';
-import { UserService } from './modules/landing/service/user/user.service';
-import { JsonFileService } from './modules/landing/service/jsondata/jsondata.service';
-import { HttpHelperService } from './modules/landing/service/http-helper/http-helper.service';
+import { HttpService } from './services/http.service';
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -56,10 +49,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FlexLayoutModule,
     MatListModule,
     RouterModule,
-    HttpModule,
     MatButtonModule,
-    BsDropdownModule.forRoot(),
-    NgbModule,
     TranslateModule.forRoot(
       {
         loader: {
@@ -72,7 +62,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     StorageModule.forRoot({ IDBNoWrap: true, }),
     AppRoutingModule,
   ],
-  providers: [AppResolver, UserAuth, UserService, JsonFileService, HttpHelperService],
+  providers: [AppResolver, HttpService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

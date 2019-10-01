@@ -1,10 +1,7 @@
 
 import {throwError as observableThrowError} from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Http, Request, Response, Headers, RequestMethod, RequestOptions } from '@angular/http';
-import { HttpHelperService } from '../http-helper/http-helper.service';
-import { Observable } from 'rxjs/Observable';
-import { app } from '../../app.constants';
+import { HttpService } from '../../../../services/http.service';
 
 const path = 'currencies/';
 
@@ -13,13 +10,13 @@ const path = 'currencies/';
 })
 export class CurrenciesService {
 
-  constructor(private http: Http, private httpHelper: HttpHelperService) { }
+  constructor(private http: HttpService) { }
 
   getAllCurrencies() {
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path);
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.get(path)
+    .map((res: any) => {
       const retJson = res.json();
       return this.handleSuccess(retJson);
     })
@@ -31,10 +28,10 @@ export class CurrenciesService {
       currency = 'CNY';
     }
     const updatePath = path + 'convertToEXC/' + price + '/' + currency + '/' + reverse + '/' + applyDiscount;
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, updatePath);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, updatePath);
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.get(updatePath)
+    .map((res: any) => {
       const retJson = res.json();
       return this.handleSuccess(retJson);
     })

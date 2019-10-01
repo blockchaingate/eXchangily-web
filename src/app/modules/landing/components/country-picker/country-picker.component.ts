@@ -1,5 +1,5 @@
-import { Http, Response } from '@angular/http';
-import { Component, OnInit, forwardRef, HostBinding, Input } from '@angular/core';
+import { HttpService } from '../../../../services/http.service';
+import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 const filePath = '/assets/countries.json';
@@ -23,7 +23,7 @@ export class CountryPickerComponent implements ControlValueAccessor {
   propagateChange: any;
   validateFn: any;
 
-  constructor(private http: Http) {
+  constructor(private http: HttpService) {
     this.http.get(filePath)
     .map((res: any) => {
       const resJson = res.json();

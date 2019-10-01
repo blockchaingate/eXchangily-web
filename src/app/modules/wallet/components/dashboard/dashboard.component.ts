@@ -59,6 +59,7 @@ export class WalletDashboardComponent {
     coinsPrice: CoinsPrice;
     pin: string;
     seed: Buffer;
+    hideSmall: boolean;
     showMyAssets: boolean;
     showTransactionHistory: boolean;
     gas: number;
@@ -81,7 +82,7 @@ export class WalletDashboardComponent {
         await this.loadWallets();
         this.currentWalletIndex = await this.walletServ.getCurrentWalletIndex();
         console.log('this.currentWalletIndex=', this.currentWalletIndex);
-        if(this.currentWalletIndex == null) {
+        if (this.currentWalletIndex == null) {
             this.currentWalletIndex = 0;
         }
         this.loadWallet(this.wallets[this.currentWalletIndex]);

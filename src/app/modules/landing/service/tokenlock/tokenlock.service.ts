@@ -1,22 +1,19 @@
 
 import { throwError as observableThrowError } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Http, Request, Response, Headers, RequestMethod, RequestOptions } from '@angular/http';
-import { JsonFileService } from '../jsondata/jsondata.service';
-import { Observable } from 'rxjs/Observable';
+import { HttpService } from '../../../../services/http.service';
 import { UserAuth } from '../user-auth/user-auth.service';
-import { HttpHelperService } from '../http-helper/http-helper.service';
 
 import { app } from '../../app.constants';
 import { Tokenlock } from '../../models/tokenlock';
-
-const path = 'tokenlocks/';
+import { environment } from '../../../../../environments/environment';
+const path = environment.endpoint + 'tokenlocks/';
 
 @Injectable()
 export class TokenlockService {
   private body: any = { app:  app };
 
-  constructor (private http: Http, private _userAuth: UserAuth, private httpHelper: HttpHelperService) {}
+  constructor (private http: HttpService, private _userAuth: UserAuth) {}
 
   // Create subscribe
   createTokenlock(tokenlock: Tokenlock) {
@@ -24,10 +21,10 @@ export class TokenlockService {
     headers.append('Content-Type', 'application/json');
     headers.append('x-access-token', this._userAuth.token);
     const obj = Object.assign(this.body, tokenlock);
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'create', obj);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'create', obj);
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.post(path + 'create', obj)
+    .map((res: any) => {
       let retJson;
       try {
         retJson = res.json();
@@ -41,10 +38,10 @@ export class TokenlockService {
 
   // Retrieve a subscribe by its id.
   getTokenlock(id: number | string) {
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path + id, this.body);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path + id, this.body);
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.get(path + id)
+    .map((res: any) => {
       const retJson = res.json();
       return this.HandleSingleTokenlock(retJson);
     })
@@ -53,10 +50,10 @@ export class TokenlockService {
 
     // Retrieve a subscribe by its id.
     getTokenlockByOwnerAddress(symbol: string, owneradd: string) {
-        const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path + symbol + '/' + owneradd, this.body);
+        // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path + symbol + '/' + owneradd, this.body);
 
-        return this.http.request(new Request(requestoptions))
-        .map((res: Response) => {
+        return this.http.get(path + symbol + '/' + owneradd)
+        .map((res: any) => {
           const retJson = res.json();
           return <Tokenlock[]>retJson;
         })
@@ -69,10 +66,10 @@ export class TokenlockService {
     headers.append('Content-Type', 'application/json');
     headers.append('x-access-token', this._userAuth.token);
 
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path, this.body);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path, this.body);
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.get(path)
+    .map((res: any) => {
       const retJson = res.json();
       return <Tokenlock[]>retJson;
     })
@@ -84,10 +81,10 @@ export class TokenlockService {
     const query = { memberId: theMemberId};
     const obj = Object.assign(this.body, query);
 
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'find', obj);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'find', obj);
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.post(path + 'find', obj)
+    .map((res: any) => {
       const retJson = res.json();
       return <Tokenlock[]>retJson;
     })
@@ -97,10 +94,10 @@ export class TokenlockService {
   // Update tokenlock
   updateTokenlock(tokenlock: Tokenlock) {
     const obj = Object.assign(this.body, tokenlock);
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'update', obj);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'update', obj);
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.post(path + 'update', obj)
+    .map((res: any) => {
       if (res) {
         const retJson = res.json();
         return this.HandleSingleTokenlock(retJson);
@@ -113,10 +110,10 @@ export class TokenlockService {
   deleteTokenlock(id: string) {
     const data = {id: id};
     const obj = Object.assign(this.body, data);
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'delete', obj);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'delete', obj);
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.post(path + 'delete', obj)
+    .map((res: any) => {
       if (res) {
         const retJson = res.json();
         return this.HandleSingleTokenlock(retJson);

@@ -7,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
   imgWechatShow: boolean;
+  year: number;
   constructor() { }
 
   ngOnInit() {
     this.imgWechatShow = false;
+    this.year = (new Date()).getFullYear();
   }
 
   coordinates(event: MouseEvent): void {

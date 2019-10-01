@@ -1,11 +1,8 @@
-
 import {throwError as observableThrowError} from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Http, Request, Response, Headers, RequestMethod, RequestOptions } from '@angular/http';
-import { HttpHelperService } from '../http-helper/http-helper.service';
-import { Observable } from 'rxjs/Observable';
 import { Application } from '../../models/application';
 import { appId } from '../../app.constants';
+import { HttpService } from '../../../../services/http.service';
 
 const path = 'apps/';
 
@@ -17,13 +14,13 @@ export class AppService {
   appAdminEmail: string;
   app: Application;
 
-  constructor(private http: Http, private httpHelper: HttpHelperService) { }
+  constructor(private http: HttpService) { }
 
   getApp() {
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path + appId);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path + appId);
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.get(path + appId)
+    .map((res: any) => {
       const retJson = res.json();
       this.app = retJson[0];
       this.appAdminId = this.app.appAdminId;
@@ -34,10 +31,10 @@ export class AppService {
   }
 
   updateApp (appl: Application ) {
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'update', appl);
+    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'update', appl);
 
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    return this.http.post(path + 'update', appl)
+    .map((res: any) => {
       const retJson = res.json();
       return this.handleSuccess(retJson);
     })

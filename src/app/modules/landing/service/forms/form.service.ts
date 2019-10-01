@@ -1,9 +1,8 @@
 
 import {throwError as observableThrowError} from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Http, Request, Response, Headers, RequestMethod, RequestOptions } from '@angular/http';
 import { JsonFileService } from '../jsondata/jsondata.service';
-import { Observable } from 'rxjs/Observable';
+import { HttpService } from '../../../../services/http.service';
 
 
 
@@ -13,7 +12,7 @@ import { UserAuth } from '../user-auth/user-auth.service';
 @Injectable()
 export class FormService {
 
-  constructor (private http: Http, private _userAuth: UserAuth, private _jsonService: JsonFileService) {}
+  constructor (private http: HttpService, private _userAuth: UserAuth, private _jsonService: JsonFileService) {}
 
   public getForms(user: User) {
     // must be admin to complete request
@@ -37,16 +36,16 @@ export class FormService {
       socialMedia: socialHandles,
       description: data.why
     };
-
+    /*
     const requestoptions: RequestOptions = new RequestOptions({
       method: RequestMethod.Post,
       url: this._jsonService.apiUrl + '/forms/AddAmbassador',
       headers: headers,
       body: JSON.stringify(theBody)
     });
-
-    return this.http.request(new Request(requestoptions))
-    .map((res: Response) => {
+    */
+    return this.http.post(this._jsonService.apiUrl + '/forms/AddAmbassador', theBody)
+    .map((res: any) => {
       return res;
     })
     .catch(this.handleIssue);

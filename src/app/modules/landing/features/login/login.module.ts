@@ -14,7 +14,8 @@ import { ResetComponent } from './reset/reset.component';
 import { ActivateComponent } from './activate/activate.component';
 import { NoAuthGuard } from '../../guards/no-auth/no-auth.guard';
 import { ChangePasswordComponent } from './change-password/change-password.component';
-
+import { UserAuth } from '../../service/user-auth/user-auth.service';
+import { UserService } from '../../service/user/user.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -25,7 +26,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     FormsModule
   ],
   providers: [
-    NoAuthGuard
+    NoAuthGuard, UserAuth, UserService
   ],
   declarations: [LoginComponent, SignupComponent, SigninComponent, ResetComponent, ActivateComponent, ChangePasswordComponent, ]
 })
