@@ -9,35 +9,20 @@ import {Web3Service} from './web3.service';
 import {UtilService} from './util.service';
 import {AlertService} from './alert.service';
 
+import { environment } from '../../environments/environment';
 @Injectable() 
 export class ApiService {
-    endpoint = 'http://169.45.42.108:4000';
-   
+    
     constructor(private http: HttpClient, private web3Serv: Web3Service, private utilServ: UtilService, private alertServ: AlertService) { }
-    post (path: string, data: any) {
-        const httpHeaders = new HttpHeaders({
-            'Content-Type' : 'application/json',
-            'Cache-Control': 'no-cache'
-       });   
-       const options = {
-        headers: httpHeaders
-        };           
-        path = this.endpoint + path;
-        return this.http.post(path, data, options);
-    }
-    get (path: string) {
-        path = this.endpoint + path;
-        return this.http.get(path);
-    }
     
     async getCoinsPrice() {
-        const url = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,fabcoin,tether&vs_currencies=usd';
+        const url = environment.endpoints.coingecko + 'api/v3/simple/price?ids=bitcoin,ethereum,fabcoin,tether&vs_currencies=usd';
         const response = await this.http.get(url).toPromise() as CoinsPrice;  
         return response;        
     }
 
     async getBtcUtxos(address: string): Promise<[BtcUtxo]> {
-        const url = 'http://18.188.32.168:8000/getutxos/' + address;
+        const url = environment.endpoints.BTC.exchangily + 'getutxos/' + address;
         console.log('url in getBtcUtxos' + url);
         let response = null;
         try {
@@ -48,7 +33,7 @@ export class ApiService {
     
     async getBtcTransaction(txid: string) {
         txid = this.utilServ.stripHexPrefix(txid);
-        const url = 'http://18.188.32.168:8000/gettransactionjson/' + txid;
+        const url = environment.endpoints.BTC.exchangily + 'gettransactionjson/' + txid;
         let response = null;
         try {
             response = await this.http.get(url).toPromise() as BtcTransaction;
@@ -58,56 +43,28 @@ export class ApiService {
     }
 
     async getEthTransaction(txid: string) {
-        const url = 'http://3.13.178.231:3000/gettransaction/' + txid;
+        const url = environment.endpoints.ETH.exchangily + 'gettransaction/' + txid;
         let response = null;
         try {
             response = await this.http.get(url).toPromise() as EthTransactionRes;
-            console.log('response=', response);
         } catch (e) {console.log (e); }
         return response; 
     }
 
     async getBtcBalance(address: string): Promise<Balance> {
-        /*
-        let balance = 0;
-        try {
-            const utxos = await this.getBtcUtxos(address);
-            if (utxos && utxos.length > 0) {
-                for (let i = 0; i < utxos.length; i++) {
-                    balance += utxos[i].value;
-                }
-            }
-        } catch (e) { console.log(e); }
-        */
-        const url = 'http://18.188.32.168:8000/getbalance/' + address;
-        //console.log('url for getBtcBalance=' + url);
+        const url = environment.endpoints.BTC.exchangily + 'getbalance/' + address;
         let balance = 0;
         try {
             const response = await this.http.get(url).toPromise() as number;
             balance = response;
         } catch (e) {console.log (e); }
-        //console.log('balance=' + balance);
         const lockbalance = 0;
         return {balance, lockbalance};
-
-        /*
-        let balance = 0;
-        const url = 'https://api.blockcypher.com/v1/btc/test3/addrs/' + address + '?token=062d147ef3bc412688fedcaadb1b13c4';
-        try {
-            const response = await this.http.get(url).toPromise() as Balance; 
-            balance = response.balance;
-        } catch (e) {
-
-        }
-
-        return balance;
-        */
-
     }
 
     async getFabTransactionJson(txid: string): Promise<FabTransactionJson> {
         txid = this.utilServ.stripHexPrefix(txid);
-        const url = 'http://52.60.97.159:8000/gettransactionjson/' + txid;
+        const url = environment.endpoints.FAB.exchangily + 'gettransactionjson/' + txid;
         const response = await this.http.get(url).toPromise() as FabTransactionJson;
         return response;
     }
@@ -126,44 +83,13 @@ export class ApiService {
         return false;
     }
 
-    async getFabTransaction(address: string): Promise<FabTransaction> {
-        const url = 'https://fabtest.info/utxo-api/transactions?address=' + address;
-        const response = await this.http.get(url).toPromise() as FabTransaction;
-        return response;
-    }
-
     async getFabUtxos(address: string): Promise<[FabUtxo]> {
-        const url = 'http://52.60.97.159:8000/getutxos/' + address;
+        const url = environment.endpoints.FAB.exchangily + 'getutxos/' + address;
         const response = await this.http.get(url).toPromise() as [FabUtxo];
         return response;
     }
     async getFabBalance(address: string): Promise<Balance> {
-        /*
-        const tran = await this.getFabTransaction(address);
-        let balance = 0;
-        for (let i = 0; i < tran.result.length; i++) {
-            const utxos = tran.result[i].utxos;
-            for (let j = 0; j < utxos.length; j++) {
-                balance += utxos[j].value;
-            }
-        }
-        return balance;
-        */
 
-        /*
-       let balance = 0;
-       const url = 'http://52.60.97.159:8000/getbalance/' + address;
-       try {
-        console.log('fafweaf');
-            const response = await this.http.get(url).toPromise() as string;
-            console.log('balance1=' + balance);
-            balance = Number(response);
-            console.log('balance=' + balance);
-       } catch (e) {
-            console.log('eeeeee', e);
-       }
-       return balance;       
-       */
        let balance = 0;
        let lockbalance = 0;
        const utxos = await this.getFabUtxos(address);
@@ -186,15 +112,15 @@ export class ApiService {
     }
 
     async getEthNonce (address: string) {
-        const url = 'http://3.13.178.231:3000/getnonce/' + address + '/latest';
+        const url = environment.endpoints.ETH.exchangily + 'getnonce/' + address + '/latest';
         const response = await this.http.get(url).toPromise() as string;
         return Number (response);
     }
 
     async postEthTx(txHex: string) {
-        //account for https://etherscan.io  keninqiu   82239^
-        //token: M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB
-        const url = 'https://api-ropsten.etherscan.io/api?module=proxy&action=eth_sendRawTransaction&hex='
+        // account for https://etherscan.io  keninqiu   82239^
+        // token: M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB
+        const url = environment.endpoints.ETH.etherscan + 'api?module=proxy&action=eth_sendRawTransaction&hex='
         + txHex + '&apikey=M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB';
         let response = null;
         if (txHex) {
@@ -217,8 +143,6 @@ export class ApiService {
     async postFabTx(txHex: string) {
         
         const url = 'http://fabtest.info:9001/fabapi/' + '/sendrawtransaction/' + txHex;
-        //new endpoint: https://fabexplorer.info:9003/fabapi/sendrawtransaction/
-        //const url = 'https://fabexplorer.info:9003/fabapi/sendrawtransaction/' + txHex;
         console.log('txHex=' + txHex);
         console.log('url=' + url);
         let response = null;
@@ -236,18 +160,8 @@ export class ApiService {
     }
 
     async postBtcTx(txHex: string) {
-        /*
-        const url = 'https://api.blockcypher.com/v1/btc/test3' + '/txs/push';
-        const response = await this.http.post(url, {tx: txHex}).toPromise() as BtcTransaction;
-        let ret = '';
-        console.log('response from postBtcTx=');
-        console.log(response.tx);
-        if (response && response.tx && response.tx.hash) {
-            ret = '0x' + response.tx.hash;
-        }
-        return ret;
-        */
-       const url = 'http://18.188.32.168:8000/sendrawtransaction/' + txHex;
+
+       const url = environment.endpoints.BTC.exchangily + 'sendrawtransaction/' + txHex;
        console.log('weird start, url=' + url);
        let response = null;
        if (txHex) {
@@ -259,39 +173,24 @@ export class ApiService {
     }
 
     async getEthBalance(address: string): Promise<Balance> {
-        // account for https://etherscan.io  keninqiu   82239^
-        // token: M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB
-        // post https://faucet.metamask.io/ with raw data address to get some coins
-
-        /*
-        const url = 'https://api-ropsten.etherscan.io/api?module=account&action=balance&address='
-        + address + '&tag=latest&apikey=M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB';
-        const response = await this.http.get(url).toPromise()  as EthBalance;    
-        return response.result;  
-        */
-       const url = 'http://3.13.178.231:3000/getbalance/' + address;
-       const response = await this.http.get(url).toPromise()  as KEthBalance;    
-       //console.log('balance for etheeeee' + response.balance);
+       const url = environment.endpoints.ETH.exchangily + 'getbalance/' + address;
+       const response = await this.http.get(url).toPromise()  as KEthBalance;
        const balance = response.balance;
        const lockbalance = 0;
        return {balance, lockbalance};  
     }
 
     async getEthTokenBalance(contractAddress: string, address: string) {
-        const url = 'https://api-ropsten.etherscan.io/api?module=account&action=tokenbalance&contractaddress='
+        const url = environment.endpoints.ETH.etherscan + 'api?module=account&action=tokenbalance&contractaddress='
         + contractAddress + '&address=' + address + '&tag=latest&apikey=M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB';
-        const response = await this.http.get(url).toPromise()  as EthBalance;    
-        //console.log('url=' + url);
-        //console.log(response);
+        const response = await this.http.get(url).toPromise()  as EthBalance;
         const balance = response.result;
         const lockbalance = 0;
         return {balance, lockbalance}; 
     }
 
     async fabCallContract(contractAddress: string, fxnCallHex: string) {
-        contractAddress = '0x867480ba8e577402fa44f43c33875ce74bdc5df6';
-        console.log('haha');
-        const url = 'http://52.60.97.159:8000/callcontract';
+        const url = environment.endpoints.FAB.exchangily + 'callcontract';
 
         contractAddress = this.utilServ.stripHexPrefix(contractAddress);     
         const data = {address: contractAddress, data: fxnCallHex};
@@ -300,7 +199,6 @@ export class ApiService {
         formData.append('address', contractAddress); 
         formData.append('data', fxnCallHex); 
 
-        console.log(data);  
         const response = await this.http.post(url, formData).toPromise() as FabTokenBalance;
         return response;
     }

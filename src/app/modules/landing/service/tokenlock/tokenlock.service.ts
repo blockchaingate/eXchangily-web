@@ -7,7 +7,7 @@ import { UserAuth } from '../user-auth/user-auth.service';
 import { app } from '../../app.constants';
 import { Tokenlock } from '../../models/tokenlock';
 import { environment } from '../../../../../environments/environment';
-const path = environment.endpoint + 'tokenlocks/';
+const path = environment.endpoints.blockchaingate + 'tokenlocks/';
 
 @Injectable()
 export class TokenlockService {

@@ -26,7 +26,7 @@
             "Home": "Home",
             "Whitepaper": "Download Whitepaper"
         },
-        "Copyright": "2018 eXchangily All Rights Reserved"
+        "Copyright": "2019 eXchangily All Rights Reserved"
     },
     "Home": {
         "Top": {
@@ -526,6 +526,11 @@
     "Wnvalid": "Wallet name must be 2 or more letters or numbers",
     "Pwdvalid": "Password must be at least 8 characters, 1 upper case letter and 1 special character",
     "Manage My Wallet": "My wallet",
+    "Login Setting": "Login Setting",
+    "Show seed phrase": "Show seed phrase",
+    "Verify seed phrase": "Verify seed phrase",
+    "Backup private key": "Backup private key",
+    "Delete wallet": "Delete wallet",
     "Help": "Help",
     "Directory": "Directory",
     "Market": "Market",

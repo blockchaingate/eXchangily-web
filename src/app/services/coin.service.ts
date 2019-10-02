@@ -5,7 +5,7 @@ import * as Btc from 'bitcoinjs-lib';
 import * as bitcoinMessage from 'bitcoinjs-message';
 import * as hdkey from 'ethereumjs-wallet/hdkey';
 import { Address } from '../models/address';
-import {offical_addresses, coin_list} from '../config/coins';
+import {coin_list} from '../config/coins';
 import {ApiService} from './api.service';
 import * as wif from 'wif';
 import { Web3Service } from './web3.service';
@@ -49,7 +49,7 @@ export class CoinService {
         const fabCoin = new MyCoin('FAB');
         this.fillUpAddress(fabCoin, seed, 1, 0);
 
-        const exgCoin = this.initToken('FAB', 'EXG', 18, environment.EXGSmartContractAddress, fabCoin);
+        const exgCoin = this.initToken('FAB', 'EXG', 18, environment.addresses.smartContract.EXG, fabCoin);
         this.fillUpAddress(exgCoin, seed, 1, 0);
 
         myCoins.push(exgCoin);
@@ -68,7 +68,7 @@ export class CoinService {
         this.fillUpAddress(coin, seed, 1, 0);
         myCoins.push(coin);  
         */
-        const usdtCoin = this.initToken('ETH', 'USDT', 6, environment.USDTSmartContractAddress, ethCoin);     
+        const usdtCoin = this.initToken('ETH', 'USDT', 6, environment.addresses.smartContract.USDT, ethCoin);     
         this.fillUpAddress(usdtCoin, seed, 1, 0);
         myCoins.push(usdtCoin);      
              
@@ -82,7 +82,7 @@ export class CoinService {
     }
 
     getOfficialAddress(myCoin: MyCoin) {
-        const addresses = offical_addresses;
+        const addresses = environment.addresses.exchangilyOfficial;
         for (let i = 0; i < addresses.length; i++) {
             if (addresses[i].name === myCoin.name) {
                 return addresses[i].address;
@@ -310,24 +310,6 @@ export class CoinService {
 
     signedMessage(originalMessage: string , keyPair: any) {
         let signature: Signature;
-        /*
-        console.log('privateKeyBuffer in signedMessage');
-        const privateKey = wif.encode(128, privateKeyBuffer, true);
-        console.log(privateKeyBuffer);
-        console.log('privateKey=');
-        console.log(privateKey);
-        const keyPair = Btc.ECPair.fromWIF(privateKey);
-        const pKey = keyPair.privateKey;  
-        console.log('pKey=');
-        console.log(pKey);      
-        console.log('originalMessage=');
-        console.log(originalMessage);
-        let message = String.fromCharCode.apply(null, originalMessage);
-        message = 'hello';
-        const signature = bitcoinMessage.sign(message, pKey, keyPair.compressed);
-        console.log('signature===');
-        console.log(signature);
-        */
         const name = keyPair.name;
         const tokenType = keyPair.tokenType;
 
@@ -345,17 +327,6 @@ export class CoinService {
             const s = `0x${signBuffer.slice(33, 65).toString('hex')}`;
 
             signature = {r: r, s: s, v: v};
-            /*
-            console.log(keyPair.privateKey);
-            console.log(keyPair.privateKeyBuffer);
-            const signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey, keyPair.privateKeyBuffer.compressed);
-            console.log('signBuffer===');
-            console.log(signBuffer);
-            const flagByte = signBuffer.readUInt8(0) - 27;
-            const recover = flagByte & 3;
-            let a = [this.slice(64, this.length(signBuffer), signBuffer), this.slice(0, 32, signBuffer), this.slice(32, 64, signBuffer)];
-            console.log(a);
-            */
         }
         return signature;
     }
@@ -1142,17 +1113,6 @@ export class CoinService {
             const txhex = await this.getFabTransactionHex(seed, mycoin.baseCoin, contract, 0, totalFee, 14);
             const txhash = await this.apiService.postFabTx(txhex);
             return {txHex: txhex, txHash: txhash};
-
-
-            /*
-            console.log('before txhex');
-            const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPair, contractAddress, 0, true);
-            console.log('txhex=' + txhex);
-            const response = await this.apiService.postFabTx(txhex);
-            */
-            //const response = await this.apiService.fabCallContract(contractAddress, abiHex);
-            ///console.log('response for transfer');
-            //console.log(response);
         }
         return {txHex: '', txHash: ''};
     }
@@ -1170,105 +1130,6 @@ export class CoinService {
             const addr = new Address(mycoin.coinType, keyPair.address, i);
             mycoin.changeAdds.push(addr);            
         }        
-        /*
-        const TestNet = Btc.networks.testnet;
-        let index = 0;            console.log();
-            console.log();
-        if (mycoin.name ===            console.log(); 'BTC') { // btc address format
-            const root = BI            console.log();P32.fromSeed(seed, TestNet);
-            if (mycoin.receiveAdds.length > 0) {
-                index = mycoin.receiveAdds[mycoin.receiveAdds.length - 1].index;
-            }
-            for (let i = 0; i < numReceiveAdds; i++) {
-                const currentIndex = i + index;
-                const path = "m/44'/" + mycoin.coinType + "'/0'/0/" + currentIndex;
-                console.log('path=' + path);
-                const child1 = root.derivePath(path);  
-                
-                const { address } = Btc.payments.p2pkh({
-                    pubkey: child1.publicKey,
-                    network: TestNet
-                }); 
 
-                const addr = new Address(mycoin.coinType, address, currentIndex);
-                mycoin.receiveAdds.push(addr);
-            }
-
-            index = 0;
-            if (mycoin.changeAdds.length > 0) {
-                index = myc            console.log();oin.changeAdds[mycoin.changeAdds.length - 1].index;
-            }            console.log();
-            for (let i = 0;            console.log(); i < numberChangeAdds; i++) {
-                const curre            console.log();ntIndex = i + index;
-                const path = "m/44'/"+mycoin.coinType+"'/0'/1/" + currentIndex;
-                console.log('path=' + path);
-                const child1 = root.derivePath(path);  
-                
-                const { address } = Btc.payments.p2pkh({
-                    pubkey: child1.publicKey,
-                    network: TestNet
-                }); 
-
-                const addr = new Address(mycoin.coinType, address, currentIndex);
-                mycoin.changeAdds.push(addr);
-            } 
-
-        } else 
-        if (mycoin.name ===            console.log(); 'FAB') {
-            const testnet =            console.log(); Btc.networks.testnet;
-            const root = BI            console.log();P32.fromSeed(seed, testnet);
-            console.log('ro            console.log();ot=');
-            console.log(root);
-            if (mycoin.receiveAdds.length > 0) {
-                index = mycoin.receiveAdds[mycoin.receiveAdds.length - 1].index;
-            }
-            for (let i = 0; i < numReceiveAdds; i++) {
-                const currentIndex = i + index;
-                const path = "m/44'/"+mycoin.coinType+"'/0'/0/" + currentIndex;
-                console.log('path=' + path);
-                const const address = `0x${wallet.getAddress().toString('hex')}`;child1 = root.derivePath(path);  
-                const const address = `0x${wallet.getAddress().toString('hex')}`;{ address } = Btc.payments.p2pkh({ pubkey: child1.publicKey, network: testnet });
-                const const address = `0x${wallet.getAddress().toString('hex')}`;addr = new Address(mycoin.coinType, address, currentIndex);
-                mycoinconst address = `0x${wallet.getAddress().toString('hex')}`;.receiveAdds.push(addr); 
-            }  
-            
-            index = 0;
-            if (mycoin.changeAdds.length > 0) {
-                index = mycoin.changeAdds[mycoin.changeAdds.length - 1].index;
-            }
-            for (let i = 0; i < numberChangeAdds; i++) {
-                const currentIndex = i + index;
-                const path = "m/44'/" + mycoin.coinType + "'/0'/1/" + currentIndex;
-                console.log('path=' + path);
-                const child1 = root.derivePath(path);  
-            
-                const { address } = Btc.payments.p2pkh({ pubkey: child1.publicKey, network: testnet });
-                const addr = new Address(mycoin.coinType, address, currentIndex);
-                mycoin.changeAdds.push(addr);                 
-            }            
-        } else  // etherem-wallet
-        if ((mycoin.name === 'EXG') || (mycoin.name === 'ETH') || (mycoin.name === 'USDT')) {
-            const root = hdkey.fromMasterSeed(seed);
-
-            const path = "m/44'/" + mycoin.coinType + "'/0'/0/0";
-            console.log('path=' + path);
-            const child1 = root.derivePath(path);              
-            const wallet = child1.getWallet();
-            
-            const address = `0x${wallet.getAddress().toString('hex')}`;
-            const addr = new Address(mycoin.coinType, address, 0);
-            mycoin.receiveAdds.push(addr);            
-        } else 
-        if (mycoin.name === 'EX') {
-            const testnet = Btc.networks.testnet;
-            const root = BIP32.fromSeed(seed, testnet);
-            const path = "m/44'/"+mycoin.coinType+"'/0'/0/0";
-            const child1 = root.derivePath(path); 
-            let privateKey = "0x0123456789012345678901234567890123456789012345678901234567890123";
-            const privateKeyBuffer = EthUtil.toBuffer(privateKey);   
-            const wallet = Wallet.fromPrivateKey(privateKeyBuffer);                     
-          
-        }
-        */
     }      
 }

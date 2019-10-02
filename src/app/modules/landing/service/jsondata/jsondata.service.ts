@@ -11,7 +11,7 @@ export class JsonFileService {
   }
 
   get apiUrl(): string {
-    return environment.endpoint;
+    return environment.endpoints.blockchaingate;
   }
 
   get afterLoginUrl(): string {

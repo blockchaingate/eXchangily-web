@@ -25,7 +25,7 @@
             "Home": "首页",
             "Whitepaper": "下载白皮书"
         },
-        "Copyright": "2018 eXchangily All Rights Reserved"
+        "Copyright": "2019 eXchangily All Rights Reserved"
     },
     "Home": {
         "Top": {
@@ -579,10 +579,17 @@
 
     "Symble": "符号",
     "Asset": "资产",
+    "Add Gas": "加燃料",
+    "Gas": "燃料",
     "Frozen": "冻结",
     "Value(USD)": "价值（美元）",
     "Profit sharing": "利润分成",
     "Manage My Wallet": "管理我的钱包",
+    "Login Setting": "登陆设置",
+    "Show seed phrase": "显示助记词",
+    "Verify seed phrase": "验证助记词",
+    "Backup private key": "备份私钥",
+    "Delete wallet": "删除钱包",
     "Directory": "目录",
     "Market": "市场行情",
     "Trade": "交易",
@@ -799,4 +806,4 @@
         "MESSAGE": "欢迎把任何问题、疑问和反馈发送至 info@fabcoin.co。或者通过微信、推特和脸书联系我们。 感谢您的使用。"
     },
     "Volume": "交易量"
-} 
+}

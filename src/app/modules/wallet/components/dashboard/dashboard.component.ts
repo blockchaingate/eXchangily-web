@@ -432,7 +432,6 @@ export class WalletDashboardComponent {
             return;   
         } 
         const scarAddress = await this.kanbanServ.getScarAddress();
-        //const scarAddress = '98cda3da6813b4711d7f0c1637480b2353b00c1c';
         console.log('scarAddress=', scarAddress);
         this.coinServ.depositFab(scarAddress, seed, currentCoin, amount);
 

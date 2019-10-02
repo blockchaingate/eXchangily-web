@@ -5,7 +5,7 @@ import { User } from '../../models/user';
 import { HttpService } from '../../../../services/http.service';
 import { app } from '../../app.constants';
 import { environment } from '../../../../../environments/environment';
-const path = environment.endpoint + 'members/';
+const path = environment.endpoints.blockchaingate + 'members/';
 
 @Injectable()
 export class UserService {

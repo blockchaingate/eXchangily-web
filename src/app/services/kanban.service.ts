@@ -2,33 +2,28 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {BlockNumberResponse, BlockResponse, AccountsResponse,
     KanbanGetBanalceResponse, TransactionAccountResponse} from '../interfaces/kanban.interface';
-
+import { environment } from '../../environments/environment';
 @Injectable()
 export class KanbanService {
-//getCoinPoolAddress
-//getExchangeAddress
+// getCoinPoolAddress
+// getExchangeAddress
 
-    endpoint = 'http://169.45.42.108:4000';
+    endpoint = environment.endpoints.kanban;
    
     constructor(private http: HttpClient) { }
 
     async getCoinPoolAddress() {
         const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
         let path = '/exchangily/getCoinPoolAddress';
-        path = this.endpoint + path;  
-        const addrOrig =  '0xa66c33b1b36a86589421f1632c7d715dd90b04c5';
-        let addr = addrOrig;
-        console.log('addr=' + addr);
+        path = this.endpoint + path;
+        let addr = '';
         try {
             addr = await this.http.get(path, { headers, responseType: 'text'}).toPromise() as string;
         } catch (e) {
-            return addrOrig;
         }
         
         return addr;
     }
-
-
 
     async getAccounts() {
         const path = '/kanban/getAccounts';
@@ -36,7 +31,6 @@ export class KanbanService {
         return res.accounts;
     }
     async getLatestBlock() {
-        //const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
         const path = '/kanban/getBlockNumber';
         const res = await this.get(path).toPromise() as BlockNumberResponse;
         return res.blockNumber.blockNumber;
@@ -90,7 +84,7 @@ export class KanbanService {
         headers: httpHeaders
         };    
         console.log('data for submitDeposit=', data);       
-        const path = 'http://169.53.144.184:3000/submitDeposit';
+        const path = this.endpoint + 'submitDeposit';
         return this.http.post(path, data, options);        
     }
 
