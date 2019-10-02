@@ -1,9 +1,9 @@
 <div class="container text-white">
 
-    <div class="row">
-        <div class="w-75 match-my-cols">
-            <div class="exg-bg">
-                <div class="container py-2 ">
+    <div class="row row-flex">
+        <div class="w-75">
+            <div class="exg-bg content">
+                <div class="container py-2">
                     <div class="row">
                         <div class="col col-md-6">
                             <div class="small pt-3">{{"My Wallet" | translate}}</div>
@@ -233,7 +233,7 @@
             </div>
         </div>
         <div class="w-25 match-my-cols fxHide-sm">
-            <div class="ml-2">
+            <div class="ml-2 content">
                 <app-manage-wallet (manageWallet)=onmanageWallet($event)></app-manage-wallet>
                 <app-faq></app-faq>
 

@@ -50,7 +50,13 @@ export class ExplorerComponent implements OnInit {
             created_at: '2 sec ago',
             include_txns: 1,
             mess: 'NodeKita'
-        }                        
+        },
+        {
+            id: '524785',
+            created_at: '2 sec ago',
+            include_txns: 1,
+            mess: 'NodeKita'
+        }                         
     ];
 
     transactions = [

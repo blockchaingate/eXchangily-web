@@ -38,8 +38,7 @@ export const environment = {
             {name: 'BTC', address: 'mmSziWwxpTsoHDVcP9yo3vBmA9RCJpsES9'},
             {name: 'ETH', address: '0xb2e8bac11afe8762fb6a1ab56c36084d2fbbd48a'},
             {name: 'USDT', address: '0x7ece14d72a8600d29f486eab1377e33c3266b001'}
-        ],
-        USDTSmartContractAddress: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+        ]
     },
     bitcoin_network: Btc.networks.testnet
 };

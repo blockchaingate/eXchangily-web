@@ -319,3 +319,12 @@ fieldset {
     border: none;
     border-radius: 0;
 }
+
+.row-flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.content {
+    height: 100%;
+}

@@ -142,12 +142,6 @@ tbody {
     display: inline-block;
 }
 
-@media only screen and (min-width: 960px) {
-    .match-my-cols {
-        height: 680px;
-    }
-}
-
 @media only screen and (max-width: 959px) {
     .w-75 {
         width: 100%!important;
