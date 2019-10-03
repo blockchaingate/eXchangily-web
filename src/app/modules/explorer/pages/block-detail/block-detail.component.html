@@ -1,0 +1,225 @@
+<div class="container exg-bg">
+    <div class="row apair">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                <button mat-icon-button matTooltip="Also known as Block Number. The block height, which indicates the length of the blockchain, increases after the addition of the new block.">
+                    <mat-icon>help_outline</mat-icon>
+                </button>
+            </div>
+            <div class="d-inline-block">
+                Block Height:
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="d-inline-block">
+                8670642
+            </div>
+            <div class="d-inline-block">
+                <button mat-icon-button (click)="goToPage(id - 1)" matTooltip="View previous block">
+                    <mat-icon>keyboard_arrow_left</mat-icon>
+                </button>
+            </div>
+            <div class="d-inline-block">
+                <button mat-icon-button (click)="goToPage(id + 1)" matTooltip="View next block">
+                    <mat-icon>keyboard_arrow_right</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row apair">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                <button mat-icon-button matTooltip="The date and time at which a transaction is mined.">
+                        <mat-icon>help_outline</mat-icon>
+                    </button>
+            </div>
+            <div class="d-inline-block">
+                Timestamp:
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="d-inline-block">
+                <button mat-icon-button>
+                                <mat-icon>access_time</mat-icon>
+                            </button>
+            </div>
+            <div class="d-inline-block">
+                2 hrs 40 mins ago (Oct-03-2019 05:41:30 PM +UTC)
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row apair">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                <button mat-icon-button matTooltip="The number of transactions in the block. Internal transaction is transactions as a result of contract execution that involves Ether value.">
+                                <mat-icon>help_outline</mat-icon>
+                            </button>
+            </div>
+            <div class="d-inline-block">
+                Transactions:
+            </div>
+        </div>
+        <div class="col-md-9">
+
+            <div class="table-text">
+                39 transactions in this block
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row apair">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                <button mat-icon-button matTooltip="Miner who successfully include the block onto the blockchain.">
+                            <mat-icon>help_outline</mat-icon>
+                        </button>
+            </div>
+            <div class="d-inline-block">
+                Mined by:
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="d-inline-block">
+                0x5a0b54d5dc17e0aadc383d2db43b0a0d3e029c4c
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row apair vertical-align">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                <button mat-icon-button matTooltip="The amount of effort required to mine a new block. The difficulty algorithm may adjust according to time.">
+                                <mat-icon>help_outline</mat-icon>
+                            </button>
+            </div>
+            <div class="d-inline-block">
+                Difficulty:
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="table-text">
+                2,374,237,811,956,568
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row apair vertical-align">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                <button mat-icon-button matTooltip="Total difficulty of the chain until this block.">
+                                    <mat-icon>help_outline</mat-icon>
+                                </button>
+            </div>
+            <div class="d-inline-block">
+                Total Difficulty:
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="table-text">
+                12,207,446,157,103,547,536,373
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row apair vertical-align">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                <button mat-icon-button matTooltip="The block size is actually determined by the block's gas limit.">
+                                        <mat-icon>help_outline</mat-icon>
+                                    </button>
+            </div>
+            <div class="d-inline-block">
+                Size:
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="table-text">
+                12,207,446,157,103,547,536,373
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row apair vertical-align">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                <button mat-icon-button matTooltip="The total gas used in the block and its percentage of gas filled in the block.">
+                                            <mat-icon>help_outline</mat-icon>
+                                        </button>
+            </div>
+            <div class="d-inline-block">
+                Gas Used:
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="table-text">
+                9,969,620 (99.89%)
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row apair vertical-align">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                <button mat-icon-button matTooltip="Total gas limit provided by all transactions in the block.">
+                                                <mat-icon>help_outline</mat-icon>
+                                            </button>
+            </div>
+            <div class="d-inline-block">
+                Gas Limit:
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="table-text">
+                9,980,235
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row apair vertical-align">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                <button mat-icon-button matTooltip="Hash of the block header from the previous block.">
+                                                    <mat-icon>help_outline</mat-icon>
+                                                </button>
+            </div>
+            <div class="d-inline-block">
+                Hash:
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="table-text">
+                0x44361be34e3973e6fbd6178e6dbb88b8bf524397067286434c235b24f45a505a
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row apair vertical-align">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                <button mat-icon-button matTooltip="Block nonce is a value used during mining to demonstrate proof of work for a block.">
+                                                        <mat-icon>help_outline</mat-icon>
+                                                    </button>
+            </div>
+            <div class="d-inline-block">
+                Nonce:
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="table-text">
+                0x7d02e1902815922a
+            </div>
+
+        </div>
+    </div>
+</div>

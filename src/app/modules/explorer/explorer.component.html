@@ -14,54 +14,54 @@
         <div class="col-md-8 px-1">
             <div class="content exg-bg insight-block">
                 <div class="container">
-                    <div class="row py-2">
-                        <div class="col-md-3">
+                    <div class="row px-3 py-2">
+                        <div class="col-md-6">
                             <div class="d-inline-block pr-2">
                                 <img style="vertical-align:middle" src="/assets/icon1.png">
                             </div>
-                            <div class="d-inline-block">
+                            <div class="d-inline-block pr-4">
                                 Latest Block
                             </div>
-
+                            <div class="d-inline-block">
+                                #{{latestBlockNumber}}
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            #{{latestBlock}}
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="d-inline-block pr-2">
                                 <img style="vertical-align:middle" src="/assets/icon2.png">
                             </div>
-                            <div class="d-inline-block">
-                                Time of last block
+                            <div class="d-inline-block pr-4">
+                                Timestamp
                             </div>
-
-                        </div>
-                        <div class="col-md-3">
-                            {{timeOfLastBlock}}
+                            <div class="d-inline-block">
+                                {{timeOfLastBlock * 1000 | date:'medium'}}
+                            </div>
                         </div>
                     </div>
-                    <div class="row py-2">
-                        <div class="col-md-3">
+                    <div class="row px-3 py-2">
+                        <div class="col-md-6">
                             <div class="d-inline-block pr-2">
                                 <img style="vertical-align:middle" src="/assets/icon3.png">
                             </div>
-                            <div class="d-inline-block">
+                            <div class="d-inline-block pr-4">
                                 Difficulty
                             </div>
+
+                            <div class="d-inline-block">
+                                {{difficulty}}
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            {{difficulty}}
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="d-inline-block pr-2">
                                 <img style="vertical-align:middle" src="/assets/icon4.png">
                             </div>
-                            <div class="d-inline-block">
+                            <div class="d-inline-block pr-4">
                                 Total Address
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            {{totalAddress}}
+
+                            <div class="d-inline-block">
+                                {{totalAddress}}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -76,15 +76,21 @@
                         <div class="pl-4">
                             Blocks
                         </div>
-                        <div class="ml-auto pr-4 color-purple">
+                        <div class="ml-auto pr-4 color-purple" routerLink="blocks">
                             View All
                         </div>
                     </div>
+                    <div class="row apair header py-2">
+                        <div class="col-md-2 hand align-self-center">Number</div>
+                        <div class="col-md-4 align-self-center">Timestamp</div>
+                        <div class="col-md-4 align-self-center">Include Txns</div>
+                        <div class="col-md-2 align-self-center">Size</div>
+                    </div>
                     <div class="row apair py-2" *ngFor="let block of blocks; let i=index">
-                        <div class="col-md-2 hand align-self-center">{{block.id}}</div>
-                        <div class="col-md-3 align-self-center">{{block.created_at}}</div>
-                        <div class="col-md-4 align-self-center">Include:{{block.include_txns}} Txns</div>
-                        <div class="col-md-3 align-self-center">{{block.mess}}</div>
+                        <div class="col-md-2 hand align-self-center">{{block.number}}</div>
+                        <div class="col-md-4 align-self-center">{{block.timestamp * 1000 | date:'medium'}}</div>
+                        <div class="col-md-4 align-self-center">Include:{{block.transactions.length}} Txns</div>
+                        <div class="col-md-2 align-self-center">{{block.size}}</div>
                     </div>
                 </div>
             </div>
@@ -96,16 +102,16 @@
                         <div class="pl-4">
                             Transactions
                         </div>
-                        <div class="ml-auto pr-4 color-purple">
+                        <div class="ml-auto pr-4 color-purple" routerLink="transactions">
                             View All
                         </div>
                     </div>
                     <div class="row apair py-2 " *ngFor="let tran of transactions; let i=index">
-                        <div class="col-md-10 pl-3 text-left">Txn #: {{tran.id}}</div>
-                        <div class="col-md-2 pr-3 text-right">{{tran.created_at}}</div>
+                        <div class="col-md-12">Txn #: {{tran.txhash}}</div>
+                        <div class="col-md-12">Timestamp: {{tran.timestamp_n * 1000 | date:'medium'}}</div>
 
-                        <div class="col-md-6 pl-3 text-left text-muted">From:{{tran.from}}</div>
-                        <div class="col-md-6 pr-3 text-right text-muted">To:{{tran.to}}</div>
+                        <div class="col-md-12 text-muted">From:{{tran.from}}</div>
+                        <div class="col-md-12 text-muted">To:{{tran.to}}</div>
                     </div>
                 </div>
             </div>

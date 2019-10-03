@@ -49,3 +49,22 @@
     width: 100%;
     height: 100%;
 }
+
+.apair {
+    display: flex;
+    margin-left: 1em;
+    margin-right: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 0.5em;
+    border-bottom: 1px dashed #484969;
+    color: silver;
+    font-size: media;
+}
+
+.header {
+    font-weight: bold;
+    height: 2em;
+    padding-top: 4px;
+    background-color: #2c2c4e;
+    color: white;
+}

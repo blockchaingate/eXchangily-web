@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {BlockNumberResponse, BlockResponse, AccountsResponse,
-    KanbanGetBanalceResponse, TransactionAccountResponse} from '../interfaces/kanban.interface';
+import {BlockNumberResponse, BlockResponse, AccountsResponse,TransactionsResponse,
+    KanbanGetBanalceResponse, TransactionAccountResponse, Block} from '../interfaces/kanban.interface';
 import { environment } from '../../environments/environment';
 @Injectable()
 export class KanbanService {
@@ -14,7 +14,7 @@ export class KanbanService {
 
     async getCoinPoolAddress() {
         const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
-        let path = '/exchangily/getCoinPoolAddress';
+        let path = 'exchangily/getCoinPoolAddress';
         path = this.endpoint + path;
         let addr = '';
         try {
@@ -26,31 +26,52 @@ export class KanbanService {
     }
 
     async getAccounts() {
-        const path = '/kanban/getAccounts';
+        const path = 'kanban/getAccounts';
         const res = await this.get(path).toPromise() as AccountsResponse;
         return res.accounts;
     }
-    async getLatestBlock() {
-        const path = '/kanban/getBlockNumber';
-        const res = await this.get(path).toPromise() as BlockNumberResponse;
-        return res.blockNumber.blockNumber;
-    }
 
-    async getBlock(blockNumber: string) {
-        const path = '/kanban/getBlock/' + blockNumber; 
-        const res = await this.get(path).toPromise() as BlockResponse;
+    getBlock(blockNumber: string) {
+        const path = 'kanban/getBlock/' + blockNumber; 
+        console.log('path for getBlock=' + path);
+        const res = this.get(path).toPromise();
         return res;
     }
 
+    getLatestBlocks() {
+        const path = environment.endpoints.explorer + 'getlatestblocks/10';
+        const res = this.http.get(path);
+        return res;
+    }
+
+    getBlocks(blockNum: number, num: number) {
+        const path = environment.endpoints.explorer + 'getblocks/' + blockNum + '/' + num;
+        const res = this.http.get(path);
+        return res;
+    }
+
+    getLatestTransactions(num: number) {
+        const path = environment.endpoints.explorer + 'transactions/' + num;
+        const res = this.http.get(path);
+        return res;
+    }
+    
+    getTransactions(blockNum: number, num: number) {
+        const path = environment.endpoints.explorer + 'transactions/' + blockNum + '/' + num;
+        const res = this.http.get(path);
+        return res;
+    }
+
+    
     async getTransactionCount(address: string) {
-        const path = '/kanban/getTransactionCount/' + address; 
+        const path = 'kanban/getTransactionCount/' + address; 
         const res = await this.get(path).toPromise() as TransactionAccountResponse;
         return res.transactionCount;
     }
 
     async getExchangeAddress() {
         const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
-        let path = '/exchangily/getExchangeAddress';
+        let path = 'exchangily/getExchangeAddress';
         path = this.endpoint + path;  
         const addr = await this.http.get(path, { headers, responseType: 'text'}).toPromise() as string;
         return addr;
@@ -58,7 +79,7 @@ export class KanbanService {
 
     async getScarAddress() {
         const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
-        let path = '/kanban/getScarAddress';
+        let path = 'kanban/getScarAddress';
         path = this.endpoint + path;  
         const addr = await this.http.get(path, { headers, responseType: 'text'}).toPromise() as string;
         return addr;
@@ -68,7 +89,7 @@ export class KanbanService {
         const data = {
             signedTransactionData: txhex
         };
-        return this.post('/kanban/sendRawTransaction', data);
+        return this.post('kanban/sendRawTransaction', data);
     }
 
     submitDeposit(rawTransaction: string, rawKanbanTransaction: string) {
@@ -89,11 +110,11 @@ export class KanbanService {
     }
 
     getBalance(address: string) {
-        return this.get('/exchangily/getBalances/' + address);
+        return this.get('exchangily/getBalances/' + address);
     }
 
     async getGas(address: string) {
-        const path = '/kanban/getBalance/' + address;
+        const path = 'kanban/getBalance/' + address;
         
         let gas = 0;
         try {
@@ -121,6 +142,6 @@ export class KanbanService {
     }
 
     getAllOrders() {
-        return this.get('/exchangily/getAllOrderData');
+        return this.get('exchangily/getAllOrderData');
     }
 }

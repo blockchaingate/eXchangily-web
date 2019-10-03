@@ -4,7 +4,8 @@ export const environment = {
     endpoints: {
         blockchaingate: 'https://blockchaingate.com/v2/',
         coingecko: 'https://api.coingecko.com/',
-        kanban: 'http://169.45.42.108:4000',
+        kanban: 'http://169.45.42.108:4000/',
+        explorer: 'http://169.53.144.184:3000/',
         BTC: {
             exchangily: 'http://18.188.32.168:8000/'
         },

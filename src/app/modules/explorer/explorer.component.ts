@@ -1,7 +1,5 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { KanbanService } from '../../services/kanban.service';
-import { UtilService } from '../../services/util.service';
-import {BlockNumberResponse, BlockResponse} from '../../interfaces/kanban.interface';
 @Component({
     selector: 'app-explorer',
     templateUrl: './explorer.component.html',
@@ -9,96 +7,37 @@ import {BlockNumberResponse, BlockResponse} from '../../interfaces/kanban.interf
     encapsulation: ViewEncapsulation.None
 })
 export class ExplorerComponent implements OnInit {
-    latestBlock: string;
+    latestBlock: any;
+    latestBlockNumber: number;
     difficulty: string;
     timeOfLastBlock: string;
     totalAddress: string;
 
-    blocks = [
-        {
-            id: '524785',
-            created_at: '2 sec ago',
-            include_txns: 1,
-            mess: 'NodeKita'
-        },
-        {
-            id: '524785',
-            created_at: '2 sec ago',
-            include_txns: 1,
-            mess: 'NodeKita'
-        },
-        {
-            id: '524785',
-            created_at: '2 sec ago',
-            include_txns: 1,
-            mess: 'NodeKita'
-        },
-        {
-            id: '524785',
-            created_at: '2 sec ago',
-            include_txns: 1,
-            mess: 'NodeKita'
-        },
-        {
-            id: '524785',
-            created_at: '2 sec ago',
-            include_txns: 1,
-            mess: 'NodeKita'
-        },
-        {
-            id: '524785',
-            created_at: '2 sec ago',
-            include_txns: 1,
-            mess: 'NodeKita'
-        },
-        {
-            id: '524785',
-            created_at: '2 sec ago',
-            include_txns: 1,
-            mess: 'NodeKita'
-        }                         
-    ];
+    blocks: any;
 
-    transactions = [
-        {
-            id: '54frefrew43rerfwedrgsergtfserfgtserfwserw3rw3rw3a',
-            created_at: '2 sec ago',
-            from: 'rwr23rwr23rwr23rwr23',
-            to: 'rwr23rwr23rwr23rwr23'
-        },
-        {
-            id: '54frefrew43rerfwedgsergtserfgserfgrfwserw3rw3rw3a',
-            created_at: '2 sec ago',
-            from: 'rwr23rwr23rwr23rwr23',
-            to: 'rwr23rwr23rwr23rwr23'
-        },
-        {
-            id: '54frefrew43rerfgsergfserfgesfgswedrfwserw3rw3rw3a',
-            created_at: '2 sec ago',
-            from: 'rwr23rwr23rwr23rwr23',
-            to: 'rwr23rwr23rwr23rwr23'
-        },
-        {
-            id: '54frefrew43rerfgsergfserfgesfgswedrfwserw3rw3rw3a',
-            created_at: '2 sec ago',
-            from: 'rwr23rwr23rwr23rwr23',
-            to: 'rwr23rwr23rwr23rwr23'
-        }                        
-    ];    
+    transactions: any;    
 
-    constructor(private kanbanServ: KanbanService, private utilServ: UtilService) {
+    constructor(private kanbanServ: KanbanService) {
         
     }    
 
-    async ngOnInit() {
-        this.latestBlock = await this.kanbanServ.getLatestBlock();
-        const res = await this.kanbanServ.getBlock(this.latestBlock);
-        console.log(res);
-        this.difficulty = res.block.totalDifficulty;
-        const timestamp = res.block.timestamp;
-        const date = new Date(timestamp * 1000);
-        this.timeOfLastBlock = this.utilServ.getFormattedDate(date);
-        const accounts = await this.kanbanServ.getAccounts();
-        this.totalAddress = accounts.length.toString();
+    ngOnInit() {
+        this.kanbanServ.getLatestTransactions(5).subscribe(
+            (transactions: any) => {
+                this.transactions = transactions.txs;
+            }
+        );
+        
+        this.kanbanServ.getLatestBlocks().subscribe(
+            (blocks: any) => {
+                this.blocks = blocks;
+                if (this.blocks && this.blocks.length > 0) {
+                    this.latestBlock = this.blocks[0];
+                    this.difficulty = this.latestBlock.totalDifficulty;
+                    this.latestBlockNumber = this.latestBlock.number;
+                    this.timeOfLastBlock = this.latestBlock.timestamp;
+                }
+            }
+        );
     }
 }

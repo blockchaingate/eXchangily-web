@@ -1,4 +1,5 @@
 import { OrderBookItem } from '../modules/market/models/order-book';
+import { number } from 'bitcoinjs-lib/types/script';
 
 //import { Block } from 'bitcoinjs-lib';
 
@@ -49,6 +50,19 @@ export interface Transaction {
     qty: number;
     status: string;
     created_at: Date;
+}
+
+export interface KanbanTransaction {
+    idx: number;
+    txhash: string;
+    block: number;
+    timestamp: string;
+    timestamp_n: number;
+    from: string;
+    to: string;
+    value: string;
+    gas: string;
+    gasPrice: string;
 }
 
 export interface OrderItem {
@@ -144,6 +158,12 @@ export interface Block {
     timestamp: number;
     totalDifficulty: string;
 }
+
+export interface TransactionsResponse {
+    total_txs: number;
+    txs: [KanbanTransaction];
+}
+
 export interface BlockResponse {
     block: Block;
 }
