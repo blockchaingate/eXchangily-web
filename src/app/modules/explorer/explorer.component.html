@@ -87,7 +87,11 @@
                         <div class="col-md-2 align-self-center">Size</div>
                     </div>
                     <div class="row apair py-2" *ngFor="let block of blocks; let i=index">
-                        <div class="col-md-2 hand align-self-center">{{block.number}}</div>
+                        <div class="col-md-2 hand align-self-center">
+                            <a [routerLink]="['block', block.number]">
+                            {{block.number}}
+                            </a>
+                        </div>
                         <div class="col-md-4 align-self-center">{{block.timestamp * 1000 | date:'medium'}}</div>
                         <div class="col-md-4 align-self-center">Include:{{block.transactions.length}} Txns</div>
                         <div class="col-md-2 align-self-center">{{block.size}}</div>
@@ -107,7 +111,11 @@
                         </div>
                     </div>
                     <div class="row apair py-2 " *ngFor="let tran of transactions; let i=index">
-                        <div class="col-md-12">Txn #: {{tran.txhash}}</div>
+                        <div class="col-md-12">Txn #:
+                            <a [routerLink]="['transaction', tran.txhash]">
+                                {{tran.txhash}}
+                            </a>
+                        </div>
                         <div class="col-md-12">Timestamp: {{tran.timestamp_n * 1000 | date:'medium'}}</div>
 
                         <div class="col-md-12 text-muted">From:{{tran.from}}</div>

@@ -11,15 +11,24 @@ import { switchMap } from 'rxjs/operators';
 })
 export class BlockDetailComponent implements OnInit {
     block: any;
-    id: number;
+    id: string;
     constructor(private kanbanServ: KanbanService, private route: ActivatedRoute) {
-      this.id = 1;
     }    
 
     ngOnInit() {
-        this.block = this.route.paramMap.pipe(
-            switchMap((params: ParamMap) =>
-              this.kanbanServ.getBlock(params.get('id')))
+        this.block = this.route.paramMap.subscribe(
+            paramMap => {
+                this.id = paramMap.get('id');
+                console.log('this.id = ' + this.id);
+                this.kanbanServ.getBlock(this.id).subscribe(
+                    (block) => {
+                        console.log('block=', block);
+                        this.block = block;
+
+                    }
+                );
+            }
         );
+
     }    
 }

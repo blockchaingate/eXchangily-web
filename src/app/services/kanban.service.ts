@@ -34,7 +34,7 @@ export class KanbanService {
     getBlock(blockNumber: string) {
         const path = 'kanban/getBlock/' + blockNumber; 
         console.log('path for getBlock=' + path);
-        const res = this.get(path).toPromise();
+        const res = this.get(path);
         return res;
     }
 
