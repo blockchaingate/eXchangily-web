@@ -3,7 +3,7 @@
     width: 100%;
     color: white;
     background: rgba(0, 0, 0, 0);
-    background-image: url('/images/icons/searchicon.svg');
+    background-image: url('/images/icons/searchicon-w.svg');
     background-size: 15px 15px;
     padding-left: 30px;
     background-position: 7px 7px;
@@ -67,4 +67,9 @@
     padding-top: 4px;
     background-color: #2c2c4e;
     color: white;
+}
+
+#input:focus {
+    border: 1px solid red;
+    box-shadow: 0 0 10px #719ECE;
 }

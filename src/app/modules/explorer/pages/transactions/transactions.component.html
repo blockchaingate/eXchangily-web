@@ -47,23 +47,23 @@
     </div>
     <div class="row apair py-2" *ngFor="let transaction of transactions; let i=index">
         <div class="col-md-2 hand align-self-center">
-            <a [routerLink]="['../transaction', transaction.txhash]">
+            <a class="explorer-link" [routerLink]="['/explorer/transaction', transaction.txhash]">
             {{(transaction.txhash.length > 15) ? (transaction.txhash | slice:0:15) +'...' : transaction.txhash}}
             </a>
         </div>
         <div class="col-md-1 align-self-center">
-            <a [routerLink]="['../block', transaction.block]">
+            <a class="explorer-link" [routerLink]="['/explorer/block', transaction.block]">
                 {{transaction.block}}
             </a>
         </div>
         <div class="col-md-3 align-self-center">{{transaction.timestamp_n * 1000 | date:'medium'}}</div>
         <div class="col-md-2 align-self-center">
-            <a [routerLink]="['../address', transaction.from]">
+            <a class="explorer-link" [routerLink]="['/explorer/address', transaction.from]">
                 {{(transaction.from.length > 15) ? (transaction.from | slice:0:15) +'...' : transaction.from}}
             </a>
         </div>
         <div class="col-md-2 align-self-center">
-            <a [routerLink]="['../address', transaction.to]">
+            <a class="explorer-link" [routerLink]="['/explorer/address', transaction.to]">
                 {{(transaction.to.length > 15) ? (transaction.to | slice:0:15) +'...' : transaction.to}}
             </a>
         </div>

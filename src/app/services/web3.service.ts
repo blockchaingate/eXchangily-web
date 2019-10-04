@@ -64,7 +64,8 @@ export class Web3Service {
         data: '0x' + abiHex,
         gas: 1000000,
         coin: '0x',
-        gasPrice: 40
+        //gasPrice: 40000000000  // in wei
+        gasPrice: 40  // in wei
       };
       const txObjectWithoutCoin = {
         to: address,
@@ -259,11 +260,19 @@ export class Web3Service {
     }
 
 
+    getWithdrawFuncABI (coinType: number, amount: number, destAddress: string) {
+      let abiHex = '3a5b6c70';
+      abiHex += this.utilServ.fixedLengh(coinType, 62);
+      const amountHex = amount.toString(16);
+      abiHex += this.utilServ.fixedLengh(amountHex, 64);
+      abiHex += this.utilServ.fixedLengh(destAddress.substring(2), 64);    
+      return abiHex;
+    }
 
     getDepositFuncABI(coinType: number, txHash: string, amount: number, addressInKanban: string, signedMessage: Signature) {
 
-        const web3 = this.getWeb3Provider();
-        const func = {
+      const web3 = this.getWeb3Provider();
+      const func = {
           "constant": false,
           "inputs": [
             {
@@ -301,7 +310,7 @@ export class Web3Service {
           "payable": false,
           "stateMutability": "nonpayable",
           "type": "function"
-        };
+      };
       let abiHex = web3.eth.abi.encodeFunctionSignature(func).substring(2);
       abiHex += signedMessage.v.substring(2);
       abiHex += this.utilServ.fixedLengh(coinType, 62);

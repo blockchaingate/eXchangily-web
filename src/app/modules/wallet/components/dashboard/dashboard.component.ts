@@ -11,6 +11,7 @@ import {KanbanService} from '../../../../services/kanban.service';
 import {Web3Service} from '../../../../services/web3.service';
 import {Signature, Token} from '../../../../interfaces/kanban.interface';
 import { DepositAmountModal } from '../../modals/deposit-amount/deposit-amount.modal';
+import { WithdrawAmountModal } from '../../modals/withdraw-amount/withdraw-amount.modal';
 import { AddAssetsModal } from '../../modals/add-assets/add-assets.modal';
 import { PinNumberModal } from '../../modals/pin-number/pin-number.modal';
 import { AddGasModal } from '../../modals/add-gas/add-gas.modal';
@@ -37,6 +38,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class WalletDashboardComponent {
     @ViewChild('pinModal', {static: true}) pinModal: PinNumberModal;
     @ViewChild('depositModal', {static: true}) depositModal: DepositAmountModal;
+    @ViewChild('withdrawModal', {static: true}) withdrawModal: WithdrawAmountModal;
     @ViewChild('addGasModal', {static: true}) addGasModal: AddGasModal;
     @ViewChild('addAssetsModal', {static: true}) addAssetsModal: AddAssetsModal;
     @ViewChild('sendCoinModal', {static: true}) sendCoinModal: SendCoinModal;
@@ -266,19 +268,9 @@ export class WalletDashboardComponent {
         this.addGasModal.show();
     }
     
-    async withdraw(currentCoin: MyCoin) {
-        const pin = '1qaz@WSX';
-        const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
-        const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);   
-
-        const abiHex = '379eb8621c000000000000000000000000000000000000000000000000000000000000024df1b18ddc1079c446e23ee6d5008e40f19033c6eb28e44a479e05273553d9810000000000000000000000000000000000000000000000000031bced02db0000000000000000000000000000463fb771ce5c8b5914a790f170074e6a1306204f0ef43686352a67ec8e0d812f8b6e34f952b931911851e23761979d01536ab253020efb2b83e4acabed5869d552b4e9463c6bbc3ae42a3491901bf9b8df14845c';
-        const address = '0xf16a0291680456538c31ab5fb2db383d9b662eaa';
-        const nonce = 0;
-        const hash1 = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce, false);
-        console.log('hash1=', hash1);
-        const hash2 = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce, true);
-        
-        console.log('hash2=', hash2);
+    withdraw(currentCoin: MyCoin) {
+        this.currentCoin = currentCoin;
+        this.withdrawModal.show();        
     }
 
     deposit(currentCoin: MyCoin) {
@@ -291,9 +283,15 @@ export class WalletDashboardComponent {
         */ 
     }
 
-    onConfirmedAmount(amount: number) {
+    onConfirmedDepositAmount(amount: number) {
         this.amount = amount;
         this.opType = 'deposit';
+        this.pinModal.show();
+    }
+
+    onConfirmedWithdrawAmount(amount: number) {
+        this.amount = amount;
+        this.opType = 'withdraw';
         this.pinModal.show();
     }
 
@@ -336,6 +334,9 @@ export class WalletDashboardComponent {
         if (this.opType === 'deposit') {
             this.depositdo();
         } else 
+        if (this.opType === 'withdraw') {
+            this.withdrawdo();
+        } else
         if (this.opType === 'addGas') {
             this.addGasDo();
         } else
@@ -474,17 +475,39 @@ export class WalletDashboardComponent {
         }
     }
 
+    async withdrawdo() {
+        const currentCoin = this.currentCoin;
+
+        const amount = this.amount;
+        const pin = this.pin;
+
+        const coinType = this.coinServ.getCoinTypeIdByName(currentCoin.name);
+
+        const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
+        if (!seed) {
+            this._snackBar.open('Your pin number is invalid.', 'Ok', {
+                duration: 2000,
+            });        
+            return;   
+        }         
+        const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);   
+        const amountInLink = amount * 1e18; // it's for all coins.
+        const addressInWallet = currentCoin.receiveAdds[0].address;
+        const abiHex = this.web3Serv.getWithdrawFuncABI(coinType, amountInLink, addressInWallet);  
+        const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
+        const includeCoin = true;
+        const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
+        const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
+
+        this.kanbanServ.sendRawSignedTransaction(txKanbanHex).subscribe((resp) => { 
+            console.log('resp=' + resp);
+        });      
+    }
+
     async depositdo() {
 
         const currentCoin = this.currentCoin;
 
-        /*
-        if (currentCoin == null) {
-            currentCoin = this.wallet.mycoins[1];
-            this.depositFab(currentCoin);
-            return;
-        }       
-        */
         const amount = this.amount;
         const pin = this.pin;
 
@@ -504,6 +527,9 @@ export class WalletDashboardComponent {
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
 
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
+
+        console.log('addressInKanban=', addressInKanban);
+        console.log('keyPairsKanban.address=', keyPairsKanban.address);
         const doSubmit = false;
         const options = {};
         const {txHex, txHash} = await this.coinServ.sendTransaction(currentCoin, seed, officalAddress, amount, options, doSubmit);   
@@ -530,10 +556,11 @@ export class WalletDashboardComponent {
         //console.log('c');
         const abiHex = this.web3Serv.getDepositFuncABI(coinType, txHash, amountInLink, addressInKanban, signedMessage);
         //console.log('d');
-        let nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
+        const nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
         //const nonce = 0;
         const includeCoin = true;
         //console.log('e');
+        console.log('private key for kanban=', keyPairsKanban.privateKeyHex);
         const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
         //console.log('f');
         

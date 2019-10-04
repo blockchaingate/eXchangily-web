@@ -40,4 +40,8 @@ export class ExplorerComponent implements OnInit {
             }
         );
     }
+
+    search (searchText: string) {
+        console.log('searchText=' + searchText);
+    }
 }

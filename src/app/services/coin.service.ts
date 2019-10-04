@@ -283,6 +283,12 @@ export class CoinService {
             const publicKey = childNode.publicKey;
             const publicKeyString = `0x${publicKey.toString('hex')}`;
             addr = this.utilServ.toKanbanAddress(publicKeyString);
+
+            console.log('here we go');
+            console.log('name=' + name);
+            console.log('priKeyHex=' + priKeyHex);
+            console.log('publicKeyString=' + publicKeyString);
+            console.log('address=' + addr);
             /*
             const privateKeyBuffer = wif.decode(priv.ateKey); Balance
             const wallet = Wallet.fromPrivateKey(privateKeyBufBalance

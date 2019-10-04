@@ -1,7 +1,7 @@
 <div class="container explorer-container">
     <div class="row py-3">
         <div class="col-md-5">
-            <input type="text" id="input" placeholder="Search by Address / Txn Hash / Block / Token">
+            <input type="text" id="input" (keydown.enter)="search($event.target.value)" placeholder="Search by Address / Txn Hash / Block">
         </div>
 
     </div>
@@ -88,7 +88,7 @@
                     </div>
                     <div class="row apair py-2" *ngFor="let block of blocks; let i=index">
                         <div class="col-md-2 hand align-self-center">
-                            <a [routerLink]="['block', block.number]">
+                            <a class="explorer-link" [routerLink]="['block', block.number]">
                             {{block.number}}
                             </a>
                         </div>
@@ -112,14 +112,25 @@
                     </div>
                     <div class="row apair py-2 " *ngFor="let tran of transactions; let i=index">
                         <div class="col-md-12">Txn #:
-                            <a [routerLink]="['transaction', tran.txhash]">
+                            <a class="explorer-link" [routerLink]="['transaction', tran.txhash]">
                                 {{tran.txhash}}
                             </a>
                         </div>
                         <div class="col-md-12">Timestamp: {{tran.timestamp_n * 1000 | date:'medium'}}</div>
 
-                        <div class="col-md-12 text-muted">From:{{tran.from}}</div>
-                        <div class="col-md-12 text-muted">To:{{tran.to}}</div>
+                        <div class="col-md-12 text-muted">
+                            From:
+                            <a class="explorer-link" [routerLink]="['address', tran.from]">
+                                {{tran.from}}
+                            </a>
+                        </div>
+                        <div class="col-md-12 text-muted">
+                            To:
+                            <a class="explorer-link" [routerLink]="['address', tran.to]">
+                                {{tran.to}}
+                            </a>
+
+                        </div>
                     </div>
                 </div>
             </div>

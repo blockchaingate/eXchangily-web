@@ -278,13 +278,14 @@ export default class KanbanTxService {
             stripZeros(toBuffer(0)),
             ]
           */
-
-         items = this.raw.slice(0, 5).concat(this.raw.slice(6, 7), [
+            // items = this.raw.slice(0, 5).concat(this.raw.slice(6, 7), [
+         items = this.raw.slice(0, 7).concat([
           toBuffer(this.getChainId()),
           // TODO: stripping zeros should probably be a responsibility of the rlp module
           stripZeros(toBuffer(0)),
           stripZeros(toBuffer(0)),
-      ]);          
+      ]);      
+
         } else {
             items = this.raw.slice(0, 7)
         }
