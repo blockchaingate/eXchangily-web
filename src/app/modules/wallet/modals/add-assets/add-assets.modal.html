@@ -10,9 +10,9 @@
                 </div>
                 <div class="modal-body">
                     <mat-tab-group>
-                        <mat-tab class="text-dark" label="FAB Token">
+                        <mat-tab label="FAB Token">
                             <mat-selection-list #fabtokens (selectionChange)="onFabSelection($event, fabtokens.selectedOptions.selected)">
-                                <mat-list-option *ngFor="let token of fabTokens; let i = index" [value]="i+1">
+                                <mat-list-option class="dark-label" *ngFor="let token of fabTokens; let i = index" [value]="i+1">
                                     {{token.name}}
                                 </mat-list-option>
                                 <mat-list-option value="0">

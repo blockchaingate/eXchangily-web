@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home/home.component';
-
+import { VersionComponent } from './version/version.component';
 import { TeamComponent } from './team/team.component';
 import { RoadmapComponent } from './roadmap/roadmap.component';
 
@@ -22,7 +22,7 @@ import { HttpService } from '../../../../services/http.service';
 @NgModule({
   imports: [
     CommonModule,
-    HomeRoutingModule,
+    HomeRoutingModule, 
     FlexLayoutModule,
     TranslateModule,
     RouterModule,
@@ -35,6 +35,7 @@ import { HttpService } from '../../../../services/http.service';
   ],
   declarations: [
     HomeComponent,
+    VersionComponent,
     TeamComponent,
     RoadmapComponent
   ]

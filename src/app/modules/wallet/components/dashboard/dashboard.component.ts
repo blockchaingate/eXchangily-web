@@ -162,7 +162,7 @@ export class WalletDashboardComponent {
         } else 
         if (type === 'BACKUP_PRIVATE_KEY') {
             this.opType = 'backupPrivateKey';
-            this.pinModal.show();  
+            this.pinModal.show();  0x5cae65c0d1e6c8fbbe34b2962119f88806057f30
         } else 
         if (type === 'DELETE_WALLET') {
             this.opType = 'deleteWallet';
@@ -541,7 +541,7 @@ export class WalletDashboardComponent {
         console.log('111111111111111111111111111111111111111111111111111111111111');
         console.log('txHex=' + txHex);
         console.log('txHash=' + txHash);
-        //console.log('txSubmited.txHex=' , txSubmited.txHex);
+        //console.log('txSubmited.txHex=' , txSubmited.txHex) ;
         //console.log('txSubmited.txHash=' , txSubmited.txHash);
         if (!txHash) {
             this._snackBar.open('Not enough fund.', 'Ok', {
