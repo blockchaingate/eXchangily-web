@@ -51,7 +51,7 @@ export class MarketListComponent implements OnInit {
         this.select = cat;
         if (cat === 100) {
             this.tab_prices = this.prices.filter((listing: Price) => listing.favorite === 1);
-        } else if (cat === 4) {
+        } else if (cat === 1000) {
             this.tab_prices = [];
         }
         {
