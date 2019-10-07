@@ -984,7 +984,7 @@ export class CoinService {
         } else 
         if (mycoin.tokenType === 'ETH') { // etheruem tokens
             const address1 = mycoin.receiveAdds[0];
-
+            gasLimit = 100000;
             const currentIndex = address1.index;    
             console.log('currentIndex=' + currentIndex);
             const keyPair = this.getKeyPairs(mycoin, seed, 0, currentIndex);
@@ -998,7 +998,7 @@ export class CoinService {
             const toAccount = toAddress;
             const contractAddress = mycoin.contractAddr;
 
-            console.log('nonce = ' + nonce);totalInput
+            console.log('nonce = ' + nonce);
             const func =    {  
                 "constant": false,
                 "inputs":[  
