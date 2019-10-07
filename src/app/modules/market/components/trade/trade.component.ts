@@ -50,13 +50,14 @@ export class TradeComponent implements OnInit {
                 console.log('resp from getBalances===');
                 console.log(resp);
                 this.mytokens = resp;
+                /*
                 if (this.myOrders) {
                     this.myOrders.onRefreshToken(resp);
                 }
                 if (this.orderPad) {
                     this.orderPad.onRefreshToken(resp);
                 }
-                
+                */
             });
         }    
     }
@@ -64,7 +65,7 @@ export class TradeComponent implements OnInit {
     async ngOnInit() {
         this.screenwidth = window.innerWidth;
         this.screenheight = window.innerHeight;        
-        //console.log('width=', width);
+        // console.log('width=', width);
         const wallet = await this.walletService.getCurrentWallet();
         if (wallet) {
             this.wallet = wallet;

@@ -18,7 +18,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 export class MyordersComponent implements OnInit {
     @Input() wallet: Wallet;
-    @Input() mytokens: any;
+    private _mytokens: any;
     screenheight = screen.height;
     select = 0;
     myorders: Transaction[] = [];
@@ -31,14 +31,22 @@ export class MyordersComponent implements OnInit {
         private kanbanService: KanbanService, private coinService: CoinService, private modalService: BsModalService) {
     }
 
+    @Input()
+    set mytokens(mytokens: any) {
+      this._mytokens = mytokens;
+    }
+  
+    get mytokens(): any { return this._mytokens; }
+
+    /*
     onRefreshToken(tokens) {
         
         this.mytokens = tokens;
         console.log('mytokens in myorders', this.mytokens);
     }
-
+    */
     ngOnInit() {
-        console.log('mytokens in myorders=', this.mytokens);
+        // console.log('mytokens in myorders=', this.mytokens);
         this.tradeService.getTransactions().subscribe((transactions: Transaction[]) => {
             console.log('transactions=');
             console.log(transactions);

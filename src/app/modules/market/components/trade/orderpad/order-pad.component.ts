@@ -31,7 +31,7 @@ declare let window: any;
 export class OrderPadComponent implements OnInit, OnDestroy {
 
     @Input() wallet: Wallet;
-    @Input() mytokens: any;
+    private _mytokens: any;
     @Output() refreshToken = new EventEmitter();
 
     screenheight = screen.height;
@@ -173,6 +173,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
     }
 
+    /*
     onRefreshToken(tokens) {
       console.log('onRefreshToken in orderPad');
       if (!this.utilService.arraysEqual(tokens, this.mytokens)) {
@@ -181,6 +182,25 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       }
       
     }
+    */
+   @Input()
+   set mytokens(mytokens: any) {
+     this._mytokens = mytokens;
+
+     if (mytokens && mytokens.length > 0) {
+      for (let i = 0; i < mytokens.length; i++) {
+        if (this.mytokens[i].coinType === this.baseCoin.toString()) {
+          this.baseCoinAvail = Number(this.mytokens[i].unlockedAmount) / 1e18;
+        }
+        if (this.mytokens[i].coinType === this.targetCoin.toString()) {
+          this.targetCoinAvail = Number(this.mytokens[i].unlockedAmount) / 1e18;
+        }  
+      }
+      this.refreshOrders();    
+    }        
+   }
+ 
+   get mytokens(): any { return this._mytokens; }
 
     ngOnInit() {
       this.oldNonce = -1;
@@ -192,17 +212,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         this.baseCoin = this.coinService.getCoinTypeIdByName(pairArray[0]);
         this.targetCoin = this.coinService.getCoinTypeIdByName(pairArray[1]);
 
-        if (this.mytokens && this.mytokens.length > 0) {
-          for (let i = 0; i < this.mytokens.length; i++) {
-            if (this.mytokens[i].coinType === this.baseCoin.toString()) {
-              this.baseCoinAvail = Number(this.mytokens[i].unlockedAmount) / 1e18;
-            }
-            if (this.mytokens[i].coinType === this.targetCoin.toString()) {
-              this.targetCoinAvail = Number(this.mytokens[i].unlockedAmount) / 1e18;
-            }  
-          }
-        }   
-        this.refreshOrders();     
+
+         
         // this.loadChart(pairArray[0], pairArray[1]);
         // In a real app: dispatch action to load the details here.
      });      
