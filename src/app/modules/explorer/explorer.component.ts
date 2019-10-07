@@ -10,7 +10,7 @@ export class ExplorerComponent implements OnInit {
     latestBlock: any;
     latestBlockNumber: number;
     difficulty: string;
-    timeOfLastBlock: string;
+    timeOfLastBlock: number;
     totalAddress: string;
 
     blocks: any;
