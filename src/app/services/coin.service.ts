@@ -166,7 +166,7 @@ export class CoinService {
                 decimals = 18;
             }
             const balanceObj = await this.apiService.getEthTokenBalance(contractAddr, addr);
-
+            console.log('balanceObj=', balanceObj);
             balance = balanceObj.balance / Math.pow(10, decimals);
             lockbalance = balanceObj.lockbalance / Math.pow(10, decimals);
         } else

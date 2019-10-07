@@ -82,7 +82,7 @@ export class WalletDashboardComponent {
 
     async ngOnInit() {
         await this.loadWallets();
-        this.currentWalletIndex = await this.walletServ.getCurrentWalletIndex();
+        //this.currentWalletIndex = await this.walletServ.getCurrentWalletIndex();
         console.log('this.currentWalletIndex=', this.currentWalletIndex);
         if (this.currentWalletIndex == null) {
             this.currentWalletIndex = 0;
@@ -244,6 +244,10 @@ export class WalletDashboardComponent {
     
     async loadWallets() {
         this.wallets = await this.walletServ.getWallets();
+        if (!this.wallets) {
+            this.route.navigate(['/wallet/create']);
+            return;
+        }
         this.currentWalletIndex = await this.walletServ.getCurrentWalletIndex();
     }
     async loadWallet(wallet: Wallet) {

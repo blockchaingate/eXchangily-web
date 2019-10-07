@@ -1,12 +1,12 @@
 <div class="container exg-bg">
-    <div class="row">
+    <div class="row mx-3 py-2">
         <div class="col-md-12">
-            <div class="d-inline-block">
+            <div class="d-inline-block color-silver">
                 Transactions
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="pageTotal">
         <div class="col-md-12 text-right align-self-right">
             <div class="d-inline-block">
                 <button mat-icon-button (click)="goToPage(1)">
@@ -37,7 +37,13 @@
             </div>
         </div>
     </div>
-    <div class="row apair header py-2">
+    <div class="row text-center py-2" *ngIf="!transactions">
+        <div class="col col-12">
+            no transactions.
+        </div>
+
+    </div>
+    <div class="row apair header py-2" *ngIf="transactions">
         <div class="col-md-2 hand align-self-center">Txn Hash</div>
         <div class="col-md-1 align-self-center">Block</div>
         <div class="col-md-3 align-self-center">Date Time</div>
@@ -70,7 +76,7 @@
         <div class="col-md-2 align-self-center">{{transaction.value / 1e18}}</div>
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="pageTotal">
         <div class="col-md-12 text-right align-self-right">
             <div class="d-inline-block">
                 <button mat-icon-button (click)="goToPage(1)">

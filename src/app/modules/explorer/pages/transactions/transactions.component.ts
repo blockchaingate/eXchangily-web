@@ -8,8 +8,9 @@ import { KanbanService } from '../../../../services/kanban.service';
     encapsulation: ViewEncapsulation.None
 })
 export class TransactionsComponent implements OnInit {
-    @Input() block: string;
-    @Input() address: string;
+    @Input() notForGeneral: boolean;
+    private _address = '';
+    private _block = '';
     transactions: any;    
     total: number;
     pageNum: number;
@@ -18,6 +19,35 @@ export class TransactionsComponent implements OnInit {
         this.total = 0;
         this.pageNum = 1;        
     }    
+
+    @Input()
+    set address(address: string) {
+      this._address = (address && address.trim()) || '';
+      if (this._address) {
+        this.kanbanServ.getLatestTransactions('', this._address, 10).subscribe(
+            (transactions: any) => {
+                this.transactions = transactions.txs;
+            }
+        );          
+      }
+    }
+  
+    get address(): string { return this._address; }
+
+
+    @Input()
+    set block(block: string) {
+      this._block = (block && block.trim()) || '';
+      if (this._block) {
+        this.kanbanServ.getLatestTransactions(this._block, '', 10).subscribe(
+            (transactions: any) => {
+                this.transactions = transactions.txs;
+            }
+        );          
+      }
+    }
+  
+    get block(): string { return this._block; }
 
     async goToPage(page: number) {
         if (page < 1) {
@@ -41,13 +71,16 @@ export class TransactionsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.kanbanServ.getLatestTransactions(this.block, this.address, 10).subscribe(
-            (transactions: any) => {
-                this.transactions = transactions.txs;
-                this.total = transactions.total_txs;
-                this.pageTotal = Math.floor(this.total / 10) + 1;
-            }
-        );
-
+        console.log('this.address=' + this.address);
+        if (!this.notForGeneral) {
+            this.kanbanServ.getLatestTransactions(this.block, this._address, 10).subscribe(
+                (transactions: any) => {
+                    this.transactions = transactions.txs;
+                    this.total = transactions.total_txs;
+                    this.pageTotal = Math.floor(this.total / 10) + 1;
+                }
+            ); 
+        }
+  
     }    
 }

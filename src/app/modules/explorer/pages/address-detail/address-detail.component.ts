@@ -15,7 +15,8 @@ export class AddressDetailComponent implements OnInit {
     }    
 
     async ngOnInit() {
-        this.address = this.route.snapshot.paramMap.get('address');
+        this.address = this.route.snapshot.paramMap.get('id');
+        console.log('this.address heee=' + this.address);
     }    
     
 }
