@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { KanbanService } from '../../../../services/kanban.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
     selector: 'app-explorer-address-detail',
@@ -8,12 +9,13 @@ import { KanbanService } from '../../../../services/kanban.service';
     encapsulation: ViewEncapsulation.None
 })
 export class AddressDetailComponent implements OnInit {
-
-    constructor(private kanbanServ: KanbanService) {
+    address: string;
+    constructor(private kanbanServ: KanbanService, private route: ActivatedRoute) {
       
     }    
 
     async ngOnInit() {
+        this.address = this.route.snapshot.paramMap.get('address');
     }    
     
 }

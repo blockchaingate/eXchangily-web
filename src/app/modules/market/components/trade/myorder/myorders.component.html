@@ -2,10 +2,10 @@
 
     <div class="p-2">
         <div class="d-inline-block p-2" [ngClass]="select === 0?'text-white':'text-muted'">
-            <a (click)="selectOrder(0);">{{'Open' | translate}}</a>
+            <a (click)="selectOrder(0);">{{'Open Order' | translate}}</a>
         </div>
         <div class="d-inline-block p-2" [ngClass]="select === 1?'text-white':'text-muted'">
-            <a [class.selected]="select === 1" (click)="selectOrder(1);">{{'Closed' | translate }}</a>
+            <a [class.selected]="select === 1" (click)="selectOrder(1);">{{'Closed Order' | translate }}</a>
         </div>
         <div class="d-inline-block p-2" [ngClass]="select === 100?'text-white':'text-muted'">
             <a [class.selected]="select === 100" (click)="selectOrder(100);">{{'Balances' | translate }}</a>

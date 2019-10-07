@@ -56,7 +56,8 @@
             "Title": "路线图与里程碑",
             "Timestamp1": {
                 "Title": "2017年07月",
-                "Desc": "提出项目方案"
+                "Desc": "提出项目方案",
+                "Closed Order": "Close"
             },
             "Timestamp2": {
                 "Title": "2017年09月",
@@ -805,5 +806,7 @@
         "BUTTON": "联系我们",
         "MESSAGE": "欢迎把任何问题、疑问和反馈发送至 info@fabcoin.co。或者通过微信、推特和脸书联系我们。 感谢您的使用。"
     },
-    "Volume": "交易量"
+    "Volume": "交易量",
+    "Open Order": "我的委托",
+    "Closed Order": "我的交易"
 }

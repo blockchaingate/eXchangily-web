@@ -22,7 +22,7 @@ export class ExplorerComponent implements OnInit {
     }    
 
     ngOnInit() {
-        this.kanbanServ.getLatestTransactions(5).subscribe(
+        this.kanbanServ.getLatestTransactions(null, null, 5).subscribe(
             (transactions: any) => {
                 this.transactions = transactions.txs;
             }

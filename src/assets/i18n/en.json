@@ -747,5 +747,7 @@
         "BUTTON": "Feedback",
         "MESSAGE": "Welcome to send your feedback and question to info@fabcoin.co or contact us via Twitter, Facebook, Wechat. Thank you for using our product."
     },
-    "Volume": "Volume"
+    "Volume": "Volume",
+    "Open Order": "Open",
+    "Closed Order": "Close"
 }

@@ -7,6 +7,7 @@ import {Signature, EthTransactionObj} from '../interfaces/kanban.interface';
 import {UtilService} from './util.service';
 import * as ethUtil from 'ethereumjs-util';
 import KanbanTxService from './kanban.tx.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -19,7 +20,7 @@ export class Web3Service {
         if (typeof window.web3 !== 'undefined') {
           return new Web3(window.web3.currentProvider);
         } else {
-          const web3 = new Web3(Web3.givenProvider || 'https://ropsten.infura.io/v3/6c5bdfe73ef54bbab0accf87a6b4b0ef');
+          const web3 = new Web3(Web3.givenProvider || environment.chains.ETH.web3Provider);
           return web3;
         }}
 
@@ -64,8 +65,8 @@ export class Web3Service {
         data: '0x' + abiHex,
         gas: 1000000,
         coin: '0x',
-        //gasPrice: 40000000000  // in wei
-        gasPrice: 40  // in wei
+        gasPrice: 40000000000  // in wei
+        // gasPrice: 40  // in wei
       };
       const txObjectWithoutCoin = {
         to: address,
@@ -87,20 +88,20 @@ export class Web3Service {
         const EthereumTx = Eth.Transaction;  
         //const tx = new EthereumTx(includeCoin ? txObject : txObjectWithoutCoin, { common: customCommon });
         console.log('txObjectWithoutCoin=', txObjectWithoutCoin);
-        const tx = new EthereumTx(txObjectWithoutCoin, { chain: 'ropsten', hardfork: 'byzantium' });
+        const tx = new EthereumTx(txObjectWithoutCoin, { chain: environment.chains.ETH.chain, hardfork: environment.chains.ETH.hardfork });
         console.log('after that');
         tx.sign(privKey);
         const serializedTx = tx.serialize();
         txhex = '0x' + serializedTx.toString('hex'); 
       } else {
         const customCommon = Common.forCustomChain(
-          'ropsten',
+          environment.chains.ETH.chain,
           {
-            name: 'test',
-            networkId: 212,
-            chainId: 212
+            name: environment.chains.FAB.chain.name,
+            networkId: environment.chains.FAB.chain.networkId,
+            chainId: environment.chains.FAB.chain.chainId
           },
-          'byzantium',
+          environment.chains.ETH.hardfork,
         );           
         const tx = new KanbanTxService(txObject, { common: customCommon });
         tx.sign(privKey);
@@ -261,11 +262,40 @@ export class Web3Service {
 
 
     getWithdrawFuncABI (coinType: number, amount: number, destAddress: string) {
-      let abiHex = '3a5b6c70';
-      abiHex += this.utilServ.fixedLengh(coinType, 62);
+
+      // let abiHex = '3a5b6c70';
+
+      const web3 = this.getWeb3Provider();
+      const func =   {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "_coinType",
+            "type": "uint32"
+          },
+          {
+            "name": "_value",
+            "type": "uint256"
+          }
+        ],
+        "name": "withdraw",
+        "outputs": [
+          {
+            "name": "success",
+            "type": "bool"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      };
+      let abiHex = web3.eth.abi.encodeFunctionSignature(func).substring(2);    
+      console.log('abiHex there we go:' + abiHex);  
+      abiHex += this.utilServ.fixedLengh(coinType, 64);
       const amountHex = amount.toString(16);
       abiHex += this.utilServ.fixedLengh(amountHex, 64);
-      abiHex += this.utilServ.fixedLengh(destAddress.substring(2), 64);    
+      abiHex += this.utilServ.fixedLengh(destAddress.substring(2), 64);
+      console.log('abiHex final:' + abiHex);    
       return abiHex;
     }
 

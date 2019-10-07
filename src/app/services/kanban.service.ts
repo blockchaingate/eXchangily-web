@@ -50,8 +50,19 @@ export class KanbanService {
         return res;
     }
 
-    getLatestTransactions(num: number) {
-        const path = environment.endpoints.explorer + 'transactions/' + num;
+    getLatestTransactions(block: string, address: string, num: number) {
+        let path = '';
+        if (block) {
+
+        } else
+        if (address) {
+            path = environment.endpoints.explorer + 'getaddresstxsall/' + address;
+
+        } else {
+            path = environment.endpoints.explorer + 'transactions/' + num;
+        }
+        
+        console.log('path in getLatestTransactions=' + path);
         const res = this.http.get(path);
         return res;
     }
@@ -111,7 +122,9 @@ export class KanbanService {
     }
 
     getBalance(address: string) {
-        return this.get('exchangily/getBalances/' + address);
+        const url = 'exchangily/getBalances/' + address;
+        console.log('url=' + url);
+        return this.get(url);
     }
 
     async getGas(address: string) {

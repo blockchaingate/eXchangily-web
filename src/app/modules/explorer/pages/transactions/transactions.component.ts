@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, Input } from '@angular/core';
 import { KanbanService } from '../../../../services/kanban.service';
 
 @Component({
@@ -8,6 +8,8 @@ import { KanbanService } from '../../../../services/kanban.service';
     encapsulation: ViewEncapsulation.None
 })
 export class TransactionsComponent implements OnInit {
+    @Input() block: string;
+    @Input() address: string;
     transactions: any;    
     total: number;
     pageNum: number;
@@ -39,7 +41,7 @@ export class TransactionsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.kanbanServ.getLatestTransactions(10).subscribe(
+        this.kanbanServ.getLatestTransactions(this.block, this.address, 10).subscribe(
             (transactions: any) => {
                 this.transactions = transactions.txs;
                 this.total = transactions.total_txs;

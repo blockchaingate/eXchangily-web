@@ -8,23 +8,23 @@
                 <img src="/images/star-light.svg">{{'Favorites'|translate}}
             </div>
 
-            <div class="nav-item hand" [class.selected]="select === 0" (click)="selectCat(0);">
+            <div class="nav-item hand" [class.selected]="select === 1" (click)="selectCat(1);">
                 <img class="coin-logo" src="/assets/coins/usdt.png"> &nbsp;<span class="align-middle">USDT</span>
             </div>
 
-            <div class="nav-item hand" [class.selected]="select === 1" (click)="selectCat(1);">
+            <div class="nav-item hand" [class.selected]="select === 2" (click)="selectCat(2);">
                 <img class="coin-logo" src="/assets/coins/btc.png"> &nbsp;<span class="align-middle">BTC </span>
             </div>
 
-            <div class="nav-item hand" [class.selected]="select === 2" (click)="selectCat(2);">
+            <div class="nav-item hand" [class.selected]="select === 3" (click)="selectCat(3);">
                 <img class="coin-logo" src="/assets/coins/eth.png"> &nbsp;<span class="align-middle">ETH</span>
             </div>
 
-            <div class="nav-item hand" [class.selected]="select === 3" (click)="selectCat(3);">
+            <div class="nav-item hand" [class.selected]="select === 4" (click)="selectCat(4);">
                 <img class="coin-logo" src="/assets/coins/exg.png"> &nbsp;<span class="align-middle">EXG</span>
             </div>
 
-            <div class="nav-item hand" [class.selected]="select === 4" *ngIf="select === 4">
+            <div class="nav-item hand" [class.selected]="select === 1000" *ngIf="select === 1000">
                 <span>Search</span>
             </div>
             <div style="width: 100%;">

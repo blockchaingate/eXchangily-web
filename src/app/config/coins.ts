@@ -1,6 +1,7 @@
 import {Price, Coin, OfficialAddress} from '../interfaces/kanban.interface';
 
 export const coin_list: Coin[] = [
+    { id: 0, name: '', icon: '' },
     { id: 1, name: 'USDT', icon: '' },
     { id: 2, name: 'BTC', icon: '' },
     { id: 3, name: 'ETH', icon: '' },

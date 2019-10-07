@@ -500,7 +500,7 @@ export class WalletDashboardComponent {
         const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
 
         this.kanbanServ.sendRawSignedTransaction(txKanbanHex).subscribe((resp) => { 
-            console.log('resp=' + resp);
+            console.log('resp=', resp);
         });      
     }
 

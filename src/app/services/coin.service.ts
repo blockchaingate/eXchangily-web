@@ -244,11 +244,11 @@ export class CoinService {
         const path = "m/44'/" + coin.coinType + "'/0'/" + chain + "/" + index;
 
         if (name === 'BTC' || name === 'FAB') {
-            const root = BIP32.fromSeed(seed, environment.bitcoin_network);
+            const root = BIP32.fromSeed(seed, environment.chains.BTC.network);
             const childNode = root.derivePath( path );
             const { address } = Btc.payments.p2pkh({
                 pubkey: childNode.publicKey,
-                network: environment.bitcoin_network
+                network: environment.chains.BTC.network
             });
             addr = address;
             priKey = childNode.toWIF();
@@ -270,7 +270,7 @@ export class CoinService {
 
         } else  
         if (name === 'EX' || tokenType === 'FAB') { 
-            const root = BIP32.fromSeed(seed, environment.bitcoin_network);
+            const root = BIP32.fromSeed(seed, environment.chains.BTC.network);
 
             const childNode = root.derivePath( path );    
             

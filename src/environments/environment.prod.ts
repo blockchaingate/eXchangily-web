@@ -1,6 +1,23 @@
 import * as Btc from 'bitcoinjs-lib';
 export const environment = {
     production: true,
+    chains: {
+        BTC: {
+            network: Btc.networks.testnet
+        },
+        ETH: {
+            chain: 'ropsten', 
+            hardfork: 'byzantium',
+            web3Provider: 'https://ropsten.infura.io/v3/6c5bdfe73ef54bbab0accf87a6b4b0ef'
+        },
+        FAB: {
+            chain: {
+                name: 'test',
+                networkId: 212,
+                chainId: 212                
+            }
+        }
+    },    
     endpoints: {
         blockchaingate: 'https://blockchaingate.com/v2/',
         coingecko: 'https://api.coingecko.com/',
@@ -36,6 +53,5 @@ export const environment = {
             {name: 'ETH', address: '0xb2e8bac11afe8762fb6a1ab56c36084d2fbbd48a'},
             {name: 'USDT', address: '0x7ece14d72a8600d29f486eab1377e33c3266b001'}
         ],        
-    },
-    bitcoin_network: Btc.networks.bitcoin        
+    }  
 };
