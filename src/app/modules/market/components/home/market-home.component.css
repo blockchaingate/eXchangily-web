@@ -1,5 +1,4 @@
 .containerX {
-    width: 100vw;
     min-height: 860px;
     background-color: #1f2233;
 }
@@ -7,7 +6,13 @@
 .topslogan {
     padding: 0.6em;
     text-align: center;
-    height: 380px;
+    height: 410px;
+}
+
+@media only screen and (max-width: 768px) {
+    .topslogan {
+        height: 520px;
+    }
 }
 
 .slogan {
@@ -23,7 +28,6 @@
 
 .slogan-left {
     width: 50%;
-    height: 220px;
     text-align: left;
     vertical-align: middle;
     color: white;
@@ -32,10 +36,36 @@
     padding-top: 1em;
 }
 
+@media only screen and (max-width: 768px) {
+    .slogan-left {
+        width: 100%;
+    }
+}
+
+
+/*
 .slogan-right {
     width: 50%;
-    height: 220px;
     padding-left: 1em;
+}
+*/
+
+.topslogan .container {
+    background-image: url('/assets/market.png');
+    background-repeat: no-repeat;
+    background-size: auto 380px;
+    background-position: right 120px center;
+}
+
+.containerX {
+    margin-top: -20px;
+}
+
+.topslogan {
+    background-image: url('/images/circle.svg');
+    background-repeat: no-repeat;
+    background-size: 100% 150px;
+    background-position: left bottom;
 }
 
 .announcement {

@@ -1,0 +1,27 @@
+@import 'colours';
+
+.social-bar {
+  background-color: $secondary;
+  border-top-left-radius:    .6em;
+	border-bottom-left-radius: .6em;
+	-webkit-box-shadow: -2px 1px 5px 1px rgba(0,0,0,0.75);
+	-moz-box-shadow: -2px 1px 5px 1px rgba(0,0,0,0.75);
+	box-shadow: -2px 1px 5px 1px rgba(0,0,0,0.75);
+  padding: .4em .5em .1em .2em;
+  position: fixed;
+  right: -2.9em;
+  top: calc(50vh - 11em);
+  width: 2em;
+
+  -webkit-transition: right 600ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transition:         right 600ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  &.open {
+    right: -5px;
+  }
+
+  &__link {
+    text-align: center;
+    width: 100%;
+  }
+}

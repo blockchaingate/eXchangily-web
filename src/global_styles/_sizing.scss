@@ -1,0 +1,93 @@
+$desktop: 960px;
+$desktop-small: 900px;
+$tablet:  840px;
+$medium-tablet: 740px;
+$small-tablet: 640px;
+$small-angular: 600px;
+$mobile: 580px;
+$small-mobile: 480px;
+
+@mixin desktop {
+  @media(min-width: #{$desktop}) {
+    @content;
+  }
+}
+
+@mixin desktop-small {
+  @media(min-width: #{$desktop-small}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media(min-width: #{$tablet}) {
+    @content;
+  }
+}
+
+@mixin medium-tablet {
+  @media(min-width: #{$medium-tablet}) {
+    @content;
+  }
+}
+
+@mixin small-tablet {
+  @media(min-width: #{$small-tablet}) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media(min-width: #{$mobile}) {
+    @content;
+  }
+}
+
+@mixin small-mobile {
+  @media(min-width: #{$small-mobile}) {
+    @content;
+  }
+}
+
+@mixin small-angular {
+  @media(min-width: #{$small-angular}) {
+    @content;
+  }
+}
+
+// helper mixin for special case size adjustments (see icon-telegram2)
+@mixin icon-size($size) {
+  font-size: $size;
+
+  &:after {
+    font-size: $size;
+  }
+
+  &:before {
+    font-size: $size;
+  }
+}
+
+@mixin padding-default($width: null) {
+  padding: 2em;
+
+  @if($width) {
+    width: calc(#{$width} - 4em);
+  }
+
+  @include small-angular {
+    padding: 2em 5em 5em 4em;
+
+    @if($width) {
+      width: calc(#{$width} - 9em);
+    }
+  }
+
+  @include small-tablet {
+    padding: 2em 5em 5em 6em;
+
+    @if($width) {
+      width: calc(#{$width} - 11em);
+    }
+  }
+}

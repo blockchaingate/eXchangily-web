@@ -1,0 +1,277 @@
+// generic globals
+// from http://typecast.com/blog/a-more-modern-scale-for-web-typography
+body {
+  font-size: 100%;
+}
+
+body, caption, th, td, input, textarea, select, option, legend, fieldset, h1, h2, h3, h4, h5, h6 {
+  font-size-adjust: 0.5;
+}
+
+#page {
+  font-size: 1em;
+  /* equivalent to 16px */
+  line-height: 1.25;
+  /* equivalent to 20px */
+}
+
+@media (min-width: 43.75em) {
+  #page {
+    font-size: 1em;
+    /* equivalent to 16px */
+    line-height: 1.375;
+    /* equivalent to 22px */
+  }
+}
+
+a {
+  text-decoration: none;
+}
+
+ul li{
+  font-size: .8em;
+  &:before {
+    font-size: 1.5em;
+  }
+}
+
+h1 {
+  font-family: Poppins;
+  font-size: 2em;
+  font-weight: 600;
+  /* 2x body copy size = 32px */
+  line-height: 1.25;
+  /* 45px / 36px */
+}
+
+@media (min-width: 43.75em) {
+  h1 {
+    font-size: 2.5em;
+    /* 2.5x body copy size = 40px */
+    line-height: 1.125;
+  }
+}
+
+@media (min-width: 56.25em) {
+  h1 {
+    font-size: 3em;
+    /* 3x body copy size = 48px */
+    line-height: 1.05;
+    /* keep to a multiple of the 20px line height and something more appropriate for display headings */
+  }
+}
+
+h2 {
+  font-family: Poppins;
+  font-size: 1.625em;
+  font-weight: 600;
+  /* 1.625x body copy size = 26px */
+  line-height: 1.15384615;
+  /* 30px / 26px */
+}
+
+@media (min-width: 43.75em) {
+  h2 {
+    font-size: 2em;
+    /* 2x body copy size = 32px */
+    line-height: 1.25;
+  }
+}
+
+@media (min-width: 56.25em) {
+  h2 {
+    font-size: 2.25em;
+    /* 2.25x body copy size = 36px */
+    line-height: 1.25;
+  }
+}
+
+h3 {
+  font-family: Poppins;
+  font-size: 1.375em;
+  font-weight: 600;
+  /* 1.375x body copy size = 22px */
+  line-height: 1.13636364;
+  /* 25px / 22px */
+}
+
+@media (min-width: 43.75em) {
+  h3 {
+    font-size: 1.5em;
+    /* 1.5x body copy size = 24px */
+    line-height: 1.25;
+  }
+}
+
+@media (min-width: 56.25em) {
+  h3 {
+    font-size: 1.75em;
+    /* 1.75x body copy size = 28px */
+    line-height: 1.25;
+  }
+}
+
+h4 {
+  font-family: Poppins;
+  font-size: 1.125em;
+  font-weight: 700;
+  /* 1.125x body copy size = 18px */
+  line-height: 1.11111111;
+}
+
+@media (min-width: 43.75em) {
+  h4 {
+    line-height: 1.22222222;
+    /* (22px / 18px */
+  }
+}
+
+blockquote {
+  font-size: 1.25em;
+  /* 20px / 16px */
+  line-height: 1.25;
+  /* 25px / 20px */
+}
+
+@media (min-width: 43.75em) {
+  blockquote {
+    font-size: 1.5em;
+    /* 24px / 16px = */
+    line-height: 1.45833333;
+    /* 35px / 24px */
+  }
+}
+
+// icons
+@font-face {
+  font-family: 'icons';
+  src:  url('/assets/icons.eot?iu3700');
+  src:  url('/assets/icons.eot?iu3700#iefix') format('embedded-opentype'),
+    url('/assets/icons.ttf?iu3700') format('truetype'),
+    url('/assets/icons.woff?iu3700') format('woff'),
+    url('/assets/icons.svg?iu3700#icons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change assets */
+  font-family: 'icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-fabcoin:before {
+  content: "\e90c";
+  color: #fff;
+}
+.icon-external-link:before {
+  content: "\e900";
+}
+.icon-facebook:before {
+  content: "\e900";
+  color: #fff;
+}
+.icon-linked-in:before {
+  content: "\e901";
+  color: #fff;
+}
+.icon-medium:before {
+  content: "\e905";
+  color: #fff;
+}
+.icon-telegram:before {
+  content: "\e906";
+  color: #fff;
+}
+.icon-twitter:before {
+  content: "\e907";
+  color: #fff;
+}
+.icon-vimeo:before {
+  content: "\e908";
+  color: #fff;
+}
+.icon-youtube:before {
+  content: "\e909";
+  color: #fff;
+}
+.icon-telegram2:before {
+  content: "\e90a";
+  color: rgb(101, 159, 248);
+}
+.icon-telegram2:after {
+  content: "\e90b";
+  margin-left: -1.2041015625em;
+  color: rgb(254, 254, 254);
+}
+.icon-heart-outlined:before {
+  content: "\e902";
+}
+.icon-heart:before {
+  content: "\e903";
+}
+.icon-menu:before {
+  content: "\e904";
+}
+.icon-menu2:before {
+  content: "\e9bd";
+}
+.icon-star-empty:before {
+  content: "\e9d7";
+}
+.icon-star-full:before {
+  content: "\e9d9";
+}
+.icon-heart2:before {
+  content: "\e9da";
+}
+.icon-crying:before {
+  content: "\ea01";
+}
+.icon-crying-full:before {
+  content: "\ea02";
+}
+
+//////////
+/////////
+@font-face {
+  font-family: 'other-icons';
+  src:  url('/assets/other-icons.eot?27jzgh');
+  src:  url('/assets/other-icons.eot?27jzgh#iefix') format('embedded-opentype'),
+    url('/assets/other-icons.ttf?27jzgh') format('truetype'),
+    url('/assets/other-icons.woff?27jzgh') format('woff'),
+    url('/assets/other-icons.svg?27jzgh#other-icons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon2-"], [class*=" icon2-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'other-icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon2-mail:before {
+  content: "\e91";
+}
+.icon2-link:before {
+  content: "\e92";
+}

@@ -1,0 +1,247 @@
+<div class="container exg-bg">
+    <div class="row apair">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                <button mat-icon-button matTooltip="A TxHash or transaction hash is a unique 66 characters identifier that is generated whenever a transaction is executed.">
+                        <mat-icon>help_outline</mat-icon>
+                    </button>
+            </div>
+            <div class="d-inline-block">
+                Transaction Hash:
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="d-inline-block">
+                0xd4a218753131a65d70da72c320b2f59465e0cc7a67bfbeb6e30ce3e15462ce28
+            </div>
+            <div class="d-inline-block">
+                <button mat-icon-button (click)="copyAddress()">
+                            <mat-icon svgIcon="icon_copy"></mat-icon>
+                        </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row apair">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                <button mat-icon-button matTooltip="The status of the transaction.">
+                            <mat-icon>help_outline</mat-icon>
+                        </button>
+            </div>
+            <div class="d-inline-block">
+                Status:
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="d-inline-block">
+                Success
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row apair">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                <button mat-icon-button matTooltip="The number of the block in which the transaction was recorded. Block confirmation indicate how many blocks since the transaction is mined.">
+                                    <mat-icon>help_outline</mat-icon>
+                                </button>
+            </div>
+            <div class="d-inline-block">
+                Block:
+            </div>
+        </div>
+        <div class="col-md-9">
+
+            <div class="table-text">
+                8677109
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row apair">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                <button mat-icon-button matTooltip="The date and time at which a transaction is mined.">
+                                <mat-icon>help_outline</mat-icon>
+                            </button>
+            </div>
+            <div class="d-inline-block">
+                Timestamp:
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="d-inline-block">
+                The date and time at which a transaction is mined.
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row apair vertical-align">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                <button mat-icon-button matTooltip="The sending party of the transaction.">
+                                    <mat-icon>help_outline</mat-icon>
+                                </button>
+            </div>
+            <div class="d-inline-block">
+                From:
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="d-inline-block">
+                <a class="explorer-link" [routerLink]="['/explorer/address', '0']">
+                0x90b526509b8658dfd70c426fb32d777be8de46a0
+                </a>
+            </div>
+            <div class="d-inline-block">
+                <button mat-icon-button (click)="copyAddress()">
+                                <mat-icon svgIcon="icon_copy"></mat-icon>
+                            </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row apair vertical-align">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                <button mat-icon-button matTooltip="The receiving party of the transaction.">
+                                        <mat-icon>help_outline</mat-icon>
+                                    </button>
+            </div>
+            <div class="d-inline-block">
+                To:
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="d-inline-block">
+                <a class="explorer-link" [routerLink]="['/explorer/address', '0']">
+                0xf651da6419c6a1a4b09f843ecaa7506a4db3f2c9
+                </a>
+            </div>
+            <div class="d-inline-block">
+                <button mat-icon-button (click)="copyAddress()">
+                                    <mat-icon svgIcon="icon_copy"></mat-icon>
+                                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row apair vertical-align">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                <button mat-icon-button matTooltip="The value being transacted in Ether and fiat value. Note: You can click the fiat value (if available) to see historical value at the time of transaction.">
+                                            <mat-icon>help_outline</mat-icon>
+                                        </button>
+            </div>
+            <div class="d-inline-block">
+                Value:
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="table-text">
+                12
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row apair vertical-align">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                <button mat-icon-button matTooltip="Amount paid to the miner for processing the transaction.">
+                                                <mat-icon>help_outline</mat-icon>
+                                            </button>
+            </div>
+            <div class="d-inline-block">
+                Transaction Fee:
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="table-text">
+                0.000292416 Ether ($0.05)
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row apair vertical-align">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                <button mat-icon-button matTooltip="Maximum amount of gas provided for the transaction.">
+                                                    <mat-icon>help_outline</mat-icon>
+                                                </button>
+            </div>
+            <div class="d-inline-block">
+                Gas Limit:
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="table-text">
+                9,980,235
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row apair vertical-align">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                <button mat-icon-button matTooltip="The exact units of gas that was used for the transaction.">
+                                                        <mat-icon>help_outline</mat-icon>
+                                                    </button>
+            </div>
+            <div class="d-inline-block">
+                Gas Used by Transaction:
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="table-text">
+                36,552 (100%)
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row apair vertical-align">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                <button mat-icon-button matTooltip="Cost per unit of gas specified for the transaction, in Ether and Gwei. The higher the gas price the higher chance of getting included in a block.">
+                                                            <mat-icon>help_outline</mat-icon>
+                                                        </button>
+            </div>
+            <div class="d-inline-block">
+                Gas Price:
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="table-text">
+                0.000000008 Ether (8 Gwei)
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="row apair vertical-align">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                <button mat-icon-button matTooltip="Sequential running number for an address, beginning with 0 for the first transaction. For example, if the nonce of a transaction is 10, it would be the 11th transaction sent from the sender's address.">
+                                                                <mat-icon>help_outline</mat-icon>
+                                                            </button>
+            </div>
+            <div class="d-inline-block">
+                Nonce:
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="table-text">
+                23707
+            </div>
+
+        </div>
+    </div>
+</div>

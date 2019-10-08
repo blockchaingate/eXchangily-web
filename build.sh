@@ -1,1 +1,1 @@
-ng build --prod --named-chunks --verbose --build-optimizer=false --optimization=false --source-map
+ng build --configuration=development --named-chunks --source-map

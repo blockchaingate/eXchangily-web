@@ -1,0 +1,102 @@
+<div class="container">
+    <div class="formarea">
+        <div class="failbox" *ngIf="msg">
+            {{msg}}
+        </div>
+
+        <div class="searchbox" fxLayout="row" fxLayoutAlign="center center">
+            <div>Owner Address </div>
+            <input class="longinput" type="text" [(ngModel)]="ownerAdd" />
+            <button class="form-input__button background-primary color-white" (click)="onSearch()">Search</button>
+        </div>
+
+        <div *ngIf="!editmode">
+            <div class="itemtitle">Id</div>
+            <div>{{tokenlock._id}}</div>
+
+            <div class="itemtitle">Name</div>
+            <div>{{tokenlock.name}}</div>
+
+            <div class="itemtitle">Symbol</div>
+            <div>{{tokenlock.symbol}}</div>
+
+            <div class="itemtitle">Decimals</div>
+            <div>{{tokenlock.decimals}}</div>
+
+            <div class="itemtitle">Owner Base58 Address</div>
+            <div>{{tokenlock.ownerAddBase58}}</div>
+
+            <div class="itemtitle">Owner Hex Address</div>
+            <div>{{tokenlock.ownerAddHex}}</div>
+
+            <div class="itemtitle">Balance</div>
+            <div>{{tokenlock.balance}}</div>
+
+            <div class="itemtitle">Locked Balance</div>
+            <div>{{tokenlock.lockedBalance}}</div>
+
+            <div class="itemtitle">Active</div>
+            <div>{{tokenlock.active}}</div>
+
+            <div class="itemtitle">Created date</div>
+            <div>{{tokenlock.dateCreated}}</div>
+        </div>
+
+        <div *ngIf="editmode">
+            <div class="itemtitle">Id</div>
+            <div>
+                <input class="inputbox longinput" type="text" [(ngModel)]="tokenlock._id" />
+            </div>
+
+            <div class="itemtitle">Name</div>
+            <div>
+                <input class="inputbox longinput" type="text" [(ngModel)]="tokenlock.name" />
+            </div>
+
+            <div class="itemtitle">Symbol</div>
+            <div>
+                <input class="inputbox" type="text" [(ngModel)]="tokenlock.symbol" />
+            </div>
+
+            <div class="itemtitle">Decimals</div>
+            <div>
+                <input class="inputbox" type="text" [(ngModel)]="tokenlock.decimals" />
+            </div>
+
+            <div class="itemtitle">Owner Base58 Address</div>
+            <div>
+                <input class="inputbox longinput" type="text" [(ngModel)]="tokenlock.ownerAddBase58" />
+            </div>
+
+            <div class="itemtitle">Owner Hex Address</div>
+            <div>
+                <input class="inputbox longinput" type="text" [(ngModel)]="tokenlock.ownerAddHex" />
+            </div>
+
+            <div class="itemtitle">Balance</div>
+            <div>
+                <input class="inputbox" type="text" [(ngModel)]="tokenlock.balance" />
+            </div>
+
+            <div class="itemtitle">Locked Balance</div>
+            <div>
+                <input class="inputbox" type="text" [(ngModel)]="tokenlock.lockedBalance" />
+            </div>
+
+            <div class="itemtitle">Active</div>
+            <div>
+                <input class="inputbox" type="text" [(ngModel)]="tokenlock.active" />
+            </div>
+
+            <div class="itemtitle">Created date</div>
+            <div>
+                <input class="inputbox longinput" type="text" [(ngModel)]="tokenlock.dateCreated" />
+            </div>
+        </div>
+
+        <div class="submitarea">
+            <button *ngIf="!editmode" type="submit" class="btn background-primary-bold" (click)="setEdit()"><span class="color-white">Edit</span></button>
+            <button *ngIf="editmode" type="submit" class="btn background-primary-bold" (click)="submit()"><span class="color-white">Submit</span></button>
+        </div>
+    </div>
+</div>

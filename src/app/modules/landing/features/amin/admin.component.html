@@ -1,0 +1,19 @@
+<div class="container" fxLayout="column" fxLayoutAlign.lt-md="center start" fxLayoutAlign="start start">
+    <h3 class="color-primary">{{ 'Account.Admin.Title' | translate }}</h3> 
+
+    <ul class="menu" fxLayoutAlign="row">
+        <li>
+            <a routerLink="/account/admin/order-mngmt" routerLinkActive="color-black bold">Orders</a>
+        </li>
+        <li>
+            <a routerLink="/account/admin/kycs" routerLinkActive="color-black bold">KYCs</a>
+        </li>
+        <li>
+            <a routerLink="/account/admin/addcoin" routerLinkActive="color-black bold">Coin</a>
+        </li>
+        <li>
+            <a routerLink="/account/admin/tokenlock" routerLinkActive="color-black bold">Lock</a>
+        </li>
+        </ul>
+    <router-outlet></router-outlet>
+</div>

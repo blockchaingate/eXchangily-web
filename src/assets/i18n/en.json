@@ -1,4 +1,497 @@
 {
+    "Header": {
+        "Title": "eXchangily",
+        "Navigation": {
+            "Home": "Home",
+            "Blog": "Blog",
+            "Language": "EN",
+            "Whitepaper": "Download Whitepaper",
+            "Signin": "Login",
+            "Signout": "Logout",
+            "Signup": "Register",
+            "Account": {
+                "UserInfo": "Profile",
+                "AccountDetails": "Account Details",
+                "Kyc": "KYC"
+            }
+        }
+    },
+    "Admin": {
+        "Symbol": "Symbol",
+        "Address": "Address"
+    },
+    "Footer": {
+        "Title": "eXchangily",
+        "Navigation": {
+            "Home": "Home",
+            "Whitepaper": "Download Whitepaper"
+        },
+        "Copyright": "2019 eXchangily All Rights Reserved"
+    },
+    "Home": {
+        "Top": {
+            "Hero": {
+                "Line1": "The real decentralized exchange",
+                "Line2": "that's fast, secure and simple"
+            },
+            "WhitepaperButton": "Download Whitepaper",
+            "WhitelistCTA": {
+                "Button": "Subscribe for Updates"
+            }
+        },
+        "Overview": {
+            "Title": "What is eXchangily?",
+            "Disc": {
+                "Content1": "eXchangily is a new decentralized exchange model built on the prominent Fast Access Blockchain. It carries the best of a centralized exchange, namely the speed and ease of use, with all the security benefits of a decentralized exchange.",
+                "Content2": "Users retain control over their funds, their private keys, and their transaction information is transparent and secure. Individuals can trade, and enterprises can transact on eXchangily with ERC20 tokens and other cryptocurrencies. It is a fully democratic and autonomous platform."
+            }
+        },
+        "Why": {
+            "Title": "Why eXchangily?",
+            "Disc": {
+                "Content1": "The top 10 centralized exchanges are generating as much as $3 million in fees revenue per day, raking in billions and their model is flawed. They are riddled with security vulnerabilities that put investors at risk and regulators are at the mercy of the exchange management.",
+                "Content2": "eXchangily is a new kind of decentralized exchange (DEX) that trades ERC-20 tokens and other cryptocurrencies. Technically, eXchangily is a side-chain, peer-to-peer trading platform with an on-chain settlement for withdrawals. Transactions are facilitated through a high-speed trading engine that can process payments and redeem transactions fast."
+            }
+        },
+        "Comparison": {
+            "Title": "Compare eXchangily"
+        },
+        "Roadmap": {
+            "Title": "Roadmap",
+            "Timestamp1": {
+                "Title": "July 2017",
+                "Desc": "Project Proposal"
+            },
+            "Timestamp2": {
+                "Title": "September 2017",
+                "Desc": "Start Key Technology Research"
+            },
+            "Timestamp3": {
+                "Title": "October 2017",
+                "Desc": "Begin Technical Design"
+            },
+            "Timestamp4": {
+                "Title": "December 2017",
+                "Desc": "Complete Project Design"
+            },
+            "Timestamp5": {
+                "Title": "January 2018",
+                "Desc": "Started Trial Development"
+            },
+            "Timestamp6": {
+                "Title": "March 2018",
+                "Desc": "Initiated Whitepaper Creation"
+            },
+            "Timestamp7": {
+                "Title": "March 2018",
+                "Desc": "Began Software Development"
+            },
+            "Timestamp8": {
+                "Title": "May 2018",
+                "Desc": "Marketing Operations Commence"
+            },
+            "Timestamp9": {
+                "Title": "August 2018",
+                "Desc": "Completed System Frameworks"
+            },
+            "Timestamp10": {
+                "Title": "September 2018",
+                "Desc": "Token Sale"
+            },
+            "Timestamp11": {
+                "Title": "November 2018",
+                "Desc": "Trading Engine Development Completed"
+            },
+            "Timestamp12": {
+                "Title": "December 2018",
+                "Desc": "Interface Development Completed"
+            },
+            "Timestamp13": {
+                "Title": "March 2019",
+                "Desc": "Multi-function API development completed"
+            },
+            "Timestamp14": {
+                "Title": "June 2019",
+                "Desc": "Development Complete, Full Project in Operation"
+            }
+        },
+        "Team": {
+            "Title": "Team",
+            "TeamMembers": {
+                "Member1": {
+                    "Name": "Dora Tang",
+                    "Image": "Dora_Tang_m.jpg",
+                    "Title": "CEO",
+                    "Desc": [
+                        "PHD in IS/ Research in Blockchain",
+                        "MBA, MA & BA in International Finance",
+                        "Model Development & Validation, Keybank"
+                    ]
+                },
+                "Member2": {
+                    "Name": "Jamie Tan",
+                    "Title": "CTO",
+                    "Image": "Jamie_Tan_m.jpg",
+                    "Desc": [
+                        "PHD in Physics, MIT",
+                        "Founder & CEO, Vizseek",
+                        "Founder & CTO, Imaginestics"
+                    ]
+                },
+                "Member3": {
+                    "Name": "Liza Horowitz",
+                    "Title": "CIO",
+                    "Image": "Liza_Horowitz_m.jpg",
+                    "Desc": [
+                        "Board Member and Canadian Director, Global Women in Blockchain",
+                        "Master of Science, Environment and Communications",
+                        "Senior marketing and communication lead at Canadian Western Bank, Scotiabank and professional consultants"
+                    ]
+                },
+                "Member4": {
+                    "Name": "Raymond Henry",
+                    "Image": "Raymond_Henry_m.jpg",
+                    "Title": "Chief Scientist",
+                    "Desc": [
+                        "Doctoral Tutor in Blockchain Technology",
+                        "PhD, University of Pittsburgh",
+                        "Tenured professor with hundreds of publications"
+                    ]
+                },
+                "Member5": {
+                    "Name": "Todor Milev",
+                    "Image": "Todor_Milev_m.jpg",
+                    "Title": "Cryptographer",
+                    "Desc": [
+                        "PhD in Mathematics",
+                        "Cryptography Expert"
+                    ]
+                },
+                "Member6": {
+                    "Name": "Nader Shiri",
+                    "Image": "Nader_Shiri_m.jpg",
+                    "Title": "Systems Architect"
+                },
+                "Member7": {
+                    "Name": "Wesam Helou",
+                    "Image": "wesam-m.jpg",
+                    "Title": "Manager, Software Support & Enterprise System Developer",
+                    "Desc": [
+                        "PhD in Information Technology"
+                    ]
+                },
+                "Member8": {
+                    "Name": "Kaiqing Fan",
+                    "Image": "kaiqing-m.jpg",
+                    "Title": "Senior Lead Developer"
+                },
+                "Member9": {
+                    "Name": "Adil Asim",
+                    "Image": "Adil_Asim_m.jpg",
+                    "Title": "Software Engineer"
+                },
+                "Member10": {
+                    "Name": "Bill Li",
+                    "Image": "Bill_Li_m.jpg",
+                    "Title": "Software Engineer"
+                },
+                "Member11": {
+                    "Name": "Jerome Alve",
+                    "Image": "Jerome_Alve_m.jpg",
+                    "Title": "Software Engineer"
+                }
+            }
+        }
+    },
+    "Account": {
+        "Admin": {
+            "Title": "Admin"
+        },
+        "User Info": {
+            "SideHeading": "Profile",
+            "Title": "Profile",
+            "InfoForm": {
+                "Field1": "Email",
+                "Field2": "Display Name",
+                "Field3": "First Name",
+                "Field4": "Middle Name",
+                "Field5": "Last Name",
+                "Field6": "Home Phone",
+                "Field7": "Work Number",
+                "Field8": "Mobile Number",
+                "Field9": "Work Email",
+                "Field10": "Member Since",
+                "Field11": "Last Updated",
+                "Field12": {
+                    "Title": "Referral Code (optional)",
+                    "Note": "Once entered, this field cannot be changed."
+                }
+            }
+        },
+        "KYC": {
+            "Sideheading": "KYC",
+            "Title": "KYC",
+            "KYCForm": {
+                "NameBox": "Full Name",
+                "EmailBox": "Email",
+                "PhoneNumberBox": "Phone Number",
+                "HomeAddressBox": "Home Address",
+                "DateOfBirth": {
+                    "Title": "Date of Birth",
+                    "Desc": "To participate you must be 19 years of age and older."
+                },
+                "CountryBox": {
+                    "Title": "Country of Residence",
+                    "Desc": "Choose the country you currently live in. Note: A US or Canadian resident must be an Accredited Investor to participant the STO."
+                },
+                "CitizenshipBox": {
+                    "Title": "Citizenship",
+                    "Desc": "Note: A US or Canadian resident must be an Accredited Investor to participant the STO"
+                },
+                "AccreditedInvestorVerification": {
+                    "Question": "Are you an accredited investor?",
+                    "Yes": "Yes",
+                    "No": "No",
+                    "Desc": "If yes, please upload any documents to help confirm your accredited investor status.",
+                    "Button": "Upload File"
+                },
+                "SAFT": {
+                    "Button": "Upload Sign SAFT Agreement",
+                    "Desc": "Download, print and sign the SAFT Agreement. Upload the SAFT agreement below."
+                },
+                "PhotoID": {
+                    "Title": "Photo ID",
+                    "Button": "Upload Files",
+                    "Desc": "Upload photos of the front and back of your ID. Make sure the pictures are clear.  Passport, Driver's License or Citizenship Card are examples of acceptable ID. Minimum of 2 photos required.",
+                    "IDExample": "Example"
+                },
+                "SelfieWithId": {
+                    "Title": "Your photo",
+                    "Button": "Upload Files",
+                    "Desc": {
+                        "Content1": "Please take a picture you holding one of your IDs; front and back. For your pictures, make sure:",
+                        "Content2": "Your face is clearly visible",
+                        "Content3": "The Photo ID is clearly visible",
+                        "Content4": "You have a note with today's date in the picture",
+                        "Content5": "Minimum of 2 photos required; one front, one back."
+                    },
+                    "ExamplePicture": "Example"
+                },
+                "SubmitKYC": {
+                    "Button": "Submit",
+                    "WindowTitle": "Submitting KYC",
+                    "Desc": "Please verify all information above is correct before submitting your KYC. Once submitted, you will not be able to change the information."
+                }
+            }
+        },
+        "Referrals": {
+            "Sideheading": "Referral",
+            "Details": "Details",
+            "referrecord": "Subscribers",
+            "Page": {
+                "Title": "Referral Program",
+                "Summary": {
+                    "Content1": "Tell others about EXG and at the same time, you can earn points that will be converted to free EXG! How does this work? Simply share the referral link or have them enter the referral code when they sign up.",
+                    "Content2": "The more EXG they purchase, the more you, as the inviter, will get rewarded too!"
+                },
+                "Points": {
+                    "Subtitle": "Points",
+                    "Desc": "Here is the amount of points you have earned:"
+                },
+                "Rules": {
+                    "Subtitle": "Rules",
+                    "Content1": "For every point you earn, you will receive 10 cents worth of EXG token as reward.",
+                    "Content2": "1 point = 10 cents USD in EXG token.",
+                    "Content3": "If you refer under $1 million USD, you will receive 1 point for every dollar raised",
+                    "Content4": "If you refer between $1 million to $5 million USD, you will receive 1.2 points for every dollar raised",
+                    "Content5": "If you refer between $5 million to $8 million USD, you will receive 1.5 points for every dollar raised",
+                    "Content6": "If you refer over $8 million USD,you will receive 2 points for every dollar raised"
+                },
+                "ReferralCode": {
+                    "Link": {
+                        "Desc": "To earn points, have your friends sign up for an eXchangily account using this link.",
+                        "Button": "Copy Referral Link"
+                    },
+                    "Code": {
+                        "Desc": "Or tell them to enter in this referral code upon sign up OR in their user info.",
+                        "Button": "Copy Referral Code"
+                    }
+                },
+                "Discount": {
+                    "Subtitle": "Set a Discount",
+                    "Desc": "You can give your referrals a percentage discount on their orders below without affecting your point total. Discounts will begin to be applied 24 hours after they are set here."
+                },
+                "ReferralOrderList": {
+                    "Subtitle": "Your Invitees",
+                    "ListFields": {
+                        "Field1": "Member ID",
+                        "Field2": "Date",
+                        "Field3": "Status",
+                        "Field4": "Estimated EXG Ordered",
+                        "Field5": "Amount Paid",
+                        "Field6": "Points Earned"
+                    }
+                }
+            }
+        },
+        "View Orders": {
+            "SideHeading": "Orders",
+            "ViewOrderPage": {
+                "Title": "Orders",
+                "ListFields": {
+                    "Field1": "Date",
+                    "Field2": "Amount Paid",
+                    "Field3": "Estimated EXG Ordered"
+                },
+                "SubHeaders": {
+                    "Pending": "Pending",
+                    "Completed": "Completed",
+                    "Deleted": "Deleted"
+                }
+            }
+        },
+        "Make Orders": {
+            "Title": "Order",
+            "OrderForm": {
+                "Page1": {
+                    "Title": "Create New Order",
+                    "Desc": " Instructions: Choose the payment method for your EXG order and enter your payment amount， you can also choose the amount of EXG tokens. Below are the price points for EXG tokens, please note: a 5% bonus is pre-applied for FAB payments.",
+                    "DropDown1": "Pay Method",
+                    "DropDown2": "Amount",
+                    "DropDown3": "Estimated EXG Quantity",
+                    "DropDown4": "Rate",
+                    "DropDown5": "Discounted Rate"
+                },
+                "Page2": {
+                    "Title": "Confirm Order",
+                    "Timer": "You have 30 minutes to complete your order.",
+                    "PayInstructions": {
+                        "Coin": "Pay for your EXG tokens now by sending the amount you confirmed on the previous page to the address listed. You can pay using the QR code or with the plaintext address. Enter the address you are paying with in the box when complete.",
+                        "BTC": "Pay for your EXG tokens now by sending the Bitcoin amount you confirmed on the previous page to the address listed. You can pay using the QR code or with the plaintext address. Enter the Bitcoin address you are paying with in the box when complete.",
+                        "ETH": {
+                            "Desc1": "Pay for your EXG tokens now by sending the ether amount you confirmed on the previous page to the address listed You can pay using  the QR code or with the plaintext address. Enter the ether address you are paying with in the box when complete.",
+                            "Desc2": "By paying with ETH, your ETH exchange rate will be calcuated at the best price for the month."
+                        },
+                        "FAB": {
+                            "Desc1": "Pay for your EXG tokens now by sending the Fabcoin amount you confirmed on the previous page to the address listed. You can pay using the QR code or with the plaintext address. Enter the Fabcoin address you are paying with in the box when complete.",
+                            "Desc2": "By paying with Fabcoin, your Fabcoin exchange rate will be calculated at the best for the day. Also, you will receive a 5% EXG token bonus."
+                        },
+                        "USD": "Pay for your EXG tokens now by wiring or transferring the US dollars amount you confirmed on the previous page to the account listed below. Enter all information necessary for tracking and confirmation of payment in the box.",
+                        "RMB": {
+                            "Desc1": "Pay for your EXG tokens now by wiring or transferring the RMB amount you confirmed on the previous page to the account listed below. Enter all information necessary for tracking and confirmation of payment in the box.",
+                            "Desc2": "By paying with RMB, your exchange rate will be calculated at the best price for the month."
+                        }
+                    },
+                    "BackMessage": "Press 'Back' to make changes to errors below",
+                    "InformationBox": {
+                        "Crypto": {
+                            "BoxHeader": "Address",
+                            "BoxInstructions": "Enter your address."
+                        },
+                        "Fiat": {
+                            "BoxHeader": "Transaction Information",
+                            "BoxInstructions": "Enter in all information relevant for identifying your payment."
+                        }
+                    }
+                },
+                "Page3": {
+                    "Title": "Order Sent",
+                    "OrderProcessedMessage": "Congratulations, you have placed your order for EXG tokens. A copy of your order will be sent to your email address. Your order status will be 'pending' until an admin reviews it. To view status, visit the 'View Orders' page. If you have a question about your order, contact the admin with your email address and date of payment.",
+                    "NewOrderButton": "Place New Order",
+                    "ViewOrdersButton": "View Orders"
+                }
+            }
+        }
+    },
+    "Form": {
+        "Email": "Email",
+        "Password": "Password",
+        "Next": "Next",
+        "Back": "Back",
+        "Exit": "Exit",
+        "User Info": "User Info",
+        "Make Order": "Make Order",
+        "View Order": "View Order",
+        "Display Name": "Display Name",
+        "First Name": "First Name",
+        "Middle Name": "Middle Name",
+        "Last Name": "Last Name",
+        "Home Phone": "Home Phone",
+        "Work Number": "Work Number",
+        "Mobile Number": "Mobile Number",
+        "Work Email": "Work Email",
+        "Active": "Active",
+        "Member Since": "Member Since",
+        "Last Updated": "Last Updated",
+        "Account Details": "Account Details",
+        "Account": "Account",
+        "EXG": "EXG",
+        "Owner": "Owner",
+        "ETH Address": "ETH Address",
+        "EXG Address": "EXG Address",
+        "ERC20 Return Addr": "ERC20 EXG Token Return Address",
+        "TX History": "TX History",
+        "KYC": "KYC",
+        "USCitizen": "Note: A US or Canadian resident must be an accredited investor to participant our STO",
+        "PhotoID": "Photo ID Verification",
+        "IDExample": "Example: Passport, Driver's License, Citizenship Card. Minimum 1 photo required",
+        "Verify": "Please verify all information. Once submitted, the information can not be edited.",
+        "SubmitKYC": "Submit KYC",
+        "Sign In": "Sign In",
+        "ForgotPassword": "Forgot password? Reset it here.",
+        "Sign Up": "Sign Up",
+        "SignUpEmail": "Sign Up with Email",
+        "Activate": "Activate",
+        "Thank You": "Thank you for signing up.",
+        "Check Inbox": "Check your inbox to activate.",
+        "Click Link": "Click on the link inside your email directly, or copy and paste the activation code below.",
+        "General": "General",
+        "Notes": "Notes",
+        "Date Created": "Date Created",
+        "Date Paid": "Date Paid",
+        "Expand": "Expand",
+        "Show Less": "Show Less",
+        "Submit": "Submit",
+        "Save": "Save",
+        "Cancel": "Cancel",
+        "Not Available": "Not Available",
+        "Edit Email": "Edit Email",
+        "Full Name": "Full Name",
+        "Confirm Password": "Confirm Password",
+        "Activation Code": "Activation Code",
+        "Activate My Account": "Activate My Account",
+        "Pay": "Pay",
+        "Amount": "Amount",
+        "EXG Quantity": "EXG Qty",
+        "Status": "Status",
+        "History": "History",
+        "Personal Member": "Personal Member",
+        "Edit": "Edit",
+        "KYCSubmission Thanks": "Thank you for submitting your KYC. It is currently under review.",
+        "Check Inbox2": "Once requested, an email containing a link to reset your password will be sent to you. Please check your inbox.",
+        "Request Password Reset": "Request Password Reset",
+        "Check Inbox3": "Check your inbox for the password reset email.",
+        "Back to Sign In": "Back to Sign In",
+        "Field Cannot Change": "Once entered, this field cannot be changed.",
+        "For Payments": "For Payments",
+        "For Payments Of": "For Payments Of",
+        "Total USD Amount": "Total USD Amount",
+        "No Completed Orders": "No Completed Orders",
+        "No Pending Orders": "No Pending Orders",
+        "Member ID": "Member ID",
+        "Estimated EXG Ordered": "Estimated EXG Ordered",
+        "Referral Points Earned": "Referral Points Earned",
+        "Dashboard": "Dashboard"
+    },
+    "FormErrors": {
+        "FieldRequiredError": "This field is required",
+        "ValidNameError": "Must provide valid name",
+        "ValidEmailError": "Must provide valid email address",
+        "PasswordMatchError": "Passwords do not match",
+        "MinCharacterError": "Minimum of {{value}} characters required",
+        "EmailExistsError": "Email {{value}} exists already",
+        "ReferralCodeError": "The referral code you entered does not exist"
+    },
     "Title": "",
     "ExgName": "Decentralized crypto exchange",
     "ExgOfflWeb": "Exchangily Official Website",
@@ -32,7 +525,24 @@
     "PwdNote": "Please note, this password is only for proectting wallet information in this device, it is not wallet private key.",
     "Wnvalid": "Wallet name must be 2 or more letters or numbers",
     "Pwdvalid": "Password must be at least 8 characters, 1 upper case letter and 1 special character",
-
+    "Manage My Wallet": "My wallet",
+    "Login Setting": "Login Setting",
+    "Show seed phrase": "Show seed phrase",
+    "Verify seed phrase": "Verify seed phrase",
+    "Backup private key": "Backup private key",
+    "Delete wallet": "Delete wallet",
+    "Help": "Help",
+    "Directory": "Directory",
+    "Market": "Market",
+    "Trade": "Trade",
+    "FAQ": "FAQ",
+    "Rate statement": "Rate statement",
+    "Law and compliance": "Law and compliance",
+    "About Us": "About eXchangily",
+    "JoinUs": "Join Us",
+    "Community announcement": "Community announcement",
+    "Wallet security": "Wallet security",
+    "Explore": "Explore",
     "CONTACTS": {
         "ADD": "Add/Edit",
         "ADDRESS": "Address",
@@ -236,5 +746,8 @@
     "FEEDBACK": {
         "BUTTON": "Feedback",
         "MESSAGE": "Welcome to send your feedback and question to info@fabcoin.co or contact us via Twitter, Facebook, Wechat. Thank you for using our product."
-    }
+    },
+    "Volume": "Volume",
+    "Open Order": "Open",
+    "Closed Order": "Close"
 }

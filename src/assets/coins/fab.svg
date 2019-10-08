@@ -1,0 +1,15 @@
+<svg 
+ xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ width="0.706cm" height="0.706cm">
+<defs>
+<linearGradient id="PSgrad_0" x1="0%" x2="70.711%" y1="0%" y2="70.711%">
+  <stop offset="0%" stop-color="rgb(97,98,100)" stop-opacity="1" />
+  <stop offset="100%" stop-color="rgb(0,0,0)" stop-opacity="1" />
+</linearGradient>
+
+</defs>
+<path fill-rule="evenodd"  fill="url(#PSgrad_0)"
+ d="M13.672,20.000 L6.328,20.000 C2.828,20.000 -0.000,17.172 -0.000,13.672 L-0.000,6.328 C-0.000,2.828 2.828,-0.000 6.328,-0.000 L13.672,-0.000 C17.172,-0.000 20.000,2.828 20.000,6.328 L20.000,13.672 C20.000,17.172 17.172,20.000 13.672,20.000 Z"/>
+<image  x="6px" y="6px" width="9px" height="9px"  xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAQAAABKmM6bAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjCRcLHg06f2JYAAAAhElEQVQI1zXIMU4CUQAFwNmfBQwUnMCWxEhhT0PHPai4jgmX8BJcAQoLKwOJdiYGCglZ+M+KKadJ38or2DsY6sk0b0lu+cgsDxllWCy9IKpnTzp/ktyS1PzkM+s8RnF1RVx82zpRtAqqo7NfHbJJTc17FplknCZajcbFzkYHFHMMfN2Df8GUQyvl1xpvAAAAAElFTkSuQmCC" />
+</svg>

@@ -10,10 +10,10 @@
     margin: 1em 0.5em 0.6em 0.5em;
 }
 
-.menuitem{
+.menuitem {
     margin-right: 0.6em;
     color: black;
- }
+}
 
 .sarcharea {
     width: 99%;
@@ -22,7 +22,10 @@
 
 .searchbox {
     width: 4em;
-    font-size: x-small;
+    color: white;
+    background: url(/images/icons/search.svg) no-repeat scroll 7px 7px;
+    padding-left: 30px;
+    border: 1px solid #424257;
 }
 
 .search-entered {
@@ -55,8 +58,6 @@
     width: 100%;
     flex: 1;
     margin-top: 8px;
-    border: 1px solid #AFAFAF;
-    background-color: #EFEFEF;
 }
 
 .orderlist {
@@ -67,7 +68,8 @@
     /*width: 100%;*/
 }
 
-.orderlist td,th {
+.orderlist td,
+th {
     border: 1px solid black;
     text-align: center;
     padding: 8px;
@@ -125,4 +127,21 @@
 .chart {
     width: 48%;
     float: left;
+}
+
+mat-list-item {
+    height: auto!important;
+}
+
+mat-divider {
+    color: white;
+}
+
+mat-list {
+    overflow-y: auto;
+    height: 715px;
+}
+
+.vertical-center {
+    vertical-align: middle;
 }

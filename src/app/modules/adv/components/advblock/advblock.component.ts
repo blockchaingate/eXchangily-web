@@ -8,7 +8,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class AdvblockComponent {
     @Input() title: string;
-    @Input() desc: string;
+    @Input() desc1: string;
+    @Input() desc2: string;
     @Input() bgimgurl: string;
     @Input() linkurl: string;
 

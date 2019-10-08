@@ -1,0 +1,33 @@
+<div class="home__roadmap">
+  <h2 class="center home__roadmap__title">{{ 'Home.Roadmap.Title' | translate }}</h2>
+  <div class="home__roadmap--container container" fxLayout="col">
+    <button class="home__roadmap--nav_arrows__backward"
+            fxFlex="10"
+            appDebounceClick
+            (debounceClick)="backward()"
+            [style.visibility]="prevDisabled ? 'hidden' : 'visible'">
+      <img src="images/icons/icon_roadmap_nav_arrow.svg"/>
+    </button>
+    <div class="home__roadmap--milestones" fxFlex="80">
+      <ol class="home__roadmap--milestones__list"
+          [style.transform]="currentPosition">
+        <li class="home__roadmap--milestones__list__item" *ngFor="let _ of roadMap; let i = index;">
+          <div class="home__roadmap--milestones__list__item__content">
+            <div class="vl" *ngIf="i % 2 !== 0"></div>
+            <time>{{ ('Home.Roadmap.Timestamp' + (i + 1)) + '.Title' | translate }}</time>
+            <!-- <h5> {{ ('Home.Roadmap.Timestamp' + (i + 1)) + '.Desc.SubTitle' | translate }} </h5> -->
+            <p [innerHTML]="('Home.Roadmap.Timestamp' + (i + 1)) + '.Desc' | translate"></p>
+            <div class="vl" *ngIf="i % 2 === 0"></div>
+          </div>
+        </li>
+      </ol>
+    </div>
+    <button class="home__roadmap--nav_arrows__forward"
+            fxFlex="10"
+            appDebounceClick
+            (debounceClick)="forward()"
+            [style.visibility]="nextDisabled ? 'hidden' : 'visible'">
+      <img class="home__roadmap--nav_arrows__forward_arrow" src="images/icons/icon_roadmap_nav_arrow.svg"/>
+    </button>
+  </div>
+</div>

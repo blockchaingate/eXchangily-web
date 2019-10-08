@@ -1,0 +1,15 @@
+<div class="container-fluid">
+  <div>
+    <h3 class="color-primary">{{ 'Account.Referrals.Sideheading' | translate }}</h3>
+  </div>
+  <div>
+    <nav fxLayout="row" fxLayoutGap="1em">
+      <a [routerLink]="['/account/referrals/dashboard']" routerLinkActive="color-black bold">{{ 'Account.Referrals.Details' | translate }}</a>
+      <a [routerLink]="['/account/referrals/view']" routerLinkActive="color-black bold">{{ 'Account.Referrals.referrecord' | translate }}</a>
+    </nav>
+  </div>
+  <br>
+  <div>
+    <router-outlet></router-outlet>
+  </div>
+</div>

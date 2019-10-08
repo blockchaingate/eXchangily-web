@@ -1,0 +1,99 @@
+<app-lightbox class="order-details" [exitRoute]="backRoute">
+    <form *ngIf="loaded" class="order-details__content max-out" name="updateOrderForm" (ngSubmit)="submit()" [formGroup]="updateOrderForm" #formDir="ngForm">
+      <div class="order-details__status">
+        <h3 *ngIf="!formEdit" [ngStyle]="{ 'color': colours[getStatus()] }" class="order-details__status">
+          <ng-container *ngIf="icotx.status.toLowerCase() === 'pending'">{{ 'Account.View Orders.ViewOrderPage.SubHeaders.Pending' | translate }}</ng-container> 
+          <ng-container *ngIf="icotx.status.toLowerCase() === 'completed'">{{ 'Account.View Orders.ViewOrderPage.SubHeaders.Completed' | translate }}</ng-container>
+        </h3>
+
+        <label *ngIf="admin && formEdit" class="form-input__text__label" for="status">{{ 'Form.Status' | translate }}</label>
+        <select *ngIf="admin && formEdit" name="status" formControlName="status" class="form-input__text block">
+          <option class="order-details__status-option" *ngFor="let stat of statuses" [value]="stat">{{ stat }}</option>
+        </select>
+      </div>
+
+      <div class="order-details__guts">
+
+      <p class="order-details__date-created">{{ 'Form.Date Created' | translate }}: {{ icotx.dateCreated | date:'dd-MMM-yyyy' }}</p>
+
+      <p *ngIf="admin" class="order-detail__to-email">{{ 'Form.Member ID' | translate }}: {{ icotx.memberId }}</p>
+
+      <!-- Show Banking info below -->
+      <div class="order-details__payment" *ngFor="let payment of icotx.payment; let i=index;">
+        <div *ngIf="icotx.payMethod === 'btc'">
+          <p>BTC Address: {{ icotx.btcAddress }}</p>
+        </div> 
+
+        <div *ngIf="payment.payMethod === 'eth'">
+          <app-eth-info [ethAdd]="icotx.ethAddress" [size]="180"></app-eth-info>
+        </div>
+
+        <div class="order-details__bank" *ngIf="payment.payMethod === 'usd'">
+          <app-usd-info></app-usd-info>  
+        </div>
+
+        <div class="order-details__bank" *ngIf="payment.payMethod === 'rmb'">
+          <app-rmb-info></app-rmb-info> 
+        </div>
+
+        <p *ngIf="payment.paidAmount"><b>{{ 'Account.View Orders.ViewOrderPage.ListFields.Field2' | translate }}</b>: 
+          <currency-display [curType]="payment.payMethod" [amount]="payment.paidAmount"></currency-display>
+        </p>
+        <!-- Show Banking info above -->
+
+        <p class="semi-bold" style="margin-bottom: 0;">
+          <span *ngIf="isCrypto(i)">
+            {{ 'Account.Make Orders.OrderForm.Page2.InformationBox.Crypto.BoxHeader' | translate }}
+          </span>
+
+          <span *ngIf="!isCrypto(i)">
+            {{ 'Account.Make Orders.OrderForm.Page2.InformationBox.Fiat.BoxHeader' | translate }}
+          </span>
+        </p>
+
+        <p style="margin-top: 0;">{{ payment.transitId}}</p>
+      </div>
+
+      <div class="order-details__notes">
+        <p *ngIf="!formEdit" class="bold">{{ 'Form.Notes' | translate }}:</p>
+        <p *ngIf="!formEdit">{{ icotx.notes }}</p>
+
+        <label *ngIf="admin && formEdit" for="notes" class="form-input__text__label block">{{ 'Form.Notes' | translate }}</label>
+        <textarea *ngIf="admin && formEdit" formControlName="notes" class="form-input__text block"></textarea>
+      </div>
+
+      <p class="center" *ngIf="icotx.paid">{{ 'Form.Date Paid' | translate }}: {{ icotx.paymentDate }}</p>
+
+      <div class="order-details__amounts" fxLayout="row" fxLayoutAlign="space-between">
+        <p fxFlex="9em" class="semi-bold">{{ 'Account.Make Orders.OrderForm.Page1.DropDown3' | translate }}:</p>
+
+        <p fxFlex="10em" class="semi-bold">{{ 'Account.Make Orders.OrderForm.Page1.DropDown2' | translate }}</p>
+      </div>
+
+      <div class="order-details__amounts" fxLayout="row" fxLayoutAlign="space-between">
+        <p fxFlex="9em">{{ icotx.totalAppTokens}}</p>
+
+        <div fxFlex="10em">
+          <currency-display [amount]="icotx.totalPaid" [curType]="'usd'"></currency-display>
+        </div>
+      </div>
+
+      <div *ngIf="admin" class="order-details__buttons" fxLayout="row" fxLayoutGap="1.5em">
+        <button type="button" class="form-input__button background-secondary color-white" (click)="formEditToggle()">
+          {{ 'Form.Edit' | translate }}
+        </button>
+
+        <button *ngIf="formEdit" class="form-input__button background-primary color-white">
+          {{ 'Form.Submit' | translate }}
+        </button>
+        <p *ngIf="serverMessage && !updateOrderForm.dirty" class="form-input__error">{{ serverMessage }}</p>
+      </div>
+
+      <div class="order-details__buttons">
+        <button type="button" class="form-input__button background-secondary color-white" (click)="exit()">
+          {{ 'Form.Exit' | translate }}
+        </button>
+      </div>
+      </div>
+    </form>
+</app-lightbox>

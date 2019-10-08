@@ -1,0 +1,33 @@
+.confirm-order {
+  background-color: white;
+  display: block;
+  margin-bottom: 4em;
+
+  width: 100%;
+
+  &__container {
+    margin-top: 5em;
+  }
+
+  &__info {
+    &-amount {
+      font-size: 1.2em;
+      font-weight: bolder;
+      margin: 0;
+    }
+  }
+
+  input {
+    max-width: 15em;
+    width: calc(100% - 2em);
+  }
+
+  button {
+    margin: 2em auto;
+  }
+
+  .form-input__text {
+    max-width: 480px;
+    width: 100%;
+  }
+}

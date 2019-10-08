@@ -1,0 +1,106 @@
+<div class="app-home">
+    <div class="app-home__hero">
+        <div class="app-home__hero__content max-out">
+            <div class="app-home__hero-text">
+                <div class="text-left txtarea" *ngIf="lang === 'en'">
+                    <h1 class="left app-home__hero__title">{{ 'Home.Top.Hero.Line1' | translate }}</h1>
+                    <h3 class="left app-home__hero__title2">{{ 'Home.Top.Hero.Line2' | translate }}</h3>
+                </div>
+                <div *ngIf="lang === 'cn'">
+                    <h1 class="left app-home__hero__title">{{ 'Home.Top.Hero' | translate }}</h1>
+                </div>
+            </div>
+
+            <div class="center app-home__hero__download">
+                <a class="button secondary" [href]="whitepaper" target="_blank">
+          {{ 'Home.Top.WhitepaperButton' | translate }}
+        </a>
+            </div>
+
+            <div class="center app-home__hero__whitelist">
+                <!-- <input class="input" type="email" placeholder="Your Email"> -->
+                <a class="button white" href="https://visitor.r20.constantcontact.com/d.jsp?llr=olhycf6ab&amp;p=oi&amp;m=1130820803950&amp;sit=cklb98qmb&amp;f=2c910e35-5262-4d86-9b78-956cc6db860c" target="_blank">{{ 'Home.Top.WhitelistCTA.Button' | translate }}</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-home__section app-home__concept">
+        <div class="max-out app-home__concept__image">
+            <img src="/images/decal/exchangily-mockup.png" />
+            <p class="app-home__concept__paragraph">*Concept Only</p>
+        </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="app-home__overview app-home__section max-out">
+        <h2 class="center color-secondary app-home__overview__title">{{ 'Home.Overview.Title' | translate }}</h2>
+        <!-- <div fxLayout="row wrap"> -->
+        <!-- <div fxFlex="50" fxFlex.lt-md="100"> -->
+        <p class="text-justify app-home__paragraph">{{ 'Home.Overview.Disc.Content1' | translate }}</p>
+        <p class="text-justify app-home__paragraph">{{ 'Home.Overview.Disc.Content2' | translate }}</p>
+        <!-- </div> -->
+
+        <!-- <div fxFlex="50"> -->
+        <!-- Image later probably -->
+        <!-- </div> -->
+        <!-- </div> -->
+    </div>
+
+    <!-- How it Works TODO -->
+    <div class="app-home__how">
+        <div class="max-out" fxLayout="row" fxLayoutAlign="center">
+            <div fxFlex="80">
+                <video controls width="100%" height="auto">
+          <source src="/assets/videos/how.mp4">
+        </video>
+            </div>
+        </div>
+    </div>
+    <!--                   -->
+
+    <!-- Why -->
+    <div class="app-home__why app-home__section max-out">
+        <br>
+        <h2 class="center color-secondary">{{ 'Home.Why.Title' | translate }}</h2>
+        <!-- <div fxLayout="row wrap"> -->
+        <!-- <div fxFlex="50" fxFlex.lt-md="100"> -->
+        <p class="text-justify app-home__paragraph">{{ 'Home.Why.Disc.Content1' | translate }}</p>
+
+        <p class="text-justify app-home__paragraph">{{ 'Home.Why.Disc.Content2' | translate }}</p>
+        <!-- </div> -->
+        <!-- <div fxFlex="50" fxFlex.lt-md="100"> -->
+        <!-- Image later probably -->
+        <!-- </div> -->
+        <!-- </div> -->
+    </div>
+
+    <div class="app-home__why">
+        <div class="app-home__why__image">
+            <img src="/images/decal/map.svg" />
+        </div>
+    </div>
+
+    <div class="app-home__compare app-home__section">
+        <h2 class="center color-secondary">{{ 'Home.Comparison.Title' | translate }}</h2>
+
+        <div class="app-home__compare__image max-out">
+            <img src="/images/decal/comparison_table.svg" />
+        </div>
+    </div>
+
+    <div class="app-home__roadmap max-out">
+        <app-roadmap></app-roadmap>
+    </div>
+
+    <!-- Team -->
+    <div class="app-home__team app-home__section max-out">
+        <h2 class="center color-secondary">{{ 'Home.Team.Title'| translate }}</h2>
+        <app-team></app-team>
+    </div>
+
+    <!-- FAQ -->
+    <!-- <div class="app-home__faq app-home__section max-out"> -->
+    <!--   <h2 class="center color-secondary"></h2> -->
+    <!-- </div> -->
+
+</div>

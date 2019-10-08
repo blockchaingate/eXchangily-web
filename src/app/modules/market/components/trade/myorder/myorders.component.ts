@@ -1,11 +1,14 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, Input, TemplateRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { OrderService } from '../../../services/order.service';
 import { TradeService } from '../../../services/trade.service';
+import { CoinService } from '../../../../../services/coin.service';
+
 import { KanbanService } from '../../../../../services/kanban.service';
-import {TransactionReceipt, TransactionReceiptResp, Transaction} from '../../../../../interfaces/kanban.interface';
+import {TransactionReceiptResp, Transaction} from '../../../../../interfaces/kanban.interface';
 import { Wallet } from '../../../../../models/wallet';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
     selector: 'app-myorders',
@@ -15,16 +18,35 @@ import { Wallet } from '../../../../../models/wallet';
 
 export class MyordersComponent implements OnInit {
     @Input() wallet: Wallet;
+    private _mytokens: any;
     screenheight = screen.height;
-    select = 21;
+    select = 0;
     myorders: Transaction[] = [];
     address: string;
+    pin: string;
+    orderHash: string;
+    modalRef: BsModalRef;
 
     constructor(private ordServ: OrderService, private _router: Router, private tradeService: TradeService, 
-        private kanbanService: KanbanService) {
+        private kanbanService: KanbanService, private coinService: CoinService, private modalService: BsModalService) {
     }
 
+    @Input()
+    set mytokens(mytokens: any) {
+      this._mytokens = mytokens;
+    }
+  
+    get mytokens(): any { return this._mytokens; }
+
+    /*
+    onRefreshToken(tokens) {
+        
+        this.mytokens = tokens;
+        console.log('mytokens in myorders', this.mytokens);
+    }
+    */
     ngOnInit() {
+        // console.log('mytokens in myorders=', this.mytokens);
         this.tradeService.getTransactions().subscribe((transactions: Transaction[]) => {
             console.log('transactions=');
             console.log(transactions);
@@ -35,13 +57,13 @@ export class MyordersComponent implements OnInit {
             for (let i = 0; i < this.myorders.length; i++) {
                 const tx = this.myorders[i];
 
-                this.kanbanService.get('/kanban/getTransactionReceipt/' + tx.txid).subscribe((resp: TransactionReceiptResp) => {
-                    console.log('resp===');
-                    console.log(resp);
+                this.kanbanService.get('kanban/getTransactionReceipt/' + tx.txid).subscribe((resp: TransactionReceiptResp) => {
+                    //console.log('resp===');
+                    //console.log(resp);
 
                     if (resp && resp.transactionReceipt) {
                         tx.status = resp.transactionReceipt.status;
-                        console.log('tx.status=' + tx.status);
+                        //console.log('tx.status=' + tx.status);
                     }
 
                 });
@@ -52,21 +74,32 @@ export class MyordersComponent implements OnInit {
 
     }
 
-    selectOrder(ord: number) {
-        if (ord === 100) {
-            if (this.wallet && this.wallet.excoin && this.wallet.excoin.receiveAdds) {
-                this.address = this.wallet.excoin.receiveAdds[0].address;
-                console.log('this.address=' + this.address);
-                if (this.address) {
-                    this.kanbanService.get('/exchangily/getBalances/' + this.address).subscribe((resp) => {
-                        console.log('resp from getBalances===');
-                        console.log(resp);
-                    });
-                }                
-            }   
-        } 
-     
-        this.select = ord;
+    openModal(template: TemplateRef<any>) {
+        this.modalRef = this.modalService.show(template, { class: 'second' });
     }
 
+    selectOrder(ord: number) {
+
+        this.select = ord;
+    }
+    deleteOrder(pinModal: TemplateRef<any>, orderHash: string) {
+        this.orderHash = orderHash;
+        this.pin = sessionStorage.getItem('pin');
+        if (this.pin) {
+            this.deleteOrderDo();
+        
+        } else {
+            this.openModal(pinModal);
+        }
+    }
+
+    confirmPin() {
+        sessionStorage.setItem('pin', this.pin);
+        this.deleteOrderDo();
+        this.modalRef.hide();
+    }
+
+    deleteOrderDo() {
+        console.log('this.pin=' + this.pin);
+    }
 }

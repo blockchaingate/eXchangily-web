@@ -1,45 +1,45 @@
 <div class="outwraper w-100 h-100">
-    <div class="upper w-100" [style.height.px]="screenheight-460">
-        <div class="orderbook w-50 h-100">
-            <div class="w-100 headerl">{{'Order Book' | translate }}</div>
+    <div class="upper w-100">
+        <div class="orderbook w-50 h-100 mr-2 exg-bg">
+            <div class="w-100 headerl p-2">{{'Order Book' | translate }}</div>
             <div class="title w-100">
                 <div class="price">{{"Price" | translate}}</div>
                 <div class="quantity">{{"Quantity" | translate}}</div>
                 <div class="total">{{"Total" | translate}}</div>
             </div>
-            <div class="selllist w-100">
+            <div class="selllist w-100 pt-2">
                 <div class="orderbookitem" *ngFor="let sell of sells; let i=index">
-                    <div class="price smallfont text-danger">{{sell.price | number:'.4'}}</div>
-                    <div class="quantity smallfont text-muted">{{sell.quantity | number:'.4'}}</div>
-                    <div class="total smallfont text-muted">{{sell.acumulate | number:'.4'}}</div>
+                    <div class="price smallfont text-danger">{{sell.price | number:'.6'}}</div>
+                    <div class="quantity smallfont text-muted">{{sell.amount | number:'.6'}}</div>
+                    <div class="total smallfont text-muted">{{sell.price * sell.amount | number:'.6'}}</div>
                 </div>
             </div>
-            <!--
+
             <div class="current-price-box">
                 <div style="width: 60%" class="text-info"> {{currentPrice}}</div>
-                <div [class.redcolor]="change24h<0" [class.greencolor]="change24h>0" class="text-info"> {{change24h}}% </div>
+                <div [class.redcolor]="change24h<0" [class.greencolor]="change24h>0" class="text-info"> {{currentQuantity}} </div>
             </div>
--->
+
             <div class="buylist w-100">
                 <div class="orderbookitem" *ngFor="let buy of buys; let l=index">
-                    <div class="price smallfont text-success">{{buy.price | number:'.4'}}</div>
-                    <div class="quantity smallfont text-muted">{{buy.quantity | number:'.4'}}</div>
-                    <div class="total smallfont text-muted">{{buy.acumulate | number:'.4'}}</div>
+                    <div class="price smallfont text-success">{{buy.price | number:'.6'}}</div>
+                    <div class="quantity smallfont text-muted">{{buy.amount | number:'.6'}}</div>
+                    <div class="total smallfont text-muted">{{buy.price * buy.amount | number:'.6'}}</div>
                 </div>
             </div>
         </div>
-        <div class="trades w-50 h-100">
-            <div class="w-100 headerr">{{'Market Trades' | translate }}</div>
+        <div class="trades w-50 h-100 exg-bg">
+            <div class="w-100 headerr p-2">{{'Market Trades' | translate }}</div>
             <div class="title w-100">
                 <div class="price">{{"Price" | translate}}</div>
                 <div class="quantity">{{"Quantity" | translate}}</div>
                 <div class="time">{{"Time" | translate}}</div>
             </div>
 
-            <div class="transacs w-100" [style.height.px]="screenheight-512">
+            <div class="transacs w-100">
                 <div class="orderbookitem" *ngFor="let tx of txOrders; let l=index">
-                    <div class="price smallfont text-success">{{tx.price | number:'.4'}}</div>
-                    <div class="quantity smallfont text-muted">{{tx.quantity | number:'.4'}}</div>
+                    <div class="price smallfont" [ngClass]="tx.m?'text-success':'text-danger'">{{tx.price | number:'.6'}}</div>
+                    <div class="quantity smallfont text-muted">{{tx.quantity | number:'.6'}}</div>
                     <div class="total smallfont text-muted">{{tx.time | date:'HH:MM:ss'}}</div>
                 </div>
             </div>
@@ -47,37 +47,53 @@
         </div>
     </div>
 
-    <div class="middle w-100">
-        <div class="limitorder text-center w-50 hand" (click)="orderType=1;" [class.selected]="orderType === 1">
+    <div class="middle w-100  mt-2">
+        <div class="limitorder text-center text-white w-50 hand exg-bg mr-2 " (click)="orderType=1;" [class.selected]="orderType === 1">
             {{'Limit Order' | translate}}</div>
-        <div class="marketorder text-center w-50 hand" (click)="orderType=2;" [class.selected]="orderType === 2">
-            {{'Market Order' | translate}}</div>
+        <div class="marketorder text-center text-white w-50 hand exg-bg" (click)="orderType=2;" [class.selected]="orderType === 2">
+            {{'Limit Order' | translate}}</div>
     </div>
-
+    <!--Market Order-->
     <div class="lower w-100">
-        <div class="buyorder h-100">
-            <div class="aspace text-success">{{'Available' | translate}} USDT</div>
+        <div class="buyorder h-100 exg-bg mr-2 pb-3" *ngIf="baseCoin >= 0">
+            <div class="aspace text-success">
+                {{'Available' | translate}} {{coinService.getCoinNameByTypeId(baseCoin)}}: {{this.baseCoinAvail}}
+            </div>
 
             <div class="aspace text-muted">{{'Price' | translate}}</div>
-            <div><input type="number" class="form-control" [disabled]="orderType === 2" [(ngModel)]="buyPrice"> </div>
+            <div><input type="text" class="form-control" [disabled]="orderType === 2" [(ngModel)]="buyPrice"> </div>
             <div class="aspace text-muted">{{'Quantity' | translate}}</div>
-            <div><input type="number" class="form-control" [(ngModel)]="buyQty"> </div>
-            <div class="aspace text-muted">{{'Total' | translate}} USDT</div>
-            <div class="aspace"> <button type="button" class="btn btn-success" (click)="buy(templatePasswd)">{{'Buy' | translate}}</button></div>
+            <div><input type="text" class="form-control" [(ngModel)]="buyQty"> </div>
+            <div class="aspace text-muted">
+                {{'Total' | translate}} {{coinService.getCoinNameByTypeId(baseCoin)}}: {{buyPrice * buyQty}}
+            </div>
+            <div class="aspace" *ngIf="targetCoin >= 0"> <button type="button" class="btn btn-success" (click)="buy(templatePasswd)">
+                {{'Buy' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}
+            </button></div>
         </div>
 
-        <div class="sellorder h-100">
-            <div class="aspace text-danger">{{'Available' | translate}} FAB</div>
+        <div class="sellorder h-100 exg-bg pb-2" *ngIf="targetCoin >= 0">
+            <div class="aspace text-danger">
+                {{'Available' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}: {{this.targetCoinAvail}}
+            </div>
 
             <div class="aspace text-muted">{{'Price' | translate}}</div>
-            <div><input type="number" class="form-control" [disabled]="orderType === 2" [(ngModel)]="sellPrice"></div>
+            <div><input type="text" class="form-control" [disabled]="orderType === 2" [(ngModel)]="sellPrice"></div>
             <div class="aspace text-muted">{{'Quantity' | translate}}</div>
-            <div><input type="number" class="form-control" [(ngModel)]="sellQty"> </div>
-            <div class="aspace text-muted">{{'Total' | translate}} FAB</div>
-            <div class="aspace"> <button type="button" class="btn btn-success btn-danger" (click)="sell(templatePasswd)">{{'Sell' | translate}}</button></div>
+            <div><input type="text" class="form-control" [(ngModel)]="sellQty"> </div>
+            <div class="aspace text-muted">
+                {{'Total' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}: {{sellPrice * sellQty}}
+            </div>
+            <div class="aspace" *ngIf="targetCoin >= 0"> <button type="button" class="btn btn-success btn-danger" (click)="sell(templatePasswd)">
+                {{'Sell' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}
+            </button></div>
         </div>
     </div>
 </div>
+
+
+
+
 
 <ng-template #templatePasswd>
     <div class="modal-header text-center">
@@ -87,11 +103,11 @@
                   </button>
     </div>
     <div class="modal-body">
-            <div class="pb-4">
-                <input type="password" class="form-control" id="inputPin" [(ngModel)]="pin" aria-describedby="emailHelp" placeholder="Please provide your password to confirm the transaction">
-            </div>
+        <div class="pb-4">
+            <input type="password" class="form-control" id="inputPin" [(ngModel)]="pin" aria-describedby="emailHelp" placeholder="Please provide your password to confirm the transaction">
+        </div>
 
-            <button class="btn btn1 btn-gradient text-white" (click)="confirmPin()">{{"Confirm" | translate }}</button>
+        <button class="btn btn1 btn-gradient text-white" (click)="confirmPin()">{{"Confirm" | translate }}</button>
 
     </div>
 </ng-template>
