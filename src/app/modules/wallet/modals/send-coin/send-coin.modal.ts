@@ -1,67 +1,75 @@
-import { Component, TemplateRef, Input } from '@angular/core';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { Component, ViewChild, EventEmitter, Output, Input } from '@angular/core';
+import {  ModalDirective } from 'ngx-bootstrap/modal';
+import {SendCoinForm} from '../../../../interfaces/kanban.interface';
 import { Wallet } from '../../../../models/wallet';
-import { ApiService } from '../../../../services/api.service';
-import { UtilService } from '../../../../services/util.service';
-import { CoinService } from '../../../../services/coin.service';
-import { WalletService } from '../../../../services/wallet.service';
-import { MyCoin} from '../../../../models/mycoin';
-import { FormGroup, FormControl } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
+import { MyCoin } from '../../../../models/mycoin';
 
 @Component({
-    selector: 'modal-send-coin',
+    selector: 'send-coin-modal',
     templateUrl: './send-coin.modal.html',
     styleUrls: ['./send-coin.modal.css']
 })
 export class SendCoinModal {
-    modalRef: BsModalRef;
-    modalRef2: BsModalRef;
     @Input() wallet: Wallet;
+    coin: MyCoin;
+    @ViewChild('sendCoinModal', {static: true}) public sendCoinModal: ModalDirective;
+    @Output() confirmedCoinSent = new EventEmitter<SendCoinForm>();
     currentCoinIndex: number;
+    currentCoinBalance: number;
 
     sendCoinForm = this.fb.group({
         sendTo: [''],
         sendAmount: [''],
-        coin: ['EXG']
-    });    
-
-    pinForm = this.fb.group({
-        pin: ['']
-    }); 
-
-
-    constructor(private modalService: BsModalService, private apiService: ApiService, private walletService:WalletService,
-        private fb: FormBuilder, private utilService:UtilService, private coinService: CoinService) {
+        selectedCoinIndex: [0],
+        comment: [''],
+        gasFeeCustomChecked: [false],
+        gasPrice: [1.2],
+        gasLimit: [21000],
+        satoshisPerByte: [14]
+    });     
+    constructor(private fb: FormBuilder) {
         this.currentCoinIndex = 0;
-    }
-    openModal(template: TemplateRef<any>) {
-        this.modalRef = this.modalService.show(template);
-    }  
-
-    onChange(index: number) {
-        console.log(index);
-        this.currentCoinIndex = index;
-        // this.wallet.mycoins[index].receiveAdds[0].address;
-        // console.log(selectedValue);
-    }     
-    changeCoin(e: any) {
-        this.currentCoinIndex = e;
-    }  
-
-    async onSubmitPin() {
-        const pin = this.pinForm.get('pin').value;
-        const currentCoin = this.wallet.mycoins[this.currentCoinIndex];
-
-        const seed = this.utilService.aesDecryptSeed(this.wallet.encryptedSeed, pin);
+        if (this.wallet) {
+            this.coin = this.wallet[this.currentCoinIndex];
+        }
         
-        const amount = Number(this.sendCoinForm.get('sendAmount').value);
-        const txHex = await this.coinService.sendTransaction(currentCoin, seed, this.sendCoinForm.get('sendTo').value, amount
-        );
-
     }
-    openPinModal(template: TemplateRef<any>) {
-        this.modalRef2 = this.modalService.show(template, { class: 'second' });
-      }
+
+    onSubmit() {
+        const theForm = {
+            to: this.sendCoinForm.get('sendTo').value,
+            coinIndex: Number(this.sendCoinForm.get('selectedCoinIndex').value),
+            amount: Number(this.sendCoinForm.get('sendAmount').value),
+            comment: this.sendCoinForm.get('comment').value,
+            gasPrice: this.sendCoinForm.get('gasPrice').value ? Number(this.sendCoinForm.get('gasPrice').value) : 0,
+            gasLimit: this.sendCoinForm.get('gasLimit').value ? Number(this.sendCoinForm.get('gasLimit').value) : 0,
+            satoshisPerByte: this.sendCoinForm.get('satoshisPerByte').value ? Number(this.sendCoinForm.get('satoshisPerByte').value) : 0
+        };
+        this.confirmedCoinSent.emit(theForm);
+        this.hide();        
+    }
+    onChange(index: number) {
+        this.coin = this.wallet.mycoins[index];
+        if (this.coin.name === 'ETH') {
+            this.sendCoinForm.get('gasLimit').setValue(21000);
+        } else 
+        if (this.coin.tokenType === 'ETH') {
+            this.sendCoinForm.get('gasLimit').setValue(55000);
+        } else 
+        if (this.coin.name === 'FAB' || this.coin.tokenType === 'FAB') {
+            this.sendCoinForm.get('satoshisPerByte').setValue(18);
+        } else 
+        if (this.coin.name === 'BTC') {
+            this.sendCoinForm.get('satoshisPerByte').setValue(14);
+        }
+    }
+    show() {
+        this.sendCoinModal.show();
+    }
+
+    hide() {
+        this.sendCoinModal.hide();
+    }
 
 }

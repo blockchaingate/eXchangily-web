@@ -1,0 +1,11 @@
+.market-top {
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+    padding: 1.4em 0 2em 0;
+    border: 1px solid #353655;
+    background-color: #343554;
+}
+
+.top-border-right {
+    border-right: 1px solid #505369;
+}

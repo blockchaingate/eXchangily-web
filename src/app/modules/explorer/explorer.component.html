@@ -1,0 +1,139 @@
+<div class="container explorer-container">
+    <div class="row py-3">
+        <div class="col-md-5">
+            <input type="text" id="input" (keydown.enter)="search($event.target.value)" placeholder="Search by Address / Txn Hash / Block">
+        </div>
+
+    </div>
+    <div class="row row-flex">
+        <div class="col-md-4 px-1">
+            <div class="content exg-bg curve-block">
+                <img class="responsive" src="/assets/curve.png">
+            </div>
+        </div>
+        <div class="col-md-8 px-1">
+            <div class="content exg-bg insight-block">
+                <div class="container">
+                    <div class="row px-3 py-2">
+                        <div class="col-md-6">
+                            <div class="d-inline-block pr-2">
+                                <img style="vertical-align:middle" src="/assets/icon1.png">
+                            </div>
+                            <div class="d-inline-block pr-4">
+                                Latest Block
+                            </div>
+                            <div class="d-inline-block">
+                                #{{latestBlockNumber}}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-inline-block pr-2">
+                                <img style="vertical-align:middle" src="/assets/icon2.png">
+                            </div>
+                            <div class="d-inline-block pr-4">
+                                Timestamp
+                            </div>
+                            <div class="d-inline-block">
+                                {{timeOfLastBlock * 1000 | date:'medium'}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row px-3 py-2">
+                        <div class="col-md-6">
+                            <div class="d-inline-block pr-2">
+                                <img style="vertical-align:middle" src="/assets/icon3.png">
+                            </div>
+                            <div class="d-inline-block pr-4">
+                                Difficulty
+                            </div>
+
+                            <div class="d-inline-block">
+                                {{difficulty}}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-inline-block pr-2">
+                                <img style="vertical-align:middle" src="/assets/icon4.png">
+                            </div>
+                            <div class="d-inline-block pr-4">
+                                Total Address
+                            </div>
+
+                            <div class="d-inline-block">
+                                {{totalAddress}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row row-flex py-2">
+        <div class="col-md-6 px-1">
+            <div class="content exg-bg">
+                <div class="container">
+                    <div class="row pt-3 pb-1">
+                        <div class="pl-4">
+                            Blocks
+                        </div>
+                        <div class="ml-auto pr-4 color-purple" routerLink="blocks">
+                            View All
+                        </div>
+                    </div>
+                    <div class="row apair header py-2">
+                        <div class="col-md-2 hand align-self-center">Number</div>
+                        <div class="col-md-4 align-self-center">Timestamp</div>
+                        <div class="col-md-4 align-self-center">Include Txns</div>
+                        <div class="col-md-2 align-self-center">Size</div>
+                    </div>
+                    <div class="row apair py-2" *ngFor="let block of blocks; let i=index">
+                        <div class="col-md-2 hand align-self-center">
+                            <a class="explorer-link" [routerLink]="['block', block.number]">
+                            {{block.number}}
+                            </a>
+                        </div>
+                        <div class="col-md-4 align-self-center">{{block.timestamp * 1000 | date:'medium'}}</div>
+                        <div class="col-md-4 align-self-center">Include:{{block.transactions.length}} Txns</div>
+                        <div class="col-md-2 align-self-center">{{block.size}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 px-1">
+            <div class="content exg-bg">
+                <div class="container">
+                    <div class="row py-3">
+                        <div class="pl-4">
+                            Transactions
+                        </div>
+                        <div class="ml-auto pr-4 color-purple" routerLink="transactions">
+                            View All
+                        </div>
+                    </div>
+                    <div class="row apair py-2 " *ngFor="let tran of transactions; let i=index">
+                        <div class="col-md-12">Txn #:
+                            <a class="explorer-link" [routerLink]="['transaction', tran.txhash]">
+                                {{tran.txhash}}
+                            </a>
+                        </div>
+                        <div class="col-md-12">Timestamp: {{tran.timestamp_n * 1000 | date:'medium'}}</div>
+
+                        <div class="col-md-12 text-muted">
+                            From:
+                            <a class="explorer-link" [routerLink]="['address', tran.from]">
+                                {{tran.from}}
+                            </a>
+                        </div>
+                        <div class="col-md-12 text-muted">
+                            To:
+                            <a class="explorer-link" [routerLink]="['address', tran.to]">
+                                {{tran.to}}
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

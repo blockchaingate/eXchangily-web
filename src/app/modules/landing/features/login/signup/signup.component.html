@@ -1,0 +1,44 @@
+<h2 class="center">{{ 'Header.Navigation.Signup' | translate }}</h2>
+<form class="app__login__form" (ngSubmit)="onSubmit()" [formGroup]="signupForm" #formDir="ngForm">
+  <label for="email" class="form-input__text__label regular">{{ 'Form.Email' | translate }}</label>
+  <input type="email" name="email" formControlName="email" class="block form-input__text" required>
+  <div *ngIf="email.invalid && (email.dirty || email.touched)" class="form-input__error">
+    <p *ngIf="email.errors.required">
+      {{ 'FormErrors.FieldRequiredError' | translate }}
+    </p>
+    <p *ngIf="email.errors.email">
+      {{ 'FormErrors.ValidEmailError' | translate }}
+    </p>
+  </div>
+
+  <label for="password" class="form-input__text__label regular">{{ 'Form.Password' | translate }}</label>
+  <input type="password" name="password" formControlName="password" required class="block form-input__text">
+  <div *ngIf="password.invalid && (password.dirty || password.touched)" class="form-input__error">
+    <p *ngIf="password.errors.required">
+      {{ 'FormErrors.FieldRequiredError' | translate }}
+    </p>
+    <p *ngIf="password.errors.minlength">
+      {{ 'FormErrors.MinCharacterError' | translate:{value: passwordMin} }}
+    </p>
+  </div>
+
+  <label for="repeatPassword" class="form-input__text__label regular">{{ 'Form.Confirm Password' | translate }}</label>
+  <input type="password" name="repeatPassword" required formControlName="repeatPassword" class="block form-input__text">
+  <p [hidden]="(!repeatPsw.dirty && !repeatPsw.touched) || repeatPsw.value === password.value" class="form-input__error">
+    {{ 'FormErrors.PasswordMatchError' | translate }}
+  </p>
+  <p [hidden]="(!repeatPsw.dirty && !repeatPsw.touched)" *ngIf="repeatPsw?.errors?.required" class="form-input__error">
+  {{ 'FormErrors.FieldRequiredError' | translate }}
+  </p>
+
+  <label for="referralCode" class="form-input__text__label regular">{{ 'Account.User Info.InfoForm.Field12.Title' | translate }}</label>
+  <input type="text" id="referralCode" name="referralCode" formControlName="referralCode" class="block form-input__text">
+
+
+  <div class="button-wrapper">
+    <button type="submit" [disabled]="!formDir.form.valid" class="form-input__button fancy-button background-primary"><span class="color-white">{{ 'Header.Navigation.Signup' | translate }}</span></button>
+  <p *ngIf="serverErrorMsg" class="form-input__error center">
+    {{ serverErrorMsg }}
+  </p>
+  </div>
+</form>

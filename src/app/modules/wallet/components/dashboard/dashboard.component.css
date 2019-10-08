@@ -11,10 +11,6 @@
     border-style: solid;
 }
 
-.btn-highlight-outline {
-    border-color: #bb2ad1;
-}
-
 .btn-basic-outline {
     border-color: grey;
 }
@@ -65,12 +61,12 @@ tbody {
 
 /* Hide the browser's default checkbox */
 
-.form-check .container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
+::ng-deep .mat-checkbox .mat-checkbox-frame {
+    border-color: violet;
+}
+
+::ng-deep .mat-checkbox .mat-checkbox-frame {
+    border-color: violet;
 }
 
 
@@ -115,17 +111,52 @@ tbody {
     display: block;
 }
 
+.mat-checkbox .mat-checkbox-frame {
+    border-color: #6023b0;
+}
 
-/* Style the checkmark/indicator */
+.apair {
+    display: flex;
+    margin-left: 1em;
+    margin-right: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 0.5em;
+    border-bottom: 1px dashed #484969;
+    color: silver;
+    font-size: media;
+}
 
-.form-check .container .checkmark:after {
-    left: 9px;
-    top: 5px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
+.header {
+    font-weight: bold;
+    height: 2em;
+    padding-top: 4px;
+    background-color: #2c2c4e;
+    color: white;
+}
+
+.dataline:hover {
+    background-color: #3a3b5a;
+}
+
+.col-1 button {
+    display: inline-block;
+}
+
+@media only screen and (max-width: 959px) {
+    .w-75 {
+        width: 100%!important;
+    }
+}
+
+.btn-basic-outline:hover {
+    background-color: #49434a;
+}
+
+a {
+    cursor: pointer;
+}
+
+a:not([href]):not([tabindex]):focus,
+a:not([href]):not([tabindex]):hover {
+    color: #e3caca;
 }

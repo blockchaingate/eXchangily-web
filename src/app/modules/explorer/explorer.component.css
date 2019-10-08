@@ -1,0 +1,75 @@
+.explorer-container input[type='text'],
+.explorer-container input[type='text']:focus {
+    width: 100%;
+    color: white;
+    background: rgba(0, 0, 0, 0);
+    background-image: url('/images/icons/searchicon-w.svg');
+    background-size: 15px 15px;
+    padding-left: 30px;
+    background-position: 7px 7px;
+    background-repeat: no-repeat;
+    outline: none !important;
+    border-style: solid;
+    border-width: 1px;
+    border-color: grey;
+}
+
+.explorer-container .col-md-4,
+.explorer-container .col-md-8,
+.explorer-container .col-md-6 {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.explorer-container {
+    color: white;
+}
+
+.explorer-container .curve-block,
+.explorer-container .insight-block {
+    height: 150px;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+}
+
+.explorer-container .apair {
+    border-bottom: 1px dashed #484969;
+    color: silver;
+    font-size: small;
+}
+
+.explorer-container .flex-row {
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+}
+
+.responsive {
+    width: 100%;
+    height: 100%;
+}
+
+.apair {
+    display: flex;
+    margin-left: 1em;
+    margin-right: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 0.5em;
+    border-bottom: 1px dashed #484969;
+    color: silver;
+    font-size: media;
+}
+
+.header {
+    font-weight: bold;
+    height: 2em;
+    padding-top: 4px;
+    background-color: #2c2c4e;
+    color: white;
+}
+
+#input:focus {
+    border: 1px solid red;
+    box-shadow: 0 0 10px #719ECE;
+}

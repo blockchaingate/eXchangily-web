@@ -1,0 +1,11 @@
+html.theme-dark>* {
+    background-color: transparent!important;
+}
+
+html.theme-dark div[class^='group'],
+html.theme-dark div[class^='fill'],
+html.theme-dark .chart-page,
+html.theme-dark .chart-controls-bar,
+html.theme-dark .chart-page .chart-container {
+    background-color: #282840!important;
+}

@@ -1,0 +1,11 @@
+<div class="app-dropdown" #dropdown>
+  <button tabindex="0" (click)="toggle()" class="app-dropdown__text">
+    <span [ngClass]="{ 'open': open, 'closed': !open }" class="app-dropdown__arrow"></span>
+    <span>{{ title }}</span>
+  </button> 
+  <div [hidden]="!open" tabindex="0" class="app-dropdown__menu">
+    <ng-container *ngFor="let item of items">
+      <button tabindex="0" (click)="select(item.value)" class="app-dropdown__menu__item"><span>{{ item.text }}</span></button>
+    </ng-container>
+  </div>
+</div>

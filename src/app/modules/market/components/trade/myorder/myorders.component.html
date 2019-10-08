@@ -1,20 +1,18 @@
 <div class="outwraper">
-    <nav class="navbar navbar-expand-sm ordermenu">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link hand smallfont" [class.selected]="select === 0" (click)="select=0; selectOrder(0);">{{'Open Orders' | translate}}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link hand smallfont" [class.selected]="select === 1" (click)="select=1; selectOrder(1);">{{'Closed Orders' | translate }}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link hand smallfont" [class.selected]="select === 100" (click)="select=100; selectOrder(100);">{{'Balances' | translate }}</a>
-            </li>
-        </ul>
-    </nav>
 
-    <div class="orders w-100">
-        <div class="row orderline w-100 header">
+    <div class="p-2">
+        <div class="d-inline-block p-2" [ngClass]="select === 0?'text-white':'text-muted'">
+            <a (click)="selectOrder(0);">{{'Open Order' | translate}}</a>
+        </div>
+        <div class="d-inline-block p-2" [ngClass]="select === 1?'text-white':'text-muted'">
+            <a [class.selected]="select === 1" (click)="selectOrder(1);">{{'Closed Order' | translate }}</a>
+        </div>
+        <div class="d-inline-block p-2" [ngClass]="select === 100?'text-white':'text-muted'">
+            <a [class.selected]="select === 100" (click)="selectOrder(100);">{{'Balances' | translate }}</a>
+        </div>
+    </div>
+    <div class="orders w-100 fxHide-sm" *ngIf="select != 100">
+        <div class="row orderline w-100 header title py-3">
             <div class="orditem" style="width: 20%; margin-left: -1.2em;">Time</div>
             <div class="orditem" style="width: 8%;">Symbol</div>
             <div class="orditem" style="width: 5%;">Type</div>
@@ -26,9 +24,13 @@
             <div class="orditem" style="width: 8%;">Action</div>
         </div>
 
-        <div class="myorderlist w-100" [style.height.px]="screenheight-680">
+        <div class="myorderlist scroll-bar w-100 pt-2">
             <div class="row orderline w-100" *ngFor="let order of myorders; let i=index">
-                <div class="orditem text-muted" style="width: 20%;">{{order.created_at | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                <div class="orditem text-white" style="width: 20%;">
+                    <p>
+                        {{order.created_at | date:'yyyy-MM-dd HH:mm:ss'}}
+                    </p>
+                </div>
                 <div class="orditem text-info" style="width: 8%;">
                     <p *ngIf="order.baseCoin==0">USDT</p>
                     <p *ngIf="order.baseCoin==1">BTC</p>
@@ -36,17 +38,119 @@
                     <p *ngIf="order.baseCoin==3">FAB</p>
                     <p *ngIf="order.baseCoin==4">EXG</p>
                 </div>
-                <div class="orditem text-muted" style="width: 5%;">
+                <div class="orditem text-white" style="width: 5%;">
                     <p *ngIf="order.bidOrAsk">Buy</p>
                     <p *ngIf="!order.bidOrAsk">Sell</p>
                 </div>
-                <div class="orditem text-muted" style="width: 10%;">{{order.price}}</div>
-                <div class="orditem text-muted" style="width: 10%;">{{order.qty}}</div>
-                <div class="orditem text-muted" style="width: 10%;">{{order.filledQty}}</div>
-                <div class="orditem text-muted" style="width: 10%;">{{order.amount}}</div>
-                <div class="orditem text-muted" style="width: 8%;">{{order.filledQty*100/order.qty|number:'2.2-2'}}</div>
-                <div class="orditem text-muted" style="width: 8%;">cancel</div>
+                <div class="orditem text-white" style="width: 10%;">
+                    <p>{{order.price}}</p>
+                </div>
+                <div class="orditem text-white" style="width: 10%;">
+                    <p>{{order.qty}}</p>
+                </div>
+                <div class="orditem text-white" style="width: 10%;">
+                    <p>{{order.filledQty}}</p>
+                </div>
+                <div class="orditem text-white" style="width: 10%;">
+                    <p>{{order.amount}}</p>
+                </div>
+                <div class="orditem text-white" style="width: 8%;">
+                    <p>{{order.filledQty*100/order.qty|number:'2.2-2'}}</p>
+                </div>
+                <div class="orditem text-white" style="width: 8%;">
+                    <button mat-icon-button aria-label="Example icon-button with a heart icon" (click)="deleteOrder(templatePasswd, order.orderHash)">
+                        <mat-icon>delete_outline</mat-icon>
+                      </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="orders w-100 fxHide-gt-sm container" *ngIf="select != 100">
+        <div class="row  w-100 header title py-3">
+            <div class="orditem col-5">Time</div>
+            <div class="orditem col-2">Symbol</div>
+            <div class="orditem col-2">Price</div>
+            <div class="orditem col-2">Action</div>
+        </div>
+
+        <div class="myorderlist scroll-bar w-100 pt-2" [style.height.px]="screenheight-680">
+            <div class="row row-with-line  w-100" *ngFor="let order of myorders; let i=index">
+                <div class="text-muted col-5">
+                    <p>
+                        {{order.created_at | date:'yyyy-MM-dd HH:mm:ss'}}
+                    </p>
+                </div>
+                <div class=" text-info col-2">
+                    <p *ngIf="order.baseCoin==0">USDT</p>
+                    <p *ngIf="order.baseCoin==1">BTC</p>
+                    <p *ngIf="order.baseCoin==2">ETH</p>
+                    <p *ngIf="order.baseCoin==3">FAB</p>
+                    <p *ngIf="order.baseCoin==4">EXG</p>
+
+                </div>
+                <div class=" text-muted col-2">
+                    <p>{{order.price}}</p>
+                </div>
+                <div class=" text-muted col-2">
+                    <p>cancel</p>
+                </div>
+                <div class=" text-muted col-4">
+                    <p *ngIf="order.bidOrAsk">
+                        Type:Buy
+                    </p>
+                    <p *ngIf="!order.bidOrAsk">
+                        Type:Sell
+                    </p>
+                </div>
+                <div class=" text-muted col-4">
+                    Order Qty:{{order.qty}}
+                </div>
+                <div class=" text-muted col-4">
+                    Filled Qty:{{order.filledQty}}
+                </div>
+                <div class=" text-muted col-4">
+                    Amount:{{order.amount}}
+                </div>
+                <div class=" text-muted col-4">
+                    Filled%:{{order.filledQty*100/order.qty|number:'2.2-2'}}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="orders w-100" *ngIf="select == 100">
+        <div class="row orderline w-100 header py-3 title">
+            <div class="orditem" style="width: 30%; margin-left: -1.2em;">Coin</div>
+            <div class="orditem" style="width: 30%;">Amount</div>
+            <div class="orditem" style="width: 30%;">Locked Amount</div>
+        </div>
+
+        <div class="myorderlist scroll-bar w-100 pt-2" [style.height.px]="screenheight-680">
+            <div class="row orderline w-100" *ngFor="let token of mytokens; let i=index">
+
+                <div class="orditem text-white" style="width: 30%;">{{coinService.getCoinNameByTypeId(token.coinType)}}</div>
+                <div class="orditem text-white" style="width: 30%;">{{token.unlockedAmount / 1e18}}</div>
+                <div class="orditem text-white" style="width: 30%;">{{token.lockedAmount / 1e18}}</div>
             </div>
         </div>
     </div>
 </div>
+
+<ng-template #templatePasswd>
+    <div class="modal-header text-center">
+        <h4 class="modal-title w-100">Pin Number</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+    </div>
+    <div class="modal-body">
+        <div class="pb-4">
+            <input type="password" class="form-control" id="inputPin" [(ngModel)]="pin" aria-describedby="emailHelp" placeholder="Please provide your password to confirm the transaction">
+        </div>
+
+        <button class="btn btn1 btn-gradient text-white" (click)="confirmPin()">{{"Confirm" | translate }}</button>
+
+    </div>
+</ng-template>

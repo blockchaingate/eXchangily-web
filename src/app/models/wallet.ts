@@ -6,16 +6,18 @@ export class Wallet {
     pwdHash: string; // pwd - encrypt seed, resetable.
     pinHash?: string; // pin - encrypt other data and confirm payment, resetable.
     encryptedSeed: string; // Encrypted with pwd.
+    encryptedMnemonic: string; // Encrypted with pwd
     mycoins: MyCoin[]; // My tokens
     excoin: MyCoin; // My token for exchangily
     dateCreated: Date;
     lastUpdated: Date;
 
-    constructor(seedHashShort: string, name: string, pwdhash: string, encryptedSeed: string) {
+    constructor(seedHashShort: string, name: string, pwdhash: string, encryptedSeed: string, encryptedMnemonic: string) {
         this.id = seedHashShort;
         this.name = name;
         this.pwdHash = pwdhash;
         this.encryptedSeed = encryptedSeed;
+        this.encryptedMnemonic = encryptedMnemonic;
         this.mycoins = new Array();
         this.dateCreated = new Date();
         this.lastUpdated = new Date();

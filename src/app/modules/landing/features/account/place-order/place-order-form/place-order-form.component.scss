@@ -1,0 +1,9 @@
+.create-order {
+  margin: 0 2em;
+  width: calc(100% - 8em);
+
+  &.no-margin {
+    margin: 0;
+    width: calc(100% - 4em);
+  }
+}

@@ -1,25 +1,42 @@
-<button class="btn btn-outline btn-highlight-outline" (click)="openModal(templateReceive)">{{"Receive" | translate }}</button>
-<ng-template #templateReceive>
+<button class="button" (click)="openModal(templateReceive)">{{"Receive" | translate }}</button>
+
+<ng-template #templateReceive class="modal-bg-grey">
     <div class="modal-header text-center">
-        <h4 class="modal-title w-100">Receive</h4>
+        <h4 class="modal-title w-100">{{"Receive" | translate }}</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
                 <span aria-hidden="true">&times;</span>
               </button>
     </div>
     <div class="modal-body">
-        <div>Currency</div>
-        <div class="pt-2 pb-3">
+        <div class="text-dark">{{"Currency" | translate }}</div>
+        <div class="pt-2 pb-3 w-25">
             <select class="form-control" (change)="onChange($event.target.value)">
                     <option [value]="i" *ngFor="let coin of wallet.mycoins;let i = index">{{coin.name}}</option>
             </select>
-          
         </div>
 
-        <div>Wallet address</div>
-        <div>{{currentAddress}}</div>
+        <div class="text-dark">{{"Wallet address" | translate }}</div>
+        <div>
+            {{currentAddress}}
+            <button mat-icon-button (click)="copyAddress()">
+                    <mat-icon svgIcon="icon_copy"></mat-icon>
+                </button>
+        </div>
 
         <div class="text-center py-5">
-            <qr-code [value]="currentAddress" [size]="150"></qr-code>
+            <qrcode [qrdata]="currentAddress" id="address_qr_code" style="display: inline-block" [size]="150" [level]="'M'"></qrcode>
+            <div class="py-2">
+                <a href="{{link}}" download (click)="dlDataUrlBin()">
+                    <div class="d-inline-block px-1">
+                        <img src="/assets/download.png">
+                    </div>
+                    <div class="d-inline-block px-1">
+                        Download QR Code
+                    </div>
+                </a>
+
+
+            </div>
         </div>
     </div>
 </ng-template>

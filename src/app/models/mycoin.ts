@@ -6,12 +6,19 @@ export class MyCoin extends Coin {
     lockedBalance: number;
     receiveAdds: Address[];
     changeAdds: Address[];
+    tokenType: string;
+    baseCoin: MyCoin;
+    contractAddr: string;
+
     constructor(name: string) {
         super(name);
         this.balance = 0;
         this.lockedBalance = 0;
+        this.tokenType = '';
+        this.contractAddr = '';
         this.receiveAdds = new Array();
         this.changeAdds = new Array();
+        this.baseCoin = null;
     }
 
 }

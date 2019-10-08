@@ -1,0 +1,45 @@
+<div class="container exg-bg">
+    <div class="row pt-4 pl-3">
+        <h4>{{'Manage My Wallet' | translate}}</h4>
+
+
+    </div>
+    <div class="row">
+        <div class="vertical-nav" id="sidebar">
+            <ul class="nav flex-column mb-0">
+                <li class="nav-item">
+                    <a class="nav-link text-muted" routerLink="/wallet/restore">{{"Import Wallet" | translate }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-muted" routerLink="/wallet/create">{{"Create Wallet" | translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a (click)="manageWal('LOGIN_SETTING')" class="nav-link text-muted">
+                        {{'Login Setting' | translate}}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a (click)="manageWal('SHOW_SEED_PHRASE')" class="nav-link text-muted">
+                        {{'Show seed phrase' | translate}}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a (click)="manageWal('VERIFY_SEED_PHRASE')" class="nav-link text-muted">
+                        {{'Verify seed phrase' | translate}}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a (click)="manageWal('BACKUP_PRIVATE_KEY')" class="nav-link text-muted">
+                        {{'Backup private key' | translate}} 
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a (click)="manageWal('DELETE_WALLET')" class="nav-link text-muted">
+                        {{'Delete wallet' | translate}}  
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>

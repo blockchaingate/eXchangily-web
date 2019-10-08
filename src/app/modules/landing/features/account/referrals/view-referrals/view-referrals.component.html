@@ -1,0 +1,32 @@
+<form class="referral-order-list" ngClass.lt-md="no-margin">
+  <router-outlet></router-outlet>
+
+  <ng-container *ngIf="!loaded">
+    <app-loading></app-loading>
+  </ng-container>
+
+  <ng-container *ngIf="loaded">
+    <div class="referral-order-list-wrap">
+
+      <h4>{{ 'Account.View Orders.ViewOrderPage.SubHeaders.Pending' | translate }}</h4>
+      <div class="referral-order-list__orders">
+        <div *ngIf="!localIcotxes.pending.getValue().length" class="referral-order-list__none">
+          <!-- <p>{{ 'Account.View Orders.ViewOrderPage.SubHeaders.Pending Empty' | translate }}</p> -->
+        </div>
+        <div class="referral-order-list__order" fxLayout="row" fxLayoutGap="2em" *ngFor="let order of (localIcotxes.pending | async); let i = index">
+          <icotx-item [order]="order" [admin]="true" [clickable]="false"></icotx-item>
+        </div>
+      </div>
+
+      <h4>{{ 'Account.View Orders.ViewOrderPage.SubHeaders.Completed' | translate }}</h4>
+      <div class="referral-order-list__orders">
+        <div *ngIf="!localIcotxes.completed.getValue().length" class="referral-order-list__none">
+          <!-- <p>{{ 'Account.View Orders.ViewOrderPage.SubHeaders.Completed Empty' | translate }}</p> -->
+        </div>
+        <div class="referral-order-list__order" fxLayout="row" fxLayoutGap="2em" *ngFor="let order of (localIcotxes.completed | async); let i = index">
+          <icotx-item [order]="order" [admin]="true" [clickable]="false"></icotx-item>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</form>

@@ -1,42 +1,26 @@
-<ng-template #templateDeposit>
-    <div class="modal-header text-center">
-        <h4 class="modal-title w-100">Deposit</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-    </div>
-    <div class="modal-body">
+<div bsModal #depositModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
         <form [formGroup]="depositAmountForm" (ngSubmit)="onSubmit()">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 text-dark">Deposit</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="inputSendTo" class="text-muted">Deposit amount</label>
+                        <input type="text" class="form-control" id="inputDepositAmount" formControlName="depositAmount" aria-describedby="emailHelp" placeholder="0.0000">
+                    </div>
+                </div>
 
-            <div class="form-group">
-                <label for="inputSendTo">Deposit amount</label>
-                <input type="text" class="form-control" id="inputSendAmount" formControlName="depositAmount" aria-describedby="emailHelp" placeholder="0.0000">
-            </div>
-
-            <div class="form-group">
-                <div class="row">
-                    <div class="col">
-                        Gas fee </div>
-                    <div class="col">
-                        <div class="pull-right">
-                            0.000033
-                        </div>
+                <div class="modal-footer">
+                    <div class="pull-left">
+                        <button class="btn btn-gradient text-white" type="submit"> Confirm </button>
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col">
-                        Gas fee advanced
-                    </div>
-                    <div class="col">
-                        <div class="pull-right">
-                            <mat-slide-toggle [checked]="checked">Slide me!</mat-slide-toggle>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button class="btn btn1 btn-gradient text-white" type="button" (click)="openPinModal(templatePasswd)">{{"Send" | translate }}</button>
         </form>
     </div>
-</ng-template>
+</div>

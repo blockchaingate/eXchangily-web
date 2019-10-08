@@ -1,0 +1,43 @@
+.container {
+    width: 100vw;
+}
+
+.selected {
+    background-color: lightblue;
+    color: white;
+}
+
+.orders {
+    padding: 0 0 3em 0;
+    margin-top: 0.8em;
+    margin-bottom: 3em;
+    width: 100%;
+}
+
+.menuitm {
+    cursor: pointer;
+    color: black;
+    margin-left: 0.3em;
+    padding: 2px 8px;
+}
+
+.list-title {
+    font-weight: bold;
+    margin-bottom: 0.3em;
+}
+
+.list-row:hover {
+    background-color: #F0F0F0;
+    color: red;
+    cursor: pointer;
+}
+
+.item8em {
+    width: 8em;
+}
+.item12em {
+    width: 12em;
+}
+.item18em {
+    width: 18em;
+}

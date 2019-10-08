@@ -7,6 +7,7 @@ export class Address {
     isUsed: Boolean;
     nonce: number;
     balance: number;
+    lockedBalance: number;
     constructor(coinType: number, address: string, index: number) {
         this.coinType = coinType;
         this.address = address;
@@ -14,5 +15,6 @@ export class Address {
         this.isUsed = false;
         this.nonce = 0;
         this.balance = 0;
+        this.lockedBalance = 0;
     }
 }

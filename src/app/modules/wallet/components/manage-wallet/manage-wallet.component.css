@@ -1,0 +1,25 @@
+.vertical-nav {
+    width: 100%;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s;
+}
+
+
+/* for toggle behavior */
+
+#sidebar.active {
+    margin-left: -17rem;
+}
+
+#content.active {
+    width: 100%;
+    margin: 0;
+}
+
+.nav-link:hover {
+    background-color: #3a3b5a;
+}
+
+.nav-item {
+    line-height: 0.8;
+}
