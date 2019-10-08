@@ -29,14 +29,16 @@
             <div fxFlex fxLayout fxHide.xs>
                 <ul fxLayout fxLayoutGap="15px" class="navigation-items">
                     <li class="nav-item">
+                        <a class="nav-link" routerLink="/wallet/dashboard" (click)="background='dark-back'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Wallet' | translate}}</a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link" routerLink="/market/home" (click)="background='gradient-back-title'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Market' | translate}}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/market/trade/ETH_BTC" (click)="background='gradient-back-title'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Trade' | translate}}</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/wallet/dashboard" (click)="background='dark-back'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Wallet' | translate}}</a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/explorer" (click)="background='dark-back'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Explore' | translate}}</a>
                     </li>

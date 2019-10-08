@@ -15,4 +15,5 @@ export class MnemonicComponent {
     next() {
         this.route.navigate(['/wallet/confirm-words']);
     }
+
 }
