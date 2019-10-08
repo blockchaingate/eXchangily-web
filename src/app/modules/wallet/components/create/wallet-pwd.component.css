@@ -1,5 +1,5 @@
 .outpanel {
-    width: 500px;
+    max-width: 500px;
     min-height: 640px;
     margin: auto;
     margin-bottom: 4em;
