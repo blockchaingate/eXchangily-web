@@ -93,7 +93,10 @@ export class WalletService {
 
     async getCurrentWallet() {
         const currentWalletIndex = await this.getCurrentWalletIndex();
+
         const wallets = await this.getWallets();
+        console.log('currentWalletIndex=' + currentWalletIndex);
+        console.log('wallets=' + wallets);
         if (currentWalletIndex >= 0 && wallets) {
             return wallets[currentWalletIndex];
         }

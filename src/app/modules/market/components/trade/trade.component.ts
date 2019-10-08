@@ -72,6 +72,8 @@ export class TradeComponent implements OnInit {
             this.address = this.wallet.excoin.receiveAdds[0].address;
             console.log('address here we go=' + this.address);
             this.onRefreshToken();
+        } else {
+            console.log('current wallet not found');
         }
 
         /*

@@ -576,7 +576,7 @@ export class WalletDashboardComponent {
        
        
        this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp) => { 
-            console.log('resp=' + resp);
+            console.log('resp=', resp);
         }); 
          
     }
