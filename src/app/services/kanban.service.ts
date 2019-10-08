@@ -39,13 +39,13 @@ export class KanbanService {
     }
 
     getLatestBlocks() {
-        const path = environment.endpoints.kanban + 'getlatestblocks/10';
+        const path = environment.endpoints.kanban + 'kanban/explorer/getlatestblocks/10';
         const res = this.http.get(path);
         return res;
     }
 
     getBlocks(blockNum: number, num: number) {
-        const path = environment.endpoints.kanban + 'getblocks/' + blockNum + '/' + num;
+        const path = environment.endpoints.kanban + 'kanban/explorer/getblocks/' + blockNum + '/' + num;
         const res = this.http.get(path);
         return res;
     }
@@ -56,10 +56,10 @@ export class KanbanService {
 
         } else
         if (address) {
-            path = environment.endpoints.kanban + 'getaddresstxsall/' + address;
+            path = environment.endpoints.kanban + 'kanban/explorer/getaddresstxsall/' + address;
 
         } else {
-            path = environment.endpoints.kanban + 'transactions/' + num;
+            path = environment.endpoints.kanban + 'kanban/explorer/transactions/' + num;
         }
         
         console.log('path in getLatestTransactions=' + path);
@@ -68,7 +68,7 @@ export class KanbanService {
     }
     
     getTransactions(blockNum: number, num: number) {
-        const path = environment.endpoints.kanban + 'transactions/' + blockNum + '/' + num;
+        const path = environment.endpoints.kanban + 'kanban/explorer/transactions/' + blockNum + '/' + num;
         const res = this.http.get(path);
         return res;
     }
@@ -137,6 +137,7 @@ export class KanbanService {
         } catch (e) {}
         return gas;
     }
+
     post (path: string, data: any) {
         const httpHeaders = new HttpHeaders({
             'Content-Type' : 'application/json',
