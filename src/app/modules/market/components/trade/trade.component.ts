@@ -8,9 +8,6 @@ import { PriceService } from '../../../../services/price.service';
 import { KanbanService } from '../../../../services/kanban.service';
 import { CoinService } from '../../../../services/coin.service';
 import { OrderService } from '../../services/order.service';
-import { Chart } from 'chart.js';
-import * as moment from 'moment';
-import { ConditionalExpr, ElementSchemaRegistry } from '@angular/compiler';
 import { Wallet } from '../../../../models/wallet';
 import { WalletService } from '../../../../services/wallet.service';
 import { MyordersComponent } from './myorder/myorders.component';
@@ -64,8 +61,8 @@ export class TradeComponent implements OnInit {
 
     async ngOnInit() {
         this.screenwidth = window.innerWidth;
-        this.screenheight = window.innerHeight;        
-        // console.log('width=', width);
+
+        this.screenheight = window.innerHeight;  
         const wallet = await this.walletService.getCurrentWallet();
         if (wallet) {
             this.wallet = wallet;

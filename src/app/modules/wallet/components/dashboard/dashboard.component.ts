@@ -256,7 +256,13 @@ export class WalletDashboardComponent {
         this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
         this.exgBalance = this.wallet.mycoins[0].balance;
         console.log('load wallet again.');
-        this.gas = await this.kanbanServ.getGas(this.wallet.excoin.receiveAdds[0].address);        
+        this.kanbanServ.getKanbanBalance(this.wallet.excoin.receiveAdds[0].address).subscribe(
+            (resp: any) => {
+                console.log('resp=',resp);
+                this.gas = Number(BigInt(resp.balance.FAB).toString(10)) / 1e18;
+                console.log(this.gas);
+            }
+        );        
 
     }
     exchangeMoney() {

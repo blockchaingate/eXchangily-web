@@ -1042,14 +1042,18 @@ export class CoinService {
             console.log('txData=');
             console.log(txData);
             const txhex = await this.web3Serv.signTxWithPrivateKey(txData, keyPair);
-
+            console.log('after sign');
             let txhash = '';
             if (doSubmit) {
+                console.log('111');
                 txhash = await this.apiService.postEthTx(txhex);
+                console.log('222');
             } else {
+                console.log('333');
                 txhash = this.web3Serv.getTransactionHash(txhex);
+                console.log('444');
             }
-
+            console.log('555');
             return {txHex: txhex, txHash: txhash};
 
         } else

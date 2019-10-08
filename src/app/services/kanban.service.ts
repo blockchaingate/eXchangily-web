@@ -138,6 +138,10 @@ export class KanbanService {
         return gas;
     }
 
+    getKanbanBalance(address: string) {
+        const path = 'kanban/getBalance/' + address;
+        return this.get(path);
+    }
     post (path: string, data: any) {
         const httpHeaders = new HttpHeaders({
             'Content-Type' : 'application/json',

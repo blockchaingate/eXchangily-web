@@ -39,13 +39,26 @@ export class Web3Service {
     }
 
     async signTxWithPrivateKey(txParams: any, keyPair: any) {
+      /*
       const privateKey = `0x${keyPair.privateKey.toString('hex')}`;
 
+      console.log('in signTxWithPrivateKey');
       const web3 = this.getWeb3Provider();
-
+      console.log('in111');
+      console.log(txParams);
+      console.log(privateKey);
       const signMess = await web3.eth.accounts.signTransaction(txParams, privateKey) as EthTransactionObj;
-
+      console.log('in222');
+      console.log(signMess);
       return signMess.rawTransaction;
+      */
+      const privKey = keyPair.privateKeyBuffer;
+      const EthereumTx = Eth.Transaction;
+      const tx = new EthereumTx(txParams, { chain: environment.chains.ETH.chain, hardfork: environment.chains.ETH.hardfork });
+      tx.sign(privKey);
+      const serializedTx = tx.serialize();
+      const txhex = '0x' + serializedTx.toString('hex'); 
+      return txhex;
     }
 
     async sendSignedTransaction(txhex: string) {

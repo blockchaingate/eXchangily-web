@@ -92,19 +92,23 @@ export class WalletService {
     }
 
     async getCurrentWallet() {
-        const currentWalletIndex = await this.getCurrentWalletIndex();
+        let currentWalletIndex = await this.getCurrentWalletIndex();
 
         const wallets = await this.getWallets();
         console.log('currentWalletIndex=' + currentWalletIndex);
-        console.log('wallets=' + wallets);
-        if (currentWalletIndex >= 0 && wallets) {
+        console.log('walletsssss=', wallets);
+        if (wallets) {
+            if (!currentWalletIndex) {
+                currentWalletIndex = 0;
+            }
+            console.log('currentWalletIndex here=' + currentWalletIndex);
             return wallets[currentWalletIndex];
         }
         return null;
     }
 
     async getCurrentWalletIndex() {
-        const currentWalletIndex = await this.localSt.getItem('currentWalletIndex').toPromise() as number;
+        let currentWalletIndex = await this.localSt.getItem('currentWalletIndex').toPromise() as number;
         console.log('currentWalletIndex in get', currentWalletIndex);
         return currentWalletIndex;
     }
