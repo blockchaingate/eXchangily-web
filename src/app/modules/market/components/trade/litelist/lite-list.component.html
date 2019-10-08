@@ -11,7 +11,7 @@
     </div>
 
     <mat-list class="scroll-bar">
-        <mat-list-item>
+        <mat-list-item class="header apair">
             <div mat-line class="float-left text-white">{{'Pair'|translate}}</div>
             <div class="vertical-center">
                 <div class="smallfont text-muted p-1">{{'LatestPrice'|translate}}</div>
@@ -19,73 +19,14 @@
             </div>
             <mat-divider></mat-divider>
         </mat-list-item>
-        <mat-list-item *ngFor="let pr of prices | callback: filterPrice : select; let i=index">
-            <div mat-line class="float-left text-white" (click)="loadTradePair(pr.pair)">{{pr.symbol}}</div>
-            <div class="vertical-center pt-2 pb-2">
+        <mat-list-item class="apair dataline" *ngFor="let pr of prices | callback: filterPrice : select; let i=index">
+            <div mat-line class="float-left text-white" (click)="loadTradePair(pr.symbol)">{{pr.symbol}}</div>
+            <div class="vertical-center pt-2 pb-2" (click)="loadTradePair(pr.symbol)">
                 <div class="text-muted vertical-center">{{pr.price}}</div>
-                <div class="vertical-center" [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>0"> {{pr.change24h | number:'.2'}}% </div>
+                <div class="vertical-center" [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>=0"> {{pr.change24h | number:'.2'}}% </div>
             </div>
             <mat-divider></mat-divider>
         </mat-list-item>
 
     </mat-list>
 </div>
-<!--
-<div class="pricelist">
-    <div class="apair header">
-        <div class="leftarea smallfont">{{'Pair'|translate}}</div>
-        <div class="rightarea">
-            <div class="smallfont">{{'LatestPrice'|translate}}</div>
-            <div class="smallfont">{{'H24Change'|translate}}</div>
-        </div>
-    </div>
-    <div class="coinlist">
-        <div class="apair" *ngFor="let pr of prices | callback: filterPrice : select; let i=index">
-            <div class="leftarea smallfont hand" (click)="loadTradePair(pr.pair)">{{pr.symbol}}</div>
-            <div class="rightarea">
-                <div class="smallfont">{{pr.price}}</div>
-                <div class="smallfont" [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>0">
-                    {{pr.change24h | number:'.2'}}%
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
--->
-<!--
-<div class="container market-panel h-100">
-    <div class="menu">
-        <div class="menuitem hand smallfont" [class.selected]="select === 1" (click)="select=1; selectCat(1);">★</div>
-        <div class="menuitem hand smallfont" [class.selected]="select === 2" (click)="select=2; selectCat(2);">USDT2</div>
-        <span class="menuitem hand smallfont" [class.selected]="select === 3" (click)="select=3; selectCat(3);">BTC</span>
-        <div class="menuitem hand smallfont" [class.selected]="select === 4" (click)="select=4; selectCat(4);">ETH</div>
-    </div>
-
-    <div class="input-group sarcharea">
-        <input type="text" class="form-control searchbox" [(ngModel)]="searchText" placeholder="{{'Search pair2' | translate}}">
-        <div class="input-group-append">
-            <button class="btn btn-secondary" type="button">
-                <img src="/images/icons/searchicon.svg" width="12px" [hidden]="searchText">
-                <img src="/images/icons/searchicon-w.svg" width="12px" [hidden]="!searchText">
-            </button>
-        </div>
-    </div>
-
-    <div class="pricelist overflow-auto">
-        <div class="apair header">
-            <div class="leftarea smallfont">{{'Pair'|translate}}</div>
-            <div class="rightarea">
-                <div class="smallfont">{{'LatestPrice'|translate}}</div>
-                <div class="smallfont">{{'H24Change'|translate}}</div>
-            </div>
-        </div>
-        <div class="apair" *ngFor="let pr of prices; let i=index">
-            <div class="leftarea smallfont hand" (click)="loadTradePair(pr.pair)">{{pr.pair}}</div>
-            <div class="rightarea">
-                <div class="smallfont">{{pr.price}}</div>
-                <div class="smallfont" [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>0">{{pr.change24h | number:'.2'}}%</div>
-            </div>
-        </div>
-    </div>
-</div>
--->
