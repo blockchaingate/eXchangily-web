@@ -127,8 +127,8 @@
             <div class="orditem" style="width: 30%;">Locked Amount</div>
         </div>
 
-        <div class="myorderlist scroll-bar w-100 pt-2" [style.height.px]="screenheight-680">
-            <div class="row orderline w-100" *ngFor="let token of mytokens; let i=index">
+        <div class="myorderlist scroll-bar w-100 pt-2">
+            <div class="row orderline w-100 py-2" *ngFor="let token of mytokens; let i=index">
 
                 <div class="orditem text-white" style="width: 30%;">{{coinService.getCoinNameByTypeId(token.coinType)}}</div>
                 <div class="orditem text-white" style="width: 30%;">{{token.unlockedAmount / 1e18}}</div>

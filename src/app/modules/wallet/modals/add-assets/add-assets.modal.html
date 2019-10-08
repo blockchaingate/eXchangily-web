@@ -1,4 +1,4 @@
-<div bsModal #addAssetsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<div id="add-assets-modal" bsModal #addAssetsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <form [formGroup]="addAssetsForm" (ngSubmit)="onSubmit()">
             <div class="modal-content">
@@ -12,8 +12,10 @@
                     <mat-tab-group>
                         <mat-tab label="FAB Token">
                             <mat-selection-list #fabtokens (selectionChange)="onFabSelection($event, fabtokens.selectedOptions.selected)">
-                                <mat-list-option class="dark-label" *ngFor="let token of fabTokens; let i = index" [value]="i+1">
+                                <mat-list-option *ngFor="let token of fabTokens; let i = index" [value]="i+1">
+
                                     {{token.name}}
+
                                 </mat-list-option>
                                 <mat-list-option value="0">
                                     Custom
@@ -39,7 +41,7 @@
                                 </div>
                             </div>
                         </mat-tab>
-                        <mat-tab class="text-dark" label="ETH Token">
+                        <mat-tab label="ETH Token">
                             <mat-selection-list #ethtokens (selectionChange)="onEthSelection($event, ethtokens.selectedOptions.selected)">
                                 <mat-list-option *ngFor="let token of ethTokens; let i = index" [value]="i+1">
                                     {{token.name}}
