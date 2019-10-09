@@ -259,8 +259,12 @@ export class WalletDashboardComponent {
         this.kanbanServ.getKanbanBalance(this.wallet.excoin.receiveAdds[0].address).subscribe(
             (resp: any) => {
                 console.log('resp=',resp);
+                const fab = this.utilServ.stripHexPrefix(resp.balance.FAB);
+                this.gas = this.utilServ.hexToDec(fab) / 1e18;
+                /*
                 this.gas = Number(BigInt(resp.balance.FAB).toString(10)) / 1e18;
                 console.log(this.gas);
+                */
             }
         );        
 

@@ -38,6 +38,21 @@ export class UtilService {
         return null;
     }
 
+    hexCharToDec(hexChar:string) {
+        return parseInt(hexChar, 16);
+    }
+
+    hexToDec(hex:string) {
+        if(hex.length === 1) {
+          return this.hexCharToDec(hex);
+        }
+        const leftHex = hex.slice(0, hex.length - 1);
+        const rightHex = hex.slice(-1);
+        console.log('leftHex=' + leftHex);
+        console.log('rightHex=' + rightHex);
+        return this.hexToDec(leftHex) * 16 + this.hexCharToDec(rightHex);
+    }
+
     copy(str: string) {
         const selBox = document.createElement('textarea');
         selBox.style.position = 'fixed';

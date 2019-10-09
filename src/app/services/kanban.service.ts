@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {BlockNumberResponse, BlockResponse, AccountsResponse,TransactionsResponse,
     KanbanGetBanalceResponse, TransactionAccountResponse, Block} from '../interfaces/kanban.interface';
 import { environment } from '../../environments/environment';
+import { UtilService } from './util.service';
 @Injectable()
 export class KanbanService {
 // getCoinPoolAddress
@@ -10,7 +11,7 @@ export class KanbanService {
 
     endpoint = environment.endpoints.kanban;
    
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private utilServ: UtilService) { }
 
     async getCoinPoolAddress() {
         const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
@@ -133,7 +134,10 @@ export class KanbanService {
         let gas = 0;
         try {
             const ret = await this.get(path).toPromise() as KanbanGetBanalceResponse;
-            gas = Number(BigInt(ret.balance.FAB).toString(10)) / 1e18;
+            //gas = Number(BigInt(ret.balance.FAB).toString(10)) / 1e18;
+
+            const fab = this.utilServ.stripHexPrefix(ret.balance.FAB);
+            gas = this.utilServ.hexToDec(fab) / 1e18;            
         } catch (e) {}
         return gas;
     }
