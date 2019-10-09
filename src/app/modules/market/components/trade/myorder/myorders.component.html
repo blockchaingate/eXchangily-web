@@ -2,13 +2,13 @@
 
     <div class="p-2">
         <div class="d-inline-block p-2" [ngClass]="select === 0?'text-white':'text-muted'">
-            <a (click)="selectOrder(0);">{{'Open Order' | translate}}</a>
+            <a class="tab-link" (click)="selectOrder(0);">{{'Open Order' | translate}}</a>
         </div>
         <div class="d-inline-block p-2" [ngClass]="select === 1?'text-white':'text-muted'">
-            <a [class.selected]="select === 1" (click)="selectOrder(1);">{{'Closed Order' | translate }}</a>
+            <a class="tab-link" [class.selected]="select === 1" (click)="selectOrder(1);">{{'Closed Order' | translate }}</a>
         </div>
         <div class="d-inline-block p-2" [ngClass]="select === 100?'text-white':'text-muted'">
-            <a [class.selected]="select === 100" (click)="selectOrder(100);">{{'Balances' | translate }}</a>
+            <a class="tab-link" [class.selected]="select === 100" (click)="selectOrder(100);">{{'Balances' | translate }}</a>
         </div>
     </div>
     <div class="orders w-100 fxHide-sm" *ngIf="select != 100">
@@ -32,11 +32,9 @@
                     </p>
                 </div>
                 <div class="orditem text-info" style="width: 8%;">
-                    <p *ngIf="order.baseCoin==0">USDT</p>
-                    <p *ngIf="order.baseCoin==1">BTC</p>
-                    <p *ngIf="order.baseCoin==2">ETH</p>
-                    <p *ngIf="order.baseCoin==3">FAB</p>
-                    <p *ngIf="order.baseCoin==4">EXG</p>
+                    <p>
+                        {{coinService.getCoinNameByTypeId(order.baseCoin)}}
+                    </p>
                 </div>
                 <div class="orditem text-white" style="width: 5%;">
                     <p *ngIf="order.bidOrAsk">Buy</p>
@@ -82,12 +80,9 @@
                     </p>
                 </div>
                 <div class=" text-info col-2">
-                    <p *ngIf="order.baseCoin==0">USDT</p>
-                    <p *ngIf="order.baseCoin==1">BTC</p>
-                    <p *ngIf="order.baseCoin==2">ETH</p>
-                    <p *ngIf="order.baseCoin==3">FAB</p>
-                    <p *ngIf="order.baseCoin==4">EXG</p>
-
+                    <p>
+                        {{coinService.getCoinNameByTypeId(order.baseCoin)}}
+                    </p>
                 </div>
                 <div class=" text-muted col-2">
                     <p>{{order.price}}</p>

@@ -335,6 +335,13 @@ export class OrderPadComponent implements OnInit, OnDestroy {
                 };
                 this.tradeService.addTransactions(transaction);
 
+                if (this.bidOrAsk) {
+                  this.buyPrice = 0;
+                  this.buyQty = 0;
+                } else {
+                  this.sellPrice = 0;
+                  this.sellQty = 0;                  
+                }
                 this.timer = setInterval(() => {
                   this.refreshToken.emit();
                   console.log('this.refreshTokenDone=', this.refreshTokenDone);
