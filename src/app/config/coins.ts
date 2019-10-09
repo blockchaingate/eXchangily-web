@@ -19,5 +19,5 @@ export const price_list: Price[] = [
     { id: 6, coin_id: 3, base_id: 2, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, favorite: 0, symbol: 'ETH/BTC' },
     { id: 7, coin_id: 4, base_id: 3, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, favorite: 0, symbol: 'FAB/ETH' },
     { id: 8, coin_id: 5, base_id: 3, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, favorite: 0, symbol: 'EXG/ETH' },
-    { id: 9, coin_id: 5, base_id: 4, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, favorite: 0, symbol: 'EXG/FAB' }
+    { id: 9, coin_id: 4, base_id: 5, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, favorite: 0, symbol: 'FAB/EXG' }
 ];

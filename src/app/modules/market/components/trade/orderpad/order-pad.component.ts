@@ -87,6 +87,9 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       if (this.socket) {
         this.socket.unsubscribe();
       }
+      if (this.socket2) {
+        this.socket2.unsubscribe();
+      }      
       this.sub.unsubscribe();
     }
 
@@ -262,7 +265,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
     sell(pinModal: TemplateRef<any>) {
       if (!this.wallet) {
-        this.openSnackBar('please create wallet before placing order','ok');
+        this.openSnackBar('please create wallet before placing order', 'ok');
         return;
       }      
       this.bidOrAsk = false;

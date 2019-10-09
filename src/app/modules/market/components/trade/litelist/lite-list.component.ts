@@ -57,7 +57,7 @@ export class LiteListComponent implements OnInit {
         this.select = this.searchText;
     }
     selectCat(cat: string) {
-        this.select = cat;
+        this.select = '/' + cat;
         
     }
 
