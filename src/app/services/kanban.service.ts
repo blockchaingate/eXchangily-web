@@ -26,10 +26,10 @@ export class KanbanService {
         return addr;
     }
 
-    async getAccounts() {
+    getAccounts() {
         const path = 'kanban/getAccounts';
-        const res = await this.get(path).toPromise() as AccountsResponse;
-        return res.accounts;
+        const res = this.get(path);
+        return res;
     }
 
     getBlock(blockNumber: string) {

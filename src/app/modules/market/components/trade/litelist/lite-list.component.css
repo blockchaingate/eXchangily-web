@@ -137,6 +137,7 @@ mat-divider {
 
 mat-list {
     overflow-y: auto;
+    overflow-x: hidden;
     height: 715px;
 }
 
