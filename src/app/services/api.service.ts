@@ -44,6 +44,7 @@ export class ApiService {
 
     async getEthTransaction(txid: string) {
         const url = environment.endpoints.ETH.exchangily + 'gettransaction/' + txid;
+        console.log('url=' + url);
         let response = null;
         try {
             response = await this.http.get(url).toPromise() as EthTransactionRes;
