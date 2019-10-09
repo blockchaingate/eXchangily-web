@@ -749,5 +749,7 @@
     },
     "Volume": "Volume",
     "Open Order": "Open",
-    "Closed Order": "Close"
+    "Closed Order": "Close",
+    "Amount": "Amount",
+    "Comment": "Comment"
 }

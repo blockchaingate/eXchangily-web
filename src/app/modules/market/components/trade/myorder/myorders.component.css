@@ -24,8 +24,6 @@
 
 .orderline {
     width: 100%;
-    display: flex;
-    line-height: 0.6;
     padding-left: 1.6em;
 }
 

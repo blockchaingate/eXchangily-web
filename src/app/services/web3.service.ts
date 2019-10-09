@@ -214,6 +214,31 @@ export class Web3Service {
       return abiHex;       
     }
 
+    getDeleteOrderFuncABI(orderHash: string) {
+      const web3 = this.getWeb3Provider();
+      const func = {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "_orderHash",
+            "type": "bytes32"
+          }
+        ],
+        "name": "cancelOrder",
+        "outputs": [
+          {
+            "name": "success",
+            "type": "bool"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }; 
+    const abiHex = web3.eth.abi.encodeFunctionCall(func, [orderHash]);
+    return abiHex;
+    }
+
     getCreateOrderFuncABI(paramsArray: any) {
         const web3 = this.getWeb3Provider();
         const func =     {

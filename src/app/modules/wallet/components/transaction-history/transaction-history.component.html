@@ -1,4 +1,4 @@
-<div class="container container-wallet-main">
+<div class="container">
     <div class=" row apair header ">
         <div class="col-2">
             {{"Type" | translate}}
@@ -19,31 +19,35 @@
             {{"Comment" | translate}}
         </div>
     </div>
-    <div class="row apair dataline" *ngFor="let item of transactionHistory; index as i">
-        <div class="col-2">
-            {{item.type}}
-        </div>
-        <div class="col-1 ">
-            {{item.coin}}
-        </div>
-        <div class="col-3 ">
-            {{item.time?utilServ.getFormattedDate(item.time):''}}
-        </div>
-        <div class="col-2 ">
-            {{utilServ.toPrecision(item.amount)}}
-        </div>
-        <div class="col-2 ">
-            <p *ngIf="item.coin == 'BTC' && coinsPrice && coinsPrice.bitcoin">{{utilServ.toPrecision(item.amount * coinsPrice.bitcoin.usd)}}</p>
-            <p *ngIf="item.coin == 'FAB' && coinsPrice && coinsPrice.fabcoin">{{utilServ.toPrecision(item.amount * coinsPrice.fabcoin.usd)}}</p>
-            <p *ngIf="item.coin == 'ETH' && coinsPrice && coinsPrice.ethereum">{{utilServ.toPrecision(item.amount * coinsPrice.ethereum.usd)}}</p>
-            <p *ngIf="item.coin == 'USDT' && coinsPrice && coinsPrice.tether">{{utilServ.toPrecision(item.amount * coinsPrice.tether.usd)}}</p>
+    <div class="container-wallet-main scroll-bar">
+        <div class="row apair dataline" *ngFor="let item of transactionHistory; index as i">
+            <div class="col-2">
+                <p>{{item.type}}</p>
+            </div>
+            <div class="col-1 ">
+                <p>{{item.coin}}</p>
+            </div>
+            <div class="col-3 ">
+                <p>{{item.time?utilServ.getFormattedDate(item.time):''}}</p>
+            </div>
+            <div class="col-2 ">
+                <p>{{utilServ.toPrecision(item.amount)}}</p>
+            </div>
+            <div class="col-2 ">
+                <p *ngIf="item.coin == 'BTC' && coinsPrice && coinsPrice.bitcoin">{{utilServ.toPrecision(item.amount * coinsPrice.bitcoin.usd)}}</p>
+                <p *ngIf="item.coin == 'FAB' && coinsPrice && coinsPrice.fabcoin">{{utilServ.toPrecision(item.amount * coinsPrice.fabcoin.usd)}}</p>
+                <p *ngIf="item.coin == 'ETH' && coinsPrice && coinsPrice.ethereum">{{utilServ.toPrecision(item.amount * coinsPrice.ethereum.usd)}}</p>
+                <p *ngIf="item.coin == 'USDT' && coinsPrice && coinsPrice.tether">{{utilServ.toPrecision(item.amount * coinsPrice.tether.usd)}}</p>
 
-        </div>
-        <div class="col-2 ">
-            {{item.comment}}
-            <button mat-icon-button (click)="showTransactionDetail(item)" aria-label="Example icon-button with a heart icon">
-                <mat-icon>details</mat-icon>
-            </button>
+            </div>
+            <div class="col-2 ">
+                <p>
+                    {{item.comment}}
+                    <button mat-icon-button (click)="showTransactionDetail(item)" aria-label="Example icon-button with a heart icon">
+                    <mat-icon>details</mat-icon>
+                </button>
+                </p>
+            </div>
         </div>
     </div>
 </div>

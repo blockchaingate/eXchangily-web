@@ -26,39 +26,41 @@
 
         <div class="myorderlist scroll-bar w-100 pt-2">
             <div class="row orderline w-100" *ngFor="let order of myorders; let i=index">
-                <div class="orditem text-white" style="width: 20%;">
-                    <p>
+                <div class="orditem text-white d-flex align-items-center" style="width: 20%;">
+                    <div>
                         {{order.created_at | date:'yyyy-MM-dd HH:mm:ss'}}
-                    </p>
+                    </div>
                 </div>
-                <div class="orditem text-info" style="width: 8%;">
-                    <p>
+                <div class="orditem text-info d-flex align-items-center" style="width: 8%;">
+                    <div>
                         {{coinService.getCoinNameByTypeId(order.baseCoin)}}
-                    </p>
+                    </div>
                 </div>
-                <div class="orditem text-white" style="width: 5%;">
-                    <p *ngIf="order.bidOrAsk">Buy</p>
-                    <p *ngIf="!order.bidOrAsk">Sell</p>
+                <div class="orditem text-white d-flex align-items-center" style="width: 5%;">
+                    <div *ngIf="order.bidOrAsk">Buy</div>
+                    <div *ngIf="!order.bidOrAsk">Sell</div>
                 </div>
-                <div class="orditem text-white" style="width: 10%;">
-                    <p>{{order.price}}</p>
+                <div class="orditem text-white d-flex align-items-center" style="width: 10%;">
+                    <div>{{order.price}}</div>
                 </div>
-                <div class="orditem text-white" style="width: 10%;">
-                    <p>{{order.qty}}</p>
+                <div class="orditem text-white d-flex align-items-center" style="width: 10%;">
+                    <div>{{order.qty}}</div>
                 </div>
-                <div class="orditem text-white" style="width: 10%;">
-                    <p>{{order.filledQty}}</p>
+                <div class="orditem text-white d-flex align-items-center" style="width: 10%;">
+                    <div>{{order.filledQty}}</div>
                 </div>
-                <div class="orditem text-white" style="width: 10%;">
-                    <p>{{order.amount}}</p>
+                <div class="orditem text-white d-flex align-items-center" style="width: 10%;">
+                    <div>{{order.amount}}</div>
                 </div>
-                <div class="orditem text-white" style="width: 8%;">
-                    <p>{{order.filledQty*100/order.qty|number:'2.2-2'}}</p>
+                <div class="orditem text-white d-flex align-items-center" style="width: 8%;">
+                    <div>{{order.filledQty*100/order.qty|number:'2.2-2'}}</div>
                 </div>
-                <div class="orditem text-white" style="width: 8%;">
-                    <button mat-icon-button aria-label="Example icon-button with a heart icon" (click)="deleteOrder(templatePasswd, order.orderHash)">
+                <div class="orditem text-white d-flex align-items-center" style="width: 8%;">
+                    <div>
+                        <button mat-icon-button aria-label="Example icon-button with a heart icon" (click)="deleteOrder(templatePasswd, order.orderHash)">
                         <mat-icon>delete_outline</mat-icon>
                       </button>
+                    </div>
                 </div>
             </div>
         </div>

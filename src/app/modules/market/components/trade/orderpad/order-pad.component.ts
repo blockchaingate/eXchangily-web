@@ -336,7 +336,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
                   created_at: new Date(Date.now()),
                   price: this.price
                 };
-                this.tradeService.addTransactions(transaction);
+                this.tradeService.addTransaction(transaction);
 
                 if (this.bidOrAsk) {
                   this.buyPrice = 0;

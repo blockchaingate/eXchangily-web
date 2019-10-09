@@ -4,7 +4,7 @@
 
 .left-area {
     display: flex;
-    width: 12%;
+    width: 14%;
     padding: 0.5em 0 0 1px;
     flex-direction: column;
 }
@@ -15,7 +15,7 @@
 
 .right-area {
     margin-left: 1px;
-    width: 38%;
+    width: 36%;
 }
 
 .menu {

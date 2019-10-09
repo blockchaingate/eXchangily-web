@@ -808,5 +808,7 @@
     },
     "Volume": "交易量",
     "Open Order": "我的委托",
-    "Closed Order": "我的交易"
+    "Closed Order": "我的交易",
+    "Amount": "数量",
+    "Comment": "备注"
 }
