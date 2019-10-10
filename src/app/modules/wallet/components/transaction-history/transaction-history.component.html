@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="transactionHistory">
     <div class=" row apair header ">
         <div class="col-2">
             {{"Type" | translate}}
@@ -51,4 +51,5 @@
         </div>
     </div>
 </div>
+<div class="px-3 text-muted container-no-transactions">no transactions</div>
 <transaction-detail-modal #transactionDetailModal></transaction-detail-modal>

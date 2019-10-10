@@ -18,10 +18,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppResolver } from './modules/landing/resolvers/app/app.resolve';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
+import { StorageService } from './services/storage.service';
 import { PageNotFoundComponent } from './page-not-found.component';
 import { HeaderComponent } from './components/navigation/header/header.component';
 import { FooterComponent } from './components/navigation/footer/footer.component';
 import { SidenavListComponent } from './components/navigation/sidenav-list/sidenav-list.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { HttpService } from './services/http.service';
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -46,6 +48,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatToolbarModule,
     MatIconModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
     FlexLayoutModule,
     MatListModule,
     RouterModule,
@@ -62,7 +65,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     StorageModule.forRoot({ IDBNoWrap: true, }),
     AppRoutingModule,
   ],
-  providers: [AppResolver, HttpService],
+  providers: [AppResolver, HttpService, StorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

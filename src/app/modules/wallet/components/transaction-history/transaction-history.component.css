@@ -2,3 +2,7 @@
     max-height: 285px;
     overflow-y: scroll;
 }
+
+.container-no-transactions {
+    height: 325px;
+}

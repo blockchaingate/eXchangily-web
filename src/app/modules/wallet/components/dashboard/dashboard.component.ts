@@ -483,9 +483,10 @@ export class WalletDashboardComponent {
                 time: today,
                 confirmations: '0',
                 blockhash: '', 
-                comment: this.sendCoinForm.comment
+                comment: this.sendCoinForm.comment,
+                status: 'pending'
             };
-            this.storageService.storeToTransactionHistoryList(item);
+            this.storageService.storeToTransactionHistoryList(this.wallet.id, item);
         }
     }
 
@@ -587,7 +588,7 @@ export class WalletDashboardComponent {
        
        this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp) => { 
             console.log('resp=', resp);
-        }); 
+       }); 
          
     }
 }

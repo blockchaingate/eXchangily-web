@@ -1122,7 +1122,17 @@ export class CoinService {
             console.log('totalFee=' + totalFee);
             
             const txhex = await this.getFabTransactionHex(seed, mycoin.baseCoin, contract, 0, totalFee, satoshisPerBytes);
-            const txhash = await this.apiService.postFabTx(txhex);
+
+            let txhash = '';
+            if (txhex) {
+                if (doSubmit) {
+                    txhash = await this.apiService.postFabTx(txhex);
+                } else {
+                    const tx = Btc.Transaction.fromHex(txhex);
+                    txhash = '0x' + tx.getId();                
+                }
+            }
+
             return {txHex: txhex, txHash: txhash};
         }
         return {txHex: '', txHash: ''};

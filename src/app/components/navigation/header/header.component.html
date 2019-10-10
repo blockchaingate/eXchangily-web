@@ -67,6 +67,57 @@
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/login/signup" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Signup' | translate}}</a>
                     </li>
+                    <li class="nav-item">
+                        <mat-progress-spinner [diameter]="40" [color]="color" [mode]="mode" [value]="value" [matMenuTriggerFor]="appMenu">
+                        </mat-progress-spinner>
+
+                        <mat-menu #appMenu="matMenu">
+                            <div class="container py-2">
+                                <div class="row px-2 border-bottom pb-1">
+                                    <div class="col col-12">
+                                        pending
+                                    </div>
+                                </div>
+                                <div class="row px-2 py-2 border-bottom" *ngFor="let tr of transactions">
+                                    <div class="col col-12">
+                                        {{tr.txid}}
+                                    </div>
+                                    <div class="col col-3">
+                                        image
+                                    </div>
+                                    <div class="col col-6">
+                                        <div>Send</div>
+                                        <div>pending</div>
+                                    </div>
+                                    <div class="col col-3">
+                                        1 ETH
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container py-2">
+                                <div class="row px-2 border-bottom pb-1">
+                                    <div class="col col-12">
+                                        history
+                                    </div>
+                                </div>
+                                <div class="row px-2 py-2 border-bottom">
+                                    <div class="col col-12">
+                                        #42 - 10/10/2019 at 15:41
+                                    </div>
+                                    <div class="col col-3">
+                                        image
+                                    </div>
+                                    <div class="col col-6">
+                                        <div>Send</div>
+                                        <div>pending</div>
+                                    </div>
+                                    <div class="col col-3">
+                                        1 ETH
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-menu>
+                    </li>
                 </ul>
             </div>
         </mat-toolbar>

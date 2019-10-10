@@ -2038,7 +2038,8 @@ th.mat-header-cell {
 }
 
 .mat-menu-panel {
-    background: #fff
+    background: #fff;
+    max-width: 560px!important;
 }
 
 .mat-menu-panel:not([class*=mat-elevation-z]) {

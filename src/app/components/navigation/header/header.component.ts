@@ -2,7 +2,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-
+import { TransactionItem } from '../../../models/transaction-item';
+import { StorageService } from '../../../services/storage.service'; 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -10,11 +11,23 @@ import { Location } from '@angular/common';
 })
 export class HeaderComponent implements OnInit {
   currentLang: string;
-  //@Output() public sidenavToggle = new EventEmitter();
+  // @Output() public sidenavToggle = new EventEmitter();
   background: string;
-  constructor(private translate: TranslateService, private router: Router, private location: Location) { }
+  transactions: TransactionItem[];
+  color = 'primary';
+  mode = 'indeterminate';
+  value = 100;  
+  constructor(private translate: TranslateService, private router: Router, 
+    private location: Location, private storageServ: StorageService) { }
  
   ngOnInit() {
+    this.transactions = [];
+    this.storageServ.newTransaction.subscribe(
+      (transaction: TransactionItem) => {
+        console.log('newTransaction there we go:', transaction);
+        this.transactions.push(transaction);
+      }
+    );
     this.currentLang = 'English';
     this.translate.setDefaultLang('en');
     this.setLan();   

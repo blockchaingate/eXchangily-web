@@ -118,7 +118,7 @@
                             </div>
                         </div>
 -->
-                    <app-transaction-history class="row pt-4" *ngIf="showTransactionHistory" [coinsPrice]=coinsPrice></app-transaction-history>
+                    <app-transaction-history class="row pt-4" *ngIf="showTransactionHistory" [walletId]="wallet.id" [coinsPrice]="coinsPrice"></app-transaction-history>
                     <div class="row pt-4" *ngIf="showMyAssets">
                         <div class="container fxHide-sm container-wallet-main" *ngIf="wallet">
                             <div class="row apair header">
