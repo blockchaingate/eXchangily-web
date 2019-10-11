@@ -50,11 +50,11 @@ export const environment = {
             EXCHANGILY: ''
         },
         exchangilyOfficial: [
-            {name: 'EXG', address: '0x64161c648e16fb1e25a31abc9b27c35d02fd36ff'},
-            {name: 'FAB', address: 'ms5Ddek7XudLoRtzeNyFsThMCdMkjZh94T'},
-            {name: 'BTC', address: 'mmSziWwxpTsoHDVcP9yo3vBmA9RCJpsES9'},
-            {name: 'ETH', address: '0xb2e8bac11afe8762fb6a1ab56c36084d2fbbd48a'},
-            {name: 'USDT', address: '0x7ece14d72a8600d29f486eab1377e33c3266b001'}
+            {name: 'EXG', address: '0x9f35a499924ab58ddeed21462f3b788c25272e1b'},
+            {name: 'FAB', address: 'mv2mzjWtGqXTre9JwBxjdKbv3hDZ1FkVrr'},
+            {name: 'BTC', address: 'n4KYqpYWQpVpinReGxQcoL62oyEs1ckVGu'},
+            {name: 'ETH', address: '0xcfa376028a27dd25dc8f71468587ec81d5c383e4'},
+            {name: 'USDT', address: '0xcfa376028a27dd25dc8f71468587ec81d5c383e4'}
         ]
     }
 };

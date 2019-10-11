@@ -178,14 +178,15 @@ export class ApiService {
     async postBtcTx(txHex: string) {
 
        const url = environment.endpoints.BTC.exchangily + 'sendrawtransaction/' + txHex;
-       console.log('weird start, url=' + url);
        let response = null;
        if (txHex) {
            response = await this.http.get(url).toPromise() as BtcTransactionResponse;
        }
-       console.log('weird end');
-       console.log(response.txid);
-       return '0x' + response.txid;
+       let ret = '';
+       if (response && response.txid) {
+           ret = '0x' + response.txid;
+       }
+       return ret;
     }
 
     async getEthBalance(address: string): Promise<Balance> {

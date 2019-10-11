@@ -973,6 +973,7 @@ export class CoinService {
             console.log('txParams=', txParams);
             const txhex = await this.web3Serv.signTxWithPrivateKey(txParams, keyPair);
 
+            console.log('txhex for etheruem:', txhex);
             let txhash = '';
             if (doSubmit) {
                 txhash = await this.apiService.postEthTx(txhex);

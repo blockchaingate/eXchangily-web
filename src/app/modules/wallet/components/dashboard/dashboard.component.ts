@@ -24,7 +24,7 @@ import { LoginSettingModal } from '../../modals/login-setting/login-setting.moda
 import {CoinsPrice} from '../../../../interfaces/balance.interface';
 import {SendCoinForm} from '../../../../interfaces/kanban.interface';
 import {StorageService} from '../../../../services/storage.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import {AlertService} from '../../../../services/alert.service';
 import { AngularCsv } from 'angular7-csv';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -70,7 +70,7 @@ export class WalletDashboardComponent {
     constructor ( private route: Router, private walletServ: WalletService, private modalServ: BsModalService, 
         private coinServ: CoinService, private utilServ: UtilService, private apiServ: ApiService, 
         private kanbanServ: KanbanService, private web3Serv: Web3Service, private viewContainerRef: ViewContainerRef,
-        private utilService: UtilService, private _snackBar: MatSnackBar, private matIconRegistry: MatIconRegistry,
+        private utilService: UtilService, private alertServ: AlertService, private matIconRegistry: MatIconRegistry,
         private coinService: CoinService, private storageService: StorageService, private domSanitizer: DomSanitizer) {
         this.showMyAssets = true;
         this.showTransactionHistory = false;
@@ -340,9 +340,7 @@ export class WalletDashboardComponent {
         this.pin = pin;
         const pinHash = this.utilService.SHA256(pin).toString();
         if (pinHash !== this.wallet.pwdHash) {
-            this._snackBar.open('Your pin number is invalid.', 'Ok', {
-                duration: 2000,
-            });
+            this.alertServ.openSnackBar('Your pin number is invalid.', 'Ok');
             return;
         }
         if (this.opType === 'deposit') {
@@ -382,9 +380,7 @@ export class WalletDashboardComponent {
         if (seedPhrase) {
             this.showSeedPhraseModal.show(seedPhrase);
         } else {
-            this._snackBar.open('Your pin number is invalid.', 'Ok', {
-                duration: 2000,
-            });
+            this.alertServ.openSnackBar('Your pin number is invalid.', 'Ok');
         }
     }
 
@@ -392,9 +388,7 @@ export class WalletDashboardComponent {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
         this.seed = seed;
         if (!seed) {
-            this._snackBar.open('Your pin number is invalid.', 'Ok', {
-                duration: 2000,
-            });        
+            this.alertServ.openSnackBar('Your pin number is invalid.', 'Ok');        
             return;   
         } 
         this.backupPrivateKeyModal.show(seed, this.wallet);
@@ -409,9 +403,7 @@ export class WalletDashboardComponent {
         if (seedPhrase) {
             this.verifySeedPhraseModal.show(seedPhrase);
         } else {
-            this._snackBar.open('Your pin number is invalid.', 'Ok', {
-                duration: 2000,
-            });
+            this.alertServ.openSnackBar('Your pin number is invalid.', 'Ok');
         }        
         
     }
@@ -441,9 +433,7 @@ export class WalletDashboardComponent {
         
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         if (!seed) {
-            this._snackBar.open('Your pin number is invalid.', 'Ok', {
-                duration: 2000,
-            });        
+            this.alertServ.openSnackBar('Your pin number is invalid.', 'Ok');        
             return;   
         } 
         const scarAddress = await this.kanbanServ.getScarAddress();
@@ -470,9 +460,9 @@ export class WalletDashboardComponent {
             satoshisPerByte: this.sendCoinForm.satoshisPerByte
         };
         const {txHex, txHash} = await this.coinService.sendTransaction(currentCoin, seed, 
-            this.sendCoinForm.to, amount, options, doSubmit
+            this.sendCoinForm.to.trim(), amount, options, doSubmit
         );
-        if (txHex) {
+        if (txHex && txHash) {
             const today = new Date();
             const item = {
                 type: 'Send',
@@ -500,9 +490,7 @@ export class WalletDashboardComponent {
 
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         if (!seed) {
-            this._snackBar.open('Your pin number is invalid.', 'Ok', {
-                duration: 2000,
-            });        
+            this.alertServ.openSnackBar('Your pin number is invalid.', 'Ok');        
             return;   
         }         
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);   
@@ -530,9 +518,7 @@ export class WalletDashboardComponent {
 
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         if (!seed) {
-            this._snackBar.open('Your pin number is invalid.', 'Ok', {
-                duration: 2000,
-            });        
+            this.alertServ.openSnackBar('Your pin number is invalid.', 'Ok');        
             return;   
         }         
         const keyPairs = this.coinServ.getKeyPairs(currentCoin, seed, 0, 0);
@@ -555,9 +541,7 @@ export class WalletDashboardComponent {
         //console.log('txSubmited.txHex=' , txSubmited.txHex) ;
         //console.log('txSubmited.txHash=' , txSubmited.txHash);
         if (!txHash) {
-            this._snackBar.open('Not enough fund.', 'Ok', {
-                duration: 2000,
-            });              
+            this.alertServ.openSnackBar('Not enough fund.', 'Ok');              
             return;
         }
 
