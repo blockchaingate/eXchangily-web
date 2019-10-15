@@ -68,7 +68,7 @@
                         <a class="nav-link" routerLink="/login/signup" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Signup' | translate}}</a>
                     </li>
                     <li class="nav-item">
-                        <mat-progress-spinner [diameter]="40" [color]="color" [mode]="mode" [value]="value" [matMenuTriggerFor]="appMenu">
+                        <mat-progress-spinner [diameter]="40" [color]="color" [mode]="play?'indeterminate':'determinate'" [value]="value" [matMenuTriggerFor]="appMenu">
                         </mat-progress-spinner>
 
                         <mat-menu #appMenu="matMenu">
@@ -78,44 +78,60 @@
                                         pending
                                     </div>
                                 </div>
-                                <div class="row px-2 py-2 border-bottom" *ngFor="let tr of transactions">
+                                <div class="row px-2 py-2 border-bottom" *ngFor="let tr of pendingtransactions">
                                     <div class="col col-12">
                                         {{tr.txid}}
                                     </div>
+                                    <div class="col col-12">
+                                        {{tr.time}}
+                                    </div>
                                     <div class="col col-3">
-                                        image
+                                        <img *ngIf="tr.coin == 'BTC'" src="/assets/coins/btc.png" class="icon" />
+                                        <img *ngIf="tr.coin == 'ETH'" src="/assets/coins/eth.png" class="icon" />
+                                        <img *ngIf="tr.coin == 'EXG'" src="/assets/coins/exg.png" class="icon" />
+                                        <img *ngIf="tr.coin == 'FAB'" src="/assets/coins/fab.png" class="icon" />
+                                        <img *ngIf="tr.coin == 'USDT'" src="/assets/coins/usdt.png" class="icon" />
                                     </div>
                                     <div class="col col-6">
-                                        <div>Send</div>
-                                        <div>pending</div>
+                                        <div>{{tr.type}}</div>
+                                        <div class="status-{{tr.status}}">{{tr.status}}</div>
                                     </div>
                                     <div class="col col-3">
-                                        1 ETH
+                                        {{tr.amount}} {{tr.coin}}
                                     </div>
                                 </div>
                             </div>
+
                             <div class="container py-2">
                                 <div class="row px-2 border-bottom pb-1">
                                     <div class="col col-12">
                                         history
                                     </div>
                                 </div>
-                                <div class="row px-2 py-2 border-bottom">
+                                <div class="row px-2 py-2 border-bottom" *ngFor="let tr of closetransactions">
                                     <div class="col col-12">
-                                        #42 - 10/10/2019 at 15:41
+                                        {{tr.txid}}
+                                    </div>
+                                    <div class="col col-12">
+                                        {{tr.time}}
                                     </div>
                                     <div class="col col-3">
-                                        image
+                                        <img *ngIf="tr.coin == 'BTC'" src="/assets/coins/btc.png" class="icon" />
+                                        <img *ngIf="tr.coin == 'ETH'" src="/assets/coins/eth.png" class="icon" />
+                                        <img *ngIf="tr.coin == 'EXG'" src="/assets/coins/exg.png" class="icon" />
+                                        <img *ngIf="tr.coin == 'FAB'" src="/assets/coins/fab.png" class="icon" />
+                                        <img *ngIf="tr.coin == 'USDT'" src="/assets/coins/usdt.png" class="icon" />
                                     </div>
                                     <div class="col col-6">
-                                        <div>Send</div>
-                                        <div>pending</div>
+                                        <div>{{tr.type}}</div>
+                                        <div class="status-{{tr.status}}">{{tr.status}}</div>
                                     </div>
                                     <div class="col col-3">
-                                        1 ETH
+                                        {{tr.amount}} {{tr.coin}}
                                     </div>
                                 </div>
                             </div>
+
                         </mat-menu>
                     </li>
                 </ul>

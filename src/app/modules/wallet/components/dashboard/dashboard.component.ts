@@ -438,8 +438,27 @@ export class WalletDashboardComponent {
         } 
         const scarAddress = await this.kanbanServ.getScarAddress();
         console.log('scarAddress=', scarAddress);
-        this.coinServ.depositFab(scarAddress, seed, currentCoin, amount);
+        const {txHash, errMsg} = await this.coinServ.depositFab(scarAddress, seed, currentCoin, amount);
+        if (errMsg) {
+            this.alertServ.openSnackBar(errMsg, 'Ok');
+        } else {
 
+            const item = {
+                type: 'Add Gas',
+                coin: currentCoin.name,
+                tokenType: currentCoin.tokenType,
+                amount: amount,
+                txid: txHash,
+                time: new Date(),
+                confirmations: '0',
+                blockhash: '', 
+                comment: '',
+                status: 'pending'
+            };
+            this.storageService.storeToTransactionHistoryList(this.wallet.id, item);
+
+            this.alertServ.openSnackBar('add gas transaction was submitted successfully.', 'Ok');
+        }
     }
 
     async addGasDo() {
@@ -459,18 +478,23 @@ export class WalletDashboardComponent {
             gasLimit: this.sendCoinForm.gasLimit,
             satoshisPerByte: this.sendCoinForm.satoshisPerByte
         };
-        const {txHex, txHash} = await this.coinService.sendTransaction(currentCoin, seed, 
+        const {txHex, txHash, errMsg} = await this.coinService.sendTransaction(currentCoin, seed, 
             this.sendCoinForm.to.trim(), amount, options, doSubmit
         );
+        if (errMsg) {
+            this.alertServ.openSnackBar(errMsg, 'Ok');
+            return;
+        }
         if (txHex && txHash) {
-            const today = new Date();
+            this.alertServ.openSnackBar('your transaction was submitted successfully.', 'Ok');
+            
             const item = {
                 type: 'Send',
                 coin: currentCoin.name,
                 tokenType: currentCoin.tokenType,
                 amount: amount,
                 txid: txHash,
-                time: today,
+                time: new Date(),
                 confirmations: '0',
                 blockhash: '', 
                 comment: this.sendCoinForm.comment,
@@ -533,21 +557,23 @@ export class WalletDashboardComponent {
         console.log('keyPairsKanban.address=', keyPairsKanban.address);
         const doSubmit = false;
         const options = {};
-        const {txHex, txHash} = await this.coinServ.sendTransaction(currentCoin, seed, officalAddress, amount, options, doSubmit);   
-        //const txSubmited = await this.coinServ.sendTransaction(currentCoin, seed, officalAddress, amount, true);   
-        console.log('111111111111111111111111111111111111111111111111111111111111');
-        console.log('txHex=' + txHex);
-        console.log('txHash=' + txHash);
-        //console.log('txSubmited.txHex=' , txSubmited.txHex) ;
-        //console.log('txSubmited.txHash=' , txSubmited.txHash);
-        if (!txHash) {
-            this.alertServ.openSnackBar('Not enough fund.', 'Ok');              
+        const {txHex, txHash, errMsg} = await this.coinServ.sendTransaction(
+            currentCoin, seed, officalAddress, amount, options, doSubmit
+        );   
+
+        if (errMsg) {
+            this.alertServ.openSnackBar(errMsg, 'Ok');
             return;
         }
 
-
+        if (!txHex || !txHash) {
+            this.alertServ.openSnackBar('Internal error for txHex or txHash', 'Ok');
+            return;
+        }
         const amountInLink = amount * 1e18; // it's for all coins.
-        const originalMessage = this.coinServ.getOriginalMessage(coinType, txHash.substring(2), amountInLink, addressInKanban.substring(2));
+        console.log('txHash111111111111111111111111111111111111111111111=' + txHash);
+        const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(txHash)
+        , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
         //console.log('a');
         const signedMessage: Signature = this.coinServ.signedMessage(originalMessage, keyPairs);
         //console.log('b');
@@ -570,8 +596,11 @@ export class WalletDashboardComponent {
         */
        
        
-       this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp) => { 
+       this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp: any) => { 
             console.log('resp=', resp);
+            if (resp.message) {
+                this.alertServ.openSnackBar(resp.message, 'Ok');
+            }
        }); 
          
     }

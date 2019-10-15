@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { TransactionItem } from '../../../models/transaction-item';
 import { StorageService } from '../../../services/storage.service'; 
+import { ApiService } from '../../../services/api.service'; 
+import { AlertService } from '../../../services/alert.service';
+import { UtilService } from '../../../services/util.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -13,19 +16,29 @@ export class HeaderComponent implements OnInit {
   currentLang: string;
   // @Output() public sidenavToggle = new EventEmitter();
   background: string;
-  transactions: TransactionItem[];
+  pendingtransactions: TransactionItem[];
+  closetransactions: TransactionItem[];
   color = 'primary';
-  mode = 'indeterminate';
+  mode = 'determinate';
   value = 100;  
-  constructor(private translate: TranslateService, private router: Router, 
-    private location: Location, private storageServ: StorageService) { }
+
+  play: boolean;
+  interval;
+
+  constructor(private translate: TranslateService, private router: Router, private alertServ: AlertService,
+    private utilServ: UtilService,
+    private location: Location, private storageServ: StorageService, private apiServ: ApiService) { }
  
   ngOnInit() {
-    this.transactions = [];
+    this.pendingtransactions = [];
+    this.closetransactions = [];
     this.storageServ.newTransaction.subscribe(
       (transaction: TransactionItem) => {
         console.log('newTransaction there we go:', transaction);
-        this.transactions.push(transaction);
+        this.pendingtransactions.push(transaction);
+        if (!this.play) {
+          this.startTimer();
+        }
       }
     );
     this.currentLang = 'English';
@@ -37,12 +50,74 @@ export class HeaderComponent implements OnInit {
       // this.background = 'gradient-back-title';
     }
   }
-  
-  /*
-  public onToggleSidenav = () => {
-    this.sidenavToggle.emit();
+
+  ngOnDestroy() {
+    this.pauseTimer();
   }
-  */
+
+  startTimer() {
+    this.play = true;
+    this.interval = setInterval(async () => {
+      let hasPendingTransaction = false;
+      for (let i = 0; i < this.pendingtransactions.length; i++) {
+        const transaction = this.pendingtransactions[i];
+        if (transaction.status === 'pending') {
+          const txid = transaction.txid;
+          const coin = transaction.coin;
+
+          let confirmations = 0;
+          if (coin === 'BTC') {
+            const tx = await this.apiServ.getBtcTransaction(txid);
+            confirmations = tx.confirmations;
+            if (confirmations >= 1) {
+              transaction.status = 'confirmed';
+            }            
+          } else 
+          if (coin === 'ETH' || transaction.tokenType === 'ETH') {
+            const tx = await this.apiServ.getEthTransaction(txid);
+            if (tx.blockNumber) {
+                confirmations = tx.confirmations;
+            }    
+            if (confirmations >= 1) {
+              const txStatus = await this.apiServ.getEthTransactionStatus(txid);
+              if (txStatus.status) {
+                transaction.status = 'confirmed';
+              } else {
+                transaction.status = 'failed';
+              }
+            }    
+          } else
+          if (coin === 'FAB' || transaction.tokenType === 'FAB') {
+            const tx = await this.apiServ.getFabTransactionJson(txid);
+            if (tx.confirmations) {
+                confirmations = tx.confirmations;
+            }
+            if (confirmations >= 1) {
+              transaction.status = 'confirmed';
+            }             
+          }
+          if (transaction.status !== 'pending') {
+            const array_first_five = txid.slice(0, 5);
+            const array_last_five = txid.slice(-5);
+            const txidSlice = array_first_five + '...' + array_last_five;
+            this.alertServ.openSnackBar('transaction ' + txidSlice + ' was ' + transaction.status, 'Ok');
+            const deleted = this.pendingtransactions.splice(i, 1);
+            this.closetransactions.push(deleted[0]);
+          }
+          hasPendingTransaction = true;
+        }
+      }
+      if (!hasPendingTransaction) {
+        this.pauseTimer();
+      }
+    }, 1000);
+  }
+
+  pauseTimer() {
+    this.play = false;
+    clearInterval(this.interval);
+  }
+
   linkTo(url: string) {
     this.router.navigate([url]);
   }

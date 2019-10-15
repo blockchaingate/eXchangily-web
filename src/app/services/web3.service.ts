@@ -72,21 +72,22 @@ export class Web3Service {
         abiHex = abiHex.slice(2);
       }
       console.log('abiHex after', abiHex);
+      console.log('nonce=' + nonce);
       const txObject = {
         to: address,
         nonce: nonce,
         data: '0x' + abiHex,
-        gas: 1000000,
+        gas: 2000000,
         coin: '0x',
-        gasPrice: 40000000000  // in wei
+        gasPrice: 40100000001  // in wei
         // gasPrice: 40  // in wei
       };
       const txObjectWithoutCoin = {
         to: address,
         nonce: nonce,
         data: '0x' + abiHex,
-        gas: 1000000,
-        gasPrice: 40
+        gas: 2000000,
+        gasPrice: 50
       };
 
 

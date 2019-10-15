@@ -14,6 +14,7 @@ import { Wallet } from '../../../../models/wallet';
 })
 export class RestoreWalletComponent implements OnInit {
     userForm: FormGroup;
+    seedPhrase: string;
     seedPhraseInvalid: boolean;
 
     constructor(private route: Router, private fb: FormBuilder, private walletServ: WalletService, private localSt: LocalStorage) {
@@ -47,8 +48,8 @@ export class RestoreWalletComponent implements OnInit {
     }   
     
     autoGrow(seedPhrase: string) {
-      seedPhrase = seedPhrase.replace(/\s\s+/g, ' ');
-      if (!this.walletServ.validateMnemonic(seedPhrase)) {
+      this.seedPhrase = seedPhrase.trim().replace(/\s\s+/g, ' ');
+      if (!this.walletServ.validateMnemonic(this.seedPhrase)) {
         this.seedPhraseInvalid = true;
       } else {
         this.seedPhraseInvalid = false;
@@ -57,7 +58,7 @@ export class RestoreWalletComponent implements OnInit {
     onSubmit() {
       const name = this.userForm.controls.name.value;
       const pwd = this.userForm.controls.password.value;
-      const mnemonic = this.userForm.controls.seedphrase.value;
+      const mnemonic = this.seedPhrase;
 
       const wallet = this.walletServ.generateWallet(pwd, name, mnemonic);
 
