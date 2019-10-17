@@ -232,11 +232,16 @@ export class ApiService {
     }
 
     async getEthTokenBalance(contractAddress: string, address: string) {
+        /*
         const url = environment.endpoints.ETH.etherscan + 'api?module=account&action=tokenbalance&contractaddress='
         + contractAddress + '&address=' + address + '&tag=latest&apikey=M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB';
         console.log('url for getEthTokenBalance=' + url);
         const response = await this.http.get(url).toPromise()  as EthBalance;
         const balance = response.result;
+        */
+       const url = environment.endpoints.ETH.exchangily + 'callcontract/' + contractAddress + '/' + address;
+       const response = await this.http.get(url).toPromise()  as KEthBalance;
+       const balance = response.balance;       
         const lockbalance = 0;
         return {balance, lockbalance}; 
     }

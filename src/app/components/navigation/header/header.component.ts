@@ -34,7 +34,6 @@ export class HeaderComponent implements OnInit {
     this.closetransactions = [];
     this.storageServ.newTransaction.subscribe(
       (transaction: TransactionItem) => {
-        console.log('newTransaction there we go:', transaction);
         this.pendingtransactions.push(transaction);
         if (!this.play) {
           this.startTimer();
@@ -68,33 +67,42 @@ export class HeaderComponent implements OnInit {
           let confirmations = 0;
           if (coin === 'BTC') {
             const tx = await this.apiServ.getBtcTransaction(txid);
-            confirmations = tx.confirmations;
-            if (confirmations >= 1) {
-              transaction.status = 'confirmed';
-            }            
+            if (tx) {
+              confirmations = tx.confirmations;
+              if (confirmations >= 1) {
+                transaction.status = 'confirmed';
+              }  
+            }
+          
           } else 
           if (coin === 'ETH' || transaction.tokenType === 'ETH') {
             const tx = await this.apiServ.getEthTransaction(txid);
-            if (tx.blockNumber) {
+            if (tx) {
+              if (tx.blockNumber) {
                 confirmations = tx.confirmations;
-            }    
-            if (confirmations >= 1) {
-              const txStatus = await this.apiServ.getEthTransactionStatus(txid);
-              if (txStatus.status) {
-                transaction.status = 'confirmed';
-              } else {
-                transaction.status = 'failed';
-              }
-            }    
+              }    
+              if (confirmations >= 1) {
+                const txStatus = await this.apiServ.getEthTransactionStatus(txid);
+                if (txStatus.status) {
+                  transaction.status = 'confirmed';
+                } else {
+                  transaction.status = 'failed';
+                }
+              }   
+            }
+ 
           } else
           if (coin === 'FAB' || transaction.tokenType === 'FAB') {
             const tx = await this.apiServ.getFabTransactionJson(txid);
-            if (tx.confirmations) {
+            if (tx) {
+              if (tx.confirmations) {
                 confirmations = tx.confirmations;
+              }
+              if (confirmations >= 1) {
+                transaction.status = 'confirmed';
+              }    
             }
-            if (confirmations >= 1) {
-              transaction.status = 'confirmed';
-            }             
+         
           }
           if (transaction.status !== 'pending') {
             const array_first_five = txid.slice(0, 5);
@@ -102,7 +110,12 @@ export class HeaderComponent implements OnInit {
             const txidSlice = array_first_five + '...' + array_last_five;
             this.alertServ.openSnackBar('transaction ' + txidSlice + ' was ' + transaction.status, 'Ok');
             const deleted = this.pendingtransactions.splice(i, 1);
-            this.closetransactions.push(deleted[0]);
+            if (deleted && deleted.length > 0) {
+              const deletedItem = deleted[0];
+              this.storageServ.notifyTransactionItemChanged(deletedItem);
+              this.closetransactions.push(deletedItem);              
+            }
+
           }
           hasPendingTransaction = true;
         }
@@ -110,7 +123,7 @@ export class HeaderComponent implements OnInit {
       if (!hasPendingTransaction) {
         this.pauseTimer();
       }
-    }, 1000);
+    }, 3000);
   }
 
   pauseTimer() {

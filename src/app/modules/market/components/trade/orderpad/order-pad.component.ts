@@ -263,6 +263,10 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         this.alertServ.openSnackBar('please create wallet before placing order', 'ok');
         return;
       }      
+      if (this.targetCoinAvail < this.sellQty) {
+        this.alertServ.openSnackBar('You have not enough ' + this.coinService.getCoinNameByTypeId(this.targetCoin), 'ok');
+        return;        
+      }
       this.bidOrAsk = false;
       this.pin = sessionStorage.getItem('pin');
       this.price = this.sellPrice;

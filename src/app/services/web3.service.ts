@@ -79,8 +79,8 @@ export class Web3Service {
         data: '0x' + abiHex,
         gas: 2000000,
         coin: '0x',
-        gasPrice: 40100000001  // in wei
-        // gasPrice: 40  // in wei
+        // gasPrice: 40100000001  // in wei
+        gasPrice: 40  // in wei
       };
       const txObjectWithoutCoin = {
         to: address,

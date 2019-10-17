@@ -25,16 +25,16 @@ export const environment = {
     endpoints: {
         blockchaingate: 'https://blockchaingate.com/v2/',
         coingecko: 'https://api.coingecko.com/',
-        kanban: 'http://18.223.17.4:4000/',
+        kanban: 'https://kanbantest.fabcoinapi.com/',
         BTC: {
-            exchangily: 'http://18.188.32.168:8000/'
+            exchangily: 'https://btctest.fabcoinapi.com/'
         },
         FAB: {
-            exchangily: 'http://52.60.97.159:8000/'
+            exchangily: 'https://fabtest.fabcoinapi.com/'
         },
         ETH: {
-            exchangily: 'http://3.13.178.231:3000/',
-            etherscan: 'https://api-ropsten.etherscan.io/'
+            exchangily: 'https://ethtest.fabcoinapi.com/',
+            //etherscan: 'https://api-ropsten.etherscan.io/'
         }
     },
     CoinType: {

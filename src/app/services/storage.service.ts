@@ -6,10 +6,14 @@ import {Subject} from 'rxjs/Subject';
 @Injectable()
 export class StorageService {
     newTransaction = new Subject();
+    changedTransaction = new Subject();
     constructor(private localSt: LocalStorage) {
 
     }
 
+    notifyTransactionItemChanged(transactionItem: TransactionItem) {
+        this.changedTransaction.next(transactionItem);
+    }
 
     storeToTransactionHistoryList(walletId: string, transactionItem: TransactionItem) {
         this.newTransaction.next(transactionItem);
