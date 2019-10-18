@@ -188,7 +188,7 @@ export class ApiService {
         console.log('ret from postFabTx=' + ret);
         return ret;
         */
-       const url = 'http://52.60.97.159:8000/sendrawtransaction/' + txHex;
+       const url = environment.endpoints.FAB.exchangily + 'sendrawtransaction/' + txHex;
 
        console.log('url here we go:', url);
        let txHash = '';
