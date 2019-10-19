@@ -3,6 +3,7 @@ import { Observable, Observer, interval, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BTC_PRICE_LIST } from '../components/mock/btc-181123_2006-181124_0105';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 interface BarData {
   time: number;
@@ -50,7 +51,7 @@ export class MockService {
     console.log(list[list.length - 1]);
     */
     // intervals array('1h','30m','15m','5m', '1m')
-    const res = await this.http.get('http://localhost:3004/klines?symbol=' + symbol + '&interval=' + inter).toPromise() as string;
+    const res = await this.http.get(environment.endpoints.kanban + 'klines?symbol=' + symbol + '&interval=' + inter).toPromise() as string;
 
       const resp = Array.from(res.toString());
       for (let i = 0; i < resp.length; i++) {

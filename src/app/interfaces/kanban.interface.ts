@@ -43,6 +43,7 @@ export interface TradeItem {
 }
 export interface Transaction {
     txid: string;
+    orderHash: string;
     baseCoin: number;
     targetCoin: number;
     bidOrAsk: boolean;

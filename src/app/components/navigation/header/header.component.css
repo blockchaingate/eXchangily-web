@@ -68,9 +68,29 @@ header .navbar {
 }
 
 a.nav-link {
-    line-height: 64px;
+    line-height: 60px;
 }
 
 .dark-back {
     background-color: #2e2e45;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+}
+
+.status-pending {
+    color: #CA810A;
+    background-color: #FFF2DB;
+}
+
+.status-confirmed {
+    color: #609a1c;
+    background-color: #eafad7;
+}
+
+.status-closed {
+    color: #d0021b;
+    background-color: #fff1f2;
 }

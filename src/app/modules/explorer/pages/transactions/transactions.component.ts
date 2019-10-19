@@ -26,6 +26,8 @@ export class TransactionsComponent implements OnInit {
       if (this._address) {
         this.kanbanServ.getLatestTransactions('', this._address, 10).subscribe(
             (transactions: any) => {
+                console.log('transactions for address:', this._address);
+                console.log(transactions);
                 this.transactions = transactions.txs;
             }
         );          
@@ -37,7 +39,7 @@ export class TransactionsComponent implements OnInit {
 
     @Input()
     set block(block: string) {
-      this._block = (block && block.trim()) || '';
+      this._block = block;
       if (this._block) {
         this.kanbanServ.getLatestTransactions(this._block, '', 10).subscribe(
             (transactions: any) => {

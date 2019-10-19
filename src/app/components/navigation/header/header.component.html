@@ -29,16 +29,18 @@
             <div fxFlex fxLayout fxHide.xs>
                 <ul fxLayout fxLayoutGap="15px" class="navigation-items">
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/market/home" (click)="background='gradient-back-title'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Market' | translate}}</a>
+                        <a class="nav-link" routerLink="/wallet/dashboard" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Wallet' | translate}}</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/market/home" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Market' | translate}}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/market/trade/ETH_BTC" (click)="background='gradient-back-title'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Trade' | translate}}</a>
+                        <a class="nav-link" routerLink="/market/trade/ETH_BTC" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Trade' | translate}}</a>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/wallet/dashboard" (click)="background='dark-back'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Wallet' | translate}}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/explorer" (click)="background='dark-back'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Explore' | translate}}</a>
+                        <a class="nav-link" routerLink="/explorer" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Explore' | translate}}</a>
                     </li>
                 </ul>
             </div>
@@ -54,16 +56,90 @@
                         </mat-menu>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/home" (click)="background='gradient-back-title'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Home' | translate}}</a>
+                        <a class="nav-link" routerLink="/home" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Home' | translate}}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="https://medium.com/exchangily-blog" target="_blank">{{'Blog' | translate}}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/login/signin" (click)="background='gradient-back-title'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Signin' | translate}}</a>
+                        <a class="nav-link" routerLink="/login/signin" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Signin' | translate}}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/login/signup" (click)="background='gradient-back-title'" routerLinkActive="selected selected-white" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Signup' | translate}}</a>
+                        <a class="nav-link" routerLink="/login/signup" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Signup' | translate}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <mat-progress-spinner [diameter]="40" [color]="color" [mode]="play?'indeterminate':'determinate'" [value]="value" [matMenuTriggerFor]="appMenu">
+                        </mat-progress-spinner>
+
+                        <mat-menu #appMenu="matMenu">
+                            <div class="container py-2" *ngIf="pendingtransactions && pendingtransactions.length === 0 && closetransactions && closetransactions.length === 0">
+                                no transactions
+                            </div>
+                            <div class="container py-2" *ngIf="pendingtransactions && pendingtransactions.length > 0">
+                                <div class="row px-2 border-bottom pb-1">
+                                    <div class="col col-12">
+                                        pending
+                                    </div>
+                                </div>
+                                <div class="row px-2 py-2 border-bottom" *ngFor="let tr of pendingtransactions">
+                                    <div class="col col-12">
+                                        {{tr.txid}}
+                                    </div>
+                                    <div class="col col-12">
+                                        {{tr.time}}
+                                    </div>
+                                    <div class="col col-3">
+                                        <img *ngIf="tr.coin == 'BTC'" src="/assets/coins/btc.png" class="icon" />
+                                        <img *ngIf="tr.coin == 'ETH'" src="/assets/coins/eth.png" class="icon" />
+                                        <img *ngIf="tr.coin == 'EXG'" src="/assets/coins/exg.png" class="icon" />
+                                        <img *ngIf="tr.coin == 'FAB'" src="/assets/coins/fab.png" class="icon" />
+                                        <img *ngIf="tr.coin == 'USDT'" src="/assets/coins/usdt.png" class="icon" />
+                                    </div>
+                                    <div class="col col-6">
+                                        <div>{{tr.type}}</div>
+                                        <div class="status-{{tr.status}}">
+                                            <svg class="lds-spinner" width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" style="background: none;"><g transform="rotate(0 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="-0.9166666666666666s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(30 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="-0.8333333333333334s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(60 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="-0.75s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(90 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="-0.6666666666666666s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(120 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="-0.5833333333333334s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(150 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="-0.5s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(180 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="-0.4166666666666667s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(210 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="-0.3333333333333333s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(240 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="-0.25s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(270 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="-0.16666666666666666s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(300 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="-0.08333333333333333s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(330 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="0s" repeatCount="indefinite"></animate></rect></g></svg>                                            {{tr.status}}
+                                        </div>
+                                    </div>
+                                    <div class="col col-3">
+                                        {{tr.amount}} {{tr.coin}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="container py-2" *ngIf="closetransactions && closetransactions.length > 0">
+                                <div class="row px-2 border-bottom pb-1">
+                                    <div class="col col-12">
+                                        history
+                                    </div>
+                                </div>
+                                <div class="row px-2 py-2 border-bottom" *ngFor="let tr of closetransactions">
+                                    <div class="col col-12">
+                                        {{tr.txid}}
+                                    </div>
+                                    <div class="col col-12">
+                                        {{tr.time}}
+                                    </div>
+                                    <div class="col col-3">
+                                        <img *ngIf="tr.coin == 'BTC'" src="/assets/coins/btc.png" class="icon" />
+                                        <img *ngIf="tr.coin == 'ETH'" src="/assets/coins/eth.png" class="icon" />
+                                        <img *ngIf="tr.coin == 'EXG'" src="/assets/coins/exg.png" class="icon" />
+                                        <img *ngIf="tr.coin == 'FAB'" src="/assets/coins/fab.png" class="icon" />
+                                        <img *ngIf="tr.coin == 'USDT'" src="/assets/coins/usdt.png" class="icon" />
+                                    </div>
+                                    <div class="col col-6">
+                                        <div>{{tr.type}}</div>
+                                        <div class="status-{{tr.status}}">
+                                            {{tr.status}}
+                                        </div>
+                                    </div>
+                                    <div class="col col-3">
+                                        {{tr.amount}} {{tr.coin}}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </mat-menu>
                     </li>
                 </ul>
             </div>

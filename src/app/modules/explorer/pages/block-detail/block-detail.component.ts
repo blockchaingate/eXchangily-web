@@ -1,8 +1,6 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { KanbanService } from '../../../../services/kanban.service';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
-
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
     selector: 'app-explorer-block-detail',
     templateUrl: './block-detail.component.html',
@@ -11,27 +9,26 @@ import { switchMap } from 'rxjs/operators';
 })
 export class BlockDetailComponent implements OnInit {
     block: any;
-    id: number;
-    constructor(private kanbanServ: KanbanService, private route: ActivatedRoute) {
+    id: string;
+    constructor(private kanbanServ: KanbanService, private route: ActivatedRoute, private router: Router) {
     }    
 
     ngOnInit() {
-        this.block = this.route.paramMap.subscribe(
-            paramMap => {
-                this.id = +paramMap.get('id');
-                console.log('this.id = ' + this.id);
-                this.kanbanServ.getBlock(this.id.toString()).subscribe(
-                    (block) => {
-                        console.log('block=', block);
-                        this.block = block;
+        this.id = this.route.snapshot.paramMap.get('id');
 
-                    }
-                );
+        this.kanbanServ.getBlock(this.id).subscribe(
+            (block: any) => {
+                this.block = block.block;
             }
         );
 
     }
-    goToPage(blockNum: number) {
 
+    goToPreviousBlock() {
+        this.router.navigate(['/explorer/block/' + (this.block.number - 1)]);
     }    
+
+    goToNextBlock() {
+        this.router.navigate(['/explorer/block/' + (this.block.number + 1)]);
+    }        
 }

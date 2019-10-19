@@ -39,6 +39,15 @@ export class ExplorerComponent implements OnInit {
                 }
             }
         );
+
+        this.kanbanServ.getAccounts().subscribe(
+            (res: any) => {
+                console.log('res in getAccounts=', res);
+                this.totalAddress = res.accounts.length.toString();
+            }
+        );
+        // this.totalAddress = accounts.length.toString();
+        
     }
 
     search (searchText: string) {

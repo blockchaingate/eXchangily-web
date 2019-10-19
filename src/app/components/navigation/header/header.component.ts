@@ -2,7 +2,11 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-
+import { TransactionItem } from '../../../models/transaction-item';
+import { StorageService } from '../../../services/storage.service'; 
+import { ApiService } from '../../../services/api.service'; 
+import { AlertService } from '../../../services/alert.service';
+import { UtilService } from '../../../services/util.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -10,26 +14,123 @@ import { Location } from '@angular/common';
 })
 export class HeaderComponent implements OnInit {
   currentLang: string;
-  //@Output() public sidenavToggle = new EventEmitter();
+  // @Output() public sidenavToggle = new EventEmitter();
   background: string;
-  constructor(private translate: TranslateService, private router: Router, private location: Location) { }
+  pendingtransactions: TransactionItem[];
+  closetransactions: TransactionItem[];
+  color = 'primary';
+  mode = 'determinate';
+  value = 100;  
+
+  play: boolean;
+  interval;
+
+  constructor(private translate: TranslateService, private router: Router, private alertServ: AlertService,
+    private utilServ: UtilService,
+    private location: Location, private storageServ: StorageService, private apiServ: ApiService) { }
  
   ngOnInit() {
+    this.pendingtransactions = [];
+    this.closetransactions = [];
+    this.storageServ.newTransaction.subscribe(
+      (transaction: TransactionItem) => {
+        this.pendingtransactions.push(transaction);
+        if (!this.play) {
+          this.startTimer();
+        }
+      }
+    );
     this.currentLang = 'English';
     this.translate.setDefaultLang('en');
     this.setLan();   
     this.background = 'dark-back';
     const path = this.location.path();
     if (path.indexOf('/home') >= 0 || path.indexOf('/login') >= 0) {
-      this.background = 'gradient-back-title';
+      // this.background = 'gradient-back-title';
     }
   }
-  
-  /*
-  public onToggleSidenav = () => {
-    this.sidenavToggle.emit();
+
+  ngOnDestroy() {
+    this.pauseTimer();
   }
-  */
+
+  startTimer() {
+    this.play = true;
+    this.interval = setInterval(async () => {
+      let hasPendingTransaction = false;
+      for (let i = 0; i < this.pendingtransactions.length; i++) {
+        const transaction = this.pendingtransactions[i];
+        if (transaction.status === 'pending') {
+          const txid = transaction.txid;
+          const coin = transaction.coin;
+
+          let confirmations = 0;
+          if (coin === 'BTC') {
+            const tx = await this.apiServ.getBtcTransaction(txid);
+            if (tx) {
+              confirmations = tx.confirmations;
+              if (confirmations >= 1) {
+                transaction.status = 'confirmed';
+              }  
+            }
+          
+          } else 
+          if (coin === 'ETH' || transaction.tokenType === 'ETH') {
+            const tx = await this.apiServ.getEthTransaction(txid);
+            if (tx) {
+              if (tx.blockNumber) {
+                confirmations = tx.confirmations;
+              }    
+              if (confirmations >= 1) {
+                const txStatus = await this.apiServ.getEthTransactionStatus(txid);
+                if (txStatus.status) {
+                  transaction.status = 'confirmed';
+                } else {
+                  transaction.status = 'failed';
+                }
+              }   
+            }
+ 
+          } else
+          if (coin === 'FAB' || transaction.tokenType === 'FAB') {
+            const tx = await this.apiServ.getFabTransactionJson(txid);
+            if (tx) {
+              if (tx.confirmations) {
+                confirmations = tx.confirmations;
+              }
+              if (confirmations >= 1) {
+                transaction.status = 'confirmed';
+              }    
+            }
+         
+          }
+          if (transaction.status !== 'pending') {
+            const array_first_five = txid.slice(0, 5);
+            const array_last_five = txid.slice(-5);
+            const txidSlice = array_first_five + '...' + array_last_five;
+            this.alertServ.openSnackBar('transaction ' + txidSlice + ' was ' + transaction.status, 'Ok');
+            const deleted = this.pendingtransactions.splice(i, 1);
+            if (deleted && deleted.length > 0) {
+              const deletedItem = deleted[0];
+              this.storageServ.notifyTransactionItemChanged(deletedItem);
+              this.closetransactions.push(deletedItem);              
+            }
+
+          }
+          hasPendingTransaction = true;
+        }
+      }
+      if (!hasPendingTransaction) {
+        this.pauseTimer();
+      }
+    }, 3000);
+  }
+
+  pauseTimer() {
+    this.play = false;
+    clearInterval(this.interval);
+  }
+
   linkTo(url: string) {
     this.router.navigate([url]);
   }

@@ -66,7 +66,7 @@
                 <div class="container py-2">
                     <div class="row">
                         <div class="col col-8 col-md-6">
-                            <h5 class="d-inline mr-3" (click)="onShowMyAssets()">{{"My Assets" | translate}}</h5>
+                            <h5 class="d-inline mr-3 hand-cursor" (click)="onShowMyAssets()">{{"My Assets" | translate}}</h5>
                             <mat-checkbox [(ngModel)]="hideSmall" class="small">{{"Hide Small Amount Assets" | translate}}</mat-checkbox>
                         </div>
 
@@ -118,7 +118,7 @@
                             </div>
                         </div>
 -->
-                    <app-transaction-history class="row pt-4" *ngIf="showTransactionHistory" [coinsPrice]=coinsPrice></app-transaction-history>
+                    <app-transaction-history class="row pt-4" *ngIf="showTransactionHistory" [walletId]="wallet.id" [coinsPrice]="coinsPrice"></app-transaction-history>
                     <div class="row pt-4" *ngIf="showMyAssets">
                         <div class="container fxHide-sm container-wallet-main" *ngIf="wallet">
                             <div class="row apair header">
@@ -204,8 +204,11 @@
                             </div>
                             <div class="row apair dataline" *ngFor="let mycoin of wallet.mycoins; index as i">
                                 <div class="col-2">
-                                    <img *ngIf="mycoin.name == 'BTC'" src="/assets/coins/bitcoin.png" class="icon" />
-                                    <img *ngIf="mycoin.name == 'ETH'" src="/assets/coins/ethereum.png" class="icon" />
+                                    <img *ngIf="mycoin.name == 'BTC'" src="/assets/coins/btc.png" class="icon" />
+                                    <img *ngIf="mycoin.name == 'ETH'" src="/assets/coins/eth.png" class="icon" />
+                                    <img *ngIf="mycoin.name == 'EXG'" src="/assets/coins/exg.png" class="icon" />
+                                    <img *ngIf="mycoin.name == 'FAB'" src="/assets/coins/fab.png" class="icon" />
+                                    <img *ngIf="mycoin.name == 'USDT'" src="/assets/coins/usdt.png" class="icon" />
                                 </div>
                                 <div class="col-2">
                                     {{mycoin.name}}

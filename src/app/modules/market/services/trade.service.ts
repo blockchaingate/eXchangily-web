@@ -5,7 +5,7 @@ export class TradeService {
     constructor(private localSt: LocalStorage) {
     }
 
-    addTransactions(tx: Transaction) {
+    addTransaction(tx: Transaction) {
         this.localSt.getItem('mytransactions').subscribe((transactions: Transaction[]) => {
             if (!transactions) {
                 transactions = [];
@@ -17,6 +17,12 @@ export class TradeService {
                 console.log('set successfully.');
             });
         });
+    }
+
+    saveTransactions(transactions: Transaction[]) {
+        return this.localSt.setItem('mytransactions', transactions).subscribe(() => {
+            console.log('delete successfully.');
+        });     
     }
 
     getTransactions() {

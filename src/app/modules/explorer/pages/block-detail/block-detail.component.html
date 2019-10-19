@@ -1,4 +1,4 @@
-<div class="container exg-bg">
+<div class="container exg-bg" *ngIf="block">
     <div class="row apair">
         <div class="col-md-3">
             <div class="d-inline-block">
@@ -12,15 +12,15 @@
         </div>
         <div class="col-md-9">
             <div class="d-inline-block">
-                8670642
+                {{block.number}}
             </div>
             <div class="d-inline-block">
-                <button mat-icon-button (click)="goToPage(id - 1)" matTooltip="View previous block">
+                <button mat-icon-button (click)="goToPreviousBlock()" matTooltip="View previous block">
                     <mat-icon>keyboard_arrow_left</mat-icon>
                 </button>
             </div>
             <div class="d-inline-block">
-                <button mat-icon-button (click)="goToPage(id + 1)" matTooltip="View next block">
+                <button mat-icon-button (click)="goToNextBlock()" matTooltip="View next block">
                     <mat-icon>keyboard_arrow_right</mat-icon>
                 </button>
             </div>
@@ -45,7 +45,7 @@
                             </button>
             </div>
             <div class="d-inline-block">
-                2 hrs 40 mins ago (Oct-03-2019 05:41:30 PM +UTC)
+                {{block.timestamp * 1000 | date:'medium'}}
             </div>
 
         </div>
@@ -65,7 +65,7 @@
         <div class="col-md-9">
 
             <div class="table-text">
-                39 transactions in this block
+                {{block.transactions.length}} transactions in this block
             </div>
 
         </div>
@@ -84,8 +84,8 @@
         </div>
         <div class="col-md-9">
             <div class="d-inline-block">
-                <a class="explorer-link" [routerLink]="['../../address', '0']">
-                0x5a0b54d5dc17e0aadc383d2db43b0a0d3e029c4c
+                <a class="explorer-link" [routerLink]="['../../address', block.miner]">
+                {{block.miner}}
                 </a>
             </div>
 
@@ -105,7 +105,7 @@
         </div>
         <div class="col-md-9">
             <div class="table-text">
-                2,374,237,811,956,568
+                {{block.difficulty}}
             </div>
 
         </div>
@@ -124,7 +124,7 @@
         </div>
         <div class="col-md-9">
             <div class="table-text">
-                12,207,446,157,103,547,536,373
+                {{block.totalDifficulty}}
             </div>
 
         </div>
@@ -143,7 +143,7 @@
         </div>
         <div class="col-md-9">
             <div class="table-text">
-                12,207,446,157,103,547,536,373
+                {{block.size}}
             </div>
 
         </div>
@@ -162,7 +162,7 @@
         </div>
         <div class="col-md-9">
             <div class="table-text">
-                9,969,620 (99.89%)
+                {{block.gasUsed}} ({{block.gasUsed*100/block.gasLimit}}%)
             </div>
 
         </div>
@@ -181,7 +181,7 @@
         </div>
         <div class="col-md-9">
             <div class="table-text">
-                9,980,235
+                {{block.gasLimit}}
             </div>
 
         </div>
@@ -191,8 +191,8 @@
         <div class="col-md-3">
             <div class="d-inline-block">
                 <button mat-icon-button matTooltip="Hash of the block header from the previous block.">
-                                                    <mat-icon>help_outline</mat-icon>
-                                                </button>
+                    <mat-icon>help_outline</mat-icon>
+                </button>
             </div>
             <div class="d-inline-block">
                 Hash:
@@ -200,7 +200,7 @@
         </div>
         <div class="col-md-9">
             <div class="table-text">
-                0x44361be34e3973e6fbd6178e6dbb88b8bf524397067286434c235b24f45a505a
+                {{block.hash}}
             </div>
 
         </div>
@@ -210,8 +210,8 @@
         <div class="col-md-3">
             <div class="d-inline-block">
                 <button mat-icon-button matTooltip="Block nonce is a value used during mining to demonstrate proof of work for a block.">
-                                                        <mat-icon>help_outline</mat-icon>
-                                                    </button>
+                    <mat-icon>help_outline</mat-icon>
+                </button>
             </div>
             <div class="d-inline-block">
                 Nonce:
@@ -219,11 +219,11 @@
         </div>
         <div class="col-md-9">
             <div class="table-text">
-                0x7d02e1902815922a
+                {{block.nonce}}
             </div>
 
         </div>
     </div>
 </div>
 
-<app-explorer-transactions [block]="id" [notForGeneral]="true"></app-explorer-transactions>
+<app-explorer-transactions *ngIf="block && block.transactions && block.transactions.length" [block]="id" [notForGeneral]="true"></app-explorer-transactions>

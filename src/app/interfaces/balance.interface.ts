@@ -143,9 +143,16 @@ export interface EthTransactionRes {
     value: number;
 }
 
+
+export interface EthTransactionStatusRes {
+    txhash: string;
+    status: boolean;
+}
+
 export interface FabTransactionResponse {
     comments: string;
     txid: string;
+    Error: string;
 }
 export interface TxBtc {
     address: [string];
