@@ -4,13 +4,14 @@ import { Injectable } from '@angular/core';
 import { User } from '../../models/user';
 import { HttpService } from '../../../../services/http.service';
 import { app } from '../../app.constants';
+import { AppAuthService } from '../app-auth/app-auth.service';
 import { environment } from '../../../../../environments/environment';
 const path = environment.endpoints.blockchaingate + 'members/';
 
 @Injectable()
 export class UserService {
 
-  constructor (private http: HttpService) {
+  constructor (private http: HttpService, private _appAuth: AppAuthService) {
   }
 
 
@@ -23,7 +24,7 @@ export class UserService {
       lastName: data.lastName,
       invitationCode: data.invitationCode,
       referralCode: data.referralCode,
-      app: app
+      appId: this._appAuth.id
     };
 
     // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'Create', theBody);
@@ -41,6 +42,7 @@ export class UserService {
 
   public setWallets(data) {
     // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'wallets', data);
+    data.appId = this._appAuth.id;
 
     return this.http.post(path + 'wallets', data)
     .map((res: any) => {
@@ -106,7 +108,7 @@ export class UserService {
 
   // Login
   loginUser(email: string, password: string) {
-    const theBody = {'email': email, 'password': password};
+    const theBody = {email: email, password: password, appId: this._appAuth.id};
     // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'login', theBody);
     sessionStorage.removeItem('id_token');
 
@@ -159,6 +161,7 @@ export class UserService {
 
   // Update member
   updateUser(data) {
+    data.appId = this._appAuth.id;
     // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'FindOneAndUpdate', data);
 
     return this.http.post(path + 'FindOneAndUpdate', data)
