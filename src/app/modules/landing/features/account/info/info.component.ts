@@ -51,7 +51,7 @@ export class InfoComponent implements OnInit {
 
     getUser(id: number|string, parentReferral: string) {
       this._userService.getUserById(id).subscribe(
-         (ret) => {
+         (ret: User) => {
            this.processRetGetUser(ret);
            // build form
            this.userForm = new FormGroup({
@@ -83,7 +83,7 @@ export class InfoComponent implements OnInit {
       });
 
       this._userService.updateUser(this.user).subscribe(
-        ret => { this.processRet(ret); },
+        (ret: User) => { this.processRet(ret); },
         error => this.processError(error)
       );
 

@@ -30,17 +30,18 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
     this.subscribers.push(
       this._userAuth.isLoggedIn$
-      .pipe(
-        filter((loggedIn) => {
-          return loggedIn !== '';
-        }),
-        mergeMap(adsf => this._userService.getUserById(this._userAuth.id)
-       .map((user) => {
-         this.isAdmin = user.isWriteAccessAdmin || false;
-         return user;
-       })
-      ))
-      .subscribe()
+        .pipe(
+          filter((loggedIn) => {
+            return loggedIn !== '';
+          }),
+          mergeMap(adsf => this._userService.getUserById(this._userAuth.id)
+            .map((user: User) => {
+              // alert(JSON.stringify(user));
+              this.isAdmin = user.isWriteAccessAdmin || false;
+              return user;
+            })
+          ))
+        .subscribe()
     );
   }
 
@@ -52,7 +53,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
     this._userService.getUser(values)
     .subscribe(
-      (ret:any) => {
+      (ret: any) => {
         this._userService.updateUser({id: ret._id, isWriteAccessAdmin: true})
         .subscribe(
           res => {

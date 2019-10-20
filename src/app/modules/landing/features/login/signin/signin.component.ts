@@ -44,7 +44,7 @@ export class SigninComponent implements OnInit {
 
     this._userService.loginUser(this.email.value.toLowerCase(), this.password.value)
     .subscribe(
-      ret => this.processLogin(ret),
+      (ret: User) => this.processLogin(ret),
       error => this.processError(error)
     );
   }

@@ -14,7 +14,6 @@ export class UserService {
   constructor (private http: HttpService, private _appAuth: AppAuthService) {
   }
 
-
   // For signup
   public createUser(data) {
     const theBody = {
@@ -24,6 +23,7 @@ export class UserService {
       lastName: data.lastName,
       invitationCode: data.invitationCode,
       referralCode: data.referralCode,
+      app: app,
       appId: this._appAuth.id
     };
 
@@ -44,13 +44,8 @@ export class UserService {
     // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'wallets', data);
     data.appId = this._appAuth.id;
 
-    return this.http.post(path + 'wallets', data)
-    .map((res: any) => {
-      if (res) {
-        return this.convertResponseToUser(res);
-      }
-    })
-    .catch(this.logAndPassOn);
+    // return this.http.post(path + 'wallets', data).subscribe((res: Response) => this.convertResponseToUser(res));
+    return this.http.post(path + 'wallets', data);
   }
 
   public isAdmin(data: { userId: string, appId: string }) {
@@ -59,51 +54,23 @@ export class UserService {
       RequestMethod.Get, path + 'isAdmin/' + data.userId + '/' + data.appId, {}
     );
     */
-    return this.http.get(path + 'isAdmin/' + data.userId + '/' + data.appId)
-    .map((res: any) => {
-      if (res) {
-        return this.isAdminResponse(res);
-      }
-    })
-    .catch(this.logAndPassOn);
+    // return this.http.get(path + 'isAdmin/' + data.userId + '/' + data.appId).subscribe((res: Response) => this.isAdminResponse(res));
+    return this.http.get(path + 'isAdmin/' + data.userId + '/' + data.appId);
   }
 
   // Get members
   public getUsers(data) {
     // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'find', data);
 
-    return this.http.post(path + 'find', data)
-    .map((res: any) => {
-      if (res) {
-        /*
-        const retJson = res.json();
-        return <User[]>retJson;
-        */
-        return res;
-        // return [{ status: res.status, json: res.json()}];
-      } else {
-        return [];
-      }
-    })
-    .catch(this.logAndPassOn);
+    // return this.http.post(path + 'find', data).subscribe((res: Response) => { if (res) { return res; } else { return []; } });
+    return this.http.post(path + 'find', data);
   }
 
   // Get all members
   public getAllUsers() {
     // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path);
 
-    return this.http.get(path)
-    .map((res: any) => {
-      if (res) {
-        return res;
-        /*
-        const retJson = res.json();
-        return <User[]>retJson;
-        */
-        // return [{ status: res.status, json: res.json()}];
-      }
-    })
-    .catch(this.logAndPassOn);
+    return this.http.get(path);
   }
 
   // Login
@@ -112,11 +79,8 @@ export class UserService {
     // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'login', theBody);
     sessionStorage.removeItem('id_token');
 
-    return this.http.post(path + 'login', theBody)
-    .map((res: any) => {
-      return this.convertResponseToUser(res);
-    })
-    .catch(this.logAndPassOn);
+    // return this.http.post(path + 'login', theBody).subscribe((res: Response) => this.convertResponseToUser(res));
+    return this.http.post(path + 'login', theBody);
   }
 
   // Activation
@@ -128,35 +92,20 @@ export class UserService {
     );
     */
     sessionStorage.setItem('id_token', '');
-    return this.http.get(path + 'activation/' + email + '/' + activeCode)
-    .map((res: any) => {
-      return res.json();
-    })
-    .catch(this.logAndPassOn);
+    return this.http.get(path + 'activation/' + email + '/' + activeCode);
   }
 
   // Get member by using id
   getUserById(id: number | string) {
     // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path + id);
 
-    return this.http.get(path + id)
-    .map((res: any) => {
-      return res;
-      //return <User>res.json();
-    })
-    .catch(this.logAndPassOn);
+    return this.http.get(path + id);
   }
 
   getUsersAll() {
     // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'getAll');
 
-    return this.http.post(path + 'getAll', {})
-    .map((res: any) => {
-      // const retJson = res.json();
-      return res;
-      // return [{ status: res.status, json: res.json()}];
-    })
-    .catch(this.logAndPassOn);
+    return this.http.post(path + 'getAll', {});
   }
 
   // Update member
@@ -164,14 +113,7 @@ export class UserService {
     data.appId = this._appAuth.id;
     // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'FindOneAndUpdate', data);
 
-    return this.http.post(path + 'FindOneAndUpdate', data)
-    .map((res: any) => {
-      return res;
-      //const retJson = res.json();
-      //return <User>retJson;
-      // return [{ status: res.status, json: res.json()}];
-    })
-    .catch(this.logAndPassOn);
+    return this.http.post(path + 'FindOneAndUpdate', data);
   }
 
   // Request Password Reset
@@ -182,11 +124,8 @@ export class UserService {
 
     sessionStorage.removeItem('id_token');
 
-    return this.http.post(path + 'requestpwdreset', theBody)
-    .map((res: any) => {
-      return this.convertResponseToUser(res);
-    })
-    .catch(this.logAndPassOn);
+    // return this.http.post(path + 'requestpwdreset', theBody).subscribe((res: Response) => this.convertResponseToUser(res));
+    return this.http.post(path + 'requestpwdreset', theBody);
   }
 
   // Execute Password Reset
@@ -200,14 +139,8 @@ export class UserService {
     //const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'exepwdreset', theBody);
 
     sessionStorage.removeItem('id_token');
-
-    return this.http.post(path + 'exepwdreset', theBody)
-    .map((res: any) => {
-      return res;
-    })
-    .catch(this.logAndPassOn);
+    return this.http.post(path + 'exepwdreset', theBody);
   }
-
 
 private convertResponseToUser(res: Response) {
   let thisUser: User;
