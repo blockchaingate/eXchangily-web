@@ -29,27 +29,27 @@ export class ViewReferralsComponent implements OnInit {
   } = {
       pending: new BehaviorSubject([]),
       completed: new BehaviorSubject([])
-  };
+    };
 
   constructor(private _icotx: IcotxService, private _userAuth: UserAuth,
-              private _activatedRoute: ActivatedRoute, private _router: Router) { }
+    private _activatedRoute: ActivatedRoute, private _router: Router) { }
 
   ngOnInit() {
     this._activatedRoute.data
-    .pipe(
-      map((data) => {
-        this.admin = data.isAdmin;
-        return data.user;
-      }),
-      filter((user) => {
-        if (user.email) {
-          return true;
-        } else {
-          return false;
-        }
-      }),
-      mergeMap(user => this._icotx.getChildIcotx(user._id)))
-      .subscribe(res => {
+      .pipe(
+        map((data) => {
+          this.admin = data.isAdmin;
+          return data.user;
+        }),
+        filter((user) => {
+          if (user.email) {
+            return true;
+          } else {
+            return false;
+          }
+        }),
+        mergeMap(user => this._icotx.getChildIcotx(user._id)))
+      .subscribe((res: any) => {
         const tmp = {
           pending: [],
           completed: []
@@ -67,11 +67,10 @@ export class ViewReferralsComponent implements OnInit {
 
         this.loaded = true;
       },
-      err => {
-        this.serverMessage = err;
-        this.loaded = true;
-      });
-
+        err => {
+          this.serverMessage = err;
+          this.loaded = true;
+        });
   }
 
 }

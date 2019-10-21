@@ -36,64 +36,64 @@ export class InfoComponent implements OnInit {
     private _route: ActivatedRoute,
     private _appUsers: AppUsersService,
     private _icotx: IcotxService
-    ) {}
+  ) { }
 
-    ngOnInit() {
-      // get user data
-      this.data = this._route.snapshot.data.appUser;
-      this.getUser(this._userAuth.id, this.data.parentReferralCode);
-      this.getAllOrders();
-    }
+  ngOnInit() {
+    // get user data
+    this.data = this._route.snapshot.data.appUser;
+    this.getUser(this._userAuth.id, this.data.parentReferralCode);
+    this.getAllOrders();
+  }
 
-    setEdit() {
-      this.edit = true;
-    }
+  setEdit() {
+    this.edit = true;
+  }
 
-    getUser(id: number|string, parentReferral: string) {
-      this._userService.getUserById(id).subscribe(
-         (ret: User) => {
-           this.processRetGetUser(ret);
-           // build form
-           this.userForm = new FormGroup({
-             'email': new FormControl(this.user.email, [
-               Validators.required,
-               Validators.email
-             ]),
-             'displayName': new FormControl(this.user.displayName, []),
-             'firstName': new FormControl(this.user.firstName, []),
-             'midName': new FormControl(this.user.midName, []),
-             'lastName': new FormControl(this.user.lastName, []),
-             'homePhone': new FormControl(this.user.homePhone, []),
-             'workPhone': new FormControl(this.user.workPhone, []),
-             'mobile': new FormControl(this.user.mobile, []),
-             'workEmail': new FormControl(this.user.workEmail, []),
-             'parentReferralCode': new FormControl({value: parentReferral, disabled: parentReferral }, [])
-           });
-           this.loadingDone = true;
-         },
-          error => this.processError(error)
-      );
-    }
+  getUser(id: number | string, parentReferral: string) {
+    this._userService.getUserById(id).subscribe(
+      (ret: User) => {
+        this.processRetGetUser(ret);
+        // build form
+        this.userForm = new FormGroup({
+          'email': new FormControl(this.user.email, [
+            Validators.required,
+            Validators.email
+          ]),
+          'displayName': new FormControl(this.user.displayName, []),
+          'firstName': new FormControl(this.user.firstName, []),
+          'midName': new FormControl(this.user.midName, []),
+          'lastName': new FormControl(this.user.lastName, []),
+          'homePhone': new FormControl(this.user.homePhone, []),
+          'workPhone': new FormControl(this.user.workPhone, []),
+          'mobile': new FormControl(this.user.mobile, []),
+          'workEmail': new FormControl(this.user.workEmail, []),
+          'parentReferralCode': new FormControl({ value: parentReferral, disabled: parentReferral }, [])
+        });
+        this.loadingDone = true;
+      },
+      error => this.processError(error)
+    );
+  }
 
-    gotoUserUpdate() {
-      Object.keys(this.userForm.controls).forEach(key => {
-        if (key !== 'parentReferralCode') {
-          this.user[key] = this.userForm.get(key).value;
-        }
-      });
+  gotoUserUpdate() {
+    Object.keys(this.userForm.controls).forEach(key => {
+      if (key !== 'parentReferralCode') {
+        this.user[key] = this.userForm.get(key).value;
+      }
+    });
 
-      this._userService.updateUser(this.user).subscribe(
-        (ret: User) => { this.processRet(ret); },
-        error => this.processError(error)
-      );
+    this._userService.updateUser(this.user).subscribe(
+      (ret: User) => { this.processRet(ret); },
+      error => this.processError(error)
+    );
 
-      if (this.userForm.get('parentReferralCode')) {
-        this._appUsers.updateAppUserById(this.data.userId, { parentReferralCode: this.userForm.get('parentReferralCode').value })
+    if (this.userForm.get('parentReferralCode')) {
+      this._appUsers.updateAppUserById(this.data.userId, { parentReferralCode: this.userForm.get('parentReferralCode').value })
         .subscribe(res_ => {
           this.userForm.get('parentReferralCode').disable();
         });
-      }
     }
+  }
 
   getAllOrders() {
     this._icotx.findIcotxes(this.data.userId, this.data.email, null, null, null)
@@ -105,36 +105,36 @@ export class InfoComponent implements OnInit {
           }
         });
       });
-    }
+  }
 
-    onCancel() {
-      const ref = this.userForm.get('parentReferralCode').value;
-      this.userForm.reset();
-      this.userForm.get('parentReferralCode').setValue(ref);
-      this.edit = false;
-    }
+  onCancel() {
+    const ref = this.userForm.get('parentReferralCode').value;
+    this.userForm.reset();
+    this.userForm.get('parentReferralCode').setValue(ref);
+    this.edit = false;
+  }
 
-    processError(error: any) {
-      this.errorMessage = 'Error when retrieve user information.';
-    }
+  processError(error: any) {
+    this.errorMessage = 'Error when retrieve user information.';
+  }
 
-    processRetGetUser(ret: User) {
-      this.errorMessage = '';
-      this.edit = false;
+  processRetGetUser(ret: User) {
+    this.errorMessage = '';
+    this.edit = false;
 
-      this.user = ret;
-      if (this.user.active) {
-        this.activeStatus = 'done';
-      }
-      if (!this.user.personalMember) {
-        this.personalUser = 'clear';
-      }
+    this.user = ret;
+    if (this.user.active) {
+      this.activeStatus = 'done';
     }
+    if (!this.user.personalMember) {
+      this.personalUser = 'clear';
+    }
+  }
 
-    processRet(ret: User ) {
-      this.errorMessage = '';
-      this.edit = false;
-      const displayAs = this.user.displayName || this.user.email;
-      this._userAuth.userDisplay$.next(displayAs);
-    }
+  processRet(ret: User) {
+    this.errorMessage = '';
+    this.edit = false;
+    const displayAs = this.user.displayName || this.user.email;
+    this._userAuth.userDisplay$.next(displayAs);
+  }
 }

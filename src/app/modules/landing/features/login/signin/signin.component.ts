@@ -5,6 +5,7 @@ import { UserAuth } from '../../../service/user-auth/user-auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { User } from '../../../models/user';
+import { getMatScrollStrategyAlreadyAttachedError } from '@angular/cdk/overlay/typings/scroll/scroll-strategy';
 
 @Component({
   selector: 'app-signin',
@@ -16,7 +17,7 @@ export class SigninComponent implements OnInit {
   private submitted: boolean;
 
   loginError: string;
-  user = { email: '', password: ''};
+  user = { email: '', password: '' };
   signinForm: FormGroup;
 
   get email() { return this.signinForm.get('email'); }
@@ -43,14 +44,11 @@ export class SigninComponent implements OnInit {
     this.loginError = '';
 
     this._userService.loginUser(this.email.value.toLowerCase(), this.password.value)
-    .subscribe(
-      (ret: User) => this.processLogin(ret),
-      error => this.processError(error)
-    );
+      .subscribe((user: User) => this.processLogin(user));
   }
 
   processError(err) {
-    this.loginError = err;
+    this.loginError = err.message;
   }
 
   processLogin(loginRet: User) {
@@ -69,9 +67,9 @@ export class SigninComponent implements OnInit {
     }
 
     this._userAuth.userDisplay$.next(loginRet.displayName);
-    this._userAuth.isLoggedIn$.next(loginRet._id);
+    this._userAuth.isLoggedIn$.next(loginRet._id || loginRet['id']);
     this._userAuth.hasWrite = loginRet.isWriteAccessAdmin;
-    this._userAuth.id = loginRet._id;
+    this._userAuth.id = loginRet._id || loginRet['id'];
     this._userAuth.email = loginRet.email;
     this._userAuth.kyc = loginRet.kyc;
     this._userAuth.kycNote = loginRet.kycNote;

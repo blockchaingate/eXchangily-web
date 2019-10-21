@@ -120,7 +120,7 @@ export class MyordersComponent implements OnInit {
         this.kanbanService.sendRawSignedTransaction(txhex).subscribe((resp: any) => {
             console.log('resp=', resp);
             if (resp && resp.transactionHash) {     
-                // this.tradeService.deleteTransaction(this.orderHash);   
+                //this.tradeService.deleteTransaction(this.orderHash);   
 
                 for (let i = 0; i < this.myorders.length; i++) {
                     if (this.myorders[i].orderHash === this.orderHash) {

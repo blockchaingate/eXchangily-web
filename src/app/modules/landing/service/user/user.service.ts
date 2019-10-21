@@ -6,12 +6,16 @@ import { HttpService } from '../../../../services/http.service';
 import { app } from '../../app.constants';
 import { AppAuthService } from '../app-auth/app-auth.service';
 import { environment } from '../../../../../environments/environment';
+import { Observable } from 'rxjs/RX';
+import { map } from 'rxjs/operators/map';
+import { throwError } from 'rxjs';
+
 const path = environment.endpoints.blockchaingate + 'members/';
 
 @Injectable()
 export class UserService {
 
-  constructor (private http: HttpService, private _appAuth: AppAuthService) {
+  constructor(private http: HttpService, private _appAuth: AppAuthService) {
   }
 
   // For signup
@@ -27,105 +31,69 @@ export class UserService {
       appId: this._appAuth.id
     };
 
-    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'Create', theBody);
     const url = path + 'Create';
     console.log('url=' + url);
-    return this.http.post(url, theBody);
+    return this.http.post(url, theBody, true).pipe(map(res => res));
   }
 
   // Get member
   public getUser(data) {
-    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'findOne', data);
-
-    return this.http.post(path + 'findOne', data);
+    return this.http.post(path + 'findOne', data, true).pipe(map(res => res));
   }
 
   public setWallets(data) {
-    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'wallets', data);
     data.appId = this._appAuth.id;
-
-    // return this.http.post(path + 'wallets', data).subscribe((res: Response) => this.convertResponseToUser(res));
-    return this.http.post(path + 'wallets', data);
+    return this.http.post(path + 'wallets', data, true).pipe(map(res => res));
   }
 
   public isAdmin(data: { userId: string, appId: string }) {
-    /*
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(
-      RequestMethod.Get, path + 'isAdmin/' + data.userId + '/' + data.appId, {}
-    );
-    */
-    // return this.http.get(path + 'isAdmin/' + data.userId + '/' + data.appId).subscribe((res: Response) => this.isAdminResponse(res));
-    return this.http.get(path + 'isAdmin/' + data.userId + '/' + data.appId);
+    return this.http.get(path + 'isAdmin/' + data.userId + '/' + data.appId, true).pipe(map(res => res));
   }
 
   // Get members
   public getUsers(data) {
-    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'find', data);
-
-    // return this.http.post(path + 'find', data).subscribe((res: Response) => { if (res) { return res; } else { return []; } });
-    return this.http.post(path + 'find', data);
+    return this.http.post(path + 'find', data, true).pipe(map(res => res));
   }
 
   // Get all members
   public getAllUsers() {
-    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path);
-
-    return this.http.get(path);
+    return this.http.get(path, true).pipe(map(res => res));
   }
 
   // Login
   loginUser(email: string, password: string) {
-    const theBody = {email: email, password: password, appId: this._appAuth.id};
-    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'login', theBody);
+    const theBody = { email: email, password: password, appId: this._appAuth.id };
     sessionStorage.removeItem('id_token');
-
-    // return this.http.post(path + 'login', theBody).subscribe((res: Response) => this.convertResponseToUser(res));
-    return this.http.post(path + 'login', theBody);
+    return this.http.post(path + 'login', theBody).pipe(map(user => user));
   }
 
   // Activation
   activation(email: string, activeCode: string) {
-    /*
-    const requestoptions: RequestOptions = this.httpHelper.getRequestObject(
-      RequestMethod.Get,
-      path + 'activation/' + email + '/' + activeCode
-    );
-    */
     sessionStorage.setItem('id_token', '');
-    return this.http.get(path + 'activation/' + email + '/' + activeCode);
+    return this.http.get(path + 'activation/' + email + '/' + activeCode).pipe(map(res => res));
   }
 
   // Get member by using id
   getUserById(id: number | string) {
-    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Get, path + id);
-
-    return this.http.get(path + id);
+    return this.http.get(path + id, true).pipe(map(res => res));
   }
 
   getUsersAll() {
-    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'getAll');
-
-    return this.http.post(path + 'getAll', {});
+    return this.http.post(path + 'getAll', {}, true).pipe(map(res => res));
   }
 
   // Update member
   updateUser(data) {
     data.appId = this._appAuth.id;
-    // const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'FindOneAndUpdate', data);
-
-    return this.http.post(path + 'FindOneAndUpdate', data);
+    return this.http.post(path + 'FindOneAndUpdate', data, true).pipe(map(res => res));
   }
 
   // Request Password Reset
   requestPwdReset(email: string) {
-    const theBody = {'email': email};
-
-    //const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'requestpwdreset', theBody);
-
+    const theBody = { 'email': email };
     sessionStorage.removeItem('id_token');
 
-    // return this.http.post(path + 'requestpwdreset', theBody).subscribe((res: Response) => this.convertResponseToUser(res));
-    return this.http.post(path + 'requestpwdreset', theBody);
+    return this.http.post(path + 'requestpwdreset', theBody).pipe(map(res => res));
   }
 
   // Execute Password Reset
@@ -136,59 +104,57 @@ export class UserService {
       'passwd': passwd
     };
 
-    //const requestoptions: RequestOptions = this.httpHelper.getRequestObject(RequestMethod.Post, path + 'exepwdreset', theBody);
-
     sessionStorage.removeItem('id_token');
-    return this.http.post(path + 'exepwdreset', theBody);
+    return this.http.post(path + 'exepwdreset', theBody).pipe(map(res => res));
   }
 
-private convertResponseToUser(res: Response) {
-  let thisUser: User;
+  private convertResponseToUser(res: Response) {
+    let thisUser: User;
 
-  if (res && res.status === 200) {
-    const retJson = res.json();
+    if (res && res.status === 200) {
+      const retJson = res.json();
 
-    if (retJson) {
-      thisUser = {
-        _id: retJson['id'] || retJson['_id'],
-        email: retJson['email'],
-        displayName: retJson['displayName'],
-        token: retJson['token'],
-        kyc: retJson['kyc'],
-        kycNote: retJson['kycNote'],
-        defaultMerchant: retJson['defaultMerchant']
-      };
+      if (retJson) {
+        thisUser = {
+          _id: retJson['id'] || retJson['_id'],
+          email: retJson['email'],
+          displayName: retJson['displayName'],
+          token: retJson['token'],
+          kyc: retJson['kyc'],
+          kycNote: retJson['kycNote'],
+          defaultMerchant: retJson['defaultMerchant']
+        };
 
-      if (retJson['manageCoins']) {thisUser.manageCoins = retJson['manageCoins']; }
-      if (retJson['manageEmployee']) {thisUser.manageEmployee = retJson['manageEmployee']; }
-      if (retJson['manageFinance']) {thisUser.manageFinance = retJson['manageFinance']; }
-      if (retJson['manageNews']) {thisUser.manageNews = retJson['manageNews']; }
+        if (retJson['manageCoins']) { thisUser.manageCoins = retJson['manageCoins']; }
+        if (retJson['manageEmployee']) { thisUser.manageEmployee = retJson['manageEmployee']; }
+        if (retJson['manageFinance']) { thisUser.manageFinance = retJson['manageFinance']; }
+        if (retJson['manageNews']) { thisUser.manageNews = retJson['manageNews']; }
+      }
     }
-  }
-  return thisUser;
-}
-
-private isAdminResponse(res: any) {
-  let answer = {};
-  if (res && res.status === 200) {
-    answer = res.json();
+    return thisUser;
   }
 
-  return answer;
-}
-
-private logAndPassOn (error: any) {
-  // in a real world app, we may send the server to some remote logging infrastructure
-  // instead of just logging it to the console
-  let err;
-  try {
-    err = JSON.parse(error._body);
-    if (!err.success) {
-      err = err.message;
+  private isAdminResponse(res: any) {
+    let answer = {};
+    if (res && res.status === 200) {
+      answer = res.json();
     }
-  } catch (err) {
-    err = 'Something went wrong with the server';
+
+    return answer;
   }
-  return observableThrowError(err);
-}
+
+  private logAndPassOn(error: any) {
+    // in a real world app, we may send the server to some remote logging infrastructure
+    // instead of just logging it to the console
+    let err;
+    try {
+      err = JSON.parse(error._body);
+      if (!err.success) {
+        err = err.message;
+      }
+    } catch (err) {
+      err = 'Something went wrong with the server';
+    }
+    return observableThrowError(err);
+  }
 }

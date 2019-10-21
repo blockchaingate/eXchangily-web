@@ -104,7 +104,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
     const payMethod = this.orderForm.get('payMethod').value;
     if (amount !== 0) {
       this._currenciesService.convertToEXC(amount, payMethod, false, false)
-      .subscribe((result) => {
+      .subscribe((result: any) => {
         const outcome = this.returnFixedNumber(result.conversion);
         this.orderForm.get('appTokenQty').setValue(outcome);
         this.orderForm.get('payRate').setValue(result.rate);
@@ -123,7 +123,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
     }
 
     this._currenciesService.convertToEXC(qty, pm, true, false)
-    .subscribe((result) => {
+    .subscribe((result: any) => {
       const outcome = this.returnFixedNumber(result.conversion);
       this.orderForm.get('paidAmount').setValue(outcome);
       this.orderForm.get('payRate').setValue(result.rate);
@@ -141,7 +141,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
     }
 
     this._currenciesService.convertToEXC(amount, pm, false, false)
-    .subscribe((result) => {
+    .subscribe((result: any) => {
       const outcome = this.returnFixedNumber(result.conversion);
       this.orderForm.get('appTokenQty').setValue(outcome);
       this.orderForm.get('payRate').setValue(result.rate);

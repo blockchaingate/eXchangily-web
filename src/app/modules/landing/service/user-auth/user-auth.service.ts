@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
-
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { root } from 'rxjs/internal/util/root';
 
-
-
-
-@Injectable()
+@Injectable({providedIn: 'root', })
 export class UserAuth {
   private _hasMerchant = false;
   private _hasWriteAccess = false;

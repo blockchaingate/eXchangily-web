@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { map } from 'rxjs/operators/map';
 
 import { AppUsers } from '../../models/app-users';
 import { AppUsersService } from '../../service/app-users/app-users.service';
@@ -13,12 +14,7 @@ export class AppUsersResolver implements Resolve<any> {
     if (!this._userAuth.id) {
       this._router.navigate(['']);
     }
-    return this._appUsers.getAppUser(this._userAuth.id)
-    .map((res: AppUsers) => {
-      if (res) {
-        return res;
-      }
-    });
+    return this._appUsers.getAppUser(this._userAuth.id).pipe(map(res => <AppUsers>res));
   }
 }
 
@@ -30,9 +26,6 @@ export class ChildReferralsResolver implements Resolve<any> {
     if (!this._userAuth.id) {
       this._router.navigate(['']);
     }
-    return this._appUsers.getChildReferrals(this._userAuth.id)
-    .map((res: Array<AppUsers>) => {
-      return res;
-    });
+    return this._appUsers.getChildReferrals(this._userAuth.id).pipe(map(res => < AppUsers[]> res));
   }
 }

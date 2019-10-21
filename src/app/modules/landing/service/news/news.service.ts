@@ -1,12 +1,15 @@
 
-import {throwError as observableThrowError} from 'rxjs';
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators/map';
+import { environment } from '../../../../../environments/environment';
+
 import { HttpService } from '../../../../services/http.service';
 import { JsonFileService } from '../jsondata/jsondata.service';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { UserAuth } from '../user-auth/user-auth.service';
 
+const path = environment.endpoints.blockchaingate + 'announcements/';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +17,7 @@ import { UserAuth } from '../user-auth/user-auth.service';
 export class NewsService {
   categories$: BehaviorSubject<Array<string>>;
 
-  constructor(private http: HttpService, private _userAuth: UserAuth, private _jsonService: JsonFileService) {}
+  constructor(private http: HttpService, private _userAuth: UserAuth, private _jsonService: JsonFileService) { }
 
   /*
    * getAnnouncements
@@ -22,25 +25,7 @@ export class NewsService {
    * @return Array<Object>
    */
   getAnnouncements(lang): Observable<any> {
-    const headers: Headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    /*
-    const requestoptions = new RequestOptions({
-      method: RequestMethod.Get,
-      url: this._jsonService.apiUrl + '/announcements/' + lang,
-      headers: headers
-    });
-    */
-
-    return this.http.get(this._jsonService.apiUrl + '/announcements/' + lang)
-    .map((res: any) => {
-      if (res) {
-        const retJson = res.json();
-        return retJson.body;
-      }
-    })
-    .catch(this.handleIssue);
+    return this.http.get(path + lang, true).pipe(map(res => res));
   }
 
   /*
@@ -49,93 +34,25 @@ export class NewsService {
    *
    */
   updatePost(post) {
-    const headers: Headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    // headers.append('x-access-token', this._userAuth.token);
-    /*
-    const requestoptions: RequestOptions = new RequestOptions({
-      method: RequestMethod.Post,
-      url: this._jsonService.apiUrl + '/announcements/updatePostById',
-      headers: headers,
-      body: JSON.stringify(post)
-    });
-    */
-    return this.http.post(this._jsonService.apiUrl + '/announcements/updatePostById', JSON.stringify(post))
-    .map((res: any) => {
-      const response = (<any>res)._body;
-      return JSON.parse(response);
-    })
-    .catch(this.handleIssue);
+    return this.http.post(path + 'updatePostById', JSON.stringify(post), true)
+      .pipe(map(res => res));
   }
 
   deletePost(id) {
-    const headers: Headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    // headers.append('x-access-token', this._userAuth.token);
-    /*
-    const requestoptions: RequestOptions = new RequestOptions({
-      method: RequestMethod.Get,
-      url: this._jsonService.apiUrl + '/announcements/delete/' + id,
-      headers: headers
-    });
-    */
-    return this.http.get(this._jsonService.apiUrl + '/announcements/delete/' + id)
-    .map((res: Response) => {
-      const response = (<any>res)._body;
-      if (response) { 
-        return JSON.parse(response);
-      }
-      return true;
-    })
-    .catch(this.handleIssue);
+    return this.http.get(path + 'delete/' + id, true).pipe(map(res => res));
   }
+
   /*
    * getCategories
    * @description will retrieve array of new and announcement categories
    * @return Array<string>
    */
   getCategories() {
-    const headers: Headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    // headers.append('x-access-token', this._userAuth.token);
-    /*
-    const requestoptions: RequestOptions = new RequestOptions({
-      method: RequestMethod.Get,
-      url: this._jsonService.apiUrl + '/announcements/getCategories',
-      headers: headers
-    });
-    */
-    return this.http.get(this._jsonService.apiUrl + '/announcements/getCategories')
-    .map((res: any) => {
-      const response = (<any>res)._body;
-      return JSON.parse(response);
-    })
-    .catch(this.handleIssue);
+    return this.http.get(path + 'getCategories', true).pipe(map(res => res));
   }
-
-
 
   createAnnouncement(data) {
-    const headers: Headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    /*
-    const requestoptions: RequestOptions = new RequestOptions({
-      method: RequestMethod.Post,
-      url: this._jsonService.apiUrl + '/announcements/create',
-      headers: headers,
-      body: JSON.stringify(data)
-    });
-    */
-    return this.http.post(this._jsonService.apiUrl + '/announcements/create', JSON.stringify(data))
-    .map((res: any) => {
-      return JSON.parse((<any> res)._body);
-    })
-    .catch(this.handleIssue);
-  }
-
-  private handleIssue(error) {
-    console.log(error);
-    // const err = JSON.parse(error._body);
-    return observableThrowError(error);
+    return this.http.post(path + 'create', JSON.stringify(data))
+      .pipe(map(res => res));
   }
 }
