@@ -29,6 +29,8 @@ import { AngularCsv } from 'angular7-csv';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TransactionItem } from '../../../../models/transaction-item';
+
+import * as bs58 from 'bs58';
 @Component({ 
     selector: 'app-wallet-dashboard',
     templateUrl: './dashboard.component.html',
@@ -558,11 +560,22 @@ export class WalletDashboardComponent {
         }         
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);   
         const amountInLink = amount * 1e18; // it's for all coins.
-        const addressInWallet = currentCoin.receiveAdds[0].address;
+        let addressInWallet = currentCoin.receiveAdds[0].address;
+        if (currentCoin.name === 'BTC' || currentCoin.name === 'FAB') {
+            const bytes = bs58.decode(addressInWallet);
+            addressInWallet = bytes.toString('hex');
+        }
         const abiHex = this.web3Serv.getWithdrawFuncABI(coinType, amountInLink, addressInWallet);  
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
         const includeCoin = true;
         const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
+
+        console.log('withdraw');
+        console.log('abiHex=' + abiHex);
+        console.log('keyPairsKanban.address=' + keyPairsKanban.address);
+        console.log('coinPoolAddress=' + coinPoolAddress);
+        console.log('nonce=' + nonce);
+        console.log('includeCoin=' + includeCoin);        
         const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
 
         this.kanbanServ.sendRawSignedTransaction(txKanbanHex).subscribe((resp) => { 
@@ -624,7 +637,13 @@ export class WalletDashboardComponent {
         //const nonce = 0;
         const includeCoin = true;
         //console.log('e');
-        console.log('private key for kanban=', keyPairsKanban.privateKeyHex);
+
+        console.log('deposit');
+        console.log('abiHex=' + abiHex);
+        console.log('keyPairsKanban.address=' + keyPairsKanban.address);
+        console.log('coinPoolAddress=' + coinPoolAddress);
+        console.log('nonce=' + nonce);
+        console.log('includeCoin=' + includeCoin);
         const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
         //console.log('f');
         
