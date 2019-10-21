@@ -372,7 +372,6 @@ export class CoinService {
         const txb = new Btc.TransactionBuilder(TestNet);
         
         let txHex = '';
-        let errMsg = '';
         for (index = 0; index < mycoin.receiveAdds.length; index ++) {
             balance = mycoin.receiveAdds[index].balance;
             if (balance <= 0) {
@@ -844,11 +843,10 @@ export class CoinService {
         amountNum += (2 * 34 + 10);
         // 2 output
         console.log('toAddress=' + toAddress + ',amount=' + amount + ',amountNum=' + amountNum);
-        const TestNet = Btc.networks.testnet;
-        console.log('TestNet===');
-        console.log(TestNet);
+        const BtcNetwork = environment.chains.BTC.network;
+
         if (mycoin.name === 'BTC') { // btc address format
-            const txb = new Btc.TransactionBuilder(TestNet);
+            const txb = new Btc.TransactionBuilder(BtcNetwork);
 
             for (index = 0; index < mycoin.receiveAdds.length; index ++) {
                 balance = mycoin.receiveAdds[index].balance;
@@ -915,6 +913,7 @@ export class CoinService {
                 txHex = '';
                 txHash = '';
                 errMsg = 'not enough fund.';
+                return {txHex: txHex, txHash: txHash, errMsg: errMsg};
             }
 
             const transFee = (receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput * satoshisPerBytes + 2 * 34 + 10;
@@ -930,13 +929,13 @@ export class CoinService {
 
             for (index = 0; index < receiveAddsIndexArr.length; index ++) {
                 const keyPair = this.getKeyPairs(mycoin, seed, 0, receiveAddsIndexArr[index]);
-                const alice = Btc.ECPair.fromWIF(keyPair.privateKey, TestNet);
+                const alice = Btc.ECPair.fromWIF(keyPair.privateKey, BtcNetwork);
                 txb.sign(index, alice);                
             }
 
             for (index = 0; index < changeAddsIndexArr.length; index ++) {
                 const keyPair = this.getKeyPairs(mycoin, seed, 1, changeAddsIndexArr[index]);
-                const alice = Btc.ECPair.fromWIF(keyPair.privateKey, TestNet);
+                const alice = Btc.ECPair.fromWIF(keyPair.privateKey, BtcNetwork);
                 txb.sign(receiveAddsIndexArr.length + index, alice);                
             }             
 

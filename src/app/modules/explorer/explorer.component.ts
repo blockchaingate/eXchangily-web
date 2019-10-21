@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { KanbanService } from '../../services/kanban.service';
+import { Router } from '@angular/router';
 @Component({
     selector: 'app-explorer',
     templateUrl: './explorer.component.html',
@@ -17,7 +18,7 @@ export class ExplorerComponent implements OnInit {
 
     transactions: any;    
 
-    constructor(private kanbanServ: KanbanService) {
+    constructor(private kanbanServ: KanbanService, private router: Router) {
         
     }    
 
@@ -52,5 +53,8 @@ export class ExplorerComponent implements OnInit {
 
     search (searchText: string) {
         console.log('searchText=' + searchText);
+        if (searchText.match(/^\d+$/)) {
+            this.router.navigate(['/explorer/block/' + searchText]);
+        }
     }
 }
