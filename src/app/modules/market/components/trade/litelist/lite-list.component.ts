@@ -24,46 +24,45 @@ export class LiteListComponent implements OnInit {
     }
 
     filterPrice(price: Price, select: string) {
-        //console.log('this.select=', select);
+        // console.log('this.select=', select);
         return price.symbol.indexOf(select) >= 0;
     }
     ngOnInit() {
-        this.selectCat('USDT');
+        this.prices = this.prServ.getPriceList();
+
         const streamName = '!ticker@arr';
         this.socket = new WebSocketSubject('wss://stream.binance.com:9443/ws/' + streamName);
         this.socket.subscribe(
           (tickers) => {
-              this.prices = [];
               for (let i = 0; i < tickers.length; i++) {
                 const ticker = tickers[i];
-                const price = {
-                    id: 0,
-                    base_id: 0,
-                    coin_id: 0,
-                    favorite: 1,
-                    price24hh: 0,
-                    price24hl: 0,
-                    symbol: ticker.s,
-                    price: Number(ticker.c),
-                    change24h: Number(ticker.P),
-                    vol24h: Number(ticker.v)
-                };   
-                this.prices.push(price);              
+                const symbol = ticker.s;
+                const price = Number(ticker.c);
+                const change24h = Number(ticker.P);
+                const vol24h = Number(ticker.v);
+                
+                for (let j = 0; j < this.prices.length; j++) {
+                    const symbol_replace = this.prices[j].symbol.replace('/', '');
+                    if (symbol === symbol_replace) {
+                        this.prices[j].price = price;
+                        this.prices[j].change24h = change24h;
+                        this.prices[j].vol24h = vol24h;
+                    }
+                }           
               }
-              //this.socket.unsubscribe();
           }
-        );        
+        );    
     }
     setSelect() {
         this.select = this.searchText;
     }
     selectCat(cat: string) {
-        this.select = cat;
-        this.prices = this.prServ.getPriceList();
+        this.select = '/' + cat;
+        
     }
 
     loadTradePair(pair: string) {
-        
+        console.log('pair for loadTradePair:' + pair);
         pair = pair.replace('/', '_');
         this._router.navigate(['market/trade/' + pair]);
     }

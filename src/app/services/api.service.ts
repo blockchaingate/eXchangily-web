@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 
-import {Balance, EthBalance, FabTransaction, EthTransaction, EthTransactionRes
-    , FabTransactionResponse, CoinsPrice, BtcUtxo, KEthBalance, FabUtxo,
+import {Balance, EthBalance,  EthTransactionRes
+    , FabTransactionResponse, CoinsPrice, BtcUtxo, KEthBalance, FabUtxo, EthTransactionStatusRes,
     FabTokenBalance, FabTransactionJson, BtcTransactionResponse, BtcTransaction} from '../interfaces/balance.interface';
 
 import {Web3Service} from './web3.service';
@@ -44,11 +44,22 @@ export class ApiService {
 
     async getEthTransaction(txid: string) {
         const url = environment.endpoints.ETH.exchangily + 'gettransaction/' + txid;
+        console.log('url=' + url);
         let response = null;
         try {
             response = await this.http.get(url).toPromise() as EthTransactionRes;
         } catch (e) {console.log (e); }
         return response; 
+    }
+
+    async getEthTransactionStatus(txid: string) {
+        const url = environment.endpoints.ETH.exchangily + 'gettransactionstatus/' + txid;
+        console.log('url=' + url);
+        let response = null;
+        try {
+            response = await this.http.get(url).toPromise() as EthTransactionStatusRes;
+        } catch (e) {console.log (e); }
+        return response;         
     }
 
     async getBtcBalance(address: string): Promise<Balance> {
@@ -68,13 +79,15 @@ export class ApiService {
         const response = await this.http.get(url).toPromise() as FabTransactionJson;
         return response;
     }
-    async isFabTransactionLocked(txid: string): Promise<boolean> {
+    async isFabTransactionLocked(txid: string, idx: number): Promise<boolean> {
         
         const response = await this.getFabTransactionJson(txid);
-
+        console.log('response in isFabTransactionLocked=', response);
         if (response.vin && response.vin.length > 0) {
             const vin = response.vin[0];
-            if (vin.coinbase) {
+            console.log('vin=', vin);
+            console.log('idx=', idx);
+            if (idx === 0 && vin.coinbase) {
                 if (response.confirmations <= 800) {
                     return true;
                 }
@@ -98,7 +111,8 @@ export class ApiService {
             const utxo = utxos[i];
             const value = utxo.value;
             const txid = utxo.txid;
-            const isLock = await this.isFabTransactionLocked(txid);
+            const idx = utxo.idx;
+            const isLock = await this.isFabTransactionLocked(txid, idx);
             if (isLock) {
                 lockbalance += value;
             } else {
@@ -118,8 +132,11 @@ export class ApiService {
     }
 
     async postEthTx(txHex: string) {
+        console.log('postEthTx here we go');
         // account for https://etherscan.io  keninqiu   82239^
         // token: M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB
+
+        /*
         const url = environment.endpoints.ETH.etherscan + 'api?module=proxy&action=eth_sendRawTransaction&hex='
         + txHex + '&apikey=M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB';
         let response = null;
@@ -136,12 +153,25 @@ export class ApiService {
                 this.alertServ.openSnackBar(response.error.message, 'Ok');
             }
         }
-
+        */
+        const url = environment.endpoints.ETH.exchangily + 'sendsignedtransaction';
+        const data = {
+            signedtx: txHex
+        };
+        let response = null;
+        if (txHex) {
+            response = await this.http.post(url, data, {responseType: 'text'}).toPromise() as string;
+        }        
+        if (response) {
+            console.log('response=', response);
+            return response;
+        }
         return '';
     }
 
     async postFabTx(txHex: string) {
         
+        /*
         const url = 'http://fabtest.info:9001/fabapi/' + '/sendrawtransaction/' + txHex;
         console.log('txHex=' + txHex);
         console.log('url=' + url);
@@ -157,19 +187,40 @@ export class ApiService {
         }
         console.log('ret from postFabTx=' + ret);
         return ret;
+        */
+       const url = environment.endpoints.FAB.exchangily + 'sendrawtransaction/' + txHex;
+
+       console.log('url here we go:', url);
+       let txHash = '';
+       let errMsg = '';
+       if (txHex) {
+           const json = await this.http.get(url).toPromise() as FabTransactionResponse;
+
+           if (json) {
+               if (json.txid) {
+                txHash = json.txid;
+               } else 
+               if (json.Error) {
+                   errMsg = json.Error;
+               } 
+           }
+       }       
+
+       return {txHash, errMsg};
     }
 
     async postBtcTx(txHex: string) {
 
        const url = environment.endpoints.BTC.exchangily + 'sendrawtransaction/' + txHex;
-       console.log('weird start, url=' + url);
        let response = null;
        if (txHex) {
            response = await this.http.get(url).toPromise() as BtcTransactionResponse;
        }
-       console.log('weird end');
-       console.log(response.txid);
-       return '0x' + response.txid;
+       let ret = '';
+       if (response && response.txid) {
+           ret = '0x' + response.txid;
+       }
+       return ret;
     }
 
     async getEthBalance(address: string): Promise<Balance> {
@@ -181,11 +232,16 @@ export class ApiService {
     }
 
     async getEthTokenBalance(contractAddress: string, address: string) {
+        /*
         const url = environment.endpoints.ETH.etherscan + 'api?module=account&action=tokenbalance&contractaddress='
         + contractAddress + '&address=' + address + '&tag=latest&apikey=M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB';
         console.log('url for getEthTokenBalance=' + url);
         const response = await this.http.get(url).toPromise()  as EthBalance;
         const balance = response.result;
+        */
+       const url = environment.endpoints.ETH.exchangily + 'callcontract/' + contractAddress + '/' + address;
+       const response = await this.http.get(url).toPromise()  as KEthBalance;
+       const balance = response.balance;       
         const lockbalance = 0;
         return {balance, lockbalance}; 
     }

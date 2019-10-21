@@ -82,7 +82,7 @@
             <div class="aspace text-muted">{{'Quantity' | translate}}</div>
             <div><input type="text" class="form-control" [(ngModel)]="sellQty"> </div>
             <div class="aspace text-muted">
-                {{'Total' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}: {{sellPrice * sellQty}}
+                {{'Total' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}: {{sellQty}}
             </div>
             <div class="aspace" *ngIf="targetCoin >= 0"> <button type="button" class="btn btn-success btn-danger" (click)="sell(templatePasswd)">
                 {{'Sell' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}

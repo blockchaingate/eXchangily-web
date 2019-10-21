@@ -21,17 +21,16 @@ export const environment = {
     endpoints: {
         blockchaingate: 'https://blockchaingate.com/v2/',
         coingecko: 'https://api.coingecko.com/',
-        kanban: 'http://18.223.17.4:4000/',
-        explorer: 'http://169.53.144.184:3000/',
+        kanban: 'https://kanbanprod.fabcoinapi.com/',
         BTC: {
-            exchangily: 'http://18.188.32.168:8000/'
+            exchangily: 'https://btcprod.fabcoinapi.com/'
         },
         FAB: {
-            exchangily: 'http://52.60.97.159:8000/'
+            exchangily: 'https://fabprod.fabcoinapi.com/'
         },                
         ETH: {
-            exchangily: 'http://35.183.164.127:3000/',
-            etherscan: 'https://api.etherscan.io/'
+            exchangily: 'https://ethprod.fabcoinapi.com/',
+            //etherscan: 'https://api.etherscan.io/'
         }        
     },
     CoinType: {
@@ -47,11 +46,11 @@ export const environment = {
             EXCHANGILY: ''
         },
         exchangilyOfficial: [
-            {name: 'EXG', address: '0x64161c648e16fb1e25a31abc9b27c35d02fd36ff'},
-            {name: 'FAB', address: 'ms5Ddek7XudLoRtzeNyFsThMCdMkjZh94T'},
-            {name: 'BTC', address: 'mmSziWwxpTsoHDVcP9yo3vBmA9RCJpsES9'},
-            {name: 'ETH', address: '0xb2e8bac11afe8762fb6a1ab56c36084d2fbbd48a'},
-            {name: 'USDT', address: '0x7ece14d72a8600d29f486eab1377e33c3266b001'}
+            {name: 'EXG', address: '0xdcd0f23125f74ef621dfa3310625f8af0dcd971b'},
+            {name: 'FAB', address: 'n1eXG5oe6wJ6h43akutyGfphqQsY1UfAUR'},
+            {name: 'BTC', address: 'muQDw5hVmFgD1GrrWvUt6kjrzauC4Msaki'},
+            {name: 'ETH', address: '0x02c55515e62a0b25d2447c6d70369186b8f10359'},
+            {name: 'USDT', address: '0x02c55515e62a0b25d2447c6d70369186b8f10359'}
         ],        
     }  
 };

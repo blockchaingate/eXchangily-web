@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { map } from 'rxjs/operators/map';
 
 import { AppService } from '../../service/app-service/app.service';
 import { AppAuthService } from '../../service/app-auth/app-auth.service';
@@ -14,10 +15,7 @@ export class UserResolver implements Resolve<any> {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (this._userAuth.id) {
-      return this._user.getUserById(this._userAuth.id)
-      .map((res: User) => {
-        return res;
-      });
+      return this._user.getUserById(this._userAuth.id).pipe(map(res => <User>res));
     }
   }
 }
@@ -25,15 +23,12 @@ export class UserResolver implements Resolve<any> {
 @Injectable()
 export class UserAdminResolver implements Resolve<any> {
   constructor(private _user: UserService, private _userAuth: UserAuth,
-              private _app: AppService, private _appAuth: AppAuthService) { }
+    private _app: AppService, private _appAuth: AppAuthService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const userId = this._userAuth.id;
     const appId = this._appAuth.id;
-    return this._user.isAdmin({ userId: userId, appId: appId })
-    .map((res: any) => {
-      return res.isAdmin || false;
-    });
+    return this._user.isAdmin({ userId: userId, appId: appId }).pipe(map((res: any) => res.isAdmin || false));
   }
 
 }

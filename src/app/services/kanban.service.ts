@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {BlockNumberResponse, BlockResponse, AccountsResponse,TransactionsResponse,
     KanbanGetBanalceResponse, TransactionAccountResponse, Block} from '../interfaces/kanban.interface';
 import { environment } from '../../environments/environment';
+import { UtilService } from './util.service';
 @Injectable()
 export class KanbanService {
 // getCoinPoolAddress
@@ -10,7 +11,7 @@ export class KanbanService {
 
     endpoint = environment.endpoints.kanban;
    
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private utilServ: UtilService) { }
 
     async getCoinPoolAddress() {
         const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
@@ -25,10 +26,10 @@ export class KanbanService {
         return addr;
     }
 
-    async getAccounts() {
+    getAccounts() {
         const path = 'kanban/getAccounts';
-        const res = await this.get(path).toPromise() as AccountsResponse;
-        return res.accounts;
+        const res = this.get(path);
+        return res;
     }
 
     getBlock(blockNumber: string) {
@@ -39,13 +40,13 @@ export class KanbanService {
     }
 
     getLatestBlocks() {
-        const path = environment.endpoints.explorer + 'getlatestblocks/10';
+        const path = environment.endpoints.kanban + 'kanban/explorer/getlatestblocks/10';
         const res = this.http.get(path);
         return res;
     }
 
     getBlocks(blockNum: number, num: number) {
-        const path = environment.endpoints.explorer + 'getblocks/' + blockNum + '/' + num;
+        const path = environment.endpoints.kanban + 'kanban/explorer/getblocks/' + blockNum + '/' + num;
         const res = this.http.get(path);
         return res;
     }
@@ -56,10 +57,10 @@ export class KanbanService {
 
         } else
         if (address) {
-            path = environment.endpoints.explorer + 'getaddresstxsall/' + address;
+            path = environment.endpoints.kanban + 'kanban/explorer/getaddresstxsall/' + address;
 
         } else {
-            path = environment.endpoints.explorer + 'transactions/' + num;
+            path = environment.endpoints.kanban + 'kanban/explorer/transactions/' + num;
         }
         
         console.log('path in getLatestTransactions=' + path);
@@ -68,7 +69,7 @@ export class KanbanService {
     }
     
     getTransactions(blockNum: number, num: number) {
-        const path = environment.endpoints.explorer + 'transactions/' + blockNum + '/' + num;
+        const path = environment.endpoints.kanban + 'kanban/explorer/transactions/' + blockNum + '/' + num;
         const res = this.http.get(path);
         return res;
     }
@@ -133,9 +134,17 @@ export class KanbanService {
         let gas = 0;
         try {
             const ret = await this.get(path).toPromise() as KanbanGetBanalceResponse;
-            gas = Number(BigInt(ret.balance.FAB).toString(10)) / 1e18;
+            //gas = Number(BigInt(ret.balance.FAB).toString(10)) / 1e18;
+
+            const fab = this.utilServ.stripHexPrefix(ret.balance.FAB);
+            gas = this.utilServ.hexToDec(fab) / 1e18;            
         } catch (e) {}
         return gas;
+    }
+
+    getKanbanBalance(address: string) {
+        const path = 'kanban/getBalance/' + address;
+        return this.get(path);
     }
     post (path: string, data: any) {
         const httpHeaders = new HttpHeaders({

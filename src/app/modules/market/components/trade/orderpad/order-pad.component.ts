@@ -20,6 +20,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {TransactionResp} from '../../../../../interfaces/kanban.interface';
 import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 import { ActivatedRoute } from '@angular/router';
+import { AlertService } from '../../../../../services/alert.service';
 
 declare let window: any;
 @Component({
@@ -72,8 +73,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
     constructor(private ordServ: OrderService, private _router: Router, private web3Serv: Web3Service, private coinService: CoinService,
       private kanbanService: KanbanService, private utilService: UtilService, private walletService: WalletService, 
-      private fb: FormBuilder, private modalService: BsModalService, private _snackBar: MatSnackBar, private tradeService: TradeService, 
-      private route: ActivatedRoute) {
+      private fb: FormBuilder, private modalService: BsModalService, private tradeService: TradeService, 
+      private route: ActivatedRoute, private alertServ: AlertService) {
         this.web3 = this.web3Serv.getWeb3Provider();
         this.refreshTokenDone = true; 
         /*
@@ -87,6 +88,9 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       if (this.socket) {
         this.socket.unsubscribe();
       }
+      if (this.socket2) {
+        this.socket2.unsubscribe();
+      }      
       this.sub.unsubscribe();
     }
 
@@ -237,15 +241,9 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       this.modalRef.hide();
     }
 
-    openSnackBar(message: string, action: string) {
-      this._snackBar.open(message, action, {
-        duration: 2000,
-      });
-    }
-
     buy(pinModal: TemplateRef<any>) {
       if (!this.wallet) {
-        this.openSnackBar('please create wallet before placing order', 'ok');
+        this.alertServ.openSnackBar('please create wallet before placing order', 'ok');
         return;
       }
       this.bidOrAsk = true;
@@ -262,9 +260,13 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
     sell(pinModal: TemplateRef<any>) {
       if (!this.wallet) {
-        this.openSnackBar('please create wallet before placing order','ok');
+        this.alertServ.openSnackBar('please create wallet before placing order', 'ok');
         return;
       }      
+      if (this.targetCoinAvail < this.sellQty) {
+        this.alertServ.openSnackBar('You have not enough ' + this.coinService.getCoinNameByTypeId(this.targetCoin), 'ok');
+        return;        
+      }
       this.bidOrAsk = false;
       this.pin = sessionStorage.getItem('pin');
       this.price = this.sellPrice;
@@ -310,7 +312,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
             console.log('abiHex=', abiHex);
           const nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
           if (this.oldNonce === nonce) {
-            this.openSnackBar('Please wait a sec, no rush.', 'ok');
+            this.alertServ.openSnackBar('Please wait a sec, no rush.', 'ok');
             return;
           }
           console.log('noncenoncenoncenoncenoncenoncenonce=' + nonce);
@@ -320,7 +322,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           this.kanbanService.sendRawSignedTransaction(txhex).subscribe((resp: TransactionResp) => {
   
               if (resp && resp.transactionHash) {
-                this.openSnackBar('Your order was placed successfully.', 'Ok');
+                this.alertServ.openSnackBar('Your order was placed successfully.', 'Ok');
                 this.oldNonce = nonce;
                 const transaction = {
                   orderHash: orderHash,
@@ -333,8 +335,15 @@ export class OrderPadComponent implements OnInit, OnDestroy {
                   created_at: new Date(Date.now()),
                   price: this.price
                 };
-                this.tradeService.addTransactions(transaction);
+                this.tradeService.addTransaction(transaction);
 
+                if (this.bidOrAsk) {
+                  this.buyPrice = 0;
+                  this.buyQty = 0;
+                } else {
+                  this.sellPrice = 0;
+                  this.sellQty = 0;                  
+                }
                 this.timer = setInterval(() => {
                   this.refreshToken.emit();
                   console.log('this.refreshTokenDone=', this.refreshTokenDone);
@@ -344,7 +353,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
                 }, 1000);                
                 
               } else {
-                this.openSnackBar('Something wrong while placing your order.', 'Ok');
+                this.alertServ.openSnackBar('Something wrong while placing your order.', 'Ok');
               }
           });
         

@@ -9,4 +9,5 @@ export class TransactionItem {
     comment: string;
     confirmations: string;
     blockhash: string;
+    status: string;
 }

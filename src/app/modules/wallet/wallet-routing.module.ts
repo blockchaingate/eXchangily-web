@@ -6,7 +6,6 @@ import { WalletService } from '../../services/wallet.service';
 import { CoinService } from '../../services/coin.service';
 import { ApiService } from '../../services/api.service';
 import { UtilService } from '../../services/util.service';
-import { StorageService } from '../../services/storage.service';
 
 import { WalletComponent } from './wallet.component';
 import { NoWalletComponent } from './components/create/no-wallet.component';
@@ -51,7 +50,7 @@ const routes: Routes = [
     imports: [
         RouterModule.forChild(routes)
     ],
-    providers: [CanActivateTeam, WalletService, CoinService, ApiService, UtilService, StorageService],
+    providers: [CanActivateTeam, WalletService, CoinService, ApiService, UtilService],
     exports: [RouterModule]
 })
 export class WalletRoutingModule {

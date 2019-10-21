@@ -10,6 +10,7 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class AddressDetailComponent implements OnInit {
     address: string;
+    balance: number;
     constructor(private kanbanServ: KanbanService, private route: ActivatedRoute) {
       
     }    
@@ -17,6 +18,8 @@ export class AddressDetailComponent implements OnInit {
     async ngOnInit() {
         this.address = this.route.snapshot.paramMap.get('id');
         console.log('this.address heee=' + this.address);
+
+        this.balance = await this.kanbanServ.getGas(this.address);        
     }    
     
 }

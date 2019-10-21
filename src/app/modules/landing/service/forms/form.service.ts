@@ -3,8 +3,7 @@ import {throwError as observableThrowError} from 'rxjs';
 import { Injectable } from '@angular/core';
 import { JsonFileService } from '../jsondata/jsondata.service';
 import { HttpService } from '../../../../services/http.service';
-
-
+import { map } from 'rxjs/operators/map';
 
 import { User } from '../../models/user';
 import { UserAuth } from '../user-auth/user-auth.service';
@@ -44,11 +43,7 @@ export class FormService {
       body: JSON.stringify(theBody)
     });
     */
-    return this.http.post(this._jsonService.apiUrl + '/forms/AddAmbassador', theBody)
-    .map((res: any) => {
-      return res;
-    })
-    .catch(this.handleIssue);
+    return this.http.post(this._jsonService.apiUrl + '/forms/AddAmbassador', theBody, true).pipe(map(res => res));
   }
 
   handleIssue(error) {

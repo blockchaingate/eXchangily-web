@@ -34,7 +34,7 @@ export class OrderEditComponent implements OnInit {
     const id = this._route.snapshot.paramMap.get('id');
     if (id) {
       this._icotxService.getIcotx(id).subscribe(
-        res => {
+        (res: Icotx) => {
           this.order = res;
           this.setPageData();
         },
@@ -89,7 +89,7 @@ export class OrderEditComponent implements OnInit {
   saveToServer() {
     this._icotxService.updateIcotx(this.order)
       .subscribe(
-        res => { this.order = res; },
+        (res: Icotx) => { this.order = res; },
         err => this.serverMessage = err
       );
       this.serverMessage = '';
@@ -101,7 +101,7 @@ export class OrderEditComponent implements OnInit {
       this.order.status = this.statuses[0];
       this._icotxService.updateIcotx(this.order)
         .subscribe(
-          res => { this.order = res; },
+          (res: Icotx) => { this.order = res; },
           err => this.serverMessage = err
         );
         this.serverMessage = '';
@@ -116,7 +116,7 @@ export class OrderEditComponent implements OnInit {
       this.order.status = this.statuses[2];
       this._icotxService.updateIcotx(this.order)
         .subscribe(
-          res => { this.order = res; },
+          (res: Icotx) => { this.order = res; },
           err => this.serverMessage = err
         );
         this.serverMessage = '';

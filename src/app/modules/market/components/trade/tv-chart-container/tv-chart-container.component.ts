@@ -240,14 +240,29 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
             container_id: this._containerId,
             library_path: this._libraryPath,
             locale: getLanguageFromURL() || 'en',
-            disabled_features: ['use_localstorage_for_settings'],
-            //enabled_features: ['study_templates'],
+            disabled_features: [
+              'use_localstorage_for_settings',
+              'volume_force_overlay'
+              /*
+                    "header_widget", //头部工具栏
+                    "left_toolbar", //左侧工具栏
+                    "timeframes_toolbar",//底部工具栏
+                    "edit_buttons_in_legend", //编辑按钮
+                    "context_menus", //图表属性菜单
+                    "display_market_status",//交易状态，是否休市
+                    "control_bar", //控制图表工具栏（鼠标移至底部会出现）
+                    "volume_force_overlay",//成交量和K线是否覆盖，禁用后成交量和K线会分离
+                    'create_volume_indicator_by_default', // 默认创建Volumes指标              
+              */
+            ],
+            // enabled_features: ['study_templates'],
             charts_storage_url: this._chartsStorageUrl,
             charts_storage_api_version: this._chartsStorageApiVersion,
             client_id: this._clientId,
             user_id: this._userId,
             fullscreen: this._fullscreen,
             autosize: this._autosize,
+
         };
 
         const tvWidget = new widget(widgetOptions);

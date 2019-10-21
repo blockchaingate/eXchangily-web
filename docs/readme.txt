@@ -1,3 +1,5 @@
+https://stackoverflow.com/questions/37541783/how-to-subscribe-an-item-from-localstorage-in-angular-2-and-when-changed-get-va
+
 FAB: 115
 
 7300215

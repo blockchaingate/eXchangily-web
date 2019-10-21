@@ -24,11 +24,11 @@ import { LoginSettingModal } from '../../modals/login-setting/login-setting.moda
 import {CoinsPrice} from '../../../../interfaces/balance.interface';
 import {SendCoinForm} from '../../../../interfaces/kanban.interface';
 import {StorageService} from '../../../../services/storage.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import {AlertService} from '../../../../services/alert.service';
 import { AngularCsv } from 'angular7-csv';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-
+import { TransactionItem } from '../../../../models/transaction-item';
 @Component({ 
     selector: 'app-wallet-dashboard',
     templateUrl: './dashboard.component.html',
@@ -70,7 +70,7 @@ export class WalletDashboardComponent {
     constructor ( private route: Router, private walletServ: WalletService, private modalServ: BsModalService, 
         private coinServ: CoinService, private utilServ: UtilService, private apiServ: ApiService, 
         private kanbanServ: KanbanService, private web3Serv: Web3Service, private viewContainerRef: ViewContainerRef,
-        private utilService: UtilService, private _snackBar: MatSnackBar, private matIconRegistry: MatIconRegistry,
+        private utilService: UtilService, private alertServ: AlertService, private matIconRegistry: MatIconRegistry,
         private coinService: CoinService, private storageService: StorageService, private domSanitizer: DomSanitizer) {
         this.showMyAssets = true;
         this.showTransactionHistory = false;
@@ -80,6 +80,30 @@ export class WalletDashboardComponent {
           );
     }
 
+    async updateCoinBalance(coinName: string) {
+        console.log('coinName=' + coinName);
+        let interval = 3000;
+        if (coinName === 'FAB') {
+            interval = 8000;
+        }
+        for (let i = 0; i < this.wallet.mycoins.length; i++) {
+            const coin = this.wallet.mycoins[i];
+            console.log('coin.name=' + coin.name);
+            if (coin.name === coinName) {
+                for (let j = 0; j < 20; j++) {
+                    await new Promise(resolve => setTimeout(resolve, interval));
+                    const balance = await this.coinServ.getBalance(coin);
+                    if (coin.balance !== balance.balance || coin.lockedBalance !== balance.lockbalance) {                        
+                        console.log('you got it');
+                        coin.balance = balance.balance;
+                        coin.lockedBalance = balance.lockbalance;
+                        break;
+                    }
+                }
+
+            }
+        }
+    }
     async ngOnInit() {
         await this.loadWallets();
         //this.currentWalletIndex = await this.walletServ.getCurrentWalletIndex();
@@ -92,6 +116,26 @@ export class WalletDashboardComponent {
 
         //this.startTimer();
         this.loadBalance();        
+
+        this.storageService.changedTransaction.subscribe(
+            (transaction: TransactionItem) => {
+                
+                const status = transaction.status;
+                const type = transaction.type;
+                const amount = transaction.amount;
+                const coin = transaction.coin;
+                if (status === 'confirmed') {
+                    if (type === 'Add Gas') {
+                        this.gas += amount;
+                        this.updateCoinBalance('FAB');
+                    } else
+                    if (type === 'Send') {
+                        this.updateCoinBalance(coin);
+                    }
+                }
+
+            }
+        );        
     }
 
     copyAddress() {
@@ -162,7 +206,7 @@ export class WalletDashboardComponent {
         } else 
         if (type === 'BACKUP_PRIVATE_KEY') {
             this.opType = 'backupPrivateKey';
-            this.pinModal.show();  0x5cae65c0d1e6c8fbbe34b2962119f88806057f30
+            this.pinModal.show();  
         } else 
         if (type === 'DELETE_WALLET') {
             this.opType = 'deleteWallet';
@@ -226,12 +270,6 @@ export class WalletDashboardComponent {
             this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
         }
     }
-    startTimer() {
-        setInterval(() => {
-            this.loadBalance();
-
-        },5000)
-    }
 
     async changeWallet(value) {
         this.currentWalletIndex = value;
@@ -250,14 +288,25 @@ export class WalletDashboardComponent {
         }
         this.currentWalletIndex = await this.walletServ.getCurrentWalletIndex();
     }
+
+    refreshGas() {
+        this.kanbanServ.getKanbanBalance(this.wallet.excoin.receiveAdds[0].address).subscribe(
+            (resp: any) => {
+                console.log('resp=',resp);
+                const fab = this.utilServ.stripHexPrefix(resp.balance.FAB);
+                this.gas = this.utilServ.hexToDec(fab) / 1e18;
+
+            }
+        ); 
+    }
+
     async loadWallet(wallet: Wallet) {
         this.wallet = wallet;
         console.log('this.wallet=', this.wallet);
         this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
         this.exgBalance = this.wallet.mycoins[0].balance;
         console.log('load wallet again.');
-        this.gas = await this.kanbanServ.getGas(this.wallet.excoin.receiveAdds[0].address);        
-
+        this.refreshGas();
     }
     exchangeMoney() {
         this.route.navigate(['/market/home']);
@@ -330,9 +379,7 @@ export class WalletDashboardComponent {
         this.pin = pin;
         const pinHash = this.utilService.SHA256(pin).toString();
         if (pinHash !== this.wallet.pwdHash) {
-            this._snackBar.open('Your pin number is invalid.', 'Ok', {
-                duration: 2000,
-            });
+            this.alertServ.openSnackBar('Your pin number is invalid.', 'Ok');
             return;
         }
         if (this.opType === 'deposit') {
@@ -372,9 +419,7 @@ export class WalletDashboardComponent {
         if (seedPhrase) {
             this.showSeedPhraseModal.show(seedPhrase);
         } else {
-            this._snackBar.open('Your pin number is invalid.', 'Ok', {
-                duration: 2000,
-            });
+            this.alertServ.openSnackBar('Your pin number is invalid.', 'Ok');
         }
     }
 
@@ -382,9 +427,7 @@ export class WalletDashboardComponent {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
         this.seed = seed;
         if (!seed) {
-            this._snackBar.open('Your pin number is invalid.', 'Ok', {
-                duration: 2000,
-            });        
+            this.alertServ.openSnackBar('Your pin number is invalid.', 'Ok');        
             return;   
         } 
         this.backupPrivateKeyModal.show(seed, this.wallet);
@@ -399,9 +442,7 @@ export class WalletDashboardComponent {
         if (seedPhrase) {
             this.verifySeedPhraseModal.show(seedPhrase);
         } else {
-            this._snackBar.open('Your pin number is invalid.', 'Ok', {
-                duration: 2000,
-            });
+            this.alertServ.openSnackBar('Your pin number is invalid.', 'Ok');
         }        
         
     }
@@ -431,15 +472,32 @@ export class WalletDashboardComponent {
         
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         if (!seed) {
-            this._snackBar.open('Your pin number is invalid.', 'Ok', {
-                duration: 2000,
-            });        
+            this.alertServ.openSnackBar('Your pin number is invalid.', 'Ok');        
             return;   
         } 
         const scarAddress = await this.kanbanServ.getScarAddress();
         console.log('scarAddress=', scarAddress);
-        this.coinServ.depositFab(scarAddress, seed, currentCoin, amount);
+        const {txHash, errMsg} = await this.coinServ.depositFab(scarAddress, seed, currentCoin, amount);
+        if (errMsg) {
+            this.alertServ.openSnackBar(errMsg, 'Ok');
+        } else {
 
+            const item = {
+                type: 'Add Gas',
+                coin: currentCoin.name,
+                tokenType: currentCoin.tokenType,
+                amount: amount,
+                txid: txHash,
+                time: new Date(),
+                confirmations: '0',
+                blockhash: '', 
+                comment: '',
+                status: 'pending'
+            };
+            this.storageService.storeToTransactionHistoryList(this.wallet.id, item);
+
+            this.alertServ.openSnackBar('add gas transaction was submitted successfully.', 'Ok');
+        }
     }
 
     async addGasDo() {
@@ -459,23 +517,29 @@ export class WalletDashboardComponent {
             gasLimit: this.sendCoinForm.gasLimit,
             satoshisPerByte: this.sendCoinForm.satoshisPerByte
         };
-        const {txHex, txHash} = await this.coinService.sendTransaction(currentCoin, seed, 
-            this.sendCoinForm.to, amount, options, doSubmit
+        const {txHex, txHash, errMsg} = await this.coinService.sendTransaction(currentCoin, seed, 
+            this.sendCoinForm.to.trim(), amount, options, doSubmit
         );
-        if (txHex) {
-            const today = new Date();
+        if (errMsg) {
+            this.alertServ.openSnackBar(errMsg, 'Ok');
+            return;
+        }
+        if (txHex && txHash) {
+            this.alertServ.openSnackBar('your transaction was submitted successfully.', 'Ok');
+            
             const item = {
                 type: 'Send',
                 coin: currentCoin.name,
                 tokenType: currentCoin.tokenType,
                 amount: amount,
                 txid: txHash,
-                time: today,
+                time: new Date(),
                 confirmations: '0',
                 blockhash: '', 
-                comment: this.sendCoinForm.comment
+                comment: this.sendCoinForm.comment,
+                status: 'pending'
             };
-            this.storageService.storeToTransactionHistoryList(item);
+            this.storageService.storeToTransactionHistoryList(this.wallet.id, item);
         }
     }
 
@@ -489,9 +553,7 @@ export class WalletDashboardComponent {
 
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         if (!seed) {
-            this._snackBar.open('Your pin number is invalid.', 'Ok', {
-                duration: 2000,
-            });        
+            this.alertServ.openSnackBar('Your pin number is invalid.', 'Ok');        
             return;   
         }         
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);   
@@ -519,9 +581,7 @@ export class WalletDashboardComponent {
 
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         if (!seed) {
-            this._snackBar.open('Your pin number is invalid.', 'Ok', {
-                duration: 2000,
-            });        
+            this.alertServ.openSnackBar('Your pin number is invalid.', 'Ok');        
             return;   
         }         
         const keyPairs = this.coinServ.getKeyPairs(currentCoin, seed, 0, 0);
@@ -536,23 +596,23 @@ export class WalletDashboardComponent {
         console.log('keyPairsKanban.address=', keyPairsKanban.address);
         const doSubmit = false;
         const options = {};
-        const {txHex, txHash} = await this.coinServ.sendTransaction(currentCoin, seed, officalAddress, amount, options, doSubmit);   
-        //const txSubmited = await this.coinServ.sendTransaction(currentCoin, seed, officalAddress, amount, true);   
-        console.log('111111111111111111111111111111111111111111111111111111111111');
-        console.log('txHex=' + txHex);
-        console.log('txHash=' + txHash);
-        //console.log('txSubmited.txHex=' , txSubmited.txHex) ;
-        //console.log('txSubmited.txHash=' , txSubmited.txHash);
-        if (!txHash) {
-            this._snackBar.open('Not enough fund.', 'Ok', {
-                duration: 2000,
-            });              
+        const {txHex, txHash, errMsg} = await this.coinServ.sendTransaction(
+            currentCoin, seed, officalAddress, amount, options, doSubmit
+        );   
+
+        if (errMsg) {
+            this.alertServ.openSnackBar(errMsg, 'Ok');
             return;
         }
 
-
+        if (!txHex || !txHash) {
+            this.alertServ.openSnackBar('Internal error for txHex or txHash', 'Ok');
+            return;
+        }
         const amountInLink = amount * 1e18; // it's for all coins.
-        const originalMessage = this.coinServ.getOriginalMessage(coinType, txHash.substring(2), amountInLink, addressInKanban.substring(2));
+        console.log('txHash111111111111111111111111111111111111111111111=' + txHash);
+        const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(txHash)
+        , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
         //console.log('a');
         const signedMessage: Signature = this.coinServ.signedMessage(originalMessage, keyPairs);
         //console.log('b');
@@ -575,9 +635,27 @@ export class WalletDashboardComponent {
         */
        
        
-       this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp) => { 
+       this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp: any) => { 
             console.log('resp=', resp);
-        }); 
+            if (resp.message) {
+
+                const item = {
+                    type: 'Deposit',
+                    coin: currentCoin.name,
+                    tokenType: currentCoin.tokenType,
+                    amount: amount,
+                    txid: txHash,
+                    time: new Date(),
+                    confirmations: '0',
+                    blockhash: '', 
+                    comment: '',
+                    status: 'pending'
+                };
+                this.storageService.storeToTransactionHistoryList(this.wallet.id, item);
+
+                this.alertServ.openSnackBar(resp.message, 'Ok');
+            }
+       }); 
          
     }
 }

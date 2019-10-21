@@ -31,14 +31,14 @@ export class KycsComponent implements OnInit {
 
   loadUsers() {
     this._userServ.getUsers({kyc: 1}).subscribe (
-      ret => this.users = ret,
+      (ret: User[]) => this.users = ret,
       err => this.msg = err
     );
   }
 
   ChangeValue(event) {
     this._userServ.getUsers({kyc: this.selectedValue}).subscribe (
-      ret => this.users = ret,
+      (ret: User[]) => this.users = ret,
       err => this.msg = err
     );
   }
@@ -46,7 +46,7 @@ export class KycsComponent implements OnInit {
   onSearch() {
     if (this.email) {
       this._userServ.getUsers({email: this.email}).subscribe (
-        ret => this.users = ret,
+        (ret: User[]) => this.users = ret,
         err => this.msg = err
       );
     }

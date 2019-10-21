@@ -39,13 +39,26 @@ export class Web3Service {
     }
 
     async signTxWithPrivateKey(txParams: any, keyPair: any) {
+      /*
       const privateKey = `0x${keyPair.privateKey.toString('hex')}`;
 
+      console.log('in signTxWithPrivateKey');
       const web3 = this.getWeb3Provider();
-
+      console.log('in111');
+      console.log(txParams);
+      console.log(privateKey);
       const signMess = await web3.eth.accounts.signTransaction(txParams, privateKey) as EthTransactionObj;
-
+      console.log('in222');
+      console.log(signMess);
       return signMess.rawTransaction;
+      */
+      const privKey = keyPair.privateKeyBuffer;
+      const EthereumTx = Eth.Transaction;
+      const tx = new EthereumTx(txParams, { chain: environment.chains.ETH.chain, hardfork: environment.chains.ETH.hardfork });
+      tx.sign(privKey);
+      const serializedTx = tx.serialize();
+      const txhex = '0x' + serializedTx.toString('hex'); 
+      return txhex;
     }
 
     async sendSignedTransaction(txhex: string) {
@@ -59,21 +72,22 @@ export class Web3Service {
         abiHex = abiHex.slice(2);
       }
       console.log('abiHex after', abiHex);
+      console.log('nonce=' + nonce);
       const txObject = {
         to: address,
         nonce: nonce,
         data: '0x' + abiHex,
-        gas: 1000000,
+        gas: 2000000,
         coin: '0x',
-        gasPrice: 40000000000  // in wei
-        // gasPrice: 40  // in wei
+        // gasPrice: 40100000001  // in wei
+        gasPrice: 40  // in wei
       };
       const txObjectWithoutCoin = {
         to: address,
         nonce: nonce,
         data: '0x' + abiHex,
-        gas: 1000000,
-        gasPrice: 40
+        gas: 2000000,
+        gasPrice: 50
       };
 
 
@@ -199,6 +213,31 @@ export class Web3Service {
       }; 
       const abiHex = web3.eth.abi.encodeFunctionCall(func, paramsArray);
       return abiHex;       
+    }
+
+    getDeleteOrderFuncABI(orderHash: string) {
+      const web3 = this.getWeb3Provider();
+      const func = {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "_orderHash",
+            "type": "bytes32"
+          }
+        ],
+        "name": "cancelOrder",
+        "outputs": [
+          {
+            "name": "success",
+            "type": "bool"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }; 
+    const abiHex = web3.eth.abi.encodeFunctionCall(func, [orderHash]);
+    return abiHex;
     }
 
     getCreateOrderFuncABI(paramsArray: any) {
