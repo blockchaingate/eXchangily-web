@@ -6,9 +6,7 @@ import { HttpService } from '../../../../services/http.service';
 import { app } from '../../app.constants';
 import { AppAuthService } from '../app-auth/app-auth.service';
 import { environment } from '../../../../../environments/environment';
-import { Observable } from 'rxjs/RX';
 import { map } from 'rxjs/operators/map';
-import { throwError } from 'rxjs';
 
 const path = environment.endpoints.blockchaingate + 'members/';
 
