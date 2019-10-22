@@ -12,7 +12,7 @@ import { throwError } from 'rxjs';
 
 const path = environment.endpoints.blockchaingate + 'members/';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class UserService {
   constructor(private http: HttpService, private _appAuth: AppAuthService) {
   }
@@ -51,7 +51,7 @@ export class UserService {
 
   // Get members
   public getUsers(data) {
-    return this.http.post(path + 'find', data, true).pipe(map(res => res));
+    return this.http.post(path + 'find', data, true).pipe(map(res => <Array<User>>res));
   }
 
   // Get all members

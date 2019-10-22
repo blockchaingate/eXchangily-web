@@ -87,8 +87,9 @@ export class InfoComponent implements OnInit {
       error => this.processError(error)
     );
 
-    if (this.userForm.get('parentReferralCode')) {
-      this._appUsers.updateAppUserById(this.data.userId, { parentReferralCode: this.userForm.get('parentReferralCode').value })
+    const prefcode = this.userForm.get('parentReferralCode');
+    if (prefcode && prefcode.value && prefcode.value.length > 3) {
+      this._appUsers.updateAppUserById(this._userAuth.id, { parentReferralCode: prefcode.value })
         .subscribe(res_ => {
           this.userForm.get('parentReferralCode').disable();
         });
@@ -96,7 +97,7 @@ export class InfoComponent implements OnInit {
   }
 
   getAllOrders() {
-    this._icotx.findIcotxes(this.data.userId, this.data.email, null, null, null)
+    this._icotx.findIcotxes(this._userAuth.id, this.data.email, null, null, null)
       .subscribe(res => {
         const orders = <Icotx[]>res;
         orders.forEach(ord => {

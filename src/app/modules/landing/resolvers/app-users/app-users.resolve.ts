@@ -14,7 +14,7 @@ export class AppUsersResolver implements Resolve<any> {
     if (!this._userAuth.id) {
       this._router.navigate(['']);
     }
-    return this._appUsers.getAppUser(this._userAuth.id).pipe(map(res => <AppUsers>res));
+    return this._appUsers.getAppUser(this._userAuth.id).pipe(map(res => (<AppUsers>res)[0]));
   }
 }
 

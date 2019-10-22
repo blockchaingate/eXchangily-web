@@ -19,11 +19,11 @@ export class AppService {
   constructor(private http: HttpService) { }
 
   getApp() {
-    return this.http.get(path + appId, true).pipe(map(res => {
-      this.app = res;
+    return this.http.get(path + appId, true).pipe(map((res: Array<Application>) => {
+      this.app = res[0];
       this.appAdminId = this.app.appAdminId;
       this.appAdminEmail = this.app.appAdmin;
-      return res;
+      return res[0];
     }));
   }
 

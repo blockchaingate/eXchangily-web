@@ -30,7 +30,7 @@ export class KycsComponent implements OnInit {
   }
 
   loadUsers() {
-    this._userServ.getUsers({kyc: 1}).subscribe (
+    this._userServ.getUsers({ kyc: 1 }).subscribe(
       (ret: User[]) => this.users = ret,
       err => this.msg = err
     );

@@ -26,7 +26,7 @@ export class InfoComponent implements OnInit {
   ngOnInit() {
     this.appUser = this._route.snapshot.data.appUser;
     this.user = this._route.snapshot.data.user;
-
+    
     this._appUsers.getChildReferrals(this.appUser.userId)
     .subscribe(
       ret => this.childLoaded(ret),

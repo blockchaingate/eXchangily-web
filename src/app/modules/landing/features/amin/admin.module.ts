@@ -34,7 +34,7 @@ import { TokenlockComponent } from './tokenlock/tokenlock.component';
     ReferralModule,
     MatDialogModule
   ],
-  providers: [AuthGuard, NoAuthGuard, AppService, TokenlockService],
+  providers: [AuthGuard, NoAuthGuard, TokenlockService],
   declarations: [
     AdminComponent,
     AddcoinComponent,
