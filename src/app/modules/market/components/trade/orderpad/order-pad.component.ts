@@ -92,6 +92,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         this.socket2.unsubscribe();
       }      
       this.sub.unsubscribe();
+      clearInterval(this.timer);
     }
 
     addTo(orderArr, bidOrAsk: boolean) {

@@ -1,3 +1,15 @@
+,
+        exchangilyWithdrawOfficial: [
+            {name: 'EXG', address: '0xdcd0f23125f74ef621dfa3310625f8af0dcd971b'},
+            {name: 'FAB', address: 'msG49LNoH86Buwqzj3ejXu3h3HbcNuBDux'},
+            {name: 'BTC', address: 'msG49LNoH86Buwqzj3ejXu3h3HbcNuBDux'},
+            {name: 'ETH', address: '0xbA9a22380418b14Ca6B3709e79Ffe266b943573a'},
+            {name: 'USDT', address: '0xbA9a22380418b14Ca6B3709e79Ffe266b943573a'}
+        ] 
+
+
+
+
 https://stackoverflow.com/questions/37541783/how-to-subscribe-an-item-from-localstorage-in-angular-2-and-when-changed-get-va
 
 FAB: 115

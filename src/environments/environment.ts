@@ -55,7 +55,7 @@ export const environment = {
             {name: 'BTC', address: 'muQDw5hVmFgD1GrrWvUt6kjrzauC4Msaki'},
             {name: 'ETH', address: '0x02c55515e62a0b25d2447c6d70369186b8f10359'},
             {name: 'USDT', address: '0x02c55515e62a0b25d2447c6d70369186b8f10359'}
-        ]
+        ]       
     }
 };
 
