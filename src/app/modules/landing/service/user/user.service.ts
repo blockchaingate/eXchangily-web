@@ -14,7 +14,6 @@ const path = environment.endpoints.blockchaingate + 'members/';
 
 @Injectable()
 export class UserService {
-
   constructor(private http: HttpService, private _appAuth: AppAuthService) {
   }
 

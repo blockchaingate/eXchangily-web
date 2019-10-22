@@ -1,8 +1,10 @@
 import { HttpService } from '../../../../services/http.service';
 import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { environment } from '../../../../../environments/environment';
+import { map } from 'rxjs/operators/map';
 
-const filePath = '/assets/countries.json';
+const filePath = environment.endpoints.blockchaingate + 'assets/countries.json';
 
 @Component({
   selector: 'app-country-picker',
@@ -24,11 +26,7 @@ export class CountryPickerComponent implements ControlValueAccessor {
   validateFn: any;
 
   constructor(private http: HttpService) {
-    this.http.get(filePath)
-    .map((res: any) => {
-      const resJson = res.json();
-      return resJson;
-    })
+    this.http.get(filePath).pipe(map(res => res))
     .subscribe((res) => {
       this.countries = res;
     });
@@ -46,7 +44,6 @@ export class CountryPickerComponent implements ControlValueAccessor {
   }
 
   registerOnTouched() {
-
   }
 
   registerOnChange(fn: Function) {

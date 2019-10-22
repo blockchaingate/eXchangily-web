@@ -23,7 +23,7 @@ export class AppService {
       this.app = res;
       this.appAdminId = this.app.appAdminId;
       this.appAdminEmail = this.app.appAdmin;
-      return this.app;
+      return res;
     }));
   }
 

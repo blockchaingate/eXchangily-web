@@ -20,6 +20,7 @@ export class HttpService {
         };
         return this.http.post(path, data, options);
     }
+    
     get(path: string, jwtAuth = false) {
         let httpHeaders = new HttpHeaders({
             'Content-Type': 'application/json',

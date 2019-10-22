@@ -18,7 +18,7 @@ export class AccountComponent implements OnInit {
 
   ngOnInit() {
     this._appServ.getApp().subscribe(
-      ret => {
+      (ret: any) => {
         if (ret.appAdmin === this._userAuthServ.email) {
           this.isAdmin = true;
         }
