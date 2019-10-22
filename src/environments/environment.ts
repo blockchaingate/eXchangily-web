@@ -23,7 +23,6 @@ export const environment = {
         }
     },
     endpoints: {
-        // blockchaingate: 'https://blockchaingate.com/v2/',
         blockchaingate: 'https://blockchaingate.com/v2/',
         coingecko: 'https://api.coingecko.com/',
         kanban: 'https://kanbantest.fabcoinapi.com/',
