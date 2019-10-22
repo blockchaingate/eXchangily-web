@@ -79,8 +79,8 @@ export class Web3Service {
         data: '0x' + abiHex,
         gas: 2000000,
         coin: '0x',
-        // gasPrice: 40100000001  // in wei
-        gasPrice: 40  // in wei
+        gasPrice: 40000000000  // in wei
+        // gasPrice: 40  // in wei
       };
       const txObjectWithoutCoin = {
         to: address,
@@ -183,6 +183,9 @@ export class Web3Service {
         "type": "function"
       }; 
     const abiHex = web3.eth.abi.encodeFunctionCall(func, paramsArray);
+
+    console.log('paramsArray=', paramsArray);
+    console.log('abiHex=', abiHex);
     return abiHex;      
     }
 
@@ -305,7 +308,7 @@ export class Web3Service {
       // let abiHex = '3a5b6c70';
 
       const web3 = this.getWeb3Provider();
-      const func =   {
+      const func = {
         "constant": false,
         "inputs": [
           {
@@ -315,6 +318,10 @@ export class Web3Service {
           {
             "name": "_value",
             "type": "uint256"
+          },
+          {
+            "name": "",
+            "type": "bytes32"
           }
         ],
         "name": "withdraw",
@@ -331,9 +338,14 @@ export class Web3Service {
       let abiHex = web3.eth.abi.encodeFunctionSignature(func).substring(2);    
       console.log('abiHex there we go:' + abiHex);  
       abiHex += this.utilServ.fixedLengh(coinType, 64);
+      console.log('abiHex1=' + abiHex);
+
       const amountHex = amount.toString(16);
+      console.log('amount=' + amount);
+      console.log('amountHex=' + amountHex);
       abiHex += this.utilServ.fixedLengh(amountHex, 64);
-      abiHex += this.utilServ.fixedLengh(destAddress.substring(2), 64);
+      console.log('abiHex2=' + abiHex);
+      abiHex += this.utilServ.fixedLengh(this.utilServ.stripHexPrefix(destAddress), 64);
       console.log('abiHex final:' + abiHex);    
       return abiHex;
     }
