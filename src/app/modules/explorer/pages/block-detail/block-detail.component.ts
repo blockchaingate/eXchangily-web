@@ -25,10 +25,20 @@ export class BlockDetailComponent implements OnInit {
     }
 
     goToPreviousBlock() {
-        this.router.navigate(['/explorer/block/' + (this.block.number - 1)]);
+        const blockNum = this.block.number - 1;
+        this.kanbanServ.getBlock(blockNum.toString()).subscribe(
+            (block: any) => {
+                this.block = block.block;
+            }
+        );
     }    
 
     goToNextBlock() {
-        this.router.navigate(['/explorer/block/' + (this.block.number + 1)]);
+        const blockNum = this.block.number + 1;
+        this.kanbanServ.getBlock(blockNum.toString()).subscribe(
+            (block: any) => {
+                this.block = block.block;
+            }
+        );
     }        
 }
