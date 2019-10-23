@@ -21,6 +21,7 @@ import {TransactionResp} from '../../../../../interfaces/kanban.interface';
 import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 import { ActivatedRoute } from '@angular/router';
 import { AlertService } from '../../../../../services/alert.service';
+import { StorageService } from '../../../../../services/storage.service';
 
 declare let window: any;
 @Component({
@@ -71,7 +72,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     targetCoin: number;
     //interval;
 
-    constructor(private ordServ: OrderService, private _router: Router, private web3Serv: Web3Service, private coinService: CoinService,
+    constructor(private storageServ: StorageService, private web3Serv: Web3Service, private coinService: CoinService,
       private kanbanService: KanbanService, private utilService: UtilService, private walletService: WalletService, 
       private fb: FormBuilder, private modalService: BsModalService, private tradeService: TradeService, 
       private route: ActivatedRoute, private alertServ: AlertService) {
@@ -292,6 +293,9 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         const seed = this.utilService.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
         const keyPairsKanban = this.coinService.getKeyPairs(this.wallet.excoin, seed, 0, 0);
         const orderType = 1;
+        this.price = 1 / this.price;
+
+        console.log('this.price=', this.price);
         let baseCoin = this.baseCoin;
         let targetCoin = this.targetCoin;
         if (!this.bidOrAsk) {
@@ -308,7 +312,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
             , targetCoin, this.qty, this.price, timeBeforeExpiration);
   
           const abiHex = this.web3Serv.getCreateOrderFuncABI([this.bidOrAsk,  
-            orderType, baseCoin, targetCoin, (Math.floor(this.qty * 1e18)).toString(), (Math.floor(this.price * 1e18)).toString(), 
+            orderType, baseCoin, targetCoin, (Math.floor( this.qty * 1e18)).toString(), (Math.floor(this.price * 1e18)).toString(), 
             timeBeforeExpiration,  orderHash]);
             console.log('abiHex=', abiHex);
           const nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
@@ -336,7 +340,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
                   created_at: new Date(Date.now()),
                   price: this.price
                 };
-                this.tradeService.addTransaction(transaction);
+                this.storageServ.addTradeTransaction(transaction);
 
                 if (this.bidOrAsk) {
                   this.buyPrice = 0;
@@ -345,13 +349,16 @@ export class OrderPadComponent implements OnInit, OnDestroy {
                   this.sellPrice = 0;
                   this.sellQty = 0;                  
                 }
+                
+                /*
                 this.timer = setInterval(() => {
                   this.refreshToken.emit();
                   console.log('this.refreshTokenDone=', this.refreshTokenDone);
                   if (this.refreshTokenDone) {
                     clearInterval(this.timer);
                   }
-                }, 1000);                
+                }, 1000);     
+                */           
                 
               } else {
                 this.alertServ.openSnackBar('Something wrong while placing your order.', 'Ok');

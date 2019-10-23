@@ -8,7 +8,6 @@ import { ApiService } from '../../../services/api.service';
 import { AlertService } from '../../../services/alert.service';
 import { UtilService } from '../../../services/util.service';
 import { KanbanService } from '../../../services/kanban.service';
-import {TransactionReceiptResp} from '../../../interfaces/kanban.interface';
 
 @Component({
   selector: 'app-header',
@@ -43,6 +42,7 @@ export class HeaderComponent implements OnInit {
         }
       }
     );
+    //this.tradeServ.new
     this.currentLang = 'English';
     this.translate.setDefaultLang('en');
     this.setLan();   
