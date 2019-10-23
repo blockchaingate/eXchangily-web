@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {BlockNumberResponse, BlockResponse, AccountsResponse,TransactionsResponse,
+import {BlockNumberResponse, BlockResponse, AccountsResponse, TransactionsResponse,
     KanbanGetBanalceResponse, TransactionAccountResponse, Block} from '../interfaces/kanban.interface';
 import { environment } from '../../environments/environment';
 import { UtilService } from './util.service';
+import {TransactionReceiptResp} from '../interfaces/kanban.interface';
 @Injectable()
 export class KanbanService {
 // getCoinPoolAddress
@@ -167,4 +168,19 @@ export class KanbanService {
     getAllOrders() {
         return this.get('exchangily/getAllOrderData');
     }
+
+    async getTransactionStatus(txid: string) {
+        let response = null;
+        let status = 'failed';
+        try {
+            response = await this.get('kanban/getTransactionReceipt/' + txid).toPromise() as TransactionReceiptResp;
+            console.log('response.transactionReceipt=', response.transactionReceipt);
+            console.log('response.transactionReceipt.status=', response.transactionReceipt.status);
+            if (response && response.transactionReceipt && response.transactionReceipt.status === '0x1') {
+                status = 'confirmed';
+            }
+        } catch (e) {console.log (e); }
+
+        return status;         
+    }    
 }

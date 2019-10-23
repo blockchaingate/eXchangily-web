@@ -578,8 +578,27 @@ export class WalletDashboardComponent {
         console.log('includeCoin=' + includeCoin);        
         const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
 
-        this.kanbanServ.sendRawSignedTransaction(txKanbanHex).subscribe((resp) => { 
+        this.kanbanServ.sendRawSignedTransaction(txKanbanHex).subscribe((resp: any) => { 
             console.log('resp=', resp);
+            if (resp && resp.transactionHash) {
+                const item = {
+                    type: 'Withdraw',
+                    coin: currentCoin.name,
+                    tokenType: currentCoin.tokenType,
+                    amount: amount,
+                    txid: resp.transactionHash,
+                    time: new Date(),
+                    confirmations: '0',
+                    blockhash: '', 
+                    comment: '',
+                    status: 'pending'
+                };
+                this.storageService.storeToTransactionHistoryList(this.wallet.id, item);
+    
+                this.alertServ.openSnackBar('Your withdraw request is pending.', 'Ok');  
+            } else {
+                this.alertServ.openSnackBar('Some error happened. Please try again.', 'Ok');  
+            }
         });      
     }
 

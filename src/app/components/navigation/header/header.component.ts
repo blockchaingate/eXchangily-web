@@ -7,6 +7,9 @@ import { StorageService } from '../../../services/storage.service';
 import { ApiService } from '../../../services/api.service'; 
 import { AlertService } from '../../../services/alert.service';
 import { UtilService } from '../../../services/util.service';
+import { KanbanService } from '../../../services/kanban.service';
+import {TransactionReceiptResp} from '../../../interfaces/kanban.interface';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -26,7 +29,7 @@ export class HeaderComponent implements OnInit {
   interval;
 
   constructor(private translate: TranslateService, private router: Router, private alertServ: AlertService,
-    private utilServ: UtilService,
+    private utilServ: UtilService, private kanbanServ: KanbanService,
     private location: Location, private storageServ: StorageService, private apiServ: ApiService) { }
  
   ngOnInit() {
@@ -63,8 +66,13 @@ export class HeaderComponent implements OnInit {
         if (transaction.status === 'pending') {
           const txid = transaction.txid;
           const coin = transaction.coin;
-
+          const type = transaction.type;
+          
           let confirmations = 0;
+          if (type === 'Withdraw') {
+            const status = await this.kanbanServ.getTransactionStatus(txid);
+            transaction.status = status;
+          } else
           if (coin === 'BTC') {
             const tx = await this.apiServ.getBtcTransaction(txid);
             if (tx) {
@@ -109,8 +117,10 @@ export class HeaderComponent implements OnInit {
             const array_last_five = txid.slice(-5);
             const txidSlice = array_first_five + '...' + array_last_five;
             this.alertServ.openSnackBar('transaction ' + txidSlice + ' was ' + transaction.status, 'Ok');
+            console.log('i=' + i);
             const deleted = this.pendingtransactions.splice(i, 1);
             if (deleted && deleted.length > 0) {
+              console.log('deleted=', deleted);
               const deletedItem = deleted[0];
               this.storageServ.notifyTransactionItemChanged(deletedItem);
               this.closetransactions.push(deletedItem);              
