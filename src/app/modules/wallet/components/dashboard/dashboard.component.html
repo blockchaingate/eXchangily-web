@@ -40,8 +40,12 @@
                             </div>
                         </div>
                         <div class="col col-md-4">
-                            <h4>{{"EXG" | translate}} {{exgBalance}}</h4>
-                            <div class="small">+0 {{"USD" | translate}}</div>
+                            <h4>{{"EXG" | translate}} {{exgBalance}}
+
+                            </h4>
+                            <div class="small"> <span>
+                                            {{utilServ.toPrecision(exgBalance * 0.2 * currencyRate)}} 
+                                        </span> {{currentCurrency}}</div>
                         </div>
                         <div class="col col-md-2">
                             <div class="small">+0%</div>
@@ -49,11 +53,18 @@
 
                                 <div class="btn-group" dropdown>
                                     <button id="button-basic" dropdownToggle type="button" class="btn btn-link dropdown-toggle" aria-controls="dropdown-basic">
-                                              in USD <span class="caret"></span>
+                                              in {{currentCurrency}} <span class="caret"></span>
                                             </button>
                                     <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
-                                        <li role="menuitem"><a class="dropdown-item">in CAD</a></li>
-                                        <li role="menuitem"><a class="dropdown-item">in RMB</a></li>
+                                        <li role="menuitem" *ngIf="currentCurrency !== 'USD'">
+                                            <a class="dropdown-item" (click)="changeCurrency('USD')">in USD</a>
+                                        </li>
+                                        <li role="menuitem" *ngIf="currentCurrency !== 'CAD'">
+                                            <a class="dropdown-item" (click)="changeCurrency('CAD')">in CAD</a>
+                                        </li>
+                                        <li role="menuitem" *ngIf="currentCurrency !== 'RMB'">
+                                            <a class="dropdown-item" (click)="changeCurrency('RMB')">in RMB</a>
+                                        </li>
                                     </ul>
 
                                 </div>
@@ -101,7 +112,7 @@
                         </div>
                     </div>
                     <!--
-                        <div class="container">
+                        <div class="container">wallet.mycoins
                             <div class="row apair header">
                                 <div class="col-3">
                                     {{"Type" | translate}}
@@ -119,8 +130,9 @@
                         </div>
 -->
                     <app-transaction-history class="row pt-4" *ngIf="showTransactionHistory" [walletId]="wallet.id" [coinsPrice]="coinsPrice"></app-transaction-history>
+
                     <div class="row pt-4" *ngIf="showMyAssets">
-                        <div class="container fxHide-sm container-wallet-main" *ngIf="wallet">
+                        <div class="container fxHide-sm" *ngIf="wallet">
                             <div class="row apair header">
                                 <div class="col-1">
                                     {{"Symble" | translate}}
@@ -144,45 +156,48 @@
 
                                 </div>
                             </div>
-                            <ng-container *ngFor="let mycoin of wallet.mycoins; index as i">
-                                <div class="row apair dataline" *ngIf="!hideSmall || mycoin.balance >= 0.1">
+                            <div class="container-wallet-main scroll-bar">
+                                <ng-container *ngFor="let mycoin of wallet.mycoins; index as i">
+                                    <div class="row apair dataline" *ngIf="!hideSmall || mycoin.balance >= 0.1">
 
-                                    <div class="col-1">
-                                        <img *ngIf="mycoin.name == 'BTC'" src="/assets/coins/btc.png" class="icon" />
-                                        <img *ngIf="mycoin.name == 'ETH'" src="/assets/coins/eth.png" class="icon" />
-                                        <img *ngIf="mycoin.name == 'EXG'" src="/assets/coins/exg.png" class="icon" />
-                                        <img *ngIf="mycoin.name == 'FAB'" src="/assets/coins/fab.png" class="icon" />
-                                        <img *ngIf="mycoin.name == 'USDT'" src="/assets/coins/usdt.png" class="icon" />
-                                    </div>
-                                    <div class="col-1">
-                                        {{mycoin.name}}
-                                    </div>
-                                    <div class="col-2">
-                                        {{utilServ.toPrecision(mycoin.balance)}}
-                                    </div>
-                                    <div class="col-2">
-                                        {{utilServ.toPrecision(mycoin.lockedBalance)}}
-                                    </div>
-                                    <div class="col-2">
-                                        <p *ngIf="mycoin.name == 'BTC' && coinsPrice && coinsPrice.bitcoin">{{utilServ.toPrecision(mycoin.balance * coinsPrice.bitcoin.usd)}}</p>
-                                        <p *ngIf="mycoin.name == 'FAB' && coinsPrice && coinsPrice.fabcoin">{{utilServ.toPrecision(mycoin.balance * coinsPrice.fabcoin.usd)}}</p>
-                                        <p *ngIf="mycoin.name == 'ETH' && coinsPrice && coinsPrice.ethereum">{{utilServ.toPrecision(mycoin.balance * coinsPrice.ethereum.usd)}}</p>
-                                        <p *ngIf="mycoin.name == 'USDT' && coinsPrice && coinsPrice.tether">{{utilServ.toPrecision(mycoin.balance * coinsPrice.tether.usd)}}</p>
-                                    </div>
-                                    <div class="col-2">
+                                        <div class="col-1">
+                                            <img *ngIf="mycoin.name == 'BTC'" src="/assets/coins/btc.png" class="icon" />
+                                            <img *ngIf="mycoin.name == 'ETH'" src="/assets/coins/eth.png" class="icon" />
+                                            <img *ngIf="mycoin.name == 'EXG'" src="/assets/coins/exg.png" class="icon" />
+                                            <img *ngIf="mycoin.name == 'FAB'" src="/assets/coins/fab.png" class="icon" />
+                                            <img *ngIf="mycoin.name == 'USDT'" src="/assets/coins/usdt.png" class="icon" />
+                                        </div>
+                                        <div class="col-1">
+                                            {{mycoin.name}}
+                                        </div>
+                                        <div class="col-2">
+                                            {{utilServ.toPrecision(mycoin.balance)}}
+                                        </div>
+                                        <div class="col-2">
+                                            {{utilServ.toPrecision(mycoin.lockedBalance)}}
+                                        </div>
+                                        <div class="col-2">
+                                            <p *ngIf="mycoin.name == 'EXG' && coinsPrice && coinsPrice.exgcoin">{{utilServ.toPrecision(mycoin.balance * coinsPrice.exgcoin.usd)}}</p>
+                                            <p *ngIf="mycoin.name == 'BTC' && coinsPrice && coinsPrice.bitcoin">{{utilServ.toPrecision(mycoin.balance * coinsPrice.bitcoin.usd)}}</p>
+                                            <p *ngIf="mycoin.name == 'FAB' && coinsPrice && coinsPrice.fabcoin">{{utilServ.toPrecision(mycoin.balance * coinsPrice.fabcoin.usd)}}</p>
+                                            <p *ngIf="mycoin.name == 'ETH' && coinsPrice && coinsPrice.ethereum">{{utilServ.toPrecision(mycoin.balance * coinsPrice.ethereum.usd)}}</p>
+                                            <p *ngIf="mycoin.name == 'USDT' && coinsPrice && coinsPrice.tether">{{utilServ.toPrecision(mycoin.balance * coinsPrice.tether.usd)}}</p>
+                                        </div>
+                                        <div class="col-2">
 
-                                    </div>
-                                    <div class="col-2" *ngIf="gas > 0">
-                                        <button mat-icon-button matTooltip="Deposit" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                        </div>
+                                        <div class="col-2" *ngIf="gas > 0">
+                                            <button mat-icon-button matTooltip="Deposit" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                             <mat-icon>arrow_downward</mat-icon>
                                         </button>
-                                        <button mat-icon-button matTooltip="Withdraw" (click)="withdraw(mycoin)" aria-label="Example icon-button with a heart icon">
+                                            <button mat-icon-button matTooltip="Withdraw" (click)="withdraw(mycoin)" aria-label="Example icon-button with a heart icon">
                                             <mat-icon>arrow_upward</mat-icon>
                                         </button>
-                                    </div>
+                                        </div>
 
-                                </div>
-                            </ng-container>
+                                    </div>
+                                </ng-container>
+                            </div>
                         </div>
 
 

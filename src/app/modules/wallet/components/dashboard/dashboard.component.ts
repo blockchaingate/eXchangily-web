@@ -68,13 +68,16 @@ export class WalletDashboardComponent {
     showTransactionHistory: boolean;
     gas: number;
     opType: string;
-
+    currentCurrency: string;
+    currencyRate: number;
     constructor ( private route: Router, private walletServ: WalletService, private modalServ: BsModalService, 
         private coinServ: CoinService, private utilServ: UtilService, private apiServ: ApiService, 
         private kanbanServ: KanbanService, private web3Serv: Web3Service, private viewContainerRef: ViewContainerRef,
         private utilService: UtilService, private alertServ: AlertService, private matIconRegistry: MatIconRegistry,
         private coinService: CoinService, private storageService: StorageService, private domSanitizer: DomSanitizer) {
         this.showMyAssets = true;
+        this.currentCurrency = 'USD';
+        this.currencyRate = 1;
         this.showTransactionHistory = false;
         this.matIconRegistry.addSvgIcon(
             'icon_copy',
@@ -82,6 +85,18 @@ export class WalletDashboardComponent {
           );
     }
 
+    changeCurrency(name: string) {
+        this.currentCurrency = name;
+        if (name === 'USD') {
+            this.currencyRate = 1;
+        } else 
+        if (name === 'CAD') {
+            this.currencyRate = 1.31;
+        } else 
+        if (name === 'RMB') {
+            this.currencyRate = 7.07;
+        }
+    }
     async updateCoinBalance(coinName: string) {
         console.log('coinName=' + coinName);
         let interval = 3000;
@@ -245,6 +260,10 @@ export class WalletDashboardComponent {
 
     async loadCoinsPrice() {
         this.coinsPrice = await this.apiServ.getCoinsPrice();
+
+        this.coinsPrice.exgcoin = {
+           usd: 0.2 
+        };
     }
     async loadBalance() {
         
@@ -464,8 +483,8 @@ export class WalletDashboardComponent {
                     break;
                 }
             }
-
         }
+        this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
     }
 
     async depositFab(currentCoin) {

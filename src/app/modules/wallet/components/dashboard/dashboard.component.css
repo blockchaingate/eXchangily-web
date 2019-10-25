@@ -160,3 +160,8 @@ a:not([href]):not([tabindex]):focus,
 a:not([href]):not([tabindex]):hover {
     color: #e3caca;
 }
+
+.container-wallet-main {
+    max-height: 285px;
+    overflow-y: scroll;
+}

@@ -188,6 +188,9 @@ export interface EthTransaction {
 }
 
 export interface CoinsPrice {
+    exgcoin: {
+        usd: number
+    };    
     bitcoin: {
         usd: number
     };

@@ -20,7 +20,7 @@ export class TransactionHistoryComponent implements OnInit {
     @Input() coinsPrice: CoinsPrice;
     @Input() walletId: string;
 
-    constructor ( private storageService: StorageService, private apiServ: ApiService ) {
+    constructor ( private storageService: StorageService, private apiServ: ApiService, private utilServ: UtilService ) {
 
     }
     
