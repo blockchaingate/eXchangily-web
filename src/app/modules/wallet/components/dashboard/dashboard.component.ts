@@ -71,9 +71,9 @@ export class WalletDashboardComponent {
     currentCurrency: string;
     currencyRate: number;
     constructor ( private route: Router, private walletServ: WalletService, private modalServ: BsModalService, 
-        private coinServ: CoinService, private utilServ: UtilService, private apiServ: ApiService, 
+        private coinServ: CoinService, public utilServ: UtilService, private apiServ: ApiService, 
         private kanbanServ: KanbanService, private web3Serv: Web3Service, private viewContainerRef: ViewContainerRef,
-        public utilService: UtilService, private alertServ: AlertService, private matIconRegistry: MatIconRegistry,
+        private alertServ: AlertService, private matIconRegistry: MatIconRegistry,
         private coinService: CoinService, private storageService: StorageService, private domSanitizer: DomSanitizer) {
         this.showMyAssets = true;
         this.currentCurrency = 'USD';
@@ -398,7 +398,7 @@ export class WalletDashboardComponent {
     onConfirmedPin(pin: string) {
         console.log('pin is:' + pin);
         this.pin = pin;
-        const pinHash = this.utilService.SHA256(pin).toString();
+        const pinHash = this.utilServ.SHA256(pin).toString();
         if (pinHash !== this.wallet.pwdHash) {
             this.alertServ.openSnackBar('Your pin number is invalid.', 'Ok');
             return;
@@ -529,7 +529,7 @@ export class WalletDashboardComponent {
         const pin = this.pin;
         const currentCoin = this.wallet.mycoins[this.sendCoinForm.coinIndex];
 
-        const seed = this.utilService.aesDecryptSeed(this.wallet.encryptedSeed, pin);
+        const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
 
         const amount = this.sendCoinForm.amount;
         const doSubmit = true;
