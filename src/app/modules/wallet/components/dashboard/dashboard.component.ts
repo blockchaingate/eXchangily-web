@@ -73,7 +73,7 @@ export class WalletDashboardComponent {
     constructor ( private route: Router, private walletServ: WalletService, private modalServ: BsModalService, 
         private coinServ: CoinService, private utilServ: UtilService, private apiServ: ApiService, 
         private kanbanServ: KanbanService, private web3Serv: Web3Service, private viewContainerRef: ViewContainerRef,
-        private utilService: UtilService, private alertServ: AlertService, private matIconRegistry: MatIconRegistry,
+        public utilService: UtilService, private alertServ: AlertService, private matIconRegistry: MatIconRegistry,
         private coinService: CoinService, private storageService: StorageService, private domSanitizer: DomSanitizer) {
         this.showMyAssets = true;
         this.currentCurrency = 'USD';
