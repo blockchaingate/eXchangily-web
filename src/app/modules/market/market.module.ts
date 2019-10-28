@@ -25,16 +25,17 @@ import {MatButtonModule} from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MarketTopComponent } from './components/top/market-top.component';
 import { MarketTopBlockComponent } from './components/top-block/market-top-block.component';
+import { TradeAutoComponent } from './components/trade-auto/trade-auto.component';
 
 @NgModule({ 
   imports: [
     CommonModule,
-    FormsModule,
-    HttpClientModule,
+    FormsModule, 
+    HttpClientModule, 
     RouterModule,
-    CarouselModule,
+    CarouselModule, 
     MarketRoutingModule,
-    TradeModule,
+    TradeModule, 
     TranslateModule,
     MatSnackBarModule,
     MatIconModule,
@@ -55,6 +56,7 @@ import { MarketTopBlockComponent } from './components/top-block/market-top-block
     MarketHomeComponent,
     MarketListComponent,
     MarketTopComponent,
+    TradeAutoComponent,
     MarketTopBlockComponent
   ],
   exports: [

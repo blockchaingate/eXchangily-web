@@ -57,7 +57,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     sellQty = 0;
     price = 0;
     qty = 0;
-    web3: any;
     pin: string;
     modalRef: BsModalRef;
     baseCoinAvail: number;
@@ -76,7 +75,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       private kanbanService: KanbanService, private utilService: UtilService, private walletService: WalletService, 
       private fb: FormBuilder, private modalService: BsModalService, private tradeService: TradeService, 
       private route: ActivatedRoute, private alertServ: AlertService) {
-        this.web3 = this.web3Serv.getWeb3Provider();
         this.refreshTokenDone = true; 
         /*
         this.interval = setInterval(() => {
@@ -217,9 +215,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         const pairArray = pair.split('_');
         this.baseCoin = this.coinService.getCoinTypeIdByName(pairArray[0]);
         this.targetCoin = this.coinService.getCoinTypeIdByName(pairArray[1]);
-
-
-         
+           
         // this.loadChart(pairArray[0], pairArray[1]);
         // In a real app: dispatch action to load the details here.
      });      
@@ -230,7 +226,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     generateOrderHash (bidOrAsk, orderType, baseCoin, targetCoin, amount, price, timeBeforeExpiration) {
         const randomString = secureRandom.randomUint8Array(32).map(String).join('');
         const concatString = [bidOrAsk, orderType, baseCoin, targetCoin, amount, price, timeBeforeExpiration, randomString].join('');
-        return this.web3.utils.sha3(concatString);
+        return this.web3Serv.sha3(concatString);
     }
 
     selectOrder(ord: number) {
@@ -285,55 +281,58 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       this.modalRef = this.modalService.show(template, { class: 'second' });
     }
 
+    async txHexforPlaceOrder
+    (pin: string, wallet: any, bidOrAsk: boolean, baseCoin: number, targetCoin: number, price: number, qty: number) {
+      const seed = this.utilService.aesDecryptSeed(wallet.encryptedSeed, pin);
+      const keyPairsKanban = this.coinService.getKeyPairs(wallet.excoin, seed, 0, 0);
+      const orderType = 1;
+      price = 1 / price;
+      if (!bidOrAsk) {
+        const tmp = baseCoin;
+        baseCoin = targetCoin;
+        targetCoin = tmp;
+      }
+      const timeBeforeExpiration = 423434342432;
+
+      const address = await this.kanbanService.getExchangeAddress();
+      const orderHash = this.generateOrderHash(bidOrAsk, orderType, baseCoin
+          , targetCoin, qty, price, timeBeforeExpiration);
+
+      const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk,  
+          orderType, baseCoin, targetCoin, (Math.floor(qty * 1e18)).toString(), (Math.floor(price * 1e18)).toString(), 
+          timeBeforeExpiration,  orderHash]);
+      const nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
+
+      /*
+      if (this.oldNonce === nonce) {
+          this.alertServ.openSnackBar('Please wait a sec, no rush.', 'ok');
+          return;
+      }
+      */
+      const includeCoin = true;
+      const txHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce, includeCoin); 
+      return {
+        txHex: txHex,
+        orderHash: orderHash
+      };
+    }
+
     async buyOrSell() {
-        console.log('buy something');
         this.refreshTokenDone = false;
-        // const pin = '1qaz@WSX';
-        console.log('this.pin' + this.pin + ',this.price=' + this.price + ',this.qty=' + this.qty);
-        const seed = this.utilService.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
-        const keyPairsKanban = this.coinService.getKeyPairs(this.wallet.excoin, seed, 0, 0);
-        const orderType = 1;
-        this.price = 1 / this.price;
+        const {txHex, orderHash} = await this.txHexforPlaceOrder(
+          this.pin, this.wallet, this.bidOrAsk, this.baseCoin, this.targetCoin, this.price, this.qty
+        );
 
-        console.log('this.price=', this.price);
-        let baseCoin = this.baseCoin;
-        let targetCoin = this.targetCoin;
-        if (!this.bidOrAsk) {
-          baseCoin = this.targetCoin;
-          targetCoin = this.baseCoin;
-        }
-        const timeBeforeExpiration = 423434342432;
+        this.kanbanService.sendRawSignedTransaction(txHex).subscribe((resp: TransactionResp) => {
 
-        console.log('before getExchangeAddress');
-
-        const address = await this.kanbanService.getExchangeAddress();
-          console.log('address is for getExchangeAddress:' + address);
-          const orderHash = this.generateOrderHash(this.bidOrAsk, orderType, baseCoin
-            , targetCoin, this.qty, this.price, timeBeforeExpiration);
-  
-          const abiHex = this.web3Serv.getCreateOrderFuncABI([this.bidOrAsk,  
-            orderType, baseCoin, targetCoin, (Math.floor( this.qty * 1e18)).toString(), (Math.floor(this.price * 1e18)).toString(), 
-            timeBeforeExpiration,  orderHash]);
-            console.log('abiHex=', abiHex);
-          const nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
-          if (this.oldNonce === nonce) {
-            this.alertServ.openSnackBar('Please wait a sec, no rush.', 'ok');
-            return;
-          }
-          console.log('noncenoncenoncenoncenoncenoncenonce=' + nonce);
-          const includeCoin = true;
-          const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce, includeCoin); 
-            console.log('txhex=', txhex);
-          this.kanbanService.sendRawSignedTransaction(txhex).subscribe((resp: TransactionResp) => {
-  
-              if (resp && resp.transactionHash) {
+        if (resp && resp.transactionHash) {
                 this.alertServ.openSnackBar('Your order was placed successfully.', 'Ok');
-                this.oldNonce = nonce;
+                // this.oldNonce = nonce;
                 const transaction = {
                   orderHash: orderHash,
                   txid: resp.transactionHash,
-                  baseCoin: baseCoin,
-                  targetCoin: targetCoin,
+                  baseCoin: this.baseCoin,
+                  targetCoin: this.targetCoin,
                   bidOrAsk: this.bidOrAsk,
                   qty: this.qty,
                   status: '',
@@ -341,7 +340,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
                   price: this.price
                 };
                 this.storageServ.addTradeTransaction(transaction);
-
+  
                 if (this.bidOrAsk) {
                   this.buyPrice = 0;
                   this.buyQty = 0;
@@ -358,13 +357,12 @@ export class OrderPadComponent implements OnInit, OnDestroy {
                     clearInterval(this.timer);
                   }
                 }, 1000);     
-                */           
+                */          
                 
               } else {
                 this.alertServ.openSnackBar('Something wrong while placing your order.', 'Ok');
               }
-          });
-        
+        });        
     }
 
   

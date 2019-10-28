@@ -123,7 +123,7 @@ export class WalletDashboardComponent {
     }
     async ngOnInit() {
         await this.loadWallets();
-        //this.currentWalletIndex = await this.walletServ.getCurrentWalletIndex();
+        // this.currentWalletIndex = await this.walletServ.getCurrentWalletIndex();
         console.log('this.currentWalletIndex=', this.currentWalletIndex);
         if (this.currentWalletIndex == null) {
             this.currentWalletIndex = 0;
@@ -131,7 +131,7 @@ export class WalletDashboardComponent {
         this.loadWallet(this.wallets[this.currentWalletIndex]);
         this.loadCoinsPrice();
 
-        //this.startTimer();
+        // this.startTimer();
         this.loadBalance();        
 
         this.storageService.changedTransaction.subscribe(

@@ -243,6 +243,10 @@ export class Web3Service {
     return abiHex;
     }
 
+    sha3(str: string) {
+      const web3 = this.getWeb3Provider();
+      return web3.utils.sha3(str);
+    }
     getCreateOrderFuncABI(paramsArray: any) {
         const web3 = this.getWeb3Provider();
         const func =     {

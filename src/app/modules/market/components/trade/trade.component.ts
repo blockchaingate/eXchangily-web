@@ -60,6 +60,12 @@ export class TradeComponent implements OnInit {
     }
 
     async ngOnInit() {
+
+        setInterval(() => {
+            this.onRefreshToken();
+        }, 2000);  
+
+
         this.screenwidth = window.innerWidth;
 
         this.screenheight = window.innerHeight;  

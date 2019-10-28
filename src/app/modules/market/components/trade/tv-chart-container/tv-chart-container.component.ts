@@ -269,6 +269,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
         this._tvWidget = tvWidget;
 
         tvWidget.onChartReady(() => {
+          // tvWidget.chart().createStudy('ShuBenRSI', false, true);
             const button = tvWidget.createButton()
                 .attr('title', 'Click to show a notification popup')
                 .addClass('apply-common-tooltip')

@@ -1079,7 +1079,7 @@ export class CoinService {
             if (!decimals) {
                 decimals = 18;
             }
-            const amountSent = amount * Math.pow(10, decimals);
+            const amountSent = BigInt(amount * Math.pow(10, decimals));
             
             //const abiHex = this.web3Serv.getFabTransferABI([toAddress, amountSent.toString()]);
 
@@ -1106,7 +1106,9 @@ export class CoinService {
                 "stateMutability": "nonpayable",
                 "type": "function"
               }; 
+            console.log('foreeeee');
             let fxnCallHex = abi.encodeFunctionCall(funcTransfer, [toAddress, amountSent.toString()]);
+            console.log('enddddd');
             fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
             let contractAddress = mycoin.contractAddr;
             

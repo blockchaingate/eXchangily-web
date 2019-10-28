@@ -1,3 +1,5 @@
+https://www.youtube.com/watch?v=CSa6Ocyog4U&feature=push-fr&attr_tag=buFmrkNgc1gmhphg%3A6
+
 ,
         exchangilyWithdrawOfficial: [
             {name: 'EXG', address: '0xdcd0f23125f74ef621dfa3310625f8af0dcd971b'},
