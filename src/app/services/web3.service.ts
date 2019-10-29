@@ -117,7 +117,10 @@ export class Web3Service {
           },
           environment.chains.ETH.hardfork,
         );           
-        const tx = new KanbanTxService(txObject, { common: customCommon });
+        let tx = new KanbanTxService(txObject, { common: customCommon });
+        if (environment.production) {
+          tx = new KanbanTxService(txObject);
+        }
         tx.sign(privKey);
         const serializedTx = tx.serialize();
         txhex = '0x' + serializedTx.toString('hex');         
@@ -142,11 +145,11 @@ export class Web3Service {
         "constant": true,
         "inputs": [
           {
-            "name": "account",
+            "name": "_account",
             "type": "address"
           }
         ],
-        "name": "getUnreleased",
+        "name": "getTotalUnreleased",
         "outputs": [
           {
             "name": "",

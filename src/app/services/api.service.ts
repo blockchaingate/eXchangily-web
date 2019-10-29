@@ -231,7 +231,7 @@ export class ApiService {
        return {balance, lockbalance};  
     }
 
-    async getEthTokenBalance(contractAddress: string, address: string) {
+    async getEthTokenBalance(name: string, contractAddress: string, address: string) {
         /*
         const url = environment.endpoints.ETH.etherscan + 'api?module=account&action=tokenbalance&contractaddress='
         + contractAddress + '&address=' + address + '&tag=latest&apikey=M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB';
@@ -239,6 +239,9 @@ export class ApiService {
         const response = await this.http.get(url).toPromise()  as EthBalance;
         const balance = response.result;
         */
+       if (name === 'USDT') {
+        contractAddress = environment.addresses.smartContract.USDT;
+       }
        const url = environment.endpoints.ETH.exchangily + 'callcontract/' + contractAddress + '/' + address;
        const response = await this.http.get(url).toPromise()  as KEthBalance;
        const balance = response.balance;       
@@ -260,8 +263,10 @@ export class ApiService {
         return response;
     }
 
-    async getFabTokenBalance(contractAddress: string, address: string) {
-        
+    async getFabTokenBalance(name: string, contractAddress: string, address: string) {
+        if (name === 'EXG') {
+            contractAddress = environment.addresses.smartContract.EXG;
+        }
         console.log('contractAddress=' + contractAddress + ',address=' + address);
         let fxnCallHex = this.web3Serv.getFabBalanceOfABI([address]);
         fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);

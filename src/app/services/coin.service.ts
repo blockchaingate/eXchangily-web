@@ -173,13 +173,13 @@ export class CoinService {
             if (!decimals) {
                 decimals = 18;
             }
-            const balanceObj = await this.apiService.getEthTokenBalance(contractAddr, addr);
+            const balanceObj = await this.apiService.getEthTokenBalance(name, contractAddr, addr);
             console.log('balanceObj=', balanceObj);
             balance = balanceObj.balance / Math.pow(10, decimals);
             lockbalance = balanceObj.lockbalance / Math.pow(10, decimals);
         } else
         if (tokenType === 'FAB') {
-            const balanceObj = await this.apiService.getFabTokenBalance(contractAddr, addr);
+            const balanceObj = await this.apiService.getFabTokenBalance(name, contractAddr, addr);
             balance = balanceObj.balance / Math.pow(10, decimals);
             lockbalance = balanceObj.lockbalance / Math.pow(10, decimals);        
         }
@@ -1013,8 +1013,10 @@ export class CoinService {
             }
             const amountSent = amount * Math.pow(10, decimals);
             const toAccount = toAddress;
-            const contractAddress = mycoin.contractAddr;
-
+            let contractAddress = mycoin.contractAddr;
+            if (mycoin.name === 'USDT') {
+                contractAddress = environment.addresses.smartContract.USDT;
+            }
             console.log('nonce = ' + nonce);
             const func =    {  
                 "constant": false,
@@ -1111,7 +1113,9 @@ export class CoinService {
             console.log('enddddd');
             fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
             let contractAddress = mycoin.contractAddr;
-            
+            if (mycoin.name === 'EXG') {
+                contractAddress = environment.addresses.smartContract.EXG;
+            }
             //const keyPair = this.getKeyPairs(mycoin, seed, 0, 0);
             
             //contractAddress = '0x28a6efffaf9f721a1e95667e3de54c622edc5ffa';
