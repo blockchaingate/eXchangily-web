@@ -57,14 +57,13 @@ export class SignupComponent implements OnInit {
       referralCode: this.referralCode.value }).subscribe(
       ret => this.processSignup(ret),
       error => {
-        alert(error);
-        this.serverErrorMsg = error;
+        // alert(JSON.stringify(error));
+        this.serverErrorMsg = error.error.message;
       }
     );
   }
 
   processSignup(signupRet: any) {
-    alert('d')
     this.password.setValue('');
     this.serverErrorMsg = '';
     const retJson = signupRet.json();
