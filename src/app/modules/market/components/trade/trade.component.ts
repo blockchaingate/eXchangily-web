@@ -41,30 +41,27 @@ export class TradeComponent implements OnInit {
     }
 
     onRefreshToken() {
-        console.log('onRefreshToken');
+        // console.log('onRefreshToken');
+
+        
         if (this.address) {
             this.kanbanService.getBalance(this.address).subscribe((resp) => {
-                console.log('resp from getBalances===');
-                console.log(resp);
+                // console.log('resp from getBalances===');
+                // console.log(resp);
                 this.mytokens = resp;
-                /*
-                if (this.myOrders) {
-                    this.myOrders.onRefreshToken(resp);
-                }
-                if (this.orderPad) {
-                    this.orderPad.onRefreshToken(resp);
-                }
-                */
+
             });
-        }    
+        }  
+          
     }
 
     async ngOnInit() {
 
+        
         setInterval(() => {
             this.onRefreshToken();
-        }, 2000);  
-
+        }, 1000);  
+        
 
         this.screenwidth = window.innerWidth;
 

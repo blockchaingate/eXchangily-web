@@ -128,8 +128,8 @@
             <div class="row orderline w-100 py-2" *ngFor="let token of mytokens; let i=index">
 
                 <div class="orditem text-white" style="width: 30%;">{{coinService.getCoinNameByTypeId(token.coinType)}}</div>
-                <div class="orditem text-white" style="width: 30%;">{{token.unlockedAmount / 1e18}}</div>
-                <div class="orditem text-white" style="width: 30%;">{{token.lockedAmount / 1e18}}</div>
+                <div class="orditem text-white" style="width: 30%;">{{utilServ.showAmount(token.unlockedAmount)}}</div>
+                <div class="orditem text-white" style="width: 30%;">{{utilServ.showAmount(token.lockedAmount)}}</div>
             </div>
         </div>
     </div>

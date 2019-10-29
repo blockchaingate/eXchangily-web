@@ -66,7 +66,7 @@
             <div><input type="text" class="form-control" [(ngModel)]="buyQty"> </div>
             <div class="aspace text-muted">
                 {{'Total' | translate}} {{coinService.getCoinNameByTypeId(baseCoin)}}:
-                <span *ngIf="buyPrice > 0">{{1 / buyPrice * buyQty}}</span>
+                <span *ngIf="buyPrice > 0">{{ buyPrice * buyQty}}</span>
             </div>
             <div class="aspace" *ngIf="targetCoin >= 0">
                 <button type="button" class="btn btn-success" (click)="buy(templatePasswd)" [disabled]="this.baseCoinAvail - 1 / buyPrice * buyQty < 0">

@@ -51,8 +51,8 @@ export class MyordersComponent implements OnInit {
     ngOnInit() {
         // console.log('mytokens in myorders=', this.mytokens);
         this.tradeService.getTransactions().subscribe((transactions: Transaction[]) => {
-            console.log('transactions=');
-            console.log(transactions);
+            // console.log('transactions=');
+            // console.log(transactions);
             if (!transactions) {
                 transactions = [];
             }
@@ -76,6 +76,7 @@ export class MyordersComponent implements OnInit {
 
 
     }
+
 
     openModal(template: TemplateRef<any>) {
         this.modalRef = this.modalService.show(template, { class: 'second' });
@@ -104,8 +105,6 @@ export class MyordersComponent implements OnInit {
     }
 
     async deleteOrderDo() {
-        console.log('this.pin=' + this.pin);
-        console.log('this.orderHash=' + this.orderHash);
 
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
         const keyPairsKanban = this.coinService.getKeyPairs(this.wallet.excoin, seed, 0, 0);        
@@ -120,7 +119,7 @@ export class MyordersComponent implements OnInit {
         this.kanbanService.sendRawSignedTransaction(txhex).subscribe((resp: any) => {
             console.log('resp=', resp);
             if (resp && resp.transactionHash) {     
-                //this.tradeService.deleteTransaction(this.orderHash);   
+                // this.tradeService.deleteTransaction(this.orderHash);   
 
                 for (let i = 0; i < this.myorders.length; i++) {
                     if (this.myorders[i].orderHash === this.orderHash) {

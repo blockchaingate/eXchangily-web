@@ -129,6 +129,44 @@ export class UtilService {
         return str;
     }
 
+    showAmount(amount: number) {
+        if (amount.toString() === '0') {
+            return 0;
+        }
+        let amountString = amount.toString();
+
+        let times = 0;
+        while (times < 18) {
+          if (amountString.charAt(amountString.length - 1) === '0') {
+            amountString = amountString.substr(0, amountString.length - 1);
+            times ++;
+          } else {
+              break;
+          }
+        }
+
+        if (times === 18) {
+            return amountString;
+        }
+        let finalAmountString = '';
+        const finalTimes = 18 - times;
+        if (amountString.length <= finalTimes) {
+            finalAmountString = '0.';
+            for (let i = 0; i < finalTimes - amountString.length; i++) {
+                finalAmountString += '0';
+            }
+            finalAmountString += amountString;
+        } else {
+            finalAmountString = amountString;
+            finalAmountString = amountString.slice(0, amountString.length - finalTimes) 
+                + '.' + amountString.slice(amountString.length - finalTimes);
+
+        }
+        
+        return finalAmountString;
+        
+    }
+    
     convertLiuToFabcoin(amount) {
         
         return Number(Number(amount * 1e-8).toFixed(8));

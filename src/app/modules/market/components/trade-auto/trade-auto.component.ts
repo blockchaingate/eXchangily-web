@@ -53,7 +53,6 @@ export class TradeAutoComponent implements OnInit {
       const seed = this.utilService.aesDecryptSeed(wallet.encryptedSeed, pin);
       const keyPairsKanban = this.coinService.getKeyPairs(wallet.excoin, seed, 0, 0);
       const orderType = 1;
-      price = 1 / price;
       if (!bidOrAsk) {
         const tmp = baseCoin;
         baseCoin = targetCoin;
@@ -88,12 +87,12 @@ export class TradeAutoComponent implements OnInit {
         const wallets = await this.walletServ.getWallets();
         const pin = '1qaz@WSX';
         
-        for (let i = 0; i < 200; i++) {
+        for (let i = 0; i < 20; i++) {
             let bidOrAsk = true;
-            let walletIndex = 11;
+            let walletIndex = 10;
             if (i % 2 === 0) {
                 bidOrAsk = false;
-                walletIndex = 12;
+                walletIndex = 11;
             }
             const wallet = wallets[walletIndex];
         
@@ -101,6 +100,9 @@ export class TradeAutoComponent implements OnInit {
             console.log('index=' + index);
             const baseCoin = price_list[index].base_id;
             const targetCoin = price_list[index].coin_id;
+
+            // const baseCoin = 4;
+            // const targetCoin = 5;            
             const price = 2;
             const qty = 0.00001;
             const {txHex, orderHash} = await this.txHexforPlaceOrder(

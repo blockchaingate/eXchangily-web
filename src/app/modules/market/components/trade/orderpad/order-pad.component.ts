@@ -121,8 +121,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     }
 
     refreshOrders() {
-      console.log('this.baseCoin====' + this.baseCoin);
-      console.log('this.targetCoin====' + this.targetCoin);
 
       const baseCoinName = this.coinService.getCoinNameByTypeId(this.baseCoin).toLowerCase();
       const targetCoinName = this.coinService.getCoinNameByTypeId(this.targetCoin).toLowerCase();      
@@ -213,8 +211,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         const pair = params['pair']; // (+) converts string 'id' to a number
         console.log('pair=' + pair);
         const pairArray = pair.split('_');
-        this.baseCoin = this.coinService.getCoinTypeIdByName(pairArray[0]);
-        this.targetCoin = this.coinService.getCoinTypeIdByName(pairArray[1]);
+        this.baseCoin = this.coinService.getCoinTypeIdByName(pairArray[1]);
+        this.targetCoin = this.coinService.getCoinTypeIdByName(pairArray[0]);
            
         // this.loadChart(pairArray[0], pairArray[1]);
         // In a real app: dispatch action to load the details here.
@@ -286,12 +284,15 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       const seed = this.utilService.aesDecryptSeed(wallet.encryptedSeed, pin);
       const keyPairsKanban = this.coinService.getKeyPairs(wallet.excoin, seed, 0, 0);
       const orderType = 1;
-      price = 1 / price;
       if (!bidOrAsk) {
         const tmp = baseCoin;
         baseCoin = targetCoin;
         targetCoin = tmp;
       }
+
+      console.log('baseCoin=' + baseCoin);
+      console.log('targetCoin=' + targetCoin);
+      console.log('bidOrAsk=' + bidOrAsk);
       const timeBeforeExpiration = 423434342432;
 
       const address = await this.kanbanService.getExchangeAddress();
