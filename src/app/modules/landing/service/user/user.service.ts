@@ -28,9 +28,7 @@ export class UserService {
       appId: this._appAuth.id
     };
 
-    const url = path + 'Create';
-    console.log('url=' + url);
-    return this.http.post(url, theBody, true).pipe(map(res => res));
+    return this.http.post(path + 'create', theBody).pipe(map(res => { alert(JSON.stringify(res)); return res; }));
   }
 
   // Get member

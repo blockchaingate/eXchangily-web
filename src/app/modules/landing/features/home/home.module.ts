@@ -16,7 +16,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { JsonFileService } from '../../service/jsondata/jsondata.service';
 
 import { DirectivesModule } from '../../directives/directives.module';
-import { UserService } from '../../service/user/user.service';
+// import { UserService } from '../../service/user/user.service';
 import { HttpService } from '../../../../services/http.service';
 @NgModule({
   imports: [
@@ -30,7 +30,7 @@ import { HttpService } from '../../../../services/http.service';
     HttpClientModule
   ],
   providers: [
-    JsonFileService, UserService, HttpService
+    JsonFileService, HttpService
   ],
   declarations: [
     HomeComponent,
