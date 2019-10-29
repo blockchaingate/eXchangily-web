@@ -41,7 +41,7 @@ const routes: Routes = [
         component: ChangePasswordComponent
       },
       {
-        path: 'activation/:email/:activeCode',
+        path: 'activate/:email/:activeCode',
         component: ActivateComponent
       },
       {

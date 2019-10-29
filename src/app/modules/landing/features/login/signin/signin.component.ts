@@ -44,7 +44,9 @@ export class SigninComponent implements OnInit {
     this.loginError = '';
 
     this._userService.loginUser(this.email.value.toLowerCase(), this.password.value)
-      .subscribe((user: User) => this.processLogin(user));
+      .subscribe((user: User) => this.processLogin(user),
+        err => this.loginError = err.error.message
+      );
   }
 
   processError(err) {

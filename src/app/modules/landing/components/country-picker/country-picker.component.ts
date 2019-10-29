@@ -4,7 +4,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { environment } from '../../../../../environments/environment';
 import { map } from 'rxjs/operators/map';
 
-const filePath = environment.endpoints.blockchaingate + 'assets/countries.json';
+const filePath = 'assets/countries.json';
 
 @Component({
   selector: 'app-country-picker',
