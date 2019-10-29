@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../service/user/user.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -14,13 +14,16 @@ export class ActivateComponent implements OnInit {
   formDetails = {email: '', code: ''};
   errorMessage: string;
 
-  constructor(private _userService: UserService, private _router: Router) { }
+  constructor(private _userService: UserService, private _router: Router, private _route: ActivatedRoute) { }
 
   get email() { return this.activateForm.get('email'); }
 
   get code() { return this.activateForm.get('code'); }
 
   ngOnInit() {
+    this.formDetails.email = this._route.snapshot.paramMap.get('email');
+    this.formDetails.code = this._route.snapshot.paramMap.get('activeCode');
+
     this.activateForm = new FormGroup({
       'email': new FormControl(this.formDetails.email, [
         Validators.required,
