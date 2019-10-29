@@ -43,7 +43,7 @@ export class ActivateComponent implements OnInit {
   proccessSuccess(retMember) {
     this.errorMessage = null;
     if (retMember) {
-      this._router.navigate(['member/signin']);
+      this._router.navigate(['login/signin']);
     } else {
       this.errorMessage = 'Activation failure. ';
     }

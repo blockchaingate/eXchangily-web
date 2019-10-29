@@ -57,7 +57,7 @@ export class SignupComponent implements OnInit {
       referralCode: this.referralCode.value }).subscribe(
       ret => this.processSignup(ret),
       error => {
-        // alert(JSON.stringify(error));
+         // alert(JSON.stringify(error));
         this.serverErrorMsg = error.error.message;
       }
     );
@@ -66,7 +66,7 @@ export class SignupComponent implements OnInit {
   processSignup(signupRet: any) {
     this.password.setValue('');
     this.serverErrorMsg = '';
-    const retJson = signupRet.json();
+    // const retJson = signupRet.json();
     this._router.navigate(['/login/activate']);
   }
 }
