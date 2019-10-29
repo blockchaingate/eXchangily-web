@@ -3,18 +3,18 @@ export const environment = {
     production: true,
     chains: {
         BTC: {
-            network: Btc.networks.testnet
+            network: Btc.networks.bitcoin
         },
         ETH: {
-            chain: 'ropsten', 
-            hardfork: 'byzantium',
-            web3Provider: 'https://ropsten.infura.io/v3/6c5bdfe73ef54bbab0accf87a6b4b0ef'
+            chain: 'mainnet', 
+            hardfork: 'petersburg',
+            web3Provider: 'https://mainnet.infura.io/v3/6c5bdfe73ef54bbab0accf87a6b4b0ef'
         },
         FAB: {
             chain: {
-                name: 'test',
-                networkId: 212,
-                chainId: 212                
+                name: 'mainnet',
+                networkId: 0,
+                chainId: 0                
             }
         }
     },    
@@ -30,7 +30,6 @@ export const environment = {
         },                
         ETH: {
             exchangily: 'https://ethprod.fabcoinapi.com/',
-            //etherscan: 'https://api.etherscan.io/'
         }        
     },
     CoinType: {
@@ -40,8 +39,8 @@ export const environment = {
     },
     addresses: {
         smartContract: {
-            EXG: '0x867480ba8e577402fa44f43c33875ce74bdc5df6',
-            USDT: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',
+            EXG: '0x60bb036e5458efa9cf322678758cfa9c6436c47a',
+            USDT: '0xdac17f958d2ee523a2206206994597c13d831ec7',
             SCAR: '',
             EXCHANGILY: ''
         },
