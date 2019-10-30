@@ -83,6 +83,10 @@ export class TradeAutoComponent implements OnInit {
       };
     }
 
+    delay(ms: number) {
+        return new Promise( resolve => setTimeout(resolve, ms) );
+    }
+
     async placeOrders() {
         const wallets = await this.walletServ.getWallets();
         const pin = '1qaz@WSX';
@@ -114,6 +118,7 @@ export class TradeAutoComponent implements OnInit {
                     console.log('transactionHash=', resp.transactionHash);
                 }
             });
+            //await this.delay(100);
         }
 
     }

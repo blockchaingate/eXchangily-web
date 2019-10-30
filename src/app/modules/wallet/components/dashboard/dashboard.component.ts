@@ -125,9 +125,7 @@ export class WalletDashboardComponent {
         await this.loadWallets();
         // this.currentWalletIndex = await this.walletServ.getCurrentWalletIndex();
         console.log('this.currentWalletIndex=', this.currentWalletIndex);
-        if (this.currentWalletIndex == null) {
-            this.currentWalletIndex = 0;
-        }
+
         this.loadWallet(this.wallets[this.currentWalletIndex]);
         this.loadCoinsPrice();
 
@@ -303,11 +301,17 @@ export class WalletDashboardComponent {
     
     async loadWallets() {
         this.wallets = await this.walletServ.getWallets();
-        if (!this.wallets) {
+        if (!this.wallets || this.wallets.length === 0) {
             this.route.navigate(['/wallet/create']);
             return;
         }
         this.currentWalletIndex = await this.walletServ.getCurrentWalletIndex();
+        if (this.currentWalletIndex == null || this.currentWalletIndex < 0) {
+            this.currentWalletIndex = 0;
+        }
+        if (this.currentWalletIndex > this.wallets.length - 1) {
+            this.currentWalletIndex = this.wallets.length - 1;
+        }        
     }
 
     refreshGas() {
