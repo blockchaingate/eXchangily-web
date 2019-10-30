@@ -35,7 +35,7 @@ export const environment = {
         },
         ETH: {
             exchangily: 'https://ethtest.fabcoinapi.com/',
-            //etherscan: 'https://api-ropsten.etherscan.io/'
+            // etherscan: 'https://api-ropsten.etherscan.io/'
         }
     },
     CoinType: {
@@ -45,17 +45,17 @@ export const environment = {
     },
     addresses: {
         smartContract: {
-            EXG: '0x311acf4666477a22c2f16c53b88c1734ee227fc6',
-            USDT: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',
+            EXG: '60bb036e5458efa9cf322678758cfa9c6436c47a',
+            USDT: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
             SCAR: '',
             EXCHANGILY: ''
         },
         exchangilyOfficial: [
-            {name: 'EXG', address: '0xdcd0f23125f74ef621dfa3310625f8af0dcd971b'},
-            {name: 'FAB', address: 'n1eXG5oe6wJ6h43akutyGfphqQsY1UfAUR'},
-            {name: 'BTC', address: 'muQDw5hVmFgD1GrrWvUt6kjrzauC4Msaki'},
-            {name: 'ETH', address: '0x02c55515e62a0b25d2447c6d70369186b8f10359'},
-            {name: 'USDT', address: '0x02c55515e62a0b25d2447c6d70369186b8f10359'}
+            { name: 'EXG', address: '0x9d95ee21e4f1b05bbfd0094daf4ce110deb00931'},
+            { name: 'FAB', address: 'mutBzWDtGoHV92ksuqn5c9UExPcgzz6d9x'},
+            { name: 'BTC', address: 'mrqdPmwa5YjCxQP5fgL2fTcomM9qYyyf2B'},
+            { name: 'ETH', address: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06'},
+            { name: 'USDT', address: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06'}
         ]       
     }
 };
