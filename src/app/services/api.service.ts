@@ -273,6 +273,7 @@ export class ApiService {
 
         let response = await this.fabCallContract(contractAddress, fxnCallHex);
 
+        console.log('response=', response);
         let balanceHex = response.executionResult.output;
         const balance = parseInt(balanceHex, 16);
 
