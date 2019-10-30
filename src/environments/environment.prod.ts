@@ -46,8 +46,8 @@ export const environment = {
         },
         exchangilyOfficial: [
             {name: 'EXG', address: '0x9d95ee21e4f1b05bbfd0094daf4ce110deb00931'},
-            {name: 'FAB', address: 'mutBzWDtGoHV92ksuqn5c9UExPcgzz6d9x'},
-            {name: 'BTC', address: 'mrqdPmwa5YjCxQP5fgL2fTcomM9qYyyf2B'},
+            { name: 'FAB', address: '1FNEhT8uTmrEMvHGCGohnEFv6Q1z4qRhQu'},
+            { name: 'BTC', address: '1CKg6irbGXHxBHuTx7MeqYQUuMZ8aEok8z'},
             {name: 'ETH', address: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06'},
             {name: 'USDT', address: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06'}
         ],        
