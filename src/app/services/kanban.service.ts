@@ -125,7 +125,6 @@ export class KanbanService {
 
     getBalance(address: string) {
         const url = 'exchangily/getBalances/' + address;
-        console.log('url=' + url);
         return this.get(url);
     }
 

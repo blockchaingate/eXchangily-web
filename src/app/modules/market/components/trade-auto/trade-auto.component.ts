@@ -91,7 +91,7 @@ export class TradeAutoComponent implements OnInit {
         const wallets = await this.walletServ.getWallets();
         const pin = '1qaz@WSX';
         
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 150; i++) {
             let bidOrAsk = true;
             let walletIndex = 10;
             if (i % 2 === 0) {
@@ -118,7 +118,7 @@ export class TradeAutoComponent implements OnInit {
                     console.log('transactionHash=', resp.transactionHash);
                 }
             });
-            //await this.delay(100);
+            // await this.delay(100);
         }
 
     }
