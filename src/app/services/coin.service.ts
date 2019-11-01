@@ -1137,6 +1137,7 @@ export class CoinService {
                 194
             ]);
             
+            console.log('contract=====', contract);
             const contractSize = contract.toJSON.toString().length;
     
             console.log('contractSize=' + contractSize);

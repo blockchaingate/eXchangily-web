@@ -79,21 +79,26 @@ export class MarketListComponent implements OnInit {
     }
 
     updateTickerList(arr) {
-        console.log('updateTickerList');
         for (let i = 0; i < arr.length; i++) {
             const item = arr[i];
-            const s = item.s;
-            const h = item.h;
-            const c = item.c;
-            const l = item.l;
-            const P = item.P;
-            const v = item.v;
+            const s = item.symbol;
+            const h = item['24h_high'] / 1e18;
+            const price = item.price / 1e18;
+            const l = item['24h_low'] / 1e18;
+            let change24h = 0;
+            const o = item['24h_open'] / 1e18;
+            const c = item['24h_close'] / 1e18;
+            if (o > 0) {
+                change24h = (c - o) / o * 100;
+            }
+            const v = item['24h_volume'] / 1e18;
+
             for (let j = 0; j < this.tab_prices.length; j++) {
                 const tabItem = this.tab_prices[j];
                 const tabItemSymbol = this.COINS[tabItem.coin_id].name + this.COINS[tabItem.base_id].name;
                 if (s === tabItemSymbol) { 
-                    tabItem.change24h = P;
-                    tabItem.price = c;
+                    tabItem.change24h = change24h;
+                    tabItem.price = price;
                     tabItem.price24hh = h;
                     tabItem.price24hl = l;
                     tabItem.vol24h = v;

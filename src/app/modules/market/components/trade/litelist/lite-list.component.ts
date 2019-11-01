@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Price, Ticker } from '../../../../../interfaces/kanban.interface';
 import { PriceService } from '../../../../../services/price.service';
 import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
+import { environment } from '../../../../../../environments/environment';
 
 export interface Section {
     name: string;
@@ -30,16 +31,20 @@ export class LiteListComponent implements OnInit {
     ngOnInit() {
         this.prices = this.prServ.getPriceList();
 
-        const streamName = '!ticker@arr';
-        this.socket = new WebSocketSubject('wss://stream.binance.com:9443/ws/' + streamName);
+        this.socket = new WebSocketSubject(environment.websockets.allprices);
         this.socket.subscribe(
-          (tickers) => {
+          (tickers: any) => {
               for (let i = 0; i < tickers.length; i++) {
                 const ticker = tickers[i];
-                const symbol = ticker.s;
-                const price = Number(ticker.c);
-                const change24h = Number(ticker.P);
-                const vol24h = Number(ticker.v);
+                const symbol = ticker.symbol;
+                const price = Number(ticker.price) / 1e18;
+                const open = Number(ticker['24h_open']) / 1e18;
+                const close = Number(ticker['24h_close']) / 1e18;
+                let change24h = 0;
+                if (open > 0) {
+                    change24h = (close - open) / open * 100;
+                }
+                const vol24h = Number(ticker['24h_volume']);
                 
                 for (let j = 0; j < this.prices.length; j++) {
                     const symbol_replace = this.prices[j].symbol.replace('/', '');

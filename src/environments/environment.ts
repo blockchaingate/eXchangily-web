@@ -57,6 +57,9 @@ export const environment = {
             { name: 'ETH', address: '0x02c55515e62a0b25d2447c6d70369186b8f10359'},
             { name: 'USDT', address: '0x02c55515e62a0b25d2447c6d70369186b8f10359'}
         ]       
+    },
+    websockets: {
+        allprices: 'ws://18.223.17.4:3002/ws/allprices'
     }
 };
 

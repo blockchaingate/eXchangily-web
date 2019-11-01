@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 import { MarketTopComponent } from '../top/market-top.component';
 import { MarketListComponent } from '../list/market-list.component';
+import { environment } from '../../../../../environments/environment';
+
 @Component({
   selector: 'app-market-home',
   templateUrl: './market-home.component.html',
@@ -15,7 +17,7 @@ export class MarketHomeComponent  implements OnInit {
 
   }
   ngOnInit() {
-    this.socket = new WebSocketSubject('wss://stream.binance.com:9443/ws/!ticker@arr');
+    this.socket = new WebSocketSubject(environment.websockets.allprices);
     this.socket.subscribe(
       (arr) => {
         this.marketTop.updateTickerList(arr);
