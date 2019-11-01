@@ -317,10 +317,13 @@ export class WalletDashboardComponent {
     refreshGas() {
         this.kanbanServ.getKanbanBalance(this.wallet.excoin.receiveAdds[0].address).subscribe(
             (resp: any) => {
-                console.log('resp=',resp);
+                console.log('resp=', resp);
                 const fab = this.utilServ.stripHexPrefix(resp.balance.FAB);
                 this.gas = this.utilServ.hexToDec(fab) / 1e18;
 
+            },
+            error => {
+                console.log('errorrrr=', error);
             }
         ); 
     }

@@ -102,11 +102,17 @@ export class TradeAutoComponent implements OnInit {
         
             const index = (Math.floor(i / 2)) % 10;
             console.log('index=' + index);
-            const baseCoin = price_list[index].base_id;
-            const targetCoin = price_list[index].coin_id;
+            // const baseCoin = price_list[index].base_id;
+            // const targetCoin = price_list[index].coin_id;
 
-            // const baseCoin = 4;
-            // const targetCoin = 5;            
+            let baseCoin = 1;
+            let targetCoin = 3;  
+            if (i % 4 === 2 || i % 4 === 3) {
+                baseCoin = 3;
+                targetCoin = 5;
+            }    
+            
+            console.log('baseCoin = ' + baseCoin + ',targetCoin = ' + targetCoin);
             const price = 2;
             const qty = 0.00001;
             const {txHex, orderHash} = await this.txHexforPlaceOrder(

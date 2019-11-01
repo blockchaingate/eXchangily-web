@@ -130,7 +130,7 @@ export class KanbanService {
 
     async getGas(address: string) {
         const path = 'kanban/getBalance/' + address;
-        
+        console.log('path2=' + path);
         let gas = 0;
         try {
             const ret = await this.get(path).toPromise() as KanbanGetBanalceResponse;
@@ -144,6 +144,7 @@ export class KanbanService {
 
     getKanbanBalance(address: string) {
         const path = 'kanban/getBalance/' + address;
+        console.log('path1='+ path);
         return this.get(path);
     }
     post (path: string, data: any) {
