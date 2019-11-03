@@ -39,7 +39,7 @@ export const environment = {
     },
     addresses: {
         smartContract: {
-            EXG: '0x60bb036e5458efa9cf322678758cfa9c6436c47a',
+            EXG: 'b3cf80158207cd38ab8693d7eb3217c17604249d',
             USDT: '0xdac17f958d2ee523a2206206994597c13d831ec7',
             SCAR: '',
             EXCHANGILY: ''
@@ -51,5 +51,8 @@ export const environment = {
             {name: 'ETH', address: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06'},
             {name: 'USDT', address: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06'}
         ],        
-    }  
+    },
+    websockets: {
+        allprices: 'wss://fabprod.fabcoinapi.com//ws/allprices'
+    }
 };
