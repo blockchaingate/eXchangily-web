@@ -367,9 +367,10 @@ export class CoinService {
         const totalAmount = amount + extraTransactionFee;
         let amountNum = totalAmount * Math.pow(10, this.utilServ.getDecimal(mycoin));
         amountNum += (2 * 34 + 10);
-        const TestNet = Btc.networks.testnet;
+        // const TestNet = Btc.networks.testnet;
+        const network = environment.chains.BTC.network;
 
-        const txb = new Btc.TransactionBuilder(TestNet);
+        const txb = new Btc.TransactionBuilder(network);
         
         let txHex = '';
         for (index = 0; index < mycoin.receiveAdds.length; index ++) {
@@ -477,14 +478,14 @@ export class CoinService {
             const keyPair = this.getKeyPairs(mycoin, seed, 0, receiveAddsIndexArr[index]);
             console.log('keyPair.privateKey=' + keyPair.privateKey + ',keyPair.publicKey=' + keyPair.publicKey);
             console.log('receiveAddsIndexArr[index]=' + receiveAddsIndexArr[index] + ',address for keypair=' + keyPair.address);
-            const alice = Btc.ECPair.fromWIF(keyPair.privateKey, TestNet);
+            const alice = Btc.ECPair.fromWIF(keyPair.privateKey, network);
             txb.sign(index, alice);                
         }
 
         for (index = 0; index < changeAddsIndexArr.length; index ++) {
             const keyPair = this.getKeyPairs(mycoin, seed, 1, changeAddsIndexArr[index]);
             console.log('changeAddsIndexArr[index]=' + changeAddsIndexArr[index] + 'address for keypair=' + keyPair.address);
-            const alice = Btc.ECPair.fromWIF(keyPair.privateKey, TestNet);
+            const alice = Btc.ECPair.fromWIF(keyPair.privateKey, network);
             txb.sign(receiveAddsIndexArr.length + index, alice);                
         }            
 
