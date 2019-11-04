@@ -22,6 +22,7 @@ import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 import { ActivatedRoute } from '@angular/router';
 import { AlertService } from '../../../../../services/alert.service';
 import { StorageService } from '../../../../../services/storage.service';
+import { environment } from '../../../../../../environments/environment';
 
 declare let window: any;
 @Component({
@@ -65,7 +66,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     timer: any;
     oldNonce: number;
     socket: WebSocketSubject<OrderBookItem>;
-    socket2: WebSocketSubject<TradeItem>;
+    tradesSocket: WebSocketSubject<TradeItem>;
     sub: any;
     baseCoin: number;
     targetCoin: number;
@@ -87,8 +88,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       if (this.socket) {
         this.socket.unsubscribe();
       }
-      if (this.socket2) {
-        this.socket2.unsubscribe();
+      if (this.tradesSocket) {
+        this.tradesSocket.unsubscribe();
       }      
       this.sub.unsubscribe();
       clearInterval(this.timer);
@@ -122,9 +123,9 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
     refreshOrders() {
 
-      const baseCoinName = this.coinService.getCoinNameByTypeId(this.baseCoin).toLowerCase();
-      const targetCoinName = this.coinService.getCoinNameByTypeId(this.targetCoin).toLowerCase();      
-      const pair = baseCoinName + targetCoinName;
+      const baseCoinName = this.coinService.getCoinNameByTypeId(this.baseCoin);
+      const targetCoinName = this.coinService.getCoinNameByTypeId(this.targetCoin);      
+      const pair = targetCoinName + baseCoinName;
       // console.log('pair = ' + pair);
       const connUrl = 'wss://stream.binance.com:9443/ws/' + pair + '@depth10@1000ms';
       console.log('connUrl=' + connUrl);
@@ -144,26 +145,29 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         }
       );
       
-      this.socket2 = new WebSocketSubject('wss://stream.binance.com:9443/ws/' + pair + '@trade');
-      this.socket2.subscribe(
-        (item) => {
-          // console.log('tradeItem=');
-          // console.log(item);
-          const price = Number(item.p);
-          const quantity = Number(item.q);
-          const buyerMarketMaker = item.m;
-          const txItem = {
-              price: price,
-              quantity: quantity,
-              m: buyerMarketMaker,
-              time: new Date(item.t * 1000)     
-          };
-          this.currentPrice = price;
-          this.currentQuantity = quantity;
-          if (this.txOrders.length > 22) {
-            this.txOrders.splice(0, 1);
+      this.tradesSocket = new WebSocketSubject(environment.websockets.trades + '@' + pair);
+      this.tradesSocket.subscribe(
+        (trades: any) => {
+          console.log('trades.length=', trades.length);
+          for (let i = 0; i < trades.length; i++) {
+            const item = trades[i];
+            const price = Number(item.price);
+            const quantity = Number(item.amount);
+            const buyerMarketMaker = item.m;
+            const txItem = {
+                price: price,
+                quantity: quantity,
+                m: buyerMarketMaker,
+                time: new Date(item.t * 1000)     
+            };
+            this.currentPrice = price;
+            this.currentQuantity = quantity;
+            if (this.txOrders.length > 22) {
+              this.txOrders.splice(0, 1);
+            }
+            this.txOrders.push(txItem);
           }
-          this.txOrders.push(txItem);
+
         },
         (err) => {
           console.log('err:', err);
@@ -198,7 +202,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           this.targetCoinAvail = Number(this.mytokens[i].unlockedAmount) / 1e18;
         }  
       }
-      this.refreshOrders();    
     }        
    }
  
@@ -213,7 +216,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         const pairArray = pair.split('_');
         this.baseCoin = this.coinService.getCoinTypeIdByName(pairArray[1]);
         this.targetCoin = this.coinService.getCoinTypeIdByName(pairArray[0]);
-           
+        this.refreshOrders();     
         // this.loadChart(pairArray[0], pairArray[1]);
         // In a real app: dispatch action to load the details here.
      });      
