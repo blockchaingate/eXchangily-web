@@ -96,7 +96,7 @@ export class TradeAutoComponent implements OnInit {
             let walletIndex = 10;
             if (i % 2 === 0) {
                 bidOrAsk = false;
-                walletIndex = 11;
+                // walletIndex = 11;
             }
             const wallet = wallets[walletIndex];
         
@@ -124,7 +124,7 @@ export class TradeAutoComponent implements OnInit {
                     console.log('transactionHash=', resp.transactionHash);
                 }
             });
-            // await this.delay(100);
+            await this.delay(500);
         }
 
     }
