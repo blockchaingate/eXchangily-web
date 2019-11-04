@@ -59,7 +59,7 @@ export const environment = {
         ]       
     },
     websockets: {
-        allprices: 'wss://fabprod.fabcoinapi.com//ws/allprices'
+        allprices: 'wss://fabprod.fabcoinapi.com:3002/ws/allprices'
         // allprices: 'ws://18.223.17.4:3002/ws/allprices'
     }
 };
