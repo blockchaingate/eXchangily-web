@@ -29,7 +29,7 @@ export class MyordersComponent implements OnInit {
     orderHash: string;
     modalRef: BsModalRef;
     isActive: boolean;
-
+    interval;
     constructor(private ordServ: OrderService, private _router: Router, private tradeService: TradeService, 
         private utilServ: UtilService, private kanbanService: KanbanService, private coinService: CoinService, 
         private modalService: BsModalService, private web3Serv: Web3Service, private alertServ: AlertService) {
@@ -38,15 +38,7 @@ export class MyordersComponent implements OnInit {
     @Input()
     set wallet(wallet: any) {
       this._wallet = wallet;
-      if (wallet) {
-        this.kanbanService.getOrdersByAddress(wallet.excoin.receiveAdds[0].address)
-        .subscribe(
-            (orders: any) => { 
-                this.myorders = orders;
-                console.log('ordersffffffffffffffffffffffffff=', orders);
-            }
-        );
-      }
+
     }
   
     get wallet(): any { return this._wallet; }
@@ -66,6 +58,17 @@ export class MyordersComponent implements OnInit {
     }
     */
     ngOnInit() {
+
+        this.interval = setInterval(() => {
+            if (this._wallet) {
+                this.kanbanService.getOrdersByAddress(this._wallet.excoin.receiveAdds[0].address)
+                .subscribe(
+                    (orders: any) => { 
+                        this.myorders = orders;
+                    }
+                );
+              }
+          }, 1000);        
         this.isActive = true;
         /*
         // console.log('mytokens in myorders=', this.mytokens);
