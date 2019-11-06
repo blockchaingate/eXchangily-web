@@ -12,7 +12,7 @@ import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 import { CoinService } from '../../../../../services/coin.service';
 import { ActivatedRoute } from '@angular/router';
 import { WsService } from '../../../services/ws.service';
-import { OrderTicketFocusControl } from 'dist/dex/assets/charting_library/charting_library.min';
+// import { OrderTicketFocusControl } from 'dist/dex/assets/charting_library/charting_library.min';
 
 interface BarData {
   time: number;
