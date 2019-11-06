@@ -73,7 +73,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     // interval;
 
     constructor(private storageServ: StorageService, private web3Serv: Web3Service, private coinService: CoinService,
-      private kanbanService: KanbanService, private utilService: UtilService, private walletService: WalletService, 
+      private kanbanService: KanbanService, public utilService: UtilService, private walletService: WalletService, 
       private fb: FormBuilder, private modalService: BsModalService, private tradeService: TradeService, 
       private route: ActivatedRoute, private alertServ: AlertService) {
         this.refreshTokenDone = true; 
