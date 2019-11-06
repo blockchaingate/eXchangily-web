@@ -172,6 +172,23 @@ export interface BlockResponse {
 export interface TransactionAccountResponse {
     transactionCount: number;
 }
+
+/*
+export interface OrderItem {
+    _id: string;
+    orderHash: string;
+    address: string;
+    pairLeft: number;
+    pairRight: number;
+    orderType: number;
+    bidOrAsk: boolean;
+    price: number;
+    orderQuantity: number;
+    filledQuantity: number;
+    time: number;
+    isActive: boolean;
+}
+*/
 export interface AccountsResponse {
     accounts: [string];
 }

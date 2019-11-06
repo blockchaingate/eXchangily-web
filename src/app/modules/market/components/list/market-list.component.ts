@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { PriceService } from '../../../../services/price.service';
 import { KanbanService } from '../../../../services/kanban.service';
-
+import { WsService } from '../../services/ws.service';
 import { Order, Price, Coin } from '../../../../interfaces/kanban.interface';
 
 @Component({
@@ -18,7 +18,7 @@ export class MarketListComponent implements OnInit {
     tab_prices: Price[] = [];
     searchText = '';
     COINS: Coin[];
-    constructor(private prServ: PriceService, private _router: Router, private kanbanService: KanbanService) {
+    constructor(private prServ: PriceService, private _router: Router, private _wsServ: WsService, private kanbanService: KanbanService) {
         
     }
 
@@ -29,7 +29,11 @@ export class MarketListComponent implements OnInit {
         if (!this.tab_prices || this.tab_prices.length === 0) {
             this.selectCat(0);
         }
-        
+
+        this._wsServ.currentPrices.subscribe((arr: any) => {
+            this.updateTickerList(arr);
+        });
+                
         this.kanbanService.getAllOrders().subscribe((orders: Order[]) => {
             console.log('orders from /exchangily/getAllOrderData');
             console.log(orders);

@@ -70,7 +70,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     sub: any;
     baseCoin: number;
     targetCoin: number;
-    //interval;
+    // interval;
 
     constructor(private storageServ: StorageService, private web3Serv: Web3Service, private coinService: CoinService,
       private kanbanService: KanbanService, private utilService: UtilService, private walletService: WalletService, 
@@ -105,10 +105,9 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       }
       for (let i = 0 ; i < orderArr.length; i++) {
         const orderItem = orderArr[i];
-        const res = orderItem.toString().split(',');
 
-        const price = Number(res[0]);
-        const amount = Number(res[1]);
+        const price = Number(orderItem.price);
+        const amount = Number(orderItem.orderQuantity);
         const item = {
           amount: amount,
           price: price          
@@ -127,15 +126,14 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       const targetCoinName = this.coinService.getCoinNameByTypeId(this.targetCoin);      
       const pair = targetCoinName + baseCoinName;
       // console.log('pair = ' + pair);
-      const connUrl = 'wss://stream.binance.com:9443/ws/' + pair + '@depth10@1000ms';
-      console.log('connUrl=' + connUrl);
-      this.socket = new WebSocketSubject(connUrl);
+
+      this.socket = new WebSocketSubject(environment.websockets.orders + '@' + pair);
       this.socket.subscribe(
-        (orders) => {
+        (orders: any) => {
           // console.log('orders in refreshOrders');
           // console.log(orders);
-          this.addTo(orders.asks, false);
-          this.addTo(orders.bids, true);
+          this.addTo(orders.sell, false);
+          this.addTo(orders.buy, true);
         },
         (err) => {
           console.log('err:', err);
@@ -148,17 +146,17 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       this.tradesSocket = new WebSocketSubject(environment.websockets.trades + '@' + pair);
       this.tradesSocket.subscribe(
         (trades: any) => {
-          console.log('trades.length=', trades.length);
+          // console.log('trades.length=', trades.length);
           for (let i = 0; i < trades.length; i++) {
             const item = trades[i];
             const price = Number(item.price);
             const quantity = Number(item.amount);
-            const buyerMarketMaker = item.m;
+            const buyerMarketMaker = item.bidOrAsk;
             const txItem = {
                 price: price,
                 quantity: quantity,
                 m: buyerMarketMaker,
-                time: new Date(item.t * 1000)     
+                time: new Date(item.time * 1000)     
             };
             this.currentPrice = price;
             this.currentQuantity = quantity;

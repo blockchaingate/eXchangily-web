@@ -18,7 +18,6 @@ import { OrderPadComponent } from './orderpad/order-pad.component';
 
 import { PriceService } from '../../../../services/price.service';
 import { OrderService } from '../../services/order.service';
-
 import { UtilService } from '../../../../services/util.service';
 import { WalletService } from '../../../../services/wallet.service';
 import { CoinService } from '../../../../services/coin.service';
@@ -27,6 +26,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatListModule} from '@angular/material/list';
 import { MockService} from '../../../../services/mock.service';
 import { CallbackPipe } from '../../../shared/pipes/callback.pipe';
+import { OrderFilterPipe } from './pipes/order-filter.pipe';
 @NgModule({
     imports: [
         CommonModule,
@@ -59,7 +59,8 @@ import { CallbackPipe } from '../../../shared/pipes/callback.pipe';
         TvChartContainerComponent,
         MyordersComponent,
         OrderPadComponent,
-        CallbackPipe
+        CallbackPipe,
+        OrderFilterPipe
     ],
     exports: [
         TradeComponent

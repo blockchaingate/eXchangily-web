@@ -4,6 +4,7 @@ import { Price, Ticker } from '../../../../../interfaces/kanban.interface';
 import { PriceService } from '../../../../../services/price.service';
 import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 import { environment } from '../../../../../../environments/environment';
+import { WsService } from '../../../services/ws.service';
 
 export interface Section {
     name: string;
@@ -21,7 +22,7 @@ export class LiteListComponent implements OnInit {
     prices: Price[] = [];
     searchText = '';
     socket: WebSocketSubject<[Ticker]>;
-    constructor(private prServ: PriceService, private _route: ActivatedRoute, private _router: Router) {
+    constructor(private prServ: PriceService, private _route: ActivatedRoute, private _router: Router, private _wsServ: WsService) {
     }
 
     filterPrice(price: Price, select: string) {
@@ -30,10 +31,11 @@ export class LiteListComponent implements OnInit {
     }
     ngOnInit() {
         this.prices = this.prServ.getPriceList();
-
-        this.socket = new WebSocketSubject(environment.websockets.allprices);
-        this.socket.subscribe(
+        // this._wsServ.getAllPrices();
+        // this.socket = new WebSocketSubject(environment.websockets.allprices);
+        this._wsServ.currentPrices.subscribe(
           (tickers: any) => {
+              // console.log('tickets=', tickers);
               for (let i = 0; i < tickers.length; i++) {
                 const ticker = tickers[i];
                 const symbol = ticker.symbol;

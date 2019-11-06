@@ -22,6 +22,7 @@ export const environment = {
         blockchaingate: 'https://blockchaingate.com/v2/',
         coingecko: 'https://api.coingecko.com/',
         kanban: 'https://kanbanprod.fabcoinapi.com/',
+        ankit: 'http://18.223.17.4:3002/',
         BTC: {
             exchangily: 'https://btcprod.fabcoinapi.com/'
         },
@@ -30,7 +31,8 @@ export const environment = {
         },                
         ETH: {
             exchangily: 'https://ethprod.fabcoinapi.com/',
-        }        
+        },
+        pricehistory: 'http://18.223.17.4:3002/klinedata/'        
     },
     CoinType: {
         BTC: 0,

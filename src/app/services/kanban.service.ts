@@ -83,6 +83,13 @@ export class KanbanService {
         return res.transactionCount;
     }
 
+    getOrdersByAddress(address: string) {
+        let path = 'ordersbyaddress/' + address;
+        path = environment.endpoints.ankit + path;
+        const res = this.http.get(path);
+        return res;
+    }
+
     async getExchangeAddress() {
         const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
         let path = 'exchangily/getExchangeAddress';

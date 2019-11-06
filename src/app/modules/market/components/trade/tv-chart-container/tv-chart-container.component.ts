@@ -11,6 +11,8 @@ import { MockService} from '../../../../../services/mock.service';
 import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 import { CoinService } from '../../../../../services/coin.service';
 import { ActivatedRoute } from '@angular/router';
+import { WsService } from '../../../services/ws.service';
+import { OrderTicketFocusControl } from 'dist/dex/assets/charting_library/charting_library.min';
 
 interface BarData {
   time: number;
@@ -43,7 +45,6 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
     private _containerId: ChartingLibraryWidgetOptions['container_id'] = 'tv_chart_container';
     private _tvWidget: IChartingLibraryWidget | null = null;
 
-    ws;
     wsMessage = 'you may need to send specific message to subscribe data, eg: BTC';
     socket: WebSocketSubject<BarData>;
     private sub: any;
@@ -73,7 +74,8 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
       'D': '1d',
       '1D': '1d'
     };    
-    constructor(private mockService: MockService, private coinService: CoinService, private route: ActivatedRoute) {
+    constructor(private mockService: MockService, private coinService: CoinService, 
+      private _wsServ: WsService, private route: ActivatedRoute) {
 
     }
 
@@ -133,7 +135,11 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
+      const pair = this.route.snapshot.paramMap.get('pair');
+      const pairArray = pair.split('_');
+      this.loadChart(pairArray[1], pairArray[0]);
 
+      /*
       this.sub = this.route.params.subscribe(params => {
         const pair = params['pair']; // (+) converts string 'id' to a number
         console.log('pair=' + pair);
@@ -141,16 +147,11 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
         this.loadChart(pairArray[0], pairArray[1]);
         // In a real app: dispatch action to load the details here.
      });
-
+     */
     }
 
     loadChart(baseCoinName: string, targetCoinName: string) {
-
-      this.ws = this.mockService.fakeWebSocket();
-
-      this.ws.onopen = () => {
-        console.log('connect success');
-      };
+      console.log('loadChart once');
 
       function getLanguageFromURL(): LanguageCode | null {
         const regex = new RegExp('[\\?&]lang=([^&#]*)');
@@ -158,8 +159,9 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
 
         return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' ')) as LanguageCode;
       }
-        const that = this;
-        const datafeed = {
+
+      const that = this;
+      const datafeed = {
             onReady(x) {
                 timer(0)
                   .pipe(
@@ -174,8 +176,8 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
                 onResultReadyCallback('haha');
             },
             async getBars(symbol, granularity, startTime, endTime, onResult, onError, isFirst) {
-                console.log('symbol in getBars=', symbol);
-                console.log('granularity=' + granularity);
+                // console.log('symbol in getBars=', symbol);
+                // console.log('granularity=' + granularity);
                 const pair = baseCoinName + targetCoinName;
                 const list = await that.mockService.getHistoryList({
                   granularity: that.granularityMap[granularity],
@@ -208,6 +210,8 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
             },
             subscribeBars(symbol, granularity, onTick) {
               const pair = baseCoinName.toLowerCase() + targetCoinName.toLowerCase();
+
+              
               this.socket = new WebSocketSubject('wss://stream.binance.com:9443/ws/' + pair + '@kline_' + that.intervalMap[granularity]);
               this.socket.subscribe(
                 (item) => {
@@ -223,10 +227,13 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
                   onTick(itemData);
                 }
               );
+              
+
+            
 
               },
             unsubscribeBars() {
-              that.ws.send('stop receiving data or just close websocket');
+              // that.ws.send('stop receiving data or just close websocket');
               },                       
         };
 
@@ -244,8 +251,8 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
               'use_localstorage_for_settings',
               'volume_force_overlay'
               /*
-                    "header_widget", //头部工具栏
-                    "left_toolbar", //左侧工具栏
+                    "header_widget", //头部工具sub
+                    "left_toolbar", //左侧工具栏sub
                     "timeframes_toolbar",//底部工具栏
                     "edit_buttons_in_legend", //编辑按钮
                     "context_menus", //图表属性菜单
@@ -286,7 +293,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy() {
-      this.sub.unsubscribe();
+      // this.sub.unsubscribe();
       /*
         if (this._tvWidget !== null) {
             this._tvWidget.remove();
