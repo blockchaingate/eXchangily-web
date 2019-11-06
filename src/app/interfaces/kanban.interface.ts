@@ -22,6 +22,10 @@ export interface TransactionReceiptResp {
     transactionReceipt: TransactionReceipt;
 }
 
+export interface DepositStatusResp {
+    code: number;
+    message: string;
+}
 export interface OrderBookItem {
     asks: [][];
     bids: [][];

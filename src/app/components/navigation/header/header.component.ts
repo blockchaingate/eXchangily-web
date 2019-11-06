@@ -73,6 +73,10 @@ export class HeaderComponent implements OnInit {
             const status = await this.kanbanServ.getTransactionStatus(txid);
             transaction.status = status;
           } else
+          if (type === 'Deposit') {
+            const status = await this.kanbanServ.getDepositStatus(txid);
+            transaction.status = status;
+          } else
           if (coin === 'BTC') {
             const tx = await this.apiServ.getBtcTransaction(txid);
             if (tx) {

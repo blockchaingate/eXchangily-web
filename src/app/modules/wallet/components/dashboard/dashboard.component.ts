@@ -706,14 +706,13 @@ export class WalletDashboardComponent {
        
        this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp: any) => { 
             console.log('resp=', resp);
-            if (resp.message) {
-
+            if (resp.transactionID) {
                 const item = {
                     type: 'Deposit',
                     coin: currentCoin.name,
                     tokenType: currentCoin.tokenType,
                     amount: amount,
-                    txid: txHash,
+                    txid: resp.transactionID,
                     time: new Date(),
                     confirmations: '0',
                     blockhash: '', 
