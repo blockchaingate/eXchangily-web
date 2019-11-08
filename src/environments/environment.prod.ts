@@ -41,7 +41,7 @@ export const environment = {
     },
     addresses: {
         smartContract: {
-            EXG: '953f776a47b815cca8fdb10cb98ad1d8f13b98c8',
+            EXG: 'a3e26671a38978e8204b8a37f1c2897042783b00',
             USDT: '0xdac17f958d2ee523a2206206994597c13d831ec7',
             SCAR: '',
             EXCHANGILY: ''
@@ -56,6 +56,7 @@ export const environment = {
     },
     websockets: {
         allprices: 'wss://fabprod.fabcoinapi.com:3002/ws/allprices',
-        trades: 'wss://fabprod.fabcoinapi.com:3002/ws/trades'
+        trades: 'wss://fabprod.fabcoinapi.com:3002/ws/trades',
+        orders: 'wss://fabprod.fabcoinapi.com:3002/ws/orders',
     }
 };
