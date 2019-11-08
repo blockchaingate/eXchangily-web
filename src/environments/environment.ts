@@ -45,7 +45,7 @@ export const environment = {
     },
     addresses: {
         smartContract: {
-            EXG: '953f776a47b815cca8fdb10cb98ad1d8f13b98c8',
+            EXG: '0x311acf4666477a22c2f16c53b88c1734ee227fc6',
             USDT: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',
             SCAR: '',
             EXCHANGILY: ''
