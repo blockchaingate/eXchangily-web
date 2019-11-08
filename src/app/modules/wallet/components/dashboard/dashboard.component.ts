@@ -125,12 +125,17 @@ export class WalletDashboardComponent {
         await this.loadWallets();
         // this.currentWalletIndex = await this.walletServ.getCurrentWalletIndex();
         console.log('this.currentWalletIndex=', this.currentWalletIndex);
-
-        this.loadWallet(this.wallets[this.currentWalletIndex]);
-        this.loadCoinsPrice();
-
-        // this.startTimer();
-        this.loadBalance();        
+        if (!this.currentWalletIndex) {
+            this.currentWalletIndex = 0;
+        }
+        if (this.wallets) {
+            this.loadWallet(this.wallets[this.currentWalletIndex]);
+            this.loadCoinsPrice();
+    
+            // this.startTimer();
+            this.loadBalance();   
+        }
+     
 
         this.storageService.changedTransaction.subscribe(
             (transaction: TransactionItem) => {
@@ -407,7 +412,7 @@ export class WalletDashboardComponent {
         this.pin = pin;
         const pinHash = this.utilServ.SHA256(pin).toString();
         if (pinHash !== this.wallet.pwdHash) {
-            this.alertServ.openSnackBar('Your pin number is invalid.', 'Ok');
+            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
             return;
         }
         if (this.opType === 'deposit') {
@@ -447,7 +452,7 @@ export class WalletDashboardComponent {
         if (seedPhrase) {
             this.showSeedPhraseModal.show(seedPhrase);
         } else {
-            this.alertServ.openSnackBar('Your pin number is invalid.', 'Ok');
+            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
         }
     }
 
@@ -455,7 +460,7 @@ export class WalletDashboardComponent {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
         this.seed = seed;
         if (!seed) {
-            this.alertServ.openSnackBar('Your pin number is invalid.', 'Ok');        
+            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');        
             return;   
         } 
         this.backupPrivateKeyModal.show(seed, this.wallet);
@@ -470,7 +475,7 @@ export class WalletDashboardComponent {
         if (seedPhrase) {
             this.verifySeedPhraseModal.show(seedPhrase);
         } else {
-            this.alertServ.openSnackBar('Your pin number is invalid.', 'Ok');
+            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
         }        
         
     }
@@ -500,7 +505,7 @@ export class WalletDashboardComponent {
         
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         if (!seed) {
-            this.alertServ.openSnackBar('Your pin number is invalid.', 'Ok');        
+            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');        
             return;   
         } 
         const scarAddress = await this.kanbanServ.getScarAddress();
@@ -581,7 +586,7 @@ export class WalletDashboardComponent {
 
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         if (!seed) {
-            this.alertServ.openSnackBar('Your pin number is invalid.', 'Ok');        
+            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');        
             return;   
         }         
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);   
@@ -639,7 +644,7 @@ export class WalletDashboardComponent {
 
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         if (!seed) {
-            this.alertServ.openSnackBar('Your pin number is invalid.', 'Ok');        
+            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');        
             return;   
         }         
         const keyPairs = this.coinServ.getKeyPairs(currentCoin, seed, 0, 0);
@@ -701,14 +706,13 @@ export class WalletDashboardComponent {
        
        this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp: any) => { 
             console.log('resp=', resp);
-            if (resp.message) {
-
+            if (resp.transactionID) {
                 const item = {
                     type: 'Deposit',
                     coin: currentCoin.name,
                     tokenType: currentCoin.tokenType,
                     amount: amount,
-                    txid: txHash,
+                    txid: resp.transactionID,
                     time: new Date(),
                     confirmations: '0',
                     blockhash: '', 

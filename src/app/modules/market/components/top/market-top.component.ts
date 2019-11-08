@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MarketTopBlockComponent } from '../top-block/market-top-block.component';
+import { WsService } from '../../services/ws.service';
 
 @Component({
   selector: 'app-market-top',
@@ -13,9 +14,12 @@ export class MarketTopComponent implements OnInit {
   @ViewChild('marketTopBlock3', {static: true}) marketTopBlock3: MarketTopBlockComponent;
   @ViewChild('marketTopBlock4', {static: true}) marketTopBlock4: MarketTopBlockComponent;
 
-  constructor() { }
+  constructor(private _wsServ: WsService) { }
 
   ngOnInit() {
+    this._wsServ.currentPrices.subscribe((arr: any) => {
+      this.updateTickerList(arr);
+    });
   }
 
   updateTickerList(arr) {

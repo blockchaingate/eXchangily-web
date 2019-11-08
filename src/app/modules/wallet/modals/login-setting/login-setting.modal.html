@@ -11,7 +11,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="exampleInputPassword1" class="text-dark">Wallet Password</label>
-                        <input type="password" class="form-control" formControlName="password" id="password" placeholder="Type wallet password">
+                        <input type="password" autocomplete="off" class="form-control" formControlName="password" id="password" placeholder="Type wallet password">
                         <div class="error text-danger smallfont" *ngIf="!loginSettingForm.get('password').valid && loginSettingForm.get('password').touched">
                             {{"Pwdvalid" | translate}}.
                         </div>
@@ -20,7 +20,7 @@
 
                     <div class="form-group">
                         <label for="exampleInputPassword2" class="text-dark">Confirm Wallet Password</label>
-                        <input type="password" class="form-control" formControlName="pwdconfirm" id="pwdconfirm" placeholder="Type wallet password">
+                        <input type="password" autocomplete="off" class="form-control" formControlName="pwdconfirm" id="pwdconfirm" placeholder="Type wallet password">
                         <div class="error text-danger smallfont" *ngIf="loginSettingForm.get('pwdconfirm').touched && loginSettingForm.hasError('notSame')">
                             {{"Password doesn't match" | translate }}!
                         </div>

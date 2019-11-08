@@ -19,21 +19,20 @@
             <div class="orditem" style="width: 10%;">Price</div>
             <div class="orditem" style="width: 10%;">Order Qty</div>
             <div class="orditem" style="width: 10%;">Filled Qty</div>
-            <div class="orditem" style="width: 10%;">Amount</div>
             <div class="orditem" style="width: 8%;">Filled%</div>
             <div class="orditem" style="width: 8%;">Action</div>
         </div>
 
         <div class="myorderlist scroll-bar w-100 pt-2">
-            <div class="row orderline w-100" *ngFor="let order of myorders; let i=index">
+            <div class="row orderline w-100" *ngFor="let order of myorders | orderfilter: isActive; let i=index">
                 <div class="orditem text-white d-flex align-items-center" style="width: 20%;">
                     <div>
-                        {{order.created_at | date:'yyyy-MM-dd HH:mm:ss'}}
+                        {{order.time | date:'yyyy-MM-dd HH:mm:ss'}}
                     </div>
                 </div>
                 <div class="orditem text-info d-flex align-items-center" style="width: 8%;">
                     <div>
-                        {{coinService.getCoinNameByTypeId(order.baseCoin)}}
+                        {{coinService.getCoinNameByTypeId(order.pairLeft)}}/{{coinService.getCoinNameByTypeId(order.pairRight)}}
                     </div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 5%;">
@@ -44,16 +43,13 @@
                     <div>{{order.price}}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 10%;">
-                    <div>{{order.qty}}</div>
+                    <div>{{order.orderQuantity}}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 10%;">
-                    <div>{{order.filledQty}}</div>
-                </div>
-                <div class="orditem text-white d-flex align-items-center" style="width: 10%;">
-                    <div>{{order.amount}}</div>
+                    <div>{{order.filledQuantity}}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 8%;">
-                    <div>{{order.filledQty*100/order.qty|number:'2.2-2'}}</div>
+                    <div>{{order.filledQuantity*100/order.orderQuantity|number:'2.2-2'}}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 8%;">
                     <div>
@@ -75,15 +71,15 @@
         </div>
 
         <div class="myorderlist scroll-bar w-100 pt-2" [style.height.px]="screenheight-680">
-            <div class="row row-with-line  w-100" *ngFor="let order of myorders; let i=index">
+            <div class="row row-with-line  w-100" *ngFor="let order of myorders | orderfilter: isActive; let i=index">
                 <div class="text-muted col-5">
                     <p>
-                        {{order.created_at | date:'yyyy-MM-dd HH:mm:ss'}}
+                        {{order.time | date:'yyyy-MM-dd HH:mm:ss'}}
                     </p>
                 </div>
                 <div class=" text-info col-2">
                     <p>
-                        {{coinService.getCoinNameByTypeId(order.baseCoin)}}
+                        {{coinService.getCoinNameByTypeId(order.pairLeft)}}/{{coinService.getCoinNameByTypeId(order.pairRight)}}
                     </p>
                 </div>
                 <div class=" text-muted col-2">
@@ -101,16 +97,13 @@
                     </p>
                 </div>
                 <div class=" text-muted col-4">
-                    Order Qty:{{order.qty}}
+                    Order Qty:{{order.orderQuantity}}
                 </div>
                 <div class=" text-muted col-4">
-                    Filled Qty:{{order.filledQty}}
+                    Filled Qty:{{order.filledQuantity}}
                 </div>
                 <div class=" text-muted col-4">
-                    Amount:{{order.amount}}
-                </div>
-                <div class=" text-muted col-4">
-                    Filled%:{{order.filledQty*100/order.qty|number:'2.2-2'}}
+                    Filled%:{{order.filledQuantity*100/order.orderQuantity|number:'2.2-2'}}
                 </div>
 
             </div>
@@ -137,14 +130,14 @@
 
 <ng-template #templatePasswd>
     <div class="modal-header text-center">
-        <h4 class="modal-title w-100">Pin Number</h4>
+        <h4 class="modal-title w-100">Password</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
                     <span aria-hidden="true">&times;</span>
                   </button>
     </div>
     <div class="modal-body">
         <div class="pb-4">
-            <input type="password" class="form-control" id="inputPin" [(ngModel)]="pin" aria-describedby="emailHelp" placeholder="Please provide your password to confirm the transaction">
+            <input type="password" autocomplete="off" class="form-control" id="inputPin" [(ngModel)]="pin" aria-describedby="emailHelp" placeholder="Please provide your password to confirm the transaction">
         </div>
 
         <button class="btn btn1 btn-gradient text-white" (click)="confirmPin()">{{"Confirm" | translate }}</button>

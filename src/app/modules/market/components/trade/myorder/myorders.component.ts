@@ -19,20 +19,29 @@ import { AlertService } from '../../../../../services/alert.service';
 })
 
 export class MyordersComponent implements OnInit {
-    @Input() wallet: Wallet;
+    // @Input() wallet: Wallet;
     private _mytokens: any;
+    private _wallet: any;
     screenheight = screen.height;
     select = 0;
     myorders: Transaction[] = [];
-    address: string;
     pin: string;
     orderHash: string;
     modalRef: BsModalRef;
-
+    isActive: boolean;
+    interval;
     constructor(private ordServ: OrderService, private _router: Router, private tradeService: TradeService, 
         private utilServ: UtilService, private kanbanService: KanbanService, private coinService: CoinService, 
         private modalService: BsModalService, private web3Serv: Web3Service, private alertServ: AlertService) {
     }
+
+    @Input()
+    set wallet(wallet: any) {
+      this._wallet = wallet;
+
+    }
+  
+    get wallet(): any { return this._wallet; }
 
     @Input()
     set mytokens(mytokens: any) {
@@ -49,6 +58,19 @@ export class MyordersComponent implements OnInit {
     }
     */
     ngOnInit() {
+
+        this.interval = setInterval(() => {
+            if (this._wallet) {
+                this.kanbanService.getOrdersByAddress(this._wallet.excoin.receiveAdds[0].address)
+                .subscribe(
+                    (orders: any) => { 
+                        this.myorders = orders;
+                    }
+                );
+              }
+          }, 1000);        
+        this.isActive = true;
+        /*
         // console.log('mytokens in myorders=', this.mytokens);
         this.tradeService.getTransactions().subscribe((transactions: Transaction[]) => {
             // console.log('transactions=');
@@ -72,7 +94,7 @@ export class MyordersComponent implements OnInit {
                 });
             }
         }); 
-        
+        */
 
 
     }
@@ -85,6 +107,12 @@ export class MyordersComponent implements OnInit {
     selectOrder(ord: number) {
 
         this.select = ord;
+        if (ord === 0) {
+            this.isActive = true;
+        } else
+        if (ord === 1) {
+            this.isActive = false;
+        }
     }
     deleteOrder(pinModal: TemplateRef<any>, orderHash: string) {
         console.log('orderHash=' + orderHash);

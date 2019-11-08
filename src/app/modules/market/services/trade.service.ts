@@ -1,5 +1,8 @@
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import {Transaction} from '../../../interfaces/kanban.interface';
+import { Injectable } from '@angular/core';
+
+@Injectable()
 export class TradeService {
     
     constructor(private localSt: LocalStorage) {

@@ -91,29 +91,35 @@ export class TradeAutoComponent implements OnInit {
         const wallets = await this.walletServ.getWallets();
         const pin = '1qaz@WSX';
         
-        for (let i = 0; i < 150; i++) {
+        for (let i = 0; i < 1000; i++) {
+            console.log('i=', i);
             let bidOrAsk = true;
             let walletIndex = 10;
             if (i % 2 === 0) {
                 bidOrAsk = false;
-                // walletIndex = 11;
+                walletIndex = 11;
             }
             const wallet = wallets[walletIndex];
-        
+            console.log('wallet.name=', wallet.name);
             const index = (Math.floor(i / 2)) % 10;
             console.log('index=' + index);
-            // const baseCoin = price_list[index].base_id;
-            // const targetCoin = price_list[index].coin_id;
+            const baseCoin = price_list[index].base_id;
+            const targetCoin = price_list[index].coin_id;
 
+            /*
             let baseCoin = 1;
             let targetCoin = 3;  
-            if (i % 4 === 2 || i % 4 === 3) {
+            if (i % 6 === 2 || i % 6 === 3) {
                 baseCoin = 3;
                 targetCoin = 5;
             }    
-            
+            if (i % 6 === 4 || i % 6 === 5) {
+                baseCoin = 1;
+                targetCoin = 5;
+            }  
+            */              
             console.log('baseCoin = ' + baseCoin + ',targetCoin = ' + targetCoin);
-            const price = 2;
+            const price = Math.random();
             const qty = 0.00001;
             const {txHex, orderHash} = await this.txHexforPlaceOrder(
                 pin, wallet, bidOrAsk, baseCoin, targetCoin, price, qty
@@ -124,7 +130,7 @@ export class TradeAutoComponent implements OnInit {
                     console.log('transactionHash=', resp.transactionHash);
                 }
             });
-            await this.delay(500);
+            await this.delay(1000);
         }
 
     }

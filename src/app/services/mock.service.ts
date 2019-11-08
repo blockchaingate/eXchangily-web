@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 
 interface BarData {
   time: number;
+  closeTime: number;
   open: number;
   high: number;
   low: number;
@@ -18,7 +19,7 @@ interface BarData {
   providedIn: 'root'
 })
 export class MockService {
-  static dataTemplate: BarData = { 'time': 1545572340000, 'open': 3917, 'high': 3917, 'low': 3912.03, 'close': 3912.62, 'volume': 3896 };
+  // static dataTemplate: BarData = { 'time': 1545572340000, 'open': 3917, 'high': 3917, 'low': 3912.03, 'close': 3912.62, 'volume': 3896 };
   static dataIndex = 0;
   static dataLength = BTC_PRICE_LIST.length;
 
@@ -51,34 +52,22 @@ export class MockService {
     console.log(list[list.length - 1]);
     */
     // intervals array('1h','30m','15m','5m', '1m')
-    const res = await this.http.get(environment.endpoints.kanban + 'klines?symbol=' + symbol + '&interval=' + inter).toPromise() as string;
+    const url = environment.endpoints.pricehistory + symbol + '/' + inter;
 
-      const resp = Array.from(res.toString());
-      for (let i = 0; i < resp.length; i++) {
-        const item = res[i];
-        if (!item) {
-          continue;
-        }
-        const itemArray = Array.from(item);
-        const openTime = itemArray[0];
-        const open = itemArray[1];
-        const high = itemArray[2];
-        const low = itemArray[3];
-        const close = itemArray[4];
-        const volume = itemArray[5];
-        const closeTime = itemArray[6];
-        const quoteAssetVolume = itemArray[7];
-        const numberOfTrades = itemArray[8];
-        const takerBuyBaseAssetVolume = itemArray[9];
-        const takerBuyQuoteAssetVolume = itemArray[10];
-        const ignore = itemArray[11];
-        const barItem = {time: closeTime, open: open, high: high, low: low, close: close, volume: volume};
-        list.push(barItem);
-        //console.log('openTime=' + openTime);
-        //console.log('ignore=' + ignore);
+    // console.log('url for getHistoryList=', url);
+    const res = await this.http.get(url).toPromise() as [BarData];
+    if (res && res.length > 0) {
+      for (let i = 0; i < res.length; i++) {
+        res[i].open = res[i].open / 1e18;
+        res[i].close = res[i].close / 1e18;
+        res[i].volume = res[i].volume / 1e18;
+        res[i].high = res[i].high / 1e18;
+        res[i].low = res[i].low / 1e18;
+        res[i].time = res[i].time * 1000;
       }
+    }
 
-    return list;
+    return res;
   }
 
   fakeWebSocket() {

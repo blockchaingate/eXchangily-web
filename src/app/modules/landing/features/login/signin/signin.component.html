@@ -1,33 +1,33 @@
-    <h2 class="center">{{ 'Header.Navigation.Signin' | translate }}</h2>
+<h2 class="center">{{ 'Header.Navigation.Signin' | translate }}</h2>
 
-    <form class="loginform" (ngSubmit)="onSubmit()" [formGroup]="signinForm" #formDir="ngForm">
-      <label for="email" class="form-input__text__label regular">{{ 'Form.Email' | translate }}</label>
-      <input type="email" id="email" name="email" formControlName="email" class="block form-input__text">
-      <div *ngIf="email.invalid && (email.dirty || email.touched)" class="form-input__error">
+<form class="loginform" (ngSubmit)="onSubmit()" [formGroup]="signinForm" #formDir="ngForm">
+    <label for="email" class="form-input__text__label regular">{{ 'Form.Email' | translate }}</label>
+    <input type="email" id="email" name="email" formControlName="email" class="block form-input__text">
+    <div *ngIf="email.invalid && (email.dirty || email.touched)" class="form-input__error">
         <p *ngIf="email.errors.required">
-          {{ 'FormErrors.FieldRequiredError' | translate }}
+            {{ 'FormErrors.FieldRequiredError' | translate }}
         </p>
         <p *ngIf="email.errors.email">
-          {{ 'FormErrors.ValidEmailError' | translate }}
+            {{ 'FormErrors.ValidEmailError' | translate }}
         </p>
-      </div>
+    </div>
 
-      <label for="password" class="form-input__text__label regular">{{ 'Form.Password' | translate }}</label>
-      <input type="password" formControlName="password" name="password" class="block form-input__text">
-      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="form-input__error">
+    <label for="password" class="form-input__text__label regular">{{ 'Form.Password' | translate }}</label>
+    <input type="password" autocomplete="off" formControlName="password" name="password" class="block form-input__text">
+    <div *ngIf="password.invalid && (password.dirty || password.touched)" class="form-input__error">
         <p *ngIf="password.errors.required">
-          {{ 'FormErrors.FieldRequiredError' | translate }}
+            {{ 'FormErrors.FieldRequiredError' | translate }}
         </p>
-      </div>
+    </div>
 
-      <div class="button-wrapper">
+    <div class="button-wrapper">
         <button type="submit" [disabled]="!formDir.form.valid" class="form-input__button fancy-button background-primary color-white"><span class="">{{ 'Header.Navigation.Signin' | translate }}</span></button>
         <p *ngIf="loginError" class="form-input__error">
-        {{ loginError }}
+            {{ loginError }}
         </p>
 
         <br/>
 
         <p><a class="color-primary" [routerLink]="['/login/reset']">{{ 'Form.ForgotPassword' | translate }}</a></p>
-      </div>
-    </form>
+    </div>
+</form>

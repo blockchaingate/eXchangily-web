@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {BlockNumberResponse, BlockResponse, AccountsResponse, TransactionsResponse,
-    KanbanGetBanalceResponse, TransactionAccountResponse, Block} from '../interfaces/kanban.interface';
+    KanbanGetBanalceResponse, TransactionAccountResponse, DepositStatusResp} from '../interfaces/kanban.interface';
 import { environment } from '../../environments/environment';
 import { UtilService } from './util.service';
 import {TransactionReceiptResp} from '../interfaces/kanban.interface';
@@ -81,6 +81,13 @@ export class KanbanService {
         console.log('nouse in here:', path);
         const res = await this.get(path).toPromise() as TransactionAccountResponse;
         return res.transactionCount;
+    }
+
+    getOrdersByAddress(address: string) {
+        let path = 'ordersbyaddress/' + address;
+        path = environment.endpoints.ankit + path;
+        const res = this.http.get(path);
+        return res;
     }
 
     async getExchangeAddress() {
@@ -167,6 +174,28 @@ export class KanbanService {
 
     getAllOrders() {
         return this.get('exchangily/getAllOrderData');
+    }
+
+    async getDepositStatus(txid: string) {
+        let response = null;
+        let status = 'pending';   
+        
+        try {
+            response = await this.get('checkstatus/' + txid).toPromise() as DepositStatusResp;
+            if (response && response.code) {
+                if (response.code === 0) {
+                    status = 'confirmed';
+                } else 
+                if (response.code === 2) {
+                    status = 'failed';
+                } else
+                if (response.code === 3) {
+                    status = 'claim';
+                }
+            }
+
+        } catch (e) {console.log (e); }        
+        return status; 
     }
 
     async getTransactionStatus(txid: string) {

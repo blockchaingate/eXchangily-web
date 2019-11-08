@@ -27,6 +27,7 @@ export const environment = {
         // blockchaingate: 'http://localhost:3002/v2/',
         coingecko: 'https://api.coingecko.com/',
         kanban: 'https://kanbantest.fabcoinapi.com/',
+        ankit: 'http://18.223.17.4:3002/',
         BTC: {
             exchangily: 'https://btctest.fabcoinapi.com/'
         },
@@ -36,7 +37,9 @@ export const environment = {
         ETH: {
             exchangily: 'https://ethtest.fabcoinapi.com/',
             // etherscan: 'https://api-ropsten.etherscan.io/'
-        }
+        },
+        pricehistory: 'http://18.223.17.4:3002/klinedata/'
+
     },
     CoinType: {
         BTC: 1,
@@ -60,7 +63,8 @@ export const environment = {
     },
     websockets: {
         allprices: 'ws://18.223.17.4:3002/ws/allprices',
-        trades: 'ws://18.223.17.4:3002/ws/trades'
+        trades: 'ws://18.223.17.4:3002/ws/trades',
+        orders: 'ws://18.223.17.4:3002/ws/orders',
     }
 };
 
