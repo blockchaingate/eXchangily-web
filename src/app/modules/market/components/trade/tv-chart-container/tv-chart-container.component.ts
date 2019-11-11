@@ -178,7 +178,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
             async getBars(symbol, granularity, startTime, endTime, onResult, onError, isFirst) {
                 // console.log('symbol in getBars=', symbol);
                 // console.log('granularity=' + granularity);
-                const pair = baseCoinName + targetCoinName;
+                const pair = targetCoinName + baseCoinName;
                 const list = await that.mockService.getHistoryList({
                   granularity: that.granularityMap[granularity],
                   interval: that.intervalMap[granularity],
@@ -193,7 +193,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
                   .pipe(
                     tap(() => {
                       onResolve({
-                        name: baseCoinName.toLowerCase() + targetCoinName.toLowerCase(),
+                        name:targetCoinName.toLowerCase() + baseCoinName.toLowerCase() ,
                         full_name: baseCoinName, // display on the chart
                         base_name: targetCoinName,
                         minmov: 1,
@@ -209,7 +209,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
                 console.log('serverTime:', arguments);
             },
             subscribeBars(symbol, granularity, onTick) {
-              const pair = baseCoinName.toLowerCase() + targetCoinName.toLowerCase();
+              const pair = targetCoinName.toLowerCase() + baseCoinName.toLowerCase();
 
               
               this.socket = new WebSocketSubject('wss://stream.binance.com:9443/ws/' + pair + '@kline_' + that.intervalMap[granularity]);

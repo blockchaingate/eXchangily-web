@@ -130,7 +130,7 @@ export class TradeAutoComponent implements OnInit {
                     console.log('transactionHash=', resp.transactionHash);
                 }
             });
-            await this.delay(1000);
+            await this.delay(200);
         }
 
     }

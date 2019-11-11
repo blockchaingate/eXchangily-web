@@ -77,11 +77,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       private fb: FormBuilder, private modalService: BsModalService, private tradeService: TradeService, 
       private route: ActivatedRoute, private alertServ: AlertService) {
         this.refreshTokenDone = true; 
-        /*
-        this.interval = setInterval(() => {
-          this.refreshOrders();
-        },2000)
-        */
     }
 
     ngOnDestroy() {
@@ -146,6 +141,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       this.tradesSocket = new WebSocketSubject(environment.websockets.trades + '@' + pair);
       this.tradesSocket.subscribe(
         (trades: any) => {
+          this.txOrders = [];
           // console.log('trades.length=', trades.length);
           for (let i = 0; i < trades.length; i++) {
             const item = trades[i];
@@ -161,7 +157,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
             this.currentPrice = price;
             this.currentQuantity = quantity;
             if (this.txOrders.length > 22) {
-              this.txOrders.splice(0, 1);
+              break;
             }
             this.txOrders.push(txItem);
           }

@@ -17,7 +17,7 @@
 
                 <div class="form-group">
                     <label for="exampleInputPassword1">Wallet Password</label>
-                    <input type="password" class="form-control transparent-input" formControlName="password" id="password" placeholder="Type wallet password">
+                    <input type="password" autocomplete="off" class="form-control transparent-input" formControlName="password" id="password" placeholder="Type wallet password">
                     <div class="error text-danger smallfont" *ngIf="!userForm.get('password').valid && userForm.get('password').touched">
                         {{"Pwdvalid" | translate}}.
                     </div>
@@ -26,7 +26,7 @@
 
                 <div class="form-group">
                     <label for="exampleInputPassword2">Confirm Wallet Password</label>
-                    <input type="password" class="form-control transparent-input" formControlName="pwdconfirm" id="pwdconfirm" placeholder="Type wallet password">
+                    <input type="password" autocomplete="off" class="form-control transparent-input" formControlName="pwdconfirm" id="pwdconfirm" placeholder="Type wallet password">
                     <div class="error text-danger smallfont" *ngIf="userForm.get('pwdconfirm').touched && userForm.hasError('notSame')">
                         {{"Password doesn't match" | translate }}!
                     </div>

@@ -58,7 +58,7 @@ export class MyordersComponent implements OnInit {
     }
     */
     ngOnInit() {
-
+        /*
         this.interval = setInterval(() => {
             if (this._wallet) {
                 this.kanbanService.getOrdersByAddress(this._wallet.excoin.receiveAdds[0].address)
@@ -68,7 +68,8 @@ export class MyordersComponent implements OnInit {
                     }
                 );
               }
-          }, 1000);        
+          }, 1000);   
+          */     
         this.isActive = true;
         /*
         // console.log('mytokens in myorders=', this.mytokens);
