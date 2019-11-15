@@ -33,19 +33,36 @@ export class StorageService {
     }
 
 
-    storeToTransactionHistoryList(walletId: string, transactionItem: TransactionItem) {
+    storeToTransactionHistoryList(transactionItem: TransactionItem) {
         this.newTransaction.next(transactionItem);
-        this.getTransactionHistoryList(walletId).subscribe((transactionHistory: TransactionItem[]) => {
+        this.getTransactionHistoryList().subscribe((transactionHistory: TransactionItem[]) => {
             if (!transactionHistory) {
                 transactionHistory = [];
             }
             transactionHistory.push(transactionItem);
             console.log('transactionHistory for storeToTransactionHistoryList=', transactionHistory);
-            return this.localSt.setItem('transactions-' + walletId, transactionHistory).subscribe(() => {});
+            return this.localSt.setItem('transactions', transactionHistory).subscribe(() => {});
         });
     }  
-    
-    getTransactionHistoryList(walletId: string) {
-        return this.localSt.getItem('transactions-' + walletId);
+
+    updateTransactionHistoryList(transactionItem: TransactionItem) {
+        this.getTransactionHistoryList().subscribe((transactionHistory: TransactionItem[]) => {
+            if (!transactionHistory) {
+                transactionHistory = [];
+            }
+            for (let i = 0; i < transactionHistory.length; i++) {
+                if (transactionHistory[i].txid === transactionItem.txid) {
+                    transactionHistory[i].status = transactionItem.status;
+                    break;
+                }
+            }
+            console.log('transactionHistory for storeToTransactionHistoryList=', transactionHistory);
+            return this.localSt.setItem('transactions', transactionHistory).subscribe(() => {});
+        });
+    }     
+    getTransactionHistoryList() {
+        return this.localSt.getItem('transactions');
     }    
+
+
 }

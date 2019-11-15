@@ -34,6 +34,27 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.pendingtransactions = [];
     this.closetransactions = [];
+
+    this.storageServ.getTransactionHistoryList().subscribe(
+      (transactionHistory: TransactionItem[]) => {
+        if ( transactionHistory ) {
+          let hasPending = false;
+          const subArray = transactionHistory.reverse().slice( 0, 5 );
+          for (let i = 0; i < subArray.length; i++) {
+            const item = subArray[i];
+            if (item.status === 'pending') {
+              this.pendingtransactions.push(item);
+              hasPending = true;
+            } else {
+              this.closetransactions.push(item);
+            }
+          }
+          if (hasPending && !this.play) {
+            this.startTimer();
+          }
+        }
+        
+    });
     this.storageServ.newTransaction.subscribe(
       (transaction: TransactionItem) => {
         this.pendingtransactions.push(transaction);
@@ -126,6 +147,7 @@ export class HeaderComponent implements OnInit {
             if (deleted && deleted.length > 0) {
               console.log('deleted=', deleted);
               const deletedItem = deleted[0];
+              this.storageServ.updateTransactionHistoryList(deletedItem);
               this.storageServ.notifyTransactionItemChanged(deletedItem);
               this.closetransactions.push(deletedItem);              
             }

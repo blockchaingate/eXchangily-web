@@ -25,13 +25,12 @@ export class TransactionHistoryComponent implements OnInit {
     }
     
     ngOnInit() {
-        this.storageService.getTransactionHistoryList(this.walletId).subscribe(
+        this.storageService.getTransactionHistoryList().subscribe(
             (transactionHistory: TransactionItem[]) => {
                 console.log('transactionHistory=', transactionHistory);
                 if (transactionHistory) {
-                    this.transactionHistory = transactionHistory.reverse();
+                    this.transactionHistory = transactionHistory.reverse().filter( s => s.walletId === this.walletId);
                 }
-                
             }
         );
     }

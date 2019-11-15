@@ -359,6 +359,9 @@ export class Web3Service {
 
     getDepositFuncABI(coinType: number, txHash: string, amount: number, addressInKanban: string, signedMessage: Signature) {
 
+      console.log('params for getDepositFuncABI:');
+      console.log('coinType=' + coinType + ',txHash=' + txHash + ',amount=' + amount + ',addressInKanban=' + addressInKanban);
+      console.log('signedMessage=', signedMessage);
       const web3 = this.getWeb3Provider();
       const func = {
           "constant": false,
@@ -399,15 +402,15 @@ export class Web3Service {
           "stateMutability": "nonpayable",
           "type": "function"
       };
-      let abiHex = web3.eth.abi.encodeFunctionSignature(func).substring(2);
-      abiHex += signedMessage.v.substring(2);
+      let abiHex = this.utilServ.stripHexPrefix(web3.eth.abi.encodeFunctionSignature(func));
+      abiHex += this.utilServ.stripHexPrefix(signedMessage.v);
       abiHex += this.utilServ.fixedLengh(coinType, 62);
-      abiHex += txHash.substring(2);
+      abiHex += this.utilServ.stripHexPrefix(txHash);
       const amountHex = amount.toString(16);
       abiHex += this.utilServ.fixedLengh(amountHex, 64);
-      abiHex += this.utilServ.fixedLengh(addressInKanban.substring(2), 64);
-      abiHex += signedMessage.r.substring(2);
-      abiHex += signedMessage.s.substring(2);
+      abiHex += this.utilServ.fixedLengh(this.utilServ.stripHexPrefix(addressInKanban), 64);
+      abiHex += this.utilServ.stripHexPrefix(signedMessage.r);
+      abiHex += this.utilServ.stripHexPrefix(signedMessage.s);
 
       return abiHex;
 

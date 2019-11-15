@@ -8,6 +8,7 @@ export class MyCoin extends Coin {
     changeAdds: Address[];
     tokenType: string;
     baseCoin: MyCoin;
+    redeposit: any[];
     contractAddr: string;
 
     constructor(name: string) {

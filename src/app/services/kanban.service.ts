@@ -113,6 +113,22 @@ export class KanbanService {
         return this.post('kanban/sendRawTransaction', data);
     }
 
+    submitReDeposit(rawKanbanTransaction: string) {
+        const data = {
+            'rawKanbanTransaction': rawKanbanTransaction
+        };
+        const httpHeaders = new HttpHeaders({
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+       });   
+       const options = {
+        headers: httpHeaders
+        };    
+        console.log('data for resubmitDeposit=', data);       
+        const path = this.endpoint + 'resubmitDeposit';
+        return this.http.post(path, data, options);
+    }
+
     submitDeposit(rawTransaction: string, rawKanbanTransaction: string) {
         const data = {
             'rawTransaction': rawTransaction,
@@ -151,9 +167,16 @@ export class KanbanService {
 
     getKanbanBalance(address: string) {
         const path = 'kanban/getBalance/' + address;
-        console.log('path1='+ path);
+        console.log('path1=' + path);
         return this.get(path);
     }
+
+    getDepositErr(address: string) {
+        const path = 'depositerr/' + address;
+        console.log('path1=' + path);
+        return this.get(path);
+    }
+
     post (path: string, data: any) {
         const httpHeaders = new HttpHeaders({
             'Content-Type' : 'application/json',

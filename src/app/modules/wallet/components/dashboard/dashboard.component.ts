@@ -129,14 +129,37 @@ export class WalletDashboardComponent {
             this.currentWalletIndex = 0;
         }
         if (this.wallets) {
-            this.loadWallet(this.wallets[this.currentWalletIndex]);
+            await this.loadWallet(this.wallets[this.currentWalletIndex]);
             this.loadCoinsPrice();
     
             // this.startTimer();
             this.loadBalance();   
         }
      
-
+        if (this.exgAddress) {
+            this.kanbanServ.getDepositErr(this.exgAddress).subscribe(
+                (resp: any) => {
+                    console.log('resp=', resp);
+                    
+                    for (let i = 0; i < resp.length; i++) {
+                        const coinType = resp[i].coinType;
+                        for (let j = 0; j < this.wallet.mycoins.length; j++) {
+                            const name = this.wallet.mycoins[j].name;
+                            const myCoinType = this.coinServ.getCoinTypeIdByName(name);
+                            console.log('coinType=' + coinType + ',myCoinType=' + myCoinType);
+                            if (coinType === myCoinType) {
+                                console.log('got it');
+                                if (!this.wallet.mycoins[j].redeposit) {
+                                    this.wallet.mycoins[j].redeposit = [];
+                                }
+                                this.wallet.mycoins[j].redeposit.push(resp[i]);
+                            }
+                        }
+                    }
+                    console.log('this.wallet.mycoins===', this.wallet.mycoins);
+                }
+            );
+        }
         this.storageService.changedTransaction.subscribe(
             (transaction: TransactionItem) => {
                 
@@ -245,7 +268,7 @@ export class WalletDashboardComponent {
 
     async onConfirmedDeleteWallet() {
         console.log('confirm delete it.');
-        //this.walletServ.deleteCurrentWallet();
+        // this.walletServ.deleteCurrentWallet();
         console.log(this.wallets);
         console.log('this.currentWalletIndex=' + this.currentWalletIndex);
         if (this.currentWalletIndex >= 0 && this.wallets) {
@@ -270,8 +293,8 @@ export class WalletDashboardComponent {
     }
     async loadBalance() {
         
-        //console.log('this.coinsPrice=');
-        //console.log(this.coinsPrice);
+        // console.log('this.coinsPrice=');
+        // console.log(this.coinsPrice);
         if (!this.wallet) {
             return;
         }
@@ -297,8 +320,8 @@ export class WalletDashboardComponent {
 
     async changeWallet(value) {
         this.currentWalletIndex = value;
-        //this.wallet = this.wallets[this.currentWalletIndex];
-        //this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
+        // this.wallet = this.wallets[this.currentWalletIndex];
+        // this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
         this.walletServ.saveCurrentWalletIndex(this.currentWalletIndex);
         console.log('this.currentWalletIndex=' + this.currentWalletIndex);
         await this.loadWallet(this.wallets[this.currentWalletIndex]);
@@ -350,7 +373,7 @@ export class WalletDashboardComponent {
 
     
     addGasFee() {
-        //this.currentCoin = this.wallet.mycoins[1];
+        // this.currentCoin = this.wallet.mycoins[1];
         this.addGasModal.show();
     }
     
@@ -362,11 +385,12 @@ export class WalletDashboardComponent {
     deposit(currentCoin: MyCoin) {
         this.currentCoin = currentCoin;
         this.depositModal.show();
-        /*
-        this.amount = 0.2;
-        this.pin = '1qaz@WSX';
-        this.depositdo();
-        */ 
+    }
+
+    redeposit(currentCoin: MyCoin) {
+        this.currentCoin = currentCoin;
+        this.opType = 'redeposit';
+        this.pinModal.show();
     }
 
     onConfirmedDepositAmount(amount: number) {
@@ -418,6 +442,9 @@ export class WalletDashboardComponent {
         if (this.opType === 'deposit') {
             this.depositdo();
         } else 
+        if (this.opType === 'redeposit') {
+            this.redepositdo();
+        } else
         if (this.opType === 'withdraw') {
             this.withdrawdo();
         } else
@@ -516,6 +543,7 @@ export class WalletDashboardComponent {
         } else {
 
             const item = {
+                walletId: this.wallet.id,
                 type: 'Add Gas',
                 coin: currentCoin.name,
                 tokenType: currentCoin.tokenType,
@@ -527,7 +555,7 @@ export class WalletDashboardComponent {
                 comment: '',
                 status: 'pending'
             };
-            this.storageService.storeToTransactionHistoryList(this.wallet.id, item);
+            this.storageService.storeToTransactionHistoryList(item);
 
             this.alertServ.openSnackBar('add gas transaction was submitted successfully.', 'Ok');
         }
@@ -561,6 +589,7 @@ export class WalletDashboardComponent {
             this.alertServ.openSnackBar('your transaction was submitted successfully.', 'Ok');
             
             const item = {
+                walletId: this.wallet.id,
                 type: 'Send',
                 coin: currentCoin.name,
                 tokenType: currentCoin.tokenType,
@@ -572,7 +601,7 @@ export class WalletDashboardComponent {
                 comment: this.sendCoinForm.comment,
                 status: 'pending'
             };
-            this.storageService.storeToTransactionHistoryList(this.wallet.id, item);
+            this.storageService.storeToTransactionHistoryList(item);
         }
     }
 
@@ -613,6 +642,7 @@ export class WalletDashboardComponent {
             console.log('resp=', resp);
             if (resp && resp.transactionHash) {
                 const item = {
+                    walletId: this.wallet.id, 
                     type: 'Withdraw',
                     coin: currentCoin.name,
                     tokenType: currentCoin.tokenType,
@@ -624,13 +654,59 @@ export class WalletDashboardComponent {
                     comment: '',
                     status: 'pending'
                 };
-                this.storageService.storeToTransactionHistoryList(this.wallet.id, item);
+                this.storageService.storeToTransactionHistoryList(item);
     
                 this.alertServ.openSnackBar('Your withdraw request is pending.', 'Ok');  
             } else {
                 this.alertServ.openSnackBar('Some error happened. Please try again.', 'Ok');  
             }
         });      
+    }
+
+    async redepositdo() {
+        const redepositArray = this.currentCoin.redeposit;
+        const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
+        if (redepositArray && redepositArray.length > 0) {
+            let nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
+            for (let i = 0; i < redepositArray.length; i++) {
+                const redepositItem = redepositArray[i];
+                const amount = redepositItem.amount;
+                const coinType = redepositItem.coinType;
+                const r = redepositItem.r;
+                const s = redepositItem.s;
+                const v = redepositItem.v;
+                const transactionID = redepositItem.transactionID;
+                this.submitrediposit( nonce ++, coinType, amount, r, s, v, transactionID);
+            }
+        }
+    }
+
+    async submitrediposit(nonce: number, coinType: number, amount: number, r: string, s: string, v: string, transactionID: string) {
+
+        console.log('details for submitrediposit');
+        console.log('nonce=' + nonce + ',coinType=' + coinType + ',amount=' + amount 
+        + ',r=' + r + ',s=' + s + ',v=' + v + ',transactionID=' + transactionID);
+        const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
+        const pin = this.pin;
+
+        const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
+        if (!seed) {
+            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');        
+            return;   
+        }           
+        const includeCoin = true;
+        const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
+        const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
+        const signedMessage: Signature = {
+            r: r,
+            s: s,
+            v: v
+        };
+        const abiHex = this.web3Serv.getDepositFuncABI(coinType, transactionID, amount, addressInKanban, signedMessage);
+        const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
+        this.kanbanServ.submitReDeposit(txKanbanHex).subscribe((resp: any) => { 
+            console.log('resp for submitrediposit=', resp);
+        });        
     }
 
     async depositdo() {
@@ -708,6 +784,7 @@ export class WalletDashboardComponent {
             console.log('resp=', resp);
             if (resp.transactionID) {
                 const item = {
+                    walletId: this.wallet.id, 
                     type: 'Deposit',
                     coin: currentCoin.name,
                     tokenType: currentCoin.tokenType,
@@ -719,9 +796,9 @@ export class WalletDashboardComponent {
                     comment: '',
                     status: 'pending'
                 };
-                this.storageService.storeToTransactionHistoryList(this.wallet.id, item);
+                this.storageService.storeToTransactionHistoryList(item);
 
-                this.alertServ.openSnackBar(resp.message, 'Ok');
+                this.alertServ.openSnackBar('Adding deposit was submitted successfully.', 'Ok');
             }
        }); 
          
