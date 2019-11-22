@@ -5,6 +5,7 @@ import { PriceService } from '../../../../../services/price.service';
 import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 import { environment } from '../../../../../../environments/environment';
 import { WsService } from '../../../services/ws.service';
+import { UtilService } from '../../../../../services/util.service';
 
 export interface Section {
     name: string;
@@ -22,7 +23,10 @@ export class LiteListComponent implements OnInit {
     prices: Price[] = [];
     searchText = '';
     socket: WebSocketSubject<[Ticker]>;
-    constructor(private prServ: PriceService, private _route: ActivatedRoute, private _router: Router, private _wsServ: WsService) {
+    constructor(private prServ: PriceService, 
+        public utilServ: UtilService,
+        private _route: ActivatedRoute, 
+        private _router: Router, private _wsServ: WsService) {
     }
 
     filterPrice(price: Price, select: string) {
@@ -39,9 +43,9 @@ export class LiteListComponent implements OnInit {
               for (let i = 0; i < tickers.length; i++) {
                 const ticker = tickers[i];
                 const symbol = ticker.symbol;
-                const price = Number(ticker.price) / 1e18;
-                const open = Number(ticker['24h_open']) / 1e18;
-                const close = Number(ticker['24h_close']) / 1e18;
+                const price = Number(ticker.price);
+                const open = Number(ticker['24h_open']);
+                const close = Number(ticker['24h_close']);
                 let change24h = 0;
                 if (open > 0) {
                     change24h = (close - open) / open * 100;

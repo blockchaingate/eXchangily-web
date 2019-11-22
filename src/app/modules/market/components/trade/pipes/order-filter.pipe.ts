@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class OrderFilterPipe implements PipeTransform {
     transform(items: any[], filter: Object): any {
-        if (!items || !filter) {
+        if (!items) {
             return items;
         }
         // filter items array, items which match and return true will be

@@ -9,22 +9,22 @@
             </div>
             <div class="selllist w-100 pt-2">
                 <div class="orderbookitem" *ngFor="let sell of sells; let i=index">
-                    <div class="price smallfont text-danger">{{utilService.showAmount(sell.price) | number:'.6'}}</div>
-                    <div class="quantity smallfont text-muted">{{utilService.showAmount(sell.amount) | number:'.6'}}</div>
-                    <div class="total smallfont text-muted">{{utilService.showAmount(sell.price) * utilService.showAmount(sell.amount) | number:'.6'}}</div>
+                    <div class="price smallfont text-danger">{{utilService.showAmount(sell.price)}}</div>
+                    <div class="quantity smallfont text-muted">{{utilService.showAmount(sell.amount)}}</div>
+                    <div class="total smallfont text-muted">{{utilService.showAmount(sell.price) * utilService.showAmount(sell.amount)}}</div>
                 </div>
             </div>
 
             <div class="current-price-box">
-                <div style="width: 60%" class="text-info"> {{utilService.showAmount(currentPrice) | number:'.6'}}</div>
-                <div [class.redcolor]="change24h<0" [class.greencolor]="change24h>0" class="text-info"> {{utilService.showAmount(currentQuantity) | number:'.6'}} </div>
+                <div style="width: 60%" class="text-info"> {{utilService.showAmount(currentPrice)}}</div>
+                <div [class.redcolor]="change24h<0" [class.greencolor]="change24h>0" class="text-info"> {{utilService.showAmount(currentQuantity)}} </div>
             </div>
 
             <div class="buylist w-100">
                 <div class="orderbookitem" *ngFor="let buy of buys; let l=index">
-                    <div class="price smallfont text-success">{{utilService.showAmount(buy.price) | number:'.6'}}</div>
-                    <div class="quantity smallfont text-muted">{{utilService.showAmount(buy.amount) | number:'.6'}}</div>
-                    <div class="total smallfont text-muted">{{utilService.showAmount(buy.price) * utilService.showAmount(buy.amount) | number:'.6'}}</div>
+                    <div class="price smallfont text-success">{{utilService.showAmount(buy.price)}}</div>
+                    <div class="quantity smallfont text-muted">{{utilService.showAmount(buy.amount)}}</div>
+                    <div class="total smallfont text-muted">{{utilService.showAmount(buy.price) * utilService.showAmount(buy.amount) | number:'.8'}}</div>
                 </div>
             </div>
         </div>
@@ -38,8 +38,8 @@
 
             <div class="transacs w-100">
                 <div class="orderbookitem" *ngFor="let tx of txOrders; let l=index">
-                    <div class="price smallfont" [ngClass]="tx.m?'text-success':'text-danger'">{{utilService.showAmount(tx.price) | number:'.6'}}</div>
-                    <div class="quantity smallfont text-muted">{{utilService.showAmount(tx.quantity) | number:'.6'}}</div>
+                    <div class="price smallfont" [ngClass]="tx.m?'text-success':'text-danger'">{{utilService.showAmount(tx.price)}}</div>
+                    <div class="quantity smallfont text-muted">{{utilService.showAmount(tx.quantity) | number:'.8'}}</div>
                     <div class="total smallfont text-muted">{{tx.time | date:'HH:MM:ss'}}</div>
                 </div>
             </div>
@@ -57,7 +57,7 @@
     <div class="lower w-100">
         <div class="buyorder h-100 exg-bg mr-2 pb-3" *ngIf="baseCoin >= 0">
             <div class="aspace text-success">
-                {{'Available' | translate}} {{coinService.getCoinNameByTypeId(baseCoin)}}: {{this.baseCoinAvail}}
+                {{'Available' | translate}} {{coinService.getCoinNameByTypeId(baseCoin)}}: {{utilService.showAmount(baseCoinAvail)}}
             </div>
 
             <div class="aspace text-muted">{{'Price' | translate}}</div>
@@ -77,7 +77,7 @@
 
         <div class="sellorder h-100 exg-bg pb-2" *ngIf="targetCoin >= 0">
             <div class="aspace text-danger">
-                {{'Available' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}: {{this.targetCoinAvail}}
+                {{'Available' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}: {{utilService.showAmount(targetCoinAvail)}}
             </div>
 
             <div class="aspace text-muted">{{'Price' | translate}}</div>

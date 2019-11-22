@@ -96,6 +96,8 @@ export class CoinService {
         // sendTokens in https://github.com/ankitfa/Fab_sc_test1/blob/master/app/walletManager.js
         const gasLimit = 800000;
         const gasPrice = 40;
+
+        console.log('scarContractAddress=', scarContractAddress);
         const totalAmount = gasLimit * gasPrice / 1e8;
         // let cFee = 3000 / 1e8 // fee for the transaction
     
@@ -121,7 +123,8 @@ export class CoinService {
         
         let fxnCallHex = abi.encodeFunctionCall(addDepositFunc, []);
         fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
-
+        
+        console.log('fxnCallHexfxnCallHexfxnCallHexfxnCallHexfxnCallHex=', fxnCallHex);
         const contract = Btc.script.compile([
             84,
             this.utilServ.number2Buffer(gasLimit),
@@ -253,11 +256,37 @@ export class CoinService {
 
         if (name === 'BTC' || name === 'FAB') {
             const root = BIP32.fromSeed(seed, environment.chains.BTC.network);
-            const childNode = root.derivePath( path );
+            console.log('root.base58=');
+            console.log(root.toBase58());
+            // const childNode = root.derivePath( path );
+
+            const childNode1 = root.deriveHardened(44);
+            const childNode2 = childNode1.deriveHardened(coin.coinType);
+            const childNode3 = childNode2.deriveHardened(0);
+            const childNode4 = childNode3.derive(0);
+            const childNode = childNode4.derive(0);
+            console.log('path=' + path);
+
+            console.log('childNode1.base58=');
+            console.log(childNode1.toBase58());  
+
+            console.log('childNode2.base58=');
+            console.log(childNode2.toBase58());  
+            
+            console.log('childNode3.base58=');
+            console.log(childNode3.toBase58());  
+
+            console.log('childNode4.base58=');
+            console.log(childNode4.toBase58());  
+
+            console.log('childNode.base58=');
+            console.log(childNode.toBase58());            
             const { address } = Btc.payments.p2pkh({
                 pubkey: childNode.publicKey,
                 network: environment.chains.BTC.network
             });
+            console.log('address=');
+            console.log(address);
             addr = address;
             priKey = childNode.toWIF();
             pubKey = `0x${childNode.publicKey.toString('hex')}`;

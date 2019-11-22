@@ -86,6 +86,7 @@ export class KanbanService {
     getOrdersByAddress(address: string) {
         let path = 'ordersbyaddress/' + address;
         path = environment.endpoints.ankit + path;
+        console.log('path=' + path);
         const res = this.http.get(path);
         return res;
     }

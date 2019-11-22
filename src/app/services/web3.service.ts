@@ -284,6 +284,10 @@ export class Web3Service {
               "type": "uint256"
             },
             {
+              "name": "_payWithEXG",
+              "type": "bool"
+            },            
+            {
               "name": "_orderHash",
               "type": "bytes32"
             }

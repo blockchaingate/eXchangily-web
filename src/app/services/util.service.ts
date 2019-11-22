@@ -162,7 +162,7 @@ export class UtilService {
                 + '.' + amountString.slice(amountString.length - finalTimes);
 
         }
-        
+        finalAmountString = finalAmountString.substring(0, 10);
         return finalAmountString;
         
     }

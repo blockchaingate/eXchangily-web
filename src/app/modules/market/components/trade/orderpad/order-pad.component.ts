@@ -190,10 +190,10 @@ export class OrderPadComponent implements OnInit, OnDestroy {
      if (mytokens && mytokens.length > 0) {
       for (let i = 0; i < mytokens.length; i++) {
         if (this.mytokens[i].coinType === this.baseCoin.toString()) {
-          this.baseCoinAvail = Number(this.mytokens[i].unlockedAmount) / 1e18;
+          this.baseCoinAvail = Number(this.mytokens[i].unlockedAmount);
         }
         if (this.mytokens[i].coinType === this.targetCoin.toString()) {
-          this.targetCoinAvail = Number(this.mytokens[i].unlockedAmount) / 1e18;
+          this.targetCoinAvail = Number(this.mytokens[i].unlockedAmount);
         }  
       }
     }        
@@ -298,7 +298,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
       const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk,  
           orderType, baseCoin, targetCoin, (Math.floor(qty * 1e18)).toString(), (Math.floor(price * 1e18)).toString(), 
-          timeBeforeExpiration,  orderHash]);
+          timeBeforeExpiration, false,  orderHash]);
       const nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
 
       /*

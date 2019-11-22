@@ -36,7 +36,7 @@ export class WalletPwdComponent implements OnInit {
         const pass = group.controls.password.value;
         const confirmPass = group.controls.pwdconfirm.value;
 
-        return pass === confirmPass ? null : { notSame: true }
+        return pass === confirmPass ? null : { notSame: true };
     }
 
     onSubmit() {

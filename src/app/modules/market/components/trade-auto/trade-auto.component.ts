@@ -7,6 +7,8 @@ import { CoinService } from '../../../../services/coin.service';
 import { KanbanService } from '../../../../services/kanban.service';
 import {TransactionResp} from '../../../../interfaces/kanban.interface';
 import { price_list, coin_list } from '../../../../config/coins';
+import * as bip39 from 'bip39';
+import * as BIP32 from 'node_modules/bip32';
 @Component({
     selector: 'app-trade-auto',
     templateUrl: './trade-auto.component.html',
@@ -61,14 +63,17 @@ export class TradeAutoComponent implements OnInit {
       const timeBeforeExpiration = 423434342432;
 
       const address = await this.kanbanService.getExchangeAddress();
+
+      const nonce = await this.getNonce(keyPairsKanban.address);
+      console.log('keyPairsKanban.address=' + keyPairsKanban.address + ',nonce=' + nonce);
+            
       const orderHash = this.generateOrderHash(bidOrAsk, orderType, baseCoin
           , targetCoin, qty, price, timeBeforeExpiration);
 
       const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk,  
           orderType, baseCoin, targetCoin, (Math.floor(qty * 1e18)).toString(), (Math.floor(price * 1e18)).toString(), 
-          timeBeforeExpiration,  orderHash]);
-      const nonce = await this.getNonce(keyPairsKanban.address);
-      console.log('nonce=' + nonce);
+          timeBeforeExpiration, false, orderHash]);
+
       /*
       if (this.oldNonce === nonce) {
           this.alertServ.openSnackBar('Please wait a sec, no rush.', 'ok');
@@ -87,6 +92,32 @@ export class TradeAutoComponent implements OnInit {
         return new Promise( resolve => setTimeout(resolve, ms) );
     }
 
+    testme() {
+        const randomMnemonic = 'culture sound obey clean pretty medal churn behind chief cactus alley ready';
+        const seed = bip39.mnemonicToSeedSync(randomMnemonic);
+
+        const root = BIP32.fromSeed(seed);
+        const bitCoinChild1 = root.derive(0x80000000 + 44);
+        /*
+        const bitCoinChild2 = bitCoinChild1.deriveHardened(1);
+        const bitCoinChild3 = bitCoinChild2.deriveHardened(0);
+        const bitCoinChild4 = bitCoinChild3.derive(0);
+        const bitCoinChild = bitCoinChild4.derive(0);      
+        */
+        console.log('root.base58()' + root.toBase58());
+        console.log('bitCoinChild1.publicKey');
+        console.log(bitCoinChild1.publicKey);
+        /*
+        console.log('bitCoinChild2.base58()=');
+        console.log(bitCoinChild2.toBase58());
+        console.log('bitCoinChild3.base58()=');
+        console.log(bitCoinChild3.toBase58());
+        console.log('bitCoinChild4.base58()');
+        console.log(bitCoinChild4.toBase58());
+        console.log('bitCoinChild.base58()');
+        console.log(bitCoinChild.toBase58());
+        */
+    }
     async placeOrders() {
         const wallets = await this.walletServ.getWallets();
         const pin = '1qaz@WSX';
@@ -103,23 +134,24 @@ export class TradeAutoComponent implements OnInit {
             console.log('wallet.name=', wallet.name);
             const index = (Math.floor(i / 2)) % 10;
             console.log('index=' + index);
-            const baseCoin = price_list[index].base_id;
-            const targetCoin = price_list[index].coin_id;
+            // const baseCoin = price_list[index].base_id;
+            // const targetCoin = price_list[index].coin_id;
 
-            /*
+            
             let baseCoin = 1;
             let targetCoin = 3;  
+            
             if (i % 6 === 2 || i % 6 === 3) {
-                baseCoin = 3;
-                targetCoin = 5;
+                baseCoin = 2;
+                targetCoin = 3;
             }    
             if (i % 6 === 4 || i % 6 === 5) {
                 baseCoin = 1;
-                targetCoin = 5;
+                targetCoin = 2;
             }  
-            */              
+                          
             console.log('baseCoin = ' + baseCoin + ',targetCoin = ' + targetCoin);
-            const price = Math.random();
+            const price = 1;
             const qty = 0.00001;
             const {txHex, orderHash} = await this.txHexforPlaceOrder(
                 pin, wallet, bidOrAsk, baseCoin, targetCoin, price, qty
@@ -130,7 +162,7 @@ export class TradeAutoComponent implements OnInit {
                     console.log('transactionHash=', resp.transactionHash);
                 }
             });
-            await this.delay(200);
+            // await this.delay(200);
         }
 
     }

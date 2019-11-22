@@ -782,7 +782,7 @@ export class WalletDashboardComponent {
        
        this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp: any) => { 
             console.log('resp=', resp);
-            if (resp.transactionID) {
+            if (resp && resp.data && resp.data.transactionID) {
                 const item = {
                     walletId: this.wallet.id, 
                     type: 'Deposit',
@@ -799,8 +799,17 @@ export class WalletDashboardComponent {
                 this.storageService.storeToTransactionHistoryList(item);
 
                 this.alertServ.openSnackBar('Adding deposit was submitted successfully.', 'Ok');
+            } else 
+            if (resp.message) {
+                this.alertServ.openSnackBar(resp.message, 'Ok');
             }
-       }); 
+       },
+       error => {
+           if (error.message) {
+            this.alertServ.openSnackBar(error.message, 'Ok');
+           }
+       }
+       ); 
          
     }
 }
