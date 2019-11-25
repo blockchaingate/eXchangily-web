@@ -39,7 +39,6 @@ export class HeaderComponent implements OnInit {
 
     this.timerServ.transactionStatus.subscribe(
       (txItem: any) => {
-        console.log('txItem3333333=', txItem);
         if (txItem && txItem.txid) {
           if (txItem.status === 'pending') {
             this.pendingtransactions.push(txItem);
@@ -92,97 +91,9 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.pauseTimer();
   }
 
-  startTimer() {
-    this.interval = setInterval(async () => {
-      let hasPendingTransaction = false;
-      for (let i = 0; i < this.pendingtransactions.length; i++) {
-        const transaction = this.pendingtransactions[i];
-        if (transaction.status === 'pending') {
-          const txid = transaction.txid;
-          if (!txid) {
-            continue;
-          }
-          const coin = transaction.coin;
-          const type = transaction.type;
-          
-          let confirmations = 0;
-          if (type === 'Withdraw') {
-            const status = await this.kanbanServ.getTransactionStatus(txid);
-            transaction.status = status;
-          } else
-          if (type === 'Deposit') {
-            const status = await this.kanbanServ.getDepositStatus(txid);
-            transaction.status = status;
-          } else
-          if (coin === 'BTC') {
-            const tx = await this.apiServ.getBtcTransaction(txid);
-            if (tx) {
-              confirmations = tx.confirmations;
-              if (confirmations >= 1) {
-                transaction.status = 'confirmed';
-              }  
-            }
-          
-          } else 
-          if (coin === 'ETH' || transaction.tokenType === 'ETH') {
-            const tx = await this.apiServ.getEthTransaction(txid);
-            if (tx) {
-              if (tx.blockNumber) {
-                confirmations = tx.confirmations;
-              }    
-              if (confirmations >= 1) {
-                const txStatus = await this.apiServ.getEthTransactionStatus(txid);
-                if (txStatus.status) {
-                  transaction.status = 'confirmed';
-                } else {
-                  transaction.status = 'failed';
-                }
-              }   
-            }
- 
-          } else
-          if (coin === 'FAB' || transaction.tokenType === 'FAB') {
-            const tx = await this.apiServ.getFabTransactionJson(txid);
-            if (tx) {
-              if (tx.confirmations) {
-                confirmations = tx.confirmations;
-              }
-              if (confirmations >= 1) {
-                transaction.status = 'confirmed';
-              }    
-            }
-         
-          }
-          if (transaction.status !== 'pending') {
-            const array_first_five = txid.slice(0, 5);
-            const array_last_five = txid.slice(-5);
-            const txidSlice = array_first_five + '...' + array_last_five;
-            this.alertServ.openSnackBar('transaction ' + txidSlice + ' was ' + transaction.status, 'Ok');
-            console.log('i=' + i);
-            const deleted = this.pendingtransactions.splice(i, 1);
-            if (deleted && deleted.length > 0) {
-              console.log('deleted=', deleted);
-              const deletedItem = deleted[0];
-              this.storageServ.updateTransactionHistoryList(deletedItem);
-              this.closetransactions.push(deletedItem);              
-            }
 
-          }
-          hasPendingTransaction = true;
-        }
-      }
-      if (!hasPendingTransaction) {
-        this.pauseTimer();
-      }
-    }, 3000);
-  }
-
-  pauseTimer() {
-    clearInterval(this.interval);
-  }
 
   linkTo(url: string) {
     this.router.navigate([url]);
