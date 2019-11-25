@@ -42,6 +42,11 @@ export class ApiService {
         return response;        
     }
 
+    getBtcTransactionSync(txid: string) {
+        txid = this.utilServ.stripHexPrefix(txid);
+        const url = environment.endpoints.BTC.exchangily + 'gettransactionjson/' + txid;
+        return this.http.get(url);        
+    }
     async getEthTransaction(txid: string) {
         const url = environment.endpoints.ETH.exchangily + 'gettransaction/' + txid;
         console.log('url=' + url);
@@ -52,6 +57,11 @@ export class ApiService {
         return response; 
     }
 
+    getEthTransactionSync(txid: string) {
+        const url = environment.endpoints.ETH.exchangily + 'gettransaction/' + txid;
+        return this.http.get(url);
+    }
+
     async getEthTransactionStatus(txid: string) {
         const url = environment.endpoints.ETH.exchangily + 'gettransactionstatus/' + txid;
         console.log('url=' + url);
@@ -60,6 +70,11 @@ export class ApiService {
             response = await this.http.get(url).toPromise() as EthTransactionStatusRes;
         } catch (e) {console.log (e); }
         return response;         
+    }
+
+    getEthTransactionStatusSync(txid: string) {
+        const url = environment.endpoints.ETH.exchangily + 'gettransactionstatus/' + txid;
+        return this.http.get(url);
     }
 
     async getBtcBalance(address: string): Promise<Balance> {
@@ -79,6 +94,13 @@ export class ApiService {
         const response = await this.http.get(url).toPromise() as FabTransactionJson;
         return response;
     }
+
+    getFabTransactionJsonSync(txid: string) {
+        txid = this.utilServ.stripHexPrefix(txid);
+        const url = environment.endpoints.FAB.exchangily + 'gettransactionjson/' + txid;
+        return this.http.get(url);
+    }
+
     async isFabTransactionLocked(txid: string, idx: number): Promise<boolean> {
         
         const response = await this.getFabTransactionJson(txid);

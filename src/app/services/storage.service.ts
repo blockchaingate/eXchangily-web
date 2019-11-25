@@ -6,16 +6,10 @@ import {Transaction} from '../interfaces/kanban.interface';
 
 @Injectable()
 export class StorageService {
-    newTransaction = new Subject();
-    newTradeTransaction = new Subject();
-    changedTransaction = new Subject();
     constructor(private localSt: LocalStorage) {
 
     }
 
-    notifyTransactionItemChanged(transactionItem: TransactionItem) {
-        this.changedTransaction.next(transactionItem);
-    }
 
     addTradeTransaction(tx: Transaction) {
         this.localSt.getItem('mytransactions').subscribe((transactions: Transaction[]) => {
@@ -26,15 +20,12 @@ export class StorageService {
             console.log('transactions before setItem');
             console.log(transactions);
             return this.localSt.setItem('mytransactions', transactions).subscribe(() => {
-                console.log('set successfully.');
-                this.newTradeTransaction.next(tx);
             });
         });
     }
 
 
     storeToTransactionHistoryList(transactionItem: TransactionItem) {
-        this.newTransaction.next(transactionItem);
         this.getTransactionHistoryList().subscribe((transactionHistory: TransactionItem[]) => {
             if (!transactionHistory) {
                 transactionHistory = [];

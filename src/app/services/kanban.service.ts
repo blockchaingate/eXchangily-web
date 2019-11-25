@@ -203,7 +203,9 @@ export class KanbanService {
     async getDepositStatus(txid: string) {
         let response = null;
         let status = 'pending';   
-        
+        if (!txid) {
+            return 'undefined';
+        }
         try {
             response = await this.get('checkstatus/' + txid).toPromise() as DepositStatusResp;
             if (response && response.code) {
@@ -235,5 +237,13 @@ export class KanbanService {
         } catch (e) {console.log (e); }
 
         return status;         
-    }    
+    }   
+    
+    getTransactionStatusSync(txid: string) {
+        return this.get('kanban/getTransactionReceipt/' + txid);
+    }
+
+    getDepositStatusSync(txid: string) {
+        return this.get('checkstatus/' + txid);
+    }
 }

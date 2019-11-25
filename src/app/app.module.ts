@@ -19,6 +19,7 @@ import { AppResolver } from './modules/landing/resolvers/app/app.resolve';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { StorageService } from './services/storage.service';
+import { TimerService } from './services/timer.service';
 import { PageNotFoundComponent } from './page-not-found.component';
 import { HeaderComponent } from './components/navigation/header/header.component';
 import { FooterComponent } from './components/navigation/footer/footer.component';
@@ -65,7 +66,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     StorageModule.forRoot({ IDBNoWrap: true, }),
     AppRoutingModule,
   ],
-  providers: [AppResolver, HttpService, StorageService],
+  providers: [AppResolver, HttpService, StorageService, TimerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

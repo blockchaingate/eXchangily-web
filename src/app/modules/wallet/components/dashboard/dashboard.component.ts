@@ -31,6 +31,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { TransactionItem } from '../../../../models/transaction-item';
 
 import * as bs58 from 'bs58';
+import { TimerService } from '../../../../services/timer.service';
 @Component({ 
     selector: 'app-wallet-dashboard',
     templateUrl: './dashboard.component.html',
@@ -73,7 +74,7 @@ export class WalletDashboardComponent {
     constructor ( private route: Router, private walletServ: WalletService, private modalServ: BsModalService, 
         private coinServ: CoinService, public utilServ: UtilService, private apiServ: ApiService, 
         private kanbanServ: KanbanService, private web3Serv: Web3Service, private viewContainerRef: ViewContainerRef,
-        private alertServ: AlertService, private matIconRegistry: MatIconRegistry,
+        private alertServ: AlertService, private matIconRegistry: MatIconRegistry, private timerServ: TimerService,
         private coinService: CoinService, private storageService: StorageService, private domSanitizer: DomSanitizer) {
         this.showMyAssets = true;
         this.currentCurrency = 'USD';
@@ -160,6 +161,7 @@ export class WalletDashboardComponent {
                 }
             );
         }
+        /*
         this.storageService.changedTransaction.subscribe(
             (transaction: TransactionItem) => {
                 
@@ -178,7 +180,8 @@ export class WalletDashboardComponent {
                 }
 
             }
-        );        
+        );    
+        */    
     }
 
     copyAddress() {
@@ -601,7 +604,12 @@ export class WalletDashboardComponent {
                 comment: this.sendCoinForm.comment,
                 status: 'pending'
             };
+            console.log('before next');
+            this.timerServ.transactionStatus.next(item);
+            this.timerServ.checkTransactionStatus(item);
+            console.log('after next');
             this.storageService.storeToTransactionHistoryList(item);
+            
         }
     }
 
@@ -630,12 +638,7 @@ export class WalletDashboardComponent {
         const includeCoin = true;
         const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 
-        console.log('withdraw');
-        console.log('abiHex=' + abiHex);
-        console.log('keyPairsKanban.address=' + keyPairsKanban.address);
-        console.log('coinPoolAddress=' + coinPoolAddress);
-        console.log('nonce=' + nonce);
-        console.log('includeCoin=' + includeCoin);        
+       
         const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
 
         this.kanbanServ.sendRawSignedTransaction(txKanbanHex).subscribe((resp: any) => { 
@@ -655,7 +658,8 @@ export class WalletDashboardComponent {
                     status: 'pending'
                 };
                 this.storageService.storeToTransactionHistoryList(item);
-    
+                this.timerServ.transactionStatus.next(item);
+                this.timerServ.checkTransactionStatus(item);    
                 this.alertServ.openSnackBar('Your withdraw request is pending.', 'Ok');  
             } else {
                 this.alertServ.openSnackBar('Some error happened. Please try again.', 'Ok');  
@@ -731,8 +735,6 @@ export class WalletDashboardComponent {
 
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
 
-        console.log('addressInKanban=', addressInKanban);
-        console.log('keyPairsKanban.address=', keyPairsKanban.address);
         const doSubmit = false;
         const options = {};
         const {txHex, txHash, errMsg} = await this.coinServ.sendTransaction(
@@ -749,36 +751,16 @@ export class WalletDashboardComponent {
             return;
         }
         const amountInLink = amount * 1e18; // it's for all coins.
-        console.log('txHash111111111111111111111111111111111111111111111=' + txHash);
         const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(txHash)
         , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
-        //console.log('a');
         const signedMessage: Signature = this.coinServ.signedMessage(originalMessage, keyPairs);
-        //console.log('b');
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
-        //console.log('c');
         const abiHex = this.web3Serv.getDepositFuncABI(coinType, txHash, amountInLink, addressInKanban, signedMessage);
-        //console.log('d');
         const nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
-        //const nonce = 0;
         const includeCoin = true;
-        //console.log('e');
 
-        console.log('deposit');
-        console.log('abiHex=' + abiHex);
-        console.log('keyPairsKanban.address=' + keyPairsKanban.address);
-        console.log('coinPoolAddress=' + coinPoolAddress);
-        console.log('nonce=' + nonce);
-        console.log('includeCoin=' + includeCoin);
         const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
-        //console.log('f');
-        
-        /*
-        this.kanbanServ.sendRawSignedTransaction(txKanbanHex).subscribe((resp) => { 
-            console.log('resp=' + resp);
-        });         
-        */
-       
+
        
        this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp: any) => { 
             console.log('resp=', resp);
@@ -789,7 +771,7 @@ export class WalletDashboardComponent {
                     coin: currentCoin.name,
                     tokenType: currentCoin.tokenType,
                     amount: amount,
-                    txid: resp.transactionID,
+                    txid: resp.data.transactionID,
                     time: new Date(),
                     confirmations: '0',
                     blockhash: '', 
@@ -797,11 +779,13 @@ export class WalletDashboardComponent {
                     status: 'pending'
                 };
                 this.storageService.storeToTransactionHistoryList(item);
+                this.timerServ.transactionStatus.next(item);
+                this.timerServ.checkTransactionStatus(item);
 
                 this.alertServ.openSnackBar('Adding deposit was submitted successfully.', 'Ok');
             } else 
-            if (resp.message) {
-                this.alertServ.openSnackBar(resp.message, 'Ok');
+            if (resp.error) {
+                this.alertServ.openSnackBar(resp.error, 'Ok');
             }
        },
        error => {

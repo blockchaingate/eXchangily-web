@@ -8,6 +8,7 @@ import { ApiService } from '../../../services/api.service';
 import { AlertService } from '../../../services/alert.service';
 import { UtilService } from '../../../services/util.service';
 import { KanbanService } from '../../../services/kanban.service';
+import { TimerService } from '../../../services/timer.service';
 
 @Component({
   selector: 'app-header',
@@ -24,16 +25,39 @@ export class HeaderComponent implements OnInit {
   mode = 'determinate';
   value = 100;  
 
-  play: boolean;
   interval;
 
   constructor(private translate: TranslateService, private router: Router, private alertServ: AlertService,
-    private utilServ: UtilService, private kanbanServ: KanbanService,
+    private utilServ: UtilService, private kanbanServ: KanbanService, private timerServ: TimerService,
     private location: Location, private storageServ: StorageService, private apiServ: ApiService) { }
- 
+    
+  
   ngOnInit() {
+
     this.pendingtransactions = [];
     this.closetransactions = [];
+
+    this.timerServ.transactionStatus.subscribe(
+      (txItem: any) => {
+        console.log('txItem3333333=', txItem);
+        if (txItem && txItem.txid) {
+          if (txItem.status === 'pending') {
+            this.pendingtransactions.push(txItem);
+          } else {
+            for (let i = 0; i < this.pendingtransactions.length; i++) {
+              const item = this.pendingtransactions[i];
+              if (item.txid === txItem.txid) {
+                item.status = txItem.status;
+                this.storageServ.updateTransactionHistoryList(item);
+                this.pendingtransactions.splice(i, 1);
+                this.closetransactions.push(item);
+                break;
+              }
+            }
+          }
+        }
+      } 
+    );
 
     this.storageServ.getTransactionHistoryList().subscribe(
       (transactionHistory: TransactionItem[]) => {
@@ -42,28 +66,21 @@ export class HeaderComponent implements OnInit {
           const subArray = transactionHistory.reverse().slice( 0, 5 );
           for (let i = 0; i < subArray.length; i++) {
             const item = subArray[i];
+            console.log('item.status=', item.status);
             if (item.status === 'pending') {
               this.pendingtransactions.push(item);
+              this.timerServ.checkTransactionStatus(item, 60); 
+
               hasPending = true;
             } else {
               this.closetransactions.push(item);
             }
           }
-          if (hasPending && !this.play) {
-            this.startTimer();
-          }
+
         }
         
     });
-    this.storageServ.newTransaction.subscribe(
-      (transaction: TransactionItem) => {
-        this.pendingtransactions.push(transaction);
-        if (!this.play) {
-          this.startTimer();
-        }
-      }
-    );
-    //this.tradeServ.new
+
     this.currentLang = 'English';
     this.translate.setDefaultLang('en');
     this.setLan();   
@@ -79,13 +96,15 @@ export class HeaderComponent implements OnInit {
   }
 
   startTimer() {
-    this.play = true;
     this.interval = setInterval(async () => {
       let hasPendingTransaction = false;
       for (let i = 0; i < this.pendingtransactions.length; i++) {
         const transaction = this.pendingtransactions[i];
         if (transaction.status === 'pending') {
           const txid = transaction.txid;
+          if (!txid) {
+            continue;
+          }
           const coin = transaction.coin;
           const type = transaction.type;
           
@@ -148,7 +167,6 @@ export class HeaderComponent implements OnInit {
               console.log('deleted=', deleted);
               const deletedItem = deleted[0];
               this.storageServ.updateTransactionHistoryList(deletedItem);
-              this.storageServ.notifyTransactionItemChanged(deletedItem);
               this.closetransactions.push(deletedItem);              
             }
 
@@ -163,7 +181,6 @@ export class HeaderComponent implements OnInit {
   }
 
   pauseTimer() {
-    this.play = false;
     clearInterval(this.interval);
   }
 
