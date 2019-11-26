@@ -12,6 +12,7 @@ import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 import { CoinService } from '../../../../../services/coin.service';
 import { ActivatedRoute } from '@angular/router';
 import { WsService } from '../../../services/ws.service';
+import { environment } from 'src/environments/environment.prod';
 // import { OrderTicketFocusControl } from 'dist/dex/assets/charting_library/charting_library.min';
 
 interface BarData {
@@ -211,7 +212,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
             subscribeBars(symbol, granularity, onTick) {
               const pair = targetCoinName.toLowerCase() + baseCoinName.toLowerCase();
 
-              
+              /*
               this.socket = new WebSocketSubject('wss://stream.binance.com:9443/ws/' + pair + '@kline_' + that.intervalMap[granularity]);
               this.socket.subscribe(
                 (item) => {
@@ -227,9 +228,24 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
                   onTick(itemData);
                 }
               );
-              
+              */
 
-            
+             this.socket = new WebSocketSubject(environment.websockets.kline + '@' 
+             + pair.toUpperCase() + '@' + that.intervalMap[granularity]);
+             this.socket.subscribe(
+               (item) => {
+                 
+                 const itemData = {
+                   time: Date.now(),
+                   open: item.open / 1e18,
+                   high: item.high / 1e18,
+                   low: item.low / 1e18,
+                   close: item.close / 1e18,
+                   volume: item.volume / 1e18
+                 };
+                 onTick(itemData);
+               }
+             );            
 
               },
             unsubscribeBars() {

@@ -141,6 +141,7 @@ export class TradeAutoComponent implements OnInit {
             let baseCoin = 1;
             let targetCoin = 3;  
             
+            /*
             if (i % 6 === 2 || i % 6 === 3) {
                 baseCoin = 2;
                 targetCoin = 3;
@@ -149,10 +150,10 @@ export class TradeAutoComponent implements OnInit {
                 baseCoin = 1;
                 targetCoin = 2;
             }  
-                          
+            */              
             console.log('baseCoin = ' + baseCoin + ',targetCoin = ' + targetCoin);
-            const price = 1;
-            const qty = 0.00001;
+            const price = 190 + Math.random() * 10;
+            const qty = 0.00001 * Math.random() * 10;
             const {txHex, orderHash} = await this.txHexforPlaceOrder(
                 pin, wallet, bidOrAsk, baseCoin, targetCoin, price, qty
             );
@@ -162,7 +163,7 @@ export class TradeAutoComponent implements OnInit {
                     console.log('transactionHash=', resp.transactionHash);
                 }
             });
-            // await this.delay(200);
+            await this.delay(500);
         }
 
     }

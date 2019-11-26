@@ -56,6 +56,8 @@ export const environment = {
     },
     websockets: {
         allprices: 'ws://18.223.17.4:3002/ws/allprices',
-        trades: 'ws://18.223.17.4:3002/ws/trades'
+        trades: 'ws://18.223.17.4:3002/ws/trades',
+        orders: 'ws://18.223.17.4:3002/ws/orders',
+        kline: 'ws://18.223.17.4:3002/ws/ticker'
     }  
 };
