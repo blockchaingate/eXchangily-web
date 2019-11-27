@@ -73,7 +73,7 @@ export class TimerService {
                     }
                 });
             } else
-            if (type === 'Send') {
+            if (type === 'Send' || type === 'Add Gas') {
                 if (coin === 'BTC') {
                     this.apiServ.getBtcTransactionSync(txid).subscribe( (res: any) => {
                         if (res.confirmations && res.confirmations >= 1) {

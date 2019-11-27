@@ -407,6 +407,7 @@ export class Web3Service {
           "type": "function"
       };
       let abiHex = this.utilServ.stripHexPrefix(web3.eth.abi.encodeFunctionSignature(func));
+      console.log('abiHex for addDeposit=', abiHex);
       abiHex += this.utilServ.stripHexPrefix(signedMessage.v);
       abiHex += this.utilServ.fixedLengh(coinType, 62);
       abiHex += this.utilServ.stripHexPrefix(txHash);

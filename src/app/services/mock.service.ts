@@ -35,6 +35,12 @@ export class MockService {
   constructor(private http: HttpClient) {
   }
 
+  getHistoryListSync(param) {
+    const inter = param.interval;
+    const symbol = param.symbol;
+    const url = environment.endpoints.pricehistory + symbol + '/' + inter;
+    return this.http.get(url);    
+  }
   async getHistoryList(param): Promise<BarData[]> {
     //console.log('getting history');
     const list = [];

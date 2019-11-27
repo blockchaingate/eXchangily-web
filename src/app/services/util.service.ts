@@ -130,7 +130,7 @@ export class UtilService {
     }
 
     showAmount(amount: number) {
-        if (amount.toString() === '0') {
+        if (!amount || amount.toString() === '0') {
             return 0;
         }
         let amountString = amount.toString();

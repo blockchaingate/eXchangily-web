@@ -1,4 +1,4 @@
-import {Price, Coin, OfficialAddress} from '../interfaces/kanban.interface';
+import {Price, Coin } from '../interfaces/kanban.interface';
 
 export const coin_list: Coin[] = [
     { id: 0, name: '', icon: '' },

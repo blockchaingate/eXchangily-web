@@ -731,6 +731,10 @@ export class WalletDashboardComponent {
 
 
         const officalAddress = this.coinServ.getOfficialAddress(currentCoin);
+        if (!officalAddress) {
+            this.alertServ.openSnackBar('offical address for ' + currentCoin.name + ' is unavailable', 'Ok');
+            return;            
+        }
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
 
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);

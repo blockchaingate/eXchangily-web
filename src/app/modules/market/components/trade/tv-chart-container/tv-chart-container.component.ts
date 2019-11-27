@@ -176,9 +176,12 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
             searchSymbols(userInput: string, exchange: string, symbolType: string, onResultReadyCallback) {
                 onResultReadyCallback('haha');
             },
-            async getBars(symbol, granularity, startTime, endTime, onResult, onError, isFirst) {
+            getBars(symbol, granularity, startTime, endTime, onResult, onError, isFirst) {
                 // console.log('symbol in getBars=', symbol);
                 // console.log('granularity=' + granularity);
+
+                console.log('begin getBarsgetBarsgetBarsgetBarsgetBarsgetBarsgetBarsgetBarsgetBarsgetBarsgetBarsgetBarsgetBarsgetBarsgetBars');
+                /*
                 const pair = targetCoinName + baseCoinName;
                 const list = await that.mockService.getHistoryList({
                   granularity: that.granularityMap[granularity],
@@ -187,7 +190,34 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
                   symbol: pair,
                   endTime
                 });
-                onResult(list);
+                console.log('list===');
+                console.log(list);
+                */
+               const pair = targetCoinName + baseCoinName;
+               const param = {
+                  granularity: that.granularityMap[granularity],
+                  interval: that.intervalMap[granularity],
+                  startTime,
+                  symbol: pair,
+                  endTime
+                };
+                that.mockService.getHistoryListSync(param).subscribe(
+                  (res: any) => {
+                    if (res && res.length > 0) {
+                      for (let i = 0; i < res.length; i++) {
+                        res[i].open = res[i].open / 1e18;
+                        res[i].close = res[i].close / 1e18;
+                        res[i].volume = res[i].volume / 1e18;
+                        res[i].high = res[i].high / 1e18;
+                        res[i].low = res[i].low / 1e18;
+                        res[i].time = res[i].time * 1000;
+                      }
+                      onResult(res);
+                    }                    
+                  }                  
+                );
+               //const list = [];
+               // onResult(list);
             },
             resolveSymbol(symbol, onResolve) {      
                 timer(1e3)
@@ -211,7 +241,8 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
             },
             subscribeBars(symbol, granularity, onTick) {
               const pair = targetCoinName.toLowerCase() + baseCoinName.toLowerCase();
-
+              console.log('subscribeBars once');
+              
               /*
               this.socket = new WebSocketSubject('wss://stream.binance.com:9443/ws/' + pair + '@kline_' + that.intervalMap[granularity]);
               this.socket.subscribe(
@@ -225,24 +256,40 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
                     close: item.k.c,
                     volume: item.k.v
                   };
-                  onTick(itemData);
+                  console.log('binance.time=', itemData.time);
+
+                  console.log('binance.open=', itemData.open);
+                  console.log('binance.high=', itemData.high);
+                  console.log('binance.low=', itemData.low);
+                  console.log('binance.close=', itemData.close);
+                  console.log('binance.volume=', itemData.volume);                  
+                  //onTick(itemData);
                 }
               );
               */
-
+                
              this.socket = new WebSocketSubject(environment.websockets.kline + '@' 
              + pair.toUpperCase() + '@' + that.intervalMap[granularity]);
              this.socket.subscribe(
                (item) => {
                  
                  const itemData = {
-                   time: Date.now(),
+                   time: item.time * 1000,
                    open: item.open / 1e18,
                    high: item.high / 1e18,
                    low: item.low / 1e18,
                    close: item.close / 1e18,
                    volume: item.volume / 1e18
                  };
+
+//                 console.log('price=', itemData.price);
+                 console.log('time=', itemData.time);
+
+                 console.log('open=', itemData.open);
+                 console.log('high=', itemData.high);
+                 console.log('low=', itemData.low);
+                 console.log('close=', itemData.close);
+                 console.log('volume=', itemData.volume);
                  onTick(itemData);
                }
              );            

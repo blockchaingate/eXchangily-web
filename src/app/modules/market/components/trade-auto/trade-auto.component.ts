@@ -122,6 +122,7 @@ export class TradeAutoComponent implements OnInit {
         const wallets = await this.walletServ.getWallets();
         const pin = '1qaz@WSX';
         
+        let price = 193;
         for (let i = 0; i < 1000; i++) {
             console.log('i=', i);
             let bidOrAsk = true;
@@ -129,6 +130,7 @@ export class TradeAutoComponent implements OnInit {
             if (i % 2 === 0) {
                 bidOrAsk = false;
                 walletIndex = 11;
+                price = 190 + Math.random() * 100;
             }
             const wallet = wallets[walletIndex];
             console.log('wallet.name=', wallet.name);
@@ -152,7 +154,6 @@ export class TradeAutoComponent implements OnInit {
             }  
             */              
             console.log('baseCoin = ' + baseCoin + ',targetCoin = ' + targetCoin);
-            const price = 190 + Math.random() * 10;
             const qty = 0.00001 * Math.random() * 10;
             const {txHex, orderHash} = await this.txHexforPlaceOrder(
                 pin, wallet, bidOrAsk, baseCoin, targetCoin, price, qty
@@ -163,7 +164,7 @@ export class TradeAutoComponent implements OnInit {
                     console.log('transactionHash=', resp.transactionHash);
                 }
             });
-            await this.delay(500);
+            await this.delay(1000);
         }
 
     }
