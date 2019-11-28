@@ -7,24 +7,166 @@ import { ApiService } from './api.service';
 @Injectable()
 export class TimerService {
 
-    public transactionStatus: BehaviorSubject<any> = new BehaviorSubject({});
+    private timerEnabled: boolean;
+    private transactionStatusSubscribe: any;
+    private orderStatusSubscribe: any;
+    private tokenSubscribe: any;
 
-    constructor(public kanbanServ: KanbanService, private apiServ: ApiService) { }
+    public transactionStatus: BehaviorSubject<any> = new BehaviorSubject({});
+    public ordersStatus: BehaviorSubject<any> = new BehaviorSubject([]);
+    public tokens: BehaviorSubject<any> = new BehaviorSubject([]); 
+    constructor(public kanbanServ: KanbanService, private apiServ: ApiService) { 
+        this.transactionStatusSubscribe = [];
+        this.orderStatusSubscribe = [];
+        this.tokenSubscribe = [];
+        this.timerEnabled = true;
+    }
+
+
+
+    unCheckTokens(address: string) {
+        for (let i = 0; i < this.tokenSubscribe.length; i++) {
+            const item = this.tokenSubscribe[i];
+            if (item.address === address) {
+                item.subscribeItem.unsubscribe();
+                this.tokenSubscribe.splice(i, 1);
+                break;
+            }
+        }
+    }
+
+    checkTokens(address: string, maxTimes = 160) {
+        if (!this.timerEnabled) {
+            return;
+        }
+        console.log('begin checkint');
+        for (let i = 0; i < this.tokenSubscribe.length; i++) {
+            const item = this.tokenSubscribe[i];
+            if (item.address === address) {
+                return;
+            }
+        }
+
+        const source = timer(1000, 1000);
+
+        const subscribeItem = source.subscribe(val => {
+            console.log('value for checking order');
+            if ((maxTimes > 0) && (val >= maxTimes)) {
+                this.unCheckTokens(address);
+            }
+            console.log('qqqqq');
+            this.kanbanServ.getBalance(address).subscribe((resp) => {
+                this.tokens.next(resp);
+            });          
+        });   
+        
+        this.orderStatusSubscribe.push(
+            {
+                address: address,
+                subscribeItem: subscribeItem
+            }
+        );
+    }
+
+
+
+
+
+
+    unCheckOrderStatus(address: string) {
+        for (let i = 0; i < this.orderStatusSubscribe.length; i++) {
+            const item = this.orderStatusSubscribe[i];
+            if (item.address === address) {
+                item.subscribeItem.unsubscribe();
+                this.orderStatusSubscribe.splice(i, 1);
+                break;
+            }
+        }
+    }
+
+    checkOrderStatus(address: string, maxTimes = 160) {
+        if (!this.timerEnabled) {
+            return;
+        }        
+        console.log('begin checkint');
+        for (let i = 0; i < this.orderStatusSubscribe.length; i++) {
+            const item = this.orderStatusSubscribe[i];
+            if (item.address === address) {
+                return;
+            }
+        }
+
+        const source = timer(1000, 1000);
+
+        const subscribeItem = source.subscribe(val => {
+            console.log('value for checking order');
+            if ((maxTimes > 0) && (val >= maxTimes)) {
+                this.unCheckOrderStatus(address);
+            }
+            console.log('qqqqq');
+            this.kanbanServ.getOrdersByAddress(address)
+            .subscribe(
+                (orders: any) => { 
+                    console.log('orders=', orders);
+                    this.ordersStatus.next(orders);
+                }
+            );            
+        });   
+        
+        this.orderStatusSubscribe.push(
+            {
+                address: address,
+                subscribeItem: subscribeItem
+            }
+        );
+    }
+
+    unCheckAllOrderStatus() {
+        for (let i = 0; i < this.orderStatusSubscribe.length; i++) {
+            const item = this.orderStatusSubscribe[i];
+            item.subscribeItem.unsubscribe();
+        }
+    }
+
+    
+    unCheckAllTransactionStatus() {
+        for (let i = 0; i < this.transactionStatusSubscribe.length; i++) {
+            const item = this.transactionStatusSubscribe[i];
+            item.subscribeItem.unsubscribe();
+        }
+    }
+
+    unCheckTransactionStatus(txid: string) {
+        for (let i = 0; i < this.transactionStatusSubscribe.length; i++) {
+            const item = this.transactionStatusSubscribe[i];
+            if (item.txid === txid) {
+                item.subscribeItem.unsubscribe();
+                this.transactionStatusSubscribe.splice(i, 1);
+                break;
+            }
+        }
+    }
 
     checkTransactionStatus(item: TransactionItem, maxTimes = 160) {
-
-        console.log('checkTransactionStatus');
-        const source = timer(1000, 2000);
-
+        if (!this.timerEnabled) {
+            return;
+        }
         const txid = item.txid;
         const type = item.type;
         const coin = item.coin;
         const tokenType = item.tokenType;
-        
-        const subscribe = source.subscribe(val => {
-            console.log('val=', val);
-            if (val >= maxTimes) {
-                subscribe.unsubscribe();
+
+        for (let i = 0; i < this.transactionStatusSubscribe.length; i++) {
+            const itemS = this.transactionStatusSubscribe[i];
+            if (itemS.txid === txid) {
+                return;
+            }
+        }    
+
+        const source = timer(1000, 2000);
+        const subscribeItem = source.subscribe(val => {
+            if ((maxTimes > 0) && (val >= maxTimes)) {
+                this.unCheckTransactionStatus(txid);
             }
             if (type === 'Withdraw') {
                 this.kanbanServ.getTransactionStatusSync(txid).subscribe(
@@ -40,14 +182,13 @@ export class TimerService {
                                     status: status
                                 }
                             );
-                            subscribe.unsubscribe();
+                            this.unCheckTransactionStatus(txid);
                         }                      
                     }
                 );
             } else
             if (type === 'Deposit') {
                 this.kanbanServ.getDepositStatusSync(txid).subscribe((res: any) => {
-                    console.log('res=', res);
                     if (res && res.code !== undefined) {
                         const code = res.code;
                         let status = '';
@@ -68,7 +209,7 @@ export class TimerService {
                                     status: status
                                 }
                             );
-                            subscribe.unsubscribe();
+                            this.unCheckTransactionStatus(txid);
                         }
                     }
                 });
@@ -83,7 +224,7 @@ export class TimerService {
                                     status: status
                                 }
                             );
-                            subscribe.unsubscribe();                        
+                            this.unCheckTransactionStatus(txid);                        
                         }
                     });
                 } else
@@ -107,7 +248,7 @@ export class TimerService {
                                                 status: status
                                             }
                                         );
-                                        subscribe.unsubscribe();                                         
+                                        this.unCheckTransactionStatus(txid);                                        
                                     }
                                 );
                             }
@@ -123,14 +264,13 @@ export class TimerService {
                             }
                             if (confirmations >= 1) {
                                 const status = 'confirmed';
-                                console.log('confirmeddddddddddddddddddddddddddddddddddd');
                                 this.transactionStatus.next(
                                     {
                                         txid: txid,
                                         status: status
                                     }
                                 );
-                                subscribe.unsubscribe();                                   
+                                this.unCheckTransactionStatus(txid);                                 
                             }
                         } 
                     );
@@ -138,12 +278,12 @@ export class TimerService {
             }                
         }); 
 
+        this.transactionStatusSubscribe.push(
+            {
+                txid: item.txid,
+                subscribeItem: subscribeItem
+            }
+        );
        
     }
 }
-
-/*
-          if (type === 'Withdraw') {
-            const status = await this.kanbanServ.getTransactionStatus(txid);
-            transaction.status = status;
-*/

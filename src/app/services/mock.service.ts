@@ -22,6 +22,7 @@ export class MockService {
   // static dataTemplate: BarData = { 'time': 1545572340000, 'open': 3917, 'high': 3917, 'low': 3912.03, 'close': 3912.62, 'volume': 3896 };
   static dataIndex = 0;
   static dataLength = BTC_PRICE_LIST.length;
+  gotHistoryList: boolean;
 
   lastBarTimestamp: number;
 
@@ -33,9 +34,12 @@ export class MockService {
   }
 
   constructor(private http: HttpClient) {
+    this.gotHistoryList = false;
   }
 
+
   getHistoryListSync(param) {
+    this.gotHistoryList = true;
     const inter = param.interval;
     const symbol = param.symbol;
     const url = environment.endpoints.pricehistory + symbol + '/' + inter;
@@ -43,6 +47,7 @@ export class MockService {
   }
   async getHistoryList(param): Promise<BarData[]> {
     //console.log('getting history');
+
     const list = [];
     const inter = param.interval;
     const symbol = param.symbol;
@@ -72,7 +77,7 @@ export class MockService {
         res[i].time = res[i].time * 1000;
       }
     }
-
+    this.gotHistoryList = true;
     return res;
   }
 

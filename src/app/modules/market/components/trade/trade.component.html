@@ -8,12 +8,12 @@
             <app-tv-chart-container class="w-100"></app-tv-chart-container>
         </div>
         <div class="orderarea exg-bg mt-2">
-            <app-myorders #myOrders [wallet]="wallet" [mytokens]="mytokens"></app-myorders>
+            <app-myorders></app-myorders>
         </div>
     </div>
 
     <div class="right-area h-100">
-        <app-order-pad #orderPad [wallet]="wallet" [mytokens]="mytokens" (refreshToken)="onRefreshToken($event)"></app-order-pad>
+        <app-order-pad></app-order-pad>
     </div>
 </div>
 
@@ -25,10 +25,10 @@
     <div class="w-100">
         <mat-tab-group>
             <mat-tab label="Order Book">
-                <app-order-pad #orderPad [wallet]="wallet" [mytokens]="mytokens" (refreshToken)="onRefreshToken($event)"></app-order-pad>
+                <app-order-pad></app-order-pad>
             </mat-tab>
             <mat-tab label="My Orders">
-                <app-myorders #myOrders [wallet]="wallet" [mytokens]="mytokens"></app-myorders>
+                <app-myorders></app-myorders>
             </mat-tab>
             <mat-tab label="Market Price">
                 <app-lite-list></app-lite-list>

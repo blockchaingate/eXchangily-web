@@ -180,7 +180,12 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
                 // console.log('symbol in getBars=', symbol);
                 // console.log('granularity=' + granularity);
 
-                console.log('begin getBarsgetBarsgetBarsgetBarsgetBarsgetBarsgetBarsgetBarsgetBarsgetBarsgetBarsgetBarsgetBarsgetBarsgetBars');
+                console.log(that.mockService.gotHistoryList);
+                if (that.mockService.gotHistoryList) {
+                  console.log('already got');
+                  return;
+                }
+                console.log('begin getBarsgetBarsgetBarsgetBarsgetBa');
                 /*
                 const pair = targetCoinName + baseCoinName;
                 const list = await that.mockService.getHistoryList({
@@ -201,6 +206,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
                   symbol: pair,
                   endTime
                 };
+
                 that.mockService.getHistoryListSync(param).subscribe(
                   (res: any) => {
                     if (res && res.length > 0) {
@@ -268,9 +274,9 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
               );
               */
                 
-             this.socket = new WebSocketSubject(environment.websockets.kline + '@' 
+             that.socket = new WebSocketSubject(environment.websockets.kline + '@' 
              + pair.toUpperCase() + '@' + that.intervalMap[granularity]);
-             this.socket.subscribe(
+             that.socket.subscribe(
                (item) => {
                  
                  const itemData = {
@@ -290,12 +296,16 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
                  console.log('low=', itemData.low);
                  console.log('close=', itemData.close);
                  console.log('volume=', itemData.volume);
-                 onTick(itemData);
+                 if (item.time > 0) {
+                  onTick(itemData);
+                 }
+                 
                }
              );            
 
               },
             unsubscribeBars() {
+              that.socket.unsubscribe();
               // that.ws.send('stop receiving data or just close websocket');
               },                       
         };
@@ -356,6 +366,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy() {
+      this.socket.unsubscribe();
       // this.sub.unsubscribe();
       /*
         if (this._tvWidget !== null) {

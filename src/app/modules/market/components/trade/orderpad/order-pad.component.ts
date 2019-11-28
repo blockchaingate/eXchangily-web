@@ -23,6 +23,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AlertService } from '../../../../../services/alert.service';
 import { StorageService } from '../../../../../services/storage.service';
 import { environment } from '../../../../../../environments/environment';
+import { TimerService } from '../../../../../services/timer.service';
 
 declare let window: any;
 @Component({
@@ -33,9 +34,8 @@ declare let window: any;
 
 export class OrderPadComponent implements OnInit, OnDestroy {
 
-    @Input() wallet: Wallet;
+    wallet: Wallet;
     private _mytokens: any;
-    @Output() refreshToken = new EventEmitter();
 
     screenheight = screen.height;
     select = 1;
@@ -75,7 +75,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     constructor(private storageServ: StorageService, private web3Serv: Web3Service, private coinService: CoinService,
       private kanbanService: KanbanService, public utilService: UtilService, private walletService: WalletService, 
       private fb: FormBuilder, private modalService: BsModalService, private tradeService: TradeService, 
-      private route: ActivatedRoute, private alertServ: AlertService) {
+      private route: ActivatedRoute, private alertServ: AlertService, private timerServ: TimerService) {
         this.refreshTokenDone = true; 
     }
 
@@ -183,26 +183,41 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       
     }
     */
-   @Input()
-   set mytokens(mytokens: any) {
+   setMytokens(mytokens: any) {
      this._mytokens = mytokens;
-
-     if (mytokens && mytokens.length > 0) {
-      for (let i = 0; i < mytokens.length; i++) {
-        if (this.mytokens[i].coinType === this.baseCoin.toString()) {
-          this.baseCoinAvail = Number(this.mytokens[i].unlockedAmount);
+     if (this.baseCoin && this.targetCoin) {
+      if (mytokens && mytokens.length > 0) {
+        for (let i = 0; i < mytokens.length; i++) {
+          if (mytokens[i].coinType === this.baseCoin.toString()) {
+            this.baseCoinAvail = Number(mytokens[i].unlockedAmount);
+          }
+          if (mytokens[i].coinType === this.targetCoin.toString()) {
+            this.targetCoinAvail = Number(mytokens[i].unlockedAmount);
+          }  
         }
-        if (this.mytokens[i].coinType === this.targetCoin.toString()) {
-          this.targetCoinAvail = Number(this.mytokens[i].unlockedAmount);
-        }  
-      }
-    }        
+      }  
+     } 
+      
    }
  
-   get mytokens(): any { return this._mytokens; }
+   getMytokens(): any { return this._mytokens; }
 
-    ngOnInit() {
+   async ngOnInit() {
       this.oldNonce = -1;
+      this.wallet = await this.walletService.getCurrentWallet();
+
+      if (this.wallet) {
+          const address = this.wallet.excoin.receiveAdds[0].address;
+          this.timerServ.checkTokens(address, 0);
+      }
+
+
+      this.timerServ.tokens.subscribe(
+          (tokens: any) => { 
+              console.log('tokens=', tokens);
+              this.setMytokens(tokens);
+          }            
+      ); 
 
       this.sub = this.route.params.subscribe(params => {
         const pair = params['pair']; // (+) converts string 'id' to a number

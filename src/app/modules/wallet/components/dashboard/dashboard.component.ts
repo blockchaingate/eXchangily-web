@@ -141,7 +141,9 @@ export class WalletDashboardComponent {
             this.kanbanServ.getDepositErr(this.exgAddress).subscribe(
                 (resp: any) => {
                     console.log('resp=', resp);
-                    
+                    for (let j = 0; j < this.wallet.mycoins.length; j++) {
+                        this.wallet.mycoins[j].redeposit = [];
+                    }
                     for (let i = 0; i < resp.length; i++) {
                         const coinType = resp[i].coinType;
                         for (let j = 0; j < this.wallet.mycoins.length; j++) {
@@ -157,7 +159,7 @@ export class WalletDashboardComponent {
                             }
                         }
                     }
-                    console.log('this.wallet.mycoins===', this.wallet.mycoins);
+                    console.log('this.wallet.mycoinsssssssss===', this.wallet.mycoins);
                 }
             );
         }

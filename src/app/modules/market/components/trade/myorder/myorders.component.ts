@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, TemplateRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { OrderService } from '../../../services/order.service';
@@ -11,17 +11,17 @@ import { Wallet } from '../../../../../models/wallet';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Web3Service } from '../../../../../services/web3.service';
 import { AlertService } from '../../../../../services/alert.service';
-
+import { TimerService } from '../../../../../services/timer.service';
+import { WalletService } from '../../../../../services/wallet.service';
 @Component({
     selector: 'app-myorders',
     templateUrl: './myorders.component.html',
     styleUrls: ['./myorders.component.css']
 })
 
-export class MyordersComponent implements OnInit {
+export class MyordersComponent implements OnInit, OnDestroy {
     // @Input() wallet: Wallet;
-    private _mytokens: any;
-    private _wallet: any;
+    private wallet: any;
     screenheight = screen.height;
     select = 0;
     myorders: Transaction[] = [];
@@ -29,26 +29,13 @@ export class MyordersComponent implements OnInit {
     orderHash: string;
     modalRef: BsModalRef;
     isActive: boolean;
+    mytokens: any;
     interval;
     constructor(private ordServ: OrderService, private _router: Router, private tradeService: TradeService, 
         public utilServ: UtilService, private kanbanService: KanbanService, private coinService: CoinService, 
-        private modalService: BsModalService, private web3Serv: Web3Service, private alertServ: AlertService) {
+        private modalService: BsModalService, private web3Serv: Web3Service, private alertServ: AlertService,
+        private timerServ: TimerService, private walletServ: WalletService) {
     }
-
-    @Input()
-    set wallet(wallet: any) {
-      this._wallet = wallet;
-
-    }
-  
-    get wallet(): any { return this._wallet; }
-
-    @Input()
-    set mytokens(mytokens: any) {
-      this._mytokens = mytokens;
-    }
-  
-    get mytokens(): any { return this._mytokens; }
 
     /*
     onRefreshToken(tokens) {
@@ -57,7 +44,10 @@ export class MyordersComponent implements OnInit {
         console.log('mytokens in myorders', this.mytokens);
     }
     */
-    ngOnInit() {
+    ngOnDestroy() {
+        this.timerServ.unCheckAllOrderStatus();
+    }
+    async ngOnInit() {
         /*
         this.interval = setInterval(() => {
             if (this._wallet) {
@@ -72,6 +62,25 @@ export class MyordersComponent implements OnInit {
           }, 1000);   
            */   
         this.isActive = true;
+        this.wallet = await this.walletServ.getCurrentWallet();
+        if (this.wallet) {
+            const address = this.wallet.excoin.receiveAdds[0].address;
+            this.timerServ.checkOrderStatus(address, 0);
+            this.timerServ.checkTokens(address, 0);
+        }
+        this.timerServ.ordersStatus.subscribe(
+            (orders: any) => { 
+                console.log('orders=', orders);
+                this.myorders = orders;
+            }            
+        );
+
+        this.timerServ.tokens.subscribe(
+            (tokens: any) => { 
+                console.log('tokens=', tokens);
+                this.mytokens = tokens;
+            }            
+        );        
         /*
         // console.log('mytokens in myorders=', this.mytokens);
         this.tradeService.getTransactions().subscribe((transactions: Transaction[]) => {
