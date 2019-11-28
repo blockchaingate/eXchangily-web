@@ -256,37 +256,18 @@ export class CoinService {
 
         if (name === 'BTC' || name === 'FAB') {
             const root = BIP32.fromSeed(seed, environment.chains.BTC.network);
-            console.log('root.base58=');
-            console.log(root.toBase58());
-            // const childNode = root.derivePath( path );
 
             const childNode1 = root.deriveHardened(44);
             const childNode2 = childNode1.deriveHardened(coin.coinType);
             const childNode3 = childNode2.deriveHardened(0);
             const childNode4 = childNode3.derive(0);
             const childNode = childNode4.derive(0);
-            console.log('path=' + path);
-
-            console.log('childNode1.base58=');
-            console.log(childNode1.toBase58());  
-
-            console.log('childNode2.base58=');
-            console.log(childNode2.toBase58());  
-            
-            console.log('childNode3.base58=');
-            console.log(childNode3.toBase58());  
-
-            console.log('childNode4.base58=');
-            console.log(childNode4.toBase58());  
-
-            console.log('childNode.base58=');
-            console.log(childNode.toBase58());            
+          
             const { address } = Btc.payments.p2pkh({
                 pubkey: childNode.publicKey,
                 network: environment.chains.BTC.network
             });
-            console.log('address=');
-            console.log(address);
+
             addr = address;
             priKey = childNode.toWIF();
             pubKey = `0x${childNode.publicKey.toString('hex')}`;
@@ -321,19 +302,6 @@ export class CoinService {
             const publicKeyString = `0x${publicKey.toString('hex')}`;
             addr = this.utilServ.toKanbanAddress(publicKeyString);
 
-            console.log('here we go');
-            console.log('name=' + name);
-            console.log('priKeyHex=' + priKeyHex);
-            console.log('publicKeyString=' + publicKeyString);
-            console.log('address=' + addr);
-            /*
-            const privateKeyBuffer = wif.decode(priv.ateKey); Balance
-            const wallet = Wallet.fromPrivateKey(privateKeyBufBalance
-            const address = `0x${wallet.getAddress().toString(Balance
-            addr = address; 
-            priKey = wallet.getPrivateKey();    
-            buffer = wallet.getPrivateKey();   
-            */  
               
         }
 

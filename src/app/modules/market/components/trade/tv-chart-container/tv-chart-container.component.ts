@@ -305,7 +305,10 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
 
               },
             unsubscribeBars() {
-              that.socket.unsubscribe();
+              if (that.socket) {
+                that.socket.unsubscribe();
+              }
+              
               // that.ws.send('stop receiving data or just close websocket');
               },                       
         };
@@ -366,7 +369,10 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy() {
-      this.socket.unsubscribe();
+      if (this.socket) {
+        this.socket.unsubscribe();
+      }
+      
       // this.sub.unsubscribe();
       /*
         if (this._tvWidget !== null) {
