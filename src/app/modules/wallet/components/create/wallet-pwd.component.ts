@@ -47,12 +47,11 @@ export class WalletPwdComponent implements OnInit {
 
         const wallet = this.walletServ.generateWallet(pwd, name, sessionStorage.mnemonic);
 
+        sessionStorage.removeItem('mnemonic');
         
         if (!wallet) {
             alert('Error occured, please try again.');
         } else {
-            sessionStorage.removeItem('mnemonic');
-
             this.localSt.getItem('wallets').subscribe((wallets: Wallet[]) => {
                 if (!wallets) {
                     wallets = [];
@@ -65,7 +64,6 @@ export class WalletPwdComponent implements OnInit {
                     this.route.navigate(['/wallet/dashboard']);
                 });
             });
-
         }
 
     }
