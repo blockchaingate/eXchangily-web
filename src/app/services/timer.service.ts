@@ -12,6 +12,8 @@ export class TimerService {
     private orderStatusSubscribe: any;
     private tokenSubscribe: any;
 
+    private maxTimes: number;
+
     public transactionStatus: BehaviorSubject<any> = new BehaviorSubject({});
     public ordersStatus: BehaviorSubject<any> = new BehaviorSubject([]);
     public tokens: BehaviorSubject<any> = new BehaviorSubject([]); 
@@ -20,14 +22,16 @@ export class TimerService {
         this.orderStatusSubscribe = [];
         this.tokenSubscribe = [];
         this.timerEnabled = true;
+        this.maxTimes = 0;
     }
 
-
-
     unCheckTokens(address: string) {
+        console.log('unCheckTokens for ' + address);
         for (let i = 0; i < this.tokenSubscribe.length; i++) {
             const item = this.tokenSubscribe[i];
+            console.log('item.address=' + item.address);
             if (item.address === address) {
+                console.log('got it, unsubscribe it.');
                 item.subscribeItem.unsubscribe();
                 this.tokenSubscribe.splice(i, 1);
                 break;
@@ -36,6 +40,9 @@ export class TimerService {
     }
 
     checkTokens(address: string, maxTimes = 160) {
+        if (this.maxTimes > 0) {
+            maxTimes = this.maxTimes;
+        }
         if (!this.timerEnabled) {
             return;
         }
@@ -50,17 +57,18 @@ export class TimerService {
         const source = timer(1000, 1000);
 
         const subscribeItem = source.subscribe(val => {
-            console.log('value for checking order');
+            console.log('value for checking order ' + val);
+            console.log('maxTimes=' + maxTimes);
             if ((maxTimes > 0) && (val >= maxTimes)) {
+
                 this.unCheckTokens(address);
             }
-            console.log('qqqqq');
             this.kanbanServ.getBalance(address).subscribe((resp) => {
                 this.tokens.next(resp);
             });          
         });   
         
-        this.orderStatusSubscribe.push(
+        this.tokenSubscribe.push(
             {
                 address: address,
                 subscribeItem: subscribeItem
@@ -85,6 +93,10 @@ export class TimerService {
     }
 
     checkOrderStatus(address: string, maxTimes = 160) {
+
+        if (this.maxTimes > 0) {
+            maxTimes = this.maxTimes;
+        }        
         if (!this.timerEnabled) {
             return;
         }        
@@ -148,6 +160,10 @@ export class TimerService {
     }
 
     checkTransactionStatus(item: TransactionItem, maxTimes = 160) {
+
+        if (this.maxTimes > 0) {
+            maxTimes = this.maxTimes;
+        }        
         if (!this.timerEnabled) {
             return;
         }

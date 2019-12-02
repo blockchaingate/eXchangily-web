@@ -28,7 +28,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     pin: string;
     orderHash: string;
     modalRef: BsModalRef;
-    isActive: boolean;
+    isOpen: boolean;
     mytokens: any;
     interval;
     constructor(private ordServ: OrderService, private _router: Router, private tradeService: TradeService, 
@@ -61,12 +61,12 @@ export class MyordersComponent implements OnInit, OnDestroy {
               }
           }, 1000);   
            */   
-        this.isActive = true;
+        this.isOpen = true;
         this.wallet = await this.walletServ.getCurrentWallet();
         if (this.wallet) {
             const address = this.wallet.excoin.receiveAdds[0].address;
-            this.timerServ.checkOrderStatus(address, 0);
-            this.timerServ.checkTokens(address, 0);
+            this.timerServ.checkOrderStatus(address, 1);
+            this.timerServ.checkTokens(address, 1);
         }
         this.timerServ.ordersStatus.subscribe(
             (orders: any) => { 
@@ -119,10 +119,10 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
         this.select = ord;
         if (ord === 0) {
-            this.isActive = true;
+            this.isOpen = true;
         } else
         if (ord === 1) {
-            this.isActive = false;
+            this.isOpen = false;
         }
     }
     deleteOrder(pinModal: TemplateRef<any>, orderHash: string) {
