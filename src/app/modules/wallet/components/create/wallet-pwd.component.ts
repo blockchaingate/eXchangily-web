@@ -58,8 +58,8 @@ export class WalletPwdComponent implements OnInit {
                 }
                 if (wallets.indexOf(wallet) < 0) {
                     wallets.push(wallet);
-                    
                 }
+                this.walletServ.saveCurrentWalletIndex(wallets.length);
                 this.localSt.setItem('wallets', wallets).subscribe(() => {
                     this.route.navigate(['/wallet/dashboard']);
                 });
