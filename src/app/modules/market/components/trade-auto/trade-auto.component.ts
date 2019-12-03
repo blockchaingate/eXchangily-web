@@ -123,7 +123,7 @@ export class TradeAutoComponent implements OnInit {
         const pin = '1qaz@WSX';
         
         let price = 193;
-        for (let i = 0; i < 1000; i++) {
+        for (let i = 0; i < 2000; i++) {
             console.log('i=', i);
             let bidOrAsk = true;
             let walletIndex = 10;
@@ -164,7 +164,7 @@ export class TradeAutoComponent implements OnInit {
                     console.log('transactionHash=', resp.transactionHash);
                 }
             });
-            await this.delay(1000);
+            //await this.delay(1000);
         }
 
     }

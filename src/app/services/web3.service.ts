@@ -78,7 +78,7 @@ export class Web3Service {
         nonce: nonce,
         data: '0x' + abiHex,
         gas: 20000000,
-        coin: '0x',
+        // coin: '0x',
         gasPrice: 4000000000  // in wei
         // gasPrice: 40  // in wei
       };
