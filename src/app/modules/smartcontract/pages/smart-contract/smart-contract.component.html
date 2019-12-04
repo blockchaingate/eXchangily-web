@@ -6,7 +6,7 @@
                 {{'Smart contract name' | translate}}: {{smartContractName}}
             </div>
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="Smart Contract Address" [(ngModel)]="smartContractAddress" name="smartContractAddress" (ngModelChange)="changeSmartContractAddress()">
+                <input matInput placeholder="{{'Smart contract address' | translate}}" [(ngModel)]="smartContractAddress" name="smartContractAddress" (ngModelChange)="changeSmartContractAddress()">
             </mat-form-field>
             <mat-form-field>
                 <mat-label>{{'Function' | translate}}</mat-label>
@@ -17,7 +17,7 @@
                 </mat-select>
             </mat-form-field>
 
-            <div class="py-3">
+            <div class="py-3" *ngIf="wallet">
                 {{'Current wallet' | translate}}: {{wallet.name}}
             </div>
         </div>

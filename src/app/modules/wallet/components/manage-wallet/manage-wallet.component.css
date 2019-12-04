@@ -23,3 +23,7 @@
 .nav-item {
     line-height: 0.8;
 }
+
+.text-silver {
+    color: silver!important;
+}

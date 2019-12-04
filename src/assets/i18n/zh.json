@@ -812,8 +812,10 @@
     "Amount": "数量",
     "Comment": "备注",
     "Smart contract": "智能合约",
-    "Smart contract name": "合约名称",
+    "Smart contract name": "智能合约名称",
+    "Smart contract address": "智能合约地址",
     "Function": "函数",
     "Payable value": "价值",
-    "Result": "执行结果"
+    "Result": "执行结果",
+    "Current wallet": "当前钱包"
 }

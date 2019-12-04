@@ -71,9 +71,10 @@ export class SmartContractComponent implements OnInit {
     return retABI;
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.smartContractAddress = environment.addresses.smartContract.FABLOCK;
     this.changeSmartContractAddress();
+    this.wallet = await this.walletService.getCurrentWallet();
   }
 
   getMethodDefinition = (json, method) => {
@@ -141,7 +142,7 @@ export class SmartContractComponent implements OnInit {
     });
   }
   async submit() {
-    this.wallet = await this.walletService.getCurrentWallet();
+    
     if (this.method.stateMutability === 'view') {
       this.callContract();
     } else {

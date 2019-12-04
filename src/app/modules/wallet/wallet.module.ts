@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+
 
 import { WalletRoutingModule } from './wallet-routing.module';
 
@@ -60,9 +59,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatPaginatorModule} from '@angular/material/paginator';
 
 import { SharedModule } from '../shared/shared.module';
-export function HttpLoaderFactory(http: HttpClient) {
-    return new TranslateHttpLoader(http);
-}
+
 
 @NgModule({
     declarations: [
@@ -98,7 +95,6 @@ export function HttpLoaderFactory(http: HttpClient) {
         FormsModule,
         ReactiveFormsModule,
         WalletRoutingModule,
-        HttpClientModule,
         QRCodeModule,
         MatTabsModule,
         MatListModule,
@@ -116,13 +112,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         BsDropdownModule.forRoot(),
         CollapseModule.forRoot(),
         ModalModule.forRoot(),
-        TranslateModule.forChild({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
-            }
-        }),
+
     ],
     providers: [
         KanbanService, Web3Service, AlertService

@@ -3,6 +3,13 @@ import { NgModule } from '@angular/core';
 import { PinNumberModal } from './modals/pin-number/pin-number.modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+
+export function HttpLoaderFactory(http: HttpClient) {
+    return new TranslateHttpLoader(http);
+}
 @NgModule({
     declarations: [
         PinNumberModal
@@ -10,10 +17,22 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     imports: [
         ModalModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        HttpClientModule,
+        TranslateModule
+        /*
+        TranslateModule.forChild({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }), 
+        */       
     ],
     exports: [
-        PinNumberModal
+        PinNumberModal,
+        TranslateModule
     ],
     providers: [
     ]

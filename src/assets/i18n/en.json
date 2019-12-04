@@ -754,7 +754,9 @@
     "Comment": "Comment",
     "Smart contract": "Smart contract",
     "Smart contract name": "Smart contract name",
+    "Smart contract address": "Smart contract address",
     "Function": "Function",
     "Payable value": "Payable value",
-    "Result": "Result"
+    "Result": "Result",
+    "Current wallet": "Current wallet"
 }
