@@ -810,5 +810,10 @@
     "Open Order": "我的委托",
     "Closed Order": "我的交易",
     "Amount": "数量",
-    "Comment": "备注"
+    "Comment": "备注",
+    "Smart contract": "智能合约",
+    "Smart contract name": "合约名称",
+    "Function": "函数",
+    "Payable value": "价值",
+    "Result": "执行结果"
 }

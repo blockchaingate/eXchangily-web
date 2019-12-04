@@ -1,17 +1,25 @@
 <div class="container py-3">
     <div class="row">
         <div class="col col-6">
+
+            <div class="py-3">
+                {{'Smart contract name' | translate}}: {{smartContractName}}
+            </div>
             <mat-form-field class="example-full-width">
                 <input matInput placeholder="Smart Contract Address" [(ngModel)]="smartContractAddress" name="smartContractAddress" (ngModelChange)="changeSmartContractAddress()">
             </mat-form-field>
             <mat-form-field>
-                <mat-label>Function</mat-label>
+                <mat-label>{{'Function' | translate}}</mat-label>
                 <mat-select (selectionChange)="changeMethod($event)">
                     <mat-option *ngFor="let abi of ABI" [value]="abi.name">
                         {{abi.name}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
+
+            <div class="py-3">
+                {{'Current wallet' | translate}}: {{wallet.name}}
+            </div>
         </div>
         <div class="col col-6" *ngIf="method">
             <div class="container">
@@ -39,7 +47,7 @@
                 <div class="row" *ngIf="method.stateMutability == 'payable'">
                     <div class="col col-12">
                         <mat-form-field class="example-full-width">
-                            <input matInput placeholder="Payable value" [(ngModel)]="payableValue">
+                            <input matInput placeholder="{{'Payable value' | translate}}" [(ngModel)]="payableValue">
                         </mat-form-field>
                     </div>
                 </div>
@@ -51,7 +59,7 @@
                 </div>
                 <div class="row py-2" *ngIf="result">
                     <div class="col col-12">
-                        Result:{{result | json}}
+                        {{'Result' | translate}}:{{result | json}}
                     </div>
                 </div>
             </div>

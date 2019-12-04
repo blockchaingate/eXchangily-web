@@ -20,6 +20,7 @@ import {environment} from '../../../../../environments/environment';
 export class SmartContractComponent implements OnInit {
   @ViewChild('pinModal', {static: true}) pinModal: PinNumberModal;
   method: any;
+  smartContractName: string;
   result: string;
   payableValue: number;
   selectedMethod: string;
@@ -46,6 +47,7 @@ export class SmartContractComponent implements OnInit {
         console.log('res=', res);
         if (res && res.abi) {
           this.ABI = this.getFunctionABI(res.abi);
+          this.smartContractName = res.Name;
         }
       });
     }
