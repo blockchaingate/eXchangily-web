@@ -25,7 +25,9 @@ import { HeaderComponent } from './components/navigation/header/header.component
 import { FooterComponent } from './components/navigation/footer/footer.component';
 import { SidenavListComponent } from './components/navigation/sidenav-list/sidenav-list.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
 import { HttpService } from './services/http.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -53,6 +55,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FlexLayoutModule,
     MatListModule,
     RouterModule,
+    FormsModule,ReactiveFormsModule,
     MatButtonModule,
     TranslateModule.forRoot(
       {

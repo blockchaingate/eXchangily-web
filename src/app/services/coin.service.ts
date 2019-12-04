@@ -243,6 +243,11 @@ export class CoinService {
     }
 
     getKeyPairs(coin: MyCoin, seed: Buffer, chain: number, index: number) {
+
+        console.log('coin is:', coin);
+        console.log('seed is:', seed);
+        console.log('chain is:', chain);
+        console.log('index is:', index);
         const name = coin.name;
         
         const tokenType = coin.tokenType;
@@ -360,15 +365,19 @@ export class CoinService {
         const feePerInput = bytesPerInput * satoshisPerBytes;
         const receiveAddsIndexArr = [];
         const changeAddsIndexArr = [];
-
-        const totalAmount = amount + extraTransactionFee;
-        let amountNum = totalAmount * Math.pow(10, this.utilServ.getDecimal(mycoin));
+        console.log('amount111111111111=', amount);
+        console.log('extraTransactionFee=', extraTransactionFee);
+        const totalAmount = Number(amount) + Number(extraTransactionFee);
+        console.log('totalAmount=', totalAmount);
+        let amountNum = totalAmount * 1e8;
+        console.log('amountNum=', amountNum);
         amountNum += (2 * 34 + 10);
+        console.log('amountNum=', amountNum);
         // const TestNet = Btc.networks.testnet;
         const network = environment.chains.BTC.network;
 
         const txb = new Btc.TransactionBuilder(network);
-        
+        console.log('amountNum=', amountNum);
         let txHex = '';
         for (index = 0; index < mycoin.receiveAdds.length; index ++) {
             balance = mycoin.receiveAdds[index].balance;
@@ -379,6 +388,8 @@ export class CoinService {
             console.log('address in getFabTransactionHex=' + address);
             const fabUtxos = await this.apiService.getFabUtxos(address);
             if (fabUtxos && fabUtxos.length) {
+                console.log('fabUtxos=', fabUtxos);
+                console.log('fabUtxos.length=', fabUtxos.length);
                 for (let i = 0; i < fabUtxos.length; i++) {
                     const utxo = fabUtxos[i];
                     const idx = utxo.idx;

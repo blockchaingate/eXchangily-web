@@ -1,0 +1,62 @@
+<div class="container py-3">
+    <div class="row">
+        <div class="col col-4">
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Smart Contract Address" [(ngModel)]="smartContractAddress" name="smartContractAddress" (ngModelChange)="changeSmartContractAddress()">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Function</mat-label>
+                <mat-select (selectionChange)="changeMethod($event)">
+                    <mat-option *ngFor="let abi of ABI" [value]="abi.name">
+                        {{abi.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col col-8" *ngIf="method">
+            <div class="container">
+                <div *ngFor="let input of method.inputs; let i = index">
+                    <div class="row">
+                        <div class="col col-4">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>{{input.name}}</mat-label>
+                                <mat-select [(value)]="input.type">
+                                    <mat-option *ngFor="let type of types" [value]="type">
+                                        {{type}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </div>
+                        <div class="col col-8">
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="" [(ngModel)]="input.val">
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row" *ngIf="method.stateMutability == 'payable'">
+                    <div class="col col-12">
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Payable value" [(ngModel)]="payableValue">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-12">
+                        <button mat-raised-button color="primary" (click)="submit()"> {{method.stateMutability == 'view'?'View':'Submit'}}</button>
+                    </div>
+
+                </div>
+                <div class="row py-2" *ngIf="result">
+                    <div class="col col-12">
+                        Result:{{result | json}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>

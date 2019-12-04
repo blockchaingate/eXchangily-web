@@ -10,11 +10,19 @@ import {UtilService} from './util.service';
 import {AlertService} from './alert.service';
 
 import { environment } from '../../environments/environment';
+
 @Injectable() 
 export class ApiService {
     
     constructor(private http: HttpClient, private web3Serv: Web3Service, private utilServ: UtilService, private alertServ: AlertService) { }
     
+    getSmartContractABI(address: string) {
+        if (!address.startsWith('0x')) {
+            address = '0x' + address;
+        }
+        const url = environment.endpoints.FAB.exchangily + 'getabiforcontract/' + address; 
+        return this.http.get(url);
+    }
     async getCoinsPrice() {
         const url = environment.endpoints.coingecko + 'api/v3/simple/price?ids=bitcoin,ethereum,fabcoin,tether&vs_currencies=usd';
         const response = await this.http.get(url).toPromise() as CoinsPrice;  
@@ -134,15 +142,21 @@ export class ApiService {
             const value = utxo.value;
             const txid = utxo.txid;
             const idx = utxo.idx;
+            /*
             const isLock = await this.isFabTransactionLocked(txid, idx);
             if (isLock) {
                 lockbalance += value;
             } else {
                 balance += value;
             }
+            */
+           balance += value;
         }
        }
 
+       lockbalance = await this.getFabLockBalance(address);
+       console.log('balance=', balance);
+       console.log('lockbalance=', lockbalance);
        return {balance, lockbalance};
 
     }
@@ -189,6 +203,44 @@ export class ApiService {
             return response;
         }
         return '';
+    }
+
+    async getFabLockBalance(address: string) {
+        const fabSmartContractAddress = environment.addresses.smartContract.FABLOCK;
+        const getLockedInfoABI = '43eb7b44';
+        const url = environment.endpoints.FAB.exchangily + 'callcontract';
+        const data = {
+            address: this.utilServ.stripHexPrefix(fabSmartContractAddress),
+            data: this.utilServ.stripHexPrefix(getLockedInfoABI),
+            sender: address
+        };  
+        const response = await this.http.post(url, data, {responseType: 'text'}).toPromise() as string;
+        const json = JSON.parse(response);
+        let balance = 0;
+        if (json && json.executionResult && json.executionResult.output) {
+            const balanceHex = json.executionResult.output;
+            console.log('balanceHex=', balanceHex);
+            const decoded = this.web3Serv.decodeParameters(['uint256[]','uint256[]'], balanceHex);
+            console.log('decoded', decoded);
+            console.log('decoded.1', decoded[1]);
+            if (decoded && decoded[1]) {
+                console.log('got it,decoded[1.length=', decoded[1].length);
+                for (let i = 0; i < decoded[1].length; i++) {
+                    const value = decoded[1][i];
+                    balance += Number(value);
+                }
+            }
+        }
+        return balance;
+    }
+    callFabSmartContract(address: string, abiHex: string, sender: string) {
+        const url = environment.endpoints.FAB.exchangily + 'callcontract';
+        const data = {
+            address: address,
+            data: abiHex,
+            sender: sender
+        };   
+        return this.http.post(url, data);     
     }
 
     async postFabTx(txHex: string) {

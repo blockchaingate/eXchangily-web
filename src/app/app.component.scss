@@ -1,3 +1,13 @@
+.top-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-container {
+    flex-grow: 1;
+}
+
 .page-footer {
     background-color: #1d1c2e;
 }

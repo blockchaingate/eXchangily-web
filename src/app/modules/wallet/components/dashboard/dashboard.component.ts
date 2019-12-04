@@ -13,7 +13,7 @@ import {Signature, Token} from '../../../../interfaces/kanban.interface';
 import { DepositAmountModal } from '../../modals/deposit-amount/deposit-amount.modal';
 import { WithdrawAmountModal } from '../../modals/withdraw-amount/withdraw-amount.modal';
 import { AddAssetsModal } from '../../modals/add-assets/add-assets.modal';
-import { PinNumberModal } from '../../modals/pin-number/pin-number.modal';
+import { PinNumberModal } from '../../../shared/modals/pin-number/pin-number.modal';
 import { AddGasModal } from '../../modals/add-gas/add-gas.modal';
 import { ShowSeedPhraseModal } from '../../modals/show-seed-phrase/show-seed-phrase.modal';
 import { VerifySeedPhraseModal } from '../../modals/verify-seed-phrase/verify-seed-phrase.modal';
@@ -262,8 +262,12 @@ export class WalletDashboardComponent {
         } else
         if (type === 'LOGIN_SETTING') {
             this.opType = 'loginSetting';
-            this.pinModal.show();
-        }        
+            this.pinModal.show();     
+        } else
+        if (type === 'SMART_CONTRACT') {
+            this.route.navigate(['/smartcontract']);
+            return;
+        }         
     }
 
     onShowTransactionHistory() {

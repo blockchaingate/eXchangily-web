@@ -8,6 +8,7 @@ const routes: Routes = [
   
   { path: 'explorer', loadChildren: './modules/explorer/explorer.module#ExplorerModule'},
   { path: 'wallet', loadChildren: './modules/wallet/wallet.module#WalletModule'},
+  { path: 'smartcontract', loadChildren: './modules/smartcontract/smartcontract.module#SmartcontractModule'},
   { path: '',
     redirectTo: '/home',
     pathMatch: 'full'

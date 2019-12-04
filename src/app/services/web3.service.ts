@@ -66,7 +66,7 @@ export class Web3Service {
       return await web3.eth.sendSignedTransaction(txhex);
     }
 
-    async signAbiHexWithPrivateKey(abiHex: string, keyPair: any, address: string, nonce: number, includeCoin: boolean) {
+    async signAbiHexWithPrivateKey(abiHex: string, keyPair: any, address: string, nonce: number, includeCoin: boolean, value = 0) {
       console.log('abiHex before', abiHex);
       if (abiHex.startsWith('0x')) {
         abiHex = abiHex.slice(2);
@@ -77,7 +77,9 @@ export class Web3Service {
         to: address,
         nonce: nonce,
         data: '0x' + abiHex,
+        value: value,
         gas: 20000000,
+        
         // coin: '0x',
         gasPrice: 4000000000  // in wei
         // gasPrice: 40  // in wei
@@ -86,12 +88,10 @@ export class Web3Service {
         to: address,
         nonce: nonce,
         data: '0x' + abiHex,
+        value: value,
         gas: 2000000,
         gasPrice: 50
       };
-
-
-
       
       const privKey = Buffer.from(keyPair.privateKeyHex, 'hex');
 
@@ -138,7 +138,10 @@ export class Web3Service {
      return signMess.rawTransaction;   
      */  
     }
-
+    decodeParameters(types, data) {
+      const web3 = this.getWeb3Provider();
+      return web3.eth.abi.decodeParameters(types, data);
+    }
     getFabFrozenBalanceABI(paramsArray: any) {
       const web3 = this.getWeb3Provider();
       const func = 	{
@@ -313,6 +316,11 @@ export class Web3Service {
       return abiHex;
     }
 
+    getGeneralFunctionABI(func, paramsArray) {
+      const web3 = this.getWeb3Provider();
+      const abiHex = web3.eth.abi.encodeFunctionCall(func, paramsArray);
+      return abiHex;
+    }
 
     getWithdrawFuncABI (coinType: number, amount: number, destAddress: string) {
 

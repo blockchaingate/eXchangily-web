@@ -39,7 +39,7 @@ import { ReceiveCoinModal } from './modals/receive-coin/receive-coin.modal';
 import { DepositAmountModal } from './modals/deposit-amount/deposit-amount.modal';
 import { WithdrawAmountModal } from './modals/withdraw-amount/withdraw-amount.modal';
 import { AddGasModal } from './modals/add-gas/add-gas.modal';
-import { PinNumberModal } from './modals/pin-number/pin-number.modal';
+
 import { ShowSeedPhraseModal } from './modals/show-seed-phrase/show-seed-phrase.modal';
 import { VerifySeedPhraseModal } from './modals/verify-seed-phrase/verify-seed-phrase.modal';
 import { BackupPrivateKeyModal } from './modals/backup-private-key/backup-private-key.modal';
@@ -59,6 +59,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatPaginatorModule} from '@angular/material/paginator';
 
+import { SharedModule } from '../shared/shared.module';
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
 }
@@ -84,7 +85,6 @@ export function HttpLoaderFactory(http: HttpClient) {
         ReceiveCoinModal,
         DepositAmountModal,
         WithdrawAmountModal,
-        PinNumberModal,
         ShowSeedPhraseModal,
         VerifySeedPhraseModal,
         AddGasModal,
@@ -112,6 +112,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         MatExpansionModule,
         MatGridListModule,
         MatPaginatorModule,
+        SharedModule,
         BsDropdownModule.forRoot(),
         CollapseModule.forRoot(),
         ModalModule.forRoot(),
