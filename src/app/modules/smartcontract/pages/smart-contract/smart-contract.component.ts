@@ -1,12 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {
-  FIELD_TYPES,
-  canRenderMethodParams,
-  renderMethodParams,
-  getAbiJson,
-  canRenderMethodOutputs,
-  renderMethodOutputs
-} from 'ethereum-abi-ui';
+
 import { PinNumberModal } from '../../../shared/modals/pin-number/pin-number.modal';
 import {MatSelectChange} from '@angular/material/select';
 import { Wallet } from '../../../../models/wallet';
@@ -15,7 +8,6 @@ import { ApiService } from '../../../../services/api.service';
 import { Web3Service } from '../../../../services/web3.service';
 import { UtilService } from '../../../../services/util.service';
 import { CoinService } from '../../../../services/coin.service';
-import { KanbanService } from '../../../../services/kanban.service';
 import { AlertService } from '../../../../services/alert.service';
 import * as Btc from 'bitcoinjs-lib';
 import { MyCoin } from 'src/app/models/mycoin';
