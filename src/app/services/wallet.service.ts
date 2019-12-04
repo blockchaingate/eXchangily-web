@@ -100,7 +100,7 @@ export class WalletService {
         console.log('currentWalletIndex=' + currentWalletIndex);
         console.log('walletsssss=', wallets);
         if (wallets) {
-            if (!currentWalletIndex) {
+            if ((!currentWalletIndex) || (currentWalletIndex < 0)) {
                 currentWalletIndex = 0;
             }
             console.log('currentWalletIndex here=' + currentWalletIndex);

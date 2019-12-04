@@ -1,6 +1,6 @@
 <div class="container py-3">
     <div class="row">
-        <div class="col col-4">
+        <div class="col col-6">
             <mat-form-field class="example-full-width">
                 <input matInput placeholder="Smart Contract Address" [(ngModel)]="smartContractAddress" name="smartContractAddress" (ngModelChange)="changeSmartContractAddress()">
             </mat-form-field>
@@ -13,7 +13,7 @@
                 </mat-select>
             </mat-form-field>
         </div>
-        <div class="col col-8" *ngIf="method">
+        <div class="col col-6" *ngIf="method">
             <div class="container">
                 <div *ngFor="let input of method.inputs; let i = index">
                     <div class="row">
