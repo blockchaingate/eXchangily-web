@@ -102,9 +102,7 @@ export class SmartContractComponent implements OnInit {
     ));
   }
 
-  changeMethod(event: MatSelectChange) {
-    console.log('val = ' + event.source.value);
-    const val = event.source.value;
+  changeMethod(val: string) {
     this.renderMethod(val);
   }
 

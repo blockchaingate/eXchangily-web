@@ -25,6 +25,7 @@
                             "src/images"
                         ],
                         "styles": [
+                            "src/material-exchangily.css",
                             "src/styles.scss"
                         ],
                         "stylePreprocessorOptions": {

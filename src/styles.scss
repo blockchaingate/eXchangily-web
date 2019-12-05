@@ -3,7 +3,6 @@ body {
     height: 100%;
 }
 
-@import "./material-exchangily.css";
 body {
     margin: 0;
     font-family: "Nunito", serif;
@@ -340,4 +339,8 @@ a.explorer-link {
 
 .hand-cursor {
     cursor: pointer;
+}
+
+.mat-select-value {
+    color: white!important;
 }
