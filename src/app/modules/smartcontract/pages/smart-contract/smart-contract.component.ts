@@ -27,7 +27,7 @@ export class SmartContractComponent implements OnInit {
   types = [];
   wallet: Wallet;
   smartContractAddress: string;
-
+  mycoin: MyCoin;
   ABI = [];
   constructor(
     private walletService: WalletService, 
@@ -75,6 +75,24 @@ export class SmartContractComponent implements OnInit {
     this.smartContractAddress = environment.addresses.smartContract.FABLOCK;
     this.changeSmartContractAddress();
     this.wallet = await this.walletService.getCurrentWallet();
+
+    if (!this.wallet) {
+      this.alertServ.openSnackBar('no current wallet was found.', 'Ok');
+      return;
+    }  
+    
+    for (let i = 0; i < this.wallet.mycoins.length; i++) {
+      const coin = this.wallet.mycoins[i];
+      if (coin.name === 'FAB') {
+        this.mycoin = coin;
+        break;
+      }
+    }  
+    
+    if (!this.mycoin) {
+      this.alertServ.openSnackBar('no fab coin found for this wallet.', 'Ok');
+      return;
+    }    
   }
 
   getMethodDefinition = (json, method) => {
@@ -122,24 +140,8 @@ export class SmartContractComponent implements OnInit {
     const address = this.utilServ.stripHexPrefix(this.smartContractAddress);
     const abiHex = this.utilServ.stripHexPrefix(this.formABI());
 
-    if (!this.wallet) {
-      this.alertServ.openSnackBar('no current wallet was found.', 'Ok');
-      return;
-    }
-    var mycoin: MyCoin;
-    for (let i = 0; i < this.wallet.mycoins.length; i++) {
-      const coin = this.wallet.mycoins[i];
-      if (coin.name === 'FAB') {
-        mycoin = coin;
-        break;
-      }
-    }
-    
-    if (!mycoin) {
-      this.alertServ.openSnackBar('no fab coin found for this wallet.', 'Ok');
-      return;
-    }
-    const sender = mycoin.receiveAdds[0].address;
+
+    const sender = this.mycoin.receiveAdds[0].address;
 
     if (!sender) {
       this.alertServ.openSnackBar('address was not found.', 'Ok');
@@ -223,23 +225,9 @@ export class SmartContractComponent implements OnInit {
 
     console.log('contractSize=' + contractSize);
     totalFee += this.utilServ.convertLiuToFabcoin(contractSize * 10);
-    
-    console.log('totalFee=' + totalFee);
-    var mycoin: MyCoin;
-    for (let i = 0; i < this.wallet.mycoins.length; i++) {
-      const coin = this.wallet.mycoins[i];
-      if (coin.name === 'FAB') {
-        mycoin = coin;
-        break;
-      }
-    }
-    if(!mycoin) {
-      console.log('cannot find fabcoin, exit');
-      return;
-    }
 
-    console.log('mycoin is', mycoin);
-    const res = await this.coinServ.getFabTransactionHex(seed, mycoin, contract, value, totalFee, 14);
+
+    const res = await this.coinServ.getFabTransactionHex(seed, this.mycoin, contract, value, totalFee, 14);
     
     const txHex = res.txHex;
     let errMsg = res.errMsg;

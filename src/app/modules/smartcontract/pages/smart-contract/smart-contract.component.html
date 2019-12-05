@@ -20,6 +20,10 @@
             <div class="py-3" *ngIf="wallet">
                 {{'Current wallet' | translate}}: {{wallet.name}}
             </div>
+
+            <div class="py-3" *ngIf="mycoin && mycoin.receiveAdds">
+                {{'Fab Balance' | translate}}: {{mycoin.receiveAdds[0].balance}}
+            </div>
         </div>
         <div class="col col-6" *ngIf="method">
             <div class="container">
