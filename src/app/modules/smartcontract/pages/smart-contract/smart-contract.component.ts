@@ -122,6 +122,10 @@ export class SmartContractComponent implements OnInit {
     const address = this.utilServ.stripHexPrefix(this.smartContractAddress);
     const abiHex = this.utilServ.stripHexPrefix(this.formABI());
 
+    if (!this.wallet) {
+      this.alertServ.openSnackBar('no current wallet was found.', 'Ok');
+      return;
+    }
     var mycoin: MyCoin;
     for (let i = 0; i < this.wallet.mycoins.length; i++) {
       const coin = this.wallet.mycoins[i];
@@ -132,12 +136,18 @@ export class SmartContractComponent implements OnInit {
     }
     
     if (!mycoin) {
+      this.alertServ.openSnackBar('no fab coin found for this wallet.', 'Ok');
       return;
     }
     const sender = mycoin.receiveAdds[0].address;
 
+    if (!sender) {
+      this.alertServ.openSnackBar('address was not found.', 'Ok');
+      return;
+    }
     this.apiServ.callFabSmartContract(address, abiHex, sender).subscribe((res: any) => {
       console.log('res=', res);
+      this.payableValue = 0;
       this.result = res;
     });
   }
