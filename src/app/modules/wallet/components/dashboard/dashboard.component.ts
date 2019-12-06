@@ -441,7 +441,6 @@ export class WalletDashboardComponent {
     }
 
     onConfirmedPin(pin: string) {
-        console.log('pin is:' + pin);
         this.pin = pin;
         const pinHash = this.utilServ.SHA256(pin).toString();
         if (pinHash !== this.wallet.pwdHash) {
@@ -779,7 +778,7 @@ export class WalletDashboardComponent {
        console.log('txHash=', txHash);
        console.log('txHex=', txHex);
        console.log('txKanbanHex=', txKanbanHex);
-       //return 0;
+       return 0;
        this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp: any) => { 
             console.log('resp=', resp);
             if (resp && resp.data && resp.data.transactionID) {

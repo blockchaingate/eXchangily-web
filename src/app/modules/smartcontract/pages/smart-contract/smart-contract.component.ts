@@ -189,8 +189,6 @@ export class SmartContractComponent implements OnInit {
   async onConfirmedPin(pin: string) {
 
     const abiHex = this.formABI();
-    console.log('this.wallet is:', this.wallet);
-    console.log('pin is:', pin);
     const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
     if (!seed) {
       this.alertServ.openSnackBar('Your password is wrong.', 'Ok');
@@ -207,8 +205,6 @@ export class SmartContractComponent implements OnInit {
 
     let totalFee = totalAmount;
 
-    console.log('abiHex=', abiHex);
-    console.log('this.smartContractAddress=', this.smartContractAddress);
     const contract = Btc.script.compile([
       84,
       this.utilServ.number2Buffer(gasLimit),
@@ -216,12 +212,9 @@ export class SmartContractComponent implements OnInit {
       this.utilServ.hex2Buffer(this.utilServ.stripHexPrefix(abiHex)),
       this.utilServ.hex2Buffer(this.utilServ.stripHexPrefix(this.smartContractAddress)),
       194
-  ]);
+    ]);
   
-    console.log('contract=', contract);
     const contractSize = contract.toJSON.toString().length;
-
-    console.log('contractSize=' + contractSize);
     totalFee += this.utilServ.convertLiuToFabcoin(contractSize * 10);
 
 
@@ -236,6 +229,7 @@ export class SmartContractComponent implements OnInit {
         errMsg = res2.errMsg;
         if (txHash) {
           this.result = txHash;
+          this.result += 'Please wait for a few minutes to confirm.';
         } else 
         if (errMsg) {
           this.result = errMsg;

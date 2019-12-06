@@ -244,10 +244,6 @@ export class CoinService {
 
     getKeyPairs(coin: MyCoin, seed: Buffer, chain: number, index: number) {
 
-        console.log('coin is:', coin);
-        console.log('seed is:', seed);
-        console.log('chain is:', chain);
-        console.log('index is:', index);
         const name = coin.name;
         
         const tokenType = coin.tokenType;

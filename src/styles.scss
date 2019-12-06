@@ -1,81 +1,3 @@
-html,
-body {
-    height: 100%;
-}
-
-body {
-    margin: 0;
-    font-family: "Nunito", serif;
-}
-
-.main-work-area {
-    min-height: 680px;
-}
-
-.hand {
-    cursor: pointer;
-}
-
-.exg-bg {
-    background-color: #282840;
-}
-
-.exg-bg-light {
-    background-color: #2c2c4e;
-}
-
-.exg-bg-dark {
-    background-color: #112233;
-}
-
-.gradient-back-title {
-    background-image: linear-gradient(to right, #e6b572, #d9736e, #95629b, #63539e, #3a4ba3);
-}
-
-.gradient-back-area {
-    color: white;
-    background-image: linear-gradient(to right, #fbc879, #eb7f75, #a26aa7, #695aad, #3e51b0);
-}
-
-.btn-gradient {
-    background-image: linear-gradient(to right, #f2ac0e, #d56a70, #bb2ad1);
-    color: white;
-}
-
-@media only screen and (max-width: 959px) {
-    .fxHide-sm {
-        display: none!important;
-    }
-}
-
-@media only screen and (min-width: 960px) {
-    .fxHide-gt-sm {
-        display: none!important;
-    }
-}
-
-*:focus {
-    outline: none !important;
-    border: 0 !important;
-}
-
-.container-wallet-main {
-    height: 325px;
-}
-
-.color-purple {
-    color: #871fff;
-}
-
-.scroll-bar::-webkit-scrollbar {
-    width: 6px;
-    background-color: transparent;
-}
-
-.scroll-bar::-webkit-scrollbar-thumb {
-    background-color: #424266;
-}
-
 // Bootstrap
 @import '~bootstrap/scss/bootstrap-reboot';
 @import '~bootstrap/scss/bootstrap-grid';
@@ -343,4 +265,82 @@ a.explorer-link {
 
 .mat-select-value {
     color: white!important;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: arial, "SimSun", "宋体", "Yahei", "微软雅黑", "STXihei", "华文细黑", tahoma, verdana, "geneva", lucida, 'lucida grande', helvetica, sans-serif!important;
+}
+
+.main-work-area {
+    min-height: 680px;
+}
+
+.hand {
+    cursor: pointer;
+}
+
+.exg-bg {
+    background-color: #282840;
+}
+
+.exg-bg-light {
+    background-color: #2c2c4e;
+}
+
+.exg-bg-dark {
+    background-color: #112233;
+}
+
+.gradient-back-title {
+    background-image: linear-gradient(to right, #e6b572, #d9736e, #95629b, #63539e, #3a4ba3);
+}
+
+.gradient-back-area {
+    color: white;
+    background-image: linear-gradient(to right, #fbc879, #eb7f75, #a26aa7, #695aad, #3e51b0);
+}
+
+.btn-gradient {
+    background-image: linear-gradient(to right, #f2ac0e, #d56a70, #bb2ad1);
+    color: white;
+}
+
+@media only screen and (max-width: 959px) {
+    .fxHide-sm {
+        display: none!important;
+    }
+}
+
+@media only screen and (min-width: 960px) {
+    .fxHide-gt-sm {
+        display: none!important;
+    }
+}
+
+*:focus {
+    outline: none !important;
+    border: 0 !important;
+}
+
+.container-wallet-main {
+    height: 325px;
+}
+
+.color-purple {
+    color: #871fff;
+}
+
+.scroll-bar::-webkit-scrollbar {
+    width: 6px;
+    background-color: transparent;
+}
+
+.scroll-bar::-webkit-scrollbar-thumb {
+    background-color: #424266;
 }

@@ -222,7 +222,6 @@ export default class KanbanTxService {
       const msgHash = this.hash(false);
       const sig = ecsign(msgHash, privateKey);
       console.log('msgHash=', msgHash);
-      console.log('privateKey=', privateKey);
       console.log('sig=', sig);
       if (this._implementsEIP155()) {
         sig.v += this.getChainId() * 2 + 8;
@@ -292,6 +291,7 @@ export default class KanbanTxService {
         }
 
         // create hash
+        console.log('items=', items);
         return rlphash(items);
     }
 
