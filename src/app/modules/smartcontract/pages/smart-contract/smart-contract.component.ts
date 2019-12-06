@@ -22,6 +22,7 @@ export class SmartContractComponent implements OnInit {
   method: any;
   smartContractName: string;
   result: string;
+  error: string;
   payableValue: number;
   selectedMethod: string;
   types = [];
@@ -229,10 +230,9 @@ export class SmartContractComponent implements OnInit {
         errMsg = res2.errMsg;
         if (txHash) {
           this.result = txHash;
-          this.result += 'Please wait for a few minutes to confirm.';
         } else 
         if (errMsg) {
-          this.result = errMsg;
+          this.error = errMsg;
         }
     }    
     /*
