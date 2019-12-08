@@ -321,6 +321,8 @@ export class CoinService {
     }
 
     signedMessage(originalMessage: string , keyPair: any) {
+        // originalMessage = '000254cbd93f69af7373dcf5fc01372230d309684f95053c7c9cbe95cf4e4e2da731000000000000000000000000000000000000000000000000000009184e72a000000000000000000000000000a2a3720c00c2872397e6d98f41305066cbf0f8b3';
+        console.log('originalMessage=', originalMessage);
         let signature: Signature;
         const name = keyPair.name;
         const tokenType = keyPair.tokenType;
@@ -334,11 +336,15 @@ export class CoinService {
             // signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
             const signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey, 
                 keyPair.privateKeyBuffer.compressed);
-            const signHex = `${signBuffer.toString('hex')}`;
+            
+            // const signHex = `${signBuffer.toString('hex')}`;
             const v = `0x${signBuffer.slice(0, 1).toString('hex')}`;
             const r = `0x${signBuffer.slice(1, 33).toString('hex')}`;
             const s = `0x${signBuffer.slice(33, 65).toString('hex')}`;
-
+            
+            console.log('v=' + v);
+            console.log('r=' + r);
+            console.log('s=' + s);
             signature = {r: r, s: s, v: v};
         }
         return signature;

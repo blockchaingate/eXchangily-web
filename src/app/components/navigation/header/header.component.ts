@@ -9,7 +9,7 @@ import { AlertService } from '../../../services/alert.service';
 import { UtilService } from '../../../services/util.service';
 import { KanbanService } from '../../../services/kanban.service';
 import { TimerService } from '../../../services/timer.service';
-
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -24,7 +24,7 @@ export class HeaderComponent implements OnInit {
   color = 'primary';
   mode = 'determinate';
   value = 100;  
-
+  testMode: boolean;
   interval;
 
   constructor(private translate: TranslateService, private router: Router, private alertServ: AlertService,
@@ -33,7 +33,10 @@ export class HeaderComponent implements OnInit {
     
   
   ngOnInit() {
-
+    this.testMode = true;
+    if (environment.production) {
+      this.testMode = false;
+    }
     this.pendingtransactions = [];
     this.closetransactions = [];
 
