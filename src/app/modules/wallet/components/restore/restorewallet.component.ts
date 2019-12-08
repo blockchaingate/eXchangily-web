@@ -74,7 +74,7 @@ export class RestoreWalletComponent implements OnInit {
                   wallets.push(wallet);
                   
               }
-              this.walletServ.saveCurrentWalletIndex(wallets.length);
+              this.walletServ.saveCurrentWalletIndex(wallets.length - 1);
               this.localSt.setItem('wallets', wallets).subscribe(() => {
                   this.route.navigate(['/wallet/dashboard']);
               });

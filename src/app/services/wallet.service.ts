@@ -103,6 +103,9 @@ export class WalletService {
             if ((!currentWalletIndex) || (currentWalletIndex < 0)) {
                 currentWalletIndex = 0;
             }
+            if (currentWalletIndex > wallets.length - 1) {
+                currentWalletIndex = wallets.length - 1;
+            }              
             console.log('currentWalletIndex here=' + currentWalletIndex);
             return wallets[currentWalletIndex];
         }
