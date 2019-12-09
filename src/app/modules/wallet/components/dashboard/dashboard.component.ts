@@ -32,6 +32,7 @@ import { TransactionItem } from '../../../../models/transaction-item';
 
 import * as bs58 from 'bs58';
 import { TimerService } from '../../../../services/timer.service';
+import { environment } from 'src/environments/environment.prod';
 @Component({ 
     selector: 'app-wallet-dashboard',
     templateUrl: './dashboard.component.html',
@@ -570,6 +571,10 @@ export class WalletDashboardComponent {
     }
 
     async addGasDo() {
+        if (environment.production) {
+            this.alertServ.openSnackBar('Not available in production', 'Ok');
+            return;
+        }
         const currentCoin = this.wallet.mycoins[1];
         this.depositFab(currentCoin);        
     }
@@ -692,9 +697,6 @@ export class WalletDashboardComponent {
 
     async submitrediposit(nonce: number, coinType: number, amount: number, r: string, s: string, v: string, transactionID: string) {
 
-        console.log('details for submitrediposit');
-        console.log('nonce=' + nonce + ',coinType=' + coinType + ',amount=' + amount 
-        + ',r=' + r + ',s=' + s + ',v=' + v + ',transactionID=' + transactionID);
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
         const pin = this.pin;
 
@@ -772,13 +774,7 @@ export class WalletDashboardComponent {
 
         const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
 
-       console.log('nonce=' + nonce);
-       console.log('signedMessage=', signedMessage);
-       console.log('abiHex=', abiHex);
-       console.log('txHash=', txHash);
-       console.log('txHex=', txHex);
-       console.log('txKanbanHex=', txKanbanHex);
-       return 0;
+       //return 0;
        this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp: any) => { 
             console.log('resp=', resp);
             if (resp && resp.data && resp.data.transactionID) {
