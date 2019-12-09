@@ -22,7 +22,6 @@ export const environment = {
         blockchaingate: 'https://blockchaingate.com/v2/',
         coingecko: 'https://api.coingecko.com/',
         kanban: 'https://kanbanprod.fabcoinapi.com/',
-        ankit: 'http://fabprod.fabcoinapi.com:3002/',
         BTC: {
             exchangily: 'https://btcprod.fabcoinapi.com/'
         },
@@ -31,8 +30,8 @@ export const environment = {
         },
         ETH: {
             exchangily: 'https://ethprod.fabcoinapi.com/',
-        },
-        pricehistory: 'https://fabprod.fabcoinapi.com:3002/klinedata/'
+        }
+        // pricehistory: 'https://fabprod.fabcoinapi.com:3002/klinedata/'
     },
     CoinType: {
         BTC: 0,
@@ -42,10 +41,8 @@ export const environment = {
     addresses: {
         smartContract: {
             FABLOCK: '0x04baa04d9550c49831427c6abe16def2c579af4a',
-            EXG: 'a3e26671a38978e8204b8a37f1c2897042783b00',
+            EXG: '0xa3e26671a38978e8204b8a37f1c2897042783b00',
             USDT: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-            SCAR: '',
-            EXCHANGILY: ''
         },
         exchangilyOfficial: [
             {name: 'EXG', address: '0x9d95ee21e4f1b05bbfd0094daf4ce110deb00931'},

@@ -32,7 +32,7 @@ import { TransactionItem } from '../../../../models/transaction-item';
 
 import * as bs58 from 'bs58';
 import { TimerService } from '../../../../services/timer.service';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from '../../../../../environments/environment';
 @Component({ 
     selector: 'app-wallet-dashboard',
     templateUrl: './dashboard.component.html',
@@ -571,6 +571,7 @@ export class WalletDashboardComponent {
     }
 
     async addGasDo() {
+        console.log('environment.production=', environment.production);
         if (environment.production) {
             this.alertServ.openSnackBar('Not available in production', 'Ok');
             return;

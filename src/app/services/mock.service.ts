@@ -42,7 +42,7 @@ export class MockService {
     this.gotHistoryList = true;
     const inter = param.interval;
     const symbol = param.symbol;
-    const url = environment.endpoints.pricehistory + symbol + '/' + inter;
+    const url = environment.endpoints.kanban + 'klinedata/' + symbol + '/' + inter;
     return this.http.get(url);    
   }
   async getHistoryList(param): Promise<BarData[]> {
@@ -63,7 +63,7 @@ export class MockService {
     console.log(list[list.length - 1]);
     */
     // intervals array('1h','30m','15m','5m', '1m')
-    const url = environment.endpoints.pricehistory + symbol + '/' + inter;
+    const url = environment.endpoints.kanban + 'klinedata/' + symbol + '/' + inter;
 
     // console.log('url for getHistoryList=', url);
     const res = await this.http.get(url).toPromise() as [BarData];

@@ -27,7 +27,6 @@ export const environment = {
         // blockchaingate: 'http://localhost:3002/v2/',
         coingecko: 'https://api.coingecko.com/',
         kanban: 'https://kanbantest.fabcoinapi.com/',
-        ankit: 'http://18.223.17.4:3002/',
         BTC: {
             exchangily: 'https://btctest.fabcoinapi.com/'
         },
@@ -37,8 +36,8 @@ export const environment = {
         ETH: {
             exchangily: 'https://ethtest.fabcoinapi.com/',
             // etherscan: 'https://api-ropsten.etherscan.io/'
-        },
-        pricehistory: 'http://18.223.17.4:3002/klinedata/'
+        }
+        // pricehistory: 'http://18.223.17.4:3002/klinedata/'
 
     },
     CoinType: {
@@ -51,8 +50,6 @@ export const environment = {
             FABLOCK: '0xa7d4a4e23bf7dd7a1e03eda9eb7c28a016fd54aa',
             EXG: '0x311acf4666477a22c2f16c53b88c1734ee227fc6',
             USDT: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',
-            SCAR: '',
-            EXCHANGILY: ''
         },
         exchangilyOfficial: [
             { name: 'EXG', address: '0xdcd0f23125f74ef621dfa3310625f8af0dcd971b'},
