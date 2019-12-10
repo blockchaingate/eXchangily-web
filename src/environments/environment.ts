@@ -48,7 +48,8 @@ export const environment = {
     addresses: {
         smartContract: {
             FABLOCK: '0xa7d4a4e23bf7dd7a1e03eda9eb7c28a016fd54aa',
-            EXG: '0x311acf4666477a22c2f16c53b88c1734ee227fc6',
+            //EXG: '0x311acf4666477a22c2f16c53b88c1734ee227fc6',
+            EXG: '0x867480ba8e577402fa44f43c33875ce74bdc5df6',
             USDT: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',
         },
         exchangilyOfficial: [
@@ -60,10 +61,10 @@ export const environment = {
         ]       
     },
     websockets: {
-        allprices: 'ws://18.223.17.4:3002/ws/allprices',
-        trades: 'ws://18.223.17.4:3002/ws/trades',
-        orders: 'ws://18.223.17.4:3002/ws/orders',
-        kline: 'ws://18.223.17.4:3002/ws/ticker' 
+        allprices: 'wss://kanbantest.fabcoinapi.com/ws/allprices',
+        trades: 'wss://kanbantest.fabcoinapi.com/ws/trades',
+        orders: 'wss://kanbantest.fabcoinapi.com/ws/orders',
+        kline: 'wss://kanbantest.fabcoinapi.com/ws/ticker' 
     }
 };
 

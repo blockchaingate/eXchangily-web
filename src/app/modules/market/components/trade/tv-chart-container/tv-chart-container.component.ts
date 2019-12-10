@@ -12,7 +12,7 @@ import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 import { CoinService } from '../../../../../services/coin.service';
 import { ActivatedRoute } from '@angular/router';
 import { WsService } from '../../../services/ws.service';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from '../../../../../../environments/environment';
 // import { OrderTicketFocusControl } from 'dist/dex/assets/charting_library/charting_library.min';
 
 interface BarData {
@@ -289,6 +289,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
                  };
 
 //                 console.log('price=', itemData.price);
+/*
                  console.log('time=', itemData.time);
 
                  console.log('open=', itemData.open);
@@ -296,6 +297,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
                  console.log('low=', itemData.low);
                  console.log('close=', itemData.close);
                  console.log('volume=', itemData.volume);
+*/                 
                  if (item.time > 0) {
                   onTick(itemData);
                  }

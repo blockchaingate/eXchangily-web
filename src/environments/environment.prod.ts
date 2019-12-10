@@ -53,9 +53,9 @@ export const environment = {
         ],
     },
     websockets: {
-        allprices: 'wss://fabprod.fabcoinapi.com:3002/ws/allprices',
-        trades: 'wss://fabprod.fabcoinapi.com:3002/ws/trades',
-        orders: 'wss://fabprod.fabcoinapi.com:3002/ws/orders',
-        kline: 'ws://18.223.17.4:3002/ws/ticker'
-    }
+        allprices: 'wss://fabprod.fabcoinapi.com/ws/allprices',
+        trades: 'wss://fabprod.fabcoinapi.com/ws/trades',
+        orders: 'wss://fabprod.fabcoinapi.com/ws/orders',
+        kline: 'wss://fabprod.fabcoinapi.com/ws/ticker'
+    }  
 };
