@@ -199,7 +199,25 @@ export class OrderPadComponent implements OnInit, OnDestroy {
      } 
       
    }
- 
+   
+   buyable() {
+     const avail = Number(this.utilService.showAmount(this.baseCoinAvail));
+     const consume = this.buyPrice * this.buyQty;
+     if (avail >= consume) {
+       return true;
+     }
+     return false;
+   }
+
+   sellable() {
+    const avail = Number(this.utilService.showAmount(this.targetCoinAvail));
+    const consume = this.sellQty;
+    if (avail >= consume) {
+      return true;
+    }
+    return false;     
+   }
+
    getMytokens(): any { return this._mytokens; }
 
    async ngOnInit() {

@@ -69,8 +69,8 @@
                 <span *ngIf="buyPrice > 0">{{ buyPrice * buyQty}}</span>
             </div>
             <div class="aspace" *ngIf="targetCoin >= 0">
-                <button type="button" class="btn btn-success" (click)="buy(templatePasswd)" [disabled]="this.baseCoinAvail - 1 / buyPrice * buyQty < 0">
-                    {{'Buy' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}
+                <button type="button" class="btn btn-success" (click)="buy(templatePasswd)" [disabled]="!buyable()">
+                    {{'Buy' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}} 
                 </button>
             </div>
         </div>
@@ -88,7 +88,7 @@
                 {{'Total' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}: {{sellQty}}
             </div>
             <div class="aspace" *ngIf="targetCoin >= 0">
-                <button type="button" class="btn btn-success btn-danger" (click)="sell(templatePasswd)" [disabled]="this.targetCoinAvail - sellQty < 0">
+                <button type="button" class="btn btn-success btn-danger" (click)="sell(templatePasswd)" [disabled]="!sellable()">
                 {{'Sell' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}
                 </button>
             </div>

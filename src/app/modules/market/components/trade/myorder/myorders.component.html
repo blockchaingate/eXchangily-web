@@ -43,13 +43,13 @@
                     <div>{{utilServ.showAmount(order.price)}}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 10%;">
-                    <div>{{utilServ.showAmount(order.orderQuantity)}}</div>
+                    <div>{{utilServ.showAmount(order.orderQuantity + order.filledQuantity)}}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 10%;">
                     <div>{{utilServ.showAmount(order.filledQuantity)}}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 8%;">
-                    <div>{{order.filledQuantity*100/order.orderQuantity|number:'2.2-2'}}</div>
+                    <div>{{order.filledQuantity*100/(order.orderQuantity + order.filledQuantity)|number:'2.2-2'}}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 8%;">
                     <div>

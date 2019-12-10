@@ -90,7 +90,6 @@ import { SharedModule } from '../shared/shared.module';
         LoginSettingModal
     ],
     imports: [
-        // BrowserModule,
         CommonModule,
         FormsModule,
         ReactiveFormsModule,

@@ -111,15 +111,13 @@ export class TimerService {
         const source = timer(1000, 1000);
 
         const subscribeItem = source.subscribe(val => {
-            console.log('value for checking order');
             if ((maxTimes > 0) && (val >= maxTimes)) {
                 this.unCheckOrderStatus(address);
             }
-            console.log('qqqqq');
             this.kanbanServ.getOrdersByAddress(address)
             .subscribe(
                 (orders: any) => { 
-                    console.log('orders=', orders);
+                    console.log('ordersssssssssssssssssss=', orders);
                     this.ordersStatus.next(orders);
                 }
             );            
