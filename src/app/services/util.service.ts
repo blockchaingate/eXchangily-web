@@ -129,7 +129,15 @@ export class UtilService {
         return str;
     }
 
-    showAmount(amount: number) {
+    showAddAmount(amount1: string, amount2: string) {
+        const amount1Show = this.showAmount(amount1);
+        const amount2Show = this.showAmount(amount2);
+        console.log('amount1Show=', amount1Show);
+        console.log('amount2Show=', amount2Show);
+        return Number(amount1Show) + Number(amount2Show);
+    }
+
+    showAmount(amount: string) {
         if (!amount || amount.toString() === '0') {
             return 0;
         }

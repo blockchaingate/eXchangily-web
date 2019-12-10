@@ -289,6 +289,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
                  };
 
 //                 console.log('price=', itemData.price);
+/*
                  console.log('time=', itemData.time);
 
                  console.log('open=', itemData.open);
@@ -296,6 +297,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
                  console.log('low=', itemData.low);
                  console.log('close=', itemData.close);
                  console.log('volume=', itemData.volume);
+*/                 
                  if (item.time > 0) {
                   onTick(itemData);
                  }

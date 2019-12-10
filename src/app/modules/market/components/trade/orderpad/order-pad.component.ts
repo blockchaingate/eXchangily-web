@@ -359,6 +359,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         if (resp && resp.transactionHash) {
                 this.alertServ.openSnackBar('Your order was placed successfully.', 'Ok');
                 // this.oldNonce = nonce;
+
+                /*
                 const transaction = {
                   orderHash: orderHash,
                   txid: resp.transactionHash,
@@ -371,7 +373,12 @@ export class OrderPadComponent implements OnInit, OnDestroy {
                   price: this.price
                 };
                 this.storageServ.addTradeTransaction(transaction);
-  
+                */
+
+               const address = this.wallet.excoin.receiveAdds[0].address;
+               this.timerServ.checkOrderStatus(address, 30);
+               this.timerServ.checkTokens(address, 30);
+
                 if (this.bidOrAsk) {
                   this.buyPrice = 0;
                   this.buyQty = 0;
