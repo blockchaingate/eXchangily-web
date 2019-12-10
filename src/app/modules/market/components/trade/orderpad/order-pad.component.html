@@ -16,8 +16,8 @@
             </div>
 
             <div class="current-price-box">
-                <div style="width: 60%" class="text-info"> {{utilService.showAmount(currentPrice)}}</div>
-                <div [class.redcolor]="change24h<0" [class.greencolor]="change24h>0" class="text-info"> {{utilService.showAmount(currentQuantity)}} </div>
+                <div style="width: 60%" class="text-info"> {{utilService.showAmount(currentPrice.toString())}}</div>
+                <div [class.redcolor]="change24h<0" [class.greencolor]="change24h>0" class="text-info"> {{utilService.showAmount(currentQuantity.toString())}} </div>
             </div>
 
             <div class="buylist w-100">
