@@ -201,7 +201,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
    }
    
    buyable() {
-     const avail = Number(this.utilService.showAmount(this.baseCoinAvail));
+     const avail = Number(this.utilService.showAmount(this.baseCoinAvail.toString()));
      const consume = this.buyPrice * this.buyQty;
      if (avail >= consume) {
        return true;
@@ -210,7 +210,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
    }
 
    sellable() {
-    const avail = Number(this.utilService.showAmount(this.targetCoinAvail));
+    const avail = Number(this.utilService.showAmount(this.targetCoinAvail.toString()));
     const consume = this.sellQty;
     if (avail >= consume) {
       return true;
