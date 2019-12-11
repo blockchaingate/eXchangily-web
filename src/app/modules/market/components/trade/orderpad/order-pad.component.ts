@@ -201,6 +201,9 @@ export class OrderPadComponent implements OnInit, OnDestroy {
    }
    
    buyable() {
+     if(!this.baseCoinAvail) {
+       return false;
+     }
      const avail = Number(this.utilService.showAmount(this.baseCoinAvail.toString()));
      const consume = this.buyPrice * this.buyQty;
      if (avail >= consume) {
@@ -210,6 +213,9 @@ export class OrderPadComponent implements OnInit, OnDestroy {
    }
 
    sellable() {
+    if(!this.targetCoinAvail) {
+      return false;
+    }     
     const avail = Number(this.utilService.showAmount(this.targetCoinAvail.toString()));
     const consume = this.sellQty;
     if (avail >= consume) {
@@ -356,6 +362,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
         this.kanbanService.sendRawSignedTransaction(txHex).subscribe((resp: TransactionResp) => {
 
+          console.log('resp in here', resp);
         if (resp && resp.transactionHash) {
                 this.alertServ.openSnackBar('Your order was placed successfully.', 'Ok');
                 // this.oldNonce = nonce;
@@ -400,7 +407,12 @@ export class OrderPadComponent implements OnInit, OnDestroy {
               } else {
                 this.alertServ.openSnackBar('Something wrong while placing your order.', 'Ok');
               }
-        });        
+        },
+        error => {
+          console.log('errrrr=', error);
+          this.alertServ.openSnackBar(error.error, 'Ok');
+        }
+        );        
     }
 
   

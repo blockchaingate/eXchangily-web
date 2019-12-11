@@ -132,8 +132,6 @@ export class UtilService {
     showAddAmount(amount1, amount2) {
         const amount1Show = this.showAmount(amount1);
         const amount2Show = this.showAmount(amount2);
-        console.log('amount1Show=', amount1Show);
-        console.log('amount2Show=', amount2Show);
         return Number(amount1Show) + Number(amount2Show);
     }
 
