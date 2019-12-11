@@ -219,10 +219,10 @@ export class ApiService {
         let balance = 0;
         if (json && json.executionResult && json.executionResult.output) {
             const balanceHex = json.executionResult.output;
-            console.log('balanceHex=', balanceHex);
+            // console.log('balanceHex=', balanceHex);
             const decoded = this.web3Serv.decodeParameters(['uint256[]','uint256[]'], balanceHex);
-            console.log('decoded', decoded);
-            console.log('decoded.1', decoded[1]);
+            // console.log('decoded', decoded);
+            // console.log('decoded.1', decoded[1]);
             if (decoded && decoded[1]) {
                 console.log('got it,decoded[1.length=', decoded[1].length);
                 for (let i = 0; i < decoded[1].length; i++) {
