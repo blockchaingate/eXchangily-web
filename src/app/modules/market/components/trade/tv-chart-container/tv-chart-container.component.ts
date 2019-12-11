@@ -136,19 +136,23 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
+
+      /*
       const pair = this.route.snapshot.paramMap.get('pair');
       const pairArray = pair.split('_');
       this.loadChart(pairArray[1], pairArray[0]);
+      */
 
-      /*
+      
       this.sub = this.route.params.subscribe(params => {
         const pair = params['pair']; // (+) converts string 'id' to a number
-        console.log('pair=' + pair);
+        console.log('pair333=' + pair);
         const pairArray = pair.split('_');
-        this.loadChart(pairArray[0], pairArray[1]);
+        this.mockService.gotHistoryList = false;
+        this.loadChart(pairArray[1], pairArray[0]);
         // In a real app: dispatch action to load the details here.
      });
-     */
+     
     }
 
     loadChart(baseCoinName: string, targetCoinName: string) {

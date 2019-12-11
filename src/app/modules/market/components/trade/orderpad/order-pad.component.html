@@ -24,7 +24,7 @@
                 <div class="orderbookitem" *ngFor="let buy of buys; let l=index">
                     <div class="price smallfont text-success">{{utilService.showAmount(buy.price)}}</div>
                     <div class="quantity smallfont text-muted">{{utilService.showAmount(buy.amount)}}</div>
-                    <div class="total smallfont text-muted">{{utilService.showAmount(buy.price) * utilService.showAmount(buy.amount) | number:'.8'}}</div>
+                    <div class="total smallfont text-muted">{{utilService.showAmount(buy.price) * utilService.showAmount(buy.amount)}}</div>
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
             <div class="transacs w-100">
                 <div class="orderbookitem" *ngFor="let tx of txOrders; let l=index">
                     <div class="price smallfont" [ngClass]="tx.m?'text-success':'text-danger'">{{utilService.showAmount(tx.price)}}</div>
-                    <div class="quantity smallfont text-muted">{{utilService.showAmount(tx.quantity) | number:'.8'}}</div>
+                    <div class="quantity smallfont text-muted">{{utilService.showAmount(tx.quantity)}}</div>
                     <div class="total smallfont text-muted">{{tx.time | date:'HH:MM:ss'}}</div>
                 </div>
             </div>

@@ -32,4 +32,6 @@ export interface TxRecord {
     price: number;
     quantity: number;
     time: Date;
+    orderHash1: string;
+    orderHash2: string;
 }

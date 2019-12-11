@@ -84,38 +84,7 @@ const orderBook: OrderBookDisplay = {
 };
 
 const txOrders: TxRecord[] = [
-    { price: 3787.7894, quantity: 1.28, time: new Date() },
-    { price: 3719.0002, quantity: 5.97, time: new Date() },
-    { price: 3769.4054, quantity: 0.53, time: new Date() },
-    { price: 3734.5875, quantity: 4.35, time: new Date() },
-    { price: 3703.8743, quantity: 89.54, time: new Date() },
-    { price: 3727.6975, quantity: 98.44, time: new Date() },
-    { price: 3789.8576, quantity: 3.33, time: new Date() },
-    { price: 3798.865, quantity: 4.57, time: new Date() },
-    {price: 3720.222, quantity: 1.2, time: new Date()},
-    {price: 3722.875, quantity: 0.0050, time: new Date()},
-    {price: 3894.854, quantity: 1.876, time: new Date()},
-    {price: 3885.6543, quantity: 1.54, time: new Date()},
-    {price: 3854.7347, quantity: 0.01, time: new Date()},
-    {price: 3786.4302, quantity: 0.005, time: new Date()},
-    {price: 3694.4324, quantity: 56.00, time: new Date()},
-    {price: 3976.6453, quantity: 27, time: new Date()},
-    {price: 3564.2743, quantity: 1.2, time: new Date()},
-    {price: 3098.4224, quantity: 3.2, time: new Date()},
-    {price: 3754.7654, quantity: 6.7, time: new Date()},
-    {price: 3787.7894, quantity: 1.28, time: new Date()},
-    {price: 3719.0002, quantity: 5.97, time: new Date()},
-    {price: 3769.4054, quantity: 0.53, time: new Date()},
-    {price: 3734.5875, quantity: 4.35, time: new Date()},
-    {price: 3703.8743, quantity: 89.54, time: new Date()},
-    {price: 3727.6975, quantity: 98.44, time: new Date()},
-    {price: 3789.8576, quantity: 3.33, time: new Date()},
-    {price: 3798.865, quantity: 4.57, time: new Date()},
-    {price: 3769.4054, quantity: 0.53, time: new Date()},
-    {price: 3734.5875, quantity: 4.35, time: new Date()},
-    {price: 3703.8743, quantity: 89.54, time: new Date()},
-    {price: 3727.6975, quantity: 98.44, time: new Date()},
-    {price: 3754.7654, quantity: 6.7, time: new Date()},
+
 ];
 
 @Injectable()

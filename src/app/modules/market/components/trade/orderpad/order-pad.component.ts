@@ -90,38 +90,121 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       clearInterval(this.timer);
     }
 
+    addToOrderArray(orderArray, item, trimTag) {
+      let i = 0;
+      const maxOrdersCount = 10;
+
+
+      
+        if (trimTag === 'top') {
+
+          for (i = 0; i < orderArray.length; i++) {
+            const orderItem = orderArray[i];
+            if (orderItem.orderHash.includes(item.orderHash[0])) {
+              return;
+            }            
+            if (orderItem.price === item.price) {
+              orderItem.amount += item.amount;
+              orderItem.orderHash.push(item.orderHash[0]);
+              return;
+            } else
+            if (orderItem.price < item.price) {
+              break;
+            }
+          }
+          orderArray.splice(i, 0, item);
+          if (orderArray.length > maxOrdersCount) {
+          orderArray.shift();
+          }
+        } else 
+        if (trimTag === 'bottom') {
+
+          
+          for (i = 0; i < orderArray.length; i++) {
+            const orderItem = orderArray[i];
+            if (orderItem.orderHash.includes(item.orderHash[0])) {
+              return;
+            }            
+            if (orderItem.price === item.price) {
+              orderItem.amount += item.amount;
+              orderItem.orderHash.push(item.orderHash[0]);
+              return;
+            } else            
+            if (orderItem.price < item.price) {
+              break;
+            }
+          }
+          orderArray.splice(i, 0, item);
+          if (orderArray.length > maxOrdersCount) {
+          orderArray.pop();  
+          }        
+        }
+
+    }
+
     addTo(orderArr, bidOrAsk: boolean) {
       orderArr = orderArr.slice(0, 10);
       if (bidOrAsk) {
-        this.buys = [];
+        // this.buys = [];
       } else {
-        this.sells = [];
+        // this.sells = [];
         orderArr = orderArr.reverse();
       }
       for (let i = 0 ; i < orderArr.length; i++) {
         const orderItem = orderArr[i];
 
+        // console.log('orderItem=', orderItem);
         const price = Number(orderItem.price);
         const amount = Number(orderItem.orderQuantity);
+        const orderHash = orderItem.orderHash;
         const item = {
           amount: amount,
-          price: price          
+          price: price,
+          orderHash: [orderHash]          
         }; 
         if (bidOrAsk) {
-          this.buys.push(item);
+          this.addToOrderArray(this.buys, item, 'bottom');
         } else {
-          this.sells.push(item);
+          this.addToOrderArray(this.sells, item, 'top');
         }        
-      }      
+      } 
+      
+      if (bidOrAsk) {
+        this.checkIfDeleted(this.buys, orderArr);
+      } else {
+        this.checkIfDeleted(this.sells, orderArr);
+      }
+    }
+
+    checkIfDeleted(existedArray, incomingArray) {
+      for (let i = 0; i < existedArray.length; i ++) {
+        const existedItem = existedArray[i];
+        for (let j = 0; j < incomingArray.length; j++) {
+          const incomingItem = incomingArray[j];
+          if (existedItem.orderHash.includes(incomingItem.orderHash)) {
+            return;
+          }
+        }
+        existedArray.splice(i, 1);
+        i --;
+      }
     }
 
     refreshOrders() {
+      this.sells = [];
+      this.buys = [];
+      this.txOrders = [];
+      this.currentPrice = 0;
+      this.currentQuantity = 0;
 
       const baseCoinName = this.coinService.getCoinNameByTypeId(this.baseCoin);
       const targetCoinName = this.coinService.getCoinNameByTypeId(this.targetCoin);      
       const pair = targetCoinName + baseCoinName;
       // console.log('pair = ' + pair);
 
+      if (this.socket) {
+        this.socket.unsubscribe();
+      }
       this.socket = new WebSocketSubject(environment.websockets.orders + '@' + pair);
       this.socket.subscribe(
         (orders: any) => {
@@ -137,29 +220,64 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           console.log('Completed');
         }
       );
-      
+
+      if (this.tradesSocket) {
+        this.tradesSocket.unsubscribe();
+      }      
       this.tradesSocket = new WebSocketSubject(environment.websockets.trades + '@' + pair);
       this.tradesSocket.subscribe(
         (trades: any) => {
-          this.txOrders = [];
-          // console.log('trades.length=', trades.length);
+          trades = trades.reverse();
+          // this.txOrders = [];
+          // console.log('trades=', trades);
           for (let i = 0; i < trades.length; i++) {
+            
             const item = trades[i];
+            const tradeTime = new Date(item.time * 1000);
+
+            let tradeExisted = false;
+
             const price = Number(item.price);
             const quantity = Number(item.amount);
             const buyerMarketMaker = item.bidOrAsk;
+            const orderHash1 = item.orderHash1;
+            const orderHash2 = item.orderHash2;
+            if (i === trades.length - 1) {
+              this.currentPrice = price;
+              this.currentQuantity = quantity;
+            }
+            // console.log('tradeTime=', tradeTime);
+            for (let j = 0; j < this.txOrders.length; j++) {
+              // console.log('this.txOrders[j].time=', this.txOrders[j].time);
+
+              const orderH1 = this.txOrders[j].orderHash1;
+              const orderH2 = this.txOrders[j].orderHash2;
+              if ((orderH1 === orderHash1) && (orderH2 === orderHash2)) {
+                tradeExisted = true;
+                // console.log('tradeExisted1=', tradeExisted);
+                break;
+              }
+              // console.log('tradeExisted2=', tradeExisted);
+            }
+            // console.log();
+            
+            if (tradeExisted) {
+              continue;
+            }            
             const txItem = {
                 price: price,
                 quantity: quantity,
                 m: buyerMarketMaker,
-                time: new Date(item.time * 1000)     
+                time: tradeTime,
+                orderHash1: orderHash1,
+                orderHash2: orderHash2
             };
-            this.currentPrice = price;
-            this.currentQuantity = quantity;
-            if (this.txOrders.length > 22) {
-              break;
+
+            if (this.txOrders.length > 20) {
+              //break;
+              this.txOrders.pop();
             }
-            this.txOrders.push(txItem);
+            this.txOrders.unshift(txItem);
           }
 
         },
@@ -201,7 +319,10 @@ export class OrderPadComponent implements OnInit, OnDestroy {
    }
    
    buyable() {
-     if(!this.baseCoinAvail) {
+    if ((this.buyPrice <= 0) || (this.buyQty <= 0)) {
+      return false;
+    }     
+     if (!this.baseCoinAvail) {
        return false;
      }
      const avail = Number(this.utilService.showAmount(this.baseCoinAvail.toString()));
@@ -213,7 +334,10 @@ export class OrderPadComponent implements OnInit, OnDestroy {
    }
 
    sellable() {
-    if(!this.targetCoinAvail) {
+    if ((this.sellPrice <= 0) || (this.sellQty <= 0)) {
+      return false;
+    }
+    if (!this.targetCoinAvail) {
       return false;
     }     
     const avail = Number(this.utilService.showAmount(this.targetCoinAvail.toString()));
@@ -227,6 +351,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
    getMytokens(): any { return this._mytokens; }
 
    async ngOnInit() {
+     console.log('ngOnInit for order Pad');
       this.oldNonce = -1;
       this.wallet = await this.walletService.getCurrentWallet();
 
@@ -245,7 +370,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
       this.sub = this.route.params.subscribe(params => {
         const pair = params['pair']; // (+) converts string 'id' to a number
-        console.log('pair=' + pair);
+        console.log('pair for refresh pageeee=' + pair);
         const pairArray = pair.split('_');
         this.baseCoin = this.coinService.getCoinTypeIdByName(pairArray[1]);
         this.targetCoin = this.coinService.getCoinTypeIdByName(pairArray[0]);
