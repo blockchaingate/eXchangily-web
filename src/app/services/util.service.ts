@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { MyCoin } from '../models/mycoin';
 import * as createHash from 'create-hash';
-
+import BigNumber from 'bignumber.js/bignumber';
 @Injectable()
 export class UtilService {
     auth_code = 'encrypted by crypto-js|';
@@ -136,6 +136,10 @@ export class UtilService {
     }
 
     showAmount(amount) {
+        if(!amount) {
+            return 0;
+        }
+        /*
         if (!amount || amount.toString() === '0') {
             return 0;
         }
@@ -169,7 +173,9 @@ export class UtilService {
 
         }
         finalAmountString = finalAmountString.substring(0, 10);
-        return finalAmountString;
+        */
+        return new BigNumber(amount.toString()).dividedBy(1e18).toNumber();
+        
         
     }
     

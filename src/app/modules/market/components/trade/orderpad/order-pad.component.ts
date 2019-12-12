@@ -24,7 +24,7 @@ import { AlertService } from '../../../../../services/alert.service';
 import { StorageService } from '../../../../../services/storage.service';
 import { environment } from '../../../../../../environments/environment';
 import { TimerService } from '../../../../../services/timer.service';
-
+import BigNumber from 'bignumber.js/bignumber';
 declare let window: any;
 @Component({
     selector: 'app-order-pad',
@@ -90,6 +90,90 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       clearInterval(this.timer);
     }
 
+    bigmul(num1, num2) {
+      const x = new BigNumber(num1);
+      const result = x.times(num2);
+      return result;
+    }
+
+
+
+    syncOrders ( newOrderArr, oldOrderArr, bidOrAsk: boolean) {
+      let i = 0;
+      let j = 0;
+
+      for (j = 0; j < oldOrderArr.length; j++) {
+        const oldOrderItem = oldOrderArr[j];
+        oldOrderItem.checked = false;
+      }     
+      for (i = (bidOrAsk ? 0 : (newOrderArr.length - 1)); bidOrAsk ? (i < newOrderArr.length) : (i >= 0) ; bidOrAsk ? (i++) : (i--)) {
+
+        const newOrderItem = newOrderArr[i];
+
+        const newPrice = Number(newOrderItem.price);
+        const newAmount = Number(newOrderItem.orderQuantity);
+        const newOrderHash = newOrderItem.orderHash; 
+
+        let newOrderHashExisted = false;
+        for (j = 0; j < oldOrderArr.length; j++) {
+          const oldOrderItem = oldOrderArr[j];
+          const oldOrderHashArr = oldOrderItem.orderHashArr;
+          const oldPrice = oldOrderItem.price;
+          if (oldOrderHashArr.includes(newOrderHash)) {
+            oldOrderItem.checked = true;
+            newOrderHashExisted = true;
+            break;
+          }
+
+          if (oldPrice === newPrice) {
+            oldOrderItem.checked = true;
+            oldOrderItem.amount += newAmount;
+            oldOrderItem.percentage = newAmount * 100 / oldOrderItem.amount;
+            oldOrderHashArr.push(newOrderHash);
+            newOrderHashExisted = true;
+            break;
+          }
+
+          if (oldPrice < newPrice) {
+            break;
+          }
+        }
+
+        if (newOrderHashExisted) {
+          continue;
+        }
+
+        const item = {
+          amount: newAmount,
+          price: newPrice,
+          checked: true,
+          percentage: 100,
+          orderHashArr: [newOrderHash]          
+        };
+        
+        oldOrderArr.splice(j, 0, item);
+      }
+
+      
+      for (j = 0; j < oldOrderArr.length; j++) {
+        const oldOrderItem = oldOrderArr[j];
+        if (!oldOrderItem.checked) {
+          oldOrderArr.splice(j, 1);
+          j --;
+        }
+      } 
+      
+      if (bidOrAsk) {
+        while (oldOrderArr.length > 8) {
+          oldOrderArr.pop();
+        }
+      } else {
+        while (oldOrderArr.length > 8) {
+          oldOrderArr.shift();
+        }        
+      }
+    }    
+    /*
     addToOrderArray(orderArray, item, trimTag) {
       let i = 0;
       const maxOrdersCount = 10;
@@ -175,7 +259,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         this.checkIfDeleted(this.sells, orderArr);
       }
     }
-
+    */
     checkIfDeleted(existedArray, incomingArray) {
       for (let i = 0; i < existedArray.length; i ++) {
         const existedItem = existedArray[i];
@@ -208,10 +292,10 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       this.socket = new WebSocketSubject(environment.websockets.orders + '@' + pair);
       this.socket.subscribe(
         (orders: any) => {
-          // console.log('orders in refreshOrders');
-          // console.log(orders);
-          this.addTo(orders.sell, false);
-          this.addTo(orders.buy, true);
+          this.syncOrders(orders.sell, this.sells, false);
+          this.syncOrders(orders.buy, this.buys, true);
+          // this.addTo(orders.sell, false);
+          // this.addTo(orders.buy, true);
         },
         (err) => {
           console.log('err:', err);
