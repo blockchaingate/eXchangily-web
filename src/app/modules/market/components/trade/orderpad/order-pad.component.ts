@@ -415,21 +415,25 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     */
    setMytokens(mytokens: any) {
      this._mytokens = mytokens;
-     if (this.baseCoin && this.targetCoin) {
-      if (mytokens && mytokens.length > 0) {
-        for (let i = 0; i < mytokens.length; i++) {
-          if (mytokens[i].coinType === this.baseCoin.toString()) {
-            this.baseCoinAvail = Number(mytokens[i].unlockedAmount);
+     this.refreshCoinAvail();
+
+      
+   }
+   
+   refreshCoinAvail() {
+    if (this.baseCoin && this.targetCoin) {
+      if (this._mytokens && this._mytokens.length > 0) {
+        for (let i = 0; i < this._mytokens.length; i++) {
+          if (this._mytokens[i].coinType === this.baseCoin.toString()) {
+            this.baseCoinAvail = Number(this._mytokens[i].unlockedAmount);
           }
-          if (mytokens[i].coinType === this.targetCoin.toString()) {
-            this.targetCoinAvail = Number(mytokens[i].unlockedAmount);
+          if (this._mytokens[i].coinType === this.targetCoin.toString()) {
+            this.targetCoinAvail = Number(this._mytokens[i].unlockedAmount);
           }  
         }
       }  
      } 
-      
    }
-   
    buyable() {
     if ((this.buyPrice <= 0) || (this.buyQty <= 0)) {
       return false;
@@ -486,7 +490,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         const pairArray = pair.split('_');
         this.baseCoin = this.coinService.getCoinTypeIdByName(pairArray[1]);
         this.targetCoin = this.coinService.getCoinTypeIdByName(pairArray[0]);
-        this.refreshOrders();     
+        this.refreshOrders();
+        this.refreshCoinAvail();     
         // this.loadChart(pairArray[0], pairArray[1]);
         // In a real app: dispatch action to load the details here.
      });      

@@ -64,9 +64,9 @@ export class TradeAutoComponent implements OnInit {
 
       const address = await this.kanbanService.getExchangeAddress();
 
-      const nonce = await this.getNonce(keyPairsKanban.address);
+      let nonce = await this.getNonce(keyPairsKanban.address);
       console.log('keyPairsKanban.address=' + keyPairsKanban.address + ',nonce=' + nonce);
-            
+      // nonce = 84;     
       const orderHash = this.generateOrderHash(bidOrAsk, orderType, baseCoin
           , targetCoin, qty, price, timeBeforeExpiration);
 
@@ -122,15 +122,15 @@ export class TradeAutoComponent implements OnInit {
         const wallets = await this.walletServ.getWallets();
         const pin = '1qaz@WSX';
         
-        let price = 193;
-        for (let i = 0; i < 2000; i++) {
+        let price = 19;
+        for (let i = 0; i < 2; i++) {
             console.log('i=', i);
             let bidOrAsk = true;
             let walletIndex = 10;
             if (i % 2 === 0) {
                 bidOrAsk = false;
                 walletIndex = 11;
-                price = 190 + Math.random() * 100;
+                //price = 190 + Math.random() * 100;
             }
             const wallet = wallets[walletIndex];
             console.log('wallet.name=', wallet.name);
@@ -154,7 +154,8 @@ export class TradeAutoComponent implements OnInit {
             }  
             */              
             console.log('baseCoin = ' + baseCoin + ',targetCoin = ' + targetCoin);
-            const qty = 0.00001 * Math.random() * 10;
+            // const qty = 0.00001 * Math.random() * 10;
+            const qty = 0.00001;
             const {txHex, orderHash} = await this.txHexforPlaceOrder(
                 pin, wallet, bidOrAsk, baseCoin, targetCoin, price, qty
             );
