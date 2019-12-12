@@ -99,12 +99,16 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
 
     syncOrders ( newOrderArr, oldOrderArr, bidOrAsk: boolean) {
+      // console.log('begin newOrderArr=', newOrderArr);
+      // console.log('begin oldOrderArr=', oldOrderArr);
       let i = 0;
       let j = 0;
-
+      let k = 0;
       for (j = 0; j < oldOrderArr.length; j++) {
         const oldOrderItem = oldOrderArr[j];
-        oldOrderItem.checked = false;
+        for ( i = 0; i < oldOrderItem.checkedArr.length; i++) {
+          oldOrderItem.checkedArr[i] = false;
+        }
       }     
       for (i = (bidOrAsk ? 0 : (newOrderArr.length - 1)); bidOrAsk ? (i < newOrderArr.length) : (i >= 0) ; bidOrAsk ? (i++) : (i--)) {
 
@@ -119,15 +123,28 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           const oldOrderItem = oldOrderArr[j];
           const oldOrderHashArr = oldOrderItem.orderHashArr;
           const oldPrice = oldOrderItem.price;
+
+          /*
           if (oldOrderHashArr.includes(newOrderHash)) {
             oldOrderItem.checked = true;
             newOrderHashExisted = true;
             break;
           }
+          */
+
+          for (k = 0; k < oldOrderHashArr.length; k++) {
+            if (oldOrderHashArr[k] === newOrderHash) {
+              oldOrderItem.checkedArr[k] = false;
+              oldOrderItem.amountArr[k] = newAmount;
+              newOrderHashExisted = true;
+              break;
+            }
+          }
+
 
           if (oldPrice === newPrice) {
-            oldOrderItem.checked = true;
-            oldOrderItem.amount += newAmount;
+            oldOrderItem.checkedArr.push(true);
+            oldOrderItem.amountArr.push(newAmount);
             oldOrderItem.percentage = newAmount * 100 / oldOrderItem.amount;
             oldOrderHashArr.push(newOrderHash);
             newOrderHashExisted = true;
@@ -139,14 +156,15 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           }
         }
 
+        // console.log('newOrderHashExisted=', newOrderHashExisted);
         if (newOrderHashExisted) {
           continue;
         }
 
         const item = {
-          amount: newAmount,
+          amountArr: [newAmount],
           price: newPrice,
-          checked: true,
+          checkedArr: [true],
           percentage: 100,
           orderHashArr: [newOrderHash]          
         };
@@ -157,8 +175,16 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       
       for (j = 0; j < oldOrderArr.length; j++) {
         const oldOrderItem = oldOrderArr[j];
-        if (!oldOrderItem.checked) {
-          oldOrderArr.splice(j, 1);
+        for (k = 0; k < oldOrderItem.checkedArr.length; k++) {
+          if (!oldOrderItem.checkedArr[k]) {
+            oldOrderItem.checkedArr.splice(k, 1);
+            oldOrderItem.orderHashArr.splice(k, 1);
+            oldOrderItem.amountArr.splice(k, 1);
+            k --;
+          }
+        }
+        if (oldOrderItem.checkedArr.length === 0) {
+          oldOrderItem.splice(j, 1);
           j --;
         }
       } 
@@ -172,6 +198,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           oldOrderArr.shift();
         }        
       }
+
+      // console.log('final oldOrderArr=', oldOrderArr);
     }    
     /*
     addToOrderArray(orderArray, item, trimTag) {
@@ -435,7 +463,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
    getMytokens(): any { return this._mytokens; }
 
    async ngOnInit() {
-     console.log('ngOnInit for order Pad');
+     // console.log('ngOnInit for order Pad');
       this.oldNonce = -1;
       this.wallet = await this.walletService.getCurrentWallet();
 
@@ -447,14 +475,14 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
       this.timerServ.tokens.subscribe(
           (tokens: any) => { 
-              console.log('tokens=', tokens);
+              // console.log('tokens=', tokens);
               this.setMytokens(tokens);
           }            
       ); 
 
       this.sub = this.route.params.subscribe(params => {
         const pair = params['pair']; // (+) converts string 'id' to a number
-        console.log('pair for refresh pageeee=' + pair);
+        // console.log('pair for refresh pageeee=' + pair);
         const pairArray = pair.split('_');
         this.baseCoin = this.coinService.getCoinTypeIdByName(pairArray[1]);
         this.targetCoin = this.coinService.getCoinTypeIdByName(pairArray[0]);
