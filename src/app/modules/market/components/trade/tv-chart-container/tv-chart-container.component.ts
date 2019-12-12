@@ -186,10 +186,10 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
 
                 console.log(that.mockService.gotHistoryList);
                 if (that.mockService.gotHistoryList) {
-                  console.log('already got');
+                  // console.log('already got');
                   return;
                 }
-                console.log('begin getBarsgetBarsgetBarsgetBarsgetBa');
+                // console.log('begin getBarsgetBarsgetBarsgetBarsgetBa');
                 /*
                 const pair = targetCoinName + baseCoinName;
                 const list = await that.mockService.getHistoryList({

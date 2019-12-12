@@ -11,8 +11,8 @@
                 <div class="orderbookitem mt-1" *ngFor="let sell of sells; let i=index">
                     <div [style.width.%]="sell.percentage" [style.height.%]="100" class="percentage-bar percentage-bar-red">&nbsp;</div>
                     <div class="price smallfont text-danger">{{utilService.showAmount(sell.price)}}</div>
-                    <div class="quantity smallfont text-muted">{{utilService.showAmount(sell.amount)}}</div>
-                    <div class="total smallfont text-muted">{{bigmul(utilService.showAmount(sell.price), utilService.showAmount(sell.amount))}}</div>
+                    <div class="quantity smallfont text-muted">{{utilService.showAmountArr(sell.amountArr)}}</div>
+                    <div class="total smallfont text-muted">{{bigmul(utilService.showAmount(sell.price), utilService.showAmountArr(sell.amountArr))}}</div>
                 </div>
             </div>
 
@@ -25,8 +25,8 @@
                 <div class="orderbookitem mt-1" *ngFor="let buy of buys; let l=index">
                     <div [style.width.%]="buy.percentage" [style.height.%]="100" class="percentage-bar percentage-bar-green">&nbsp;</div>
                     <div class="price smallfont text-success">{{utilService.showAmount(buy.price)}}</div>
-                    <div class="quantity smallfont text-muted">{{utilService.showAmount(buy.amount)}}</div>
-                    <div class="total smallfont text-muted">{{bigmul(utilService.showAmount(buy.price), utilService.showAmount(buy.amount))}}</div>
+                    <div class="quantity smallfont text-muted">{{utilService.showAmountArr(buy.amountArr)}}</div>
+                    <div class="total smallfont text-muted">{{bigmul(utilService.showAmount(buy.price), utilService.showAmountArr(buy.amountArr))}}</div>
                 </div>
             </div>
         </div>

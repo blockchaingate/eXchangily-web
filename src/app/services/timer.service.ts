@@ -46,7 +46,7 @@ export class TimerService {
         if (!this.timerEnabled) {
             return;
         }
-        console.log('begin checkint');
+        // console.log('begin checkint');
         for (let i = 0; i < this.tokenSubscribe.length; i++) {
             const item = this.tokenSubscribe[i];
             if (item.address === address) {
@@ -57,8 +57,8 @@ export class TimerService {
         const source = timer(1000, 1000);
 
         const subscribeItem = source.subscribe(val => {
-            console.log('value for checking order ' + val);
-            console.log('maxTimes=' + maxTimes);
+            // console.log('value for checking order ' + val);
+            // console.log('maxTimes=' + maxTimes);
             if ((maxTimes > 0) && (val >= maxTimes)) {
 
                 this.unCheckTokens(address);
@@ -100,7 +100,7 @@ export class TimerService {
         if (!this.timerEnabled) {
             return;
         }        
-        console.log('begin checkint');
+        // console.log('begin checkint');
         for (let i = 0; i < this.orderStatusSubscribe.length; i++) {
             const item = this.orderStatusSubscribe[i];
             if (item.address === address) {
@@ -117,7 +117,7 @@ export class TimerService {
             this.kanbanServ.getOrdersByAddress(address)
             .subscribe(
                 (orders: any) => { 
-                    console.log('ordersssssssssssssssssss=', orders);
+                    // console.log('ordersssssssssssssssssss=', orders);
                     this.ordersStatus.next(orders);
                 }
             );            

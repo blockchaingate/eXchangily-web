@@ -134,12 +134,21 @@ export class UtilService {
         const amount2Show = this.showAmount(amount2);
         return Number(amount1Show) + Number(amount2Show);
     }
+    showAmountArr(amountArr) {
+        let amount = new BigNumber(0);
 
+        for (let i = 0; i < amountArr.length; i++) {
+            if (amountArr.length > 1) {
+            }
+            amount = amount.plus(this.showAmount(amountArr[i]));
+        }
+        return amount;
+    }
     showAmount(amount) {
-        if(!amount) {
+        /*
+        if (!amount) {
             return 0;
         }
-        /*
         if (!amount || amount.toString() === '0') {
             return 0;
         }
@@ -173,8 +182,30 @@ export class UtilService {
 
         }
         finalAmountString = finalAmountString.substring(0, 10);
+        return finalAmountString;
         */
-        return new BigNumber(amount.toString()).dividedBy(1e18).toNumber();
+        
+       // const num = new BigNumber(amount.toString()).toNumber();
+
+       if (!amount || amount.toString() === '0') {
+        return 0;
+       }       
+       let numStr = amount.toString();
+       const numStrLength = numStr.length;
+       if (numStrLength < 18) {
+           for (let i = 0; i < 18 - numStrLength; i++) {
+
+              numStr = '0' + numStr;
+           }
+       }
+
+
+       const str1 = numStr.substr(0, numStr.length - 18);
+       const str2 = numStr.substr(numStr.length - 18);
+       numStr = str1 + '.' + str2;
+
+       return Number(numStr);
+        
         
         
     }
