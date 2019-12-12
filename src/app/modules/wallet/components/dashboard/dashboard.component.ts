@@ -595,6 +595,7 @@ export class WalletDashboardComponent {
         const {txHex, txHash, errMsg} = await this.coinService.sendTransaction(currentCoin, seed, 
             this.sendCoinForm.to.trim(), amount, options, doSubmit
         );
+        console.log('errMsg for sendcoin=', errMsg);
         if (errMsg) {
             this.alertServ.openSnackBar(errMsg, 'Ok');
             return;
@@ -718,6 +719,9 @@ export class WalletDashboardComponent {
         const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
         this.kanbanServ.submitReDeposit(txKanbanHex).subscribe((resp: any) => { 
             console.log('resp for submitrediposit=', resp);
+        },
+        (error: any) => {
+            this.alertServ.openSnackBar(error.message, 'ok');
         });        
     }
 

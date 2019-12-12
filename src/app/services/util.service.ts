@@ -38,18 +38,18 @@ export class UtilService {
         return null;
     }
 
-    hexCharToDec(hexChar:string) {
+    hexCharToDec(hexChar: string) {
         return parseInt(hexChar, 16);
     }
 
-    hexToDec(hex:string) {
+    hexToDec(hex: string) {
         if(hex.length === 1) {
           return this.hexCharToDec(hex);
         }
         const leftHex = hex.slice(0, hex.length - 1);
         const rightHex = hex.slice(-1);
-        console.log('leftHex=' + leftHex);
-        console.log('rightHex=' + rightHex);
+        // console.log('leftHex=' + leftHex);
+        // console.log('rightHex=' + rightHex);
         return this.hexToDec(leftHex) * 16 + this.hexCharToDec(rightHex);
     }
 
@@ -129,15 +129,13 @@ export class UtilService {
         return str;
     }
 
-    showAddAmount(amount1: string, amount2: string) {
+    showAddAmount(amount1, amount2) {
         const amount1Show = this.showAmount(amount1);
         const amount2Show = this.showAmount(amount2);
-        console.log('amount1Show=', amount1Show);
-        console.log('amount2Show=', amount2Show);
         return Number(amount1Show) + Number(amount2Show);
     }
 
-    showAmount(amount: string) {
+    showAmount(amount) {
         if (!amount || amount.toString() === '0') {
             return 0;
         }
