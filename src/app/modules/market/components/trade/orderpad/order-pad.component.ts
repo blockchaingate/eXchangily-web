@@ -421,18 +421,28 @@ export class OrderPadComponent implements OnInit, OnDestroy {
    }
    
    refreshCoinAvail() {
+     let baseCoinAvailExisted = false;
+     let targetCoinAvailExisted = false;
     if (this.baseCoin && this.targetCoin) {
       if (this._mytokens && this._mytokens.length > 0) {
         for (let i = 0; i < this._mytokens.length; i++) {
           if (this._mytokens[i].coinType === this.baseCoin.toString()) {
+            baseCoinAvailExisted = true;
             this.baseCoinAvail = Number(this._mytokens[i].unlockedAmount);
           }
           if (this._mytokens[i].coinType === this.targetCoin.toString()) {
+            targetCoinAvailExisted = true;
             this.targetCoinAvail = Number(this._mytokens[i].unlockedAmount);
           }  
         }
       }  
      } 
+     if (!baseCoinAvailExisted) {
+      this.baseCoinAvail = 0;
+     }
+     if (!targetCoinAvailExisted) {
+      this.targetCoinAvail = 0;
+     }
    }
    buyable() {
     if ((this.buyPrice <= 0) || (this.buyQty <= 0)) {
