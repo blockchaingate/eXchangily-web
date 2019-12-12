@@ -96,6 +96,74 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       console.log('result=', result);
       return result;
     }
+
+
+
+    syncOrders ( newOrderArr, oldOrderArr, bidOrAsk: boolean) {
+      let i = 0;
+      let j = 0;
+
+      for (j = 0; j < oldOrderArr.length; j++) {
+        const oldOrderItem = oldOrderArr[j];
+        oldOrderItem.checked = false;
+      }     
+      for (i = (bidOrAsk ? 0 : (newOrderArr.length - 1)); bidOrAsk ? (i < newOrderArr.length) : (i >= 0) ; bidOrAsk ? (i++) : (i--)) {
+
+        const newOrderItem = newOrderArr[i];
+
+        const newPrice = Number(newOrderItem.price);
+        const newAmount = Number(newOrderItem.orderQuantity);
+        const newOrderHash = newOrderItem.orderHash; 
+
+        let newOrderHashExisted = false;
+        for (j = 0; j < oldOrderArr.length; j++) {
+          const oldOrderItem = oldOrderArr[j];
+          const oldOrderHashArr = oldOrderItem.orderHashArr;
+          const oldPrice = oldOrderItem.price;
+          if (oldOrderHashArr.includes(newOrderHash)) {
+            oldOrderItem.checked = true;
+            newOrderHashExisted = true;
+            break;
+          }
+
+          if (oldPrice === newPrice) {
+            oldOrderItem.checked = true;
+            oldOrderItem.amount += newAmount;
+            oldOrderHashArr.push(newOrderHash);
+            newOrderHashExisted = true;
+            break;
+          }
+
+          if (oldPrice < newPrice) {
+            break;
+          }
+        }
+
+        if (newOrderHashExisted) {
+          continue;
+        }
+
+        const item = {
+          amount: newAmount,
+          price: newPrice,
+          checked: true,
+          orderHashArr: [newOrderHash]          
+        };
+        
+        oldOrderArr.splice(j, 0, item);
+      }
+
+      
+      for (j = 0; j < oldOrderArr.length; j++) {
+        const oldOrderItem = oldOrderArr[j];
+        if (!oldOrderItem.checked) {
+          oldOrderArr.splice(j, 1);
+          j --;
+        }
+      } 
+            
+    }    
+    /*
     addToOrderArray(orderArray, item, trimTag) {
       let i = 0;
       const maxOrdersCount = 10;
@@ -148,61 +216,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
     }
 
-    syncOrders(newOrderArr, oldOrderArr, bidOrAsk: boolean) {
-      let i = 0;
-      let j = 0;
-      for (i = (bidOrAsk ? 0 : (newOrderArr.length - 1)); bidOrAsk ? (i < newOrderArr.length) : (i >= 0) ; bidOrAsk ? (i++) : (i--)) {
-
-        console.log('i=', i);
-        const newOrderItem = newOrderArr[i];
-
-        const newPrice = Number(newOrderItem.price);
-        const newAmount = Number(newOrderItem.orderQuantity);
-        const newOrderHash = newOrderItem.orderHash; 
-
-        let newOrderHashExisted = false;
-        for (j = 0; j < oldOrderArr.length; j++) {
-          console.log('j=', j);
-          const oldOrderItem = oldOrderArr[j];
-          const oldOrderHashArr = oldOrderItem.orderHashArr;
-          const oldPrice = oldOrderItem.price;
-          console.log('oldOrderHashArr=', oldOrderHashArr);
-          console.log('newOrderHash=', newOrderHash);
-          if (oldOrderHashArr.includes(newOrderHash)) {
-            newOrderHashExisted = true;
-            break;
-          }
-
-          if (oldPrice === newPrice) {
-            oldOrderItem.amount += newAmount;
-            oldOrderHashArr.push(newOrderHash);
-            newOrderHashExisted = true;
-            break;
-          }
-
-          if (oldPrice < newPrice) {
-            break;
-          }
-        }
-
-        console.log('newOrderHashExisted=', newOrderHashExisted);
-        if (newOrderHashExisted) {
-          continue;
-        }
-
-        const item = {
-          amount: newAmount,
-          price: newPrice,
-          orderHashArr: [newOrderHash]          
-        };
-        
-        oldOrderArr.splice(j, 0, item);
-      }
-
-      console.log('newOrderArr=', newOrderArr);
-      console.log('oldOrderArr=', oldOrderArr);
-    }
-
     addTo(orderArr, bidOrAsk: boolean) {
       orderArr = orderArr.slice(0, 10);
       if (bidOrAsk) {
@@ -236,7 +249,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         this.checkIfDeleted(this.sells, orderArr);
       }
     }
-
+    */
     checkIfDeleted(existedArray, incomingArray) {
       for (let i = 0; i < existedArray.length; i ++) {
         const existedItem = existedArray[i];
