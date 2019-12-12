@@ -76,6 +76,7 @@
 .current-price-box {
     display: flex;
     margin: 0.5em 0.6em;
+    position: relative;
 }
 
 .btn {
@@ -129,4 +130,8 @@
 
 .percentage-bar-green {
     background-color: lightgreen;
+}
+
+.percentage-bar-blue {
+    background-color: lightblue;
 }
