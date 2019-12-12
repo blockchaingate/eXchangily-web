@@ -42,6 +42,7 @@
 
 .orderbookitem {
     display: flex;
+    position: relative;
 }
 
 .smallfont {
@@ -110,4 +111,22 @@
     color: white;
     background: transparent;
     border: 1px solid #424257;
+}
+
+.percentage-bar {
+    opacity: .2;
+    display: inline-block;
+    justify-content: flex-end;
+    text-align: right;
+    position: absolute;
+    right: 0;
+    z-index: 100;
+}
+
+.percentage-bar-red {
+    background-color: lightcoral;
+}
+
+.percentage-bar-green {
+    background-color: lightgreen;
 }

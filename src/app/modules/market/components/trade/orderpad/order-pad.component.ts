@@ -93,7 +93,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     bigmul(num1, num2) {
       const x = new BigNumber(num1);
       const result = x.times(num2);
-      console.log('result=', result);
       return result;
     }
 
@@ -129,6 +128,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           if (oldPrice === newPrice) {
             oldOrderItem.checked = true;
             oldOrderItem.amount += newAmount;
+            oldOrderItem.percentage = newAmount * 100 / oldOrderItem.amount;
             oldOrderHashArr.push(newOrderHash);
             newOrderHashExisted = true;
             break;
@@ -147,6 +147,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           amount: newAmount,
           price: newPrice,
           checked: true,
+          percentage: 100,
           orderHashArr: [newOrderHash]          
         };
         
@@ -161,7 +162,16 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           j --;
         }
       } 
-            
+      
+      if (bidOrAsk) {
+        while (oldOrderArr.length > 8) {
+          oldOrderArr.pop();
+        }
+      } else {
+        while (oldOrderArr.length > 8) {
+          oldOrderArr.shift();
+        }        
+      }
     }    
     /*
     addToOrderArray(orderArray, item, trimTag) {

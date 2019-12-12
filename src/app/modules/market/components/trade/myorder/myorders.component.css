@@ -25,6 +25,7 @@
 .orderline {
     width: 100%;
     padding-left: 1.6em;
+    height: 30px;
 }
 
 .orditem {
