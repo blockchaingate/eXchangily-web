@@ -24,7 +24,7 @@ import { AlertService } from '../../../../../services/alert.service';
 import { StorageService } from '../../../../../services/storage.service';
 import { environment } from '../../../../../../environments/environment';
 import { TimerService } from '../../../../../services/timer.service';
-
+import BigNumber from 'bignumber.js/bignumber';
 declare let window: any;
 @Component({
     selector: 'app-order-pad',
@@ -90,6 +90,12 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       clearInterval(this.timer);
     }
 
+    bigmul(num1, num2) {
+      const x = new BigNumber(num1);
+      const result = x.times(num2);
+      console.log('result=', result);
+      return result;
+    }
     addToOrderArray(orderArray, item, trimTag) {
       let i = 0;
       const maxOrdersCount = 10;
