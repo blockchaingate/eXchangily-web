@@ -136,6 +136,9 @@ export class UtilService {
     }
 
     showAmount(amount) {
+        if(!amount) {
+            return 0;
+        }
         /*
         if (!amount || amount.toString() === '0') {
             return 0;
@@ -171,7 +174,7 @@ export class UtilService {
         }
         finalAmountString = finalAmountString.substring(0, 10);
         */
-        return new BigNumber(amount).dividedBy(1e18).toNumber();
+        return new BigNumber(amount.toString()).dividedBy(1e18).toNumber();
         
         
     }
