@@ -209,7 +209,11 @@ export class WalletDashboardComponent {
         
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];
-            for (let j = 0; j < coin.receiveAdds.length; j++) {
+            let receiveAddsLength = 1;
+            if (coin.receiveAdds.length < receiveAddsLength) {
+                receiveAddsLength = coin.receiveAdds.length;
+            }
+            for (let j = 0; j < receiveAddsLength; j++) {
                 const addr = coin.receiveAdds[j];
                 const keyPair = this.coinServ.getKeyPairs(coin, this.seed, 0, addr.index);
                 const item = {
@@ -222,7 +226,12 @@ export class WalletDashboardComponent {
                 data.push(item);
             }
 
-            for (let j = 0; j < coin.changeAdds.length; j++) {
+            /*
+            let changeAddsLength = 1;
+            if (coin.changeAdds.length < changeAddsLength) {
+                changeAddsLength = coin.changeAdds.length;
+            }            
+            for (let j = 0; j < changeAddsLength; j++) {
                 const addr = coin.changeAdds[j];
                 const keyPair = this.coinServ.getKeyPairs(coin, this.seed, 1, addr.index);
                 const item = {
@@ -233,7 +242,8 @@ export class WalletDashboardComponent {
                     privateKey: keyPair.privateKeyDisplay
                 };
                 data.push(item);
-            }            
+            }  
+            */          
         }
         const csv = new AngularCsv(data, 'Private Keys for wallet ' + this.wallet.name, options);
     }

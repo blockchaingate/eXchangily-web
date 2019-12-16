@@ -38,7 +38,7 @@ export class SmartContractComponent implements OnInit {
     private coinServ: CoinService,
     private alertServ: AlertService
     ) { 
-    //this.ABI = this.getFunctionABI(this.ABI);
+    // this.ABI = this.getFunctionABI(this.ABI);
   }
 
   changeSmartContractAddress() {
