@@ -13,6 +13,8 @@ import { Web3Service } from '../../../../../services/web3.service';
 import { AlertService } from '../../../../../services/alert.service';
 import { TimerService } from '../../../../../services/timer.service';
 import { WalletService } from '../../../../../services/wallet.service';
+import { StorageService } from '../../../../../services/storage.service';
+import * as bs58 from 'bs58';
 @Component({
     selector: 'app-myorders',
     templateUrl: './myorders.component.html',
@@ -30,11 +32,17 @@ export class MyordersComponent implements OnInit, OnDestroy {
     modalRef: BsModalRef;
     isOpen: boolean;
     mytokens: any;
+    opType: string;
+    token: any;
+    coinType: number;
+    coinName: string;
+    withdrawAmount: number;
+    withdrawModal: TemplateRef<any>;
     interval;
     constructor(private ordServ: OrderService, private _router: Router, private tradeService: TradeService, 
-        public utilServ: UtilService, private kanbanService: KanbanService, private coinService: CoinService, 
+        public utilServ: UtilService, private kanbanServ: KanbanService, private coinServ: CoinService, 
         private modalService: BsModalService, private web3Serv: Web3Service, private alertServ: AlertService,
-        private timerServ: TimerService, private walletServ: WalletService) {
+        private timerServ: TimerService, private walletServ: WalletService, private storageServ: StorageService) {
     }
 
     /*
@@ -110,6 +118,72 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
     }
 
+    async withdrawDo() {
+        
+        const amount = this.withdrawAmount;
+        const pin = this.pin;        
+
+        console.log('this.withdrawAmount=', this.withdrawAmount);
+        console.log('your balance=', Number(this.utilServ.showAmount(this.token.unlockedAmount)));
+        if (amount > Number(this.utilServ.showAmount(this.token.unlockedAmount))) {
+            this.alertServ.openSnackBar('Your withdraw amount is bigger than your balance.', 'Ok');
+            return;
+        }
+        let currentCoin ;
+        for (let i = 0; i < this.wallet.mycoins.length; i++) {
+            currentCoin = this.wallet.mycoins[i];
+            if (currentCoin.name === this.coinName) {
+                break;
+            }
+        }
+        
+        console.log('currentCoin=', currentCoin);
+        const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
+        if (!seed) {
+            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');        
+            return;   
+        }         
+        const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);   
+        const amountInLink = amount * 1e18; // it's for all coins.
+        let addressInWallet = currentCoin.receiveAdds[0].address;
+        if (currentCoin.name === 'BTC' || currentCoin.name === 'FAB') {
+            const bytes = bs58.decode(addressInWallet);
+            addressInWallet = bytes.toString('hex');
+        }
+        const abiHex = this.web3Serv.getWithdrawFuncABI(this.coinType, amountInLink, addressInWallet);  
+        const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
+        const includeCoin = true;
+        const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
+
+       
+        const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
+
+        this.kanbanServ.sendRawSignedTransaction(txKanbanHex).subscribe((resp: any) => { 
+            // console.log('resp=', resp);
+            if (resp && resp.transactionHash) {
+                const item = {
+                    walletId: this.wallet.id, 
+                    type: 'Withdraw',
+                    coin: currentCoin.name,
+                    tokenType: currentCoin.tokenType,
+                    amount: amount,
+                    txid: resp.transactionHash,
+                    time: new Date(),
+                    confirmations: '0',
+                    blockhash: '', 
+                    comment: '',
+                    status: 'pending'
+                };
+                this.storageServ.storeToTransactionHistoryList(item);
+                this.timerServ.transactionStatus.next(item);
+                this.timerServ.checkTransactionStatus(item);    
+                this.modalRef.hide();
+                this.alertServ.openSnackBar('Your withdraw request is pending.', 'Ok');  
+            } else {
+                this.alertServ.openSnackBar('Some error happened. Please try again.', 'Ok');  
+            }
+        }); 
+    }
 
     openModal(template: TemplateRef<any>) {
         this.modalRef = this.modalService.show(template, { class: 'second' });
@@ -128,6 +202,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     deleteOrder(pinModal: TemplateRef<any>, orderHash: string) {
         console.log('orderHash=' + orderHash);
         this.orderHash = orderHash;
+        this.opType = 'deleteOrder';
         this.pin = sessionStorage.getItem('pin');
         if (this.pin) {
             this.deleteOrderDo();
@@ -137,25 +212,49 @@ export class MyordersComponent implements OnInit, OnDestroy {
         }
     }
 
+    withdraw(pinModal: TemplateRef<any>, withdrawModal: TemplateRef<any>, token) {
+        this.token = token;
+        console.log('token=', this.token);
+
+        this.coinType = Number(this.token.coinType);
+
+        this.coinName = this.coinServ.getCoinNameByTypeId(this.coinType);        
+        this.opType = 'withdraw';
+        this.pin = sessionStorage.getItem('pin');
+        if (this.pin) {  
+            this.openModal(withdrawModal);
+            //this.withdrawDo();
+        
+        } else {
+            this.withdrawModal = withdrawModal;
+            this.openModal(pinModal);
+        }        
+    }
     confirmPin() {
         sessionStorage.setItem('pin', this.pin);
-        this.deleteOrderDo();
+        if (this.opType === 'deleteOrder') {
+            this.deleteOrderDo();
+        } else 
+        if (this.opType === 'withdraw') {
+            this.openModal(this.withdrawModal);
+        }
+        
         this.modalRef.hide();
     }
 
     async deleteOrderDo() {
 
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
-        const keyPairsKanban = this.coinService.getKeyPairs(this.wallet.excoin, seed, 0, 0);        
+        const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);        
         const abiHex = this.web3Serv.getDeleteOrderFuncABI(this.orderHash);
 
-        const nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
+        const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 
         const includeCoin = true;
-        const address = await this.kanbanService.getExchangeAddress();
+        const address = await this.kanbanServ.getExchangeAddress();
         const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce, includeCoin); 
           console.log('txhex=', txhex);
-        this.kanbanService.sendRawSignedTransaction(txhex).subscribe((resp: any) => {
+        this.kanbanServ.sendRawSignedTransaction(txhex).subscribe((resp: any) => {
             console.log('resp=', resp);
             if (resp && resp.transactionHash) {     
                 // this.tradeService.deleteTransaction(this.orderHash);   

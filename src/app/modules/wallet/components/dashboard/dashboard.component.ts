@@ -333,7 +333,7 @@ export class WalletDashboardComponent {
             }
         }
         if (updated) {
-            console.log('updated=' + updated);
+            // console.log('updated=' + updated);
             this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
         }
     }

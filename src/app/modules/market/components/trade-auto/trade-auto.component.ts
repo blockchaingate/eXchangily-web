@@ -122,15 +122,16 @@ export class TradeAutoComponent implements OnInit {
         const wallets = await this.walletServ.getWallets();
         const pin = '1qaz@WSX';
         
-        let price = 91;
-        for (let i = 0; i < 100; i++) {
+        let price = 19;
+        for (let i = 0; i < 200; i++) {
             console.log('i=', i);
-            let bidOrAsk = true;
+            let bidOrAsk = false;
             let walletIndex = 10;
+            price = 190 + Math.random() * 100;
             if (i % 2 === 0) {
-                bidOrAsk = false;
+                bidOrAsk = true;
                 walletIndex = 11;
-                //price = 190 + Math.random() * 100;
+                
             }
             const wallet = wallets[walletIndex];
             console.log('wallet.name=', wallet.name);

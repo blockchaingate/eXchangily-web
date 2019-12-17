@@ -81,7 +81,7 @@ export class Web3Service {
         gas: 20000000,
         
         // coin: '0x',
-        gasPrice: 5000000000  // in wei
+        gasPrice: 6000000000  // in wei
         // gasPrice: 40  // in wei
       };
       const txObjectWithoutCoin = {

@@ -192,7 +192,7 @@ export class UtilService {
        }       
        let numStr = amount.toString();
 
-       if (numStr.indexOf('1e') >= 0) {
+       if (numStr.indexOf('e') >= 0) {
            return new BigNumber(numStr).dividedBy(1e18).toNumber();
        }
        const numStrLength = numStr.length;

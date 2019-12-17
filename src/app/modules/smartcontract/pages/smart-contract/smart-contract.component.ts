@@ -10,7 +10,7 @@ import { UtilService } from '../../../../services/util.service';
 import { CoinService } from '../../../../services/coin.service';
 import { AlertService } from '../../../../services/alert.service';
 import * as Btc from 'bitcoinjs-lib';
-import { MyCoin } from 'src/app/models/mycoin';
+import { MyCoin } from '../../../../models/mycoin';
 import {environment} from '../../../../../environments/environment';
 @Component({
   selector: 'app-smart-contract',

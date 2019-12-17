@@ -56,3 +56,9 @@ a.tab-link:hover {
     cursor: pointer;
     color: grey!important;
 }
+
+label {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 10px 0;
+}
