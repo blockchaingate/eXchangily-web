@@ -67,8 +67,8 @@ export class WalletService {
         const pwdValid = this.pwdStrength(pwd);
         if (pwdValid === 'strong' || pwdValid === 'medium') {
             this.wallet = this.formatWallet(pwd, name, mnemonic);
-            console.log('this.wallet in generateWallet');
-            console.log(this.wallet);
+            // console.log('this.wallet in generateWallet');
+            // console.log(this.wallet);
             return this.wallet;
         } else {
             return null;

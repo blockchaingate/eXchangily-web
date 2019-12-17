@@ -67,12 +67,12 @@ export class Web3Service {
     }
 
     async signAbiHexWithPrivateKey(abiHex: string, keyPair: any, address: string, nonce: number, includeCoin: boolean, value = 0) {
-      console.log('abiHex before', abiHex);
+      // console.log('abiHex before', abiHex);
       if (abiHex.startsWith('0x')) {
         abiHex = abiHex.slice(2);
       }
-      console.log('abiHex after', abiHex);
-      console.log('nonce=' + nonce);
+      // console.log('abiHex after', abiHex);
+      // console.log('nonce=' + nonce);
       const txObject = {
         to: address,
         nonce: nonce,
@@ -97,13 +97,13 @@ export class Web3Service {
 
       let txhex = '';
       
-      console.log('includeCoin=', includeCoin);
+      // console.log('includeCoin=', includeCoin);
       if (!includeCoin) {
         const EthereumTx = Eth.Transaction;  
         //const tx = new EthereumTx(includeCoin ? txObject : txObjectWithoutCoin, { common: customCommon });
-        console.log('txObjectWithoutCoin=', txObjectWithoutCoin);
+        // console.log('txObjectWithoutCoin=', txObjectWithoutCoin);
         const tx = new EthereumTx(txObjectWithoutCoin, { chain: environment.chains.ETH.chain, hardfork: environment.chains.ETH.hardfork });
-        console.log('after that');
+        // console.log('after that');
         tx.sign(privKey);
         const serializedTx = tx.serialize();
         txhex = '0x' + serializedTx.toString('hex'); 
@@ -190,8 +190,8 @@ export class Web3Service {
       }; 
     const abiHex = web3.eth.abi.encodeFunctionCall(func, paramsArray);
 
-    console.log('paramsArray=', paramsArray);
-    console.log('abiHex=', abiHex);
+    // console.log('paramsArray=', paramsArray);
+    // console.log('abiHex=', abiHex);
     return abiHex;      
     }
 
@@ -355,25 +355,25 @@ export class Web3Service {
         "type": "function"
       };
       let abiHex = web3.eth.abi.encodeFunctionSignature(func).substring(2);    
-      console.log('abiHex there we go:' + abiHex);  
+      // console.log('abiHex there we go:' + abiHex);  
       abiHex += this.utilServ.fixedLengh(coinType, 64);
-      console.log('abiHex1=' + abiHex);
+      // console.log('abiHex1=' + abiHex);
 
       const amountHex = amount.toString(16);
-      console.log('amount=' + amount);
-      console.log('amountHex=' + amountHex);
+      // console.log('amount=' + amount);
+      // console.log('amountHex=' + amountHex);
       abiHex += this.utilServ.fixedLengh(amountHex, 64);
-      console.log('abiHex2=' + abiHex);
+      // console.log('abiHex2=' + abiHex);
       abiHex += this.utilServ.fixedLengh(this.utilServ.stripHexPrefix(destAddress), 64);
-      console.log('abiHex final:' + abiHex);    
+      // console.log('abiHex final:' + abiHex);    
       return abiHex;
     }
 
     getDepositFuncABI(coinType: number, txHash: string, amount: number, addressInKanban: string, signedMessage: Signature) {
 
-      console.log('params for getDepositFuncABI:');
-      console.log('coinType=' + coinType + ',txHash=' + txHash + ',amount=' + amount + ',addressInKanban=' + addressInKanban);
-      console.log('signedMessage=', signedMessage);
+      // console.log('params for getDepositFuncABI:');
+      // console.log('coinType=' + coinType + ',txHash=' + txHash + ',amount=' + amount + ',addressInKanban=' + addressInKanban);
+      // console.log('signedMessage=', signedMessage);
       const web3 = this.getWeb3Provider();
       const func = {
           "constant": false,
@@ -415,7 +415,7 @@ export class Web3Service {
           "type": "function"
       };
       let abiHex = this.utilServ.stripHexPrefix(web3.eth.abi.encodeFunctionSignature(func));
-      console.log('abiHex for addDeposit=', abiHex);
+      // console.log('abiHex for addDeposit=', abiHex);
       abiHex += this.utilServ.stripHexPrefix(signedMessage.v);
       abiHex += this.utilServ.fixedLengh(coinType, 62);
       abiHex += this.utilServ.stripHexPrefix(txHash);

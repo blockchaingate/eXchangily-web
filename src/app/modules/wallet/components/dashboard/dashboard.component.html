@@ -245,7 +245,7 @@
                                     </button>
 
 
-                                    <button mat-icon-button matTooltip="Redeposit" *ngIf="mycoin.redeposit" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                    <button mat-icon-button matTooltip="Redeposit" *ngIf="mycoin.redeposit && mycoin.redeposit.length > 0" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon>vertical_align_bottom</mat-icon>
                                     </button>
                                 </div>

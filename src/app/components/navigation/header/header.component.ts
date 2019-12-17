@@ -68,7 +68,7 @@ export class HeaderComponent implements OnInit {
           const subArray = transactionHistory.reverse().slice( 0, 5 );
           for (let i = 0; i < subArray.length; i++) {
             const item = subArray[i];
-            console.log('item.status=', item.status);
+            // console.log('item.status=', item.status);
             if (item.status === 'pending') {
               this.pendingtransactions.push(item);
               this.timerServ.checkTransactionStatus(item, 60); 

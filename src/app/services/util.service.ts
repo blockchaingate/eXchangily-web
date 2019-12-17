@@ -113,7 +113,7 @@ export class UtilService {
         const strLength = str.length;
         if (strLength >= length) {
             str = str.substring(strLength - length);
-            console.log(str);
+            // console.log(str);
             return str;
         }
         for (let i = 0; i < length - strLength; i++) {
