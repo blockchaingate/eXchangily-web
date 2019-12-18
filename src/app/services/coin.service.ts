@@ -289,17 +289,23 @@ export class CoinService {
 
         } else  
         if (name === 'EX' || tokenType === 'FAB') { 
+            console.log('000');
             const root = BIP32.fromSeed(seed, environment.chains.BTC.network);
 
+            console.log('root=', root);
             const childNode = root.derivePath( path );    
-            
+            console.log('childNode=', childNode);
             const originalPrivateKey = childNode.privateKey;
+            console.log('111');
             priKeyHex = originalPrivateKey.toString('hex');
+            console.log('222');
             priKey = childNode.toWIF(); 
+            console.log('333');
             priKeyDisp = priKey;
             buffer = wif.decode(priKey);  
-
+            console.log('buffer=', buffer);
             const publicKey = childNode.publicKey;
+            console.log('publicKey=', publicKey);
             const publicKeyString = `0x${publicKey.toString('hex')}`;
             addr = this.utilServ.toKanbanAddress(publicKeyString);
 
