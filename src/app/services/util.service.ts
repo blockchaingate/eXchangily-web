@@ -220,11 +220,8 @@ export class UtilService {
        const str1 = numStr.substr(0, numStr.length - 18);
        const str2 = numStr.substr(numStr.length - 18);
        numStr = str1 + '.' + str2;
-       if (amount.toString() === '30000000000000' || amount.toString() === '70000000000000') {
-        //console.log('amount=', amount);
-        //console.log('Number(numStr)=', Number(numStr));
-       }
-       
+
+       numStr = numStr.substring(0, 8);
        return Number(numStr);
         
         
