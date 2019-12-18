@@ -591,9 +591,13 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       const address = await this.kanbanService.getExchangeAddress();
       const orderHash = this.generateOrderHash(bidOrAsk, orderType, baseCoin
           , targetCoin, qty, price, timeBeforeExpiration);
-
+      
+      const qtyString = new BigNumber(qty).times(1e18).toString();
+      const priceString = new BigNumber(price).times(1e18).toString();
+      console.log('qtyString=', qtyString);
+      console.log('priceString=', priceString);
       const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk,  
-          orderType, baseCoin, targetCoin, (Math.floor(qty * 1e18)).toString(), (Math.floor(price * 1e18)).toString(), 
+          orderType, baseCoin, targetCoin, qtyString, priceString, 
           timeBeforeExpiration, false,  orderHash]);
       const nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
 
