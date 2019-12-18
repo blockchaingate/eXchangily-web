@@ -222,7 +222,9 @@ export class UtilService {
        numStr = str1 + '.' + str2;
 
        numStr = numStr.substring(0, 8);
-       return Number(numStr);
+       const retNumber = Number(numStr).toPrecision(6);
+       const retNum = Number(retNumber);
+       return retNum;
         
         
         
