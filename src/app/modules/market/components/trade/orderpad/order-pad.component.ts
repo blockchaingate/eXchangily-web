@@ -91,7 +91,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     }
 
     bigmul(num1, num2) {
-      const x = new BigNumber(num1);
+      const x = new BigNumber(num1.toString());
       const result = x.times(num2);
       return result;
     }
