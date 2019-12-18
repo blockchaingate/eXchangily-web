@@ -78,7 +78,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
         }
         this.timerServ.ordersStatus.subscribe(
             (orders: any) => { 
-                // console.log('orders=', orders);
+                console.log('orders=', orders);
                 this.myorders = orders;
             }            
         );

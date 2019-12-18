@@ -125,13 +125,13 @@
 }
 
 .percentage-bar-red {
-    background-color: lightcoral;
+    background-color: rgb(228, 218, 218);
 }
 
 .percentage-bar-green {
-    background-color: lightgreen;
+    background-color: rgb(175, 207, 175);
 }
 
 .percentage-bar-blue {
-    background-color: lightblue;
+    background-color: rgb(182, 198, 204);
 }
