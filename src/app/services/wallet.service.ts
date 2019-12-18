@@ -33,8 +33,8 @@ export class WalletService {
     formatWallet(pwd: string, name: string, mnemonic: string) {
         const seed = BIP39.mnemonicToSeedSync(mnemonic);
 
-        console.log('seed=');
-        console.log(seed);
+        //console.log('seed=');
+        //console.log(seed);
         const seedHash = this.utilService.SHA256(seed.toString());
         const seedHashStr = seedHash.toString();
         const pwdHashStr = this.utilService.SHA256(pwd).toString();

@@ -520,6 +520,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     }
 
     confirmPin() {
+      const pwdHashStr = this.utilService.SHA256(this.pin).toString();
+      if (this.wallet.pwdHash !== pwdHashStr) {
+        this.alertServ.openSnackBar('Your password is invalid', 'Ok');
+        return;
+      }
       sessionStorage.setItem('pin', this.pin);
       this.buyOrSell();
       this.modalRef.hide();
@@ -534,7 +539,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       this.pin = sessionStorage.getItem('pin');
       this.price = this.buyPrice;
       this.qty = this.buyQty;      
-      if (this.pin) {
+      if (false && this.pin) {
         this.buyOrSell();
       } else {
         this.openModal(pinModal);
@@ -578,9 +583,9 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         targetCoin = tmp;
       }
 
-      console.log('baseCoin=' + baseCoin);
-      console.log('targetCoin=' + targetCoin);
-      console.log('bidOrAsk=' + bidOrAsk);
+      // console.log('baseCoin=' + baseCoin);
+      // console.log('targetCoin=' + targetCoin);
+      // console.log('bidOrAsk=' + bidOrAsk);
       const timeBeforeExpiration = 423434342432;
 
       const address = await this.kanbanService.getExchangeAddress();

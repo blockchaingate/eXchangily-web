@@ -231,6 +231,13 @@ export class MyordersComponent implements OnInit, OnDestroy {
         }        
     }
     confirmPin() {
+
+        const pwdHashStr = this.utilServ.SHA256(this.pin).toString();
+        if (this.wallet.pwdHash !== pwdHashStr) {
+          this.alertServ.openSnackBar('Your password is invalid', 'Ok');
+          return;
+        }
+
         sessionStorage.setItem('pin', this.pin);
         if (this.opType === 'deleteOrder') {
             this.deleteOrderDo();
