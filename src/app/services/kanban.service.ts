@@ -35,7 +35,7 @@ export class KanbanService {
 
     getBlock(blockNumber: string) {
         const path = 'kanban/getBlock/' + blockNumber; 
-        console.log('path for getBlock=' + path);
+        // console.log('path for getBlock=' + path);
         const res = this.get(path);
         return res;
     }
@@ -64,7 +64,7 @@ export class KanbanService {
             path = environment.endpoints.kanban + 'kanban/explorer/transactions/' + num;
         }
         
-        console.log('path in getLatestTransactions=' + path);
+        // console.log('path in getLatestTransactions=' + path);
         const res = this.http.get(path);
         return res;
     }
@@ -78,7 +78,7 @@ export class KanbanService {
     
     async getTransactionCount(address: string) {
         const path = 'kanban/getTransactionCount/' + address; 
-        console.log('nouse in here:', path);
+        // console.log('nouse in here:', path);
         const res = await this.get(path).toPromise() as TransactionAccountResponse;
         return res.transactionCount;
     }
@@ -86,7 +86,7 @@ export class KanbanService {
     getOrdersByAddress(address: string) {
         let path = 'ordersbyaddress/' + address;
         path = environment.endpoints.kanban + path;
-        console.log('path for getOrdersByAddress=' + path);
+        // console.log('path for getOrdersByAddress=' + path);
         const res = this.http.get(path);
         return res;
     }
@@ -125,7 +125,7 @@ export class KanbanService {
        const options = {
         headers: httpHeaders
         };    
-        console.log('data for resubmitDeposit=', data);       
+        // console.log('data for resubmitDeposit=', data);       
         const path = this.endpoint + 'resubmitDeposit';
         return this.http.post(path, data, options);
     }
@@ -142,7 +142,7 @@ export class KanbanService {
        const options = {
         headers: httpHeaders
         };    
-        console.log('data for submitDeposit=', data);       
+        // console.log('data for submitDeposit=', data);       
         const path = this.endpoint + 'submitDeposit';
         return this.http.post(path, data, options);        
     }
@@ -154,7 +154,7 @@ export class KanbanService {
 
     async getGas(address: string) {
         const path = 'kanban/getBalance/' + address;
-        console.log('path2=' + path);
+        // console.log('path2=' + path);
         let gas = 0;
         try {
             const ret = await this.get(path).toPromise() as KanbanGetBanalceResponse;
@@ -168,13 +168,13 @@ export class KanbanService {
 
     getKanbanBalance(address: string) {
         const path = 'kanban/getBalance/' + address;
-        console.log('path1=' + path);
+        // console.log('path1=' + path);
         return this.get(path);
     }
 
     getDepositErr(address: string) {
         const path = 'depositerr/' + address;
-        console.log('path1=' + path);
+        // console.log('path1=' + path);
         return this.get(path);
     }
 
@@ -187,8 +187,8 @@ export class KanbanService {
         headers: httpHeaders
         };           
         path = this.endpoint + path;
-        console.log('path=' + path);
-        console.log(data);
+        // console.log('path=' + path);
+        // console.log(data);
         return this.http.post(path, data, options);
     }
     get (path: string) {
@@ -229,8 +229,8 @@ export class KanbanService {
         let status = 'failed';
         try {
             response = await this.get('kanban/getTransactionReceipt/' + txid).toPromise() as TransactionReceiptResp;
-            console.log('response.transactionReceipt=', response.transactionReceipt);
-            console.log('response.transactionReceipt.status=', response.transactionReceipt.status);
+            // console.log('response.transactionReceipt=', response.transactionReceipt);
+            // console.log('response.transactionReceipt.status=', response.transactionReceipt.status);
             if (response && response.transactionReceipt && response.transactionReceipt.status === '0x1') {
                 status = 'confirmed';
             }

@@ -10,7 +10,7 @@ import { UtilService } from '../../../../services/util.service';
 import { CoinService } from '../../../../services/coin.service';
 import { AlertService } from '../../../../services/alert.service';
 import * as Btc from 'bitcoinjs-lib';
-import { MyCoin } from 'src/app/models/mycoin';
+import { MyCoin } from '../../../../models/mycoin';
 import {environment} from '../../../../../environments/environment';
 @Component({
   selector: 'app-smart-contract',
@@ -29,6 +29,7 @@ export class SmartContractComponent implements OnInit {
   wallet: Wallet;
   smartContractAddress: string;
   mycoin: MyCoin;
+  balance: any;
   ABI = [];
   constructor(
     private walletService: WalletService, 
@@ -38,7 +39,7 @@ export class SmartContractComponent implements OnInit {
     private coinServ: CoinService,
     private alertServ: AlertService
     ) { 
-    //this.ABI = this.getFunctionABI(this.ABI);
+    // this.ABI = this.getFunctionABI(this.ABI);
   }
 
   changeSmartContractAddress() {
@@ -86,6 +87,8 @@ export class SmartContractComponent implements OnInit {
       const coin = this.wallet.mycoins[i];
       if (coin.name === 'FAB') {
         this.mycoin = coin;
+        this.balance = await this.coinServ.getBalance(coin);
+        console.log('this.balance=', this.balance);
         break;
       }
     }  
@@ -157,6 +160,10 @@ export class SmartContractComponent implements OnInit {
     if (this.method.stateMutability === 'view') {
       this.callContract();
     } else {
+      if (Number(this.payableValue) > this.balance.balance) {
+        this.alertServ.openSnackBar('not enough amount.', 'Ok');
+        return;
+      }
       await this.pinModal.show(); 
     }
   }

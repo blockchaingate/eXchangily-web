@@ -11,10 +11,11 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="inputSendTo" class="text-muted">{{"Asset" | translate }}</label>
-                        <select class="form-control" (change)="onChange($event.target.value)">
+                        <select class="form-control my-2" (change)="onChange($event.target.value)">
                             <option [value]="i" *ngFor="let coin of wallet.mycoins;let i = index">{{coin.name}}</option>
                         </select>
 
+                        <!--
                         <mat-tab-group *ngIf="currentCoin.changeAdds && currentCoin.changeAdds.length">
                             <mat-tab label="External">
                                 <app-address-key [chain]="0" [seed]="seed" [currentCoin]="currentCoin"></app-address-key>
@@ -24,9 +25,10 @@
                             </mat-tab>
                         </mat-tab-group>
                         <div *ngIf="!(currentCoin.changeAdds && currentCoin.changeAdds.length)" class="pt-2">
-                            <app-address-key [chain]="0" [seed]="seed" [currentCoin]="currentCoin"></app-address-key>
+                            
                         </div>
-
+                        -->
+                        <app-address-key [chain]="0" [seed]="seed" [currentCoin]="currentCoin"></app-address-key>
                     </div>
                 </div>
 

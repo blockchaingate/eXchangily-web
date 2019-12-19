@@ -23,10 +23,10 @@ export class MarketTopBlockComponent implements OnInit {
   }
 
   updateTicker (ticker) {
-    const price = ticker.price;
-    const volume = ticker['24h_volume'];
-    const open = ticker['24h_open'];
-    const close = ticker['24h_close'];
+    const price = ticker.price / 1e18;
+    const volume = ticker['24h_volume'] / 1e18;
+    const open = ticker['24h_open'] / 1e18;
+    const close = ticker['24h_close'] / 1e18;
     this.price = price;
     this.volume = volume;
     this.changePercent = 0;

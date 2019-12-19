@@ -18,7 +18,7 @@ export class FooterComponent implements OnInit {
   coordinates(event: MouseEvent): void {
     const clientX = event.offsetX;
     const clientY = event.offsetY;
-    console.log('clientX=' + clientX + ',clientY=' + clientY);
+    // console.log('clientX=' + clientX + ',clientY=' + clientY);
     if (clientX >= 0 && clientY >= 0) {
         if (clientX <= 26 && clientY <= 26) {
             this.imgWechatShow = true;

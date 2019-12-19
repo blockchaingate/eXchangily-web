@@ -57,7 +57,7 @@ export class ApiService {
     }
     async getEthTransaction(txid: string) {
         const url = environment.endpoints.ETH.exchangily + 'gettransaction/' + txid;
-        console.log('url=' + url);
+        // console.log('url=' + url);
         let response = null;
         try {
             response = await this.http.get(url).toPromise() as EthTransactionRes;
@@ -112,11 +112,11 @@ export class ApiService {
     async isFabTransactionLocked(txid: string, idx: number): Promise<boolean> {
         
         const response = await this.getFabTransactionJson(txid);
-        console.log('response in isFabTransactionLocked=', response);
+        // console.log('response in isFabTransactionLocked=', response);
         if (response.vin && response.vin.length > 0) {
             const vin = response.vin[0];
-            console.log('vin=', vin);
-            console.log('idx=', idx);
+            // console.log('vin=', vin);
+            // console.log('idx=', idx);
             if (idx === 0 && vin.coinbase) {
                 if (response.confirmations <= 800) {
                     return true;
@@ -155,8 +155,8 @@ export class ApiService {
        }
 
        lockbalance = await this.getFabLockBalance(address);
-       console.log('balance=', balance);
-       console.log('lockbalance=', lockbalance);
+       // console.log('balance=', balance);
+       // console.log('lockbalance=', lockbalance);
        return {balance, lockbalance};
 
     }
@@ -168,7 +168,7 @@ export class ApiService {
     }
 
     async postEthTx(txHex: string) {
-        console.log('postEthTx here we go');
+        // console.log('postEthTx here we go');
         // account for https://etherscan.io  keninqiu   82239^
         // token: M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB
 
@@ -199,7 +199,7 @@ export class ApiService {
             response = await this.http.post(url, data, {responseType: 'text'}).toPromise() as string;
         }        
         if (response) {
-            console.log('response=', response);
+            // console.log('response=', response);
             return response;
         }
         return '';
@@ -224,7 +224,7 @@ export class ApiService {
             // console.log('decoded', decoded);
             // console.log('decoded.1', decoded[1]);
             if (decoded && decoded[1]) {
-                console.log('got it,decoded[1.length=', decoded[1].length);
+                // console.log('got it,decoded[1.length=', decoded[1].length);
                 for (let i = 0; i < decoded[1].length; i++) {
                     const value = decoded[1][i];
                     balance += Number(value);
@@ -264,7 +264,7 @@ export class ApiService {
         */
        const url = environment.endpoints.FAB.exchangily + 'sendrawtransaction/' + txHex;
 
-       console.log('url here we go:', url);
+       // console.log('url here we go:', url);
        let txHash = '';
        let errMsg = '';
        if (txHex) {
@@ -341,13 +341,13 @@ export class ApiService {
         if (name === 'EXG') {
             contractAddress = environment.addresses.smartContract.EXG;
         }
-        console.log('contractAddress=' + contractAddress + ',address=' + address);
+        // console.log('contractAddress=' + contractAddress + ',address=' + address);
         let fxnCallHex = this.web3Serv.getFabBalanceOfABI([address]);
         fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
 
         let response = await this.fabCallContract(contractAddress, fxnCallHex);
 
-        console.log('response=', response);
+        // console.log('response=', response);
         let balance = 0;
         if (response && response.executionResult && response.executionResult.output) {
             const balanceHex = response.executionResult.output;
@@ -363,7 +363,7 @@ export class ApiService {
         let lockbalance = 0;
         if (response && response.executionResult && response.executionResult.output) {
             const balanceHex = response.executionResult.output;
-            console.log('response here we go:', response);
+            // console.log('response here we go:', response);
             
             if (balanceHex) {
                 lockbalance = parseInt(balanceHex, 16);

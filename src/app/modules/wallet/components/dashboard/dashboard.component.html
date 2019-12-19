@@ -135,7 +135,7 @@
                         <div class="container fxHide-sm" *ngIf="wallet">
                             <div class="row apair header">
                                 <div class="col-1">
-                                    {{"Symble" | translate}}
+                                    {{"Symbol" | translate}}
                                 </div>
                                 <div class="col-1">
                                     {{"Asset" | translate}}
@@ -190,10 +190,11 @@
                                             <button mat-icon-button matTooltip="Deposit" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                                 <mat-icon>arrow_downward</mat-icon>
                                             </button>
+                                            <!--
                                             <button mat-icon-button matTooltip="Withdraw" (click)="withdraw(mycoin)" aria-label="Example icon-button with a heart icon">
                                                 <mat-icon>arrow_upward</mat-icon>
                                             </button>
-
+-->
                                             <button mat-icon-button matTooltip="Redeposit" *ngIf="mycoin.redeposit && mycoin.redeposit.length > 0" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                                 <mat-icon>vertical_align_bottom</mat-icon>
                                             </button>
@@ -208,7 +209,7 @@
                         <div class="container fxHide-gt-sm" *ngIf="wallet">
                             <div class="row apair header">
                                 <div class="col-2">
-                                    Symble
+                                    Symbol
                                 </div>
                                 <div class="col-2">
                                     Asset
@@ -240,12 +241,14 @@
                                     <button mat-icon-button matTooltip="Deposit" [disabled]="gas <= 0" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon>arrow_downward</mat-icon>
                                     </button>
+
+                                    <!--
                                     <button mat-icon-button matTooltip="Withdraw" [disabled]="gas <= 0" (click)="withdraw(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon>arrow_upward</mat-icon>
                                     </button>
+-->
 
-
-                                    <button mat-icon-button matTooltip="Redeposit" *ngIf="mycoin.redeposit" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                    <button mat-icon-button matTooltip="Redeposit" *ngIf="mycoin.redeposit && mycoin.redeposit.length > 0" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon>vertical_align_bottom</mat-icon>
                                     </button>
                                 </div>
@@ -275,7 +278,7 @@
         </div>
     </div>
 
-    <deposit-amount-modal #depositModal (confirmedAmount)="onConfirmedDepositAmount($event)"></deposit-amount-modal>
+    <deposit-amount-modal #depositModal [coin]="currentCoin" (confirmedAmount)="onConfirmedDepositAmount($event)"></deposit-amount-modal>
     <withdraw-amount-modal #withdrawModal (confirmedAmount)="onConfirmedWithdrawAmount($event)"></withdraw-amount-modal>
     <add-gas-modal #addGasModal (confirmedGas)="onConfirmedGas($event)"></add-gas-modal>
     <pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>

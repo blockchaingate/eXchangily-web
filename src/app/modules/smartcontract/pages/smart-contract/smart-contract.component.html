@@ -25,8 +25,8 @@
                         {{'Current wallet' | translate}}: {{wallet.name}}
                     </div>
 
-                    <div class="py-3" *ngIf="mycoin && mycoin.receiveAdds">
-                        {{'Fab Balance' | translate}}: {{mycoin.receiveAdds[0].balance}}
+                    <div class="py-3" *ngIf="mycoin && balance">
+                        {{'Fab Balance' | translate}}: {{balance.balance}}
                     </div>
                 </div>
             </div>

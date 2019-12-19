@@ -11,8 +11,8 @@
             <a class="tab-link" [class.selected]="select === 100" (click)="selectOrder(100);">{{'Balances' | translate }}</a>
         </div>
     </div>
-    <div class="orders w-100 fxHide-sm" *ngIf="select != 100">
-        <div class="row orderline w-100 header title py-3">
+    <div class="orders container fxHide-sm" *ngIf="select != 100">
+        <div class="row px-4 header py-3">
             <div class="orditem" style="width: 20%; margin-left: -1.2em;">Time</div>
             <div class="orditem" style="width: 8%;">Symbol</div>
             <div class="orditem" style="width: 5%;">Type</div>
@@ -27,12 +27,12 @@
             <div class="row orderline w-100" *ngFor="let order of myorders | orderfilter: isOpen; let i=index">
                 <div class="orditem text-white d-flex align-items-center" style="width: 20%;">
                     <div>
-                        0{{order.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}
+                        {{order.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}
                     </div>
                 </div>
                 <div class="orditem text-info d-flex align-items-center" style="width: 8%;">
                     <div>
-                        {{coinService.getCoinNameByTypeId(order.pairLeft)}}/{{coinService.getCoinNameByTypeId(order.pairRight)}}
+                        {{coinServ.getCoinNameByTypeId(order.pairLeft)}}/{{coinServ.getCoinNameByTypeId(order.pairRight)}}
                     </div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 5%;">
@@ -63,7 +63,7 @@
     </div>
 
     <div class="orders w-100 fxHide-gt-sm container" *ngIf="select != 100">
-        <div class="row  w-100 header title py-3">
+        <div class="row  w-100 header py-3">
             <div class="orditem col-5">Time</div>
             <div class="orditem col-2">Symbol</div>
             <div class="orditem col-2">Price</div>
@@ -79,7 +79,7 @@
                 </div>
                 <div class=" text-info col-2">
                     <p>
-                        {{coinService.getCoinNameByTypeId(order.pairLeft)}}/{{coinService.getCoinNameByTypeId(order.pairRight)}}
+                        {{coinServ.getCoinNameByTypeId(order.pairLeft)}}/{{coinServ.getCoinNameByTypeId(order.pairRight)}}
                     </p>
                 </div>
                 <div class=" text-muted col-2">
@@ -110,21 +110,59 @@
         </div>
     </div>
 
-    <div class="orders w-100" *ngIf="select == 100">
+    <div class="orders container" *ngIf="select == 100">
+        <div class="row header">
+            <div class="col col-3">
+                <label>Coin</label>
+            </div>
+            <div class="col col-3">
+                <label>Amount</label>
+            </div>
+            <div class="col col-3">
+                <label>Locked Amount</label>
+            </div>
+            <div class="col col-3">
+            </div>
+        </div>
+        <div class="myorderlist scroll-bar w-100">
+            <div class="row orderline w-100 py-3" *ngFor="let token of mytokens; let i=index">
+                <div class="col col-3 text-white">
+                    <label>{{coinServ.getCoinNameByTypeId(token.coinType)}}</label>
+                </div>
+                <div class="col col-3 text-white">
+                    <label> {{utilServ.showAmount(token.unlockedAmount)}}</label>
+                </div>
+                <div class="col col-3 text-white">
+                    <label>{{utilServ.showAmount(token.lockedAmount)}}</label>
+                </div>
+                <div class="col col-3 text-white">
+                    <button mat-icon-button matTooltip="Withdraw" (click)="withdraw(templatePasswd,templateWithdraw, token)" aria-label="Example icon-button with a heart icon">
+                    <mat-icon>arrow_upward</mat-icon>
+                </button>
+                </div>
+            </div>
+        </div>
+        <!--
         <div class="row orderline w-100 header py-3 title">
-            <div class="orditem" style="width: 30%; margin-left: -1.2em;">Coin</div>
-            <div class="orditem" style="width: 30%;">Amount</div>
-            <div class="orditem" style="width: 30%;">Locked Amount</div>
+            <div class="orditem w-25">Coin</div>
+            <div class="orditem w-25">Amount</div>
+            <div class="orditem w-25">Locked Amount</div>
+            <div class="orditem w-25"></div>
         </div>
 
         <div class="myorderlist scroll-bar w-100 pt-2">
             <div class="row orderline w-100 py-2" *ngFor="let token of mytokens; let i=index">
-
-                <div class="orditem text-white" style="width: 30%;">{{coinService.getCoinNameByTypeId(token.coinType)}}</div>
-                <div class="orditem text-white" style="width: 30%;">{{utilServ.showAmount(token.unlockedAmount)}}</div>
-                <div class="orditem text-white" style="width: 30%;">{{utilServ.showAmount(token.lockedAmount)}}</div>
+                <div class="orditem text-white w-25">{{coinService.getCoinNameByTypeId(token.coinType)}}</div>
+                <div class="orditem text-white w-25">{{utilServ.showAmount(token.unlockedAmount)}}</div>
+                <div class="orditem text-white w-25">{{utilServ.showAmount(token.lockedAmount)}}</div>
+                <div>
+                    <button mat-icon-button matTooltip="Withdraw" (click)="withdraw(mycoin)" aria-label="Example icon-button with a heart icon">
+                        <mat-icon>arrow_upward</mat-icon>
+                    </button>
+                </div>
             </div>
         </div>
+        -->
     </div>
 </div>
 
@@ -144,3 +182,54 @@
 
     </div>
 </ng-template>
+
+
+<ng-template #templateWithdraw>
+    <div class="modal-header text-center">
+        <h4 class="modal-title w-100">Withdraw {{coinName}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+    </div>
+    <div class="modal-body">
+        <div>
+            <label for="inputSendTo" class="text-muted">Your balance:{{utilServ.showAmount(token.unlockedAmount)}}</label>
+        </div>
+        <div class="pb-4">
+            <label for="inputSendTo" class="text-muted">Withdraw amount</label>
+            <input type="number" class="form-control" id="inputWithdrawAmount" name="inputWithdrawAmount" [(ngModel)]="withdrawAmount" aria-describedby="emailHelp" placeholder="0.0000">
+        </div>
+
+        <button class="btn btn1 btn-gradient text-white" (click)="withdrawDo()">{{"Confirm" | translate }}</button>
+
+    </div>
+    <!--
+    <div class="modal-dialog modal-sm">
+        <form (ngSubmit)="onSubmit()">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 text-dark">Withdraw</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="inputSendTo" class="text-muted">Withdraw amount</label>
+                        <input type="number" class="form-control" id="inputWithdrawAmount" name="inputWithdrawAmount" [(ngModel)]="withdrawAmount" aria-describedby="emailHelp" placeholder="0.0000">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="pull-left">
+                        <button class="btn btn-gradient text-white" (click)="withdrawDo()"> Confirm </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+-->
+</ng-template>
+<!--
+<withdraw-amount-modal #withdrawModal (confirmedAmount)="onConfirmedWithdrawAmount($event)"></withdraw-amount-modal>
+-->

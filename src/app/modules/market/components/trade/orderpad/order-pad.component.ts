@@ -91,7 +91,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     }
 
     bigmul(num1, num2) {
-      const x = new BigNumber(num1);
+      const x = new BigNumber(num1.toString());
       const result = x.times(num2);
       return result;
     }
@@ -520,6 +520,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     }
 
     confirmPin() {
+      const pwdHashStr = this.utilService.SHA256(this.pin).toString();
+      if (this.wallet.pwdHash !== pwdHashStr) {
+        this.alertServ.openSnackBar('Your password is invalid', 'Ok');
+        return;
+      }
       sessionStorage.setItem('pin', this.pin);
       this.buyOrSell();
       this.modalRef.hide();
@@ -534,7 +539,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       this.pin = sessionStorage.getItem('pin');
       this.price = this.buyPrice;
       this.qty = this.buyQty;      
-      if (this.pin) {
+      if (false && this.pin) {
         this.buyOrSell();
       } else {
         this.openModal(pinModal);
@@ -578,17 +583,21 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         targetCoin = tmp;
       }
 
-      console.log('baseCoin=' + baseCoin);
-      console.log('targetCoin=' + targetCoin);
-      console.log('bidOrAsk=' + bidOrAsk);
+      // console.log('baseCoin=' + baseCoin);
+      // console.log('targetCoin=' + targetCoin);
+      // console.log('bidOrAsk=' + bidOrAsk);
       const timeBeforeExpiration = 423434342432;
 
       const address = await this.kanbanService.getExchangeAddress();
       const orderHash = this.generateOrderHash(bidOrAsk, orderType, baseCoin
           , targetCoin, qty, price, timeBeforeExpiration);
-
+      
+      const qtyString = new BigNumber(qty).times(1e18).toString();
+      const priceString = new BigNumber(price).times(1e18).toString();
+      console.log('qtyString=', qtyString);
+      console.log('priceString=', priceString);
       const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk,  
-          orderType, baseCoin, targetCoin, (Math.floor(qty * 1e18)).toString(), (Math.floor(price * 1e18)).toString(), 
+          orderType, baseCoin, targetCoin, qtyString, priceString, 
           timeBeforeExpiration, false,  orderHash]);
       const nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
 

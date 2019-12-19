@@ -113,7 +113,7 @@ export class UtilService {
         const strLength = str.length;
         if (strLength >= length) {
             str = str.substring(strLength - length);
-            console.log(str);
+            // console.log(str);
             return str;
         }
         for (let i = 0; i < length - strLength; i++) {
@@ -130,9 +130,22 @@ export class UtilService {
     }
 
     showAddAmount(amount1, amount2) {
+        const amount1BigNumber = new BigNumber(amount1);
+        const amount2BigNumber = new BigNumber(amount2);
+        const total = amount1BigNumber.plus(amount2BigNumber);
+        return this.showAmount(total.toNumber());
+        /*
         const amount1Show = this.showAmount(amount1);
         const amount2Show = this.showAmount(amount2);
-        return Number(amount1Show) + Number(amount2Show);
+
+        const totalAmount = amount1Show + amount2Show ;
+        if (amount1Show === 0.00003 || amount1Show === 0.00007) {
+            console.log('amount1Show=', amount1Show );
+            console.log('amount2Show=', amount2Show );
+            console.log('total=', totalAmount );
+        }
+        return totalAmount;
+        */
     }
     showAmountArr(amountArr) {
         let amount = new BigNumber(0);
@@ -186,13 +199,13 @@ export class UtilService {
         */
         
        // const num = new BigNumber(amount.toString()).toNumber();
-
+       
        if (!amount || amount.toString() === '0') {
         return 0;
        }       
        let numStr = amount.toString();
 
-       if (numStr.indexOf('1e') >= 0) {
+       if (numStr.indexOf('e') >= 0) {
            return new BigNumber(numStr).dividedBy(1e18).toNumber();
        }
        const numStrLength = numStr.length;
@@ -208,7 +221,10 @@ export class UtilService {
        const str2 = numStr.substr(numStr.length - 18);
        numStr = str1 + '.' + str2;
 
-       return Number(numStr);
+       numStr = numStr.substring(0, 8);
+       const retNumber = Number(numStr).toPrecision(6);
+       const retNum = Number(retNumber);
+       return retNum;
         
         
         

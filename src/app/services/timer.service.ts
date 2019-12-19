@@ -216,7 +216,7 @@ export class TimerService {
                             status = 'claim';
                         }
                         if (status) {
-                            console.log('confirmed, status changed');
+                            // console.log('confirmed, status changed');
                             this.transactionStatus.next(
                                 {
                                     txid: txid,

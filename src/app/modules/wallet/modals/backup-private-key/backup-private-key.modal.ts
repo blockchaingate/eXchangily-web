@@ -36,9 +36,9 @@ export class BackupPrivateKeyModal {
     show(seed: Buffer, wallet: Wallet) {
         this.seed = seed;
         this.wallet = wallet;
-        console.log('this.wallet:', this.wallet);
+        // console.log('this.wallet:', this.wallet);
         this.currentCoin = this.wallet.mycoins[0];
-        console.log('currentCoin:', this.currentCoin);
+        // console.log('currentCoin:', this.currentCoin);
         this.backupPrivateKeyModal.show();
     }
     hide() {

@@ -10,8 +10,6 @@ import { MarketListComponent } from '../list/market-list.component';
   styleUrls: ['./market-home.component.css']
 })
 export class MarketHomeComponent  implements OnInit {
-  @ViewChild('marketTop', {static: true}) marketTop: MarketTopComponent;
-  @ViewChild('marketList', {static: true}) marketList: MarketListComponent;
   // socket: any;
   constructor() {
 
