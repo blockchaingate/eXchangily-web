@@ -160,6 +160,10 @@ export class SmartContractComponent implements OnInit {
     if (this.method.stateMutability === 'view') {
       this.callContract();
     } else {
+      if (Number(this.payableValue) > this.balance.balance) {
+        this.alertServ.openSnackBar('not enough amount.', 'Ok');
+        return;
+      }
       await this.pinModal.show(); 
     }
   }
