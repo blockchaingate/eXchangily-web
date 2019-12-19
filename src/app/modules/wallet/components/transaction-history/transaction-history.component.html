@@ -1,7 +1,25 @@
 <div class="container" *ngIf="transactionHistory">
     <div class=" row apair header ">
         <div class="col-2">
-            {{"Type" | translate}}
+            <div class="btn-group" dropdown>
+                <button id="button-basic" dropdownToggle type="button" class="btn btn-link dropdown-toggle text-white" aria-controls="dropdown-basic">
+                    {{currentType | translate}} <span class="caret"></span>
+                </button>
+                <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+                    <li role="menuitem" *ngIf="currentType !== 'All'">
+                        <a class="dropdown-item" (click)="changeType('All')">{{"All" | translate}}</a>
+                    </li>
+                    <li role="menuitem" *ngIf="currentType !== 'Deposit'">
+                        <a class="dropdown-item" (click)="changeType('Deposit')">{{"Deposit" | translate}}</a>
+                    </li>
+                    <li role="menuitem" *ngIf="currentType !== 'Withdraw'">
+                        <a class="dropdown-item" (click)="changeType('Withdraw')">{{"Withdraw" | translate}}</a>
+                    </li>
+                    <li role="menuitem" *ngIf="currentType !== 'Send'">
+                        <a class="dropdown-item" (click)="changeType('Send')">{{"Send" | translate}}</a>
+                    </li>
+                </ul>
+            </div>
         </div>
         <div class="col-1 ">
             {{"Asset" | translate}}
@@ -20,9 +38,9 @@
         </div>
     </div>
     <div class="container-wallet-main scroll-bar">
-        <div class="row apair dataline" *ngFor="let item of transactionHistory; index as i">
+        <div class="row apair dataline" *ngFor="let item of transactionHistory | transactionType:currentType ; index as i">
             <div class="col-2">
-                <p>{{item.type}}</p>
+                <p>{{item.type | translate}}</p>
             </div>
             <div class="col-1 ">
                 <p>{{item.coin}}</p>
@@ -38,7 +56,7 @@
                 <p *ngIf="item.coin == 'FAB' && coinsPrice && coinsPrice.fabcoin">{{utilServ.toPrecision(item.amount * coinsPrice.fabcoin.usd)}}</p>
                 <p *ngIf="item.coin == 'ETH' && coinsPrice && coinsPrice.ethereum">{{utilServ.toPrecision(item.amount * coinsPrice.ethereum.usd)}}</p>
                 <p *ngIf="item.coin == 'USDT' && coinsPrice && coinsPrice.tether">{{utilServ.toPrecision(item.amount * coinsPrice.tether.usd)}}</p>
-
+                <p *ngIf="item.coin == 'EXG' && coinsPrice && coinsPrice.exgcoin">{{utilServ.toPrecision(item.amount * coinsPrice.exgcoin.usd)}}</p>
             </div>
             <div class="col-2 ">
                 <p>

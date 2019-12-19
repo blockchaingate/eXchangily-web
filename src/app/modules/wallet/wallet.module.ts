@@ -59,12 +59,13 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatPaginatorModule} from '@angular/material/paginator';
 
 import { SharedModule } from '../shared/shared.module';
-
+import { TransactionTypePipe } from './pipes/transaction-type.pipe';
 
 @NgModule({
     declarations: [
         WalletDashboardComponent,
         NoWalletComponent,
+        TransactionTypePipe,
         MnemonicComponent,
         MnemeditComponent,
         TransactionHistoryComponent,

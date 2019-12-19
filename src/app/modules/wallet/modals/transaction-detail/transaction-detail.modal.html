@@ -56,7 +56,7 @@
                         Transaction ID
                     </div>
                     <div class="text-dark">
-                        <small>{{item.txid}}</small>
+                        <small>{{utilService.stripHexPrefix(item.txid)}}</small>
                     </div>
                     <div class="text-muted pt-2">
                         Confirmation

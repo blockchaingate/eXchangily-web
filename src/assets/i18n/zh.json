@@ -817,5 +817,9 @@
     "Function": "函数",
     "Payable value": "价值",
     "Result": "执行结果",
-    "Current wallet": "当前钱包"
+    "Current wallet": "当前钱包",
+    "Type": "类型",
+    "All": "所有",
+    "Deposit": "转交易所",
+    "Withdraw": "转钱包"
 }
