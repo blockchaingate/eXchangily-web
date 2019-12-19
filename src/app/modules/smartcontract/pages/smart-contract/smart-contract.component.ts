@@ -29,6 +29,7 @@ export class SmartContractComponent implements OnInit {
   wallet: Wallet;
   smartContractAddress: string;
   mycoin: MyCoin;
+  balance: any;
   ABI = [];
   constructor(
     private walletService: WalletService, 
@@ -86,6 +87,8 @@ export class SmartContractComponent implements OnInit {
       const coin = this.wallet.mycoins[i];
       if (coin.name === 'FAB') {
         this.mycoin = coin;
+        this.balance = await this.coinServ.getBalance(coin);
+        console.log('this.balance=', this.balance);
         break;
       }
     }  
