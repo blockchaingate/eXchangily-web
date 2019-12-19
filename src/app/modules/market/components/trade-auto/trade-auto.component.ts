@@ -122,8 +122,8 @@ export class TradeAutoComponent implements OnInit {
         const wallets = await this.walletServ.getWallets();
         const pin = '1qaz@WSX';
         
-        let price = 19;
-        for (let i = 0; i < 200; i++) {
+        let price = 190;
+        for (let i = 0; i < 500; i++) {
             console.log('i=', i);
             let bidOrAsk = false;
             let walletIndex = 10;
