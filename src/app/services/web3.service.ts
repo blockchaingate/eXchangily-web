@@ -420,6 +420,7 @@ export class Web3Service {
       abiHex += this.utilServ.fixedLengh(coinType, 62);
       abiHex += this.utilServ.stripHexPrefix(txHash);
       const amountHex = amount.toString(16);
+      console.log('amountHex=', this.utilServ.fixedLengh(amountHex, 64));
       abiHex += this.utilServ.fixedLengh(amountHex, 64);
       abiHex += this.utilServ.fixedLengh(this.utilServ.stripHexPrefix(addressInKanban), 64);
       abiHex += this.utilServ.stripHexPrefix(signedMessage.r);
