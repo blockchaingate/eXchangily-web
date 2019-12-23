@@ -31,7 +31,7 @@ interface BarData {
 })
 
 export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
-
+    private currentGranularity: any;
     private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'BTC/USDT';
     private _interval: ChartingLibraryWidgetOptions['interval'] = '1';
     // BEWARE: no trailing slash is expected in feed URL
@@ -185,10 +185,11 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
                 // console.log('granularity=' + granularity);
 
                 console.log(that.mockService.gotHistoryList);
-                if (that.mockService.gotHistoryList) {
+                if (that.mockService.gotHistoryList && (that.currentGranularity === granularity)) {
                   // console.log('already got');
                   return;
                 }
+                that.currentGranularity = granularity;
                 // console.log('begin getBarsgetBarsgetBarsgetBarsgetBa');
                 /*
                 const pair = targetCoinName + baseCoinName;

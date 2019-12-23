@@ -758,5 +758,11 @@
     "Function": "Function",
     "Payable value": "Payable value",
     "Result": "Result",
-    "Current wallet": "Current wallet"
+    "Current wallet": "Current wallet",
+    "Type": "Type",
+    "All": "All",
+    "Deposit": "Deposit",
+    "Withdraw": "Withdraw",
+    "Send": "Send"
+
 }

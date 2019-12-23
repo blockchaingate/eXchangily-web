@@ -33,8 +33,8 @@ export class WalletService {
     formatWallet(pwd: string, name: string, mnemonic: string) {
         const seed = BIP39.mnemonicToSeedSync(mnemonic);
 
-        //console.log('seed=');
-        //console.log(seed);
+        // console.log('seed=');
+        // console.log(seed);
         const seedHash = this.utilService.SHA256(seed.toString());
         const seedHashStr = seedHash.toString();
         const pwdHashStr = this.utilService.SHA256(pwd).toString();
@@ -64,6 +64,13 @@ export class WalletService {
 
     // Generate walllet, store it to db and set current wallet to it.
     generateWallet(pwd: string, name: string, mnemonic: string): Wallet {
+        const mnemonicArr = mnemonic.split(' ');
+        if (!mnemonicArr || mnemonicArr.length !== 12) {
+            return null;
+        }
+        if (!this.validateMnemonic(mnemonic)) {
+            return null;
+        }
         const pwdValid = this.pwdStrength(pwd);
         if (pwdValid === 'strong' || pwdValid === 'medium') {
             this.wallet = this.formatWallet(pwd, name, mnemonic);
