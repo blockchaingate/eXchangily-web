@@ -26,7 +26,7 @@ export class WalletPwdComponent implements OnInit {
                 Validators.minLength(2)]
             ],
             password: [null, [
-                Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/)]
+                Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~`!@#\(\)\$%\^&\*])(?=.{8,})/)]
             ],
             pwdconfirm: ['']
         }, { validator: this.checkPasswords });
@@ -40,7 +40,6 @@ export class WalletPwdComponent implements OnInit {
     }
 
     onSubmit() {
-        console.log('onsubmithrdhdrrdt');
         
         const name = this.userForm.controls.name.value;
         const pwd = this.userForm.controls.password.value;
