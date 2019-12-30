@@ -183,8 +183,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
             k --;
           }
         }
-        if (oldOrderItem.checkedArr.length === 0) {
-          oldOrderItem.splice(j, 1);
+        if (oldOrderItem.checkedArr.length === 0 || oldOrderItem.amountArr.length === 0) {
+          oldOrderArr.splice(j, 1);
           j --;
         }
       } 
