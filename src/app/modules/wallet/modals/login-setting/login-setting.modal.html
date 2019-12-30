@@ -13,7 +13,7 @@
                         <label for="exampleInputPassword1" class="text-dark">Wallet Password</label>
                         <input type="password" autocomplete="off" class="form-control" formControlName="password" id="password" placeholder="Type wallet password">
                         <div class="error text-danger smallfont" *ngIf="!loginSettingForm.get('password').valid && loginSettingForm.get('password').touched">
-                            {{"Pwdvalid" | translate}}.
+                            {{"Pwdvalid" | translate}}
                         </div>
                     </div>
 
