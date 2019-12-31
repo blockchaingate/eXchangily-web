@@ -30,7 +30,8 @@ export class MyordersComponent implements OnInit, OnDestroy {
     myorders: Transaction[] = [];
     pin: string;
     orderHash: string;
-    modalRef: BsModalRef;
+    modalWithdrawRef: BsModalRef;
+    modalPinRef: BsModalRef;
     isOpen: boolean;
     mytokens: any;
     opType: string;
@@ -181,7 +182,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 this.storageServ.storeToTransactionHistoryList(item);
                 this.timerServ.transactionStatus.next(item);
                 this.timerServ.checkTransactionStatus(item);    
-                this.modalRef.hide();
+                this.modalWithdrawRef.hide();
                 this.alertServ.openSnackBar('Your withdraw request is pending.', 'Ok');  
             } else {
                 this.alertServ.openSnackBar('Some error happened. Please try again.', 'Ok');  
@@ -189,8 +190,12 @@ export class MyordersComponent implements OnInit, OnDestroy {
         }); 
     }
 
-    openModal(template: TemplateRef<any>) {
-        this.modalRef = this.modalService.show(template, { class: 'second' });
+    openPinModal(template: TemplateRef<any>) {
+        this.modalPinRef = this.modalService.show(template, { class: 'second' });
+    }
+
+    openWithdrawModal(template: TemplateRef<any>) {
+        this.modalWithdrawRef = this.modalService.show(template, { class: 'second' });
     }
 
     selectOrder(ord: number) {
@@ -212,7 +217,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
             this.deleteOrderDo();
         
         } else {
-            this.openModal(pinModal);
+            this.openPinModal(pinModal);
         }
     }
 
@@ -226,12 +231,11 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this.opType = 'withdraw';
         this.pin = sessionStorage.getItem('pin');
         if (this.pin) {  
-            this.openModal(withdrawModal);
-            //this.withdrawDo();
+            this.openWithdrawModal(withdrawModal);
         
         } else {
             this.withdrawModal = withdrawModal;
-            this.openModal(pinModal);
+            this.openPinModal(pinModal);
         }        
     }
     confirmPin() {
@@ -247,10 +251,10 @@ export class MyordersComponent implements OnInit, OnDestroy {
             this.deleteOrderDo();
         } else 
         if (this.opType === 'withdraw') {
-            this.openModal(this.withdrawModal);
+            this.openWithdrawModal(this.withdrawModal);
         }
         
-        this.modalRef.hide();
+        this.modalPinRef.hide();
     }
 
     async deleteOrderDo() {
