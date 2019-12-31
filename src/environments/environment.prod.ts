@@ -57,5 +57,12 @@ export const environment = {
         trades: 'wss://fabprod.fabcoinapi.com/ws/trades',
         orders: 'wss://fabprod.fabcoinapi.com/ws/orders',
         kline: 'wss://fabprod.fabcoinapi.com/ws/ticker'
-    }  
+    },
+    minimumWithdraw: {
+        EXG: 10,
+        BTC: 0.01,
+        FAB: 0.01,
+        ETH: 0.01,
+        USDT: 10
+    }      
 };

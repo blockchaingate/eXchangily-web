@@ -15,6 +15,7 @@ import { TimerService } from '../../../../../services/timer.service';
 import { WalletService } from '../../../../../services/wallet.service';
 import { StorageService } from '../../../../../services/storage.service';
 import * as bs58 from 'bs58';
+import { environment } from '../../../../../../environments/environment';
 @Component({
     selector: 'app-myorders',
     templateUrl: './myorders.component.html',
@@ -123,8 +124,11 @@ export class MyordersComponent implements OnInit, OnDestroy {
         const amount = this.withdrawAmount;
         const pin = this.pin;        
 
-        console.log('this.withdrawAmount=', this.withdrawAmount);
-        console.log('your balance=', Number(this.utilServ.showAmount(this.token.unlockedAmount)));
+        if (amount < environment.minimumWithdraw[this.coinServ.getCoinNameByTypeId(this.token.coinType)]) {
+            this.alertServ.openSnackBar('Your withdraw minimum amount is not satisfied.', 'Ok');
+            return;
+        }
+
         if (amount > Number(this.utilServ.showAmount(this.token.unlockedAmount))) {
             this.alertServ.openSnackBar('Your withdraw amount is bigger than your balance.', 'Ok');
             return;
