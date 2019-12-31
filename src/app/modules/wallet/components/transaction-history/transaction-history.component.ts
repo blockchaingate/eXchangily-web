@@ -4,6 +4,7 @@ import { TransactionItem } from '../../../../models/transaction-item';
 import {CoinsPrice} from '../../../../interfaces/balance.interface';
 import {UtilService} from '../../../../services/util.service';
 import {ApiService} from '../../../../services/api.service';
+import {KanbanService} from '../../../../services/kanban.service';
 import { TransactionDetailModal } from '../../modals/transaction-detail/transaction-detail.modal';
 
 @Component({
@@ -20,7 +21,12 @@ export class TransactionHistoryComponent implements OnInit {
     @Input() coinsPrice: CoinsPrice;
     @Input() walletId: string;
     currentType: string;
-    constructor ( private storageService: StorageService, private apiServ: ApiService, private utilServ: UtilService ) {
+    constructor ( 
+        private storageService: StorageService, 
+        private apiServ: ApiService, 
+        private utilServ: UtilService,
+        private kanbanServ: KanbanService 
+        ) {
 
     }
     changeType(type: string) {
@@ -40,6 +46,10 @@ export class TransactionHistoryComponent implements OnInit {
 
     async showTransactionDetail(item: TransactionItem) {
         console.log('item is:', item);
+        if (item.type === 'Withdraw') {
+            const status = await this.kanbanServ.getTransactionStatus(item.txid);
+            item.confirmations = status;
+        } else
         if (item.coin === 'BTC') {
             const tx = await this.apiServ.getBtcTransaction(item.txid);
             item.confirmations = tx.confirmations;
