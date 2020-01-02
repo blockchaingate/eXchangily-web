@@ -27,6 +27,7 @@ export class WalletService {
     }
     generateMnemonic() {
         return BIP39.generateMnemonic();
+        //return 'dune stem onion cliff equip seek kiwi salute area elegant atom injury';
     }
 
     // Format wallet from input data.
