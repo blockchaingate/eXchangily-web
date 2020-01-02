@@ -155,6 +155,22 @@ export class MyordersComponent implements OnInit, OnDestroy {
             const bytes = bs58.decode(addressInWallet);
             addressInWallet = bytes.toString('hex');
         }
+        if (currentCoin.tokenType === 'FAB') {
+            let fabAddress = '';
+            for (let i = 0; i < this.wallet.mycoins.length; i++) {
+                const coin = this.wallet.mycoins[i];
+                if (coin.name === 'FAB') {
+                    fabAddress = coin.receiveAdds[0].address;
+                }
+            }
+            if (fabAddress === '') {
+                this.alertServ.openSnackBar('FAB address not found.', 'Ok');
+                return;
+            }
+            const bytes = bs58.decode(fabAddress);
+            addressInWallet = bytes.toString('hex');      
+            console.log('addressInWallet for exg', addressInWallet);      
+        }
         const abiHex = this.web3Serv.getWithdrawFuncABI(this.coinType, amountInLink, addressInWallet);  
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
         const includeCoin = true;
