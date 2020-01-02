@@ -494,6 +494,14 @@ export class WalletDashboardComponent {
         let seedPhrase = '';
         if (this.wallet.encryptedMnemonic) {
             seedPhrase = this.utilServ.aesDecrypt(this.wallet.encryptedMnemonic, this.pin);
+
+            /*
+            const seed = this.utilServ.aesDecrypt(this.wallet.encryptedSeed, this.pin);
+            const id = this.wallet.id;
+            console.log('id=', id);
+            console.log('seedPhrase=', seedPhrase);
+            console.log('seed=', seed);
+            */
         }
         if (seedPhrase) {
             this.showSeedPhraseModal.show(seedPhrase);

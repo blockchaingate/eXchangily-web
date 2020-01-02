@@ -44,7 +44,10 @@ export class WalletPwdComponent implements OnInit {
         const name = this.userForm.controls.name.value;
         const pwd = this.userForm.controls.password.value;
 
-        const wallet = this.walletServ.generateWallet(pwd, name, sessionStorage.mnemonic);
+        // const mnemonic = sessionStorage.mnemonic.trim().replace(/\s\s+/g, ' ');
+        let mnemonic = sessionStorage.mnemonic;
+        mnemonic = mnemonic.trim().replace(/\s\s+/g, ' ').replace(/(\r\n|\n|\r)/gm, '');
+        const wallet = this.walletServ.generateWallet(pwd, name, mnemonic);
 
         sessionStorage.removeItem('mnemonic');
         

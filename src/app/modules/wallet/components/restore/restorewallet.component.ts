@@ -48,7 +48,7 @@ export class RestoreWalletComponent implements OnInit {
     }   
     
     autoGrow(seedPhrase: string) {
-      this.seedPhrase = seedPhrase.trim().replace(/\s\s+/g, ' ');
+      this.seedPhrase = seedPhrase.trim().replace(/\s\s+/g, ' ').replace(/(\r\n|\n|\r)/gm, '');
       if (!this.walletServ.validateMnemonic(this.seedPhrase)) {
         this.seedPhraseInvalid = true;
       } else {

@@ -208,7 +208,7 @@ export class CoinService {
             receiveAddsLen = (receiveAddsLen > 1) ? 1 : receiveAddsLen;
             changeAddsLen = (changeAddsLen > 1) ? 1 : changeAddsLen;
         }
-        for (let i = 0; i < receiveAddsLen; i ++) {
+        for (let i = 0; i < 1; i ++) {
             const addr = myCoin.receiveAdds[i].address;
             const decimals = myCoin.decimals;
 
@@ -219,6 +219,7 @@ export class CoinService {
             totalLockBalance += balance.lockbalance;
         }
 
+        /*
         for (let i = 0; i < changeAddsLen; i ++) {
             const addr = myCoin.changeAdds[i].address;
             const decimals = myCoin.decimals;
@@ -228,7 +229,7 @@ export class CoinService {
             myCoin.receiveAdds[i].lockedBalance = balance.lockbalance;
             totalLockBalance += balance.lockbalance;
         }
-
+        */
         return {balance: totalBalance, lockbalance: totalLockBalance};
     }
 

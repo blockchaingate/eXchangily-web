@@ -15,6 +15,7 @@ import { TimerService } from '../../../../../services/timer.service';
 import { WalletService } from '../../../../../services/wallet.service';
 import { StorageService } from '../../../../../services/storage.service';
 import * as bs58 from 'bs58';
+import { environment } from '../../../../../../environments/environment';
 @Component({
     selector: 'app-myorders',
     templateUrl: './myorders.component.html',
@@ -29,7 +30,8 @@ export class MyordersComponent implements OnInit, OnDestroy {
     myorders: Transaction[] = [];
     pin: string;
     orderHash: string;
-    modalRef: BsModalRef;
+    modalWithdrawRef: BsModalRef;
+    modalPinRef: BsModalRef;
     isOpen: boolean;
     mytokens: any;
     opType: string;
@@ -123,8 +125,11 @@ export class MyordersComponent implements OnInit, OnDestroy {
         const amount = this.withdrawAmount;
         const pin = this.pin;        
 
-        console.log('this.withdrawAmount=', this.withdrawAmount);
-        console.log('your balance=', Number(this.utilServ.showAmount(this.token.unlockedAmount)));
+        if (amount < environment.minimumWithdraw[this.coinServ.getCoinNameByTypeId(this.token.coinType)]) {
+            this.alertServ.openSnackBar('Your withdraw minimum amount is not satisfied.', 'Ok');
+            return;
+        }
+
         if (amount > Number(this.utilServ.showAmount(this.token.unlockedAmount))) {
             this.alertServ.openSnackBar('Your withdraw amount is bigger than your balance.', 'Ok');
             return;
@@ -149,6 +154,22 @@ export class MyordersComponent implements OnInit, OnDestroy {
         if (currentCoin.name === 'BTC' || currentCoin.name === 'FAB') {
             const bytes = bs58.decode(addressInWallet);
             addressInWallet = bytes.toString('hex');
+        }
+        if (currentCoin.tokenType === 'FAB') {
+            let fabAddress = '';
+            for (let i = 0; i < this.wallet.mycoins.length; i++) {
+                const coin = this.wallet.mycoins[i];
+                if (coin.name === 'FAB') {
+                    fabAddress = coin.receiveAdds[0].address;
+                }
+            }
+            if (fabAddress === '') {
+                this.alertServ.openSnackBar('FAB address not found.', 'Ok');
+                return;
+            }
+            const bytes = bs58.decode(fabAddress);
+            addressInWallet = bytes.toString('hex');      
+            console.log('addressInWallet for exg', addressInWallet);      
         }
         const abiHex = this.web3Serv.getWithdrawFuncABI(this.coinType, amountInLink, addressInWallet);  
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
@@ -177,7 +198,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 this.storageServ.storeToTransactionHistoryList(item);
                 this.timerServ.transactionStatus.next(item);
                 this.timerServ.checkTransactionStatus(item);    
-                this.modalRef.hide();
+                this.modalWithdrawRef.hide();
                 this.alertServ.openSnackBar('Your withdraw request is pending.', 'Ok');  
             } else {
                 this.alertServ.openSnackBar('Some error happened. Please try again.', 'Ok');  
@@ -185,8 +206,12 @@ export class MyordersComponent implements OnInit, OnDestroy {
         }); 
     }
 
-    openModal(template: TemplateRef<any>) {
-        this.modalRef = this.modalService.show(template, { class: 'second' });
+    openPinModal(template: TemplateRef<any>) {
+        this.modalPinRef = this.modalService.show(template, { class: 'second' });
+    }
+
+    openWithdrawModal(template: TemplateRef<any>) {
+        this.modalWithdrawRef = this.modalService.show(template, { class: 'second' });
     }
 
     selectOrder(ord: number) {
@@ -208,7 +233,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
             this.deleteOrderDo();
         
         } else {
-            this.openModal(pinModal);
+            this.openPinModal(pinModal);
         }
     }
 
@@ -222,12 +247,11 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this.opType = 'withdraw';
         this.pin = sessionStorage.getItem('pin');
         if (this.pin) {  
-            this.openModal(withdrawModal);
-            //this.withdrawDo();
+            this.openWithdrawModal(withdrawModal);
         
         } else {
             this.withdrawModal = withdrawModal;
-            this.openModal(pinModal);
+            this.openPinModal(pinModal);
         }        
     }
     confirmPin() {
@@ -243,10 +267,10 @@ export class MyordersComponent implements OnInit, OnDestroy {
             this.deleteOrderDo();
         } else 
         if (this.opType === 'withdraw') {
-            this.openModal(this.withdrawModal);
+            this.openWithdrawModal(this.withdrawModal);
         }
         
-        this.modalRef.hide();
+        this.modalPinRef.hide();
     }
 
     async deleteOrderDo() {

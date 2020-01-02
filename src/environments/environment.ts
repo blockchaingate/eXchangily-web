@@ -65,6 +65,13 @@ export const environment = {
         trades: 'wss://kanbantest.fabcoinapi.com/ws/trades',
         orders: 'wss://kanbantest.fabcoinapi.com/ws/orders',
         kline: 'wss://kanbantest.fabcoinapi.com/ws/ticker' 
+    },
+    minimumWithdraw: {
+        EXG: 10,
+        BTC: 0.002,
+        FAB: 0.005,
+        ETH: 0.01,
+        USDT: 10
     }
 };
 

@@ -1,7 +1,7 @@
 import { Component, ViewChild, EventEmitter, Output } from '@angular/core';
 import {  ModalDirective } from 'ngx-bootstrap/modal';
 import { FormBuilder } from '@angular/forms';
-
+import { environment } from '../../../../../environments/environment';
 @Component({
     selector: 'withdraw-amount-modal',
     templateUrl: './withdraw-amount.modal.html',
