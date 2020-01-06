@@ -150,7 +150,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
             return;   
         }         
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);   
-        const amountInLink = new BigNumber(amount).mul(new BigNumber(1e18)); // it's for all coins.
+        const amountInLink = new BigNumber(amount).multipliedBy(new BigNumber(1e18)); // it's for all coins.
         let addressInWallet = currentCoin.receiveAdds[0].address;
         if (currentCoin.name === 'BTC' || currentCoin.name === 'FAB') {
             const bytes = bs58.decode(addressInWallet);

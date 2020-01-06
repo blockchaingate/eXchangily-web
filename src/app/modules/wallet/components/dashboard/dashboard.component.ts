@@ -784,7 +784,7 @@ export class WalletDashboardComponent {
         }
         // txHex = '0xf86a588502540be4008252089402c55515e62a0b25d2447c6d70369186b8f10359865af3107a40008029a0840d5618e4b7b42552ccc59cdea80ed81e2b652ca08589327b9b244e230511d8a01ca696783c779e4727607ca96b80c4fca654d639dca8079c557817e7b9582c7b';
         // txHash = '0x8b9cc0f8dbd9cde140ccdf8be4591602b34ae8a9bfa69b4c3e65c44373168c7f';
-        const amountInLink = new BigNumber(amount).mul(new BigNumber(1e18)); // it's for all coins.
+        const amountInLink = new BigNumber(amount).multipliedBy(new BigNumber(1e18)); // it's for all coins.
         const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(txHash)
         , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
 
