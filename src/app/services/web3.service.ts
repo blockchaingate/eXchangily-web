@@ -8,6 +8,7 @@ import {UtilService} from './util.service';
 import * as ethUtil from 'ethereumjs-util';
 import KanbanTxService from './kanban.tx.service';
 import { environment } from '../../environments/environment';
+import BigNumber from 'bignumber.js';
 
 @Injectable({
     providedIn: 'root'
@@ -322,7 +323,7 @@ export class Web3Service {
       return abiHex;
     }
 
-    getWithdrawFuncABI (coinType: number, amount: number, destAddress: string) {
+    getWithdrawFuncABI (coinType: number, amount: BigNumber, destAddress: string) {
 
       // let abiHex = '3a5b6c70';
 
@@ -369,7 +370,7 @@ export class Web3Service {
       return abiHex;
     }
 
-    getDepositFuncABI(coinType: number, txHash: string, amount: number, addressInKanban: string, signedMessage: Signature) {
+    getDepositFuncABI(coinType: number, txHash: string, amount: BigNumber, addressInKanban: string, signedMessage: Signature) {
 
       // console.log('params for getDepositFuncABI:');
       // console.log('coinType=' + coinType + ',txHash=' + txHash + ',amount=' + amount + ',addressInKanban=' + addressInKanban);

@@ -16,6 +16,7 @@ import { WalletService } from '../../../../../services/wallet.service';
 import { StorageService } from '../../../../../services/storage.service';
 import * as bs58 from 'bs58';
 import { environment } from '../../../../../../environments/environment';
+import BigNumber from 'bignumber.js/bignumber';
 @Component({
     selector: 'app-myorders',
     templateUrl: './myorders.component.html',
@@ -32,7 +33,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     orderHash: string;
     modalWithdrawRef: BsModalRef;
     modalPinRef: BsModalRef;
-    isOpen: boolean;
+    orderStatus: string;
     mytokens: any;
     opType: string;
     token: any;
@@ -71,7 +72,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
               }
           }, 1000);   
            */   
-        this.isOpen = true;
+        this.orderStatus = 'open';
         this.wallet = await this.walletServ.getCurrentWallet();
         if (this.wallet) {
             const address = this.wallet.excoin.receiveAdds[0].address;
@@ -87,7 +88,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
         this.timerServ.tokens.subscribe(
             (tokens: any) => { 
-                // console.log('tokens=', tokens);
+                console.log('tokens=', tokens);
                 this.mytokens = tokens;
             }            
         );        
@@ -149,7 +150,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
             return;   
         }         
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);   
-        const amountInLink = amount * 1e18; // it's for all coins.
+        const amountInLink = new BigNumber(amount).multipliedBy(new BigNumber(1e18)); // it's for all coins.
         let addressInWallet = currentCoin.receiveAdds[0].address;
         if (currentCoin.name === 'BTC' || currentCoin.name === 'FAB') {
             const bytes = bs58.decode(addressInWallet);
@@ -218,10 +219,13 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
         this.select = ord;
         if (ord === 0) {
-            this.isOpen = true;
+            this.orderStatus = 'open';
         } else
         if (ord === 1) {
-            this.isOpen = false;
+            this.orderStatus = 'close';
+        } else
+        if (ord === 2) {
+            this.orderStatus = 'canceled';
         }
     }
     deleteOrder(pinModal: TemplateRef<any>, orderHash: string) {
