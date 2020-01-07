@@ -29,7 +29,7 @@ import { AngularCsv } from 'angular7-csv';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TransactionItem } from '../../../../models/transaction-item';
-
+import BigNumber from 'bignumber.js/bignumber';
 import * as bs58 from 'bs58';
 import { TimerService } from '../../../../services/timer.service';
 import { environment } from '../../../../../environments/environment';
@@ -464,9 +464,6 @@ export class WalletDashboardComponent {
         if (this.opType === 'redeposit') {
             this.redepositdo();
         } else
-        if (this.opType === 'withdraw') {
-            this.withdrawdo();
-        } else
         if (this.opType === 'addGas') {
             this.addGasDo();
         } else
@@ -643,6 +640,7 @@ export class WalletDashboardComponent {
         }
     }
 
+    /*
     async withdrawdo() {
         const currentCoin = this.currentCoin;
 
@@ -696,7 +694,7 @@ export class WalletDashboardComponent {
             }
         });      
     }
-
+    */
     async redepositdo() {
         const redepositArray = this.currentCoin.redeposit;
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
@@ -704,7 +702,7 @@ export class WalletDashboardComponent {
             let nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
             for (let i = 0; i < redepositArray.length; i++) {
                 const redepositItem = redepositArray[i];
-                const amount = redepositItem.amount;
+                const amount = new BigNumber(redepositItem.amount);
                 const coinType = redepositItem.coinType;
                 const r = redepositItem.r;
                 const s = redepositItem.s;
@@ -715,7 +713,7 @@ export class WalletDashboardComponent {
         }
     }
 
-    async submitrediposit(nonce: number, coinType: number, amount: number, r: string, s: string, v: string, transactionID: string) {
+    async submitrediposit(nonce: number, coinType: number, amount: BigNumber, r: string, s: string, v: string, transactionID: string) {
 
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
         const pin = this.pin;
@@ -786,7 +784,7 @@ export class WalletDashboardComponent {
         }
         // txHex = '0xf86a588502540be4008252089402c55515e62a0b25d2447c6d70369186b8f10359865af3107a40008029a0840d5618e4b7b42552ccc59cdea80ed81e2b652ca08589327b9b244e230511d8a01ca696783c779e4727607ca96b80c4fca654d639dca8079c557817e7b9582c7b';
         // txHash = '0x8b9cc0f8dbd9cde140ccdf8be4591602b34ae8a9bfa69b4c3e65c44373168c7f';
-        const amountInLink = amount * 1e18; // it's for all coins.
+        const amountInLink = new BigNumber(amount).multipliedBy(new BigNumber(1e18)); // it's for all coins.
         const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(txHash)
         , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
 

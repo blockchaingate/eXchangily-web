@@ -13,6 +13,7 @@ import {Signature} from '../interfaces/kanban.interface';
 import { UtilService } from './util.service';
 import * as abi from 'web3-eth-abi';
 import { environment } from '../../environments/environment';
+import BigNumber from 'bignumber.js/bignumber';
 @Injectable()
 export class CoinService {
     constructor(private apiService: ApiService, private web3Serv: Web3Service, private utilServ: UtilService) {
@@ -208,7 +209,9 @@ export class CoinService {
             receiveAddsLen = (receiveAddsLen > 1) ? 1 : receiveAddsLen;
             changeAddsLen = (changeAddsLen > 1) ? 1 : changeAddsLen;
         }
+        console.log('mycoin=', myCoin);
         for (let i = 0; i < 1; i ++) {
+
             const addr = myCoin.receiveAdds[i].address;
             const decimals = myCoin.decimals;
 
@@ -510,7 +513,7 @@ export class CoinService {
         return {txHex: txHex, errMsg: ''};
     }
 
-    getOriginalMessage(coinType: number, txHash: string, amount: number, address: string) {
+    getOriginalMessage(coinType: number, txHash: string, amount: BigNumber, address: string) {
 
         let buf = '';
         buf += this.utilServ.fixedLengh(coinType, 4);

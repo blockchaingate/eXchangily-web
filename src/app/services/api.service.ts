@@ -262,14 +262,17 @@ export class ApiService {
         console.log('ret from postFabTx=' + ret);
         return ret;
         */
-       const url = environment.endpoints.FAB.exchangily + 'sendrawtransaction/' + txHex;
+       const url = environment.endpoints.FAB.exchangily + 'postrawtransaction';
 
        // console.log('url here we go:', url);
        let txHash = '';
        let errMsg = '';
+       const data = {
+        rawtx: txHex
+       };
        if (txHex) {
-           const json = await this.http.get(url).toPromise() as FabTransactionResponse;
-
+           const json = await this.http.post(url, data).toPromise() as FabTransactionResponse;
+            console.log('json there we go=', json);
            if (json) {
                if (json.txid) {
                 txHash = json.txid;
@@ -285,10 +288,15 @@ export class ApiService {
 
     async postBtcTx(txHex: string) {
 
-       const url = environment.endpoints.BTC.exchangily + 'sendrawtransaction/' + txHex;
+       const url = environment.endpoints.BTC.exchangily + 'postrawtransaction';
        let response = null;
+
+       const data = {
+        rawtx: txHex
+       };
+
        if (txHex) {
-           response = await this.http.get(url).toPromise() as BtcTransactionResponse;
+           response = await this.http.post(url, data).toPromise() as BtcTransactionResponse;
        }
        let ret = '';
        if (response && response.txid) {
