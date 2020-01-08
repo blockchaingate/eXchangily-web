@@ -33,6 +33,13 @@
 .selllist {
     height: calc(50% - 60px);
     overflow: hidden;
+    position: relative;
+}
+
+.selllist-wrapper {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 .buylist {

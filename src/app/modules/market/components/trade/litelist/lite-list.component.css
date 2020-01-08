@@ -162,3 +162,7 @@ mat-list {
     color: grey;
     cursor: pointer;
 }
+
+.mat-list-base .mat-list-item {
+    font-size: 13px;
+}
