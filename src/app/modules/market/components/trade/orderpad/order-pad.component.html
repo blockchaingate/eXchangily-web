@@ -19,7 +19,9 @@
             <div class="current-price-box px-2">
                 <div [style.width.%]="100" [style.height.%]="100" class="percentage-bar percentage-bar-blue">&nbsp;</div>
                 <div style="width: 60%" class="text-info"> {{utilService.showAmount(currentPrice.toString())}}</div>
+                <!--
                 <div [class.redcolor]="change24h<0" [class.greencolor]="change24h>0" class="text-info"> {{utilService.showAmount(currentQuantity.toString())}} </div>
+                -->
             </div>
 
             <div class="buylist w-100">
