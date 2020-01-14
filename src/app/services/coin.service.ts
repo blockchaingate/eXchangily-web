@@ -211,7 +211,9 @@ export class CoinService {
         }
         console.log('mycoin=', myCoin);
         for (let i = 0; i < 1; i ++) {
-
+            if ((!myCoin.receiveAdds) || (myCoin.receiveAdds.length === 0)) {
+                continue;
+            }
             const addr = myCoin.receiveAdds[i].address;
             const decimals = myCoin.decimals;
 
@@ -559,8 +561,10 @@ export class CoinService {
         // console.log('mycoin=');
         // console.log(mycoin);
         const bytesPerInput = 148;
-        let amountNum = amount * Math.pow(10, this.utilServ.getDecimal(mycoin));
-        amountNum += (2 * 34 + 10);
+        // let amountNum = amount * Math.pow(10, this.utilServ.getDecimal(mycoin));
+        let amountNum = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, this.utilServ.getDecimal(mycoin)))); 
+        // it's for all coins.
+        amountNum.plus(2 * 34 + 10);
         // 2 output
         // console.log('toAddress=' + toAddress + ',amount=' + amount + ',amountNum=' + amountNum);
         const BtcNetwork = environment.chains.BTC.network;
@@ -583,12 +587,11 @@ export class CoinService {
                         continue;
                     }
                     txb.addInput(tx.txid, tx.idx);
-                    amountNum -= tx.value;
-                    amountNum += bytesPerInput * satoshisPerBytes;
+                    amountNum.minus(tx.value);
+                    amountNum.plus(bytesPerInput * satoshisPerBytes);
                     totalInput += tx.value;
                     receiveAddsIndexArr.push(index);
-
-                    if (amountNum <= 0) {
+                    if (amountNum.isLessThanOrEqualTo(0)) {
                         finished = true;
                         break;
                     }
@@ -613,12 +616,12 @@ export class CoinService {
                             continue;
                         }
                         txb.addInput(tx.txid, tx.idx);
-                        amountNum -= tx.value;
-                        amountNum += bytesPerInput * satoshisPerBytes;
+                        amountNum.minus(tx.value);
+                        amountNum.plus(bytesPerInput * satoshisPerBytes);
                         totalInput += tx.value;
                         changeAddsIndexArr.push(index);
     
-                        if (amountNum <= 0) {
+                        if (amountNum.isLessThanOrEqualTo(0)) {
                             finished = true;
                             break;
                         }
@@ -690,8 +693,8 @@ export class CoinService {
 
         } else
         if (mycoin.name === 'ETH') {
-            amountNum = amount * 1e18;
-
+            // amountNum = amount * 1e18;
+            amountNum = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, 18)));
             const address1 = mycoin.receiveAdds[0];
             const currentIndex = address1.index;    
             
@@ -731,7 +734,8 @@ export class CoinService {
             if (!decimals) {
                 decimals = 18;
             }
-            const amountSent = amount * Math.pow(10, decimals);
+            // const amountSent = amount * Math.pow(10, decimals);
+            const amountSent = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, decimals)));
             const toAccount = toAddress;
             let contractAddress = mycoin.contractAddr;
             if (mycoin.name === 'USDT') {
@@ -775,11 +779,11 @@ export class CoinService {
                 value: Number(0),         
                 to : contractAddress,
                 data: '0x' + abiHex + this.utilServ.fixedLengh(toAccount.slice(2), 64) + 
-                this.utilServ.fixedLengh(amountSent.toString(16), 64)
+                this.utilServ.fixedLengh(amountSent.integerValue().toString(16), 64)
             };
 
-            // console.log('txData=');
-            // console.log(txData);
+            console.log('txData1122=');
+            console.log(txData);
             txHex = await this.web3Serv.signTxWithPrivateKey(txData, keyPair);
             // console.log('after sign');
             if (doSubmit) {

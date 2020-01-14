@@ -130,7 +130,7 @@ export class TradeAutoComponent implements OnInit {
             price = 190 + Math.random() * 100;
             if (i % 2 === 0) {
                 bidOrAsk = true;
-                walletIndex = 11;
+                // walletIndex = 11;
                 
             }
             const wallet = wallets[walletIndex];
@@ -156,7 +156,7 @@ export class TradeAutoComponent implements OnInit {
             */              
             console.log('baseCoin = ' + baseCoin + ',targetCoin = ' + targetCoin);
             // const qty = 0.00001 * Math.random() * 10;
-            const qty = 0.00001;
+            const qty = 0.00001 * Math.random() * 10;
             const {txHex, orderHash} = await this.txHexforPlaceOrder(
                 pin, wallet, bidOrAsk, baseCoin, targetCoin, price, qty
             );
