@@ -833,6 +833,8 @@ export class WalletDashboardComponent {
             }
        },
        error => {
+           console.log('error====');
+           console.log(error);
            if (error.message) {
             this.alertServ.openSnackBar(error.message, 'Ok');
            }
