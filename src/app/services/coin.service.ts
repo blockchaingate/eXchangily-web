@@ -564,7 +564,8 @@ export class CoinService {
         // let amountNum = amount * Math.pow(10, this.utilServ.getDecimal(mycoin));
         let amountNum = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, this.utilServ.getDecimal(mycoin)))); 
         // it's for all coins.
-        amountNum.plus(2 * 34 + 10);
+        amountNum = amountNum.plus(2 * 34 + 10);
+        console.log('amountNum=', amountNum.toString());
         // 2 output
         // console.log('toAddress=' + toAddress + ',amount=' + amount + ',amountNum=' + amountNum);
         const BtcNetwork = environment.chains.BTC.network;
@@ -587,8 +588,8 @@ export class CoinService {
                         continue;
                     }
                     txb.addInput(tx.txid, tx.idx);
-                    amountNum.minus(tx.value);
-                    amountNum.plus(bytesPerInput * satoshisPerBytes);
+                    amountNum = amountNum.minus(tx.value);
+                    amountNum = amountNum.plus(bytesPerInput * satoshisPerBytes);
                     totalInput += tx.value;
                     receiveAddsIndexArr.push(index);
                     if (amountNum.isLessThanOrEqualTo(0)) {
@@ -616,8 +617,8 @@ export class CoinService {
                             continue;
                         }
                         txb.addInput(tx.txid, tx.idx);
-                        amountNum.minus(tx.value);
-                        amountNum.plus(bytesPerInput * satoshisPerBytes);
+                        amountNum = amountNum.minus(tx.value);
+                        amountNum = amountNum.plus(bytesPerInput * satoshisPerBytes);
                         totalInput += tx.value;
                         changeAddsIndexArr.push(index);
     
