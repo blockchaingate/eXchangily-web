@@ -224,8 +224,11 @@ export class CoinService {
             totalLockBalance += balance.lockbalance;
         }
 
-        /*
-        for (let i = 0; i < changeAddsLen; i ++) {
+        
+        for (let i = 0; i < 1; i ++) {
+            if ((!myCoin.changeAdds) || (myCoin.changeAdds.length === 0)) {
+                continue;
+            }            
             const addr = myCoin.changeAdds[i].address;
             const decimals = myCoin.decimals;
             balance = await this.getBlanceByAddress(tokenType, contractAddr, coinName, addr, decimals);
@@ -234,7 +237,7 @@ export class CoinService {
             myCoin.receiveAdds[i].lockedBalance = balance.lockbalance;
             totalLockBalance += balance.lockbalance;
         }
-        */
+        
         return {balance: totalBalance, lockbalance: totalLockBalance};
     }
 
@@ -641,7 +644,7 @@ export class CoinService {
             }
 
             const transFee = (receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput * satoshisPerBytes + 2 * 34 + 10;
-            const changeAddress = mycoin.changeAdds[0];
+            const changeAddress = mycoin.receiveAdds[0];
             // console.log('totalInput=' + totalInput);
             // console.log('amount=' + amount);
             // console.log('transFee=' + transFee);
