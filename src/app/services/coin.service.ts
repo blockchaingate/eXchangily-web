@@ -709,7 +709,7 @@ export class CoinService {
                 gasPrice: gasPrice * 1e9,
                 gasLimit: gasLimit,
                 to: toAddress,
-                value: amountNum           
+                value: amountNum.integerValue().toNumber()           
             };
 
             // console.log('txParams=', txParams);
