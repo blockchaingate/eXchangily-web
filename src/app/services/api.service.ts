@@ -271,23 +271,33 @@ export class ApiService {
         rawtx: txHex
        };
        if (txHex) {
-           const json = await this.http.post(url, data).toPromise() as FabTransactionResponse;
+           try {
+            const json = await this.http.post(url, data).toPromise() as FabTransactionResponse;
             console.log('json there we go=', json);
-           if (json) {
-               if (json.txid) {
-                txHash = json.txid;
-               } else 
-               if (json.Error) {
-                   errMsg = json.Error;
-               } 
+            if (json) {
+                if (json.txid) {
+                    txHash = json.txid;
+                } else 
+                if (json.Error) {
+                    errMsg = json.Error;
+                } 
+            }
+           } catch (err) {
+               if (err.error && err.error.Error) {
+                errMsg = err.error.Error;
+                console.log('err there we go', err.error.Error);
+               }
+
            }
+
        }       
 
        return {txHash, errMsg};
     }
 
     async postBtcTx(txHex: string) {
-
+       let txHash = '';
+       let errMsg = '';
        const url = environment.endpoints.BTC.exchangily + 'postrawtransaction';
        let response = null;
 
@@ -295,14 +305,22 @@ export class ApiService {
         rawtx: txHex
        };
 
-       if (txHex) {
-           response = await this.http.post(url, data).toPromise() as BtcTransactionResponse;
+       try {
+            if (txHex) {
+                response = await this.http.post(url, data).toPromise() as BtcTransactionResponse;
+            }
+            if (response && response.txid) {
+            txHash = '0x' + response.txid;
+            }
+       } catch (err) {
+            if (err.error && err.error.Error) {
+            errMsg = err.error.Error;
+            console.log('err there we go', err.error.Error);
+           }
        }
-       let ret = '';
-       if (response && response.txid) {
-           ret = '0x' + response.txid;
-       }
-       return ret;
+
+       //return ret;
+       return {txHash, errMsg};
     }
 
     async getEthBalance(address: string): Promise<Balance> {
