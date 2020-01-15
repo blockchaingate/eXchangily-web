@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { setTheme } from 'ngx-bootstrap/utils';
 import { Router, NavigationEnd } from '@angular/router';
 import { ConfigService } from './services/config.service';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -19,7 +19,23 @@ export class AppComponent {
   constructor(private route: ActivatedRoute, private configServ: ConfigService, router: Router) {
     setTheme('bs4'); // Bootstrap 4
     this.darkBgEnable = false;
-    console.log('fafawefaw=', this.route.snapshot.queryParamMap);
+    const url = window.location.href;
+
+    if (
+      (url.indexOf('/market') >= 0) 
+      || (url.indexOf('/wallet') >= 0) 
+      || (url.indexOf('/explorer') >= 0) 
+      || (url.indexOf('/smartcontract') >= 0)
+    ) {
+      this.darkBgEnable = true;
+    } else {
+      this.darkBgEnable = false;
+    }
+    if (url.indexOf('noHeader=true') >= 0) {
+      this.noHeader = true;
+    }
+    /*
+    console.log('urllll=', url);
     if (this.route.snapshot.queryParamMap.get('noHeader')) {
       if (this.route.snapshot.queryParamMap.get('noHeader') === 'true') {
         this.noHeader = true;
@@ -31,21 +47,10 @@ export class AppComponent {
     router.events.subscribe((e) => {
       if (e instanceof NavigationEnd) {
         const url = e.url;
-        if (
-          (url.indexOf('/market') >= 0) 
-          || (url.indexOf('/wallet') >= 0) 
-          || (url.indexOf('/explorer') >= 0) 
-          || (url.indexOf('/smartcontract') >= 0)
-        ) {
-          this.darkBgEnable = true;
-        } else {
-          this.darkBgEnable = false;
-        }
-        if (url.indexOf('noHeader=true') >= 0) {
-          this.noHeader = true;
-        }
+
       }
     });
+    */
   } 
 
 
