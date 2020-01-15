@@ -54,7 +54,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FlexLayoutModule,
     MatListModule,
     RouterModule,
-    FormsModule,ReactiveFormsModule,
+    FormsModule, ReactiveFormsModule,
     MatButtonModule,
     TranslateModule.forRoot(
       {

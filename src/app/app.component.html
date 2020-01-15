@@ -1,5 +1,5 @@
 <div class="top-container">
-    <app-header>
+    <app-header *ngIf="!noHeader">
     </app-header>
 
 
@@ -7,7 +7,7 @@
         <router-outlet></router-outlet>
     </section>
 
-    <app-footer></app-footer>
+    <app-footer *ngIf="!noHeader"></app-footer>
 
 </div>
 <!--
