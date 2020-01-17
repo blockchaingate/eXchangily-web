@@ -670,7 +670,9 @@ export class CoinService {
             // console.log('doSubmit=', doSubmit);
             if (doSubmit) {
                 // console.log('1');
-                txHash = await this.apiService.postBtcTx(txHex);
+                const res = await this.apiService.postBtcTx(txHex);
+                txHash = res.txHash;
+                errMsg = res.errMsg;                
                 // console.log(txHash);
                 
             } else {
