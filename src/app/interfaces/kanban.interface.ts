@@ -95,7 +95,6 @@ export interface Price {
     vol24h: number; // 24h volume
     price24hh: number;
     price24hl: Number;
-    favorite: number;
 }
 
 export interface Ticker {

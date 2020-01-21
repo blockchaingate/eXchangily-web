@@ -209,35 +209,38 @@ export class CoinService {
             receiveAddsLen = (receiveAddsLen > 1) ? 1 : receiveAddsLen;
             changeAddsLen = (changeAddsLen > 1) ? 1 : changeAddsLen;
         }
-        console.log('mycoin=', myCoin);
+        console.log('mycoin=', myCoin.name);
         for (let i = 0; i < 1; i ++) {
             if ((!myCoin.receiveAdds) || (myCoin.receiveAdds.length === 0)) {
                 continue;
             }
             const addr = myCoin.receiveAdds[i].address;
             const decimals = myCoin.decimals;
-
+            console.log('addr1=', addr);
             balance = await this.getBlanceByAddress(tokenType, contractAddr, coinName, addr, decimals);
+            console.log('balance1=', balance);
             myCoin.receiveAdds[i].balance = balance.balance;
             totalBalance += balance.balance;
             myCoin.receiveAdds[i].lockedBalance = balance.lockbalance;
             totalLockBalance += balance.lockbalance;
         }
 
-        
+        console.log('totalBalance1=', totalBalance);
         for (let i = 0; i < 1; i ++) {
             if ((!myCoin.changeAdds) || (myCoin.changeAdds.length === 0)) {
                 continue;
             }            
             const addr = myCoin.changeAdds[i].address;
             const decimals = myCoin.decimals;
+            console.log('addr2=', addr);
             balance = await this.getBlanceByAddress(tokenType, contractAddr, coinName, addr, decimals);
+            console.log('balance2=', balance);
             myCoin.changeAdds[i].balance = balance.balance;
             totalBalance += balance.balance;
             myCoin.receiveAdds[i].lockedBalance = balance.lockbalance;
             totalLockBalance += balance.lockbalance;
         }
-        
+        console.log('totalBalance2=', totalBalance);
         return {balance: totalBalance, lockbalance: totalLockBalance};
     }
 
