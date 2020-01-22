@@ -57,7 +57,7 @@ export class CoinService {
         myCoins.push(fabCoin);
 
         const btcCoin = new MyCoin('BTC');
-        this.fillUpAddress(btcCoin, seed, 100, 100);
+        this.fillUpAddress(btcCoin, seed, 1, 0);
         myCoins.push(btcCoin);  
 
         const ethCoin = new MyCoin('ETH');
@@ -209,22 +209,21 @@ export class CoinService {
             receiveAddsLen = (receiveAddsLen > 1) ? 1 : receiveAddsLen;
             changeAddsLen = (changeAddsLen > 1) ? 1 : changeAddsLen;
         }
-        console.log('mycoin=', myCoin);
+
         for (let i = 0; i < 1; i ++) {
             if ((!myCoin.receiveAdds) || (myCoin.receiveAdds.length === 0)) {
                 continue;
             }
             const addr = myCoin.receiveAdds[i].address;
             const decimals = myCoin.decimals;
-
             balance = await this.getBlanceByAddress(tokenType, contractAddr, coinName, addr, decimals);
+
             myCoin.receiveAdds[i].balance = balance.balance;
             totalBalance += balance.balance;
             myCoin.receiveAdds[i].lockedBalance = balance.lockbalance;
             totalLockBalance += balance.lockbalance;
         }
 
-        
         for (let i = 0; i < 1; i ++) {
             if ((!myCoin.changeAdds) || (myCoin.changeAdds.length === 0)) {
                 continue;
@@ -232,12 +231,13 @@ export class CoinService {
             const addr = myCoin.changeAdds[i].address;
             const decimals = myCoin.decimals;
             balance = await this.getBlanceByAddress(tokenType, contractAddr, coinName, addr, decimals);
+
             myCoin.changeAdds[i].balance = balance.balance;
             totalBalance += balance.balance;
             myCoin.receiveAdds[i].lockedBalance = balance.lockbalance;
             totalLockBalance += balance.lockbalance;
         }
-        
+        console.log('totalBalance2=', totalBalance);
         return {balance: totalBalance, lockbalance: totalLockBalance};
     }
 
@@ -270,8 +270,8 @@ export class CoinService {
             const childNode1 = root.deriveHardened(44);
             const childNode2 = childNode1.deriveHardened(coin.coinType);
             const childNode3 = childNode2.deriveHardened(0);
-            const childNode4 = childNode3.derive(0);
-            const childNode = childNode4.derive(0);
+            const childNode4 = childNode3.derive(chain);
+            const childNode = childNode4.derive(index);
           
             const { address } = Btc.payments.p2pkh({
                 pubkey: childNode.publicKey,

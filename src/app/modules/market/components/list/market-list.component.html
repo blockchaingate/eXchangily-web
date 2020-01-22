@@ -54,8 +54,8 @@
 
         <div class="apair dataline fxHide-sm" *ngFor="let pr of tab_prices; let i=index">
             <div class="col-md-2 hand align-self-center">
-                <button mat-icon-button [color]="(pr.favorite == 1)?'warn':''" (click)="toggleFavorite(pr)" aria-label="Example icon-button with a heart icon" class="text-right">
-                    <img src="/images/star-grey.svg">
+                <button mat-icon-button (click)="toggleFavorite(pr)" aria-label="Example icon-button with a heart icon" class="text-right">
+                    <img [src]="isFavorite(pr) ? '/images/star-light.svg' : '/images/star-grey.svg'">
                 </button>
                 <span (click)="gotoTrade(pr.id);">
                     <span class="text-coin">{{COINS[pr.coin_id].name}}</span><span class="text-base-coin">/{{COINS[pr.base_id].name}}</span>
@@ -78,11 +78,9 @@
 
         <div class="row apair text-white fxHide-gt-sm" *ngFor="let pr of tab_prices; let i=index">
             <div class="col-4 hand align-self-center">
-                <button mat-icon-button [color]="(pr.favorite == 1)?'warn':''" (click)="toggleFavorite(pr)" aria-label="Example icon-button with a heart icon" class="text-right">
-                        <mat-icon>
-                            star
-                        </mat-icon>
-                    </button>
+                <button mat-icon-button color="warn" (click)="toggleFavorite(pr)" aria-label="Example icon-button with a heart icon" class="text-right">
+                    <img [src]="isFavorite(pr) ? '/images/star-light.svg' : '/images/star-grey.svg'">
+                </button>
                 <span (click)="gotoTrade(pr.id);">
                     <span class="text-coin">{{COINS[pr.coin_id].name}}</span><span class="text-base-coin">/{{COINS[pr.base_id].name}}</span>
                 </span>

@@ -24,6 +24,13 @@ export class StorageService {
         });
     }
 
+    storeFavoritePairs(favoritePairs: string[] ) {
+        return this.localSt.setItem('favoritePairs', favoritePairs).subscribe(() => {});
+    }
+
+    getFavoritePairs() {
+        return this.localSt.getItem('favoritePairs');
+    }   
 
     storeToTransactionHistoryList(transactionItem: TransactionItem) {
         this.getTransactionHistoryList().subscribe((transactionHistory: TransactionItem[]) => {

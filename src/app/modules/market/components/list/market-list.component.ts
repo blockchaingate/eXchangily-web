@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PriceService } from '../../../../services/price.service';
 import { KanbanService } from '../../../../services/kanban.service';
 import { WsService } from '../../services/ws.service';
+import { StorageService } from '../../../../services/storage.service';
 import { Order, Price, Coin } from '../../../../interfaces/kanban.interface';
 
 @Component({
@@ -16,15 +17,26 @@ export class MarketListComponent implements OnInit {
     select = 0;
     prices: Price[] = [];
     tab_prices: Price[] = [];
+    favorite_pairs: string[] = [];
     searchText = '';
     COINS: Coin[];
-    constructor(private prServ: PriceService, private _router: Router, private _wsServ: WsService, private kanbanService: KanbanService) {
+    constructor(private prServ: PriceService, private _router: Router, private storageServ: StorageService, 
+        private _wsServ: WsService, private kanbanService: KanbanService) {
         
     }
 
     ngOnInit() {
         this.prices = this.prServ.getPriceList();
         this.COINS = this.prServ.getCoinList();
+        this.storageServ.getFavoritePairs().subscribe(
+            (pairs: string[]) => {
+                if (pairs) {
+                    this.favorite_pairs = pairs;
+                    this.selectCat(100);
+                }
+                
+            }
+        );
         this.selectCat(100);
         if (!this.tab_prices || this.tab_prices.length === 0) {
             this.selectCat(0);
@@ -54,14 +66,12 @@ export class MarketListComponent implements OnInit {
     selectCat(cat: number) {
         this.select = cat;
         if (cat === 100) {
-            this.tab_prices = this.prices.filter((listing: Price) => listing.favorite === 1);
+            this.tab_prices = this.prices.filter((listing: Price) => this.favorite_pairs.indexOf(listing.symbol) >= 0);
         } else if (cat === 1000) {
             this.tab_prices = [];
-        }
-        {
+        } else {
             this.tab_prices = this.prices.filter((listing: Price) => listing.base_id === cat);
         }
-        
     }
     
     search() {
@@ -74,12 +84,21 @@ export class MarketListComponent implements OnInit {
         this._router.navigate(['market/trade/' + pair]);
     }
 
+    isFavorite(price: Price) {
+        return this.favorite_pairs.includes(price.symbol);
+    }
+
     toggleFavorite(price: Price) {
-        console.log('price before toggle', price);
-        console.log('price.favorite=', price.favorite);
-        price.favorite = 1 - price.favorite;
-        console.log('price.favorite=', price.favorite);
-        console.log('price after toggle', price);
+        const symbol = price.symbol;
+        if (this.favorite_pairs.includes(symbol)) {
+            this.favorite_pairs = this.favorite_pairs.filter(
+                (item) => (item !== symbol)
+            );
+        } else {
+            this.favorite_pairs.push(symbol);
+        }
+        console.log('this.favorite_pairs=', this.favorite_pairs);
+        this.storageServ.storeFavoritePairs(this.favorite_pairs);
     }
 
     updateTickerList(arr) {

@@ -73,7 +73,7 @@ export class Web3Service {
         abiHex = abiHex.slice(2);
       }
       // console.log('abiHex after', abiHex);
-      // console.log('nonce=' + nonce);
+      console.log('nonce66666=' + nonce);
       const txObject = {
         to: address,
         nonce: nonce,
@@ -82,7 +82,7 @@ export class Web3Service {
         gas: 20000000,
         
         // coin: '0x',
-        gasPrice: 6000000000  // in wei
+        gasPrice: 8000000000  // in wei
         // gasPrice: 40  // in wei
       };
       const txObjectWithoutCoin = {
@@ -308,6 +308,7 @@ export class Web3Service {
           "type": "function"
         }; 
       const abiHex = web3.eth.abi.encodeFunctionCall(func, paramsArray);
+      console.log('abiHex for getCreateOrderFuncABI=', abiHex);
       return abiHex;
     }
 
