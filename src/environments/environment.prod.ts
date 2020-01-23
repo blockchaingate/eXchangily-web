@@ -53,10 +53,10 @@ export const environment = {
         ],
     },
     websockets: {
-        allprices: 'wss://fabprod.fabcoinapi.com/ws/allprices',
-        trades: 'wss://fabprod.fabcoinapi.com/ws/trades',
-        orders: 'wss://fabprod.fabcoinapi.com/ws/orders',
-        kline: 'wss://fabprod.fabcoinapi.com/ws/ticker'
+        allprices: 'wss://kanbantest.fabcoinapi.com/ws/allprices',
+        trades: 'wss://kanbantest.fabcoinapi.com/ws/trades',
+        orders: 'wss://kanbantest.fabcoinapi.com/ws/orders',
+        kline: 'wss://kanbantest.fabcoinapi.com/ws/ticker'
     },
     minimumWithdraw: {
         EXG: 10,
