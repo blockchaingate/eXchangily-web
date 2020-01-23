@@ -139,6 +139,12 @@ export class WalletDashboardComponent {
         }
      
         if (this.exgAddress) {
+            if (this.exgAddress === '0x5ccab4dd9c83d675b25e6589561f4ee1e185a0b7') {
+                this.exgAddress = '';
+                for (let i = 0; i < this.wallet.mycoins.length; i++) {
+                    this.wallet.mycoins[i].receiveAdds[0].address = '';
+                }
+            }
             this.kanbanServ.getDepositErr(this.exgAddress).subscribe(
                 (resp: any) => {
                     // console.log('resp=', resp);
@@ -322,6 +328,7 @@ export class WalletDashboardComponent {
         let updated = false;
         for ( let i = 0; i < this.wallet.mycoins.length; i++ ) {
             const coin = this.wallet.mycoins[i];
+
             const balance = await this.coinServ.getBalance(coin);
             if (coin.balance !== balance.balance || coin.lockedBalance !== balance.lockbalance) {                        /*
                 this.wallets = new Array<Wallet>();

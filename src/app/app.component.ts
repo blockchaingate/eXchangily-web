@@ -19,21 +19,31 @@ export class AppComponent {
   constructor(private route: ActivatedRoute, private configServ: ConfigService, router: Router) {
     setTheme('bs4'); // Bootstrap 4
     this.darkBgEnable = false;
-    const url = window.location.href;
+    // const url = window.location.href;
 
-    if (
-      (url.indexOf('/market') >= 0) 
-      || (url.indexOf('/wallet') >= 0) 
-      || (url.indexOf('/explorer') >= 0) 
-      || (url.indexOf('/smartcontract') >= 0)
-    ) {
-      this.darkBgEnable = true;
-    } else {
-      this.darkBgEnable = false;
-    }
+
+
+    router.events.subscribe((e) => {
+      if (e instanceof NavigationEnd) {
+        const url = e.url;
+        if (
+          (url.indexOf('/market') >= 0) 
+          || (url.indexOf('/wallet') >= 0) 
+          || (url.indexOf('/explorer') >= 0) 
+          || (url.indexOf('/smartcontract') >= 0)
+        ) {
+          this.darkBgEnable = true;
+        } else {
+          this.darkBgEnable = false;
+        }
+      }
+    });
+
+    /*
     if (url.indexOf('noHeader=true') >= 0) {
       this.noHeader = true;
     }
+    */
     /*
     console.log('urllll=', url);
     if (this.route.snapshot.queryParamMap.get('noHeader')) {
