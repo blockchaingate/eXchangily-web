@@ -45,18 +45,18 @@ export const environment = {
             USDT: '0xdac17f958d2ee523a2206206994597c13d831ec7',
         },
         exchangilyOfficial: [
-            {name: 'EXG', address: '0x9d95ee21e4f1b05bbfd0094daf4ce110deb00931'},
-            { name: 'FAB', address: '1FNEhT8uTmrEMvHGCGohnEFv6Q1z4qRhQu'},
-            { name: 'BTC', address: '1CKg6irbGXHxBHuTx7MeqYQUuMZ8aEok8z'},
-            {name: 'ETH', address: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06'},
-            {name: 'USDT', address: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06'}
+            { name: 'EXG', address: '0x9d95ee21e4f1b05bbfd0094daf4ce110deb00931' },
+            { name: 'FAB', address: '1FNEhT8uTmrEMvHGCGohnEFv6Q1z4qRhQu' },
+            { name: 'BTC', address: '1CKg6irbGXHxBHuTx7MeqYQUuMZ8aEok8z' },
+            { name: 'ETH', address: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06' },
+            { name: 'USDT', address: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06' }
         ],
     },
     websockets: {
-        allprices: 'wss://fabprod.fabcoinapi.com/ws/allprices',
-        trades: 'wss://fabprod.fabcoinapi.com/ws/trades',
-        orders: 'wss://fabprod.fabcoinapi.com/ws/orders',
-        kline: 'wss://fabprod.fabcoinapi.com/ws/ticker'
+        allprices: 'wss://kanbantest.fabcoinapi.com/ws/allprices',
+        trades: 'wss://kanbantest.fabcoinapi.com/ws/trades',
+        orders: 'wss://kanbantest.fabcoinapi.com/ws/orders',
+        kline: 'wss://kanbantest.fabcoinapi.com/ws/ticker'
     },
     minimumWithdraw: {
         EXG: 10,
