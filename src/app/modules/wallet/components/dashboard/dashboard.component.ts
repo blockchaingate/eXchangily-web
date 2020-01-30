@@ -739,6 +739,8 @@ export class WalletDashboardComponent {
             v: v
         };
         const abiHex = this.web3Serv.getDepositFuncABI(coinType, transactionID, amount, addressInKanban, signedMessage);
+        console.log('abiHex for redeposit===');
+        console.log(abiHex);
         const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
         this.kanbanServ.submitReDeposit(txKanbanHex).subscribe((resp: any) => { 
             console.log('resp for submitrediposit=', resp);
