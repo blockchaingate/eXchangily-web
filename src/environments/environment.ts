@@ -11,8 +11,7 @@ export const environment = {
         },
         ETH: {
             chain: 'ropsten', 
-            hardfork: 'byzantium',
-            web3Provider: 'https://ropsten.infura.io/v3/6c5bdfe73ef54bbab0accf87a6b4b0ef'
+            hardfork: 'byzantium'
         },
         FAB: {
             chain: {

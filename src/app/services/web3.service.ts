@@ -21,7 +21,7 @@ export class Web3Service {
         if (typeof window.web3 !== 'undefined') {
           return new Web3(window.web3.currentProvider);
         } else {
-          const web3 = new Web3(Web3.givenProvider || environment.chains.ETH.web3Provider);
+          const web3 = new Web3(Web3.givenProvider);
           return web3;
         }}
 

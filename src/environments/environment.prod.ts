@@ -7,8 +7,7 @@ export const environment = {
         },
         ETH: {
             chain: 'mainnet',
-            hardfork: 'petersburg',
-            web3Provider: 'https://mainnet.infura.io/v3/6c5bdfe73ef54bbab0accf87a6b4b0ef'
+            hardfork: 'petersburg'
         },
         FAB: {
             chain: {
