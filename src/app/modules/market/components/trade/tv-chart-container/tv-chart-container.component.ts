@@ -146,7 +146,6 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
       
       this.sub = this.route.params.subscribe(params => {
         const pair = params['pair']; // (+) converts string 'id' to a number
-        console.log('pair333=' + pair);
         const pairArray = pair.split('_');
         this.mockService.gotHistoryList = false;
         this.loadChart(pairArray[1], pairArray[0]);
@@ -156,7 +155,6 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
     }
 
     loadChart(baseCoinName: string, targetCoinName: string) {
-      console.log('loadChart once');
 
       function getLanguageFromURL(): LanguageCode | null {
         const regex = new RegExp('[\\?&]lang=([^&#]*)');
@@ -248,11 +246,9 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
                   ).subscribe();
             },
             getServerTime() {
-                console.log('serverTime:', arguments);
             },
             subscribeBars(symbol, granularity, onTick) {
               const pair = targetCoinName.toLowerCase() + baseCoinName.toLowerCase();
-              console.log('subscribeBars once');
               
               /*
               this.socket = new WebSocketSubject('wss://stream.binance.com:9443/ws/' + pair + '@kline_' + that.intervalMap[granularity]);

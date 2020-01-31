@@ -26,12 +26,9 @@ export class TimerService {
     }
 
     unCheckTokens(address: string) {
-        console.log('unCheckTokens for ' + address);
         for (let i = 0; i < this.tokenSubscribe.length; i++) {
             const item = this.tokenSubscribe[i];
-            console.log('item.address=' + item.address);
             if (item.address === address) {
-                console.log('got it, unsubscribe it.');
                 item.subscribeItem.unsubscribe();
                 this.tokenSubscribe.splice(i, 1);
                 break;

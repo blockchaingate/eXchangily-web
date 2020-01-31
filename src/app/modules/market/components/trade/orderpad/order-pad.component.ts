@@ -489,7 +489,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
       this.timerServ.tokens.subscribe(
           (tokens: any) => { 
-              // console.log('tokens=', tokens);
               this.setMytokens(tokens);
           }            
       ); 

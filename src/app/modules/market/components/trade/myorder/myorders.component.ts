@@ -81,14 +81,12 @@ export class MyordersComponent implements OnInit, OnDestroy {
         }
         this.timerServ.ordersStatus.subscribe(
             (orders: any) => { 
-                console.log('orders=', orders);
                 this.myorders = orders;
             }            
         );
 
         this.timerServ.tokens.subscribe(
             (tokens: any) => { 
-                console.log('tokens=', tokens);
                 this.mytokens = tokens;
             }            
         );        

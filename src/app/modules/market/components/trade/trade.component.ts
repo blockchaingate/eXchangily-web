@@ -68,31 +68,11 @@ export class TradeComponent implements OnInit {
         if (wallet) {
             this.wallet = wallet;
             this.address = this.wallet.excoin.receiveAdds[0].address;
-            console.log('address here we go=' + this.address);
             this.onRefreshToken();
         } else {
             console.log('current wallet not found');
         }
 
-        /*
-        this.walletService.getCurrentWallets().subscribe((wallets: Wallet[]) => {
-            if (wallets && wallets.length > 0) {
-              this.wallet = wallets[0];
-              if (this.wallet && this.wallet.excoin && this.wallet.excoin.receiveAdds) {
-                console.log(this.wallet);
-                this.address = this.wallet.excoin.receiveAdds[0].address;
-                console.log('address here we go=' + this.address);
-                if (this.address) {
-                    this.kanbanService.getBalance(this.address).subscribe((resp) => {
-                        console.log('resp from getBalances===');
-                        console.log(resp);
-                        this.mytokens = resp;
-                    });
-                }                 
-              }
-            }
-        });
-        */
         //  const Pair = <Price>JSON.parse(pair);
         // alert(Pair.coin);
 
@@ -100,7 +80,6 @@ export class TradeComponent implements OnInit {
 
         const inPair = this._route.snapshot.paramMap.get('pair');
         if (inPair) {
-            console.log('this.iiipair=' + inPair);
             const inPairArr = inPair.split('_');
             this.baseCoin = this.coinName2Number(inPairArr[0]);
             this.targetCoin = this.coinName2Number(inPairArr[1]);

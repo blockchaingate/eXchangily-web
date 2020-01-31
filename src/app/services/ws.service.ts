@@ -14,7 +14,6 @@ export class WsService {
     currentPrices = this.allPricesSource.asObservable();
     constructor() { this.getAllPrices(); }
     getAllPrices() {
-        console.log('getAllPrices');
         this.socketAllPrices = new WebSocketSubject(environment.websockets.allprices);
         this.socketAllPrices.subscribe(
           (arr) => {
