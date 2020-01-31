@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { PriceService } from '../../../../services/price.service';
 import { KanbanService } from '../../../../services/kanban.service';
-import { WsService } from '../../services/ws.service';
+import { WsService } from '../../../../services/ws.service';
 import { StorageService } from '../../../../services/storage.service';
 import { Order, Price, Coin } from '../../../../interfaces/kanban.interface';
 

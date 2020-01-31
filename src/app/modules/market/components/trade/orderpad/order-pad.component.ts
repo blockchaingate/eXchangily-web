@@ -526,6 +526,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         return;
       }
       sessionStorage.setItem('pin', this.pin);
+      const thirty_minutes_from_now = new Date().getTime() + 600000 * 3;
+      sessionStorage.setItem('pin_expired_at', thirty_minutes_from_now.toString());
       this.buyOrSell();
       this.modalRef.hide();
     }
@@ -537,9 +539,18 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       }
       this.bidOrAsk = true;
       this.pin = sessionStorage.getItem('pin');
+      const pin_expired_at = sessionStorage.getItem('pin_expired_at');
+      let pin_expired = true;
+      if (pin_expired_at) {
+        const currentTime = new Date().getTime();
+        const expired_time = parseInt(pin_expired_at);
+        if (currentTime < expired_time) {
+          pin_expired = false;
+        }
+      }
       this.price = this.buyPrice;
       this.qty = this.buyQty;      
-      if (false && this.pin) {
+      if (this.pin && !pin_expired) {
         this.buyOrSell();
       } else {
         this.openModal(pinModal);

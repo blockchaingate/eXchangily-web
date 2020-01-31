@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MarketTopBlockComponent } from '../top-block/market-top-block.component';
-import { WsService } from '../../services/ws.service';
+import { WsService } from '../../../../services/ws.service';
 
 @Component({
   selector: 'app-market-top',

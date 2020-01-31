@@ -32,6 +32,7 @@ import { TransactionItem } from '../../../../models/transaction-item';
 import BigNumber from 'bignumber.js/bignumber';
 import * as bs58 from 'bs58';
 import { TimerService } from '../../../../services/timer.service';
+import { WsService } from '../../../../services/ws.service';
 import { environment } from '../../../../../environments/environment';
 @Component({ 
     selector: 'app-wallet-dashboard',
@@ -73,7 +74,7 @@ export class WalletDashboardComponent {
     currentCurrency: string;
     currencyRate: number;
     constructor ( private route: Router, private walletServ: WalletService, private modalServ: BsModalService, 
-        private coinServ: CoinService, public utilServ: UtilService, private apiServ: ApiService, 
+        private coinServ: CoinService, public utilServ: UtilService, private apiServ: ApiService, private _wsServ: WsService,
         private kanbanServ: KanbanService, private web3Serv: Web3Service, private viewContainerRef: ViewContainerRef,
         private alertServ: AlertService, private matIconRegistry: MatIconRegistry, private timerServ: TimerService,
         private coinService: CoinService, private storageService: StorageService, private domSanitizer: DomSanitizer) {
@@ -314,8 +315,23 @@ export class WalletDashboardComponent {
         this.coinsPrice = await this.apiServ.getCoinsPrice();
 
         this.coinsPrice.exgcoin = {
-           usd: 0.2 
-        };
+            usd: 0.2 
+         };          
+        this._wsServ.currentPrices.subscribe((arr: any) => {
+            //console.log('arr===', arr);
+            for(let i = 0; i < arr.length; i++) {
+                const item = arr[i];
+                // console.log('item=', item);
+                if (item.symbol === 'EXGUSDT') {
+                    const price = item.price;
+                    const priceAmount = this.utilServ.showAmount(price);
+                    console.log('priceAmount===', priceAmount);
+                    this.coinsPrice.exgcoin.usd = priceAmount;
+                    break;
+                }
+            }
+        });
+
     }
     async loadBalance() {
         
@@ -647,61 +663,6 @@ export class WalletDashboardComponent {
         }
     }
 
-    /*
-    async withdrawdo() {
-        const currentCoin = this.currentCoin;
-
-        const amount = this.amount;
-        const pin = this.pin;
-
-        const coinType = this.coinServ.getCoinTypeIdByName(currentCoin.name);
-
-        const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
-        if (!seed) {
-            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');        
-            return;   
-        }         
-        const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);   
-        const amountInLink = amount * 1e18; // it's for all coins.
-        let addressInWallet = currentCoin.receiveAdds[0].address;
-        if (currentCoin.name === 'BTC' || currentCoin.name === 'FAB') {
-            const bytes = bs58.decode(addressInWallet);
-            addressInWallet = bytes.toString('hex');
-        }
-        const abiHex = this.web3Serv.getWithdrawFuncABI(coinType, amountInLink, addressInWallet);  
-        const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
-        const includeCoin = true;
-        const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
-
-       
-        const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
-
-        this.kanbanServ.sendRawSignedTransaction(txKanbanHex).subscribe((resp: any) => { 
-            // console.log('resp=', resp);
-            if (resp && resp.transactionHash) {
-                const item = {
-                    walletId: this.wallet.id, 
-                    type: 'Withdraw',
-                    coin: currentCoin.name,
-                    tokenType: currentCoin.tokenType,
-                    amount: amount,
-                    txid: resp.transactionHash,
-                    time: new Date(),
-                    confirmations: '0',
-                    blockhash: '', 
-                    comment: '',
-                    status: 'pending'
-                };
-                this.storageService.storeToTransactionHistoryList(item);
-                this.timerServ.transactionStatus.next(item);
-                this.timerServ.checkTransactionStatus(item);    
-                this.alertServ.openSnackBar('Your withdraw request is pending.', 'Ok');  
-            } else {
-                this.alertServ.openSnackBar('Some error happened. Please try again.', 'Ok');  
-            }
-        });      
-    }
-    */
     async redepositdo() {
         const redepositArray = this.currentCoin.redeposit;
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;

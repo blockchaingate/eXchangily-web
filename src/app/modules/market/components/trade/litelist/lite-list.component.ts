@@ -3,8 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Price, Ticker } from '../../../../../interfaces/kanban.interface';
 import { PriceService } from '../../../../../services/price.service';
 import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
-import { environment } from '../../../../../../environments/environment';
-import { WsService } from '../../../services/ws.service';
+import { WsService } from '../../../../../services/ws.service';
 import { UtilService } from '../../../../../services/util.service';
 
 export interface Section {
