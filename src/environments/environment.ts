@@ -5,7 +5,7 @@ import * as Btc from 'bitcoinjs-lib';
 
 export const environment = {
     production: false,
-    version: 0.01,
+    version: 0.02,
     chains: {
         BTC: {
             network: Btc.networks.testnet

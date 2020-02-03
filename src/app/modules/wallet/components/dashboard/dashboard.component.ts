@@ -608,11 +608,12 @@ export class WalletDashboardComponent {
     }
 
     async addGasDo() {
-        console.log('environment.production=', environment.production);
+        /*
         if (environment.production) {
             this.alertServ.openSnackBar('Not available in production', 'Ok');
             return;
         }
+        */
         const currentCoin = this.wallet.mycoins[1];
         this.depositFab(currentCoin);        
     }

@@ -811,9 +811,10 @@ export class CoinService {
             if (!decimals) {
                 decimals = 18;
             }
-            const amountSent = BigInt(amount * Math.pow(10, decimals));
-            
-            //const abiHex = this.web3Serv.getFabTransferABI([toAddress, amountSent.toString()]);
+            // const amountSent = BigInt(amount * Math.pow(10, decimals));
+            const amountSent = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, decimals)));
+
+            // const abiHex = this.web3Serv.getFabTransferABI([toAddress, amountSent.toString()]);
 
             const funcTransfer =	{
                 "constant": false,
