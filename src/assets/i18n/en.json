@@ -764,6 +764,12 @@
     "All": "All",
     "Deposit": "Deposit",
     "Withdraw": "Withdraw",
-    "Send": "Send"
-
+    "Send": "Send",
+    "Locked Amount": "Locked Amount",
+    "Time": "Time",
+    "Order Qty": "Order Qty",
+    "Filled Qty": "Filled Qty",
+    "Filled%": "Filled%",
+    "Action": "Action",
+    "Your balance": "Your balance"
 }

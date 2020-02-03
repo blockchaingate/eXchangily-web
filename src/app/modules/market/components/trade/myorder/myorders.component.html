@@ -16,14 +16,14 @@
     </div>
     <div class="orders container fxHide-sm" *ngIf="select != 100">
         <div class="row px-4 header py-3">
-            <div class="orditem" style="width: 20%; margin-left: -1.2em;">Time</div>
-            <div class="orditem" style="width: 8%;">Symbol</div>
-            <div class="orditem" style="width: 5%;">Type</div>
-            <div class="orditem" style="width: 10%;">Price</div>
-            <div class="orditem" style="width: 10%;">Order Qty</div>
-            <div class="orditem" style="width: 10%;">Filled Qty</div>
-            <div class="orditem" style="width: 8%;">Filled%</div>
-            <div class="orditem" style="width: 8%;">Action</div>
+            <div class="orditem" style="width: 20%; margin-left: -1.2em;">{{'Time' | translate }}</div>
+            <div class="orditem" style="width: 8%;">{{'Symbol' | translate }}</div>
+            <div class="orditem" style="width: 5%;">{{'Type' | translate }}</div>
+            <div class="orditem" style="width: 10%;">{{'Price' | translate }}</div>
+            <div class="orditem" style="width: 10%;">{{'Order Qty' | translate }}</div>
+            <div class="orditem" style="width: 10%;">{{'Filled Qty' | translate }}</div>
+            <div class="orditem" style="width: 8%;">{{'Filled%' | translate }}</div>
+            <div class="orditem" style="width: 8%;">{{'Action' | translate }}</div>
         </div>
 
         <div class="myorderlist scroll-bar w-100 pt-2">
@@ -39,8 +39,8 @@
                     </div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 5%;">
-                    <div *ngIf="order.bidOrAsk">Buy</div>
-                    <div *ngIf="!order.bidOrAsk">Sell</div>
+                    <div *ngIf="order.bidOrAsk">{{'Buy' | translate }}</div>
+                    <div *ngIf="!order.bidOrAsk">{{'Sell' | translate }}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 10%;">
                     <div>{{utilServ.showAmount(order.price)}}</div>
@@ -67,10 +67,10 @@
 
     <div class="orders w-100 fxHide-gt-sm container" *ngIf="select != 100">
         <div class="row  w-100 header py-3">
-            <div class="orditem col-5">Time</div>
-            <div class="orditem col-2">Symbol</div>
-            <div class="orditem col-2">Price</div>
-            <div class="orditem col-2">Action</div>
+            <div class="orditem col-5">{{'Time' | translate }}</div>
+            <div class="orditem col-2">{{'Symbol' | translate }}</div>
+            <div class="orditem col-2">{{'Price' | translate }}</div>
+            <div class="orditem col-2">{{'Action' | translate }}</div>
         </div>
 
         <div class="myorderlist scroll-bar w-100 pt-2" [style.height.px]="screenheight-680">
@@ -93,20 +93,20 @@
                 </div>
                 <div class=" text-muted col-4">
                     <p *ngIf="order.bidOrAsk">
-                        Type:Buy
+                        {{'Type' | translate }}:{{'Buy' | translate }}
                     </p>
                     <p *ngIf="!order.bidOrAsk">
-                        Type:Sell
+                        {{'Type' | translate }}:{{'Sell' | translate }}
                     </p>
                 </div>
                 <div class=" text-muted col-4">
-                    Order Qty:{{utilServ.showAmount(order.orderQuantity)}}
+                    {{'Order Qty' | translate }}:{{utilServ.showAmount(order.orderQuantity)}}
                 </div>
                 <div class=" text-muted col-4">
-                    Filled Qty:{{utilServ.showAmount(order.filledQuantity)}}
+                    {{'Filled Qty' | translate }}:{{utilServ.showAmount(order.filledQuantity)}}
                 </div>
                 <div class=" text-muted col-4">
-                    Filled%:{{order.filledQuantity*100/order.orderQuantity|number:'2.2-2'}}
+                    {{'Filled%' | translate }}:{{order.filledQuantity*100/order.orderQuantity|number:'2.2-2'}}
                 </div>
 
             </div>
@@ -116,13 +116,13 @@
     <div class="orders container" *ngIf="select == 100">
         <div class="row header">
             <div class="col col-3">
-                <label>Coin</label>
+                <label>{{'Coin' | translate }}</label>
             </div>
             <div class="col col-3">
-                <label>Amount</label>
+                <label>{{'Amount' | translate }}</label>
             </div>
             <div class="col col-3">
-                <label>Locked Amount</label>
+                <label>{{'Locked Amount' | translate }}</label>
             </div>
             <div class="col col-3">
             </div>
@@ -171,7 +171,7 @@
 
 <ng-template #templatePasswd>
     <div class="modal-header text-center">
-        <h4 class="modal-title w-100">Password</h4>
+        <h4 class="modal-title w-100">{{'Password' | translate }}</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -189,17 +189,17 @@
 
 <ng-template #templateWithdraw>
     <div class="modal-header text-center">
-        <h4 class="modal-title w-100">Withdraw {{coinName}}</h4>
+        <h4 class="modal-title w-100">{{'Withdraw' | translate }} {{coinName}}</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
                             <span aria-hidden="true">&times;</span>
                           </button>
     </div>
     <div class="modal-body">
         <div>
-            <label for="inputSendTo" class="text-muted">Your balance:{{utilServ.showAmount(token.unlockedAmount)}}</label>
+            <label for="inputSendTo" class="text-muted">{{'Your balance' | translate }}:{{utilServ.showAmount(token.unlockedAmount)}}</label>
         </div>
         <div class="pb-4">
-            <label for="inputSendTo" class="text-muted">Withdraw amount</label>
+            <label for="inputSendTo" class="text-muted">{{'Withdraw amount' | translate }}</label>
             <input type="number" class="form-control" id="inputWithdrawAmount" name="inputWithdrawAmount" [(ngModel)]="withdrawAmount" aria-describedby="emailHelp" placeholder="0.0000">
         </div>
 

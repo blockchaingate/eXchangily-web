@@ -822,5 +822,12 @@
     "Type": "类型",
     "All": "所有",
     "Deposit": "转交易所",
-    "Withdraw": "转钱包"
+    "Withdraw": "转钱包",
+    "Locked Amount": "锁仓数量",
+    "Order Qty": "下单数量",
+    "Filled Qty": "交易数量",
+    "Filled%": "交易比例",
+    "Action": "操作",
+    "Your balance": "可用数量",
+    "Withdraw amount": "待转数量"
 }
