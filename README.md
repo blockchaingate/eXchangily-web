@@ -1,5 +1,5 @@
-# FAB Official HD Web Wallet
-The official web wallet for FAB !
+# eXchangily Official HD Web Wallet
+The official web wallet for eXchangily !
 Supports HD Wallet protocol, sending/Receiving functionality, and creating & interacting with Smart Contracts.
 
 ## Development
