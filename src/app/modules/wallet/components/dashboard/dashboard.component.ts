@@ -325,7 +325,6 @@ export class WalletDashboardComponent {
                 if (item.symbol === 'EXGUSDT') {
                     const price = item.price;
                     const priceAmount = this.utilServ.showAmount(price);
-                    console.log('priceAmount===', priceAmount);
                     this.coinsPrice.exgcoin.usd = priceAmount;
                     break;
                 }

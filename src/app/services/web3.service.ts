@@ -111,9 +111,9 @@ export class Web3Service {
         const customCommon = Common.forCustomChain(
           environment.chains.ETH.chain,
           {
-            name: environment.chains.FAB.chain.name,
-            networkId: environment.chains.FAB.chain.networkId,
-            chainId: environment.chains.FAB.chain.chainId
+            name: environment.chains.KANBAN.chain.name,
+            networkId: environment.chains.KANBAN.chain.networkId,
+            chainId: environment.chains.KANBAN.chain.chainId
           },
           environment.chains.ETH.hardfork,
         );           

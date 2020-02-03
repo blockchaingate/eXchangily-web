@@ -19,7 +19,14 @@ export const environment = {
                 networkId: 212,
                 chainId: 212                
             }
-        }
+        },
+        KANBAN: {
+            chain: {
+                name: 'test',
+                networkId: 212,
+                chainId: 212                
+            }
+        }        
     },
     endpoints: {
         blockchaingate: 'https://blockchaingate.com/v2/',
