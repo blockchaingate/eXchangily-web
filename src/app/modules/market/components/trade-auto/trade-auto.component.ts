@@ -9,6 +9,7 @@ import {TransactionResp} from '../../../../interfaces/kanban.interface';
 import { price_list, coin_list } from '../../../../config/coins';
 import * as bip39 from 'bip39';
 import * as BIP32 from 'node_modules/bip32';
+import { environment } from '../../../../../environments/environment';
 @Component({
     selector: 'app-trade-auto',
     templateUrl: './trade-auto.component.html',
@@ -18,12 +19,13 @@ import * as BIP32 from 'node_modules/bip32';
 
 export class TradeAutoComponent implements OnInit {
     nonces = [];
+    version: number;
     constructor(private walletServ: WalletService, private web3Serv: Web3Service, private utilService: UtilService,
         private coinService: CoinService, private kanbanService: KanbanService) {
 
     }
     ngOnInit() { 
-
+        this.version = environment.version;
     }
 
     async getNonce(address: string) {
