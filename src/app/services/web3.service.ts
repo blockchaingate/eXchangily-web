@@ -67,7 +67,7 @@ export class Web3Service {
       return await web3.eth.sendSignedTransaction(txhex);
     }
 
-    async signAbiHexWithPrivateKey(abiHex: string, keyPair: any, address: string, nonce: number, includeCoin: boolean, value = 0) {
+    async signAbiHexWithPrivateKey(abiHex: string, keyPair: any, address: string, nonce: number, value = 0) {
       // console.log('abiHex before', abiHex);
       if (abiHex.startsWith('0x')) {
         abiHex = abiHex.slice(2);
@@ -78,36 +78,19 @@ export class Web3Service {
         nonce: nonce,
         data: '0x' + abiHex,
         value: value,
-        gas: 20000000,
+        gas: environment.chains.KANBAN.gasLimit,
         
         // coin: '0x',
-        gasPrice: 5000000000  // in wei
+        gasPrice: environment.chains.KANBAN.gasPrice  // in wei
         // gasPrice: 40  // in wei
       };
-      const txObjectWithoutCoin = {
-        to: address,
-        nonce: nonce,
-        data: '0x' + abiHex,
-        value: value,
-        gas: 2000000,
-        gasPrice: 50
-      };
+
       
       const privKey = Buffer.from(keyPair.privateKeyHex, 'hex');
 
       let txhex = '';
       
-      // console.log('includeCoin=', includeCoin);
-      if (!includeCoin) {
-        const EthereumTx = Eth.Transaction;  
-        //const tx = new EthereumTx(includeCoin ? txObject : txObjectWithoutCoin, { common: customCommon });
-        // console.log('txObjectWithoutCoin=', txObjectWithoutCoin);
-        const tx = new EthereumTx(txObjectWithoutCoin, { chain: environment.chains.ETH.chain, hardfork: environment.chains.ETH.hardfork });
-        // console.log('after that');
-        tx.sign(privKey);
-        const serializedTx = tx.serialize();
-        txhex = '0x' + serializedTx.toString('hex'); 
-      } else {
+
         const customCommon = Common.forCustomChain(
           environment.chains.ETH.chain,
           {
@@ -121,8 +104,7 @@ export class Web3Service {
 
         tx.sign(privKey);
         const serializedTx = tx.serialize();
-        txhex = '0x' + serializedTx.toString('hex');         
-      }
+        txhex = '0x' + serializedTx.toString('hex');
       return txhex;
       
      

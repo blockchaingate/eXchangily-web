@@ -8,25 +8,34 @@ export const environment = {
     version: 0.02,
     chains: {
         BTC: {
-            network: Btc.networks.testnet
+            network: Btc.networks.testnet,
+            satoshisPerBytes: 14,
+            bytesPerInput: 150
         },
         ETH: {
             chain: 'ropsten', 
-            hardfork: 'byzantium'
+            hardfork: 'byzantium',
+            gasPrice: 6000000000,
+            gasLimit: 100000
         },
         FAB: {
             chain: {
                 name: 'test',
                 networkId: 212,
                 chainId: 212                
-            }
+            },
+            satoshisPerBytes: 14,
+            gasPrice: 1000,
+            gasLimit: 8000000            
         },
         KANBAN: {
             chain: {
                 name: 'test',
                 networkId: 212,
                 chainId: 212                
-            }
+            },
+            gasPrice: 8000000000,
+            gasLimit: 20000000               
         }        
     },
     endpoints: {

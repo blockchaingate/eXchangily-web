@@ -172,11 +172,10 @@ export class MyordersComponent implements OnInit, OnDestroy {
         }
         const abiHex = this.web3Serv.getWithdrawFuncABI(this.coinType, amountInLink, addressInWallet);  
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
-        const includeCoin = true;
         const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 
        
-        const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
+        const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce); 
 
         this.kanbanServ.sendRawSignedTransaction(txKanbanHex).subscribe((resp: any) => { 
             // console.log('resp=', resp);
@@ -283,9 +282,8 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
         const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 
-        const includeCoin = true;
         const address = await this.kanbanServ.getExchangeAddress();
-        const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce, includeCoin); 
+        const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce); 
           console.log('txhex=', txhex);
         this.kanbanServ.sendRawSignedTransaction(txhex).subscribe((resp: any) => {
             console.log('resp=', resp);

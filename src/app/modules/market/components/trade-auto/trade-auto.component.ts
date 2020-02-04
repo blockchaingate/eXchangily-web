@@ -66,7 +66,7 @@ export class TradeAutoComponent implements OnInit {
 
       const address = await this.kanbanService.getExchangeAddress();
 
-      let nonce = await this.getNonce(keyPairsKanban.address);
+      const nonce = await this.getNonce(keyPairsKanban.address);
       console.log('keyPairsKanban.address=' + keyPairsKanban.address + ',nonce=' + nonce);
       // nonce = 84;     
       const orderHash = this.generateOrderHash(bidOrAsk, orderType, baseCoin
@@ -82,8 +82,7 @@ export class TradeAutoComponent implements OnInit {
           return;
       }
       */
-      const includeCoin = true;
-      const txHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce, includeCoin); 
+      const txHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce); 
       return {
         txHex: txHex,
         orderHash: orderHash

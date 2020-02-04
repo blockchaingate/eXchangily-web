@@ -691,7 +691,6 @@ export class WalletDashboardComponent {
             this.alertServ.openSnackBar('Your password is invalid.', 'Ok');        
             return;   
         }           
-        const includeCoin = true;
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
         const signedMessage: Signature = {
@@ -702,7 +701,7 @@ export class WalletDashboardComponent {
         const abiHex = this.web3Serv.getDepositFuncABI(coinType, transactionID, amount, addressInKanban, signedMessage);
         console.log('abiHex for redeposit===');
         console.log(abiHex);
-        const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
+        const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce); 
         this.kanbanServ.submitReDeposit(txKanbanHex).subscribe((resp: any) => { 
             console.log('resp for submitrediposit=', resp);
         },
@@ -739,7 +738,7 @@ export class WalletDashboardComponent {
 
         const doSubmit = false;
         const options = {};
-        let {txHex, txHash, errMsg} = await this.coinServ.sendTransaction(
+        const {txHex, txHash, errMsg} = await this.coinServ.sendTransaction(
             currentCoin, seed, officalAddress, amount, options, doSubmit
         );   
 
@@ -752,8 +751,6 @@ export class WalletDashboardComponent {
             this.alertServ.openSnackBar('Internal error for txHex or txHash', 'Ok');
             return;
         }
-        // txHex = '0xf86a588502540be4008252089402c55515e62a0b25d2447c6d70369186b8f10359865af3107a40008029a0840d5618e4b7b42552ccc59cdea80ed81e2b652ca08589327b9b244e230511d8a01ca696783c779e4727607ca96b80c4fca654d639dca8079c557817e7b9582c7b';
-        // txHash = '0x8b9cc0f8dbd9cde140ccdf8be4591602b34ae8a9bfa69b4c3e65c44373168c7f';
         const amountInLink = new BigNumber(amount).multipliedBy(new BigNumber(1e18)); // it's for all coins.
         const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(txHash)
         , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
@@ -770,9 +767,8 @@ export class WalletDashboardComponent {
 
         console.log('abiHex=', abiHex);
         const nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
-        const includeCoin = true;
 
-        const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, includeCoin); 
+        const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce); 
 
         console.log('txKanbanHex=', txKanbanHex);
        // return 0;

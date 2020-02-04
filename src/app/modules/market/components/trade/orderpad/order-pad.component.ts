@@ -584,6 +584,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
     async txHexforPlaceOrder
     (pin: string, wallet: any, bidOrAsk: boolean, baseCoin: number, targetCoin: number, price: number, qty: number) {
+      console.log('baseCoin=', baseCoin);
+      console.log('targetCoin=', targetCoin);
       const seed = this.utilService.aesDecryptSeed(wallet.encryptedSeed, pin);
       const keyPairsKanban = this.coinService.getKeyPairs(wallet.excoin, seed, 0, 0);
       const orderType = 1;
@@ -602,8 +604,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       const orderHash = this.generateOrderHash(bidOrAsk, orderType, baseCoin
           , targetCoin, qty, price, timeBeforeExpiration);
       
-      const qtyString = new BigNumber(qty).times(1e18).toString();
-      const priceString = new BigNumber(price).times(1e18).toString();
+      const qtyString = new BigNumber(qty).multipliedBy(new BigNumber(1e18)).toString();
+      const priceString = new BigNumber(price).multipliedBy(new BigNumber(1e18)).toString();
       console.log('qtyString=', qtyString);
       console.log('priceString=', priceString);
       const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk,  
@@ -617,8 +619,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           return;
       }
       */
-      const includeCoin = true;
-      const txHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce, includeCoin); 
+      const txHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce); 
       return {
         txHex: txHex,
         orderHash: orderHash
