@@ -21,8 +21,9 @@ export const environment = {
                 chainId: 0
             },
             satoshisPerBytes: 14,
-            gasPrice: 1000,
-            gasLimit: 8000000  
+            bytesPerInput: 150,
+            gasPrice: 50,
+            gasLimit: 800000
         },
         KANBAN: {
             chain: {

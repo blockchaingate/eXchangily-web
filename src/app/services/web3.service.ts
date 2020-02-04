@@ -67,10 +67,22 @@ export class Web3Service {
       return await web3.eth.sendSignedTransaction(txhex);
     }
 
-    async signAbiHexWithPrivateKey(abiHex: string, keyPair: any, address: string, nonce: number, value = 0) {
+    async signAbiHexWithPrivateKey(abiHex: string, keyPair: any, address: string, nonce: number, 
+      value = 0, options = {gasPrice: 0, gasLimit: 0}) {
       // console.log('abiHex before', abiHex);
       if (abiHex.startsWith('0x')) {
         abiHex = abiHex.slice(2);
+      }
+
+      let gasPrice = environment.chains.KANBAN.gasLimit;
+      let gasLimit = environment.chains.KANBAN.gasLimit;
+      if (options) {
+        if (options.gasPrice) {
+          gasPrice = options.gasPrice;
+        }
+        if (options.gasLimit) {
+          gasLimit = options.gasLimit;
+        }        
       }
       // console.log('abiHex after', abiHex);
       const txObject = {
@@ -78,10 +90,10 @@ export class Web3Service {
         nonce: nonce,
         data: '0x' + abiHex,
         value: value,
-        gas: environment.chains.KANBAN.gasLimit,
+        gas: gasLimit,
         
         // coin: '0x',
-        gasPrice: environment.chains.KANBAN.gasPrice  // in wei
+        gasPrice: gasPrice  // in wei
         // gasPrice: 40  // in wei
       };
 

@@ -229,5 +229,5 @@ export interface SendCoinForm {
     comment: string;
     gasPrice: number;
     gasLimit: number;
-    satoshisPerByte: number;
+    satoshisPerBytes: number;
 }

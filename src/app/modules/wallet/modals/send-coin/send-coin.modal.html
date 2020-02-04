@@ -31,7 +31,7 @@
                     </div>
                     <div class="form-group">
                         <label for="inputSendTo" class="text-dark">Send amount</label>
-                        <input type="text" class="form-control" id="inputSendAmount" formControlName="sendAmount" aria-describedby="emailHelp" placeholder="0.0000">
+                        <input type="text" class="form-control" (input)="onTextChange($event.target.value)" id="inputSendAmount" formControlName="sendAmount" aria-describedby="emailHelp" placeholder="0.0000">
                     </div>
 
                     <div class="form-group">
@@ -42,10 +42,10 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col text-dark">
-                                Gas fee </div>
+                                Transaction fee </div>
                             <div class="col text-muted">
                                 <div class="pull-right">
-                                    0.000033
+                                    {{transFee}}
                                 </div>
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col text-dark">
-                                Gas fee advanced
+                                Transaction fee advanced
                             </div>
                             <div class="col text-muted">
                                 <div class="pull-right">
@@ -63,22 +63,25 @@
                         </div>
                     </div>
                     <div *ngIf="sendCoinForm.get('gasFeeCustomChecked').value">
-                        <div *ngIf="wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'ETH' || wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].tokenType === 'ETH'">
+                        <div *ngIf="wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'ETH' || 
+                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].tokenType === 'ETH' ||
+                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].tokenType === 'FAB'">
                             <div class="form-group">
                                 <label for="gasPrice" class="text-dark">Gas Price(Gwei)</label>
-                                <input type="text" class="form-control" id="inputGasPrice" formControlName="gasPrice" placeholder="0">
+                                <input type="text" class="form-control" id="inputGasPrice" (input)="onTextChange($event.target.value)" formControlName="gasPrice" placeholder="0">
                             </div>
                             <div class="form-group">
                                 <label for="gasPrice" class="text-dark">Gas Limit</label>
-                                <input type="text" class="form-control" id="inputGasLimit" formControlName="gasLimit" placeholder="0">
+                                <input type="text" class="form-control" id="inputGasLimit" (input)="onTextChange($event.target.value)" formControlName="gasLimit" placeholder="0">
                             </div>
                         </div>
                         <div *ngIf="wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'BTC' || wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'FAB' || wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].tokenType === 'FAB'">
                             <div class="form-group">
                                 <label for="gasPrice" class="text-dark">Satoshis/byte</label>
-                                <input type="text" class="form-control" id="inputSatoshisPerByte" formControlName="satoshisPerByte" placeholder="0">
+                                <input type="text" class="form-control" id="inputSatoshisPerByte" (input)="onTextChange($event.target.value)" formControlName="satoshisPerBytes" placeholder="0">
                             </div>
                         </div>
+
                     </div>
                 </div>
 

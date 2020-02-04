@@ -63,6 +63,7 @@ export class WalletDashboardComponent {
     currentWalletIndex: number;
     currentCoin: MyCoin;
     amount: number;
+    amountForm: any;
     coinsPrice: CoinsPrice;
     pin: string;
     seed: Buffer;
@@ -435,11 +436,12 @@ export class WalletDashboardComponent {
         this.pinModal.show();
     }
 
-    onConfirmedDepositAmount(amount: number) {
-        this.amount = amount;
+    onConfirmedDepositAmount(amountForm: any) {
+        this.amountForm = amountForm;
         this.opType = 'deposit';
         this.pinModal.show();
     }
+
 
     onConfirmedWithdrawAmount(amount: number) {
         this.amount = amount;
@@ -572,6 +574,7 @@ export class WalletDashboardComponent {
         this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
     }
 
+
     async depositFab(currentCoin) {
         const amount = this.amount;
         const pin = this.pin;     
@@ -628,7 +631,7 @@ export class WalletDashboardComponent {
         const options = {
             gasPrice: this.sendCoinForm.gasPrice,
             gasLimit: this.sendCoinForm.gasLimit,
-            satoshisPerByte: this.sendCoinForm.satoshisPerByte
+            satoshisPerBytes: this.sendCoinForm.satoshisPerBytes
         };
         const {txHex, txHash, errMsg} = await this.coinService.sendTransaction(currentCoin, seed, 
             this.sendCoinForm.to.trim(), amount, options, doSubmit
@@ -710,11 +713,20 @@ export class WalletDashboardComponent {
         });        
     }
 
+/*
+            amount: amount,
+            gasPrice: gasPrice,
+            gasLimit: gasLimit,
+            satoshisPerBytes: satoshisPerBytes,
+            kanbanGasPrice: kanbanGasPrice,
+            kanbanGasLimit: kanbanGasLimit
+*/
+
     async depositdo() {
 
         const currentCoin = this.currentCoin;
 
-        const amount = this.amount;
+        const amount = this.amountForm.amount;
         const pin = this.pin;
 
         const coinType = this.coinServ.getCoinTypeIdByName(currentCoin.name);
@@ -737,7 +749,11 @@ export class WalletDashboardComponent {
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
 
         const doSubmit = false;
-        const options = {};
+        const options = {
+            gasPrice: this.amountForm.gasPrice,
+            gasLimit: this.amountForm.gasLimit,
+            satoshisPerBytes: this.amountForm.satoshisPerBytes
+        };
         const {txHex, txHash, errMsg} = await this.coinServ.sendTransaction(
             currentCoin, seed, officalAddress, amount, options, doSubmit
         );   
@@ -768,7 +784,11 @@ export class WalletDashboardComponent {
         console.log('abiHex=', abiHex);
         const nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
 
-        const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce); 
+        const optionsKanban = {
+            gasPrice: this.amountForm.kanbanGasPrice,
+            gasLimit: this.amountForm.kanbanGasLimit,
+        };
+        const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, 0, optionsKanban); 
 
         console.log('txKanbanHex=', txKanbanHex);
        // return 0;

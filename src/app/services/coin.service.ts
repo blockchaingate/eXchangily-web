@@ -142,7 +142,8 @@ export class CoinService {
         totalFee += this.utilServ.convertLiuToFabcoin(contractSize * 10);
         
         // console.log('totalFee=' + totalFee);
-        const res = await this.getFabTransactionHex(seed, mycoin, contract, amount, totalFee, 14);
+        const res = await this.getFabTransactionHex(seed, mycoin, contract, amount, totalFee, 
+            environment.chains.FAB.satoshisPerBytes, environment.chains.FAB.bytesPerInput, false);
         
         const txHex = res.txHex;
         let errMsg = res.errMsg;
@@ -371,15 +372,18 @@ export class CoinService {
         return retString;
     }
 
-    async getFabTransactionHex(seed: any, mycoin: MyCoin, to: any, amount: number, extraTransactionFee: number, satoshisPerBytes: number) {
+    async getFabTransactionHex(seed: any, mycoin: MyCoin, to: any, amount: number, extraTransactionFee: number, 
+        satoshisPerBytes: number, bytesPerInput: number, getTransFeeOnly: boolean) {
         let index = 0;
         let balance = 0;
         let finished = false;
         let address = '';
         let totalInput = 0;
-        
-        const bytesPerInput = 148;
+        let transFee = 0;
         const feePerInput = bytesPerInput * satoshisPerBytes;
+        console.log('bytesPerInput==', bytesPerInput);
+        console.log('satoshisPerBytes==', satoshisPerBytes);
+        console.log('feePerInput==', feePerInput);
         const receiveAddsIndexArr = [];
         const changeAddsIndexArr = [];
         // console.log('amount111111111111=', amount);
@@ -474,14 +478,17 @@ export class CoinService {
         // console.log('totalInput here 2=', totalInput);
         if (!finished) {
             // console.log('not enough fab coin to make the transaction.');
-            return {txHex: '', errMsg: 'not enough fab coin to make the transaction.'};
+            return {txHex: '', errMsg: 'not enough fab coin to make the transaction.', transFee: 0};
         }
 
 
         const changeAddress = mycoin.receiveAdds[0];
 
-        const transFee = (receiveAddsIndexArr.length + changeAddsIndexArr.length) * feePerInput + 2 * 34 + 10;
+        transFee = (receiveAddsIndexArr.length + changeAddsIndexArr.length) * feePerInput + 2 * 34 + 10;
 
+        if (getTransFeeOnly) {
+            return {txHex: '', errMsg: '', transFee: transFee + extraTransactionFee * Math.pow(10, this.utilServ.getDecimal(mycoin))};
+        }
         const output1 = Math.round(totalInput
         - amount * Math.pow(10, this.utilServ.getDecimal(mycoin)) - extraTransactionFee * Math.pow(10, this.utilServ.getDecimal(mycoin))
         - transFee);
@@ -489,7 +496,7 @@ export class CoinService {
         
         if (output1 < 0 || output2 < 0) {
             // console.log('output1 or output2 should be greater than 0.');
-            return {txHex: '', errMsg: 'output1 or output2 should be greater than 0.'};
+            return {txHex: '', errMsg: 'output1 or output2 should be greater than 0.', transFee: 0};
         }
         // console.log('amount=' + amount + ',totalInput=' + totalInput);
         // console.log('defaultTransactionFee=' + extraTransactionFee);
@@ -515,7 +522,7 @@ export class CoinService {
         }            
 
         txHex = txb.build().toHex();
-        return {txHex: txHex, errMsg: ''};
+        return {txHex: txHex, errMsg: '', transFee: transFee};
     }
 
     getOriginalMessage(coinType: number, txHash: string, amount: BigNumber, address: string) {
@@ -530,7 +537,8 @@ export class CoinService {
         return buf;
     }
 
-    async sendTransaction(mycoin: MyCoin, seed: Buffer, toAddress: string, amount: number, options: any, doSubmit: boolean) {
+    async sendTransaction(mycoin: MyCoin, seed: Buffer, toAddress: string, amount: number, 
+        options: any, doSubmit: boolean) {
         // console.log('doSubmit in sendTransaction=', doSubmit);
         let index = 0;
         let balance = 0;
@@ -541,12 +549,15 @@ export class CoinService {
         let gasPrice = 0;
         let gasLimit = 0;
         let satoshisPerBytes = 0;
+        let bytesPerInput = 0;
         let txHex = '';
         let txHash = '';
         let errMsg = '';
+        let transFee = 0;
         // console.log('options=', options);
+        let getTransFeeOnly = false;
         if (options) {
-            
+            console.log('optionsoptionsoptions=', options);
             if (options.gasPrice) {
                 gasPrice = options.gasPrice;
             }
@@ -555,15 +566,21 @@ export class CoinService {
             }   
             if (options.satoshisPerBytes) {
                 satoshisPerBytes = options.satoshisPerBytes;
-            }                      
+            } 
+            if (options.bytesPerInput) {
+                bytesPerInput = options.bytesPerInput;
+            }  
+            if (options.getTransFeeOnly) {
+                getTransFeeOnly = options.getTransFeeOnly;
+            }                                               
         }
-
+        console.log('satoshisPerBytes=', satoshisPerBytes);
         const receiveAddsIndexArr = [];
         const changeAddsIndexArr = [];
 
         // console.log('mycoin=');
         // console.log(mycoin);
-        let bytesPerInput = 0;
+        
         // let amountNum = amount * Math.pow(10, this.utilServ.getDecimal(mycoin));
         let amountNum = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, this.utilServ.getDecimal(mycoin)))); 
         // it's for all coins.
@@ -649,14 +666,19 @@ export class CoinService {
                 return {txHex: txHex, txHash: txHash, errMsg: errMsg};
             }
 
-            const transFee = (receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput * satoshisPerBytes + 2 * 34 + 10;
+            transFee = (receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput * satoshisPerBytes + 2 * 34 + 10;
             const changeAddress = mycoin.receiveAdds[0];
             // console.log('totalInput=' + totalInput);
             // console.log('amount=' + amount);
             // console.log('transFee=' + transFee);
-            const output1 = Math.round(totalInput - amount * 1e8 - transFee);
+            const output1 = Math.round(new BigNumber(totalInput - amount * 1e8 - transFee).toNumber());
             
-            const output2 = Math.round(amount * 1e8);         
+            transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
+
+            if (getTransFeeOnly) {
+                return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
+            }
+            const output2 = Math.round(new BigNumber(amount * 1e8).toNumber());         
             txb.addOutput(changeAddress.address, output1);
             txb.addOutput(toAddress, output2);
 
@@ -692,9 +714,20 @@ export class CoinService {
             if (!satoshisPerBytes) {
                 satoshisPerBytes = environment.chains.FAB.satoshisPerBytes;
             }
-            const res1 = await this.getFabTransactionHex(seed, mycoin, toAddress, amount, 0, satoshisPerBytes);
+            if (!bytesPerInput) {
+                bytesPerInput = environment.chains.BTC.bytesPerInput;
+            }               
+            const res1 = await this.getFabTransactionHex(seed, mycoin, toAddress, amount, 0, 
+                satoshisPerBytes, bytesPerInput, getTransFeeOnly);
             txHex = res1.txHex;
             errMsg = res1.errMsg;
+            transFee = res1.transFee;
+            transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
+
+            if (getTransFeeOnly) {
+                return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
+            }            
+            
             if (!errMsg && txHex) {
                 if (doSubmit) {
                     const res = await this.apiService.postFabTx(txHex);
@@ -713,7 +746,11 @@ export class CoinService {
             }
             if (!gasLimit) {
                 gasLimit = environment.chains.ETH.gasLimit;
-            }            
+            }     
+            transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e18)).toNumber();
+            if (getTransFeeOnly) {
+                return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
+            }                     
             // amountNum = amount * 1e18;
             amountNum = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, 18)));
             const address1 = mycoin.receiveAdds[0];
@@ -750,7 +787,11 @@ export class CoinService {
             }
             if (!gasLimit) {
                 gasLimit = environment.chains.ETH.gasLimit;
-            }              
+            }      
+            transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e18)).toNumber();
+            if (getTransFeeOnly) {
+                return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
+            }        
             const currentIndex = address1.index;    
             // console.log('currentIndex=' + currentIndex);
             const keyPair = this.getKeyPairs(mycoin, seed, 0, currentIndex);
@@ -807,7 +848,7 @@ export class CoinService {
                 data: '0x' + abiHex + this.utilServ.fixedLengh(toAccount.slice(2), 64) + 
                 this.utilServ.fixedLengh(amountSent.integerValue().toString(16), 64)
             };
-
+            
             txHex = await this.web3Serv.signTxWithPrivateKey(txData, keyPair);
             // console.log('after sign');
             if (doSubmit) {
@@ -825,7 +866,7 @@ export class CoinService {
             }
         } else
         if (mycoin.tokenType === 'FAB') { // fab tokens
-
+            console.log('satoshisPerBytesgggg=', satoshisPerBytes);
             if (!gasPrice) {
                 gasPrice = environment.chains.FAB.gasPrice;
             }
@@ -835,10 +876,10 @@ export class CoinService {
             if (!satoshisPerBytes) {
                 satoshisPerBytes = environment.chains.FAB.satoshisPerBytes;
             }              
-            
-            console.log('gasPrice=', gasPrice);
-            console.log('gasLimit=', gasLimit);
-            console.log('satoshisPerBytes=', satoshisPerBytes);
+            if (!bytesPerInput) {
+                bytesPerInput = environment.chains.FAB.bytesPerInput;
+            }
+            console.log('gasPrice final=', gasPrice);
             let decimals = mycoin.decimals;
             if (!decimals) {
                 decimals = 18;
@@ -887,6 +928,7 @@ export class CoinService {
             // console.log('contractAddress=' + contractAddress);
 
             const totalAmount = gasLimit * gasPrice / 1e8;
+            console.log('totalAmount==', totalAmount);
             // let cFee = 3000 / 1e8 // fee for the transaction
               
             // console.log('fxnCallHex=' + fxnCallHex);
@@ -907,11 +949,21 @@ export class CoinService {
             totalFee += this.utilServ.convertLiuToFabcoin(contractSize * 10);
             
             // console.log('totalFee=' + totalFee);
-            
-            const res1 = await this.getFabTransactionHex(seed, mycoin.baseCoin, contract, 0, totalFee, satoshisPerBytes);
+            console.log('satoshisPerBytessatoshisPerBytessatoshisPerBytes=', satoshisPerBytes);
+            const res1 = await this.getFabTransactionHex(seed, mycoin.baseCoin, contract, 0, totalFee, 
+                satoshisPerBytes, bytesPerInput, getTransFeeOnly);
+
+
             // console.log('res1=', res1);
             txHex = res1.txHex;
             errMsg = res1.errMsg;
+            transFee = res1.transFee;
+            transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
+
+            if (getTransFeeOnly) {
+                return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
+            }  
+
             if (txHex) {
                 if (doSubmit) {
                     const res = await this.apiService.postFabTx(txHex);
@@ -923,7 +975,7 @@ export class CoinService {
                 }
             }
         }
-        return {txHex: txHex, txHash: txHash, errMsg: errMsg};
+        return {txHex: txHex, txHash: txHash, errMsg: errMsg, transFee: transFee};
     }
 
     fillUpAddress(mycoin: MyCoin, seed: Buffer, numReceiveAdds: number, numberChangeAdds: number) {
