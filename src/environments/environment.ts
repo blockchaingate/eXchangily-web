@@ -9,7 +9,7 @@ export const environment = {
     chains: {
         BTC: {
             network: Btc.networks.testnet,
-            satoshisPerBytes: 50,
+            satoshisPerBytes: 300,
             bytesPerInput: 150
         },
         ETH: {
@@ -24,7 +24,7 @@ export const environment = {
                 networkId: 212,
                 chainId: 212                
             },
-            satoshisPerBytes: 50,
+            satoshisPerBytes: 300,
             bytesPerInput: 150,
             gasPrice: 50,
             gasLimit: 800000            
