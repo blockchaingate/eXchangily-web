@@ -70,6 +70,12 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     sub: any;
     baseCoin: number;
     targetCoin: number;
+    buyGasPrice: number;
+    buyGasLimit: number;
+    sellGasPrice: number;
+    sellGasLimit: number;
+    gasPrice: number;
+    gasLimit: number;
     // interval;
 
     constructor(private storageServ: StorageService, private web3Serv: Web3Service, private coinService: CoinService,
@@ -479,6 +485,10 @@ export class OrderPadComponent implements OnInit, OnDestroy {
    async ngOnInit() {
      // console.log('ngOnInit for order Pad');
       this.oldNonce = -1;
+      this.buyGasLimit = environment.chains.KANBAN.gasLimit;
+      this.buyGasPrice = environment.chains.KANBAN.gasPrice;
+      this.sellGasLimit = environment.chains.KANBAN.gasLimit;
+      this.sellGasPrice = environment.chains.KANBAN.gasPrice;
       this.wallet = await this.walletService.getCurrentWallet();
 
       if (this.wallet) {
@@ -549,6 +559,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       }
       this.price = this.buyPrice;
       this.qty = this.buyQty;      
+      this.gasLimit = Number(this.buyGasLimit);
+      this.gasPrice = Number(this.buyGasPrice);
       if (this.pin && !pin_expired) {
         this.buyOrSell();
       } else {
@@ -569,7 +581,9 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       this.bidOrAsk = false;
       this.pin = sessionStorage.getItem('pin');
       this.price = this.sellPrice;
-      this.qty = this.sellQty;          
+      this.qty = this.sellQty;
+      this.gasLimit = Number(this.sellGasLimit);
+      this.gasPrice = Number(this.sellGasPrice);            
       if (this.pin) {    
         this.buyOrSell();
       } else {
@@ -595,9 +609,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         targetCoin = tmp;
       }
 
-      // console.log('baseCoin=' + baseCoin);
-      // console.log('targetCoin=' + targetCoin);
-      // console.log('bidOrAsk=' + bidOrAsk);
       const timeBeforeExpiration = 423434342432;
 
       const address = await this.kanbanService.getExchangeAddress();
@@ -613,13 +624,15 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           timeBeforeExpiration, false,  orderHash]);
       const nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
 
-      /*
-      if (this.oldNonce === nonce) {
-          this.alertServ.openSnackBar('Please wait a sec, no rush.', 'ok');
-          return;
-      }
-      */
-      const txHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce); 
+     if ((this.gasPrice <= 0) || (this.gasLimit <= 0)) {
+       return;
+     }
+     const options = {
+      gasPrice: this.gasPrice,
+      gasLimit: this.gasLimit
+     };
+
+      const txHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce, 0, options); 
       return {
         txHex: txHex,
         orderHash: orderHash
@@ -637,22 +650,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           console.log('resp in here', resp);
         if (resp && resp.transactionHash) {
                 this.alertServ.openSnackBar('Your order was placed successfully.', 'Ok');
-                // this.oldNonce = nonce;
-
-                /*
-                const transaction = {
-                  orderHash: orderHash,
-                  txid: resp.transactionHash,
-                  baseCoin: this.baseCoin,
-                  targetCoin: this.targetCoin,
-                  bidOrAsk: this.bidOrAsk,
-                  qty: this.qty,
-                  status: '',
-                  created_at: new Date(Date.now()),
-                  price: this.price
-                };
-                this.storageServ.addTradeTransaction(transaction);
-                */
 
                const address = this.wallet.excoin.receiveAdds[0].address;
                this.timerServ.checkOrderStatus(address, 30);
@@ -665,16 +662,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
                   this.sellPrice = 0;
                   this.sellQty = 0;                  
                 }
-                
-                /*
-                this.timer = setInterval(() => {
-                  this.refreshToken.emit();
-                  console.log('this.refreshTokenDone=', this.refreshTokenDone);
-                  if (this.refreshTokenDone) {
-                    clearInterval(this.timer);
-                  }
-                }, 1000);     
-                */          
+       
                 
               } else {
                 this.alertServ.openSnackBar('Something wrong while placing your order.', 'Ok');

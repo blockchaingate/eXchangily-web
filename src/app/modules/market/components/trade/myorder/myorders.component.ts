@@ -39,6 +39,8 @@ export class MyordersComponent implements OnInit, OnDestroy {
     token: any;
     coinType: number;
     coinName: string;
+    gasPrice: number;
+    gasLimit: number;
     withdrawAmount: number;
     withdrawModal: TemplateRef<any>;
     interval;
@@ -59,19 +61,8 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this.timerServ.unCheckAllOrderStatus();
     }
     async ngOnInit() {
-        /*
-        this.interval = setInterval(() => {
-            if (this._wallet) {
-                this.kanbanService.getOrdersByAddress(this._wallet.excoin.receiveAdds[0].address)
-                .subscribe(
-                    (orders: any) => { 
-                        console.log('orders=', orders);
-                        this.myorders = orders;
-                    }
-                );
-              }
-          }, 1000);   
-           */   
+        this.gasPrice = environment.chains.KANBAN.gasPrice;
+        this.gasLimit = environment.chains.KANBAN.gasLimit;
         this.orderStatus = 'open';
         this.wallet = await this.walletServ.getCurrentWallet();
         if (this.wallet) {
@@ -90,31 +81,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 this.mytokens = tokens;
             }            
         );        
-        /*
-        // console.log('mytokens in myorders=', this.mytokens);
-        this.tradeService.getTransactions().subscribe((transactions: Transaction[]) => {
-            // console.log('transactions=');
-            // console.log(transactions);
-            if (!transactions) {
-                transactions = [];
-            }
-            this.myorders = transactions;
-            for (let i = 0; i < this.myorders.length; i++) {
-                const tx = this.myorders[i];
 
-                this.kanbanService.get('kanban/getTransactionReceipt/' + tx.txid).subscribe((resp: TransactionReceiptResp) => {
-                    // console.log('resp===');
-                    // console.log(resp);
-
-                    if (resp && resp.transactionReceipt) {
-                        tx.status = resp.transactionReceipt.status;
-                        // console.log('tx.status=' + tx.status);
-                    }
-
-                });
-            }
-        }); 
-        */
 
 
     }
@@ -174,8 +141,18 @@ export class MyordersComponent implements OnInit, OnDestroy {
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
         const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 
-       
-        const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce); 
+        this.gasPrice = Number(this.gasPrice);
+        this.gasLimit = Number(this.gasLimit);
+        if (this.gasPrice <= 0 || this.gasLimit <= 0) {
+            this.alertServ.openSnackBar('Invalid gas price or gas limit.', 'Ok');
+            return;
+        }
+        const options = {
+            gasPrice: this.gasPrice,
+            gasLimit: this.gasLimit
+        };
+
+        const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, 0, options); 
 
         this.kanbanServ.sendRawSignedTransaction(txKanbanHex).subscribe((resp: any) => { 
             // console.log('resp=', resp);

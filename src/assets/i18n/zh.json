@@ -829,5 +829,8 @@
     "Filled%": "交易比例",
     "Action": "操作",
     "Your balance": "可用数量",
-    "Withdraw amount": "待转数量"
+    "Withdraw amount": "待转数量",
+    "Transaction fee": "交易费用",
+    "Gas price": "燃料价格",
+    "Gas limit": "燃料限额"
 }

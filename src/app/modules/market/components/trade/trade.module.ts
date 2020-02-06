@@ -27,6 +27,8 @@ import {MatListModule} from '@angular/material/list';
 import { MockService} from '../../../../services/mock.service';
 import { CallbackPipe } from '../../../shared/pipes/callback.pipe';
 import { OrderFilterPipe } from './pipes/order-filter.pipe';
+
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 @NgModule({
     imports: [
         CommonModule,
@@ -42,6 +44,7 @@ import { OrderFilterPipe } from './pipes/order-filter.pipe';
         MatButtonModule,
         TradeRoutingModule,
         TranslateModule,
+        MatSlideToggleModule,
         ModalModule
     ],
     providers: [

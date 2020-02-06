@@ -74,7 +74,7 @@ export class Web3Service {
         abiHex = abiHex.slice(2);
       }
 
-      let gasPrice = environment.chains.KANBAN.gasLimit;
+      let gasPrice = environment.chains.KANBAN.gasPrice;
       let gasLimit = environment.chains.KANBAN.gasLimit;
       if (options) {
         if (options.gasPrice) {
@@ -85,6 +85,9 @@ export class Web3Service {
         }        
       }
       // console.log('abiHex after', abiHex);
+
+      console.log('gasPrice=', gasPrice);
+      console.log('gasLimit=', gasLimit);
       const txObject = {
         to: address,
         nonce: nonce,
