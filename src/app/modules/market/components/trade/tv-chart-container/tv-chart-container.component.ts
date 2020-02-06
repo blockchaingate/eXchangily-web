@@ -33,7 +33,7 @@ interface BarData {
 export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
     private currentGranularity: any;
     private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'BTC/USDT';
-    private _interval: ChartingLibraryWidgetOptions['interval'] = '1';
+    private _interval: ChartingLibraryWidgetOptions['interval'] = '30';
     // BEWARE: no trailing slash is expected in feed URL
     private _datafeedUrl = 'https://demo_feed.tradingview.com';
     private _libraryPath: ChartingLibraryWidgetOptions['library_path'] = '/assets/charting_library/';
