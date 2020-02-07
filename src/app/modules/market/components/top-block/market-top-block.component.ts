@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { UtilService } from '../../../../services/util.service';
 
 @Component({
   selector: 'app-market-top-block',
@@ -12,7 +13,7 @@ export class MarketTopBlockComponent implements OnInit {
   changePercent: number;
   baseCoinName: string;
   
-  constructor() { }
+  constructor(private utilServ: UtilService) { }
 
   ngOnInit() {
     this.price = 0;
@@ -23,10 +24,10 @@ export class MarketTopBlockComponent implements OnInit {
   }
 
   updateTicker (ticker) {
-    const price = ticker.price / 1e18;
-    const volume = ticker['24h_volume'] / 1e18;
-    const open = ticker['24h_open'] / 1e18;
-    const close = ticker['24h_close'] / 1e18;
+    const price = this.utilServ.showAmount(ticker.price);
+    const volume = this.utilServ.showAmount(ticker['24h_volume']);
+    const open = this.utilServ.showAmount(ticker['24h_open']);
+    const close = this.utilServ.showAmount(ticker['24h_close']);
     this.price = price;
     this.volume = volume;
     this.changePercent = 0;

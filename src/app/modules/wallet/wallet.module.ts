@@ -1,12 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-
-
-
 import { WalletRoutingModule } from './wallet-routing.module';
-
 import { WalletComponent } from './wallet.component';
 import { WalletDashboardComponent } from './components/dashboard/dashboard.component';
 import { NoWalletComponent } from './components/create/no-wallet.component';
@@ -36,7 +31,7 @@ import { AddAssetsModal } from './modals/add-assets/add-assets.modal';
 import { SendCoinModal } from './modals/send-coin/send-coin.modal';
 import { ReceiveCoinModal } from './modals/receive-coin/receive-coin.modal';
 import { DepositAmountModal } from './modals/deposit-amount/deposit-amount.modal';
-import { WithdrawAmountModal } from './modals/withdraw-amount/withdraw-amount.modal';
+import { RedepositAmountModal } from './modals/redeposit-amount/redeposit-amount.modal';
 import { AddGasModal } from './modals/add-gas/add-gas.modal';
 
 import { ShowSeedPhraseModal } from './modals/show-seed-phrase/show-seed-phrase.modal';
@@ -57,7 +52,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatPaginatorModule} from '@angular/material/paginator';
-
+import {MatRadioModule} from '@angular/material/radio';
 import { SharedModule } from '../shared/shared.module';
 import { TransactionTypePipe } from './pipes/transaction-type.pipe';
 
@@ -82,7 +77,7 @@ import { TransactionTypePipe } from './pipes/transaction-type.pipe';
         SendCoinModal,
         ReceiveCoinModal,
         DepositAmountModal,
-        WithdrawAmountModal,
+        RedepositAmountModal,
         ShowSeedPhraseModal,
         VerifySeedPhraseModal,
         AddGasModal,
@@ -105,6 +100,7 @@ import { TransactionTypePipe } from './pipes/transaction-type.pipe';
         MatTooltipModule,
         MatSlideToggleModule,
         MatMenuModule,
+        MatRadioModule,
         MatExpansionModule,
         MatGridListModule,
         MatPaginatorModule,

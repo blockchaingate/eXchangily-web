@@ -11,7 +11,7 @@ import {KanbanService} from '../../../../services/kanban.service';
 import {Web3Service} from '../../../../services/web3.service';
 import {Signature, Token} from '../../../../interfaces/kanban.interface';
 import { DepositAmountModal } from '../../modals/deposit-amount/deposit-amount.modal';
-import { WithdrawAmountModal } from '../../modals/withdraw-amount/withdraw-amount.modal';
+import { RedepositAmountModal } from '../../modals/redeposit-amount/redeposit-amount.modal';
 import { AddAssetsModal } from '../../modals/add-assets/add-assets.modal';
 import { PinNumberModal } from '../../../shared/modals/pin-number/pin-number.modal';
 import { AddGasModal } from '../../modals/add-gas/add-gas.modal';
@@ -43,7 +43,7 @@ import { environment } from '../../../../../environments/environment';
 export class WalletDashboardComponent {
     @ViewChild('pinModal', {static: true}) pinModal: PinNumberModal;
     @ViewChild('depositModal', {static: true}) depositModal: DepositAmountModal;
-    @ViewChild('withdrawModal', {static: true}) withdrawModal: WithdrawAmountModal;
+    @ViewChild('redepositModal', {static: true}) redepositModal: RedepositAmountModal;
     @ViewChild('addGasModal', {static: true}) addGasModal: AddGasModal;
     @ViewChild('addAssetsModal', {static: true}) addAssetsModal: AddAssetsModal;
     @ViewChild('sendCoinModal', {static: true}) sendCoinModal: SendCoinModal;
@@ -419,11 +419,7 @@ export class WalletDashboardComponent {
         // this.currentCoin = this.wallet.mycoins[1];
         this.addGasModal.show();
     }
-    
-    withdraw(currentCoin: MyCoin) {
-        this.currentCoin = currentCoin;
-        this.withdrawModal.show();        
-    }
+
 
     deposit(currentCoin: MyCoin) {
         this.currentCoin = currentCoin;
@@ -432,8 +428,14 @@ export class WalletDashboardComponent {
 
     redeposit(currentCoin: MyCoin) {
         this.currentCoin = currentCoin;
-        this.opType = 'redeposit';
-        this.pinModal.show();
+        console.log('this.currentCoin===', this.currentCoin);
+        // this.opType = 'redeposit';
+        // this.pinModal.show();
+        if (this.currentCoin && this.currentCoin.redeposit && this.currentCoin.redeposit.length > 0) {
+            this.redepositModal.setTransactionID(this.currentCoin.redeposit[0].transactionID);
+        }
+        
+        this.redepositModal.show();
     }
 
     onConfirmedDepositAmount(amountForm: any) {
@@ -442,10 +444,9 @@ export class WalletDashboardComponent {
         this.pinModal.show();
     }
 
-
-    onConfirmedWithdrawAmount(amount: number) {
-        this.amount = amount;
-        this.opType = 'withdraw';
+    onConfirmedRedepositAmount(amountForm: any) {
+        this.amountForm = amountForm;
+        this.opType = 'redeposit';
         this.pinModal.show();
     }
 
@@ -485,6 +486,9 @@ export class WalletDashboardComponent {
         if (this.opType === 'deposit') {
             this.depositdo();
         } else 
+        if (this.opType === 'redeposit') {
+            this.redepositdo();
+        } else         
         if (this.opType === 'redeposit') {
             this.redepositdo();
         } else
@@ -667,6 +671,19 @@ export class WalletDashboardComponent {
     }
 
     async redepositdo() {
+        if (!this.amountForm) {
+            this.alertServ.openSnackBar('no input for redeposit', 'OK');
+            return;
+        }
+        const transactionID = this.amountForm.transactionID;
+        const gasPrice = Number(this.amountForm.gasPrice);
+        const gasLimit = Number(this.amountForm.gasLimit);
+
+        if (!transactionID || !gasPrice || !gasLimit) {
+            this.alertServ.openSnackBar('invalid input for deposit', 'OK');
+            return;
+        }
+
         const redepositArray = this.currentCoin.redeposit;
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
         if (redepositArray && redepositArray.length > 0) {
@@ -678,13 +695,18 @@ export class WalletDashboardComponent {
                 const r = redepositItem.r;
                 const s = redepositItem.s;
                 const v = redepositItem.v;
-                const transactionID = redepositItem.transactionID;
-                this.submitrediposit( nonce ++, coinType, amount, r, s, v, transactionID);
+                const txid = redepositItem.transactionID;
+                if (txid !== transactionID) {
+                    continue;
+                }
+                console.log('transactionID===', transactionID);
+                this.submitrediposit( nonce ++, coinType, amount, r, s, v, transactionID, gasPrice, gasLimit);
             }
         }
     }
 
-    async submitrediposit(nonce: number, coinType: number, amount: BigNumber, r: string, s: string, v: string, transactionID: string) {
+    async submitrediposit(nonce: number, coinType: number, amount: BigNumber, 
+        r: string, s: string, v: string, transactionID: string, gasPrice: number, gasLimit: number) {
 
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
         const pin = this.pin;
@@ -704,22 +726,38 @@ export class WalletDashboardComponent {
         const abiHex = this.web3Serv.getDepositFuncABI(coinType, transactionID, amount, addressInKanban, signedMessage);
         console.log('abiHex for redeposit===');
         console.log(abiHex);
-        const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce); 
+        const options = {
+            gasPrice: gasPrice,
+            gasLimit: gasLimit
+        };
+        const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, 0, options); 
         this.kanbanServ.submitReDeposit(txKanbanHex).subscribe((resp: any) => { 
             console.log('resp for submitrediposit=', resp);
+            if (resp.success) {
+                const txid = resp.data.transactionID;
+                this.alertServ.openSnackBar('Redeposit was submitted successfully, txid:' + txid, 'Ok');
+            }
         },
         (error: any) => {
-            this.alertServ.openSnackBar(error.message, 'ok');
+            console.log('error=', error);
+            let message = 'Unknown error while redeposit.';
+            if (error.message) {
+                message = error.message;
+            } else
+            if (error.error && error.error.message) {
+                message = error.error.message;
+            }
+            this.alertServ.openSnackBar(error.error.message, 'ok');
         });        
     }
 
 /*
-            amount: amount,
-            gasPrice: gasPrice,
-            gasLimit: gasLimit,
-            satoshisPerBytes: satoshisPerBytes,
-            kanbanGasPrice: kanbanGasPrice,
-            kanbanGasLimit: kanbanGasLimit
+            amount: amount,resp
+            gasPrice: gasPrresp
+            gasLimit: gasLiresp
+            satoshisPerByteresposhisPerBytes,
+            kanbanGasPrice:respnGasPrice,
+            kanbanGasLimit:respnGasLimit
 */
 
     async depositdo() {
