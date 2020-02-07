@@ -699,30 +699,65 @@ export class WalletDashboardComponent {
                 if (txid !== transactionID) {
                     continue;
                 }
+
                 console.log('transactionID===', transactionID);
-                this.submitrediposit( nonce ++, coinType, amount, r, s, v, transactionID, gasPrice, gasLimit);
+                this.submitrediposit( nonce ++, coinType, amount, transactionID, gasPrice, gasLimit);
             }
         }
     }
 
-    async submitrediposit(nonce: number, coinType: number, amount: BigNumber, 
-        r: string, s: string, v: string, transactionID: string, gasPrice: number, gasLimit: number) {
+    async submitrediposit(nonce: number, coinType: number, amount: BigNumber, transactionID: string, gasPrice: number, gasLimit: number) {
 
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
         const pin = this.pin;
 
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
+        
         if (!seed) {
             this.alertServ.openSnackBar('Your password is invalid.', 'Ok');        
             return;   
-        }           
+        }    
+        
+        
+        const amountInLink = amount; // it's for all coins.
+        const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(transactionID)
+        , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
+
+        console.log('originalMessage=', originalMessage);
+        const coinName = this.coinServ.getCoinNameByTypeId(coinType);
+
+        let currentCoin;
+        for (let i = 0; i < this.wallet.mycoins.length; i++) {
+            if (this.wallet.mycoins[i].name === coinName) {
+                currentCoin = this.wallet.mycoins[i];
+            }
+        }
+        if (!currentCoin) {
+            this.alertServ.openSnackBar('Your coin type is invalid.', 'Ok');  
+            return;
+        }
+
+        const keyPairs = this.coinServ.getKeyPairs(currentCoin, seed, 0, 0);
+        const signedMessage: Signature = this.coinServ.signedMessage(originalMessage, keyPairs);
+
+
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
+        /*
         const signedMessage: Signature = {
             r: r,
             s: s,
             v: v
         };
+        */
+        /*
+        console.log('r=', r);
+        console.log('signedMessage.r=', signedMessage.r);
+        console.log('s=', s);
+        console.log('signedMessage.s=', signedMessage.s);
+        console.log('v=', v);
+        console.log('signedMessage.v=', signedMessage.v);
+*/
         const abiHex = this.web3Serv.getDepositFuncABI(coinType, transactionID, amount, addressInKanban, signedMessage);
         console.log('abiHex for redeposit===');
         console.log(abiHex);
@@ -734,8 +769,8 @@ export class WalletDashboardComponent {
         this.kanbanServ.submitReDeposit(txKanbanHex).subscribe((resp: any) => { 
             console.log('resp for submitrediposit=', resp);
             if (resp.success) {
-                const txid = resp.data.transactionID;
-                this.alertServ.openSnackBar('Redeposit was submitted successfully, txid:' + txid, 'Ok');
+                // const txid = resp.data.transactionID;
+                this.alertServ.openSnackBar('Redeposit was submitted successfully.', 'Ok');
             }
         },
         (error: any) => {
