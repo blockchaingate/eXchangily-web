@@ -32,6 +32,10 @@ export class RedepositAmountModal implements OnInit {
         this.showDetailIndex = i;
     }
 
+    copyTransactionID(txid: string) {
+        this.utilServ.copy(txid);
+    }
+    
     setTransactionID(txid: string) {
         this.transactionID = txid;
     }

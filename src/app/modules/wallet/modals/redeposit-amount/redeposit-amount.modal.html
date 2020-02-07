@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="transactionID">
                     <div *ngFor="let item of coin.redeposit; let i of index">
-                        <mat-radio-button class="text-muted" [value]="item.transactionID" [checked]='true'>
+                        <mat-radio-button class="text-muted" [value]="item.transactionID">
                             <div>
                                 amount: {{utilServ.showAmount(item.amount)}}
                                 <button mat-icon-button aria-label="Show Details" (click)="showDetail(i)">
@@ -20,6 +20,9 @@
                             <div *ngIf="showDetailIndex == i">
                                 <div>
                                     txid:{{item.transactionID}}
+                                    <button mat-icon-button (click)="copyTransactionID(item.transactionID)">
+                                        <mat-icon svgIcon="icon_copy"></mat-icon>
+                                    </button>
                                 </div>
                                 <div>
                                     r:{{item.r}}
