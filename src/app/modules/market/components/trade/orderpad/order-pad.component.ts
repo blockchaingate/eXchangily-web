@@ -615,8 +615,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       const orderHash = this.generateOrderHash(bidOrAsk, orderType, baseCoin
           , targetCoin, qty, price, timeBeforeExpiration);
       
-      const qtyString = new BigNumber(qty).multipliedBy(new BigNumber(1e18)).toString();
-      const priceString = new BigNumber(price).multipliedBy(new BigNumber(1e18)).toString();
+      const qtyString = new BigNumber(qty).multipliedBy(new BigNumber(1e18)).toFixed();
+      const priceString = new BigNumber(price).multipliedBy(new BigNumber(1e18)).toFixed();
       console.log('qtyString=', qtyString);
       console.log('priceString=', priceString);
       const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk,  
