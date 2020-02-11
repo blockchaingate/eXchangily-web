@@ -617,8 +617,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       
       const qtyString = new BigNumber(qty).multipliedBy(new BigNumber(1e18)).toFixed();
       const priceString = new BigNumber(price).multipliedBy(new BigNumber(1e18)).toFixed();
-      console.log('qtyString=', qtyString);
-      console.log('priceString=', priceString);
+
       const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk,  
           orderType, baseCoin, targetCoin, qtyString, priceString, 
           timeBeforeExpiration, false,  orderHash]);
@@ -647,7 +646,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
         this.kanbanService.sendRawSignedTransaction(txHex).subscribe((resp: TransactionResp) => {
 
-          console.log('resp in here', resp);
         if (resp && resp.transactionHash) {
                 this.alertServ.openSnackBar('Your order was placed successfully.', 'Ok');
 
@@ -669,7 +667,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
               }
         },
         error => {
-          console.log('errrrr=', error);
           this.alertServ.openSnackBar(error.error, 'Ok');
         }
         );        

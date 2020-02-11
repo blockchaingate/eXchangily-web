@@ -319,13 +319,15 @@ export class WalletDashboardComponent {
             usd: 0.2 
          };          
         this._wsServ.currentPrices.subscribe((arr: any) => {
-            //console.log('arr===', arr);
-            for(let i = 0; i < arr.length; i++) {
+            // console.log('arr===', arr);
+            for (let i = 0; i < arr.length; i++) {
                 const item = arr[i];
                 // console.log('item=', item);
                 if (item.symbol === 'EXGUSDT') {
                     const price = item.price;
+                    // console.log('price===', price);
                     const priceAmount = this.utilServ.showAmount(price);
+                    // console.log('priceAmount====', priceAmount);
                     this.coinsPrice.exgcoin.usd = priceAmount;
                     break;
                 }

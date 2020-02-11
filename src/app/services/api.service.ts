@@ -385,7 +385,7 @@ export class ApiService {
 
         fxnCallHex = this.web3Serv.getFabFrozenBalanceABI([address]);
         fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
-        //console.log('fxnCallHex for EXGB', fxnCallHex);
+        console.log('fxnCallHex for EXGB getFabFrozenBalanceABI', fxnCallHex);
         response = await this.fabCallContract(contractAddress, fxnCallHex);
 
         let lockbalance = 0;
