@@ -4,14 +4,14 @@
             {{pair}}
         </div>
         <div class="col col-6 text-right" [class.text-color-green]="changePercent>=0" [class.text-color-red]="changePercent<0">
-            {{changePercent | number:'.2'}}%
+            {{changePercent}}%
         </div>
     </div>
     <div class="row">
-        <div class="col col-12 text-white">{{price | number:'.2'}}</div>
+        <div class="col col-12 text-white">{{price}}</div>
     </div>
     <div class="row text-color-grey">
-        <div class="col col-12">{{'Volume' | translate}} {{volume | number:'.2'}} {{baseCoinName}}</div>
+        <div class="col col-12">{{'Volume' | translate}} {{volume}} {{baseCoinName}}</div>
 
     </div>
 </div>

@@ -6,6 +6,7 @@ import { KanbanService } from '../../../../services/kanban.service';
 import { WsService } from '../../../../services/ws.service';
 import { StorageService } from '../../../../services/storage.service';
 import { Order, Price, Coin } from '../../../../interfaces/kanban.interface';
+import { UtilService } from '../../../../services/util.service';
 
 @Component({
     selector: 'app-market-list',
@@ -21,10 +22,13 @@ export class MarketListComponent implements OnInit {
     searchText = '';
     COINS: Coin[];
     constructor(private prServ: PriceService, private _router: Router, private storageServ: StorageService, 
-        private _wsServ: WsService, private kanbanService: KanbanService) {
+        private _wsServ: WsService, private kanbanService: KanbanService, public utilServ: UtilService) {
         
     }
 
+    showAmount(amount) {
+        return this.utilServ.showAmount(amount);
+    }
     ngOnInit() {
         this.prices = this.prServ.getPriceList();
         this.COINS = this.prServ.getCoinList();
@@ -105,16 +109,16 @@ export class MarketListComponent implements OnInit {
         for (let i = 0; i < arr.length; i++) {
             const item = arr[i];
             const s = item.symbol;
-            const h = item['24h_high'] / 1e18;
-            const price = item.price / 1e18;
-            const l = item['24h_low'] / 1e18;
+            const h = item['24h_high'];
+            const price = item.price;
+            const l = item['24h_low'];
             let change24h = 0;
-            const o = item['24h_open'] / 1e18;
-            const c = item['24h_close'] / 1e18;
+            const o = item['24h_open'];
+            const c = item['24h_close'];
             if (o > 0) {
                 change24h = (c - o) / o * 100;
             }
-            const v = item['24h_volume'] / 1e18;
+            const v = item['24h_volume'];
 
             for (let j = 0; j < this.tab_prices.length; j++) {
                 const tabItem = this.tab_prices[j];
