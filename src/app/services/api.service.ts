@@ -369,7 +369,7 @@ export class ApiService {
         }
         // console.log('contractAddress=' + contractAddress + ',address=' + address);
         let fxnCallHex = this.web3Serv.getFabBalanceOfABI([address]);
-        fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
+        fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex); 
 
         //console.log('fxnCallHex for EXGA', fxnCallHex);
         let response = await this.fabCallContract(contractAddress, fxnCallHex);
@@ -385,7 +385,7 @@ export class ApiService {
 
         fxnCallHex = this.web3Serv.getFabFrozenBalanceABI([address]);
         fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
-        console.log('fxnCallHex for EXGB getFabFrozenBalanceABI', fxnCallHex);
+        
         response = await this.fabCallContract(contractAddress, fxnCallHex);
 
         let lockbalance = 0;

@@ -72,8 +72,8 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
       '120': '2h',
       '240': '4h',
       '360': '6h',
-      'D': '1d',
-      '1D': '1d'
+      'D': '24h',
+      '1D': '24h'
     };    
     constructor(private mockService: MockService, private coinService: CoinService, 
       private _wsServ: WsService, private route: ActivatedRoute) {
