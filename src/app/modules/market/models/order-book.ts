@@ -31,7 +31,7 @@ export interface OrderBookDisplay {
 export interface TxRecord {
     price: number;
     quantity: number;
-    time: Date;
+    time: number;
     orderHash1: string;
     orderHash2: string;
 }

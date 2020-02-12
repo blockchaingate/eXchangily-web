@@ -351,7 +351,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           for (let i = 0; i < trades.length; i++) {
             
             const item = trades[i];
-            const tradeTime = new Date(item.time * 1000);
+            const tradeTime = item.time * 1000;
 
             let tradeExisted = false;
 

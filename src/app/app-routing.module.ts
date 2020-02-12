@@ -8,6 +8,7 @@ const routes: Routes = [
   
   { path: 'explorer', loadChildren: './modules/explorer/explorer.module#ExplorerModule'},
   { path: 'wallet', loadChildren: './modules/wallet/wallet.module#WalletModule'},
+  { path: 'otc', loadChildren: './modules/otc/otc.module#OtcModule'},
   { path: 'smartcontract', loadChildren: './modules/smartcontract/smartcontract.module#SmartcontractModule'},
   { path: '',
     redirectTo: '/home',

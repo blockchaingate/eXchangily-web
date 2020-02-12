@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
   closetransactions: TransactionItem[];
   color = 'primary';
   mode = 'determinate';
-  value = 100;  
+  value = 100;
   testMode: boolean;
   interval;
 

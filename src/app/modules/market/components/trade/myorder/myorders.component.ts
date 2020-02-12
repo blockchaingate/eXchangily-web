@@ -256,7 +256,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);        
         const abiHex = this.web3Serv.getDeleteOrderFuncABI(this.orderHash);
-
+        console.log('abiHex for deleteOrderDo=', abiHex);
         const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 
         const address = await this.kanbanServ.getExchangeAddress();

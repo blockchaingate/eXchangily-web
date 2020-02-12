@@ -48,7 +48,9 @@
 
                     <div class="price smallfont" [ngClass]="tx.m?'text-success':'text-danger'">{{utilService.showAmount(tx.price)}}</div>
                     <div class="quantity smallfont text-muted">{{utilService.showAmount(tx.quantity)}}</div>
-                    <div class="total smallfont text-muted">{{tx.time | date:'HH:MM:ss'}}</div>
+                    <div class="total smallfont text-muted">{{tx.time | date:'mediumTime'}}
+
+                    </div>
                 </div>
             </div>
 

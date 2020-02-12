@@ -774,5 +774,6 @@
     "Your balance": "Your balance",
     "Transaction fee": "Transaction fee",
     "Gas price": "Gas price",
-    "Gas limit": "Gas limit"
+    "Gas limit": "Gas limit",
+    "OTC Trade": "OTC Trade"
 }
