@@ -190,13 +190,17 @@
 <ng-template #templateWithdraw>
     <div class="modal-header text-center">
         <h4 class="modal-title w-100">{{'Withdraw' | translate }} {{coinName}}</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalWithdrawRef.hide()">
                             <span aria-hidden="true">&times;</span>
                           </button>
     </div>
     <div class="modal-body">
         <div>
             <label for="inputSendTo" class="text-muted">{{'Your balance' | translate }}:{{utilServ.showAmount(token.unlockedAmount)}}</label>
+        </div>
+
+        <div>
+            <label for="inputSendTo" class="text-muted">{{'Minimum amount' | translate }}:{{minimumWithdrawAmount}}</label>
         </div>
         <div class="pb-4">
             <label for="inputSendTo" class="text-muted">{{'Withdraw amount' | translate }}</label>

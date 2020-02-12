@@ -37,6 +37,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     mytokens: any;
     opType: string;
     token: any;
+    minimumWithdrawAmount: number;
     coinType: number;
     coinName: string;
     gasPrice: number;
@@ -61,6 +62,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this.timerServ.unCheckAllOrderStatus();
     }
     async ngOnInit() {
+        
         this.gasPrice = environment.chains.KANBAN.gasPrice;
         this.gasLimit = environment.chains.KANBAN.gasLimit;
         this.orderStatus = 'open';
@@ -186,6 +188,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     }
 
     openWithdrawModal(template: TemplateRef<any>) {
+        this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName];
         this.modalWithdrawRef = this.modalService.show(template, { class: 'second' });
     }
 

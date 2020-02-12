@@ -833,5 +833,6 @@
     "Transaction fee": "交易费用",
     "Gas price": "燃料价格",
     "Gas limit": "燃料限额",
-    "OTC Trade": "法币交易"
+    "OTC Trade": "法币交易",
+    "Minimum amount": "最小数量"
 }

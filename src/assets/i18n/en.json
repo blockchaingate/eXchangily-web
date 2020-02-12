@@ -775,5 +775,6 @@
     "Transaction fee": "Transaction fee",
     "Gas price": "Gas price",
     "Gas limit": "Gas limit",
-    "OTC Trade": "OTC Trade"
+    "OTC Trade": "OTC Trade",
+    "Minimum amount": "Minimum amount"
 }
