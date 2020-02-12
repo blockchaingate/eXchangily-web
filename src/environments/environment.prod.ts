@@ -76,10 +76,10 @@ export const environment = {
         kline: 'wss://kanbanprod.fabcoinapi.com/ws/ticker'
     },
     minimumWithdraw: {
-        EXG: 1,
-        BTC: 0.01,
-        FAB: 0.01,
+        EXG: 10,
+        BTC: 0.002,
+        FAB: 0.005,
         ETH: 0.01,
-        USDT: 1
+        USDT: 10
     }      
 };
