@@ -120,8 +120,10 @@ export class MyordersComponent implements OnInit, OnDestroy {
         const amountInLink = new BigNumber(amount).multipliedBy(new BigNumber(1e18)); // it's for all coins.
         let addressInWallet = currentCoin.receiveAdds[0].address;
         if (currentCoin.name === 'BTC' || currentCoin.name === 'FAB') {
+            console.log('address1==', addressInWallet);
             const bytes = bs58.decode(addressInWallet);
             addressInWallet = bytes.toString('hex');
+            console.log('address2==', addressInWallet);
         }
         if (currentCoin.tokenType === 'FAB') {
             let fabAddress = '';

@@ -1,1 +1,119 @@
-<p>trade works!</p>
+<div class="container py-3">
+    <div class="row border-bottom py-2">
+        <div class="col col-2">
+            <mat-form-field class="text-muted">
+                <mat-label>Currency</mat-label>
+                <mat-select class="text-muted" [(ngModel)]="currency" [disableOptionCentering]="true">
+                    <mat-option *ngFor="let cur of currencies" [value]="cur" class="text-muted">
+                        {{cur}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="col col-3 border-right">
+            <div class="container">
+                <div class="row py-2">
+                    <div class="col col-12 col-green">
+                        Buy
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col col-3 coin-name" [ngClass]="(bidOrAsk && (coinName=='USDT'))?'type-buy':''" (click)="changeCoinName(true, 'USDT')">
+                        USDT
+                    </div>
+                    <div class="col col-2 coin-name" [ngClass]="(bidOrAsk && (coinName=='BTC'))?'type-buy':''" (click)="changeCoinName(true, 'BTC')">
+                        BTC
+                    </div>
+                    <div class="col col-2 coin-name" [ngClass]="(bidOrAsk && (coinName=='ETH'))?'type-buy':''" (click)="changeCoinName(true, 'ETH')">
+                        ETH
+                    </div>
+                    <div class="col col-2 coin-name" [ngClass]="(bidOrAsk && (coinName=='FAB'))?'type-buy':''" (click)="changeCoinName(true, 'FAB')">
+                        FAB
+                    </div>
+                    <div class="col col-3 coin-name" [ngClass]="(bidOrAsk && (coinName=='EXG'))?'type-buy':''" (click)="changeCoinName(true, 'EXG')">
+                        EXG
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col col-3">
+            <div class="container">
+                <div class="row py-2">
+                    <div class="col col-12 col-red">
+                        Sell
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col col-3 coin-name" [ngClass]="(!bidOrAsk && (coinName=='USDT'))?'type-sell':''" (click)="changeCoinName(false, 'USDT')">
+                        USDT
+                    </div>
+                    <div class="col col-2 coin-name" [ngClass]="(!bidOrAsk && (coinName=='BTC'))?'type-sell':''" (click)="changeCoinName(false, 'BTC')">
+                        BTC
+                    </div>
+                    <div class="col col-2 coin-name" [ngClass]="(!bidOrAsk && (coinName=='ETH'))?'type-sell':''" (click)="changeCoinName(false, 'ETH')">
+                        ETH
+                    </div>
+                    <div class="col col-2 coin-name" [ngClass]="(!bidOrAsk && (coinName=='FAB'))?'type-sell':''" (click)="changeCoinName(false, 'FAB')">
+                        FAB
+                    </div>
+                    <div class="col col-3 coin-name" [ngClass]="(!bidOrAsk && (coinName=='EXG'))?'type-sell':''" (click)="changeCoinName(false, 'EXG')">
+                        EXG
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col col-4">
+            <div class="container col-blue">
+                <div class="row">
+                    <div class="col col-6">
+                        My order
+                    </div>
+                    <div class="col col-6">
+                        Become merchant
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row py-3">
+        <div class="col col-12">
+            <table class="table table-striped table-borderless">
+                <thead>
+                    <tr>
+                        <th scope="col">Merchant</th>
+                        <th scope="col">PaymentMethod</th>
+                        <th scope="col">Quantity/{{coinName}}</th>
+                        <th scope="col">Limits/{{currency}}</th>
+                        <th scope="col">Price/{{currency}}</th>
+                        <th scope="col">Operation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let element of dataSource | merchantPipe: currency : bidOrAsk : coinName ">
+                        <td>{{element.Merchant}}</td>
+                        <td>
+                            <app-paymentmethod [methods]="element.PaymentMethod"></app-paymentmethod>
+                        </td>
+                        <td>{{element.Quantity}}</td>
+                        <td>{{element.LimitsLow}}-{{element.LimitsHigh}}</td>
+                        <td>{{element.Price}}</td>
+                        <td>
+                            <div class="btn-buy-sell" [ngClass]="element.BidOrAsk ? 'btn-buy' : 'btn-sell'">
+                                {{element.BidOrAsk ? 'Buy' : 'Sell'}}
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+
+        </div>
+    </div>
+
+</div>

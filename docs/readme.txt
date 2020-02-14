@@ -24,14 +24,6 @@ blockstream.info/testnet
 http://169.45.42.108:4000/kanban/getTransactionReceipt/0x85863f132bc07c14e34668f88420bd09d9621f9dbbe806ce3d30e1a8699d2ad1
 https://ethereum.stackexchange.com/questions/11253/ethereumjs-how-to-get-public-key-from-private-key/11272
 
-coingecko
-
-Infura:
-
-Project ID: 6c5bdfe73ef54bbab0accf87a6b4b0ef
-Project Secret: e4e3b717694340119db6df8ce3bd46f8
-endpoint: ropsten.infura.io/v3/6c5bdfe73ef54bbab0accf87a6b4b0ef
-
 
 https://tokenmint.io/app/#/token
 
@@ -59,10 +51,3 @@ EAB address:
 0x8278fdc79a8041667e79bbb20331c7c8548ded20
 
 https://ropsten.etherscan.io/address/0x8278fdc79a8041667e79bbb20331c7c8548ded20#code
-
-https://coinmonster.pw/get-free/usdt:
-
-You are registered successfully!
-Your login: kenin.qiu@gmail.com
-Your password: 85ee460f8c5513da0a5672713c731e8a
-Please copy this login details!
