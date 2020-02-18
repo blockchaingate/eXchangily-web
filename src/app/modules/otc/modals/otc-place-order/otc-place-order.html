@@ -1,5 +1,5 @@
 <div bsModal #otcPlaceOrderModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-bg-grey">
+    <div class="modal-dialog modal-lg modal-bg-grey">
         <form [formGroup]="depositAmountForm" (ngSubmit)="onSubmit()">
             <div class="modal-content">
                 <div class="modal-header text-center">
@@ -9,6 +9,42 @@
               </button>
                 </div>
                 <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col col-6">
+                                <div>Merchant info</div>
+                                <div>Merchant: 悦悦商行</div>
+                                <div>Volume/30 d: 730 30 d completed rate: 87%</div>
+                                <div>Average coin-deliver time: 2.30min</div>
+                                <div>Registration time: 2019-10-09 23:02:43</div>
+                            </div>
+                            <div class="col col-6 border-left">
+                                <div>Order info</div>
+                                <div>Coin: USDT</div>
+                                <div>Quantity: 15586.218530</div>
+                                <div>Limits: 7000.00-8000000.00</div>
+                                <div>Price: 7.11</div>
+                            </div>
+                        </div>
+                        <div class="row pt-3 border-top">
+                            <div class="col col-6">
+                                <div>
+                                    Quantity: <input type="text" class="form-control" id="inputGasAmount" formControlName="depositAmount" aria-describedby="emailHelp" placeholder="0.0000">
+                                </div>
+
+                            </div>
+                            <div class="col col-6">
+                                <div>
+                                    Amount: <input type="text" class="form-control" id="inputGasAmount" formControlName="depositAmount" aria-describedby="emailHelp" placeholder="0.0000">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row pt-3">
+                            <div class="col col-12">
+                                <div>Payment method:</div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="inputSendTo" class="text-dark">Gas amount</label>
                         <input type="text" class="form-control" id="inputGasAmount" formControlName="depositAmount" aria-describedby="emailHelp" placeholder="0.0000">

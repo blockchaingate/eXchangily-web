@@ -103,7 +103,7 @@
                         <td>{{element.LimitsLow}}-{{element.LimitsHigh}}</td>
                         <td>{{element.Price}}</td>
                         <td>
-                            <div class="btn-buy-sell" [ngClass]="element.BidOrAsk ? 'btn-buy' : 'btn-sell'">
+                            <div class="btn-buy-sell" [ngClass]="element.BidOrAsk ? 'btn-buy' : 'btn-sell'" (click)="placeOrder()">
                                 {{element.BidOrAsk ? 'Buy' : 'Sell'}}
                             </div>
                         </td>
@@ -117,3 +117,5 @@
     </div>
 
 </div>
+
+<otc-place-order-modal #otcPlaceOrderModal (confirmed)="onConfirmedPlaceOrder($event)"></otc-place-order-modal>

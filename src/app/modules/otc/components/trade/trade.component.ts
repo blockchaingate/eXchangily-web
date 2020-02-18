@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { OtcPlaceOrderModal } from '../../modals/otc-place-order/otc-place-order';
 
 export interface PeriodicElement {
   Merchant: string;
@@ -88,6 +89,7 @@ export class TradeComponent implements OnInit {
 
   dataSource = ELEMENT_DATA;
 
+  @ViewChild('otcPlaceOrderModal', {static: true}) otcPlaceOrderModal: OtcPlaceOrderModal;
   constructor() { }
 
   ngOnInit() {
@@ -99,5 +101,13 @@ export class TradeComponent implements OnInit {
   changeCoinName(bOrA: boolean, coin: string) {
     this.bidOrAsk = bOrA;
     this.coinName = coin;
+  }
+
+  placeOrder() {
+    this.otcPlaceOrderModal.show();
+  }
+
+  onConfirmedPlaceOrder (event) {
+
   }
 }
