@@ -9,15 +9,20 @@ import { MerchantPipe } from './pipes/merchant.pipe';
 import { PaymentmethodComponent } from './components/paymentmethod/paymentmethod.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatRadioModule} from '@angular/material/radio';
+import { OrderComponent } from './components/order/order.component';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
-  declarations: [TradeComponent, MerchantPipe, PaymentmethodComponent, OtcPlaceOrderModal],
+  declarations: [TradeComponent, MerchantPipe, PaymentmethodComponent, OtcPlaceOrderModal, OrderComponent],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     FontAwesomeModule,
     MatSelectModule,
+    MatRadioModule,
+    MatIconModule,
     OtcRoutingModule,
     ModalModule
   ]

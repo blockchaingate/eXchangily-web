@@ -1,0 +1,74 @@
+<div class="container py-3">
+    <div class="row border-bottom">
+        <div class="col col-6 order-manage">
+            <div>
+                <div class="d-inline-block pr-3 pb-3 el-tabs_item" [ngClass]="bidOrAsk ? 'is-active':''" (click)="changeBidOrAsk(true)">
+                    Buy orders
+                </div>
+                <div class="d-inline-block pl-3 pb-3 el-tabs_item" [ngClass]="!bidOrAsk ? 'is-active':''" (click)="changeBidOrAsk(false)">
+                    Sell orders
+                </div>
+            </div>
+        </div>
+        <div class="col col-6">
+            <div class="text-right">
+                Export order records
+            </div>
+        </div>
+    </div>
+
+    <div class="row py-3">
+        <div class="col col-12 tab-status">
+            <div class="d-inline-block px-3 el-tabs_item" *ngFor="let status of statuses" [ngClass]="(status == currentStatus)  ? 'is-active':''" (click)="changeStatus(status)">
+                {{status}}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col col-12">
+            <table class="table table-striped table-borderless">
+                <thead>
+                    <tr>
+                        <th scope="col"><small>Order number</small></th>
+                        <th scope="col"><small>Coin</small></th>
+                        <th scope="col"><small>Transcation object</small></th>
+                        <th scope="col"><small>Price</small></th>
+                        <th scope="col"><small>Quantity</small></th>
+                        <th scope="col"><small>Trading fee</small></th>
+                        <th scope="col"><small>Actual Payment</small></th>
+                        <th scope="col"><small>Amount</small></th>
+                        <th scope="col"><small>Creating time</small></th>
+                        <th scope="col"><small>Reference No</small></th>
+                        <th scope="col"><small>Status</small></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let element of dataSource | merchantPipe: currency : bidOrAsk : coinName ">
+                        <td>{{element.Merchant}}</td>
+                        <td>
+                            <app-paymentmethod [methods]="element.PaymentMethod"></app-paymentmethod>
+                        </td>
+                        <td>{{element.Quantity}}</td>
+                        <td>{{element.LimitsLow}}-{{element.LimitsHigh}}</td>
+                        <td>{{element.Price}}</td>
+                        <td>
+                            <div class="btn-buy-sell" [ngClass]="element.BidOrAsk ? 'btn-buy' : 'btn-sell'" (click)="placeOrder()">
+                                {{element.BidOrAsk ? 'Buy' : 'Sell'}}
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+            <div *ngIf="!dataSource" class="noOrder">
+                <div class="d-inline-block">
+                    <img src="/assets/noOrder.png">
+                    <p>No Order</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
