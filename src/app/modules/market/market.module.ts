@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { CarouselModule } from 'ngx-bootstrap';
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 import { MarketRoutingModule } from './market-routing.module';
 import { TradeModule } from './components/trade/trade.module';
 import { AdvModule } from '../adv/adv.module';
@@ -27,6 +27,7 @@ import { MarketTopBlockComponent } from './components/top-block/market-top-block
 import { TradeAutoComponent } from './components/trade-auto/trade-auto.component';
 import { SharedModule } from '../shared/shared.module';
 
+
 @NgModule({ 
   imports: [
     CommonModule,
@@ -38,6 +39,7 @@ import { SharedModule } from '../shared/shared.module';
     TradeModule, 
     MatSnackBarModule,
     MatIconModule,
+    MatTooltipModule,
     MatButtonModule,
     FlexLayoutModule,
     SharedModule,

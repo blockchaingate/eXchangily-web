@@ -8,6 +8,7 @@ import { UtilService } from '../../../../../services/util.service';
 import { KanbanService } from '../../../../../services/kanban.service';
 import {TransactionReceiptResp, Transaction} from '../../../../../interfaces/kanban.interface';
 import { Wallet } from '../../../../../models/wallet';
+import { MyCoin } from '../../../../../models/mycoin';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Web3Service } from '../../../../../services/web3.service';
 import { AlertService } from '../../../../../services/alert.service';
@@ -60,6 +61,12 @@ export class MyordersComponent implements OnInit, OnDestroy {
     */
     ngOnDestroy() {
         this.timerServ.unCheckAllOrderStatus();
+    }
+
+    showWithdrawHistory() {
+        const excoin: MyCoin = this.wallet.excoin;
+        const url = '/market/withdraw_history/' + excoin.receiveAdds[0].address;
+        this._router.navigate([url]);
     }
     async ngOnInit() {
         

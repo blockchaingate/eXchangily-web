@@ -27,8 +27,9 @@ import {MatListModule} from '@angular/material/list';
 import { MockService} from '../../../../services/mock.service';
 import { CallbackPipe } from '../../../shared/pipes/callback.pipe';
 import { OrderFilterPipe } from './pipes/order-filter.pipe';
-
+import {MatTableModule} from '@angular/material/table';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { WithdrawHistoryComponent } from './withdraw-history/withdraw-history.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -44,6 +45,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
         MatButtonModule,
         TradeRoutingModule,
         TranslateModule,
+        MatTableModule,
         MatSlideToggleModule,
         ModalModule
     ],
@@ -63,7 +65,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
         MyordersComponent,
         OrderPadComponent,
         CallbackPipe,
-        OrderFilterPipe
+        OrderFilterPipe,
+        WithdrawHistoryComponent
     ],
     exports: [
         TradeComponent

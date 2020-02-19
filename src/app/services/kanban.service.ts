@@ -200,6 +200,10 @@ export class KanbanService {
         return this.get('exchangily/getAllOrderData');
     }
 
+    getWithdrawTransactions(address: string) {
+        return this.get('withdrawrequestsbyaddress/' + address);
+    }
+    
     async getDepositStatus(txid: string) {
         let response = null;
         let status = 'pending';   

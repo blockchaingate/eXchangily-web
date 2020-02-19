@@ -125,6 +125,10 @@
                 <label>{{'Locked Amount' | translate }}</label>
             </div>
             <div class="col col-3">
+                <label>{{'Withdraw' | translate }}</label>
+                <button mat-icon-button matTooltip="Withdraw history" aria-label="Withdraw history" (click)="showWithdrawHistory()">
+                        <mat-icon>history</mat-icon>
+                      </button>
             </div>
         </div>
         <div class="myorderlist scroll-bar w-100">
@@ -178,7 +182,7 @@
     </div>
     <div class="modal-body">
         <div class="pb-4">
-            <input type="password" autocomplete="off" class="form-control" id="inputPin" [(ngModel)]="pin" aria-describedby="emailHelp" placeholder="Please provide your password to confirm the transaction">
+            <input type="password" autocomplete="off" class="form-control" id="inputPin" [(ngModel)]="pin" aria-describedby="emailHelp" placeholder="{{'Please provide your password to confirm the transaction' | translate }}">
         </div>
 
         <button class="btn btn1 btn-gradient text-white" (click)="confirmPin()">{{"Confirm" | translate }}</button>
