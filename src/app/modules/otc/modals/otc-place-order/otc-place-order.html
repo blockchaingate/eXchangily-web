@@ -32,7 +32,7 @@
                                     Quantity:
                                 </div>
                                 <div>
-                                    <input type="text" class="form-control" id="inputGasAmount" formControlName="depositAmount" aria-describedby="emailHelp" placeholder="0.0000">
+                                    <input type="text" class="form-control" id="inputGasAmount" formControlName="quantity" aria-describedby="emailHelp" placeholder="0.0000">
                                 </div>
 
                             </div>
@@ -41,7 +41,7 @@
                                     Amount:
                                 </div>
                                 <div>
-                                    <input type="text" class="form-control" id="inputGasAmount" formControlName="depositAmount" aria-describedby="emailHelp" placeholder="0.0000">
+                                    <input type="text" class="form-control" id="inputGasAmount" formControlName="amount" aria-describedby="emailHelp" placeholder="0.0000">
                                 </div>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                                     Payment method:
                                 </div>
                                 <div>
-                                    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="favoriteSeason">
+                                    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" formControlName="method">
                                         <mat-radio-button class="px-2" *ngFor="let method of methods" [value]="method">
                                             <fa-icon *ngIf="method=='alipay'" [icon]="faAlipay"></fa-icon>
                                             <fa-icon *ngIf="method=='bank'" [icon]="faCreditCard"></fa-icon>

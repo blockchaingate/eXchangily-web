@@ -44,6 +44,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!--
                     <tr *ngFor="let element of dataSource | merchantPipe: currency : bidOrAsk : coinName ">
                         <td>{{element.Merchant}}</td>
                         <td>
@@ -58,11 +59,12 @@
                             </div>
                         </td>
                     </tr>
+                    -->
                 </tbody>
 
             </table>
 
-            <div *ngIf="!dataSource" class="noOrder">
+            <div class="noOrder">
                 <div class="d-inline-block">
                     <img src="/assets/noOrder.png">
                     <p>No Order</p>
