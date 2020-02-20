@@ -44,9 +44,12 @@ export class DepositAmountModal {
                 this.depositAmountForm.get('gasPrice').setValue(environment.chains.ETH.gasPrice);
                 this.depositAmountForm.get('gasLimit').setValue(environment.chains.ETH.gasLimit);
             } else 
-            if ((this.coin.name === 'FAB') || (this.coin.name === 'BTC')) {
+            if (this.coin.name === 'FAB') {
                 this.depositAmountForm.get('satoshisPerBytes').setValue(environment.chains.FAB.satoshisPerBytes);
             } else 
+            if (this.coin.name === 'BTC') {
+                this.depositAmountForm.get('satoshisPerBytes').setValue(environment.chains.BTC.satoshisPerBytes);
+            } else
             if (this.coin.tokenType === 'FAB') {
                 this.depositAmountForm.get('satoshisPerBytes').setValue(environment.chains.FAB.satoshisPerBytes);
                 this.depositAmountForm.get('gasPrice').setValue(environment.chains.FAB.gasPrice);

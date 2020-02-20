@@ -6,6 +6,7 @@ import { FormBuilder } from '@angular/forms';
 import { MyCoin } from '../../../../models/mycoin';
 import { environment } from '../../../../../environments/environment';
 import { CoinService } from '../../../../services/coin.service';
+import { ApiService } from '../../../../services/api.service';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class SendCoinModal {
     @Output() confirmedCoinSent = new EventEmitter<SendCoinForm>();
     currentCoinIndex: number;
     currentCoinBalance: number;
-
+    btcTransFeeEstimate: number;
     sendCoinForm = this.fb.group({
         sendTo: [''],
         sendAmount: [''],
@@ -32,10 +33,20 @@ export class SendCoinModal {
         gasLimit: [environment.chains.FAB.gasLimit],
         satoshisPerBytes: [environment.chains.FAB.satoshisPerBytes]
     });     
-    constructor(private fb: FormBuilder, private coinServ: CoinService) {
+    constructor(private fb: FormBuilder, private coinServ: CoinService, private apiServ: ApiService) {
         this.currentCoinIndex = 0;
         this.transFee = 0;
-        
+        this.btcTransFeeEstimate = 0;
+        /*
+        this.apiServ.getBtcTransFeeEstimate().subscribe(
+            (res: any) => {
+                if (res && res.feerate) {
+                    this.btcTransFeeEstimate = res.feerate * 100000;
+                    console.log('this.btcTransFeeEstimate =' + this.btcTransFeeEstimate );
+                }
+            }
+        );
+        */
         if (this.wallet) {
             this.coin = this.wallet.mycoins[this.currentCoinIndex];
             console.log('this.coin111==', this.coin);
@@ -89,15 +100,22 @@ export class SendCoinModal {
         this.hide();        
     }
 
-    onChange(index: number) {
+    async onChange(index: number) {
         this.coin = this.wallet.mycoins[index];
         if ((this.coin.name === 'ETH') || (this.coin.tokenType === 'ETH')) {
             this.sendCoinForm.get('gasPrice').setValue(environment.chains.ETH.gasPrice);
             this.sendCoinForm.get('gasLimit').setValue(environment.chains.ETH.gasLimit);
         } else 
-        if ((this.coin.name === 'FAB') || (this.coin.name === 'BTC')) {
+        if (this.coin.name === 'FAB') {
             this.sendCoinForm.get('satoshisPerBytes').setValue(environment.chains.FAB.satoshisPerBytes);
         } else 
+        if (this.coin.name === 'BTC') {
+            let defaultSatoshisPerBytes = environment.chains.BTC.satoshisPerBytes;
+            if (this.btcTransFeeEstimate) {
+                defaultSatoshisPerBytes = this.btcTransFeeEstimate;
+            }
+            this.sendCoinForm.get('satoshisPerBytes').setValue(defaultSatoshisPerBytes);
+        } else
         if (this.coin.tokenType === 'FAB') {
             this.sendCoinForm.get('satoshisPerBytes').setValue(environment.chains.FAB.satoshisPerBytes);
             this.sendCoinForm.get('gasPrice').setValue(environment.chains.FAB.gasPrice);

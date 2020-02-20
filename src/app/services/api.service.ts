@@ -29,6 +29,11 @@ export class ApiService {
         return response;        
     }
 
+    getBtcTransFeeEstimate() {
+        const url = environment.endpoints.BTC.exchangily + 'getfeeestimate';
+        return this.http.get(url);
+    }
+
     async getBtcUtxos(address: string): Promise<[BtcUtxo]> {
         const url = environment.endpoints.BTC.exchangily + 'getutxos/' + address;
         console.log('url in getBtcUtxos' + url);

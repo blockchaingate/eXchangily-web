@@ -392,7 +392,7 @@ export class CoinService {
         // console.log('totalAmount=', totalAmount);
         let amountNum = totalAmount * 1e8;
         // console.log('amountNum=', amountNum);
-        amountNum += (2 * 34 + 10);
+        amountNum += (2 * 34) * satoshisPerBytes;
         // console.log('amountNum=', amountNum);
         // const TestNet = Btc.networks.testnet;
         const network = environment.chains.BTC.network;
@@ -484,7 +484,7 @@ export class CoinService {
 
         const changeAddress = mycoin.receiveAdds[0];
 
-        transFee = (receiveAddsIndexArr.length + changeAddsIndexArr.length) * feePerInput + 2 * 34 + 10;
+        transFee = ((receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput + 2 * 34) * satoshisPerBytes;
 
         if (getTransFeeOnly) {
             return {txHex: '', errMsg: '', transFee: transFee + extraTransactionFee * Math.pow(10, this.utilServ.getDecimal(mycoin))};
@@ -584,7 +584,7 @@ export class CoinService {
         // let amountNum = amount * Math.pow(10, this.utilServ.getDecimal(mycoin));
         let amountNum = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, this.utilServ.getDecimal(mycoin)))); 
         // it's for all coins.
-        amountNum = amountNum.plus(2 * 34 + 10);
+        amountNum = amountNum.plus((2 * 34) * satoshisPerBytes);
         console.log('amountNum=', amountNum.toString());
         // 2 output
         // console.log('toAddress=' + toAddress + ',amount=' + amount + ',amountNum=' + amountNum);
@@ -666,7 +666,8 @@ export class CoinService {
                 return {txHex: txHex, txHash: txHash, errMsg: errMsg};
             }
 
-            transFee = (receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput * satoshisPerBytes + 2 * 34 + 10;
+            transFee = ((receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput + 2 * 34) * satoshisPerBytes;
+
             const changeAddress = mycoin.receiveAdds[0];
             // console.log('totalInput=' + totalInput);
             // console.log('amount=' + amount);
