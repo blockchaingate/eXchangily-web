@@ -39,8 +39,8 @@
                     </div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 5%;">
-                    <div *ngIf="order.bidOrAsk">{{'Buy' | translate }}</div>
-                    <div *ngIf="!order.bidOrAsk">{{'Sell' | translate }}</div>
+                    <div *ngIf="order.bidOrAsk" class="text-success">{{'Buy' | translate }}</div>
+                    <div *ngIf="!order.bidOrAsk" class="text-danger">{{'Sell' | translate }}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 10%;">
                     <div>{{utilServ.showAmount(order.price)}}</div>

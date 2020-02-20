@@ -9,7 +9,7 @@
             </div>
             <div class="selllist w-100 pt-2">
                 <div class="selllist-wrapper">
-                    <div class="orderbookitem mt-1" *ngFor="let sell of sells; let i=index">
+                    <div class="orderbookitem mt-1" *ngFor="let sell of sells; let i=index" (click)="setPrice(sell.price)">
                         <div [style.width.%]="sell.percentage" [style.height.%]="100" class="percentage-bar percentage-bar-red">&nbsp;</div>
                         <div class="price smallfont text-danger">{{utilService.showAmount(sell.price)}}</div>
                         <div class="quantity smallfont text-muted">{{utilService.showAmountArr(sell.amountArr)}}</div>
@@ -27,7 +27,7 @@
             </div>
 
             <div class="buylist w-100">
-                <div class="orderbookitem mt-1" *ngFor="let buy of buys; let l=index">
+                <div class="orderbookitem mt-1" *ngFor="let buy of buys; let l=index" (click)="setPrice(buy.price)">
                     <div [style.width.%]="buy.percentage" [style.height.%]="100" class="percentage-bar percentage-bar-green">&nbsp;</div>
                     <div class="price smallfont text-success">{{utilService.showAmount(buy.price)}}</div>
                     <div class="quantity smallfont text-muted">{{utilService.showAmountArr(buy.amountArr)}}</div>
@@ -74,6 +74,22 @@
             <div><input type="text" class="form-control" [disabled]="orderType === 2" [(ngModel)]="buyPrice"> </div>
             <div class="aspace text-white">{{'Quantity' | translate}}</div>
             <div><input type="text" class="form-control" [(ngModel)]="buyQty"> </div>
+            <div class="container pt-2">
+                <div class="row text-white">
+                    <div class="col col-3 text-center hand" (click)="setBuyQtyPercent(0.25)">
+                        <div class="percent-text py-1 px-2 d-inline-block"><small>25%</small></div>
+                    </div>
+                    <div class="col col-3 text-center hand" (click)="setBuyQtyPercent(0.5)">
+                        <div class="percent-text py-1 px-2 d-inline-block"><small>50%</small></div>
+                    </div>
+                    <div class="col col-3 text-center hand" (click)="setBuyQtyPercent(0.75)">
+                        <div class="percent-text py-1 px-2 d-inline-block"><small>75%</small></div>
+                    </div>
+                    <div class="col col-3 text-center hand" (click)="setBuyQtyPercent(1)">
+                        <div class="percent-text py-1 px-2 d-inline-block"><small>100%</small></div>
+                    </div>
+                </div>
+            </div>
             <div class="aspace text-white">
                 {{'Total' | translate}} {{coinService.getCoinNameByTypeId(baseCoin)}}:
                 <span *ngIf="buyPrice > 0">{{ bigmul(buyPrice, buyQty)}}</span>
@@ -120,6 +136,23 @@
             <div><input type="text" class="form-control" [disabled]="orderType === 2" [(ngModel)]="sellPrice"></div>
             <div class="aspace text-white">{{'Quantity' | translate}}</div>
             <div><input type="text" class="form-control" [(ngModel)]="sellQty"> </div>
+
+            <div class="container pt-2">
+                <div class="row text-white">
+                    <div class="col col-3 text-center hand" (click)="setSellQtyPercent(0.25)">
+                        <div class="percent-text py-1 px-2 d-inline-block"><small>25%</small></div>
+                    </div>
+                    <div class="col col-3 text-center hand" (click)="setSellQtyPercent(0.5)">
+                        <div class="percent-text py-1 px-2 d-inline-block"><small>50%</small></div>
+                    </div>
+                    <div class="col col-3 text-center hand" (click)="setSellQtyPercent(0.75)">
+                        <div class="percent-text py-1 px-2 d-inline-block"><small>75%</small></div>
+                    </div>
+                    <div class="col col-3 text-center hand" (click)="setSellQtyPercent(1)">
+                        <div class="percent-text py-1 px-2 d-inline-block"><small>100%</small></div>
+                    </div>
+                </div>
+            </div>
             <div class="aspace text-white">
                 {{'Total' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}: {{sellQty}}
             </div>

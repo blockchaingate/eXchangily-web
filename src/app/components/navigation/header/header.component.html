@@ -78,7 +78,7 @@
                         <a class="nav-link" routerLink="/login/signup" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Signup' | translate}}</a>
                     </li>
                     <li class="nav-item">
-                        <mat-progress-spinner [diameter]="40" [color]="color" [mode]="(pendingtransactions && pendingtransactions.length > 0)?'indeterminate':'determinate'" [value]="value" [matMenuTriggerFor]="appMenu">
+                        <mat-progress-spinner [diameter]="40" [color]="color" [mode]="'determinate'" [value]="value" [matMenuTriggerFor]="appMenu">
                         </mat-progress-spinner>
 
                         <mat-menu #appMenu="matMenu">

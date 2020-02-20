@@ -139,4 +139,15 @@
     background-color: rgba(175, 207, 175, 0.1);
 }
 
-.percentage-bar-blue {}
+.orderbookitem:hover {
+    background-color: rgba(228, 218, 218, 0.2);
+}
+
+.percent-text {
+    border: 1px solid grey;
+}
+
+.percent-text:hover {
+    border: 1px solid lightcoral;
+    color: lightcoral;
+}
