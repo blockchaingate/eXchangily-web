@@ -93,32 +93,6 @@ export class TradeAutoComponent implements OnInit {
         return new Promise( resolve => setTimeout(resolve, ms) );
     }
 
-    testme() {
-        const randomMnemonic = 'culture sound obey clean pretty medal churn behind chief cactus alley ready';
-        const seed = bip39.mnemonicToSeedSync(randomMnemonic);
-
-        const root = BIP32.fromSeed(seed);
-        const bitCoinChild1 = root.derive(0x80000000 + 44);
-        /*
-        const bitCoinChild2 = bitCoinChild1.deriveHardened(1);
-        const bitCoinChild3 = bitCoinChild2.deriveHardened(0);
-        const bitCoinChild4 = bitCoinChild3.derive(0);
-        const bitCoinChild = bitCoinChild4.derive(0);      
-        */
-        console.log('root.base58()' + root.toBase58());
-        console.log('bitCoinChild1.publicKey');
-        console.log(bitCoinChild1.publicKey);
-        /*
-        console.log('bitCoinChild2.base58()=');
-        console.log(bitCoinChild2.toBase58());
-        console.log('bitCoinChild3.base58()=');
-        console.log(bitCoinChild3.toBase58());
-        console.log('bitCoinChild4.base58()');
-        console.log(bitCoinChild4.toBase58());
-        console.log('bitCoinChild.base58()');
-        console.log(bitCoinChild.toBase58());
-        */
-    }
     async placeOrders() {
         const wallets = await this.walletServ.getWallets();
         const pin = '1qaz@WSX';

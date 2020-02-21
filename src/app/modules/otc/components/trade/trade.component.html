@@ -75,7 +75,7 @@
                             My order                            
                         </a>
                     </div>
-                    <div class="col col-6">
+                    <div class="col col-6 hand" (click)="becomeMerchant()">
                         Become merchant
                     </div>
                 </div>
@@ -121,3 +121,4 @@
 </div>
 
 <otc-place-order-modal #otcPlaceOrderModal (confirmed)="onConfirmedPlaceOrder($event)"></otc-place-order-modal>
+<apply-for-merchant-modal #applyForMerchantModal (confirmed)="onBecomeMerchant($event)"></apply-for-merchant-modal>

@@ -4,6 +4,7 @@ import { TradeComponent } from './components/trade/trade.component';
 import { OtcRoutingModule } from './otc-routing.module';
 import {MatSelectModule} from '@angular/material/select';
 import { OtcPlaceOrderModal } from './modals/otc-place-order/otc-place-order';
+import { ApplyForMerchantModal } from './modals/apply-for-merchant/apply-for-merchant';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MerchantPipe } from './pipes/merchant.pipe';
 import { PaymentmethodComponent } from './components/paymentmethod/paymentmethod.component';
@@ -14,7 +15,10 @@ import { OrderComponent } from './components/order/order.component';
 import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
-  declarations: [TradeComponent, MerchantPipe, PaymentmethodComponent, OtcPlaceOrderModal, OrderComponent],
+  declarations: [
+    TradeComponent, MerchantPipe, PaymentmethodComponent, 
+    OtcPlaceOrderModal, ApplyForMerchantModal, OrderComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,

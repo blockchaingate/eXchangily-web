@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { OtcPlaceOrderModal } from '../../modals/otc-place-order/otc-place-order';
-
+import { ApplyForMerchantModal } from '../../modals/apply-for-merchant/apply-for-merchant';
 export interface PeriodicElement {
   Merchant: string;
   PaymentMethod: string[];
@@ -69,6 +69,50 @@ const ELEMENT_DATA: PeriodicElement[] = [
     BidOrAsk: false, 
     CoinName: 'USDT'
   },
+  {
+    Merchant: '外汇大王', 
+    PaymentMethod: ['alipay', 'bank'], 
+    Quantity: 4010.457, 
+    LimitsLow: 7000.0, 
+    LimitsHigh: 35764.23, 
+    Price: 7.11, 
+    Currency: 'CAD',
+    BidOrAsk: true, 
+    CoinName: 'USDT'
+  }, 
+  {
+    Merchant: 'OTC Trader', 
+    PaymentMethod: ['alipay', 'bank'], 
+    Quantity: 4010.457, 
+    LimitsLow: 7000.0, 
+    LimitsHigh: 35764.23, 
+    Price: 7.11, 
+    Currency: 'CNY',
+    BidOrAsk: false, 
+    CoinName: 'USDT'
+  },  
+  {
+    Merchant: '场外交易1', 
+    PaymentMethod: ['alipay', 'bank'], 
+    Quantity: 4010.457, 
+    LimitsLow: 7000.0, 
+    LimitsHigh: 35764.23, 
+    Price: 7.11, 
+    Currency: 'CNY',
+    BidOrAsk: true, 
+    CoinName: 'USDT'
+  }, 
+  {
+    Merchant: '熊猫在线', 
+    PaymentMethod: ['alipay', 'bank'], 
+    Quantity: 4010.457, 
+    LimitsLow: 7000.0, 
+    LimitsHigh: 35764.23, 
+    Price: 7.11, 
+    Currency: 'CNY',
+    BidOrAsk: false, 
+    CoinName: 'USDT'
+  },      
 ];
 
 
@@ -90,6 +134,7 @@ export class TradeComponent implements OnInit {
   dataSource = ELEMENT_DATA;
 
   @ViewChild('otcPlaceOrderModal', {static: true}) otcPlaceOrderModal: OtcPlaceOrderModal;
+  @ViewChild('applyForMerchantModal', {static: true}) applyForMerchantModal: ApplyForMerchantModal;
   constructor() { }
 
   ngOnInit() {
@@ -108,6 +153,14 @@ export class TradeComponent implements OnInit {
   }
 
   onConfirmedPlaceOrder (event) {
+
+  }
+
+  becomeMerchant() {
+    this.applyForMerchantModal.show();
+  }
+
+  onBecomeMerchant( event ) {
 
   }
 }
