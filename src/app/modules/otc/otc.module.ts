@@ -14,11 +14,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatRadioModule} from '@angular/material/radio';
 import { OrderComponent } from './components/order/order.component';
 import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import { PlaceadvComponent } from './components/placeadv/placeadv.component';
 
 @NgModule({
   declarations: [
     TradeComponent, MerchantPipe, PaymentmethodComponent, ConfirmPaymentModal,
-    OtcPlaceOrderModal, ApplyForMerchantModal, OrderComponent
+    OtcPlaceOrderModal, ApplyForMerchantModal, OrderComponent, PlaceadvComponent
   ],
   imports: [
     CommonModule,
@@ -27,6 +29,7 @@ import {MatIconModule} from '@angular/material/icon';
     FontAwesomeModule,
     MatSelectModule,
     MatRadioModule,
+    MatButtonModule,
     MatIconModule,
     OtcRoutingModule,
     ModalModule

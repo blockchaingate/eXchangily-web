@@ -164,6 +164,10 @@ export class TradeComponent implements OnInit {
     this.applyForMerchantModal.show();
   }
 
+  placeAdv() {
+
+  }
+  
   onBecomeMerchant( event ) {
 
   }
