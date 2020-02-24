@@ -5,6 +5,7 @@ import { OtcRoutingModule } from './otc-routing.module';
 import {MatSelectModule} from '@angular/material/select';
 import { OtcPlaceOrderModal } from './modals/otc-place-order/otc-place-order';
 import { ApplyForMerchantModal } from './modals/apply-for-merchant/apply-for-merchant';
+import { ConfirmPaymentModal } from './modals/confirm-payment/confirm-payment';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MerchantPipe } from './pipes/merchant.pipe';
 import { PaymentmethodComponent } from './components/paymentmethod/paymentmethod.component';
@@ -16,7 +17,7 @@ import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
-    TradeComponent, MerchantPipe, PaymentmethodComponent, 
+    TradeComponent, MerchantPipe, PaymentmethodComponent, ConfirmPaymentModal,
     OtcPlaceOrderModal, ApplyForMerchantModal, OrderComponent
   ],
   imports: [

@@ -5,36 +5,31 @@ import { faCreditCard } from '@fortawesome/free-solid-svg-icons';
 import { FormBuilder } from '@angular/forms';
 
 @Component({
-    selector: 'otc-place-order-modal',
-    templateUrl: './otc-place-order.html',
-    styleUrls: ['./otc-place-order.css']
+    selector: 'confirm-payment-modal',
+    templateUrl: './confirm-payment.html',
+    styleUrls: ['./confirm-payment.css']
 })
-export class OtcPlaceOrderModal {
-    @Output() confirmed = new EventEmitter<number>();
-
+export class ConfirmPaymentModal {
     faAlipay = faAlipay;
     faCreditCard = faCreditCard;
-    otcPlaceOrderForm = this.fb.group({
+    confirmPaymentModalForm = this.fb.group({
         quantity: ['0'],
         amount: ['0'],
         method: ['alipay']
     });
-    @ViewChild('otcPlaceOrderModal', {static: true}) public otcPlaceOrderModal: ModalDirective;
-    methods: string[] = ['alipay', 'bank'];
+    @ViewChild('confirmPaymentModal', {static: true}) public confirmPaymentModal: ModalDirective;
     
 
+    methods: string[] = ['alipay', 'bank'];
     constructor(private fb: FormBuilder) { }
     show() {
-        this.otcPlaceOrderModal.show();
+        this.confirmPaymentModal.show();
     }
 
     hide() {
-        this.otcPlaceOrderModal.hide();
+        this.confirmPaymentModal.hide();
     }    
     onSubmit() {
-        this.hide();
-        console.log('1');
-        this.confirmed.emit(1);
-        console.log('2');
+        
     }
 }

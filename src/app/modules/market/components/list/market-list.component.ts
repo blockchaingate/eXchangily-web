@@ -7,6 +7,7 @@ import { WsService } from '../../../../services/ws.service';
 import { StorageService } from '../../../../services/storage.service';
 import { Order, Price, Coin } from '../../../../interfaces/kanban.interface';
 import { UtilService } from '../../../../services/util.service';
+import BigNumber from 'bignumber.js';
 
 @Component({
     selector: 'app-market-list',
@@ -32,6 +33,7 @@ export class MarketListComponent implements OnInit {
     ngOnInit() {
         this.prices = this.prServ.getPriceList();
         this.COINS = this.prServ.getCoinList();
+        this.selectCat(1);
         this.storageServ.getFavoritePairs().subscribe(
             (pairs: string[]) => {
                 if (pairs) {
@@ -41,10 +43,7 @@ export class MarketListComponent implements OnInit {
                 
             }
         );
-        this.selectCat(100);
-        if (!this.tab_prices || this.tab_prices.length === 0) {
-            this.selectCat(0);
-        }
+        
 
         this._wsServ.currentPrices.subscribe((arr: any) => {
             this.updateTickerList(arr);
@@ -115,8 +114,11 @@ export class MarketListComponent implements OnInit {
             let change24h = 0;
             const o = item['24h_open'];
             const c = item['24h_close'];
-            if (o > 0) {
-                change24h = (c - o) / o * 100;
+            const bigO = new BigNumber(o);
+            const bigC = new BigNumber(c);
+            if (bigO.gt(0)) {
+                const change24hBig = bigC.minus(bigO).dividedBy(bigO).multipliedBy(new BigNumber(100));
+                change24h = change24hBig.toNumber();
             }
             const v = item['24h_volume'];
 
