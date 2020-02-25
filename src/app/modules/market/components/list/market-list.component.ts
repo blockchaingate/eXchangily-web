@@ -38,7 +38,6 @@ export class MarketListComponent implements OnInit {
                     this.favorite_pairs = pairs;
                     this.selectCat(100);
                 }
-                
             }
         );
         this.selectCat(100);
@@ -113,8 +112,8 @@ export class MarketListComponent implements OnInit {
             const price = item.price;
             const l = item['24h_low'];
             let change24h = 0;
-            const o = item['24h_open'];
-            const c = item['24h_close'];
+            const o: number = item['24h_open'];
+            const c: number = item['24h_close'];
             if (o > 0) {
                 change24h = (c - o) / o * 100;
             }
