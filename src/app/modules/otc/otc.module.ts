@@ -5,6 +5,7 @@ import { OtcRoutingModule } from './otc-routing.module';
 import {MatSelectModule} from '@angular/material/select';
 import { OtcPlaceOrderModal } from './modals/otc-place-order/otc-place-order';
 import { ApplyForMerchantModal } from './modals/apply-for-merchant/apply-for-merchant';
+import { ConfirmPaymentModal } from './modals/confirm-payment/confirm-payment';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MerchantPipe } from './pipes/merchant.pipe';
 import { PaymentmethodComponent } from './components/paymentmethod/paymentmethod.component';
@@ -13,11 +14,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatRadioModule} from '@angular/material/radio';
 import { OrderComponent } from './components/order/order.component';
 import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import { PlaceadvComponent } from './components/placeadv/placeadv.component';
 
 @NgModule({
   declarations: [
-    TradeComponent, MerchantPipe, PaymentmethodComponent, 
-    OtcPlaceOrderModal, ApplyForMerchantModal, OrderComponent
+    TradeComponent, MerchantPipe, PaymentmethodComponent, ConfirmPaymentModal,
+    OtcPlaceOrderModal, ApplyForMerchantModal, OrderComponent, PlaceadvComponent
   ],
   imports: [
     CommonModule,
@@ -26,6 +29,7 @@ import {MatIconModule} from '@angular/material/icon';
     FontAwesomeModule,
     MatSelectModule,
     MatRadioModule,
+    MatButtonModule,
     MatIconModule,
     OtcRoutingModule,
     ModalModule

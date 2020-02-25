@@ -2,7 +2,7 @@
     "Header": {
         "Title": "eXchangily",
         "Navigation": {
-            "Home": "Home",
+            "Home": "About",
             "Blog": "Blog",
             "Language": "EN",
             "Whitepaper": "Download Whitepaper",
@@ -521,7 +521,7 @@
     "H24L": "24H Low",
     "Vol24": "24H Volume",
 
-    "MnemNote": "Please take down the following twelve mnemonics, they are very important. They must be accurately recorded and kept safely and reliably. Please do not exposure them to any body else. It is recommended not to save them only on your computer or mobile phone for fear of loss in case of damage of your device the device, please do not send these mnemonics via email or other social communication applications.",
+    "MnemNote": "Please accurately record and securely store the following twelve word mnemonic SEED, do not disclose the mnemonic SEED to anybody else. Disclosure of your mnemonic SEED will result in your account being compromised and you will lose all of your funds. Safely store your mnemonic SEED such that the loss or damage of a device does not impact your ability to access your mnemonic SEED. It is recommended to never send your mnemonic SEED via email or other social communication application. Be sure to only use your mnemonic SEED with the official eXchangily wallet.",
     "PwdNote": "Please note, this password is only for proectting wallet information in this device, it is not wallet private key.",
     "Wnvalid": "Wallet name must be 2 or more letters or numbers",
     "Pwdvalid": "Password must be at least 8 characters including at least 1 upper case letter, 1 lower case letter and 1 special character(!@#$%^&*~`)",

@@ -75,8 +75,16 @@
                             My order                            
                         </a>
                     </div>
-                    <div class="col col-6 hand" (click)="becomeMerchant()">
-                        Become merchant
+                    <div class="col col-6 hand">
+                        <div (click)="becomeMerchant()">
+                            Become merchant
+                        </div>
+                        <div>
+                            <a href="/otc/placeadv">
+                                    Place an ad
+                            </a>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -122,3 +130,4 @@
 
 <otc-place-order-modal #otcPlaceOrderModal (confirmed)="onConfirmedPlaceOrder($event)"></otc-place-order-modal>
 <apply-for-merchant-modal #applyForMerchantModal (confirmed)="onBecomeMerchant($event)"></apply-for-merchant-modal>
+<confirm-payment-modal #confirmPaymentModal (confirmed)="onConfirmPayment($event)"></confirm-payment-modal>
