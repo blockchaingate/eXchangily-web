@@ -16,6 +16,8 @@ import { OrderComponent } from './components/order/order.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import { PlaceadvComponent } from './components/placeadv/placeadv.component';
+import {MatInputModule} from '@angular/material/input';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { PlaceadvComponent } from './components/placeadv/placeadv.component';
     MatRadioModule,
     MatButtonModule,
     MatIconModule,
+    MatCardModule,
+    MatInputModule,
     OtcRoutingModule,
     ModalModule
   ]

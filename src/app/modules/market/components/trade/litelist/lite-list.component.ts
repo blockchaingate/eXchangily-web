@@ -5,6 +5,7 @@ import { PriceService } from '../../../../../services/price.service';
 import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 import { WsService } from '../../../../../services/ws.service';
 import { UtilService } from '../../../../../services/util.service';
+import BigNumber from 'bignumber.js';
 
 export interface Section {
     name: string;
@@ -46,8 +47,16 @@ export class LiteListComponent implements OnInit {
                 const open = Number(ticker['24h_open']);
                 const close = Number(ticker['24h_close']);
                 let change24h = 0;
-                if (open > 0) {
-                    change24h = (close - open) / open * 100;
+
+                const bigO = new BigNumber(ticker['24h_open']);
+                const bigC = new BigNumber(ticker['24h_close']);                
+                if (bigO.gt(0)) {
+                    // change24h = (close - open) / open * 100;
+                    // change24h = Math.floor(change24h * 100) / 100;
+
+                    const change24hBig = bigC.minus(bigO).dividedBy(bigO).multipliedBy(new BigNumber(100));
+                    change24h = change24hBig.toNumber();
+                    change24h = Math.floor(change24h * 100) / 100;                    
                 }
                 const vol24h = Number(ticker['24h_volume']);
                 

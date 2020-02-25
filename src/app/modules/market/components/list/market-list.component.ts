@@ -119,6 +119,7 @@ export class MarketListComponent implements OnInit {
             if (bigO.gt(0)) {
                 const change24hBig = bigC.minus(bigO).dividedBy(bigO).multipliedBy(new BigNumber(100));
                 change24h = change24hBig.toNumber();
+                change24h = Math.floor(change24h * 100) / 100;
             }
             const v = item['24h_volume'];
 

@@ -63,7 +63,7 @@
 
             </div>
             <div class="col-2 align-self-center">{{showAmount(pr.price)}}</div>
-            <div class="col-2 align-self-center" [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>=0">{{showAmount(pr.change24h)}}%
+            <div class="col-2 align-self-center" [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>=0">{{(pr.change24h)}}%
             </div>
             <div class="col-2 align-self-center">{{showAmount(pr.price24hh)}}</div>
             <div class="col-2 align-self-center">{{showAmount(pr.price24hl)}}</div>
@@ -86,7 +86,7 @@
                 </span>
             </div>
             <div class="col-4 align-self-center">{{showAmount(pr.price)}}</div>
-            <div class="col-4 align-self-center" [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>=0">{{showAmount(pr.change24h)}}%
+            <div class="col-4 align-self-center" [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>=0">{{(pr.change24h)}}%
             </div>
             <div class="col-12 text-muted">{{'H24H'|translate}}:{{showAmount(pr.price24hh)}}</div>
             <div class="col-12 text-muted">{{'H24L'|translate}}:{{showAmount(pr.price24hl)}}</div>

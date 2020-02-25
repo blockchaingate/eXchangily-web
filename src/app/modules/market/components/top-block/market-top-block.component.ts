@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UtilService } from '../../../../services/util.service';
+import BigNumber from 'bignumber.js';
 
 @Component({
   selector: 'app-market-top-block',
@@ -10,7 +11,7 @@ export class MarketTopBlockComponent implements OnInit {
   @Input() pair: string;
   price: number;
   volume: number;
-  changePercent: string;
+  changePercent: number;
   baseCoinName: string;
   
   constructor(private utilServ: UtilService) { }
@@ -18,7 +19,7 @@ export class MarketTopBlockComponent implements OnInit {
   ngOnInit() {
     this.price = 0;
     this.volume = 0;
-    this.changePercent = '0.00';
+    this.changePercent = 0.00;
     const arr = this.pair.split('/');
     this.baseCoinName = arr[0];
   }
@@ -30,9 +31,11 @@ export class MarketTopBlockComponent implements OnInit {
     const close = this.utilServ.showAmount(ticker['24h_close']);
     this.price = price;
     this.volume = volume;
-    this.changePercent = '0.00';
-    if (open !== 0) {
-      this.changePercent = ((close - open) / open * 100).toFixed(2);
+    const bigO = new BigNumber(open);
+    const bigC = new BigNumber(close);
+    if (bigO.gt(0)) {
+        const change24hBig = bigC.minus(bigO).dividedBy(bigO).multipliedBy(new BigNumber(100));
+        this.changePercent = change24hBig.toNumber();
     }
   }
 }
