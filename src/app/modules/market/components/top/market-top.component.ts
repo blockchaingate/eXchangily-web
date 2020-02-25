@@ -36,7 +36,7 @@ export class MarketTopComponent implements OnInit {
       if (s === 'ETHBTC') {
         this.marketTopBlock3.updateTicker(item);
       } else 
-      if (s === 'EXGFAB') {
+      if (s === 'EXGUSDT') {
         this.marketTopBlock4.updateTicker(item);
       }
     }

@@ -40,7 +40,6 @@ export class MarketListComponent implements OnInit {
                     this.favorite_pairs = pairs;
                     this.selectCat(100);
                 }
-                
             }
         );
         

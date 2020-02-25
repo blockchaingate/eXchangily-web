@@ -36,6 +36,7 @@ export class MarketTopBlockComponent implements OnInit {
     if (bigO.gt(0)) {
         const change24hBig = bigC.minus(bigO).dividedBy(bigO).multipliedBy(new BigNumber(100));
         this.changePercent = change24hBig.toNumber();
+        this.changePercent = Math.floor(this.changePercent * 100) / 100;
     }
   }
 }
