@@ -68,6 +68,10 @@
                     <li class="nav-item" *ngIf="testMode">
                         <a class="nav-link" routerLink="/otc/trade" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'OTC Trade' | translate}}</a>
                     </li>
+
+                    <li class="nav-item" *ngIf="testMode">
+                        <a class="nav-link" routerLink="/promotion" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Promotion' | translate}}</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="https://medium.com/exchangily-blog" target="_blank">{{'Blog' | translate}}</a>
                     </li>
