@@ -328,7 +328,7 @@ export class WalletDashboardComponent {
                     // console.log('price===', price);
                     const priceAmount = this.utilServ.showAmount(price);
                     // console.log('priceAmount====', priceAmount);
-                    this.coinsPrice.exgcoin.usd = priceAmount;
+                    this.coinsPrice.exgcoin.usd = Number(priceAmount);
                     break;
                 }
             }

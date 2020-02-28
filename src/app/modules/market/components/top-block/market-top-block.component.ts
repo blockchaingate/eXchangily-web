@@ -9,16 +9,16 @@ import BigNumber from 'bignumber.js';
 })
 export class MarketTopBlockComponent implements OnInit {
   @Input() pair: string;
-  price: number;
-  volume: number;
+  price: string;
+  volume: string;
   changePercent: number;
   baseCoinName: string;
   
   constructor(private utilServ: UtilService) { }
 
   ngOnInit() {
-    this.price = 0;
-    this.volume = 0;
+    this.price = '0';
+    this.volume = '0';
     this.changePercent = 0.00;
     const arr = this.pair.split('/');
     this.baseCoinName = arr[0];

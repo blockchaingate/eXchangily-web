@@ -25,10 +25,13 @@ export class AddressKeyComponent implements OnInit {
         this.showPage();
     }
     showPage() {
+        console.log('this.currentCoin======', this.currentCoin);
         const addsArray = (this.chain === 0) ? this.currentCoin.receiveAdds : this.currentCoin.changeAdds;
+        console.log('addsArray=', addsArray);
         this.addsArraylength = (addsArray.length < 1) ? (addsArray.length) : 1;
         // this.addsPagination = addsArray.slice(this.pageIndex * this.pageSize, (this.pageIndex + 1) * this.pageSize);
         this.addsPagination = addsArray.slice(0, 1);
+        console.log('addsPagination=', this.addsPagination);
         for (let i = 0; i < this.addsPagination.length; i++) {
             const keyPair = this.coinServ.getKeyPairs(this.currentCoin, this.seed, this.chain, this.addsPagination[i].index);
             this.addsPagination[i].privateKey = keyPair.privateKeyDisplay;

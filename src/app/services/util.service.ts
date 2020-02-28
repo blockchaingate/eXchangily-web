@@ -133,7 +133,7 @@ export class UtilService {
         const amount1BigNumber = new BigNumber(amount1);
         const amount2BigNumber = new BigNumber(amount2);
         const total = amount1BigNumber.plus(amount2BigNumber);
-        return this.showAmount(total.toNumber());
+        return this.showAmount(total.toFixed());
         /*
         const amount1Show = this.showAmount(amount1);
         const amount2Show = this.showAmount(amount2);
@@ -158,51 +158,13 @@ export class UtilService {
         return amount;
     }
     showAmount(amount) {
-        /*
-        if (!amount) {
-            return 0;
-        }
-        if (!amount || amount.toString() === '0') {
-            return 0;
-        }
-        let amountString = amount.toString();
 
-        let times = 0;
-        while (times < 18) {
-          if (amountString.charAt(amountString.length - 1) === '0') {
-            amountString = amountString.substr(0, amountString.length - 1);
-            times ++;
-          } else {
-              break;
-          }
-        }
-
-        if (times === 18) {
-            return amountString;
-        }
-        let finalAmountString = '';
-        const finalTimes = 18 - times;
-        if (amountString.length <= finalTimes) {
-            finalAmountString = '0.';
-            for (let i = 0; i < finalTimes - amountString.length; i++) {
-                finalAmountString += '0';
-            }
-            finalAmountString += amountString;
-        } else {
-            finalAmountString = amountString;
-            finalAmountString = amountString.slice(0, amountString.length - finalTimes) 
-                + '.' + amountString.slice(amountString.length - finalTimes);
-
-        }
-        finalAmountString = finalAmountString.substring(0, 10);
-        return finalAmountString;
-        */
-        
-       // const num = new BigNumber(amount.toString()).toNumber();
-       
        if (!amount || amount.toString() === '0') {
-        return 0;
-       }       
+        return '0';
+       }    
+       
+       const bigN = new BigNumber(amount).dividedBy(new BigNumber(1e18));
+       /*
        let numStr = amount.toString();
 
        if (numStr.indexOf('e') >= 0) {
@@ -221,12 +183,13 @@ export class UtilService {
        const str2 = numStr.substr(numStr.length - 18);
        numStr = str1 + '.' + str2;
 
-       numStr = numStr.substring(0, 8);
-       const retNumber = Number(numStr).toPrecision(6);
-       const retNum = Number(retNumber);
-       return retNum;
-        
-        
+       numStr = numStr.substring(0, 10);
+       const retNumber = Math.floor(Number(numStr) * 100000000) / 100000000;
+       // const retNum = Number(retNumber);
+       return retNumber;
+       */
+      const fixN = bigN.toFixed().substr(0, 10);
+       return fixN; 
         
     }
     

@@ -309,17 +309,17 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     }
 
     setBuyQtyPercent(percent: number) {
-      this.buyQty = this.utilService.showAmount(this.baseCoinAvail) * percent;
+      this.buyQty = Number(this.utilService.showAmount(this.baseCoinAvail)) * percent;
     }
 
     setSellQtyPercent(percent: number) {
-      this.sellQty = this.utilService.showAmount(this.targetCoinAvail) * percent;
+      this.sellQty = Number(this.utilService.showAmount(this.targetCoinAvail)) * percent;
     }    
     
     setPrice(price: number) {
       const realPrice = this.utilService.showAmount(price);
-      this.buyPrice = realPrice;
-      this.sellPrice = realPrice;
+      this.buyPrice = Number(realPrice);
+      this.sellPrice = Number(realPrice);
     }
 
     refreshOrders() {

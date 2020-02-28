@@ -31,7 +31,7 @@ export class BackupPrivateKeyModal {
     onChange(index: number) {
         this.currentCoin = this.wallet.mycoins[index];
         
-        //console.log(selectedValue);
+        console.log('this.currentCoin=', this.currentCoin);
     }  
     show(seed: Buffer, wallet: Wallet) {
         this.seed = seed;
