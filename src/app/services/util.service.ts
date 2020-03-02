@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { MyCoin } from '../models/mycoin';
-import * as createHash from 'create-hash';
+// import * as createHash from 'create-hash';
 import BigNumber from 'bignumber.js/bignumber';
+import * as Btc from 'bitcoinjs-lib';
+
 @Injectable()
 export class UtilService {
     auth_code = 'encrypted by crypto-js|';
@@ -227,13 +229,19 @@ export class UtilService {
         return Buffer.from(buffer);
     }
 
-    toKanbanAddress(publicKey: string) {
+    toKanbanAddress(publicKey: Buffer) {
 
-      publicKey = this.stripHexPrefix(publicKey);
+      // publicKey = this.stripHexPrefix(publicKey);
+      /*
        const hash1 = createHash('sha256').update(Buffer.from(publicKey, 'hex')).digest().toString('hex');
        const hash2 = createHash('ripemd160').update(Buffer.from(hash1, 'hex')).digest().toString('hex');
 
        return '0x' + hash2;
+       */
+      const hash01 = Btc.crypto.sha256(publicKey);
+      const hash02 = Btc.crypto.ripemd160(hash01).toString('hex');
+      const address = '0x' + hash02;    
+      return address;  
     }    
 
 }

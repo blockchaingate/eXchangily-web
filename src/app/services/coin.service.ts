@@ -316,8 +316,8 @@ export class CoinService {
             // console.log('buffer=', buffer);
             const publicKey = childNode.publicKey;
             // console.log('publicKey=', publicKey);
-            const publicKeyString = `0x${publicKey.toString('hex')}`;
-            addr = this.utilServ.toKanbanAddress(publicKeyString);
+            // const publicKeyString = `0x${publicKey.toString('hex')}`;
+            addr = this.utilServ.toKanbanAddress(publicKey);
 
               
         }
