@@ -108,6 +108,33 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       return result;
     }
 
+    showBuysAmount(buys: any, index: number) {
+      if (!buys) {
+        return 0;
+      }
+      
+      let amountBig = new BigNumber(0);
+      for (let i = 0; i <= index; i++) {
+        const buy = buys[i];
+        amountBig = amountBig.plus(this.utilService.showAmountArr(buy.amountArr));
+      }
+
+      return amountBig.toFixed();
+    }
+
+    showSellsAmount(sells: any, index: number) {
+      if (!sells) {
+        return 0;
+      }
+      
+      let amountBig = new BigNumber(0);
+      for (let i = sells.length - 1; i >= index; i--) {
+        const sell = sells[i];
+        amountBig = amountBig.plus(this.utilService.showAmountArr(sell.amountArr));
+      }
+
+      return amountBig.toFixed();
+    }
 
     syncOrders ( newOrderArr, oldOrderArr, bidOrAsk: boolean) {
       // console.log('begin newOrderArr=', newOrderArr);
