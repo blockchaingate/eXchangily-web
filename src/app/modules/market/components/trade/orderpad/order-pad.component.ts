@@ -102,6 +102,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       return result;
     }
 
+    bigdiv(num1, num2) {
+      const x = new BigNumber(num1.toString());
+      const result = x.dividedBy(num2);
+      return result;
+    }
 
 
     syncOrders ( newOrderArr, oldOrderArr, bidOrAsk: boolean) {
@@ -309,7 +314,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     }
 
     setBuyQtyPercent(percent: number) {
-      this.buyQty = Number(this.utilService.showAmount(this.baseCoinAvail)) * percent;
+      this.buyQty = Number(this.utilService.showAmount(this.bigdiv(this.baseCoinAvail, this.buyPrice))) * percent;
     }
 
     setSellQtyPercent(percent: number) {
