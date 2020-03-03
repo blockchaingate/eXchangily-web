@@ -58,5 +58,5 @@ main {
 
 .main-container {
     border-bottom: 1px solid;
-    border-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'><defs><linearGradient id='redgradient' x1='100%' x2='0%' y1='0%' y2='0%'><stop offset='0%' stop-color='rgb(122,28,229)' stop-opacity='1' /> <stop offset='100%' stop-color='rgb(229,159,18)' stop-opacity='1' /></linearGradient></defs><g id='Layer_1'><path d='M0,0 L50,0 L50,50 L0,50 L0,0 z' fill='url(%23redgradient)' width='100%' height='100%'/></g></svg>") 10% stretch;
+    // border-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'><defs><linearGradient id='redgradient' x1='100%' x2='0%' y1='0%' y2='0%'><stop offset='0%' stop-color='rgb(122,28,229)' stop-opacity='1' /> <stop offset='100%' stop-color='rgb(229,159,18)' stop-opacity='1' /></linearGradient></defs><g id='Layer_1'><path d='M0,0 L50,0 L50,50 L0,50 L0,0 z' fill='url(%23redgradient)' width='100%' height='100%'/></g></svg>") 10% stretch;
 }
