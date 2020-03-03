@@ -405,8 +405,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
                 orderHash2: orderHash2
             };
 
-            if (this.txOrders.length > 20) {
-              //break;
+            if (this.txOrders.length > 22) {
+              // break;
               this.txOrders.pop();
             }
             this.txOrders.unshift(txItem);
