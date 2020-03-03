@@ -31,8 +31,8 @@ export const environment = {
                 networkId: 211,
                 chainId: 211                
             },
-            gasPrice: 500000000,
-            gasLimit: 2000000    
+            gasPrice: 50000000,
+            gasLimit: 20000000    
         }         
     },
     endpoints: {
