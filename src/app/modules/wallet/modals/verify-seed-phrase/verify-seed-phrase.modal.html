@@ -3,14 +3,14 @@
         <form [formGroup]="verifySeedPhraseForm" (ngSubmit)="onSubmit()">
             <div class="modal-content">
                 <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 text-dark">Verify seed phrase</h4>
+                    <h4 class="modal-title w-100 text-dark">{{'Verify seed phrase' | translate }}</h4>
                     <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Seed phrase, seperated by space</label>
+                        <label for="exampleInputEmail1" class="text-muted">{{'Seed phrase, seperated by space' | translate }}</label>
                         <textarea class="form-control text-muted" formControlName="seedphrase" id="seedphrase" name="seedphrase" id="exampleFormControlTextarea1" rows="5"></textarea>
                     </div>
                     <div *ngIf="verifyResult" class="text-primary">
@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="modal-footer justify-content-center">
-                    <button class="btn btn-gradient text-white py-2 px-5" type="submit"> Confirm </button>
+                    <button class="btn btn-gradient text-white py-2 px-5" type="submit"> {{'Confirm' | translate }} </button>
                 </div>
             </div>
         </form>
