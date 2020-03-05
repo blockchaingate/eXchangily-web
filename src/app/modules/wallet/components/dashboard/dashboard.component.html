@@ -23,21 +23,7 @@
                                 </button>
                             </div>
                             <div class="small text-white" *ngIf="wallet">{{"Gas" | translate }}:{{gas}} </div>
-                            <div class="row py-3">
-                                <div class="col col-md-3">
-                                    <modal-receive-coin [wallet]="wallet"></modal-receive-coin>
-                                </div>
-                                <div class="col col-md-3">
-                                    <button class="btn btn-outline btn-basic-outline" (click)="sendCoin()">{{"Send" | translate }}</button>
 
-                                </div>
-                                <div class="col col-md-3">
-                                    <button class="btn btn-outline btn-basic-outline" (click)="addGasFee()">{{"Add Gas" | translate }}</button>
-                                </div>
-                                <div class="col col-md-3">
-                                    <button class="btn btn-outline btn-basic-outline" (click)="exchangeMoney()">{{"Exchange" | translate }}</button>
-                                </div>
-                            </div>
                         </div>
                         <div class="col col-md-4">
                             <h4>{{"EXG" | translate}} {{exgBalance}}
@@ -67,6 +53,23 @@
                                         </li>
                                     </ul>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row py-3">
+                        <div class="col col-12">
+                            <div class="d-inline-block pr-3">
+                                <modal-receive-coin [wallet]="wallet"></modal-receive-coin>
+                            </div>
+                            <div class="d-inline-block pr-3">
+                                <button class="btn btn-outline btn-basic-outline btn-fixed-width" (click)="sendCoin()">{{"Send" | translate }}</button>
+                            </div>
+                            <div class="d-inline-block pr-3">
+                                <button class="btn btn-outline btn-basic-outline btn-fixed-width" (click)="addGasFee()">{{"Add Gas" | translate }}</button>
+                            </div>
+                            <div class="d-inline-block pr-3">
+                                <button class="btn btn-outline btn-basic-outline btn-fixed-width" (click)="exchangeMoney()">{{"Exchange" | translate }}</button>
                             </div>
                         </div>
                     </div>
@@ -133,10 +136,10 @@
                     <div class="row pt-4" *ngIf="showMyAssets">
                         <div class="container fxHide-sm" *ngIf="wallet">
                             <div class="row apair header">
-                                <div class="col-1">
+                                <div class="col-custom-1">
                                     {{"Symbol" | translate}}
                                 </div>
-                                <div class="col-1">
+                                <div class="col-custom-1">
                                     {{"Asset" | translate}}
                                 </div>
                                 <div class="col-2">
@@ -151,7 +154,7 @@
                                 <div class="col-2">
                                     {{"Profit sharing" | translate}}
                                 </div>
-                                <div class="col-2">
+                                <div class="col-custom-2">
 
                                 </div>
                             </div>
@@ -159,14 +162,14 @@
                                 <ng-container *ngFor="let mycoin of wallet.mycoins; index as i">
                                     <div class="row apair dataline" *ngIf="!hideSmall || mycoin.balance >= 0.1">
 
-                                        <div class="col-1">
+                                        <div class="col-custom-1">
                                             <img *ngIf="mycoin.name == 'BTC'" src="/assets/coins/btc.png" class="icon" />
                                             <img *ngIf="mycoin.name == 'ETH'" src="/assets/coins/eth.png" class="icon" />
                                             <img *ngIf="mycoin.name == 'EXG'" src="/assets/coins/exg.png" class="icon" />
                                             <img *ngIf="mycoin.name == 'FAB'" src="/assets/coins/fab.png" class="icon" />
                                             <img *ngIf="mycoin.name == 'USDT'" src="/assets/coins/usdt.png" class="icon" />
                                         </div>
-                                        <div class="col-1">
+                                        <div class="col-custom-1">
                                             {{mycoin.name}}
                                         </div>
                                         <div class="col-2">
@@ -185,7 +188,7 @@
                                         <div class="col-2">
 
                                         </div>
-                                        <div class="col-2" *ngIf="gas > 0">
+                                        <div class="col-custom-2" *ngIf="gas > 0">
                                             <button mat-icon-button matTooltip="Deposit" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                                 <mat-icon>arrow_downward</mat-icon>
                                             </button>

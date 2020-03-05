@@ -1,14 +1,14 @@
 <div class="container">
     <div class="row text-white menu">
-        Restore Wallet
+        {{'Restore Wallet' | translate }}
     </div>
     <div class="row panel">
         <div class="col-md-3 col-sm-12"></div>
         <div class="col-md-6 col-sm-12 text-white">
             <form class="user-form" [formGroup]="userForm" (submit)="onSubmit()">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Wallet Name</label>
-                    <input type="text" class="form-control transparent-input" formControlName="name" id="name" aria-describedby="emailHelp" placeholder="Type wallet name">
+                    <label for="exampleInputEmail1">{{'Wallet Name' | translate }}</label>
+                    <input type="text" class="form-control transparent-input" formControlName="name" id="name" aria-describedby="emailHelp" placeholder="{{ 'Type wallet name' | translate }}">
                     <div class="error text-danger smallfont" *ngIf="!userForm.get('name').valid && userForm.get('name').touched">
                         {{"Wnvalid" | translate}}.
                     </div>
@@ -16,8 +16,8 @@
 
 
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Wallet Password</label>
-                    <input type="password" autocomplete="off" class="form-control transparent-input" formControlName="password" id="password" placeholder="Type wallet password">
+                    <label for="exampleInputPassword1">{{'Wallet Password' | translate }}</label>
+                    <input type="password" autocomplete="off" class="form-control transparent-input" formControlName="password" id="password" placeholder="{{ 'Type wallet password' | translate }}">
                     <div class="error text-danger smallfont" *ngIf="!userForm.get('password').valid && userForm.get('password').touched">
                         {{"Pwdvalid" | translate}}
                     </div>
@@ -25,14 +25,14 @@
 
 
                 <div class="form-group">
-                    <label for="exampleInputPassword2">Confirm Wallet Password</label>
-                    <input type="password" autocomplete="off" class="form-control transparent-input" formControlName="pwdconfirm" id="pwdconfirm" placeholder="Type wallet password">
+                    <label for="exampleInputPassword2">{{'Confirm Wallet Password' | translate }}</label>
+                    <input type="password" autocomplete="off" class="form-control transparent-input" formControlName="pwdconfirm" id="pwdconfirm" placeholder="{{'Type wallet password' | translate }}">
                     <div class="error text-danger smallfont" *ngIf="userForm.get('pwdconfirm').touched && userForm.hasError('notSame')">
                         {{"Password doesn't match" | translate }}!
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Seed phrase, seperated by space</label>
+                    <label for="exampleInputEmail1">{{'Seed phrase, seperated by space' | translate }}</label>
                     <textarea class="form-control transparent-input" (input)="autoGrow($event.target.value)" formControlName="seedphrase" id="seedphrase" name="seedphrase" id="exampleFormControlTextarea1" rows="5"></textarea>
                     <div class="error text-danger smallfont" *ngIf="seedPhraseInvalid">
                         {{"Seed Phrase is invalid" | translate }}!
@@ -41,7 +41,7 @@
 
                 <div class="row words">
                     <div class="col-lg-2 col-md-3 col-sm-4 col-6" *ngIf="userForm.get('password').valid && userForm.get('password').valid && !userForm.hasError('notSame') && userForm.get('seedphrase').valid && !seedPhraseInvalid">
-                        <button class="btn btn-gradient text-white" type="submit">{{"Import Wallet"|translate}}</button>
+                        <button class="btn btn-gradient text-white btn-lg-fixed-width" type="submit">{{"Import Wallet"|translate}}</button>
                     </div>
                 </div>
             </form>

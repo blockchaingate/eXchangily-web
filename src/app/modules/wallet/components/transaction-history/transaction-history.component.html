@@ -21,7 +21,7 @@
                 </ul>
             </div>
         </div>
-        <div class="col-1 ">
+        <div class="col-custom-1">
             {{"Asset" | translate}}
         </div>
         <div class="col-3 ">
@@ -33,7 +33,7 @@
         <div class="col-2 ">
             {{"Value(USD)" | translate}}
         </div>
-        <div class="col-2">
+        <div class="col-custom-2">
             {{"Comment" | translate}}
         </div>
     </div>
@@ -42,7 +42,7 @@
             <div class="col-2">
                 <p>{{item.type | translate}}</p>
             </div>
-            <div class="col-1 ">
+            <div class="col-custom-1">
                 <p>{{item.coin}}</p>
             </div>
             <div class="col-3 ">
@@ -58,7 +58,7 @@
                 <p *ngIf="item.coin == 'USDT' && coinsPrice && coinsPrice.tether">{{utilServ.toPrecision(item.amount * coinsPrice.tether.usd)}}</p>
                 <p *ngIf="item.coin == 'EXG' && coinsPrice && coinsPrice.exgcoin">{{utilServ.toPrecision(item.amount * coinsPrice.exgcoin.usd)}}</p>
             </div>
-            <div class="col-2 ">
+            <div class="col-custom-2">
                 <p>
                     {{item.comment}}
                     <button mat-icon-button (click)="showTransactionDetail(item)" aria-label="Example icon-button with a heart icon">

@@ -796,5 +796,12 @@
     "Please provide your password to confirm the transaction": "Please provide your password to confirm the transaction",
     "Quantity": "Quantity",
     "Transaction ID": "Transaction ID",
-    "Block Number": "Block Number"
+    "Block Number": "Block Number",
+    "Restore Wallet": "Restore Wallet",
+    "Type wallet name": "Type wallet name",
+    "Type wallet password": "Type wallet password",
+    "Confirm Wallet Password": "Confirm Wallet Password",
+    "Seed phrase, seperated by space": "Seed phrase, seperated by space",
+    "Seed Phrase is invalid": "Seed Phrase is invalid",
+    "Already have mnemonics? Restore": "Already have mnemonics? Restore"
 }

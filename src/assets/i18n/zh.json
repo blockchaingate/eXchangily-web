@@ -853,5 +853,11 @@
     "Please provide your password to confirm the transaction": "请输入密码",
     "Address": "地址",
     "Transaction ID": "交易ID",
-    "Block Number": "区块号"
+    "Block Number": "区块号",
+    "Type wallet name": "输入钱包名称",
+    "Type wallet password": "输入钱包密码",
+    "Confirm Wallet Password": "确认钱包密码",
+    "Seed phrase, seperated by space": "助记词，用空格分开",
+    "Seed Phrase is invalid": "助记词无效",
+    "Already have mnemonics? Restore": "已有助记词？恢复"
 }
