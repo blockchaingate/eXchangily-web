@@ -31,7 +31,7 @@
                             </h4>
                             <div class="small"> <span>
                                             {{utilServ.toPrecision(exgBalance * 0.2 * currencyRate)}} 
-                                        </span> {{currentCurrency}}</div>
+                                        </span> {{currentCurrency | translate}}</div>
                         </div>
                         <div class="col col-md-2">
                             <div class="small">+0%</div>
@@ -39,17 +39,17 @@
 
                                 <div class="btn-group" dropdown>
                                     <button id="button-basic" dropdownToggle type="button" class="btn btn-link dropdown-toggle" aria-controls="dropdown-basic">
-                                              in {{currentCurrency}} <span class="caret"></span>
+                                               {{ ('in ' + currentCurrency) | translate}} <span class="caret"></span>
                                             </button>
                                     <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
                                         <li role="menuitem" *ngIf="currentCurrency !== 'USD'">
-                                            <a class="dropdown-item" (click)="changeCurrency('USD')">in USD</a>
+                                            <a class="dropdown-item" (click)="changeCurrency('USD')">{{'in USD' | translate }}</a>
                                         </li>
                                         <li role="menuitem" *ngIf="currentCurrency !== 'CAD'">
-                                            <a class="dropdown-item" (click)="changeCurrency('CAD')">in CAD</a>
+                                            <a class="dropdown-item" (click)="changeCurrency('CAD')">{{'in CAD' | translate }}</a>
                                         </li>
                                         <li role="menuitem" *ngIf="currentCurrency !== 'RMB'">
-                                            <a class="dropdown-item" (click)="changeCurrency('RMB')">in RMB</a>
+                                            <a class="dropdown-item" (click)="changeCurrency('RMB')">{{'in RMB' | translate }}</a>
                                         </li>
                                     </ul>
                                 </div>

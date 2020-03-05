@@ -803,5 +803,16 @@
     "Confirm Wallet Password": "Confirm Wallet Password",
     "Seed phrase, seperated by space": "Seed phrase, seperated by space",
     "Seed Phrase is invalid": "Seed Phrase is invalid",
-    "Already have mnemonics? Restore": "Already have mnemonics? Restore"
+    "Already have mnemonics? Restore": "Already have mnemonics? Restore",
+    "Export": "Export",
+    "Delete": "Delete",
+    "Once you delete your wallet, you can only recover it if you keep your seed phrase.": "Once you delete your wallet, you can only recover it if you keep your seed phrase.",
+    "Private Key": "Private Key",
+    "Fab Balance": "Fab Balance",
+    "in USD": "in USD",
+    "in RMB": "in RMB",
+    "in CAD": "in CAD",
+    "USD": "USD",
+    "RMB": "RMB",
+    "CAD": "CAD"
 }

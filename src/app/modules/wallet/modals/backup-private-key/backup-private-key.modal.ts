@@ -3,6 +3,7 @@ import {  ModalDirective } from 'ngx-bootstrap/modal';
 import { FormBuilder } from '@angular/forms';
 import { Wallet } from '../../../../models/wallet';
 import { MyCoin } from '../../../../models/mycoin';
+import { AddressKeyComponent } from '../components/address-key/address-key.component';
 @Component({
     selector: 'backup-private-key-modal',
     templateUrl: './backup-private-key.modal.html',
@@ -14,6 +15,8 @@ export class BackupPrivateKeyModal {
     currentCoin: MyCoin;
 
     @ViewChild('backupPrivateKeyModal', {static: true}) public backupPrivateKeyModal: ModalDirective;
+
+    // @ViewChild(AddressKeyComponent, {static: true}) addressKey: AddressKeyComponent;
     @Output() confirmedBackupPrivateKey = new EventEmitter<string>();
 
     backupPrivateKeyForm = this.fb.group({
@@ -30,7 +33,7 @@ export class BackupPrivateKeyModal {
     }
     onChange(index: number) {
         this.currentCoin = this.wallet.mycoins[index];
-        
+        // this.addressKey.showPage();
         console.log('this.currentCoin=', this.currentCoin);
     }  
     show(seed: Buffer, wallet: Wallet) {

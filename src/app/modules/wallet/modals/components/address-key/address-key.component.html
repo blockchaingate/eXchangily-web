@@ -1,10 +1,8 @@
 <div class="container">
     <div class="row apair header header-tiny apair-no-margin">
-        <div class="col-1">
-            {{"Index" | translate}}
-        </div>
+
         <div class="col-5">
-            {{"Address" | translate}}
+            {{"Address" | translate}} {{currentCoin.name}}
         </div>
         <div class="col-6">
             {{"Private Key" | translate}}
@@ -12,9 +10,6 @@
     </div>
     <ng-container *ngFor="let addr of addsPagination">
         <div class="row apair dataline apair-no-margin">
-            <div class="col-1">
-                {{addr.index}}
-            </div>
             <div class="col-5">
                 <small>{{addr.address}}</small>
             </div>

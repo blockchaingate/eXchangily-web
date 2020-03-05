@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import {PageEvent} from '@angular/material/paginator';
 import { MyCoin } from '../../../../../models/mycoin';
 import { CoinService } from '../../../../../services/coin.service';
@@ -24,6 +24,13 @@ export class AddressKeyComponent implements OnInit {
     ngOnInit() {
         this.showPage();
     }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if(changes['currentCoin']){
+            this.showPage();
+        }
+      }
+
     showPage() {
         console.log('this.currentCoin======', this.currentCoin);
         const addsArray = (this.chain === 0) ? this.currentCoin.receiveAdds : this.currentCoin.changeAdds;

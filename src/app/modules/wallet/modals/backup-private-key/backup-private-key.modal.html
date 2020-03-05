@@ -3,7 +3,7 @@
         <form [formGroup]="backupPrivateKeyForm" (ngSubmit)="onSubmit()">
             <div class="modal-content" *ngIf="wallet">
                 <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 text-dark">Backup private key</h4>
+                    <h4 class="modal-title w-100 text-dark">{{'Backup private key' | translate }}</h4>
                     <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -15,25 +15,12 @@
                             <option [value]="i" *ngFor="let coin of wallet.mycoins;let i = index">{{coin.name}}</option>
                         </select>
 
-                        <!--
-                        <mat-tab-group *ngIf="currentCoin.changeAdds && currentCoin.changeAdds.length">
-                            <mat-tab label="External">
-                                <app-address-key [chain]="0" [seed]="seed" [currentCoin]="currentCoin"></app-address-key>
-                            </mat-tab>
-                            <mat-tab label="Change">
-                                <app-address-key [chain]="1" [seed]="seed" [currentCoin]="currentCoin"></app-address-key>
-                            </mat-tab>
-                        </mat-tab-group>
-                        <div *ngIf="!(currentCoin.changeAdds && currentCoin.changeAdds.length)" class="pt-2">
-                            
-                        </div>
-                        -->
-                        <app-address-key [chain]="0" [seed]="seed" [currentCoin]="currentCoin"></app-address-key>
+                        <app-address-key #addressKey [chain]="0" [seed]="seed" [currentCoin]="currentCoin"></app-address-key>
                     </div>
                 </div>
 
                 <div class="modal-footer justify-content-center">
-                    <button class="btn btn-gradient text-white py-2 px-5" type="submit"> Export </button>
+                    <button class="btn btn-gradient text-white py-2 px-5 btn-lg-fixed-width" type="submit"> {{'Export' | translate}}</button>
                 </div>
             </div>
         </form>
