@@ -34,6 +34,7 @@ import * as bs58 from 'bs58';
 import { TimerService } from '../../../../services/timer.service';
 import { WsService } from '../../../../services/ws.service';
 import { environment } from '../../../../../environments/environment';
+import { ManageWalletComponent } from '../manage-wallet/manage-wallet.component';
 @Component({ 
     selector: 'app-wallet-dashboard',
     templateUrl: './dashboard.component.html',
@@ -41,6 +42,7 @@ import { environment } from '../../../../../environments/environment';
     encapsulation: ViewEncapsulation.None
 })
 export class WalletDashboardComponent {
+    @ViewChild('manageWallet', {static: true}) manageWallet: ManageWalletComponent;
     @ViewChild('pinModal', {static: true}) pinModal: PinNumberModal;
     @ViewChild('depositModal', {static: true}) depositModal: DepositAmountModal;
     @ViewChild('redepositModal', {static: true}) redepositModal: RedepositAmountModal;
@@ -289,7 +291,15 @@ export class WalletDashboardComponent {
         if (type === 'SMART_CONTRACT') {
             this.route.navigate(['/smartcontract']);
             return;
-        }         
+        } else 
+        if (type === 'HIDE_SHOW_WALLET') {
+            if (this.wallet.hide) {
+                this.opType = 'showWallet';
+                this.pinModal.show();  
+            } else {
+                this.toggleWalletHide();
+            }
+        }       
     }
 
     onShowTransactionHistory() {
@@ -517,7 +527,16 @@ export class WalletDashboardComponent {
         } else 
         if (this.opType === 'loginSetting') {
             this.loginSettingModal.show();
+        } else 
+        if (this.opType === 'showWallet') {
+            this.toggleWalletHide();
         }
+    }
+
+    toggleWalletHide() {
+        this.wallet.hide = !this.wallet.hide;
+        this.manageWallet.changeHideWallet();
+        this.walletServ.updateWallets(this.wallets);
     }
 
     showSeedPhrase() {

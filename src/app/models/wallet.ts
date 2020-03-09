@@ -2,6 +2,7 @@ import { MyCoin} from './mycoin';
 
 export class Wallet {
     id: string; // first 8 chars of hash value of seed.
+    hide: boolean;
     name: string;
     pwdHash: string; // pwd - encrypt seed, resetable.
     pinHash?: string; // pin - encrypt other data and confirm payment, resetable.
@@ -14,6 +15,7 @@ export class Wallet {
 
     constructor(seedHashShort: string, name: string, pwdhash: string, encryptedSeed: string, encryptedMnemonic: string) {
         this.id = seedHashShort;
+        this.hide = false;
         this.name = name;
         this.pwdHash = pwdhash;
         this.encryptedSeed = encryptedSeed;

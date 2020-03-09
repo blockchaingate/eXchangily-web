@@ -7,7 +7,7 @@
                     <div class="row">
                         <div class="col col-md-6">
                             <div class="small pt-3">{{"My Wallet" | translate}}</div>
-                            <div *ngIf="wallet">
+                            <div *ngIf="wallets">
                                 <mat-form-field>
                                     <mat-select panelClass="example-panel" [value]="currentWalletIndex" (selectionChange)="changeWallet($event.value)">
                                         <mat-option *ngFor="let wallet of wallets;let i = index" [value]="i">
@@ -16,16 +16,22 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="small text-white" *ngIf="wallet">
+                            <div *ngIf="wallet && wallet.hide">
+                                <div class="hide-wallet-text">
+                                    {{'Your wallet is hidden' | translate }}
+                                </div>
+
+                            </div>
+                            <div class="small text-white" *ngIf="wallet && !wallet.hide">
                                 {{"Wallet address" | translate }}:{{exgAddress}}
                                 <button mat-icon-button (click)="copyAddress()">
                                     <mat-icon svgIcon="icon_copy"></mat-icon>
                                 </button>
                             </div>
-                            <div class="small text-white" *ngIf="wallet">{{"Gas" | translate }}:{{gas}} </div>
+                            <div class="small text-white" *ngIf="wallet && !wallet.hide">{{"Gas" | translate }}:{{gas}} </div>
 
                         </div>
-                        <div class="col col-md-4">
+                        <div class="col col-md-4" *ngIf="wallet && !wallet.hide">
                             <h4>{{"EXG" | translate}} {{exgBalance}}
 
                             </h4>
@@ -33,7 +39,7 @@
                                             {{utilServ.toPrecision(exgBalance * 0.2 * currencyRate)}} 
                                         </span> {{currentCurrency | translate}}</div>
                         </div>
-                        <div class="col col-md-2">
+                        <div class="col col-md-2" *ngIf="wallet && !wallet.hide">
                             <div class="small">+0%</div>
                             <div>
 
@@ -57,7 +63,7 @@
                         </div>
                     </div>
 
-                    <div class="row py-3">
+                    <div class="row py-3" *ngIf="wallet && !wallet.hide">
                         <div class="col col-12">
                             <div class="d-inline-block pr-3">
                                 <modal-receive-coin [wallet]="wallet"></modal-receive-coin>
@@ -76,7 +82,7 @@
                 </div>
             </div>
             <div class="mt-2 exg-bg">
-                <div class="container py-2">
+                <div class="container py-2" *ngIf="wallet && (!wallet.hide)">
                     <div class="row">
                         <div class="col col-8 col-md-6">
                             <h5 class="d-inline mr-3 hand-cursor" (click)="onShowMyAssets()">{{"My Assets" | translate}}</h5>
@@ -273,7 +279,7 @@
         </div>
         <div class="w-25 match-my-cols fxHide-sm">
             <div class="ml-2 content">
-                <app-manage-wallet (manageWallet)=onmanageWallet($event)></app-manage-wallet>
+                <app-manage-wallet #manageWallet (manageWallet)=onmanageWallet($event) [hideWallet]="wallet && wallet.hide"></app-manage-wallet>
                 <app-faq></app-faq>
 
             </div>

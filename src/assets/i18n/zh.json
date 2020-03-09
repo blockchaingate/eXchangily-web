@@ -870,5 +870,8 @@
     "in CAD": "加元",
     "USD": "美元",
     "RMB": "人民币",
-    "CAD": "加元"
+    "CAD": "加元",
+    "Hide wallet": "隐藏钱包",
+    "Show wallet": "显示钱包",
+    "Your wallet is hidden": "钱包被隐藏"
 }
