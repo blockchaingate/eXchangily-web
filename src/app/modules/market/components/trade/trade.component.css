@@ -148,3 +148,7 @@ th {
 .fixed-height {
     padding-bottom: 10px;
 }
+
+.div-fixed-width {
+    min-width: 600px;
+}

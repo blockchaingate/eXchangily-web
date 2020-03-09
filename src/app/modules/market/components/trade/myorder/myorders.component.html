@@ -17,13 +17,13 @@
     <div class="orders container fxHide-sm" *ngIf="select != 100">
         <div class="row px-4 header py-3">
             <div class="orditem" style="width: 20%; margin-left: -1.2em;">{{'Time' | translate }}</div>
-            <div class="orditem" style="width: 8%;">{{'Symbol' | translate }}</div>
+            <div class="orditem" style="width: 15%;">{{'Symbol' | translate }}</div>
             <div class="orditem" style="width: 5%;">{{'Type' | translate }}</div>
-            <div class="orditem" style="width: 10%;">{{'Price' | translate }}</div>
-            <div class="orditem" style="width: 10%;">{{'Order Qty' | translate }}</div>
-            <div class="orditem" style="width: 10%;">{{'Filled Qty' | translate }}</div>
-            <div class="orditem" style="width: 8%;">{{'Filled%' | translate }}</div>
-            <div class="orditem" style="width: 8%;">{{'Action' | translate }}</div>
+            <div class="orditem" style="width: 11%;">{{'Price' | translate }}</div>
+            <div class="orditem" style="width: 11%;">{{'Order Qty' | translate }}</div>
+            <div class="orditem" style="width: 11%;">{{'Filled Qty' | translate }}</div>
+            <div class="orditem" style="width: 15%;">{{'Filled%' | translate }}</div>
+            <div class="orditem" style="width: 5%;">{{'Action' | translate }}</div>
         </div>
 
         <div class="myorderlist scroll-bar w-100 pt-2">
@@ -33,7 +33,7 @@
                         {{order.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}
                     </div>
                 </div>
-                <div class="orditem text-info d-flex align-items-center" style="width: 8%;">
+                <div class="orditem text-info d-flex align-items-center" style="width: 15%;">
                     <div>
                         {{coinServ.getCoinNameByTypeId(order.pairLeft)}}/{{coinServ.getCoinNameByTypeId(order.pairRight)}}
                     </div>
@@ -42,19 +42,19 @@
                     <div *ngIf="order.bidOrAsk" class="text-success">{{'Buy' | translate }}</div>
                     <div *ngIf="!order.bidOrAsk" class="text-danger">{{'Sell' | translate }}</div>
                 </div>
-                <div class="orditem text-white d-flex align-items-center" style="width: 10%;">
+                <div class="orditem text-white d-flex align-items-center" style="width: 11%;">
                     <div>{{utilServ.showAmount(order.price)}}</div>
                 </div>
-                <div class="orditem text-white d-flex align-items-center" style="width: 10%;">
+                <div class="orditem text-white d-flex align-items-center" style="width: 11%;">
                     <div>{{utilServ.showAddAmount(order.orderQuantity, order.filledQuantity)}}</div>
                 </div>
-                <div class="orditem text-white d-flex align-items-center" style="width: 10%;">
+                <div class="orditem text-white d-flex align-items-center" style="width: 11%;">
                     <div>{{utilServ.showAmount(order.filledQuantity)}}</div>
                 </div>
-                <div class="orditem text-white d-flex align-items-center" style="width: 8%;">
+                <div class="orditem text-white d-flex align-items-center" style="width: 15%;">
                     <div>{{utilServ.showAmount(order.filledQuantity)*100/utilServ.showAddAmount(order.orderQuantity, order.filledQuantity)|number:'2.2-2'}}</div>
                 </div>
-                <div class="orditem text-white d-flex align-items-center" style="width: 8%;">
+                <div class="orditem text-white d-flex align-items-center" style="width: 5%;">
                     <div *ngIf="order.isActive">
                         <button mat-icon-button aria-label="Example icon-button with a heart icon" (click)="deleteOrder(templatePasswd, order.orderHash)">
                         <mat-icon>delete_outline</mat-icon>

@@ -154,7 +154,7 @@
                 </div>
             </div>
             <div class="aspace text-white">
-                {{'Total' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}: {{sellQty}}
+                {{'Total' | translate}} {{coinService.getCoinNameByTypeId(baseCoin)}}: {{sellQty * sellPrice}}
             </div>
 
             <div class="d-flex justify-content-between py-1 text-white">

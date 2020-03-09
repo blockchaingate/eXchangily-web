@@ -18,11 +18,12 @@ import {MatButtonModule} from '@angular/material/button';
 import { PlaceadvComponent } from './components/placeadv/placeadv.component';
 import {MatInputModule} from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
+import { CampaignComponent } from './components/campaign/campaign.component';
 
 @NgModule({
   declarations: [
     TradeComponent, MerchantPipe, PaymentmethodComponent, ConfirmPaymentModal,
-    OtcPlaceOrderModal, ApplyForMerchantModal, OrderComponent, PlaceadvComponent
+    OtcPlaceOrderModal, ApplyForMerchantModal, OrderComponent, PlaceadvComponent, CampaignComponent
   ],
   imports: [
     CommonModule,
