@@ -550,6 +550,7 @@ export class WalletDashboardComponent {
     onConfirmedDisplayPin(pin: string) {
         this.pin = pin;
         const pinHash = this.utilServ.SHA256(pin).toString();
+        console.log('this.wallet.pwdDisplayHash==', this.wallet.pwdDisplayHash);
         if (pinHash !== this.wallet.pwdDisplayHash) {
             this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
             return;

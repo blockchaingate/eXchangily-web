@@ -290,7 +290,7 @@
     <redeposit-amount-modal #redepositModal [coin]="currentCoin" (confirmedAmount)="onConfirmedRedepositAmount($event)"></redeposit-amount-modal>
     <add-gas-modal #addGasModal (confirmedGas)="onConfirmedGas($event)"></add-gas-modal>
     <pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>
-    <display-pin-number-modal #displayPinModal (confirmedPin)="onConfirmedPin($event)"></display-pin-number-modal>
+    <display-pin-number-modal #displayPinModal (confirmedPin)="onConfirmedDisplayPin($event)"></display-pin-number-modal>
     <add-assets-modal #addAssetsModal (confirmedAssets)="onConfirmedAssets($event)"></add-assets-modal>
     <send-coin-modal #sendCoinModal (confirmedCoinSent)="onConfirmedCoinSent($event)" [wallet]="wallet"></send-coin-modal>
     <show-seed-phrase-modal #showSeedPhraseModal></show-seed-phrase-modal>
