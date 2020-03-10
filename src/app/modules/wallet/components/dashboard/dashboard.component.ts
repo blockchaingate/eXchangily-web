@@ -14,6 +14,7 @@ import { DepositAmountModal } from '../../modals/deposit-amount/deposit-amount.m
 import { RedepositAmountModal } from '../../modals/redeposit-amount/redeposit-amount.modal';
 import { AddAssetsModal } from '../../modals/add-assets/add-assets.modal';
 import { PinNumberModal } from '../../../shared/modals/pin-number/pin-number.modal';
+import { DisplayPinNumberModal } from '../../../shared/modals/display-pin-number/display-pin-number.modal';
 import { AddGasModal } from '../../modals/add-gas/add-gas.modal';
 import { ShowSeedPhraseModal } from '../../modals/show-seed-phrase/show-seed-phrase.modal';
 import { VerifySeedPhraseModal } from '../../modals/verify-seed-phrase/verify-seed-phrase.modal';
@@ -21,6 +22,7 @@ import { SendCoinModal } from '../../modals/send-coin/send-coin.modal';
 import { BackupPrivateKeyModal } from '../../modals/backup-private-key/backup-private-key.modal';
 import { DeleteWalletModal } from '../../modals/delete-wallet/delete-wallet.modal';
 import { LoginSettingModal } from '../../modals/login-setting/login-setting.modal';
+import { DisplaySettingModal } from '../../modals/display-setting/display-setting.modal';
 import {CoinsPrice} from '../../../../interfaces/balance.interface';
 import {SendCoinForm} from '../../../../interfaces/kanban.interface';
 import {StorageService} from '../../../../services/storage.service';
@@ -44,6 +46,7 @@ import { ManageWalletComponent } from '../manage-wallet/manage-wallet.component'
 export class WalletDashboardComponent {
     @ViewChild('manageWallet', {static: true}) manageWallet: ManageWalletComponent;
     @ViewChild('pinModal', {static: true}) pinModal: PinNumberModal;
+    @ViewChild('displayPinModal', {static: true}) displayPinModal: DisplayPinNumberModal;
     @ViewChild('depositModal', {static: true}) depositModal: DepositAmountModal;
     @ViewChild('redepositModal', {static: true}) redepositModal: RedepositAmountModal;
     @ViewChild('addGasModal', {static: true}) addGasModal: AddGasModal;
@@ -54,6 +57,7 @@ export class WalletDashboardComponent {
     @ViewChild('backupPrivateKeyModal', {static: true}) backupPrivateKeyModal: BackupPrivateKeyModal;
     @ViewChild('deleteWalletModal', {static: true}) deleteWalletModal: DeleteWalletModal;
     @ViewChild('loginSettingModal', {static: true}) loginSettingModal: LoginSettingModal;
+    @ViewChild('displaySettingModal', {static: true}) displaySettingModal: DisplaySettingModal;
     
     sendCoinForm: SendCoinForm;
     wallet: Wallet; 
@@ -288,6 +292,10 @@ export class WalletDashboardComponent {
             this.opType = 'loginSetting';
             this.pinModal.show();     
         } else
+        if (type === 'DISPLAY_SETTING') {
+            this.opType = 'displaySetting';
+            this.pinModal.show();  
+        } else
         if (type === 'SMART_CONTRACT') {
             this.route.navigate(['/smartcontract']);
             return;
@@ -295,7 +303,7 @@ export class WalletDashboardComponent {
         if (type === 'HIDE_SHOW_WALLET') {
             if (this.wallet.hide) {
                 this.opType = 'showWallet';
-                this.pinModal.show();  
+                this.displayPinModal.show();  
             } else {
                 this.toggleWalletHide();
             }
@@ -471,6 +479,12 @@ export class WalletDashboardComponent {
         this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
     }
 
+    onConfirmedDisplaySetting(password: string) {
+        console.log('new password=' + password);
+        this.wallet = this.walletServ.updateWalletDisplayPassword(this.wallet, password);
+        this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
+    }
+
     onConfirmedGas(amount: number) {
         this.amount = amount;
         this.opType = 'addGas';
@@ -528,11 +542,20 @@ export class WalletDashboardComponent {
         if (this.opType === 'loginSetting') {
             this.loginSettingModal.show();
         } else 
-        if (this.opType === 'showWallet') {
-            this.toggleWalletHide();
+        if (this.opType === 'displaySetting') {
+            this.displaySettingModal.show();
         }
     }
 
+    onConfirmedDisplayPin(pin: string) {
+        this.pin = pin;
+        const pinHash = this.utilServ.SHA256(pin).toString();
+        if (pinHash !== this.wallet.pwdDisplayHash) {
+            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+            return;
+        }  
+        this.toggleWalletHide();      
+    }
     toggleWalletHide() {
         this.wallet.hide = !this.wallet.hide;
         this.manageWallet.changeHideWallet();

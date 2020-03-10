@@ -1,16 +1,16 @@
-<div bsModal #pinModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<div bsModal #displayPinModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-bg-grey">
         <form class="example-form" [formGroup]="pinForm" (ngSubmit)="onSubmit()">
             <div class="modal-content">
                 <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 text-dark">{{'Password' | translate }}</h4>
+                    <h4 class="modal-title w-100 text-dark">{{'Display Password' | translate }}</h4>
                     <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
                         <span aria-hidden="true">&times;</span>
                       </button>
                 </div>
                 <div class="modal-body">
                     <mat-form-field class="example-full-width">
-                        <label for="inputSendTo" class="text-dark">{{'Password' | translate }}</label>
+                        <label for="inputSendTo" class="text-dark">{{'Display Password' | translate }}</label>
                         <input type="password" aria-label="Password" class="form-control" matInput [matAutocomplete]="auto" formControlName="pin">
                         <mat-autocomplete #auto="matAutocomplete">
                         </mat-autocomplete>

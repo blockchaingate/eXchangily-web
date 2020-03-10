@@ -873,5 +873,8 @@
     "CAD": "加元",
     "Hide wallet": "隐藏钱包",
     "Show wallet": "显示钱包",
-    "Your wallet is hidden": "钱包被隐藏"
+    "Your wallet is hidden": "钱包被隐藏",
+    "Display Setting": "显示设置",
+    "Display Password": "显示密码",
+    "Type wallet display password": "输入钱包显示密码"
 }

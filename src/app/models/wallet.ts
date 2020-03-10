@@ -5,6 +5,7 @@ export class Wallet {
     hide: boolean;
     name: string;
     pwdHash: string; // pwd - encrypt seed, resetable.
+    pwdDisplayHash: string; // display password
     pinHash?: string; // pin - encrypt other data and confirm payment, resetable.
     encryptedSeed: string; // Encrypted with pwd.
     encryptedMnemonic: string; // Encrypted with pwd

@@ -180,7 +180,7 @@ a:not([href]):not([tabindex]):hover {
 }
 
 .container-wallet-main {
-    max-height: 355px;
+    height: 363px;
     overflow-y: scroll;
 }
 
@@ -201,5 +201,5 @@ button.button:hover {
 }
 
 .hide-wallet-text {
-    height: 595px;
+    height: 615px;
 }

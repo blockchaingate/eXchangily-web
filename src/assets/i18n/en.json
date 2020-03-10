@@ -816,6 +816,9 @@
     "RMB": "RMB",
     "CAD": "CAD",
     "Hide wallet": "Hide wallet",
-    "Show wallet": "Show wallet",
-    "Your wallet is hidden": "Your wallet is hidden"
+    "Show wallet": "Display wallet",
+    "Your wallet is hidden": "Your wallet is hidden",
+    "Display Setting": "Display Setting",
+    "Display Password": "Display Password",
+    "Type wallet display password": "Type your wallet display password"
 }

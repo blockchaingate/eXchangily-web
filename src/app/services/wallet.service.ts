@@ -63,6 +63,12 @@ export class WalletService {
         return wallet;
     }
 
+    updateWalletDisplayPassword(wallet: Wallet, password: string) {
+        const pwdHashStr = this.utilService.SHA256(password).toString();
+        wallet.pwdDisplayHash = pwdHashStr;
+        return wallet;
+    }
+
     // Generate walllet, store it to db and set current wallet to it.
     generateWallet(pwd: string, name: string, mnemonic: string): Wallet {
         const mnemonicArr = mnemonic.split(' ');
