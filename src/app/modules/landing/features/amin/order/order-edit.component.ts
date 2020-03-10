@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, Params, ParamMap } from '@angular/router';
-import {MatDialog, MatDialogConfig} from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Icotx, IcotxStatus, IcotxStatuses, IcotxColours } from '../../../models/icotx';
 import { IcotxService } from '../../../service/icotx/icotx.service';
 import { IcotxesAuthService } from '../../../service/icotxes-auth/icotxes-auth.service';
@@ -27,8 +27,8 @@ export class OrderEditComponent implements OnInit {
 
   private initStatus: IcotxStatus;
   constructor(private _icotxService: IcotxService, private _route: ActivatedRoute,
-              private _localIcotx: IcotxesAuthService, private _router: Router,
-              private dialog: MatDialog) {}
+    private _localIcotx: IcotxesAuthService, private _router: Router,
+    private dialog: MatDialog) { }
 
   ngOnInit() {
     const id = this._route.snapshot.paramMap.get('id');
@@ -92,8 +92,8 @@ export class OrderEditComponent implements OnInit {
         (res: Icotx) => { this.order = res; },
         err => this.serverMessage = err
       );
-      this.serverMessage = '';
-      this.formEdit = false;
+    this.serverMessage = '';
+    this.formEdit = false;
   }
 
   setPending() {
@@ -104,8 +104,8 @@ export class OrderEditComponent implements OnInit {
           (res: Icotx) => { this.order = res; },
           err => this.serverMessage = err
         );
-        this.serverMessage = '';
-        this.formEdit = false;
+      this.serverMessage = '';
+      this.formEdit = false;
     } else {
       // Do nothing!
     }
@@ -119,8 +119,8 @@ export class OrderEditComponent implements OnInit {
           (res: Icotx) => { this.order = res; },
           err => this.serverMessage = err
         );
-        this.serverMessage = '';
-        this.formEdit = false;
+      this.serverMessage = '';
+      this.formEdit = false;
     } else {
       // Do nothing!
     }
@@ -130,16 +130,16 @@ export class OrderEditComponent implements OnInit {
   submit() {
     const icotx: Icotx = Object.assign(this.order, this.updateOrderForm.value);
     this._icotxService.updateIcotx(icotx)
-    .subscribe(
-      res => {
-        this._localIcotx.findAndUpdate(<IcotxStatus>this.initStatus.toLowerCase(), icotx._id, icotx);
-        this.order = icotx;
-        this.serverMessage = '';
-        this.formEdit = false;
-      },
-      err => {
-        this.serverMessage = err;
-      });
+      .subscribe(
+        res => {
+          this._localIcotx.findAndUpdate(<IcotxStatus>this.initStatus.toLowerCase(), icotx._id, icotx);
+          this.order = icotx;
+          this.serverMessage = '';
+          this.formEdit = false;
+        },
+        err => {
+          this.serverMessage = err;
+        });
   }
 
   isCrypto(index: number): boolean {

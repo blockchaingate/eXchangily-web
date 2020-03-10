@@ -5,7 +5,7 @@ import { UserAuth } from '../../../service/user-auth/user-auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { User } from '../../../models/user';
-import { getMatScrollStrategyAlreadyAttachedError } from '@angular/cdk/overlay/typings/scroll/scroll-strategy';
+// import { getMatScrollStrategyAlreadyAttachedError } from '@angular/cdk/overlay/typings/scroll/scroll-strategy';
 
 @Component({
   selector: 'app-signin',
