@@ -97,10 +97,11 @@
                                 </div>
                                 <div class="row px-2 py-2 border-bottom" *ngFor="let tr of pendingtransactions">
                                     <div class="col col-12">
-                                        {{tr.txid}}
+                                        <small>{{tr.txid}}</small>
+
                                     </div>
                                     <div class="col col-12">
-                                        {{tr.time}}
+                                        {{utilServ.getFormattedDate(tr.time)}}
                                     </div>
                                     <div class="col col-3">
                                         <img *ngIf="tr.coin == 'BTC'" src="/assets/coins/btc.png" class="icon coin-logo" />
@@ -129,10 +130,13 @@
                                 </div>
                                 <div class="row px-2 py-2 border-bottom" *ngFor="let tr of closetransactions">
                                     <div class="col col-12">
-                                        {{tr.txid}}
+                                        <small>
+                                            {{tr.txid}}
+                                        </small>
+
                                     </div>
                                     <div class="col col-12">
-                                        {{tr.time}}
+                                        {{utilServ.getFormattedDate(tr.time)}}
                                     </div>
                                     <div class="col col-3">
                                         <img *ngIf="tr.coin == 'BTC'" src="/assets/coins/btc.png" class="icon coin-logo" />

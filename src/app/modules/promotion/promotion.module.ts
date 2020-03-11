@@ -8,6 +8,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [IndexComponent, MainComponent],
@@ -18,6 +19,7 @@ import {MatButtonModule} from '@angular/material/button';
     FormsModule,
     MatButtonModule,
     MatInputModule,
+    SharedModule,
     PromotionRoutingModule
   ]
 })

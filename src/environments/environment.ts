@@ -74,7 +74,13 @@ export const environment = {
             { name: 'BTC', address: 'muQDw5hVmFgD1GrrWvUt6kjrzauC4Msaki'},
             { name: 'ETH', address: '0x02c55515e62a0b25d2447c6d70369186b8f10359'},
             { name: 'USDT', address: '0x02c55515e62a0b25d2447c6d70369186b8f10359'}
-        ]       
+        ],
+        promotionOfficial: {
+            USDT: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
+            BTC: 'muQDw5hVmFgD1GrrWvUt6kjrzauC4Msaki',
+            ETH: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
+            FAB: 'n1eXG5oe6wJ6h43akutyGfphqQsY1UfAUR'
+        }       
     },
     websockets: {
         allprices: 'wss://kanbantest.fabcoinapi.com/ws/allprices',
