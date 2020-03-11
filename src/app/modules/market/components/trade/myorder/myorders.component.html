@@ -56,7 +56,7 @@
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 5%;">
                     <div *ngIf="order.isActive">
-                        <button mat-icon-button aria-label="Example icon-button with a heart icon" (click)="deleteOrder(templatePasswd, order.orderHash)">
+                        <button mat-icon-button aria-label="Example icon-button with a heart icon" (click)="deleteOrder(order.orderHash)">
                         <mat-icon>delete_outline</mat-icon>
                       </button>
                     </div>
@@ -143,7 +143,7 @@
                     <label>{{utilServ.showAmount(token.lockedAmount)}}</label>
                 </div>
                 <div class="col col-3 text-white">
-                    <button mat-icon-button matTooltip="Withdraw" (click)="withdraw(templatePasswd,templateWithdraw, token)" aria-label="Example icon-button with a heart icon">
+                    <button mat-icon-button matTooltip="Withdraw" (click)="withdraw(templateWithdraw, token)" aria-label="Example icon-button with a heart icon">
                     <mat-icon>arrow_upward</mat-icon>
                 </button>
                 </div>
@@ -173,6 +173,7 @@
     </div>
 </div>
 
+<!--
 <ng-template #templatePasswd>
     <div class="modal-header text-center">
         <h4 class="modal-title w-100">{{'Password' | translate }}</h4>
@@ -189,6 +190,8 @@
 
     </div>
 </ng-template>
+-->
+
 
 
 <ng-template #templateWithdraw>
@@ -239,8 +242,11 @@
             </div>
         </div>
 
-        <button class="btn btn1 btn-gradient text-white" (click)="withdrawDo()">{{"Confirm" | translate }}</button>
+        <button class="btn btn1 btn-gradient text-white" (click)="onConfirmedWithdrawAmount()">{{"Confirm" | translate }}</button>
 
     </div>
 
 </ng-template>
+
+
+<pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>

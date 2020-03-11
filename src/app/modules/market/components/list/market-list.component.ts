@@ -47,7 +47,8 @@ export class MarketListComponent implements OnInit {
         this._wsServ.currentPrices.subscribe((arr: any) => {
             this.updateTickerList(arr);
         });
-                
+           
+        /*
         this.kanbanService.getAllOrders().subscribe((orders: Order[]) => {
             console.log('orders from /exchangily/getAllOrderData');
             console.log(orders);
@@ -63,6 +64,7 @@ export class MarketListComponent implements OnInit {
             }
 
         });  
+        */
     }
         
     selectCat(cat: number) {

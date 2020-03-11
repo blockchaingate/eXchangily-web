@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainComponent implements OnInit {
 
+  selectedPaymentMethod: string;
+  paymentmethods: string[] = ['USD', 'USDT', 'FAB'];
+
   constructor() { }
 
   ngOnInit() {

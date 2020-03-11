@@ -30,6 +30,8 @@ import { OrderFilterPipe } from './pipes/order-filter.pipe';
 import {MatTableModule} from '@angular/material/table';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { WithdrawHistoryComponent } from './withdraw-history/withdraw-history.component';
+import { SharedModule } from '../../../shared/shared.module';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -47,7 +49,8 @@ import { WithdrawHistoryComponent } from './withdraw-history/withdraw-history.co
         TranslateModule,
         MatTableModule,
         MatSlideToggleModule,
-        ModalModule
+        ModalModule,
+        SharedModule
     ],
     providers: [
         PriceService,
