@@ -10,6 +10,7 @@ import { environment } from '../../../../../environments/environment';
 import { TimerService } from '../../../../services/timer.service';
 import {StorageService} from '../../../../services/storage.service';
 import BigNumber from 'bignumber.js/bignumber';
+import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'app-main',
@@ -24,11 +25,14 @@ export class MainComponent implements OnInit {
   currentCoin: MyCoin;
   gasPrice: number;
   gasLimit: number;
+  referralCode: string;
   satoshisPerBytes: number;
+  faFacebook = faFacebook;
+  faTwitter = faTwitter;
 
   selectedPaymentMethod: string;
   @ViewChild('pinModal', {static: true}) pinModal: PinNumberModal;
-  paymentmethods: string[] = ['USD', 'USDT', 'FAB'];
+  paymentmethods: string[] = ['USD', 'USDT', 'FAB', 'BTC', 'ETH'];
 
   constructor(
     private timerServ: TimerService,
@@ -78,8 +82,9 @@ export class MainComponent implements OnInit {
   }
 
   buyConfirm() {
-    if(!this.currentCoin) {
+    if (!this.currentCoin) {
       this.alertServ.openSnackBar('Invalid coin type', 'Ok');
+      return;
     }
     this.pinModal.show();
   }
@@ -130,6 +135,8 @@ export class MainComponent implements OnInit {
         this.timerServ.transactionStatus.next(item);
         this.timerServ.checkTransactionStatus(item);
         this.storageService.storeToTransactionHistoryList(item);
+        this.referralCode = '32RY34';
+
         
     }    
   }

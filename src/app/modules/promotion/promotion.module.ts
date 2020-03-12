@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import { SharedModule } from '../shared/shared.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [IndexComponent, MainComponent],
@@ -20,6 +21,7 @@ import { SharedModule } from '../shared/shared.module';
     MatButtonModule,
     MatInputModule,
     SharedModule,
+    FontAwesomeModule,
     PromotionRoutingModule
   ]
 })

@@ -2,7 +2,7 @@
     <div class="row border-bottom py-2">
         <div class="col col-2">
             <mat-form-field class="text-muted">
-                <mat-label>Currency</mat-label>
+                <mat-label>{{'Currency' | translate }}</mat-label>
                 <mat-select class="text-muted" [(ngModel)]="currency" [disableOptionCentering]="true">
                     <mat-option *ngFor="let cur of currencies" [value]="cur" class="text-muted">
                         {{cur}}
@@ -15,7 +15,7 @@
             <div class="container">
                 <div class="row py-2">
                     <div class="col col-12 col-green">
-                        Buy
+                        {{'Buy' | translate }}
                     </div>
                 </div>
 
@@ -43,7 +43,7 @@
             <div class="container">
                 <div class="row py-2">
                     <div class="col col-12 col-red">
-                        Sell
+                        {{'Sell' | translate }}
                     </div>
                 </div>
 
@@ -72,16 +72,16 @@
                 <div class="row">
                     <div class="col col-6">
                         <a href="/otc/order">
-                            My order                            
+                            {{'My order' | translate}}                            
                         </a>
                     </div>
                     <div class="col col-6 hand">
                         <div (click)="becomeMerchant()">
-                            Become merchant
+                            {{'Become merchant' | translate }}
                         </div>
                         <div>
                             <a href="/otc/placeadv">
-                                    Place an ad
+                                    {{'Place an ad' | translate }}
                             </a>
 
                         </div>
@@ -95,12 +95,12 @@
             <table class="table table-striped table-borderless">
                 <thead>
                     <tr>
-                        <th scope="col">Merchant</th>
-                        <th scope="col">PaymentMethod</th>
-                        <th scope="col">Quantity/{{coinName}}</th>
-                        <th scope="col">Limits/{{currency}}</th>
-                        <th scope="col">Price/{{currency}}</th>
-                        <th scope="col">Operation</th>
+                        <th scope="col">{{'Merchant' | translate }}</th>
+                        <th scope="col">{{'PaymentMethod' | translate }}</th>
+                        <th scope="col">{{'Quantity' | translate }}/{{coinName}}</th>
+                        <th scope="col">{{'Limits' | translate }}/{{currency}}</th>
+                        <th scope="col">{{'Price' | translate }}/{{currency}}</th>
+                        <th scope="col">{{'Operation' | translate }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -114,7 +114,7 @@
                         <td>{{element.Price}}</td>
                         <td>
                             <div class="btn-buy-sell" [ngClass]="element.BidOrAsk ? 'btn-buy' : 'btn-sell'" (click)="placeOrder()">
-                                {{element.BidOrAsk ? 'Buy' : 'Sell'}}
+                                {{(element.BidOrAsk ? 'Buy' : 'Sell') | translate}}
                             </div>
                         </td>
                     </tr>
