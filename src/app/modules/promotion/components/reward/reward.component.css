@@ -1,0 +1,19 @@
+.circle {
+    height: 125px;
+    width: 125px;
+    background-color: #d455c3;
+    border-radius: 50%;
+    color: white;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+.circle-text {
+    line-height: 125px;
+}
+
+.memer-type {
+    font-size: 20px;
+    font-weight: 500;
+}

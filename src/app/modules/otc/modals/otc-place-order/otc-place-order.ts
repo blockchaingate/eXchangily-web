@@ -24,7 +24,7 @@ export class OtcPlaceOrderModal {
     
 
     constructor(private fb: FormBuilder) { }
-    show() {
+    show(element) {
         this.otcPlaceOrderModal.show();
     }
 

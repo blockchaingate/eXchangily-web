@@ -9,9 +9,13 @@ import { FormsModule } from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import { SharedModule } from '../shared/shared.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { RewardComponent } from './components/reward/reward.component';
+import {MatTreeModule} from '@angular/material/tree';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
-  declarations: [IndexComponent, MainComponent],
+  declarations: [IndexComponent, MainComponent, RewardComponent],
   imports: [
     CommonModule,
     MatCardModule,
@@ -20,6 +24,9 @@ import { SharedModule } from '../shared/shared.module';
     MatButtonModule,
     MatInputModule,
     SharedModule,
+    MatTreeModule,
+    MatIconModule,
+    FontAwesomeModule,
     PromotionRoutingModule
   ]
 })
