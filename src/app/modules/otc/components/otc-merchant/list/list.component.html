@@ -1,8 +1,8 @@
 <div class="container py-3">
     <div class="row border-bottom py-2">
-        <div class="col col-3">
+        <div class="col col-3 border-right">
             <mat-form-field class="text-muted">
-                <mat-label>Currency</mat-label>
+                <mat-label>{{'Currency' | translate }}</mat-label>
                 <mat-select class="text-muted" [(ngModel)]="currency" [disableOptionCentering]="true">
                     <mat-option *ngFor="let cur of currencies" [value]="cur" class="text-muted">
                         {{cur}}
@@ -15,7 +15,7 @@
             <div class="container">
                 <div class="row py-2">
                     <div class="col col-12 col-green">
-                        Buy
+                        {{'Buy' | translate }}
                     </div>
                 </div>
 
@@ -39,11 +39,11 @@
             </div>
         </div>
 
-        <div class="col col-3">
+        <div class="col col-3 border-right">
             <div class="container">
                 <div class="row py-2">
                     <div class="col col-12 col-red">
-                        Sell
+                        {{'Sell' | translate }}
                     </div>
                 </div>
 
@@ -67,9 +67,9 @@
             </div>
         </div>
         <div class="col col-3 text-right">
-            <div>Available {{coinName}}</div>
+            <div>{{'Available' | translate }} {{coinName}}</div>
             <div>0.00025</div>
-            <div>Commission rate: 0.1%</div>
+            <div>{{'Commission rate' | translate }}: 0.1%</div>
         </div>
     </div>
     <mat-card class="my-3">
@@ -77,14 +77,14 @@
             <div class="row py-3">
                 <div class="col col-3">
                     <mat-form-field>
-                        <mat-label>Price</mat-label>
+                        <mat-label>{{'Price' | translate }}</mat-label>
                         <input matInput placeholder="" value="">
                     </mat-form-field>
                 </div>
 
                 <div class="col col-3">
                     <mat-form-field>
-                        <mat-label>Quantity</mat-label>
+                        <mat-label>{{'Quantity' | translate }}</mat-label>
                         <input matInput placeholder="" value="">
                     </mat-form-field>
                     {{coinName}}
@@ -92,7 +92,7 @@
 
                 <div class="col col-3">
                     <mat-form-field>
-                        <mat-label>Minimum Limit</mat-label>
+                        <mat-label>{{'Minimum Limit' | translate }}</mat-label>
                         <input matInput placeholder="" value="">
                     </mat-form-field>
                     {{currency}}
@@ -100,7 +100,7 @@
 
                 <div class="col col-3">
                     <mat-form-field>
-                        <mat-label>Maximum Limit</mat-label>
+                        <mat-label>{{'Maximum Limit' | translate }}</mat-label>
                         <input matInput placeholder="" value="">
                     </mat-form-field>
                     {{currency}}
@@ -110,19 +110,19 @@
             <div class="row">
                 <div class="col col-6">
                     <mat-form-field class="example-full-width">
-                        <mat-label>Transaction notes(optional)</mat-label>
+                        <mat-label>{{'Transaction notes(optional)' | translate }}</mat-label>
                         <input matInput placeholder="" value="">
                     </mat-form-field>
                 </div>
                 <div class="col col-3">
                     <mat-form-field>
-                        <mat-label>Commission</mat-label>
+                        <mat-label>{{'Commission' | translate }}</mat-label>
                         <input matInput readonly placeholder="" value="0.002">
                     </mat-form-field>
                     {{coinName}}
                 </div>
                 <div class="col col-3">
-                    <button class="btn btn-gradient text-white py-2 px-5" type="submit"> Confirm </button>
+                    <button class="btn btn-gradient text-white py-2 px-5" type="submit"> {{'Confirm' | translate }} </button>
                 </div>
             </div>
         </mat-card-content>
@@ -131,66 +131,31 @@
         <div class="col col-3 text-left">
             <div class="d-inline-block hand" [ngClass]="(advType=='ongoing')?'adv-type-active':''" (click)="changeAdvType('ongoing')">
                 <b>
-                    Ongoing
+                        {{'Ongoing' | translate }}
                 </b>
 
             </div>
             <div class="d-inline-block px-3 hand" [ngClass]="(advType=='history')?'adv-type-active':''" (click)="changeAdvType('history')">
                 <b>
-                    History
+                        {{'History' | translate }}
                 </b>
             </div>
         </div>
 
-        <!--
-        <div class="col col-9 text-right">
-            <div class="d-inline-block pr-3">
-                <mat-form-field class="text-muted">
-                    <mat-label>Currency</mat-label>
-                    <mat-select class="text-muted" [(ngModel)]="currency" [disableOptionCentering]="true">
-                        <mat-option *ngFor="let cur of currencies" [value]="cur" class="text-muted">
-                            {{cur}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="d-inline-block pr-3">
-                <mat-form-field class="text-muted">
-                    <mat-label>Currency</mat-label>
-                    <mat-select class="text-muted" [(ngModel)]="currency" [disableOptionCentering]="true">
-                        <mat-option *ngFor="let cur of currencies" [value]="cur" class="text-muted">
-                            {{cur}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-
-            <div class="d-inline-block">
-                <mat-form-field class="text-muted">
-                    <mat-label>Currency</mat-label>
-                    <mat-select class="text-muted" [(ngModel)]="currency" [disableOptionCentering]="true">
-                        <mat-option *ngFor="let cur of currencies" [value]="cur" class="text-muted">
-                            {{cur}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-        </div>
-        -->
     </div>
     <div class="row py-3">
         <div class="col col-12">
             <table class="table table-striped table-borderless">
                 <thead>
                     <tr>
-                        <th scope="col">Time</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Commission</th>
-                        <th scope="col">Limit</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Orders</th>
-                        <th scope="col">Operation</th>
+                        <th scope="col">{{'Time' | translate }}</th>
+                        <th scope="col">{{'Type' | translate }}</th>
+                        <th scope="col">{{'Quantity' | translate }}</th>
+                        <th scope="col">{{'Commission' | translate }}</th>
+                        <th scope="col">{{'Limit' | translate }}</th>
+                        <th scope="col">{{'Price' | translate }}</th>
+                        <th scope="col">{{'Orders' | translate }}</th>
+                        <th scope="col">{{'Operation' | translate }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -202,7 +167,7 @@
                         </td>
                         <td>
                             <span class="table-text">
-                                Buy ETH
+                                {{'Buy' | translate }} ETH
                             </span>
                         </td>
                         <td>

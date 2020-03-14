@@ -1,9 +1,54 @@
 <div class="container py-3">
     <div class="row">
-        <div class="col col-6">
+        <div class="col col-6 border-right">
             promotion rule
+            <a href="/promotion/reward">My reward</a>
         </div>
         <div class="col col-6">
+            <label id="example-radio-group-label">{{'Payment method' | translate }}</label>
+            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedPaymentMethod">
+                <mat-radio-button class="example-radio-button" *ngFor="let method of paymentmethods" (click)="showAvailable(method)" [value]="method">
+                    {{method}}
+                </mat-radio-button>
+            </mat-radio-group>
+            <div class="d-flex">
+                <label id="example-radio-group-label">{{'Available' | translate }}</label>: {{available}}
+            </div>
+
+
+            <div class="d-flex justify-content-around">
+                <div class="d-inline-block">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>{{'Price' | translate }}</mat-label>
+                        <input matInput placeholder="" [(ngModel)]="price" value="">
+                    </mat-form-field>
+                </div>
+
+                <div class="d-inline-block">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>{{'Quantity' | translate }}</mat-label>
+                        <input matInput placeholder="" [(ngModel)]="quantity" value="">
+                    </mat-form-field>EXG
+                </div>
+            </div>
+
+            <div class="d-flex">
+                <label id="example-radio-group-label">{{'Subtotal' | translate }}</label>: {{price && quantity ? bigmul(price, quantity) : 0}}
+            </div>
+
+            <div *ngIf="referralCode" class="py-2">
+                {{'Your referral code' | translate }}: {{referralCode}}
+                <fa-icon [icon]="faFacebook"></fa-icon>
+                <fa-icon [icon]="faTwitter"></fa-icon>
+            </div>
+
+            <div class="text-center">
+                <button class="btn btn-gradient text-white py-2 px-5" type="submit" (click)="buyConfirm()"> {{'Confirm' | translate }} </button>
+            </div>
+
+
         </div>
     </div>
 </div>
+
+<pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>

@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit {
   interval;
 
   constructor(private translate: TranslateService, private router: Router, private alertServ: AlertService,
-    private utilServ: UtilService, private kanbanServ: KanbanService, private timerServ: TimerService,
+    public utilServ: UtilService, private kanbanServ: KanbanService, private timerServ: TimerService,
     private location: Location, private storageServ: StorageService, private apiServ: ApiService) { }
     
   
@@ -52,7 +52,7 @@ export class HeaderComponent implements OnInit {
                 item.status = txItem.status;
                 this.storageServ.updateTransactionHistoryList(item);
                 this.pendingtransactions.splice(i, 1);
-                this.closetransactions.push(item);
+                this.closetransactions.unshift(item);
                 break;
               }
             }
