@@ -6,10 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./campaign.component.css']
 })
 export class CampaignComponent implements OnInit {
-
   constructor() { }
 
   ngOnInit() {
   }
-
 }
