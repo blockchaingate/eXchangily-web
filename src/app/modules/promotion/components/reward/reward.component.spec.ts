@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PlaceadvComponent } from './placeadv.component';
+import { RewardComponent } from './reward.component';
 
-describe('PlaceadvComponent', () => {
-  let component: PlaceadvComponent;
-  let fixture: ComponentFixture<PlaceadvComponent>;
+describe('RewardComponent', () => {
+  let component: RewardComponent;
+  let fixture: ComponentFixture<RewardComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PlaceadvComponent ]
+      declarations: [ RewardComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PlaceadvComponent);
+    fixture = TestBed.createComponent(RewardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

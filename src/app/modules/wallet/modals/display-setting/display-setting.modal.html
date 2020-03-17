@@ -11,13 +11,13 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="exampleInputPassword1" class="text-dark">{{'Display Password' | translate }}</label>
-                        <input type="password" autocomplete="off" class="form-control" formControlName="password" id="password" placeholder="{{'Type wallet display password' | translate }}">
+                        <input type="password" autocomplete="off" class="form-control" formControlName="password" id="displayPassword" placeholder="{{'Type wallet display password' | translate }}">
 
                     </div>
 
                     <div class="form-group">
                         <label for="exampleInputPassword2" class="text-dark">{{'Confirm Wallet Password' | translate }}</label>
-                        <input type="password" autocomplete="off" class="form-control" formControlName="pwdconfirm" id="pwdconfirm" placeholder="{{'Type wallet display password' | translate }}">
+                        <input type="password" autocomplete="off" class="form-control" formControlName="pwdconfirm" id="displayPwdconfirm" placeholder="{{'Type wallet display password' | translate }}">
                         <div class="error text-danger smallfont" *ngIf="displaySettingForm.get('pwdconfirm').touched && displaySettingForm.hasError('notSame')">
                             {{"Password doesn't match" | translate }}!
                         </div>

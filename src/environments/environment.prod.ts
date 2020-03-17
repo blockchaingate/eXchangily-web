@@ -68,6 +68,12 @@ export const environment = {
             { name: 'ETH', address: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06' },
             { name: 'USDT', address: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06' }
         ],
+        promotionOfficial: {
+            USDT: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
+            BTC: '1CKg6irbGXHxBHuTx7MeqYQUuMZ8aEok8z',
+            ETH: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
+            FAB: '1FNEhT8uTmrEMvHGCGohnEFv6Q1z4qRhQu'
+        }   
     },
     websockets: {
         allprices: 'wss://kanbanprod.fabcoinapi.com/ws/allprices',

@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TradeComponent } from './components/trade/trade.component';
 import { OrderComponent } from './components/order/order.component';
-import { PlaceadvComponent } from './components/placeadv/placeadv.component';
+import { ListComponent } from './components/otc-merchant/list/list.component';
 
 const routes: Routes = [
   { path: 'trade', component: TradeComponent },
   { path: 'order', component: OrderComponent },
-  { path: 'placeadv', component: PlaceadvComponent },
+  { path: 'list', component: ListComponent },
   { path: '', redirectTo: 'trade', pathMatch: 'full' },
 ];
 

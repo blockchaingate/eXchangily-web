@@ -2,3 +2,13 @@
     align-items: center;
     justify-content: center;
 }
+
+.example-radio-group {
+    display: flex;
+    flex-direction: row;
+    margin: 0px 15px;
+}
+
+.example-radio-button {
+    margin: 5px;
+}

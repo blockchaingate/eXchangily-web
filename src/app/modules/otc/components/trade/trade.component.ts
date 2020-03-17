@@ -150,8 +150,8 @@ export class TradeComponent implements OnInit {
     this.coinName = coin;
   }
 
-  placeOrder() {
-    this.otcPlaceOrderModal.show();
+  placeOrder(element) {
+    this.otcPlaceOrderModal.show(element);
   }
 
   onConfirmedPlaceOrder (event) {

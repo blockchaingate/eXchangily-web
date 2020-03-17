@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, TemplateRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { OrderService } from '../../../services/order.service';
@@ -18,6 +18,8 @@ import { StorageService } from '../../../../../services/storage.service';
 import * as bs58 from 'bs58';
 import { environment } from '../../../../../../environments/environment';
 import BigNumber from 'bignumber.js/bignumber';
+import { PinNumberModal } from '../../../../shared/modals/pin-number/pin-number.modal';
+
 @Component({
     selector: 'app-myorders',
     templateUrl: './myorders.component.html',
@@ -33,7 +35,6 @@ export class MyordersComponent implements OnInit, OnDestroy {
     pin: string;
     orderHash: string;
     modalWithdrawRef: BsModalRef;
-    modalPinRef: BsModalRef;
     orderStatus: string;
     mytokens: any;
     opType: string;
@@ -44,6 +45,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     gasPrice: number;
     gasLimit: number;
     withdrawAmount: number;
+    @ViewChild('pinModal', {static: true}) pinModal: PinNumberModal;
     withdrawModal: TemplateRef<any>;
     interval;
     constructor(private ordServ: OrderService, private _router: Router, private tradeService: TradeService, 
@@ -192,9 +194,6 @@ export class MyordersComponent implements OnInit, OnDestroy {
         }); 
     }
 
-    openPinModal(template: TemplateRef<any>) {
-        this.modalPinRef = this.modalService.show(template, { class: 'second' });
-    }
 
     openWithdrawModal(template: TemplateRef<any>) {
         this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName];
@@ -214,20 +213,24 @@ export class MyordersComponent implements OnInit, OnDestroy {
             this.orderStatus = 'canceled';
         }
     }
-    deleteOrder(pinModal: TemplateRef<any>, orderHash: string) {
+
+    deleteOrder(orderHash: string) {
         console.log('orderHash=' + orderHash);
         this.orderHash = orderHash;
         this.opType = 'deleteOrder';
+        /*
         this.pin = sessionStorage.getItem('pin');
         if (this.pin) {
             this.deleteOrderDo();
         
         } else {
-            this.openPinModal(pinModal);
+            // this.openPinModal(pinModal);
         }
+        */
+       this.pinModal.show();
     }
 
-    withdraw(pinModal: TemplateRef<any>, withdrawModal: TemplateRef<any>, token) {
+    withdraw(withdrawModal: TemplateRef<any>, token) {
         this.token = token;
         console.log('token=', this.token);
 
@@ -235,32 +238,35 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
         this.coinName = this.coinServ.getCoinNameByTypeId(this.coinType);        
         this.opType = 'withdraw';
-        this.pin = sessionStorage.getItem('pin');
-        if (this.pin) {  
+        // this.pin = sessionStorage.getItem('pin');
+        // if (this.pin) {  
             this.openWithdrawModal(withdrawModal);
         
-        } else {
-            this.withdrawModal = withdrawModal;
-            this.openPinModal(pinModal);
-        }        
+        // } else {
+        //    this.withdrawModal = withdrawModal;
+        // }         
     }
-    confirmPin() {
 
-        const pwdHashStr = this.utilServ.SHA256(this.pin).toString();
-        if (this.wallet.pwdHash !== pwdHashStr) {
-          this.alertServ.openSnackBar('Your password is invalid', 'Ok');
-          return;
-        }
 
-        sessionStorage.setItem('pin', this.pin);
-        if (this.opType === 'deleteOrder') {
-            this.deleteOrderDo();
-        } else 
+    onConfirmedWithdrawAmount() {
+        this.modalWithdrawRef.hide();
+        this.pinModal.show();
+    }
+
+    onConfirmedPin(pin: string) {
+        this.pin = pin;
+        const pinHash = this.utilServ.SHA256(pin).toString();
+        if (pinHash !== this.wallet.pwdHash) {
+            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+            return;
+        } 
         if (this.opType === 'withdraw') {
-            this.openWithdrawModal(this.withdrawModal);
+            this.withdrawDo();
+        } else
+        if (this.opType = 'deleteOrder') {
+            this.deleteOrderDo();
         }
         
-        this.modalPinRef.hide();
     }
 
     async deleteOrderDo() {
@@ -287,7 +293,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 }   
                 
                 this.tradeService.saveTransactions(this.myorders);
-                this.alertServ.openSnackBar('Delete Order successfully.', 'Ok');
+                this.alertServ.openSnackBar('Your deleting order request is pending.', 'Ok');
             }
         });
     }
