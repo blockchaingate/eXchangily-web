@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { OtcPlaceOrderModal } from '../../modals/otc-place-order/otc-place-order';
 import { ApplyForMerchantModal } from '../../modals/apply-for-merchant/apply-for-merchant';
 import { ConfirmPaymentModal } from '../../modals/confirm-payment/confirm-payment';
+import { Router } from '@angular/router';
+
 export interface PeriodicElement {
   Merchant: string;
   PaymentMethod: string[];
@@ -137,7 +139,7 @@ export class TradeComponent implements OnInit {
   @ViewChild('otcPlaceOrderModal', {static: true}) otcPlaceOrderModal: OtcPlaceOrderModal;
   @ViewChild('applyForMerchantModal', {static: true}) applyForMerchantModal: ApplyForMerchantModal;
   @ViewChild('confirmPaymentModal', {static: true}) confirmPaymentModal: ConfirmPaymentModal;
-  constructor() { }
+  constructor(private _router: Router) { }
 
   ngOnInit() {
     this.bidOrAsk = true;
@@ -161,7 +163,8 @@ export class TradeComponent implements OnInit {
   }
 
   becomeMerchant() {
-    this.applyForMerchantModal.show();
+    this._router.navigate(['/otc/apply-to-be-merchant']);
+    // this.applyForMerchantModal.show();
   }
 
   placeAdv() {
@@ -169,7 +172,6 @@ export class TradeComponent implements OnInit {
   }
   
   onBecomeMerchant( event ) {
-
   }
 
   onConfirmPayment(event) {

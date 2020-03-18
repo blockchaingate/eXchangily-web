@@ -1,0 +1,32 @@
+<div class="container py-3">
+    <div class="row border-bottom py-2">
+        <div class="col col-12">
+            OTC Merchant Application
+        </div>
+    </div>
+
+    <form [formGroup]="confirmPaymentModalForm" (ngSubmit)="onSubmit()">
+        <div class="py-3">
+            <div class="row col col-12" style="margin-top: 12px">
+                <div style="width:168px">Merchant name</div>
+                <div style="width:400px"><input placeholder="Merchant name" [(ngModel)]="merchant.name" style="width: 380px;" /></div>
+            </div>
+
+            <div class="row col col-12" style="margin-top: 12px">
+                <div style="width:168px">Phone</div>
+                <div style="width:400px"><input placeholder="Phone" [(ngModel)]="merchant.phone" style="width: 380px;" /></div>
+            </div>
+
+            <div class="row col col-12" style="margin-top: 12px">
+                <div style="width:168px">Email</div>
+                <div style="width:400px"><input placeholder="Email" [(ngModel)]="merchant.name" style="width: 380px;" />
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer  justify-content-center">
+            <button class="btn btn-gradient text-white py-2 px-5" type="submit"> Already Paid </button>
+        </div>
+    </form>
+
+</div>
