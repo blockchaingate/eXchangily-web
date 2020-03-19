@@ -2,7 +2,7 @@
     <div class="row border-bottom py-2">
         <div class="col col-3 border-right">
             <mat-form-field class="text-muted">
-                <mat-label>{{'Currency' | translate }}</mat-label>
+                <mat-label>{{"Currency" | translate }}</mat-label>
                 <mat-select class="text-muted" [(ngModel)]="currency" [disableOptionCentering]="true">
                     <mat-option *ngFor="let cur of currencies" [value]="cur" class="text-muted">
                         {{cur}}

@@ -15,16 +15,19 @@ import { MatRadioModule } from '@angular/material/radio';
 import { OrderComponent } from './components/order/order.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { ListComponent } from './components/otc-merchant/list/list.component';
+// import { ListComponent } from './components/otc-merchant/list/list.component';
+// duplicate component in otc-merchant module
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { CampaignComponent } from './components/campaign/campaign.component';
 import { SharedModule } from '../shared/shared.module';
+import { OtcMerchantModule } from '../otc/components/otc-merchant/otc-merchant.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
     TradeComponent, MerchantPipe, PaymentmethodComponent, ConfirmPaymentModal,
-    OtcPlaceOrderModal, ApplyForMerchantModal, OrderComponent, ListComponent, CampaignComponent
+    OtcPlaceOrderModal, ApplyForMerchantModal, OrderComponent, CampaignComponent
   ],
   imports: [
     CommonModule,
@@ -37,9 +40,11 @@ import { SharedModule } from '../shared/shared.module';
     MatIconModule,
     MatCardModule,
     SharedModule,
+    TranslateModule,
     MatInputModule,
     OtcRoutingModule,
-    ModalModule
+    ModalModule,
+    OtcMerchantModule
   ]
 })
 export class OtcModule { }
