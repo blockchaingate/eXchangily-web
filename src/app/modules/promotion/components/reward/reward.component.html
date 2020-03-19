@@ -16,19 +16,18 @@
                 399 USD
             </div>
             <div *ngIf="referralCode" class="py-2">
-                {{'Your referral code' | translate }}: {{referralCode}}
+                {{'Referral code' | translate }}: {{referralCode}}
                 <fa-icon [icon]="faFacebook"></fa-icon>
                 <fa-icon [icon]="faTwitter"></fa-icon>
             </div>
         </div>
         <div class="col col-8">
+
+            <!--
             <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-                <!-- This is the tree node template for leaf nodes -->
                 <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-                    <!-- use a disabled button to provide padding for tree leaf -->
                     <button mat-icon-button disabled></button> {{node.name}}
                 </mat-tree-node>
-                <!-- This is the tree node template for expandable nodes -->
                 <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
                     <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
                             <mat-icon class="mat-icon-rtl-mirror">
@@ -37,8 +36,62 @@
                           </button> {{node.name}}
                 </mat-tree-node>
             </mat-tree>
+        -->
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">RefCode</th>
+                        <th scope="col">address</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Reward</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">
+                            <div class="level-1">
+                                44f5d3
+                            </div>
 
-
+                        </th>
+                        <td>
+                            <small>
+                                0xa2a3720c00c2872397e6d98f41305066cbf0f8b3
+                            </small>
+                        </td>
+                        <td>100</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <div class="level-2">
+                                3f4g5s
+                            </div>
+                        </th>
+                        <td>
+                            <small>
+                                    0xa2a3720c00c2872397e6d98f41305066cbf0f8b3
+                                </small>
+                        </td>
+                        <td>100</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <div class="level-2">
+                                3f4g5s
+                            </div>
+                        </th>
+                        <td>
+                            <small>
+                                        0xa2a3720c00c2872397e6d98f41305066cbf0f8b3
+                                    </small>
+                        </td>
+                        <td>100</td>
+                        <td>5</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

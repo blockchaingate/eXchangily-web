@@ -365,9 +365,20 @@ export class WalletDashboardComponent {
         }
         
         let updated = false;
+        let hasDUSD = false;
+        let exgCoin;
+        let fabCoin;
         for ( let i = 0; i < this.wallet.mycoins.length; i++ ) {
             const coin = this.wallet.mycoins[i];
-
+            if (coin.name === 'DUSD') {
+                hasDUSD = true;
+            } else
+            if (coin.name === 'EXG') {
+                exgCoin = this.wallet.mycoins[i];
+            } else
+            if (coin.name === 'FAB') {
+                fabCoin = this.wallet.mycoins[i];
+            }
             const balance = await this.coinServ.getBalance(coin);
             if (coin.balance !== balance.balance || coin.lockedBalance !== balance.lockbalance) {                        /*
                 this.wallets = new Array<Wallet>();
@@ -378,11 +389,25 @@ export class WalletDashboardComponent {
                 updated = true;
             }
         }
+        if (!hasDUSD) {
+            const dusdCoin = new MyCoin('DUSD');
+            dusdCoin.balance = 0;
+            dusdCoin.decimals = 6;
+            dusdCoin.coinType = environment.CoinType.FAB;
+            dusdCoin.lockedBalance = 0;
+            dusdCoin.receiveAdds.push(exgCoin.receiveAdds[0]);
+            dusdCoin.tokenType = 'FAB';
+            dusdCoin.baseCoin = fabCoin;
+            dusdCoin.contractAddr = environment.addresses.smartContract.DUSD;
+            this.wallet.mycoins.push(dusdCoin);
+            updated = true;
+        }
         if (updated) {
             // console.log('updated=' + updated);
             this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
         }
     }
+
 
     async changeWallet(value) {
         this.currentWalletIndex = value;

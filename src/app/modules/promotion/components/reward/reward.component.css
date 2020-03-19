@@ -17,3 +17,9 @@
     font-size: 20px;
     font-weight: 500;
 }
+
+.level-2 {
+    padding-left: 10px;
+    font-size: 15px;
+    color: grey;
+}

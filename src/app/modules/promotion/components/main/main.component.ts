@@ -11,6 +11,7 @@ import { TimerService } from '../../../../services/timer.service';
 import {StorageService} from '../../../../services/storage.service';
 import BigNumber from 'bignumber.js/bignumber';
 import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { CoinOrderService } from 'src/app/services/coinorder.service';
 
 @Component({
   selector: 'app-main',
@@ -24,6 +25,7 @@ export class MainComponent implements OnInit {
   quantity: number;
   currentCoin: MyCoin;
   gasPrice: number;
+  coinName: string;
   gasLimit: number;
   referralCode: string;
   satoshisPerBytes: number;
@@ -40,6 +42,7 @@ export class MainComponent implements OnInit {
     private walletService: WalletService, 
     private alertServ: AlertService, 
     public utilServ: UtilService,
+    private coinorderServ: CoinOrderService,
     private coinService: CoinService
   ) { }
 
@@ -60,6 +63,7 @@ export class MainComponent implements OnInit {
 
   showAvailable(coinName: string) {
     console.log('coinName=', coinName);
+    this.coinName = coinName;
     if (coinName === 'USD') {
       this.available = '';
     } else {
@@ -137,7 +141,24 @@ export class MainComponent implements OnInit {
         this.storageService.storeToTransactionHistoryList(item);
         this.referralCode = '32RY34';
 
-        
+
+        this.storageService.getToken().subscribe(
+          token => {
+            const coinorder = {
+              coinName: 'EXG',
+              paymentmethod: this.coinName,
+              price: this.price,
+              quantity: this.quantity,
+              txid: txHash,
+              token: token
+            };        
+            this.coinorderServ.addOrder(coinorder).subscribe(
+              (res: any) => {
+                console.log('res=', res);
+              }
+            );
+          }
+        );
     }    
   }
 }

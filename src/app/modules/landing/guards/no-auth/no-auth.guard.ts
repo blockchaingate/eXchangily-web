@@ -12,7 +12,7 @@ export class NoAuthGuard implements CanActivate, CanActivateChild {
 
   private isAuthenticated() {
     if (!!this.userAuth.isLoggedIn$.getValue()) {
-      this.route.navigate([''])
+      this.route.navigate(['/account/user-info'])
         .then(_ => console.error('You are already signed in!'))
         .catch(err => console.error(err));
       return false;

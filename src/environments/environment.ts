@@ -40,7 +40,8 @@ export const environment = {
         }        
     },
     endpoints: {
-        blockchaingate: 'http://localhost:3002/v2/',
+        // blockchaingate: 'http://localhost:3002/v2/',
+        blockchaingate: 'https://test.blockchaingate.com/v2/',
         coingecko: 'https://api.coingecko.com/',
         kanban: 'https://kanbantest.fabcoinapi.com/',
         BTC: {
@@ -67,13 +68,15 @@ export const environment = {
             // EXG: '0x311acf4666477a22c2f16c53b88c1734ee227fc6',
             EXG: '0x867480ba8e577402fa44f43c33875ce74bdc5df6',
             USDT: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',
+            DUSD: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed'
         },
         exchangilyOfficial: [
             { name: 'EXG', address: '0xdcd0f23125f74ef621dfa3310625f8af0dcd971b'},
             { name: 'FAB', address: 'n1eXG5oe6wJ6h43akutyGfphqQsY1UfAUR'},
             { name: 'BTC', address: 'muQDw5hVmFgD1GrrWvUt6kjrzauC4Msaki'},
             { name: 'ETH', address: '0x02c55515e62a0b25d2447c6d70369186b8f10359'},
-            { name: 'USDT', address: '0x02c55515e62a0b25d2447c6d70369186b8f10359'}
+            { name: 'USDT', address: '0x02c55515e62a0b25d2447c6d70369186b8f10359'},
+            { name: 'DUSD', address: '0xdcd0f23125f74ef621dfa3310625f8af0dcd971b'}
         ],
         promotionOfficial: {
             USDT: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
@@ -93,7 +96,8 @@ export const environment = {
         BTC: 0.002,
         FAB: 0.005,
         ETH: 0.01,
-        USDT: 10
+        USDT: 10,
+        DUSD: 10
     }
 };
 

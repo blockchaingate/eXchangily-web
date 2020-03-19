@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../../../service/user/user.service';
 import { UserAuth } from '../../../service/user-auth/user-auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { StorageService } from '../../../../../services/storage.service';
 
 import { User } from '../../../models/user';
 // import { getMatScrollStrategyAlreadyAttachedError } from '@angular/cdk/overlay/typings/scroll/scroll-strategy';
@@ -24,10 +25,23 @@ export class SigninComponent implements OnInit {
 
   get password() { return this.signinForm.get('password'); }
 
-  constructor(private _router: Router, private _userService: UserService, private _userAuth: UserAuth) {
+  constructor(
+    private _router: Router, 
+    private _userService: UserService, 
+    private _userAuth: UserAuth,
+    private _storageServ: StorageService
+    ) {
   }
 
   ngOnInit() {
+    console.log('token=', this._userAuth.token);
+    if (!this._userAuth.token) {
+      this._storageServ.getToken().subscribe(
+        (token: string) => {
+          console.log('token=', token);
+        }
+      );
+    }
     this.signinForm = new FormGroup({
       'email': new FormControl(this.user.email, [
         Validators.required,
@@ -66,6 +80,7 @@ export class SigninComponent implements OnInit {
 
     if (loginRet.token) {
       this._userAuth.token = loginRet.token;
+      this._storageServ.storeToken(loginRet.token);
     }
 
     this._userAuth.userDisplay$.next(loginRet.displayName);
