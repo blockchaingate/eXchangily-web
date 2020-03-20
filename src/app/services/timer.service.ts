@@ -163,6 +163,9 @@ export class TimerService {
             return;
         }
         const txid = item.txid;
+        if(!txid) {
+            return;
+        }
         const type = item.type;
         const coin = item.coin;
         const tokenType = item.tokenType;

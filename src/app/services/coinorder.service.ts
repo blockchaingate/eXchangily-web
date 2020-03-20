@@ -9,4 +9,8 @@ export class CoinOrderService {
     addOrder(data: any) {
         return this.httpServ.post(environment.endpoints.blockchaingate + 'coinoders/create', data);
     }
+
+    getOrders(token: string) {
+        return this.httpServ.get(environment.endpoints.blockchaingate + 'coinoders?token=' + token);
+    }
 }

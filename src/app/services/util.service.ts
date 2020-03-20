@@ -54,7 +54,10 @@ export class UtilService {
         // console.log('rightHex=' + rightHex);
         return this.hexToDec(leftHex) * 16 + this.hexCharToDec(rightHex);
     }
-
+    showTime(time:string) {
+        const timeArray = time.split('.');
+        return timeArray[0].replace('T', ' ');
+    }
     copy(str: string) {
         const selBox = document.createElement('textarea');
         selBox.style.position = 'fixed';
@@ -125,7 +128,7 @@ export class UtilService {
     }  
 
     stripHexPrefix(str) {
-        if (str.length > 2 && str[0] === '0' && str[1] === 'x') {
+        if (str && (str.length > 2) && (str[0] === '0') && (str[1] === 'x')) {
             return str.slice(2);
         }
         return str;

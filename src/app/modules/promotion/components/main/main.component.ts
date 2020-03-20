@@ -19,6 +19,7 @@ import { CoinOrderService } from 'src/app/services/coinorder.service';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+  orders: any;
   wallet: Wallet;
   available: any;
   price: number;
@@ -31,6 +32,7 @@ export class MainComponent implements OnInit {
   satoshisPerBytes: number;
   faFacebook = faFacebook;
   faTwitter = faTwitter;
+  token: string;
 
   selectedPaymentMethod: string;
   @ViewChild('pinModal', {static: true}) pinModal: PinNumberModal;
@@ -48,6 +50,21 @@ export class MainComponent implements OnInit {
 
   async ngOnInit() {
     this.wallet = await this.walletService.getCurrentWallet();
+
+    this.storageService.getToken().subscribe(
+      (token:string) => {  
+        this.token = token;     
+        this.coinorderServ.getOrders(token).subscribe(
+          (res: any) => {
+            console.log('res=', res);
+            if(res && res.ok) {
+              this.orders = res._body;
+
+            }
+          }
+        );
+      }
+    );
 
     if (!this.wallet) {
       this.alertServ.openSnackBar('no current wallet was found.', 'Ok');
@@ -142,23 +159,20 @@ export class MainComponent implements OnInit {
         this.referralCode = '32RY34';
 
 
-        this.storageService.getToken().subscribe(
-          token => {
+
             const coinorder = {
               coinName: 'EXG',
               paymentmethod: this.coinName,
               price: this.price,
               quantity: this.quantity,
               txid: txHash,
-              token: token
+              token: this.token
             };        
             this.coinorderServ.addOrder(coinorder).subscribe(
               (res: any) => {
                 console.log('res=', res);
               }
             );
-          }
-        );
     }    
   }
 }

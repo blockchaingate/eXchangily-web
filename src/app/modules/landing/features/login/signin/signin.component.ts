@@ -100,6 +100,7 @@ export class SigninComponent implements OnInit {
 
     const toUrl = sessionStorage.__AfterLoginUrl ? sessionStorage.__AfterLoginUrl : this.afterLoginUrl;
 
-    this._router.navigate(['/account/user-info']);
+    //this._router.navigate(['/account/user-info']);
+    this._router.navigate(['/admin']);
   }
 }
