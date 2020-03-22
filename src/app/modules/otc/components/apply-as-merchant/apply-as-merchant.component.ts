@@ -6,6 +6,7 @@ import { User } from '../../../landing/models/user';
 import { Merchant } from '../../../../models/merchant';
 import { MerchantService } from '../../../../services/merchant.service';
 import { observable } from 'rxjs';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
     selector: 'app-apply-as-merchant',
@@ -17,7 +18,13 @@ export class ApplyAsMerchantComponent implements OnInit {
     merchant: Merchant = new Merchant('', '');
     errMsg: string;
 
-    constructor(private _router: Router, private _userAuth: UserAuth, private _userServ: UserService) { }
+    merchantForm = new FormGroup({
+        merchantName: new FormControl(''),
+        phone: new FormControl(''),
+        email: new FormControl(''),
+      });
+
+    constructor(private _router: Router, private _userAuth: UserAuth, private _userServ: UserService, private _mcServ: MerchantService) {}
 
     ngOnInit() {
         if (!this._userAuth.token) {
@@ -36,8 +43,15 @@ export class ApplyAsMerchantComponent implements OnInit {
     }
 
     onSubmit() {
-        alert(this.merchant.name);
-        alert(this.merchant.phone);
-        alert(this.merchant.email);
+        this.merchant.name = this.merchantForm.get('merchantName').value;
+        this.merchant.phone = this.merchantForm.get('phone').value;
+        this.merchant.email = this.merchantForm.get('email').value;
+
+        this._mcServ.create(this.merchant).subscribe(
+            res => { alert((<Merchant>res)._id); },
+            err => {}
+        );
     }
 }
+
+
