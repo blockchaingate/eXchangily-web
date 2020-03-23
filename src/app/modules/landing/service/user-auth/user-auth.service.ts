@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { root } from 'rxjs/internal/util/root';
 
+
 @Injectable({providedIn: 'root', })
 export class UserAuth {
   private _hasMerchant = false;
@@ -19,6 +20,7 @@ export class UserAuth {
   manageEmployee = 0;
   manageFinance = 0;
   manageCoins = 0;
+
 
   // store the URL so we can redirect after logging in
   redirectUrl: string;
@@ -56,7 +58,9 @@ export class UserAuth {
 
   get token() { return this._token; }
 
-  set token(token) { this._token = token; }
+  set token(token) { 
+    this._token = token; 
+  }
 
   set hasMerchant(hasMerchant: boolean) {
     this._hasMerchant = hasMerchant;

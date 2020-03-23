@@ -368,10 +368,21 @@ export class ApiService {
         return response;
     }
 
-    async getFabTokenBalance(name: string, contractAddress: string, address: string) {
-        if (name === 'EXG') {
-            contractAddress = environment.addresses.smartContract.EXG;
+    async getFabTokenBalance(name: string, address: string) { 
+        const contractAddress = environment.addresses.smartContract[name];
+        let fxnCallHex = this.web3Serv.getFabTokenBalanceOfABI([address]);
+        fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex); 
+        const response = await this.fabCallContract(contractAddress, fxnCallHex);    
+        let balance = 0;
+        const lockbalance = 0;
+        if (response && response.executionResult && response.executionResult.output) {
+            const balanceHex = response.executionResult.output;
+            balance = parseInt(balanceHex, 16);
         }
+        return {balance, lockbalance};    
+    }
+    async getExgBalance(address: string) {
+        const contractAddress = environment.addresses.smartContract.EXG;
         // console.log('contractAddress=' + contractAddress + ',address=' + address);
         let fxnCallHex = this.web3Serv.getFabBalanceOfABI([address]);
         fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex); 

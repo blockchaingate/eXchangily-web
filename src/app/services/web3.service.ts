@@ -162,6 +162,31 @@ export class Web3Service {
     return abiHex;    
     }
 
+    getFabTokenBalanceOfABI(paramsArray: any) {
+      const web3 = this.getWeb3Provider();
+      const func =    {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "accountOwner",
+            "type": "address"
+          }
+        ],
+        "name": "balanceOf",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      }; 
+    const abiHex = web3.eth.abi.encodeFunctionCall(func, paramsArray);
+    return abiHex;  
+    }
+
     getFabBalanceOfABI(paramsArray: any) {
       const web3 = this.getWeb3Provider();
       const func =     	{
@@ -184,9 +209,6 @@ export class Web3Service {
         "type": "function"
       }; 
     const abiHex = web3.eth.abi.encodeFunctionCall(func, paramsArray);
-
-    // console.log('paramsArray=', paramsArray);
-    // console.log('abiHex=', abiHex);
     return abiHex;      
     }
 

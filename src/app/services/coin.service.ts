@@ -184,13 +184,19 @@ export class CoinService {
             lockbalance = balanceObj.lockbalance / Math.pow(10, decimals);
         } else
         if (tokenType === 'FAB') {
-            const balanceObj = await this.apiService.getFabTokenBalance(name, contractAddr, addr);
+            let balanceObj;
+            if (name === 'EXG') {
+                balanceObj = await this.apiService.getExgBalance(addr);
+            } else {
+                balanceObj = await this.apiService.getFabTokenBalance(name, addr);
+            }
             balance = balanceObj.balance / Math.pow(10, decimals);
             lockbalance = balanceObj.lockbalance / Math.pow(10, decimals);        
         }
         return {balance, lockbalance};
     }
     async getBalance(myCoin: MyCoin) {
+        console.log('myCoin.name for getBalance=', myCoin.name);
         let balance;
         let totalBalance = 0;
         let totalLockBalance = 0;
@@ -216,6 +222,7 @@ export class CoinService {
                 continue;
             }
             const addr = myCoin.receiveAdds[i].address;
+
             const decimals = myCoin.decimals;
             balance = await this.getBlanceByAddress(tokenType, contractAddr, coinName, addr, decimals);
 
@@ -238,7 +245,6 @@ export class CoinService {
             myCoin.receiveAdds[i].lockedBalance = balance.lockbalance;
             totalLockBalance += balance.lockbalance;
         }
-        console.log('totalBalance2=', totalBalance);
         return {balance: totalBalance, lockbalance: totalLockBalance};
     }
 

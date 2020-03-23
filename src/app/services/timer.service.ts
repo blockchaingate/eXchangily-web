@@ -163,6 +163,9 @@ export class TimerService {
             return;
         }
         const txid = item.txid;
+        if(!txid) {
+            return;
+        }
         const type = item.type;
         const coin = item.coin;
         const tokenType = item.tokenType;
@@ -174,7 +177,7 @@ export class TimerService {
             }
         }    
 
-        const source = timer(1000, 2000);
+        const source = timer(10000, 20000);
         const subscribeItem = source.subscribe(val => {
             if ((maxTimes > 0) && (val >= maxTimes)) {
                 this.unCheckTransactionStatus(txid);
@@ -199,6 +202,7 @@ export class TimerService {
                 );
             } else
             if (type === 'Deposit') {
+                console.log('check deposit status');
                 this.kanbanServ.getDepositStatusSync(txid).subscribe((res: any) => {
                     if (res && res.code !== undefined) {
                         const code = res.code;
@@ -223,6 +227,8 @@ export class TimerService {
                             this.unCheckTransactionStatus(txid);
                         }
                     }
+                }, (error) => {
+                    // console.log('error', error);
                 });
             } else
             if (type === 'Send' || type === 'Add Gas') {

@@ -32,6 +32,14 @@ export class StorageService {
         return this.localSt.getItem('favoritePairs');
     }   
 
+    storeToken(token: string) {
+        return this.localSt.setItem('token', token).subscribe(() => {});
+    }
+
+    getToken() {
+        return this.localSt.getItem('token');
+    }  
+
     storeToTransactionHistoryList(transactionItem: TransactionItem) {
         this.getTransactionHistoryList().subscribe((transactionHistory: TransactionItem[]) => {
             if (!transactionHistory) {

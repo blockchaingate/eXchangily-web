@@ -217,13 +217,14 @@
                         <div class="container fxHide-gt-sm" *ngIf="wallet">
                             <div class="row apair header">
                                 <div class="col-2">
-                                    Symbol
+                                    {{"Symbol" | translate}}
                                 </div>
                                 <div class="col-2">
-                                    Asset
+                                    {{"Asset" | translate}}
+
                                 </div>
                                 <div class="col-4">
-                                    Available
+                                    {{"Available" | translate}}
                                 </div>
 
                                 <div class="col-4">
@@ -260,16 +261,16 @@
                                         <mat-icon>vertical_align_bottom</mat-icon>
                                     </button>
                                 </div>
-                                <div class="col-12 text-muted">Frozen:{{mycoin.lockedBalance}}</div>
+                                <div class="col-12 text-muted">{{"Frozen" | translate}}:{{mycoin.lockedBalance}}</div>
                                 <div class="col-12 text-muted">
-                                    Value(USD):
+                                    {{"Value(USD)" | translate}}:
                                     <span *ngIf="mycoin.name == 'EXG' && coinsPrice && coinsPrice.exgcoin">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.exgcoin.usd)}}</span>
                                     <span *ngIf="mycoin.name == 'BTC' && coinsPrice && coinsPrice.bitcoin">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.bitcoin.usd)}}</span>
                                     <span *ngIf="mycoin.name == 'FAB' && coinsPrice && coinsPrice.fabcoin">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.fabcoin.usd)}}</span>
                                     <span *ngIf="mycoin.name == 'ETH' && coinsPrice && coinsPrice.ethereum">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.ethereum.usd)}}</span>
                                     <span *ngIf="mycoin.name == 'USDT' && coinsPrice && coinsPrice.tether">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.tether.usd)}}</span>
                                 </div>
-                                <div class="col-12 text-muted">Profit sharing:</div>
+                                <div class="col-12 text-muted">{{"Profit sharing" | translate}}:</div>
                             </div>
                         </div>
 

@@ -211,8 +211,11 @@ export class KanbanService {
             return 'undefined';
         }
         try {
+            console.log('111');
             response = await this.get('checkstatus/' + txid).toPromise() as DepositStatusResp;
+            console.log('222');
             if (response && response.code) {
+                console.log('rensponse.code=', response.code);
                 if (response.code === 0) {
                     status = 'confirmed';
                 } else 
@@ -224,7 +227,7 @@ export class KanbanService {
                 }
             }
 
-        } catch (e) {console.log (e); }        
+        } catch (e) { }        
         return status; 
     }
 
@@ -248,6 +251,7 @@ export class KanbanService {
     }
 
     getDepositStatusSync(txid: string) {
+        txid = this.utilServ.stripHexPrefix(txid);
         return this.get('checkstatus/' + txid);
     }
 }

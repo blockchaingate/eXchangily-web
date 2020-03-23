@@ -51,8 +51,18 @@ const routes: Routes = [
       title: 'Exchangily Account',
       isHome: false
     }
-  }    
-  ,
+  },
+  {
+    resolve: {
+      app: AppResolver
+    },
+    path: 'admin',
+    loadChildren: './modules/landing/features/amin/admin.module#AdminModule',
+    data: {
+      title: 'Exchangily Admin',
+      isHome: false
+    }
+  },  
   { path: '**', component: PageNotFoundComponent }
 ];
 

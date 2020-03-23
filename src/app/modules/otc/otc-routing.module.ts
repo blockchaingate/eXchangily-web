@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: 'trade', component: TradeComponent },
   { path: 'order', component: OrderComponent },
   { path: 'list', component: ListComponent },
+  { path: 'otc-merchant', loadChildren: './components/otc-merchant/otc-merchant.module#OtcMerchantModule'},
   { path: 'apply-to-be-merchant', component: ApplyAsMerchantComponent },
   { path: '', redirectTo: 'trade', pathMatch: 'full' },
 ];

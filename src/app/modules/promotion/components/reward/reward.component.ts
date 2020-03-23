@@ -69,5 +69,7 @@ export class RewardComponent implements OnInit {
   ngOnInit() {
     this.referralCode = '32RY34';
   }
-
+  onConfirmedPin(pin) {
+    
+  }
 }
