@@ -11,6 +11,7 @@ import { AuthGuard } from '../../guards/auth/auth.guard';
 import { KycComponent } from './kyc/kyc.component';
 import { KycsComponent } from './kyc/kycs.component';
 import { TokenlockComponent } from './tokenlock/tokenlock.component';
+import { CoinOrdersComponent } from './coin-orders/coin-orders.component';
 
 const routes: Routes = [
     {
@@ -31,6 +32,10 @@ const routes: Routes = [
             path: 'order-edit/:id',
             component: OrderEditComponent
         },
+        {
+            path: 'coin-orders',
+            component: CoinOrdersComponent
+        },        
         {
             path: 'order-mngmt',
             component: OrderManagementComponent
