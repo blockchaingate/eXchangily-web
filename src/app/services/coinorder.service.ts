@@ -6,11 +6,14 @@ export class CoinOrderService {
     constructor(private httpServ: HttpService) {
     } 
 
-    addOrder(data: any) {
+    addOrder(data) {
         return this.httpServ.post(environment.endpoints.blockchaingate + 'coinoders/create', data);
     }
-
     getOrders(token: string) {
         return this.httpServ.get(environment.endpoints.blockchaingate + 'coinoders?token=' + token);
+    }
+
+    getRewards(token: string) {
+        return this.httpServ.get(environment.endpoints.blockchaingate + 'coinoders/rewards?token=' + token);
     }
 }

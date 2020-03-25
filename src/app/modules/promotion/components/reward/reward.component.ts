@@ -2,6 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { CoinOrderService } from 'src/app/services/coinorder.service';
+import {StorageService} from '../../../../services/storage.service';
+import {
+  IBarChartOptions,
+  IChartistAnimationOptions,
+  IChartistData
+} from 'chartist';
+import { ChartEvent, ChartType } from 'ng-chartist';
+
+
+
+
 
 interface FoodNode {
   name: string;
@@ -45,6 +57,75 @@ export class RewardComponent implements OnInit {
   faFacebook = faFacebook;
   faTwitter = faTwitter;
   referralCode: string;
+
+
+
+
+
+
+  type: ChartType = 'Bar';
+  data: IChartistData = {
+    labels: [
+      'level 1',
+      'level 2',
+      'level 3'
+    ],
+    series: [
+      [10,57, 201],
+      [125, 234, 583],
+      [32, 28, 97]
+    ]
+  };
+
+  data2: IChartistData = {
+    labels: [
+      'team 1',
+      'team 2',
+      'team 3',
+      'team 4',
+      'team 5',
+      'team 6',
+      'team 7',
+      'team 8'
+    ],
+    series: [
+      [10,57, 201, 23, 445, 45, 56, 76],
+      [125, 234, 583, 223, 445, 534, 553, 785],
+      [32, 28, 97, 45, 67, 45, 67, 124]
+    ]
+  };
+
+  options: IBarChartOptions = {
+    axisX: {
+      showGrid: false
+    },
+    height: 300
+  };
+ 
+  events: ChartEvent = {
+    draw: (data) => {
+      if (data.type === 'bar') {
+        data.element.animate({
+          y2: <IChartistAnimationOptions>{
+            dur: '0.5s',
+            from: data.y1,
+            to: data.y2,
+            easing: 'easeOutQuad'
+          }
+        });
+      }
+    }
+  };
+
+
+
+
+
+
+
+
+
+
   private _transformer = (node: FoodNode, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
@@ -61,7 +142,16 @@ export class RewardComponent implements OnInit {
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor() {
+  constructor(private storageService: StorageService, private coinorderServ: CoinOrderService) {
+
+    this.storageService.getToken().subscribe(
+      (token:string) => {      
+        this.coinorderServ.getRewards(token).subscribe(
+          (res:any) => {
+            console.log(res);
+          }
+        );
+    });
     this.dataSource.data = TREE_DATA;
   }
 

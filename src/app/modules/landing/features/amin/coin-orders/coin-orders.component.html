@@ -1,0 +1,34 @@
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Paymend Method</th>
+        <th scope="col">Price</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Txid</th>
+        <th scope="col">Create Time</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders">
+        <td>{{order.paymentmethod}}</td>
+        <td>{{order.price}}</td>
+        <td>{{order.quantity}}</td>
+        <td>
+          <small>
+            {{order.txid}}
+          </small>
+        </td>
+        <td>
+          <small>
+            {{utilServ.showTime(order.dateCreated)}}
+          </small>
+        </td>
+        <td>
+          {{order.status}}
+          <button mat-raised-button color="primary" *ngIf="order.status=='unconfirmed'" (click)="confirmOrder(order)">Confirm</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  

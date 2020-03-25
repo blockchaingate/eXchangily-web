@@ -4,7 +4,7 @@ import { UserService } from '../../../service/user/user.service';
 import { UserAuth } from '../../../service/user-auth/user-auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StorageService } from '../../../../../services/storage.service';
-
+import { JwtHelperService } from "@auth0/angular-jwt";
 import { User } from '../../../models/user';
 // import { getMatScrollStrategyAlreadyAttachedError } from '@angular/cdk/overlay/typings/scroll/scroll-strategy';
 
@@ -16,7 +16,7 @@ import { User } from '../../../models/user';
 export class SigninComponent implements OnInit {
   private afterLoginUrl = '/member/profile';
   private submitted: boolean;
-
+  private isSystemAdmin: boolean;
   loginError: string;
   user = { email: '', password: '' };
   signinForm: FormGroup;
@@ -35,6 +35,7 @@ export class SigninComponent implements OnInit {
 
   ngOnInit() {
     console.log('token=', this._userAuth.token);
+    this.isSystemAdmin = false;
     if (!this._userAuth.token) {
       this._storageServ.getToken().subscribe(
         (token: string) => {
@@ -77,10 +78,21 @@ export class SigninComponent implements OnInit {
     this._userAuth.manageFinance = 0;
     this._userAuth.manageNews = 0;
     this._userAuth.kyc = 0;
+    const token = loginRet.token;
+    if (token) {
 
-    if (loginRet.token) {
-      this._userAuth.token = loginRet.token;
-      this._storageServ.storeToken(loginRet.token);
+      this._userAuth.token = token;
+      this._storageServ.storeToken(token);
+
+      const helper = new JwtHelperService();
+
+      const decodedToken = helper.decodeToken(token);
+
+      console.log('decodedToken===');
+      console.log(decodedToken);
+      if(decodedToken.aud === 'isSystemAdmin') {
+        this.isSystemAdmin = true;
+      }
     }
 
     this._userAuth.userDisplay$.next(loginRet.displayName);
@@ -100,7 +112,11 @@ export class SigninComponent implements OnInit {
 
     const toUrl = sessionStorage.__AfterLoginUrl ? sessionStorage.__AfterLoginUrl : this.afterLoginUrl;
 
-    //this._router.navigate(['/account/user-info']);
-    this._router.navigate(['/admin']);
+    if(this.isSystemAdmin) {
+      this._router.navigate(['/admin']);
+    } else {
+      this._router.navigate(['/account/user-info']);
+    }
+
   }
 }
