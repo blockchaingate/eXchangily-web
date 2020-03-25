@@ -14,6 +14,7 @@ import { RewardComponent } from './components/reward/reward.component';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatIconModule} from '@angular/material/icon';
 import { CoinOrderService } from '../../services/coinorder.service';
+import { ChartistModule } from 'ng-chartist';
 
 @NgModule({
   declarations: [IndexComponent, MainComponent, RewardComponent],
@@ -28,6 +29,7 @@ import { CoinOrderService } from '../../services/coinorder.service';
     MatTreeModule,
     MatIconModule,
     FontAwesomeModule,
+    ChartistModule,
     PromotionRoutingModule
   ],
   providers: [
