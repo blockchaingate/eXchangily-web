@@ -541,13 +541,18 @@ export class CoinService {
             return {txHex: '', errMsg: '', transFee: transFee + extraTransactionFee * Math.pow(10, this.utilServ.getDecimal(mycoin))};
         }
         const output1 = Math.round(totalInput
-        - amount * Math.pow(10, this.utilServ.getDecimal(mycoin)) - extraTransactionFee * Math.pow(10, this.utilServ.getDecimal(mycoin))
+        - amount * 1e8 - extraTransactionFee * 1e8
         - transFee);
         const output2 = Math.round(amount * 1e8);    
         
-        if (output1 < 0 || output2 < 0) {
+        console.log('output1=', output1);
+        console.log('output2=', output2);
+        if (output1 < 0) {
             // console.log('output1 or output2 should be greater than 0.');
-            return {txHex: '', errMsg: 'output1 or output2 should be greater than 0.', transFee: 0};
+            return {txHex: '', errMsg: 'output1 should be greater than 0.' + totalInput + ',' + amount + ',' + transFee + ',' + output1, transFee: 0};
+        } else 
+        if(output2 < 0) {
+            return {txHex: '', errMsg: 'output2 should be greater than 0.' + amount + ',' + output2, transFee: 0};
         }
         // console.log('amount=' + amount + ',totalInput=' + totalInput);
         // console.log('defaultTransactionFee=' + extraTransactionFee);
