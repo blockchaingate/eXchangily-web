@@ -5,9 +5,16 @@
             <a href="/promotion/reward">{{'My rewards' | translate }}</a>
         </div>
         <div class="col col-6">
-            <label id="example-radio-group-label">{{'Payment method' | translate }}</label>
-            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedPaymentMethod">
-                <mat-radio-button class="example-radio-button" *ngFor="let method of paymentmethods" (click)="showAvailable(method)" [value]="method">
+            <label id="currency-radio-group-label">{{'Payment Currency' | translate }}</label>
+            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedPaymentCurrency">
+                <mat-radio-button class="example-radio-button" *ngFor="let currency of currencies" (click)="selectCurrency(currency)" [value]="currency">
+                    {{currency}}
+                </mat-radio-button>
+            </mat-radio-group>
+
+            <label id="method-radio-group-label">{{'Payment Method' | translate }}</label>
+            <mat-radio-group *ngIf="submethods" aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedPaymentMethod">
+                <mat-radio-button class="example-radio-button" *ngFor="let method of submethods" [value]="method">
                     {{method}}
                 </mat-radio-button>
             </mat-radio-group>
@@ -20,7 +27,7 @@
                 <div class="d-inline-block">
                     <mat-form-field class="example-full-width">
                         <mat-label>{{'Price' | translate }}</mat-label>
-                        <input matInput placeholder="" [(ngModel)]="price" value="">
+                        <input readonly matInput placeholder="" [(ngModel)]="price" value="">
                     </mat-form-field>
                 </div>
 
@@ -33,9 +40,12 @@
             </div>
 
             <div class="d-flex">
-                <label id="example-radio-group-label">{{'Subtotal' | translate }}</label>: {{price && quantity ? bigmul(price, quantity) : 0}}
+                <label id="example-radio-group-label">{{'Subtotal' | translate }}: {{selectedPaymentCurrency}}</label>: {{price && quantity ? getSubtotal() : 0}}
             </div>
 
+            <div class="d-flex">
+                <label id="example-radio-group-label">{{'Value' | translate }}</label>: {{price && quantity ? value : 0}}
+            </div>
             <div *ngIf="referralCode" class="py-2">
                 {{'Your referral code' | translate }}: {{referralCode}}
                 <fa-icon [icon]="faFacebook"></fa-icon>

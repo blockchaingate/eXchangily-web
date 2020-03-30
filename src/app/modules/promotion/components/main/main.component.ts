@@ -27,7 +27,9 @@ export class MainComponent implements OnInit {
   currentCoin: MyCoin;
   gasPrice: number;
   coinName: string;
+  selectedPaymentCurrency: string;
   gasLimit: number;
+  value: number;
   referralCode: string;
   satoshisPerBytes: number;
   faFacebook = faFacebook;
@@ -36,7 +38,40 @@ export class MainComponent implements OnInit {
 
   selectedPaymentMethod: string;
   @ViewChild('pinModal', {static: true}) pinModal: PinNumberModal;
-  paymentmethods: string[] = ['USD', 'USDT', 'FAB', 'BTC', 'ETH'];
+  currencies: string[] = ['USD', 'CAD', 'RMB', 'USDT', 'FAB', 'BTC', 'ETH'];
+  methods = {
+    'USD': [
+      'E-transfer', 'Direct transfer'
+    ],
+    'CAD': [
+      'E-transfer', 'Direct transfer'
+    ],
+    'RMB': [
+      'Wechat', 'Alipay', 'Direct transfer'
+    ],
+    'USDT': [
+      'from eXchangily wallet', 'from other wallets'
+    ],
+    'FAB': [
+      'from eXchangily wallet', 'from other wallets'
+    ],
+    'BTC': [
+      'from eXchangily wallet', 'from other wallets'
+    ],
+    'ETH': [
+      'from eXchangily wallet', 'from other wallets'
+    ]                
+  };
+  submethods: any;
+  prices = {
+    "CAD":{"USD":0.71},
+    "RMB":{"USD":0.14},
+    "BTC":{"USD":6620.53},
+    "ETH":{"USD":134.86},
+    "FAB":{"USD":0.069248},
+    "USDT":{"USD":1.0},
+    "EXG": {"USD": 0.23}
+  };
 
   constructor(
     private timerServ: TimerService,
@@ -72,13 +107,29 @@ export class MainComponent implements OnInit {
     }  
   }
 
-  bigmul(num1, num2) {
-    const x = new BigNumber(num1.toString());
-    const result = x.times(num2);
+
+  getSubtotal() {
+    
+    const x = new BigNumber(this.price.toString());
+    const result = x.times(this.quantity);
+
+    let coinPrice = 1;
+    if(this.selectedPaymentCurrency != 'USD') {
+      coinPrice = this.prices[this.selectedPaymentCurrency]['USD'];
+    }  
+    this.value  = result.times(coinPrice).toNumber();
+      
     return result;
   }
 
-  showAvailable(coinName: string) {
+  selectCurrency(coinName: string) {
+    console.log('methods=', this.methods);
+    this.submethods = this.methods[coinName];
+    let coinPrice = 1;
+    if(coinName != 'USD') {
+      coinPrice = this.prices[coinName]['USD'];
+    }
+    this.price = this.prices['EXG']['USD'] / coinPrice;
     console.log('coinName=', coinName);
     this.coinName = coinName;
     if (coinName === 'USD') {
@@ -162,9 +213,11 @@ export class MainComponent implements OnInit {
 
             const coinorder = {
               coinName: 'EXG',
-              paymentmethod: this.coinName,
+              paymentcurrency: this.selectedPaymentCurrency,
+              paymentmethod: this.selectedPaymentMethod,
               price: this.price,
               quantity: this.quantity,
+              value: this.value,
               txid: txHash,
               token: this.token
             };        

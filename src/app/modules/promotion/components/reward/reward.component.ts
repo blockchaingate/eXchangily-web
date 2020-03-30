@@ -158,6 +158,15 @@ export class RewardComponent implements OnInit {
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
   ngOnInit() {
     this.referralCode = '32RY34';
+
+    this.storageService.getToken().subscribe(
+      (token:string) => {      
+        this.coinorderServ.getRewards(token).subscribe(
+          (res: any) => {
+            console.log('rewards res=', res);
+          }
+        )
+      });
   }
   onConfirmedPin(pin) {
     
