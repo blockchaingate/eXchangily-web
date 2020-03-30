@@ -432,9 +432,6 @@ export class CoinService {
         let totalInput = 0;
         let transFee = 0;
         const feePerInput = bytesPerInput * satoshisPerBytes;
-        console.log('bytesPerInput==', bytesPerInput);
-        console.log('satoshisPerBytes==', satoshisPerBytes);
-        console.log('feePerInput==', feePerInput);
         const receiveAddsIndexArr = [];
         const changeAddsIndexArr = [];
         // console.log('amount111111111111=', amount);
