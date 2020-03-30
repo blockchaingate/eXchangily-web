@@ -13,6 +13,7 @@ import { ManageWalletComponent } from './components/manage-wallet/manage-wallet.
 import { FaqComponent } from './components/faq/faq.component';
 import { WalletPwdComponent } from './components/create/wallet-pwd.component';
 import { RestoreWalletComponent } from './components/restore/restorewallet.component';
+import { RestoreWalletOldComponent } from './components/restoreold/restorewalletold.component';
 import { TransactionHistoryComponent } from './components/transaction-history/transaction-history.component';
 import { AddressKeyComponent } from './modals/components/address-key/address-key.component';
 
@@ -68,6 +69,7 @@ import { TransactionTypePipe } from './pipes/transaction-type.pipe';
         ConfirmMnemonicsComponent,
         WalletPwdComponent,
         RestoreWalletComponent,
+        RestoreWalletOldComponent,
         WalletComponent,
         ManageWalletComponent,
         FaqComponent,

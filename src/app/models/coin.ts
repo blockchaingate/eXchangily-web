@@ -22,15 +22,19 @@ export class Coin {
     } else
     if (name === 'USDT') {
         this.coinType = environment.CoinType.ETH;
-        this.decimals = 8;
+        this.decimals = 6;
     } else
     if (name === 'EXG') {
         this.coinType = environment.CoinType.FAB;
-        this.decimals = 8;
+        this.decimals = 18;
     } else
     if (name === 'FAB' || name === 'EX') {
         this.coinType = environment.CoinType.FAB;
         this.decimals = 8;
+    } else 
+    if (name === 'DUSD') {
+        this.coinType = environment.CoinType.FAB;
+        this.decimals = 6;
     }
    } 
 }

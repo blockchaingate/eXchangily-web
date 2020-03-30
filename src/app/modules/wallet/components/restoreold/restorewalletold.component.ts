@@ -7,12 +7,12 @@ import { LocalStorage } from '@ngx-pwa/local-storage';
 import { Wallet } from '../../../../models/wallet';
 
 @Component({
-    selector: 'app-restore-wallet',
-    templateUrl: './restorewallet.component.html',
-    styleUrls: ['./restorewallet.component.css'],
+    selector: 'app-restore-wallet-old',
+    templateUrl: './restorewalletold.component.html',
+    styleUrls: ['./restorewalletold.component.css'],
     encapsulation: ViewEncapsulation.None
 })
-export class RestoreWalletComponent implements OnInit {
+export class RestoreWalletOldComponent implements OnInit {
     userForm: FormGroup;
     seedPhrase: string;
     seedPhraseInvalid: boolean;
@@ -60,7 +60,7 @@ export class RestoreWalletComponent implements OnInit {
       const pwd = this.userForm.controls.password.value;
       const mnemonic = this.seedPhrase;
       console.log('mnemonic=', mnemonic);
-      const wallet = this.walletServ.generateWallet(pwd, name, mnemonic);
+      const wallet = this.walletServ.generateWalletOld(pwd, name, mnemonic);
 
       console.log('wallet=', wallet);
       if (!wallet) {

@@ -13,6 +13,7 @@ import { CreateWalletComponent } from './components/create/createwallet.componen
 import { ConfirmMnemonicsComponent } from './components/create/confirmmnem.component';
 import { WalletPwdComponent } from './components/create/wallet-pwd.component';
 import { RestoreWalletComponent } from './components/restore/restorewallet.component';
+import { RestoreWalletOldComponent } from './components/restoreold/restorewalletold.component';
 import { WalletDashboardComponent } from './components/dashboard/dashboard.component';
 
 @Injectable()
@@ -40,6 +41,7 @@ const routes: Routes = [
                         { path: 'confirm-words', component: ConfirmMnemonicsComponent },
                         { path: 'set-password', component: WalletPwdComponent },
                         { path: 'restore', component: RestoreWalletComponent },
+                        { path: 'restoreold', component: RestoreWalletOldComponent },
                         { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
                     
                     ]

@@ -76,8 +76,52 @@ export class CoinService {
         return myCoins;
     }
 
+    initMyCoinsOld(seed: Buffer): MyCoin[] {
+        const myCoins = new Array();
+
+        const fabCoin = new MyCoin('FAB');
+        fabCoin.coinType = 0;
+        this.fillUpAddress(fabCoin, seed, 1, 0);
+
+        const exgCoin = this.initToken('FAB', 'EXG', 18, environment.addresses.smartContract.EXG, fabCoin);
+        exgCoin.coinType = 0;
+        this.fillUpAddress(exgCoin, seed, 1, 0);
+
+        myCoins.push(exgCoin);
+        myCoins.push(fabCoin);
+
+        const btcCoin = new MyCoin('BTC');
+        btcCoin.coinType = 0;
+        this.fillUpAddress(btcCoin, seed, 1, 0);
+        myCoins.push(btcCoin);  
+
+        const ethCoin = new MyCoin('ETH');
+        ethCoin.coinType = 0;
+        this.fillUpAddress(ethCoin, seed, 1, 0);
+        myCoins.push(ethCoin); 
+
+        /*
+        coin = new MyCoin('USDT');
+        this.fillUpAddress(coin, seed, 1, 0);
+        myCoins.push(coin);  
+        */
+        const usdtCoin = this.initToken('ETH', 'USDT', 6, environment.addresses.smartContract.USDT, ethCoin);     
+        usdtCoin.coinType = 0;
+        this.fillUpAddress(usdtCoin, seed, 1, 0);
+        myCoins.push(usdtCoin);      
+             
+        return myCoins;
+    }
+
     initExCoin(seed: Buffer): MyCoin {
         const coin = new MyCoin('EX');
+        this.fillUpAddress(coin, seed, 1, 0);   
+        return coin;     
+    }
+
+    initExCoinOld(seed: Buffer): MyCoin {
+        const coin = new MyCoin('EX');
+        coin.coinType = 0;
         this.fillUpAddress(coin, seed, 1, 0);   
         return coin;     
     }
@@ -270,7 +314,8 @@ export class CoinService {
         let priKeyDisp = '';
         let buffer = Buffer.alloc(32);
         const path = "m/44'/" + coin.coinType + "'/0'/" + chain + "/" + index;
-
+        console.log('path===', path);
+        console.log('seed===', seed);
         if (name === 'BTC' || name === 'FAB') {
             const root = BIP32.fromSeed(seed, environment.chains.BTC.network);
 
