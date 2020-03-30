@@ -16,4 +16,8 @@ export class CoinOrderService {
     getRewards(token: string) {
         return this.httpServ.get(environment.endpoints.blockchaingate + 'coinoders/rewards?token=' + token);
     }
+
+    getProfile(token: string) {
+        return this.httpServ.get(environment.endpoints.blockchaingate + 'coinoders/profile?token=' + token);
+    }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
@@ -10,6 +10,7 @@ import {
   IChartistData
 } from 'chartist';
 import { ChartEvent, ChartType } from 'ng-chartist';
+import { TeamComponent } from 'src/app/modules/landing/features/home/team/team.component';
 
 
 
@@ -57,42 +58,42 @@ export class RewardComponent implements OnInit {
   faFacebook = faFacebook;
   faTwitter = faTwitter;
   referralCode: string;
-
-
-
-
+  teamsRewards: number;
+  totalEXG = 0;
+  totalNextEXG = 0;
+  membership: string;
 
 
   type: ChartType = 'Bar';
-  data: IChartistData = {
+  dataPersonal1: any = {
     labels: [
       'level 1',
       'level 2',
       'level 3'
     ],
     series: [
-      [10,57, 201],
-      [125, 234, 583],
-      [32, 28, 97]
+      []
     ]
   };
 
-  data2: IChartistData = {
+  dataPersonal2: any = {
     labels: [
-      'team 1',
-      'team 2',
-      'team 3',
-      'team 4',
-      'team 5',
-      'team 6',
-      'team 7',
-      'team 8'
+      'level 1',
+      'level 2',
+      'level 3'
     ],
     series: [
-      [10,57, 201, 23, 445, 45, 56, 76],
-      [125, 234, 583, 223, 445, 534, 553, 785],
-      [32, 28, 97, 45, 67, 45, 67, 124]
+      []
     ]
+  };
+
+  data2: any = {
+    series: []
+  };
+
+  data2Options: any = {
+    donut: true,
+    showLabel: false
   };
 
   options: IBarChartOptions = {
@@ -142,7 +143,7 @@ export class RewardComponent implements OnInit {
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor(private storageService: StorageService, private coinorderServ: CoinOrderService) {
+  constructor(private cd: ChangeDetectorRef, private storageService: StorageService, private coinorderServ: CoinOrderService) {
 
     this.storageService.getToken().subscribe(
       (token:string) => {      
@@ -157,15 +158,54 @@ export class RewardComponent implements OnInit {
 
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
   ngOnInit() {
-    this.referralCode = '32RY34';
+    this.teamsRewards = 0;
+    this.referralCode = '';
 
     this.storageService.getToken().subscribe(
-      (token:string) => {      
-        this.coinorderServ.getRewards(token).subscribe(
-          (res: any) => {
-            console.log('rewards res=', res);
+      (token:string) => {    
+        
+        this.coinorderServ.getProfile(token).subscribe(
+          (res2:any) => {
+            if(res2 && res2.ok) {
+              console.log('res2=', res2);
+              this.referralCode = res2._body.referralCode;
+              this.membership = res2._body.membership;
+
+              this.coinorderServ.getRewards(token).subscribe(
+                (res3: any) => {
+                  if(res3 && res3.ok) {
+                    const rewards = res3._body;
+
+                    if(rewards && rewards.personal && (rewards.personal.length > 0)) {
+                      for(let i=0;i<rewards.personal.length;i++) {
+                        const reward = rewards.personal[i];
+                        this.totalEXG += reward.totalRewardQuantities;
+                        this.totalNextEXG += reward.totalRewardNextLevelQuantities;
+
+                        console.log('reward=', reward);
+                        this.dataPersonal1.series[0].push(reward.totalAccounts);
+                        this.dataPersonal2.series[0].push(reward.totalRewardQuantities);
+                      }
+
+                      if(rewards && rewards.teamsRewards) {
+                        this.teamsRewards = rewards.teamsRewards;
+                        for(let i=0;i<rewards.team.length;i++) {
+                          const t = rewards.team[i];
+                          this.data2.series.push(t.totalValueAdjustment ? t.totalValueAdjustment : t.totalValue);
+                        }
+                      }
+
+                      this.cd.detectChanges();
+
+                    }
+                    console.log('rewards=', rewards);
+                  }
+                }
+              )              
+            }
           }
-        )
+        );        
+
       });
   }
   onConfirmedPin(pin) {

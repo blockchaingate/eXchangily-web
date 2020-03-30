@@ -2,41 +2,66 @@
     <div class="row">
         <div class="col col-4 border-right text-center">
             <div class="memer-type member-type-golden">
-                Golden member
+                {{membership}} member
             </div>
 
             <div class="circle">
                 <div class="circle-text">
-                    EXG 799
+                   {{totalEXG}} EXG 
                 </div>
 
             </div>
 
             <div>
-                399 USD
+                {{totalEXG * 0.23}} USD
             </div>
-            <div *ngIf="referralCode" class="py-2">
+            <div *ngIf="referralCode && (membership != 'unqualified')" class="py-2">
                 {{'Referral code' | translate }}: {{referralCode}}
                 <fa-icon [icon]="faFacebook"></fa-icon>
                 <fa-icon [icon]="faTwitter"></fa-icon>
             </div>
+            <div *ngIf="totalNextEXG>totalEXG">
+                You can get {{totalNextEXG-totalEXG}} more EXG tokens if you upgrade your membership.
+            </div>
+            <div *ngIf="teamsRewards">
+                Team rewards: {{teamsRewards}}
+            </div>
         </div>
         <div class="col col-8">
 
-            <x-chartist
-            [type]="type"
-            [data]="data"
-            [options]="options"
-            [events]="events"
-          ></x-chartist>
+            <div class="container">
+                <div class="row">
+                    <div class="col col-6">
+                        <x-chartist
+                        [type]="type"
+                        [data]="dataPersonal1"
+                        [options]="options"
+                        [events]="events"
+                      ></x-chartist>
+                      <p class="text-center">Members</p>
+                    </div>
 
-          <x-chartist
-          [type]="type"
-          [data]="data2"
-          [options]="options"
-          [events]="events"
-        ></x-chartist>
+                    <div class="col col-6">
+                        <x-chartist
+                        [type]="type"
+                        [data]="dataPersonal2"
+                        [options]="options"
+                        [events]="events"
+                      ></x-chartist>
+                      <p class="text-center">Rewards</p>
+                    </div>                   
+                </div>
+            </div>
 
+            <div class="container" *ngIf="teamsRewards">
+                <x-chartist
+                [type]="'Pie'"
+                [data]="data2"
+                [options]="data2Options"
+                [events]="events"
+                ></x-chartist>
+                <p class="text-center">Team Rewards</p>
+            </div>
         </div>
     </div>
 </div>

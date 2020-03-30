@@ -26,6 +26,7 @@ export class MainComponent implements OnInit {
   quantity: number;
   currentCoin: MyCoin;
   gasPrice: number;
+  membership: string;
   coinName: string;
   selectedPaymentCurrency: string;
   gasLimit: number;
@@ -91,7 +92,7 @@ export class MainComponent implements OnInit {
         this.token = token;     
         this.coinorderServ.getOrders(token).subscribe(
           (res: any) => {
-            console.log('res=', res);
+            console.log('res for getOrders=', res);
             if(res && res.ok) {
               this.orders = res._body;
 
@@ -153,12 +154,47 @@ export class MainComponent implements OnInit {
 
   }
 
+  addOrder(txid:string) {
+    const coinorder = {
+      coinName: 'EXG',
+      paymentcurrency: this.selectedPaymentCurrency,
+      paymentmethod: this.selectedPaymentMethod,
+      price: this.price,
+      quantity: this.quantity,
+      value: this.value,
+      txid: txid,
+      token: this.token
+    };        
+    this.coinorderServ.addOrder(coinorder).subscribe(
+      (res: any) => {
+        console.log('res=', res);
+        if(res.ok) {
+          this.coinorderServ.getProfile(this.token).subscribe(
+            (res2:any) => {
+              if(res2 && res2.ok) {
+                console.log('res2=', res2);
+                //this.referralCode = res2._body.referralCode;
+                //this.membership = res2._body.membership;
+              }
+            }
+          );
+        }
+      }
+    );;   
+  }
   buyConfirm() {
+    /*
     if (!this.currentCoin) {
       this.alertServ.openSnackBar('Invalid coin type', 'Ok');
       return;
     }
-    this.pinModal.show();
+    */
+    if(('USDT,FAB,BTC,ETH'.indexOf(this.selectedPaymentCurrency) >= 0) && this.selectedPaymentMethod === 'from eXchangily wallet') {
+      this.pinModal.show();
+    } else {
+      this.addOrder('');
+    }
+    
   }
 
   async onConfirmedPin(pin: string) {
@@ -207,25 +243,9 @@ export class MainComponent implements OnInit {
         this.timerServ.transactionStatus.next(item);
         this.timerServ.checkTransactionStatus(item);
         this.storageService.storeToTransactionHistoryList(item);
-        this.referralCode = '32RY34';
 
-
-
-            const coinorder = {
-              coinName: 'EXG',
-              paymentcurrency: this.selectedPaymentCurrency,
-              paymentmethod: this.selectedPaymentMethod,
-              price: this.price,
-              quantity: this.quantity,
-              value: this.value,
-              txid: txHash,
-              token: this.token
-            };        
-            this.coinorderServ.addOrder(coinorder).subscribe(
-              (res: any) => {
-                console.log('res=', res);
-              }
-            );
+     
+        this.addOrder(txHash);
     }    
   }
 }

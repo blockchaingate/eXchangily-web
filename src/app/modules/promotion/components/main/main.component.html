@@ -40,7 +40,7 @@
             </div>
 
             <div class="d-flex">
-                <label id="example-radio-group-label">{{'Subtotal' | translate }}: {{selectedPaymentCurrency}}</label>: {{price && quantity ? getSubtotal() : 0}}
+                <label id="example-radio-group-label">{{'Subtotal' | translate }} {{selectedPaymentCurrency}}</label>: {{price && quantity ? getSubtotal() : 0}}
             </div>
 
             <div class="d-flex">
@@ -65,7 +65,8 @@
             <table class="table table-striped">
                 <thead>
                   <tr>
-                    <th scope="col">Paymend Method</th>
+                    <th scope="col">Currency</th>
+                    <th scope="col">Method</th>
                     <th scope="col">Price</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Value(USD)</th>
@@ -75,6 +76,7 @@
                 </thead>
                 <tbody *ngIf="orders">
                   <tr *ngFor="let order of orders">
+                    <td>{{order.paymentcurrency}}</td>
                     <td>{{order.paymentmethod}}</td>
                     <td>{{order.price}}</td>
                     <td>{{order.quantity}}</td>
