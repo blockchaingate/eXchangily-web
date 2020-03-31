@@ -236,6 +236,13 @@
                 "EmailBox": "Email",
                 "PhoneNumberBox": "Phone Number",
                 "HomeAddressBox": "Home Address",
+                "AddressLine1": "Address Line 1",
+                "AddressLine2": "Address Line 2",
+                "AddressLine1Hint": "Street address",
+                "AddressLine2Hint": "Apartment, suite, unit, building, floor, etc",
+                "City": "City",
+                "Province": "Province",
+                "PostalCode": "Postal Code",
                 "DateOfBirth": {
                     "Title": "Date of Birth",
                     "Desc": "To participate you must be 19 years of age and older."
@@ -273,7 +280,7 @@
                         "Content2": "Your face is clearly visible",
                         "Content3": "The Photo ID is clearly visible",
                         "Content4": "You have a note with today's date in the picture",
-                        "Content5": "Minimum of 2 photos required; one front, one back."
+                        "Content5": "Minimum of 1 photos required; one front."
                     },
                     "ExamplePicture": "Example"
                 },

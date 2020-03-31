@@ -20,6 +20,17 @@ export class HttpService {
         };
         return this.http.post(path, data, options);
     }
+
+    postPrivate(path: string, data: any, token: string) {
+        const httpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'x-access-token': token
+        });
+        const options = {
+            headers: httpHeaders
+        };
+        return this.http.post(path, data, options);
+    }
     
     get(path: string, jwtAuth = false) {
         let httpHeaders = new HttpHeaders({

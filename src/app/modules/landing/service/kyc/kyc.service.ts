@@ -18,9 +18,12 @@ export class KycService {
   }
 
   // Create subscribe
-  createKyc(kyc: Kyc) {
+  createKyc(kyc: Kyc, token: string) {
+    console.log('begin createKyc');
     const obj = Object.assign(this.body, kyc);
-    return this.http.post(path + 'create', obj, true).pipe(map(res => res));
+    console.log('obj===', obj);
+    console.log('path=', path + 'create');
+    return this.http.postPrivate(path + 'create', obj, token).pipe(map(res => res));
   }
 
   // Retrieve a subscribe by its id.
