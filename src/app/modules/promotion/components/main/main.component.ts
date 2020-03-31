@@ -11,7 +11,7 @@ import { TimerService } from '../../../../services/timer.service';
 import {StorageService} from '../../../../services/storage.service';
 import BigNumber from 'bignumber.js/bignumber';
 import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
-import { CoinOrderService } from 'src/app/services/coinorder.service';
+import { CampaignOrderService } from 'src/app/services/campaignorder.service';
 
 @Component({
   selector: 'app-main',
@@ -39,7 +39,7 @@ export class MainComponent implements OnInit {
 
   selectedPaymentMethod: string;
   @ViewChild('pinModal', {static: true}) pinModal: PinNumberModal;
-  currencies: string[] = ['USD', 'CAD', 'RMB', 'USDT', 'FAB', 'BTC', 'ETH'];
+  currencies: string[] = ['USD', 'CAD', 'RMB', 'DUSD', 'USDT'];
   methods = {
     'USD': [
       'E-transfer', 'Direct transfer'
@@ -50,28 +50,18 @@ export class MainComponent implements OnInit {
     'RMB': [
       'Wechat', 'Alipay', 'Direct transfer'
     ],
+    'DUSD': [
+    ],    
     'USDT': [
-      'from eXchangily wallet', 'from other wallets'
-    ],
-    'FAB': [
-      'from eXchangily wallet', 'from other wallets'
-    ],
-    'BTC': [
-      'from eXchangily wallet', 'from other wallets'
-    ],
-    'ETH': [
-      'from eXchangily wallet', 'from other wallets'
-    ]                
+    ]               
   };
   submethods: any;
   prices = {
     "CAD":{"USD":0.71},
     "RMB":{"USD":0.14},
-    "BTC":{"USD":6620.53},
-    "ETH":{"USD":134.86},
-    "FAB":{"USD":0.069248},
+    "EXG":{"USD":0.25},
     "USDT":{"USD":1.0},
-    "EXG": {"USD": 0.23}
+    "DUSD": {"USD": 1.0}
   };
 
   constructor(
@@ -80,9 +70,13 @@ export class MainComponent implements OnInit {
     private walletService: WalletService, 
     private alertServ: AlertService, 
     public utilServ: UtilService,
-    private coinorderServ: CoinOrderService,
+    private campaignorderServ: CampaignOrderService,
     private coinService: CoinService
   ) { }
+
+  getStatusText(status: number) {
+    return this.campaignorderServ.getStatusText(status);
+  }
 
   async ngOnInit() {
     this.wallet = await this.walletService.getCurrentWallet();
@@ -90,7 +84,7 @@ export class MainComponent implements OnInit {
     this.storageService.getToken().subscribe(
       (token:string) => {  
         this.token = token;     
-        this.coinorderServ.getOrders(token).subscribe(
+        this.campaignorderServ.getOrders(token).subscribe(
           (res: any) => {
             console.log('res for getOrders=', res);
             if(res && res.ok) {
@@ -154,22 +148,37 @@ export class MainComponent implements OnInit {
 
   }
 
+/*
+    campaignId: ObjectId,
+    memberId: ObjectId,
+    walletAdd: String,
+    amount: Number,
+    txId: String, // USDT txid
+    payMethod: String,
+    payCurrency: String,
+    price: Number,
+    value: Number,
+    paymentDesc: String,
+*/  
   addOrder(txid:string) {
     const coinorder = {
-      coinName: 'EXG',
-      paymentcurrency: this.selectedPaymentCurrency,
-      paymentmethod: this.selectedPaymentMethod,
+      campaignId: 0,
+      payCurrency: this.selectedPaymentCurrency,
+      payMethod: this.selectedPaymentMethod,
       price: this.price,
-      quantity: this.quantity,
+      amount: this.quantity,
       value: this.value,
-      txid: txid,
+      txId: txid,
       token: this.token
-    };        
-    this.coinorderServ.addOrder(coinorder).subscribe(
+    };      
+      
+    this.campaignorderServ.addOrder(coinorder).subscribe(
       (res: any) => {
         console.log('res=', res);
         if(res.ok) {
-          this.coinorderServ.getProfile(this.token).subscribe(
+          const body = res._body;
+          this.orders.unshift(body);
+          this.campaignorderServ.getProfile(this.token).subscribe(
             (res2:any) => {
               if(res2 && res2.ok) {
                 console.log('res2=', res2);
@@ -189,7 +198,11 @@ export class MainComponent implements OnInit {
       return;
     }
     */
-    if(('USDT,FAB,BTC,ETH'.indexOf(this.selectedPaymentCurrency) >= 0) && this.selectedPaymentMethod === 'from eXchangily wallet') {
+    if(
+      (this.selectedPaymentCurrency == 'USDT') ||
+      (this.selectedPaymentCurrency == 'DUSD')
+      // ('USDT,DUSD'.indexOf(this.selectedPaymentCurrency) >= 0)
+      ) {
       this.pinModal.show();
     } else {
       this.addOrder('');

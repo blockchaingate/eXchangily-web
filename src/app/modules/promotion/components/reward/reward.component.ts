@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
-import { CoinOrderService } from 'src/app/services/coinorder.service';
+import { CampaignOrderService } from 'src/app/services/campaignorder.service';
 import {StorageService} from '../../../../services/storage.service';
 import {
   IBarChartOptions,
@@ -143,11 +143,11 @@ export class RewardComponent implements OnInit {
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor(private cd: ChangeDetectorRef, private storageService: StorageService, private coinorderServ: CoinOrderService) {
+  constructor(private cd: ChangeDetectorRef, private storageService: StorageService, private campaignorderServ: CampaignOrderService) {
 
     this.storageService.getToken().subscribe(
       (token:string) => {      
-        this.coinorderServ.getRewards(token).subscribe(
+        this.campaignorderServ.getRewards(token).subscribe(
           (res:any) => {
             console.log(res);
           }
@@ -164,14 +164,14 @@ export class RewardComponent implements OnInit {
     this.storageService.getToken().subscribe(
       (token:string) => {    
         
-        this.coinorderServ.getProfile(token).subscribe(
+        this.campaignorderServ.getProfile(token).subscribe(
           (res2:any) => {
             if(res2 && res2.ok) {
               console.log('res2=', res2);
               this.referralCode = res2._body.referralCode;
               this.membership = res2._body.membership;
 
-              this.coinorderServ.getRewards(token).subscribe(
+              this.campaignorderServ.getRewards(token).subscribe(
                 (res3: any) => {
                   if(res3 && res3.ok) {
                     const rewards = res3._body;

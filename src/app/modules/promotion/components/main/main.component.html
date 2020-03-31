@@ -76,13 +76,13 @@
                 </thead>
                 <tbody *ngIf="orders">
                   <tr *ngFor="let order of orders">
-                    <td>{{order.paymentcurrency}}</td>
-                    <td>{{order.paymentmethod}}</td>
+                    <td>{{order.payCurrency}}</td>
+                    <td>{{order.payMethod}}</td>
                     <td>{{order.price}}</td>
                     <td>{{order.quantity}}</td>
                     <td>{{order.value}}</td>
                     <td>{{utilServ.showTime(order.dateCreated)}}</td>
-                    <td>{{order.status}}</td>
+                    <td>{{getStatusText(order.status)}}</td>
                   </tr>
                 </tbody>
               </table>            
