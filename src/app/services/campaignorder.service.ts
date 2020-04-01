@@ -18,7 +18,7 @@ export class CampaignOrderService {
     }
 
     getProfile(token: string) {
-        return this.httpServ.get(environment.endpoints.blockchaingate + 'coinoders/profile?token=' + token);
+        return this.httpServ.get(environment.endpoints.blockchaingate + 'campaign-order/profile?token=' + token);
     }
 
     getStatusText(status: number) {

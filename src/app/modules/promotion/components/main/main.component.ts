@@ -27,9 +27,11 @@ export class MainComponent implements OnInit {
   currentCoin: MyCoin;
   gasPrice: number;
   membership: string;
+  payableAmount: number;
   coinName: string;
   selectedPaymentCurrency: string;
   gasLimit: number;
+  step: number;
   value: number;
   referralCode: string;
   satoshisPerBytes: number;
@@ -42,18 +44,16 @@ export class MainComponent implements OnInit {
   currencies: string[] = ['USD', 'CAD', 'RMB', 'DUSD', 'USDT'];
   methods = {
     'USD': [
-      'E-transfer', 'Direct transfer'
+      'E-transfer'
     ],
     'CAD': [
-      'E-transfer', 'Direct transfer'
+      'E-transfer'
     ],
     'RMB': [
       'Wechat', 'Alipay', 'Direct transfer'
     ],
-    'DUSD': [
-    ],    
-    'USDT': [
-    ]               
+    'DUSD': null,    
+    'USDT': null            
   };
   submethods: any;
   prices = {
@@ -77,10 +77,18 @@ export class MainComponent implements OnInit {
   getStatusText(status: number) {
     return this.campaignorderServ.getStatusText(status);
   }
-
+  next() {
+    if(this.step == 1) {
+      this.step = 2;
+    } else {
+      this.buyConfirm();
+    }
+    
+  }
   async ngOnInit() {
+    this.step = 1;
     this.wallet = await this.walletService.getCurrentWallet();
-
+    this.price = this.prices.EXG.USD;
     this.storageService.getToken().subscribe(
       (token:string) => {  
         this.token = token;     
@@ -120,11 +128,19 @@ export class MainComponent implements OnInit {
   selectCurrency(coinName: string) {
     console.log('methods=', this.methods);
     this.submethods = this.methods[coinName];
+    if(this.submethods && this.submethods.length) {
+      this.selectedPaymentMethod = this.submethods[0];
+    }
+    
     let coinPrice = 1;
     if(coinName != 'USD') {
       coinPrice = this.prices[coinName]['USD'];
     }
-    this.price = this.prices['EXG']['USD'] / coinPrice;
+    
+    //this.price = this.prices['EXG']['USD'] / coinPrice;
+    
+   this.payableAmount = this.price * this.quantity / coinPrice;
+   this.payableAmount = Number(this.payableAmount.toFixed(2));
     console.log('coinName=', coinName);
     this.coinName = coinName;
     if (coinName === 'USD') {
@@ -167,7 +183,6 @@ export class MainComponent implements OnInit {
       payMethod: this.selectedPaymentMethod,
       price: this.price,
       amount: this.quantity,
-      value: this.value,
       txId: txid,
       token: this.token
     };      
@@ -256,8 +271,8 @@ export class MainComponent implements OnInit {
         this.timerServ.transactionStatus.next(item);
         this.timerServ.checkTransactionStatus(item);
         this.storageService.storeToTransactionHistoryList(item);
-
-     
+        this.quantity = 0;
+        this.step = 1;
         this.addOrder(txHash);
     }    
   }

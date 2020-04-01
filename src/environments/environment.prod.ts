@@ -71,10 +71,11 @@ export const environment = {
             { name: 'DUSD', address: '0x9d95ee21e4f1b05bbfd0094daf4ce110deb00931' }
         ],
         promotionOfficial: {
-            USDT: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
-            BTC: '1CKg6irbGXHxBHuTx7MeqYQUuMZ8aEok8z',
-            ETH: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
-            FAB: '1FNEhT8uTmrEMvHGCGohnEFv6Q1z4qRhQu'
+            USDT: '',
+            DUSD: '',
+            BTC: '',
+            ETH: '',
+            FAB: ''
         }   
     },
     websockets: {
@@ -90,5 +91,18 @@ export const environment = {
         ETH: 0.01,
         USDT: 10,
         DUSD: 10
+    },
+    PaymentMethod: {
+        ETransfer: {
+            AccountName: 'Exchangily',
+            Email: 'info@exchangily.com'
+        },
+        Wechat: 'exchangily',
+        Alipay: 'info@exchangily.com',
+        DirectTransfer: {
+            BankName: '招商银行',
+            AccountName : 'Exchangily',
+            Account: '88884556555433234455'
+        }
     }      
 };

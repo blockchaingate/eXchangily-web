@@ -4,7 +4,6 @@
         <th scope="col">Paymend Currency</th>
         <th scope="col">Price</th>
         <th scope="col">Quantity</th>
-        <th scope="col">Value</th>
         <th scope="col">Txid</th>
         <th scope="col">Create Time</th>
         <th scope="col">Status</th>
@@ -14,8 +13,7 @@
       <tr *ngFor="let order of orders">
         <td>{{order.payCurrency}}</td>
         <td>{{order.price}}</td>
-        <td>{{order.quantity}}</td>
-        <td>{{order.value}}</td>
+        <td>{{order.amount}}</td>
         <td>
           <small>
             {{order.txId}}

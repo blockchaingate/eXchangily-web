@@ -5,6 +5,7 @@
             <a href="/promotion/reward">{{'My rewards' | translate }}</a>
         </div>
         <div class="col col-6">
+            <!--
             <label id="currency-radio-group-label">{{'Payment Currency' | translate }}</label>
             <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedPaymentCurrency">
                 <mat-radio-button class="example-radio-button" *ngFor="let currency of currencies" (click)="selectCurrency(currency)" [value]="currency">
@@ -18,42 +19,86 @@
                     {{method}}
                 </mat-radio-button>
             </mat-radio-group>
+
             <div class="d-flex">
                 <label id="example-radio-group-label">{{'Available' | translate }}</label>: {{available}}
             </div>
+-->
+            <div *ngIf="step==1">
+                <div class="d-flex justify-content-between">
+                    <div class="d-inline-block">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>{{'Price' | translate }}</mat-label>
+                            <input readonly matInput placeholder="" [(ngModel)]="price" value="">
+                        </mat-form-field>
+                        {{'USD' | translate }}
+                    </div>
+    
+                    <div class="d-inline-block">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>{{'Quantity' | translate }}</mat-label>
+                            <input matInput placeholder="" [(ngModel)]="quantity" value="">
+                        </mat-form-field>EXG
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="d-inline-block">             
+                            <label id="example-radio-group-label">{{'Value' | translate }}</label>:{{(price && quantity) ? price * quantity : 0}}{{'USD' | translate }}
+    
+                    </div>
+                </div>
+            </div>
 
-
-            <div class="d-flex justify-content-around">
-                <div class="d-inline-block">
-                    <mat-form-field class="example-full-width">
-                        <mat-label>{{'Price' | translate }}</mat-label>
-                        <input readonly matInput placeholder="" [(ngModel)]="price" value="">
-                    </mat-form-field>
+            <div *ngIf="step==2">
+                <label id="currency-radio-group-label">{{'Payment Currency' | translate }}</label>
+                <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedPaymentCurrency">
+                    <mat-radio-button class="example-radio-button" *ngFor="let currency of currencies" (click)="selectCurrency(currency)" [value]="currency">
+                        {{currency}}
+                    </mat-radio-button>
+                </mat-radio-group>
+    
+                <label id="method-radio-group-label" *ngIf="submethods">{{'Payment Method' | translate }}</label>
+                <mat-radio-group *ngIf="submethods" aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedPaymentMethod">
+                    <mat-radio-button class="example-radio-button" *ngFor="let method of submethods" [value]="method">
+                        {{method}}
+                    </mat-radio-button>
+                </mat-radio-group>
+                
+                <div *ngIf="selectedPaymentMethod == 'E-transfer'">
+                    <div>Name:exchangily</div>
+                    <div>Email:info@exchangily.com</div>
                 </div>
 
-                <div class="d-inline-block">
-                    <mat-form-field class="example-full-width">
-                        <mat-label>{{'Quantity' | translate }}</mat-label>
-                        <input matInput placeholder="" [(ngModel)]="quantity" value="">
-                    </mat-form-field>EXG
+                <div *ngIf="selectedPaymentMethod == 'Wechat'">
+                    <div>Name:exchangily</div>
+                </div>
+
+                <div *ngIf="selectedPaymentMethod == 'Alipay'">
+                    <div>Account:info@exchangily.com</div>
+                </div> 
+                
+                <div *ngIf="selectedPaymentMethod == 'Direct transfer'">
+                    <div>Name:exchangily</div>
+                    <div>Account:888888888888</div>
+                </div> 
+
+                <div *ngIf="payableAmount">
+                    <div>Payable Amount:{{payableAmount}} {{selectedPaymentCurrency}}</div>
+                </div>
+                
+                <div class="d-flex" *ngIf="(selectedPaymentCurrency=='USDT') || (selectedPaymentCurrency=='DUSD')">
+                    <label id="example-radio-group-label">{{'Available' | translate }}</label>: {{available}}
                 </div>
             </div>
 
-            <div class="d-flex">
-                <label id="example-radio-group-label">{{'Subtotal' | translate }} {{selectedPaymentCurrency}}</label>: {{price && quantity ? getSubtotal() : 0}}
-            </div>
-
-            <div class="d-flex">
-                <label id="example-radio-group-label">{{'Value' | translate }}</label>: {{price && quantity ? value : 0}}
-            </div>
             <div *ngIf="referralCode" class="py-2">
                 {{'Your referral code' | translate }}: {{referralCode}}
                 <fa-icon [icon]="faFacebook"></fa-icon>
                 <fa-icon [icon]="faTwitter"></fa-icon>
             </div>
 
-            <div class="text-center">
-                <button class="btn btn-gradient text-white py-2 px-5" type="submit" (click)="buyConfirm()"> {{'Confirm' | translate }} </button>
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-gradient text-white py-2 px-5"  (click)="next()"> {{((step == 1) ? 'Next' : 'Confirm') | translate }} </button>
             </div>
 
 
@@ -79,8 +124,8 @@
                     <td>{{order.payCurrency}}</td>
                     <td>{{order.payMethod}}</td>
                     <td>{{order.price}}</td>
-                    <td>{{order.quantity}}</td>
-                    <td>{{order.value}}</td>
+                    <td>{{order.amount}}</td>
+                    <td>{{order.price * order.amount}}</td>
                     <td>{{utilServ.showTime(order.dateCreated)}}</td>
                     <td>{{getStatusText(order.status)}}</td>
                   </tr>
