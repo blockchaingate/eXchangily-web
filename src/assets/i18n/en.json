@@ -850,5 +850,9 @@
     "History": "History",
     "Referral code": "Referral code",
     "My rewards": "My rewards",
-    "Value": "Value"
+    "Value": "Value",
+    "Payment Method": "Payment Method",
+    "Payable Amount": "Payable Amount",
+    "Create Time": "Create Time",
+    "Status": "Status"
 }

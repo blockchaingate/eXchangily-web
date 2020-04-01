@@ -50,7 +50,7 @@
             </div>
 
             <div *ngIf="step==2">
-                <label id="currency-radio-group-label">{{'Payment Currency' | translate }}</label>
+                <label id="currency-radio-group-label">{{'Currency' | translate }}</label>
                 <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedPaymentCurrency">
                     <mat-radio-button class="example-radio-button" *ngFor="let currency of currencies" (click)="selectCurrency(currency)" [value]="currency">
                         {{currency}}
@@ -65,25 +65,25 @@
                 </mat-radio-group>
                 
                 <div *ngIf="selectedPaymentMethod == 'E-transfer'">
-                    <div>Name:exchangily</div>
-                    <div>Email:info@exchangily.com</div>
+                    <div>{{'Name' | translate}}:exchangily</div>
+                    <div>{{'Email' | translate}}:info@exchangily.com</div>
                 </div>
 
                 <div *ngIf="selectedPaymentMethod == 'Wechat'">
-                    <div>Name:exchangily</div>
+                    <div>{{'Name' | translate}}:exchangily</div>
                 </div>
 
                 <div *ngIf="selectedPaymentMethod == 'Alipay'">
-                    <div>Account:info@exchangily.com</div>
+                    <div>{{'Account' | translate}}:info@exchangily.com</div>
                 </div> 
                 
                 <div *ngIf="selectedPaymentMethod == 'Direct transfer'">
-                    <div>Name:exchangily</div>
-                    <div>Account:888888888888</div>
+                    <div>{{'Name' | translate}}:exchangily</div>
+                    <div>{{'Account' | translate}}:888888888888</div>
                 </div> 
 
                 <div *ngIf="payableAmount">
-                    <div>Payable Amount:{{payableAmount}} {{selectedPaymentCurrency}}</div>
+                    <div>{{'Payable Amount' | translate}}:{{payableAmount}} {{selectedPaymentCurrency}}</div>
                 </div>
                 
                 <div class="d-flex" *ngIf="(selectedPaymentCurrency=='USDT') || (selectedPaymentCurrency=='DUSD')">
@@ -110,13 +110,13 @@
             <table class="table table-striped">
                 <thead>
                   <tr>
-                    <th scope="col">Currency</th>
-                    <th scope="col">Method</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Value(USD)</th>
-                    <th scope="col">Create Time</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">{{'Currency' | translate }}</th>
+                    <th scope="col">{{'Payment Method' | translate }}</th>
+                    <th scope="col">{{'Price' | translate }}</th>
+                    <th scope="col">{{'Quantity' | translate }}</th>
+                    <th scope="col">{{'Value(USD)' | translate }}</th>
+                    <th scope="col">{{'Create Time' | translate }}</th>
+                    <th scope="col">{{'Status' | translate }}</th>
                   </tr>
                 </thead>
                 <tbody *ngIf="orders">
@@ -124,8 +124,8 @@
                     <td>{{order.payCurrency}}</td>
                     <td>{{order.payMethod}}</td>
                     <td>{{order.price}}</td>
-                    <td>{{order.amount}}</td>
-                    <td>{{order.price * order.amount}}</td>
+                    <td>{{order.quantity}}</td>
+                    <td>{{order.price * order.quantity}}</td>
                     <td>{{utilServ.showTime(order.dateCreated)}}</td>
                     <td>{{getStatusText(order.status)}}</td>
                   </tr>

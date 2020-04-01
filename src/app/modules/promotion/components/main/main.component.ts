@@ -182,7 +182,8 @@ export class MainComponent implements OnInit {
       payCurrency: this.selectedPaymentCurrency,
       payMethod: this.selectedPaymentMethod,
       price: this.price,
-      amount: this.quantity,
+      payableValue: this.payableAmount,
+      quantity: this.quantity,
       txId: txid,
       token: this.token
     };      

@@ -906,5 +906,9 @@
     "History": "历史",
     "Referral code": "推广码",
     "My rewards": "我的收益",
-    "Value": "价值"
+    "Value": "价值",
+    "Payment Method": "支付方式",
+    "Payable Amount": "应付金额",
+    "Create Time": "创建时间",
+    "Status": "状态"
 }

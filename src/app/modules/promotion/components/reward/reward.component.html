@@ -13,7 +13,7 @@
             </div>
 
             <div>
-                {{totalEXG * 0.23}} USD
+                {{getTotalEXGValue()}} USD
             </div>
             <div *ngIf="referralCode && (membership != 'unqualified')" class="py-2">
                 {{'Referral code' | translate }}: {{referralCode}}

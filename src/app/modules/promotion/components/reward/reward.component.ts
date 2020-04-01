@@ -157,6 +157,13 @@ export class RewardComponent implements OnInit {
   }
 
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
+
+  getTotalEXGValue() {
+    if(this.totalEXG) {
+      return Number((this.totalEXG * 0.25).toFixed(2));
+    }
+    return 0;
+  }
   ngOnInit() {
     this.teamsRewards = 0;
     this.referralCode = '';
@@ -180,12 +187,22 @@ export class RewardComponent implements OnInit {
                       for(let i=0;i<rewards.personal.length;i++) {
                         const reward = rewards.personal[i];
                         this.totalEXG += reward.totalRewardQuantities;
-                        this.totalNextEXG += reward.totalRewardNextLevelQuantities;
-
                         console.log('reward=', reward);
-                        this.dataPersonal1.series[0].push(reward.totalAccounts);
+                        console.log('this.totalEXG==', this.totalEXG);
+                        this.totalNextEXG += reward.totalRewardNextLevelAmount;
+
+                        
+                        this.dataPersonal1.series[0].push(reward.totalQuantities);
                         this.dataPersonal2.series[0].push(reward.totalRewardQuantities);
                       }
+
+                      if(this.totalEXG) {
+                        this.totalEXG = Number(this.totalEXG.toFixed(2));
+                      }
+
+                      if(this.totalNextEXG) {
+                        this.totalNextEXG = Number(this.totalNextEXG.toFixed(2));
+                      }    
 
                       if(rewards && rewards.teamsRewards) {
                         this.teamsRewards = rewards.teamsRewards;
