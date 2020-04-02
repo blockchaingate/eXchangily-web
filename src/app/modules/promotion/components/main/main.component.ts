@@ -11,7 +11,7 @@ import { TimerService } from '../../../../services/timer.service';
 import {StorageService} from '../../../../services/storage.service';
 import BigNumber from 'bignumber.js/bignumber';
 import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
-import { CoinOrderService } from 'src/app/services/coinorder.service';
+import { CampaignOrderService } from 'src/app/services/campaignorder.service';
 
 @Component({
   selector: 'app-main',
@@ -26,9 +26,12 @@ export class MainComponent implements OnInit {
   quantity: number;
   currentCoin: MyCoin;
   gasPrice: number;
+  membership: string;
+  payableAmount: number;
   coinName: string;
   selectedPaymentCurrency: string;
   gasLimit: number;
+  step: number;
   value: number;
   referralCode: string;
   satoshisPerBytes: number;
@@ -38,39 +41,27 @@ export class MainComponent implements OnInit {
 
   selectedPaymentMethod: string;
   @ViewChild('pinModal', {static: true}) pinModal: PinNumberModal;
-  currencies: string[] = ['USD', 'CAD', 'RMB', 'USDT', 'FAB', 'BTC', 'ETH'];
+  currencies: string[] = ['USD', 'CAD', 'RMB', 'DUSD', 'USDT'];
   methods = {
     'USD': [
-      'E-transfer', 'Direct transfer'
+      'E-transfer'
     ],
     'CAD': [
-      'E-transfer', 'Direct transfer'
+      'E-transfer'
     ],
     'RMB': [
       'Wechat', 'Alipay', 'Direct transfer'
     ],
-    'USDT': [
-      'from eXchangily wallet', 'from other wallets'
-    ],
-    'FAB': [
-      'from eXchangily wallet', 'from other wallets'
-    ],
-    'BTC': [
-      'from eXchangily wallet', 'from other wallets'
-    ],
-    'ETH': [
-      'from eXchangily wallet', 'from other wallets'
-    ]                
+    'DUSD': null,    
+    'USDT': null            
   };
   submethods: any;
   prices = {
     "CAD":{"USD":0.71},
     "RMB":{"USD":0.14},
-    "BTC":{"USD":6620.53},
-    "ETH":{"USD":134.86},
-    "FAB":{"USD":0.069248},
+    "EXG":{"USD":0.25},
     "USDT":{"USD":1.0},
-    "EXG": {"USD": 0.23}
+    "DUSD": {"USD": 1.0}
   };
 
   constructor(
@@ -79,19 +70,31 @@ export class MainComponent implements OnInit {
     private walletService: WalletService, 
     private alertServ: AlertService, 
     public utilServ: UtilService,
-    private coinorderServ: CoinOrderService,
+    private campaignorderServ: CampaignOrderService,
     private coinService: CoinService
   ) { }
 
+  getStatusText(status: number) {
+    return this.campaignorderServ.getStatusText(status);
+  }
+  next() {
+    if(this.step == 1) {
+      this.step = 2;
+    } else {
+      this.buyConfirm();
+    }
+    
+  }
   async ngOnInit() {
+    this.step = 1;
     this.wallet = await this.walletService.getCurrentWallet();
-
+    this.price = this.prices.EXG.USD;
     this.storageService.getToken().subscribe(
       (token:string) => {  
         this.token = token;     
-        this.coinorderServ.getOrders(token).subscribe(
+        this.campaignorderServ.getOrders(token).subscribe(
           (res: any) => {
-            console.log('res=', res);
+            console.log('res for getOrders=', res);
             if(res && res.ok) {
               this.orders = res._body;
 
@@ -125,11 +128,19 @@ export class MainComponent implements OnInit {
   selectCurrency(coinName: string) {
     console.log('methods=', this.methods);
     this.submethods = this.methods[coinName];
+    if(this.submethods && this.submethods.length) {
+      this.selectedPaymentMethod = this.submethods[0];
+    }
+    
     let coinPrice = 1;
     if(coinName != 'USD') {
       coinPrice = this.prices[coinName]['USD'];
     }
-    this.price = this.prices['EXG']['USD'] / coinPrice;
+    
+    //this.price = this.prices['EXG']['USD'] / coinPrice;
+    
+   this.payableAmount = this.price * this.quantity / coinPrice;
+   this.payableAmount = Number(this.payableAmount.toFixed(2));
     console.log('coinName=', coinName);
     this.coinName = coinName;
     if (coinName === 'USD') {
@@ -153,12 +164,66 @@ export class MainComponent implements OnInit {
 
   }
 
+/*
+    campaignId: ObjectId,
+    memberId: ObjectId,
+    walletAdd: String,
+    amount: Number,
+    txId: String, // USDT txid
+    payMethod: String,
+    payCurrency: String,
+    price: Number,
+    value: Number,
+    paymentDesc: String,
+*/  
+  addOrder(txid:string) {
+    const coinorder = {
+      campaignId: 0,
+      payCurrency: this.selectedPaymentCurrency,
+      payMethod: this.selectedPaymentMethod,
+      price: this.price,
+      payableValue: this.payableAmount,
+      quantity: this.quantity,
+      txId: txid,
+      token: this.token
+    };      
+      
+    this.campaignorderServ.addOrder(coinorder).subscribe(
+      (res: any) => {
+        console.log('res=', res);
+        if(res.ok) {
+          const body = res._body;
+          this.orders.unshift(body);
+          this.campaignorderServ.getProfile(this.token).subscribe(
+            (res2:any) => {
+              if(res2 && res2.ok) {
+                console.log('res2=', res2);
+                //this.referralCode = res2._body.referralCode;
+                //this.membership = res2._body.membership;
+              }
+            }
+          );
+        }
+      }
+    );;   
+  }
   buyConfirm() {
+    /*
     if (!this.currentCoin) {
       this.alertServ.openSnackBar('Invalid coin type', 'Ok');
       return;
     }
-    this.pinModal.show();
+    */
+    if(
+      (this.selectedPaymentCurrency == 'USDT') ||
+      (this.selectedPaymentCurrency == 'DUSD')
+      // ('USDT,DUSD'.indexOf(this.selectedPaymentCurrency) >= 0)
+      ) {
+      this.pinModal.show();
+    } else {
+      this.addOrder('');
+    }
+    
   }
 
   async onConfirmedPin(pin: string) {
@@ -207,25 +272,9 @@ export class MainComponent implements OnInit {
         this.timerServ.transactionStatus.next(item);
         this.timerServ.checkTransactionStatus(item);
         this.storageService.storeToTransactionHistoryList(item);
-        this.referralCode = '32RY34';
-
-
-
-            const coinorder = {
-              coinName: 'EXG',
-              paymentcurrency: this.selectedPaymentCurrency,
-              paymentmethod: this.selectedPaymentMethod,
-              price: this.price,
-              quantity: this.quantity,
-              value: this.value,
-              txid: txHash,
-              token: this.token
-            };        
-            this.coinorderServ.addOrder(coinorder).subscribe(
-              (res: any) => {
-                console.log('res=', res);
-              }
-            );
+        this.quantity = 0;
+        this.step = 1;
+        this.addOrder(txHash);
     }    
   }
 }

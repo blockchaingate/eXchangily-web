@@ -51,6 +51,27 @@ export class WalletService {
         return wallet;
     }
 
+    formatWalletOld(pwd: string, name: string, mnemonic: string) {
+        const seed = BIP39.mnemonicToSeedSync(mnemonic);
+
+        // console.log('seed=');
+        // console.log(seed);
+        const seedHash = this.utilService.SHA256(seed.toString());
+        const seedHashStr = seedHash.toString();
+        const pwdHashStr = this.utilService.SHA256(pwd).toString();
+
+        const encryptedSeed = this.utilService.aesEncryptSeed(seed, pwd);
+        const encryptedMnemonic = this.utilService.aesEncrypt(mnemonic, pwd);
+        const wallet = new Wallet(seedHashStr.substr(0, 8), name, pwdHashStr, encryptedSeed.toString(), encryptedMnemonic.toString());
+        const myCoins = this.coinService.initMyCoinsOld(seed);
+
+        wallet.addCoins(myCoins);
+        const exCoin = this.coinService.initExCoinOld(seed);
+        wallet.addExCoin(exCoin);
+        return wallet;
+    }
+
+
     updateWalletPassword(wallet: Wallet, oldPassword: string, newPassword: string) {
         const pwdHashStr = this.utilService.SHA256(newPassword).toString();
         const  mnemonic = this.utilService.aesDecrypt(wallet.encryptedMnemonic, oldPassword);
@@ -70,7 +91,7 @@ export class WalletService {
     }
 
     // Generate walllet, store it to db and set current wallet to it.
-    generateWallet(pwd: string, name: string, mnemonic: string): Wallet {
+     generateWallet(pwd: string, name: string, mnemonic: string): Wallet {
         const mnemonicArr = mnemonic.split(' ');
         if (!mnemonicArr || mnemonicArr.length !== 12) {
             return null;
@@ -81,6 +102,26 @@ export class WalletService {
         const pwdValid = this.pwdStrength(pwd);
         if (pwdValid === 'strong' || pwdValid === 'medium') {
             this.wallet = this.formatWallet(pwd, name, mnemonic);
+            // console.log('this.wallet in generateWallet');
+            // console.log(this.wallet);
+            return this.wallet;
+        } else {
+            return null;
+        }
+    }
+
+    // Generate walllet, store it to db and set current wallet to it.
+    generateWalletOld(pwd: string, name: string, mnemonic: string): Wallet {
+        const mnemonicArr = mnemonic.split(' ');
+        if (!mnemonicArr || mnemonicArr.length !== 12) {
+            return null;
+        }
+        if (!this.validateMnemonic(mnemonic)) {
+            return null;
+        }
+        const pwdValid = this.pwdStrength(pwd);
+        if (pwdValid === 'strong' || pwdValid === 'medium') {
+            this.wallet = this.formatWalletOld(pwd, name, mnemonic);
             // console.log('this.wallet in generateWallet');
             // console.log(this.wallet);
             return this.wallet;

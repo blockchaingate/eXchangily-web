@@ -235,6 +235,13 @@
                 "EmailBox": "电子邮箱",
                 "PhoneNumberBox": "电话号码",
                 "HomeAddressBox": "家庭地址",
+                "AddressLine1": "地址第一行",
+                "AddressLine2": "地址第二行",
+                "AddressLine1Hint": "街道地址",
+                "AddressLine2Hint": "公寓，房号，建筑，楼层等",    
+                "City": "城市",
+                "Province": "省份",  
+                "PostalCode": "邮政编码",                          
                 "DateOfBirth": {
                     "Title": "出生日期",
                     "Desc": "必须19岁或以上才允许参与我们的项目。"
@@ -272,7 +279,7 @@
                         "Content2": "请确保照片上您本人五官清晰可见",
                         "Content3": "请确保照片中证件内容文字清晰可见",
                         "Content4": "便签上需要注明拍照当天日期以及“亿币”字样",
-                        "Content5": "最少需要提供2张照片，证件正反面各一张"
+                        "Content5": "最少需要提供1张照片，证件正面一张"
                     },
                     "ExamplePicture": "示例："
                 },
@@ -898,5 +905,10 @@
     "Ongoing": "进行中",
     "History": "历史",
     "Referral code": "推广码",
-    "My rewards": "我的收益"
+    "My rewards": "我的收益",
+    "Value": "价值",
+    "Payment Method": "支付方式",
+    "Payable Amount": "应付金额",
+    "Create Time": "创建时间",
+    "Status": "状态"
 }

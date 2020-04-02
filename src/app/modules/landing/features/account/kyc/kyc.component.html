@@ -54,10 +54,38 @@
       </div>
     </div>
 
-    <div class="form-input__field-wrap">
-      <label for="homeAddress" class="form-input__text__label block">{{ 'Account.KYC.KYCForm.HomeAddressBox' | translate }}</label>
-      <input type="text" name="homeAddress" class="form-input__text" formControlName="homeAddress">
+    <div class="d-flex">
+      <div class="form-input__field-wrap w-50">
+        <label for="homeAddress" class="form-input__text__label block">{{ 'Account.KYC.KYCForm.AddressLine1' | translate }}</label>
+        <input type="text" name="homeAddress" class="form-input__text" formControlName="homeAddress">
+        <div><small class="text-muted">{{ 'Account.KYC.KYCForm.AddressLine1Hint' | translate }}</small></div>
+        
+      </div>
+  
+      <div class="form-input__field-wrap w-50">
+        <label for="homeAddress" class="form-input__text__label block">{{ 'Account.KYC.KYCForm.AddressLine2' | translate }}</label>
+        <input type="text" name="homeAddress2" class="form-input__text" formControlName="homeAddress2">
+        <div><small class="text-muted">{{ 'Account.KYC.KYCForm.AddressLine2Hint' | translate }}</small></div>
+      </div>  
     </div>
+    
+    <div class="d-flex">
+      <div class="form-input__field-wrap w-50">
+        <label for="homeAddress" class="form-input__text__label block">{{ 'Account.KYC.KYCForm.City' | translate }}</label>
+        <input type="text" name="homeAddress" class="form-input__text" formControlName="city">
+        
+      </div>
+  
+      <div class="form-input__field-wrap w-25">
+        <label for="homeAddress" class="form-input__text__label block">{{ 'Account.KYC.KYCForm.Province' | translate }}</label>
+        <input type="text" name="homeAddress2" class="form-input__text" formControlName="province">       
+      </div>  
+
+      <div class="form-input__field-wrap w-25">
+        <label for="homeAddress" class="form-input__text__label block">{{ 'Account.KYC.KYCForm.PostalCode' | translate }}</label>
+        <input type="text" name="homeAddress2" class="form-input__text" formControlName="postalCode">       
+      </div>        
+    </div>    
 
     <div class="form-input__field-wrap">
       <label for="countryOfResidency" class="form-input__text__label block">{{ 'Account.KYC.KYCForm.CountryBox.Title' | translate }}</label>

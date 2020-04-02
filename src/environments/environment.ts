@@ -6,6 +6,7 @@ import * as Btc from 'bitcoinjs-lib';
 export const environment = {
     production: false,
     version: 0.03,
+    campaignId: 1,
     chains: {
         BTC: {
             network: Btc.networks.testnet,
@@ -80,6 +81,7 @@ export const environment = {
         ],
         promotionOfficial: {
             USDT: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
+            DUSD: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
             BTC: 'muQDw5hVmFgD1GrrWvUt6kjrzauC4Msaki',
             ETH: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
             FAB: 'n1eXG5oe6wJ6h43akutyGfphqQsY1UfAUR'
@@ -98,6 +100,19 @@ export const environment = {
         ETH: 0.01,
         USDT: 10,
         DUSD: 10
+    },
+    PaymentMethod: {
+        ETransfer: {
+            AccountName: 'Exchangily',
+            Email: 'info@exchangily.com'
+        },
+        Wechat: 'exchangily',
+        Alipay: 'info@exchangily.com',
+        DirectTransfer: {
+            BankName: '招商银行',
+            AccountName : 'Exchangily',
+            Account: '88884556555433234455'
+        }
     }
 };
 

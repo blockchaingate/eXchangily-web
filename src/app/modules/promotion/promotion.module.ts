@@ -13,7 +13,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RewardComponent } from './components/reward/reward.component';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatIconModule} from '@angular/material/icon';
-import { CoinOrderService } from '../../services/coinorder.service';
+import { CampaignOrderService } from '../../services/campaignorder.service';
 import { ChartistModule } from 'ng-chartist';
 
 @NgModule({
@@ -33,7 +33,7 @@ import { ChartistModule } from 'ng-chartist';
     PromotionRoutingModule
   ],
   providers: [
-    CoinOrderService
+    CampaignOrderService
   ]
 })
 export class PromotionModule { }

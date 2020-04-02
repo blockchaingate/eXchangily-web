@@ -8,6 +8,10 @@ export interface Kyc {
   countryOfBirth: string;
   countryOfResidency: string;
   homeAddress: string;
+  homeAddress2: string;
+  city: string;
+  province: string;
+  postalCode: string;
   saftAgreement?: string;
   photoUrls: string[];
   selfieUrls: string[];

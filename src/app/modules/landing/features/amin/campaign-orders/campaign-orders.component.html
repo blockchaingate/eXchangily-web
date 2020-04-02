@@ -1,7 +1,7 @@
 <table class="table table-striped">
     <thead>
       <tr>
-        <th scope="col">Paymend Method</th>
+        <th scope="col">Paymend Currency</th>
         <th scope="col">Price</th>
         <th scope="col">Quantity</th>
         <th scope="col">Txid</th>
@@ -11,12 +11,12 @@
     </thead>
     <tbody>
       <tr *ngFor="let order of orders">
-        <td>{{order.paymentmethod}}</td>
+        <td>{{order.payCurrency}}</td>
         <td>{{order.price}}</td>
         <td>{{order.quantity}}</td>
         <td>
           <small>
-            {{order.txid}}
+            {{order.txId}}
           </small>
         </td>
         <td>
@@ -25,8 +25,8 @@
           </small>
         </td>
         <td>
-          {{order.status}}
-          <button mat-raised-button color="primary" *ngIf="order.status=='unconfirmed'" (click)="confirmOrder(order)">Confirm</button>
+          {{getStatusText(order.status)}}
+          <button mat-raised-button color="primary" *ngIf="order.status==1 || order.status==2" (click)="confirmOrder(order)">Confirm</button>
         </td>
       </tr>
     </tbody>
