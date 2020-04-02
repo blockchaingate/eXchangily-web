@@ -20,6 +20,7 @@ export class UserService {
     const theBody = {
       email: data.email,
       password: data.password,
+      walletExgAddress: data.walletExgAddress,
       firstName: data.firstName,
       lastName: data.lastName,
       invitationCode: data.invitationCode,
