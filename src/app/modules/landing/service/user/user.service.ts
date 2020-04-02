@@ -21,6 +21,7 @@ export class UserService {
       email: data.email,
       password: data.password,
       walletExgAddress: data.walletExgAddress,
+      campaignId: data.campaignId,
       firstName: data.firstName,
       lastName: data.lastName,
       invitationCode: data.invitationCode,
