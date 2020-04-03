@@ -29,6 +29,8 @@ export class MainComponent implements OnInit {
   membership: string;
   payableAmount: number;
   coinName: string;
+  readyGo: boolean;
+  readyGoReasons: any;
   selectedPaymentCurrency: string;
   gasLimit: number;
   step: number;
@@ -85,31 +87,93 @@ export class MainComponent implements OnInit {
     }
     
   }
+
+
   async ngOnInit() {
+    this.readyGo = true;
     this.step = 1;
     this.wallet = await this.walletService.getCurrentWallet();
     this.price = this.prices.EXG.USD;
     this.storageService.getToken().subscribe(
       (token:string) => {  
-        this.token = token;     
-        this.campaignorderServ.getOrders(token).subscribe(
-          (res: any) => {
-            console.log('res for getOrders=', res);
-            if(res && res.ok) {
-              this.orders = res._body;
-
-            }
+        if(!token) {
+          this.readyGo = false;
+          if(!this.readyGoReasons) {
+            this.readyGoReasons = [];
           }
-        );
+          this.readyGoReasons.push('NotLogin');
+        } else {
+          this.readyGo = true;
+          this.token = token;     
+          this.campaignorderServ.getOrders(token).subscribe(
+            (res: any) => {
+              console.log('res for getOrders=', res);
+              if(res && res.ok) {
+                this.orders = res._body;
+  
+              }
+            }
+          );
+
+          this.campaignorderServ.getProfile(token).subscribe(
+            (res: any) => {
+              if(res && res.ok) {
+               var body = res._body;
+               var kyc = body.kyc;
+               this.membership = body.membership;
+               if(kyc == 100) {
+                this.readyGo = true;
+               } else {
+                this.readyGo = false;
+                if(!this.readyGoReasons) {
+                  this.readyGoReasons = [];
+                }       
+                if(kyc == -1) {
+                  this.readyGoReasons.push('KycDenied');   
+                } else 
+                if(kyc == 0) {
+                  this.readyGoReasons.push('NoKyc');   
+                } else 
+                if(kyc == 1) {
+                  this.readyGoReasons.push('SubmitKyc');
+                } else
+                if(kyc == 2) {
+                  this.readyGoReasons.push('KycInProcess');
+                } else
+                if(kyc == 3) {
+                  this.readyGoReasons.push('KycHasProblem');
+                }        
+                 
+                
+                //-1-denied, 0-no, 1-submit; 2-in porcess, 3-has problem,
+               }
+              } else {
+                this.readyGo = false;
+                if(!this.readyGoReasons) {
+                  this.readyGoReasons = [];
+                }
+                this.readyGoReasons.push('NoKyc');                
+              }
+            }
+          );
+        }
+
       }
     );
 
     if (!this.wallet) {
-      this.alertServ.openSnackBar('no current wallet was found.', 'Ok');
+      // this.alertServ.openSnackBar('no current wallet was found.', 'Ok');
+      if(!this.readyGoReasons) {
+        this.readyGoReasons = [];
+      }      
+      this.readyGoReasons.push('NoWallet');
       return;
     }  
   }
 
+  createWallet() {
+
+  }
 
   getSubtotal() {
     
@@ -130,6 +194,8 @@ export class MainComponent implements OnInit {
     this.submethods = this.methods[coinName];
     if(this.submethods && this.submethods.length) {
       this.selectedPaymentMethod = this.submethods[0];
+    } else {
+      this.selectedPaymentMethod = null;
     }
     
     let coinPrice = 1;
@@ -193,6 +259,9 @@ export class MainComponent implements OnInit {
         console.log('res=', res);
         if(res.ok) {
           const body = res._body;
+          if(!this.orders) {
+            this.orders = [];
+          }
           this.orders.unshift(body);
           this.campaignorderServ.getProfile(this.token).subscribe(
             (res2:any) => {
