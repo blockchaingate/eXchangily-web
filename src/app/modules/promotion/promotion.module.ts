@@ -15,6 +15,7 @@ import {MatTreeModule} from '@angular/material/tree';
 import {MatIconModule} from '@angular/material/icon';
 import { CampaignOrderService } from '../../services/campaignorder.service';
 import { ChartistModule } from 'ng-chartist';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [IndexComponent, MainComponent, RewardComponent],
@@ -30,6 +31,7 @@ import { ChartistModule } from 'ng-chartist';
     MatIconModule,
     FontAwesomeModule,
     ChartistModule,
+    MatExpansionModule,
     PromotionRoutingModule
   ],
   providers: [
