@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col col-4 border-right text-center">
             <div class="memer-type member-type-golden">
-                {{membership}} member
+                {{membership | translate}}{{' member' | translate }}
             </div>
 
             <div class="circle">
@@ -13,18 +13,28 @@
             </div>
 
             <div>
-                {{getTotalEXGValue()}} USD
+                {{getTotalEXGValue()}} {{'USD' | translate }}
             </div>
             <div *ngIf="referralCode && (membership != 'unqualified')" class="py-2">
-                {{'Referral code' | translate }}: {{referralCode}}
-                <fa-icon [icon]="faFacebook"></fa-icon>
-                <fa-icon [icon]="faTwitter"></fa-icon>
+                <div>
+                    <!--
+                    <fa-icon [icon]="faFacebook"></fa-icon>
+                    <fa-icon [icon]="faTwitter"></fa-icon>
+                    -->
+                    {{'Referral code' | translate }}: {{referralCode}}
+                </div>
+                
+                <div>
+                    {{'Referral link' | translate}}: {{baseUrl}}/login/signup/{{referralCode}}
+                </div>
+                
+            </div>
+
+            <div *ngIf="extraEXG">
+                {{'You can get' | translate}} {{extraEXG}} {{'more EXG tokens if you upgrade your membership' | translate}}
             </div>
             <div>
-                You can get 10 more EXG tokens if you upgrade your membership.
-            </div>
-            <div>
-                Team rewards: {{teamsRewards}}
+                {{'Team rewards' | translate}}: {{teamsRewards}}
             </div>
         </div>
         <div class="col col-8">
@@ -38,7 +48,7 @@
                         [options]="options"
                         [events]="events"
                       ></x-chartist>
-                      <p class="text-center">Members</p>
+                      <p class="text-center">{{'Members' | translate}}</p>
                     </div>
 
                     <div class="col col-6">
@@ -48,7 +58,7 @@
                         [options]="options"
                         [events]="events"
                       ></x-chartist>
-                      <p class="text-center">Rewards</p>
+                      <p class="text-center">{{'Rewards' | translate }}</p>
                     </div>                   
                 </div>
             </div>
@@ -60,7 +70,7 @@
                 [options]="data2Options"
                 [events]="events"
                 ></x-chartist>
-                <p class="text-center">Team Rewards</p>
+                <p class="text-center">{{'Team rewards' | translate }}</p>
             </div>
         </div>
     </div>

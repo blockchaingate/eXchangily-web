@@ -1,9 +1,10 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { CampaignOrderService } from 'src/app/services/campaignorder.service';
 import {StorageService} from '../../../../services/storage.service';
+import {environment} from '../../../../../environments/environment';
 import {
   IBarChartOptions,
   IChartistAnimationOptions,
@@ -61,8 +62,11 @@ export class RewardComponent implements OnInit {
   teamsRewards: number;
   totalEXG = 0;
   totalNextEXG = 0;
+  extraEXG = 0;
+  baseUrl: string;
   membership: string;
 
+  @ViewChild('chart1', {static: false}) chart1: ElementRef;
 
   type: ChartType = 'Bar';
   dataPersonal1: any = {
@@ -100,6 +104,15 @@ export class RewardComponent implements OnInit {
     axisX: {
       showGrid: false
     },
+    axisY: {
+      showLabel: true
+    },
+    chartPadding: {
+      top: 15,
+      right: 15,
+      bottom: 5,
+      left: 30
+    },  
     height: 300
   };
  
@@ -165,6 +178,7 @@ export class RewardComponent implements OnInit {
     return 0;
   }
   ngOnInit() {
+    this.baseUrl = environment.baseUrl;
     this.teamsRewards = 0;
     this.referralCode = '';
 
@@ -187,12 +201,10 @@ export class RewardComponent implements OnInit {
                       for(let i=0;i<rewards.personal.length;i++) {
                         const reward = rewards.personal[i];
                         this.totalEXG += reward.totalRewardQuantities;
-                        console.log('reward=', reward);
-                        console.log('this.totalEXG==', this.totalEXG);
-                        this.totalNextEXG += reward.totalRewardNextLevelAmount;
 
+                        this.totalNextEXG += reward.totalRewardNextQuantities;
                         
-                        this.dataPersonal1.series[0].push(reward.totalQuantities);
+                        this.dataPersonal1.series[0].push(reward.totalAccounts);
                         this.dataPersonal2.series[0].push(reward.totalRewardQuantities);
                       }
 
@@ -203,7 +215,10 @@ export class RewardComponent implements OnInit {
                       if(this.totalNextEXG) {
                         this.totalNextEXG = Number(this.totalNextEXG.toFixed(2));
                       }    
-
+                      if(this.totalNextEXG && this.totalNextEXG) {
+                        this.extraEXG = Number((this.totalNextEXG - this.totalEXG).toFixed(2));
+                      }
+                      
                       if(rewards && rewards.teamsRewards) {
                         this.teamsRewards = rewards.teamsRewards;
                         for(let i=0;i<rewards.team.length;i++) {
@@ -211,11 +226,10 @@ export class RewardComponent implements OnInit {
                           this.data2.series.push(t.totalValueAdjustment ? t.totalValueAdjustment : t.totalValue);
                         }
                       }
-
-                      this.cd.detectChanges();
-
+                      this.dataPersonal1 = { ...this.dataPersonal1 };
+                      this.dataPersonal2 = { ...this.dataPersonal2 };
+                      this.data2 = { ...this.data2 };
                     }
-                    console.log('rewards=', rewards);
                   }
                 }
               )              

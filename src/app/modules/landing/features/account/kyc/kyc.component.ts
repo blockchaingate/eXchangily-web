@@ -197,6 +197,14 @@ export class KycComponent implements OnInit {
       return;      
     }
 
+    if(this.kGet('countryOfResidency').value.length < 1) {
+      this.errMsg = 'Must provide country of residency';
+      if(lang == 'zh') {
+        this.errMsg = '必须提供居住国家。';
+      }
+      return;      
+    }
+        
     if(this.kGet('homeAddress').value.length < 1) {
       this.errMsg = 'Must provide Address Line 1';
       if(lang == 'zh') {
@@ -247,6 +255,8 @@ export class KycComponent implements OnInit {
       selfieUrls: this.selfieUrls
     };
 
+    const length = JSON.stringify(theKyc).length;
+    console.log('length===', length);
     this.storageServ.getToken().subscribe(
       (token:string) => {
         this._kycService.createKyc(theKyc, token).subscribe(
@@ -261,9 +271,10 @@ export class KycComponent implements OnInit {
             this._userAuth.kyc = 1;
           },
           err => {
-            if (this._userAuth.language === 'English') {
+            const lang = this.translate.currentLang;
+            if (lang === 'en') {
               this.errMsg = 'KYC submision failure:' + JSON.stringify(err);
-            } else if (this._userAuth.language === '简体中文') {
+            } else if (lang === 'zh') {
               this.errMsg = 'KYC 资料提交失败: ' + JSON.stringify(err);
             }
           }

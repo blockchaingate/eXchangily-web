@@ -20,7 +20,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 @NgModule({
   declarations: [IndexComponent, MainComponent, RewardComponent],
   imports: [
-    CommonModule,
+    CommonModule, 
     MatCardModule,
     MatRadioModule,
     FormsModule,
