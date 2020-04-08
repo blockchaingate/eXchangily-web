@@ -100,7 +100,14 @@ export class MainComponent implements OnInit {
       (res: any) => {
         console.log('res=', res);
         if(res.ok) {
-          order = res._body;
+          this.comment = '';
+          this.showMarkedAsPaidId = '';
+          for(let i=0; i < this.orders.length; i++) {
+            if(this.orders[i]._id == order_id) {
+              this.orders[i].status = '2';
+              break;
+            }
+          }
         }
       }
     );    
