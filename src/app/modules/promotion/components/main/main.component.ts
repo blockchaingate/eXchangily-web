@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { Wallet } from '../../../../models/wallet';
 import { WalletService } from '../../../../services/wallet.service';
 import { AlertService } from '../../../../services/alert.service';
@@ -13,6 +13,7 @@ import BigNumber from 'bignumber.js/bignumber';
 import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { CampaignOrderService } from 'src/app/services/campaignorder.service';
 
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -23,7 +24,9 @@ export class MainComponent implements OnInit {
   wallet: Wallet;
   available: any;
   price: number;
+  showMarkedAsPaidId: string;
   quantity: number;
+  comment: string;
   currentCoin: MyCoin;
   gasPrice: number;
   membership: string;
@@ -88,7 +91,20 @@ export class MainComponent implements OnInit {
     
   }
 
-
+  markedAsPaid(order) {
+    this.showMarkedAsPaidId = order._id;
+  }
+  confirmMarkedAsPaid(order) {
+    const order_id = order._id;
+    this.campaignorderServ.confirmMarkedAsPaid(this.token, order_id, this.comment).subscribe(
+      (res: any) => {
+        console.log('res=', res);
+        if(res.ok) {
+          order = res._body;
+        }
+      }
+    );    
+  }
   async ngOnInit() {
     this.readyGo = true;
     this.step = 1;
@@ -347,3 +363,4 @@ export class MainComponent implements OnInit {
     }    
   }
 }
+

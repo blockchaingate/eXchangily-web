@@ -222,15 +222,41 @@
                   </tr>
                 </thead>
                 <tbody *ngIf="orders">
-                  <tr *ngFor="let order of orders">
-                    <td>{{order.payCurrency}}</td>
-                    <td>{{order.payMethod}}</td>
-                    <td>{{order.price}}</td>
-                    <td>{{order.quantity}}</td>
-                    <td>{{order.price * order.quantity}}</td>
-                    <td>{{utilServ.showTime(order.dateCreated)}}</td>
-                    <td>{{getStatusText(order.status)}}</td>
-                  </tr>
+                    <ng-container *ngFor="let order of orders">
+                        <tr>
+                            <td>{{order.payCurrency}}</td>
+                            <td>{{order.payMethod}}</td>
+                            <td>{{order.price}}</td>
+                            <td>{{order.quantity}}</td>
+                            <td>{{order.price * order.quantity}}</td>
+                            <td>{{utilServ.showTime(order.dateCreated)}}</td>
+                            <td>
+                                {{getStatusText(order.status)}}
+                                <button *ngIf="order.status==1" (click)="markedAsPaid(order)" mat-raised-button color="primary">{{getStatusText(2)}}</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td  colspan="7">
+                                <div class="container" *ngIf="showMarkedAsPaidId == order._id">
+                                    <div class="row">
+                                        <div class="col col-9">
+                                            <mat-form-field class="w-100">
+                                                <mat-label>{{'Comment' | translate }}</mat-label>
+                                                <input matInput placeholder="" [(ngModel)]="comment">
+                                            </mat-form-field> 
+                                        </div>
+                                        <div class="col col-3">
+                                            <button (click)="confirmMarkedAsPaid(order)" mat-raised-button color="primary">{{'Confirm' | translate}}</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </td>
+                        </tr>
+
+                    </ng-container>
+
+
                 </tbody>
               </table>            
         </div>
