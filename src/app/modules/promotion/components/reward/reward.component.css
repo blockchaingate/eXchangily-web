@@ -23,3 +23,7 @@
     font-size: 15px;
     color: grey;
 }
+
+.ct-label {
+    font-size: 0.5rem!important;
+}

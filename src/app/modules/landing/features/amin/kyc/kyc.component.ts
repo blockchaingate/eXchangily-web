@@ -96,7 +96,7 @@ export class KycComponent implements OnInit {
   }
 
   setPass() {
-      this._userServ.updateUser({_id: this.kyc.memberId, kyc: 100}).subscribe(
+      this._userServ.setKycPass({_id: this.kyc.memberId}).subscribe(
           ret => {
             this._router.navigate(['/account/admin/kycs']);
           },

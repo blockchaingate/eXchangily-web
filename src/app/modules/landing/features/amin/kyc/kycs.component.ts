@@ -26,12 +26,17 @@ export class KycsComponent implements OnInit {
     private _userServ: UserService) {}
 
   ngOnInit() {
+    console.log('let it og');
     this.loadUsers();
   }
 
   loadUsers() {
+    console.log('loadUsers===');
     this._userServ.getUsers({ kyc: 1 }).subscribe(
-      (ret: User[]) => this.users = ret,
+      (ret: User[]) => {
+        console.log('ret====', ret);
+        this.users = ret
+      },
       err => this.msg = err
     );
   }

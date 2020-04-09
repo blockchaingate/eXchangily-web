@@ -9,6 +9,9 @@
                   </button>
                 </div>
                 <div class="modal-body">
+                    <div class="text-danger" *ngIf="alertMsg && (!coin || (coin.name == 'EXG'))">
+                        {{alertMsg | translate}}
+                    </div>
                     <div class="form-group">
                         <label for="inputSendTo" class="text-dark">{{'Send to' | translate }}</label>
                         <input type="text" class="form-control" id="inputSendTo" aria-describedby="emailHelp" formControlName="sendTo" placeholder="{{'Wallet address' | translate }}">

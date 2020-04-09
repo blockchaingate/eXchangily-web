@@ -1,6 +1,7 @@
 import * as Btc from 'bitcoinjs-lib';
 export const environment = {
     production: true,
+    baseUrl: 'https://exchangily.com',
     version: 0.03,
     campaignId: 1,
     chains: {

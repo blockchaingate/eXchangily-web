@@ -42,6 +42,7 @@ import { DeleteWalletModal } from './modals/delete-wallet/delete-wallet.modal';
 import { LoginSettingModal } from './modals/login-setting/login-setting.modal';
 import { DisplaySettingModal } from './modals/display-setting/display-setting.modal';
 import { KanbanService } from '../../services/kanban.service';
+import { CampaignOrderService } from '../../services/campaignorder.service';
 import { Web3Service } from '../../services/web3.service';
 import { AlertService } from '../../services/alert.service';
 import {MatSelectModule} from '@angular/material/select'; 
@@ -114,7 +115,7 @@ import { TransactionTypePipe } from './pipes/transaction-type.pipe';
 
     ],
     providers: [
-        KanbanService, Web3Service, AlertService
+        KanbanService, Web3Service, AlertService, CampaignOrderService
     ]
 })
 export class WalletModule { }

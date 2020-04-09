@@ -287,13 +287,13 @@
         </div>
     </div>
 
-    <deposit-amount-modal #depositModal [coin]="currentCoin" (confirmedAmount)="onConfirmedDepositAmount($event)"></deposit-amount-modal>
+    <deposit-amount-modal #depositModal [coin]="currentCoin" (confirmedAmount)="onConfirmedDepositAmount($event)" [alertMsg]="alertMsg"></deposit-amount-modal>
     <redeposit-amount-modal #redepositModal [coin]="currentCoin" (confirmedAmount)="onConfirmedRedepositAmount($event)"></redeposit-amount-modal>
     <add-gas-modal #addGasModal (confirmedGas)="onConfirmedGas($event)"></add-gas-modal>
     <pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>
     <display-pin-number-modal #displayPinModal (confirmedPin)="onConfirmedDisplayPin($event)"></display-pin-number-modal>
     <add-assets-modal #addAssetsModal (confirmedAssets)="onConfirmedAssets($event)"></add-assets-modal>
-    <send-coin-modal #sendCoinModal (confirmedCoinSent)="onConfirmedCoinSent($event)" [wallet]="wallet"></send-coin-modal>
+    <send-coin-modal #sendCoinModal (confirmedCoinSent)="onConfirmedCoinSent($event)" [wallet]="wallet" [alertMsg]="alertMsg"></send-coin-modal>
     <show-seed-phrase-modal #showSeedPhraseModal></show-seed-phrase-modal>
     <verify-seed-phrase-modal #verifySeedPhraseModal></verify-seed-phrase-modal>
     <backup-private-key-modal #backupPrivateKeyModal (confirmedBackupPrivateKey)="onConfirmedBackupPrivateKey($event)"></backup-private-key-modal>

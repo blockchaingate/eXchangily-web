@@ -16,6 +16,7 @@ import { ApiService } from '../../../../services/api.service';
 })
 export class SendCoinModal {
     @Input() wallet: Wallet;
+    @Input() alertMsg: string;
     coin: MyCoin;
     transFee: number;
     @ViewChild('sendCoinModal', {static: true}) public sendCoinModal: ModalDirective;

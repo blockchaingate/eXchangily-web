@@ -9,6 +9,10 @@
           </button>
                 </div>
                 <div class="modal-body">
+
+                    <div class="text-danger" *ngIf="alertMsg && (!coin || (coin.name == 'EXG'))">
+                        {{alertMsg | translate}}
+                    </div>                    
                     <div class="text-muted">
                         Your balance: {{coin.balance}}
                     </div>

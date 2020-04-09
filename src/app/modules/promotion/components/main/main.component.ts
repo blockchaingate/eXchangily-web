@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { Wallet } from '../../../../models/wallet';
 import { WalletService } from '../../../../services/wallet.service';
 import { AlertService } from '../../../../services/alert.service';
@@ -13,6 +13,7 @@ import BigNumber from 'bignumber.js/bignumber';
 import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { CampaignOrderService } from 'src/app/services/campaignorder.service';
 
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -23,7 +24,9 @@ export class MainComponent implements OnInit {
   wallet: Wallet;
   available: any;
   price: number;
+  showMarkedAsPaidId: string;
   quantity: number;
+  comment: string;
   currentCoin: MyCoin;
   gasPrice: number;
   membership: string;
@@ -88,7 +91,27 @@ export class MainComponent implements OnInit {
     
   }
 
-
+  markedAsPaid(order) {
+    this.showMarkedAsPaidId = order._id;
+  }
+  confirmMarkedAsPaid(order) {
+    const order_id = order._id;
+    this.campaignorderServ.confirmMarkedAsPaid(this.token, order_id, this.comment).subscribe(
+      (res: any) => {
+        console.log('res=', res);
+        if(res.ok) {
+          this.comment = '';
+          this.showMarkedAsPaidId = '';
+          for(let i=0; i < this.orders.length; i++) {
+            if(this.orders[i]._id == order_id) {
+              this.orders[i].status = '2';
+              break;
+            }
+          }
+        }
+      }
+    );    
+  }
   async ngOnInit() {
     this.readyGo = true;
     this.step = 1;
@@ -121,6 +144,29 @@ export class MainComponent implements OnInit {
                var body = res._body;
                var kyc = body.kyc;
                this.membership = body.membership;
+               var walletExgAddress = body.walletExgAddress;
+               
+               if(!walletExgAddress) {
+                this.readyGo = false;
+               } else {
+                 let exgAddress = '';
+                 for(let i=0;i<this.wallet.mycoins.length;i++) {
+                   const coin = this.wallet.mycoins[i];
+                   if(coin.name == 'EXG') {
+                    exgAddress = coin.receiveAdds[0].address;
+                   }
+                 }
+                 if(exgAddress!=walletExgAddress) {
+                  this.readyGo = false;
+                 }
+               }
+               if(!this.readyGo) {
+                if(!this.readyGoReasons) {
+                  this.readyGoReasons = [];
+                }   
+                this.readyGoReasons.push('exgAddressNotMatch');                 
+               }
+
                if(kyc == 100) {
                 this.readyGo = true;
                } else {
@@ -347,3 +393,4 @@ export class MainComponent implements OnInit {
     }    
   }
 }
+
