@@ -15,6 +15,7 @@ import BigNumber from 'bignumber.js';
 export class DepositAmountModal {
     @ViewChild('depositModal', {static: true}) public depositModal: ModalDirective;
     @Input() coin: MyCoin;
+    @Input() alertMsg: string;
     @Output() confirmedAmount = new EventEmitter<any>();
     transFee: number;
     firstTime: boolean;

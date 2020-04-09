@@ -144,6 +144,29 @@ export class MainComponent implements OnInit {
                var body = res._body;
                var kyc = body.kyc;
                this.membership = body.membership;
+               var walletExgAddress = body.walletExgAddress;
+               
+               if(!walletExgAddress) {
+                this.readyGo = false;
+               } else {
+                 let exgAddress = '';
+                 for(let i=0;i<this.wallet.mycoins.length;i++) {
+                   const coin = this.wallet.mycoins[i];
+                   if(coin.name == 'EXG') {
+                    exgAddress = coin.receiveAdds[0].address;
+                   }
+                 }
+                 if(exgAddress!=walletExgAddress) {
+                  this.readyGo = false;
+                 }
+               }
+               if(!this.readyGo) {
+                if(!this.readyGoReasons) {
+                  this.readyGoReasons = [];
+                }   
+                this.readyGoReasons.push('exgAddressNotMatch');                 
+               }
+
                if(kyc == 100) {
                 this.readyGo = true;
                } else {

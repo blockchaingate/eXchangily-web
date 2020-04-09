@@ -120,6 +120,9 @@
                         {{'Your kyc has problem, please submit a new one' | translate}}
                         <a mat-raised-button color="primary" class="nav-link" routerLink="/account/kyc">{{"KYC" | translate}}</a>
                     </div> 
+                    <div *ngIf="reason == 'exgAddressNotMatch'" class="py-2">
+                        {{'Your EXG address not match with your user profile' | translate}}
+                    </div>                     
                 </div>
             </div>
             <div *ngIf="!(readyGoReasons && (readyGoReasons.length > 0))">

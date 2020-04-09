@@ -85,6 +85,11 @@ export class UserService {
     return this.http.post(path + 'FindOneAndUpdate', data, true).pipe(map(res => res));
   }
 
+  setKycPass(data) {
+    data.appId = this._appAuth.id;
+    return this.http.post(path + 'setKycPass', data, true).pipe(map(res => res));    
+  }
+  
   // Request Password Reset
   requestPwdReset(email: string) {
     const theBody = { 'email': email };

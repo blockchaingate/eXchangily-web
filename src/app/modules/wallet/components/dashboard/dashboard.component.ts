@@ -37,6 +37,8 @@ import { TimerService } from '../../../../services/timer.service';
 import { WsService } from '../../../../services/ws.service';
 import { environment } from '../../../../../environments/environment';
 import { ManageWalletComponent } from '../manage-wallet/manage-wallet.component';
+import { CampaignOrderService } from '../../../../services/campaignorder.service';
+
 @Component({ 
     selector: 'app-wallet-dashboard',
     templateUrl: './dashboard.component.html',
@@ -77,10 +79,13 @@ export class WalletDashboardComponent {
     showMyAssets: boolean;
     showTransactionHistory: boolean;
     gas: number;
+    alertMsg: string;
     opType: string;
     currentCurrency: string;
     currencyRate: number;
-    constructor ( private route: Router, private walletServ: WalletService, private modalServ: BsModalService, 
+    constructor ( 
+        private campaignorderServ: CampaignOrderService,
+        private route: Router, private walletServ: WalletService, private modalServ: BsModalService, 
         private coinServ: CoinService, public utilServ: UtilService, private apiServ: ApiService, private _wsServ: WsService,
         private kanbanServ: KanbanService, private web3Serv: Web3Service, private viewContainerRef: ViewContainerRef,
         private alertServ: AlertService, private matIconRegistry: MatIconRegistry, private timerServ: TimerService,
@@ -156,6 +161,7 @@ export class WalletDashboardComponent {
                 }
             }
             */
+
             this.kanbanServ.getDepositErr(this.exgAddress).subscribe(
                 (resp: any) => {
                     // console.log('resp=', resp);
@@ -452,6 +458,23 @@ export class WalletDashboardComponent {
         // console.log('this.wallet=', this.wallet);
         this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
         this.exgBalance = this.wallet.mycoins[0].balance;
+
+        this.campaignorderServ.getCheck(this.exgAddress).subscribe(
+            (resp: any) => {
+                console.log('resp for getCheck=', resp);
+                if(resp.ok) {
+                    if(resp._body && resp._body.totalQuantities > 0) {
+                        this.alertMsg = 'Disqualified with campaign';
+                        
+                    } else {
+                        this.alertMsg = '';
+                    }
+                    console.log('this.alertMsg==', this.alertMsg);
+                } else {
+                    this.alertMsg = '';
+                }
+            }
+        );        
         // console.log('load wallet again.');
         this.refreshGas();
     }

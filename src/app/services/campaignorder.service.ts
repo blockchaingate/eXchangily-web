@@ -19,6 +19,10 @@ export class CampaignOrderService {
         return this.httpServ.get(environment.endpoints.blockchaingate + 'campaign-order/rewards?token=' + token);
     }
 
+    getCheck(exgAddress: string) {
+        return this.httpServ.get(environment.endpoints.blockchaingate + 'campaign-order/addr/' + exgAddress + '/check' );
+    }
+
     getProfile(token: string) {
         return this.httpServ.get(environment.endpoints.blockchaingate + 'campaign-order/profile?token=' + token);
     }
