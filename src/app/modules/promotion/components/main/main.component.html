@@ -18,8 +18,20 @@
                   <p>
                     {{'About the Campaign Detail' | translate}}
                   </p>
+                  <p>
+                    {{'About the Campaign Detail 2' | translate}}
+                  </p>
+                  <p>
+                    {{'About the Campaign Detail 3' | translate}}
+                  </p>
+                  <p>
+                    {{'About the Campaign Detail 4' | translate}}
+                  </p>
+                  <p>
+                    {{'About the Campaign Detail 5' | translate}}
+                  </p>                                                                        
                   <p class="text-center">
-                    <img src="/assets/campaign-image1.png">
+                    <img class="img-responsive" src="{{'Campaign Image 1' | translate}}">
                   </p>
                   
                   
@@ -32,8 +44,22 @@
                       </mat-panel-title>
                     </mat-expansion-panel-header>
                     <p>{{'Rewards Program Example Detail' | translate}}</p>
-                    <p class="text-center">
-                        <img src="/assets/campaign-image2.png">
+                    <p>{{'Rewards Program Example Detail 2' | translate}}</p>
+                    <p>{{'Rewards Program Example Detail 3' | translate}}</p>
+                    <p>{{'Rewards Program Example Detail 4' | translate}}</p>
+                    <p>{{'Rewards Program Example Detail 5' | translate}}</p>
+                    <p>{{'Rewards Program Example Detail 6' | translate}}</p>
+                    <p>{{'Rewards Program Example Detail 7' | translate}}</p>
+                    <p>{{'Rewards Program Example Detail 8' | translate}}</p>
+                    <p>{{'Rewards Program Example Detail 9' | translate}}</p>
+                    <p>{{'Rewards Program Example Detail 10' | translate}}</p>
+                    <p><small>{{'Rewards Program Example Detail Beizhu' | translate}}</small></p>
+                    <p><small>{{'Rewards Program Example Detail Beizhu 1' | translate}}</small></p>
+                    <p><small>{{'Rewards Program Example Detail Beizhu 2' | translate}}</small></p>
+                    <p><small>{{'Rewards Program Example Detail Beizhu 3' | translate}}</small></p>
+                    <p><small>{{'Rewards Program Example Detail Beizhu 4' | translate}}</small></p>
+                    <p class="text-center" *ngIf="'Campaign Image 2' | translate">
+                        <img class="img-responsive" src="{{'Campaign Image 2' | translate}}">
                     </p>                    
                   </mat-expansion-panel>  
                   
@@ -48,21 +74,21 @@
                     <table class="table">
                         <tbody>
                             <tr>
-                              <th scope="row">Team Investment</th>
-                              <td>$250K</td>
-                              <td>$350K</td>
-                              <td>$500K</td>
-                              <td>$750K</td>
-                              <td>$1 Million</td>
+                              <th scope="row">{{'Team Investment' | translate}}</th>
+                              <td>{{'$250K' | translate}}</td>
+                              <td>{{'$350K' | translate}}</td>
+                              <td>{{'$500K' | translate}}</td>
+                              <td>{{'$750K' | translate}}</td>
+                              <td>{{'$1 Million' | translate}}</td>
                             </tr>
 
                             <tr>
-                                <th scope="row">Rewards(EXG)</th>
-                                <td>25K</td>
-                                <td>35K</td>
-                                <td>50K</td>
-                                <td>75K</td>
-                                <td>100K</td>
+                                <th scope="row">{{'Rewards(EXG)' | translate}}</th>
+                                <td>{{'25K' | translate}}</td>
+                                <td>{{'35K' | translate}}</td>
+                                <td>{{'50K' | translate}}</td>
+                                <td>{{'75K' | translate}}</td>
+                                <td>{{'100K' | translate}}</td>
                               </tr>                            
                         </tbody>                        
                     </table>
@@ -232,7 +258,7 @@
                             <td>{{order.payMethod}}</td>
                             <td>{{order.price}}</td>
                             <td>{{order.quantity}}</td>
-                            <td>{{order.amount}}</td>
+                            <td>{{order.amount ? order.amount : (order.price * order.quantity)}}</td>
                             <td>{{utilServ.showTime(order.dateCreated)}}</td>
                             <td>
                                 {{getStatusText(order.status)}}

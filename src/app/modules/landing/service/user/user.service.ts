@@ -92,7 +92,7 @@ export class UserService {
   
   // Request Password Reset
   requestPwdReset(email: string) {
-    const theBody = { 'email': email };
+    const theBody = { 'email': email, appId: this._appAuth.id };
     sessionStorage.removeItem('id_token');
 
     return this.http.post(path + 'requestpwdreset', theBody).pipe(map(res => res));
