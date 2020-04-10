@@ -15,7 +15,7 @@ import { User } from '../../../models/user';
 })
 export class SigninComponent implements OnInit {
   private afterLoginUrl = '/member/profile';
-  private submitted: boolean;
+  public submitted: boolean;
   private isSystemAdmin: boolean;
   loginError: string;
   user = { email: '', password: '' };
