@@ -14,9 +14,15 @@
         <p>{{ data.pointsEarned }}</p>
       </div>
 
-      <div fxFlex="6em">
+      <div fxFlex="26em">
         <label class="form-input__text__label">{{ 'EXG Address' | translate }}</label>
-        <p>{{ user.walletExgAddress }}</p>
+
+        <ng-container *ngIf="edit">
+          <input type="text" name="walletExgAddress" formControlName="walletExgAddress" class="form-input__text block">
+        </ng-container>
+        <ng-container *ngIf="!edit">
+          <p>{{ user.walletExgAddress }}</p>
+        </ng-container>
       </div>      
     </div>
 

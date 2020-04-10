@@ -66,6 +66,7 @@ export class InfoComponent implements OnInit {
           'homePhone': new FormControl(this.user.homePhone, []),
           'workPhone': new FormControl(this.user.workPhone, []),
           'mobile': new FormControl(this.user.mobile, []),
+          'walletExgAddress': new FormControl(this.user.walletExgAddress, []),
           'workEmail': new FormControl(this.user.workEmail, []),
           'parentReferralCode': new FormControl({ value: parentReferral, disabled: parentReferral }, [])
         });
