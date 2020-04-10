@@ -135,20 +135,21 @@
                             </mat-form-field>
                             {{'USD' | translate }}
                         </div>
-        
+                        <div>
+                            <mat-form-field class="example-full-width">
+                                <mat-label>{{'Value' | translate }}</mat-label>
+                                <input matInput placeholder="" [(ngModel)]="value" value="">
+                            </mat-form-field>{{'USD' | translate }}
+                        </div>
+
                         <div>
                             <mat-form-field class="example-full-width">
                                 <mat-label>{{'Quantity' | translate }}</mat-label>
-                                <input matInput placeholder="" [(ngModel)]="quantity" value="">
+                                <input readonly matInput placeholder="" [(ngModel)]="quantity" value="">
                             </mat-form-field>EXG
                         </div>
                     </div>
-                    <div class="d-flex">
-                        <div class="d-inline-block">             
-                                <label id="example-radio-group-label">{{'Value' | translate }}</label>:{{(price && quantity) ? price * quantity : 0}}{{'USD' | translate }}
-        
-                        </div>
-                    </div>
+
                 </div>
     
                 <div *ngIf="step==2">
@@ -231,7 +232,7 @@
                             <td>{{order.payMethod}}</td>
                             <td>{{order.price}}</td>
                             <td>{{order.quantity}}</td>
-                            <td>{{order.price * order.quantity}}</td>
+                            <td>{{order.amount}}</td>
                             <td>{{utilServ.showTime(order.dateCreated)}}</td>
                             <td>
                                 {{getStatusText(order.status)}}

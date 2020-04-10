@@ -265,17 +265,17 @@ export class KycComponent implements OnInit {
             this.submitted = true;
             this.errMsg = '';
             this.kycState = 'Your KYC documents submitted successful, please waiting for verification.';
-            if (this._userAuth.language === '简体中文') {
+            if (lang === 'zh') {
               this.kycState = '您已成功提交KYC资料，请等候2~4个工作日审查结果。';
             }
             this._userAuth.kyc = 1;
           },
           err => {
-            const lang = this.translate.currentLang;
+            
             if (lang === 'en') {
-              this.errMsg = 'KYC submision failure:' + JSON.stringify(err);
+              this.errMsg = 'KYC submision failure: the size of each photo must be less than 500k';
             } else if (lang === 'zh') {
-              this.errMsg = 'KYC 资料提交失败: ' + JSON.stringify(err);
+              this.errMsg = 'KYC 资料提交失败: 每个照片必须小于500k';
             }
           }
         );

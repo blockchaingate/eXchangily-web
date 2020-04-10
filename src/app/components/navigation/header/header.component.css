@@ -98,3 +98,9 @@ a.nav-link {
 .coin-logo {
     height: 30px;
 }
+
+.highlight {
+    background-color: #c3512f;
+    color: #ffffff;
+    border-color: #c3512f;
+}

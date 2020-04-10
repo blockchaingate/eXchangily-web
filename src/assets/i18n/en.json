@@ -269,7 +269,7 @@
                 "PhotoID": {
                     "Title": "Photo ID",
                     "Button": "Upload Files",
-                    "Desc": "Upload photos of the front and back of your ID. Make sure the pictures are clear.  Passport, Driver's License or Citizenship Card are examples of acceptable ID. Minimum of 2 photos required.",
+                    "Desc": "Upload photos of the front and back of your ID. The size of eatch photo must be less than 500k, Make sure the pictures are clear.  Passport, Driver's License or Citizenship Card are examples of acceptable ID. Minimum of 2 photos required.",
                     "IDExample": "Example"
                 },
                 "SelfieWithId": {
@@ -280,7 +280,7 @@
                         "Content2": "Your face is clearly visible",
                         "Content3": "The Photo ID is clearly visible",
                         "Content4": "You have a note with today's date in the picture",
-                        "Content5": "Minimum of 1 photos required; one front."
+                        "Content5": "Minimum of 1 photos required; one front.The size must be less than 500k"
                     },
                     "ExamplePicture": "Example"
                 },
@@ -875,13 +875,15 @@
     "Got an account already? Login here!": "Got an account already? Login here!",
     "Official Account": "Official Account",
     "Official Name": "Official Name",
-    "Not ready for this promotion": "Not ready",
+    "Not ready for this promotion": "Ready to participate?",
     "No exchangily wallet was found.": "No exchangily wallet was found.",
     "You have to login to process this promotion": "You have to login to process this promotion",
     "You have to do the kyc to process this promotion": "You have to do the kyc to process this promotion",
     "About the Campaign": "About the Campaign",
+    "Your EXG address not match with your user profile": "Your EXG address not match with your user profile",
     "Campaign Disqualification": "Campaign Disqualification",
     "Rewards Program Example": "Rewards Program Example",
+    "New Campaign": "New Campaign",
     "Disqualified with campaign": "You will be disqualified for tbis campaign if you transfer exg assets out",
     "About the Campaign Detail": "The campaign is to celebrate the official launch of eXchangily and regulatory licensing approval in the United States and Canada. The campaign will commence on March 18, 2020 and will run until all 1 Million EXG reward tokens are given away. eXchangily is the 1st fully licensed decentralized crypto exchange, offering fast, autonomous transactions, cross-chain capability and 100% profit sharing to EXG token holders. The campaign is open to existing and new investors, a minimum of $100USD purchase of EXG is required during the campaign to obtain a referral code. Every $100USD purchase of EXG entitles you to 1 FAB, upto a maximum of 5 FAB Purchases of EXG can be made in USDT, ETH and BTC, via the eXchangily exchange or with USD, CAD or RMB via OTC. All purchases will be at the current market rate, EXG will be deposited directly into your eXchangily wallet, no lock restrictions. Your buy-in choice is important as it unlocks greater rewards as your funnel grows. Choose wisely as we pay rewards until the 4th tier. Rewards will be credited directly to your account the day after the campaign ends (carefully read the campaign disqualification section)",
     "Rewards Program Example Detail": "Example: As a reward, investor A will earn 10% on tier 2, 6% on tier 3 and 3% on tier 4 tokens sold via his/her funnel. However, since investor B had sold EXG before the campaign ends and became disqualified, investor A will not earn rewards on investor B. Investor A will continue to earn rewards on all referrals made by investor B at tier 3 rates. In the case of investor A, if 100,000 EXG tokens are purchased in tier 2 (not including tokens from investor B), 200,000 EXG in tier 3 and 500,000 in tier 4. Investor A would earn ((100,000 x 10%) + (200,000 x 6%) + (500,000 x 3%)) 37,000 EXG tokens as a reward. To qualify for a reward your direct referrals (all of tier 2 in the case or investor A) must provide your referral code and fulfill the monetary requirements for their chosen tier. All purchasers are considered tier 1 once they have fulfilled the monetary and referral requirements for their given Tier",

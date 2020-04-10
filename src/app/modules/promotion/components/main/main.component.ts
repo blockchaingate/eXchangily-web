@@ -37,7 +37,16 @@ export class MainComponent implements OnInit {
   selectedPaymentCurrency: string;
   gasLimit: number;
   step: number;
-  value: number;
+  _value: number;
+
+  get value(): number {
+    return this._value;
+  }
+
+  set value(val) {
+      this.quantity = val / this.price;
+      this._value = Number(val);
+  }
   referralCode: string;
   satoshisPerBytes: number;
   faFacebook = faFacebook;
@@ -87,6 +96,8 @@ export class MainComponent implements OnInit {
       this.step = 2;
     } else {
       this.buyConfirm();
+      this.value = 0;
+      this.step = 1;
     }
     
   }
@@ -290,19 +301,19 @@ export class MainComponent implements OnInit {
 */  
   addOrder(txid:string) {
     const coinorder = {
-      campaignId: 0,
+      campaignId: 1,
       payCurrency: this.selectedPaymentCurrency,
       payMethod: this.selectedPaymentMethod,
       price: this.price,
       payableValue: this.payableAmount,
       quantity: this.quantity,
+      amount: Number(this._value),
       txId: txid,
       token: this.token
     };      
-      
+
     this.campaignorderServ.addOrder(coinorder).subscribe(
       (res: any) => {
-        console.log('res=', res);
         if(res.ok) {
           const body = res._body;
           if(!this.orders) {
