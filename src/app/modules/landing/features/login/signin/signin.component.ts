@@ -4,7 +4,7 @@ import { UserService } from '../../../service/user/user.service';
 import { UserAuth } from '../../../service/user-auth/user-auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StorageService } from '../../../../../services/storage.service';
-import { JwtHelperService } from "@auth0/angular-jwt";
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from '../../../models/user';
 // import { getMatScrollStrategyAlreadyAttachedError } from '@angular/cdk/overlay/typings/scroll/scroll-strategy';
 
@@ -26,11 +26,11 @@ export class SigninComponent implements OnInit {
   get password() { return this.signinForm.get('password'); }
 
   constructor(
-    private _router: Router, 
-    private _userService: UserService, 
+    private _router: Router,
+    private _userService: UserService,
     private _userAuth: UserAuth,
     private _storageServ: StorageService
-    ) {
+  ) {
   }
 
   ngOnInit() {
@@ -90,13 +90,14 @@ export class SigninComponent implements OnInit {
 
       console.log('decodedToken===');
       console.log(decodedToken);
-      if(decodedToken.aud === 'isSystemAdmin') {
+      if (decodedToken.aud === 'isSystemAdmin') {
         this.isSystemAdmin = true;
       }
     }
 
     this._userAuth.userDisplay$.next(loginRet.displayName);
-    this._userAuth.isLoggedIn$.next(loginRet._id || loginRet['id']);
+    this._userAuth.isLoggedIn$.next(loginRet['id'] || loginRet._id);
+
     this._userAuth.hasWrite = loginRet.isWriteAccessAdmin;
     this._userAuth.id = loginRet._id || loginRet['id'];
     this._userAuth.email = loginRet.email;
@@ -112,7 +113,7 @@ export class SigninComponent implements OnInit {
 
     const toUrl = sessionStorage.__AfterLoginUrl ? sessionStorage.__AfterLoginUrl : this.afterLoginUrl;
 
-    if(this.isSystemAdmin) {
+    if (this.isSystemAdmin) {
       this._router.navigate(['/admin']);
     } else {
       this._router.navigate(['/account/user-info']);

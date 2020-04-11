@@ -75,9 +75,13 @@
                     <li class="nav-item">
                         <a class="nav-link" href="https://medium.com/exchangily-blog" target="_blank">{{'Blog' | translate}}</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" *ngIf="!loggedIn">
                         <a class="nav-link" routerLink="/login/signin" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Signin' | translate}}</a>
                     </li>
+                    <li class="nav-item" *ngIf="loggedIn">
+                        <a class="nav-link pointer" routerLinkActive="selected" style="color: white" (click)="logout()">{{ 'Header.Navigation.Signout' | translate }}</a>
+                    </li>
+
                     <li class="nav-item">
                         <mat-progress-spinner [diameter]="40" [color]="color" [mode]="'determinate'" [value]="value" [matMenuTriggerFor]="appMenu">
                         </mat-progress-spinner>

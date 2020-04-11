@@ -7,6 +7,7 @@ import { StorageService } from '../../../services/storage.service';
 import { ApiService } from '../../../services/api.service'; 
 import { AlertService } from '../../../services/alert.service';
 import { UtilService } from '../../../services/util.service';
+import { UserAuth } from '../../../modules/landing/service/user-auth/user-auth.service';
 import { KanbanService } from '../../../services/kanban.service';
 import { TimerService } from '../../../services/timer.service';
 import { environment } from '../../../../environments/environment';
@@ -17,6 +18,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class HeaderComponent implements OnInit {
   currentLang: string;
+  loggedIn = false;
   // @Output() public sidenavToggle = new EventEmitter();
   background: string;
   pendingtransactions: TransactionItem[];
@@ -29,7 +31,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(private translate: TranslateService, private router: Router, private alertServ: AlertService,
     public utilServ: UtilService, private kanbanServ: KanbanService, private timerServ: TimerService,
-    private location: Location, private storageServ: StorageService, private apiServ: ApiService) { }
+    private location: Location, private storageServ: StorageService, private apiServ: ApiService, private _userAuth: UserAuth) { }
     
   
   ngOnInit() {
@@ -39,6 +41,13 @@ export class HeaderComponent implements OnInit {
     }
     this.pendingtransactions = [];
     this.closetransactions = [];
+
+    this._userAuth.isLoggedIn$
+    .subscribe((value: string) => {
+      console.log('value: ' + value);
+      this.loggedIn = value ? true : false;
+      // alert(this.loggedIn);
+    });
 
     this.timerServ.transactionStatus.subscribe(
       (txItem: any) => {
@@ -126,5 +135,14 @@ export class HeaderComponent implements OnInit {
     if (lan === 'zh') {
       this.currentLang = '中文';
     }
-  } 
+  }
+
+  logout() {
+    this._userAuth.id = '';
+    this._userAuth.email = '';
+    this._userAuth.token = '';
+    this._userAuth.logout();
+    this.router.navigate(['/']);
+  }
+
 }
