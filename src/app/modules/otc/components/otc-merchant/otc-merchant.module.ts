@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 
 import { OtcMerchantComponent } from './otc-merchant.component';
+import { ApplyAsMerchantComponent } from './apply-as-merchant/apply-as-merchant.component';
 import { ListComponent } from './list/list.component';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -18,6 +19,7 @@ import { TranslateModule } from '@ngx-translate/core';
     declarations: [
         OtcMerchantComponent,
         ListComponent,
+        ApplyAsMerchantComponent
     ],
     imports: [
         CommonModule,

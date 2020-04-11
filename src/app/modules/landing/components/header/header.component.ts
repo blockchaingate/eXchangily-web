@@ -25,16 +25,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private subscribers: Array<Subscription> = [];
 
-  constructor(private _userAuth: UserAuth, private _router: Router, private _translate: TranslateService) { }
+  constructor(private _userAuth: UserAuth, private _router: Router, private _translate: TranslateService) {}
 
   ngOnInit() {
     this.setCurrentLang();
     this.languageInit();
-
     this.subscribers.push(
       this._userAuth.isLoggedIn$
       .subscribe((value: string) => {
+        console.log('value: ' + value);
         this.loggedIn = value ? true : false;
+        alert(this.loggedIn);
       }),
       this._userAuth.userDisplay$
       .subscribe((value: string) => {
