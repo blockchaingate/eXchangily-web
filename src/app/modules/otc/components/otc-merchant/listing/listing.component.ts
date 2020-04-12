@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-    selector: 'app-list',
-    templateUrl: './list.component.html',
-    styleUrls: ['./list.component.css']
+    selector: 'app-otc-listing',
+    templateUrl: './listing.component.html',
+    styleUrls: ['./listing.component.css']
 })
-export class ListComponent implements OnInit {
+export class ListingComponent implements OnInit {
     bidOrAsk: boolean;
     coinName: string;
     currency: string;
@@ -17,7 +17,7 @@ export class ListComponent implements OnInit {
         'CNY'
     ];
 
-    constructor() { }
+    constructor() {}
 
     ngOnInit() {
         this.bidOrAsk = true;

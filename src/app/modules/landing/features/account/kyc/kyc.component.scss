@@ -2,115 +2,106 @@
 @import '~bootstrap/scss/bootstrap-grid';
 @import 'sizing';
 @import 'colours';
-
 .outbox {
-  padding: 1em;
+    padding: 1em;
+    background-color: lightgray;
 }
+
 .statebox {
-  width: 100%;
-  margin-bottom: 2em;
-  margin-right: 4em;
-  padding: 1em;
+    width: 100%;
+    margin-bottom: 2em;
+    margin-right: 4em;
+    padding: 1em;
 }
 
 .redcolor {
-  color: red;
+    color: red;
+}
+
+.kycform {
+    padding: 1em;
+    color: black;
+    background-color: #909090;
 }
 
 .kyc {
-  background-color: white;
-  display: block;
-
-  margin: 0 0 4em 0;
-  width: 100%;
-
-  &.no-margin {
-    margin: 0;
-    width: calc(100% - 4em);
-  }
-
-  h2 {
-    margin: 0;
-  }
-
-  .form-input__field-wrap {
-    margin-top: .6em;
-
-    p, li{
-      font-size: .8em;
-      margin: 0 1em 0 1em;
-    }
-  }
-
-  .form-input__text__label {
+    background-color: white;
     display: block;
-    margin-top: .6em;
-  }
-
-  input {
-    width: calc(100% - 2em);
-    max-width: 24em;
-  }
-
-  input[type="radio"] {
-    width: initial !important;
-  }
-
-  button {
-    border-radius: 3px;
-    margin-top: 1em;
-    max-width: 7em;
-
-    &.cancel-button {
-      background-color: none;
-      border: solid $primary 2px;
+    margin: 0 0 4em 0;
+    width: 100%;
+    &.no-margin {
+        margin: 0;
+        width: calc(100% - 4em);
     }
-  }
-
-  &__note {
-    font-size: .65em;
-    margin-bottom: .7em !important;
-  }
-
-  &__note__final {
-    margin-top: 2em;
-  }
-
-  &__id--image {
-    background-image: url('/images/decal/kyc-id.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-
-    height: 15em;
-  }
-
-  &__selfie--image {
-    background-image: url('/images/decal/kyc-selfie.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-
-    height: 15em;
-  }
-
-  &__pdf--image {
-    background-image: url('/images/icons/icon_pdf.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-
-    height: 4em;
-    width: 4em;
-  }
+    h2 {
+        margin: 0;
+    }
+    .form-input__field-wrap {
+        margin-top: .6em;
+        p,
+        li {
+            font-size: .8em;
+            margin: 0 1em 0 1em;
+        }
+    }
+    .form-input__text__label {
+        display: block;
+        margin-top: .6em;
+        color: black;
+    }
+    input {
+        width: calc(100% - 2em);
+        max-width: 24em;
+    }
+    input[type="radio"] {
+        width: initial !important;
+    }
+    button {
+        border-radius: 3px;
+        margin-top: 1em;
+        max-width: 7em;
+        &.cancel-button {
+            background-color: none;
+            border: solid $primary 2px;
+        }
+    }
+    &__note {
+        font-size: .65em;
+        margin-bottom: .7em !important;
+    }
+    &__note__final {
+        margin-top: 2em;
+    }
+    &__id--image {
+        background-image: url('/images/decal/kyc-id.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        height: 15em;
+    }
+    &__selfie--image {
+        background-image: url('/images/decal/kyc-selfie.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        height: 15em;
+    }
+    &__pdf--image {
+        background-image: url('/images/icons/icon_pdf.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        height: 4em;
+        width: 4em;
+    }
 }
 
 .imgload {
-  margin: 2px 2px;
+    margin: 2px 2px;
 }
 
 .fileloader {
-  background-color: lightgray;
-  font-size: x-small;
-  cursor: pointer;
+    background-color: lightgray;
+    font-size: x-small;
+    cursor: pointer;
 }
