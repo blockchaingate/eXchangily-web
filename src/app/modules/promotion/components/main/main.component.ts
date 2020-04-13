@@ -11,8 +11,7 @@ import { TimerService } from '../../../../services/timer.service';
 import {StorageService} from '../../../../services/storage.service';
 import BigNumber from 'bignumber.js/bignumber';
 import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
-import { CampaignOrderService } from 'src/app/services/campaignorder.service';
-
+import { CampaignOrderService } from '../../../../services/campaignorder.service';
 
 @Component({
   selector: 'app-main',
@@ -33,6 +32,7 @@ export class MainComponent implements OnInit {
   payableAmount: number;
   coinName: string;
   readyGo: boolean;
+  exgAddress: string;
   readyGoReasons: any;
   selectedPaymentCurrency: string;
   gasLimit: number;
@@ -101,7 +101,16 @@ export class MainComponent implements OnInit {
     }
     
   }
-
+  import() {
+    this.campaignorderServ.importEXGAddress(this.token, this.exgAddress).subscribe(
+      (res: any) => {
+        console.log('res=', res);
+        if(res.ok) {
+          console.log('okkk', res._body);
+        }
+      }      
+    );
+  }
   markedAsPaid(order) {
     this.showMarkedAsPaidId = order._id;
   }
@@ -167,6 +176,7 @@ export class MainComponent implements OnInit {
                     exgAddress = coin.receiveAdds[0].address;
                    }
                  }
+                 this.exgAddress = exgAddress;
                  if(exgAddress!=walletExgAddress) {
                   this.readyGo = false;
                  }

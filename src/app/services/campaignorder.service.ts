@@ -33,7 +33,15 @@ export class CampaignOrderService {
         }
         return this.httpServ.post(environment.endpoints.blockchaingate + 'campaign-order/' + order_id + '/confirmMarkedAsPaid', data);
     }
-    
+
+    importEXGAddress(token: string, exgAddress: string) {
+        const data = {
+            token: token,
+            exgAddress: exgAddress
+        }
+        return this.httpServ.post(environment.endpoints.blockchaingate + 'campaign-order/importEXGAddress', data);
+    }
+
     getStatusText(status: number) {
         const lang = this.translate.currentLang;
         if(status == 1) {

@@ -147,7 +147,9 @@
                         <a mat-raised-button color="primary" class="nav-link" routerLink="/account/kyc">{{"KYC" | translate}}</a>
                     </div> 
                     <div *ngIf="reason == 'exgAddressNotMatch'" class="py-2">
-                        {{'Your EXG address not match with your user profile' | translate}}
+                        <p>{{'Your EXG address not match with your user profile' | translate}}</p>
+                        
+                        <p class="text-center"><button class="btn btn-gradient text-white py-2 px-5"  (click)="import()"> {{'Import' | translate }} </button></p>
                     </div>                     
                 </div>
             </div>
