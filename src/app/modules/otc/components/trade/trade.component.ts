@@ -163,7 +163,7 @@ export class TradeComponent implements OnInit {
   }
 
   becomeMerchant() {
-    this._router.navigate(['/otc/apply-to-be-merchant']);
+    this._router.navigate(['/otc/otc-merchant/merchant-application']);
     // this.applyForMerchantModal.show();
   }
 
