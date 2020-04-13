@@ -105,8 +105,10 @@ export class RewardComponent implements OnInit {
       showGrid: false
     },
     axisY: {
-      showLabel: true
+      showLabel: true,
+      onlyInteger: true,  
     },
+    
     chartPadding: {
       top: 15,
       right: 15,

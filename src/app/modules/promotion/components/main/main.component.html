@@ -154,25 +154,28 @@
             <div *ngIf="!(readyGoReasons && (readyGoReasons.length > 0))">
                 <div *ngIf="step==1">
                     <div class="">
+
                         <div>
                             <mat-form-field class="example-full-width">
-                                <mat-label>{{'Price' | translate }}</mat-label>
-                                <input readonly matInput placeholder="" [(ngModel)]="price" value="">
-                            </mat-form-field>
-                            {{'USD' | translate }}
-                        </div>
-                        <div>
-                            <mat-form-field class="example-full-width">
-                                <mat-label>{{'Value' | translate }}</mat-label>
+                                <mat-label>{{'Investment amount' | translate }}</mat-label>
                                 <input matInput placeholder="" [(ngModel)]="value" value="">
                             </mat-form-field>{{'USD' | translate }}
                         </div>
 
                         <div>
                             <mat-form-field class="example-full-width">
-                                <mat-label>{{'Quantity' | translate }}</mat-label>
+                                <mat-label>{{'EXG price' | translate }}</mat-label>
+                                <input readonly matInput placeholder="" [(ngModel)]="price" value="">
+                            </mat-form-field>
+                            {{'USD' | translate }}
+                        </div>
+
+
+                        <div>
+                            <mat-form-field class="example-full-width">
+                                <mat-label>{{'EXG quantity' | translate }}</mat-label>
                                 <input readonly matInput placeholder="" [(ngModel)]="quantity" value="">
-                            </mat-form-field>EXG
+                            </mat-form-field>{{'piece' | translate}}
                         </div>
                     </div>
 
