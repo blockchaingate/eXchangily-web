@@ -20,14 +20,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { CampaignComponent } from './components/campaign/campaign.component';
 import { SharedModule } from '../shared/shared.module';
-import { ApplyAsMerchantComponent } from './components/apply-as-merchant/apply-as-merchant.component';
 import { OtcMerchantModule } from '../otc/components/otc-merchant/otc-merchant.module';
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
     TradeComponent, MerchantPipe, PaymentmethodComponent, ConfirmPaymentModal,
-    OtcPlaceOrderModal, ApplyForMerchantModal, OrderComponent, CampaignComponent, ApplyAsMerchantComponent
+    OtcPlaceOrderModal, ApplyForMerchantModal, OrderComponent, CampaignComponent
   ],
   imports: [
     CommonModule,

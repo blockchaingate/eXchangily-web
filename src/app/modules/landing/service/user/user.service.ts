@@ -1,5 +1,5 @@
 
-import {throwError as observableThrowError} from 'rxjs';
+import { throwError as observableThrowError } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { User } from '../../models/user';
 import { HttpService } from '../../../../services/http.service';
@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators/map';
 
 const path = environment.endpoints.blockchaingate + 'members/';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class UserService {
   constructor(private http: HttpService, private _appAuth: AppAuthService) {
   }
@@ -30,7 +30,7 @@ export class UserService {
       appId: this._appAuth.id
     };
 
-    return this.http.post(path + 'create', theBody).pipe(map(res => res));
+    return this.http.post(path + 'create', theBody).pipe(map(res => res, err => {alert(err); }));
   }
 
   // Get member

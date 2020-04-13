@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { UserAuth } from '../../../landing/service/user-auth/user-auth.service';
+import { UserAuth } from '../../../../landing/service/user-auth/user-auth.service';
 import { Router } from '@angular/router';
-import { UserService } from '../../../landing/service/user/user.service';
-import { User } from '../../../landing/models/user';
-import { Merchant } from '../../../../models/merchant';
-import { MerchantService } from '../../../../services/merchant.service';
+import { UserService } from '../../../../landing/service/user/user.service';
+import { User } from '../../../../landing/models/user';
+import { Merchant } from '../../../../../models/merchant';
+import { MerchantService } from '../../../../../services/merchant.service';
 import { observable } from 'rxjs';
 import { FormGroup, FormControl } from '@angular/forms';
 
