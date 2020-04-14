@@ -8,6 +8,10 @@
                 <img src="/images/star-light.svg">{{'Favorites'|translate}}
             </div>
 
+            <div class="nav-item hand" [class.selected]="select === 6" (click)="selectCat(6);">
+                <img class="coin-logo" src="/assets/coins/usdt.png"> &nbsp;<span class="align-middle">DUSD</span>
+            </div>
+
             <div class="nav-item hand" [class.selected]="select === 1" (click)="selectCat(1);">
                 <img class="coin-logo" src="/assets/coins/usdt.png"> &nbsp;<span class="align-middle">USDT</span>
             </div>

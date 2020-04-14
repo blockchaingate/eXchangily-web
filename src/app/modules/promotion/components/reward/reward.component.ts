@@ -62,6 +62,8 @@ export class RewardComponent implements OnInit {
   teamsRewards: number;
   totalEXG = 0;
   totalNextEXG = 0;
+  totalValue = 0;
+  totalQuantities = 0;
   extraEXG = 0;
   baseUrl: string;
   membership: string;
@@ -97,7 +99,7 @@ export class RewardComponent implements OnInit {
 
   data2Options: any = {
     donut: true,
-    showLabel: false
+    showLabel: true
   };
 
   options: IBarChartOptions = {
@@ -175,7 +177,7 @@ export class RewardComponent implements OnInit {
 
   getTotalEXGValue() {
     if(this.totalEXG) {
-      return Number((this.totalEXG * 0.25).toFixed(2));
+      return Number((this.totalEXG * 0.25).toFixed(0));
     }
     return 0;
   }
@@ -193,7 +195,8 @@ export class RewardComponent implements OnInit {
               console.log('res2=', res2);
               this.referralCode = res2._body.referralCode;
               this.membership = res2._body.membership;
-
+              this.totalQuantities = res2._body.totalQuantities;
+              this.totalValue = res2._body.totalValue;
               this.campaignorderServ.getRewards(token).subscribe(
                 (res3: any) => {
                   if(res3 && res3.ok) {
@@ -211,21 +214,25 @@ export class RewardComponent implements OnInit {
                       }
 
                       if(this.totalEXG) {
-                        this.totalEXG = Number(this.totalEXG.toFixed(2));
+                        this.totalEXG = Number(this.totalEXG.toFixed(0));
                       }
 
                       if(this.totalNextEXG) {
-                        this.totalNextEXG = Number(this.totalNextEXG.toFixed(2));
+                        this.totalNextEXG = Number(this.totalNextEXG.toFixed(0));
                       }    
                       if(this.totalNextEXG && this.totalNextEXG) {
-                        this.extraEXG = Number((this.totalNextEXG - this.totalEXG).toFixed(2));
+                        this.extraEXG = Number((this.totalNextEXG - this.totalEXG).toFixed(0));
                       }
                       
                       if(rewards && rewards.teamsRewards) {
                         this.teamsRewards = rewards.teamsRewards;
                         for(let i=0;i<rewards.team.length;i++) {
                           const t = rewards.team[i];
-                          this.data2.series.push(t.totalValueAdjustment ? t.totalValueAdjustment : t.totalValue);
+                          const percentage = Number(t.percentage.toFixed(0));
+                          if(percentage > 0) {
+                            this.data2.series.push(percentage);
+                          }
+                          
                         }
                       }
                       this.dataPersonal1 = { ...this.dataPersonal1 };

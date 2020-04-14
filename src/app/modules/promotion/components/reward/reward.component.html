@@ -1,41 +1,56 @@
 <div class="container py-3">
     <div class="row">
         <div class="col col-4 border-right text-center">
-            <div class="memer-type member-type-golden">
-                {{membership | translate}}{{' member' | translate }}
-            </div>
-
-            <div class="circle">
-                <div class="circle-text">
-                   {{totalEXG}} EXG 
+            <mat-card>
+                <div class="memer-type member-type-golden">
+                    {{membership | translate}}{{' member' | translate }}
                 </div>
-
-            </div>
-
-            <div>
-                {{getTotalEXGValue()}} {{'USD' | translate }}
-            </div>
-            <div *ngIf="referralCode && (membership != 'unqualified')" class="py-2">
                 <div>
-                    <!--
-                    <fa-icon [icon]="faFacebook"></fa-icon>
-                    <fa-icon [icon]="faTwitter"></fa-icon>
-                    -->
-                    {{'Referral code' | translate }}: {{referralCode}}
-                </div>
-                
+                    {{'My investment' | translate}}: {{totalValue}}
+                </div>   
                 <div>
-                    {{'Referral link' | translate}}: {{baseUrl}}/login/signup/{{referralCode}}
-                </div>
+                    {{'My EXG' | translate }}: {{totalQuantities}}
+                </div>       
                 
-            </div>
+                <div *ngIf="referralCode && (membership != 'unqualified')" class="py-2">
+                    <div>
+                        <!--
+                        <fa-icon [icon]="faFacebook"></fa-icon>
+                        <fa-icon [icon]="faTwitter"></fa-icon>
+                        -->
+                        {{'Referral code' | translate }}: {{referralCode}}
+                    </div>
+                    
+                    <div>
+                        {{'Referral link' | translate}}: {{baseUrl}}/login/signup/{{referralCode}}
+                    </div>
+                    
+                </div>                
+            </mat-card>
 
-            <div *ngIf="extraEXG">
-                {{'You can get' | translate}} {{extraEXG}} {{'more EXG tokens if you upgrade your membership' | translate}}
-            </div>
-            <div>
-                {{'Team rewards' | translate}}: {{teamsRewards}}
-            </div>
+            <mat-card class="mt-3">
+                <div class="memer-type member-type-golden">
+                    {{'My rewards' | translate }}
+                </div>
+                <div class="circle">
+                    <div class="circle-text">
+                    {{totalEXG}} EXG 
+                    </div>
+
+                </div>
+
+                <div>
+                    {{getTotalEXGValue()}} {{'USD' | translate }}
+                </div>
+
+
+                <div *ngIf="extraEXG">
+                    {{'You can get' | translate}} {{extraEXG}} {{'more EXG tokens if you upgrade your membership' | translate}}
+                </div>
+                <div>
+                    {{'Team rewards' | translate}}: {{teamsRewards}}
+                </div>
+            </mat-card>
         </div>
         <div class="col col-8">
 

@@ -20,8 +20,6 @@
 
 a h3 {
     color:blue;
-    
-}
-a h3:hover {
     text-decoration: underline;
 }
+
