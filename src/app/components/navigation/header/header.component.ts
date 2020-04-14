@@ -102,11 +102,6 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  ngOnDestroy() {
-  }
-
-
-
   linkTo(url: string) {
     this.router.navigate([url]);
   }

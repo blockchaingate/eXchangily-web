@@ -9,31 +9,35 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
-
-import { OtcMerchantComponent } from './otc-merchant.component';
-import { ApplyAsMerchantComponent } from './apply-as-merchant/apply-as-merchant.component';
-import { ListingComponent } from './listing/listing.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { OtcMerchantRoutingModule } from './otc-merchant-routing.module';
+
+import { MerchantService } from '../../../../services/merchant.service';
+import { OtcMerchantComponent } from './otc-merchant.component';
+import { MerchantApplicationComponent } from './merchant-application/merchant-application.component';
+import { ListingComponent } from './listing/listing.component';
 
 @NgModule({
     declarations: [
         OtcMerchantComponent,
         ListingComponent,
-        ApplyAsMerchantComponent
+        MerchantApplicationComponent
     ],
     imports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
         FontAwesomeModule,
-        MatSelectModule,
+        MatSelectModule, 
         MatRadioModule,
         MatButtonModule,
         MatIconModule,
         MatCardModule,
         TranslateModule,
         MatInputModule,
+        OtcMerchantRoutingModule,
         ModalModule
-    ]
+    ],
+    providers: [MerchantService]
 })
 export class OtcMerchantModule { }

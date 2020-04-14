@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
+
 import { UserService } from '../../../service/user/user.service';
 import { UserAuth } from '../../../service/user-auth/user-auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StorageService } from '../../../../../services/storage.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from '../../../models/user';
-// import { getMatScrollStrategyAlreadyAttachedError } from '@angular/cdk/overlay/typings/scroll/scroll-strategy';
 
 @Component({
   selector: 'app-signin',
@@ -14,7 +15,7 @@ import { User } from '../../../models/user';
   styleUrls: ['../style.scss']
 })
 export class SigninComponent implements OnInit {
-  private afterLoginUrl = '/member/profile';
+  private afterLoginUrl: string;
   public submitted: boolean;
   private isSystemAdmin: boolean;
   loginError: string;
@@ -25,15 +26,15 @@ export class SigninComponent implements OnInit {
 
   get password() { return this.signinForm.get('password'); }
 
-  constructor(
-    private _router: Router,
-    private _userService: UserService,
-    private _userAuth: UserAuth,
-    private _storageServ: StorageService
-  ) {
+  constructor(private _router: Router, private _route: ActivatedRoute, private _userService: UserService, private _userAuth: UserAuth,
+    private _storageServ: StorageService) {
   }
 
   ngOnInit() {
+    this._route.params.subscribe(params => {
+      this.afterLoginUrl = params['retUrl'];
+    });
+
     console.log('token=', this._userAuth.token);
     this.isSystemAdmin = false;
     if (!this._userAuth.token) {
@@ -111,9 +112,9 @@ export class SigninComponent implements OnInit {
       this._userAuth.hasMerchant = true;
     }
 
-    const toUrl = sessionStorage.__AfterLoginUrl ? sessionStorage.__AfterLoginUrl : this.afterLoginUrl;
-
-    if (this.isSystemAdmin) {
+    if (this.afterLoginUrl) {
+      this._router.navigate([this.afterLoginUrl]);
+    } else if (this.isSystemAdmin) {
       this._router.navigate(['/admin']);
     } else {
       this._router.navigate(['/account/user-info']);
