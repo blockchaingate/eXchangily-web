@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { OtcMerchantComponent } from './otc-merchant.component';
-import { ApplyAsMerchantComponent } from './apply-as-merchant/apply-as-merchant.component';
+import { MerchantApplicationComponent } from './merchant-application/merchant-application.component';
 
 const routes: Routes = [
-  { path: 'apply-to-be-merchant', component: ApplyAsMerchantComponent },
+  { path: 'merchant-application', component: MerchantApplicationComponent },
   { path: '', component: OtcMerchantComponent },
 ];
 
@@ -12,4 +12,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class OtcRoutingModule { }
+export class OtcMerchantRoutingModule {}

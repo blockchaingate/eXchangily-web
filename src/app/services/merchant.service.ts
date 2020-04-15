@@ -7,7 +7,7 @@ import { HttpService } from '../services/http.service';
 import { app } from '../modules/landing/app.constants';
 import { Merchant } from '../models/merchant';
 
-const path = environment.endpoints.blockchaingate + 'merchant/';
+const path = environment.endpoints.blockchaingate + 'merchants/';
 
 @Injectable()
 export class MerchantService {
@@ -32,8 +32,8 @@ export class MerchantService {
   }
 
   // Find multiple merchants
-  find(mermberId) {
-    return this.http.get(path + 'find/' + mermberId, true).pipe(map(res => <Merchant>res));
+  find(mermberId: string) {
+    return this.http.get(path + 'find/' + mermberId, true).pipe(map(res => <Merchant[]>res));
   }
 
   // Update merchnat
