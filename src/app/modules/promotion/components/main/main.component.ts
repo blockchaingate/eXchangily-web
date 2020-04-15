@@ -12,6 +12,7 @@ import {StorageService} from '../../../../services/storage.service';
 import BigNumber from 'bignumber.js/bignumber';
 import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { CampaignOrderService } from '../../../../services/campaignorder.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -58,7 +59,8 @@ export class MainComponent implements OnInit {
   currencies: string[] = ['USD', 'CAD', 'RMB', 'DUSD', 'USDT'];
   methods = {
     'USD': [
-      'E-transfer'
+      'By Cash App',
+      'Wire to eXchangily bank account'
     ],
     'CAD': [
       'E-transfer'
@@ -79,6 +81,7 @@ export class MainComponent implements OnInit {
   };
 
   constructor(
+    private router: Router,
     private timerServ: TimerService,
     private storageService: StorageService,
     private walletService: WalletService, 
@@ -145,6 +148,7 @@ export class MainComponent implements OnInit {
             this.readyGoReasons = [];
           }
           this.readyGoReasons.push('NotLogin');
+          this.router.navigate(['/login/signin']);
         } else {
           this.readyGo = true;
           this.token = token;     
@@ -154,6 +158,8 @@ export class MainComponent implements OnInit {
               if(res && res.ok) {
                 this.orders = res._body;
   
+              } else {
+                this.router.navigate(['/login/signin']);
               }
             }
           );

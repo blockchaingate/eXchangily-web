@@ -188,14 +188,14 @@
                     <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedPaymentCurrency">
     
                         <mat-radio-button class="example-radio-button d-block" *ngFor="let currency of currencies" (click)="selectCurrency(currency)" [value]="currency">
-                            {{currency}}
+                            {{currency | translate}}
                         </mat-radio-button>
                     </mat-radio-group>
         
                     <label id="method-radio-group-label" *ngIf="submethods">{{'Payment Method' | translate }}</label>
                     <mat-radio-group *ngIf="submethods" aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedPaymentMethod">
                         <mat-radio-button class="example-radio-button" *ngFor="let method of submethods" [value]="method">
-                            {{method}}
+                            {{method | translate}}
                         </mat-radio-button>
                     </mat-radio-group>
                     
@@ -203,7 +203,19 @@
                         <div>{{'Official Name' | translate}}:exchangily</div>
                         <div>{{'Email' | translate}}:info@exchangily.com</div>
                     </div>
-    
+
+                    <div *ngIf="selectedPaymentMethod == 'By Cash App'">
+                        <div>
+                            <a target="_blank" href="https://cash.app/app/RDKTFGD?from=groupmessage&isappinstalled=0">Cash App</a>
+                        </div>
+                    </div>  
+                    
+                    <div *ngIf="selectedPaymentMethod == 'Wire to eXchangily bank account'">
+                        <div>{{'Bank' | translate}}: KeyBank</div>
+                        <div>{{'Routing Number' | translate}}: 041001039</div>
+                        <div>{{'Account Number' | translate}}: 350211024087</div>
+                        <div>{{'SWIFT code' | translate}}: keybus33 </div>          
+                    </div>
                     <div *ngIf="selectedPaymentMethod == 'Wechat'">
                         <div>{{'Official Name' | translate}}:exchangily</div>
                     </div>
@@ -217,8 +229,8 @@
                         <div>{{'Official Account' | translate}}:888888888888</div>
                     </div> 
     
-                    <div *ngIf="payableAmount">
-                        <div>{{'Payable Amount' | translate}}:{{payableAmount}} {{selectedPaymentCurrency}}</div>
+                    <div *ngIf="payableAmount" class="py-2">
+                        <div>{{'Payable Amount' | translate}}:{{payableAmount}} {{selectedPaymentCurrency | translate}}</div>
                     </div>
                     
                     <div class="d-flex" *ngIf="(selectedPaymentCurrency=='USDT') || (selectedPaymentCurrency=='DUSD')">

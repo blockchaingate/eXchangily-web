@@ -18,7 +18,7 @@
     height: auto;
 }
 
-a h3 {
+a, a h3 {
     color:blue;
     text-decoration: underline;
 }
