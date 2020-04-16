@@ -41,9 +41,9 @@ export class MerchantApplicationComponent implements OnInit {
 
                         this.submited = true;
                         if (this.merchant.otcApproved) {
-                            this.msg = 'Your merchant account is active already.';
+                            this._router.navigate(['/otc/otc-merchant']);
                         } else {
-                            this.msg = 'Your merchant accoutn is under review currently, please check later.';
+                            this.msg = 'Your merchant account is under review currently, please check later.';
                         }
                     } else {
                         this._mcServ.find(this.user._id).subscribe(
@@ -51,9 +51,9 @@ export class MerchantApplicationComponent implements OnInit {
                                 this.submited = true;
                                 const merchants = <Merchant[]>rets;
                                 if (merchants[0].otcApproved) {
-                                    this.msg = 'Your merchant account is active already.';
+                                    this._router.navigate(['/otc/otc-merchant']);
                                 } else {
-                                    this.msg = 'Your merchant accoutn is under review currently, please check later.';
+                                    this.msg = 'Your merchant account is under review currently, please check later.';
                                 }        
                             },
                             err => {}

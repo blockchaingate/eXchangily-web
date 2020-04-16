@@ -3,7 +3,7 @@
   "appname": "eXchangily",
   "appid": "5b6a8688905612106e976a69",
   "endpoint": "https://exchangily.com",
-  "testEndpoint": "http://localhost:3002",
+  "testEndpoint": "https://test.blockchaingate.com/v2/",
 
   "kanban-apis": [],
   "kanban-test-apis": ["http://localhost:3000/kanban/" ],

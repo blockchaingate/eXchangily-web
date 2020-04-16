@@ -948,10 +948,11 @@
     "Passwords do not match.": "密码不一致",
     "New Password": "新密码",
     "Investment amount": "投资数额",
-    "EXG price": "亿币市价",    
-    "EXG quantity": "亿币数量",   
-    "piece": "枚",    
+    "EXG price": "亿币市价",
+    "EXG quantity": "亿币数量",
+    "piece": "枚",
     "My investment": "我的投资",
+<<<<<<< HEAD
     "My EXG": "我的亿币",   
     "By Cash App": "Cash App", 
     "Bank": "开户行",
@@ -959,6 +960,9 @@
     "Routing Number": "路由号码",
     "SWIFT code": "SWIFT代码",    
     "Wire to eXchangily bank account": "电汇到亿币银行账户",
+=======
+    "My EXG": "我的亿币",
+>>>>>>> ed04217a5390ecbe4f7306b608a0f9498927c704
     "Minimum of 5 characters required": "最少5个字节",
     "Please Change Your Password": "请修改密码",
     "Change Password": "修改密码",
@@ -1009,5 +1013,7 @@
     "Campaign Disqualification Detail li 2": "取消购买者资格不影响推荐人的身份。",
     "Campaign Disqualification Detail li 3": "如果钻石会员有5个有效的推荐订户，但其中1个被取消资格并丧失其奖励权益，则推荐人不会降级为金牌。 此外，推荐人不会在不合格的推荐中获得奖励，但会继续在不合格的购买者网络中获得奖励。",
     "Campaign Disqualification Detail line 2": "*对于美国和加拿大公民，目前仅允许合格的投资者参加该活动",
-    "Your kyc has problem, please submit a new one": "您没提交身份认证或身份认证不合格，请重新提交。"
+    "Your kyc has problem, please submit a new one": "您没提交身份认证或身份认证不合格，请重新提交。",
+    "Listing": "挂单",
+    "OTC Merchant": "法币交易商家"
 }

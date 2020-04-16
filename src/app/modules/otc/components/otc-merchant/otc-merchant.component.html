@@ -1,11 +1,16 @@
-<div>
-    <div>OTC Management</div>
-    <div>
-        <div>
-            My listings
+<div class="container py-3">
+    <div class="row border-bottom py-2">
+        <div class="col col-12">
+            <b>{{'OTC Merchant' | translate}}</b>
         </div>
-        <div>
-            New
-        </div>
+    </div>
+
+    <div class="row py-2">
+        <a class="nav-link" href="/otc/otc-merchant/listing">{{'Listing' | translate}}</a>
+        <a class="nav-link" href="/otc/otc-merchant/orders">{{'Orders' | translate}}</a>
+    </div>
+
+    <div class="row py-2 border">
+        <router-outlet></router-outlet>
     </div>
 </div>
