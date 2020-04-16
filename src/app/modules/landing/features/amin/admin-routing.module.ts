@@ -12,6 +12,7 @@ import { KycComponent } from './kyc/kyc.component';
 import { KycsComponent } from './kyc/kycs.component';
 import { TokenlockComponent } from './tokenlock/tokenlock.component';
 import { CampaignOrdersComponent } from './campaign-orders/campaign-orders.component';
+import { MerchantComponent } from './merchant/merchant.component';
 
 const routes: Routes = [
     {
@@ -28,6 +29,10 @@ const routes: Routes = [
             path: 'addcoin',
             component: AddcoinComponent
         },
+        {
+            path: 'merchant',
+            component: MerchantComponent
+        },        
         {
             path: 'order-edit/:id',
             component: OrderEditComponent

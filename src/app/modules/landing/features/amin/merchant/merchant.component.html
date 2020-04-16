@@ -1,0 +1,22 @@
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Email</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let merchant of merchants">
+        <td>{{merchant.name}}</td>
+        <td>{{merchant.phone}}</td>
+        <td>{{merchant.email}}</td>
+
+        <td>
+          {{merchant.otcApproved ? 'Approved' : 'Not Approved'}}
+          <button mat-raised-button color="primary" *ngIf="!merchant.otcApproved" (click)="approve(merchant)">Confirm</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>

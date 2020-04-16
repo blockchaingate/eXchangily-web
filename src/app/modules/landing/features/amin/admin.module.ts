@@ -12,6 +12,7 @@ import { ReferralModule } from '../account/referrals/referrals.module';
 
 import { AdminComponent } from './admin.component';
 import { AddcoinComponent } from './coin/addcoin.component';
+import { MerchantComponent } from './merchant/merchant.component';
 import { OrderEditComponent } from './order/order-edit.component';
 import { CampaignOrdersComponent } from './campaign-orders/campaign-orders.component';
 import { OrderManagementComponent } from './order/order-mngmt.component';
@@ -19,6 +20,7 @@ import { KycComponent } from './kyc/kyc.component';
 import { KycsComponent } from './kyc/kycs.component';
 import { AdminRoutingModule } from './admin-routing.module';
 import { CampaignOrderService } from '../../service/campaignorder/campaignorder.service';
+import { MerchantService } from '../../service/../../../services/merchant.service';
 import { OrderItemComponent } from './order/order-item.component';
 import { TokenlockService } from '../../service/tokenlock/tokenlock.service';
 import { TokenlockComponent } from './tokenlock/tokenlock.component';
@@ -37,7 +39,7 @@ import {MatButtonModule} from '@angular/material/button';
     MatButtonModule,
     MatDialogModule
   ],
-  providers: [AuthGuard, NoAuthGuard, TokenlockService, CampaignOrderService],
+  providers: [AuthGuard, NoAuthGuard, TokenlockService, CampaignOrderService, MerchantService],
   declarations: [
     AdminComponent,
     AddcoinComponent,
@@ -45,6 +47,7 @@ import {MatButtonModule} from '@angular/material/button';
     CampaignOrdersComponent,
     OrderManagementComponent,
     KycComponent,
+    MerchantComponent,
     KycsComponent,
     OrderItemComponent,
     TokenlockComponent

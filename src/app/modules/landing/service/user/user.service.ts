@@ -75,6 +75,11 @@ export class UserService {
     return this.http.get(path + id, true).pipe(map(res => res));
   }
 
+  getMe(token) {
+    const url = path + 'me';
+    return this.http.getPrivate(url, token).pipe(map(res => res));
+  }
+
   getUsersAll() {
     return this.http.post(path + 'getAll', {}, true).pipe(map(res => res));
   }
