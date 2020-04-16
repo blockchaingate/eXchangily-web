@@ -33,6 +33,12 @@ export class ListingComponent implements OnInit {
     changeCoinName(bOrA: boolean, coin: string) {
         this.bidOrAsk = bOrA;
         this.coinName = coin;
+
+
         // console.log('this.coinName = ', this.coinName);
+    }
+
+    getCoinAvailable(coin: string) {
+
     }
 }

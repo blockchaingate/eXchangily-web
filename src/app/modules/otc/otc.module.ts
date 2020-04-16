@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AuthGuard } from '../landing/guards/auth/auth.guard';
 import { TradeComponent } from './components/trade/trade.component';
 import { OtcRoutingModule } from './otc-routing.module';
 import { MatSelectModule } from '@angular/material/select';
@@ -43,6 +44,7 @@ import { TranslateModule } from '@ngx-translate/core';
     OtcRoutingModule,
     ModalModule,
     OtcMerchantModule
-  ]
+  ],
+  providers: [AuthGuard]
 })
 export class OtcModule { }

@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
 import { TranslateModule } from '@ngx-translate/core';
 import { OtcMerchantRoutingModule } from './otc-merchant-routing.module';
 
@@ -33,6 +34,7 @@ import { ListingComponent } from './listing/listing.component';
         MatButtonModule,
         MatIconModule,
         MatCardModule,
+        MatMenuModule,
         TranslateModule,
         MatInputModule,
         OtcMerchantRoutingModule,
