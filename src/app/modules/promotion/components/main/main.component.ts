@@ -13,6 +13,7 @@ import BigNumber from 'bignumber.js/bignumber';
 import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { CampaignOrderService } from '../../../../services/campaignorder.service';
 import { Router } from '@angular/router';
+import { ApiService } from '../../../../services/api.service';
 
 @Component({
   selector: 'app-main',
@@ -87,6 +88,7 @@ export class MainComponent implements OnInit {
     private walletService: WalletService, 
     private alertServ: AlertService, 
     public utilServ: UtilService,
+    private apiServ: ApiService,
     private campaignorderServ: CampaignOrderService,
     private coinService: CoinService
   ) { }
@@ -136,6 +138,15 @@ export class MainComponent implements OnInit {
     );    
   }
   async ngOnInit() {
+    this.apiServ.getUSDValues().subscribe(
+      (res:any) => {
+        console.log('res for getUSDValues=', res);
+        if(res.success) {
+          this.prices = res.data;
+          this.price = this.prices.EXG.USD;
+        }
+      }
+    );
     this.readyGo = true;
     this.step = 1;
     this.wallet = await this.walletService.getCurrentWallet();

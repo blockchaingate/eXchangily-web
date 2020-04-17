@@ -29,6 +29,11 @@ export class ApiService {
         return response;        
     }
 
+    getUSDValues() {
+        const url = 'https://kanbanprod.fabcoinapi.com/USDvalues';
+        return this.http.get(url);
+    }
+    
     getBtcTransFeeEstimate() {
         const url = environment.endpoints.BTC.exchangily + 'getfeeestimate';
         return this.http.get(url);
