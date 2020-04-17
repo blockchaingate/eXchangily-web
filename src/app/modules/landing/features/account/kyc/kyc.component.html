@@ -109,20 +109,14 @@
                         <p>{{ 'Account.KYC.KYCForm.AccreditedInvestorVerification.Desc' | translate }}</p>
                     </div>
                 </div>
-
+<!--
                 <div *ngIf="couldBeAccredited && kGet('accreditedInvestor') && kGet('accreditedInvestor').value === 'true'">
                     <div class="form-input__field-wrap">
-                        <!--
-        <a href="/assets/pdfs/saft-agreement.pdf" target="_blank">
-          <div class="kyc__pdf--image"></div>
-          <p>{{ 'Account.KYC.KYCForm.SAFT.Desc' | translate }}</p>
-        </a>
-      -->
                         <label for="saftAgreement" class="form-input__text__label block">{{ 'Account.KYC.KYCForm.SAFT.Button' | translate }}</label>
                         <input type="file" name="saftAgreement" (change)="photoUpload($event.target.files, 'saftAgreement')" class="form-input__file" formControlName="saftAgreement">
                     </div>
                 </div>
-
+-->
                 <br/>
 
                 <div fxLayout="row" fxLayout.lt-md="column">

@@ -258,7 +258,7 @@
                     "Question": "您是合资格投资人吗？",
                     "Yes": "是",
                     "No": "否",
-                    "Desc": "如果是，请上传可以证明您资格投资人身份的文件",
+                    "Desc": "如果是，请根据要求提供一些文件以帮助确认您的认可投资者身份",
                     "Button": "上传文件"
                 },
                 "SAFT": {
@@ -952,7 +952,6 @@
     "EXG quantity": "亿币数量",
     "piece": "枚",
     "My investment": "我的投资",
-<<<<<<< HEAD
     "My EXG": "我的亿币",   
     "By Cash App": "Cash App", 
     "Bank": "开户行",
@@ -960,9 +959,6 @@
     "Routing Number": "路由号码",
     "SWIFT code": "SWIFT代码",    
     "Wire to eXchangily bank account": "电汇到亿币银行账户",
-=======
-    "My EXG": "我的亿币",
->>>>>>> ed04217a5390ecbe4f7306b608a0f9498927c704
     "Minimum of 5 characters required": "最少5个字节",
     "Please Change Your Password": "请修改密码",
     "Change Password": "修改密码",

@@ -259,7 +259,7 @@
                     "Question": "Are you an accredited investor?",
                     "Yes": "Yes",
                     "No": "No",
-                    "Desc": "If yes, please upload any documents to help confirm your accredited investor status.",
+                    "Desc": "If yes, please provide some documents to help confirm your accredited investor status upon request.",
                     "Button": "Upload File"
                 },
                 "SAFT": {
