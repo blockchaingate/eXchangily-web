@@ -62,7 +62,7 @@ export const environment = {
             FABLOCK: '0x04baa04d9550c49831427c6abe16def2c579af4a',
             EXG: '0xa3e26671a38978e8204b8a37f1c2897042783b00',
             USDT: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-            DUSD: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed'
+            DUSD: '0x46e0021c17d30a2db972ee5719cdc7e829ed9930'
         },
         exchangilyOfficial: [
             { name: 'EXG', address: '0x9d95ee21e4f1b05bbfd0094daf4ce110deb00931' },
@@ -73,8 +73,8 @@ export const environment = {
             { name: 'DUSD', address: '0x9d95ee21e4f1b05bbfd0094daf4ce110deb00931' }
         ],
         promotionOfficial: {
-            USDT: '',
-            DUSD: '',
+            USDT: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
+            DUSD: '0x6ced34107a815b7539397c2e3ac109d04f0e0949',
             BTC: '',
             ETH: '',
             FAB: ''

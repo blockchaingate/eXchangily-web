@@ -376,6 +376,8 @@ export class ApiService {
     async getFabTokenBalance(name: string, address: string) { 
         const contractAddress = environment.addresses.smartContract[name];
         let fxnCallHex = this.web3Serv.getFabTokenBalanceOfABI([address]);
+        console.log('name=', name);
+        console.log('fxnCallHex there we go=', fxnCallHex);
         fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex); 
         const response = await this.fabCallContract(contractAddress, fxnCallHex);    
         let balance = 0;
