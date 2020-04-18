@@ -533,10 +533,8 @@
     "Slid2Content": "亿币是完全去中心化的高性能数字货币交易所，用户完全拥有自己的数字资产控制权，绝对安全、放心。",
     "Slid3Title": "不一样的体验，不一样的机遇",
     "Slid3Content": "全新的自主化平台意味着全新的机遇，详细了解这一划时代平台的性能，您有可能获得前所未的机遇。",
-
     "TopSologan": "一站式全功能万用数字资产保管交易理财利器",
     "TopSloganContent": "多功能全币种万用数字货币钱包，带高性能去中心化交易功能，支持数字资产的保管、交易、支付及自助理财，这一切都是在您对您的财富完全掌控下进行，无需进行第三方托管。高效、安全、方便、自主，重新定义财富规则，亿币开创新时代。",
-
     "Announcement": {
         "01": "亿币去中心化数字货币交易所2019年7月1日正式上线运营",
         "02": "BTC、ETH、ETC、LTC、USDT、FAB、EXG等币种率先上线交易"
@@ -550,7 +548,6 @@
     "H24H": "24小时最高",
     "H24L": "24小时最低",
     "Vol24": "24小时交易量",
-
     "Create Wallet": "创建新钱包",
     "Restore Wallet": "恢复旧钱包",
     "Backup Wallet Seed Phrases": "妥善记录并保存好下列助记词",
@@ -574,7 +571,6 @@
     "Import Wallet": "恢复钱包",
     "Dashboard": "资产中心",
     "My Wallet": "我的钱包",
-
     "Receive": "收款",
     "Currency": "币种",
     "Wallet address": "钱包地址",
@@ -584,7 +580,6 @@
     "Transaction History": "交易历史",
     "Add Assets": "增加资产",
     "Refresh Assets": "刷新资产",
-
     "Symbol": "符号",
     "Asset": "资产",
     "Add Gas": "加燃料",
@@ -952,12 +947,12 @@
     "EXG quantity": "亿币数量",
     "piece": "枚",
     "My investment": "我的投资",
-    "My EXG": "我的亿币",   
-    "By Cash App": "Cash App", 
+    "My EXG": "我的亿币",
+    "By Cash App": "Cash App",
     "Bank": "开户行",
     "Account Number": "账号",
     "Routing Number": "路由号码",
-    "SWIFT code": "SWIFT代码",    
+    "SWIFT code": "SWIFT代码",
     "Wire to eXchangily bank account": "电汇到亿币银行账户",
     "Minimum of 5 characters required": "最少5个字节",
     "Please Change Your Password": "请修改密码",
