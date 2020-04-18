@@ -81,11 +81,11 @@ export const environment = {
             { name: 'DUSD', address: '0xdcd0f23125f74ef621dfa3310625f8af0dcd971b'}
         ],
         promotionOfficial: {
-            USDT: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
-            DUSD: '0x6ced34107a815b7539397c2e3ac109d04f0e0949',
-            BTC: '',
-            ETH: '',
-            FAB: ''
+            USDT: '0x4e93c47b42d09f61a31f798877329890791077b2',
+            DUSD: '0xcdd40948208b0098b6a51e69d945de4692766ef3',
+            BTC: '1MczhymXZcpCyzuAe3DQrVafhTsaQyDo5U',
+            ETH: '0x4e93c47b42d09f61a31f798877329890791077b2',
+            FAB: '1KmKXs2vBMd367ifzY75JCUCbBW8sV1n4w'
         }       
     },
     websockets: {
