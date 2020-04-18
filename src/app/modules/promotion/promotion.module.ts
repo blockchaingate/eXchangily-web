@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { PromotionRoutingModule } from './promotion-routing.module';
 import { IndexComponent } from './components/index/index.component';
 import { MainComponent } from './components/main/main.component';
+import { FlyerComponent } from './components/flyer/flyer.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatRadioModule} from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
@@ -17,9 +18,10 @@ import { CampaignOrderService } from '../../services/campaignorder.service';
 import { ChartistModule } from 'ng-chartist';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatDialogModule} from '@angular/material/dialog';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
-  declarations: [IndexComponent, MainComponent, RewardComponent],
+  declarations: [IndexComponent, MainComponent, RewardComponent, FlyerComponent],
   imports: [
     CommonModule, 
     MatCardModule,
@@ -32,6 +34,7 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatIconModule,
     FontAwesomeModule,
     ChartistModule,
+    QRCodeModule,
     MatDialogModule,
     MatExpansionModule,
     PromotionRoutingModule
