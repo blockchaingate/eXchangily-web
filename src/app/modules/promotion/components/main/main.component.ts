@@ -67,7 +67,7 @@ export class MainComponent implements OnInit {
       'E-transfer'
     ],
     'RMB': [
-      'Wechat', 'Alipay', 'Direct transfer'
+      'Direct transfer'
     ],
     'DUSD': null,    
     'USDT': null            
