@@ -57,7 +57,7 @@ export class MainComponent implements OnInit {
 
   selectedPaymentMethod: string;
   @ViewChild('pinModal', {static: true}) pinModal: PinNumberModal;
-  currencies: string[] = ['USD', 'RMB', 'DUSD', 'USDT'];
+  currencies: string[] = ['USD', 'RMB', 'DUSD', 'USDT', 'FAB', 'BTC', 'ETH'];
   methods = {
     'USD': [
       'By Cash App',
@@ -70,15 +70,21 @@ export class MainComponent implements OnInit {
       'Direct transfer'
     ],
     'DUSD': null,    
-    'USDT': null            
+    'USDT': null,
+    'FAB': null,
+    'BTC': null,
+    'ETH': null            
   };
   submethods: any;
   prices = {
     "CAD":{"USD":0.71},
     "RMB":{"USD":0.14},
-    "EXG":{"USD":0.25},
+    "EXG":{"USD":0.26},
     "USDT":{"USD":1.0},
-    "DUSD": {"USD": 1.0}
+    "DUSD": {"USD": 1.0},
+    "FAB": {"USD": 0.063272},
+    "BTC": {"USD": 7250},
+    "ETH": {"USD": 183.85}
   };
 
   constructor(
