@@ -375,7 +375,10 @@ export class MainComponent implements OnInit {
     */
     if(
       (this.selectedPaymentCurrency == 'USDT') ||
-      (this.selectedPaymentCurrency == 'DUSD')
+      (this.selectedPaymentCurrency == 'DUSD') ||
+      (this.selectedPaymentCurrency == 'FAB') ||
+      (this.selectedPaymentCurrency == 'BTC') ||
+      (this.selectedPaymentCurrency == 'ETH')
       // ('USDT,DUSD'.indexOf(this.selectedPaymentCurrency) >= 0)
       ) {
       this.pinModal.show();
