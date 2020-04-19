@@ -83,9 +83,9 @@ export const environment = {
         promotionOfficial: {
             USDT: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
             DUSD: '0x6ced34107a815b7539397c2e3ac109d04f0e0949',
-            BTC: '',
-            ETH: '',
-            FAB: ''
+            BTC: 'muQDw5hVmFgD1GrrWvUt6kjrzauC4Msaki',
+            ETH: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
+            FAB: 'n1eXG5oe6wJ6h43akutyGfphqQsY1UfAUR`'
         }       
     },
     websockets: {
