@@ -78,7 +78,7 @@ export const environment = {
             BTC: '1MczhymXZcpCyzuAe3DQrVafhTsaQyDo5U',
             ETH: '0x4e93c47b42d09f61a31f798877329890791077b2',
             FAB: '1KmKXs2vBMd367ifzY75JCUCbBW8sV1n4w'
-        }   
+        }       
     },
     websockets: {
         allprices: 'wss://kanbanprod.fabcoinapi.com/ws/allprices',
