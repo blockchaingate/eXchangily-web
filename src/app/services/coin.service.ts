@@ -974,7 +974,10 @@ export class CoinService {
             let contractAddress = mycoin.contractAddr;
             if (mycoin.name === 'EXG') {
                 contractAddress = environment.addresses.smartContract.EXG;
+            } else if (mycoin.name === 'DUSD') {
+                contractAddress = environment.addresses.smartContract.DUSD;
             }
+
             //const keyPair = this.getKeyPairs(mycoin, seed, 0, 0);
             
             //contractAddress = '0x28a6efffaf9f721a1e95667e3de54c622edc5ffa';
