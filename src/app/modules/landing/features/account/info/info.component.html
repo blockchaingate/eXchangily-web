@@ -11,7 +11,7 @@
 
       <div fxFlex="6em">
         <label class="form-input__text__label">{{ 'Account.Referrals.Page.ReferralOrderList.ListFields.Field6' | translate }}</label>
-        <p>{{ data.pointsEarned }}</p>
+        <p>{{ data ? data.pointsEarned : 0}}</p>
       </div>
 
       <div fxFlex="26em">
