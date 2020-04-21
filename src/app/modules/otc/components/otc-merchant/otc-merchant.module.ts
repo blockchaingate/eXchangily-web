@@ -14,6 +14,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { OtcMerchantRoutingModule } from './otc-merchant-routing.module';
 
 import { MerchantService } from '../../../../services/merchant.service';
+import { OtcService } from '../../../../services/otc.service';
 import { OtcMerchantComponent } from './otc-merchant.component';
 import { MerchantApplicationComponent } from './merchant-application/merchant-application.component';
 import { ListingComponent } from './listing/listing.component';
@@ -40,6 +41,6 @@ import { ListingComponent } from './listing/listing.component';
         OtcMerchantRoutingModule,
         ModalModule
     ],
-    providers: [MerchantService]
+    providers: [MerchantService, OtcService]
 })
 export class OtcMerchantModule { }
