@@ -114,6 +114,11 @@ export class MainComponent implements OnInit {
 
   }
   updateAdd() {
+    console.log('this.exgAddress=', this.exgAddress);
+    if(!this.exgAddress) {
+      this.alertServ.openSnackBar('EXG address not found', 'Ok');
+      return;
+    }
     this.campaignorderServ.importEXGAddress(this.token, this.exgAddress).subscribe(
       (res: any) => {
         console.log('res=', res);
@@ -146,6 +151,9 @@ export class MainComponent implements OnInit {
     );
   }
   async ngOnInit() {
+
+
+
     this.apiServ.getUSDValues().subscribe(
       (res: any) => {
         console.log('res for getUSDValues=', res);
@@ -169,6 +177,16 @@ export class MainComponent implements OnInit {
           this.readyGoReasons.push('NotLogin');
           this.router.navigate(['/login/signin']);
         } else {
+
+          let exgAddress = '';
+          for (let i = 0; i < this.wallet.mycoins.length; i++) {
+            const coin = this.wallet.mycoins[i];
+            if (coin.name === 'EXG') {
+              exgAddress = coin.receiveAdds[0].address;
+            }
+          }
+          this.exgAddress = exgAddress;
+                    
           this.readyGo = true;
           this.token = token;
           this.campaignorderServ.getOrders(token).subscribe(
@@ -194,15 +212,8 @@ export class MainComponent implements OnInit {
                 if (!walletExgAddress) {
                   this.readyGo = false;
                 } else {
-                  let exgAddress = '';
-                  for (let i = 0; i < this.wallet.mycoins.length; i++) {
-                    const coin = this.wallet.mycoins[i];
-                    if (coin.name === 'EXG') {
-                      exgAddress = coin.receiveAdds[0].address;
-                    }
-                  }
-                  this.exgAddress = exgAddress;
-                  if (exgAddress !== walletExgAddress) {
+
+                  if (this.exgAddress !== walletExgAddress) {
                     this.readyGo = false;
                   }
                 }
