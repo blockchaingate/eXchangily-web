@@ -110,7 +110,7 @@ export class MainComponent implements OnInit {
     if (this.step === 1) {
       this.step = 2;
     } else {
-      this.buyConfirm();
+      this.buyConfirm(this._value, this.quantity);
     }
   }
 
@@ -133,9 +133,11 @@ export class MainComponent implements OnInit {
       }
     );
   }
+
   markedAsPaid(order) {
     this.showMarkedAsPaidId = order._id;
   }
+
   confirmMarkedAsPaid(order) {
     const order_id = order._id;
     this.campaignorderServ.confirmMarkedAsPaid(this.token, order_id, this.comment).subscribe(
@@ -154,6 +156,7 @@ export class MainComponent implements OnInit {
       }
     );
   }
+
   async ngOnInit() {
     this.apiServ.getUSDValues().subscribe(
       (res: any) => {
@@ -345,19 +348,19 @@ kyc = 100;
       value: Number,
       paymentDesc: String,
   */
-  addOrder(txid: string) {
+
+  addOrder(txid: string, amount: number, qty: number) {
     const coinorder = {
       campaignId: 1,
       payCurrency: this.selectedPaymentCurrency,
       payMethod: this.selectedPaymentMethod,
       price: this.price,
       payableValue: this.payableAmount,
-      quantity: this.quantity,
-      amount: Number(this._value),
+      quantity: qty,
+      amount: amount,
       txId: txid,
       token: this.token
     };
-
     this.campaignorderServ.addOrder(coinorder).subscribe(
       (res: any) => {
         if (res.ok) {
@@ -379,7 +382,8 @@ kyc = 100;
       }
     );
   }
-  buyConfirm() {
+
+  buyConfirm(amt: number, qty: number) {
     /*
     if (!this.currentCoin) {
       this.alertServ.openSnackBar('Invalid coin type', 'Ok');
@@ -414,7 +418,7 @@ kyc = 100;
     } else {
       this.value = 0;
       this.step = 1;
-      this.addOrder('');
+      this.addOrder('', amt, qty);
     }
 
   }
@@ -469,7 +473,7 @@ kyc = 100;
       this.storageService.storeToTransactionHistoryList(item);
       this.quantity = 0;
       this.step = 1;
-      this.addOrder(txHash);
+      this.addOrder(txHash, amount, this.quantity);
     }
   }
 }

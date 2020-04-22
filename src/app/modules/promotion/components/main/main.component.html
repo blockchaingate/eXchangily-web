@@ -251,7 +251,7 @@
                 </div>
 
                 <div class="d-flex justify-content-end">
-                    <button class="btn btn-gradient text-white py-2 px-5" (click)="next()">
+                    <button class="btn btn-gradient text-white py-2 px-5" (click)="next()" [disabled]="value === undefined || value < 100">
                         {{((step == 1) ? 'Next' : 'Confirm') | translate }} </button>
                 </div>
             </div>
@@ -264,6 +264,7 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
+                        <th scope="col">{{'Order#' | translate }}</th>
                         <th scope="col">{{'Currency' | translate }}</th>
                         <th scope="col">{{'Payment Method' | translate }}</th>
                         <th scope="col">{{'Price' | translate }}</th>
@@ -276,6 +277,7 @@
                 <tbody *ngIf="orders">
                     <ng-container *ngFor="let order of orders">
                         <tr>
+                            <td>{{order.orderNum}}</td>
                             <td>{{order.payCurrency}}</td>
                             <td>{{order.payMethod}}</td>
                             <td>{{order.price}}</td>
