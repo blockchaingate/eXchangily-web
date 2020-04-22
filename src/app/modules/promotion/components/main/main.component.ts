@@ -115,7 +115,7 @@ export class MainComponent implements OnInit {
   }
   updateAdd() {
     console.log('this.exgAddress=', this.exgAddress);
-    if(!this.exgAddress) {
+    if (!this.exgAddress) {
       this.alertServ.openSnackBar('EXG address not found', 'Ok');
       return;
     }
@@ -124,14 +124,18 @@ export class MainComponent implements OnInit {
         console.log('res=', res);
         if (res.ok) {
           this.updated = true;
+          this.readyGo = true;
+          this.router.navigate(['/login/signin', { 'retUrl': 'promotion/main' }]);
           console.log('okkk', res._body);
         }
       }
     );
   }
+
   markedAsPaid(order) {
     this.showMarkedAsPaidId = order._id;
   }
+
   confirmMarkedAsPaid(order) {
     const order_id = order._id;
     this.campaignorderServ.confirmMarkedAsPaid(this.token, order_id, this.comment).subscribe(
@@ -141,7 +145,7 @@ export class MainComponent implements OnInit {
           this.comment = '';
           this.showMarkedAsPaidId = '';
           for (let i = 0; i < this.orders.length; i++) {
-            if (this.orders[i]._id == order_id) {
+            if (this.orders[i]._id === order_id) {
               this.orders[i].status = '2';
               break;
             }
@@ -150,10 +154,8 @@ export class MainComponent implements OnInit {
       }
     );
   }
+  
   async ngOnInit() {
-
-
-
     this.apiServ.getUSDValues().subscribe(
       (res: any) => {
         console.log('res for getUSDValues=', res);
@@ -175,7 +177,7 @@ export class MainComponent implements OnInit {
             this.readyGoReasons = [];
           }
           this.readyGoReasons.push('NotLogin');
-          this.router.navigate(['/login/signin']);
+          this.router.navigate(['/login/signin', { 'retUrl': 'promotion/main' }]);
         } else {
 
           let exgAddress = '';
@@ -186,7 +188,7 @@ export class MainComponent implements OnInit {
             }
           }
           this.exgAddress = exgAddress;
-                    
+
           this.readyGo = true;
           this.token = token;
           this.campaignorderServ.getOrders(token).subscribe(
@@ -196,7 +198,7 @@ export class MainComponent implements OnInit {
                 this.orders = res._body;
 
               } else {
-                this.router.navigate(['/login/signin']);
+                this.router.navigate(['/login/signin', { 'retUrl': 'promotion/main' }]);
               }
             }
           );
@@ -205,7 +207,8 @@ export class MainComponent implements OnInit {
             (res: any) => {
               if (res && res.ok) {
                 const body = res._body;
-                const kyc = body.kyc;
+                let kyc = body.kyc;
+
                 this.membership = body.membership;
                 const walletExgAddress = body.walletExgAddress;
 
@@ -223,7 +226,7 @@ export class MainComponent implements OnInit {
                   }
                   this.readyGoReasons.push('exgAddressNotMatch');
                 }
-
+                kyc = 100;
                 if (kyc === 100) {
                   this.readyGo = true;
                 } else {
@@ -246,7 +249,7 @@ export class MainComponent implements OnInit {
                           if (kyc === 3) {
                             this.readyGoReasons.push('KycHasProblem');
                           }
-                  //-1-denied, 0-no, 1-submit; 2-in porcess, 3-has problem,
+                  // -1-denied, 0-no, 1-submit; 2-in porcess, 3-has problem,
                 }
               } else {
                 this.readyGo = false;
@@ -280,7 +283,7 @@ export class MainComponent implements OnInit {
     const result = x.times(this.quantity);
 
     let coinPrice = 1;
-    if (this.selectedPaymentCurrency != 'USD') {
+    if (this.selectedPaymentCurrency !== 'USD') {
       coinPrice = this.prices[this.selectedPaymentCurrency]['USD'];
     }
     this.value = result.times(coinPrice).toNumber();
@@ -366,8 +369,8 @@ export class MainComponent implements OnInit {
             (res2: any) => {
               if (res2 && res2.ok) {
                 console.log('res2=', res2);
-                //this.referralCode = res2._body.referralCode;
-                //this.membership = res2._body.membership;
+                // this.referralCode = res2._body.referralCode;
+                // this.membership = res2._body.membership;
               }
             }
           );
@@ -383,11 +386,11 @@ export class MainComponent implements OnInit {
     }
     */
     if (
-      (this.selectedPaymentCurrency == 'USDT') ||
-      (this.selectedPaymentCurrency == 'DUSD') ||
-      (this.selectedPaymentCurrency == 'FAB') ||
-      (this.selectedPaymentCurrency == 'BTC') ||
-      (this.selectedPaymentCurrency == 'ETH')
+      (this.selectedPaymentCurrency === 'USDT') ||
+      (this.selectedPaymentCurrency === 'DUSD') ||
+      (this.selectedPaymentCurrency === 'FAB') ||
+      (this.selectedPaymentCurrency === 'BTC') ||
+      (this.selectedPaymentCurrency === 'ETH')
       // ('USDT,DUSD'.indexOf(this.selectedPaymentCurrency) >= 0)
     ) {
       this.pinModal.show();

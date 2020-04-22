@@ -35,7 +35,7 @@ export class KycsComponent implements OnInit {
     this._userServ.getUsers({ kyc: 1 }).subscribe(
       (ret: User[]) => {
         console.log('ret====', ret);
-        this.users = ret
+        this.users = ret;
       },
       err => this.msg = err
     );
