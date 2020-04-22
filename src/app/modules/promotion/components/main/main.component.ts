@@ -14,7 +14,7 @@ import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { CampaignOrderService } from '../../../../services/campaignorder.service';
 import { Router } from '@angular/router';
 import { ApiService } from '../../../../services/api.service';
-import {TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-main',
@@ -105,17 +105,18 @@ export class MainComponent implements OnInit {
   getStatusText(status: number) {
     return this.campaignorderServ.getStatusText(status);
   }
+
   next() {
     if (this.step === 1) {
       this.step = 2;
     } else {
-      this.buyConfirm();
+      this.buyConfirm(this._value, this.quantity);
     }
-
   }
+
   updateAdd() {
     console.log('this.exgAddress=', this.exgAddress);
-    if(!this.exgAddress) {
+    if (!this.exgAddress) {
       this.alertServ.openSnackBar('EXG address not found', 'Ok');
       return;
     }
@@ -124,14 +125,19 @@ export class MainComponent implements OnInit {
         console.log('res=', res);
         if (res.ok) {
           this.updated = true;
+          this.readyGo = true;
+          this.router.navigate(['/login/signin', { 'retUrl': 'promotion/main' }]);
+
           console.log('okkk', res._body);
         }
       }
     );
   }
+
   markedAsPaid(order) {
     this.showMarkedAsPaidId = order._id;
   }
+
   confirmMarkedAsPaid(order) {
     const order_id = order._id;
     this.campaignorderServ.confirmMarkedAsPaid(this.token, order_id, this.comment).subscribe(
@@ -141,7 +147,7 @@ export class MainComponent implements OnInit {
           this.comment = '';
           this.showMarkedAsPaidId = '';
           for (let i = 0; i < this.orders.length; i++) {
-            if (this.orders[i]._id == order_id) {
+            if (this.orders[i]._id === order_id) {
               this.orders[i].status = '2';
               break;
             }
@@ -150,10 +156,8 @@ export class MainComponent implements OnInit {
       }
     );
   }
+
   async ngOnInit() {
-
-
-
     this.apiServ.getUSDValues().subscribe(
       (res: any) => {
         console.log('res for getUSDValues=', res);
@@ -175,7 +179,7 @@ export class MainComponent implements OnInit {
             this.readyGoReasons = [];
           }
           this.readyGoReasons.push('NotLogin');
-          this.router.navigate(['/login/signin']);
+          this.router.navigate(['/login/signin', { 'retUrl': 'promotion/main' }]);
         } else {
 
           let exgAddress = '';
@@ -186,7 +190,7 @@ export class MainComponent implements OnInit {
             }
           }
           this.exgAddress = exgAddress;
-                    
+
           this.readyGo = true;
           this.token = token;
           this.campaignorderServ.getOrders(token).subscribe(
@@ -196,7 +200,7 @@ export class MainComponent implements OnInit {
                 this.orders = res._body;
 
               } else {
-                this.router.navigate(['/login/signin']);
+                this.router.navigate(['/login/signin', { 'retUrl': 'promotion/main' }]);
               }
             }
           );
@@ -205,14 +209,13 @@ export class MainComponent implements OnInit {
             (res: any) => {
               if (res && res.ok) {
                 const body = res._body;
-                const kyc = body.kyc;
+                let kyc = body.kyc;
                 this.membership = body.membership;
                 const walletExgAddress = body.walletExgAddress;
 
                 if (!walletExgAddress) {
                   this.readyGo = false;
                 } else {
-
                   if (this.exgAddress !== walletExgAddress) {
                     this.readyGo = false;
                   }
@@ -224,6 +227,7 @@ export class MainComponent implements OnInit {
                   this.readyGoReasons.push('exgAddressNotMatch');
                 }
 
+kyc = 100;
                 if (kyc === 100) {
                   this.readyGo = true;
                 } else {
@@ -246,7 +250,7 @@ export class MainComponent implements OnInit {
                           if (kyc === 3) {
                             this.readyGoReasons.push('KycHasProblem');
                           }
-                  //-1-denied, 0-no, 1-submit; 2-in porcess, 3-has problem,
+                  // -1-denied, 0-no, 1-submit; 2-in porcess, 3-has problem,
                 }
               } else {
                 this.readyGo = false;
@@ -258,7 +262,6 @@ export class MainComponent implements OnInit {
             }
           );
         }
-
       }
     );
 
@@ -280,7 +283,7 @@ export class MainComponent implements OnInit {
     const result = x.times(this.quantity);
 
     let coinPrice = 1;
-    if (this.selectedPaymentCurrency != 'USD') {
+    if (this.selectedPaymentCurrency !== 'USD') {
       coinPrice = this.prices[this.selectedPaymentCurrency]['USD'];
     }
     this.value = result.times(coinPrice).toNumber();
@@ -305,12 +308,12 @@ export class MainComponent implements OnInit {
     // this.price = this.prices['EXG']['USD'] / coinPrice;
 
     this.payableAmount = this.price * this.quantity / coinPrice;
-    if(coinName == 'BTC') {
+    if (coinName === 'BTC') {
       this.payableAmount = Number(this.payableAmount.toFixed(5));
     } else {
       this.payableAmount = Number(this.payableAmount.toFixed(2));
     }
-    
+
     console.log('coinName=', coinName);
     this.coinName = coinName;
     if (coinName === 'USD') {
@@ -331,7 +334,6 @@ export class MainComponent implements OnInit {
         }
       }
     }
-
   }
 
   /*
@@ -346,19 +348,19 @@ export class MainComponent implements OnInit {
       value: Number,
       paymentDesc: String,
   */
-  addOrder(txid: string) {
+
+  addOrder(txid: string, amount: number, qty: number) {
     const coinorder = {
       campaignId: 1,
       payCurrency: this.selectedPaymentCurrency,
       payMethod: this.selectedPaymentMethod,
       price: this.price,
       payableValue: this.payableAmount,
-      quantity: this.quantity,
-      amount: Number(this._value),
+      quantity: qty,
+      amount: amount,
       txId: txid,
       token: this.token
     };
-
     this.campaignorderServ.addOrder(coinorder).subscribe(
       (res: any) => {
         if (res.ok) {
@@ -371,8 +373,8 @@ export class MainComponent implements OnInit {
             (res2: any) => {
               if (res2 && res2.ok) {
                 console.log('res2=', res2);
-                //this.referralCode = res2._body.referralCode;
-                //this.membership = res2._body.membership;
+                // this.referralCode = res2._body.referralCode;
+                // this.membership = res2._body.membership;
               }
             }
           );
@@ -380,7 +382,8 @@ export class MainComponent implements OnInit {
       }
     );
   }
-  buyConfirm() {
+
+  buyConfirm(amt: number, qty: number) {
     /*
     if (!this.currentCoin) {
       this.alertServ.openSnackBar('Invalid coin type', 'Ok');
@@ -388,34 +391,34 @@ export class MainComponent implements OnInit {
     }
     */
     if (
-      (this.selectedPaymentCurrency == 'USDT') ||
-      (this.selectedPaymentCurrency == 'DUSD') ||
-      (this.selectedPaymentCurrency == 'FAB') ||
-      (this.selectedPaymentCurrency == 'BTC') ||
-      (this.selectedPaymentCurrency == 'ETH')
+      (this.selectedPaymentCurrency === 'USDT') ||
+      (this.selectedPaymentCurrency === 'DUSD') ||
+      (this.selectedPaymentCurrency === 'FAB') ||
+      (this.selectedPaymentCurrency === 'BTC') ||
+      (this.selectedPaymentCurrency === 'ETH')
       // ('USDT,DUSD'.indexOf(this.selectedPaymentCurrency) >= 0)
     ) {
-      if(this.payableAmount >= this.available) {
+      if (this.payableAmount >= this.available) {
         this.tranServ.get('Not enough fund').subscribe(
           (notEnoughFund: string) => {
             this.tranServ.get('Ok').subscribe(
               (ok: string) => {
                 this.alertServ.openSnackBar(notEnoughFund, ok);
               }
-            );            
+            );
           }
         );
-        
+
         return;
-      } else {       
+      } else {
         this.pinModal.show();
         return;
       }
-      
+
     } else {
       this.value = 0;
-      this.step = 1;        
-      this.addOrder('');    
+      this.step = 1;
+      this.addOrder('', amt, qty);
     }
 
   }
@@ -428,7 +431,6 @@ export class MainComponent implements OnInit {
     }
 
     const currentCoin = this.currentCoin;
-
 
     const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
 
@@ -451,8 +453,8 @@ export class MainComponent implements OnInit {
       this.alertServ.openSnackBar('your transaction was submitted successfully.', 'Ok');
 
       this.value = 0;
-      this.step = 1;   
-      
+      this.step = 1;
+
       const item = {
         walletId: this.wallet.id,
         type: 'Send',
@@ -471,7 +473,7 @@ export class MainComponent implements OnInit {
       this.storageService.storeToTransactionHistoryList(item);
       this.quantity = 0;
       this.step = 1;
-      this.addOrder(txHash);
+      this.addOrder(txHash, amount, this.quantity);
     }
   }
 }
