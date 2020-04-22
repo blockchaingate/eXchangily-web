@@ -14,6 +14,7 @@ import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { CampaignOrderService } from '../../../../services/campaignorder.service';
 import { Router } from '@angular/router';
 import { ApiService } from '../../../../services/api.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-main',
@@ -97,7 +98,8 @@ export class MainComponent implements OnInit {
     public utilServ: UtilService,
     private apiServ: ApiService,
     private campaignorderServ: CampaignOrderService,
-    private coinService: CoinService
+    private coinService: CoinService,
+    private tranServ: TranslateService
   ) { }
 
   getStatusText(status: number) {
@@ -108,8 +110,6 @@ export class MainComponent implements OnInit {
       this.step = 2;
     } else {
       this.buyConfirm();
-      this.value = 0;
-      this.step = 1;
     }
 
   }
@@ -305,7 +305,12 @@ export class MainComponent implements OnInit {
     // this.price = this.prices['EXG']['USD'] / coinPrice;
 
     this.payableAmount = this.price * this.quantity / coinPrice;
-    this.payableAmount = Number(this.payableAmount.toFixed(2));
+    if(coinName == 'BTC') {
+      this.payableAmount = Number(this.payableAmount.toFixed(5));
+    } else {
+      this.payableAmount = Number(this.payableAmount.toFixed(2));
+    }
+    
     console.log('coinName=', coinName);
     this.coinName = coinName;
     if (coinName === 'USD') {
@@ -390,9 +395,27 @@ export class MainComponent implements OnInit {
       (this.selectedPaymentCurrency == 'ETH')
       // ('USDT,DUSD'.indexOf(this.selectedPaymentCurrency) >= 0)
     ) {
-      this.pinModal.show();
+      if(this.payableAmount >= this.available) {
+        this.tranServ.get('Not enough fund').subscribe(
+          (notEnoughFund: string) => {
+            this.tranServ.get('Ok').subscribe(
+              (ok: string) => {
+                this.alertServ.openSnackBar(notEnoughFund, ok);
+              }
+            );            
+          }
+        );
+        
+        return;
+      } else {       
+        this.pinModal.show();
+        return;
+      }
+      
     } else {
-      this.addOrder('');
+      this.value = 0;
+      this.step = 1;        
+      this.addOrder('');    
     }
 
   }
@@ -427,6 +450,9 @@ export class MainComponent implements OnInit {
     if (txHex && txHash) {
       this.alertServ.openSnackBar('your transaction was submitted successfully.', 'Ok');
 
+      this.value = 0;
+      this.step = 1;   
+      
       const item = {
         walletId: this.wallet.id,
         type: 'Send',
