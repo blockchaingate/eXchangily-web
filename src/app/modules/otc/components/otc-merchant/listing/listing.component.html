@@ -159,40 +159,40 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr *ngFor="let listing of listings">
                         <td>
                             <span class="table-text">
-                                2020-02-02 17:30:21
+                                {{listing.dateCreated}}
                             </span>
                         </td>
                         <td>
                             <span class="table-text">
-                                {{'Buy' | translate }} ETH
+                                {{(listing.buy ? 'Buy' : 'Sell') | translate }} {{listing.coin}}
                             </span>
                         </td>
                         <td>
                             <span class="table-text">
-                                1010
+                                {{listing.qtyAvilable}}
                             </span>
                         </td>
                         <td>
                             <span class="table-text">
-                            0.5ETH
+                                {{listing.qtyAvilable * 0.01}}{{listing.coin}}
                             </span>
                         </td>
                         <td>
                             <span class="table-text">
-                            190.00-1900.00CNY
+                            {{listing.qtyLimitPerOrderLow}}-{{listing.qtyLimitPerOrderHigh}}{{listing.fiat}}
                             </span>
                         </td>
                         <td>
                             <span class="table-text">
-                            1900CNY
+                                {{listing.price}}{{listing.fiat}}
                             </span>
                         </td>
                         <td>
                             <span class="table-text">
-                            2
+                            {{listing.orders ? listing.orders.length : 0}}
                             </span>
                         </td>
                         <td>

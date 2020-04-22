@@ -16,6 +16,7 @@ import { MerchantComponent } from './merchant/merchant.component';
 import { OrderEditComponent } from './order/order-edit.component';
 import { CampaignOrdersComponent } from './campaign-orders/campaign-orders.component';
 import { OrderManagementComponent } from './order/order-mngmt.component';
+import { OtcListingComponent } from './otc/otc-listing/otc-listing.component';
 import { KycComponent } from './kyc/kyc.component';
 import { KycsComponent } from './kyc/kycs.component';
 import { AdminRoutingModule } from './admin-routing.module';
@@ -25,6 +26,7 @@ import { OrderItemComponent } from './order/order-item.component';
 import { TokenlockService } from '../../service/tokenlock/tokenlock.service';
 import { TokenlockComponent } from './tokenlock/tokenlock.component';
 import {MatButtonModule} from '@angular/material/button';
+import { OtcService } from '../../../../services/otc.service';
 
 @NgModule({
   imports: [
@@ -39,10 +41,11 @@ import {MatButtonModule} from '@angular/material/button';
     MatButtonModule,
     MatDialogModule
   ],
-  providers: [AuthGuard, NoAuthGuard, TokenlockService, CampaignOrderService, MerchantService],
+  providers: [AuthGuard, NoAuthGuard, TokenlockService, CampaignOrderService, MerchantService, OtcService],
   declarations: [
     AdminComponent,
     AddcoinComponent,
+    OtcListingComponent,
     OrderEditComponent,
     CampaignOrdersComponent,
     OrderManagementComponent,

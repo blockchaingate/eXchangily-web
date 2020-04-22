@@ -13,6 +13,7 @@ import { KycsComponent } from './kyc/kycs.component';
 import { TokenlockComponent } from './tokenlock/tokenlock.component';
 import { CampaignOrdersComponent } from './campaign-orders/campaign-orders.component';
 import { MerchantComponent } from './merchant/merchant.component';
+import { OtcListingComponent } from './otc/otc-listing/otc-listing.component';
 
 const routes: Routes = [
     {
@@ -45,6 +46,10 @@ const routes: Routes = [
             path: 'order-mngmt',
             component: OrderManagementComponent
         },
+        {
+            path: 'otc-listing',
+            component: OtcListingComponent
+        },        
         {
             path: 'kyc/:id',
             component: KycComponent

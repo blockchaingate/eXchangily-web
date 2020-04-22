@@ -16,4 +16,20 @@ export class OtcService {
     return this.http.postPrivate(path + 'otc-listing/create', data, token);
   }
   
+  getListings(token: string) {
+    return this.http.getPrivate(path + 'otc-listing/private/list', token);
+  }
+
+  getAllListings(token: string) {
+    return this.http.getPrivate(path + 'otc-listing/admin/list', token);
+  }
+
+  setActive(listing_id: string, status: boolean, token: string) {
+    const data = {
+      id: listing_id,
+      active: status
+    };
+
+    return this.http.postPrivate(path + 'otc-listing/admin/active', data, token);
+  }
 }
