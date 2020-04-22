@@ -2,10 +2,10 @@
     <div class="row border-bottom py-2">
         <div class="col col-3 border-right">
             <mat-form-field class="text-muted">
-                <mat-label>{{"Currency" | translate }}</mat-label>
-                <mat-select class="text-muted" [(ngModel)]="currency" [disableOptionCentering]="true">
-                    <mat-option *ngFor="let cur of currencies" [value]="cur" class="text-muted">
-                        {{cur}}
+                <mat-label>{{"Fiat" | translate }}</mat-label>
+                <mat-select class="text-muted" [(ngModel)]="fiat" [disableOptionCentering]="true">
+                    <mat-option *ngFor="let fi of fiats" [value]="fi" class="text-muted">
+                        {{fi}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
@@ -20,19 +20,19 @@
                 </div>
 
                 <div class="row">
-                    <div class="col col-3 coin-name" [ngClass]="(bidOrAsk && (coinName=='USDT'))?'type-buy':''" (click)="changeCoinName(true, 'USDT')">
+                    <div class="col col-3 coin-name" [ngClass]="(buy && (coin=='USDT'))?'type-buy':''" (click)="changeCoin(true, 'USDT')">
                         USDT
                     </div>
-                    <div class="col col-2 coin-name" [ngClass]="(bidOrAsk && (coinName=='BTC'))?'type-buy':''" (click)="changeCoinName(true, 'BTC')">
+                    <div class="col col-2 coin-name" [ngClass]="(buy && (coin=='BTC'))?'type-buy':''" (click)="changeCoin(true, 'BTC')">
                         BTC
                     </div>
-                    <div class="col col-2 coin-name" [ngClass]="(bidOrAsk && (coinName=='ETH'))?'type-buy':''" (click)="changeCoinName(true, 'ETH')">
+                    <div class="col col-2 coin-name" [ngClass]="(buy && (coin=='ETH'))?'type-buy':''" (click)="changeCoin(true, 'ETH')">
                         ETH
                     </div>
-                    <div class="col col-2 coin-name" [ngClass]="(bidOrAsk && (coinName=='FAB'))?'type-buy':''" (click)="changeCoinName(true, 'FAB')">
+                    <div class="col col-2 coin-name" [ngClass]="(buy && (coin=='FAB'))?'type-buy':''" (click)="changeCoin(true, 'FAB')">
                         FAB
                     </div>
-                    <div class="col col-3 coin-name" [ngClass]="(bidOrAsk && (coinName=='EXG'))?'type-buy':''" (click)="changeCoinName(true, 'EXG')">
+                    <div class="col col-3 coin-name" [ngClass]="(buy && (coin=='EXG'))?'type-buy':''" (click)="changeCoin(true, 'EXG')">
                         EXG
                     </div>
                 </div>
@@ -48,26 +48,26 @@
                 </div>
 
                 <div class="row">
-                    <div class="col col-3 coin-name" [ngClass]="(!bidOrAsk && (coinName=='USDT'))?'type-sell':''" (click)="changeCoinName(false, 'USDT')">
+                    <div class="col col-3 coin-name" [ngClass]="(!buy && (coin=='USDT'))?'type-sell':''" (click)="changeCoin(false, 'USDT')">
                         USDT
                     </div>
-                    <div class="col col-2 coin-name" [ngClass]="(!bidOrAsk && (coinName=='BTC'))?'type-sell':''" (click)="changeCoinName(false, 'BTC')">
+                    <div class="col col-2 coin-name" [ngClass]="(!buy && (coin=='BTC'))?'type-sell':''" (click)="changeCoin(false, 'BTC')">
                         BTC
                     </div>
-                    <div class="col col-2 coin-name" [ngClass]="(!bidOrAsk && (coinName=='ETH'))?'type-sell':''" (click)="changeCoinName(false, 'ETH')">
+                    <div class="col col-2 coin-name" [ngClass]="(!buy && (coin=='ETH'))?'type-sell':''" (click)="changeCoin(false, 'ETH')">
                         ETH
                     </div>
-                    <div class="col col-2 coin-name" [ngClass]="(!bidOrAsk && (coinName=='FAB'))?'type-sell':''" (click)="changeCoinName(false, 'FAB')">
+                    <div class="col col-2 coin-name" [ngClass]="(!buy && (coin=='FAB'))?'type-sell':''" (click)="changeCoin(false, 'FAB')">
                         FAB
                     </div>
-                    <div class="col col-3 coin-name" [ngClass]="(!bidOrAsk && (coinName=='EXG'))?'type-sell':''" (click)="changeCoinName(false, 'EXG')">
+                    <div class="col col-3 coin-name" [ngClass]="(!buy && (coin=='EXG'))?'type-sell':''" (click)="changeCoin(false, 'EXG')">
                         EXG
                     </div>
                 </div>
             </div>
         </div>
         <div class="col col-3 text-right">
-            <div>{{'Available' | translate }} {{coinName}}</div>
+            <div>{{'Available' | translate }} {{coin}}</div>
             <div>0.00025</div>
             <div>{{'Commission rate' | translate }}: 0.1%</div>
         </div>
@@ -78,32 +78,32 @@
                 <div class="col col-3">
                     <mat-form-field>
                         <mat-label>{{'Price' | translate }}</mat-label>
-                        <input matInput placeholder="" value="">
+                        <input matInput [(ngModel)]="price">
                     </mat-form-field>
                 </div>
 
                 <div class="col col-3">
                     <mat-form-field>
                         <mat-label>{{'Quantity' | translate }}</mat-label>
-                        <input matInput placeholder="" value="">
+                        <input matInput [(ngModel)]="quantity">
                     </mat-form-field>
-                    {{coinName}}
+                    {{coin}}
                 </div>
 
                 <div class="col col-3">
                     <mat-form-field>
                         <mat-label>{{'Minimum Limit' | translate }}</mat-label>
-                        <input matInput placeholder="" value="">
+                        <input matInput [(ngModel)]="qtyLimitPerOrderLow">
                     </mat-form-field>
-                    {{currency}}
+                    {{fiat}}
                 </div>
 
                 <div class="col col-3">
                     <mat-form-field>
                         <mat-label>{{'Maximum Limit' | translate }}</mat-label>
-                        <input matInput placeholder="" value="">
+                        <input matInput [(ngModel)]="qtyLimitPerOrderHigh">
                     </mat-form-field>
-                    {{currency}}
+                    {{fiat}}
                 </div>
             </div>
 
@@ -111,18 +111,19 @@
                 <div class="col col-6">
                     <mat-form-field class="example-full-width">
                         <mat-label>{{'Transaction notes(optional)' | translate }}</mat-label>
-                        <input matInput placeholder="" value="">
+                        <input matInput [(ngModel)]="maxLimit">
                     </mat-form-field>
                 </div>
                 <div class="col col-3">
                     <mat-form-field>
                         <mat-label>{{'Commission' | translate }}</mat-label>
-                        <input matInput readonly placeholder="" value="0.002">
+                        <input matInput readonly placeholder="" value="{{quantity ? quantity * 0.001 : 0}}">
                     </mat-form-field>
-                    {{coinName}}
+                    {{coin}}
                 </div>
                 <div class="col col-3">
-                    <button class="btn btn-gradient text-white py-2 px-5" type="submit"> {{'Confirm' | translate }} </button>
+                    <button class="btn btn-gradient text-white py-2 px-5" type="submit" (click)="addListing()">
+                        {{'Confirm' | translate }} </button>
                 </div>
             </div>
         </mat-card-content>
@@ -131,13 +132,13 @@
         <div class="col col-3 text-left">
             <div class="d-inline-block hand" [ngClass]="(advType=='ongoing')?'adv-type-active':''" (click)="changeAdvType('ongoing')">
                 <b>
-                        {{'Ongoing' | translate }}
+                    {{'Ongoing' | translate }}
                 </b>
 
             </div>
             <div class="d-inline-block px-3 hand" [ngClass]="(advType=='history')?'adv-type-active':''" (click)="changeAdvType('history')">
                 <b>
-                        {{'History' | translate }}
+                    {{'History' | translate }}
                 </b>
             </div>
         </div>
@@ -177,22 +178,22 @@
                         </td>
                         <td>
                             <span class="table-text">
-                            0.5ETH
+                                0.5ETH
                             </span>
                         </td>
                         <td>
                             <span class="table-text">
-                            190.00-1900.00CNY
+                                190.00-1900.00CNY
                             </span>
                         </td>
                         <td>
                             <span class="table-text">
-                            1900CNY
+                                1900CNY
                             </span>
                         </td>
                         <td>
                             <span class="table-text">
-                            2
+                                2
                             </span>
                         </td>
                         <td>
@@ -204,22 +205,6 @@
                             </button>
                         </td>
                     </tr>
-                    <!--
-                    <tr *ngFor="let element of dataSource | merchantPipe: currency : bidOrAsk : coinName ">
-                        <td>{{element.Merchant}}</td>
-                        <td>
-                            <app-paymentmethod [methods]="element.PaymentMethod"></app-paymentmethod>
-                        </td>
-                        <td>{{element.Quantity}}</td>
-                        <td>{{element.LimitsLow}}-{{element.LimitsHigh}}</td>
-                        <td>{{element.Price}}</td>
-                        <td>
-                            <div class="btn-buy-sell" [ngClass]="element.BidOrAsk ? 'btn-buy' : 'btn-sell'" (click)="placeOrder()">
-                                {{element.BidOrAsk ? 'Buy' : 'Sell'}}
-                            </div>
-                        </td>
-                    </tr>
-                    -->
                 </tbody>
             </table>
 

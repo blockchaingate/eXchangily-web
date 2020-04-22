@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { appId } from '../../../../landing/app.constants';
+import { StorageService } from '../../../../../services/storage.service';
+import { OtcService } from '../../../../../services/otc.service';
 
 @Component({
     selector: 'app-otc-listing',
@@ -6,36 +9,85 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./listing.component.css']
 })
 export class ListingComponent implements OnInit {
-    bidOrAsk: boolean;
-    coinName: string;
-    currency: string;
+    maxLimit: number;
+    buy: boolean;
+    coin: string;
+    fiat: string;
     advType: string;
-    dataSource = [];
-    currencies: string[] = [
+    price: number;
+    quantity: number;
+    qtyLimitPerOrderLow: number;
+    qtyLimitPerOrderHigh: number;
+    notes: string;
+    token: string;
+    paymethods = ['E-Transfer'];
+    fiats: string[] = [
         'USD',
         'CAD',
         'CNY'
     ];
 
-    constructor() {}
+    constructor(
+        private storageService: StorageService,
+        private _otcServ: OtcService) { }
 
     ngOnInit() {
-        this.bidOrAsk = true;
-        this.coinName = 'USDT';
-        this.currency = 'USD';
+        this.buy = true;
+        this.coin = 'USDT';
+        this.fiat = 'USD';
         this.advType = 'ongoing';
+
+        this.storageService.getToken().subscribe(
+            (token: string) => {
+                this.token = token;
+            }
+        );
     }
 
+    addListing() {
+        const data = {
+            appId: appId,
+            coin: this.coin,
+            fiat: this.fiat,
+            buy: this.buy,
+            qtyAvilable: this.quantity,
+            qtyLimitPerOrderLow: this.qtyLimitPerOrderLow,
+            qtyLimitPerOrderHigh: this.qtyLimitPerOrderHigh,
+            price: this.price,
+            notes: this.notes,
+            paymethods: this.paymethods
+        };
+        this._otcServ.addListing(this.token, data).subscribe(
+            (res: any) => {
+                console.log('res from addListing=', res);
+            }
+        );
+
+    }
+
+    /*
+        merchantId: ObjectId,
+        sequence: Number,
+        coin: String,
+        fiat: String,
+        buy: Boolean,
+        qtyAvilable: Number,
+        qtyLimitPerOrderLow: Number,
+        qtyLimitPerOrderHigh: Number,
+        price: Number,
+        paymethods: [String],
+    
+        notes: String,
+        active: Boolean,
+        lastUpdated: Date,
+    */
     changeAdvType(type: string) {
         this.advType = type;
     }
 
-    changeCoinName(bOrA: boolean, coin: string) {
-        this.bidOrAsk = bOrA;
-        this.coinName = coin;
-
-
-        // console.log('this.coinName = ', this.coinName);
+    changeCoin(bOrA: boolean, coin: string) {
+        this.buy = bOrA;
+        this.coin = coin;
     }
 
     getCoinAvailable(coin: string) {

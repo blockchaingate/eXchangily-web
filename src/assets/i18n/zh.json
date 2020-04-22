@@ -1006,6 +1006,8 @@
     "Campaign Disqualification Detail line 2": "*对于美国和加拿大公民，目前仅允许合格的投资者参加该活动",
     "Your kyc has problem, please submit a new one": "您没提交身份认证或身份认证不合格，请重新提交。",
     "Listing": "挂单",
+    "Not enough fund": "余额不足",
+    "Ok": "确认",
     "Phone(USA)": "电话(美国)",
     "Phone(China)": "电话(中国)",
     "Wechat(USA)": "微信(美国)",
@@ -1019,5 +1021,6 @@
     "Your kyc was submitted, please wait for approval": "你的kyc请求已提交，请耐心等待",
     "OTC Merchant": "法币交易商家",
     "Update EXG Address": "更新EXG地址",
+    "Order#": "订单号",
     "Updated successful": "成功更新"
 }
