@@ -54,7 +54,7 @@ const routes: Routes = [
       app: AppResolver
     },
     path: 'admin',
-    loadChildren: './modules/landing/features/amin/admin.module#AdminModule',
+    loadChildren: './modules/landing/features/admin/admin.module#AdminModule',
     data: {
       title: 'Exchangily Admin',
       isHome: false
