@@ -12,13 +12,20 @@
                     <mat-icon>menu</mat-icon>
                 </button>
                 <mat-menu #menu2="matMenu">
-                    <button mat-menu-item (click)="linkTo('/')">{{'Home' | translate}}</button>
+                    <button mat-menu-item class="highlight" (click)="linkTo('/promotion/main')">{{'New Campaign' | translate}}</button>
+                    <button mat-menu-item (click)="linkTo('/wallet/dashboard')">{{'Wallet' | translate}}</button>
                     <button mat-menu-item (click)="linkTo('/market/home')">{{'Market' | translate}}</button>
                     <button mat-menu-item (click)="linkTo('/wallet')">{{'Wallet' | translate}}</button>
                     <button mat-menu-item (click)="linkTo('/explorer')">{{'Explore' | translate}}</button>
                     <button mat-menu-item [matMenuTriggerFor]="settingMenu">{{'Setting' | translate}}</button>
                     <button mat-menu-item (click)="selectLan('en')">English</button>
                     <button mat-menu-item (click)="selectLan('zh')">中文</button>
+
+                    <button mat-menu-item (click)="linkTo('/home')">{{'Header.Navigation.Home' | translate}}</button>
+                    <button mat-menu-item (click)="goToUrl('https://medium.com/exchangily-blog')">{{'Blog' | translate}}</button>
+
+                    <button mat-menu-item (click)="linkTo('login/signin')">{{ 'Header.Navigation.Signin' | translate }}</button>
+
                 </mat-menu>
                 <mat-menu #settingMenu="matMenu">
                     <button mat-menu-item (click)="linkTo('/explorer')">{{'Login Setting' | translate}}</button>

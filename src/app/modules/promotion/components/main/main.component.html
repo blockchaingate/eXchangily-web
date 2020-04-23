@@ -1,6 +1,6 @@
 <div class="container py-3">
     <div class="row">
-        <div class="col col-9 border-right">
+        <div class="col col-md-9 col-12 border-right">
             <div class="text-center" *ngIf="membership != 'unqualified'">
                 <a href="/promotion/reward">
                     <h3>{{'My rewards' | translate }}</h3>
@@ -116,9 +116,9 @@
                 </mat-accordion>
             </div>
         </div>
-        <div class="col col-3">
+        <div class="col col-md-3 col-12">
             <div *ngIf="readyGoReasons && (readyGoReasons.length > 0)">
-                <h4 class="text-center">
+                <h4 class="text-center pt-3">
                     <b>{{'Ready to participate' | translate}} ?</b>
                 </h4>
                 <div *ngFor="let reason of readyGoReasons">

@@ -62,16 +62,20 @@ export class SignupComponent implements OnInit {
     }
 
     // this.localSt.getItem('wallets').subscribe(() => {
-    let walletExgAddress;
+    
+    let walletExgAddress = '';
 
     if (this.wallet) {
       walletExgAddress = this.wallet.excoin.receiveAdds[0].address;
     }
     // alert(walletExgAddress);
+
+    /*
     if(!walletExgAddress) {
       this.serverErrorMsg = 'No wallet found, please create or restore a wallet prior to registration.';
       return;
     }
+    */
 
     this.serverErrorMsg = '';
     this._userService.createUser({

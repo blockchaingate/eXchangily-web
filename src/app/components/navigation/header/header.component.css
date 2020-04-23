@@ -104,3 +104,9 @@ a.nav-link {
     color: #ffffff;
     border-color: #c3512f;
 }
+
+.highlight:hover {
+    background-color: #cc785f;
+    color: #ffffff;
+    border-color: #c3512f;
+}

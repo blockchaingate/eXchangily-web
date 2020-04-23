@@ -183,12 +183,15 @@ export class MainComponent implements OnInit {
         } else {
 
           let exgAddress = '';
-          for (let i = 0; i < this.wallet.mycoins.length; i++) {
-            const coin = this.wallet.mycoins[i];
-            if (coin.name === 'EXG') {
-              exgAddress = coin.receiveAdds[0].address;
+          if(this.wallet && this.wallet.mycoins) {
+            for (let i = 0; i < this.wallet.mycoins.length; i++) {
+              const coin = this.wallet.mycoins[i];
+              if (coin.name === 'EXG') {
+                exgAddress = coin.receiveAdds[0].address;
+              }
             }
           }
+
           this.exgAddress = exgAddress;
 
           this.readyGo = true;
@@ -227,7 +230,6 @@ export class MainComponent implements OnInit {
                   this.readyGoReasons.push('exgAddressNotMatch');
                 }
 
-kyc = 100;
                 if (kyc === 100) {
                   this.readyGo = true;
                 } else {
