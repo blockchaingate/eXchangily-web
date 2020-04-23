@@ -1,0 +1,35 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Paymend Currency</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Txid</th>
+            <th scope="col">Create Time</th>
+            <th scope="col">paymentDesc</th>
+            <th scope="col">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let order of orders">
+            <td>{{order.payCurrency}}</td>
+            <td>{{order.price}}</td>
+            <td>{{order.quantity}}</td>
+            <td>
+                <small>
+            {{order.txId}}
+          </small>
+            </td>
+            <td>
+                <small>
+            {{utilServ.showTime(order.dateCreated)}}
+          </small>
+            </td>
+            <th scope="col">{{order.paymentDesc}}</th>
+            <td>
+                {{getStatusText(order.status)}}
+                <button mat-raised-button color="primary" *ngIf="order.status==1 || order.status==2" (click)="confirmOrder(order)">{{"Confirm"|translate}}</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

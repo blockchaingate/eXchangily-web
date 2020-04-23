@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { appId } from '../../../../landing/app.constants';
-import {StorageService} from '../../../../../services/storage.service';
+import { StorageService } from '../../../../../services/storage.service';
 import { OtcService } from '../../../../../services/otc.service';
 
 @Component({
@@ -9,6 +9,7 @@ import { OtcService } from '../../../../../services/otc.service';
     styleUrls: ['./listing.component.css']
 })
 export class ListingComponent implements OnInit {
+    maxLimit: number;
     buy: boolean;
     coin: string;
     fiat: string;
@@ -29,8 +30,8 @@ export class ListingComponent implements OnInit {
     ];
 
     constructor(
-        private storageService: StorageService, 
-        private _otcServ: OtcService) {}
+        private storageService: StorageService,
+        private _otcServ: OtcService) { }
 
     ngOnInit() {
         this.buy = true;
@@ -39,7 +40,7 @@ export class ListingComponent implements OnInit {
         this.advType = 'ongoing';
 
         this.storageService.getToken().subscribe(
-            (token:string) => {  
+            (token: string) => {
                 this.token = token;
                 this._otcServ.getListings(this.token).subscribe(
                     (res: any) => {
@@ -49,7 +50,7 @@ export class ListingComponent implements OnInit {
                     }
                 );
             }
-        );        
+        );
     }
 
     addListing() {
@@ -76,22 +77,22 @@ export class ListingComponent implements OnInit {
 
     }
 
-/*
-    merchantId: ObjectId,
-    sequence: Number,
-    coin: String,
-    fiat: String,
-    buy: Boolean,
-    qtyAvilable: Number,
-    qtyLimitPerOrderLow: Number,
-    qtyLimitPerOrderHigh: Number,
-    price: Number,
-    paymethods: [String],
-
-    notes: String,
-    active: Boolean,
-    lastUpdated: Date,
-*/    
+    /*
+        merchantId: ObjectId,
+        sequence: Number,
+        coin: String,
+        fiat: String,
+        buy: Boolean,
+        qtyAvilable: Number,
+        qtyLimitPerOrderLow: Number,
+        qtyLimitPerOrderHigh: Number,
+        price: Number,
+        paymethods: [String],
+    
+        notes: String,
+        active: Boolean,
+        lastUpdated: Date,
+    */
     changeAdvType(type: string) {
         this.advType = type;
     }

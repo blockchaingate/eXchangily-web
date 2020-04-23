@@ -126,8 +126,7 @@ export class MainComponent implements OnInit {
         if (res.ok) {
           this.updated = true;
           this.readyGo = true;
-          this.router.navigate(['/login/signin', { 'retUrl': 'promotion/main' }]);
-
+          this.router.navigate(['/login/signin', { 'retUrl': '/promotion/main' }]);
           console.log('okkk', res._body);
         }
       }
@@ -179,7 +178,7 @@ export class MainComponent implements OnInit {
             this.readyGoReasons = [];
           }
           this.readyGoReasons.push('NotLogin');
-          this.router.navigate(['/login/signin', { 'retUrl': 'promotion/main' }]);
+          this.router.navigate(['/login/signin', { 'retUrl': '/promotion/main' }]);
         } else {
 
           let exgAddress = '';
@@ -203,7 +202,7 @@ export class MainComponent implements OnInit {
                 this.orders = res._body;
 
               } else {
-                this.router.navigate(['/login/signin', { 'retUrl': 'promotion/main' }]);
+                this.router.navigate(['/login/signin', { 'retUrl': '/promotion/main' }]);
               }
             }
           );

@@ -122,7 +122,8 @@
                     {{coin}}
                 </div>
                 <div class="col col-3">
-                    <button class="btn btn-gradient text-white py-2 px-5" type="submit" (click)="addListing()"> {{'Confirm' | translate }} </button>
+                    <button class="btn btn-gradient text-white py-2 px-5" type="submit" (click)="addListing()">
+                        {{'Confirm' | translate }} </button>
                 </div>
             </div>
         </mat-card-content>
@@ -131,13 +132,13 @@
         <div class="col col-3 text-left">
             <div class="d-inline-block hand" [ngClass]="(advType=='ongoing')?'adv-type-active':''" (click)="changeAdvType('ongoing')">
                 <b>
-                        {{'Ongoing' | translate }}
+                    {{'Ongoing' | translate }}
                 </b>
 
             </div>
             <div class="d-inline-block px-3 hand" [ngClass]="(advType=='history')?'adv-type-active':''" (click)="changeAdvType('history')">
                 <b>
-                        {{'History' | translate }}
+                    {{'History' | translate }}
                 </b>
             </div>
         </div>
@@ -177,22 +178,38 @@
                         </td>
                         <td>
                             <span class="table-text">
+<<<<<<< HEAD
+                                0.5ETH
+=======
                                 {{listing.qtyAvilable * 0.01}}{{listing.coin}}
+>>>>>>> 007616e4737a39b3d41489544c90eb89f05ce0e0
                             </span>
                         </td>
                         <td>
                             <span class="table-text">
+<<<<<<< HEAD
+                                190.00-1900.00CNY
+=======
                             {{listing.qtyLimitPerOrderLow}}-{{listing.qtyLimitPerOrderHigh}}{{listing.fiat}}
+>>>>>>> 007616e4737a39b3d41489544c90eb89f05ce0e0
                             </span>
                         </td>
                         <td>
                             <span class="table-text">
+<<<<<<< HEAD
+                                1900CNY
+=======
                                 {{listing.price}}{{listing.fiat}}
+>>>>>>> 007616e4737a39b3d41489544c90eb89f05ce0e0
                             </span>
                         </td>
                         <td>
                             <span class="table-text">
+<<<<<<< HEAD
+                                2
+=======
                             {{listing.orders ? listing.orders.length : 0}}
+>>>>>>> 007616e4737a39b3d41489544c90eb89f05ce0e0
                             </span>
                         </td>
                         <td>
