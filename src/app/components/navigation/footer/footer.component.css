@@ -7,3 +7,16 @@
 #img-social {
     position: relative;
 }
+
+.social-media>a {
+    margin-left: 4px;
+    margin-right: 6px;
+}
+
+.wechat-qrcode>div {
+    display: none;
+}
+
+.wechat-qrcode:hover>div {
+    display: block;
+}
