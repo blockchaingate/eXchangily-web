@@ -15,6 +15,8 @@ export class ListingComponent implements OnInit {
     fiat: string;
     advType: string;
     price: number;
+    listings: any;
+    
     quantity: number;
     qtyLimitPerOrderLow: number;
     qtyLimitPerOrderHigh: number;
@@ -40,6 +42,13 @@ export class ListingComponent implements OnInit {
         this.storageService.getToken().subscribe(
             (token: string) => {
                 this.token = token;
+                this._otcServ.getListings(this.token).subscribe(
+                    (res: any) => {
+                        if(res && res.ok) {
+                            this.listings = res._body;
+                        }
+                    }
+                );
             }
         );
     }
@@ -60,6 +69,9 @@ export class ListingComponent implements OnInit {
         this._otcServ.addListing(this.token, data).subscribe(
             (res: any) => {
                 console.log('res from addListing=', res);
+                if(res.ok) {
+                    this.listings.push(res._body);
+                }
             }
         );
 
