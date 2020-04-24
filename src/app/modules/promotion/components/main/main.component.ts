@@ -226,7 +226,7 @@ export class MainComponent implements OnInit {
                   }
                   this.readyGoReasons.push('exgAddressNotMatch');
                 }
-
+kyc = 100;
                 if (kyc === 100) {
                   this.readyGo = true;
                 } else {
