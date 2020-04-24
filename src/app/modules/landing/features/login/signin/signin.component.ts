@@ -32,7 +32,7 @@ export class SigninComponent implements OnInit {
 
   ngOnInit() {
     this._route.params.subscribe(params => {
-      this.afterLoginUrl = params['retUrl'];
+        this.afterLoginUrl = params['retUrl'];
     });
 
     console.log('token=', this._userAuth.token);

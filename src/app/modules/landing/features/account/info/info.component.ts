@@ -36,7 +36,7 @@ export class InfoComponent implements OnInit {
     private _route: ActivatedRoute,
     private _appUsers: AppUsersService,
     private _icotx: IcotxService
-  ) { }
+  ) {}
 
   ngOnInit() {
     // get user data
