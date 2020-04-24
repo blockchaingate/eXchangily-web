@@ -145,6 +145,10 @@
                     <div *ngIf="reason == 'KycInProcess'" class="py-2">
                         {{'Your kyc is in process, please wait for approval' | translate}}
                     </div>
+                    <div *ngIf="reason == 'TokenExpired'" class="py-2">
+                        {{'Token expired, please login and try again' | translate}}
+                        <a mat-raised-button color="primary" class="nav-link" routerLink="/login/signin">{{"Login" | translate}}</a>
+                    </div>                    
                     <div *ngIf="reason == 'KycHasProblem'" class="py-2">
                         {{'Your kyc has problem, please submit a new one' | translate}}
                         <a mat-raised-button color="primary" class="nav-link" routerLink="/account/kyc">{{"KYC" | translate}}</a>

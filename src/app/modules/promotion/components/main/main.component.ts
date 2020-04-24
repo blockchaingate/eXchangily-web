@@ -178,7 +178,7 @@ export class MainComponent implements OnInit {
             this.readyGoReasons = [];
           }
           this.readyGoReasons.push('NotLogin');
-          this.router.navigate(['/login/signin', { 'retUrl': '/promotion/main' }]);
+          // this.router.navigate(['/login/signin', { 'retUrl': '/promotion/main' }]);
         } else {
 
           let exgAddress = '';
@@ -201,8 +201,6 @@ export class MainComponent implements OnInit {
               if (res && res.ok) {
                 this.orders = res._body;
 
-              } else {
-                this.router.navigate(['/login/signin', { 'retUrl': '/promotion/main' }]);
               }
             }
           );
@@ -258,7 +256,7 @@ export class MainComponent implements OnInit {
                 if (!this.readyGoReasons) {
                   this.readyGoReasons = [];
                 }
-                this.readyGoReasons.push('NoKyc');
+                this.readyGoReasons.push('TokenExpired');
               }
             }
           );
