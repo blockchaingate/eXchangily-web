@@ -27,10 +27,6 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     children: [
       {
-        path: '',
-        redirectTo: AccountPaths[0].relative,
-      },
-      {
         resolve: {
           appUser: AppUsersResolver
         },
@@ -90,6 +86,10 @@ const routes: Routes = [
       {
         path: 'logout',
         loadChildren: '../admin/admin.module#AdminModule'
+      },
+      {
+        path: '',
+        redirectTo: AccountPaths[0].relative,
       }
     ]
   }
