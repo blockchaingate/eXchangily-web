@@ -96,6 +96,7 @@ export class SigninComponent implements OnInit {
       }
     }
 
+    console.log('111');
     this._userAuth.userDisplay$.next(loginRet.displayName);
     this._userAuth.isLoggedIn$.next(loginRet['id'] || loginRet._id);
 
@@ -104,6 +105,7 @@ export class SigninComponent implements OnInit {
     this._userAuth.email = loginRet.email;
     this._userAuth.kyc = loginRet.kyc;
     this._userAuth.kycNote = loginRet.kycNote;
+    console.log('000');
     if (loginRet.manageCoins) { this._userAuth.manageCoins = loginRet.manageCoins; }
     if (loginRet.manageEmployee) { this._userAuth.manageEmployee = loginRet.manageEmployee; }
     if (loginRet.manageFinance) { this._userAuth.manageFinance = loginRet.manageFinance; }
@@ -111,12 +113,13 @@ export class SigninComponent implements OnInit {
     if (loginRet.defaultMerchant && loginRet.defaultMerchant._id) {
       this._userAuth.hasMerchant = true;
     }
-
+    console.log('222');
     if (this.afterLoginUrl) {
       this._router.navigate([this.afterLoginUrl]);
     } else if (this.isSystemAdmin) {
       this._router.navigate(['/admin']);
     } else {
+      console.log('333');
       this._router.navigate(['/account/user-info']);
     }
 
