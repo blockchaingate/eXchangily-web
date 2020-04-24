@@ -19,6 +19,7 @@ export class DepositAmountModal {
     @Output() confirmedAmount = new EventEmitter<any>();
     transFee: number;
     firstTime: boolean;
+    tranFeeUnit: string;
     kanbanTransFee: number;
     depositAmountForm = this.fb.group({
         depositAmount: [''],
@@ -38,6 +39,24 @@ export class DepositAmountModal {
        
     }
 
+    getTransFeeUnit() {
+        if(!this.coin) {
+            return '';
+        }
+        const name = this.coin.name;
+        let unit = '';
+        if(name === 'EXG' || name === 'FAB' || name === 'DUSD') {
+            unit = 'FAB';
+        } else 
+        if(name === 'ETH' || name === 'USDT') {
+            unit = 'ETH';
+        } else 
+        if(name === 'BTC') {
+            unit = 'BTC';
+        }   
+        this.tranFeeUnit = unit;  
+        return unit;
+    }
     onTextChange(val) {
 
         if (this.firstTime && this.coin) {
@@ -145,6 +164,8 @@ export class DepositAmountModal {
             amount: amount,
             gasPrice: gasPrice,
             gasLimit: gasLimit,
+            transFee: this.transFee,
+            tranFeeUnit: this.tranFeeUnit,
             satoshisPerBytes: satoshisPerBytes,
             kanbanGasPrice: kanbanGasPrice,
             kanbanGasLimit: kanbanGasLimit

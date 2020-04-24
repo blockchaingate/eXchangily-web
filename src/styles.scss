@@ -349,3 +349,12 @@ body {
 .btn-lg-fixed-width {
     width: 130px!important;
 }
+
+.custom-snackbar {
+    background: rgb(182, 98, 98);
+    color: white;
+}
+
+.custom-snackbar .mat-button-wrapper {
+    color: white;
+}

@@ -8,7 +8,8 @@ export class AlertService {
     }
     openSnackBar(message: string, action: string) {
         this._snackBar.open(message, action, {
-          duration: 10000,
+          duration: 100000,
+          panelClass: ['custom-snackbar']
         });
     }
 }

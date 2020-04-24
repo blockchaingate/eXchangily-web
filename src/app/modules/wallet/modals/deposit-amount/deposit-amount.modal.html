@@ -3,7 +3,7 @@
         <form [formGroup]="depositAmountForm" (ngSubmit)="onSubmit()" *ngIf="coin">
             <div class="modal-content">
                 <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 text-dark">Deposit {{coin.name}}</h4>
+                    <h4 class="modal-title w-100 text-dark">{{'Deposit' | translate}} {{coin.name}}</h4>
                     <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -14,10 +14,10 @@
                         {{alertMsg | translate}}
                     </div>                    
                     <div class="text-muted">
-                        Your balance: {{coin.balance}}
+                        {{'Your balance' | translate}}: {{coin.balance}}
                     </div>
                     <div class="form-group">
-                        <label for="inputSendTo" class="text-muted">Deposit amount</label>
+                        <label for="inputSendTo" class="text-muted">{{'Deposit amount' | translate }}</label>
                         <input type="number" class="form-control" id="inputDepositAmount" (input)="onTextChange($event.target.value)" formControlName="depositAmount" aria-describedby="emailHelp" placeholder="0.0000">
                     </div>
 
@@ -26,17 +26,17 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col text-dark">
-                                Transaction fee </div>
+                                {{'Transaction fee' | translate }} </div>
                             <div class="col text-muted">
                                 <div class="pull-right">
-                                    {{transFee}}
+                                    {{transFee}} {{getTransFeeUnit()}}
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col text-dark">
-                                Kanban Transaction fee </div>
+                                {{'Kanban Transaction fee' | translate }} </div>
                             <div class="col text-muted">
                                 <div class="pull-right">
                                     {{kanbanTransFee}}
@@ -47,7 +47,7 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col text-dark">
-                                Transaction fee advanced
+                                {{'Transaction fee advanced' | translate }}
                             </div>
                             <div class="col text-muted">
                                 <div class="pull-right">
@@ -61,27 +61,29 @@
                         coin.tokenType === 'ETH' ||
                         coin.tokenType === 'FAB'">
                             <div class="form-group">
-                                <label for="gasPrice" class="text-dark">Gas Price(wei)</label>
+                                <label for="gasPrice" class="text-dark">{{'Gas Price(LIU)' | translate }}</label>
                                 <input type="text" class="form-control" id="inputGasPrice" (input)="onTextChange($event.target.value)" formControlName="gasPrice" placeholder="0">
+                                <small class="text-muted">{{'1 LIU = 10^(-8) FAB' | translate }}</small>
                             </div>
                             <div class="form-group">
-                                <label for="gasPrice" class="text-dark">Gas Limit</label>
+                                <label for="gasPrice" class="text-dark">{{'Gas Limit' | translate }}</label>
                                 <input type="text" class="form-control" id="inputGasLimit" (input)="onTextChange($event.target.value)" formControlName="gasLimit" placeholder="0">
                             </div>
                         </div>
                         <div *ngIf="coin.name === 'BTC' || coin.name === 'FAB' || coin.tokenType === 'FAB'">
                             <div class="form-group">
-                                <label for="gasPrice" class="text-dark">Satoshis/byte</label>
+                                <label for="gasPrice" class="text-dark">{{'Satoshis/byte' | translate }}</label>
                                 <input type="text" class="form-control" id="inputSatoshisPerByte" (input)="onTextChange($event.target.value)" formControlName="satoshisPerBytes" placeholder="0">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="gasPrice" class="text-dark">Kanban Gas Price(wei)</label>
+                            <label for="gasPrice" class="text-dark">{{'Kanban Gas Price(WEI)' | translate }}</label>
                             <input type="text" class="form-control" id="inputKanbanGasPrice" (input)="onTextChange($event.target.value)" formControlName="kanbanGasPrice" placeholder="0">
+                            <small class="text-muted">{{'1 WEI = 10^(-18) FAB' | translate }}</small>
                         </div>
                         <div class="form-group">
-                            <label for="gasPrice" class="text-dark">Kanban Gas Limit</label>
+                            <label for="gasPrice" class="text-dark">{{'Kanban Gas Limit' | translate }}</label>
                             <input type="text" class="form-control" id="inputKanbanGasLimit" (input)="onTextChange($event.target.value)" formControlName="kanbanGasLimit" placeholder="0">
                         </div>
                     </div>
@@ -92,7 +94,7 @@
 
                 <div class="modal-footer">
                     <div class="pull-left">
-                        <button class="btn btn-gradient text-white" type="submit"> Confirm </button>
+                        <button class="btn btn-gradient text-white" type="submit"> {{'Confirm' | translate }} </button>
                     </div>
                 </div>
             </div>
