@@ -72,6 +72,8 @@ export class WalletDashboardComponent {
     currentCoin: MyCoin;
     amount: number;
     amountForm: any;
+    fabBalance: number;
+    ethBalance: number;
     coinsPrice: CoinsPrice;
     pin: string;
     seed: Buffer;
@@ -376,16 +378,22 @@ export class WalletDashboardComponent {
         let fabCoin;
         for ( let i = 0; i < this.wallet.mycoins.length; i++ ) {
             const coin = this.wallet.mycoins[i];
+            const balance = await this.coinServ.getBalance(coin);
             if (coin.name === 'DUSD') {
                 hasDUSD = true;
             } else
             if (coin.name === 'EXG') {
-                exgCoin = this.wallet.mycoins[i];
+                exgCoin = coin;
             } else
             if (coin.name === 'FAB') {
-                fabCoin = this.wallet.mycoins[i];
-            }
-            const balance = await this.coinServ.getBalance(coin);
+                fabCoin = coin;
+                this.fabBalance = balance.balance;
+            } else
+            if (coin.name === 'ETH') {
+                this.ethBalance = balance.balance;
+            }             
+            
+
             if (coin.balance !== balance.balance || coin.lockedBalance !== balance.lockbalance) {                        /*
                 this.wallets = new Array<Wallet>();
                 wallets.forEach(wl => { this.wallets.push(wl); });
@@ -455,6 +463,18 @@ export class WalletDashboardComponent {
 
     async loadWallet(wallet: Wallet) {
         this.wallet = wallet;
+
+        for ( let i = 0; i < this.wallet.mycoins.length; i++ ) {
+            const coin = this.wallet.mycoins[i];
+            const balance = coin.receiveAdds[0].balance;
+
+            if (coin.name === 'FAB') {
+                this.fabBalance = balance;
+            } else
+            if (coin.name === 'ETH') {
+                this.ethBalance = balance;
+            } 
+        }        
         // console.log('this.wallet=', this.wallet);
         this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
         this.exgBalance = this.wallet.mycoins[0].balance;
@@ -487,6 +507,9 @@ export class WalletDashboardComponent {
 
     
     addGasFee() {
+        if(this.fabBalance < 0.5) {
+            return;
+        }
         // this.currentCoin = this.wallet.mycoins[1];
         this.addGasModal.show();
     }
@@ -510,6 +533,57 @@ export class WalletDashboardComponent {
     }
 
     onConfirmedDepositAmount(amountForm: any) {
+
+        let fabBalance = 0;
+        let ethBalance = 0;
+        let btcBalance = 0;
+        const amount = amountForm.amount;
+        const transFee = amountForm.transFee;
+        const tranFeeUnit = amountForm.tranFeeUnit;
+        for(let i=0;i< this.wallet.mycoins.length;i++) {
+            if(this.wallet.mycoins[i].name == 'FAB') {
+                fabBalance = this.wallet.mycoins[i].receiveAdds[0].balance;
+            }
+            else if(this.wallet.mycoins[i].name == 'ETH') {
+                ethBalance = this.wallet.mycoins[i].receiveAdds[0].balance;
+            }   
+            else if(this.wallet.mycoins[i].name == 'BTC') {
+                btcBalance = this.wallet.mycoins[i].receiveAdds[0].balance;
+            }                       
+        }
+
+        let currentCoinBalance = this.currentCoin.receiveAdds[0].balance;
+        const coinName = this.currentCoin.name;
+        if(currentCoinBalance < amount) {
+            this.alertServ.openSnackBar('Insufficient ' + coinName + ' for this transaction', 'Ok');
+            return;            
+        }
+        if(tranFeeUnit == 'BTC') {
+            if(transFee > btcBalance) {
+                this.alertServ.openSnackBar('Insufficient BTC for this transaction', 'Ok');
+                return;
+            }
+        } else 
+        if(tranFeeUnit == 'FAB') {
+            if(transFee > fabBalance) {
+                this.alertServ.openSnackBar('Insufficient BTC for this transaction', 'Ok');
+                return;
+            }
+        } else 
+        if(tranFeeUnit == 'ETH') {
+            if(transFee > ethBalance) {
+                this.alertServ.openSnackBar('Insufficient BTC for this transaction', 'Ok');
+                return;
+            }            
+        }
+
+        
+        if((coinName == 'BTC') || (coinName == 'ETH') || (coinName == 'FAB')) {
+            if(currentCoinBalance < amount + transFee) {
+                this.alertServ.openSnackBar('Insufficient ' + coinName + ' for this transaction', 'Ok');
+                return;                
+            }
+        }
         this.amountForm = amountForm;
         this.opType = 'deposit';
         this.pinModal.show();

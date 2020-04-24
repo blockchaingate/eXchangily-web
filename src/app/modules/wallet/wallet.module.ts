@@ -16,7 +16,6 @@ import { RestoreWalletComponent } from './components/restore/restorewallet.compo
 import { RestoreWalletOldComponent } from './components/restoreold/restorewalletold.component';
 import { TransactionHistoryComponent } from './components/transaction-history/transaction-history.component';
 import { AddressKeyComponent } from './modals/components/address-key/address-key.component';
-
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ModalModule } from 'ngx-bootstrap/modal';

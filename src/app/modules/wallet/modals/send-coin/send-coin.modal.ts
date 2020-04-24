@@ -7,6 +7,7 @@ import { MyCoin } from '../../../../models/mycoin';
 import { environment } from '../../../../../environments/environment';
 import { CoinService } from '../../../../services/coin.service';
 import { ApiService } from '../../../../services/api.service';
+import { AlertService } from 'src/app/services/alert.service';
 
 
 @Component({
@@ -18,7 +19,9 @@ export class SendCoinModal {
     @Input() wallet: Wallet;
     @Input() alertMsg: string;
     coin: MyCoin;
+    gasUnit: string;
     transFee: number;
+    tranFeeUnit: string;
     @ViewChild('sendCoinModal', {static: true}) public sendCoinModal: ModalDirective;
     @Output() confirmedCoinSent = new EventEmitter<SendCoinForm>();
     currentCoinIndex: number;
@@ -34,7 +37,8 @@ export class SendCoinModal {
         gasLimit: [environment.chains.FAB.gasLimit],
         satoshisPerBytes: [environment.chains.FAB.satoshisPerBytes]
     });     
-    constructor(private fb: FormBuilder, private coinServ: CoinService, private apiServ: ApiService) {
+    constructor(private fb: FormBuilder, 
+        private coinServ: CoinService, private alertServ: AlertService) {
         this.currentCoinIndex = 0;
         this.transFee = 0;
         this.btcTransFeeEstimate = 0;
@@ -52,16 +56,89 @@ export class SendCoinModal {
             this.coin = this.wallet.mycoins[this.currentCoinIndex];
             console.log('this.coin111==', this.coin);
         }
-        
+    }
+    getTransFeeUnit() {
+        if(!this.coin) {
+            return '';
+        }
+        const name = this.coin.name;
+        let unit = '';
+        if(name === 'EXG' || name === 'FAB' || name === 'DUSD') {
+            unit = 'FAB';
+        } else 
+        if(name === 'ETH' || name === 'USDT') {
+            unit = 'ETH';
+        } else 
+        if(name === 'BTC') {
+            unit = 'BTC';
+        }   
+        this.tranFeeUnit = unit;  
+        return unit;
+    }
+
+    getGasPriceUnit() {
+        if(!this.coin) {
+            return '';
+        }
+        const name = this.coin.name;
+        let unit = '';
+        if(name === 'EXG' || name === 'FAB' || name === 'DUSD') {
+            unit = 'LIU';
+        } else 
+        if(name === 'ETH' || name === 'USDT') {
+            unit = 'WEI';
+        }   
+        this.gasUnit = unit;
+        return unit;
     }
 
     onSubmit() {
         if (!this.coin) {
             this.coin = this.wallet.mycoins[this.currentCoinIndex];
         }
+
+        let fabBalance = 0;
+        let ethBalance = 0;
+        let btcBalance = 0;
+        for(let i=0;i< this.wallet.mycoins.length;i++) {
+            if(this.wallet.mycoins[i].name == 'FAB') {
+                fabBalance = this.wallet.mycoins[i].receiveAdds[0].balance;
+            }
+            else if(this.wallet.mycoins[i].name == 'ETH') {
+                ethBalance = this.wallet.mycoins[i].receiveAdds[0].balance;
+            }   
+            else if(this.wallet.mycoins[i].name == 'BTC') {
+                btcBalance = this.wallet.mycoins[i].receiveAdds[0].balance;
+            }                       
+        }
+
+        if(this.tranFeeUnit == 'BTC') {
+            if(this.transFee > btcBalance) {
+                this.alertServ.openSnackBar('Insufficient BTC for this transaction', 'Ok');
+                return;
+            }
+        } else 
+        if(this.tranFeeUnit == 'FAB') {
+            if(this.transFee > fabBalance) {
+                this.alertServ.openSnackBar('Insufficient BTC for this transaction', 'Ok');
+                return;
+            }
+        } else 
+        if(this.tranFeeUnit == 'ETH') {
+            if(this.transFee > ethBalance) {
+                this.alertServ.openSnackBar('Insufficient BTC for this transaction', 'Ok');
+                return;
+            }            
+        }
+
+
         const to = this.sendCoinForm.get('sendTo').value;
         const selectedCoinIndex = Number(this.sendCoinForm.get('selectedCoinIndex').value);
         const amount = Number(this.sendCoinForm.get('sendAmount').value);
+        if(amount > this.coin.receiveAdds[0].balance) {
+            this.alertServ.openSnackBar('Insufficient ' + this.coin.name + ' for this transaction', 'Ok');
+            return;            
+        }
         const comment = this.sendCoinForm.get('comment').value;
         const gasPrice = this.sendCoinForm.get('gasPrice').value ? Number(this.sendCoinForm.get('gasPrice').value) : 0;
         const gasLimit = this.sendCoinForm.get('gasLimit').value ? Number(this.sendCoinForm.get('gasLimit').value) : 0;

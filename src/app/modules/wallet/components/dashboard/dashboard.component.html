@@ -72,7 +72,7 @@
                                 <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="sendCoin()">{{"Send" | translate }}</button>
                             </div>
                             <div class="d-inline-block pr-3">
-                                <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="addGasFee()">{{"Add Gas" | translate }}</button>
+                                <button class="btn button btn-outline btn-basic-outline btn-fixed-width"  (click)="addGasFee()" [matTooltip]="fabBalance < 0.5 ? ('Not enough FAB' | translate) : ''">{{"Add Gas" | translate }}</button>
                             </div>
                             <div class="d-inline-block pr-3">
                                 <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="exchangeMoney()">{{"Exchange" | translate }}</button>
