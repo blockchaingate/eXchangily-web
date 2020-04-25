@@ -360,6 +360,7 @@ kyc = 100;
       txId: txid,
       token: this.token
     };
+    console.log('coinorder===', coinorder);
     this.campaignorderServ.addOrder(coinorder).subscribe(
       (res: any) => {
         if (res.ok) {
@@ -374,6 +375,9 @@ kyc = 100;
                 console.log('res2=', res2);
                 // this.referralCode = res2._body.referralCode;
                 // this.membership = res2._body.membership;
+                this.quantity = 0;
+                this.step = 1;   
+                this.value = 0;                             
               }
             }
           );
@@ -434,15 +438,21 @@ kyc = 100;
     const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
 
     const amount = this.price * this.quantity;
+    console.log('amount0===', amount);
+    console.log('this.quantity0===', this.quantity);
     const doSubmit = true;
     const options = {
       gasPrice: this.gasPrice,
       gasLimit: this.gasLimit,
       satoshisPerBytes: this.satoshisPerBytes
     };
+    console.log('amount000===', amount);
+    console.log('this.quantity000===', this.quantity);    
     const { txHex, txHash, errMsg } = await this.coinService.sendTransaction(currentCoin, seed,
       environment.addresses.promotionOfficial[currentCoin.name], amount, options, doSubmit
     );
+    console.log('amount001===', amount);
+    console.log('this.quantity001===', this.quantity);
     console.log('errMsg for sendcoin=', errMsg);
     if (errMsg) {
       this.alertServ.openSnackBar(errMsg, 'Ok');
@@ -451,9 +461,9 @@ kyc = 100;
     if (txHex && txHash) {
       this.alertServ.openSnackBar('your transaction was submitted successfully.', 'Ok');
 
-      this.value = 0;
-      this.step = 1;
 
+      console.log('amount1===', amount);
+      console.log('this.quantity1===', this.quantity);
       const item = {
         walletId: this.wallet.id,
         type: 'Send',
@@ -470,9 +480,11 @@ kyc = 100;
       this.timerServ.transactionStatus.next(item);
       this.timerServ.checkTransactionStatus(item);
       this.storageService.storeToTransactionHistoryList(item);
-      this.quantity = 0;
-      this.step = 1;
+      console.log('amount2===', amount);
+      console.log('this.quantity2===', this.quantity);
       this.addOrder(txHash, amount, this.quantity);
+
+     
     }
   }
 }
