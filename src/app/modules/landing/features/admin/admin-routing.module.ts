@@ -23,10 +23,6 @@ const routes: Routes = [
         canActivateChild: [AuthGuard],
         children: [
         {
-            path: '',
-            redirectTo: 'order-mngmt'
-        },
-        {
             path: 'addcoin',
             component: AddcoinComponent
         },
@@ -61,6 +57,10 @@ const routes: Routes = [
         {
             path: 'tokenlock',
             component: TokenlockComponent
+        },
+        {
+            path: '',
+            redirectTo: 'order-mngmt'
         }
     ]},
 ];

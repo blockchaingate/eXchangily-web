@@ -11,7 +11,6 @@ const routes: Routes = [
   { path: 'otc', loadChildren: './modules/otc/otc.module#OtcModule' },
   { path: 'promotion', loadChildren: './modules/promotion/promotion.module#PromotionModule' },
   { path: 'smartcontract', loadChildren: './modules/smartcontract/smartcontract.module#SmartcontractModule' },
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
   {
     resolve: {
       app: AppResolver
@@ -60,6 +59,7 @@ const routes: Routes = [
       isHome: false
     }
   },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
 

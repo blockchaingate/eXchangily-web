@@ -17,10 +17,6 @@ const routes: Routes = [
     canActivateChild: [NoAuthGuard],
     children: [
       {
-        path: '',
-        redirectTo: 'signin'
-      },
-      {
         path: 'signup/:refcode',
         component: SignupComponent
       },
@@ -47,6 +43,10 @@ const routes: Routes = [
       {
         path: 'activate',
         component: ActivateComponent
+      },
+      {
+        path: '',
+        redirectTo: 'signin'
       }
     ]
   },
