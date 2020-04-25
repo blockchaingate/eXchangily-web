@@ -314,8 +314,7 @@ export class CoinService {
         let priKeyDisp = '';
         let buffer = Buffer.alloc(32);
         const path = "m/44'/" + coin.coinType + "'/0'/" + chain + "/" + index;
-        console.log('path===', path);
-        console.log('seed===', seed);
+
         if (name === 'BTC' || name === 'FAB') {
             const root = BIP32.fromSeed(seed, environment.chains.BTC.network);
 
