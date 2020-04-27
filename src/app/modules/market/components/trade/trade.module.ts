@@ -31,6 +31,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { WithdrawHistoryComponent } from './withdraw-history/withdraw-history.component';
 import { SharedModule } from '../../../shared/shared.module';
+import { DecimalPrecisionDirective } from '../../../../directives/decimal-directive';
 
 @NgModule({
     imports: [
@@ -69,7 +70,8 @@ import { SharedModule } from '../../../shared/shared.module';
         OrderPadComponent,
         CallbackPipe,
         OrderFilterPipe,
-        WithdrawHistoryComponent
+        WithdrawHistoryComponent,
+        DecimalPrecisionDirective
     ],
     exports: [
         TradeComponent

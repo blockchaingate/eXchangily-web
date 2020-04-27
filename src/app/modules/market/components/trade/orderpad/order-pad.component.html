@@ -11,8 +11,10 @@
                 <div class="selllist-wrapper">
                     <div class="orderbookitem mt-1" *ngFor="let sell of sells; let i=index" (click)="setPrice(sell.price)">
                         <div [style.width.%]="sell.percentage" [style.height.%]="100" class="percentage-bar percentage-bar-red">&nbsp;</div>
-                        <div class="price smallfont text-danger">{{utilService.showAmount(sell.price)}}</div>
-                        <div class="quantity smallfont text-muted">{{utilService.showAmountArr(sell.amountArr)}}</div>
+                        <div class="price smallfont text-danger">
+                            {{utilService.showAmount(sell.price, pairConfig.priceDecimal)}}</div>
+                        <div class="quantity smallfont text-muted">
+                            {{utilService.showAmountArr(sell.amountArr, pairConfig.qtyDecimal)}}</div>
                         <div class="total smallfont text-muted">{{showSellsAmount(sells, i)}}</div>
                     </div>
                 </div>
@@ -21,7 +23,8 @@
             <div class="current-price-box px-2">
                 <div [style.width.%]="100" [style.height.%]="100" class="percentage-bar percentage-bar-blue">&nbsp;
                 </div>
-                <div style="width: 60%" class="text-info"> {{utilService.showAmount(currentPrice.toString())}}</div>
+                <div style="width: 24%; text-align: right; font-size: larger;" class="text-info">
+                    {{utilService.showAmount(currentPrice.toString(), pairConfig.priceDecimal)}}</div>
                 <!--
                 <div [class.redcolor]="change24h<0" [class.greencolor]="change24h>0" class="text-info"> {{utilService.showAmount(currentQuantity.toString())}} </div>
                 -->
@@ -30,8 +33,10 @@
             <div class="buylist w-100">
                 <div class="orderbookitem mt-1" *ngFor="let buy of buys; let i=index" (click)="setPrice(buy.price)">
                     <div [style.width.%]="buy.percentage" [style.height.%]="100" class="percentage-bar percentage-bar-green">&nbsp;</div>
-                    <div class="price smallfont text-success">{{utilService.showAmount(buy.price)}}</div>
-                    <div class="quantity smallfont text-muted">{{utilService.showAmountArr(buy.amountArr)}}</div>
+                    <div class="price smallfont text-success">
+                        {{utilService.showAmount(buy.price, pairConfig.priceDecimal)}}</div>
+                    <div class="quantity smallfont text-muted">
+                        {{utilService.showAmountArr(buy.amountArr, pairConfig.qtyDecimal)}}</div>
                     <div class="total smallfont text-muted">{{showBuysAmount(buys, i)}}</div>
                 </div>
             </div>
@@ -48,8 +53,9 @@
                 <div class="orderbookitem" *ngFor="let tx of txOrders; let l=index">
 
                     <div class="price smallfont" [ngClass]="tx.m?'text-success':'text-danger'">
-                        {{utilService.showAmount(tx.price)}}</div>
-                    <div class="quantity smallfont text-muted">{{utilService.showAmount(tx.quantity)}}</div>
+                        {{utilService.showAmount(tx.price, pairConfig.priceDecimal)}}</div>
+                    <div class="quantity smallfont text-muted">
+                        {{utilService.showAmount(tx.quantity, pairConfig.qtyDecimal)}}</div>
                     <div class="total smallfont text-muted">{{tx.time | date:'mediumTime'}}</div>
                 </div>
             </div>
@@ -67,13 +73,14 @@
     <div class="lower w-100">
         <div class="buyorder h-100 exg-bg mr-2 pb-3" *ngIf="baseCoin >= 0">
             <div class="aspace text-success">
-                {{'Available' | translate}} {{coinService.getCoinNameByTypeId(baseCoin)}}: {{utilService.showAmount(baseCoinAvail)}}
+                {{'Available' | translate}} {{coinService.getCoinNameByTypeId(baseCoin)}}: {{utilService.showAmount(baseCoinAvail, pairConfig.qtyDecimal)}}
             </div>
 
             <div class="aspace text-white">{{'Price' | translate}}</div>
-            <div><input type="text" class="form-control" [disabled]="orderType === 2" [(ngModel)]="buyPrice"> </div>
+            <div><input type="text" [decimal]=" pairConfig.priceDecimal" class="form-control" [disabled]="orderType === 2" [(ngModel)]="buyPrice"> </div>
+
             <div class="aspace text-white">{{'Quantity' | translate}}</div>
-            <div><input type="text" class="form-control" [(ngModel)]="buyQty"> </div>
+            <div><input type="text" [decimal]=" pairConfig.qtyDecimal" class="form-control" [(ngModel)]="buyQty"> </div>
             <div class="container pt-2">
                 <div class="row text-white">
                     <div class="col col-3 text-center hand" (click)="setBuyQtyPercent(0.25)">
@@ -96,7 +103,7 @@
             </div>
             <div class="d-flex justify-content-between py-1 text-white">
                 <div>
-                    {{'Transaction fee' | translate}}: {{utilService.showAmount(buyGasPrice*buyGasLimit)}}
+                    {{'Transaction fee' | translate}}: {{utilService.showAmount(buyGasPrice*buyGasLimit, 6)}}
                 </div>
                 <div>
                     <mat-slide-toggle [(ngModel)]="buyTransFeeAdvance"></mat-slide-toggle>
@@ -129,13 +136,13 @@
 
         <div class="sellorder h-100 exg-bg pb-2" *ngIf="targetCoin >= 0">
             <div class="aspace text-danger">
-                {{'Available' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}: {{utilService.showAmount(targetCoinAvail)}}
+                {{'Available' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}: {{utilService.showAmount(targetCoinAvail, 6)}}
             </div>
 
             <div class="aspace text-white">{{'Price' | translate}}</div>
-            <div><input type="text" class="form-control" [disabled]="orderType === 2" [(ngModel)]="sellPrice"></div>
+            <div><input type="text" [decimal]=" pairConfig.priceDecimal" class="form-control" [disabled]="orderType === 2" [(ngModel)]="sellPrice"></div>
             <div class="aspace text-white">{{'Quantity' | translate}}</div>
-            <div><input type="text" class="form-control" [(ngModel)]="sellQty"> </div>
+            <div><input type="text" [decimal]=" pairConfig.qtyDecimal" class="form-control" [(ngModel)]="sellQty"> </div>
 
             <div class="container pt-2">
                 <div class="row text-white">
@@ -159,7 +166,7 @@
 
             <div class="d-flex justify-content-between py-1 text-white">
                 <div>
-                    {{'Transaction fee' | translate}}: {{utilService.showAmount(sellGasPrice*sellGasLimit)}}
+                    {{'Transaction fee' | translate}}: {{utilService.showAmount(sellGasPrice*sellGasLimit, 6)}}
                 </div>
                 <div>
                     <mat-slide-toggle [(ngModel)]="sellTransFeeAdvance"></mat-slide-toggle>

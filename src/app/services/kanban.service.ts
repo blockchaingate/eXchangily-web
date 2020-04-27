@@ -158,7 +158,7 @@ export class KanbanService {
         let gas = 0;
         try {
             const ret = await this.get(path).toPromise() as KanbanGetBanalceResponse;
-            //gas = Number(BigInt(ret.balance.FAB).toString(10)) / 1e18;
+            // gas = Number(BigInt(ret.balance.FAB).toString(10)) / 1e18;
 
             const fab = this.utilServ.stripHexPrefix(ret.balance.FAB);
             gas = this.utilServ.hexToDec(fab) / 1e18;            
@@ -244,7 +244,7 @@ export class KanbanService {
         } catch (e) {console.log (e); }
 
         return status;         
-    }   
+    }
     
     getTransactionStatusSync(txid: string) {
         return this.get('kanban/getTransactionReceipt/' + txid);
@@ -253,5 +253,9 @@ export class KanbanService {
     getDepositStatusSync(txid: string) {
         txid = this.utilServ.stripHexPrefix(txid);
         return this.get('checkstatus/' + txid);
+    }
+
+    getPairConfig() {
+        return this.get('kanban/getPairConfig');
     }
 }

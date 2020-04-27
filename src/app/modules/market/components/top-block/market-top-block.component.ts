@@ -25,10 +25,10 @@ export class MarketTopBlockComponent implements OnInit {
   }
 
   updateTicker (ticker) {
-    const price = this.utilServ.showAmount(ticker.price);
-    const volume = this.utilServ.showAmount(ticker['24h_volume']);
-    const open = this.utilServ.showAmount(ticker['24h_open']);
-    const close = this.utilServ.showAmount(ticker['24h_close']);
+    const price = this.utilServ.showAmount(ticker.price, 6);
+    const volume = this.utilServ.showAmount(ticker['24h_volume'], 6);
+    const open = this.utilServ.showAmount(ticker['24h_open'], 6);
+    const close = this.utilServ.showAmount(ticker['24h_close'], 6);
     this.price = price;
     this.volume = volume;
     const bigO = new BigNumber(open);
