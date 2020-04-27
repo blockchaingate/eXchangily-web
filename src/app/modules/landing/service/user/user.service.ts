@@ -53,8 +53,22 @@ export class UserService {
   }
 
   // Get all members
-  public getAllUsers() {
-    return this.http.get(path, true).pipe(map(res => res));
+  public getAllUsers(token: string) {
+    const apath = path + '?appId=' + this._appAuth.id;
+    console.log('apath=', apath);
+    return this.http.getPrivate(apath, token);
+    // return this.http.get(path, true).pipe(map(res => res));
+  }
+  public getAllInactiveUsers(token: string) {
+    const apath = path + 'inactive?appId=' + this._appAuth.id;
+    console.log('apath=', apath);
+    return this.http.getPrivate(apath, token);
+    // return this.http.get(path, true).pipe(map(res => res));
+  }
+
+  public setActive(memberId: string, token: string) {
+    const apath = path + 'setactive?memberId=' + memberId;
+    return this.http.getPrivate(apath, token);
   }
 
   // Login
