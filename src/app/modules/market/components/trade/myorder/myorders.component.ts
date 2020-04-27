@@ -70,6 +70,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
         const url = '/market/withdraw_history/' + excoin.receiveAdds[0].address;
         this._router.navigate([url]);
     }
+
     async ngOnInit() {
         
         this.gasPrice = environment.chains.KANBAN.gasPrice;
@@ -91,9 +92,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
             (tokens: any) => { 
                 this.mytokens = tokens;
             }            
-        );        
-
-
+        );
 
     }
 
@@ -107,7 +106,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
             return;
         }
 
-        if (amount > Number(this.utilServ.showAmount(this.token.unlockedAmount))) {
+        if (amount > Number(this.utilServ.showAmount(this.token.unlockedAmount, 6))) {
             this.alertServ.openSnackBar('Your withdraw amount is bigger than your balance.', 'Ok');
             return;
         }

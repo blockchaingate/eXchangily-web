@@ -63,19 +63,20 @@
 }
 
 .price {
-    width: 40%;
+    width: 24%;
     padding-left: 0.6em;
+    text-align: right;
 }
 
 .quantity {
-    width: 30%;
+    width: 38%;
     text-align: right;
     padding-right: 0.6em;
 }
 
 .time,
 .total {
-    width: 30%;
+    width: 38%;
     text-align: right;
     padding-right: 0.6em;
 }

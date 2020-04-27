@@ -27,9 +27,10 @@ export class MarketListComponent implements OnInit {
         
     }
 
-    showAmount(amount) {
-        return this.utilServ.showAmount(amount);
+    showAmount(amount, decimal) {
+        return this.utilServ.showAmount(amount, decimal);
     }
+
     ngOnInit() {
         this.prices = this.prServ.getPriceList();
         this.COINS = this.prServ.getCoinList();
@@ -43,7 +44,6 @@ export class MarketListComponent implements OnInit {
             }
         );
         
-
         this._wsServ.currentPrices.subscribe((arr: any) => {
             this.updateTickerList(arr);
         });

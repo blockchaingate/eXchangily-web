@@ -75,12 +75,12 @@ export class LiteListComponent implements OnInit {
           }
         );    
     }
+
     setSelect() {
         this.select = this.searchText;
     }
     selectCat(cat: string) {
-        this.select = '/' + cat;
-        
+        this.select = '/' + cat;        
     }
 
     loadTradePair(pair: string) {
