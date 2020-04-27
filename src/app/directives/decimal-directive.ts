@@ -173,6 +173,7 @@ export class DecimalPrecisionDirective implements OnChanges, AfterViewInit {
         }
         this.checkDecimal();
     }
+
     // HostListener for MouseUp
     @HostListener('mouseup', ['$event']) onmouseup(event) {
         this.e = event;
@@ -272,6 +273,7 @@ export class DecimalPrecisionDirective implements OnChanges, AfterViewInit {
         console.log('value', event.target.value);
         console.log('model', this._model);
     }
+
     // HostListener for paste
     @HostListener('paste', ['$event'])
     onPaste(event: ClipboardEvent) {
@@ -286,6 +288,7 @@ export class DecimalPrecisionDirective implements OnChanges, AfterViewInit {
             .replace(/\D/g, ''); // get a digit-only string
         document.execCommand('insertText', false, pastedInput);
     }
+
     private checkDecimal(): void {
         if (
             [46, 8, 9, 27, 13].indexOf(this.e.keyCode) !== -1 ||
@@ -377,13 +380,10 @@ export class DecimalPrecisionDirective implements OnChanges, AfterViewInit {
                     }
                 }
 
-                if (
-                    new RegExp('^(.[0-9]{0,' + this.newSize + '})?$').test(
-                        this.model.model
-                    )
-                ) {
+                if (new RegExp('^(.[0-9]{0,' + this.newSize + '})?$').test(this.model.model)) {
                     return;
                 }
+                
                 this.e.preventDefault();
                 return;
             }
