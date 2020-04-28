@@ -41,6 +41,11 @@ mat-toolbar {
 
 .transparent {
     background: none;
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
+}
+
+.lanbut {
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 button:active,

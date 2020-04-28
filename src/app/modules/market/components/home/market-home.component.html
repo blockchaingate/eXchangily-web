@@ -1,5 +1,5 @@
 <div class="containerX">
-    <div class="gradient-back-area">
+    <div class="gradient-back-area" fxLayout="column" fxFlexAlign.lt-md="300px">
         <div class="topslogan">
             <div class="container">
                 <div class="slogan">
@@ -11,8 +11,7 @@
                     </div>
                 </div>
 
-
-                <div class="row" *ngIf="showAdv">
+                <div class="row advblocks" fxHide.lt-md>
                     <div class="col-md-3 col-sm-6 col-6">
                         <app-advblock class="advblock right1em" [title]="'eXchangily is S.A.F.E' | translate" [desc1]="'Secure, Autonomous, Fast, Easy' | translate" [bgimgurl]="'images/adv/01.png'"></app-advblock>
                     </div>

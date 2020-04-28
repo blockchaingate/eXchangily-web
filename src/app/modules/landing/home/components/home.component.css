@@ -3,123 +3,122 @@
 }
 
 .main-panel {
-  text-align: center;
-  margin-top: 4em;
+    text-align: center;
+    margin-top: 4em;
 }
 
 .main-panel-LTMD {
-  text-align: center;
-  margin-top: 8em;
+    text-align: center;
+    margin-top: 8em;
 }
 
 .toparea {
-  width: 100%;
-  height: 600px;
-  background: url(/images/bg/decen.png) no-repeat center;
-  background-size:cover;
-  color: white;
+    width: 100%;
+    height: 600px;
+    background-size: cover;
+    color: white;
 }
 
 .toparea-LTMD {
-  width: 100%;
-  height: 900px;
-  background-color: black;
-  background-size:cover;
-  color: white;
+    width: 100%;
+    height: 900px;
+    background-color: black;
+    background-size: cover;
+    color: white;
 }
 
 .toptext {
-  max-width: 560px;
-  padding: 1em 1em;
+    max-width: 560px;
+    padding: 1em 1em;
 }
 
 .toptext-LTMD {
-  width: 100%;
-  padding: 1em 1em;
+    width: 100%;
+    padding: 1em 1em;
 }
 
 .big1 {
-  font-size: 36px;
-  max-width: 500px;
+    font-size: 36px;
+    max-width: 500px;
 }
 
 .big2 {
-  font-size: 18px;
-  max-width: 500px;
+    font-size: 18px;
+    max-width: 500px;
 }
 
 .graybg {
-  background-color: #F4F6F9;
-  padding-top: 80px;
-  padding-bottom: 80px;
+    background-color: #F4F6F9;
+    padding-top: 80px;
+    padding-bottom: 80px;
 }
 
 .sectioner {
-  width: 100%;
-  margin-top: 4em;
-  text-align: center;
+    width: 100%;
+    margin-top: 4em;
+    text-align: center;
 }
 
 .title {
-  color: #32A4BE;
-  font-size: 48px;
+    color: #32A4BE;
+    font-size: 48px;
 }
 
 .subtitle {
-  max-width: 800px;
-  color: gray;
-  font-size: 24px;
-  margin: 0.5em 1em;
+    max-width: 800px;
+    color: gray;
+    font-size: 24px;
+    margin: 0.5em 1em;
 }
 
 .contentnarrow {
-  max-width: 1120px;
-  text-align: left;
-  margin: 1em 1em;
+    max-width: 1120px;
+    text-align: left;
+    margin: 1em 1em;
 }
 
 .video-list {
-  width: 100%;
+    width: 100%;
 }
 
 .cover {
-  width: 340px;
+    width: 340px;
 }
 
 .desc {
-  max-width: 1020px;
-  margin: 1em 1em;
-  text-align: left;
-  color: gray;
-  font-size: smaller;
+    max-width: 1020px;
+    margin: 1em 1em;
+    text-align: left;
+    color: gray;
+    font-size: smaller;
 }
 
 .info {
-  width: 360px;
-  text-align: left;
+    width: 360px;
+    text-align: left;
 }
 
 .content {
-  margin: 2em 1em;
+    margin: 2em 1em;
 }
 
 .feature-block {
-  width: 320px;
+    width: 320px;
 }
 
 .icon {
-  margin-top: 1em;
-  margin-bottom: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 .coin {
-  background-image: url("/images/bg/usage_bg.svg");
-  background-repeat: no-repeat;
-  background-size: contain;
-  width: 340px;
-  height: 340px;
+    background-image: url("/images/bg/usage_bg.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 340px;
+    height: 340px;
 }
 
 .maintext {
-  color: white;
+    color: white;
 }
