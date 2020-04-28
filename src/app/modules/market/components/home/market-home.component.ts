@@ -10,15 +10,15 @@ import { MarketListComponent } from '../list/market-list.component';
   styleUrls: ['./market-home.component.css']
 })
 export class MarketHomeComponent implements OnInit {
-  showAdv = true;
+  // showAdv = true;
   // socket: any;
   constructor() {
 
   }
   ngOnInit() {
-    if (window.screen.width <= 1280) { // 768px portrait
-      this.showAdv = false;
-    }
+//    if (window.screen.width <= 1280) { // 768px portrait
+//      this.showAdv = false;
+//    }
     /*
     this.socket = new WebSocketSubject(environment.websockets.allprices);
     this.socket.subscribe(

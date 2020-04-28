@@ -1,6 +1,7 @@
 .mobile-div {
     max-width: 480px;
 }
+
 a {
     color: #0056b3;
     text-decoration: underline;
@@ -13,7 +14,7 @@ a {
 }
 
 .title {
-    font-family: 'Times New Roman', Times, serif;
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     margin: 2px 12px;
     padding-top: 12px;
     color: white;

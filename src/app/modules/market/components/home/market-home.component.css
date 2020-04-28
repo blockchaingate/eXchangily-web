@@ -9,9 +9,9 @@
     height: 410px;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 960px) {
     .topslogan {
-        height: 520px;
+        height: 300px;
     }
 }
 
@@ -30,13 +30,14 @@
     width: 50%;
     text-align: left;
     vertical-align: middle;
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     color: white;
-    font-size: 2.2em;
+    font-size: 2.1em;
     padding-right: 1em;
     padding-top: 1em;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 960px) {
     .slogan-left {
         width: 100%;
     }
@@ -51,11 +52,10 @@
 */
 
 .topslogan .container {
-    background-image: url('/assets/market.png');
     background-repeat: no-repeat;
     background-size: auto 380px;
     background-position: right 120px center;
-    font-family: 'Courier New', Courier, monospace, Heiti;
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 .containerX {
@@ -63,9 +63,9 @@
 }
 
 .topslogan {
-    background-image: url('/images/circle.svg');
+    background-image: url('/images/waves.svg');
     background-repeat: no-repeat;
-    background-size: 100% 150px;
+    background-size: 100% auto;
     background-position: left bottom;
 }
 
