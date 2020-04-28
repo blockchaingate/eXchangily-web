@@ -114,12 +114,21 @@ export class HeaderComponent implements OnInit {
     if (!lang) {
       lang = navigator.language;
       lang = lang.substr(0, 2);
-      if (lang === 'CN' || lang === 'cn') { lang = 'zh'; }
+      if (lang === 'CN' || lang === 'cn') {
+        lang = 'zh';
+      }
       localStorage.setItem('Lan', lang.toLowerCase());
     } else {
-      if (lang === 'CN' || lang === 'cn') { lang = 'zh'; }
+      if (lang === 'CN' || lang === 'cn') { 
+        lang = 'zh';
+      }
     }
   
+    if (lang === 'zh') {
+      this.currentLang = '中文';
+    } else if (lang === 'en') {
+      this.currentLang = 'English';
+    }
     this.translate.use(lang.toLowerCase());
   }
 

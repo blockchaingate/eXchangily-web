@@ -3,8 +3,6 @@
         "Title": "eXchangily",
         "Navigation": {
             "Home": "关于",
-            "Language": "中文",
-            "Whitepaper": "下载白皮书",
             "Signin": "登陆",
             "Signout": "退出",
             "Signup": "注册",
@@ -20,11 +18,6 @@
         "Address": "地址"
     },
     "Footer": {
-        "Title": "eXchangily",
-        "Navigation": {
-            "Home": "首页",
-            "Whitepaper": "下载白皮书"
-        },
         "Copyright": "2019 eXchangily All Rights Reserved"
     },
     "Home": {
@@ -1016,7 +1009,7 @@
     "Gas Price(LIU)": "燃料价格(LIU)",
     "Gas Limit": "燃料限额",
     "Kanban Gas Price(WEI)": "看板燃料价格(WEI)",
-    "Kanban Gas Limit": "看板燃料限额",    
+    "Kanban Gas Limit": "看板燃料限额",
     "Home Page": "首页",
     "Not enough FAB": "FAB余额不足",
     "Phone(USA)": "电话(美国)",
