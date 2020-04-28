@@ -20,6 +20,10 @@ export class OtcService {
     return this.http.getPrivate(path + 'otc-listing/private/list', token);
   }
 
+  getPublicListings() {
+    return this.http.get(path + 'otc-listing/public/list');
+  }
+
   getAllListings(token: string) {
     return this.http.getPrivate(path + 'otc-listing/admin/list', token);
   }

@@ -3,6 +3,8 @@ import { OtcPlaceOrderModal } from '../../modals/otc-place-order/otc-place-order
 import { ApplyForMerchantModal } from '../../modals/apply-for-merchant/apply-for-merchant';
 import { ConfirmPaymentModal } from '../../modals/confirm-payment/confirm-payment';
 import { Router } from '@angular/router';
+import { StorageService } from '../../../../services/storage.service';
+import { OtcService } from '../../../../services/otc.service';
 
 export interface PeriodicElement {
   Merchant: string;
@@ -134,17 +136,31 @@ export class TradeComponent implements OnInit {
     'CNY'
   ];
 
-  dataSource = ELEMENT_DATA;
+  dataSource: any;
 
   @ViewChild('otcPlaceOrderModal', {static: true}) otcPlaceOrderModal: OtcPlaceOrderModal;
   @ViewChild('applyForMerchantModal', {static: true}) applyForMerchantModal: ApplyForMerchantModal;
   @ViewChild('confirmPaymentModal', {static: true}) confirmPaymentModal: ConfirmPaymentModal;
-  constructor(private _router: Router) { }
+  constructor(private _router: Router,        
+    private storageService: StorageService,
+    private _otcServ: OtcService
+  ) { }
 
   ngOnInit() {
     this.bidOrAsk = true;
     this.coinName = 'USDT';
     this.currency = 'USD';
+    // this.dataSource = ELEMENT_DATA;
+    this.dataSource = [];
+    this._otcServ.getPublicListings().subscribe(
+      (res: any) => {
+          console.log('res from addListing=', res);
+          if(res && res.ok) {
+              this.dataSource = res._body;
+              console.log('this.dataSource===', this.dataSource);
+          }
+      }
+    );    
   }
 
   changeCoinName(bOrA: boolean, coin: string) {
