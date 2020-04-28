@@ -26,6 +26,7 @@ import { MarketTopComponent } from './components/top/market-top.component';
 import { MarketTopBlockComponent } from './components/top-block/market-top-block.component';
 import { TradeAutoComponent } from './components/trade-auto/trade-auto.component';
 import { SharedModule } from '../shared/shared.module';
+// import { ParticlesModule } from 'angular-particle';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { SharedModule } from '../shared/shared.module';
     HttpClientModule,
     RouterModule,
     CarouselModule,
+//    ParticlesModule,
     MarketRoutingModule,
     TradeModule,
     MatSnackBarModule,

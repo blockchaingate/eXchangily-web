@@ -6,7 +6,7 @@
 .topslogan {
     padding: 0.6em;
     text-align: center;
-    height: 410px;
+    height: 340px;
 }
 
 @media only screen and (max-width: 960px) {
@@ -17,7 +17,6 @@
 
 .slogan {
     display: flex;
-    height: 220px;
     margin-top: 1em;
 }
 
@@ -27,7 +26,6 @@
 }
 
 .slogan-left {
-    width: 50%;
     text-align: left;
     vertical-align: middle;
     font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
