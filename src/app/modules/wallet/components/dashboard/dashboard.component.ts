@@ -599,13 +599,13 @@ export class WalletDashboardComponent {
         } else
             if (tranFeeUnit === 'FAB') {
                 if (transFee > fabBalance) {
-                    this.alertServ.openSnackBar('Insufficient BTC for this transaction', 'Ok');
+                    this.alertServ.openSnackBar('Insufficient FAB for this transaction', 'Ok');
                     return;
                 }
             } else
                 if (tranFeeUnit === 'ETH') {
                     if (transFee > ethBalance) {
-                        this.alertServ.openSnackBar('Insufficient BTC for this transaction', 'Ok');
+                        this.alertServ.openSnackBar('Insufficient ETH for this transaction', 'Ok');
                         return;
                     }
                 }
