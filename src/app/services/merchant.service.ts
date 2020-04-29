@@ -21,6 +21,9 @@ export class MerchantService {
     return this.http.postPrivate(path + 'create', merchant, token);
   }
 
+  createOtcMerchant(token: string, merchant: MerchantModel) {
+    return this.http.postPrivate(environment.endpoints.blockchaingate + 'otc-merchant/' + 'create', merchant, token);
+  }  
   // Retrieve a merchant by its id.
   get(id: number | string) {
     return this.http.get(path + id, true).pipe(map(res => <Merchant>res));

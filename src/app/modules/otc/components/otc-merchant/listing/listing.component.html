@@ -156,7 +156,7 @@
                         <th scope="col">{{'Limit' | translate }}</th>
                         <th scope="col">{{'Price' | translate }}</th>
                         <th scope="col">{{'Orders' | translate }}</th>
-                        <th scope="col">{{'Operation' | translate }}</th>
+                        <th scope="col">{{'Active' | translate }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -197,12 +197,9 @@
                             </span>
                         </td>
                         <td>
-                            <button mat-icon-button aria-label="Example icon-button with a heart icon">
-                                <mat-icon>edit</mat-icon>
-                            </button>
-                            <button mat-icon-button aria-label="Example icon-button with a heart icon">
-                                <mat-icon>close</mat-icon>
-                            </button>
+                            <span class="table-text">
+                                {{listing.active}}
+                            </span>                            
                         </td>
                     </tr>
                 </tbody>
