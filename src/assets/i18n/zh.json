@@ -3,8 +3,6 @@
         "Title": "eXchangily",
         "Navigation": {
             "Home": "关于",
-            "Language": "中文",
-            "Whitepaper": "下载白皮书",
             "Signin": "登陆",
             "Signout": "退出",
             "Signup": "注册",
@@ -20,11 +18,6 @@
         "Address": "地址"
     },
     "Footer": {
-        "Title": "eXchangily",
-        "Navigation": {
-            "Home": "首页",
-            "Whitepaper": "下载白皮书"
-        },
         "Copyright": "2019 eXchangily All Rights Reserved"
     },
     "Home": {
@@ -533,8 +526,8 @@
     "Slid2Content": "亿币是完全去中心化的高性能数字货币交易所，用户完全拥有自己的数字资产控制权，绝对安全、放心。",
     "Slid3Title": "不一样的体验，不一样的机遇",
     "Slid3Content": "全新的自主化平台意味着全新的机遇，详细了解这一划时代平台的性能，您有可能获得前所未的机遇。",
-    "TopSologan": "一站式全功能万用数字资产保管交易理财利器",
-    "TopSloganContent": "多功能全币种万用数字货币钱包，带高性能去中心化交易功能，支持数字资产的保管、交易、支付及自助理财，这一切都是在您对您的财富完全掌控下进行，无需进行第三方托管。高效、安全、方便、自主，重新定义财富规则，亿币开创新时代。",
+    "TopSologan": "数字资产钱包、交易、支付、理财四合一王者利器",
+    "TopSloganContent": "多功能全币种万用数字货币钱包，内置高性能去中心化交易所，支持数字资产的保管、交易、支付及自助理财，这一切都是在您对自己的财富完全绝对自主掌控下进行，无需进行第三方托管，无需冒交易所倒闭、跑路、被骇风险。高效、安全、方便、自主，自由自在，心安理得，亿币重新定义数字时代财富规则。",
     "Announcement": {
         "01": "亿币去中心化数字货币交易所2019年7月1日正式上线运营",
         "02": "BTC、ETH、ETC、LTC、USDT、FAB、EXG等币种率先上线交易"
@@ -1016,9 +1009,9 @@
     "Gas Price(LIU)": "燃料价格(LIU)",
     "Gas Limit": "燃料限额",
     "Kanban Gas Price(WEI)": "看板燃料价格(WEI)",
-    "Kanban Gas Limit": "看板燃料限额",    
+    "Kanban Gas Limit": "看板燃料限额",
     "Home Page": "首页",
-    "Not enough FAB": "FAB余额不足",
+    "No enough FAB in wallet, can not add gas": "钱包中FAB余额不足，无法添加燃料",
     "Phone(USA)": "电话(美国)",
     "Phone(China)": "电话(中国)",
     "My Orders": "我的订单",
@@ -1035,5 +1028,6 @@
     "OTC Merchant": "法币交易商家",
     "Update EXG Address": "更新EXG地址",
     "Order#": "订单号",
-    "Updated successful": "成功更新"
+    "Updated successful": "成功更新",
+    "No enough gas in exchange, please add gas to trade": "您在交易所中没有足够燃料，必须添加燃料才能交易"
 }
