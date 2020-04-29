@@ -989,5 +989,7 @@
     "AddGasQ": "What does Add Gas mean? how much to add",
     "AddGasA": "Add Gas is to refill FAB to the Exchange, in Exchange all transactions consume fuel that is FAB, without Gas you can do nothing in Exchange include moving coin to Exchange, if you want to trade in Exchange, you must add gas first, however, if you only use wallet and will not use Exchange, you never need to add gas.",
     "WithdrawQ": "Move coin from Exchange to wallet but not received",
-    "WithdrawA": "Exchange process withdraw requests every half hour, usually it make take 40 minutes to receive it in wallet, sometime it may take much longer time due to distination blockchain busy."
+    "WithdrawA": "Exchange process withdraw requests every half hour, usually it make take 40 minutes to receive it in wallet, sometime it may take much longer time due to distination blockchain busy.",
+    "BuyFABQ": "I need to add gas, but where to get FAB",
+    "BuyFABA": "You can buy FAB in OTC area, or buy from other centralized exchange or from FAB holders, you can mine FAB also, Exchangily have events rewards FAB frequently also, or you can contact us through customer service to get help quickly."
 }
