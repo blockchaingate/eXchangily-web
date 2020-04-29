@@ -723,6 +723,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     this.kanbanService.sendRawSignedTransaction(txHex).subscribe((resp: TransactionResp) => {
 
       if (resp && resp.transactionHash) {
+        this.kanbanService.incNonce();
         this.alertServ.openSnackBar('Your order was placed successfully.', 'Ok');
 
         const address = this.wallet.excoin.receiveAdds[0].address;

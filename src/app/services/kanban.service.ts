@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {BlockNumberResponse, BlockResponse, AccountsResponse, TransactionsResponse,
-    KanbanGetBanalceResponse, TransactionAccountResponse, DepositStatusResp} from '../interfaces/kanban.interface';
+import {
+    KanbanGetBanalceResponse, KanbanNonceResponse, DepositStatusResp} from '../interfaces/kanban.interface';
 import { environment } from '../../environments/environment';
 import { UtilService } from './util.service';
 import {TransactionReceiptResp} from '../interfaces/kanban.interface';
@@ -9,10 +9,10 @@ import {TransactionReceiptResp} from '../interfaces/kanban.interface';
 export class KanbanService {
 // getCoinPoolAddress
 // getExchangeAddress
-
+    nonce: number;
     endpoint = environment.endpoints.kanban;
    
-    constructor(private http: HttpClient, private utilServ: UtilService) { }
+    constructor(private http: HttpClient, private utilServ: UtilService) { this.nonce = 0 }
 
     async getCoinPoolAddress() {
         const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
@@ -77,10 +77,39 @@ export class KanbanService {
 
     
     async getTransactionCount(address: string) {
+        return this.getNonce(address);
+        /*
         const path = 'kanban/getTransactionCount/' + address; 
         // console.log('nouse in here:', path);
         const res = await this.get(path).toPromise() as TransactionAccountResponse;
         return res.transactionCount;
+        */
+    }
+
+    async getPendingNonce(address: string) {
+        const path = 'kanban/explorer/getnonce/' + address + '/pending';
+        const res = await this.get(path).toPromise() as KanbanNonceResponse;
+        return res.nonce;        
+    }
+
+    async getLatestNonce(address: string) {
+        const path = 'kanban/explorer/getnonce/' + address + '/latest';
+        const res = await this.get(path).toPromise() as KanbanNonceResponse;
+        return res.nonce;        
+    }
+
+    async getNonce(address: string) {
+        let nonce = this.nonce;
+        if(!nonce || (nonce == 0)) {
+            nonce = await this.getLatestNonce(address);
+            this.nonce = nonce;
+        }
+        console.log('final nonce=', nonce);
+        return nonce;
+    }
+
+    incNonce() {
+        this.nonce ++;
     }
 
     getOrdersByAddress(address: string) {

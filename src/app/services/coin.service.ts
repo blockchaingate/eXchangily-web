@@ -447,32 +447,41 @@ export class CoinService {
         const txb = new Btc.TransactionBuilder(network);
         // console.log('amountNum=', amountNum);
         let txHex = '';
+        console.log('address there wego=', address);
         for (index = 0; index < mycoin.receiveAdds.length; index ++) {
             balance = mycoin.receiveAdds[index].balance;
+            console.log('index=', index);
+            console.log('balance=', balance);
             if (balance <= 0) {
                 continue;
             }
             address = mycoin.receiveAdds[index].address;
             // console.log('address in getFabTransactionHex=' + address);
             const fabUtxos = await this.apiService.getFabUtxos(address);
+            console.log('fabUtxos==', fabUtxos);
             if (fabUtxos && fabUtxos.length) {
                 // console.log('fabUtxos=', fabUtxos);
                 // console.log('fabUtxos.length=', fabUtxos.length);
                 for (let i = 0; i < fabUtxos.length; i++) {
+                    console.log('i=', i);
                     const utxo = fabUtxos[i];
                     const idx = utxo.idx;
+                    /*
                     const isLocked = await this.apiService.isFabTransactionLocked(utxo.txid, idx);
                     if (isLocked) {
                         continue;
                     }
-                    txb.addInput(utxo.txid, utxo.idx);
+                    */
+                    txb.addInput(utxo.txid, idx);
                     // console.log('input is');
                     // console.log(utxo.txid, utxo.idx, utxo.value);
                     receiveAddsIndexArr.push(index);
                     totalInput += utxo.value;
                     // console.log('totalInput here=', totalInput);
+                    console.log('amountNum1=', amountNum);
                     amountNum -= utxo.value;
                     amountNum += feePerInput;
+                    console.log('amountNum2=', amountNum);
                     if (amountNum <= 0) {
                         finished = true;
                         break;
@@ -495,15 +504,19 @@ export class CoinService {
                 address = mycoin.changeAdds[index].address;
                 
                 const fabUtxos = await this.apiService.getFabUtxos(address);
+                console.log('fabUtxos==', fabUtxos);
                 if (fabUtxos && fabUtxos.length) {
                     for (let i = 0; i < fabUtxos.length; i++) {
                         const utxo = fabUtxos[i];
                         const idx = utxo.idx;
+
+                        /*
                         const isLocked = await this.apiService.isFabTransactionLocked(utxo.txid, idx);
                         if (isLocked) {
                             continue;
-                        }                    
-                        txb.addInput(utxo.txid, utxo.idx);
+                        }      
+                        */              
+                        txb.addInput(utxo.txid, idx);
                         // console.log('input is');
                         // console.log(utxo.txid, utxo.idx, utxo.value);
                         receiveAddsIndexArr.push(index);

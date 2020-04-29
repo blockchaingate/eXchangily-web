@@ -552,6 +552,7 @@ export class WalletDashboardComponent {
 
     deposit(currentCoin: MyCoin) {
         this.currentCoin = currentCoin;
+        this.depositModal.initForm(currentCoin);
         this.depositModal.show();
     }
 
@@ -888,9 +889,9 @@ export class WalletDashboardComponent {
         }
 
         const redepositArray = this.currentCoin.redeposit;
-        const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
+        // const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
         if (redepositArray && redepositArray.length > 0) {
-            let nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
+            
             for (let i = 0; i < redepositArray.length; i++) {
                 const redepositItem = redepositArray[i];
                 const amount = new BigNumber(redepositItem.amount);
@@ -904,14 +905,15 @@ export class WalletDashboardComponent {
                 }
 
                 console.log('transactionID===', transactionID);
-                this.submitrediposit(nonce++, coinType, amount, transactionID, gasPrice, gasLimit);
+                this.submitrediposit(coinType, amount, transactionID, gasPrice, gasLimit);
             }
         }
     }
 
-    async submitrediposit(nonce: number, coinType: number, amount: BigNumber, transactionID: string, gasPrice: number, gasLimit: number) {
-
+    async submitrediposit(coinType: number, amount: BigNumber, transactionID: string, gasPrice: number, gasLimit: number) {
+        
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
+        const nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
         const pin = this.pin;
 
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
@@ -973,6 +975,7 @@ export class WalletDashboardComponent {
             console.log('resp for submitrediposit=', resp);
             if (resp.success) {
                 // const txid = resp.data.transactionID;
+                this.kanbanServ.incNonce();
                 this.alertServ.openSnackBar('Redeposit was submitted successfully.', 'Ok');
             }
         },
@@ -1059,7 +1062,8 @@ export class WalletDashboardComponent {
 
         console.log('abiHex=', abiHex);
         const nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
-
+        // const nonce = await this.kanbanServ.getNonce(addressInKanban);
+        // console.log('nonce there we go =', nonce);
         const optionsKanban = {
             gasPrice: this.amountForm.kanbanGasPrice,
             gasLimit: this.amountForm.kanbanGasLimit,
@@ -1087,7 +1091,7 @@ export class WalletDashboardComponent {
                 this.storageService.storeToTransactionHistoryList(item);
                 this.timerServ.transactionStatus.next(item);
                 this.timerServ.checkTransactionStatus(item);
-
+                this.kanbanServ.incNonce();
                 this.alertServ.openSnackBar('Adding deposit was submitted successfully.', 'Ok');
             } else
                 if (resp.error) {

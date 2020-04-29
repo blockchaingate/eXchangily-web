@@ -79,6 +79,11 @@ export class DepositAmountModal {
         }        
         this.checkTransFee();
     }
+    initForm(coin) {
+        this.firstTime = true;
+        this.coin = coin;
+        this.onTextChange(null);
+    }
     async checkTransFee() {
     
         const to = this.coinServ.getOfficialAddress(this.coin);

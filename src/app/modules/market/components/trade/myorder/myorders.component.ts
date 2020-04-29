@@ -186,6 +186,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 this.timerServ.transactionStatus.next(item);
                 this.timerServ.checkTransactionStatus(item);    
                 this.modalWithdrawRef.hide();
+                this.kanbanServ.incNonce();
                 this.alertServ.openSnackBar('Your withdraw request is pending.', 'Ok');  
             } else {
                 this.alertServ.openSnackBar('Some error happened. Please try again.', 'Ok');  
@@ -292,6 +293,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 }   
                 
                 this.tradeService.saveTransactions(this.myorders);
+                this.kanbanServ.incNonce();
                 this.alertServ.openSnackBar('Your deleting order request is pending.', 'Ok');
             }
         });
