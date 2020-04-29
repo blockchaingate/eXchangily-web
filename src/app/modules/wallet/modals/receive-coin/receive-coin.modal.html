@@ -4,14 +4,14 @@
     <div class="modal-header text-center">
         <h4 class="modal-title w-100">{{"Receive" | translate }}</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-                <span aria-hidden="true">&times;</span>
-              </button>
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="modal-body">
         <div class="text-dark">{{"Currency" | translate }}</div>
         <div class="pt-2 pb-3 w-25">
             <select class="form-control" (change)="onChange($event.target.value)">
-                    <option [value]="i" *ngFor="let coin of wallet.mycoins;let i = index">{{coin.name}}</option>
+                <option [value]="i" *ngFor="let coin of wallet.mycoins;let i = index">{{coin.name}}</option>
             </select>
         </div>
 
@@ -19,8 +19,8 @@
         <div>
             {{currentAddress}}
             <button mat-icon-button (click)="copyAddress()">
-                    <mat-icon svgIcon="icon_copy"></mat-icon>
-                </button>
+                <mat-icon svgIcon="icon_copy"></mat-icon>
+            </button>
         </div>
 
         <div class="text-center py-5">
@@ -34,7 +34,6 @@
                         Download QR Code
                     </div>
                 </a>
-
 
             </div>
         </div>

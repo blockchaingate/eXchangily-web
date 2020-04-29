@@ -23,21 +23,23 @@
 
                             </div>
                             <div class="small text-white" *ngIf="wallet && !wallet.hide">
-                                {{"Wallet address" | translate }}:{{exgAddress}}
+                                {{"Wallet address" | translate }}: {{exgAddress}}
                                 <button mat-icon-button (click)="copyAddress()">
                                     <mat-icon svgIcon="icon_copy"></mat-icon>
                                 </button>
                             </div>
-                            <div class="small text-white" *ngIf="wallet && !wallet.hide">{{"Gas" | translate }}:{{gas}} </div>
+                            <div class="small text-white" *ngIf="wallet && !wallet.hide">{{"Gas" | translate }}: {{gas}} <span class="warningMsg" *ngIf="gas<0.1"> {{"No enough gas in exchange, please add gas to trade"|translate}}.</span></div>
 
                         </div>
                         <div class="col col-md-4" *ngIf="wallet && !wallet.hide">
                             <h4>{{"EXG" | translate}} {{exgBalance}}
 
                             </h4>
-                            <div class="small"> <span>
-                                            {{utilServ.toPrecision(exgBalance * 0.2 * currencyRate)}} 
-                                        </span> {{currentCurrency | translate}}</div>
+                            <div class="small">
+                                <span>
+                                    {{utilServ.toPrecision(exgBalance * 0.2 * currencyRate)}} 
+                                </span> {{currentCurrency | translate}}
+                            </div>
                         </div>
                         <div class="col col-md-2" *ngIf="wallet && !wallet.hide">
                             <div class="small">+0%</div>
@@ -45,8 +47,8 @@
 
                                 <div class="btn-group" dropdown>
                                     <button id="button-basic" dropdownToggle type="button" class="btn btn-link dropdown-toggle" aria-controls="dropdown-basic">
-                                               {{ ('in ' + currentCurrency) | translate}} <span class="caret"></span>
-                                            </button>
+                                        {{ ('in ' + currentCurrency) | translate}} <span class="caret"></span>
+                                    </button>
                                     <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
                                         <li role="menuitem" *ngIf="currentCurrency !== 'USD'">
                                             <a class="dropdown-item" (click)="changeCurrency('USD')">{{'in USD' | translate }}</a>
@@ -72,7 +74,7 @@
                                 <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="sendCoin()">{{"Send" | translate }}</button>
                             </div>
                             <div class="d-inline-block pr-3">
-                                <button class="btn button btn-outline btn-basic-outline btn-fixed-width"  (click)="addGasFee()" [matTooltip]="fabBalance < 0.5 ? ('Not enough FAB' | translate) : ''">{{"Add Gas" | translate }}</button>
+                                <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="addGasFee()" [matTooltip]="fabBalance < 0.5 ? ('No enough FAB in wallet, can not add gas' | translate) : ''">{{"Add Gas" | translate }}</button>
                             </div>
                             <div class="d-inline-block pr-3">
                                 <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="exchangeMoney()">{{"Exchange" | translate }}</button>

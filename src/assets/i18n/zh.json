@@ -1011,7 +1011,7 @@
     "Kanban Gas Price(WEI)": "看板燃料价格(WEI)",
     "Kanban Gas Limit": "看板燃料限额",
     "Home Page": "首页",
-    "Not enough FAB": "FAB余额不足",
+    "No enough FAB in wallet, can not add gas": "钱包中FAB余额不足，无法添加燃料",
     "Phone(USA)": "电话(美国)",
     "Phone(China)": "电话(中国)",
     "My Orders": "我的订单",
@@ -1028,5 +1028,6 @@
     "OTC Merchant": "法币交易商家",
     "Update EXG Address": "更新EXG地址",
     "Order#": "订单号",
-    "Updated successful": "成功更新"
+    "Updated successful": "成功更新",
+    "No enough gas in exchange, please add gas to trade": "您在交易所中没有足够燃料，必须添加燃料才能交易"
 }

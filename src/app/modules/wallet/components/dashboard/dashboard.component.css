@@ -203,3 +203,8 @@ button.button:hover {
 .hide-wallet-text {
     height: 615px;
 }
+
+.warningMsg {
+    color: red;
+    margin-left: 1em;
+}
