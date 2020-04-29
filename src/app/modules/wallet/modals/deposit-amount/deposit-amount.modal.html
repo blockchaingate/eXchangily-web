@@ -12,7 +12,7 @@
 
                     <div class="text-danger" *ngIf="alertMsg && (!coin || (coin.name == 'EXG'))">
                         {{alertMsg | translate}}
-                    </div>                    
+                    </div>
                     <div class="text-muted">
                         {{'Your balance' | translate}}: {{coin.balance}}
                     </div>
@@ -20,8 +20,6 @@
                         <label for="inputSendTo" class="text-muted">{{'Deposit amount' | translate }}</label>
                         <input type="number" class="form-control" id="inputDepositAmount" (input)="onTextChange($event.target.value)" formControlName="depositAmount" aria-describedby="emailHelp" placeholder="0.0000">
                     </div>
-
-
 
                     <div class="form-group">
                         <div class="row">
@@ -57,9 +55,7 @@
                         </div>
                     </div>
                     <div *ngIf="depositAmountForm.get('gasFeeCustomChecked').value">
-                        <div *ngIf="coin.name === 'ETH' || 
-                        coin.tokenType === 'ETH' ||
-                        coin.tokenType === 'FAB'">
+                        <div *ngIf="coin.name === 'ETH' || coin.tokenType === 'ETH' || coin.tokenType === 'FAB'">
                             <div class="form-group">
                                 <label for="gasPrice" class="text-dark">{{'Gas Price(LIU)' | translate }}</label>
                                 <input type="text" class="form-control" id="inputGasPrice" (input)="onTextChange($event.target.value)" formControlName="gasPrice" placeholder="0">

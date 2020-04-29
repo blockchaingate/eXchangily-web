@@ -20,7 +20,7 @@
                                 <img style="vertical-align:middle" src="/assets/icon1.png">
                             </div>
                             <div class="d-inline-block pr-4">
-                                Latest Block
+                                {{ "Latest Block" | translate }}
                             </div>
                             <div class="d-inline-block">
                                 #{{latestBlockNumber}}
@@ -31,7 +31,7 @@
                                 <img style="vertical-align:middle" src="/assets/icon2.png">
                             </div>
                             <div class="d-inline-block pr-4">
-                                Timestamp
+                                {{"Timestamp" | translate }}
                             </div>
                             <div class="d-inline-block">
                                 {{timeOfLastBlock * 1000 | date:'medium'}}
@@ -44,7 +44,7 @@
                                 <img style="vertical-align:middle" src="/assets/icon3.png">
                             </div>
                             <div class="d-inline-block pr-4">
-                                Difficulty
+                                {{ "Difficulty" | translate }}
                             </div>
 
                             <div class="d-inline-block">
@@ -56,7 +56,7 @@
                                 <img style="vertical-align:middle" src="/assets/icon4.png">
                             </div>
                             <div class="d-inline-block pr-4">
-                                Total Address
+                                {{"Total Address" | translate }}
                             </div>
 
                             <div class="d-inline-block">
@@ -74,22 +74,22 @@
                 <div class="container">
                     <div class="row pt-3 pb-1">
                         <div class="pl-4">
-                            Blocks
+                            {{ "Blocks" | translate }}
                         </div>
                         <div class="ml-auto pr-4 color-purple hand-cursor" routerLink="blocks">
-                            View All
+                            {{ "View All" | translate }}
                         </div>
                     </div>
                     <div class="row apair header py-2">
-                        <div class="col-md-2 hand align-self-center">Number</div>
-                        <div class="col-md-4 align-self-center">Timestamp</div>
-                        <div class="col-md-4 align-self-center">Include Txns</div>
-                        <div class="col-md-2 align-self-center">Size</div>
+                        <div class="col-md-2 hand align-self-center">{{ "Block#"| translate }}</div>
+                        <div class="col-md-4 align-self-center">{{"Timestamp"|translate}}</div>
+                        <div class="col-md-4 align-self-center">{{"Include Txns"|translate}}</div>
+                        <div class="col-md-2 align-self-center">{{"Size"|translate}}</div>
                     </div>
                     <div class="row apair py-2" *ngFor="let block of blocks; let i=index">
                         <div class="col-md-2 hand align-self-center">
                             <a class="explorer-link" [routerLink]="['block', block.number]">
-                            {{block.number}}
+                                {{block.number}}
                             </a>
                         </div>
                         <div class="col-md-4 align-self-center">{{block.timestamp * 1000 | date:'medium'}}</div>
@@ -104,10 +104,10 @@
                 <div class="container">
                     <div class="row py-3">
                         <div class="pl-4">
-                            Transactions
+                            {{ "Transactions" | translate }}
                         </div>
                         <div class="ml-auto pr-4 color-purple hand-cursor" routerLink="transactions">
-                            View All
+                            {{"View All" | translate }}
                         </div>
                     </div>
                     <div class="row apair py-2 " *ngFor="let tran of transactions; let i=index">

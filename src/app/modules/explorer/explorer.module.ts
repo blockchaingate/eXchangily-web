@@ -9,9 +9,10 @@ import { BlockDetailComponent } from './pages/block-detail/block-detail.componen
 import { AddressDetailComponent } from './pages/address-detail/address-detail.component';
 import { KanbanService } from '../../services/kanban.service';
 import { UtilService } from '../../services/util.service';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslateModule } from '@ngx-translate/core';
 
 const routes: Routes = [
   { path: '', component: ExplorerComponent },
@@ -25,7 +26,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     BlocksComponent,
-    TransactionsComponent, 
+    TransactionsComponent,
     TransactionDetailComponent,
     BlockDetailComponent,
     AddressDetailComponent,
@@ -36,6 +37,7 @@ const routes: Routes = [
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
+    TranslateModule,
     RouterModule.forChild(routes)
   ],
   providers: [

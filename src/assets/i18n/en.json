@@ -976,5 +976,17 @@
     "Campaign Disqualification Detail li 1": "This is inclusive of EXG tokens purchased prior to the promotion, EXG tokens purchased via the campaign and EXG tokens purchased during the campaign that are not privy to rewards.",
     "Campaign Disqualification Detail li 2": "The disqualification of a buyer does not affect the status of the referrer.",
     "Campaign Disqualification Detail li 3": "If a diamond member has 5 valid referral subscribers, of which one becomes disqualified and forfeits their reward interests, the referrer will not be downgraded to gold. Further, the referrer will not earn a reward on a disqualified referral, but will continue to earn rewards on the disqualified buyers network.",
-    "Campaign Disqualification Detail line 2": "* For US and Canadian citizens, only accredited investors are allowed to participate the campaign at this time"
+    "Campaign Disqualification Detail line 2": "* For US and Canadian citizens, only accredited investors are allowed to participate the campaign at this time",
+    "DepositErrQ": "Why often error happens whem moving coin to Exchange ?",
+    "DepositErrA": "Moving coins to Exchange needs one by one, for example, if you want to move some BTC and ETH to Exchange, when you move BTC first, please wait for it finished to move ETH, else error may happen, usually a transation of moving coins to exchage may take about half to one hour.",
+    "NotReceivedQ": "Coin in wallet have been deducted, why not appear in Exchange",
+    "NotReceivedA": "Move coin to Exchange is a crosschain transaction, Exchange needs to wait originate blockchain a certainty number of blocks confirmed to decide it is a valid transaction, it may take half ot one hour sometime even two hours, if still not receive after two hours, please check the deposit page to see if there is a Confirm Deposit button appear, if it is, please click on it and enter your password to confirm your deposit, Exchange will confirm your deposit immediately.",
+    "USDTNoETHQ": "When move USDT to the Exchange, why it prompt No Enough ETH in wallet",
+    "USDTNoETHA": "Exchangily is a decentralized wallet and Exchange, any coin operation needs to interact with its originate blockchain, because USDT is an Etherrum ERC-20 token, to move USDT (no matter to another wallet or to Exchange) you need to pay ETH as gas; similarily when you move EXG or DUSD, your wallet needs have enough FAB.",
+    "HaveGasExchangeNotReceivedQ": "Wallet has enough ETH, why move USDT to Exchange still fail",
+    "HaveGasExchangeNotReceivedA": "First please check if you have enough gas in Exchange, any operation in Exchange needs to pay Exchange gas, it is FAB, usually to use the Exchange, the first thing to do is Add Gas to Exchange.",
+    "AddGasQ": "What does Add Gas mean? how much to add",
+    "AddGasA": "Add Gas is to refill FAB to the Exchange, in Exchange all transactions consume fuel that is FAB, without Gas you can do nothing in Exchange include moving coin to Exchange, if you want to trade in Exchange, you must add gas first, however, if you only use wallet and will not use Exchange, you never need to add gas.",
+    "WithdrawQ": "Move coin from Exchange to wallet but not received",
+    "WithdrawA": "Exchange process withdraw requests every half hour, usually it make take 40 minutes to receive it in wallet, sometime it may take much longer time due to distination blockchain busy."
 }
