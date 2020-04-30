@@ -19,6 +19,7 @@ export class SignupComponent implements OnInit {
   repeatPassword = '';
   signupForm: FormGroup;
   passwordMin = 5;
+  ExgAddRegistered = false;
   serverErrorMsg: string;
   wallet: Wallet;
 
@@ -62,7 +63,7 @@ export class SignupComponent implements OnInit {
     }
 
     // this.localSt.getItem('wallets').subscribe(() => {
-    
+
     let walletExgAddress = '';
 
     if (this.wallet) {
@@ -87,6 +88,9 @@ export class SignupComponent implements OnInit {
       error => {
         // alert(JSON.stringify(error));
         this.serverErrorMsg = error.error.message;
+        if (this.serverErrorMsg.indexOf('walletExgAddress existed') >= 0) {
+          this.ExgAddRegistered = true;
+        }
       }
     );
 
