@@ -69,5 +69,5 @@
         </div>
     </div>
 </div>
-<div class="px-3 text-muted container-no-transactions" *ngIf="!transactionHistory">no transactions</div>
+<div class="px-3 text-muted container-no-transactions" *ngIf="!transactionHistory">{{"No transaction"|translate}}</div>
 <transaction-detail-modal #transactionDetailModal></transaction-detail-modal>

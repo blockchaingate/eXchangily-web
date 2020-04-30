@@ -3,14 +3,14 @@
         <form [formGroup]="addAssetsForm" (ngSubmit)="onSubmit()">
             <div class="modal-content">
                 <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 text-dark">Add Assets</h4>
+                    <h4 class="modal-title w-100 text-dark">{{"Add Assets"|translate}}</h4>
                     <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
                 <span aria-hidden="true">&times;</span>
               </button>
                 </div>
                 <div class="modal-body">
                     <mat-tab-group>
-                        <mat-tab label="FAB Token">
+                        <mat-tab label="{{'FAB Blockchain'|translate}}">
                             <mat-selection-list #fabtokens (selectionChange)="onFabSelection($event, fabtokens.selectedOptions.selected)">
                                 <mat-list-option *ngFor="let token of fabTokens; let i = index" [value]="i+1">
 
@@ -18,54 +18,54 @@
 
                                 </mat-list-option>
                                 <mat-list-option value="0">
-                                    Custom
+                                    {{"Custom"| translate}}
                                 </mat-list-option>
                             </mat-selection-list>
 
                             <div *ngIf="showFabCustom">
                                 <div class="form-group">
-                                    <label for="inputSendTo" class="text-muted">Contract Address</label>
+                                    <label for="inputSendTo" class="text-muted">{{"Contract Address"|translate}}</label>
                                     <input type="text" class="form-control" id="inputFabContractAddress" formControlName="fabContractAddress" aria-describedby="fabContractAddress" placeholder="">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputSendTo" class="text-muted">Token Name</label>
+                                    <label for="inputSendTo" class="text-muted">{{"Token Name"|translate}}</label>
                                     <input type="text" class="form-control" id="inputEthContractAddress" formControlName="ethContractAddress" aria-describedby="ethContractAddress" placeholder="">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputSendTo" class="text-muted">Token Symbol</label>
+                                    <label for="inputSendTo" class="text-muted">{{"Token Symbol"|translate}}</label>
                                     <input type="text" class="form-control" id="inputEthContractAddress" formControlName="ethContractAddress" aria-describedby="ethContractAddress" placeholder="">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputSendTo" class="text-muted">Token Decimals</label>
+                                    <label for="inputSendTo" class="text-muted">{{"Token Decimals"|translate}}</label>
                                     <input type="text" class="form-control" id="inputEthContractAddress" formControlName="ethContractAddress" aria-describedby="ethContractAddress" placeholder="">
                                 </div>
                             </div>
                         </mat-tab>
-                        <mat-tab label="ETH Token">
+                        <mat-tab label="{{'Etherrum Blockchain'|translate}}">
                             <mat-selection-list #ethtokens (selectionChange)="onEthSelection($event, ethtokens.selectedOptions.selected)">
                                 <mat-list-option *ngFor="let token of ethTokens; let i = index" [value]="i+1">
                                     {{token.name}}
                                 </mat-list-option>
                                 <mat-list-option value="0">
-                                    Custom
+                                    {{"Custom"| translate}}
                                 </mat-list-option>
                             </mat-selection-list>
 
                             <div *ngIf="showEthCustom">
                                 <div class="form-group">
-                                    <label for="inputSendTo" class="text-muted">Contract Address</label>
+                                    <label for="inputSendTo" class="text-muted">{{"Contract Address"|translate}}</label>
                                     <input type="text" class="form-control" id="inputEthContractAddress" formControlName="ethContractAddress" aria-describedby="ethContractAddress" placeholder="">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputSendTo" class="text-muted">Token Name</label>
+                                    <label for="inputSendTo" class="text-muted">{{"Token Name"|translate}}</label>
                                     <input type="text" class="form-control" id="inputEthContractAddress" formControlName="ethContractAddress" aria-describedby="ethContractAddress" placeholder="">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputSendTo" class="text-muted">Token Symbol</label>
+                                    <label for="inputSendTo" class="text-muted">{{"Token Symbol"|translate}}</label>
                                     <input type="text" class="form-control" id="inputEthContractAddress" formControlName="ethContractAddress" aria-describedby="ethContractAddress" placeholder="">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputSendTo" class="text-muted">Token Decimals</label>
+                                    <label for="inputSendTo" class="text-muted">{{"Token Decimals"|translate}}</label>
                                     <input type="text" class="form-control" id="inputEthContractAddress" formControlName="ethContractAddress" aria-describedby="ethContractAddress" placeholder="">
                                 </div>
                             </div>
@@ -75,7 +75,7 @@
 
                 <div class="modal-footer">
                     <div class="pull-left">
-                        <button class="btn btn-gradient text-white" type="submit"> Confirm </button>
+                        <button class="btn btn-gradient text-white" type="submit"> {{"Confirm"|translate}} </button>
                     </div>
                 </div>
             </div>
