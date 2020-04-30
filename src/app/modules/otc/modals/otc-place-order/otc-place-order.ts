@@ -2,7 +2,6 @@ import { Component, ViewChild, EventEmitter, Output } from '@angular/core';
 import {  ModalDirective } from 'ngx-bootstrap/modal';
 import { faAlipay } from '@fortawesome/free-brands-svg-icons';
 import { faCreditCard } from '@fortawesome/free-solid-svg-icons';
-import { FormBuilder } from '@angular/forms';
 
 @Component({
     selector: 'otc-place-order-modal',
@@ -10,31 +9,45 @@ import { FormBuilder } from '@angular/forms';
     styleUrls: ['./otc-place-order.css']
 })
 export class OtcPlaceOrderModal {
-    @Output() confirmed = new EventEmitter<number>();
-
+    @Output() confirmed = new EventEmitter<any>();
+    element: any;
+    amount: number;
+    quantity: number;
+    method: string;
     faAlipay = faAlipay;
     faCreditCard = faCreditCard;
-    otcPlaceOrderForm = this.fb.group({
-        quantity: ['0'],
-        amount: ['0'],
-        method: ['alipay']
-    });
+
     @ViewChild('otcPlaceOrderModal', {static: true}) public otcPlaceOrderModal: ModalDirective;
     methods: string[] = ['alipay', 'bank'];
     
 
-    constructor(private fb: FormBuilder) { }
+    constructor() { }
     show(element) {
+        this.element = element;
         this.otcPlaceOrderModal.show();
     }
 
     hide() {
         this.otcPlaceOrderModal.hide();
     }    
+
+    changeQuantity(quantity: number) {
+        this.amount = quantity * this.element.price;
+    }
+
+    changeAmount(amount: number) {
+        this.quantity = amount / this.element.price;
+    }
+
     onSubmit() {
         this.hide();
-        console.log('1');
-        this.confirmed.emit(1);
+        
+        const data = {
+            amount: this.amount,
+            quantity: this.quantity,
+            method: this.method
+        };
+        this.confirmed.emit(data);
         console.log('2');
     }
 }

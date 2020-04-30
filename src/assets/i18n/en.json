@@ -916,6 +916,8 @@
     "$350K": "$350K",
     "$500K": "$500K",
     "$750K": "$750K",
+    "Order info": "Order info",
+    "Merchant info": "Merchant info",
     "$1 Million": "$1 Million",
     "Note: It would take some time to process the whole deposit.": "Note: It would take some time to process the whole deposit, please be patient.",
     "Gas amount": "Gas amount",

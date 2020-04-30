@@ -5,9 +5,9 @@ export class MerchantPipe implements PipeTransform {
   transform(merchantsArr: any, currency: string, bidOrAsk: boolean, coinName: string): any {
 
     const filterMerchants = merchantsArr.filter(
-        merchant => (merchant.Currency === currency) && 
-        (merchant.BidOrAsk === bidOrAsk) && 
-        (merchant.CoinName === coinName));
+        merchant => (merchant.fiat === currency) && 
+        (merchant.buy !== bidOrAsk) && 
+        (merchant.coin === coinName));
     return filterMerchants;
   }
 }
