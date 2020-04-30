@@ -917,7 +917,7 @@
     "$500K": "$500K",
     "$750K": "$750K",
     "$1 Million": "$1 Million",
-    "Note: It would take some time to process the whole deposit.": "Note: It would take some time to process the whole deposit, please be patient.",
+    "DepositNote": "Note: It may take 1 ~ 2 hours, please keep patience. If code 500 error happens, it means you have pending deposit already, please wait for it fineshes or check if need to Confirm Deposit.",
     "Gas amount": "Gas amount",
     "Not enough FAB": "Not enough FAB",
     "5K": "5K",

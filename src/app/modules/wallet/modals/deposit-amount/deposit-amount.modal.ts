@@ -127,7 +127,6 @@ export class DepositAmountModal {
         console.log('ret=', ret);
         this.transFee = ret.transFee;
 
-
         const kanbanGasPrice = Number(this.depositAmountForm.get('kanbanGasPrice').value);
         const kanbanGasLimit = Number(this.depositAmountForm.get('kanbanGasLimit').value);
         this.kanbanTransFee = new BigNumber(kanbanGasPrice).multipliedBy(new BigNumber(kanbanGasLimit))
@@ -150,7 +149,7 @@ export class DepositAmountModal {
         const amount = Number(depositAmount);
         // console.log('amount=', amount);
         if ((amount <= 0) || Number.isNaN(amount)) {
-            this.alertServ.openSnackBar('Please provide the right amount for deposit.', 'Ok');
+            this.alertServ.openSnackBar('Please enter valid deposit amount.', 'Ok');
             return;
         }
         if (amount > this.coin.balance) {
