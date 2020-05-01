@@ -29,7 +29,11 @@ export class OtcService {
   }
 
   getOrders(token: string) {
-    return this.http.getPrivate(path + 'orders/member-orders/0/0/0', token);
+    return this.http.getPrivate(path + 'orders/private/member-orders', token);
+  }
+
+  getMerchantOrders(token: string) {
+    return this.http.getPrivate(path + 'orders/private/merchant-orders', token);
   }
 
   getPublicListings() {
