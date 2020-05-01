@@ -12,10 +12,14 @@ export class OtcService {
   
   constructor(private http: HttpService) {}
 
-  addListing(token: string, data) {
+  addListing(token: string, data: any) {
     return this.http.postPrivate(path + 'otc-listing/create', data, token);
   }
   
+  addOrder(token: string, listing_id: string, data: any) {
+    return this.http.postPrivate(path + 'otc-listing/' + listing_id + '/add-order', data, token);
+  }
+
   getListings(token: string) {
     return this.http.getPrivate(path + 'otc-listing/private/list', token);
   }

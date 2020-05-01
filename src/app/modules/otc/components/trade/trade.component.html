@@ -105,10 +105,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!--
+                    
                     <tr *ngFor="let element of dataSource | merchantPipe: currency : bidOrAsk : coinName ">
-                        -->
+                        <!--
                         <tr *ngFor="let element of dataSource">
+                        -->
                         <td>{{element.merchant ? element.merchant.merchantName : ''}}</td>
                         <td>
                             <app-paymentmethod [methods]="element.PaymentMethod"></app-paymentmethod>
@@ -118,7 +119,7 @@
                         <td>{{element.price}}</td>
                         <td>
                             <div class="btn-buy-sell" [ngClass]="element.BidOrAsk ? 'btn-buy' : 'btn-sell'" (click)="placeOrder(element)">
-                                {{(element.BidOrAsk ? 'Buy' : 'Sell') | translate}}
+                                {{(element.buy ? 'Sell' : 'Buy') | translate}}
                             </div>
                         </td>
                     </tr>
