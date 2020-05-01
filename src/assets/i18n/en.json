@@ -919,7 +919,7 @@
     "Order info": "Order info",
     "Merchant info": "Merchant info",
     "$1 Million": "$1 Million",
-    "DepositNote": "Note: It may take 1 ~ 2 hours, please keep patience. If code 500 error happens, it means you have pending deposit already, please wait for it fineshes or check if need to Confirm Deposit.",
+    "DepositNote": "Note: It may take 1 ~ 2 hours to process, please keep patience. If code 500 error happens, it means you have pending deposit already, please wait for it finishes or check if need to Confirm Deposit.",
     "Gas amount": "Gas amount",
     "Not enough FAB": "Not enough FAB",
     "5K": "5K",

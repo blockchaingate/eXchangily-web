@@ -59,7 +59,8 @@ export class MainComponent implements OnInit {
 
   selectedPaymentMethod: string;
   @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal;
-  currencies: string[] = ['USD', 'RMB', 'DUSD', 'USDT', 'FAB', 'BTC', 'ETH'];
+  // currencies: string[] = ['USD', 'RMB', 'DUSD', 'USDT', 'FAB', 'BTC', 'ETH'];
+  currencies: string[] = ['USD', 'USDT'];
   methods = {
     'USD': [
       'By Cash App',
