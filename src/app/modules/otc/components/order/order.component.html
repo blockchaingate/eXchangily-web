@@ -32,39 +32,39 @@
                     <tr>
                         <th scope="col"><small>Order number</small></th>
                         <th scope="col"><small>Coin</small></th>
-                        <th scope="col"><small>Transcation object</small></th>
                         <th scope="col"><small>Price</small></th>
                         <th scope="col"><small>Quantity</small></th>
-                        <th scope="col"><small>Trading fee</small></th>
-                        <th scope="col"><small>Actual Payment</small></th>
                         <th scope="col"><small>Amount</small></th>
                         <th scope="col"><small>Creating time</small></th>
-                        <th scope="col"><small>Reference No</small></th>
                         <th scope="col"><small>Status</small></th>
                     </tr>
                 </thead>
                 <tbody>
                     <!--
-                    <tr *ngFor="let element of dataSource | merchantPipe: currency : bidOrAsk : coinName ">
-                        <td>{{element.Merchant}}</td>
+                    <tr *ngFor="let element of orders | merchantPipe: currency : bidOrAsk : coinName ">
+                        -->
+                    <tr *ngFor="let element of orders">
+                        <td>{{element._id}}</td>
+                        <td>{{element.items[0].title}}</td>
+                        <td>{{element.items[0].price}}</td>
+                        <td>{{element.items[0].quantity}}</td>
+                        <td>{{element.totalToPay}}</td>
+                        <td>{{element.dateCreated}}</td>
                         <td>
-                            <app-paymentmethod [methods]="element.PaymentMethod"></app-paymentmethod>
-                        </td>
-                        <td>{{element.Quantity}}</td>
-                        <td>{{element.LimitsLow}}-{{element.LimitsHigh}}</td>
-                        <td>{{element.Price}}</td>
-                        <td>
-                            <div class="btn-buy-sell" [ngClass]="element.BidOrAsk ? 'btn-buy' : 'btn-sell'" (click)="placeOrder()">
-                                {{element.BidOrAsk ? 'Buy' : 'Sell'}}
+                            <div class="text-center">
+                                {{getStatusText(element.paymentStatus)}}
                             </div>
+                            <div class="text-center">
+                                <button *ngIf="element.paymentStatus == 0" (click)="confirmedPaid(element)" mat-raised-button color="primary">{{'Confirm paid' | translate}}</button>
+                            </div>
+
                         </td>
                     </tr>
-                    -->
                 </tbody>
 
             </table>
 
-            <div class="noOrder">
+            <div class="noOrder" *ngIf="!orders">
                 <div class="d-inline-block">
                     <img src="/assets/noOrder.png">
                     <p>No Order</p>

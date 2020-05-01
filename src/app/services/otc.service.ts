@@ -16,12 +16,20 @@ export class OtcService {
     return this.http.postPrivate(path + 'otc-listing/create', data, token);
   }
   
+  confirmedOrderPaid(token:string, order_id: string) {
+    return this.http.getPrivate(path + 'orders/' + order_id + '/confirmedOrderPaid', token);
+  }
+
   addOrder(token: string, listing_id: string, data: any) {
     return this.http.postPrivate(path + 'otc-listing/' + listing_id + '/add-order', data, token);
   }
 
   getListings(token: string) {
     return this.http.getPrivate(path + 'otc-listing/private/list', token);
+  }
+
+  getOrders(token: string) {
+    return this.http.getPrivate(path + 'orders/member-orders/0/0/0', token);
   }
 
   getPublicListings() {
