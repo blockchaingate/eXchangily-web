@@ -19,7 +19,7 @@ export class ReceiveCoinModal {
     }
     openModal(template: TemplateRef<any>) {
         if (this.wallet) {
-            this.currentAddress = this.wallet.mycoins[0].receiveAdds[0].address;
+            this.currentAddress = this.wallet.mycoins[1].receiveAdds[0].address;
         }        
         console.log('open heere');
         this.modalRef = this.modalService.show(template);
@@ -30,8 +30,12 @@ export class ReceiveCoinModal {
     }
 
     onChange(index: number) {
-        console.log(index);
-        this.currentAddress = this.wallet.mycoins[index].receiveAdds[0].address;
+        if(this.wallet.mycoins[index].tokenType == 'FAB') {
+            this.currentAddress = this.wallet.mycoins[1].receiveAdds[0].address;
+        } else {
+            this.currentAddress = this.wallet.mycoins[index].receiveAdds[0].address;
+        }
+        
         //console.log(selectedValue);
     }    
     

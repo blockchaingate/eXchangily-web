@@ -4,7 +4,7 @@ import { MyCoin } from '../models/mycoin';
 // import * as createHash from 'create-hash';
 import BigNumber from 'bignumber.js/bignumber';
 import * as Btc from 'bitcoinjs-lib';
-
+import * as bs58 from 'bs58';
 @Injectable()
 export class UtilService {
     auth_code = 'encrypted by crypto-js|';
@@ -234,6 +234,12 @@ export class UtilService {
         return Buffer.from(buffer);
     }
 
+    fabToExgAddress(address: string) {
+        const bytes = bs58.decode(address);
+        const addressInWallet = bytes.toString('hex');
+        return '0x' + addressInWallet.substring(2, 42);
+    }
+    
     toKanbanAddress(publicKey: Buffer) {
 
         // publicKey = this.stripHexPrefix(publicKey);

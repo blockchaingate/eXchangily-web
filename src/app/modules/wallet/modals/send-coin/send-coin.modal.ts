@@ -6,9 +6,9 @@ import { FormBuilder } from '@angular/forms';
 import { MyCoin } from '../../../../models/mycoin';
 import { environment } from '../../../../../environments/environment';
 import { CoinService } from '../../../../services/coin.service';
-import { ApiService } from '../../../../services/api.service';
-import { AlertService } from 'src/app/services/alert.service';
-
+import { AlertService } from '../../../../services/alert.service';
+import * as bs58 from 'bs58';
+import { UtilService } from '../../../../services/util.service';
 
 @Component({
     selector: 'send-coin-modal',
@@ -37,7 +37,7 @@ export class SendCoinModal {
         gasLimit: [environment.chains.FAB.gasLimit],
         satoshisPerBytes: [environment.chains.FAB.satoshisPerBytes]
     });
-    constructor(private fb: FormBuilder,
+    constructor(private fb: FormBuilder, private utilServ: UtilService,
         private coinServ: CoinService, private alertServ: AlertService) {
         this.currentCoinIndex = 0;
         this.transFee = 0;
@@ -115,6 +115,8 @@ export class SendCoinModal {
             }
         } else if (this.tranFeeUnit === 'FAB') {
             if (this.transFee > fabBalance) {
+                console.log('this.transFee==', this.transFee);
+                console.log('fabBalance==', fabBalance);
                 this.alertServ.openSnackBar('Insufficient FAB for this transaction', 'Ok');
                 return;
             }
@@ -125,9 +127,15 @@ export class SendCoinModal {
             }
         }
 
-        const to = this.sendCoinForm.get('sendTo').value;
+        let to = this.sendCoinForm.get('sendTo').value;
+        if(this.coin.tokenType == 'FAB') {
+            to = this.utilServ.fabToExgAddress(to);
+        }    
+        console.log('toqiuqiu=', to);
         const selectedCoinIndex = Number(this.sendCoinForm.get('selectedCoinIndex').value);
         const amount = Number(this.sendCoinForm.get('sendAmount').value);
+        console.log('amount==', amount);
+        console.log('this.coin.receiveAdds[0].balance==', this.coin.receiveAdds[0].balance);
         if (amount > this.coin.receiveAdds[0].balance) {
             this.alertServ.openSnackBar('Insufficient ' + this.coin.name + ' for this transaction', 'Ok');
             return;
@@ -200,7 +208,12 @@ export class SendCoinModal {
         if (!this.coin) {
             this.coin = this.wallet.mycoins[this.currentCoinIndex];
         }
-        const to = this.sendCoinForm.get('sendTo').value;
+        let to = this.sendCoinForm.get('sendTo').value;
+        if(this.coin.tokenType == 'FAB') {
+            to = this.utilServ.fabToExgAddress(to);
+        }        
+
+        console.log('to===', to);
         const selectedCoinIndex = Number(this.sendCoinForm.get('selectedCoinIndex').value);
         const amount = Number(this.sendCoinForm.get('sendAmount').value);
         const comment = this.sendCoinForm.get('comment').value;
@@ -237,11 +250,8 @@ export class SendCoinModal {
             getTransFeeOnly: true
         };
 
-        console.log('this.coin=', this.coin);
-        console.log('amount=', amount);
-        console.log('options=', options);
         const ret = await this.coinServ.sendTransaction(this.coin, null, to, amount, options, false);
-        console.log('ret=', ret);
+
         this.transFee = ret.transFee;
         return ret;
     }

@@ -843,6 +843,7 @@ export class WalletDashboardComponent {
             gasLimit: this.sendCoinForm.gasLimit,
             satoshisPerBytes: this.sendCoinForm.satoshisPerBytes
         };
+        console.log('currenCoin=====', currentCoin);
         const { txHex, txHash, errMsg } = await this.coinService.sendTransaction(currentCoin, seed,
             this.sendCoinForm.to.trim(), amount, options, doSubmit
         );
