@@ -4,7 +4,7 @@ import { OtcService } from '../../../../services/otc.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-order',
+  selector: 'app-otc-order',
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.css']
 })
@@ -12,6 +12,7 @@ export class OrderComponent implements OnInit {
   bidOrAsk: boolean;
   statuses = [];
   @Input() orders: any;
+  @Input() type: string;
   token: string;
   buyOrderStatuses = ['Waiting for pay', 'Paid already', 'Finished', 'Cancelled', 'Frozened', 'All orders'];
   sellOrderStatuses = ['Waiting for collect', 'Waiting for confirm', 'Finished', 'Cancelled', 'Frozened', 'All orders'];
@@ -20,30 +21,22 @@ export class OrderComponent implements OnInit {
     private router: Router,   
     private storageService: StorageService,
     private _otcServ: OtcService
-  ) { }
+  ) {
+    console.log('type==', this.type);
+   }
 
-  getStatusText(status: number) {
+  getStatusText(buy: boolean, status: number) {
     let text = '';
-    if(status === 0) {
-      text = 'Waiting for pay';
-    } else 
-    if(status === 1) {
-      text = 'Paid already';
-    } else 
-    if(status === 2) {
-      text = 'Finished';
-    } else 
-    if(status === 3) {
-      text = 'Cancelled';
-    } else 
-    if(status === 4) {
-      text = 'Frozened';
-    } 
+    if(buy) {
+      text = this.buyOrderStatuses[status];
+    } else {
+      text = this.sellOrderStatuses[status];
+    }
     return text;               
   } 
 
-  confirmedPaid(element) {
-    this._otcServ.confirmedOrderPaid(this.token, element._id).subscribe(
+  changePaymentStatus(element, paymentStatus) {
+    this._otcServ.changePaymentStatus(this.token, element._id, paymentStatus).subscribe(
       (res: any) => {
         if(res && res.ok) {
           element.paymentStatus = 1;

@@ -52,10 +52,15 @@
                         <td>{{element.dateCreated}}</td>
                         <td>
                             <div class="text-center">
-                                {{getStatusText(element.paymentStatus)}}
+                                {{getStatusText(element.buy, element.paymentStatus)}}
                             </div>
                             <div class="text-center">
-                                <button *ngIf="element.paymentStatus == 0" (click)="confirmedPaid(element)" mat-raised-button color="primary">{{'Confirm paid' | translate}}</button>
+                                <div *ngIf="type=='member'">
+                                    <button *ngIf="element.paymentStatus == 0" (click)="changePaymentStatus(element, 1)" mat-raised-button color="primary">{{'I have paid' | translate}}</button>
+                                </div>
+                                <div *ngIf="type=='merchant'">
+                                    <button *ngIf="element.paymentStatus == 1" (click)="changePaymentStatus(element, 2)" mat-raised-button color="primary">{{'Confirm receipt' | translate}}</button>
+                                </div>
                             </div>
 
                         </td>

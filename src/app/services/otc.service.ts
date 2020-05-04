@@ -16,8 +16,11 @@ export class OtcService {
     return this.http.postPrivate(path + 'otc-listing/create', data, token);
   }
   
-  confirmedOrderPaid(token:string, order_id: string) {
-    return this.http.getPrivate(path + 'orders/' + order_id + '/confirmedOrderPaid', token);
+  changePaymentStatus(token:string, order_id: string, paymentStatus) {
+    const data = {
+      paymentStatus: paymentStatus
+    };
+    return this.http.postPrivate(path + 'orders/' + order_id + '/changePaymentStatus',data, token);
   }
 
   addOrder(token: string, listing_id: string, data: any) {

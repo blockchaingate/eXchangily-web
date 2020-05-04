@@ -68,6 +68,7 @@ export class WalletDashboardComponent {
     modalRef: BsModalRef;
     checked = true;
     exgAddress: string;
+    fabAddress: string;
     exgBalance: number;
     currentWalletIndex: number;
     pairsConfig: Pair[];
@@ -502,9 +503,10 @@ export class WalletDashboardComponent {
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];
             const balance = coin.receiveAdds[0].balance;
-
+            const address = coin.receiveAdds[0].address;
             if (coin.name === 'FAB') {
                 this.fabBalance = balance;
+                this.fabAddress = address;
             } else
                 if (coin.name === 'ETH') {
                     this.ethBalance = balance;
