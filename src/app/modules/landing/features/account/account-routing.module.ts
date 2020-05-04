@@ -38,6 +38,8 @@ const routes: Routes = [
         component: KycComponent
       },
       {
+        path: 'create-new-payment', redirectTo: '/promotion/main', pathMatch: 'full'  //  remove this line when resotre after campaign.
+        /* Disabled temporily, will restore after campaign
         path: AccountPaths[2].relative,
         component: PlaceOrderFormComponent,
         children: [
@@ -53,6 +55,7 @@ const routes: Routes = [
             component: ConfirmPageComponent
           }
         ]
+        */
       },
       {
         resolve: {
@@ -73,7 +76,8 @@ const routes: Routes = [
         ]
       },
       {
-        /*
+        path: 'referrals', redirectTo: '/promotion/main', pathMatch: 'full'  //  remove this line when resotre after campaign.
+        /* Disabled temporily, will restore after campaign
         path: AccountPaths[4].relative,
         loadChildren: './referrals/referrals.module#ReferralModule'
         */

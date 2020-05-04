@@ -151,7 +151,7 @@
                     <div *ngIf="reason == 'TokenExpired'" class="py-2">
                         {{'Token expired, please login and try again' | translate}}
                         <a mat-raised-button color="primary" class="nav-link" routerLink="/login/signin">{{"Login" | translate}}</a>
-                    </div>                    
+                    </div>
                     <div *ngIf="reason == 'KycHasProblem'" class="py-2">
                         {{'Your kyc has problem, please submit a new one' | translate}}
                         <a mat-raised-button color="primary" class="nav-link" routerLink="/account/kyc">{{"KYC" | translate}}</a>
@@ -303,7 +303,7 @@
                                     <div class="row">
                                         <div class="col col-9">
                                             <mat-form-field class="w-100">
-                                                <mat-label>{{'Comment' | translate }}</mat-label>
+                                                <mat-label>{{'Fill in bank payment details' | translate }}:</mat-label>
                                                 <input matInput placeholder="" [(ngModel)]="comment">
                                             </mat-form-field>
                                         </div>
