@@ -35,12 +35,12 @@ export class SigninComponent implements OnInit {
         this.afterLoginUrl = params['retUrl'];
     });
 
-    console.log('token=', this._userAuth.token);
+    //console.log('token=', this._userAuth.token);
     this.isSystemAdmin = false;
     if (!this._userAuth.token) {
       this._storageServ.getToken().subscribe(
         (token: string) => {
-          console.log('token=', token);
+          //console.log('token=', token);
         }
       );
     }
@@ -113,10 +113,11 @@ export class SigninComponent implements OnInit {
     if (loginRet.defaultMerchant && loginRet.defaultMerchant._id) {
       this._userAuth.hasMerchant = true;
     }
-    console.log('222');
+    console.log('2224444');
     if (this.afterLoginUrl) {
       this._router.navigate([this.afterLoginUrl]);
     } else if (this.isSystemAdmin) {
+      console.log('nav to admin');
       this._router.navigate(['/admin']);
     } else {
       console.log('333');

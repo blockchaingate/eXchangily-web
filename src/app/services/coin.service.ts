@@ -358,7 +358,6 @@ export class CoinService {
             const originalPrivateKey = childNode.privateKey;
             // console.log('111');
             priKeyHex = originalPrivateKey.toString('hex');
-            // console.log('222');
             priKey = childNode.toWIF(); 
             // console.log('333');
             priKeyDisp = priKey;

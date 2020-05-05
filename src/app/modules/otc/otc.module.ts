@@ -12,6 +12,7 @@ import { MerchantPipe } from './pipes/merchant.pipe';
 import { PaymentmethodComponent } from './components/paymentmethod/paymentmethod.component';
 import { MerchantOrdersComponent } from './components/merchant-orders/merchant-orders';
 import { MemberOrdersComponent } from './components/member-orders/member-orders';
+import { UserPaymentMethodsComponent } from './components/userpaymentmethods/userpaymentmethods.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
@@ -29,7 +30,7 @@ import { TranslateModule } from '@ngx-translate/core';
   declarations: [
     TradeComponent, MerchantPipe, PaymentmethodComponent, ConfirmPaymentModal,
     OtcPlaceOrderModal, ApplyForMerchantModal, OrderComponent, 
-    MerchantOrdersComponent, MemberOrdersComponent
+    MerchantOrdersComponent, MemberOrdersComponent, UserPaymentMethodsComponent
   ],
   imports: [
     CommonModule,

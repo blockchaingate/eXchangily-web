@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './admin.component';
+import { PaymentMethodsComponent } from './paymentmethods/paymentmethods.component';
 import { AddcoinComponent } from './coin/addcoin.component';
 import { OrderEditComponent } from './order/order-edit.component';
 import { MembersComponent } from './members/members.component';
@@ -28,6 +29,10 @@ const routes: Routes = [
             path: 'merchant',
             component: MerchantComponent
         }, 
+        {
+            path: 'paymentmethods',
+            component: PaymentMethodsComponent
+        },         
         {
             path: 'members',
             component: MembersComponent
