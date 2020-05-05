@@ -29,7 +29,8 @@ export class TradeComponent implements OnInit {
   @ViewChild('otcPlaceOrderModal', {static: true}) otcPlaceOrderModal: OtcPlaceOrderModal;
   @ViewChild('applyForMerchantModal', {static: true}) applyForMerchantModal: ApplyForMerchantModal;
   @ViewChild('confirmPaymentModal', {static: true}) confirmPaymentModal: ConfirmPaymentModal;
-  constructor(private _router: Router,        
+  constructor(
+    private _router: Router,        
     private storageService: StorageService,
     private _otcServ: OtcService
   ) { }
@@ -53,6 +54,9 @@ export class TradeComponent implements OnInit {
     this.storageService.getToken().subscribe(
       (token: string) => {
           this.token = token;
+          if(!this.token) {
+            this._router.navigate(['/login/signin', { 'retUrl': '/otc/trade' }]);
+          }
       });    
   }
 

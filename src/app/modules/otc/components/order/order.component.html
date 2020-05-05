@@ -56,10 +56,26 @@
                             </div>
                             <div class="text-center">
                                 <div *ngIf="type=='member'">
-                                    <button *ngIf="element.paymentStatus == 0" (click)="changePaymentStatus(element, 1)" mat-raised-button color="primary">{{'I have paid' | translate}}</button>
+                                    <button *ngIf="element.paymentStatus == 0" (click)="changePaymentStatus(element, 3)" mat-raised-button color="primary">
+                                        {{'Cancel' | translate}}
+                                    </button>
+
+                                    <button *ngIf="element.paymentStatus == 0" (click)="changePaymentStatus(element, 1)" mat-raised-button color="primary">
+                                        {{getButtonText(element.buy, element.paymentStatus) | translate}}
+                                    </button>    
+                                    
+                                    <button *ngIf="element.paymentStatus != 0 && element.paymentStatus != 4" (click)="changePaymentStatus(element, 4)" mat-raised-button color="primary">
+                                        {{'Frozen' | translate}}
+                                    </button>                                    
                                 </div>
                                 <div *ngIf="type=='merchant'">
-                                    <button *ngIf="element.paymentStatus == 1" (click)="changePaymentStatus(element, 2)" mat-raised-button color="primary">{{'Confirm receipt' | translate}}</button>
+                                    <button *ngIf="element.paymentStatus == 1" (click)="changePaymentStatus(element, 2)" mat-raised-button color="primary">
+                                        {{getButtonText(element.buy, element.paymentStatus) | translate}}
+                                    </button>
+
+                                    <button *ngIf="element.paymentStatus != 0 && element.paymentStatus != 4" (click)="changePaymentStatus(element, 4)" mat-raised-button color="primary">
+                                        {{'Frozen' | translate}}
+                                    </button>                                        
                                 </div>
                             </div>
 
