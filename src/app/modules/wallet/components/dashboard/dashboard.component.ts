@@ -245,7 +245,7 @@ export class WalletDashboardComponent {
     }
 
     copyAddress() {
-        this.utilServ.copy(this.exgAddress);
+        this.utilServ.copy(this.fabAddress);
     }
 
     onConfirmedBackupPrivateKey(cmd: string) {
