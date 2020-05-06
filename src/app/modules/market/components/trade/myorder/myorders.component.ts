@@ -232,7 +232,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
     withdraw(withdrawModal: TemplateRef<any>, token) {
         this.token = token;
-        console.log('token=', this.token);
+        //console.log('token=', this.token);
 
         this.coinType = Number(this.token.coinType);
 

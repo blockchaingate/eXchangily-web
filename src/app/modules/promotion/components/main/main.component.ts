@@ -127,8 +127,10 @@ export class MainComponent implements OnInit {
         if (res.ok) {
           this.updated = true;
           this.readyGo = true;
+          this.alertServ.openSnackBar('EXG address was updated', 'Ok');
+          
+        } else {
           this.router.navigate(['/login/signin', { 'retUrl': '/promotion/main' }]);
-          console.log('okkk', res._body);
         }
       }
     );
@@ -186,7 +188,7 @@ export class MainComponent implements OnInit {
           if(this.wallet && this.wallet.mycoins) {
             for (let i = 0; i < this.wallet.mycoins.length; i++) {
               const coin = this.wallet.mycoins[i];
-              if (coin.name === 'EXG') {
+              if (coin.name === 'FAB') {
                 exgAddress = coin.receiveAdds[0].address;
               }
             }

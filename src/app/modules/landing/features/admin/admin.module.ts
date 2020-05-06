@@ -14,6 +14,7 @@ import { AdminComponent } from './admin.component';
 import { AddcoinComponent } from './coin/addcoin.component';
 import { MerchantComponent } from './merchant/merchant.component';
 import { MembersComponent } from './members/members.component';
+import { PaymentMethodsComponent } from './paymentmethods/paymentmethods.component';
 import { OrderEditComponent } from './order/order-edit.component';
 import { CampaignOrdersComponent } from './campaign-orders/campaign-orders.component';
 import { OrderManagementComponent } from './order/order-mngmt.component';
@@ -42,7 +43,7 @@ import { OtcService } from '../../../../services/otc.service';
     MatButtonModule,
     MatDialogModule
   ],
-  providers: [AuthGuard, NoAuthGuard, TokenlockService, CampaignOrderService, MerchantService, OtcService],
+  providers: [AuthGuard, NoAuthGuard, TokenlockService,PaymentMethodsComponent, CampaignOrderService, MerchantService, OtcService],
   declarations: [
     AdminComponent,
     AddcoinComponent,

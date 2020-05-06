@@ -18,7 +18,7 @@ export class MembersComponent implements OnInit {
       ngOnInit() {
         this._storageServ.getToken().subscribe(
             (token: string) => {
-                console.log('token=', token);
+                //console.log('token=', token);
               this.token = token;
               this._userServ.getAllInactiveUsers(token).subscribe(
                 (res: any) => {
