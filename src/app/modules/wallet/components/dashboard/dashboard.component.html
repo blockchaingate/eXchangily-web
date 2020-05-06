@@ -28,7 +28,7 @@
                                     <mat-icon svgIcon="icon_copy"></mat-icon>
                                 </button>
                             </div>
-                            <div class="small text-white" *ngIf="wallet && !wallet.hide">{{"Gas" | translate }}: {{gas}} <span class="warningMsg" *ngIf="gas<0.1"> {{"No enough gas in exchange, please add gas to trade"|translate}}.</span></div>
+                            <div class="small text-white" *ngIf="wallet && !wallet.hide">{{"Gas" | translate }}: {{gas}} <span class="warningMsg" *ngIf="gas<0.1">{{"No enough gas in exchange, please add gas to trade"|translate}}.</span></div>
 
                         </div>
                         <div class="col col-md-4" *ngIf="wallet && !wallet.hide">
