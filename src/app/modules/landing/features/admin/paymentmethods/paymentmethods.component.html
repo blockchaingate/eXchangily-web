@@ -4,12 +4,11 @@
 
         </div>
         <div class="col col-md-6 col-12">
+            
             <form class="example-form">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Favorite food</mat-label>
-                  <input matInput placeholder="Ex. Pizza" value="Sushi">
-                </mat-form-field>
-            </form>            
+                <input class="longinput" type="text" [(ngModel)]="name" />
+                <button mat-raised-button color="primary" (click)="confirmOrder(order)">{{"Add"|translate}}</button>
+            </form>           
         </div>        
     </div>
 </div>

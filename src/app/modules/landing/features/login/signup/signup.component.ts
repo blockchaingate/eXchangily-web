@@ -66,8 +66,8 @@ export class SignupComponent implements OnInit {
 
     let walletExgAddress = '';
 
-    if (this.wallet) {
-      walletExgAddress = this.wallet.excoin.receiveAdds[0].address;
+    if (this.wallet && this.wallet.mycoins && this.wallet.mycoins.length > 1) {
+      walletExgAddress = this.wallet.mycoins[1].receiveAdds[0].address;
     }
     // alert(walletExgAddress);
 

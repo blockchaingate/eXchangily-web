@@ -37,14 +37,13 @@ import { OtcService } from '../../../../services/otc.service';
     ReactiveFormsModule,
     ComponentsModule,
     FormsModule,
-    PaymentMethodsComponent,
     FlexLayoutModule,
     AdminRoutingModule,
     ReferralModule,
     MatButtonModule,
     MatDialogModule
   ],
-  providers: [AuthGuard, NoAuthGuard, TokenlockService, CampaignOrderService, MerchantService, OtcService],
+  providers: [AuthGuard, NoAuthGuard, TokenlockService,PaymentMethodsComponent, CampaignOrderService, MerchantService, OtcService],
   declarations: [
     AdminComponent,
     AddcoinComponent,

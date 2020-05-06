@@ -5,6 +5,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./paymentmethods.component.scss']
 })
 export class PaymentMethodsComponent implements OnInit {
+    name: string;
   constructor() { }
 
   ngOnInit() {
