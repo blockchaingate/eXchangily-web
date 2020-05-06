@@ -15,7 +15,10 @@ export class OrderComponent implements OnInit {
   @Input() type: string;
   token: string;
   buyOrderStatuses = ['Waiting for pay', 'Paid already', 'Finished', 'Cancelled', 'Frozened', 'All orders'];
+  buyOrderButtonStatuses = ['I have paid', 'Confirm receipt'];
+
   sellOrderStatuses = ['Waiting for collect', 'Waiting for confirm', 'Finished', 'Cancelled', 'Frozened', 'All orders'];
+  sellOrderButtonStatuses = ['I have collected', 'Confirm receipt'];
   currentStatus: string;
   constructor(     
     private router: Router,   
@@ -24,7 +27,17 @@ export class OrderComponent implements OnInit {
   ) {
     console.log('type==', this.type);
    }
-
+   getButtonText(buy: boolean, status: number) {
+    let text = '';
+    if(buy && (status < this.buyOrderButtonStatuses.length)) {
+      text = this.buyOrderButtonStatuses[status];
+    } else 
+    if(!buy && (status < this.sellOrderButtonStatuses.length)) {
+      text = this.sellOrderButtonStatuses[status];
+    }
+    return text;        
+   }
+   
   getStatusText(buy: boolean, status: number) {
     let text = '';
     if(buy) {

@@ -33,6 +33,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
               public localIcotxes: IcotxesAuthService, private _router: Router) {}
 
   ngOnInit() {
+    console.log('mngmt');
     this.pend = this.localIcotxes.pending;
     this.pendingLength = this.localIcotxes.pending.value.length;
 

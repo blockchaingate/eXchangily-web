@@ -43,24 +43,7 @@ export class TransactionHistoryComponent implements OnInit {
             }
         );
     }
-
-/*
-
-                this.kanbanServ.getDepositStatusSync(txid).subscribe((res: any) => {
-                    if (res && res.code !== undefined) {
-                        const code = res.code;
-                        let status = '';
-                        if (code === 0) {
-                            status = 'confirmed';
-                        } else
-                        if (code === 2) {
-                            status = 'failed';
-                        } else
-                        if (code === 3) {
-                            status = 'claim';
-                        }
-
-*/    
+   
     async showTransactionDetail(item: TransactionItem) {
         console.log('item is:', item);
         if (item.type === 'Withdraw') {
