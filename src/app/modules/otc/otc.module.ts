@@ -25,6 +25,7 @@ import { MatCardModule } from '@angular/material/card';
 import { SharedModule } from '../shared/shared.module';
 import { OtcMerchantModule } from '../otc/components/otc-merchant/otc-merchant.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { PaymentMethodService } from '../../services/paymentmethod.service';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,6 @@ import { TranslateModule } from '@ngx-translate/core';
     ModalModule,
     OtcMerchantModule
   ],
-  providers: [AuthGuard]
+  providers: [AuthGuard,PaymentMethodService]
 })
 export class OtcModule { }
