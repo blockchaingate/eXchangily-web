@@ -49,15 +49,15 @@ const routes: Routes = [
     }
   },
   {
-    resolve: {
-      app: AppResolver
-    },
     path: 'admin',
+    loadChildren: () => import('./modules/landing/features/admin/admin.module').then(m => m.AdminModule)
+    /*
     loadChildren: './modules/landing/features/admin/admin.module#AdminModule',
     data: {
       title: 'Exchangily Admin',
       isHome: false
     }
+    */
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }

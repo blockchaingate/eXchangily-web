@@ -29,27 +29,45 @@ import { TokenlockService } from '../../service/tokenlock/tokenlock.service';
 import { TokenlockComponent } from './tokenlock/tokenlock.component';
 import {MatButtonModule} from '@angular/material/button';
 import { OtcService } from '../../../../services/otc.service';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { PaymentMethodService } from '../../../../services/paymentmethod.service';
 
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
     ReactiveFormsModule,
     ComponentsModule,
-    FormsModule,
+    TranslateModule.forRoot(
+      {
+        loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+        }
+      }
+    ),
     FlexLayoutModule,
     AdminRoutingModule,
     ReferralModule,
     MatButtonModule,
     MatDialogModule
   ],
-  providers: [AuthGuard, NoAuthGuard, TokenlockService,PaymentMethodsComponent, CampaignOrderService, MerchantService, OtcService],
+  providers: [AuthGuard, NoAuthGuard, TokenlockService,
+    PaymentMethodService, CampaignOrderService, MerchantService, OtcService],
   declarations: [
     AdminComponent,
     AddcoinComponent,
     OtcListingComponent,
     OrderEditComponent,
     MembersComponent,
+    PaymentMethodsComponent, 
     CampaignOrdersComponent,
     OrderManagementComponent,
     KycComponent,
