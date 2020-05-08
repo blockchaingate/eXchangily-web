@@ -836,7 +836,11 @@ export class CoinService {
 
             // console.log('txhex for etheruem:', txHex);
             if (doSubmit) {
-                txHash = await this.apiService.postEthTx(txHex);
+                const retEth = await this.apiService.postEthTx(txHex);
+                txHash = retEth.txHash;
+                errMsg = retEth.errMsg;
+                console.log('txHash for here=', txHash);
+                console.log('errMsg for here=', errMsg);
                 if (txHash.indexOf('txerError') >= 0) {
                     errMsg = txHash;
                     txHash = '';
@@ -918,7 +922,9 @@ export class CoinService {
             // console.log('after sign');
             if (doSubmit) {
                 // console.log('111');
-                txHash = await this.apiService.postEthTx(txHex);
+                const retEth = await this.apiService.postEthTx(txHex);
+                txHash = retEth.txHash;
+                errMsg = retEth.errMsg;
 
                 if (txHash.indexOf('txerError') >= 0) {
                     errMsg = txHash;
@@ -1043,7 +1049,9 @@ export class CoinService {
                 }
             }
         }
-        return {txHex: txHex, txHash: txHash, errMsg: errMsg, transFee: transFee};
+        const ret = {txHex: txHex, txHash: txHash, errMsg: errMsg, transFee: transFee};
+        console.log('ret there eeee=', ret);
+        return ret;
     }
 
     fillUpAddress(mycoin: MyCoin, seed: Buffer, numReceiveAdds: number, numberChangeAdds: number) {
