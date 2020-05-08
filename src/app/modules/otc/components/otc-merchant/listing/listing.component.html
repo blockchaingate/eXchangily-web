@@ -20,6 +20,9 @@
                 </div>
 
                 <div class="row">
+                    <div class="col col-3 coin-name" [ngClass]="(buy && (coin=='DUSD'))?'type-buy':''" (click)="changeCoin(true, 'DUSD')">
+                        DUSD
+                    </div>                    
                     <div class="col col-3 coin-name" [ngClass]="(buy && (coin=='USDT'))?'type-buy':''" (click)="changeCoin(true, 'USDT')">
                         USDT
                     </div>
@@ -48,6 +51,9 @@
                 </div>
 
                 <div class="row">
+                    <div class="col col-3 coin-name" [ngClass]="(!buy && (coin=='DUSD'))?'type-sell':''" (click)="changeCoin(false, 'DUSD')">
+                        DUSD
+                    </div>                    
                     <div class="col col-3 coin-name" [ngClass]="(!buy && (coin=='USDT'))?'type-sell':''" (click)="changeCoin(false, 'USDT')">
                         USDT
                     </div>
@@ -68,8 +74,8 @@
         </div>
         <div class="col col-3 text-right">
             <div>{{'Available' | translate }} {{coin}}</div>
-            <div>0.00025</div>
-            <div>{{'Commission rate' | translate }}: 0.1%</div>
+            <div>{{available}}</div>
+            <div>{{'Commission rate' | translate }}: {{commissionRate*100}}%</div>
         </div>
     </div>
     <mat-card class="my-3">
@@ -117,7 +123,7 @@
                 <div class="col col-3">
                     <mat-form-field>
                         <mat-label>{{'Commission' | translate }}</mat-label>
-                        <input matInput readonly placeholder="" value="{{quantity ? quantity * 0.001 : 0}}">
+                        <input matInput readonly placeholder="" value="{{quantity ? quantity * commissionRate : 0}}">
                     </mat-form-field>
                     {{coin}}
                 </div>
@@ -211,3 +217,5 @@
     </div>
 
 </div>
+
+<pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>

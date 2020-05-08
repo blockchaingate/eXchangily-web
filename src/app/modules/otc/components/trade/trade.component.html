@@ -112,7 +112,7 @@
                         -->
                         <td>{{element.merchant ? element.merchant.merchantName : ''}}</td>
                         <td>
-                            <app-paymentmethod [methods]="element.PaymentMethod"></app-paymentmethod>
+                            <app-paymentmethod [methods]="element.paymentmethods"></app-paymentmethod>
                         </td>
                         <td>{{element.qtyAvilable}}</td>
                         <td>{{element.qtyLimitPerOrderLow}}-{{element.qtyLimitPerOrderHigh}}</td>

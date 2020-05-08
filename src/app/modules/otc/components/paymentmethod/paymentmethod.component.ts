@@ -7,7 +7,7 @@ import { faCreditCard } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./paymentmethod.component.css']
 })
 export class PaymentmethodComponent implements OnInit {
-  @Input() methods: string[];
+  @Input() methods: any[];
   constructor() { }
   faAlipay = faAlipay;
   faCreditCard = faCreditCard;

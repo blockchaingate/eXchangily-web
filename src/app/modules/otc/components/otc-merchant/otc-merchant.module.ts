@@ -18,6 +18,7 @@ import { OtcService } from '../../../../services/otc.service';
 import { OtcMerchantComponent } from './otc-merchant.component';
 import { MerchantApplicationComponent } from './merchant-application/merchant-application.component';
 import { ListingComponent } from './listing/listing.component';
+import { SharedModule } from '../../../shared/shared.module';
 
 @NgModule({
     declarations: [
@@ -28,6 +29,7 @@ import { ListingComponent } from './listing/listing.component';
     imports: [
         CommonModule,
         FormsModule,
+        SharedModule,
         ReactiveFormsModule,
         FontAwesomeModule,
         MatSelectModule, 

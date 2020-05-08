@@ -100,11 +100,11 @@ export class SendCoinModal {
         let btcBalance = 0;
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             if (this.wallet.mycoins[i].name === 'FAB') {
-                fabBalance = this.wallet.mycoins[i].receiveAdds[0].balance;
+                fabBalance = this.wallet.mycoins[i].balance;
             } else if (this.wallet.mycoins[i].name === 'ETH') {
-                ethBalance = this.wallet.mycoins[i].receiveAdds[0].balance;
+                ethBalance = this.wallet.mycoins[i].balance;
             } else if (this.wallet.mycoins[i].name === 'BTC') {
-                btcBalance = this.wallet.mycoins[i].receiveAdds[0].balance;
+                btcBalance = this.wallet.mycoins[i].balance;
             }
         }
 
@@ -131,12 +131,10 @@ export class SendCoinModal {
         if(this.coin.tokenType == 'FAB') {
             to = this.utilServ.fabToExgAddress(to);
         }    
-        console.log('toqiuqiu=', to);
+        
         const selectedCoinIndex = Number(this.sendCoinForm.get('selectedCoinIndex').value);
         const amount = Number(this.sendCoinForm.get('sendAmount').value);
-        console.log('amount==', amount);
-        console.log('this.coin.receiveAdds[0].balance==', this.coin.receiveAdds[0].balance);
-        if (amount > this.coin.receiveAdds[0].balance) {
+        if (amount > this.coin.balance) {
             this.alertServ.openSnackBar('Insufficient ' + this.coin.name + ' for this transaction', 'Ok');
             return;
         }

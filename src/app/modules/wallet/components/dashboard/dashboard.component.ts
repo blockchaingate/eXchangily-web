@@ -435,6 +435,7 @@ export class WalletDashboardComponent {
                 wallets.forEach(wl => { this.wallets.push(wl); });
                 */
                 coin.balance = balance.balance;
+                // coin.receiveAdds[0].balance = balance.balance;
                 coin.lockedBalance = balance.lockbalance;
                 updated = true;
             }
@@ -580,15 +581,15 @@ export class WalletDashboardComponent {
         const tranFeeUnit = amountForm.tranFeeUnit;
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             if (this.wallet.mycoins[i].name === 'FAB') {
-                fabBalance = this.wallet.mycoins[i].receiveAdds[0].balance;
+                fabBalance = this.wallet.mycoins[i].balance;
             } else if (this.wallet.mycoins[i].name === 'ETH') {
-                ethBalance = this.wallet.mycoins[i].receiveAdds[0].balance;
+                ethBalance = this.wallet.mycoins[i].balance;
             } else if (this.wallet.mycoins[i].name === 'BTC') {
-                btcBalance = this.wallet.mycoins[i].receiveAdds[0].balance;
+                btcBalance = this.wallet.mycoins[i].balance;
             }
         }
 
-        const currentCoinBalance = this.currentCoin.receiveAdds[0].balance;
+        const currentCoinBalance = this.currentCoin.balance;
         const coinName = this.currentCoin.name;
         if (currentCoinBalance < amount) {
             this.alertServ.openSnackBar('Insufficient ' + coinName + ' for this transaction', 'Ok');

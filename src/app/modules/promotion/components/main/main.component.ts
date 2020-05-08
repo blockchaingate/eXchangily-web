@@ -31,6 +31,8 @@ export class MainComponent implements OnInit {
   comment: string;
   currentCoin: MyCoin;
   gasPrice: number;
+  gasLimit: number;
+  satoshisPerBytes: number;
   membership: string;
   payableAmount: number;
   coinName: string;
@@ -38,7 +40,7 @@ export class MainComponent implements OnInit {
   exgAddress: string;
   readyGoReasons: any;
   selectedPaymentCurrency: string;
-  gasLimit: number;
+  
   step: number;
   _value: number;
   updated = false;
@@ -52,7 +54,7 @@ export class MainComponent implements OnInit {
     this._value = Number(val);
   }
   referralCode: string;
-  satoshisPerBytes: number;
+  
   faFacebook = faFacebook;
   faTwitter = faTwitter;
   token: string;
