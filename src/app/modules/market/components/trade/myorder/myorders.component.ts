@@ -101,15 +101,6 @@ export class MyordersComponent implements OnInit, OnDestroy {
         const amount = this.withdrawAmount;
         const pin = this.pin;        
 
-        if (amount < environment.minimumWithdraw[this.coinServ.getCoinNameByTypeId(this.token.coinType)]) {
-            this.alertServ.openSnackBar('Your withdraw minimum amount is not satisfied.', 'Ok');
-            return;
-        }
-
-        if (amount > Number(this.utilServ.showAmount(this.token.unlockedAmount, 6))) {
-            this.alertServ.openSnackBar('Your withdraw amount is bigger than your balance.', 'Ok');
-            return;
-        }
         let currentCoin ;
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             currentCoin = this.wallet.mycoins[i];
@@ -231,12 +222,16 @@ export class MyordersComponent implements OnInit, OnDestroy {
     }
 
     withdraw(withdrawModal: TemplateRef<any>, token) {
+        console.log('withdraw there we go');
         this.token = token;
         //console.log('token=', this.token);
 
         this.coinType = Number(this.token.coinType);
 
-        this.coinName = this.coinServ.getCoinNameByTypeId(this.coinType);        
+        this.coinName = this.coinServ.getCoinNameByTypeId(this.coinType);     
+        
+      
+
         this.opType = 'withdraw';
         // this.pin = sessionStorage.getItem('pin');
         // if (this.pin) {  
@@ -249,7 +244,21 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
 
     onConfirmedWithdrawAmount() {
+
+        const amount = this.withdrawAmount;
+
+        if (amount < environment.minimumWithdraw[this.coinName]) {
+            this.alertServ.openSnackBar('Your withdraw minimum amount is not satisfied.', 'Ok');
+            return;
+        }
+
+        if (amount > Number(this.utilServ.showAmount(this.token.unlockedAmount, 6))) {
+            this.alertServ.openSnackBar('Your withdraw amount is bigger than your balance.', 'Ok');
+            return;
+        }  
+
         this.modalWithdrawRef.hide();
+        
         this.pinModal.show();
     }
 

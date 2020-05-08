@@ -242,7 +242,7 @@
             </div>
         </div>
 
-        <button class="btn btn1 btn-gradient text-white" (click)="onConfirmedWithdrawAmount()">{{"Confirm" | translate }}</button>
+        <button [disabled]="withdrawAmount < minimumWithdrawAmount" class="btn btn1 btn-gradient text-white" (click)="onConfirmedWithdrawAmount()">{{"Confirm" | translate }}</button>
 
     </div>
 
