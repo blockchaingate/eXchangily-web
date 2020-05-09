@@ -845,6 +845,7 @@ export class WalletDashboardComponent {
             satoshisPerBytes: this.sendCoinForm.satoshisPerBytes
         };
         console.log('currenCoin=====', currentCoin);
+        console.log('addr=', this.sendCoinForm.to.trim());
         const { txHex, txHash, errMsg } = await this.coinService.sendTransaction(currentCoin, seed,
             this.sendCoinForm.to.trim(), amount, options, doSubmit
         );
