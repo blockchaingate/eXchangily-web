@@ -28,6 +28,7 @@ export class OrderComponent implements OnInit {
     console.log('type==', this.type);
    }
    getButtonText(buy: boolean, status: number) {
+    buy = !buy;
     let text = '';
     if(buy && (status < this.buyOrderButtonStatuses.length)) {
       text = this.buyOrderButtonStatuses[status];
@@ -39,6 +40,7 @@ export class OrderComponent implements OnInit {
    }
    
   getStatusText(buy: boolean, status: number) {
+    buy = !buy;
     let text = '';
     if(buy) {
       text = this.buyOrderStatuses[status];

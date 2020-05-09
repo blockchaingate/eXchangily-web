@@ -200,19 +200,25 @@ export class ApiService {
             }
         }
         */
+        let txHash = '';
+        let errMsg = '';
         const url = environment.endpoints.ETH.exchangily + 'sendsignedtransaction';
         const data = {
             signedtx: txHex
         };
-        let response = null;
         if (txHex) {
-            response = await this.http.post(url, data, {responseType: 'text'}).toPromise() as string;
-        }        
-        if (response) {
-            // console.log('response=', response);
-            return response;
-        }
-        return '';
+            try {
+                txHash = await this.http.post(url, data, {responseType: 'text'}).toPromise() as string;
+            } catch (err) {
+                console.log('errqqq=', err);
+                if (err.error) {
+                 errMsg = err.error;
+                }
+ 
+            }          
+        }    
+
+        return {txHash, errMsg};
     }
 
     async getFabLockBalance(address: string) {

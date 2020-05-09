@@ -52,10 +52,10 @@
                     <div class="text-dark">
                         {{item.to}}
                     </div>
-                    <div class="text-muted pt-2">
+                    <div class="text-muted pt-2" *ngIf="item.type != 'Withdraw'">
                         {{"Transaction ID" |translate}}
                     </div>
-                    <div class="text-dark">
+                    <div class="text-dark" *ngIf="item.type != 'Withdraw'">
                         <small>{{utilService.stripHexPrefix(item.txid)}}</small>
                     </div>
                     <div class="text-muted pt-2">
