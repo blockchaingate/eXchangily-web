@@ -129,7 +129,10 @@ export class SendCoinModal {
 
         let to = this.sendCoinForm.get('sendTo').value;
         if(this.coin.tokenType == 'FAB') {
-            to = this.utilServ.fabToExgAddress(to);
+            //if(to.indexOf('0x') < 0) {
+                to = this.utilServ.fabToExgAddress(to);
+            //}
+            
         }    
         
         const selectedCoinIndex = Number(this.sendCoinForm.get('selectedCoinIndex').value);
@@ -208,7 +211,9 @@ export class SendCoinModal {
         }
         let to = this.sendCoinForm.get('sendTo').value;
         if(this.coin.tokenType == 'FAB') {
-            to = this.utilServ.fabToExgAddress(to);
+            //if(to.indexOf('0x') < 0) {
+                to = this.utilServ.fabToExgAddress(to);
+            //}
         }        
 
         console.log('to===', to);

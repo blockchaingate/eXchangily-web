@@ -985,6 +985,7 @@ export class CoinService {
               }; 
             // console.log('foreeeee');
             console.log('amountSent=', amountSent.toFixed());
+            console.log('toAddress===', toAddress);
             let fxnCallHex = abi.encodeFunctionCall(funcTransfer, [toAddress, amountSent.toFixed()]);
             // console.log('enddddd');
             fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
