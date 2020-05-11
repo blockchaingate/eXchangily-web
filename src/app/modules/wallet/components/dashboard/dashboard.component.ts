@@ -614,7 +614,6 @@ export class WalletDashboardComponent {
                     }
                 }
 
-
         if ((coinName === 'BTC') || (coinName === 'ETH') || (coinName === 'FAB')) {
             if (currentCoinBalance < amount + transFee) {
                 this.alertServ.openSnackBar('Insufficient ' + coinName + ' for this transaction', 'Ok');
@@ -785,7 +784,6 @@ export class WalletDashboardComponent {
         this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
     }
 
-
     async depositFab(currentCoin) {
         const amount = this.amount;
         const pin = this.pin;
@@ -801,14 +799,16 @@ export class WalletDashboardComponent {
         if (errMsg) {
             this.alertServ.openSnackBar(errMsg, 'Ok');
         } else {
+            const addrs = environment.addresses.exchangilyOfficial.map(({ name }) => 'FAB');
 
-            const item = {
+            const item: TransactionItem = {
                 walletId: this.wallet.id,
                 type: 'Add Gas',
                 coin: currentCoin.name,
                 tokenType: currentCoin.tokenType,
                 amount: amount,
                 txid: txHash,
+                to: addrs[0],
                 time: new Date(),
                 confirmations: '0',
                 blockhash: '',
@@ -831,6 +831,7 @@ export class WalletDashboardComponent {
         const currentCoin = this.wallet.mycoins[1];
         this.depositFab(currentCoin);
     }
+
     async sendCoinDo() {
         const pin = this.pin;
         const currentCoin = this.wallet.mycoins[this.sendCoinForm.coinIndex];
@@ -864,6 +865,7 @@ export class WalletDashboardComponent {
                 tokenType: currentCoin.tokenType,
                 amount: amount,
                 txid: txHash,
+                to: this.sendCoinForm.to.trim(),
                 time: new Date(),
                 confirmations: '0',
                 blockhash: '',
@@ -875,7 +877,6 @@ export class WalletDashboardComponent {
             this.timerServ.checkTransactionStatus(item);
             console.log('after next');
             this.storageService.storeToTransactionHistoryList(item);
-
         }
     }
 
@@ -896,7 +897,7 @@ export class WalletDashboardComponent {
         const redepositArray = this.currentCoin.redeposit;
         // const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
         if (redepositArray && redepositArray.length > 0) {
-            
+
             for (let i = 0; i < redepositArray.length; i++) {
                 const redepositItem = redepositArray[i];
                 const amount = new BigNumber(redepositItem.amount);
@@ -916,7 +917,6 @@ export class WalletDashboardComponent {
     }
 
     async submitrediposit(coinType: number, amount: BigNumber, transactionID: string, gasPrice: number, gasLimit: number) {
-        
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
         const nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
         const pin = this.pin;
@@ -927,7 +927,6 @@ export class WalletDashboardComponent {
             this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
             return;
         }
-
 
         const amountInLink = amount; // it's for all coins.
         const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(transactionID)
@@ -949,7 +948,6 @@ export class WalletDashboardComponent {
 
         const keyPairs = this.coinServ.getKeyPairs(currentCoin, seed, 0, 0);
         const signedMessage: Signature = this.coinServ.signedMessage(originalMessage, keyPairs);
-
 
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
@@ -1007,7 +1005,6 @@ export class WalletDashboardComponent {
     */
 
     async depositdo() {
-
         const currentCoin = this.currentCoin;
 
         const amount = this.amountForm.amount;
@@ -1022,14 +1019,12 @@ export class WalletDashboardComponent {
         }
         const keyPairs = this.coinServ.getKeyPairs(currentCoin, seed, 0, 0);
 
-
         const officalAddress = this.coinServ.getOfficialAddress(currentCoin);
         if (!officalAddress) {
             this.alertServ.openSnackBar('offical address for ' + currentCoin.name + ' is unavailable', 'Ok');
             return;
         }
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
-
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
 
         const doSubmit = false;
@@ -1061,7 +1056,6 @@ export class WalletDashboardComponent {
 
         console.log('signedMessage=', signedMessage);
 
-
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
         const abiHex = this.web3Serv.getDepositFuncABI(coinType, txHash, amountInLink, addressInKanban, signedMessage);
 
@@ -1087,6 +1081,7 @@ export class WalletDashboardComponent {
                     tokenType: currentCoin.tokenType,
                     amount: amount,
                     txid: resp.data.transactionID,
+                    to: officalAddress,
                     time: new Date(),
                     confirmations: '0',
                     blockhash: '',

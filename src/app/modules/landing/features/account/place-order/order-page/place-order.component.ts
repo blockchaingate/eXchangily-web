@@ -93,6 +93,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
     this._createOrderService.icotx = {
       payment: [this.orderForm.getRawValue()],
       // totalPaid: this.paidAmount.value,
+      payMethod: payMethod,
       totalAppTokens: this.appTokenQty.value,
       totalPaid: this.totalUSD
     };

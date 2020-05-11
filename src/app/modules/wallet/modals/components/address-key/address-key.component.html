@@ -1,6 +1,5 @@
 <div class="container">
     <div class="row apair header header-tiny apair-no-margin">
-
         <div class="col-5">
             {{"Address" | translate}}
         </div>
@@ -21,5 +20,4 @@
     <div *ngIf="addsArraylength > pageSize">
         <mat-paginator [length]="addsArraylength" [pageSize]="pageSize" (page)="pageChanged($event)"></mat-paginator>
     </div>
-
 </div>

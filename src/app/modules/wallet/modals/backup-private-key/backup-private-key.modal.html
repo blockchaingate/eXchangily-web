@@ -14,8 +14,7 @@
                         <select class="form-control my-2" (change)="onChange($event.target.value)">
                             <option [value]="i" *ngFor="let coin of mycoins;let i = index">{{coin.name}}</option>
                         </select>
-
-                        <app-address-key #addressKey [chain]="0" [seed]="seed" [currentCoin]="currentCoin" [fabAddress]="fabAddress"></app-address-key>
+                        <app-address-key #addressKey [chain]="0" [seed]="seed" [currentCoin]="currentCoin"></app-address-key>
                     </div>
                 </div>
 

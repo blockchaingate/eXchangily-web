@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
-import { CarouselModule } from 'ngx-bootstrap';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MarketRoutingModule } from './market-routing.module';
 import { TradeModule } from './components/trade/trade.module';

@@ -40,7 +40,7 @@ export class MainComponent implements OnInit {
   exgAddress: string;
   readyGoReasons: any;
   selectedPaymentCurrency: string;
-  
+
   step: number;
   _value: number;
   updated = false;
@@ -54,7 +54,7 @@ export class MainComponent implements OnInit {
     this._value = Number(val);
   }
   referralCode: string;
-  
+
   faFacebook = faFacebook;
   faTwitter = faTwitter;
   token: string;
@@ -130,7 +130,7 @@ export class MainComponent implements OnInit {
           this.updated = true;
           this.readyGo = true;
           this.alertServ.openSnackBar('EXG address was updated', 'Ok');
-          
+
         } else {
           this.router.navigate(['/login/signin', { 'retUrl': '/promotion/main' }]);
         }
@@ -187,7 +187,7 @@ export class MainComponent implements OnInit {
         } else {
 
           let exgAddress = '';
-          if(this.wallet && this.wallet.mycoins) {
+          if (this.wallet && this.wallet.mycoins) {
             for (let i = 0; i < this.wallet.mycoins.length; i++) {
               const coin = this.wallet.mycoins[i];
               if (coin.name === 'FAB') {
@@ -231,7 +231,7 @@ export class MainComponent implements OnInit {
                   }
                   this.readyGoReasons.push('exgAddressNotMatch');
                 }
-kyc = 100;
+                kyc = 100;
                 if (kyc === 100) {
                   this.readyGo = true;
                 } else {
@@ -381,8 +381,8 @@ kyc = 100;
                 // this.referralCode = res2._body.referralCode;
                 // this.membership = res2._body.membership;
                 this.quantity = 0;
-                this.step = 1;   
-                this.value = 0;                             
+                this.step = 1;
+                this.value = 0;
               }
             }
           );
@@ -452,7 +452,7 @@ kyc = 100;
       satoshisPerBytes: this.satoshisPerBytes
     };
     console.log('amount000===', amount);
-    console.log('this.quantity000===', this.quantity);    
+    console.log('this.quantity000===', this.quantity);
     const { txHex, txHash, errMsg } = await this.coinService.sendTransaction(currentCoin, seed,
       environment.addresses.promotionOfficial[currentCoin.name], amount, options, doSubmit
     );
@@ -466,7 +466,6 @@ kyc = 100;
     if (txHex && txHash) {
       this.alertServ.openSnackBar('your transaction was submitted successfully.', 'Ok');
 
-
       console.log('amount1===', amount);
       console.log('this.quantity1===', this.quantity);
       const item = {
@@ -476,6 +475,7 @@ kyc = 100;
         tokenType: currentCoin.tokenType,
         amount: amount,
         txid: txHash,
+        to: environment.addresses.promotionOfficial[currentCoin.name],
         time: new Date(),
         confirmations: '0',
         blockhash: '',
@@ -489,7 +489,7 @@ kyc = 100;
       console.log('this.quantity2===', this.quantity);
       this.addOrder(txHash, amount, this.quantity);
 
-     
+
     }
   }
 }

@@ -23,7 +23,7 @@
         <mat-list-item class="apair dataline" *ngFor="let pr of prices | callback: filterPrice : select; let i=index">
             <div mat-line class="float-left text-white" (click)="loadTradePair(pr.symbol)">{{pr.symbol}}</div>
             <div class="vertical-center pt-2 pb-2" (click)="loadTradePair(pr.symbol)">
-                <div class="text-muted vertical-center">{{utilServ.showAmount(pr.price)}}</div>
+                <div class="text-muted vertical-center">{{utilServ.showAmount(pr.price, 6)}}</div>
                 <div class="vertical-center" [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>=0"> {{pr.change24h | number:'.2'}}% </div>
             </div>
             <mat-divider></mat-divider>

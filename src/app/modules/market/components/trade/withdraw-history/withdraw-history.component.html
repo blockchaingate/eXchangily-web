@@ -15,7 +15,7 @@
                 <!-- Quantity Column -->
                 <ng-container matColumnDef="Quantity">
                     <th mat-header-cell *matHeaderCellDef> {{'Quantity' | translate }} </th>
-                    <td mat-cell *matCellDef="let element"> {{utilServ.showAmount(element.value)}} </td>
+                    <td mat-cell *matCellDef="let element"> {{utilServ.showAmount(element.value, 6)}} </td>
                 </ng-container>
 
                 <!-- Address Column -->

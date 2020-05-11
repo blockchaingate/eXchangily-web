@@ -1,5 +1,5 @@
 import { Component, ViewChild, EventEmitter, Input, Output, OnInit } from '@angular/core';
-import {  ModalDirective } from 'ngx-bootstrap/modal';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import { FormBuilder } from '@angular/forms';
 import { MyCoin } from '../../../../models/mycoin';
 import { AlertService } from '../../../../services/alert.service';
@@ -14,16 +14,18 @@ import BigNumber from 'bignumber.js';
     styleUrls: ['./redeposit-amount.modal.css']
 })
 export class RedepositAmountModal implements OnInit {
-    @ViewChild('depositModal', {static: true}) public depositModal: ModalDirective;
+    @ViewChild('depositModal', { static: true }) public depositModal: ModalDirective;
     @Input() coin: MyCoin;
     @Output() confirmedAmount = new EventEmitter<any>();
     showDetailIndex: number;
     gasPrice = environment.chains.KANBAN.gasPrice;
     gasLimit = environment.chains.KANBAN.gasLimit;
     transactionID: string;
-    constructor(private alertServ: AlertService, public utilServ: UtilService) {
+    gasFeeCustomChecked = false;
 
+    constructor(private alertServ: AlertService, public utilServ: UtilService) {
     }
+
     ngOnInit() {
         this.showDetailIndex = -1;
     }
@@ -35,7 +37,7 @@ export class RedepositAmountModal implements OnInit {
     copyTransactionID(txid: string) {
         this.utilServ.copy(txid);
     }
-    
+
     setTransactionID(txid: string) {
         this.transactionID = txid;
     }

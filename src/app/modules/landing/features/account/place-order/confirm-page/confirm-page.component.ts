@@ -20,15 +20,16 @@ export class ConfirmPageComponent implements OnInit, OnDestroy {
   serverError = '';
   success = false;
   loaded = false;
+  crOS: CreateOrderService;
 
-// app: Application;
+  // app: Application;
   user: User;
-// fabAdd = '';
-//  ethAdd = '';
-//  btcAdd = '';
-//  ethCoin: {symbol: string, add: string};
-//  btcCoin: {symbol: string, add: string};
-//  fabCoin: {symbol: string, add: string};
+  // fabAdd = '';
+  //  ethAdd = '';
+  //  btcAdd = '';
+  //  ethCoin: {symbol: string, add: string};
+  //  btcCoin: {symbol: string, add: string};
+  //  fabCoin: {symbol: string, add: string};
 
   private goingBack = false;
 
@@ -37,9 +38,9 @@ export class ConfirmPageComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-        private _icotx: IcotxService, private _crOS: CreateOrderService,
-        private _router: Router, private _activatedRoute: ActivatedRoute,
-        private _fb: FormBuilder, private _appServ: AppService) {
+    private _icotx: IcotxService, private _crOS: CreateOrderService, private _router: Router,
+    private _activatedRoute: ActivatedRoute, private _fb: FormBuilder, private _appServ: AppService) {
+    this.crOS = _crOS;
     if (!this._crOS.icotx || this._crOS.icotx.payment[0].appTokenQty < 100) {
       this._router.navigate([AccountPaths[2].absolute]);
     }
@@ -72,16 +73,16 @@ export class ConfirmPageComponent implements OnInit, OnDestroy {
     const addrs = { btcAddress: this.user.btcAdd, ethAddress: this.user.ethAdd, fabAddress: this.user.fabAdd };
     // const addrs = { btcAddress: this.btcAdd, ethAddress: this.ethAdd, fabAddress: this.fabAdd };
     this._icotx.createIcotx(this._crOS.objectWithTransitIDs(this.transitIds.value, addrs))
-    .subscribe(
-      ret => {
-        this.serverError = '';
+      .subscribe(
+        ret => {
+          this.serverError = '';
 
-        this._crOS.clearOrder();
-        this.success = true;
-      },
-      err => {
-        this.serverError = err;
-      });
+          this._crOS.clearOrder();
+          this.success = true;
+        },
+        err => {
+          this.serverError = err;
+        });
   }
 
   back() {

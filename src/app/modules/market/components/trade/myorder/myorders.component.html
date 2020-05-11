@@ -43,16 +43,16 @@
                     <div *ngIf="!order.bidOrAsk" class="text-danger">{{'Sell' | translate }}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 11%;">
-                    <div>{{utilServ.showAmount(order.price)}}</div>
+                    <div>{{utilServ.showAmount(order.price, 6)}}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 11%;">
-                    <div>{{utilServ.showAddAmount(order.orderQuantity, order.filledQuantity)}}</div>
+                    <div>{{utilServ.showAddAmount(order.orderQuantity, order.filledQuantity, 6)}}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 11%;">
-                    <div>{{utilServ.showAmount(order.filledQuantity)}}</div>
+                    <div>{{utilServ.showAmount(order.filledQuantity, 6)}}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 15%;">
-                    <div>{{utilServ.showAmount(order.filledQuantity)*100/utilServ.showAddAmount(order.orderQuantity, order.filledQuantity)|number:'2.2-2'}}</div>
+                    <div>{{showFilledPercentage(order.orderQuantity, order.filledQuantity)|number:'2.2-2'}}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 5%;">
                     <div *ngIf="order.isActive">
@@ -86,7 +86,7 @@
                     </p>
                 </div>
                 <div class=" text-muted col-2">
-                    <p>{{utilServ.showAmount(order.price)}}</p>
+                    <p>{{utilServ.showAmount(order.price, 6)}}</p>
                 </div>
                 <div class=" text-muted col-2">
                     <p>cancel</p>
@@ -100,10 +100,10 @@
                     </p>
                 </div>
                 <div class=" text-muted col-4">
-                    {{'Order Qty' | translate }}:{{utilServ.showAmount(order.orderQuantity)}}
+                    {{'Order Qty' | translate }}:{{utilServ.showAmount(order.orderQuantity, 6)}}
                 </div>
                 <div class=" text-muted col-4">
-                    {{'Filled Qty' | translate }}:{{utilServ.showAmount(order.filledQuantity)}}
+                    {{'Filled Qty' | translate }}:{{utilServ.showAmount(order.filledQuantity, 6)}}
                 </div>
                 <div class=" text-muted col-4">
                     {{'Filled%' | translate }}:{{order.filledQuantity*100/order.orderQuantity|number:'2.2-2'}}
@@ -137,10 +137,10 @@
                     <label>{{coinServ.getCoinNameByTypeId(token.coinType)}}</label>
                 </div>
                 <div class="col col-3 text-white">
-                    <label> {{utilServ.showAmount(token.unlockedAmount)}}</label>
+                    <label> {{utilServ.showAmount(token.unlockedAmount, 6)}}</label>
                 </div>
                 <div class="col col-3 text-white">
-                    <label>{{utilServ.showAmount(token.lockedAmount)}}</label>
+                    <label>{{utilServ.showAmount(token.lockedAmount, 6)}}</label>
                 </div>
                 <div class="col col-3 text-white">
                     <button mat-icon-button matTooltip="Withdraw" (click)="withdraw(templateWithdraw, token)" aria-label="Example icon-button with a heart icon">
@@ -203,7 +203,7 @@
     </div>
     <div class="modal-body">
         <div>
-            <label for="inputSendTo" class="text-muted">{{'Your balance' | translate }}:{{utilServ.showAmount(token.unlockedAmount)}}</label>
+            <label for="inputSendTo" class="text-muted">{{'Your balance' | translate }}:{{utilServ.showAmount(token.unlockedAmount, 6)}}</label>
         </div>
 
         <div>
@@ -217,7 +217,7 @@
 
         <div class="d-flex justify-content-between py-1">
             <div>
-                {{'Transaction fee' | translate}}: {{utilServ.showAmount(gasPrice*gasLimit)}}
+                {{'Transaction fee' | translate}}: {{utilServ.showAmount(gasPrice*gasLimit, 6)}}
             </div>
             <div>
                 <mat-slide-toggle [(ngModel)]="transFeeAdvance"></mat-slide-toggle>

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { appId } from '../../../../landing/app.constants';
 import { StorageService } from '../../../../../services/storage.service';
 import { OtcService } from '../../../../../services/otc.service';
-import {environment} from '../../../../../../environments/environment';
+import { environment } from '../../../../../../environments/environment';
 import { PinNumberModal } from '../../../../shared/modals/pin-number/pin-number.modal';
 import { AlertService } from '../../../../../services/alert.service';
 import { UtilService } from '../../../../../services/util.service';
@@ -30,7 +30,7 @@ export class ListingComponent implements OnInit {
     txid: string;
     available: number;
     gasLimit: number;
-    satoshisPerBytes: number;    
+    satoshisPerBytes: number;
     currentCoin: MyCoin;
     quantity: number;
     qtyLimitPerOrderLow: number;
@@ -51,7 +51,7 @@ export class ListingComponent implements OnInit {
         private coinService: CoinService,
         private walletService: WalletService,
         private alertServ: AlertService,
-        public utilServ: UtilService,        
+        public utilServ: UtilService,
         private storageService: StorageService,
         private _otcServ: OtcService) { }
 
@@ -67,7 +67,7 @@ export class ListingComponent implements OnInit {
                 this.token = token;
                 this._otcServ.getListings(this.token).subscribe(
                     (res: any) => {
-                        if(res && res.ok) {
+                        if (res && res.ok) {
                             this.listings = res._body;
                         }
                     }
@@ -77,17 +77,15 @@ export class ListingComponent implements OnInit {
     }
 
     addListing() {
-        if(!this.buy) { //sell coins
-            const payableQuantity = this.quantity * (1+this.commissionRate);
-            if(payableQuantity > this.available) {
+        if (!this.buy) { // sell coins
+            const payableQuantity = this.quantity * (1 + this.commissionRate);
+            if (payableQuantity > this.available) {
                 this.alertServ.openSnackBar('Not enough coin in wallet for listing', 'Ok');
                 return;
             }
             this.pinModal.show();
-            return;            
+            return;
         }
-
-
     }
 
     addListingDo() {
@@ -106,12 +104,13 @@ export class ListingComponent implements OnInit {
         this._otcServ.addListing(this.token, data).subscribe(
             (res: any) => {
                 console.log('res from addListing=', res);
-                if(res.ok) {
+                if (res.ok) {
                     this.listings.push(res._body);
                 }
             }
         );
     }
+
     /*
         merchantId: ObjectId,
         sequence: Number,
@@ -128,6 +127,7 @@ export class ListingComponent implements OnInit {
         active: Boolean,
         lastUpdated: Date,
     */
+
     changeAdvType(type: string) {
         this.advType = type;
     }
@@ -136,8 +136,8 @@ export class ListingComponent implements OnInit {
         this.buy = bOrA;
         this.coin = coin;
 
-        for(let i=0;i<this.wallet.mycoins.length;i++) {
-            if(this.wallet.mycoins[i].name == this.coin) {
+        for (let i = 0; i < this.wallet.mycoins.length; i++) {
+            if (this.wallet.mycoins[i].name == this.coin) {
                 this.currentCoin = this.wallet.mycoins[i];
 
                 this.available = this.currentCoin.balance;
@@ -145,66 +145,65 @@ export class ListingComponent implements OnInit {
                 const chainName = this.currentCoin.tokenType ? this.currentCoin.tokenType : this.currentCoin.name;
                 this.gasPrice = environment.chains[chainName]['gasPrice'];
                 this.gasLimit = environment.chains[chainName]['gasLimit'];
-                this.satoshisPerBytes = environment.chains[chainName]['satoshisPerBytes'];                
+                this.satoshisPerBytes = environment.chains[chainName]['satoshisPerBytes'];
                 break;
             }
         }
     }
 
-
-
     async onConfirmedPin(pin: string) {
         const pinHash = this.utilServ.SHA256(pin).toString();
         if (pinHash !== this.wallet.pwdHash) {
-          this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
-          return;
+            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+            return;
         }
-        
+
         const currentCoin = this.currentCoin;
-    
+
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
-    
-        const amount = this.quantity * (1+this.commissionRate);
-        
+
+        const amount = this.quantity * (1 + this.commissionRate);
+
         const doSubmit = true;
         const options = {
-          gasPrice: this.gasPrice,
-          gasLimit: this.gasLimit,
-          satoshisPerBytes: this.satoshisPerBytes
-        };   
+            gasPrice: this.gasPrice,
+            gasLimit: this.gasLimit,
+            satoshisPerBytes: this.satoshisPerBytes
+        };
+
         const { txHex, txHash, errMsg } = await this.coinService.sendTransaction(currentCoin, seed,
-          environment.addresses.otcOfficial[currentCoin.name], amount, options, doSubmit
+            environment.addresses.otcOfficial[currentCoin.name], amount, options, doSubmit
         );
+
         if (errMsg) {
-          this.alertServ.openSnackBar(errMsg, 'Ok');
-          return;
+            this.alertServ.openSnackBar(errMsg, 'Ok');
+            return;
         }
         if (txHex && txHash) {
-          this.alertServ.openSnackBar('your transaction was submitted successfully.', 'Ok');
+            this.alertServ.openSnackBar('your transaction was submitted successfully.', 'Ok');
 
-          const item = {
-            walletId: this.wallet.id,
-            type: 'Send',
-            coin: currentCoin.name,
-            tokenType: currentCoin.tokenType,
-            amount: amount,
-            txid: txHash,
-            time: new Date(),
-            confirmations: '0',
-            blockhash: '',
-            comment: '',
-            status: 'pending'
-          };
-          this.timerServ.transactionStatus.next(item);
-          this.timerServ.checkTransactionStatus(item);
-          this.storageService.storeToTransactionHistoryList(item);
-          console.log('amount2===', amount);
-          console.log('this.quantity2===', this.quantity);
-          this.txid = txHash;
-          this.addListingDo();
-          // this.addOrder(txHash, amount, this.quantity);
-    
-         
+            const item = {
+                walletId: this.wallet.id,
+                type: 'Send',
+                coin: currentCoin.name,
+                tokenType: currentCoin.tokenType,
+                amount: amount,
+                txid: txHash,
+                to: environment.addresses.otcOfficial[currentCoin.name],
+                time: new Date(),
+                confirmations: '0',
+                blockhash: '',
+                comment: '',
+                status: 'pending'
+            };
+            this.timerServ.transactionStatus.next(item);
+            this.timerServ.checkTransactionStatus(item);
+            this.storageService.storeToTransactionHistoryList(item);
+            console.log('amount2===', amount);
+            console.log('this.quantity2===', this.quantity);
+            this.txid = txHash;
+            this.addListingDo();
+            // this.addOrder(txHash, amount, this.quantity);
         }
-      }    
+    }
 }

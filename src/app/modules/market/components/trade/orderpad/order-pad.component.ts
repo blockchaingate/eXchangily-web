@@ -82,15 +82,19 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   gasPrice: number;
   gasLimit: number;
   errMsg = '';
+  buyTransFeeAdvance = 0.0;
+  sellTransFeeAdvance = 0.0;
+  coinService: CoinService;
   // interval;
 
   mySubscription: any;
 
-  constructor(private storageServ: StorageService, private web3Serv: Web3Service, private coinService: CoinService,
+  constructor(private storageServ: StorageService, private web3Serv: Web3Service, private _coinServ: CoinService,
     private kanbanService: KanbanService, public utilService: UtilService, private walletService: WalletService,
     private fb: FormBuilder, private modalService: BsModalService, private tradeService: TradeService,
     private route: ActivatedRoute, private alertServ: AlertService, private timerServ: TimerService) {
     this.refreshTokenDone = true;
+    this.coinService = _coinServ;
   }
 
   ngOnDestroy() {
@@ -369,8 +373,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     this.currentPrice = 0;
     this.currentQuantity = 0;
 
-    const baseCoinName = this.coinService.getCoinNameByTypeId(this.baseCoin);
-    const targetCoinName = this.coinService.getCoinNameByTypeId(this.targetCoin);
+    const baseCoinName = this._coinServ.getCoinNameByTypeId(this.baseCoin);
+    const targetCoinName = this._coinServ.getCoinNameByTypeId(this.targetCoin);
     const pair = targetCoinName + baseCoinName;
     // console.log('pair = ' + pair);
 
@@ -563,8 +567,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       }
       // console.log('pair for refresh pageeee=' + pair);
       const pairArray = pair.split('_');
-      this.baseCoin = this.coinService.getCoinTypeIdByName(pairArray[1]);
-      this.targetCoin = this.coinService.getCoinTypeIdByName(pairArray[0]);
+      this.baseCoin = this._coinServ.getCoinTypeIdByName(pairArray[1]);
+      this.targetCoin = this._coinServ.getCoinTypeIdByName(pairArray[0]);
       this.refreshOrders();
       this.refreshCoinAvail();
 
@@ -651,7 +655,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       return;
     }
     if (this.targetCoinAvail < this.sellQty) {
-      this.alertServ.openSnackBar('You have not enough ' + this.coinService.getCoinNameByTypeId(this.targetCoin), 'ok');
+      this.alertServ.openSnackBar('You have not enough ' + this._coinServ.getCoinNameByTypeId(this.targetCoin), 'ok');
       return;
     }
     this.bidOrAsk = false;
@@ -677,7 +681,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     console.log('baseCoin=', baseCoin);
     console.log('targetCoin=', targetCoin);
     const seed = this.utilService.aesDecryptSeed(wallet.encryptedSeed, pin);
-    const keyPairsKanban = this.coinService.getKeyPairs(wallet.excoin, seed, 0, 0);
+    const keyPairsKanban = this._coinServ.getKeyPairs(wallet.excoin, seed, 0, 0);
     const orderType = 1;
     if (!bidOrAsk) {
       const tmp = baseCoin;

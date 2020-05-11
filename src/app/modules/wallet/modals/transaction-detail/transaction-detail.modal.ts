@@ -11,13 +11,14 @@ import {UtilService} from '../../../../services/util.service';
 export class TransactionDetailModal {
     @ViewChild('transactionDetailModal', {static: true}) public transactionDetailModal: ModalDirective;   
     item: TransactionItem;
+    utilService: UtilService;
 
-    constructor ( private utilService: UtilService ) {
+    constructor (_utilServ: UtilService) {
+        this.utilService = _utilServ;
+    }
 
-    }    
     show(item: TransactionItem) {
         this.item = item;
-
         this.transactionDetailModal.show();
     }
 

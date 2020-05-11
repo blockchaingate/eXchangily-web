@@ -22,12 +22,13 @@ export class MarketListComponent implements OnInit {
     favorite_pairs: string[] = [];
     searchText = '';
     COINS: Coin[];
+
     constructor(private prServ: PriceService, private _router: Router, private storageServ: StorageService, 
         private _wsServ: WsService, private kanbanService: KanbanService, public utilServ: UtilService) {
         
     }
 
-    showAmount(amount, decimal) {
+    showAmount(amount: number, decimal: number) {
         return this.utilServ.showAmount(amount, decimal);
     }
 

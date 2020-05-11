@@ -11,7 +11,7 @@ import * as wif from 'wif';
 import { Web3Service } from './web3.service';
 import {Signature} from '../interfaces/kanban.interface';
 import { UtilService } from './util.service';
-import * as abi from 'web3-eth-abi';
+import { AbiCoder } from 'web3-eth-abi';
 import { environment } from '../../environments/environment';
 import BigNumber from 'bignumber.js/bignumber';
 @Injectable()
@@ -39,8 +39,8 @@ export class CoinService {
         coin.contractAddr = address;
         coin.coinType = baseCoin.coinType;
         coin.baseCoin = baseCoin;
-        //const addr = new Address(baseCoin.coinType, baseCoin.receiveAdds[0].address, 0);
-        //coin.receiveAdds.push(addr);
+        // const addr = new Address(baseCoin.coinType, baseCoin.receiveAdds[0].address, 0);
+        // coin.receiveAdds.push(addr);
         return coin;
     }
 
@@ -136,7 +136,6 @@ export class CoinService {
         return '';
     }
 
-
     async depositFab(scarContractAddress: string, seed: any, mycoin: MyCoin, amount: number) {
         // sendTokens in https://github.com/ankitfa/Fab_sc_test1/blob/master/app/walletManager.js
         const gasLimit = 800000;
@@ -149,24 +148,22 @@ export class CoinService {
         let totalFee = totalAmount;
     
         // -----------------------------------------------------------------------
-        
-
-        const addDepositFunc = {
-            "constant": false,
-            "inputs": [],
-            "name": "addDeposit",
-            "outputs": [
+        const addDepositFunc: any = {
+            'constant': false,
+            'inputs': [],
+            'name': 'addDeposit',
+            'outputs': [
             {
-            "name": "",
-            "type": "address"
+            'name': '',
+            'type': 'address'
             }
             ],
-            "payable": true,
-            "stateMutability": "payable",
-            "type": "function"
+            'payable': true,
+            'stateMutability': 'payable',
+            'type': 'function'
             };
         
-        let fxnCallHex = abi.encodeFunctionCall(addDepositFunc, []);
+        let fxnCallHex = AbiCoder.prototype.encodeFunctionCall(addDepositFunc, []);
         fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
         
         // console.log('fxnCallHexfxnCallHexfxnCallHexfxnCallHexfxnCallHex=', fxnCallHex);
@@ -296,7 +293,7 @@ export class CoinService {
         const root = hdkey.fromMasterSeed(seed);
         const address1 = excoin.receiveAdds[0];
         const currentIndex = address1.index;        
-        const wallet = root.derivePath( "m/44'/" + excoin.coinType + "'/0/" + currentIndex ).getWallet();
+        const wallet = root.derivePath( 'm/44\'/' + excoin.coinType + '\'/0/' + currentIndex ).getWallet();
         const privateKey = wallet.getPrivateKey();  
         // console.log('address is for getExPrivateKey:' + excoin.receiveAdds[0].address);
         return privateKey;
@@ -313,7 +310,7 @@ export class CoinService {
         let priKeyHex = '';
         let priKeyDisp = '';
         let buffer = Buffer.alloc(32);
-        const path = "m/44'/" + coin.coinType + "'/0'/" + chain + "/" + index;
+        const path = 'm/44\'/' + coin.coinType + '\'/0\'/' + chain + '/' + index;
 
         if (name === 'BTC' || name === 'FAB') {
             const root = BIP32.fromSeed(seed, environment.chains.BTC.network);
@@ -879,27 +876,27 @@ export class CoinService {
             }
             // console.log('nonce = ' + nonce);
             const func =    {  
-                "constant": false,
-                "inputs":[  
+                'constant': false,
+                'inputs':[  
                    {  
-                      "name":"recipient",
-                      "type":"address"
+                      'name':'recipient',
+                      'type':'address'
                    },
                    {  
-                      "name":"amount",
-                      "type":"uint256"
+                      'name':'amount',
+                      'type':'uint256'
                    }
                 ],
-                "name":"transfer",
-                "outputs":[  
+                'name':'transfer',
+                'outputs':[  
                    {  
-                      "name":"",
-                      "type":"bool"
+                      'name':'',
+                      'type':'bool'
                    }
                 ],
-                "payable":false,
-                "stateMutability":"nonpayable",
-                "type":"function"
+                'payable':false,
+                'stateMutability':'nonpayable',
+                'type':'function'
              };
             
             const abiHex = this.web3Serv.getFuncABI(func);
@@ -960,33 +957,33 @@ export class CoinService {
 
             // const abiHex = this.web3Serv.getFabTransferABI([toAddress, amountSent.toString()]);
 
-            const funcTransfer =	{
-                "constant": false,
-                "inputs": [
+            const funcTransfer: any =	{
+                'constant': false,
+                'inputs': [
                   {
-                    "name": "to",
-                    "type": "address"
+                    'name': 'to',
+                    'type': 'address'
                   },
                   {
-                    "name": "value",
-                    "type": "uint256"
+                    'name': 'value',
+                    'type': 'uint256'
                   }
                 ],
-                "name": "transfer",
-                "outputs": [
+                'name': 'transfer',
+                'outputs': [
                   {
-                    "name": "",
-                    "type": "bool"
+                    'name': '',
+                    'type': 'bool'
                   }
                 ],
-                "payable": false,
-                "stateMutability": "nonpayable",
-                "type": "function"
+                'payable': false,
+                'stateMutability': 'nonpayable',
+                'type': 'function'
               }; 
             // console.log('foreeeee');
             console.log('amountSent=', amountSent.toFixed());
             console.log('toAddress===', toAddress);
-            let fxnCallHex = abi.encodeFunctionCall(funcTransfer, [toAddress, amountSent.toFixed()]);
+            let fxnCallHex = AbiCoder.prototype.encodeFunctionCall(funcTransfer, [toAddress, amountSent.toFixed()]);
             // console.log('enddddd');
             fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
             let contractAddress = mycoin.contractAddr;
