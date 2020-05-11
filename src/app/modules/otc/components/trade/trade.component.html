@@ -72,7 +72,7 @@
             <div class="container col-blue">
                 <div class="row">
                     <div class="col col-6">
-                        <a href="/otc/order">
+                        <a href="/otc/member-orders">
                             {{'My order' | translate}}                            
                         </a>
                     </div>
@@ -105,17 +105,21 @@
                     </tr>
                 </thead>
                 <tbody>
+                    
                     <tr *ngFor="let element of dataSource | merchantPipe: currency : bidOrAsk : coinName ">
-                        <td>{{element.Merchant}}</td>
+                        <!--
+                        <tr *ngFor="let element of dataSource">
+                        -->
+                        <td>{{element.merchant ? element.merchant.merchantName : ''}}</td>
                         <td>
-                            <app-paymentmethod [methods]="element.PaymentMethod"></app-paymentmethod>
+                            <app-paymentmethod [methods]="element.paymentmethods"></app-paymentmethod>
                         </td>
-                        <td>{{element.Quantity}}</td>
-                        <td>{{element.LimitsLow}}-{{element.LimitsHigh}}</td>
-                        <td>{{element.Price}}</td>
+                        <td>{{element.qtyAvilable}}</td>
+                        <td>{{element.qtyLimitPerOrderLow}}-{{element.qtyLimitPerOrderHigh}}</td>
+                        <td>{{element.price}}</td>
                         <td>
                             <div class="btn-buy-sell" [ngClass]="element.BidOrAsk ? 'btn-buy' : 'btn-sell'" (click)="placeOrder(element)">
-                                {{(element.BidOrAsk ? 'Buy' : 'Sell') | translate}}
+                                {{(element.buy ? 'Sell' : 'Buy') | translate}}
                             </div>
                         </td>
                     </tr>

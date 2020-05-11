@@ -5,7 +5,6 @@
 @import 'fonts';
 @import 'sizing';
 @import 'forms';
-
 html,
 body {
     color: $secondary-light;
@@ -271,7 +270,7 @@ body {
 
 body {
     margin: 0;
-    font-family: helvetica, arial, tahoma, verdana, "geneva", lucida, 'lucida grande', "SimSun", "微软雅黑", "Yahei", "STXihei", "华文细黑", "宋体", sans-serif!important;
+    font-family: helvetica, arial, tahoma, verdana, "geneva", lucida, 'lucida grande', "SimHei", "微软雅黑", "Yahei", sans-serif!important;
 }
 
 .main-work-area {
@@ -348,4 +347,13 @@ body {
 
 .btn-lg-fixed-width {
     width: 130px!important;
+}
+
+.custom-snackbar {
+    background: rgb(182, 98, 98);
+    color: white;
+}
+
+.custom-snackbar .mat-button-wrapper {
+    color: white;
 }

@@ -13,6 +13,7 @@ export class UserAuth {
   private _kyc;
   private _kycNote = '';
   public _lan = 'English';
+  loggedIn = false;
 
   isLoggedIn$ = new BehaviorSubject('');
   userDisplay$ = new BehaviorSubject('');

@@ -39,6 +39,7 @@ export interface Icotx {
   paid?: boolean;
   payment: Array<Payment>;
   totalPaid?: number;
+  payMethod: string;
   totalAppTokens?: number;
   discountRate?: number;
   erc20Issued?: Boolean;

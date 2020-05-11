@@ -1,79 +1,325 @@
 <div class="container py-3">
     <div class="row">
-        <div class="col col-6 border-right">
-            promotion rule
-            <a href="/promotion/reward">{{'My rewards' | translate }}</a>
-        </div>
-        <div class="col col-6">
-            <label id="example-radio-group-label">{{'Payment method' | translate }}</label>
-            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedPaymentMethod">
-                <mat-radio-button class="example-radio-button" *ngFor="let method of paymentmethods" (click)="showAvailable(method)" [value]="method">
-                    {{method}}
-                </mat-radio-button>
-            </mat-radio-group>
-            <div class="d-flex">
-                <label id="example-radio-group-label">{{'Available' | translate }}</label>: {{available}}
+        <div class="col col-md-9 col-12 border-right">
+            <div class="text-center" *ngIf="membership && (membership != 'unqualified')">
+                <a href="/promotion/reward">
+                    <h3>{{'My rewards' | translate }}</h3>
+                </a>
             </div>
-
-
-            <div class="d-flex justify-content-around">
-                <div class="d-inline-block">
-                    <mat-form-field class="example-full-width">
-                        <mat-label>{{'Price' | translate }}</mat-label>
-                        <input matInput placeholder="" [(ngModel)]="price" value="">
-                    </mat-form-field>
-                </div>
-
-                <div class="d-inline-block">
-                    <mat-form-field class="example-full-width">
-                        <mat-label>{{'Quantity' | translate }}</mat-label>
-                        <input matInput placeholder="" [(ngModel)]="quantity" value="">
-                    </mat-form-field>EXG
-                </div>
-            </div>
-
-            <div class="d-flex">
-                <label id="example-radio-group-label">{{'Subtotal' | translate }}</label>: {{price && quantity ? bigmul(price, quantity) : 0}}
-            </div>
-
-            <div *ngIf="referralCode" class="py-2">
-                {{'Your referral code' | translate }}: {{referralCode}}
-                <fa-icon [icon]="faFacebook"></fa-icon>
-                <fa-icon [icon]="faTwitter"></fa-icon>
-            </div>
-
             <div class="text-center">
-                <button class="btn btn-gradient text-white py-2 px-5" type="submit" (click)="buyConfirm()"> {{'Confirm' | translate }} </button>
+                <a href="/promotion/flyer" target="_blank">
+                    <h3>{{'My referral' | translate }}</h3>
+                </a>
             </div>
+            <div>
+                <mat-accordion>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{'About the Campaign' | translate}}
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
 
+                        <p>
+                            {{'About the Campaign Detail' | translate}}
+                        </p>
+                        <p>
+                            {{'About the Campaign Detail 2' | translate}}
+                        </p>
+                        <p>
+                            {{'About the Campaign Detail 3' | translate}}
+                        </p>
+                        <p>
+                            {{'About the Campaign Detail 4' | translate}}
+                        </p>
+                        <p>
+                            {{'About the Campaign Detail 5' | translate}}
+                        </p>
+                        <p class="text-center">
+                            <img class="img-responsive" src="{{'Campaign Image 1' | translate}}">
+                        </p>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{'Rewards Program Example' | translate}}
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <p>{{'Rewards Program Example Detail' | translate}}</p>
+                        <p>{{'Rewards Program Example Detail 2' | translate}}</p>
+                        <p>{{'Rewards Program Example Detail 3' | translate}}</p>
+                        <p>{{'Rewards Program Example Detail 4' | translate}}</p>
+                        <p>{{'Rewards Program Example Detail 5' | translate}}</p>
+                        <p>{{'Rewards Program Example Detail 6' | translate}}</p>
+                        <p>{{'Rewards Program Example Detail 7' | translate}}</p>
+                        <p>{{'Rewards Program Example Detail 8' | translate}}</p>
+                        <p>{{'Rewards Program Example Detail 9' | translate}}</p>
+                        <p>{{'Rewards Program Example Detail 10' | translate}}</p>
+                        <p><small>{{'Rewards Program Example Detail Beizhu' | translate}}</small></p>
+                        <p><small>{{'Rewards Program Example Detail Beizhu 1' | translate}}</small></p>
+                        <p><small>{{'Rewards Program Example Detail Beizhu 2' | translate}}</small></p>
+                        <p><small>{{'Rewards Program Example Detail Beizhu 3' | translate}}</small></p>
+                        <p><small>{{'Rewards Program Example Detail Beizhu 4' | translate}}</small></p>
+                        <p class="text-center" *ngIf="'Campaign Image 2' | translate">
+                            <img class="img-responsive" src="{{'Campaign Image 2' | translate}}">
+                        </p>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{'Team Rewards' | translate}}
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <p>{{'Team Rewards Detail 1' | translate}}</p>
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">{{'Team Investment' | translate}}</th>
+                                    <td>{{'$50K' | translate}}</td>
+                                    <td>{{'$150K' | translate}}</td>
+                                    <td>{{'$250K' | translate}}</td>
+                                    <td>{{'$350K' | translate}}</td>
+                                    <td>{{'$500K' | translate}}</td>
+                                    <td>{{'$750K' | translate}}</td>
+                                    <td>{{'$1 Million' | translate}}</td>
+                                </tr>
+
+                                <tr>
+                                    <th scope="row">{{'Rewards(EXG)' | translate}}</th>
+                                    <td>{{'5K' | translate}}</td>
+                                    <td>{{'15K' | translate}}</td>
+                                    <td>{{'25K' | translate}}</td>
+                                    <td>{{'35K' | translate}}</td>
+                                    <td>{{'50K' | translate}}</td>
+                                    <td>{{'75K' | translate}}</td>
+                                    <td>{{'100K' | translate}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>{{'Team Rewards Detail 2' | translate }}</p>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{'Campaign Disqualification' | translate}}
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <p>{{'Campaign Disqualification Detail line 1' | translate}}</p>
+                        <ul>
+                            <li>{{'Campaign Disqualification Detail li 1' | translate}}</li>
+                            <li>{{'Campaign Disqualification Detail li 2' | translate}}</li>
+                            <li>{{'Campaign Disqualification Detail li 3' | translate}}</li>
+                        </ul>
+                        <p>
+                            {{'Campaign Disqualification Detail line 2' | translate}}
+                        </p>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </div>
+        <div class="col col-md-3 col-12">
+            <div *ngIf="readyGoReasons && (readyGoReasons.length > 0)">
+                <h4 class="text-center pt-3">
+                    <b>{{'Ready to participate' | translate}} ?</b>
+                </h4>
+                <div *ngFor="let reason of readyGoReasons">
+                    <div *ngIf="reason == 'NoWallet'" class="py-2">
+                        {{'No exchangily wallet found.' | translate}}
+                        <a mat-raised-button color="primary" class="nav-link" routerLink="/wallet/create">{{"Create Wallet" | translate}}</a>
+                    </div>
+                    <div *ngIf="reason == 'NotLogin'" class="py-2">
+                        {{'You have to login to participate this campaign' | translate}}
+                        <a mat-raised-button color="primary" class="nav-link" routerLink="/login/signin">{{"Login" | translate}}</a>
+                    </div>
+                    <div *ngIf="reason == 'NoKyc'" class="py-2">
+                        {{'Complete the KYC form to qualify for this campaign' | translate}}
+                        <a mat-raised-button color="primary" class="nav-link" routerLink="/account/kyc">{{"KYC" | translate}}</a>
+                    </div>
+                    <div *ngIf="reason == 'KycDenied'" class="py-2">
+                        {{'Your kyc was denied, please submit a new one' | translate}}
+                        <a mat-raised-button color="primary" class="nav-link" routerLink="/account/kyc">{{"KYC" | translate}}</a>
+                    </div>
+                    <div *ngIf="reason == 'SubmitKyc'" class="py-2">
+                        {{'Your kyc was submitted, please wait for approval' | translate}}
+                    </div>
+                    <div *ngIf="reason == 'KycInProcess'" class="py-2">
+                        {{'Your kyc is in process, please wait for approval' | translate}}
+                    </div>
+                    <div *ngIf="reason == 'TokenExpired'" class="py-2">
+                        {{'Token expired, please login and try again' | translate}}
+                        <a mat-raised-button color="primary" class="nav-link" routerLink="/login/signin">{{"Login" | translate}}</a>
+                    </div>
+                    <div *ngIf="reason == 'KycHasProblem'" class="py-2">
+                        {{'Your kyc has problem, please submit a new one' | translate}}
+                        <a mat-raised-button color="primary" class="nav-link" routerLink="/account/kyc">{{"KYC" | translate}}</a>
+                    </div>
+                    <div *ngIf="reason == 'exgAddressNotMatch'" class="py-2">
+                        <p>{{'Your EXG address does not match the one associated with your account' | translate}}</p>
+
+                        <p class="text-center" *ngIf="!updated"><button class="btn btn-gradient text-white py-2 px-5" (click)="updateAdd()"> {{'Update EXG Address' | translate }} </button></p>
+                        <p *ngIf="updated"> {{"Updated successful" | translate}} !</p>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!(readyGoReasons && (readyGoReasons.length > 0))">
+                <div *ngIf="step==1">
+                    <div class="">
+
+                        <div>
+                            <mat-form-field class="example-full-width">
+                                <mat-label>{{'Investment amount' | translate }}</mat-label>
+                                <input matInput placeholder="" [(ngModel)]="value" value="">
+                            </mat-form-field>{{'USD' | translate }}
+                        </div>
+
+                        <div>
+                            <mat-form-field class="example-full-width">
+                                <mat-label>{{'EXG price' | translate }}</mat-label>
+                                <input readonly matInput placeholder="" [(ngModel)]="price" value="">
+                            </mat-form-field>
+                            {{'USD' | translate }}
+                        </div>
+
+                        <div>
+                            <mat-form-field class="example-full-width">
+                                <mat-label>{{'EXG quantity' | translate }}</mat-label>
+                                <input readonly matInput placeholder="" [(ngModel)]="quantity" value="">
+                            </mat-form-field>{{'piece' | translate}}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div *ngIf="step==2">
+                    <label id="currency-radio-group-label">{{'Currency' | translate }}</label>
+                    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedPaymentCurrency">
+
+                        <mat-radio-button class="example-radio-button d-block" *ngFor="let currency of currencies" (click)="selectCurrency(currency)" [value]="currency">
+                            {{currency | translate}}
+                        </mat-radio-button>
+                    </mat-radio-group>
+
+                    <label id="method-radio-group-label" *ngIf="submethods">{{'Payment Method' | translate }}</label>
+                    <mat-radio-group *ngIf="submethods" aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedPaymentMethod">
+                        <mat-radio-button class="example-radio-button" *ngFor="let method of submethods" [value]="method">
+                            {{method | translate}}
+                        </mat-radio-button>
+                    </mat-radio-group>
+
+                    <div *ngIf="selectedPaymentMethod == 'E-transfer'">
+                        <div>{{'Official Name' | translate}}:exchangily</div>
+                        <div>{{'Email' | translate}}:info@exchangily.com</div>
+                    </div>
+
+                    <div *ngIf="selectedPaymentMethod == 'By Cash App'">
+                        <div>
+                            <a target="_blank" href="https://cash.app/app/RDKTFGD?from=groupmessage&isappinstalled=0">Cash App</a>
+                        </div>
+                    </div>
+
+                    <div *ngIf="selectedPaymentMethod == 'Wire to eXchangily bank account'">
+                        <div>{{'Bank' | translate}}: KeyBank</div>
+                        <div>{{'Routing Number' | translate}}: 041001039</div>
+                        <div>{{'Account Number' | translate}}: 350211024087</div>
+                        <div>{{'SWIFT code' | translate}}: keybus33 </div>
+                    </div>
+                    <div *ngIf="selectedPaymentMethod == 'Wechat'">
+                        <div>{{'Official Name' | translate}}:exchangily</div>
+                    </div>
+
+                    <div *ngIf="selectedPaymentMethod == 'Alipay'">
+                        <div>{{'Official Account' | translate}}:info@exchangily.com</div>
+                    </div>
+
+                    <div *ngIf="selectedPaymentMethod == 'Direct transfer'">
+                        <div>{{'Email' | translate}}:service@exchangily.com</div>
+                        <div>{{'Phone(USA)' | translate}}:216-233-4316</div>
+                        <div>{{'Phone(China)' | translate}}:+8615503902634</div>
+                        <div>{{'Wechat(USA)' | translate}}:dora_r_tang</div>
+                        <div>{{'Wechat(China)' | translate}}:Yesie10</div>
+                    </div>
+
+                    <div *ngIf="payableAmount" class="py-2">
+                        <div>{{'Payable Amount' | translate}}:{{payableAmount}} {{selectedPaymentCurrency | translate}}
+                        </div>
+                    </div>
+
+                    <div class="d-flex" *ngIf="(selectedPaymentCurrency=='USDT') || (selectedPaymentCurrency=='DUSD') || (selectedPaymentCurrency=='FAB') || (selectedPaymentCurrency=='BTC') || (selectedPaymentCurrency=='ETH')">
+                        <label id="example-radio-group-label">{{'Available' | translate }}</label>: {{available}} {{selectedPaymentCurrency}}
+                    </div>
+                </div>
+
+                <div *ngIf="referralCode" class="py-2">
+                    {{'Your referral code' | translate }}: {{referralCode}}
+                    <fa-icon [icon]="faFacebook"></fa-icon>
+                    <fa-icon [icon]="faTwitter"></fa-icon>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-gradient text-white py-2 px-5" (click)="next()" [disabled]="value === undefined || value < 100">
+                        {{((step == 1) ? 'Next' : 'Confirm') | translate }} </button>
+                </div>
+            </div>
 
         </div>
     </div>
 
-    <div class="row pt-3">
+    <div class="row pt-3" *ngIf="readyGo">
         <div class="col col-12">
             <table class="table table-striped">
                 <thead>
-                  <tr>
-                    <th scope="col">Paymend Method</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Value(USD)</th>
-                    <th scope="col">Create Time</th>
-                    <th scope="col">Status</th>
-                  </tr>
+                    <tr>
+                        <th scope="col">{{'Order#' | translate }}</th>
+                        <th scope="col">{{'Currency' | translate }}</th>
+                        <th scope="col">{{'Payment Method' | translate }}</th>
+                        <th scope="col">{{'Price' | translate }}</th>
+                        <th scope="col">{{'Quantity' | translate }}</th>
+                        <th scope="col">{{'Value(USD)' | translate }}</th>
+                        <th scope="col">{{'Create Time' | translate }}</th>
+                        <th scope="col">{{'Status' | translate }}</th>
+                    </tr>
                 </thead>
                 <tbody *ngIf="orders">
-                  <tr *ngFor="let order of orders">
-                    <td>{{order.paymentmethod}}</td>
-                    <td>{{order.price}}</td>
-                    <td>{{order.quantity}}</td>
-                    <td>{{order.value}}</td>
-                    <td>{{utilServ.showTime(order.dateCreated)}}</td>
-                    <td>{{order.status}}</td>
-                  </tr>
+                    <ng-container *ngFor="let order of orders">
+                        <tr>
+                            <td>{{order.orderNum}}</td>
+                            <td>{{order.payCurrency}}</td>
+                            <td>{{order.payMethod}}</td>
+                            <td>{{order.price}}</td>
+                            <td>{{order.quantity}}</td>
+                            <td>{{order.amount ? order.amount : (order.price * order.quantity)}}</td>
+                            <td>{{utilServ.showTime(order.dateCreated)}}</td>
+                            <td>
+                                {{getStatusText(order.status)}}
+                                <button *ngIf="order.status==1" (click)="markedAsPaid(order)" mat-raised-button color="primary">{{getStatusText(2)}}</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7">
+                                <div class="container" *ngIf="showMarkedAsPaidId == order._id">
+                                    <div class="row">
+                                        <div class="col col-9">
+                                            <mat-form-field class="w-100">
+                                                <mat-label>{{'Fill in bank payment details' | translate }}:</mat-label>
+                                                <input matInput placeholder="" [(ngModel)]="comment">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col col-3">
+                                            <button (click)="confirmMarkedAsPaid(order)" mat-raised-button color="primary">{{'Confirm' | translate}}</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </td>
+                        </tr>
+
+                    </ng-container>
+
                 </tbody>
-              </table>            
+            </table>
         </div>
     </div>
 </div>

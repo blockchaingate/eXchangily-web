@@ -23,21 +23,23 @@
 
                             </div>
                             <div class="small text-white" *ngIf="wallet && !wallet.hide">
-                                {{"Wallet address" | translate }}:{{exgAddress}}
+                                {{"Wallet address" | translate }}: {{fabAddress}}
                                 <button mat-icon-button (click)="copyAddress()">
                                     <mat-icon svgIcon="icon_copy"></mat-icon>
                                 </button>
                             </div>
-                            <div class="small text-white" *ngIf="wallet && !wallet.hide">{{"Gas" | translate }}:{{gas}} </div>
+                            <div class="small text-white" *ngIf="wallet && !wallet.hide">{{"Gas" | translate }}: {{gas}} <span class="warningMsg" *ngIf="gas<0.1">{{"No enough gas in exchange, please add gas to trade"|translate}}.</span></div>
 
                         </div>
                         <div class="col col-md-4" *ngIf="wallet && !wallet.hide">
                             <h4>{{"EXG" | translate}} {{exgBalance}}
 
                             </h4>
-                            <div class="small"> <span>
-                                            {{utilServ.toPrecision(exgBalance * 0.2 * currencyRate)}} 
-                                        </span> {{currentCurrency | translate}}</div>
+                            <div class="small">
+                                <span>
+                                    {{utilServ.toPrecision(exgBalance * 0.2 * currencyRate)}} 
+                                </span> {{currentCurrency | translate}}
+                            </div>
                         </div>
                         <div class="col col-md-2" *ngIf="wallet && !wallet.hide">
                             <div class="small">+0%</div>
@@ -45,8 +47,8 @@
 
                                 <div class="btn-group" dropdown>
                                     <button id="button-basic" dropdownToggle type="button" class="btn btn-link dropdown-toggle" aria-controls="dropdown-basic">
-                                               {{ ('in ' + currentCurrency) | translate}} <span class="caret"></span>
-                                            </button>
+                                        {{ ('in ' + currentCurrency) | translate}} <span class="caret"></span>
+                                    </button>
                                     <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
                                         <li role="menuitem" *ngIf="currentCurrency !== 'USD'">
                                             <a class="dropdown-item" (click)="changeCurrency('USD')">{{'in USD' | translate }}</a>
@@ -72,7 +74,7 @@
                                 <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="sendCoin()">{{"Send" | translate }}</button>
                             </div>
                             <div class="d-inline-block pr-3">
-                                <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="addGasFee()">{{"Add Gas" | translate }}</button>
+                                <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="addGasFee()" [matTooltip]="fabBalance < 0.5 ? ('No enough FAB in wallet, can not add gas' | translate) : ''">{{"Add Gas" | translate }}</button>
                             </div>
                             <div class="d-inline-block pr-3">
                                 <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="exchangeMoney()">{{"Exchange" | translate }}</button>
@@ -174,6 +176,7 @@
                                             <img *ngIf="mycoin.name == 'EXG'" src="/assets/coins/exg.png" class="icon" />
                                             <img *ngIf="mycoin.name == 'FAB'" src="/assets/coins/fab.png" class="icon" />
                                             <img *ngIf="mycoin.name == 'USDT'" src="/assets/coins/usdt.png" class="icon" />
+                                            <img *ngIf="mycoin.name == 'DUSD'" src="/assets/coins/dusd.png" class="icon" />
                                         </div>
                                         <div class="col-custom-1">
                                             {{mycoin.name}}
@@ -190,6 +193,7 @@
                                             <p *ngIf="mycoin.name == 'FAB' && coinsPrice && coinsPrice.fabcoin">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.fabcoin.usd)}}</p>
                                             <p *ngIf="mycoin.name == 'ETH' && coinsPrice && coinsPrice.ethereum">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.ethereum.usd)}}</p>
                                             <p *ngIf="mycoin.name == 'USDT' && coinsPrice && coinsPrice.tether">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.tether.usd)}}</p>
+                                            <p *ngIf="mycoin.name == 'DUSD' ">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * 1)}}</p>
                                         </div>
                                         <div class="col-2">
 
@@ -238,6 +242,7 @@
                                     <img *ngIf="mycoin.name == 'EXG'" src="/assets/coins/exg.png" class="icon" />
                                     <img *ngIf="mycoin.name == 'FAB'" src="/assets/coins/fab.png" class="icon" />
                                     <img *ngIf="mycoin.name == 'USDT'" src="/assets/coins/usdt.png" class="icon" />
+                                    <img *ngIf="mycoin.name == 'DUSD'" src="/assets/coins/dusd.png" class="icon" />
                                 </div>
                                 <div class="col-2">
                                     {{mycoin.name}}
@@ -269,6 +274,7 @@
                                     <span *ngIf="mycoin.name == 'FAB' && coinsPrice && coinsPrice.fabcoin">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.fabcoin.usd)}}</span>
                                     <span *ngIf="mycoin.name == 'ETH' && coinsPrice && coinsPrice.ethereum">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.ethereum.usd)}}</span>
                                     <span *ngIf="mycoin.name == 'USDT' && coinsPrice && coinsPrice.tether">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.tether.usd)}}</span>
+                                    <span *ngIf="mycoin.name == 'DUSD' ">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * 1)}}</span>
                                 </div>
                                 <div class="col-12 text-muted">{{"Profit sharing" | translate}}:</div>
                             </div>
@@ -287,13 +293,13 @@
         </div>
     </div>
 
-    <deposit-amount-modal #depositModal [coin]="currentCoin" (confirmedAmount)="onConfirmedDepositAmount($event)"></deposit-amount-modal>
+    <deposit-amount-modal #depositModal [coin]="currentCoin" (confirmedAmount)="onConfirmedDepositAmount($event)" [alertMsg]="alertMsg"></deposit-amount-modal>
     <redeposit-amount-modal #redepositModal [coin]="currentCoin" (confirmedAmount)="onConfirmedRedepositAmount($event)"></redeposit-amount-modal>
     <add-gas-modal #addGasModal (confirmedGas)="onConfirmedGas($event)"></add-gas-modal>
     <pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>
     <display-pin-number-modal #displayPinModal (confirmedPin)="onConfirmedDisplayPin($event)"></display-pin-number-modal>
     <add-assets-modal #addAssetsModal (confirmedAssets)="onConfirmedAssets($event)"></add-assets-modal>
-    <send-coin-modal #sendCoinModal (confirmedCoinSent)="onConfirmedCoinSent($event)" [wallet]="wallet"></send-coin-modal>
+    <send-coin-modal #sendCoinModal (confirmedCoinSent)="onConfirmedCoinSent($event)" [wallet]="wallet" [alertMsg]="alertMsg"></send-coin-modal>
     <show-seed-phrase-modal #showSeedPhraseModal></show-seed-phrase-modal>
     <verify-seed-phrase-modal #verifySeedPhraseModal></verify-seed-phrase-modal>
     <backup-private-key-modal #backupPrivateKeyModal (confirmedBackupPrivateKey)="onConfirmedBackupPrivateKey($event)"></backup-private-key-modal>

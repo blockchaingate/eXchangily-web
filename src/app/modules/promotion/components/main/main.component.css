@@ -5,10 +5,21 @@
 
 .example-radio-group {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin: 0px 15px;
 }
 
 .example-radio-button {
     margin: 5px;
 }
+
+.img-responsive {
+    width: 100%;
+    height: auto;
+}
+
+a, a h3 {
+    color:blue;
+    text-decoration: underline;
+}
+

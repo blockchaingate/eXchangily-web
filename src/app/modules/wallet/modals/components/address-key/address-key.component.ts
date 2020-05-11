@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
-import {PageEvent} from '@angular/material/paginator';
+import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { MyCoin } from '../../../../../models/mycoin';
 import { CoinService } from '../../../../../services/coin.service';
 @Component({
@@ -7,7 +7,7 @@ import { CoinService } from '../../../../../services/coin.service';
     templateUrl: './address-key.component.html',
     styleUrls: ['./address-key.component.css']
 })
-export class AddressKeyComponent implements OnInit {
+export class AddressKeyComponent implements OnInit, OnChanges {
     @Input() chain: number;
     @Input() seed: Buffer;
     addsArraylength: number;
@@ -15,21 +15,20 @@ export class AddressKeyComponent implements OnInit {
     pageIndex = 0;
     pageSize = 10;
     addsPagination: any;
-  // MatPaginator Output
-    pageEvent: PageEvent;    
-    constructor (private coinServ: CoinService) {
+    // MatPaginator Output
+    pageEvent: PageEvent;
 
-    }
+    constructor(private coinServ: CoinService) { }
 
     ngOnInit() {
         this.showPage();
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if(changes['currentCoin']){
+        if (changes['currentCoin']) {
             this.showPage();
         }
-      }
+    }
 
     showPage() {
         console.log('this.currentCoin======', this.currentCoin);
@@ -44,6 +43,7 @@ export class AddressKeyComponent implements OnInit {
             this.addsPagination[i].privateKey = keyPair.privateKeyDisplay;
         }
     }
+
     pageChanged(event) {
         console.log(event);
         this.pageIndex = event.pageIndex;

@@ -8,6 +8,10 @@
                 <img src="/images/star-light.svg">{{'Favorites'|translate}}
             </div>
 
+            <div class="nav-item hand" [class.selected]="select === 6" (click)="selectCat(6);">
+                <img class="coin-logo" src="/assets/coins/dusd.png"> &nbsp;<span class="align-middle">DUSD</span>
+            </div>
+
             <div class="nav-item hand" [class.selected]="select === 1" (click)="selectCat(1);">
                 <img class="coin-logo" src="/assets/coins/usdt.png"> &nbsp;<span class="align-middle">USDT</span>
             </div>
@@ -62,12 +66,12 @@
                 </span>
 
             </div>
-            <div class="col-2 align-self-center">{{showAmount(pr.price)}}</div>
+            <div class="col-2 align-self-center">{{showAmount(pr.price, 6)}}</div>
             <div class="col-2 align-self-center" [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>=0">{{(pr.change24h)}}%
             </div>
-            <div class="col-2 align-self-center">{{showAmount(pr.price24hh)}}</div>
-            <div class="col-2 align-self-center">{{showAmount(pr.price24hl)}}</div>
-            <div class="col-2 align-self-center">{{showAmount(pr.vol24h)}}</div>
+            <div class="col-2 align-self-center">{{showAmount(pr.price24hh, 6)}}</div>
+            <div class="col-2 align-self-center">{{showAmount(pr.price24hl, 6)}}</div>
+            <div class="col-2 align-self-center">{{showAmount(pr.vol24h, 6)}}</div>
         </div>
 
         <div class="row apair text-white pt-3 fxHide-gt-sm">
@@ -85,12 +89,12 @@
                     <span class="text-coin">{{COINS[pr.coin_id].name}}</span><span class="text-base-coin">/{{COINS[pr.base_id].name}}</span>
                 </span>
             </div>
-            <div class="col-4 align-self-center">{{showAmount(pr.price)}}</div>
+            <div class="col-4 align-self-center">{{showAmount(pr.price, 6)}}</div>
             <div class="col-4 align-self-center" [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>=0">{{(pr.change24h)}}%
             </div>
-            <div class="col-12 text-muted">{{'H24H'|translate}}:{{showAmount(pr.price24hh)}}</div>
-            <div class="col-12 text-muted">{{'H24L'|translate}}:{{showAmount(pr.price24hl)}}</div>
-            <div class="col-12 text-muted">{{'Vol24'|translate}}:{{showAmount(pr.vol24h)}}</div>
+            <div class="col-12 text-muted">{{'H24H'|translate}}:{{showAmount(pr.price24hh, 6)}}</div>
+            <div class="col-12 text-muted">{{'H24L'|translate}}:{{showAmount(pr.price24hl, 6)}}</div>
+            <div class="col-12 text-muted">{{'Vol24'|translate}}:{{showAmount(pr.vol24h, 6)}}</div>
         </div>
 
     </div>

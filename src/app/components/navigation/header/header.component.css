@@ -41,6 +41,11 @@ mat-toolbar {
 
 .transparent {
     background: none;
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
+}
+
+.lanbut {
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 button:active,
@@ -97,4 +102,16 @@ a.nav-link {
 
 .coin-logo {
     height: 30px;
+}
+
+.highlight {
+    background-color: #c3512f;
+    color: #ffffff;
+    border-color: #c3512f;
+}
+
+.highlight:hover {
+    background-color: #cc785f;
+    color: #ffffff;
+    border-color: #c3512f;
 }

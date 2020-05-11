@@ -38,7 +38,12 @@
     <div class="button-wrapper">
         <button type="submit" [disabled]="!formDir.form.valid" class="form-input__button fancy-button background-primary"><span class="color-white">{{ 'Header.Navigation.Signup' | translate }}</span></button>
         <p *ngIf="serverErrorMsg" class="form-input__error center">
-            {{ serverErrorMsg }}
+            {{ serverErrorMsg | translate }}
+        </p>
+        <p *ngIf="ExgAddRegistered">
+            {{"Wallet EXG address registered already"| translate}}
         </p>
     </div>
+
+    <p class="text-center"><a class="color-primary" [routerLink]="['/login/signin']">{{'Got an account already? Login here!' | translate}}</a></p>
 </form>

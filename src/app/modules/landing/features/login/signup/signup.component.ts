@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../service/user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { environment } from '../../../../../../environments/environment';
+
+import { LocalStorage } from '@ngx-pwa/local-storage';
+import { Wallet } from '../../.../../../../../models/wallet';
+import { WalletService } from '../../.../../../../../services/wallet.service';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -14,9 +19,12 @@ export class SignupComponent implements OnInit {
   repeatPassword = '';
   signupForm: FormGroup;
   passwordMin = 5;
+  ExgAddRegistered = false;
   serverErrorMsg: string;
+  wallet: Wallet;
 
-  constructor(private _userService: UserService, private _router: Router, private _activeRout: ActivatedRoute) { }
+  constructor(private _userService: UserService, private _router: Router, private _activeRout: ActivatedRoute,
+    private localSt: LocalStorage, private _walletServ: WalletService) { }
 
   get email() { return this.signupForm.get('email'); }
 
@@ -26,7 +34,7 @@ export class SignupComponent implements OnInit {
 
   get referralCode() { return this.signupForm.get('referralCode'); }
 
-  ngOnInit() {
+  async ngOnInit() {
     const strRefCode: string = this._activeRout.snapshot.paramMap.get('refcode');
 
     this.signupForm = new FormGroup({
@@ -45,22 +53,48 @@ export class SignupComponent implements OnInit {
     });
     // this.signupForm.setValue({referralCode: strRefCode});
     this.signupForm.controls['referralCode'].setValue(strRefCode);
+
+    this.wallet = await this._walletServ.getCurrentWallet();
   }
 
   onSubmit() {
     if (this.user.password !== this.repeatPassword) {
       return;
     }
+
+    // this.localSt.getItem('wallets').subscribe(() => {
+
+    let walletExgAddress = '';
+
+    if (this.wallet && this.wallet.mycoins && this.wallet.mycoins.length > 1) {
+      walletExgAddress = this.wallet.mycoins[1].receiveAdds[0].address;
+    }
+    // alert(walletExgAddress);
+
+    /*
+    if(!walletExgAddress) {
+      this.serverErrorMsg = 'No wallet found, please create or restore a wallet prior to registration.';
+      return;
+    }
+    */
+
     this.serverErrorMsg = '';
     this._userService.createUser({
       email: this.email.value, password: this.password.value,
-      referralCode: this.referralCode.value }).subscribe(
+      walletExgAddress: walletExgAddress,
+      referralCode: this.referralCode.value, campaignId: environment.campaignId
+    }).subscribe(
       ret => this.processSignup(ret),
       error => {
-         // alert(JSON.stringify(error));
+        // alert(JSON.stringify(error));
         this.serverErrorMsg = error.error.message;
+        if (this.serverErrorMsg.indexOf('walletExgAddress existed') >= 0) {
+          this.ExgAddRegistered = true;
+        }
       }
     );
+
+    // });
   }
 
   processSignup(signupRet: any) {

@@ -36,12 +36,12 @@ export class InfoComponent implements OnInit {
     private _route: ActivatedRoute,
     private _appUsers: AppUsersService,
     private _icotx: IcotxService
-  ) { }
+  ) {}
 
   ngOnInit() {
     // get user data
     this.data = this._route.snapshot.data.appUser;
-    this.getUser(this._userAuth.id, this.data.parentReferralCode);
+    this.getUser(this._userAuth.id, this.data ? this.data.parentReferralCode : '');
     this.getAllOrders();
   }
 
@@ -66,6 +66,7 @@ export class InfoComponent implements OnInit {
           'homePhone': new FormControl(this.user.homePhone, []),
           'workPhone': new FormControl(this.user.workPhone, []),
           'mobile': new FormControl(this.user.mobile, []),
+          'walletExgAddress': new FormControl(this.user.walletExgAddress, []),
           'workEmail': new FormControl(this.user.workEmail, []),
           'parentReferralCode': new FormControl({ value: parentReferral, disabled: parentReferral }, [])
         });
@@ -97,7 +98,7 @@ export class InfoComponent implements OnInit {
   }
 
   getAllOrders() {
-    this._icotx.findIcotxes(this._userAuth.id, this.data.email, null, null, null)
+    this._icotx.findIcotxes(this._userAuth.id, this.data ? this.data.email : '', null, null, null)
       .subscribe(res => {
         const orders = <Icotx[]>res;
         orders.forEach(ord => {

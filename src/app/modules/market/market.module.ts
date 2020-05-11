@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
-import { CarouselModule } from 'ngx-bootstrap';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MarketRoutingModule } from './market-routing.module';
 import { TradeModule } from './components/trade/trade.module';
 import { AdvModule } from '../adv/adv.module';
@@ -18,25 +18,26 @@ import { Web3Service } from '../../services/web3.service';
 import { TradeService } from './services/trade.service';
 import { KanbanService } from '../../services/kanban.service';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MarketTopComponent } from './components/top/market-top.component';
 import { MarketTopBlockComponent } from './components/top-block/market-top-block.component';
 import { TradeAutoComponent } from './components/trade-auto/trade-auto.component';
 import { SharedModule } from '../shared/shared.module';
+// import { ParticlesModule } from 'angular-particle';
 
-
-@NgModule({ 
+@NgModule({
   imports: [
     CommonModule,
-    FormsModule, 
-    HttpClientModule, 
+    FormsModule,
+    HttpClientModule,
     RouterModule,
-    CarouselModule, 
+    CarouselModule,
+//    ParticlesModule,
     MarketRoutingModule,
-    TradeModule, 
+    TradeModule,
     MatSnackBarModule,
     MatIconModule,
     MatTooltipModule,

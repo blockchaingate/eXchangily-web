@@ -1,7 +1,10 @@
 import * as Btc from 'bitcoinjs-lib';
 export const environment = {
     production: true,
+    baseUrl: 'https://exchangily.com',
     version: 0.03,
+    campaignId: 1,
+    OTC_COMMISSION_RATE: 0.001,
     chains: {
         BTC: {
             network: Btc.networks.bitcoin,
@@ -60,7 +63,7 @@ export const environment = {
             FABLOCK: '0x04baa04d9550c49831427c6abe16def2c579af4a',
             EXG: '0xa3e26671a38978e8204b8a37f1c2897042783b00',
             USDT: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-            DUSD: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed'
+            DUSD: '0x46e0021c17d30a2db972ee5719cdc7e829ed9930'
         },
         exchangilyOfficial: [
             { name: 'EXG', address: '0x9d95ee21e4f1b05bbfd0094daf4ce110deb00931' },
@@ -71,11 +74,19 @@ export const environment = {
             { name: 'DUSD', address: '0x9d95ee21e4f1b05bbfd0094daf4ce110deb00931' }
         ],
         promotionOfficial: {
-            USDT: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
-            BTC: '1CKg6irbGXHxBHuTx7MeqYQUuMZ8aEok8z',
-            ETH: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
-            FAB: '1FNEhT8uTmrEMvHGCGohnEFv6Q1z4qRhQu'
-        }   
+            USDT: '0x4e93c47b42d09f61a31f798877329890791077b2',
+            DUSD: '0xcdd40948208b0098b6a51e69d945de4692766ef3',
+            BTC: '1MczhymXZcpCyzuAe3DQrVafhTsaQyDo5U',
+            ETH: '0x4e93c47b42d09f61a31f798877329890791077b2',
+            FAB: '1KmKXs2vBMd367ifzY75JCUCbBW8sV1n4w'
+        },
+        otcOfficial: {
+            USDT: '0x4e93c47b42d09f61a31f798877329890791077b2',
+            DUSD: '0xcdd40948208b0098b6a51e69d945de4692766ef3',
+            BTC: '1MczhymXZcpCyzuAe3DQrVafhTsaQyDo5U',
+            ETH: '0x4e93c47b42d09f61a31f798877329890791077b2',
+            FAB: '1KmKXs2vBMd367ifzY75JCUCbBW8sV1n4w'
+        }    
     },
     websockets: {
         allprices: 'wss://kanbanprod.fabcoinapi.com/ws/allprices',
@@ -84,11 +95,24 @@ export const environment = {
         kline: 'wss://kanbanprod.fabcoinapi.com/ws/ticker'
     },
     minimumWithdraw: {
-        EXG: 10,
-        BTC: 0.002,
-        FAB: 0.005,
-        ETH: 0.01,
-        USDT: 10,
-        DUSD: 10
+        EXG: 50,
+        BTC: 0.01,
+        FAB: 50,
+        ETH: 0.1,
+        USDT: 20,
+        DUSD: 20
+    },
+    PaymentMethod: {
+        ETransfer: {
+            AccountName: 'Exchangily',
+            Email: 'info@exchangily.com'
+        },
+        Wechat: 'exchangily',
+        Alipay: 'info@exchangily.com',
+        DirectTransfer: {
+            BankName: '招商银行',
+            AccountName : 'Exchangily',
+            Account: '88884556555433234455'
+        }
     }      
 };

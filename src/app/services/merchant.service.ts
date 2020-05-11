@@ -6,8 +6,9 @@ import { environment } from '../../environments/environment';
 import { HttpService } from '../services/http.service';
 import { app } from '../modules/landing/app.constants';
 import { Merchant } from '../models/merchant';
+import { MerchantModel } from '../models/merchant-model';
 
-const path = environment.endpoints.blockchaingate + 'merchant/';
+const path = environment.endpoints.blockchaingate + 'merchants/';
 
 @Injectable()
 export class MerchantService {
@@ -16,11 +17,13 @@ export class MerchantService {
   constructor(private http: HttpService) {}
 
   // Create merchant
-  create(merchant: Merchant) {
-    const obj = Object.assign(this.body, merchant);
-    return this.http.post(path + 'create', obj, true).pipe(map(res => <Merchant>res));
+  create(token: string, merchant: MerchantModel) {
+    return this.http.postPrivate(path + 'create', merchant, token);
   }
 
+  createOtcMerchant(token: string, merchant: MerchantModel) {
+    return this.http.postPrivate(environment.endpoints.blockchaingate + 'otc-merchant/' + 'create', merchant, token);
+  }  
   // Retrieve a merchant by its id.
   get(id: number | string) {
     return this.http.get(path + id, true).pipe(map(res => <Merchant>res));
@@ -28,12 +31,15 @@ export class MerchantService {
 
   // Get all
   getAll() {
-    return this.http.get(path, true).pipe(map(res => <Merchant[]>res));
+    return this.http.get(path + 'all', true).pipe(map(res => <Merchant[]>res));
   }
 
+  approve(id) {
+    return this.http.get(path + 'approve/' + id , true).pipe(map(res => <Merchant>res));
+  }
   // Find multiple merchants
-  find(mermberId) {
-    return this.http.get(path + 'find/' + mermberId, true).pipe(map(res => <Merchant>res));
+  find(mermberId: string) {
+    return this.http.get(path + 'find/' + mermberId, true).pipe(map(res => <Merchant[]>res));
   }
 
   // Update merchnat

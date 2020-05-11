@@ -4,7 +4,7 @@ import { MyCoin } from '../models/mycoin';
 // import * as createHash from 'create-hash';
 import BigNumber from 'bignumber.js/bignumber';
 import * as Btc from 'bitcoinjs-lib';
-
+import * as bs58 from 'bs58';
 @Injectable()
 export class UtilService {
     auth_code = 'encrypted by crypto-js|';
@@ -19,14 +19,14 @@ export class UtilService {
         try {
             const encryptedRawData = CryptoJS.AES.decrypt(encryted, pwd).toString(CryptoJS.enc.Utf8);
             if (!encryptedRawData.startsWith(this.auth_code)) {
-                //return '';
+                // return '';
                 return encryptedRawData;
             }
             return encryptedRawData.slice(this.auth_code.length);
-        } catch (e) {}
+        } catch (e) { }
         return '';
-    }   
-    
+    }
+
     aesEncryptSeed(seed: Buffer, pwd: string) {
         const seedString = seed.toString('base64');
         return this.aesEncrypt(seedString, pwd);
@@ -45,8 +45,8 @@ export class UtilService {
     }
 
     hexToDec(hex: string) {
-        if(hex.length === 1) {
-          return this.hexCharToDec(hex);
+        if (hex.length === 1) {
+            return this.hexCharToDec(hex);
         }
         const leftHex = hex.slice(0, hex.length - 1);
         const rightHex = hex.slice(-1);
@@ -54,7 +54,7 @@ export class UtilService {
         // console.log('rightHex=' + rightHex);
         return this.hexToDec(leftHex) * 16 + this.hexCharToDec(rightHex);
     }
-    showTime(time:string) {
+    showTime(time: string) {
         const timeArray = time.split('.');
         return timeArray[0].replace('T', ' ');
     }
@@ -69,7 +69,7 @@ export class UtilService {
         selBox.focus();
         selBox.select();
         document.execCommand('copy');
-        document.body.removeChild(selBox);        
+        document.body.removeChild(selBox);
     }
 
     arraysEqual(a1, a2) {
@@ -97,14 +97,14 @@ export class UtilService {
         const hour = date.getHours();
         const min = date.getMinutes();
         const sec = date.getSeconds();
-    
+
         const monthStr = (month < 10 ? '0' : '') + month;
         const dayStr = (day < 10 ? '0' : '') + day;
         const hourStr = (hour < 10 ? '0' : '') + hour;
         const minStr = (min < 10 ? '0' : '') + min;
         const secStr = (sec < 10 ? '0' : '') + sec;
-    
-        const str = date.getFullYear() + '-' + monthStr + '-' + dayStr + ' ' +  hourStr + ':' + minStr + ':' + secStr;
+
+        const str = date.getFullYear() + '-' + monthStr + '-' + dayStr + ' ' + hourStr + ':' + minStr + ':' + secStr;
 
         return str;
     }
@@ -113,7 +113,7 @@ export class UtilService {
         return CryptoJS.SHA256(data);
     }
 
-    fixedLengh( obj: any, length: number) {
+    fixedLengh(obj: any, length: number) {
         let str = obj.toString();
         const strLength = str.length;
         if (strLength >= length) {
@@ -123,9 +123,9 @@ export class UtilService {
         }
         for (let i = 0; i < length - strLength; i++) {
             str = '0' + str;
-        }   
-        return str;     
-    }  
+        }
+        return str;
+    }
 
     stripHexPrefix(str) {
         if (str && (str.length > 2) && (str[0] === '0') && (str[1] === 'x')) {
@@ -134,11 +134,11 @@ export class UtilService {
         return str;
     }
 
-    showAddAmount(amount1, amount2) {
+    showAddAmount(amount1, amount2, decimal: number) {
         const amount1BigNumber = new BigNumber(amount1);
         const amount2BigNumber = new BigNumber(amount2);
         const total = amount1BigNumber.plus(amount2BigNumber);
-        return this.showAmount(total.toFixed());
+        return this.showAmount(total.toFixed(decimal), decimal);
         /*
         const amount1Show = this.showAmount(amount1);
         const amount2Show = this.showAmount(amount2);
@@ -152,68 +152,68 @@ export class UtilService {
         return totalAmount;
         */
     }
-    showAmountArr(amountArr) {
+
+    showAmountArr(amountArr, decimal: number) {
         let amount = new BigNumber(0);
 
         for (let i = 0; i < amountArr.length; i++) {
             if (amountArr.length > 1) {
             }
-            amount = amount.plus(this.showAmount(amountArr[i]));
+            amount = amount.plus(this.showAmount(amountArr[i], decimal));
         }
-        return amount;
+        return amount.toFixed(decimal);
     }
-    showAmount(amount) {
 
-       if (!amount || amount.toString() === '0') {
-        return '0';
-       }    
-       
-       const bigN = new BigNumber(amount).dividedBy(new BigNumber(1e18));
-       /*
-       let numStr = amount.toString();
+    showAmount(amount, decimal: number) {
 
-       if (numStr.indexOf('e') >= 0) {
-           return new BigNumber(numStr).dividedBy(1e18).toNumber();
-       }
-       const numStrLength = numStr.length;
-       if (numStrLength < 18) {
-           for (let i = 0; i < 18 - numStrLength; i++) {
+        if (!amount || amount.toString() === '0') {
+            return '0';
+        }
 
-              numStr = '0' + numStr;
-           }
-       }
+        const bigN = new BigNumber(amount).dividedBy(new BigNumber(1e18));
+        /*
+        let numStr = amount.toString();
+ 
+        if (numStr.indexOf('e') >= 0) {
+            return new BigNumber(numStr).dividedBy(1e18).toNumber();
+        }
+        const numStrLength = numStr.length;
+        if (numStrLength < 18) {
+            for (let i = 0; i < 18 - numStrLength; i++) {
+ 
+               numStr = '0' + numStr;
+            }
+        }
+ 
+ 
+        const str1 = numStr.substr(0, numStr.length - 18);
+        const str2 = numStr.substr(numStr.length - 18);
+        numStr = str1 + '.' + str2;
+ 
+        numStr = numStr.substring(0, 10);
+        const retNumber = Math.floor(Number(numStr) * 100000000) / 100000000;
+        // const retNum = Number(retNumber);
+        return retNumber;
+        */
+        const fixN = bigN.toFixed(decimal).substr(0, 10);
+        return fixN;
 
-
-       const str1 = numStr.substr(0, numStr.length - 18);
-       const str2 = numStr.substr(numStr.length - 18);
-       numStr = str1 + '.' + str2;
-
-       numStr = numStr.substring(0, 10);
-       const retNumber = Math.floor(Number(numStr) * 100000000) / 100000000;
-       // const retNum = Number(retNumber);
-       return retNumber;
-       */
-      const fixN = bigN.toFixed().substr(0, 10);
-       return fixN; 
-        
     }
-    
+
     convertLiuToFabcoin(amount) {
-        
+
         return Number(Number(amount * 1e-8).toFixed(8));
     }
 
-
-
     number2Buffer(num) {
-        var buffer = [];
-        var neg = (num < 0);
+        const buffer = [];
+        const neg = (num < 0);
         num = Math.abs(num);
         while (num) {
             buffer[buffer.length] = num & 0xff;
             num = num >> 8;
         }
-    
+
         var top = buffer[buffer.length - 1];
         if (top & 0x80) {
             buffer[buffer.length] = neg ? 0x80 : 0x00;
@@ -223,7 +223,7 @@ export class UtilService {
         }
         return Buffer.from(buffer);
     }
-    
+
     hex2Buffer(hexString) {
         var buffer = [];
         for (var i = 0; i < hexString.length; i += 2) {
@@ -232,19 +232,25 @@ export class UtilService {
         return Buffer.from(buffer);
     }
 
+    fabToExgAddress(address: string) {
+        const bytes = bs58.decode(address);
+        const addressInWallet = bytes.toString('hex');
+        return '0x' + addressInWallet.substring(2, 42);
+    }
+    
     toKanbanAddress(publicKey: Buffer) {
 
-      // publicKey = this.stripHexPrefix(publicKey);
-      /*
-       const hash1 = createHash('sha256').update(Buffer.from(publicKey, 'hex')).digest().toString('hex');
-       const hash2 = createHash('ripemd160').update(Buffer.from(hash1, 'hex')).digest().toString('hex');
-
-       return '0x' + hash2;
-       */
-      const hash01 = Btc.crypto.sha256(publicKey);
-      const hash02 = Btc.crypto.ripemd160(hash01).toString('hex');
-      const address = '0x' + hash02;    
-      return address;  
-    }    
+        // publicKey = this.stripHexPrefix(publicKey);
+        /*
+         const hash1 = createHash('sha256').update(Buffer.from(publicKey, 'hex')).digest().toString('hex');
+         const hash2 = createHash('ripemd160').update(Buffer.from(hash1, 'hex')).digest().toString('hex');
+  
+         return '0x' + hash2;
+         */
+        const hash01 = Btc.crypto.sha256(publicKey);
+        const hash02 = Btc.crypto.ripemd160(hash01).toString('hex');
+        const address = '0x' + hash02;
+        return address;
+    }
 
 }

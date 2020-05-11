@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {BlockNumberResponse, BlockResponse, AccountsResponse, TransactionsResponse,
-    KanbanGetBanalceResponse, TransactionAccountResponse, DepositStatusResp} from '../interfaces/kanban.interface';
+import {
+    KanbanGetBanalceResponse, KanbanNonceResponse, DepositStatusResp} from '../interfaces/kanban.interface';
 import { environment } from '../../environments/environment';
 import { UtilService } from './util.service';
 import {TransactionReceiptResp} from '../interfaces/kanban.interface';
@@ -9,10 +9,10 @@ import {TransactionReceiptResp} from '../interfaces/kanban.interface';
 export class KanbanService {
 // getCoinPoolAddress
 // getExchangeAddress
-
+    nonce: number;
     endpoint = environment.endpoints.kanban;
    
-    constructor(private http: HttpClient, private utilServ: UtilService) { }
+    constructor(private http: HttpClient, private utilServ: UtilService) { this.nonce = 0 }
 
     async getCoinPoolAddress() {
         const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
@@ -77,10 +77,39 @@ export class KanbanService {
 
     
     async getTransactionCount(address: string) {
+        return this.getNonce(address);
+        /*
         const path = 'kanban/getTransactionCount/' + address; 
         // console.log('nouse in here:', path);
         const res = await this.get(path).toPromise() as TransactionAccountResponse;
         return res.transactionCount;
+        */
+    }
+
+    async getPendingNonce(address: string) {
+        const path = 'kanban/explorer/getnonce/' + address + '/pending';
+        const res = await this.get(path).toPromise() as KanbanNonceResponse;
+        return res.nonce;        
+    }
+
+    async getLatestNonce(address: string) {
+        const path = 'kanban/explorer/getnonce/' + address + '/latest';
+        const res = await this.get(path).toPromise() as KanbanNonceResponse;
+        return res.nonce;        
+    }
+
+    async getNonce(address: string) {
+        let nonce = this.nonce;
+        if(!nonce || (nonce == 0)) {
+            nonce = await this.getLatestNonce(address);
+            this.nonce = nonce;
+        }
+        console.log('final nonce=', nonce);
+        return nonce;
+    }
+
+    incNonce() {
+        this.nonce ++;
     }
 
     getOrdersByAddress(address: string) {
@@ -158,7 +187,7 @@ export class KanbanService {
         let gas = 0;
         try {
             const ret = await this.get(path).toPromise() as KanbanGetBanalceResponse;
-            //gas = Number(BigInt(ret.balance.FAB).toString(10)) / 1e18;
+            // gas = Number(BigInt(ret.balance.FAB).toString(10)) / 1e18;
 
             const fab = this.utilServ.stripHexPrefix(ret.balance.FAB);
             gas = this.utilServ.hexToDec(fab) / 1e18;            
@@ -211,9 +240,7 @@ export class KanbanService {
             return 'undefined';
         }
         try {
-            console.log('111');
             response = await this.get('checkstatus/' + txid).toPromise() as DepositStatusResp;
-            console.log('222');
             if (response && response.code) {
                 console.log('rensponse.code=', response.code);
                 if (response.code === 0) {
@@ -244,7 +271,7 @@ export class KanbanService {
         } catch (e) {console.log (e); }
 
         return status;         
-    }   
+    }
     
     getTransactionStatusSync(txid: string) {
         return this.get('kanban/getTransactionReceipt/' + txid);
@@ -253,5 +280,9 @@ export class KanbanService {
     getDepositStatusSync(txid: string) {
         txid = this.utilServ.stripHexPrefix(txid);
         return this.get('checkstatus/' + txid);
+    }
+
+    getPairConfig() {
+        return this.get('kanban/getPairConfig');
     }
 }

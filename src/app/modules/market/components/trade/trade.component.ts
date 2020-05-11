@@ -43,7 +43,6 @@ export class TradeComponent implements OnInit {
     onRefreshToken() {
         // console.log('onRefreshToken');
 
-        
         if (this.address) {
             this.kanbanService.getBalance(this.address).subscribe((resp) => {
                 // console.log('resp from getBalances===');
@@ -84,9 +83,7 @@ export class TradeComponent implements OnInit {
             this.baseCoin = this.coinName2Number(inPairArr[0]);
             this.targetCoin = this.coinName2Number(inPairArr[1]);
             this.pair = inPair.replace('_', '/');
-
         }
-        
     }
 
     coinName2Number(name: string) {

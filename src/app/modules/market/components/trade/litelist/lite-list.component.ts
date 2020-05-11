@@ -20,6 +20,9 @@ export interface Section {
 export class LiteListComponent implements OnInit {
     select = 'USDT';
     pair = 'BTC/USDT';
+    pdecimal = '1.2-2';
+    vdecimal = '1.6-6';
+
     prices: Price[] = [];
     searchText = '';
     socket: WebSocketSubject<[Ticker]>;
@@ -72,12 +75,12 @@ export class LiteListComponent implements OnInit {
           }
         );    
     }
+
     setSelect() {
         this.select = this.searchText;
     }
     selectCat(cat: string) {
-        this.select = '/' + cat;
-        
+        this.select = '/' + cat;        
     }
 
     loadTradePair(pair: string) {

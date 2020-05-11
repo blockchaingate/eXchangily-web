@@ -5,16 +5,12 @@ import { PageNotFoundComponent } from './page-not-found.component';
 import { AppResolver } from './modules/landing/resolvers/app/app.resolve';
 
 const routes: Routes = [
-  
-  { path: 'explorer', loadChildren: './modules/explorer/explorer.module#ExplorerModule'},
-  { path: 'wallet', loadChildren: './modules/wallet/wallet.module#WalletModule'},
-  { path: 'otc', loadChildren: './modules/otc/otc.module#OtcModule'},
-  { path: 'promotion', loadChildren: './modules/promotion/promotion.module#PromotionModule'},
-  { path: 'smartcontract', loadChildren: './modules/smartcontract/smartcontract.module#SmartcontractModule'},
-  { path: '',
-    redirectTo: '/home',
-    pathMatch: 'full'
-  },  
+
+  { path: 'explorer', loadChildren: './modules/explorer/explorer.module#ExplorerModule' },
+  { path: 'wallet', loadChildren: './modules/wallet/wallet.module#WalletModule' },
+  { path: 'otc', loadChildren: './modules/otc/otc.module#OtcModule' },
+  { path: 'promotion', loadChildren: './modules/promotion/promotion.module#PromotionModule' },
+  { path: 'smartcontract', loadChildren: './modules/smartcontract/smartcontract.module#SmartcontractModule' },
   {
     resolve: {
       app: AppResolver
@@ -53,21 +49,22 @@ const routes: Routes = [
     }
   },
   {
-    resolve: {
-      app: AppResolver
-    },
     path: 'admin',
-    loadChildren: './modules/landing/features/amin/admin.module#AdminModule',
+    loadChildren: () => import('./modules/landing/features/admin/admin.module').then(m => m.AdminModule)
+    /*
+    loadChildren: './modules/landing/features/admin/admin.module#AdminModule',
     data: {
       title: 'Exchangily Admin',
       isHome: false
     }
-  },  
+    */
+  },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'ignore'})],
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'ignore' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

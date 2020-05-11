@@ -9,24 +9,9 @@ import { MarketListComponent } from '../list/market-list.component';
   templateUrl: './market-home.component.html',
   styleUrls: ['./market-home.component.css']
 })
-export class MarketHomeComponent  implements OnInit {
-  // socket: any;
-  constructor() {
+export class MarketHomeComponent implements OnInit {
+  constructor() {}
 
-  }
   ngOnInit() {
-    /*
-    this.socket = new WebSocketSubject(environment.websockets.allprices);
-    this.socket.subscribe(
-      (arr) => {
-        this.marketTop.updateTickerList(arr);
-        this.marketList.updateTickerList(arr);
-      }
-    ); 
-    */
   }
-
-  ngOnDestroy() {
-    // this.socket.unsubscribe();
-  }  
 }

@@ -1,0 +1,15 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let campaign of campaigns">
+            <td>{{campaign.name}}</td>
+            <td>
+                <button mat-raised-button color="primary" *ngIf="campaign.status=='unconfirmed'" (click)="confirmOrder(campaign)">Confirm</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

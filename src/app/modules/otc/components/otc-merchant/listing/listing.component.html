@@ -1,0 +1,221 @@
+<div class="container py-3">
+    <div class="row border-bottom py-2">
+        <div class="col col-3 border-right">
+            <mat-form-field class="text-muted">
+                <mat-label>{{"Fiat" | translate }}</mat-label>
+                <mat-select class="text-muted" [(ngModel)]="fiat" [disableOptionCentering]="true">
+                    <mat-option *ngFor="let fi of fiats" [value]="fi" class="text-muted">
+                        {{fi}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="col col-3 border-right">
+            <div class="container">
+                <div class="row py-2">
+                    <div class="col col-12 col-green">
+                        {{'Buy' | translate }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col col-3 coin-name" [ngClass]="(buy && (coin=='DUSD'))?'type-buy':''" (click)="changeCoin(true, 'DUSD')">
+                        DUSD
+                    </div>                    
+                    <div class="col col-3 coin-name" [ngClass]="(buy && (coin=='USDT'))?'type-buy':''" (click)="changeCoin(true, 'USDT')">
+                        USDT
+                    </div>
+                    <div class="col col-2 coin-name" [ngClass]="(buy && (coin=='BTC'))?'type-buy':''" (click)="changeCoin(true, 'BTC')">
+                        BTC
+                    </div>
+                    <div class="col col-2 coin-name" [ngClass]="(buy && (coin=='ETH'))?'type-buy':''" (click)="changeCoin(true, 'ETH')">
+                        ETH
+                    </div>
+                    <div class="col col-2 coin-name" [ngClass]="(buy && (coin=='FAB'))?'type-buy':''" (click)="changeCoin(true, 'FAB')">
+                        FAB
+                    </div>
+                    <div class="col col-3 coin-name" [ngClass]="(buy && (coin=='EXG'))?'type-buy':''" (click)="changeCoin(true, 'EXG')">
+                        EXG
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col col-3 border-right">
+            <div class="container">
+                <div class="row py-2">
+                    <div class="col col-12 col-red">
+                        {{'Sell' | translate }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col col-3 coin-name" [ngClass]="(!buy && (coin=='DUSD'))?'type-sell':''" (click)="changeCoin(false, 'DUSD')">
+                        DUSD
+                    </div>                    
+                    <div class="col col-3 coin-name" [ngClass]="(!buy && (coin=='USDT'))?'type-sell':''" (click)="changeCoin(false, 'USDT')">
+                        USDT
+                    </div>
+                    <div class="col col-2 coin-name" [ngClass]="(!buy && (coin=='BTC'))?'type-sell':''" (click)="changeCoin(false, 'BTC')">
+                        BTC
+                    </div>
+                    <div class="col col-2 coin-name" [ngClass]="(!buy && (coin=='ETH'))?'type-sell':''" (click)="changeCoin(false, 'ETH')">
+                        ETH
+                    </div>
+                    <div class="col col-2 coin-name" [ngClass]="(!buy && (coin=='FAB'))?'type-sell':''" (click)="changeCoin(false, 'FAB')">
+                        FAB
+                    </div>
+                    <div class="col col-3 coin-name" [ngClass]="(!buy && (coin=='EXG'))?'type-sell':''" (click)="changeCoin(false, 'EXG')">
+                        EXG
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-3 text-right">
+            <div>{{'Available' | translate }} {{coin}}</div>
+            <div>{{available}}</div>
+            <div>{{'Commission rate' | translate }}: {{commissionRate*100}}%</div>
+        </div>
+    </div>
+    <mat-card class="my-3">
+        <mat-card-content>
+            <div class="row py-3">
+                <div class="col col-3">
+                    <mat-form-field>
+                        <mat-label>{{'Price' | translate }}</mat-label>
+                        <input matInput [(ngModel)]="price">
+                    </mat-form-field>
+                </div>
+
+                <div class="col col-3">
+                    <mat-form-field>
+                        <mat-label>{{'Quantity' | translate }}</mat-label>
+                        <input matInput [(ngModel)]="quantity">
+                    </mat-form-field>
+                    {{coin}}
+                </div>
+
+                <div class="col col-3">
+                    <mat-form-field>
+                        <mat-label>{{'Minimum Limit' | translate }}</mat-label>
+                        <input matInput [(ngModel)]="qtyLimitPerOrderLow">
+                    </mat-form-field>
+                    {{fiat}}
+                </div>
+
+                <div class="col col-3">
+                    <mat-form-field>
+                        <mat-label>{{'Maximum Limit' | translate }}</mat-label>
+                        <input matInput [(ngModel)]="qtyLimitPerOrderHigh">
+                    </mat-form-field>
+                    {{fiat}}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col col-6">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>{{'Transaction notes(optional)' | translate }}</mat-label>
+                        <input matInput [(ngModel)]="maxLimit">
+                    </mat-form-field>
+                </div>
+                <div class="col col-3">
+                    <mat-form-field>
+                        <mat-label>{{'Commission' | translate }}</mat-label>
+                        <input matInput readonly placeholder="" value="{{quantity ? quantity * commissionRate : 0}}">
+                    </mat-form-field>
+                    {{coin}}
+                </div>
+                <div class="col col-3">
+                    <button class="btn btn-gradient text-white py-2 px-5" type="submit" (click)="addListing()">
+                        {{'Confirm' | translate }} </button>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <div class="row border-top pt-3">
+        <div class="col col-3 text-left">
+            <div class="d-inline-block hand" [ngClass]="(advType=='ongoing')?'adv-type-active':''" (click)="changeAdvType('ongoing')">
+                <b>
+                    {{'Ongoing' | translate }}
+                </b>
+
+            </div>
+            <div class="d-inline-block px-3 hand" [ngClass]="(advType=='history')?'adv-type-active':''" (click)="changeAdvType('history')">
+                <b>
+                    {{'History' | translate }}
+                </b>
+            </div>
+        </div>
+
+    </div>
+    <div class="row py-3">
+        <div class="col col-12">
+            <table class="table table-striped table-borderless">
+                <thead>
+                    <tr>
+                        <th scope="col">{{'Time' | translate }}</th>
+                        <th scope="col">{{'Type' | translate }}</th>
+                        <th scope="col">{{'Quantity' | translate }}</th>
+                        <th scope="col">{{'Commission' | translate }}</th>
+                        <th scope="col">{{'Limit' | translate }}</th>
+                        <th scope="col">{{'Price' | translate }}</th>
+                        <th scope="col">{{'Orders' | translate }}</th>
+                        <th scope="col">{{'Active' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let listing of listings">
+                        <td>
+                            <span class="table-text">
+                                {{listing.dateCreated}}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="table-text">
+                                {{(listing.buy ? 'Buy' : 'Sell') | translate }} {{listing.coin}}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="table-text">
+                                {{listing.qtyAvilable}}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="table-text">
+                                {{listing.qtyAvilable * 0.01}}{{listing.coin}}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="table-text">
+                            {{listing.qtyLimitPerOrderLow}}-{{listing.qtyLimitPerOrderHigh}}{{listing.fiat}}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="table-text">
+                                {{listing.price}}{{listing.fiat}}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="table-text">
+                            {{listing.orders ? listing.orders.length : 0}}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="table-text">
+                                {{listing.active}}
+                            </span>                            
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+
+        </div>
+    </div>
+
+</div>
+
+<pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>

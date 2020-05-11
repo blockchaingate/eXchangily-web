@@ -13,7 +13,7 @@ import { OrderComponent } from './order/order.component';
 import { AuthGuard } from '../../guards/auth/auth.guard';
 import { AccountPaths } from '../../paths/account-paths';
 
-// import { AdminModule } from '../amin/admin.module';
+// import { AdminModule } from '../admin/admin.module';
 import { UserResolver, UserAdminResolver } from '../../resolvers/user/user.resolve';
 import { IcotxResolver, IcotxParentResolver } from '../../resolvers/icotx/icotx.resolve';
 import { AppUsersResolver, ChildReferralsResolver } from '../../resolvers/app-users/app-users.resolve';
@@ -27,10 +27,6 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     children: [
       {
-        path: '',
-        redirectTo: AccountPaths[0].relative,
-      },
-      {
         resolve: {
           appUser: AppUsersResolver
         },
@@ -42,6 +38,8 @@ const routes: Routes = [
         component: KycComponent
       },
       {
+        path: 'create-new-payment', redirectTo: '/promotion/main', pathMatch: 'full'  //  remove this line when resotre after campaign.
+        /* Disabled temporily, will restore after campaign
         path: AccountPaths[2].relative,
         component: PlaceOrderFormComponent,
         children: [
@@ -57,6 +55,7 @@ const routes: Routes = [
             component: ConfirmPageComponent
           }
         ]
+        */
       },
       {
         resolve: {
@@ -77,17 +76,24 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'referrals', redirectTo: '/promotion/main', pathMatch: 'full'  //  remove this line when resotre after campaign.
+        /* Disabled temporily, will restore after campaign
         path: AccountPaths[4].relative,
         loadChildren: './referrals/referrals.module#ReferralModule'
+        */
       },
       {
         path: 'admin',
-        loadChildren: '../amin/admin.module#AdminModule'
+        loadChildren: '../admin/admin.module#AdminModule'
       }
       ,
       {
         path: 'logout',
-        loadChildren: '../amin/admin.module#AdminModule'
+        loadChildren: '../admin/admin.module#AdminModule'
+      },
+      {
+        path: '',
+        redirectTo: AccountPaths[0].relative,
       }
     ]
   }

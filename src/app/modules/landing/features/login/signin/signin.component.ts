@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
+
 import { UserService } from '../../../service/user/user.service';
 import { UserAuth } from '../../../service/user-auth/user-auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StorageService } from '../../../../../services/storage.service';
-import { JwtHelperService } from "@auth0/angular-jwt";
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from '../../../models/user';
-// import { getMatScrollStrategyAlreadyAttachedError } from '@angular/cdk/overlay/typings/scroll/scroll-strategy';
 
 @Component({
   selector: 'app-signin',
@@ -14,8 +15,8 @@ import { User } from '../../../models/user';
   styleUrls: ['../style.scss']
 })
 export class SigninComponent implements OnInit {
-  private afterLoginUrl = '/member/profile';
-  private submitted: boolean;
+  private afterLoginUrl: string;
+  public submitted: boolean;
   private isSystemAdmin: boolean;
   loginError: string;
   user = { email: '', password: '' };
@@ -25,21 +26,21 @@ export class SigninComponent implements OnInit {
 
   get password() { return this.signinForm.get('password'); }
 
-  constructor(
-    private _router: Router, 
-    private _userService: UserService, 
-    private _userAuth: UserAuth,
-    private _storageServ: StorageService
-    ) {
+  constructor(private _router: Router, private _route: ActivatedRoute, private _userService: UserService, private _userAuth: UserAuth,
+    private _storageServ: StorageService) {
   }
 
   ngOnInit() {
-    console.log('token=', this._userAuth.token);
+    this._route.params.subscribe(params => {
+        this.afterLoginUrl = params['retUrl'];
+    });
+
+    //console.log('token=', this._userAuth.token);
     this.isSystemAdmin = false;
     if (!this._userAuth.token) {
       this._storageServ.getToken().subscribe(
         (token: string) => {
-          console.log('token=', token);
+          //console.log('token=', token);
         }
       );
     }
@@ -90,18 +91,21 @@ export class SigninComponent implements OnInit {
 
       console.log('decodedToken===');
       console.log(decodedToken);
-      if(decodedToken.aud === 'isSystemAdmin') {
+      if (decodedToken.aud === 'isSystemAdmin') {
         this.isSystemAdmin = true;
       }
     }
 
+    console.log('111');
     this._userAuth.userDisplay$.next(loginRet.displayName);
-    this._userAuth.isLoggedIn$.next(loginRet._id || loginRet['id']);
+    this._userAuth.isLoggedIn$.next(loginRet['id'] || loginRet._id);
+
     this._userAuth.hasWrite = loginRet.isWriteAccessAdmin;
     this._userAuth.id = loginRet._id || loginRet['id'];
     this._userAuth.email = loginRet.email;
     this._userAuth.kyc = loginRet.kyc;
     this._userAuth.kycNote = loginRet.kycNote;
+    console.log('000');
     if (loginRet.manageCoins) { this._userAuth.manageCoins = loginRet.manageCoins; }
     if (loginRet.manageEmployee) { this._userAuth.manageEmployee = loginRet.manageEmployee; }
     if (loginRet.manageFinance) { this._userAuth.manageFinance = loginRet.manageFinance; }
@@ -109,12 +113,14 @@ export class SigninComponent implements OnInit {
     if (loginRet.defaultMerchant && loginRet.defaultMerchant._id) {
       this._userAuth.hasMerchant = true;
     }
-
-    const toUrl = sessionStorage.__AfterLoginUrl ? sessionStorage.__AfterLoginUrl : this.afterLoginUrl;
-
-    if(this.isSystemAdmin) {
+    console.log('2224444');
+    if (this.afterLoginUrl) {
+      this._router.navigate([this.afterLoginUrl]);
+    } else if (this.isSystemAdmin) {
+      console.log('nav to admin');
       this._router.navigate(['/admin']);
     } else {
+      console.log('333');
       this._router.navigate(['/account/user-info']);
     }
 

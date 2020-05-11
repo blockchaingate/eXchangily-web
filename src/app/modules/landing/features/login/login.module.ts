@@ -14,7 +14,8 @@ import { ResetComponent } from './reset/reset.component';
 import { ActivateComponent } from './activate/activate.component';
 import { NoAuthGuard } from '../../guards/no-auth/no-auth.guard';
 import { ChangePasswordComponent } from './change-password/change-password.component';
-
+import { WalletService } from '../.../../../../../services/wallet.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { StorageService } from '../../../../services/storage.service';
 
 // import { UserService } from '../../service/user/user.service';
@@ -25,11 +26,13 @@ import { StorageService } from '../../../../services/storage.service';
     ReactiveFormsModule,
     ComponentsModule,
     LoginRoutingModule,
+    MatProgressSpinnerModule,
     FormsModule
   ],
   providers: [
     NoAuthGuard,
-    StorageService
+    StorageService,
+    WalletService
   ],
   declarations: [LoginComponent, SignupComponent, SigninComponent, ResetComponent, ActivateComponent, ChangePasswordComponent, ]
 })

@@ -1,5 +1,5 @@
 
-import {throwError as observableThrowError} from 'rxjs';
+import { throwError as observableThrowError } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { User } from '../../models/user';
 import { HttpService } from '../../../../services/http.service';
@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators/map';
 
 const path = environment.endpoints.blockchaingate + 'members/';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class UserService {
   constructor(private http: HttpService, private _appAuth: AppAuthService) {
   }
@@ -20,6 +20,8 @@ export class UserService {
     const theBody = {
       email: data.email,
       password: data.password,
+      walletExgAddress: data.walletExgAddress,
+      campaignId: data.campaignId,
       firstName: data.firstName,
       lastName: data.lastName,
       invitationCode: data.invitationCode,
@@ -28,7 +30,7 @@ export class UserService {
       appId: this._appAuth.id
     };
 
-    return this.http.post(path + 'create', theBody).pipe(map(res => res));
+    return this.http.post(path + 'create', theBody).pipe(map(res => res, err => {alert(err); }));
   }
 
   // Get member
@@ -51,8 +53,22 @@ export class UserService {
   }
 
   // Get all members
-  public getAllUsers() {
-    return this.http.get(path, true).pipe(map(res => res));
+  public getAllUsers(token: string) {
+    const apath = path + '?appId=' + this._appAuth.id;
+    console.log('apath=', apath);
+    return this.http.getPrivate(apath, token);
+    // return this.http.get(path, true).pipe(map(res => res));
+  }
+  public getAllInactiveUsers(token: string) {
+    const apath = path + 'inactive?appId=' + this._appAuth.id;
+    console.log('apath=', apath);
+    return this.http.getPrivate(apath, token);
+    // return this.http.get(path, true).pipe(map(res => res));
+  }
+
+  public setActive(memberId: string, token: string) {
+    const apath = path + 'setactive?memberId=' + memberId;
+    return this.http.getPrivate(apath, token);
   }
 
   // Login
@@ -73,6 +89,11 @@ export class UserService {
     return this.http.get(path + id, true).pipe(map(res => res));
   }
 
+  getMe(token) {
+    const url = path + 'me';
+    return this.http.getPrivate(url, token).pipe(map(res => res));
+  }
+
   getUsersAll() {
     return this.http.post(path + 'getAll', {}, true).pipe(map(res => res));
   }
@@ -83,9 +104,14 @@ export class UserService {
     return this.http.post(path + 'FindOneAndUpdate', data, true).pipe(map(res => res));
   }
 
+  setKycPass(data) {
+    data.appId = this._appAuth.id;
+    return this.http.post(path + 'setKycPass', data, true).pipe(map(res => res));    
+  }
+  
   // Request Password Reset
   requestPwdReset(email: string) {
-    const theBody = { 'email': email };
+    const theBody = { 'email': email, appId: this._appAuth.id };
     sessionStorage.removeItem('id_token');
 
     return this.http.post(path + 'requestpwdreset', theBody).pipe(map(res => res));

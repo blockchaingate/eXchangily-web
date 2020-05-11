@@ -13,9 +13,9 @@ import { ManageWalletComponent } from './components/manage-wallet/manage-wallet.
 import { FaqComponent } from './components/faq/faq.component';
 import { WalletPwdComponent } from './components/create/wallet-pwd.component';
 import { RestoreWalletComponent } from './components/restore/restorewallet.component';
+import { RestoreWalletOldComponent } from './components/restoreold/restorewalletold.component';
 import { TransactionHistoryComponent } from './components/transaction-history/transaction-history.component';
 import { AddressKeyComponent } from './modals/components/address-key/address-key.component';
-
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -41,6 +41,7 @@ import { DeleteWalletModal } from './modals/delete-wallet/delete-wallet.modal';
 import { LoginSettingModal } from './modals/login-setting/login-setting.modal';
 import { DisplaySettingModal } from './modals/display-setting/display-setting.modal';
 import { KanbanService } from '../../services/kanban.service';
+import { CampaignOrderService } from '../../services/campaignorder.service';
 import { Web3Service } from '../../services/web3.service';
 import { AlertService } from '../../services/alert.service';
 import {MatSelectModule} from '@angular/material/select'; 
@@ -68,6 +69,7 @@ import { TransactionTypePipe } from './pipes/transaction-type.pipe';
         ConfirmMnemonicsComponent,
         WalletPwdComponent,
         RestoreWalletComponent,
+        RestoreWalletOldComponent,
         WalletComponent,
         ManageWalletComponent,
         FaqComponent,
@@ -112,7 +114,7 @@ import { TransactionTypePipe } from './pipes/transaction-type.pipe';
 
     ],
     providers: [
-        KanbanService, Web3Service, AlertService
+        KanbanService, Web3Service, AlertService, CampaignOrderService
     ]
 })
 export class WalletModule { }

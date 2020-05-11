@@ -6,6 +6,7 @@ export class TransactionItem {
     tokenType: string;
     amount: number;
     txid: string;
+    to: string;
     time: Date;
     comment: string;
     confirmations: string;

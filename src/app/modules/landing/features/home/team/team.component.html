@@ -1,28 +1,28 @@
 <div class="home__team">
-  <div class="max-out">
+    <div class="max-out">
 
-      <section *ngIf="doneLoading" class="home__team__section" [ngClass]="{'halved': !open}">
+        <section *ngIf="doneLoading" class="home__team__section" [ngClass]="{'halved': !open}">
 
-        <div fxLayout="row wrap" fxLayoutAlign="space-around" class="home__team__section--wrapper">
-          <div *ngFor="let member of team; let j = index" fxFlex="30" class="home__team__section__member" >
-            <div class="member--image">
-              <div class="member--image-unit" [ngStyle]="{'background': 'url(\'./images/photos/' + member.Image + '\')'}"></div>
+            <div fxLayout="row wrap" fxLayoutAlign="space-around" class="home__team__section--wrapper">
+                <div *ngFor="let member of team; let j = index" fxFlex="30" class="home__team__section__member">
+                    <div class="member--image">
+                        <div class="member--image-unit" [ngStyle]="{'background': 'url(\'./images/photos/' + member.Image + '\')'}"></div>
+                    </div>
+                    <h5 class="semi-bold member--name center color-secondary">
+                        {{ member.Name }}
+                    </h5>
+                    <p class="member--title bold center color-secondary">{{ member.Title }} </p>
+                    <ul class="member__list">
+                        <li *ngFor="let skill of member.Desc; let k = index">
+                            {{ skill }}
+                        </li>
+                    </ul>
+                    <a *ngIf="member.linkedIn" class="color-primary member--linkedin icon-linked-in" href="{{ member.linkedIn }}" target="_blank"></a>
+                </div>
             </div>
-            <h5 class="semi-bold member--name center color-secondary">
-              {{ member.Name }}
-            </h5>
-            <p class="member--title bold center color-secondary">{{ member.Title }} </p>
-            <ul class="member__list">
-              <li *ngFor="let skill of member.Desc; let k = index">
-                {{ skill }}
-              </li>
-            </ul>
-            <a *ngIf="member.linkedIn" [ngClass]="{'center': teamSection.spacing !== 30 }" class="color-primary member--linkedin icon-linked-in" href="{{ member.linkedIn }}" target="_blank"></a>
-          </div>
-        </div>
-        <div [ngClass]="{'not-visible': open}" class="home__team__section--transparent"></div>
-      </section>
-      <button (click)="toggleTeam()" class="color-primary semi-bold team-toggle">{{ !open ? 'Expand' : 'Show Less' }}</button>
+            <div [ngClass]="{'not-visible': open}" class="home__team__section--transparent"></div>
+        </section>
+        <button (click)="toggleTeam()" class="color-primary semi-bold team-toggle">{{ !open ? 'Expand' : 'Show Less' }}</button>
     </div>
 
 </div>

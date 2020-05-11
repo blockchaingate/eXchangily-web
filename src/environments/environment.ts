@@ -6,6 +6,9 @@ import * as Btc from 'bitcoinjs-lib';
 export const environment = {
     production: false,
     version: 0.03,
+    baseUrl: 'https://exchangily.net',
+    campaignId: 1,
+    OTC_COMMISSION_RATE: 0.001,
     chains: {
         BTC: {
             network: Btc.networks.testnet,
@@ -40,7 +43,7 @@ export const environment = {
         }        
     },
     endpoints: {
-        // blockchaingate: 'http://localhost:3002/v2/',
+        //blockchaingate: 'http://localhost:3002/v2/',
         blockchaingate: 'https://test.blockchaingate.com/v2/',
         coingecko: 'https://api.coingecko.com/',
         kanban: 'https://kanbantest.fabcoinapi.com/',
@@ -79,9 +82,17 @@ export const environment = {
             { name: 'DUSD', address: '0xdcd0f23125f74ef621dfa3310625f8af0dcd971b'}
         ],
         promotionOfficial: {
-            USDT: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
+            USDT: '0x4e93c47b42d09f61a31f798877329890791077b2',
+            DUSD: '0xcdd40948208b0098b6a51e69d945de4692766ef3',
             BTC: 'muQDw5hVmFgD1GrrWvUt6kjrzauC4Msaki',
-            ETH: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
+            ETH: '0x4e93c47b42d09f61a31f798877329890791077b2',
+            FAB: 'n1eXG5oe6wJ6h43akutyGfphqQsY1UfAUR'
+        },
+        otcOfficial: {
+            USDT: '0x4e93c47b42d09f61a31f798877329890791077b2',
+            DUSD: '0xcdd40948208b0098b6a51e69d945de4692766ef3',
+            BTC: 'muQDw5hVmFgD1GrrWvUt6kjrzauC4Msaki',
+            ETH: '0x4e93c47b42d09f61a31f798877329890791077b2',
             FAB: 'n1eXG5oe6wJ6h43akutyGfphqQsY1UfAUR'
         }       
     },
@@ -98,6 +109,19 @@ export const environment = {
         ETH: 0.01,
         USDT: 10,
         DUSD: 10
+    },
+    PaymentMethod: {
+        ETransfer: {
+            AccountName: 'Exchangily',
+            Email: 'info@exchangily.com'
+        },
+        Wechat: 'exchangily',
+        Alipay: 'info@exchangily.com',
+        DirectTransfer: {
+            BankName: '招商银行',
+            AccountName : 'Exchangily',
+            Account: '88884556555433234455'
+        }
     }
 };
 

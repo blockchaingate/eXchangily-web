@@ -2,6 +2,7 @@ export interface User {
   _id?: string;
 
   email: string;
+  walletExgAddress?: string;
 
   btcAdd?: string;
   ethAdd?: string;

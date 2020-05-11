@@ -29,6 +29,11 @@ export class ApiService {
         return response;        
     }
 
+    getUSDValues() {
+        const url = 'https://kanbanprod.fabcoinapi.com/USDvalues';
+        return this.http.get(url);
+    }
+    
     getBtcTransFeeEstimate() {
         const url = environment.endpoints.BTC.exchangily + 'getfeeestimate';
         return this.http.get(url);
@@ -195,19 +200,25 @@ export class ApiService {
             }
         }
         */
+        let txHash = '';
+        let errMsg = '';
         const url = environment.endpoints.ETH.exchangily + 'sendsignedtransaction';
         const data = {
             signedtx: txHex
         };
-        let response = null;
         if (txHex) {
-            response = await this.http.post(url, data, {responseType: 'text'}).toPromise() as string;
-        }        
-        if (response) {
-            // console.log('response=', response);
-            return response;
-        }
-        return '';
+            try {
+                txHash = await this.http.post(url, data, {responseType: 'text'}).toPromise() as string;
+            } catch (err) {
+                console.log('errqqq=', err);
+                if (err.error) {
+                 errMsg = err.error;
+                }
+ 
+            }          
+        }    
+
+        return {txHash, errMsg};
     }
 
     async getFabLockBalance(address: string) {
@@ -371,6 +382,8 @@ export class ApiService {
     async getFabTokenBalance(name: string, address: string) { 
         const contractAddress = environment.addresses.smartContract[name];
         let fxnCallHex = this.web3Serv.getFabTokenBalanceOfABI([address]);
+        console.log('name=', name);
+        console.log('fxnCallHex there we go=', fxnCallHex);
         fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex); 
         const response = await this.fabCallContract(contractAddress, fxnCallHex);    
         let balance = 0;

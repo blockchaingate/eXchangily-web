@@ -2,10 +2,10 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header text-center">
-                <h4 class="modal-title w-100 text-dark">Wallet Transaction History</h4>
+                <h4 class="modal-title w-100 text-dark">{{"Wallet Transaction History"|translate}}</h4>
                 <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body" *ngIf="item">
                 <div class="py-3">
@@ -14,7 +14,7 @@
                     </div>
                     <div class="d-flex">
                         <div class="text-muted">
-                            Transaction Date
+                            {{"Transaction Date"| translate}}
                         </div>
                         <div class="ml-auto text-dark">
                             {{item.time?utilService.getFormattedDate(item.time):''}}
@@ -22,7 +22,7 @@
                     </div>
                     <div class="d-flex">
                         <div class="text-muted">
-                            Currency
+                            {{"Currency"|translate}}
                         </div>
                         <div class="ml-auto text-dark">
                             {{item.coin}}
@@ -30,7 +30,7 @@
                     </div>
                     <div class="d-flex">
                         <div class="text-muted">
-                            Transaction Total Amount
+                            {{"Transaction Amount"| translate}}
                         </div>
                         <div class="ml-auto text-dark">
                             {{item.amount}}
@@ -38,7 +38,7 @@
                     </div>
                     <div class="d-flex">
                         <div class="text-muted">
-                            Gas Fee
+                            {{"Gas Fee"|translate}}
                         </div>
                         <div class="ml-auto text-dark">
                             0.0034
@@ -47,31 +47,31 @@
                 </div>
                 <div class="pd-3">
                     <div class="text-muted pt-2">
-                        Send to
+                        {{"Send to"| translate}}
                     </div>
                     <div class="text-dark">
                         {{item.to}}
                     </div>
-                    <div class="text-muted pt-2">
-                        Transaction ID
+                    <div class="text-muted pt-2" *ngIf="item.type != 'Withdraw'">
+                        {{"Transaction ID" |translate}}
                     </div>
-                    <div class="text-dark">
+                    <div class="text-dark" *ngIf="item.type != 'Withdraw'">
                         <small>{{utilService.stripHexPrefix(item.txid)}}</small>
                     </div>
                     <div class="text-muted pt-2">
-                        Status
+                        {{"Status"|translate}}
                     </div>
                     <div class="text-dark">
                         {{item.confirmations}}
                     </div>
                     <div class="text-muted pt-2">
-                        Block Hash
+                        {{"Block Hash"|translate}}
                     </div>
                     <div class="text-dark">
                         <small>{{item.blockhash}}</small>
                     </div>
                     <div class="text-muted pt-2">
-                        Comment
+                        {{"Comment"|translate}}
                     </div>
                     <div class="text-dark">
                         {{item.comment}}

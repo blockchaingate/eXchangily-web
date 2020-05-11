@@ -21,7 +21,13 @@
     </div>
 
     <div class="button-wrapper">
-        <button type="submit" [disabled]="!formDir.form.valid" class="form-input__button fancy-button background-primary color-white"><span class="">{{ 'Header.Navigation.Signin' | translate }}</span></button>
+        <button type="submit" [disabled]="!formDir.form.valid || submitted" class="form-input__button fancy-button background-primary color-white">
+            <span class="">{{ 'Header.Navigation.Signin' | translate }}</span>
+        </button>
+        <div class="py-2 d-flex justify-content-center" *ngIf="submitted">
+            <mat-spinner [diameter]="30"></mat-spinner>
+        </div>
+        
         <p *ngIf="loginError" class="form-input__error">
             {{ loginError }}
         </p>
@@ -29,5 +35,6 @@
         <br/>
 
         <p><a class="color-primary" [routerLink]="['/login/reset']">{{ 'Form.ForgotPassword' | translate }}</a></p>
+        <p><a class="color-primary" [routerLink]="['/login/signup']">{{'Don\'t have an account? Register here!' | translate}}</a></p>
     </div>
 </form>

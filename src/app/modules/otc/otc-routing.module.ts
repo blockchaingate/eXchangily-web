@@ -1,16 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TradeComponent } from './components/trade/trade.component';
-import { OrderComponent } from './components/order/order.component';
-import { ListComponent } from './components/otc-merchant/list/list.component';
-import { ApplyAsMerchantComponent } from './components/apply-as-merchant/apply-as-merchant.component';
+import { MemberOrdersComponent } from './components/member-orders/member-orders';
+import { MerchantOrdersComponent } from './components/merchant-orders/merchant-orders';
+import { ListingComponent } from './components/otc-merchant/listing/listing.component';
+import { UserPaymentMethodsComponent } from './components/userpaymentmethods/userpaymentmethods.component';
 
 const routes: Routes = [
   { path: 'trade', component: TradeComponent },
-  { path: 'order', component: OrderComponent },
-  { path: 'list', component: ListComponent },
+  { path: 'member-orders', component: MemberOrdersComponent },
+  { path: 'merchant-orders', component: MerchantOrdersComponent },
+  { path: 'listing', component: ListingComponent },
+  { path: 'userpaymentmethods', component: UserPaymentMethodsComponent },
   { path: 'otc-merchant', loadChildren: './components/otc-merchant/otc-merchant.module#OtcMerchantModule'},
-  { path: 'apply-to-be-merchant', component: ApplyAsMerchantComponent },
   { path: '', redirectTo: 'trade', pathMatch: 'full' },
 ];
 
