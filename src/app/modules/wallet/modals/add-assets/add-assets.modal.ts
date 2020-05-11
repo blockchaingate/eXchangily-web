@@ -14,8 +14,19 @@ export class AddAssetsModal {
 
     fabCoinsSelected = [];
     ethCoinsSelected = [];
+    otherCoinsSelected = [];
     showFabCustom = false;
     showEthCustom = false;
+
+    otherCoins = [
+        {
+            name: 'BTC in FAB address'
+        },
+        {
+            name: 'FAB in BTC address'
+        }
+    ];
+
     ethTokens = [
         {
             name: 'EAB', 
@@ -67,6 +78,13 @@ export class AddAssetsModal {
             this.showFabCustom = false;
         }
         console.log('this.showFabCustom=' + this.showFabCustom);
+    }
+
+    onOthersSelection(e, v) {
+        this.otherCoinsSelected = [];
+        for (let i = 0; i < v.length; i++) {
+            this.otherCoinsSelected.push(v[i].value);
+        }        
     }
 
     onEthSelection(e, v) {
