@@ -1077,5 +1077,7 @@
     "BuyFABQ": "我想加燃料，从哪里获得FAB",
     "BuyFABA": "可以从OTC交易区购买，也可以从其它中心化交易所或向其他FAB持有人购买，如果想长期参与FAB经营，也可以自己挖矿，具体挖矿方法请联系客服，亿币还经常举办奖励活动奖励FAB。",
     "Wallet EXG address registered already": "钱包EXG地址已经注册",
-    "Fill in bank payment details": "填入银行付款详情，如交易号等"
+    "Fill in bank payment details": "填入银行付款详情，如交易号等",
+    "Confirm move fund to DEX": "向交易所转币确认",
+    "Move fund to DEX": "向交易所转币"
 }

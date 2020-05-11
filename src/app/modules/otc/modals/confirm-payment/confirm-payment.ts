@@ -1,5 +1,5 @@
 import { Component, ViewChild, EventEmitter, Output } from '@angular/core';
-import {  ModalDirective } from 'ngx-bootstrap/modal';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import { faAlipay } from '@fortawesome/free-brands-svg-icons';
 import { faCreditCard } from '@fortawesome/free-solid-svg-icons';
 import { FormBuilder } from '@angular/forms';
@@ -17,19 +17,19 @@ export class ConfirmPaymentModal {
         amount: ['0'],
         method: ['alipay']
     });
-    @ViewChild('confirmPaymentModal', {static: true}) public confirmPaymentModal: ModalDirective;
-    
+    @ViewChild('confirmPaymentModal', { static: true }) public confirmPaymentModal: ModalDirective;
 
     methods: string[] = ['alipay', 'bank'];
     constructor(private fb: FormBuilder) { }
+
     show() {
         this.confirmPaymentModal.show();
     }
 
     hide() {
         this.confirmPaymentModal.hide();
-    }    
+    }
     onSubmit() {
-        
+
     }
 }
