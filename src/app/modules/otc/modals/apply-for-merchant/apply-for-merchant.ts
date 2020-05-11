@@ -19,15 +19,17 @@ export class ApplyForMerchantModal {
     });
     @ViewChild('applyForMerchantModal', {static: true}) public applyForMerchantModal: ModalDirective;
     methods: string[] = ['alipay', 'bank'];
+
     constructor(private fb: FormBuilder) { }
+
     show() {
         this.applyForMerchantModal.show();
     }
 
     hide() {
         this.applyForMerchantModal.hide();
-    }    
+    }
+
     onSubmit() {
-        
     }
 }

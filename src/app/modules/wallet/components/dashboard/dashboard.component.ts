@@ -46,7 +46,7 @@ import { Pair } from 'src/app/modules/market/models/pair';
     styleUrls: ['./dashboard.component.css'],
     encapsulation: ViewEncapsulation.None
 })
-export class WalletDashboardComponent {
+export class WalletDashboardComponent implements OnInit {
     @ViewChild('manageWallet', { static: true }) manageWallet: ManageWalletComponent;
     @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal;
     @ViewChild('displayPinModal', { static: true }) displayPinModal: DisplayPinNumberModal;
@@ -88,6 +88,7 @@ export class WalletDashboardComponent {
     opType: string;
     currentCurrency: string;
     currencyRate: number;
+    lan = 'en';
 
     constructor(
         private campaignorderServ: CampaignOrderService,
@@ -96,6 +97,7 @@ export class WalletDashboardComponent {
         private kanbanServ: KanbanService, private web3Serv: Web3Service, private viewContainerRef: ViewContainerRef,
         private alertServ: AlertService, private matIconRegistry: MatIconRegistry, private timerServ: TimerService,
         private coinService: CoinService, private storageService: StorageService, private domSanitizer: DomSanitizer) {
+        this.lan = localStorage.getItem('Lan');
         this.showMyAssets = true;
         this.currentCurrency = 'USD';
         this.currencyRate = 1;
@@ -161,7 +163,6 @@ export class WalletDashboardComponent {
         }
 
         if (this.exgAddress) {
-
             /*
             if (this.exgAddress === '0x5ccab4dd9c83d675b25e6589561f4ee1e185a0b7') {
                 this.exgAddress = '';
@@ -399,8 +400,8 @@ export class WalletDashboardComponent {
         });
 
     }
-    async loadBalance() {
 
+    async loadBalance() {
         // console.log('this.coinsPrice=');
         // console.log(this.coinsPrice);
         if (!this.wallet) {
@@ -427,7 +428,6 @@ export class WalletDashboardComponent {
                         if (coin.name === 'ETH') {
                             this.ethBalance = balance.balance;
                         }
-
 
             if (coin.balance !== balance.balance || coin.lockedBalance !== balance.lockbalance) {
                 /*
@@ -458,7 +458,6 @@ export class WalletDashboardComponent {
             this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
         }
     }
-
 
     async changeWallet(value) {
         this.currentWalletIndex = value;
@@ -523,6 +522,9 @@ export class WalletDashboardComponent {
                 if (resp.ok) {
                     if (resp._body && resp._body.totalQuantities > 0) {
                         this.alertMsg = 'Disqualified with campaign';
+                        if (this.lan === 'zh') {
+                            this.alertMsg = '未达推广资格';
+                        }
 
                     } else {
                         this.alertMsg = '';
@@ -543,7 +545,6 @@ export class WalletDashboardComponent {
         this.modalRef = this.modalServ.show(template);
     }
 
-
     addGasFee() {
         if (this.fabBalance < 0.5) {
             return;
@@ -551,7 +552,6 @@ export class WalletDashboardComponent {
         // this.currentCoin = this.wallet.mycoins[1];
         this.addGasModal.show();
     }
-
 
     deposit(currentCoin: MyCoin) {
         this.currentCoin = currentCoin;
@@ -592,12 +592,20 @@ export class WalletDashboardComponent {
         const currentCoinBalance = this.currentCoin.balance;
         const coinName = this.currentCoin.name;
         if (currentCoinBalance < amount) {
-            this.alertServ.openSnackBar('Insufficient ' + coinName + ' for this transaction', 'Ok');
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar(coinName + '余额不足', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('Insufficient ' + coinName + ' for this transaction', 'Ok');
+            }
             return;
         }
         if (tranFeeUnit === 'BTC') {
             if (transFee > btcBalance) {
-                this.alertServ.openSnackBar('Insufficient BTC for this transaction', 'Ok');
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('BTC余额不足', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Insufficient BTC for this transaction', 'Ok');
+                }
                 return;
             }
         } else
@@ -609,14 +617,22 @@ export class WalletDashboardComponent {
             } else
                 if (tranFeeUnit === 'ETH') {
                     if (transFee > ethBalance) {
-                        this.alertServ.openSnackBar('Insufficient ETH for this transaction', 'Ok');
+                        if (this.lan === 'zh') {
+                            this.alertServ.openSnackBar('ETH余额不足', 'Ok');
+                        } else {
+                            this.alertServ.openSnackBar('Insufficient ETH for this transaction', 'Ok');
+                        }
                         return;
                     }
                 }
 
         if ((coinName === 'BTC') || (coinName === 'ETH') || (coinName === 'FAB')) {
             if (currentCoinBalance < amount + transFee) {
-                this.alertServ.openSnackBar('Insufficient ' + coinName + ' for this transaction', 'Ok');
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar(coinName + '余额不足', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Insufficient ' + coinName + ' for this transaction', 'Ok');
+                }
                 return;
             }
         }
@@ -667,7 +683,7 @@ export class WalletDashboardComponent {
         this.pin = pin;
         const pinHash = this.utilServ.SHA256(pin).toString();
         if (pinHash !== this.wallet.pwdHash) {
-            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+            this.warnPwdErr();
             return;
         }
         if (this.opType === 'deposit') {
@@ -710,7 +726,7 @@ export class WalletDashboardComponent {
         const pinHash = this.utilServ.SHA256(pin).toString();
         console.log('this.wallet.pwdDisplayHash==', this.wallet.pwdDisplayHash);
         if (pinHash !== this.wallet.pwdDisplayHash) {
-            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+            this.warnPwdErr();
             return;
         }
         this.toggleWalletHide();
@@ -737,6 +753,14 @@ export class WalletDashboardComponent {
         if (seedPhrase) {
             this.showSeedPhraseModal.show(seedPhrase);
         } else {
+            this.warnPwdErr();
+        }
+    }
+
+    warnPwdErr() {
+        if (this.lan === 'zh') {
+            this.alertServ.openSnackBar('密码错误', 'Ok');
+        } else {
             this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
         }
     }
@@ -745,7 +769,7 @@ export class WalletDashboardComponent {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
         this.seed = seed;
         if (!seed) {
-            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+            this.warnPwdErr();
             return;
         }
         this.backupPrivateKeyModal.show(seed, this.wallet);
@@ -760,9 +784,8 @@ export class WalletDashboardComponent {
         if (seedPhrase) {
             this.verifySeedPhraseModal.show(seedPhrase);
         } else {
-            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+            this.warnPwdErr();
         }
-
     }
 
     onConfirmedAssets(assets: [Token]) {
@@ -790,7 +813,7 @@ export class WalletDashboardComponent {
 
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         if (!seed) {
-            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+            this.warnPwdErr();
             return;
         }
         const scarAddress = await this.kanbanServ.getScarAddress();
@@ -817,7 +840,11 @@ export class WalletDashboardComponent {
             };
             this.storageService.storeToTransactionHistoryList(item);
 
-            this.alertServ.openSnackBar('add gas transaction was submitted successfully.', 'Ok');
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('加燃料交易提交成功，请等40分钟后查看结果', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('Add gas transaction was submitted successfully, please check gas balance 40 minutes later.', 'Ok');
+            }
         }
     }
 
@@ -856,7 +883,11 @@ export class WalletDashboardComponent {
             return;
         }
         if (txHex && txHash) {
-            this.alertServ.openSnackBar('your transaction was submitted successfully.', 'Ok');
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('交易提交成功，请等一会查看结果', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('your transaction was submitted successful, please wait a while to check status.', 'Ok');
+            }
 
             const item = {
                 walletId: this.wallet.id,
@@ -882,7 +913,11 @@ export class WalletDashboardComponent {
 
     async redepositdo() {
         if (!this.amountForm) {
-            this.alertServ.openSnackBar('no input for redeposit', 'OK');
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('没有待确认的转币去交易所输入', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('No input for confirmation of moving fund to DEX', 'OK');
+            }
             return;
         }
         const transactionID = this.amountForm.transactionID;
@@ -890,7 +925,11 @@ export class WalletDashboardComponent {
         const gasLimit = Number(this.amountForm.gasLimit);
 
         if (!transactionID || !gasPrice || !gasLimit) {
-            this.alertServ.openSnackBar('invalid input for deposit', 'OK');
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('没有转币去交易所输入', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('invalid input for moving fund to DEX', 'OK');
+            }
             return;
         }
 
@@ -924,7 +963,7 @@ export class WalletDashboardComponent {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
 
         if (!seed) {
-            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+            this.warnPwdErr();
             return;
         }
 
@@ -942,7 +981,11 @@ export class WalletDashboardComponent {
             }
         }
         if (!currentCoin) {
-            this.alertServ.openSnackBar('Your coin type is invalid.', 'Ok');
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('币类型错误', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('Your coin type is invalid.', 'Ok');
+            }
             return;
         }
 
@@ -979,12 +1022,19 @@ export class WalletDashboardComponent {
             if (resp.success) {
                 // const txid = resp.data.transactionID;
                 this.kanbanServ.incNonce();
-                this.alertServ.openSnackBar('Redeposit was submitted successfully.', 'Ok');
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('确认交易所入币成功提交', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Confirmation was submitted successfully.', 'Ok');
+                }
             }
         },
             (error: any) => {
                 console.log('error=', error);
-                let message = 'Unknown error while redeposit.';
+                let message = 'Unknown error while confirm moving fund to DEX.';
+                if (this.lan === 'zh') {
+                    message = '确认交易所入币时发生未知错误';
+                }
                 if (error.message) {
                     message = error.message;
                 } else
@@ -1014,14 +1064,18 @@ export class WalletDashboardComponent {
 
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         if (!seed) {
-            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+            this.warnPwdErr();
             return;
         }
         const keyPairs = this.coinServ.getKeyPairs(currentCoin, seed, 0, 0);
 
         const officalAddress = this.coinServ.getOfficialAddress(currentCoin);
         if (!officalAddress) {
-            this.alertServ.openSnackBar('offical address for ' + currentCoin.name + ' is unavailable', 'Ok');
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar(currentCoin.name + '官方地址无效', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('offical address for ' + currentCoin.name + ' is unavailable', 'Ok');
+            }
             return;
         }
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
@@ -1043,7 +1097,11 @@ export class WalletDashboardComponent {
         }
 
         if (!txHex || !txHash) {
-            this.alertServ.openSnackBar('Internal error for txHex or txHash', 'Ok');
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('txHash内部错误', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('Internal error for txHex or txHash', 'Ok');
+            }
             return;
         }
         const amountInLink = new BigNumber(amount).multipliedBy(new BigNumber(1e18)); // it's for all coins.
@@ -1092,7 +1150,11 @@ export class WalletDashboardComponent {
                 this.timerServ.transactionStatus.next(item);
                 this.timerServ.checkTransactionStatus(item);
                 this.kanbanServ.incNonce();
-                this.alertServ.openSnackBar('Adding deposit was submitted successfully.', 'Ok');
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('转币去交易所提交成功', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Moving fund to DEX submitted successfully.', 'Ok');
+                }
             } else
                 if (resp.error) {
                     this.alertServ.openSnackBar(resp.error, 'Ok');

@@ -85,6 +85,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   buyTransFeeAdvance = 0.0;
   sellTransFeeAdvance = 0.0;
   coinService: CoinService;
+  lan = 'en';
   // interval;
 
   mySubscription: any;
@@ -540,6 +541,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   getMytokens(): any { return this._mytokens; }
 
   async ngOnInit() {
+    this.lan = localStorage.getItem('Lan');
     // console.log('ngOnInit for order Pad');
     this.oldNonce = -1;
     this.buyGasLimit = environment.chains.KANBAN.gasLimit;
@@ -611,7 +613,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   confirmPin() {
     const pwdHashStr = this.utilService.SHA256(this.pin).toString();
     if (this.wallet.pwdHash !== pwdHashStr) {
-      this.alertServ.openSnackBar('Your password is invalid', 'Ok');
+      if (this.lan === 'zh') {
+        this.alertServ.openSnackBar('密码错误', 'Ok');
+      } else {
+        this.alertServ.openSnackBar('Your password is invalid', 'Ok');
+      }
       return;
     }
     sessionStorage.setItem('pin', this.pin);
@@ -623,7 +629,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
   buy(pinModal: TemplateRef<any>) {
     if (!this.wallet) {
-      this.alertServ.openSnackBar('please create wallet before placing order', 'ok');
+      if (this.lan === 'zh') {
+        this.alertServ.openSnackBar('请先创建钱包才能下单', 'Ok');
+      } else {
+        this.alertServ.openSnackBar('please create wallet before placing order', 'ok');
+      }
       return;
     }
     this.bidOrAsk = true;
@@ -651,11 +661,19 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
   sell(pinModal: TemplateRef<any>) {
     if (!this.wallet) {
-      this.alertServ.openSnackBar('please create wallet before placing order', 'ok');
+      if (this.lan === 'zh') {
+        this.alertServ.openSnackBar('请先创建钱包才能下单', 'Ok');
+      } else {
+        this.alertServ.openSnackBar('please create wallet before placing order', 'ok');
+      }
       return;
     }
     if (this.targetCoinAvail < this.sellQty) {
-      this.alertServ.openSnackBar('You have not enough ' + this._coinServ.getCoinNameByTypeId(this.targetCoin), 'ok');
+      if (this.lan === 'zh') {
+        this.alertServ.openSnackBar(this._coinServ.getCoinNameByTypeId(this.targetCoin) + '余额不足', 'Ok');
+      } else {
+        this.alertServ.openSnackBar('You have not enough ' + this._coinServ.getCoinNameByTypeId(this.targetCoin), 'ok');
+      }
       return;
     }
     this.bidOrAsk = false;
@@ -728,7 +746,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
       if (resp && resp.transactionHash) {
         this.kanbanService.incNonce();
-        this.alertServ.openSnackBar('Your order was placed successfully.', 'Ok');
+        if (this.lan === 'zh') {
+          this.alertServ.openSnackBar('下单成功。', 'Ok');
+        } else {
+          this.alertServ.openSnackBar('Your order was placed successfully.', 'Ok');
+        }
 
         const address = this.wallet.excoin.receiveAdds[0].address;
         this.timerServ.checkOrderStatus(address, 30);
@@ -743,7 +765,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         }
 
       } else {
-        this.alertServ.openSnackBar('Something wrong while placing your order.', 'Ok');
+        if (this.lan === 'zh') {
+          this.alertServ.openSnackBar('创建订单时发生错误, 订单提交失败。', 'Ok');
+        } else {
+          this.alertServ.openSnackBar('Error happened while placing your order.', 'Ok');
+        }
       }
     },
       error => {

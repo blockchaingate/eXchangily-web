@@ -64,7 +64,11 @@ export class RestoreWalletOldComponent implements OnInit {
 
       console.log('wallet=', wallet);
       if (!wallet) {
+        if (localStorage.getItem('Lan') === 'zh') {
+          alert('发生错误，请再试一次。');
+        } else {
           alert('Error occured, please try again.');
+        }
       } else {
           this.localSt.getItem('wallets').subscribe((wallets: Wallet[]) => {
               if (!wallets) {
@@ -79,7 +83,6 @@ export class RestoreWalletOldComponent implements OnInit {
                   this.route.navigate(['/wallet/dashboard']);
               });
           });
-
       }      
     }
 }

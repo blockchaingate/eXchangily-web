@@ -20,40 +20,40 @@ export class OrderComponent implements OnInit {
   sellOrderStatuses = ['Waiting for collect', 'Waiting for confirm', 'Finished', 'Cancelled', 'Frozened', 'All orders'];
   sellOrderButtonStatuses = ['I have collected', 'Confirm receipt'];
   currentStatus: string;
-  constructor(     
-    private router: Router,   
+  constructor(
+    private router: Router,
     private storageService: StorageService,
     private _otcServ: OtcService
   ) {
     console.log('type==', this.type);
-   }
-   getButtonText(buy: boolean, status: number) {
+  }
+  getButtonText(buy: boolean, status: number) {
     buy = !buy;
     let text = '';
-    if(buy && (status < this.buyOrderButtonStatuses.length)) {
+    if (buy && (status < this.buyOrderButtonStatuses.length)) {
       text = this.buyOrderButtonStatuses[status];
-    } else 
-    if(!buy && (status < this.sellOrderButtonStatuses.length)) {
-      text = this.sellOrderButtonStatuses[status];
-    }
-    return text;        
-   }
-   
+    } else
+      if (!buy && (status < this.sellOrderButtonStatuses.length)) {
+        text = this.sellOrderButtonStatuses[status];
+      }
+    return text;
+  }
+
   getStatusText(buy: boolean, status: number) {
     buy = !buy;
     let text = '';
-    if(buy) {
+    if (buy) {
       text = this.buyOrderStatuses[status];
     } else {
       text = this.sellOrderStatuses[status];
     }
-    return text;               
-  } 
+    return text;
+  }
 
   changePaymentStatus(element, paymentStatus) {
     this._otcServ.changePaymentStatus(this.token, element._id, paymentStatus).subscribe(
       (res: any) => {
-        if(res && res.ok) {
+        if (res && res.ok) {
           element.paymentStatus = 1;
         }
       }
@@ -67,26 +67,26 @@ export class OrderComponent implements OnInit {
 
     this.storageService.getToken().subscribe(
       (token: string) => {
-          this.token = token;
-          /*
-          this._otcServ.getOrders(this.token).subscribe(
-              (res: any) => {
-                  if(res) {
-                    const ok = res.ok;
-                    const data = res._body;
-                    if(ok) {
-                      this.orders = data;
-                    } else {
-                      if(data && data.name == 'TokenExpiredError') {
-                        this.router.navigate(['/login/signin', { 'retUrl': '/otc/order' }]);
-                      }
+        this.token = token;
+        /*
+        this._otcServ.getOrders(this.token).subscribe(
+            (res: any) => {
+                if(res) {
+                  const ok = res.ok;
+                  const data = res._body;
+                  if(ok) {
+                    this.orders = data;
+                  } else {
+                    if(data && data.name == 'TokenExpiredError') {
+                      this.router.navigate(['/login/signin', { 'retUrl': '/otc/order' }]);
                     }
                   }
-              }
-          );
-          */
+                }
+            }
+        );
+        */
       }
-  );    
+    );
 
   }
 

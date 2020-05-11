@@ -40,6 +40,7 @@ export class MainComponent implements OnInit {
   exgAddress: string;
   readyGoReasons: any;
   selectedPaymentCurrency: string;
+  lan = 'en';
 
   step: number;
   _value: number;
@@ -120,7 +121,11 @@ export class MainComponent implements OnInit {
   updateAdd() {
     console.log('this.exgAddress=', this.exgAddress);
     if (!this.exgAddress) {
-      this.alertServ.openSnackBar('EXG address not found', 'Ok');
+      if (this.lan === 'zh') {
+        this.alertServ.openSnackBar('没有EXG地址', 'Ok');
+      } else {
+        this.alertServ.openSnackBar('EXG address not found', 'Ok');
+      }
       return;
     }
     this.campaignorderServ.importEXGAddress(this.token, this.exgAddress).subscribe(
@@ -129,8 +134,11 @@ export class MainComponent implements OnInit {
         if (res.ok) {
           this.updated = true;
           this.readyGo = true;
-          this.alertServ.openSnackBar('EXG address was updated', 'Ok');
-
+          if (this.lan === 'zh') {
+            this.alertServ.openSnackBar('EXG地址已更新', 'Ok');
+          } else {
+            this.alertServ.openSnackBar('EXG address was updated', 'Ok');
+          }
         } else {
           this.router.navigate(['/login/signin', { 'retUrl': '/promotion/main' }]);
         }
@@ -162,6 +170,7 @@ export class MainComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.lan = localStorage.getItem('Lan');
     this.apiServ.getUSDValues().subscribe(
       (res: any) => {
         console.log('res for getUSDValues=', res);
@@ -434,7 +443,11 @@ export class MainComponent implements OnInit {
   async onConfirmedPin(pin: string) {
     const pinHash = this.utilServ.SHA256(pin).toString();
     if (pinHash !== this.wallet.pwdHash) {
-      this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+      if (this.lan === 'zh') {
+        this.alertServ.openSnackBar('密码错误', 'Ok');
+      } else {
+        this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+      }
       return;
     }
 
@@ -464,7 +477,11 @@ export class MainComponent implements OnInit {
       return;
     }
     if (txHex && txHash) {
-      this.alertServ.openSnackBar('your transaction was submitted successfully.', 'Ok');
+      if (this.lan === 'zh') {
+        this.alertServ.openSnackBar('交易提交成功。', 'Ok');
+      } else {
+        this.alertServ.openSnackBar('your transaction was submitted successfully.', 'Ok');
+      }
 
       console.log('amount1===', amount);
       console.log('this.quantity1===', this.quantity);
@@ -488,7 +505,6 @@ export class MainComponent implements OnInit {
       console.log('amount2===', amount);
       console.log('this.quantity2===', this.quantity);
       this.addOrder(txHash, amount, this.quantity);
-
 
     }
   }
