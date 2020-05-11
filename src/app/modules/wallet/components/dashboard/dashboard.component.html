@@ -301,6 +301,7 @@
     <add-assets-modal #addAssetsModal (confirmedAssets)="onConfirmedAssets($event)"></add-assets-modal>
     <send-coin-modal #sendCoinModal (confirmedCoinSent)="onConfirmedCoinSent($event)" [wallet]="wallet" [alertMsg]="alertMsg"></send-coin-modal>
     <show-seed-phrase-modal #showSeedPhraseModal></show-seed-phrase-modal>
+    <tools-modal  (confirmedTools)="onConfirmedTools($event)" #toolsModal></tools-modal>
     <verify-seed-phrase-modal #verifySeedPhraseModal></verify-seed-phrase-modal>
     <backup-private-key-modal #backupPrivateKeyModal (confirmedBackupPrivateKey)="onConfirmedBackupPrivateKey($event)"></backup-private-key-modal>
     <delete-wallet-modal #deleteWalletModal (confirmedDeleteWallet)="onConfirmedDeleteWallet()"></delete-wallet-modal>

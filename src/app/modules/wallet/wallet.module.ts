@@ -33,7 +33,7 @@ import { ReceiveCoinModal } from './modals/receive-coin/receive-coin.modal';
 import { DepositAmountModal } from './modals/deposit-amount/deposit-amount.modal';
 import { RedepositAmountModal } from './modals/redeposit-amount/redeposit-amount.modal';
 import { AddGasModal } from './modals/add-gas/add-gas.modal';
-
+import { ToolsModal } from './modals/tools/tools.modal';
 import { ShowSeedPhraseModal } from './modals/show-seed-phrase/show-seed-phrase.modal';
 import { VerifySeedPhraseModal } from './modals/verify-seed-phrase/verify-seed-phrase.modal';
 import { BackupPrivateKeyModal } from './modals/backup-private-key/backup-private-key.modal';
@@ -83,6 +83,7 @@ import { TransactionTypePipe } from './pipes/transaction-type.pipe';
         ShowSeedPhraseModal,
         VerifySeedPhraseModal,
         AddGasModal,
+        ToolsModal,
         BackupPrivateKeyModal,
         DeleteWalletModal,
         LoginSettingModal,

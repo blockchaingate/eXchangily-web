@@ -11,6 +11,7 @@ import { KanbanService } from '../../../../services/kanban.service';
 import { Web3Service } from '../../../../services/web3.service';
 import { Signature, Token } from '../../../../interfaces/kanban.interface';
 import { DepositAmountModal } from '../../modals/deposit-amount/deposit-amount.modal';
+import { ToolsModal } from '../../modals/tools/tools.modal';
 import { RedepositAmountModal } from '../../modals/redeposit-amount/redeposit-amount.modal';
 import { AddAssetsModal } from '../../modals/add-assets/add-assets.modal';
 import { PinNumberModal } from '../../../shared/modals/pin-number/pin-number.modal';
@@ -61,6 +62,7 @@ export class WalletDashboardComponent {
     @ViewChild('deleteWalletModal', { static: true }) deleteWalletModal: DeleteWalletModal;
     @ViewChild('loginSettingModal', { static: true }) loginSettingModal: LoginSettingModal;
     @ViewChild('displaySettingModal', { static: true }) displaySettingModal: DisplaySettingModal;
+    @ViewChild('toolsModal', { static: true }) toolsModal: ToolsModal;
 
     sendCoinForm: SendCoinForm;
     wallet: Wallet;
@@ -336,6 +338,10 @@ export class WalletDashboardComponent {
                                 this.opType = 'displaySetting';
                                 this.pinModal.show();
                             } else
+                            if (type === 'TOOLS') {
+                                this.opType = 'tools';
+                                this.toolsModal.show();
+                            } else                            
                                 if (type === 'SMART_CONTRACT') {
                                     this.route.navigate(['/smartcontract']);
                                     return;
@@ -439,6 +445,8 @@ export class WalletDashboardComponent {
                 coin.lockedBalance = balance.lockbalance;
                 updated = true;
             }
+
+            console.log('balance for coin' + coin.name + '=', balance);
         }
         if (!hasDUSD) {
             const dusdCoin = new MyCoin('DUSD');
@@ -503,7 +511,13 @@ export class WalletDashboardComponent {
 
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];
-            const balance = coin.receiveAdds[0].balance;
+            if(!coin.receiveAdds) {
+                return;
+            }
+            const balance = coin.balance;
+            if(!coin.receiveAdds || (coin.receiveAdds.length == 0)) {
+                continue;
+            }
             const address = coin.receiveAdds[0].address;
             if (coin.name === 'FAB') {
                 this.fabBalance = balance;
@@ -703,6 +717,9 @@ export class WalletDashboardComponent {
                                                 if (this.opType === 'displaySetting') {
                                                     this.displaySettingModal.show();
                                                 }
+                                                else if(this.opType === 'BTCinFAB') {
+                                                    this.btcInFab();
+                                               }
     }
 
     onConfirmedDisplayPin(pin: string) {
@@ -715,6 +732,16 @@ export class WalletDashboardComponent {
         }
         this.toggleWalletHide();
     }
+
+    onConfirmedTools(event) {
+        console.log('event-', event);
+        if(event == 'BTCinFAB') {
+            this.opType = 'BTCinFAB';
+            this.toolsModal.hide();
+            this.pinModal.show();
+        }
+    }
+
     toggleWalletHide() {
         this.wallet.hide = !this.wallet.hide;
         this.manageWallet.changeHideWallet();
@@ -749,6 +776,15 @@ export class WalletDashboardComponent {
             return;
         }
         this.backupPrivateKeyModal.show(seed, this.wallet);
+    }
+
+    btcInFab() {
+        const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
+        const coin = this.coinServ.initBTCinFAB(seed);
+        console.log('coin===', coin);
+        this.wallet.mycoins.push(coin);
+        this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);                                                    
+
     }
 
     verifySeedPhrase() {

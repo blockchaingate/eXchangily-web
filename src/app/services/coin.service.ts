@@ -11,7 +11,6 @@ import * as wif from 'wif';
 import { Web3Service } from './web3.service';
 import {Signature} from '../interfaces/kanban.interface';
 import { UtilService } from './util.service';
-import { AbiCoder } from 'web3-eth-abi';
 import { environment } from '../../environments/environment';
 import BigNumber from 'bignumber.js/bignumber';
 @Injectable()
@@ -74,6 +73,13 @@ export class CoinService {
         myCoins.push(usdtCoin);      
              
         return myCoins;
+    }
+
+    initBTCinFAB(seed: Buffer) {
+        const coin = new MyCoin('BTC');
+        coin.coinType = environment.CoinType.FAB;
+        this.fillUpAddress(coin, seed, 1, 0);
+        return coin;
     }
 
     initMyCoinsOld(seed: Buffer): MyCoin[] {
@@ -163,7 +169,7 @@ export class CoinService {
             'type': 'function'
             };
         
-        let fxnCallHex = AbiCoder.prototype.encodeFunctionCall(addDepositFunc, []);
+        let fxnCallHex = this.web3Serv.getGeneralFunctionABI(addDepositFunc, []);
         fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
         
         // console.log('fxnCallHexfxnCallHexfxnCallHexfxnCallHexfxnCallHex=', fxnCallHex);
@@ -983,7 +989,7 @@ export class CoinService {
             // console.log('foreeeee');
             console.log('amountSent=', amountSent.toFixed());
             console.log('toAddress===', toAddress);
-            let fxnCallHex = AbiCoder.prototype.encodeFunctionCall(funcTransfer, [toAddress, amountSent.toFixed()]);
+            let fxnCallHex = this.web3Serv.getGeneralFunctionABI(funcTransfer, [toAddress, amountSent.toFixed()]);
             // console.log('enddddd');
             fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
             let contractAddress = mycoin.contractAddr;
