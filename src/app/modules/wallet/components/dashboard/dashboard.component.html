@@ -20,7 +20,6 @@
                                 <div class="hide-wallet-text">
                                     {{'Your wallet is hidden' | translate }}
                                 </div>
-
                             </div>
                             <div class="small text-white" *ngIf="wallet && !wallet.hide">
                                 {{"Wallet address" | translate }}: {{fabAddress}}
@@ -199,15 +198,15 @@
 
                                         </div>
                                         <div class="col-custom-2" *ngIf="gas > 0">
-                                            <button mat-icon-button matTooltip="Deposit" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                            <button mat-icon-button matTooltip="{{'Move fund to DEX'|translate}}" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                                 <mat-icon>arrow_downward</mat-icon>
                                             </button>
                                             <!--
                                             <button mat-icon-button matTooltip="Withdraw" (click)="withdraw(mycoin)" aria-label="Example icon-button with a heart icon">
                                                 <mat-icon>arrow_upward</mat-icon>
                                             </button>
--->
-                                            <button mat-icon-button matTooltip="Redeposit" *ngIf="mycoin.redeposit && mycoin.redeposit.length > 0" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                            -->
+                                            <button mat-icon-button matTooltip="{{'Confirm move fund to DEX'|translate}}" *ngIf="mycoin.redeposit && mycoin.redeposit.length > 0" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                                 <mat-icon>vertical_align_bottom</mat-icon>
                                             </button>
                                         </div>
@@ -216,7 +215,6 @@
                                 </ng-container>
                             </div>
                         </div>
-
 
                         <div class="container fxHide-gt-sm" *ngIf="wallet">
                             <div class="row apair header">
@@ -260,8 +258,7 @@
                                     <button mat-icon-button matTooltip="Withdraw" [disabled]="gas <= 0" (click)="withdraw(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon>arrow_upward</mat-icon>
                                     </button>
--->
-
+                                    -->
                                     <button mat-icon-button matTooltip="Redeposit" *ngIf="mycoin.redeposit && mycoin.redeposit.length > 0" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon>vertical_align_bottom</mat-icon>
                                     </button>

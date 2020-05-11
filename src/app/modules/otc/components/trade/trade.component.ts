@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { StorageService } from '../../../../services/storage.service';
 import { OtcService } from '../../../../services/otc.service';
 
-
 @Component({
   selector: 'app-trade',
   templateUrl: './trade.component.html',
@@ -26,14 +25,11 @@ export class TradeComponent implements OnInit {
 
   dataSource: any;
 
-  @ViewChild('otcPlaceOrderModal', {static: true}) otcPlaceOrderModal: OtcPlaceOrderModal;
-  @ViewChild('applyForMerchantModal', {static: true}) applyForMerchantModal: ApplyForMerchantModal;
-  @ViewChild('confirmPaymentModal', {static: true}) confirmPaymentModal: ConfirmPaymentModal;
-  constructor(
-    private _router: Router,        
-    private storageService: StorageService,
-    private _otcServ: OtcService
-  ) { }
+  @ViewChild('otcPlaceOrderModal', { static: true }) otcPlaceOrderModal: OtcPlaceOrderModal;
+  @ViewChild('applyForMerchantModal', { static: true }) applyForMerchantModal: ApplyForMerchantModal;
+  @ViewChild('confirmPaymentModal', { static: true }) confirmPaymentModal: ConfirmPaymentModal;
+
+  constructor(private _router: Router, private storageService: StorageService, private _otcServ: OtcService) { }
 
   ngOnInit() {
     this.bidOrAsk = true;
@@ -43,21 +39,21 @@ export class TradeComponent implements OnInit {
     this.dataSource = [];
     this._otcServ.getPublicListings().subscribe(
       (res: any) => {
-          console.log('res from addListing=', res);
-          if(res && res.ok) {
-              this.dataSource = res._body;
-              console.log('this.dataSource===', this.dataSource);
-          }
+        console.log('res from addListing=', res);
+        if (res && res.ok) {
+          this.dataSource = res._body;
+          console.log('this.dataSource===', this.dataSource);
+        }
       }
-    );  
-    
+    );
+
     this.storageService.getToken().subscribe(
       (token: string) => {
-          this.token = token;
-          if(!this.token) {
-            this._router.navigate(['/login/signin', { 'retUrl': '/otc/trade' }]);
-          }
-      });    
+        this.token = token;
+        if (!this.token) {
+          this._router.navigate(['/login/signin', { 'retUrl': '/otc/trade' }]);
+        }
+      });
   }
 
   changeCoinName(bOrA: boolean, coin: string) {
@@ -70,24 +66,24 @@ export class TradeComponent implements OnInit {
     this.otcPlaceOrderModal.show(element);
   }
 
-  onConfirmedPlaceOrder (event) {
-    
+  onConfirmedPlaceOrder(event) {
+
     console.log('event=', event);
     this._otcServ.addOrder(this.token, this.element._id, event).subscribe(
-      (res:any) => {
+      (res: any) => {
         console.log('res for addOrder=', res);
-        if(res.ok) {
+        if (res.ok) {
           const data = res._body;
           this.element = data;
-          for(let i=0;i<this.dataSource.length;i++) {
-            if(this.dataSource[i]._id == this.element._id) {
+          for (let i = 0; i < this.dataSource.length; i++) {
+            if (this.dataSource[i]._id == this.element._id) {
               this.dataSource[i].qtyAvilable = this.element.qtyAvilable;
             }
           }
         }
       }
     );
-    
+
   }
 
   becomeMerchant() {
@@ -98,8 +94,8 @@ export class TradeComponent implements OnInit {
   placeAdv() {
 
   }
-  
-  onBecomeMerchant( event ) {
+
+  onBecomeMerchant(event) {
   }
 
   onConfirmPayment(event) {
