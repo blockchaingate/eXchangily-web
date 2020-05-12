@@ -69,6 +69,8 @@ export class WalletDashboardComponent implements OnInit {
     wallets: Wallet[];
     modalRef: BsModalRef;
     checked = true;
+    satoshisPerBytes: number;
+    toAddress: string;
     exgAddress: string;
     fabAddress: string;
     exgBalance: number;
@@ -414,6 +416,32 @@ export class WalletDashboardComponent implements OnInit {
             return;
         }
 
+        let btcAddress = '';
+        let ethAddress = '';
+        let fabAddress = '';
+        for(let i = 0; i< this.wallet.mycoins.length;i++) {
+            const coin = this.wallet.mycoins[i];
+            if(coin.name == 'BTC' && !btcAddress) {
+                btcAddress = coin.receiveAdds[0].address;
+            }
+            if(coin.name == 'ETH' && !ethAddress) {
+                ethAddress = coin.receiveAdds[0].address;
+            }  
+            if(coin.name == 'FAB' && !fabAddress) {
+                fabAddress = coin.receiveAdds[0].address;
+            }                       
+        }
+
+        const data = {
+            btcAddress: btcAddress,
+            ethAddress: ethAddress,
+            fabAddress: fabAddress
+        };
+        this.coinServ.walletBalance(data).subscribe(
+            (res: any) => {
+                
+            }
+        );
         let updated = false;
         let hasDUSD = false;
         let exgCoin;
@@ -751,8 +779,10 @@ export class WalletDashboardComponent implements OnInit {
 
     onConfirmedTools(event) {
         console.log('event-', event);
-        if(event == 'BTCinFAB') {
+        if(event.action == 'BTCinFAB') {
             this.opType = 'BTCinFAB';
+            this.toAddress = event.data;
+            this.satoshisPerBytes = event.satoshisPerBytes;
             this.toolsModal.hide();
             this.pinModal.show();
         }
@@ -802,12 +832,54 @@ export class WalletDashboardComponent implements OnInit {
         this.backupPrivateKeyModal.show(seed, this.wallet);
     }
 
-    btcInFab() {
+    async btcInFab() {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
         const coin = this.coinServ.initBTCinFAB(seed);
         console.log('coin===', coin);
+
+        const options = {
+            satoshisPerBytes: this.satoshisPerBytes ? this.satoshisPerBytes : environment.chains.BTC.satoshisPerBytes
+        };
+
+        const { txHex, txHash, errMsg } = await this.coinService.sendTransaction(coin, seed,
+            this.toAddress, 0, options, true
+        );
+        console.log('errMsg for sendcoin=', errMsg);
+        if (errMsg) {
+            this.alertServ.openSnackBar(errMsg, 'Ok');
+            return;
+        }
+        if (txHex && txHash) {
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('交易提交成功，请等一会查看结果', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('your transaction was submitted successful, please wait a while to check status.', 'Ok');
+            }
+
+            const item = {
+                walletId: this.wallet.id,
+                type: 'Send',
+                coin: coin.name,
+                tokenType: coin.tokenType,
+                amount: 0,
+                txid: txHash,
+                to: this.toAddress,
+                time: new Date(),
+                confirmations: '0',
+                blockhash: '',
+                comment: '',
+                status: 'pending'
+            };
+            console.log('before next');
+            this.timerServ.transactionStatus.next(item);
+            this.timerServ.checkTransactionStatus(item);
+            console.log('after next');
+            this.storageService.storeToTransactionHistoryList(item);
+        }        
+        /*
         this.wallet.mycoins.push(coin);
-        this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);                                                    
+        this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);    
+        */                                                
 
     }
 

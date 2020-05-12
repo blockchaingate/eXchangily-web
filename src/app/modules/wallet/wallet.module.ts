@@ -19,13 +19,12 @@ import { AddressKeyComponent } from './modals/components/address-key/address-key
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ModalModule } from 'ngx-bootstrap/modal';
-
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatListModule} from '@angular/material/list';
-
+import {MatFormFieldModule} from '@angular/material/form-field';
 import { QRCodeModule } from 'angularx-qrcode';
-
+import {MatInputModule} from '@angular/material/input';
 import { TransactionDetailModal } from './modals/transaction-detail/transaction-detail.modal';
 import { AddAssetsModal } from './modals/add-assets/add-assets.modal';
 import { SendCoinModal } from './modals/send-coin/send-coin.modal';
@@ -105,10 +104,12 @@ import { TransactionTypePipe } from './pipes/transaction-type.pipe';
         MatSlideToggleModule,
         MatMenuModule,
         MatRadioModule,
+        MatFormFieldModule,
         MatExpansionModule,
         MatGridListModule,
         MatPaginatorModule,
         SharedModule,
+        MatInputModule,
         BsDropdownModule.forRoot(),
         CollapseModule.forRoot(),
         ModalModule.forRoot(),
