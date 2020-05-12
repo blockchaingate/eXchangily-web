@@ -28,13 +28,27 @@
                           </mat-form-field>   
 
                           <button mat-raised-button color="primary" (click)="BTCinFAB()">{{'Send' | translate}}</button>
-                      <!--
-                          <mat-form-field>
-                            <mat-label>Age</mat-label>
-                            <input matInput type="number" min="1">
-                          </mat-form-field>
-                          -->
                         </mat-expansion-panel>
+
+
+                        <mat-expansion-panel>
+                          <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{'Address transformer' | translate }}
+                            </mat-panel-title>
+                          </mat-expansion-panel-header>
+                          
+                          <mat-form-field class="example-full-width">
+                            <mat-label>{{'FAB address' | translate}}</mat-label>
+                            <input name="to" [(ngModel)]="fabAddress" matInput>
+                          </mat-form-field>
+
+                          <mat-form-field class="example-full-width">
+                            <mat-label>{{'EXG address' | translate}}</mat-label>
+                            <input name="satoshisPerBytes" [(ngModel)]="exgAddress" matInput>
+                          </mat-form-field>   
+
+                        </mat-expansion-panel>                        
                       </mat-accordion>
                     <!--
                     <div class="text-center">
