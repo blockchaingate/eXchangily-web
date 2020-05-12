@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { MyCoin } from '../models/mycoin';
-// import * as createHash from 'create-hash';
+import * as createHash from 'create-hash';
 import BigNumber from 'bignumber.js/bignumber';
 import * as Btc from 'bitcoinjs-lib';
 import * as bs58 from 'bs58';
+import { environment } from 'src/environments/environment';
 @Injectable()
 export class UtilService {
     auth_code = 'encrypted by crypto-js|';
@@ -235,9 +236,34 @@ export class UtilService {
     fabToExgAddress(address: string) {
         const bytes = bs58.decode(address);
         const addressInWallet = bytes.toString('hex');
+        console.log('addressInWallet==', addressInWallet);
         return '0x' + addressInWallet.substring(2, 42);
     }
     
+    exgToFabAddress(address: string) {
+
+
+
+        var prefix = '6f';
+        if (environment.production) {
+          prefix = '00';
+        }
+        address = prefix + this.stripHexPrefix(address);
+
+        var buf = Buffer.from(address, 'hex');
+
+        const hash1 = createHash('sha256').update(buf).digest().toString('hex');
+        const hash2 = createHash('sha256').update(Buffer.from(hash1, 'hex')).digest().toString('hex');
+
+        buf = Buffer.from(address + hash2.substring(0,8), 'hex');
+        address = bs58.encode(buf);
+
+        return address;
+
+
+
+    }
+
     toKanbanAddress(publicKey: Buffer) {
 
         // publicKey = this.stripHexPrefix(publicKey);

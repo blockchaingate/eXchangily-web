@@ -69,6 +69,8 @@ export class WalletDashboardComponent implements OnInit {
     wallets: Wallet[];
     modalRef: BsModalRef;
     checked = true;
+    satoshisPerBytes: number;
+    toAddress: string;
     exgAddress: string;
     fabAddress: string;
     exgBalance: number;
@@ -114,13 +116,11 @@ export class WalletDashboardComponent implements OnInit {
         this.currentCurrency = name;
         if (name === 'USD') {
             this.currencyRate = 1;
-        } else
-            if (name === 'CAD') {
-                this.currencyRate = 1.31;
-            } else
-                if (name === 'RMB') {
-                    this.currencyRate = 7.07;
-                }
+        } else if (name === 'CAD') {
+            this.currencyRate = 1.31;
+        } else if (name === 'RMB') {
+            this.currencyRate = 7.07;
+        }
     }
     async updateCoinBalance(coinName: string) {
         // console.log('coinName=' + coinName);
@@ -406,6 +406,32 @@ export class WalletDashboardComponent implements OnInit {
             return;
         }
 
+        let btcAddress = '';
+        let ethAddress = '';
+        let fabAddress = '';
+        for (let i = 0; i < this.wallet.mycoins.length; i++) {
+            const coin = this.wallet.mycoins[i];
+            if (coin.name == 'BTC' && !btcAddress) {
+                btcAddress = coin.receiveAdds[0].address;
+            }
+            if (coin.name == 'ETH' && !ethAddress) {
+                ethAddress = coin.receiveAdds[0].address;
+            }
+            if (coin.name == 'FAB' && !fabAddress) {
+                fabAddress = coin.receiveAdds[0].address;
+            }
+        }
+
+        const data = {
+            btcAddress: btcAddress,
+            ethAddress: ethAddress,
+            fabAddress: fabAddress
+        };
+        this.coinServ.walletBalance(data).subscribe(
+            (res: any) => {
+
+            }
+        );
         let updated = false;
         let hasDUSD = false;
         let exgCoin;
@@ -510,10 +536,9 @@ export class WalletDashboardComponent implements OnInit {
             if (coin.name === 'FAB') {
                 this.fabBalance = balance;
                 this.fabAddress = address;
-            } else
-                if (coin.name === 'ETH') {
-                    this.ethBalance = balance;
-                }
+            } else if (coin.name === 'ETH') {
+                this.ethBalance = balance;
+            }
         }
         // console.log('this.wallet=', this.wallet);
         this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
@@ -691,40 +716,29 @@ export class WalletDashboardComponent implements OnInit {
         }
         if (this.opType === 'deposit') {
             this.depositdo();
-        } else
-            if (this.opType === 'redeposit') {
-                this.redepositdo();
-            } else
-                if (this.opType === 'redeposit') {
-                    this.redepositdo();
-                } else
-                    if (this.opType === 'addGas') {
-                        this.addGasDo();
-                    } else
-                        if (this.opType === 'sendCoin') {
-                            this.sendCoinDo();
-                        } else
-                            if (this.opType === 'showSeedPhrase') {
-                                this.showSeedPhrase();
-                            } else
-                                if (this.opType === 'verifySeedPhrase') {
-                                    this.verifySeedPhrase();
-                                } else
-                                    if (this.opType === 'backupPrivateKey') {
-                                        this.backupPrivateKey();
-                                    } else
-                                        if (this.opType === 'deleteWallet') {
-                                            this.deleteWalletModal.show();
-                                        } else
-                                            if (this.opType === 'loginSetting') {
-                                                this.loginSettingModal.show();
-                                            } else
-                                                if (this.opType === 'displaySetting') {
-                                                    this.displaySettingModal.show();
-                                                }
-                                                else if (this.opType === 'BTCinFAB') {
-                                                    this.btcInFab();
-                                                }
+        } else if (this.opType === 'redeposit') {
+            this.redepositdo();
+        } else if (this.opType === 'redeposit') {
+            this.redepositdo();
+        } else if (this.opType === 'addGas') {
+            this.addGasDo();
+        } else if (this.opType === 'sendCoin') {
+            this.sendCoinDo();
+        } else if (this.opType === 'showSeedPhrase') {
+            this.showSeedPhrase();
+        } else if (this.opType === 'verifySeedPhrase') {
+            this.verifySeedPhrase();
+        } else if (this.opType === 'backupPrivateKey') {
+            this.backupPrivateKey();
+        } else if (this.opType === 'deleteWallet') {
+            this.deleteWalletModal.show();
+        } else if (this.opType === 'loginSetting') {
+            this.loginSettingModal.show();
+        } else if (this.opType === 'displaySetting') {
+            this.displaySettingModal.show();
+        } else if (this.opType === 'BTCinFAB') {
+            this.btcInFab();
+        }
     }
 
     onConfirmedDisplayPin(pin: string) {
@@ -740,8 +754,10 @@ export class WalletDashboardComponent implements OnInit {
 
     onConfirmedTools(event) {
         console.log('event-', event);
-        if (event == 'BTCinFAB') {
+        if (event.action === 'BTCinFAB') {
             this.opType = 'BTCinFAB';
+            this.toAddress = event.data;
+            this.satoshisPerBytes = event.satoshisPerBytes;
             this.toolsModal.hide();
             this.pinModal.show();
         }
@@ -791,13 +807,54 @@ export class WalletDashboardComponent implements OnInit {
         this.backupPrivateKeyModal.show(seed, this.wallet);
     }
 
-    btcInFab() {
+    async btcInFab() {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
         const coin = this.coinServ.initBTCinFAB(seed);
         console.log('coin===', coin);
-        this.wallet.mycoins.push(coin);
-        this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
 
+        const options = {
+            satoshisPerBytes: this.satoshisPerBytes ? this.satoshisPerBytes : environment.chains.BTC.satoshisPerBytes
+        };
+
+        const { txHex, txHash, errMsg } = await this.coinService.sendTransaction(coin, seed,
+            this.toAddress, 0, options, true
+        );
+        console.log('errMsg for sendcoin=', errMsg);
+        if (errMsg) {
+            this.alertServ.openSnackBar(errMsg, 'Ok');
+            return;
+        }
+        if (txHex && txHash) {
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('交易提交成功，请等一会查看结果', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('your transaction was submitted successful, please wait a while to check status.', 'Ok');
+            }
+
+            const item = {
+                walletId: this.wallet.id,
+                type: 'Send',
+                coin: coin.name,
+                tokenType: coin.tokenType,
+                amount: 0,
+                txid: txHash,
+                to: this.toAddress,
+                time: new Date(),
+                confirmations: '0',
+                blockhash: '',
+                comment: '',
+                status: 'pending'
+            };
+            console.log('before next');
+            this.timerServ.transactionStatus.next(item);
+            this.timerServ.checkTransactionStatus(item);
+            console.log('after next');
+            this.storageService.storeToTransactionHistoryList(item);
+        }
+        /*
+        this.wallet.mycoins.push(coin);
+        this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);    
+        */
     }
 
     verifySeedPhrase() {
@@ -1062,10 +1119,9 @@ export class WalletDashboardComponent implements OnInit {
                 }
                 if (error.message) {
                     message = error.message;
-                } else
-                    if (error.error && error.error.message) {
-                        message = error.error.message;
-                    }
+                } else if (error.error && error.error.message) {
+                    message = error.error.message;
+                }
                 this.alertServ.openSnackBar(error.error.message, 'ok');
             });
     }
@@ -1180,10 +1236,9 @@ export class WalletDashboardComponent implements OnInit {
                 } else {
                     this.alertServ.openSnackBar('Moving fund to DEX submitted successfully.', 'Ok');
                 }
-            } else
-                if (resp.error) {
-                    this.alertServ.openSnackBar(resp.error, 'Ok');
-                }
+            } else if (resp.error) {
+                this.alertServ.openSnackBar(resp.error, 'Ok');
+            }
         },
             error => {
                 console.log('error====');
