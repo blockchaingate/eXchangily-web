@@ -32,7 +32,6 @@ export class HeaderComponent implements OnInit {
   constructor(private translate: TranslateService, private router: Router, private alertServ: AlertService,
     public utilServ: UtilService, private kanbanServ: KanbanService, private timerServ: TimerService,
     private location: Location, private storageServ: StorageService, private apiServ: ApiService, private _userAuth: UserAuth) { }
-    
   
   ngOnInit() {
     this.testMode = true;
