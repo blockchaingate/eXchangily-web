@@ -1,0 +1,30 @@
+<div bsModal #memberModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-bg-grey">
+        <form>
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 text-dark">{{'Members' | translate }}</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">{{'Email' | translate}}</th>
+                            <th scope="col">{{'Level' | translate}}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let member of members">
+                            <td>{{member.email}}</td>
+                            <td>{{member.level}}</td>
+                          </tr>
+                        </tbody>
+                      </table>       
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
