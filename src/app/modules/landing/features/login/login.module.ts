@@ -15,7 +15,7 @@ import { ActivateComponent } from './activate/activate.component';
 import { NoAuthGuard } from '../../guards/no-auth/no-auth.guard';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { WalletService } from '../.../../../../../services/wallet.service';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { StorageService } from '../../../../services/storage.service';
 
 // import { UserService } from '../../service/user/user.service';
@@ -34,6 +34,6 @@ import { StorageService } from '../../../../services/storage.service';
     StorageService,
     WalletService
   ],
-  declarations: [LoginComponent, SignupComponent, SigninComponent, ResetComponent, ActivateComponent, ChangePasswordComponent, ]
+  declarations: [LoginComponent, SignupComponent, SigninComponent, ResetComponent, ActivateComponent, ChangePasswordComponent,]
 })
 export class LoginModule { }

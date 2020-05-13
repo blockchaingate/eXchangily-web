@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {
-    KanbanGetBanalceResponse, KanbanNonceResponse, DepositStatusResp} from '../interfaces/kanban.interface';
+import { KanbanGetBanalceResponse, KanbanNonceResponse, DepositStatusResp } from '../interfaces/kanban.interface';
 import { environment } from '../../environments/environment';
 import { UtilService } from './util.service';
-import {TransactionReceiptResp} from '../interfaces/kanban.interface';
+import { TransactionReceiptResp } from '../interfaces/kanban.interface';
+
 @Injectable()
 export class KanbanService {
-// getCoinPoolAddress
-// getExchangeAddress
+    // getCoinPoolAddress
+    // getExchangeAddress
     nonce: number;
     endpoint = environment.endpoints.kanban;
-   
-    constructor(private http: HttpClient, private utilServ: UtilService) { this.nonce = 0 }
+
+    constructor(private http: HttpClient, private utilServ: UtilService) { this.nonce = 0; }
 
     async getCoinPoolAddress() {
         const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
@@ -20,10 +20,10 @@ export class KanbanService {
         path = this.endpoint + path;
         let addr = '';
         try {
-            addr = await this.http.get(path, { headers, responseType: 'text'}).toPromise() as string;
+            addr = await this.http.get(path, { headers, responseType: 'text' }).toPromise() as string;
         } catch (e) {
         }
-        
+
         return addr;
     }
 
@@ -34,7 +34,7 @@ export class KanbanService {
     }
 
     getBlock(blockNumber: string) {
-        const path = 'kanban/getBlock/' + blockNumber; 
+        const path = 'kanban/getBlock/' + blockNumber;
         // console.log('path for getBlock=' + path);
         const res = this.get(path);
         return res;
@@ -57,25 +57,24 @@ export class KanbanService {
         if (block) {
 
         } else
-        if (address) {
-            path = environment.endpoints.kanban + 'kanban/explorer/getaddresstxsall/' + address;
+            if (address) {
+                path = environment.endpoints.kanban + 'kanban/explorer/getaddresstxsall/' + address;
 
-        } else {
-            path = environment.endpoints.kanban + 'kanban/explorer/transactions/' + num;
-        }
-        
+            } else {
+                path = environment.endpoints.kanban + 'kanban/explorer/transactions/' + num;
+            }
+
         // console.log('path in getLatestTransactions=' + path);
         const res = this.http.get(path);
         return res;
     }
-    
+
     getTransactions(blockNum: number, num: number) {
         const path = environment.endpoints.kanban + 'kanban/explorer/transactions/' + blockNum + '/' + num;
         const res = this.http.get(path);
         return res;
     }
 
-    
     async getTransactionCount(address: string) {
         return this.getNonce(address);
         /*
@@ -89,18 +88,18 @@ export class KanbanService {
     async getPendingNonce(address: string) {
         const path = 'kanban/explorer/getnonce/' + address + '/pending';
         const res = await this.get(path).toPromise() as KanbanNonceResponse;
-        return res.nonce;        
+        return res.nonce;
     }
 
     async getLatestNonce(address: string) {
         const path = 'kanban/explorer/getnonce/' + address + '/latest';
         const res = await this.get(path).toPromise() as KanbanNonceResponse;
-        return res.nonce;        
+        return res.nonce;
     }
 
     async getNonce(address: string) {
         let nonce = this.nonce;
-        if(!nonce || (nonce == 0)) {
+        if (!nonce || (nonce == 0)) {
             nonce = await this.getLatestNonce(address);
             this.nonce = nonce;
         }
@@ -109,7 +108,7 @@ export class KanbanService {
     }
 
     incNonce() {
-        this.nonce ++;
+        this.nonce++;
     }
 
     getOrdersByAddress(address: string) {
@@ -123,16 +122,16 @@ export class KanbanService {
     async getExchangeAddress() {
         const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
         let path = 'exchangily/getExchangeAddress';
-        path = this.endpoint + path;  
-        const addr = await this.http.get(path, { headers, responseType: 'text'}).toPromise() as string;
+        path = this.endpoint + path;
+        const addr = await this.http.get(path, { headers, responseType: 'text' }).toPromise() as string;
         return addr;
     }
 
     async getScarAddress() {
         const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
         let path = 'kanban/getScarAddress';
-        path = this.endpoint + path;  
-        const addr = await this.http.get(path, { headers, responseType: 'text'}).toPromise() as string;
+        path = this.endpoint + path;
+        const addr = await this.http.get(path, { headers, responseType: 'text' }).toPromise() as string;
         return addr;
     }
 
@@ -148,12 +147,12 @@ export class KanbanService {
             'rawKanbanTransaction': rawKanbanTransaction
         };
         const httpHeaders = new HttpHeaders({
-            'Content-Type' : 'application/json',
+            'Content-Type': 'application/json',
             'Cache-Control': 'no-cache'
-       });   
-       const options = {
-        headers: httpHeaders
-        };    
+        });
+        const options = {
+            headers: httpHeaders
+        };
         // console.log('data for resubmitDeposit=', data);       
         const path = this.endpoint + 'resubmitDeposit';
         return this.http.post(path, data, options);
@@ -165,15 +164,15 @@ export class KanbanService {
             'rawKanbanTransaction': rawKanbanTransaction
         };
         const httpHeaders = new HttpHeaders({
-            'Content-Type' : 'application/json',
+            'Content-Type': 'application/json',
             'Cache-Control': 'no-cache'
-       });   
-       const options = {
-        headers: httpHeaders
-        };    
+        });
+        const options = {
+            headers: httpHeaders
+        };
         // console.log('data for submitDeposit=', data);       
         const path = this.endpoint + 'submitDeposit';
-        return this.http.post(path, data, options);        
+        return this.http.post(path, data, options);
     }
 
     getBalance(address: string) {
@@ -190,8 +189,8 @@ export class KanbanService {
             // gas = Number(BigInt(ret.balance.FAB).toString(10)) / 1e18;
 
             const fab = this.utilServ.stripHexPrefix(ret.balance.FAB);
-            gas = this.utilServ.hexToDec(fab) / 1e18;            
-        } catch (e) {}
+            gas = this.utilServ.hexToDec(fab) / 1e18;
+        } catch (e) { }
         return gas;
     }
 
@@ -207,20 +206,20 @@ export class KanbanService {
         return this.get(path);
     }
 
-    post (path: string, data: any) {
+    post(path: string, data: any) {
         const httpHeaders = new HttpHeaders({
-            'Content-Type' : 'application/json',
+            'Content-Type': 'application/json',
             'Cache-Control': 'no-cache'
-       });   
-       const options = {
-        headers: httpHeaders
-        };           
+        });
+        const options = {
+            headers: httpHeaders
+        };
         path = this.endpoint + path;
         // console.log('path=' + path);
         // console.log(data);
         return this.http.post(path, data, options);
     }
-    get (path: string) {
+    get(path: string) {
         path = this.endpoint + path;
         return this.http.get(path);
     }
@@ -232,10 +231,10 @@ export class KanbanService {
     getWithdrawTransactions(address: string) {
         return this.get('withdrawrequestsbyaddress/' + address);
     }
-    
+
     async getDepositStatus(txid: string) {
         let response = null;
-        let status = 'pending';   
+        let status = 'pending';
         if (!txid) {
             return 'undefined';
         }
@@ -245,17 +244,15 @@ export class KanbanService {
                 console.log('rensponse.code=', response.code);
                 if (response.code === 0) {
                     status = 'confirmed';
-                } else 
-                if (response.code === 2) {
+                } else if (response.code === 2) {
                     status = 'failed';
-                } else
-                if (response.code === 3) {
+                } else if (response.code === 3) {
                     status = 'claim';
                 }
             }
 
-        } catch (e) { }        
-        return status; 
+        } catch (e) { }
+        return status;
     }
 
     async getTransactionStatus(txid: string) {
@@ -268,11 +265,11 @@ export class KanbanService {
             if (response && response.transactionReceipt && response.transactionReceipt.status === '0x1') {
                 status = 'confirmed';
             }
-        } catch (e) {console.log (e); }
+        } catch (e) { console.log(e); }
 
-        return status;         
+        return status;
     }
-    
+
     getTransactionStatusSync(txid: string) {
         return this.get('kanban/getTransactionReceipt/' + txid);
     }
