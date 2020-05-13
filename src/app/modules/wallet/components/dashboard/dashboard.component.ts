@@ -116,13 +116,11 @@ export class WalletDashboardComponent implements OnInit {
         this.currentCurrency = name;
         if (name === 'USD') {
             this.currencyRate = 1;
-        } else
-            if (name === 'CAD') {
-                this.currencyRate = 1.31;
-            } else
-                if (name === 'RMB') {
-                    this.currencyRate = 7.07;
-                }
+        } else if (name === 'CAD') {
+            this.currencyRate = 1.31;
+        } else if (name === 'RMB') {
+            this.currencyRate = 7.07;
+        }
     }
     async updateCoinBalance(coinName: string) {
         // console.log('coinName=' + coinName);
@@ -320,43 +318,35 @@ export class WalletDashboardComponent implements OnInit {
         if (type === 'SHOW_SEED_PHRASE') {
             this.opType = 'showSeedPhrase';
             this.pinModal.show();
-        } else
-            if (type === 'VERIFY_SEED_PHRASE') {
-                this.opType = 'verifySeedPhrase';
-                this.pinModal.show();
-            } else
-                if (type === 'BACKUP_PRIVATE_KEY') {
-                    this.opType = 'backupPrivateKey';
-                    this.pinModal.show();
-                } else
-                    if (type === 'DELETE_WALLET') {
-                        this.opType = 'deleteWallet';
-                        this.pinModal.show();
-                    } else
-                        if (type === 'LOGIN_SETTING') {
-                            this.opType = 'loginSetting';
-                            this.pinModal.show();
-                        } else
-                            if (type === 'DISPLAY_SETTING') {
-                                this.opType = 'displaySetting';
-                                this.pinModal.show();
-                            } else
-                            if (type === 'TOOLS') {
-                                this.opType = 'tools';
-                                this.toolsModal.show();
-                            } else                            
-                                if (type === 'SMART_CONTRACT') {
-                                    this.route.navigate(['/smartcontract']);
-                                    return;
-                                } else
-                                    if (type === 'HIDE_SHOW_WALLET') {
-                                        if (this.wallet.hide) {
-                                            this.opType = 'showWallet';
-                                            this.displayPinModal.show();
-                                        } else {
-                                            this.toggleWalletHide();
-                                        }
-                                    }
+        } else if (type === 'VERIFY_SEED_PHRASE') {
+            this.opType = 'verifySeedPhrase';
+            this.pinModal.show();
+        } else if (type === 'BACKUP_PRIVATE_KEY') {
+            this.opType = 'backupPrivateKey';
+            this.pinModal.show();
+        } else if (type === 'DELETE_WALLET') {
+            this.opType = 'deleteWallet';
+            this.pinModal.show();
+        } else if (type === 'LOGIN_SETTING') {
+            this.opType = 'loginSetting';
+            this.pinModal.show();
+        } else if (type === 'DISPLAY_SETTING') {
+            this.opType = 'displaySetting';
+            this.pinModal.show();
+        } else if (type === 'TOOLS') {
+            this.opType = 'tools';
+            this.toolsModal.show();
+        } else if (type === 'SMART_CONTRACT') {
+            this.route.navigate(['/smartcontract']);
+            return;
+        } else if (type === 'HIDE_SHOW_WALLET') {
+            if (this.wallet.hide) {
+                this.opType = 'showWallet';
+                this.displayPinModal.show();
+            } else {
+                this.toggleWalletHide();
+            }
+        }
     }
 
     onShowTransactionHistory() {
@@ -419,17 +409,17 @@ export class WalletDashboardComponent implements OnInit {
         let btcAddress = '';
         let ethAddress = '';
         let fabAddress = '';
-        for(let i = 0; i< this.wallet.mycoins.length;i++) {
+        for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];
-            if(coin.name == 'BTC' && !btcAddress) {
+            if (coin.name == 'BTC' && !btcAddress) {
                 btcAddress = coin.receiveAdds[0].address;
             }
-            if(coin.name == 'ETH' && !ethAddress) {
+            if (coin.name == 'ETH' && !ethAddress) {
                 ethAddress = coin.receiveAdds[0].address;
-            }  
-            if(coin.name == 'FAB' && !fabAddress) {
+            }
+            if (coin.name == 'FAB' && !fabAddress) {
                 fabAddress = coin.receiveAdds[0].address;
-            }                       
+            }
         }
 
         const data = {
@@ -439,7 +429,7 @@ export class WalletDashboardComponent implements OnInit {
         };
         this.coinServ.walletBalance(data).subscribe(
             (res: any) => {
-                
+
             }
         );
         let updated = false;
@@ -451,17 +441,14 @@ export class WalletDashboardComponent implements OnInit {
             const balance = await this.coinServ.getBalance(coin);
             if (coin.name === 'DUSD') {
                 hasDUSD = true;
-            } else
-                if (coin.name === 'EXG') {
-                    exgCoin = coin;
-                } else
-                    if (coin.name === 'FAB') {
-                        fabCoin = coin;
-                        this.fabBalance = balance.balance;
-                    } else
-                        if (coin.name === 'ETH') {
-                            this.ethBalance = balance.balance;
-                        }
+            } else if (coin.name === 'EXG') {
+                exgCoin = coin;
+            } else if (coin.name === 'FAB') {
+                fabCoin = coin;
+                this.fabBalance = balance.balance;
+            } else if (coin.name === 'ETH') {
+                this.ethBalance = balance.balance;
+            }
 
             if (coin.balance !== balance.balance || coin.lockedBalance !== balance.lockbalance) {
                 /*
@@ -538,21 +525,20 @@ export class WalletDashboardComponent implements OnInit {
 
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];
-            if(!coin.receiveAdds) {
+            if (!coin.receiveAdds) {
                 return;
             }
             const balance = coin.balance;
-            if(!coin.receiveAdds || (coin.receiveAdds.length == 0)) {
+            if (!coin.receiveAdds || (coin.receiveAdds.length == 0)) {
                 continue;
             }
             const address = coin.receiveAdds[0].address;
             if (coin.name === 'FAB') {
                 this.fabBalance = balance;
                 this.fabAddress = address;
-            } else
-                if (coin.name === 'ETH') {
-                    this.ethBalance = balance;
-                }
+            } else if (coin.name === 'ETH') {
+                this.ethBalance = balance;
+            }
         }
         // console.log('this.wallet=', this.wallet);
         this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
@@ -730,40 +716,29 @@ export class WalletDashboardComponent implements OnInit {
         }
         if (this.opType === 'deposit') {
             this.depositdo();
-        } else
-            if (this.opType === 'redeposit') {
-                this.redepositdo();
-            } else
-                if (this.opType === 'redeposit') {
-                    this.redepositdo();
-                } else
-                    if (this.opType === 'addGas') {
-                        this.addGasDo();
-                    } else
-                        if (this.opType === 'sendCoin') {
-                            this.sendCoinDo();
-                        } else
-                            if (this.opType === 'showSeedPhrase') {
-                                this.showSeedPhrase();
-                            } else
-                                if (this.opType === 'verifySeedPhrase') {
-                                    this.verifySeedPhrase();
-                                } else
-                                    if (this.opType === 'backupPrivateKey') {
-                                        this.backupPrivateKey();
-                                    } else
-                                        if (this.opType === 'deleteWallet') {
-                                            this.deleteWalletModal.show();
-                                        } else
-                                            if (this.opType === 'loginSetting') {
-                                                this.loginSettingModal.show();
-                                            } else
-                                                if (this.opType === 'displaySetting') {
-                                                    this.displaySettingModal.show();
-                                                }
-                                                else if(this.opType === 'BTCinFAB') {
-                                                    this.btcInFab();
-                                               }
+        } else if (this.opType === 'redeposit') {
+            this.redepositdo();
+        } else if (this.opType === 'redeposit') {
+            this.redepositdo();
+        } else if (this.opType === 'addGas') {
+            this.addGasDo();
+        } else if (this.opType === 'sendCoin') {
+            this.sendCoinDo();
+        } else if (this.opType === 'showSeedPhrase') {
+            this.showSeedPhrase();
+        } else if (this.opType === 'verifySeedPhrase') {
+            this.verifySeedPhrase();
+        } else if (this.opType === 'backupPrivateKey') {
+            this.backupPrivateKey();
+        } else if (this.opType === 'deleteWallet') {
+            this.deleteWalletModal.show();
+        } else if (this.opType === 'loginSetting') {
+            this.loginSettingModal.show();
+        } else if (this.opType === 'displaySetting') {
+            this.displaySettingModal.show();
+        } else if (this.opType === 'BTCinFAB') {
+            this.btcInFab();
+        }
     }
 
     onConfirmedDisplayPin(pin: string) {
@@ -779,7 +754,7 @@ export class WalletDashboardComponent implements OnInit {
 
     onConfirmedTools(event) {
         console.log('event-', event);
-        if(event.action == 'BTCinFAB') {
+        if (event.action === 'BTCinFAB') {
             this.opType = 'BTCinFAB';
             this.toAddress = event.data;
             this.satoshisPerBytes = event.satoshisPerBytes;
@@ -875,12 +850,11 @@ export class WalletDashboardComponent implements OnInit {
             this.timerServ.checkTransactionStatus(item);
             console.log('after next');
             this.storageService.storeToTransactionHistoryList(item);
-        }        
+        }
         /*
         this.wallet.mycoins.push(coin);
         this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);    
-        */                                                
-
+        */
     }
 
     verifySeedPhrase() {
@@ -1145,10 +1119,9 @@ export class WalletDashboardComponent implements OnInit {
                 }
                 if (error.message) {
                     message = error.message;
-                } else
-                    if (error.error && error.error.message) {
-                        message = error.error.message;
-                    }
+                } else if (error.error && error.error.message) {
+                    message = error.error.message;
+                }
                 this.alertServ.openSnackBar(error.error.message, 'ok');
             });
     }
@@ -1263,10 +1236,9 @@ export class WalletDashboardComponent implements OnInit {
                 } else {
                     this.alertServ.openSnackBar('Moving fund to DEX submitted successfully.', 'Ok');
                 }
-            } else
-                if (resp.error) {
-                    this.alertServ.openSnackBar(resp.error, 'Ok');
-                }
+            } else if (resp.error) {
+                this.alertServ.openSnackBar(resp.error, 'Ok');
+            }
         },
             error => {
                 console.log('error====');
