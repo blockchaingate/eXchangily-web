@@ -22,7 +22,10 @@
     },
     "Home": {
         "Top": {
-            "Hero": "一个快速、安全、易用且资产完全自主控制的去中心化交易平台",
+            "Hero": {
+                "Line1": "亿币高性能去中心化数字货币交易所",
+                "Line2": "一个安全、自主、快速、易用的去中心化交易平台."
+            },
             "WhitepaperButton": "下载白皮书",
             "WhitelistCTA": {
                 "Button": "赞"
@@ -592,7 +595,7 @@
     "Level": "级别",
     "level 1": "一级",
     "level 2": "二级",
-    "level 3": "三级",    
+    "level 3": "三级",
     "Community announcement": "社区公告",
     "Wallet security": "钱包安全",
     "About Us": "关于亿币eXchangily",

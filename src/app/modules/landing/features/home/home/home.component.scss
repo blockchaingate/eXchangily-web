@@ -1,142 +1,126 @@
 @import 'colours';
 @import 'sizing';
+h1,
+h2,
+h3,
+h4 {
+    font-family: helvetica, arial, tahoma, verdana, "geneva", lucida, 'lucida grande', "SimHei", "微软雅黑", "Yahei", sans-serif!important;
+}
 
 .app-home {
-
-  &__paragraph {
-    margin: 1em auto;
-    max-width: 35em;
-  }
-
-  &__section {
-    @include padding-default;
-  }
-
-  &__hero {
-    @include linear-gradient(110deg, $yellow-purple-grad);
-    margin-bottom: 2em;
-    min-height: 35em;
-    width: 100%;
-
-    &__content {
-      @include padding-default;
-    }
-
-    &-text {
-      height: 15em;
-
-      @include mobile {
-        height: 10em;
-      }
-    }
-
-    &__title {
-      color: $white;
-      margin-top: 2em;
-      margin-bottom: 0;
-    }
-    &__title2 {
-      color: $white;
-      margin-bottom: 2em;
-    }
-
-    &__download {
-      margin: 2em;
-    }
-    &__whitelist button {
-      margin-left: .5em;
-    }
-  }
-
-  &__concept {
-
-    &__image {
-      max-height: 25em;
-      max-width: 45em;
-      width: 100%;
-    }
-    img {
-      -webkit-box-shadow: 2px 0px 25px 1px rgba(184,184,184,1);
-      -moz-box-shadow: 2px 0px 25px 1px rgba(184,184,184,1);
-      box-shadow: 2px 0px 25px 1px rgba(184,184,184,1);
-
-      max-height: inherit;
-      width: 100%;
-    }
-
     &__paragraph {
-      color: $grey-light;
-      font-size: .5em;
-      text-align: right;
-      width: 100%;
+        margin: 1em auto;
+        max-width: 35em;
     }
-  }
-
-  &__overview {
-    &__title {
-      display: block;
-      height: 2em;
-      margin: 0 auto 1.5em auto;
-      position: relative;
-      width: 11em;
-
-      // &:before {
-        //   background-color: $primary;
-        //   bottom: 0;
-        //   content: '';
-        //   height: .17em;
-        //   left: 1.5em;
-        //   position: absolute;
-        //   width: calc(100% - 3.4em);
-      // }
+    &__section {
+        @include padding-default;
     }
-  }
-
-  &__how {
-    @include padding-default;
-    @include linear-gradient(90deg, $yellow-pink-grad);
-  }
-
-  &__why {
-    &__image {
-      // background-image: url('/images/decal/map.svg');
-      // background-position: center;
-      // background-repeat: no-repeat;
-      // background-size: cover;
-      margin-bottom: 6.5em;
-      max-height: 30em;
-      width: 100%;
-
-      img {
-        max-height: inherit;
+    &__hero {
+        margin-bottom: 2em;
+        min-height: 12em;
         width: 100%;
-      }
+        &__content {
+            @include padding-default;
+        }
+        &-text {
+            height: 8em;
+            @include mobile {
+                height: 4em;
+            }
+        }
+        &__title {
+            color: $white;
+            margin-top: 1em;
+            margin-bottom: 0;
+        }
+        &__title2 {
+            color: $white;
+            margin-bottom: 1em;
+        }
+        &__download {
+            margin: 2em;
+        }
+        &__whitelist button {
+            margin-left: .5em;
+        }
     }
-  }
-
-  &__compare {
-    background-color: $grey-section;
-
-    h2 {
-      margin-top: 2em;
+    &__concept {
+        &__image {
+            max-height: 25em;
+            max-width: 45em;
+            width: 100%;
+        }
+        img {
+            -webkit-box-shadow: 2px 0px 25px 1px rgba(184, 184, 184, 1);
+            -moz-box-shadow: 2px 0px 25px 1px rgba(184, 184, 184, 1);
+            box-shadow: 2px 0px 25px 1px rgba(184, 184, 184, 1);
+            max-height: inherit;
+            width: 100%;
+        }
+        &__paragraph {
+            color: $grey-light;
+            font-size: .5em;
+            text-align: right;
+            width: 100%;
+        }
     }
-
-    &__image {
-      // background-image: url('/images/decal/comparison_table.svg');
-      // background-position: center;
-      // background-repeat: no-repeat;
-      // background-size: contain;
-      max-height: 60em;
-      width: 100%;
-
-      img {
-        max-height: inherit;
-        width: 100%;
-      }
+    &__overview {
+        &__title {
+            display: block;
+            height: 2em;
+            margin: 0 auto 1.5em auto;
+            position: relative;
+            width: 11em;
+            // &:before {
+            //   background-color: $primary;
+            //   bottom: 0;
+            //   content: '';
+            //   height: .17em;
+            //   left: 1.5em;
+            //   position: absolute;
+            //   width: calc(100% - 3.4em);
+            // }
+        }
     }
-  }
+    &__how {
+        @include padding-default;
+        @include linear-gradient(90deg, $yellow-pink-grad);
+    }
+    &__why {
+        &__image {
+            // background-image: url('/images/decal/map.svg');
+            // background-position: center;
+            // background-repeat: no-repeat;
+            // background-size: cover;
+            margin-bottom: 6.5em;
+            max-height: 30em;
+            width: 100%;
+            img {
+                max-height: inherit;
+                width: 100%;
+            }
+        }
+    }
+    &__compare {
+        background-color: $grey-section;
+        h2 {
+            margin-top: 2em;
+        }
+        &__image {
+            // background-image: url('/images/decal/comparison_table.svg');
+            // background-position: center;
+            // background-repeat: no-repeat;
+            // background-size: contain;
+            max-height: 60em;
+            width: 100%;
+            img {
+                max-height: inherit;
+                width: 100%;
+            }
+        }
+    }
 }
 
 .txtarea {
-  width: 100%;
+    width: 100%;
 }

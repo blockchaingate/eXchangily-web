@@ -5,30 +5,20 @@ $grey: #979797;
 $road-map-grey: #979797;
 $grey-light: #d8d8d8;
 $warning: #fd585e;
-
 $primary: #bf9b30;
 $primary-light: #edd86d;
 $primary-lighter: #f0ce78;
-
 $secondary-dark: #051c34;
 $secondary: #2a356b;
 $secondary-light: #545c65;
-
 $tertiary: #7314ce;
-
 $coral: #e379a5;
-
 $true-neutral: #ededed;
-
 $yellow-purple-grad: ($primary-light -10%, #c6a53a 45%, $tertiary 155%);
-
 $yellow-pink-grad: (#f0ce78 -5%, #e379a5 100%);
-
 // gradient mixin
 @mixin linear-gradient($deg, $color-stops...) {
-  background: nth(nth($color-stops, 1), 1);
-  // background: -webkit-linear-gradient(legacy-direction($direction), $color-stops);
-  background: linear-gradient($deg, $color-stops);
+    background: nth(nth($color-stops, 1), 1);
+    // background: -webkit-linear-gradient(legacy-direction($direction), $color-stops);
+    background: linear-gradient($deg, $color-stops);
 }
-
-
