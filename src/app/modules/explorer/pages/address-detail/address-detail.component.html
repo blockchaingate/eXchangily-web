@@ -1,0 +1,26 @@
+<div class="container exg-bg">
+    <div class="row apair">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                Overview
+            </div>
+        </div>
+    </div>
+
+    <div class="row apair">
+        <div class="col-md-3">
+            <div class="d-inline-block">
+                Balance:
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="d-inline-block">
+                {{balance}}
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<app-explorer-transactions [address]="address" [notForGeneral]="true"></app-explorer-transactions>
