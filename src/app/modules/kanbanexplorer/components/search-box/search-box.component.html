@@ -1,0 +1,14 @@
+<!--<input style="width: 100%;" (keyup.enter)="searchClicked(searchText.value)" #searchText >
+<button (click)="searchClicked(searchText.value)" >Search</button>-->
+
+
+<mat-card class="mat-elevation-z6" style="text-align: center;">
+    <form class="example-form" style="width: 80%; padding-left: 10%;" >
+        <mat-form-field style="width: 100%;">
+            <mat-label>Search Kanban</mat-label>
+            <input matInput placeholder="Ex. block number, address, transaction hash, block hash" #searchText (keyup.enter)="searchClicked(searchText.value)">
+        </mat-form-field>
+        <button mat-raised-button color="accent" (click)="searchClicked(searchText.value)">Search Kanban</button>
+
+    </form>
+</mat-card>

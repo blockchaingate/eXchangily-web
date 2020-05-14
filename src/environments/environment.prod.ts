@@ -2,6 +2,8 @@ import * as Btc from 'bitcoinjs-lib';
 export const environment = {
     production: true,
     baseUrl: 'https://exchangily.com',
+    url:"https://kanbanprod.fabcoinapi.com/",
+    tmpUrl:  "http://13.124.235.105:3000/", //replace this url once the temp api is deployed    
     version: 0.03,
     campaignId: 1,
     OTC_COMMISSION_RATE: 0.001,

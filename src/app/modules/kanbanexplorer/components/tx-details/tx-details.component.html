@@ -1,0 +1,71 @@
+<mat-card class="mat-elevation-z6">
+    <h3 *ngIf="!transaction">Fetching Tx {{txhash}}</h3>
+    <div *ngIf="!transaction" style="display: flex; justify-content: center; align-items: center;">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <div *ngIf="transaction">
+        <h3>Tx Hash : {{txhash}}</h3>
+        <hr>
+        <div class="even">
+            <b>blockHash : </b>
+            {{transaction.blockHash}}
+        </div>
+        <div class="odd">
+            <b> blockNumber  : </b>
+            <a [routerLink]="[ '/explorer/block-detail', transaction.blockNumber ]">{{transaction.blockNumber}}</a>
+        </div>
+        <div class="even">
+            <b>from  : </b>
+           <a [routerLink]="[ '/explorer/address-detail', transaction.from ]"> {{transaction.from}} </a> 
+        </div>
+        <div class="odd">
+            <b>gas  : </b>
+            {{transaction.gas}}
+        </div>
+        <div class="even">
+            <b>gasPrice  : </b>
+            {{transaction.gasPrice}}
+        </div>
+        <div class="odd">
+            <b> hash  : </b>
+            {{transaction.hash}}
+        </div>
+        <div class="even">
+            <b> input  : </b>
+            {{transaction.input}}
+        </div>
+        <div class="odd">
+            <b>nonce  : </b>
+            {{transaction.nonce}}
+        </div>
+        <div class="even">
+            <b>to  : </b>
+            {{transaction.to}}
+        </div>
+        <div class="odd">
+            <b>transactionIndex  : </b>
+            {{transaction.transactionIndex}}
+        </div>
+        <div class="even">
+            <b>value  : </b>
+            {{transaction.value}}
+        </div>
+        <div class="odd">
+            <b> v  : </b>
+            {{transaction.v}}
+        </div>
+        <div class="even">
+            <b> r  : </b>
+            {{transaction.r}}
+        </div>
+        <div class="odd">
+            <b>s : </b>
+            {{transaction.s}}
+        </div>
+        <div class="even">
+            <b> confirmations : </b>
+            {{transaction.confirmations}}
+        </div>
+    </div>
+</mat-card>
