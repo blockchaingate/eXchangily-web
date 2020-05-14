@@ -5,6 +5,8 @@ import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { CampaignOrderService } from 'src/app/services/campaignorder.service';
 import { StorageService } from '../../../../services/storage.service';
 import { environment } from '../../../../../environments/environment';
+import { MemberModal } from '../../modals/member/member.component';
+
 import {
   IBarChartOptions,
   IChartistAnimationOptions,
@@ -12,6 +14,7 @@ import {
 } from 'chartist';
 import { ChartEvent, ChartType } from 'ng-chartist';
 import { TeamComponent } from 'src/app/modules/landing/features/home/team/team.component';
+import { TranslateService } from '@ngx-translate/core';
 
 interface FoodNode {
   name: string;
@@ -61,15 +64,16 @@ export class RewardComponent implements OnInit {
   extraEXG = 0;
   baseUrl: string;
   membership: string;
+  members = [];
 
   @ViewChild('chart1', { static: false }) chart1: ElementRef;
-
+  @ViewChild('memberModal', { static: true }) memberModal: MemberModal;
   type: ChartType = 'Bar';
   dataPersonal1: any = {
     labels: [
-      'level 1',
-      'level 2',
-      'level 3'
+      this.translateServ.instant('level 1'),
+      this.translateServ.instant('level 2'),
+      this.translateServ.instant('level 3')
     ],
     series: [
       []
@@ -78,9 +82,9 @@ export class RewardComponent implements OnInit {
 
   dataPersonal2: any = {
     labels: [
-      'level 1',
-      'level 2',
-      'level 3'
+      this.translateServ.instant('level 1'),
+      this.translateServ.instant('level 2'),
+      this.translateServ.instant('level 3')
     ],
     series: [
       []
@@ -96,6 +100,9 @@ export class RewardComponent implements OnInit {
     showLabel: true
   };
 
+  openMemberModal() {
+    this.memberModal.show();
+  }
   options: IBarChartOptions = {
     axisX: {
       showGrid: false
@@ -145,7 +152,11 @@ export class RewardComponent implements OnInit {
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor(private cd: ChangeDetectorRef, private storageService: StorageService, private campaignorderServ: CampaignOrderService) {
+  constructor(
+    private translateServ: TranslateService,
+    private cd: ChangeDetectorRef, 
+    private storageService: StorageService, 
+    private campaignorderServ: CampaignOrderService) {
 
     this.storageService.getToken().subscribe(
       (token: string) => {
@@ -190,6 +201,14 @@ export class RewardComponent implements OnInit {
                     if (rewards && rewards.personal && (rewards.personal.length > 0)) {
                       for (let i = 0; i < rewards.personal.length; i++) {
                         const reward = rewards.personal[i];
+                        for(let j = 0; j < reward.users.length; j++) {
+                          const u = reward.users[j];
+                          const member = {
+                            level: reward.level,
+                            email: u.memberId.email
+                          };
+                          this.members.push(member);
+                        }
                         this.totalEXG += reward.totalRewardQuantities;
 
                         this.totalNextEXG += reward.totalRewardNextQuantities;

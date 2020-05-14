@@ -63,7 +63,12 @@
                         [options]="options"
                         [events]="events"
                       ></x-chartist>
-                      <p class="text-center">{{'Members' | translate}}</p>
+                      <p class="text-center">
+                          <a (click)="openMemberModal()">
+                            {{'Members' | translate}}
+                          </a>
+                          
+                        </p>
                     </div>
 
                     <div class="col col-6">
@@ -92,3 +97,4 @@
 </div>
 
 <pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>
+<member-modal #memberModal [members]="members"></member-modal>

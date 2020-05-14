@@ -19,9 +19,12 @@ import { ChartistModule } from 'ng-chartist';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatDialogModule} from '@angular/material/dialog';
 import { QRCodeModule } from 'angularx-qrcode';
+import { MemberModal } from './modals/member/member.component';
+import { TeamModal } from './modals/team/team.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
-  declarations: [IndexComponent, MainComponent, RewardComponent, FlyerComponent],
+  declarations: [IndexComponent, MainComponent, RewardComponent, FlyerComponent, MemberModal, TeamModal],
   imports: [
     CommonModule, 
     MatCardModule,
@@ -35,6 +38,7 @@ import { QRCodeModule } from 'angularx-qrcode';
     FontAwesomeModule,
     ChartistModule,
     QRCodeModule,
+    ModalModule,
     MatDialogModule,
     MatExpansionModule,
     PromotionRoutingModule
