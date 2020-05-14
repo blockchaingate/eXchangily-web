@@ -15,6 +15,7 @@ import { CampaignOrderService } from '../../../../services/campaignorder.service
 import { Router } from '@angular/router';
 import { ApiService } from '../../../../services/api.service';
 import { TranslateService } from '@ngx-translate/core';
+import { UserAuth } from '../../../landing/service/user-auth/user-auth.service';
 
 @Component({
   selector: 'app-main',
@@ -40,6 +41,7 @@ export class MainComponent implements OnInit {
   exgAddress: string;
   readyGoReasons: any;
   selectedPaymentCurrency: string;
+  loggedIn = false;
   lan = 'en';
 
   step: number;
@@ -103,7 +105,8 @@ export class MainComponent implements OnInit {
     private apiServ: ApiService,
     private campaignorderServ: CampaignOrderService,
     private coinService: CoinService,
-    private tranServ: TranslateService
+    private tranServ: TranslateService,
+    private _userAuth: UserAuth
   ) { }
 
   getStatusText(status: number) {
@@ -180,6 +183,14 @@ export class MainComponent implements OnInit {
         }
       }
     );
+
+    this._userAuth.isLoggedIn$
+      .subscribe((value: string) => {
+        console.log('value: ' + value);
+        this.loggedIn = value ? true : false;
+        // alert(this.loggedIn);
+      });
+
     this.readyGo = true;
     this.step = 1;
     this.wallet = await this.walletService.getCurrentWallet();
@@ -214,7 +225,6 @@ export class MainComponent implements OnInit {
               console.log('res for getOrders=', res);
               if (res && res.ok) {
                 this.orders = res._body;
-
               }
             }
           );
@@ -250,19 +260,15 @@ export class MainComponent implements OnInit {
                   }
                   if (kyc === -1) {
                     this.readyGoReasons.push('KycDenied');
-                  } else
-                    if (kyc === 0) {
-                      this.readyGoReasons.push('NoKyc');
-                    } else
-                      if (kyc === 1) {
-                        this.readyGoReasons.push('SubmitKyc');
-                      } else
-                        if (kyc === 2) {
-                          this.readyGoReasons.push('KycInProcess');
-                        } else
-                          if (kyc === 3) {
-                            this.readyGoReasons.push('KycHasProblem');
-                          }
+                  } else if (kyc === 0) {
+                    this.readyGoReasons.push('NoKyc');
+                  } else if (kyc === 1) {
+                    this.readyGoReasons.push('SubmitKyc');
+                  } else if (kyc === 2) {
+                    this.readyGoReasons.push('KycInProcess');
+                  } else if (kyc === 3) {
+                    this.readyGoReasons.push('KycHasProblem');
+                  }
                   // -1-denied, 0-no, 1-submit; 2-in porcess, 3-has problem,
                 }
               } else {
@@ -508,5 +514,14 @@ export class MainComponent implements OnInit {
 
     }
   }
+
+  logout() {
+    this._userAuth.id = '';
+    this._userAuth.email = '';
+    this._userAuth.token = '';
+    this._userAuth.logout();
+    this.router.navigate(['/']);
+  }
+
 }
 

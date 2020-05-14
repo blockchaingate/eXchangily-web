@@ -29,9 +29,16 @@ import { PaymentMethodService } from '../../services/paymentmethod.service';
 
 @NgModule({
   declarations: [
-    TradeComponent, MerchantPipe, PaymentmethodComponent, ConfirmPaymentModal,
-    OtcPlaceOrderModal, ApplyForMerchantModal, OrderComponent, 
-    MerchantOrdersComponent, MemberOrdersComponent, UserPaymentMethodsComponent
+    TradeComponent,
+    MerchantPipe,
+    PaymentmethodComponent,
+    ConfirmPaymentModal,
+    OtcPlaceOrderModal,
+    ApplyForMerchantModal,
+    OrderComponent, 
+    MerchantOrdersComponent,
+    MemberOrdersComponent,
+    UserPaymentMethodsComponent
   ],
   imports: [
     CommonModule,

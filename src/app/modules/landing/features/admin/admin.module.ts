@@ -27,7 +27,7 @@ import { MerchantService } from '../../service/../../../services/merchant.servic
 import { OrderItemComponent } from './order/order-item.component';
 import { TokenlockService } from '../../service/tokenlock/tokenlock.service';
 import { TokenlockComponent } from './tokenlock/tokenlock.component';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { OtcService } from '../../../../services/otc.service';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -44,15 +44,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FormsModule,
     ReactiveFormsModule,
     ComponentsModule,
-    TranslateModule.forRoot(
-      {
-        loader: {
-          provide: TranslateLoader,
-          useFactory: HttpLoaderFactory,
-          deps: [HttpClient]
-        }
-      }
-    ),
+    TranslateModule,
     FlexLayoutModule,
     AdminRoutingModule,
     ReferralModule,
@@ -67,7 +59,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     OtcListingComponent,
     OrderEditComponent,
     MembersComponent,
-    PaymentMethodsComponent, 
+    PaymentMethodsComponent,
     CampaignOrdersComponent,
     OrderManagementComponent,
     KycComponent,
@@ -77,4 +69,4 @@ export function HttpLoaderFactory(http: HttpClient) {
     TokenlockComponent
   ]
 })
-export class AdminModule {}
+export class AdminModule { }
