@@ -1,5 +1,10 @@
 <div class="container py-3">
     <div class="row">
+        <a class="nav-link pointer" *ngIf="!loggedIn" routerLink="/login/signin" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Signin' | translate}}</a>
+        <a class="nav-link pointer" *ngIf="loggedIn" style="color: blue;" routerLinkActive="selected" (click)="logout()"><u>{{ 'Header.Navigation.Signout' | translate }}</u></a>
+        <a class="nav-link" routerLink="/login/signup" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Signup' | translate}}</a>
+    </div>
+    <div class="row">
         <div class="col col-md-9 col-12 border-right">
             <div class="text-center" *ngIf="membership && (membership != 'unqualified')">
                 <a href="/promotion/reward">

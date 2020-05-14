@@ -104,9 +104,11 @@ export class HeaderComponent implements OnInit {
   linkTo(url: string) {
     this.router.navigate([url]);
   }
+
   goToUrl(url: string): void {
     window.location.href = url;
   }
+  
   setLan() {
     let lang = window.localStorage.getItem('Lan');
 

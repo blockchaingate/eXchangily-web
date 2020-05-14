@@ -8,6 +8,9 @@
                 <li *ngIf="isAdmin" class="nav-item">
                     <a class="nav-link" routerLink="/account/admin" routerLinkActive="color-black bold">{{ "Account.Admin.Title" | translate }} </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link pointer" routerLinkActive="color-black bold" (click)="logout()">{{ 'Header.Navigation.Signout' | translate }}</a>
+                </li>
             </ul>
         </nav>
     </div>
