@@ -6,6 +6,8 @@ import * as Btc from 'bitcoinjs-lib';
 export const environment = {
     production: false,
     version: 0.03,
+    url:"https://kanbantest.fabcoinapi.com/",
+    tmpUrl:  "http://13.124.235.105:3000/",    
     baseUrl: 'https://exchangily.net',
     campaignId: 1,
     OTC_COMMISSION_RATE: 0.001,

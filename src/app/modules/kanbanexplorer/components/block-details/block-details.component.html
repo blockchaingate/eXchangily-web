@@ -1,0 +1,128 @@
+<mat-card class="mat-elevation-z6">
+    <h3 *ngIf="!block">Fetching block # {{blockNumber}}</h3>
+    <div *ngIf="!block" style="display: flex; justify-content: center; align-items: center;">
+        <mat-spinner></mat-spinner>
+    </div>
+    <h3 *ngIf="block">Block # {{blockNumber}}</h3>
+    <hr>
+
+    <div *ngIf="block" style="text-align:left;">
+
+        <div class="even">
+            <b>Block Number : </b> {{block.number}}
+        </div>
+        <div class="odd">
+            <b>Block Hash : </b> {{block.hash}}
+        </div>
+
+        <div class="even">
+            <b>difficulty</b>
+            {{block.difficulty}}
+        </div>
+        <div class='odd'>
+            <b> extraData: </b>
+            {{block?.extraData}}
+        </div>
+        <div class='even'>
+            <b>gasLimit: </b>
+            {{block?.gasLimit}}
+        </div>
+        <div class='odd'>
+            <b>gasUsed: </b>
+            {{block?.gasUsed}}
+        </div>
+        <div class="even">
+            <b>hashNoSignature: </b>
+            {{block?.hashNoSignature}}
+        </div>
+        <div class="odd">
+            <b>logsBloom: </b>
+            {{block?.logsBloom}}
+        </div>
+        <div class="even">
+            <b>miner: </b>
+            {{block?.miner}}
+        </div>
+        <div class="odd">
+            <b>mixHash: </b>
+            {{block?.mixHash}}
+        </div>
+        <div class="even">
+            <b>nextBlock: </b>
+            {{block?.nextBlock}}
+        </div>
+        <div class="odd">
+            <b>nonce: </b>
+            {{block?.nonce}}
+        </div>
+        <div class="even">
+            <b>parentHash: </b>
+            {{block?.parentHash}}
+        </div>
+        <div class="odd">
+            <b>receiptsRoot: </b>
+            {{block?.receiptsRoot}}
+        </div>
+        <div class="even">
+            <b>round: </b>
+            {{block?.round}}
+        </div>
+        <div class="odd">
+            <b>sha3Uncles: </b>
+            {{block?.sha3Uncles}}
+        </div>
+        <div class="even">
+            <b>signature: </b>
+            {{block?.signature}}
+        </div>
+        <div class="odd">
+            <b>size: </b>
+            {{block?.size}}
+        </div>
+        <div class="even">
+            <b>stateRoot: </b>
+            {{block?.stateRoot}}
+        </div>
+        <div class="odd">
+            <b>timestamp: </b>
+            {{block?.timestamp}}
+        </div>
+        <div class="even">
+            <b>Mined on: </b>
+            {{block?.timestamp * 1000 | date : 'EEEE, MMMM d, yyyy h:mm:ss a'}}
+        </div>
+        <div class="odd">
+            <b>totalDifficulty: </b>
+            {{block?.totalDifficulty}}
+        </div>
+        <div class="even">
+            <b>transactionsRoot: </b>
+            {{block?.transactionsRoot}}
+        </div>
+        <div class="odd">
+            <b>transactions: </b>
+            <i *ngIf="block.transactions.length == 0">
+                No Transactions
+            </i>
+            <div *ngIf="block.transactions.length > 0">
+                <div *ngFor="let tx of block.transactions; index as i;">
+                    {{i+1}}
+                    <a 
+                        [routerLink]="['/explorer/tx-detail', tx ]">{{tx}}</a><br>
+                </div>
+            </div>
+        </div>
+
+        <div class="even">
+            <b>Uncles: </b>
+            <i *ngIf="block.uncles.length == 0">
+                No Uncles
+            </i>
+            <div *ngIf="block.uncles.length > 0">
+                <div *ngFor="let uncle of block.uncles; index as i;">
+                    {{i+1}} {{uncle}}<br>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-card>
