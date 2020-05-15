@@ -158,7 +158,7 @@ export class WalletDashboardComponent implements OnInit {
         }
         if (this.wallets) {
             await this.loadWallet(this.wallets[this.currentWalletIndex]);
-            this.loadCoinsPrice();
+            //this.loadCoinsPrice();
 
             // this.startTimer();
             this.loadBalance();
@@ -429,9 +429,38 @@ export class WalletDashboardComponent implements OnInit {
         };
         this.coinServ.walletBalance(data).subscribe(
             (res: any) => {
+                if(res && res.success) {
+                    let updated = false;
+                    for(let i=0;i<res.data.length; i++) {
+                        const item = res.data[i];
+                        for(let j=0;j<this.wallet.mycoins.length;j++) {
+                            const coin = this.wallet.mycoins[j];
+                            if(item.coin == coin.name) {
+                                if(coin.balance != Number(item.balance)) {
+                                    coin.balance = Number(item.balance);
+                                    updated = true;
+                                }
+                                if(coin.lockedBalance != Number(item.lockBalance)) {
+                                    coin.lockedBalance = Number(item.lockBalance);
+                                    updated = true;
+                                }
+                                if(coin.usdPrice != item.usdValue.USD) {
+                                    coin.usdPrice = item.usdValue.USD;
+                                    updated = true;
+                                }
+                            }
+                        }
+                    }
+                    if (updated) {
+                        // console.log('updated=' + updated);
+                        this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
+                    }
+                }
 
             }
         );
+
+        /*
         let updated = false;
         let hasDUSD = false;
         let exgCoin;
@@ -451,10 +480,7 @@ export class WalletDashboardComponent implements OnInit {
             }
 
             if (coin.balance !== balance.balance || coin.lockedBalance !== balance.lockbalance) {
-                /*
-                this.wallets = new Array<Wallet>();
-                wallets.forEach(wl => { this.wallets.push(wl); });
-                */
+
                 coin.balance = balance.balance;
                 // coin.receiveAdds[0].balance = balance.balance;
                 coin.lockedBalance = balance.lockbalance;
@@ -476,10 +502,8 @@ export class WalletDashboardComponent implements OnInit {
             this.wallet.mycoins.push(dusdCoin);
             updated = true;
         }
-        if (updated) {
-            // console.log('updated=' + updated);
-            this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
-        }
+        */
+
     }
 
     async changeWallet(value) {

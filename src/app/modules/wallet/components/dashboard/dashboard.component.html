@@ -186,12 +186,15 @@
                                             {{utilServ.toPrecision(mycoin.lockedBalance)}}
                                         </div>
                                         <div class="col-2">
+                                            <!--
                                             <p *ngIf="mycoin.name == 'EXG' && coinsPrice && coinsPrice.exgcoin">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.exgcoin.usd)}}</p>
                                             <p *ngIf="mycoin.name == 'BTC' && coinsPrice && coinsPrice.bitcoin">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.bitcoin.usd)}}</p>
                                             <p *ngIf="mycoin.name == 'FAB' && coinsPrice && coinsPrice.fabcoin">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.fabcoin.usd)}}</p>
                                             <p *ngIf="mycoin.name == 'ETH' && coinsPrice && coinsPrice.ethereum">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.ethereum.usd)}}</p>
                                             <p *ngIf="mycoin.name == 'USDT' && coinsPrice && coinsPrice.tether">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.tether.usd)}}</p>
                                             <p *ngIf="mycoin.name == 'DUSD' ">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * 1)}}</p>
+                                            -->
+                                            <p *ngIf="mycoin.usdPrice > 0">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * mycoin.usdPrice)}}</p>
                                         </div>
                                         <div class="col-2">
 

@@ -696,8 +696,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
   async txHexforPlaceOrder
     (pin: string, wallet: any, bidOrAsk: boolean, baseCoin: number, targetCoin: number, price: number, qty: number) {
-    console.log('baseCoin=', baseCoin);
-    console.log('targetCoin=', targetCoin);
+
     const seed = this.utilService.aesDecryptSeed(wallet.encryptedSeed, pin);
     const keyPairsKanban = this._coinServ.getKeyPairs(wallet.excoin, seed, 0, 0);
     const orderType = 1;
