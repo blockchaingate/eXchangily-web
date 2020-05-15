@@ -1091,5 +1091,6 @@
     "Fill in bank payment details": "填入银行付款详情，如交易号等",
     "Confirm move fund to DEX": "向交易所转币确认",
     "Move fund to DEX": "向交易所转币",
-    "Exchange is stopped for upgrading, please wait......, wallet is still working": "交易所升级中，暂停使用，钱包不受影响可正常使用"
+    "Exchange is stopped for upgrading, please wait......, wallet is still working": "交易所升级中，暂停使用，钱包不受影响可正常使用",
+    "No wallet address available, please create or restore your wallet first": "没有钱包地址，请先创建或导入钱包"
 }

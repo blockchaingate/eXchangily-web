@@ -21,6 +21,7 @@ export class SignupComponent implements OnInit {
   passwordMin = 5;
   ExgAddRegistered = false;
   serverErrorMsg: string;
+  NoWallet = false;
   wallet: Wallet;
 
   constructor(private _userService: UserService, private _router: Router, private _activeRout: ActivatedRoute,
@@ -69,6 +70,12 @@ export class SignupComponent implements OnInit {
     if (this.wallet && this.wallet.mycoins && this.wallet.mycoins.length > 1) {
       walletExgAddress = this.wallet.mycoins[1].receiveAdds[0].address;
     }
+
+    if (walletExgAddress === '') {
+      this.NoWallet = true;
+      return;
+    }
+
     // alert(walletExgAddress);
 
     /*

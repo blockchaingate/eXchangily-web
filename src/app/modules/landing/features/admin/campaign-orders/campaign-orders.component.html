@@ -1,6 +1,7 @@
 <table class="table table-striped">
     <thead>
         <tr>
+            <th scope="col">#</th>
             <th scope="col">Paymend Currency</th>
             <th scope="col">Price</th>
             <th scope="col">Quantity</th>
@@ -12,6 +13,7 @@
     </thead>
     <tbody>
         <tr *ngFor="let order of orders">
+            <td>{{order.orderNum}}</td>
             <td>{{order.payCurrency}}</td>
             <td>{{order.price}}</td>
             <td>{{order.quantity}}</td>
