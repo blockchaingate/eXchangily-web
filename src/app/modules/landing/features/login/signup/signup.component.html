@@ -43,6 +43,9 @@
         <p *ngIf="ExgAddRegistered">
             {{"Wallet EXG address registered already"| translate}}
         </p>
+        <p *ngIf="NoWallet">
+            {{"No wallet address available, please create or restore your wallet first"| translate}}.
+        </p>
     </div>
 
     <p class="text-center"><a class="color-primary" [routerLink]="['/login/signin']">{{'Got an account already? Login here!' | translate}}</a></p>
