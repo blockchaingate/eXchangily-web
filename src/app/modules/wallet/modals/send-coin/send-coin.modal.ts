@@ -95,22 +95,21 @@ export class SendCoinModal {
             this.coin = this.wallet.mycoins[this.currentCoinIndex];
         }
 
+        
         let fabBalance = 0;
         let ethBalance = 0;
-        let btcBalance = 0;
+
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             if (this.wallet.mycoins[i].name === 'FAB') {
                 fabBalance = this.wallet.mycoins[i].balance;
             } else if (this.wallet.mycoins[i].name === 'ETH') {
                 ethBalance = this.wallet.mycoins[i].balance;
-            } else if (this.wallet.mycoins[i].name === 'BTC') {
-                btcBalance = this.wallet.mycoins[i].balance;
             }
         }
-
-        if (this.tranFeeUnit === 'BTC') {
-            if (this.transFee > btcBalance) {
-                this.alertServ.openSnackBar('Insufficient BTC for this transaction', 'Ok');
+        
+        if ((this.coin.name === 'BTC') || (this.coin.name === 'FAB') || (this.coin.name === 'ETH')) {
+            if (this.transFee > this.coin.balance) {
+                this.alertServ.openSnackBar('Insufficient ' + this.coin.name + ' for this transaction', 'Ok');
                 return;
             }
         } else if (this.tranFeeUnit === 'FAB') {

@@ -1,0 +1,11 @@
+<mat-card class="mat-elevation-z6">
+    <h3 style="text-align: center;">Kanban Quick Stats</h3>
+    <div *ngIf="kanbanStats" style="text-align: center;">
+        <b>Blocks : </b>{{ kanbanStats.lastBlockCrawled }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <b>Orders : </b>{{ kanbanStats.totalOrders}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <b>Trades : </b>{{ kanbanStats.totalTrades }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+        <b>Deposits : </b>{{kanbanStats.totalDepositRequests}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <b>Withdraw Requests : </b>{{kanbanStats.totalWithdrawRequests}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <b>Cancel Orders : </b>{{kanbanStats.totalCancelOrders}}
+    </div>
+</mat-card>

@@ -6,6 +6,8 @@ import * as Btc from 'bitcoinjs-lib';
 export const environment = {
     production: false,
     version: 0.03,
+    url:"https://kanbantest.fabcoinapi.com/",
+    tmpUrl:  "http://13.124.235.105:3000/",    
     baseUrl: 'https://exchangily.net',
     campaignId: 1,
     OTC_COMMISSION_RATE: 0.001,
@@ -13,12 +15,12 @@ export const environment = {
         BTC: {
             network: Btc.networks.testnet,
             satoshisPerBytes: 50,
-            bytesPerInput: 152
+            bytesPerInput: 148
         },
         ETH: {
             chain: 'ropsten', 
             hardfork: 'byzantium',
-            gasPrice: 6000000000,
+            gasPrice: 10000000000,
             gasLimit: 100000
         },
         FAB: {
@@ -28,7 +30,7 @@ export const environment = {
                 chainId: 212                
             },
             satoshisPerBytes: 50,
-            bytesPerInput: 152,
+            bytesPerInput: 148,
             gasPrice: 50,
             gasLimit: 800000            
         },
@@ -43,7 +45,7 @@ export const environment = {
         }        
     },
     endpoints: {
-        //blockchaingate: 'http://localhost:3002/v2/',
+        // blockchaingate: 'http://localhost:3002/v2/',
         blockchaingate: 'https://test.blockchaingate.com/v2/',
         coingecko: 'https://api.coingecko.com/',
         kanban: 'https://kanbantest.fabcoinapi.com/',

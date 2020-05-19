@@ -1,5 +1,5 @@
 import { Component, ViewChild, EventEmitter, Output } from '@angular/core';
-import {  ModalDirective } from 'ngx-bootstrap/modal';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import { faAlipay } from '@fortawesome/free-brands-svg-icons';
 import { faCreditCard } from '@fortawesome/free-solid-svg-icons';
 
@@ -17,9 +17,8 @@ export class OtcPlaceOrderModal {
     faAlipay = faAlipay;
     faCreditCard = faCreditCard;
 
-    @ViewChild('otcPlaceOrderModal', {static: true}) public otcPlaceOrderModal: ModalDirective;
+    @ViewChild('otcPlaceOrderModal', { static: true }) public otcPlaceOrderModal: ModalDirective;
     methods: string[] = ['alipay', 'bank'];
-    
 
     constructor() { }
     show(element) {
@@ -29,7 +28,7 @@ export class OtcPlaceOrderModal {
 
     hide() {
         this.otcPlaceOrderModal.hide();
-    }    
+    }
 
     changeQuantity(quantity: number) {
         this.amount = quantity * this.element.price;
@@ -41,7 +40,7 @@ export class OtcPlaceOrderModal {
 
     onSubmit() {
         this.hide();
-        
+
         const data = {
             amount: this.amount,
             quantity: this.quantity,

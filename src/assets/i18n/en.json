@@ -32,7 +32,7 @@
         "Top": {
             "Hero": {
                 "Line1": "The real decentralized exchange",
-                "Line2": "that's fast, secure and simple"
+                "Line2": "that's S.A.F.E. - Secure, Autonomous, Fast and Easy."
             },
             "WhitepaperButton": "Download Whitepaper",
             "WhitelistCTA": {
@@ -823,6 +823,10 @@
     "USD": "USD",
     "RMB": "RMB",
     "CAD": "CAD",
+    "Level": "Level",
+    "level 1": "level 1",
+    "level 2": "level 2",
+    "level 3": "level 3",
     "Hide wallet": "Hide wallet",
     "Show wallet": "Display wallet",
     "Your wallet is hidden": "Your wallet is hidden",
@@ -907,16 +911,22 @@
     "Kanban Transaction fee": "Kanban Transaction fee",
     "Transaction fee advanced": "Transaction fee advanced",
     "$50K": "$50K",
+    "FAB address transformer": "FAB address transformer",
     "Gas Price(LIU)": "Gas Price(LIU)",
     "Gas Limit": "Gas Limit",
     "Kanban Gas Price(WEI)": "Kanban Gas Price(WEI)",
     "Kanban Gas Limit": "Kanban Gas Limit",
     "My payment methods": "My payment methods",
+    "BTC in FAB address": "BTC in FAB address",
+    "Tools": "Tools",
     "$150K": "$150K",
     "$250K": "$250K",
     "$350K": "$350K",
     "$500K": "$500K",
     "$750K": "$750K",
+    "Address transformer": "Address transformer",
+    "FAB address": "FAB address",
+    "EXG address": "EXG address",
     "Order info": "Order info",
     "Merchant info": "Merchant info",
     "$1 Million": "$1 Million",

@@ -32,7 +32,6 @@ export class HeaderComponent implements OnInit {
   constructor(private translate: TranslateService, private router: Router, private alertServ: AlertService,
     public utilServ: UtilService, private kanbanServ: KanbanService, private timerServ: TimerService,
     private location: Location, private storageServ: StorageService, private apiServ: ApiService, private _userAuth: UserAuth) { }
-    
   
   ngOnInit() {
     this.testMode = true;
@@ -105,9 +104,11 @@ export class HeaderComponent implements OnInit {
   linkTo(url: string) {
     this.router.navigate([url]);
   }
+
   goToUrl(url: string): void {
     window.location.href = url;
   }
+  
   setLan() {
     let lang = window.localStorage.getItem('Lan');
 

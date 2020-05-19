@@ -27,3 +27,9 @@
 .ct-label {
     font-size: 0.5rem!important;
 }
+
+a {
+    color: blue!important;
+    text-decoration: underline!important;
+    cursor: pointer;
+}

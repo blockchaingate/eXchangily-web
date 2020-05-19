@@ -17,14 +17,13 @@ export class CreateWalletComponent implements OnInit {
 
     // generate Mnemonics
     generateMnemonic() {
-        
         // if (!sessionStorage.mnemonic) {
         const mnemonic = this.walletServ.generateMnemonic();
         sessionStorage.mnemonic = mnemonic;
         // }
         this.mnemonics.push(...(sessionStorage.mnemonic.split(' ', 12)));
         
-        //this.mnemonics = ['trip', 'return', 'arrange', 'version', 'horn', 'mountain', 'trend', 'tissue', 'alter', 'rug', 'push', 'era'];
+        // this.mnemonics = ['trip', 'return', 'arrange', 'version', 'horn', 'mountain', 'trend', 'tissue', 'alter', 'rug', 'push', 'era'];
     }
 
     ngOnInit() {

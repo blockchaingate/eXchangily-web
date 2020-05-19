@@ -10,7 +10,7 @@
                 </div>
                 <div class="modal-body">
                     <mat-tab-group>
-                        <mat-tab label="{{'FAB Blockchain'|translate}}">
+                        <mat-tab label="{{'FAB'|translate}}">
                             <mat-selection-list #fabtokens (selectionChange)="onFabSelection($event, fabtokens.selectedOptions.selected)">
                                 <mat-list-option *ngFor="let token of fabTokens; let i = index" [value]="i+1">
 
@@ -41,9 +41,11 @@
                                 </div>
                             </div>
                         </mat-tab>
-                        <mat-tab label="{{'Etherrum Blockchain'|translate}}">
+                        <mat-tab label="{{'Etherrum'|translate}}">
+                            
                             <mat-selection-list #ethtokens (selectionChange)="onEthSelection($event, ethtokens.selectedOptions.selected)">
                                 <mat-list-option *ngFor="let token of ethTokens; let i = index" [value]="i+1">
+                                    
                                     {{token.name}}
                                 </mat-list-option>
                                 <mat-list-option value="0">
@@ -70,6 +72,15 @@
                                 </div>
                             </div>
                         </mat-tab>
+                        <!--
+                        <mat-tab label="{{'Others'|translate}}">
+                            <mat-selection-list #others (selectionChange)="onOthersSelection($event, others.selectedOptions.selected)">
+                                <mat-list-option *ngFor="let other of otherCoins; let i = index" [value]="i+1">
+                                    {{other.name}}
+                                </mat-list-option>
+                            </mat-selection-list>
+                        </mat-tab>
+                        -->
                     </mat-tab-group>
                 </div>
 

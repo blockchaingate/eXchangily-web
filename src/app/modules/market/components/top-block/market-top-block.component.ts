@@ -13,7 +13,7 @@ export class MarketTopBlockComponent implements OnInit {
   volume: string;
   changePercent: number;
   baseCoinName: string;
-  
+
   constructor(private utilServ: UtilService) { }
 
   ngOnInit() {
@@ -24,7 +24,7 @@ export class MarketTopBlockComponent implements OnInit {
     this.baseCoinName = arr[0];
   }
 
-  updateTicker (ticker) {
+  updateTicker(ticker) {
     const price = this.utilServ.showAmount(ticker.price, 6);
     const volume = this.utilServ.showAmount(ticker['24h_volume'], 6);
     const open = this.utilServ.showAmount(ticker['24h_open'], 6);
@@ -34,9 +34,9 @@ export class MarketTopBlockComponent implements OnInit {
     const bigO = new BigNumber(open);
     const bigC = new BigNumber(close);
     if (bigO.gt(0)) {
-        const change24hBig = bigC.minus(bigO).dividedBy(bigO).multipliedBy(new BigNumber(100));
-        this.changePercent = change24hBig.toNumber();
-        this.changePercent = Math.floor(this.changePercent * 100) / 100;
+      const change24hBig = bigC.minus(bigO).dividedBy(bigO).multipliedBy(new BigNumber(100));
+      this.changePercent = change24hBig.toNumber();
+      this.changePercent = Math.floor(this.changePercent * 100) / 100;
     }
   }
 }

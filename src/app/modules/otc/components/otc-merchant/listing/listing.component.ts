@@ -45,6 +45,7 @@ export class ListingComponent implements OnInit {
         'CAD',
         'CNY'
     ];
+    lan = 'en';
 
     constructor(
         private timerServ: TimerService,
@@ -56,6 +57,8 @@ export class ListingComponent implements OnInit {
         private _otcServ: OtcService) { }
 
     async ngOnInit() {
+        this.lan = localStorage.getItem('Lan');
+
         this.txid = '';
         this.buy = true;
         this.coin = 'USDT';
@@ -80,7 +83,11 @@ export class ListingComponent implements OnInit {
         if (!this.buy) { // sell coins
             const payableQuantity = this.quantity * (1 + this.commissionRate);
             if (payableQuantity > this.available) {
-                this.alertServ.openSnackBar('Not enough coin in wallet for listing', 'Ok');
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('钱包中没有足够的币挂单', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Not enough coin in wallet for listing', 'Ok');
+                }
                 return;
             }
             this.pinModal.show();
@@ -154,7 +161,11 @@ export class ListingComponent implements OnInit {
     async onConfirmedPin(pin: string) {
         const pinHash = this.utilServ.SHA256(pin).toString();
         if (pinHash !== this.wallet.pwdHash) {
-            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('密码错误', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+            }
             return;
         }
 
@@ -180,7 +191,11 @@ export class ListingComponent implements OnInit {
             return;
         }
         if (txHex && txHash) {
-            this.alertServ.openSnackBar('your transaction was submitted successfully.', 'Ok');
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('交易成功提交', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('your transaction was submitted successfully.', 'Ok');
+            }
 
             const item = {
                 walletId: this.wallet.id,

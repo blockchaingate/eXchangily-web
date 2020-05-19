@@ -11,7 +11,6 @@ import * as wif from 'wif';
 import { Web3Service } from './web3.service';
 import {Signature} from '../interfaces/kanban.interface';
 import { UtilService } from './util.service';
-import { AbiCoder } from 'web3-eth-abi';
 import { environment } from '../../environments/environment';
 import BigNumber from 'bignumber.js/bignumber';
 @Injectable()
@@ -74,6 +73,13 @@ export class CoinService {
         myCoins.push(usdtCoin);      
              
         return myCoins;
+    }
+
+    initBTCinFAB(seed: Buffer) {
+        const coin = new MyCoin('BTC');
+        coin.coinType = environment.CoinType.FAB;
+        this.fillUpAddress(coin, seed, 1, 0);
+        return coin;
     }
 
     initMyCoinsOld(seed: Buffer): MyCoin[] {
@@ -163,7 +169,7 @@ export class CoinService {
             'type': 'function'
             };
         
-        let fxnCallHex = AbiCoder.prototype.encodeFunctionCall(addDepositFunc, []);
+        let fxnCallHex = this.web3Serv.getGeneralFunctionABI(addDepositFunc, []);
         fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
         
         // console.log('fxnCallHexfxnCallHexfxnCallHexfxnCallHexfxnCallHex=', fxnCallHex);
@@ -236,6 +242,11 @@ export class CoinService {
         }
         return {balance, lockbalance};
     }
+
+    walletBalance(data: any) {
+        return this.apiService.getWalletBalance(data);
+    }
+
     async getBalance(myCoin: MyCoin) {
         console.log('myCoin.name for getBalance=', myCoin.name);
         let balance;
@@ -445,12 +456,7 @@ export class CoinService {
         let txHex = '';
         console.log('address there wego=', address);
         for (index = 0; index < mycoin.receiveAdds.length; index ++) {
-            balance = mycoin.receiveAdds[index].balance;
-            console.log('index=', index);
-            console.log('balance=', balance);
-            if (balance <= 0) {
-                continue;
-            }
+
             address = mycoin.receiveAdds[index].address;
             // console.log('address in getFabTransactionHex=' + address);
             const fabUtxos = await this.apiService.getFabUtxos(address);
@@ -478,7 +484,7 @@ export class CoinService {
                     amountNum -= utxo.value;
                     amountNum += feePerInput;
                     console.log('amountNum2=', amountNum);
-                    if (amountNum <= 0) {
+                    if ((amount > 0) && (amountNum <= 0)) {
                         finished = true;
                         break;
                     }                 
@@ -493,10 +499,7 @@ export class CoinService {
 
         if (!finished) {
             for (index = 0; index < mycoin.changeAdds.length; index ++) {
-                balance = mycoin.changeAdds[index].balance;
-                if (balance <= 0) {
-                    continue;
-                }
+
                 address = mycoin.changeAdds[index].address;
                 
                 const fabUtxos = await this.apiService.getFabUtxos(address);
@@ -520,7 +523,7 @@ export class CoinService {
                         // console.log('totalInput here=', totalInput);
                         amountNum -= utxo.value;
                         amountNum += feePerInput;
-                        if (amountNum <= 0) {
+                        if ((amount > 0) && (amountNum <= 0)) {
                             finished = true;
                             break;
                         }                 
@@ -532,7 +535,7 @@ export class CoinService {
             }
         }
         // console.log('totalInput here 2=', totalInput);
-        if (!finished) {
+        if ((amount > 0) && !finished) {
             // console.log('not enough fab coin to make the transaction.');
             return {txHex: '', errMsg: 'not enough fab coin to make the transaction.', transFee: 0};
         }
@@ -540,7 +543,11 @@ export class CoinService {
 
         const changeAddress = mycoin.receiveAdds[0];
 
-        transFee = ((receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput + 2 * 34) * satoshisPerBytes;
+        let outputNum = 2;
+        if(amount == 0) {
+            outputNum = 1;
+        }
+        transFee = ((receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput + outputNum * 34) * satoshisPerBytes;
 
         if (getTransFeeOnly) {
             return {txHex: '', errMsg: '', transFee: transFee + extraTransactionFee * Math.pow(10, this.utilServ.getDecimal(mycoin))};
@@ -555,17 +562,20 @@ export class CoinService {
         if (output1 < 0) {
             // console.log('output1 or output2 should be greater than 0.');
             return {txHex: '', errMsg: 'output1 should be greater than 0.' + totalInput + ',' + amount + ',' + transFee + ',' + output1, transFee: 0};
-        } else 
-        if(output2 < 0) {
-            return {txHex: '', errMsg: 'output2 should be greater than 0.' + amount + ',' + output2, transFee: 0};
         }
         // console.log('amount=' + amount + ',totalInput=' + totalInput);
         // console.log('defaultTransactionFee=' + extraTransactionFee);
         // console.log('(receiveAddsIndexArr.length + changeAddsIndexArr.length) * feePerInput)=' 
         // + (receiveAddsIndexArr.length + changeAddsIndexArr.length) * feePerInput);
         // console.log('output1=' + output1 + ',output2=' + output2);
-        txb.addOutput(changeAddress.address, output1);
-        txb.addOutput(to, output2);
+
+        if(amount > 0) {
+            txb.addOutput(changeAddress.address, output1);
+            txb.addOutput(to, output2);
+        } else {
+            txb.addOutput(to, output1);
+        }
+
 
         for (index = 0; index < receiveAddsIndexArr.length; index ++) {
             const keyPair = this.getKeyPairs(mycoin, seed, 0, receiveAddsIndexArr[index]);
@@ -661,10 +671,12 @@ export class CoinService {
             const txb = new Btc.TransactionBuilder(BtcNetwork);
 
             for (index = 0; index < mycoin.receiveAdds.length; index ++) {
+                /*
                 balance = mycoin.receiveAdds[index].balance;
                 if (balance <= 0) {
                     continue;
                 }
+                */
                 address = mycoin.receiveAdds[index].address;
                 const balanceFull = await this.apiService.getBtcUtxos(address);
                 for (let i = 0; i < balanceFull.length; i++) {
@@ -679,7 +691,7 @@ export class CoinService {
                     amountNum = amountNum.plus(bytesPerInput * satoshisPerBytes);
                     totalInput += tx.value;
                     receiveAddsIndexArr.push(index);
-                    if (amountNum.isLessThanOrEqualTo(0)) {
+                    if ((amount > 0) && (amountNum.isLessThanOrEqualTo(0))) {
                         finished = true;
                         break;
                     }
@@ -690,10 +702,12 @@ export class CoinService {
             }
             if (!finished) {
                 for (index = 0; index < mycoin.changeAdds.length; index ++) {
+                    /*
                     balance = mycoin.changeAdds[index].balance;
                     if (balance <= 0) {
                         continue;
                     }
+                    */
                     address = mycoin.changeAdds[index].address;
                     const balanceFull = await this.apiService.getBtcUtxos(address);
                     for (let i = 0; i < balanceFull.length; i++) {
@@ -709,7 +723,7 @@ export class CoinService {
                         totalInput += tx.value;
                         changeAddsIndexArr.push(index);
     
-                        if (amountNum.isLessThanOrEqualTo(0)) {
+                        if ((amount > 0) && (amountNum.isLessThanOrEqualTo(0))) {
                             finished = true;
                             break;
                         }
@@ -720,15 +734,25 @@ export class CoinService {
                 }
             }
 
-            if (!finished) {
+            if ((amount > 0) && !finished) {
                 txHex = '';
                 txHash = '';
                 errMsg = 'not enough fund.';
                 return {txHex: txHex, txHash: txHash, errMsg: errMsg};
             }
 
-            transFee = ((receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput + 2 * 34) * satoshisPerBytes;
+            let outputNum = 2;
+            if(amount == 0) {
+                outputNum = 1;
+            }
 
+            console.log('receiveAddsIndexArr.length=', receiveAddsIndexArr.length);
+            console.log('changeAddsIndexArr.length=', changeAddsIndexArr.length);
+            console.log('bytesPerInput=', bytesPerInput);
+            console.log('outputNum=', outputNum);
+            console.log('satoshisPerBytes=', satoshisPerBytes);
+            transFee = ((receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput + outputNum * 34 + 10) * satoshisPerBytes;
+            console.log('transFee=', transFee);
             const changeAddress = mycoin.receiveAdds[0];
             // console.log('totalInput=' + totalInput);
             // console.log('amount=' + amount);
@@ -740,9 +764,17 @@ export class CoinService {
             if (getTransFeeOnly) {
                 return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
             }
-            const output2 = Math.round(new BigNumber(amount * 1e8).toNumber());         
-            txb.addOutput(changeAddress.address, output1);
-            txb.addOutput(toAddress, output2);
+            const output2 = Math.round(new BigNumber(amount * 1e8).toNumber());     
+
+            console.log('output1=', output1);
+            if(amount > 0) {
+                txb.addOutput(changeAddress.address, output1);
+                txb.addOutput(toAddress, output2);
+            } else {
+                console.log('go amount = 0');
+                txb.addOutput(toAddress, output1);
+            }
+
 
             for (index = 0; index < receiveAddsIndexArr.length; index ++) {
                 const keyPair = this.getKeyPairs(mycoin, seed, 0, receiveAddsIndexArr[index]);
@@ -983,7 +1015,7 @@ export class CoinService {
             // console.log('foreeeee');
             console.log('amountSent=', amountSent.toFixed());
             console.log('toAddress===', toAddress);
-            let fxnCallHex = AbiCoder.prototype.encodeFunctionCall(funcTransfer, [toAddress, amountSent.toFixed()]);
+            let fxnCallHex = this.web3Serv.getGeneralFunctionABI(funcTransfer, [toAddress, amountSent.toFixed()]);
             // console.log('enddddd');
             fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
             let contractAddress = mycoin.contractAddr;

@@ -1,20 +1,15 @@
 <div class="app-home">
-    <div class="app-home__hero">
+    <div class="app-home__hero gradient-back-area topslogan">
         <div class="app-home__hero__content max-out">
             <div class="app-home__hero-text">
-                <div class="text-left txtarea" *ngIf="lang === 'en'">
-                    <h1 class="left app-home__hero__title">{{ 'Home.Top.Hero.Line1' | translate }}</h1>
-                    <h3 class="left app-home__hero__title2">{{ 'Home.Top.Hero.Line2' | translate }}</h3>
-                </div>
-                <div *ngIf="lang === 'cn'">
-                    <h1 class="left app-home__hero__title">{{ 'Home.Top.Hero' | translate }}</h1>
+                <div class="text-left txtarea titalarea">
+                    <h2 class="left app-home__hero__title">{{ 'Home.Top.Hero.Line1' | translate }}</h2>
+                    <h4 class="left app-home__hero__title2">{{ 'Home.Top.Hero.Line2' | translate }}</h4>
                 </div>
             </div>
 
             <div class="center app-home__hero__download">
-                <a class="button secondary" [href]="whitepaper" target="_blank">
-          {{ 'Home.Top.WhitepaperButton' | translate }}
-        </a>
+                <a class="button secondary" [href]="whitepaper" target="_blank"> {{ 'Home.Top.WhitepaperButton' | translate }}</a>
             </div>
 
             <div class="center app-home__hero__whitelist">

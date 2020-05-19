@@ -11,6 +11,7 @@ import { KanbanService } from '../../../../services/kanban.service';
 import { Web3Service } from '../../../../services/web3.service';
 import { Signature, Token } from '../../../../interfaces/kanban.interface';
 import { DepositAmountModal } from '../../modals/deposit-amount/deposit-amount.modal';
+import { ToolsModal } from '../../modals/tools/tools.modal';
 import { RedepositAmountModal } from '../../modals/redeposit-amount/redeposit-amount.modal';
 import { AddAssetsModal } from '../../modals/add-assets/add-assets.modal';
 import { PinNumberModal } from '../../../shared/modals/pin-number/pin-number.modal';
@@ -46,7 +47,7 @@ import { Pair } from 'src/app/modules/market/models/pair';
     styleUrls: ['./dashboard.component.css'],
     encapsulation: ViewEncapsulation.None
 })
-export class WalletDashboardComponent {
+export class WalletDashboardComponent implements OnInit {
     @ViewChild('manageWallet', { static: true }) manageWallet: ManageWalletComponent;
     @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal;
     @ViewChild('displayPinModal', { static: true }) displayPinModal: DisplayPinNumberModal;
@@ -61,12 +62,15 @@ export class WalletDashboardComponent {
     @ViewChild('deleteWalletModal', { static: true }) deleteWalletModal: DeleteWalletModal;
     @ViewChild('loginSettingModal', { static: true }) loginSettingModal: LoginSettingModal;
     @ViewChild('displaySettingModal', { static: true }) displaySettingModal: DisplaySettingModal;
+    @ViewChild('toolsModal', { static: true }) toolsModal: ToolsModal;
 
     sendCoinForm: SendCoinForm;
     wallet: Wallet;
     wallets: Wallet[];
     modalRef: BsModalRef;
     checked = true;
+    satoshisPerBytes: number;
+    toAddress: string;
     exgAddress: string;
     fabAddress: string;
     exgBalance: number;
@@ -88,6 +92,7 @@ export class WalletDashboardComponent {
     opType: string;
     currentCurrency: string;
     currencyRate: number;
+    lan = 'en';
 
     constructor(
         private campaignorderServ: CampaignOrderService,
@@ -96,6 +101,7 @@ export class WalletDashboardComponent {
         private kanbanServ: KanbanService, private web3Serv: Web3Service, private viewContainerRef: ViewContainerRef,
         private alertServ: AlertService, private matIconRegistry: MatIconRegistry, private timerServ: TimerService,
         private coinService: CoinService, private storageService: StorageService, private domSanitizer: DomSanitizer) {
+        this.lan = localStorage.getItem('Lan');
         this.showMyAssets = true;
         this.currentCurrency = 'USD';
         this.currencyRate = 1;
@@ -110,13 +116,11 @@ export class WalletDashboardComponent {
         this.currentCurrency = name;
         if (name === 'USD') {
             this.currencyRate = 1;
-        } else
-            if (name === 'CAD') {
-                this.currencyRate = 1.31;
-            } else
-                if (name === 'RMB') {
-                    this.currencyRate = 7.07;
-                }
+        } else if (name === 'CAD') {
+            this.currencyRate = 1.31;
+        } else if (name === 'RMB') {
+            this.currencyRate = 7.07;
+        }
     }
     async updateCoinBalance(coinName: string) {
         // console.log('coinName=' + coinName);
@@ -161,7 +165,6 @@ export class WalletDashboardComponent {
         }
 
         if (this.exgAddress) {
-
             /*
             if (this.exgAddress === '0x5ccab4dd9c83d675b25e6589561f4ee1e185a0b7') {
                 this.exgAddress = '';
@@ -315,39 +318,35 @@ export class WalletDashboardComponent {
         if (type === 'SHOW_SEED_PHRASE') {
             this.opType = 'showSeedPhrase';
             this.pinModal.show();
-        } else
-            if (type === 'VERIFY_SEED_PHRASE') {
-                this.opType = 'verifySeedPhrase';
-                this.pinModal.show();
-            } else
-                if (type === 'BACKUP_PRIVATE_KEY') {
-                    this.opType = 'backupPrivateKey';
-                    this.pinModal.show();
-                } else
-                    if (type === 'DELETE_WALLET') {
-                        this.opType = 'deleteWallet';
-                        this.pinModal.show();
-                    } else
-                        if (type === 'LOGIN_SETTING') {
-                            this.opType = 'loginSetting';
-                            this.pinModal.show();
-                        } else
-                            if (type === 'DISPLAY_SETTING') {
-                                this.opType = 'displaySetting';
-                                this.pinModal.show();
-                            } else
-                                if (type === 'SMART_CONTRACT') {
-                                    this.route.navigate(['/smartcontract']);
-                                    return;
-                                } else
-                                    if (type === 'HIDE_SHOW_WALLET') {
-                                        if (this.wallet.hide) {
-                                            this.opType = 'showWallet';
-                                            this.displayPinModal.show();
-                                        } else {
-                                            this.toggleWalletHide();
-                                        }
-                                    }
+        } else if (type === 'VERIFY_SEED_PHRASE') {
+            this.opType = 'verifySeedPhrase';
+            this.pinModal.show();
+        } else if (type === 'BACKUP_PRIVATE_KEY') {
+            this.opType = 'backupPrivateKey';
+            this.pinModal.show();
+        } else if (type === 'DELETE_WALLET') {
+            this.opType = 'deleteWallet';
+            this.pinModal.show();
+        } else if (type === 'LOGIN_SETTING') {
+            this.opType = 'loginSetting';
+            this.pinModal.show();
+        } else if (type === 'DISPLAY_SETTING') {
+            this.opType = 'displaySetting';
+            this.pinModal.show();
+        } else if (type === 'TOOLS') {
+            this.opType = 'tools';
+            this.toolsModal.show();
+        } else if (type === 'SMART_CONTRACT') {
+            this.route.navigate(['/smartcontract']);
+            return;
+        } else if (type === 'HIDE_SHOW_WALLET') {
+            if (this.wallet.hide) {
+                this.opType = 'showWallet';
+                this.displayPinModal.show();
+            } else {
+                this.toggleWalletHide();
+            }
+        }
     }
 
     onShowTransactionHistory() {
@@ -399,14 +398,40 @@ export class WalletDashboardComponent {
         });
 
     }
-    async loadBalance() {
 
+    async loadBalance() {
         // console.log('this.coinsPrice=');
         // console.log(this.coinsPrice);
         if (!this.wallet) {
             return;
         }
 
+        let btcAddress = '';
+        let ethAddress = '';
+        let fabAddress = '';
+        for (let i = 0; i < this.wallet.mycoins.length; i++) {
+            const coin = this.wallet.mycoins[i];
+            if (coin.name == 'BTC' && !btcAddress) {
+                btcAddress = coin.receiveAdds[0].address;
+            }
+            if (coin.name == 'ETH' && !ethAddress) {
+                ethAddress = coin.receiveAdds[0].address;
+            }
+            if (coin.name == 'FAB' && !fabAddress) {
+                fabAddress = coin.receiveAdds[0].address;
+            }
+        }
+
+        const data = {
+            btcAddress: btcAddress,
+            ethAddress: ethAddress,
+            fabAddress: fabAddress
+        };
+        this.coinServ.walletBalance(data).subscribe(
+            (res: any) => {
+
+            }
+        );
         let updated = false;
         let hasDUSD = false;
         let exgCoin;
@@ -416,18 +441,14 @@ export class WalletDashboardComponent {
             const balance = await this.coinServ.getBalance(coin);
             if (coin.name === 'DUSD') {
                 hasDUSD = true;
-            } else
-                if (coin.name === 'EXG') {
-                    exgCoin = coin;
-                } else
-                    if (coin.name === 'FAB') {
-                        fabCoin = coin;
-                        this.fabBalance = balance.balance;
-                    } else
-                        if (coin.name === 'ETH') {
-                            this.ethBalance = balance.balance;
-                        }
-
+            } else if (coin.name === 'EXG') {
+                exgCoin = coin;
+            } else if (coin.name === 'FAB') {
+                fabCoin = coin;
+                this.fabBalance = balance.balance;
+            } else if (coin.name === 'ETH') {
+                this.ethBalance = balance.balance;
+            }
 
             if (coin.balance !== balance.balance || coin.lockedBalance !== balance.lockbalance) {
                 /*
@@ -439,6 +460,8 @@ export class WalletDashboardComponent {
                 coin.lockedBalance = balance.lockbalance;
                 updated = true;
             }
+
+            console.log('balance for coin' + coin.name + '=', balance);
         }
         if (!hasDUSD) {
             const dusdCoin = new MyCoin('DUSD');
@@ -458,7 +481,6 @@ export class WalletDashboardComponent {
             this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
         }
     }
-
 
     async changeWallet(value) {
         this.currentWalletIndex = value;
@@ -503,15 +525,20 @@ export class WalletDashboardComponent {
 
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];
-            const balance = coin.receiveAdds[0].balance;
+            if (!coin.receiveAdds) {
+                return;
+            }
+            const balance = coin.balance;
+            if (!coin.receiveAdds || (coin.receiveAdds.length == 0)) {
+                continue;
+            }
             const address = coin.receiveAdds[0].address;
             if (coin.name === 'FAB') {
                 this.fabBalance = balance;
                 this.fabAddress = address;
-            } else
-                if (coin.name === 'ETH') {
-                    this.ethBalance = balance;
-                }
+            } else if (coin.name === 'ETH') {
+                this.ethBalance = balance;
+            }
         }
         // console.log('this.wallet=', this.wallet);
         this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
@@ -523,6 +550,9 @@ export class WalletDashboardComponent {
                 if (resp.ok) {
                     if (resp._body && resp._body.totalQuantities > 0) {
                         this.alertMsg = 'Disqualified with campaign';
+                        if (this.lan === 'zh') {
+                            this.alertMsg = '未达推广资格';
+                        }
 
                     } else {
                         this.alertMsg = '';
@@ -543,7 +573,6 @@ export class WalletDashboardComponent {
         this.modalRef = this.modalServ.show(template);
     }
 
-
     addGasFee() {
         if (this.fabBalance < 0.5) {
             return;
@@ -551,7 +580,6 @@ export class WalletDashboardComponent {
         // this.currentCoin = this.wallet.mycoins[1];
         this.addGasModal.show();
     }
-
 
     deposit(currentCoin: MyCoin) {
         this.currentCoin = currentCoin;
@@ -592,12 +620,20 @@ export class WalletDashboardComponent {
         const currentCoinBalance = this.currentCoin.balance;
         const coinName = this.currentCoin.name;
         if (currentCoinBalance < amount) {
-            this.alertServ.openSnackBar('Insufficient ' + coinName + ' for this transaction', 'Ok');
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar(coinName + '余额不足', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('Insufficient ' + coinName + ' for this transaction', 'Ok');
+            }
             return;
         }
         if (tranFeeUnit === 'BTC') {
             if (transFee > btcBalance) {
-                this.alertServ.openSnackBar('Insufficient BTC for this transaction', 'Ok');
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('BTC余额不足', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Insufficient BTC for this transaction', 'Ok');
+                }
                 return;
             }
         } else
@@ -609,14 +645,22 @@ export class WalletDashboardComponent {
             } else
                 if (tranFeeUnit === 'ETH') {
                     if (transFee > ethBalance) {
-                        this.alertServ.openSnackBar('Insufficient ETH for this transaction', 'Ok');
+                        if (this.lan === 'zh') {
+                            this.alertServ.openSnackBar('ETH余额不足', 'Ok');
+                        } else {
+                            this.alertServ.openSnackBar('Insufficient ETH for this transaction', 'Ok');
+                        }
                         return;
                     }
                 }
 
         if ((coinName === 'BTC') || (coinName === 'ETH') || (coinName === 'FAB')) {
             if (currentCoinBalance < amount + transFee) {
-                this.alertServ.openSnackBar('Insufficient ' + coinName + ' for this transaction', 'Ok');
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar(coinName + '余额不足', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Insufficient ' + coinName + ' for this transaction', 'Ok');
+                }
                 return;
             }
         }
@@ -667,42 +711,34 @@ export class WalletDashboardComponent {
         this.pin = pin;
         const pinHash = this.utilServ.SHA256(pin).toString();
         if (pinHash !== this.wallet.pwdHash) {
-            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+            this.warnPwdErr();
             return;
         }
         if (this.opType === 'deposit') {
             this.depositdo();
-        } else
-            if (this.opType === 'redeposit') {
-                this.redepositdo();
-            } else
-                if (this.opType === 'redeposit') {
-                    this.redepositdo();
-                } else
-                    if (this.opType === 'addGas') {
-                        this.addGasDo();
-                    } else
-                        if (this.opType === 'sendCoin') {
-                            this.sendCoinDo();
-                        } else
-                            if (this.opType === 'showSeedPhrase') {
-                                this.showSeedPhrase();
-                            } else
-                                if (this.opType === 'verifySeedPhrase') {
-                                    this.verifySeedPhrase();
-                                } else
-                                    if (this.opType === 'backupPrivateKey') {
-                                        this.backupPrivateKey();
-                                    } else
-                                        if (this.opType === 'deleteWallet') {
-                                            this.deleteWalletModal.show();
-                                        } else
-                                            if (this.opType === 'loginSetting') {
-                                                this.loginSettingModal.show();
-                                            } else
-                                                if (this.opType === 'displaySetting') {
-                                                    this.displaySettingModal.show();
-                                                }
+        } else if (this.opType === 'redeposit') {
+            this.redepositdo();
+        } else if (this.opType === 'redeposit') {
+            this.redepositdo();
+        } else if (this.opType === 'addGas') {
+            this.addGasDo();
+        } else if (this.opType === 'sendCoin') {
+            this.sendCoinDo();
+        } else if (this.opType === 'showSeedPhrase') {
+            this.showSeedPhrase();
+        } else if (this.opType === 'verifySeedPhrase') {
+            this.verifySeedPhrase();
+        } else if (this.opType === 'backupPrivateKey') {
+            this.backupPrivateKey();
+        } else if (this.opType === 'deleteWallet') {
+            this.deleteWalletModal.show();
+        } else if (this.opType === 'loginSetting') {
+            this.loginSettingModal.show();
+        } else if (this.opType === 'displaySetting') {
+            this.displaySettingModal.show();
+        } else if (this.opType === 'BTCinFAB') {
+            this.btcInFab();
+        }
     }
 
     onConfirmedDisplayPin(pin: string) {
@@ -710,11 +746,23 @@ export class WalletDashboardComponent {
         const pinHash = this.utilServ.SHA256(pin).toString();
         console.log('this.wallet.pwdDisplayHash==', this.wallet.pwdDisplayHash);
         if (pinHash !== this.wallet.pwdDisplayHash) {
-            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+            this.warnPwdErr();
             return;
         }
         this.toggleWalletHide();
     }
+
+    onConfirmedTools(event) {
+        console.log('event-', event);
+        if (event.action === 'BTCinFAB') {
+            this.opType = 'BTCinFAB';
+            this.toAddress = event.data;
+            this.satoshisPerBytes = event.satoshisPerBytes;
+            this.toolsModal.hide();
+            this.pinModal.show();
+        }
+    }
+
     toggleWalletHide() {
         this.wallet.hide = !this.wallet.hide;
         this.manageWallet.changeHideWallet();
@@ -737,6 +785,14 @@ export class WalletDashboardComponent {
         if (seedPhrase) {
             this.showSeedPhraseModal.show(seedPhrase);
         } else {
+            this.warnPwdErr();
+        }
+    }
+
+    warnPwdErr() {
+        if (this.lan === 'zh') {
+            this.alertServ.openSnackBar('密码错误', 'Ok');
+        } else {
             this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
         }
     }
@@ -745,10 +801,60 @@ export class WalletDashboardComponent {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
         this.seed = seed;
         if (!seed) {
-            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+            this.warnPwdErr();
             return;
         }
         this.backupPrivateKeyModal.show(seed, this.wallet);
+    }
+
+    async btcInFab() {
+        const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
+        const coin = this.coinServ.initBTCinFAB(seed);
+        console.log('coin===', coin);
+
+        const options = {
+            satoshisPerBytes: this.satoshisPerBytes ? this.satoshisPerBytes : environment.chains.BTC.satoshisPerBytes
+        };
+
+        const { txHex, txHash, errMsg } = await this.coinService.sendTransaction(coin, seed,
+            this.toAddress, 0, options, true
+        );
+        console.log('errMsg for sendcoin=', errMsg);
+        if (errMsg) {
+            this.alertServ.openSnackBar(errMsg, 'Ok');
+            return;
+        }
+        if (txHex && txHash) {
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('交易提交成功，请等一会查看结果', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('your transaction was submitted successful, please wait a while to check status.', 'Ok');
+            }
+
+            const item = {
+                walletId: this.wallet.id,
+                type: 'Send',
+                coin: coin.name,
+                tokenType: coin.tokenType,
+                amount: 0,
+                txid: txHash,
+                to: this.toAddress,
+                time: new Date(),
+                confirmations: '0',
+                blockhash: '',
+                comment: '',
+                status: 'pending'
+            };
+            console.log('before next');
+            this.timerServ.transactionStatus.next(item);
+            this.timerServ.checkTransactionStatus(item);
+            console.log('after next');
+            this.storageService.storeToTransactionHistoryList(item);
+        }
+        /*
+        this.wallet.mycoins.push(coin);
+        this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);    
+        */
     }
 
     verifySeedPhrase() {
@@ -760,9 +866,8 @@ export class WalletDashboardComponent {
         if (seedPhrase) {
             this.verifySeedPhraseModal.show(seedPhrase);
         } else {
-            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+            this.warnPwdErr();
         }
-
     }
 
     onConfirmedAssets(assets: [Token]) {
@@ -790,7 +895,7 @@ export class WalletDashboardComponent {
 
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         if (!seed) {
-            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+            this.warnPwdErr();
             return;
         }
         const scarAddress = await this.kanbanServ.getScarAddress();
@@ -817,7 +922,11 @@ export class WalletDashboardComponent {
             };
             this.storageService.storeToTransactionHistoryList(item);
 
-            this.alertServ.openSnackBar('add gas transaction was submitted successfully.', 'Ok');
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('加燃料交易提交成功，请等40分钟后查看结果', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('Add gas transaction was submitted successfully, please check gas balance 40 minutes later.', 'Ok');
+            }
         }
     }
 
@@ -856,7 +965,11 @@ export class WalletDashboardComponent {
             return;
         }
         if (txHex && txHash) {
-            this.alertServ.openSnackBar('your transaction was submitted successfully.', 'Ok');
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('交易提交成功，请等一会查看结果', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('your transaction was submitted successful, please wait a while to check status.', 'Ok');
+            }
 
             const item = {
                 walletId: this.wallet.id,
@@ -882,7 +995,11 @@ export class WalletDashboardComponent {
 
     async redepositdo() {
         if (!this.amountForm) {
-            this.alertServ.openSnackBar('no input for redeposit', 'OK');
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('没有待确认的转币去交易所输入', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('No input for confirmation of moving fund to DEX', 'OK');
+            }
             return;
         }
         const transactionID = this.amountForm.transactionID;
@@ -890,7 +1007,11 @@ export class WalletDashboardComponent {
         const gasLimit = Number(this.amountForm.gasLimit);
 
         if (!transactionID || !gasPrice || !gasLimit) {
-            this.alertServ.openSnackBar('invalid input for deposit', 'OK');
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('没有转币去交易所输入', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('invalid input for moving fund to DEX', 'OK');
+            }
             return;
         }
 
@@ -924,7 +1045,7 @@ export class WalletDashboardComponent {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
 
         if (!seed) {
-            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+            this.warnPwdErr();
             return;
         }
 
@@ -942,7 +1063,11 @@ export class WalletDashboardComponent {
             }
         }
         if (!currentCoin) {
-            this.alertServ.openSnackBar('Your coin type is invalid.', 'Ok');
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('币类型错误', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('Your coin type is invalid.', 'Ok');
+            }
             return;
         }
 
@@ -979,18 +1104,24 @@ export class WalletDashboardComponent {
             if (resp.success) {
                 // const txid = resp.data.transactionID;
                 this.kanbanServ.incNonce();
-                this.alertServ.openSnackBar('Redeposit was submitted successfully.', 'Ok');
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('确认交易所入币成功提交', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Confirmation was submitted successfully.', 'Ok');
+                }
             }
         },
             (error: any) => {
                 console.log('error=', error);
-                let message = 'Unknown error while redeposit.';
+                let message = 'Unknown error while confirm moving fund to DEX.';
+                if (this.lan === 'zh') {
+                    message = '确认交易所入币时发生未知错误';
+                }
                 if (error.message) {
                     message = error.message;
-                } else
-                    if (error.error && error.error.message) {
-                        message = error.error.message;
-                    }
+                } else if (error.error && error.error.message) {
+                    message = error.error.message;
+                }
                 this.alertServ.openSnackBar(error.error.message, 'ok');
             });
     }
@@ -1014,14 +1145,18 @@ export class WalletDashboardComponent {
 
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         if (!seed) {
-            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+            this.warnPwdErr();
             return;
         }
         const keyPairs = this.coinServ.getKeyPairs(currentCoin, seed, 0, 0);
 
         const officalAddress = this.coinServ.getOfficialAddress(currentCoin);
         if (!officalAddress) {
-            this.alertServ.openSnackBar('offical address for ' + currentCoin.name + ' is unavailable', 'Ok');
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar(currentCoin.name + '官方地址无效', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('offical address for ' + currentCoin.name + ' is unavailable', 'Ok');
+            }
             return;
         }
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
@@ -1043,7 +1178,11 @@ export class WalletDashboardComponent {
         }
 
         if (!txHex || !txHash) {
-            this.alertServ.openSnackBar('Internal error for txHex or txHash', 'Ok');
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('txHash内部错误', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('Internal error for txHex or txHash', 'Ok');
+            }
             return;
         }
         const amountInLink = new BigNumber(amount).multipliedBy(new BigNumber(1e18)); // it's for all coins.
@@ -1092,11 +1231,14 @@ export class WalletDashboardComponent {
                 this.timerServ.transactionStatus.next(item);
                 this.timerServ.checkTransactionStatus(item);
                 this.kanbanServ.incNonce();
-                this.alertServ.openSnackBar('Adding deposit was submitted successfully.', 'Ok');
-            } else
-                if (resp.error) {
-                    this.alertServ.openSnackBar(resp.error, 'Ok');
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('转币去交易所提交成功', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Moving fund to DEX submitted successfully.', 'Ok');
                 }
+            } else if (resp.error) {
+                this.alertServ.openSnackBar(resp.error, 'Ok');
+            }
         },
             error => {
                 console.log('error====');

@@ -23,9 +23,9 @@ export class MarketListComponent implements OnInit {
     searchText = '';
     COINS: Coin[];
 
-    constructor(private prServ: PriceService, private _router: Router, private storageServ: StorageService, 
+    constructor(private prServ: PriceService, private _router: Router, private storageServ: StorageService,
         private _wsServ: WsService, private kanbanService: KanbanService, public utilServ: UtilService) {
-        
+
     }
 
     showAmount(amount: number, decimal: number) {
@@ -44,11 +44,11 @@ export class MarketListComponent implements OnInit {
                 }
             }
         );
-        
+
         this._wsServ.currentPrices.subscribe((arr: any) => {
             this.updateTickerList(arr);
         });
-           
+
         /*
         this.kanbanService.getAllOrders().subscribe((orders: Order[]) => {
             console.log('orders from /exchangily/getAllOrderData');
@@ -67,7 +67,7 @@ export class MarketListComponent implements OnInit {
         });  
         */
     }
-        
+
     selectCat(cat: number) {
         this.select = cat;
         if (cat === 100) {
@@ -78,7 +78,7 @@ export class MarketListComponent implements OnInit {
             this.tab_prices = this.prices.filter((listing: Price) => listing.base_id === cat);
         }
     }
-    
+
     search() {
         console.log('search begin', this.searchText);
         this.selectCat(1000);
@@ -128,7 +128,7 @@ export class MarketListComponent implements OnInit {
             for (let j = 0; j < this.tab_prices.length; j++) {
                 const tabItem = this.tab_prices[j];
                 const tabItemSymbol = this.COINS[tabItem.coin_id].name + this.COINS[tabItem.base_id].name;
-                if (s === tabItemSymbol) { 
+                if (s === tabItemSymbol) {
                     tabItem.change24h = change24h;
                     tabItem.price = price;
                     tabItem.price24hh = h;
@@ -137,5 +137,5 @@ export class MarketListComponent implements OnInit {
                 }
             }
         }
-    }    
+    }
 }

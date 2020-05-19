@@ -22,7 +22,10 @@
     },
     "Home": {
         "Top": {
-            "Hero": "一个快速、安全、易用且资产完全自主控制的去中心化交易平台",
+            "Hero": {
+                "Line1": "亿币高性能去中心化数字货币交易所",
+                "Line2": "一个安全、自主、快速、易用的去中心化交易平台."
+            },
             "WhitepaperButton": "下载白皮书",
             "WhitelistCTA": {
                 "Button": "赞"
@@ -589,6 +592,10 @@
     "Directory": "目录",
     "Market": "市场行情",
     "Trade": "交易",
+    "Level": "级别",
+    "level 1": "一级",
+    "level 2": "二级",
+    "level 3": "三级",
     "Community announcement": "社区公告",
     "Wallet security": "钱包安全",
     "About Us": "关于亿币eXchangily",
@@ -1012,10 +1019,16 @@
     "Kanban Gas Price(WEI)": "看板燃料价格(WEI)",
     "Kanban Gas Limit": "看板燃料限额",
     "Home Page": "首页",
+    "Address transformer": "地址转换",
+    "FAB address": "FAB地址",
+    "EXG address": "EXG地址",
+    "FAB address transformer": "FAB地址转换",
     "No enough FAB in wallet, can not add gas": "钱包中FAB余额不足，无法添加燃料",
     "Phone(USA)": "电话(美国)",
     "Phone(China)": "电话(中国)",
     "My Orders": "我的订单",
+    "Tools": "工具",
+    "BTC in FAB address": "FAB地址的BTC",
     "My payment methods": "我的收款方式",
     "Merchant info": "商户信息",
     "Order info": "订单信息",
@@ -1075,5 +1088,9 @@
     "BuyFABQ": "我想加燃料，从哪里获得FAB",
     "BuyFABA": "可以从OTC交易区购买，也可以从其它中心化交易所或向其他FAB持有人购买，如果想长期参与FAB经营，也可以自己挖矿，具体挖矿方法请联系客服，亿币还经常举办奖励活动奖励FAB。",
     "Wallet EXG address registered already": "钱包EXG地址已经注册",
-    "Fill in bank payment details": "填入银行付款详情，如交易号等"
+    "Fill in bank payment details": "填入银行付款详情，如交易号等",
+    "Confirm move fund to DEX": "向交易所转币确认",
+    "Move fund to DEX": "向交易所转币",
+    "Exchange is stopped for upgrading, please wait......, wallet is still working": "交易所升级中，暂停使用，钱包不受影响可正常使用",
+    "No wallet address available, please create or restore your wallet first": "没有钱包地址，请先创建或导入钱包"
 }

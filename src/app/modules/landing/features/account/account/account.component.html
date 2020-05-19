@@ -1,20 +1,23 @@
 <div class="container work-area">
-  <div class="row bg-light">
-    <nav class="navbar navbar-expand navbar-light bg-light">
-      <ul class="navbar-nav">
-        <li *ngFor="let path of navPaths" class="nav-item">
-          <a class="nav-link" [routerLink]="[path.absolute]" routerLinkActive="color-black bold">{{ path.i18n | translate }} </a>
-        </li>
-        <li *ngIf="isAdmin" class="nav-item">
-          <a class="nav-link" routerLink="/account/admin" routerLinkActive="color-black bold">{{ 'Account.Admin.Title' | translate }} </a>
-        </li>
-      </ul>
-    </nav>
-  </div>
-    
-  <br>
-    
-  <div>
-    <router-outlet></router-outlet>
-  </div>
+    <div class="row bg-light">
+        <nav class="navbar navbar-expand navbar-light bg-light">
+            <ul class="navbar-nav">
+                <li *ngFor="let path of navPaths" class="nav-item">
+                    <a class="nav-link" [routerLink]="[path.absolute]" routerLinkActive="color-black bold">{{ path.i18n | translate }} </a>
+                </li>
+                <li *ngIf="isAdmin" class="nav-item">
+                    <a class="nav-link" routerLink="/account/admin" routerLinkActive="color-black bold">{{ "Account.Admin.Title" | translate }} </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link pointer" routerLinkActive="color-black bold" (click)="logout()">{{ 'Header.Navigation.Signout' | translate }}</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <br>
+
+    <div>
+        <router-outlet></router-outlet>
+    </div>
 </div>

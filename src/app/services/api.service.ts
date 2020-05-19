@@ -365,6 +365,11 @@ export class ApiService {
         return {balance, lockbalance}; 
     }
 
+    getWalletBalance(data) {
+        const url = environment.endpoints.kanban + 'walletBalances';
+        return this.http.post(url, data);
+    }
+    
     async fabCallContract(contractAddress: string, fxnCallHex: string) {
         const url = environment.endpoints.FAB.exchangily + 'callcontract';
 

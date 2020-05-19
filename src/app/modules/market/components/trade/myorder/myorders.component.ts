@@ -50,6 +50,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     interval;
     transFeeAdvance = 0.0;
     coinServ: CoinService;
+    lan = 'en';
 
     constructor(private ordServ: OrderService, private _router: Router, private tradeService: TradeService,
         public utilServ: UtilService, private kanbanServ: KanbanService, private _coinServ: CoinService,
@@ -76,6 +77,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     }
 
     async ngOnInit() {
+        this.lan = localStorage.getItem('Lan');
 
         this.gasPrice = environment.chains.KANBAN.gasPrice;
         this.gasLimit = environment.chains.KANBAN.gasLimit;
@@ -115,7 +117,11 @@ export class MyordersComponent implements OnInit, OnDestroy {
         console.log('currentCoin=', currentCoin);
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         if (!seed) {
-            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('密码错误。', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+            }
             return;
         }
         const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
@@ -136,7 +142,11 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 }
             }
             if (fabAddress === '') {
-                this.alertServ.openSnackBar('FAB address not found.', 'Ok');
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('没有FAB地址。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('FAB address not found.', 'Ok');
+                }
                 return;
             }
             const bytes = bs58.decode(fabAddress);
@@ -150,7 +160,11 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this.gasPrice = Number(this.gasPrice);
         this.gasLimit = Number(this.gasLimit);
         if (this.gasPrice <= 0 || this.gasLimit <= 0) {
-            this.alertServ.openSnackBar('Invalid gas price or gas limit.', 'Ok');
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('燃料价格或限量错误。', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('Invalid gas price or gas limit.', 'Ok');
+            }
             return;
         }
         const options = {
@@ -182,9 +196,17 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 this.timerServ.checkTransactionStatus(item);
                 this.modalWithdrawRef.hide();
                 this.kanbanServ.incNonce();
-                this.alertServ.openSnackBar('Your withdraw request is pending.', 'Ok');
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('提币请求提交成功，等待处理。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Your withdraw request is pending.', 'Ok');
+                }
             } else {
-                this.alertServ.openSnackBar('Some error happened. Please try again.', 'Ok');
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('发生错误，请再试一次。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Errors happened, please try again.', 'Ok');
+                }
             }
         });
     }
@@ -198,13 +220,11 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this.select = ord;
         if (ord === 0) {
             this.orderStatus = 'open';
-        } else
-            if (ord === 1) {
-                this.orderStatus = 'close';
-            } else
-                if (ord === 2) {
-                    this.orderStatus = 'canceled';
-                }
+        } else if (ord === 1) {
+            this.orderStatus = 'close';
+        } else if (ord === 2) {
+            this.orderStatus = 'canceled';
+        }
     }
 
     deleteOrder(orderHash: string) {
@@ -246,12 +266,20 @@ export class MyordersComponent implements OnInit, OnDestroy {
         const amount = this.withdrawAmount;
 
         if (amount < environment.minimumWithdraw[this.coinName]) {
-            this.alertServ.openSnackBar('Your withdraw minimum amount is not satisfied.', 'Ok');
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('未满足最低提币量要求。', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('Your withdraw minimum amount is not satisfied.', 'Ok');
+            }
             return;
         }
 
         if (amount > Number(this.utilServ.showAmount(this.token.unlockedAmount, 6))) {
-            this.alertServ.openSnackBar('Your withdraw amount is bigger than your balance.', 'Ok');
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('提币数量超过可用余额。', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('Withdraw amount is over your balance.', 'Ok');
+            }
             return;
         }
 
@@ -264,15 +292,18 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this.pin = pin;
         const pinHash = this.utilServ.SHA256(pin).toString();
         if (pinHash !== this.wallet.pwdHash) {
-            this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('密码错误。', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
+            }
             return;
         }
         if (this.opType === 'withdraw') {
             this.withdrawDo();
-        } else
-            if (this.opType = 'deleteOrder') {
-                this.deleteOrderDo();
-            }
+        } else if (this.opType = 'deleteOrder') {
+            this.deleteOrderDo();
+        }
 
     }
 
@@ -300,7 +331,11 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
                 this.tradeService.saveTransactions(this.myorders);
                 this.kanbanServ.incNonce();
-                this.alertServ.openSnackBar('Your deleting order request is pending.', 'Ok');
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('取消订单请求提交成功，等待区块链处理。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Cancel order request is pending.', 'Ok');
+                }
             }
         });
     }
