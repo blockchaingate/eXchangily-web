@@ -59,7 +59,6 @@ export class RestoreWalletComponent implements OnInit {
       const name = this.userForm.controls.name.value;
       const pwd = this.userForm.controls.password.value;
       const mnemonic = this.seedPhrase;
-      console.log('mnemonic=', mnemonic);
       const wallet = this.walletServ.generateWallet(pwd, name, mnemonic);
 
       console.log('wallet=', wallet);

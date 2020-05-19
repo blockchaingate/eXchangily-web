@@ -37,7 +37,9 @@
                                 <div>
                                     <input type="text" class="form-control" id="inputGasAmount" name="quantity" [(ngModel)]="quantity" (input)="changeQuantity($event.target.value)" aria-describedby="emailHelp" placeholder="0.0000">
                                 </div>
-
+                                <div>
+                                    {{'Balance' | translate}}:{{balance}}
+                                </div>
                             </div>
                             <div class="col col-6">
                                 <div>

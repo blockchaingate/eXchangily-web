@@ -92,6 +92,8 @@ export class ListingComponent implements OnInit {
             }
             this.pinModal.show();
             return;
+        } else {
+            this.addListingDo();
         }
     }
 

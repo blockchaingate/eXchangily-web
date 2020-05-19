@@ -9,10 +9,10 @@ export class ManageWalletComponent implements OnInit {
     @Input() hideWallet: boolean;
     @Output() manageWallet = new EventEmitter<string>();
     constructor () {
-        console.log('hideWallet===', this.hideWallet);
+        //console.log('hideWallet===', this.hideWallet);
     }
     manageWal(type: string) {
-        console.log('type=' + type);
+        //console.log('type=' + type);
         this.manageWallet.emit(type);
     }
 
