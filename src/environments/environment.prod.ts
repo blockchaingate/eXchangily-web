@@ -2,8 +2,8 @@ import * as Btc from 'bitcoinjs-lib';
 export const environment = {
     production: true,
     baseUrl: 'https://exchangily.com',
-    url:"https://kanbanprod.fabcoinapi.com/",
-    tmpUrl:  "http://13.124.235.105:3000/", //replace this url once the temp api is deployed    
+    url: 'https://kanbanprod.fabcoinapi.com/',
+    tmpUrl: 'http://13.124.235.105:3000/', // replace this url once the temp api is deployed    
     version: 0.03,
     campaignId: 1,
     OTC_COMMISSION_RATE: 0.001,
@@ -34,11 +34,11 @@ export const environment = {
             chain: {
                 name: 'mainnet',
                 networkId: 211,
-                chainId: 211                
+                chainId: 211
             },
             gasPrice: 50000000,
-            gasLimit: 20000000    
-        }         
+            gasLimit: 20000000
+        }
     },
     endpoints: {
         blockchaingate: 'https://blockchaingate.com/v2/',
@@ -88,7 +88,7 @@ export const environment = {
             BTC: '1MczhymXZcpCyzuAe3DQrVafhTsaQyDo5U',
             ETH: '0x4e93c47b42d09f61a31f798877329890791077b2',
             FAB: '1KmKXs2vBMd367ifzY75JCUCbBW8sV1n4w'
-        }    
+        }
     },
     websockets: {
         allprices: 'wss://kanbanprod.fabcoinapi.com/ws/allprices',
@@ -113,8 +113,8 @@ export const environment = {
         Alipay: 'info@exchangily.com',
         DirectTransfer: {
             BankName: '招商银行',
-            AccountName : 'Exchangily',
+            AccountName: 'Exchangily',
             Account: '88884556555433234455'
         }
-    }      
+    }
 };
