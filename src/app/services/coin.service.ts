@@ -547,7 +547,7 @@ export class CoinService {
         const changeAddress = mycoin.receiveAdds[0];
 
         let outputNum = 2;
-        if(amount == 0) {
+        if((mycoin.tokenType == '') && (amount == 0)) {
             outputNum = 1;
         }
         transFee = ((receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput + outputNum * 34) * satoshisPerBytes;
@@ -572,7 +572,8 @@ export class CoinService {
         // + (receiveAddsIndexArr.length + changeAddsIndexArr.length) * feePerInput);
         // console.log('output1=' + output1 + ',output2=' + output2);
 
-        if(amount > 0) {
+        if((amount > 0) || (mycoin.tokenType == 'FAB')) {
+            console.log('go heeee');
             txb.addOutput(changeAddress.address, output1);
             txb.addOutput(to, output2);
         } else {
