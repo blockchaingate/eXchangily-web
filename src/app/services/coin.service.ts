@@ -483,8 +483,11 @@ export class CoinService {
                     console.log('amountNum1=', amountNum);
                     amountNum -= utxo.value;
                     amountNum += feePerInput;
+                    console.log('amount===', amount);
                     console.log('amountNum2=', amountNum);
-                    if ((amount > 0) && (amountNum <= 0)) {
+                    console.log('mycoin==', mycoin);
+                    if (((amount > 0) || (mycoin.tokenType == 'FAB')) && (amountNum <= 0)) {
+                        console.log('finished');
                         finished = true;
                         break;
                     }                 
@@ -523,7 +526,7 @@ export class CoinService {
                         // console.log('totalInput here=', totalInput);
                         amountNum -= utxo.value;
                         amountNum += feePerInput;
-                        if ((amount > 0) && (amountNum <= 0)) {
+                        if (((amount > 0) || (mycoin.tokenType == 'FAB')) && (amountNum <= 0)) {
                             finished = true;
                             break;
                         }                 
@@ -544,7 +547,7 @@ export class CoinService {
         const changeAddress = mycoin.receiveAdds[0];
 
         let outputNum = 2;
-        if(amount == 0) {
+        if((mycoin.tokenType == '') && (amount == 0)) {
             outputNum = 1;
         }
         transFee = ((receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput + outputNum * 34) * satoshisPerBytes;
@@ -569,7 +572,8 @@ export class CoinService {
         // + (receiveAddsIndexArr.length + changeAddsIndexArr.length) * feePerInput);
         // console.log('output1=' + output1 + ',output2=' + output2);
 
-        if(amount > 0) {
+        if((amount > 0) || (mycoin.tokenType == 'FAB')) {
+            console.log('go heeee');
             txb.addOutput(changeAddress.address, output1);
             txb.addOutput(to, output2);
         } else {
@@ -1054,10 +1058,12 @@ export class CoinService {
             
             // console.log('totalFee=' + totalFee);
             console.log('satoshisPerBytessatoshisPerBytessatoshisPerBytes=', satoshisPerBytes);
-            const res1 = await this.getFabTransactionHex(seed, mycoin.baseCoin, contract, 0, totalFee, 
+            const baseCoin = mycoin.baseCoin;
+            baseCoin.tokenType = 'FAB';
+            const res1 = await this.getFabTransactionHex(seed, baseCoin, contract, 0, totalFee, 
                 satoshisPerBytes, bytesPerInput, getTransFeeOnly);
 
-
+            baseCoin.tokenType = '';
             // console.log('res1=', res1);
             txHex = res1.txHex;
             errMsg = res1.errMsg;

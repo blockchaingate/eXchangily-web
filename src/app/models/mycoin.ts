@@ -9,12 +9,14 @@ export class MyCoin extends Coin {
     tokenType: string;
     baseCoin: MyCoin;
     decimals: number;
+    usdPrice: number;
     redeposit: any[];
     contractAddr: string;
 
     constructor(name: string) {
         super(name);
         this.balance = 0;
+        this.usdPrice = 0;
         this.lockedBalance = 0;
         this.tokenType = '';
         this.contractAddr = '';
