@@ -74,6 +74,7 @@ export class WalletDashboardComponent implements OnInit {
     exgAddress: string;
     fabAddress: string;
     exgBalance: number;
+    exgValue: number;
     currentWalletIndex: number;
     pairsConfig: Pair[];
     currentCoin: MyCoin;
@@ -450,6 +451,9 @@ export class WalletDashboardComponent implements OnInit {
                                 }
                             }
                         }
+                        this.exgBalance = this.wallet.mycoins[0].balance + this.wallet.mycoins[0].lockedBalance;
+
+                        this.exgValue = (this.exgBalance) * this.wallet.mycoins[0].usdPrice;
                     }
                     if (updated) {
                         // console.log('updated=' + updated);
@@ -569,7 +573,7 @@ export class WalletDashboardComponent implements OnInit {
         }
         // console.log('this.wallet=', this.wallet);
         this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
-        this.exgBalance = this.wallet.mycoins[0].balance;
+        
 
         this.campaignorderServ.getCheck(this.exgAddress).subscribe(
             (resp: any) => {
