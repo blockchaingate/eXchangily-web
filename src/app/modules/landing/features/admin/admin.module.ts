@@ -33,6 +33,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { PaymentMethodService } from '../../../../services/paymentmethod.service';
+import { OtcListingOrdersModal } from './modals/otc-listing-orders/otc-listing-orders.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -49,7 +51,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     AdminRoutingModule,
     ReferralModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    ModalModule.forRoot()
   ],
   providers: [AuthGuard, NoAuthGuard, TokenlockService,
     PaymentMethodService, CampaignOrderService, MerchantService, OtcService],
@@ -66,7 +69,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MerchantComponent,
     KycsComponent,
     OrderItemComponent,
-    TokenlockComponent
+    TokenlockComponent,
+    OtcListingOrdersModal
   ]
 })
 export class AdminModule { }

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { StorageService } from '../../../../../../services/storage.service';
 import { OtcService } from '../../../../../../services/otc.service';
+import { OtcListingOrdersModal } from '../../modals/otc-listing-orders/otc-listing-orders.component';
 
 @Component({
   selector: 'app-otc-listing',
@@ -9,7 +10,11 @@ import { OtcService } from '../../../../../../services/otc.service';
 })
 export class OtcListingComponent implements OnInit {
     listings: any;
+    listing: any;
     token: string;
+    
+    @ViewChild('adminOtcListingOrders', { static: true }) adminOtcListingOrders: OtcListingOrdersModal;
+
     constructor(
         private otcServ: OtcService, 
         private _storageServ: StorageService        
@@ -27,6 +32,11 @@ export class OtcListingComponent implements OnInit {
                 }
               );
         });
+    }
+
+    openOrdersModal(listing) {
+        console.log();
+        this.adminOtcListingOrders.show(listing);
     }
 
     toggleActive(listing) {

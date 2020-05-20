@@ -54,7 +54,7 @@ export class OrderComponent implements OnInit {
     this._otcServ.changePaymentStatus(this.token, element._id, paymentStatus).subscribe(
       (res: any) => {
         if (res && res.ok) {
-          element.paymentStatus = 1;
+          element.paymentStatus = paymentStatus;
         }
       }
     );
