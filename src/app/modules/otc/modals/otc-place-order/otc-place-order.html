@@ -1,6 +1,6 @@
 <div bsModal #otcPlaceOrderModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-bg-grey" *ngIf="element">
-        <form (ngSubmit)="onSubmit()">
+        <form (ngSubmit)="selectedMethod == 'CreditCard' ? stripeCard.createToken(extraData) : onSubmit()">
             <div class="modal-content">
                 <div class="modal-header text-center">
                     <h4 class="modal-title w-100 text-dark">{{(element.buy ? 'Sell' : 'Buy') | translate}} {{element.coin}}</h4>
@@ -56,16 +56,32 @@
                                     {{'Payment method' | translate}}:
                                 </div>
                                 <div>
-                                    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" name="method" [(ngModel)]="method">
+                                    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" name="method" [(ngModel)]="selectedMethod">
                                         <mat-radio-button class="px-2" *ngFor="let method of methods" [value]="method">
-                                            <fa-icon *ngIf="method=='alipay'" [icon]="faAlipay"></fa-icon>
-                                            <fa-icon *ngIf="method=='bank'" [icon]="faCreditCard"></fa-icon>
-                                            <span *ngIf="method=='bank'">
-中国工商银行
-                                            </span>
+                                            <fa-icon *ngIf="method=='Paypal'" [icon]="faPaypal"></fa-icon>
+                                            <fa-icon *ngIf="method=='CreditCard'" [icon]="faCreditCard"></fa-icon>
                                         </mat-radio-button>
                                     </mat-radio-group>
                                 </div>
+
+                                <div [style.visibility]="selectedMethod == 'CreditCard' ? 'visible' : 'hidden'">
+
+                                    <div *ngIf="invalidError" style="color:red">
+                                        {{ invalidError.message }}
+                                      </div>
+                                       
+                                      <stripe-card
+                                      #stripeCard
+                                      (catch) = "onStripeError($event)"
+                                      [(invalid)] = "invalidError"
+                                      [options] = "options"
+                                      (tokenChange) = "setStripeToken($event)"
+                                      (sourceChange) = "setStripeSource($event)"
+                                    ></stripe-card>
+                                </div>  
+                                <div [style.visibility]="selectedMethod == 'Paypal' ? 'visible' : 'hidden'">
+                                    <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+                                </div>                              
                             </div>
                         </div>
                     </div>

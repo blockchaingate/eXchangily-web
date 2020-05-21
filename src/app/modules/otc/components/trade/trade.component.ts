@@ -15,6 +15,7 @@ import { MyCoin } from '../../../../models/mycoin';
 import { environment } from '../../../../../environments/environment';
 import { CoinService } from '../../../../services/coin.service';
 import { TimerService } from '../../../../services/timer.service';
+import { UserService } from '../../../../services/user.service';
 
 @Component({
   selector: 'app-trade',
@@ -51,6 +52,7 @@ export class TradeComponent implements OnInit {
   @ViewChild('confirmPaymentModal', { static: true }) confirmPaymentModal: ConfirmPaymentModal;
 
   constructor(
+    private userServ: UserService,
     private timerServ: TimerService,
     private coinService: CoinService,
     private alertServ: AlertService,
@@ -107,8 +109,18 @@ export class TradeComponent implements OnInit {
   }
 
   placeOrder(element) {
-    this.element = element;
-    this.otcPlaceOrderModal.show(element);
+
+    this.userServ.getMe(this.token).subscribe(
+      (res: any) => {
+        console.log('res===', res);
+        if (res && res.ok) {
+          this.element = element;
+          this.otcPlaceOrderModal.show(element);          
+        } else {
+          this._router.navigate(['/login/signin', { 'retUrl': '/otc/trade' }]);
+        }
+      });    
+
   }
 
   onConfirmedPlaceOrder(event) {
