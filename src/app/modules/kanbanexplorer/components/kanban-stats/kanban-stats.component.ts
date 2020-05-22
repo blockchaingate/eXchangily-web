@@ -9,24 +9,24 @@ import { KanbanStats } from '../../models/kanbanStats';
 })
 export class KanbanStatsComponent implements OnInit {
 
-  public kanbanStats : KanbanStats
-  private interval 
-  constructor(private kanbanService:KanbanService) { 
-    this.getKanbanStats()
-    
-    this.interval = setInterval(()=>{
-      this.getKanbanStats()
-    },10000)
+  public kanbanStats: KanbanStats;
+  private interval;
+  constructor(private kanbanService: KanbanService) {
+    this.getKanbanStats();
+
+    this.interval = setInterval(() => {
+      this.getKanbanStats();
+    }, 10000);
   }
 
   ngOnInit(): void {
-    
+
   }
 
-  getKanbanStats(){
-      this.kanbanService.getKanbanStats().subscribe(r=>{
-        this.kanbanStats = r
-      })
+  getKanbanStats() {
+    this.kanbanService.getKanbanStats().subscribe(r => {
+      this.kanbanStats = r;
+    });
   }
 
 }

@@ -13,7 +13,7 @@ export interface Transaction {
     v: string;
     r: string;
     s: string;
-    confirmations: number
+    confirmations: number;
 }
 
 export interface AddressTx {
@@ -30,11 +30,11 @@ export interface AddressTx {
 }
 
 export interface Balance {
-    coinType:string;
-    unlockedAmount:string;
-    lockedAmount:string;
+    coinType: string;
+    unlockedAmount: string;
+    lockedAmount: string;
 }
 
 export interface TransactionCount {
-    transactionCount : Number
+    transactionCount: number;
 }
