@@ -1,28 +1,28 @@
 <div fxLayout="column" fxLayoutGap="20px">
     <div fxLayout="row" fxLayoutGap="20px">
         <mat-card class="mat-elevation-z6" fxFlex="100">
-            <h2>Address : {{address}}</h2>
-            <h2>Tx Count(Nonce):{{nonce}}</h2>
+            <h2>{{"Address"|translate}} : {{address}}</h2>
+            <h2>{{"Tx Count"| translate}}(Nonce):{{nonce}}</h2>
         </mat-card>
     </div>
     <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="20px">
         <mat-card class="mat-elevation-z6" fxFlex='50'>
-            <h3>Balances</h3>
+            <h3>{{"Balances"|translate}}</h3>
             <table mat-table [dataSource]="balances" style="width: 100%; text-align: center;">
                 <ng-container matColumnDef="coinType">
-                    <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Pair </th>
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;"> {{"Pair"|translate}} </th>
                     <td mat-cell *matCellDef="let element">
                         {{element.coinType}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="lockedAmount">
-                    <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Price </th>
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;"> {{"Price"|translate}} </th>
                     <td mat-cell *matCellDef="let element">
                         {{element.lockedAmount * 1e-18 | number:'1.5-5'}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="unlockedAmount">
-                    <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Quantity </th>
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;"> {{"Quantity"|translate}} </th>
                     <td mat-cell *matCellDef="let element">
                         {{element.unlockedAmount * 1e-18 | number:'1.5-5' }}</td>
                 </ng-container>
@@ -32,7 +32,7 @@
             </table>
         </mat-card>
         <mat-card class="mat-elevation-z6" fxFlex='50'>
-            <h3>Kanban(Gas) Balance</h3>
+            <h3>{{"Kanban Gas Balance"|translate}}</h3>
             <div *ngIf="kanbanBalance" style="text-align: center;">
                 <div *ngFor="let kb of kanbanBalance.balance| keyvalue " style="line-height: 2em; padding: 10px;">
                     <b>{{kb.key}} </b> {{kb.value * 1e-18 | number:'1.5-5'}}
@@ -42,85 +42,80 @@
         </mat-card>
     </div>
 
-    <div style="display: flex;display: flex;
-    flex-flow: row wrap;
-    justify-content: space-around;" fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="20px">
-        <mat-card fxFlex='33.33'  class="vh500 mat-elevation-z6">
-            <h3>{{orders.length}} Orders</h3>
+    <div style="display: flex; display: flex; flex-flow: row wrap; justify-content: space-around;" fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="20px">
+        <mat-card fxFlex='33.33' class="vh500 mat-elevation-z6">
+            <h3>{{orders.length}} {{"OrdersCount"|translate}}</h3>
             <div *ngIf="orders && orders.length>0">
                 <div *ngFor="let order of orders;let i = index">
                     <div style="line-height: 1.5em;">
-                        <b>Order : </b>{{i + 1}}<br>
-                        <b>OrderHash : </b>{{order.orderHash}}<br>
-                        <b>Pair : </b>{{order.pairName}}<br>
-                        <b>Order Type :
-                            <span *ngIf="order.bidOrAsk" style="color: green;">Buy</span>
-                            <span *ngIf="!order.bidOrAsk" style="color: red;">Sell</span>
+                        <b>{{"Order"|translate}} : </b>{{i + 1}}<br>
+                        <b>{{"Order Hash"|translate}} : </b>{{order.orderHash}}<br>
+                        <b>{{"Pair"| translate}} : </b>{{order.pairName}}<br>
+                        <b>{{"Order Type"|translate}} :
+                            <span *ngIf="order.bidOrAsk" style="color: green;">{{"Buy"|translate}}</span>
+                            <span *ngIf="!order.bidOrAsk" style="color: red;">{{"Sell"|translate}}</span>
                         </b><br>
-                        <b>Original Order Quantity : </b>{{order.originalOrderQuantity | number:'1.2-10'  }}<br>
-                        <b>Current Order Quantity : </b>{{order.currentOrderQuantity  | number:'1.2-10' }}<br>
-                        <b>Filled Quantity : </b>{{order.filledQuantity | number:'1.2-10'  }}<br>
-                        <b>Order Date : </b>{{ order.time * 1000 | date : 'EEEE, MMMM d, yyyy h:mm:ss a'}}<br>
-                        <b>Current Status :
-                            <span *ngIf="order.isActive" style="color: green;">Active</span>
-                            <span *ngIf="!order.isActive" style="color: gray;">Inactive</span>
+                        <b>{{"Original Order Quantity"|translate}} : </b>{{order.originalOrderQuantity | number:'1.2-10' }}<br>
+                        <b>{{"Current Order Quantity"|translate}} : </b>{{order.currentOrderQuantity | number:'1.2-10' }}<br>
+                        <b>{{"Filled Quantity"|translate}} : </b>{{order.filledQuantity | number:'1.2-10' }}<br>
+                        <b>{{"Order Date"|translate}} : </b>{{ order.time * 1000 | date : 'EEEE, MMMM d, yyyy h:mm:ss a'}}<br>
+                        <b>{{"Current Status"|translate}} :
+                            <span *ngIf="order.isActive" style="color: green;">{{"Active"|translate}}</span>
+                            <span *ngIf="!order.isActive" style="color: gray;">{{"Inactive"|translate}}</span>
                         </b><br>
 
-                        <b>Matched Orders : </b>
-                        <span *ngIf="order.matchedOrders.length === 0">None</span><br>
-                        <div *ngFor="let m of order.matchedOrders; let i=index"
-                            style="text-align: left; margin-left: 50px;">
-                            <hr><b>Order Hash : </b> {{m.orderHash}}<br>
-                            <b>Quantity : </b>{{m.quantity  | number:'1.2-10' }}<br>
-                            <b>Price : </b>{{m.price | number:'1.2-10' }}<br>
-                            <b>Block Number : </b>{{order.blockNumber.fulfilOrder[i]}}
+                        <b>{{"Matched Orders"|translate}} : </b>
+                        <span *ngIf="order.matchedOrders.length === 0">{{"None"|translate}}</span><br>
+                        <div *ngFor="let m of order.matchedOrders; let i=index" style="text-align: left; margin-left: 50px;">
+                            <hr><b>{{"Order Hash"|translate}} : </b> {{m.orderHash}}<br>
+                            <b>{{"Quantity"|translate}} : </b>{{m.quantity | number:'1.2-10' }}<br>
+                            <b>{{"Price"|translate}} : </b>{{m.price | number:'1.2-10' }}<br>
+                            <b>{{"Block Number"|translate}} : </b>{{order.blockNumber.fulfilOrder[i]}}
                         </div>
 
-                        <b>Create Order Transaction Hash : </b>{{order.txHash.createOrder}}<br>
-                        <span *ngIf="order.txHash.cancelOrder"><b>Cancel Order Transaction
-                                Hash</b>{{order.txHash.cancelOrder}}<br></span>
+                        <b>{{"Create Order Transaction Hash"|translate}} : </b>{{order.txHash.createOrder}}<br>
+                        <span *ngIf="order.txHash.cancelOrder"><b>{{"Cancel Order Transaction Hash"|translate}}</b>{{order.txHash.cancelOrder}}<br></span>
 
-                        <b>Create Order Block Number : </b>{{order.blockNumber.createOrder}}
-                        <span *ngIf="order.blockNumber.cancelOrder"><b>Cancel Order Block
-                                Number</b>{{order.blockNumber.cancelOrder}}<br></span>
+                        <b>{{"Create Order Block Number"|translate}} : </b>{{order.blockNumber.createOrder}}
+                        <span *ngIf="order.blockNumber.cancelOrder"><b>{{"Cancel Order Block Number"|translate}}</b>{{order.blockNumber.cancelOrder}}<br></span>
                     </div>
                     <hr class="divider">
                 </div>
             </div>
         </mat-card>
-        
+
         <mat-card fxFlex='33.33' class="vh500 mat-elevation-z6">
-            <h3>{{depositReqs.length}} Deposits</h3>
+            <h3>{{depositReqs.length}} {{"Deposits"|translate}}</h3>
             <div *ngIf="depositReqs">
                 <div *ngFor="let d of depositReqs; let i = index">
                     <div style="line-height: 1.5em;">
-                        <b>Deposit : </b>{{i+1}}<br>
-                        <b>Coin Name : </b>{{d.coinName}}<br>
+                        <b>{{"Deposit"|translate}} : </b>{{i+1}}<br>
+                        <b>{{"Coin Name"|translate}} : </b>{{d.coinName}}<br>
                         <b>TXID : </b>{{d.txid}}<br>
-                        <b>Value : </b>{{d.value | number:'1.2-10'}}<br>
-                        <b>Deposit To Address : </b>{{d.depositToAddress}}<br>
-                        <b>Deposit Date : </b>{{d.timestamp  * 1000 | date :  'EEEE, MMMM d, yyyy h:mm:ss a'}}<br>
-                        <b>Transaction Hash : </b>{{d.txHash}}<br>
-                        <b>Block Number : </b>{{d.blockNumber}}
+                        <b>{{"Value"|translate}} : </b>{{d.value | number:'1.2-10'}}<br>
+                        <b>{{"Deposit To Address"|translate}} : </b>{{d.depositToAddress}}<br>
+                        <b>{{"Deposit Date"|translate}} : </b>{{d.timestamp * 1000 | date : 'EEEE, MMMM d, yyyy h:mm:ss a'}}<br>
+                        <b>{{"Transaction Hash"|translate}} : </b>{{d.txHash}}<br>
+                        <b>{{"Block Number"|translate}} : </b>{{d.blockNumber}}
                     </div>
                     <hr class="divider">
                 </div>
             </div>
-            
+
         </mat-card>
 
         <mat-card fxFlex='33.33' class="vh500 mat-elevation-z6">
-            <h3>{{withdrawReqs.length}} Withdraw Requests</h3>
+            <h3>{{withdrawReqs.length}} {{"Withdraw Requests"|translate}}</h3>
             <div *ngIf="withdrawReqs">
                 <div *ngFor="let w of withdrawReqs; let i = index">
                     <div style="line-height: 1.5em;">
-                        <b>Withdraw Request : </b>{{i+1}}<br>
-                        <b>Coin Name : </b>{{w.coinName}}<br>
-                        <b>Value : </b>{{w.value | number:'1.2-10'}}<br>
-                        <b>Withdraw To Address : </b>{{w.withdrawToAddress}}<br>
-                        <b>Request Date : </b>{{w.timestamp  * 1000 | date :  'EEEE, MMMM d, yyyy h:mm:ss a'}}<br>
-                        <b>Transaction Hash : </b>{{w.txHash}}<br>
-                        <b>Block Number : </b>{{w.blockNumber}}
+                        <b>{{"Withdraw Request"|translate}} : </b>{{i+1}}<br>
+                        <b>{{"Coin Name"|translate}} : </b>{{w.coinName}}<br>
+                        <b>{{"Value"|translate}} : </b>{{w.value | number:'1.2-10'}}<br>
+                        <b>{{"Withdraw To Address"|translate}} : </b>{{w.withdrawToAddress}}<br>
+                        <b>{{"Request Date"|translate}} : </b>{{w.timestamp * 1000 | date : 'EEEE, MMMM d, yyyy h:mm:ss a'}}<br>
+                        <b>{{"Transaction Hash"|translate}} : </b>{{w.txHash}}<br>
+                        <b>{{"Block Number"|translate}} : </b>{{w.blockNumber}}
                     </div>
                     <hr class="divider">
                 </div>
@@ -129,6 +124,6 @@
     </div>
 
     <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxLayoutGap="20px">
-        
+
     </div>
 </div>

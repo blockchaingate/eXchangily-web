@@ -1007,5 +1007,6 @@
     "WithdrawQ": "Move coin from Exchange to wallet but not received",
     "WithdrawA": "Exchange process withdraw requests every half an hour, usually it may take 40 minutes to receive it in wallet, sometime it may be much longer depends on distination blockchain trafic state.",
     "BuyFABQ": "I need to add gas, but where to get FAB",
-    "BuyFABA": "You can buy FAB in OTC area, or buy from other centralized exchange or from FAB holders, you can mine FAB also, Exchangily have events rewards FAB frequently, or you can contact us through customer service to get help quickly."
+    "BuyFABA": "You can buy FAB in OTC area, or buy from other centralized exchange or from FAB holders, you can mine FAB also, Exchangily have events rewards FAB frequently, or you can contact us through customer service to get help quickly.",
+    "OrdersCount": "Orders"
 }
