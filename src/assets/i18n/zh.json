@@ -1072,6 +1072,7 @@
     "Please enter valid deposit amount.": "请输入有效存币数量。",
     "No enough balance for deposit.": "钱包余额不足。",
     "Gas Fee": "燃料费",
+    "Your payment was confirmed": "付款成功",
     "Block Hash": "块哈希",
     "DepositErrQ": "为什么在向交易所转币时，经常发生错误",
     "DepositErrA": "由于交易所需要确定转账与钱包的对应关系，向交易所转币只能一笔一笔的进行，即当一笔交易完成后，才能再转另一笔，比如您准备向交易所分别存BTC和ETH，你首先提交了一笔BTC存币, 需要等交易所收到这笔后再存另一笔ETH，否则会提示错误。通常完成一笔向交易所转币操作可能需要半个小时至一个小时。",

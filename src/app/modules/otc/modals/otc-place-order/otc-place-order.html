@@ -37,7 +37,7 @@
                                 <div>
                                     <input type="text" class="form-control" id="inputGasAmount" name="quantity" [(ngModel)]="quantity" (input)="changeQuantity($event.target.value)" aria-describedby="emailHelp" placeholder="0.0000">
                                 </div>
-                                <div>
+                                <div *ngIf="balance">
                                     {{'Balance' | translate}}:{{balance}}
                                 </div>
                             </div>
@@ -72,16 +72,17 @@
                                        
                                       <stripe-card
                                       #stripeCard
+                                      [options]="options"
                                       (catch) = "onStripeError($event)"
                                       [(invalid)] = "invalidError"
-                                      [options] = "options"
                                       (tokenChange) = "setStripeToken($event)"
                                       (sourceChange) = "setStripeSource($event)"
                                     ></stripe-card>
                                 </div>  
-                                <div [style.visibility]="selectedMethod == 'Paypal' ? 'visible' : 'hidden'">
+                                <div *ngIf="selectedMethod == 'Paypal'">
+                                    
                                     <ngx-paypal [config]="payPalConfig"></ngx-paypal>
-                                </div>                              
+                                </div>                           
                             </div>
                         </div>
                     </div>

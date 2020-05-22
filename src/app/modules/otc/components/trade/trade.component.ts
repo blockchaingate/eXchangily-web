@@ -37,6 +37,7 @@ export class TradeComponent implements OnInit {
   gasPrice: number;
   gasLimit: number;
   satoshisPerBytes: number;
+  addressIncorrect: boolean;
 
   commissionRate = environment.OTC_COMMISSION_RATE;
   currencies: string[] = [
@@ -59,11 +60,12 @@ export class TradeComponent implements OnInit {
     private translateServ: TranslateService,
     public utilServ: UtilService,
     private walletService: WalletService,
-    private _router: Router, 
+    private _router: Router,
     private storageService: StorageService, 
     private _otcServ: OtcService) { }
 
   async ngOnInit() {
+    this.addressIncorrect = false;
     this.bidOrAsk = true;
     this.coinName = 'USDT';
     this.currency = 'USD';
@@ -114,6 +116,30 @@ export class TradeComponent implements OnInit {
       (res: any) => {
         console.log('res===', res);
         if (res && res.ok) {
+          const data = res._body;
+          const walletExgAddress = data.walletExgAddress;
+          const walletBtcAddress = data.walletBtcAddress;
+          const walletEthAddress = data.walletEthAddress;
+          let walletExg = '';
+          let walletBtc = '';
+          let walletEth = '';
+
+          for(let i=0;i<this.wallet.mycoins.length;i++) {
+            const mycoin = this.wallet.mycoins[i];
+            if(mycoin.name == 'FAB') {
+              walletExg = mycoin.receiveAdds[0].address;
+            }
+            if(mycoin.name == 'BTC') {
+              walletBtc = mycoin.receiveAdds[0].address;
+            }  
+            if(mycoin.name == 'ETH') {
+              walletEth = mycoin.receiveAdds[0].address;
+            }                       
+          }
+
+          if ((walletExgAddress != walletExg) || (walletBtcAddress != walletBtc) || (walletEthAddress != walletEth)) {
+            this.addressIncorrect = true;
+          }
           this.element = element;
           this.otcPlaceOrderModal.show(element);          
         } else {
@@ -145,6 +171,9 @@ export class TradeComponent implements OnInit {
         if (res.ok) {
           const data = res._body;
           this.element = data;
+          if(data.charge_id) {
+            this.alertServ.openSnackBar(this.translateServ.instant('Your payment was confirmed'),this.translateServ.instant('Ok'));
+          }
           for (let i = 0; i < this.dataSource.length; i++) {
             if (this.dataSource[i]._id == this.element._id) {
               this.dataSource[i].qtyAvilable = this.element.qtyAvilable;

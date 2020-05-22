@@ -72,19 +72,27 @@ export class OtcPlaceOrderModal {
 
     enablePaypal() {
       console.log('enablePaypal====');
+      const currency = this.element.fiat;
+      if(!this.amount) {
+          return;
+      }
+      const amount = this.amount.toString();
+
+      console.log('amount=', amount);
+      console.log('currency=', currency);
       this.payPalConfig = {
-        currency: 'EUR',
-        clientId: 'sb',
+        currency: currency,
+        clientId: environment.PAYPAL_CLIENT_ID,
         createOrder: (data) => < ICreateOrderRequest > {
             intent: 'CAPTURE',
             purchase_units: [{
                 amount: {
-                    currency_code: 'EUR',
-                    value: '9.99',
+                    currency_code: currency,
+                    value: amount,
                     breakdown: {
                         item_total: {
-                            currency_code: 'EUR',
-                            value: '9.99'
+                            currency_code: currency,
+                            value: amount
                         }
                     }
                 },
@@ -93,8 +101,8 @@ export class OtcPlaceOrderModal {
                     quantity: '1',
                     category: 'DIGITAL_GOODS',
                     unit_amount: {
-                        currency_code: 'EUR',
-                        value: '9.99',
+                        currency_code: currency,
+                        value: amount,
                     },
                 }]
             }]
@@ -116,6 +124,19 @@ export class OtcPlaceOrderModal {
         onClientAuthorization: (data) => {
             console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
             //this.showSuccess = true;
+            const orderID = data.id;
+            console.log('orderID===', orderID);
+            if (orderID) {
+                this.hide();
+                const data = {
+                    amount: this.amount,
+                    quantity: this.quantity,
+                    method: this.selectedMethod,
+                    charge_id: orderID
+                  };
+                  this.confirmed.emit(data);
+            }
+
         },
         onCancel: (data, actions) => {
             console.log('OnCancel', data, actions);
@@ -166,13 +187,13 @@ export class OtcPlaceOrderModal {
       }
      
       setStripeToken( token:StripeToken ){
-        console.log('Stripe tokeneen', token)
+        this.hide();
         this.token = token.id;
         const data = {
           amount: this.amount,
           quantity: this.quantity,
           method: this.selectedMethod,
-          stripeToken: this.token
+          charge_id: this.token
         };
         this.confirmed.emit(data);
       }
