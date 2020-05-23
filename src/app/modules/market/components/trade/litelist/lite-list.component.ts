@@ -19,7 +19,7 @@ export interface Section {
 
 export class LiteListComponent implements OnInit {
     select = 'USDT';
-    pair = 'BTC/USDT';
+    selectedpair = 'BTC/USDT';
     pdecimal = '1.2-2';
     vdecimal = '1.6-6';
 
@@ -78,7 +78,9 @@ export class LiteListComponent implements OnInit {
     }
 
     setSelect() {
-        this.select = this.searchText;
+        if (this.searchText) {
+            this.select = this.searchText.toUpperCase();
+        }
     }
 
     selectCat(cat: string) {
@@ -86,14 +88,14 @@ export class LiteListComponent implements OnInit {
     }
 
     loadTradePair(pair: string) {
-        // console.log('pair for loadTradePair:' + pair);
+        this.selectedpair = pair;
         pair = pair.replace('/', '_');
-
+/*
         this._router.navigateByUrl('/OrderPadComponent', { skipLocationChange: true }).then(() => {
             this._router.navigate(['market/trade/' + pair]);
-        }); 
-
-        // this._router.navigate(['market/trade/' + pair]);
+        });
+*/
+         this._router.navigate(['market/trade/' + pair]);
     }
 
 }
