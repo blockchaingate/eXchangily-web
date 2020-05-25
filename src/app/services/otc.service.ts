@@ -35,6 +35,10 @@ export class OtcService {
     return this.http.getPrivate(path + 'orders/private/member-orders', token);
   }
 
+  getAllOrders(token: string) {
+    return this.http.getPrivate(path + 'orders/admin/otc-orders', token);
+  }
+
   getMerchantOrders(token: string) {
     return this.http.getPrivate(path + 'orders/private/merchant-orders', token);
   }

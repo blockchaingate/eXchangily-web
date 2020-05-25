@@ -9,6 +9,7 @@ import { ApplyForMerchantModal } from './modals/apply-for-merchant/apply-for-mer
 import { ConfirmPaymentModal } from './modals/confirm-payment/confirm-payment';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MerchantPipe } from './pipes/merchant.pipe';
+import { OrderPipe } from './pipes/order.pipe';
 import { PaymentmethodComponent } from './components/paymentmethod/paymentmethod.component';
 import { MerchantOrdersComponent } from './components/merchant-orders/merchant-orders';
 import { MemberOrdersComponent } from './components/member-orders/member-orders';
@@ -27,7 +28,6 @@ import { OtcMerchantModule } from '../otc/components/otc-merchant/otc-merchant.m
 import { TranslateModule } from '@ngx-translate/core';
 import { PaymentMethodService } from '../../services/paymentmethod.service';
 import { StripeModule } from "stripe-angular"
-import { environment } from 'src/environments/environment';
 import { UserService } from '../../services/user.service';
 import { NgxPayPalModule } from 'ngx-paypal';
 
@@ -35,6 +35,7 @@ import { NgxPayPalModule } from 'ngx-paypal';
   declarations: [
     TradeComponent,
     MerchantPipe,
+    OrderPipe,
     PaymentmethodComponent,
     ConfirmPaymentModal,
     OtcPlaceOrderModal,
@@ -62,6 +63,9 @@ import { NgxPayPalModule } from 'ngx-paypal';
     ModalModule,
     OtcMerchantModule,
     StripeModule.forRoot()
+  ],
+  exports: [
+    OrderComponent
   ],
   providers: [AuthGuard,PaymentMethodService,UserService]
 })

@@ -89,7 +89,7 @@
                 </div>
 
                 <div class="modal-footer  justify-content-center">
-                    <button class="btn btn-gradient text-white py-2 px-5" type="submit"> {{'Confirm' | translate}} </button>
+                    <button class="btn btn-gradient text-white py-2 px-5" type="submit" [disabled]="!amount"> {{'Confirm' | translate}} </button>
                 </div>
             </div>
         </form>

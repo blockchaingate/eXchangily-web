@@ -31,7 +31,7 @@ export class MerchantOrdersComponent implements OnInit {
                 this.orders = data;
               } else {
                 if (data && data.name === 'TokenExpiredError') {
-                  this.router.navigate(['/login/signin', { 'retUrl': '/otc/order' }]);
+                  this.router.navigate(['/login/signin', { 'retUrl': '/otc/merchant-orders' }]);
                 }
               }
             }

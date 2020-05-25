@@ -10,16 +10,18 @@ import { Router } from '@angular/router';
 })
 export class OrderComponent implements OnInit {
   bidOrAsk: boolean;
-  statuses = [];
+  statuses = [0,1,2,3];
   @Input() orders: any;
   @Input() type: string;
   token: string;
   buyOrderStatuses = ['Waiting for pay', 'Paid already', 'Finished', 'Cancelled', 'Frozened', 'All orders'];
-  buyOrderButtonStatuses = ['I have paid', 'Confirm receipt'];
+  buyOrderButtonStatuses = ['I have paid', 'Finish'];
 
   sellOrderStatuses = ['Waiting for collect', 'Waiting for confirm', 'Finished', 'Cancelled', 'Frozened', 'All orders'];
-  sellOrderButtonStatuses = ['I have collected', 'Confirm receipt'];
-  currentStatus: string;
+  sellOrderButtonStatuses = ['I have collected', 'Finish'];
+
+
+  currentStatus: number;
   constructor(
     private router: Router,
     private storageService: StorageService,
@@ -38,7 +40,7 @@ export class OrderComponent implements OnInit {
       }
     return text;
   }
-
+  
   getStatusText(buy: boolean, status: number) {
     buy = !buy;
     let text = '';
@@ -62,29 +64,13 @@ export class OrderComponent implements OnInit {
 
   ngOnInit() {
     this.bidOrAsk = true;
-    this.statuses = this.buyOrderStatuses;
-    this.currentStatus = this.statuses[0];
+    // this.statuses = this.buyOrderStatuses;
+    this.currentStatus = 0;
 
     this.storageService.getToken().subscribe(
       (token: string) => {
         this.token = token;
-        /*
-        this._otcServ.getOrders(this.token).subscribe(
-            (res: any) => {
-                if(res) {
-                  const ok = res.ok;
-                  const data = res._body;
-                  if(ok) {
-                    this.orders = data;
-                  } else {
-                    if(data && data.name == 'TokenExpiredError') {
-                      this.router.navigate(['/login/signin', { 'retUrl': '/otc/order' }]);
-                    }
-                  }
-                }
-            }
-        );
-        */
+
       }
     );
 
@@ -92,15 +78,11 @@ export class OrderComponent implements OnInit {
 
   changeBidOrAsk(b: boolean) {
     this.bidOrAsk = b;
-    if (b) {
-      this.statuses = this.buyOrderStatuses;
-    } else {
-      this.statuses = this.sellOrderStatuses;
-    }
+
     this.currentStatus = this.statuses[0];
   }
 
-  changeStatus(status: string) {
+  changeStatus(status: number) {
     this.currentStatus = status;
   }
 }

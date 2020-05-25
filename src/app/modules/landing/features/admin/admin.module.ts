@@ -5,7 +5,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ComponentsModule } from '../../components/components.module';
-
+import { OtcModule } from '../../../otc/otc.module';
 import { NoAuthGuard } from '../../guards/no-auth/no-auth.guard';
 import { AuthGuard } from '../../guards/auth/auth.guard';
 import { ReferralModule } from '../account/referrals/referrals.module';
@@ -16,6 +16,7 @@ import { MerchantComponent } from './merchant/merchant.component';
 import { MembersComponent } from './members/members.component';
 import { PaymentMethodsComponent } from './paymentmethods/paymentmethods.component';
 import { OrderEditComponent } from './order/order-edit.component';
+import { OrdersComponent } from './otc/orders/orders.component';
 import { CampaignOrdersComponent } from './campaign-orders/campaign-orders.component';
 import { OrderManagementComponent } from './order/order-mngmt.component';
 import { OtcListingComponent } from './otc/otc-listing/otc-listing.component';
@@ -51,6 +52,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AdminRoutingModule,
     ReferralModule,
     MatButtonModule,
+    OtcModule,
     MatDialogModule,
     ModalModule.forRoot()
   ],
@@ -64,6 +66,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MembersComponent,
     PaymentMethodsComponent,
     CampaignOrdersComponent,
+    OrdersComponent,
     OrderManagementComponent,
     KycComponent,
     MerchantComponent,
