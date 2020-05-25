@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Input } from '@angular/core';
 import {  ModalDirective } from 'ngx-bootstrap/modal';
 import { OtcService } from '../../../../../../services/otc.service';
 import { UtilService } from '../../../../../../services/util.service';
@@ -10,7 +10,7 @@ import { StorageService } from '../../../../../../services/storage.service';
     styleUrls: ['./otc-listing-orders.component.css']
 })
 export class OtcListingOrdersModal {
-    listing: any;
+    @Input() listing: any;
     token: string;
 
     @ViewChild('otcListingOrdersModal', {static: true}) public otcListingOrdersModal: ModalDirective;

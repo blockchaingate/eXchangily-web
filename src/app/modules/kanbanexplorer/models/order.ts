@@ -9,8 +9,8 @@ export interface Order {
     filledQuantity: string;
     time: number;
     matchedOrders: MatchedOrders[],
-    isActive: boolean
-    txHash: TxHash
+    isActive: boolean;
+    txHash: TxHash;
     blockNumber: BlockNumber;
 }
 

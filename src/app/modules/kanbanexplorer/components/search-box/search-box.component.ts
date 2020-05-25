@@ -8,17 +8,15 @@ import { KanbanService } from '../../services/kanban.service';
   styleUrls: ['./search-box.component.css']
 })
 export class SearchBoxComponent implements OnInit {
-
   constructor(private router: Router, private service: KanbanService) { }
 
   ngOnInit(): void {
   }
 
   searchClicked(v: any) {
-    console.log(v)
-    //assuming v is a number
+    console.log(v);
+    // assuming v is a number
     // this.router.navigate(['/block-detail/'+v])
-    this.service.validateInputAndSetRoute(v)
-
+    this.service.validateInputAndSetRoute(v);
   }
 }

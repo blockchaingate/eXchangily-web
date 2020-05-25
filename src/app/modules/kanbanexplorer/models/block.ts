@@ -1,5 +1,4 @@
 export interface Block {
-    
     _writeBack: string;
     difficulty: string;
     extraData: string;
@@ -22,20 +21,20 @@ export interface Block {
     stateRoot: string;
     timestamp: number;
     totalDifficulty: string;
-    transactions: string[] ;
-    transactionsRoot: string ;
+    transactions: string[];
+    transactionsRoot: string;
     uncles: string[]
 
 }
 
 export interface BlockMetainfo {
-    number:Number;
-    timestamp:Number;
-    hash:string;
-    size:number;
-    totalTransactions:Number;
-    totalOrders:Number;
-    totalDepositRequests:Number;
-    totalWithdrawRequests:Number;
-    totalTrades:Number;
+    number: Number;
+    timestamp: Number;
+    hash: string;
+    size: number;
+    totalTransactions: Number;
+    totalOrders: Number;
+    totalDepositRequests: Number;
+    totalWithdrawRequests: Number;
+    totalTrades: Number;
 }

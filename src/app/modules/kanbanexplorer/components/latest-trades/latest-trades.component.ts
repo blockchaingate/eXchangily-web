@@ -10,15 +10,15 @@ import BigNumber from 'bignumber.js';
 })
 export class LatestTradesComponent implements OnInit {
 
-  trades: Trade[]
-  displayedColumns = ['Pair', 'Price', 'Quantity', 'Block']
-  interval: any
+  trades: Trade[];
+  displayedColumns = ['Pair', 'Price', 'Quantity', 'Block'];
+  interval: any;
 
   constructor(private kanbanService: KanbanService) {
-    this.getLatestTrades()
+    this.getLatestTrades();
     this.interval = setInterval(() => {
-      this.getLatestTrades()
-    }, 10000)
+      this.getLatestTrades();
+    }, 10000);
   }
 
   ngOnInit(): void {
@@ -26,11 +26,11 @@ export class LatestTradesComponent implements OnInit {
 
   getLatestTrades() {
     this.kanbanService.getLatestTrades().subscribe((r) => {
-      this.trades = r
+      this.trades = r;
       this.trades.forEach((trade) => {
-        trade.price = (new BigNumber(trade.price).multipliedBy(new BigNumber(1e-18))).toFixed(5)
-        trade.amount = (new BigNumber(trade.amount).multipliedBy(new BigNumber(1e-18))).toFixed(5)
-      })
-    })
+        trade.price = (new BigNumber(trade.price).multipliedBy(new BigNumber(1e-18))).toFixed(5);
+        trade.amount = (new BigNumber(trade.amount).multipliedBy(new BigNumber(1e-18))).toFixed(5);
+      });
+    });
   }
 }

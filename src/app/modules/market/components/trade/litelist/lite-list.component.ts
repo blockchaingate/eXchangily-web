@@ -36,6 +36,7 @@ export class LiteListComponent implements OnInit {
         // console.log('this.select=', select);
         return price.symbol.indexOf(select) >= 0;
     }
+
     ngOnInit() {
         this.prices = this.prServ.getPriceList();
         // this._wsServ.getAllPrices();
@@ -79,14 +80,20 @@ export class LiteListComponent implements OnInit {
     setSelect() {
         this.select = this.searchText;
     }
+
     selectCat(cat: string) {
-        this.select = '/' + cat;
+        this.select = cat;
     }
 
     loadTradePair(pair: string) {
-        console.log('pair for loadTradePair:' + pair);
+        // console.log('pair for loadTradePair:' + pair);
         pair = pair.replace('/', '_');
-        this._router.navigate(['market/trade/' + pair]);
+
+        this._router.navigateByUrl('/OrderPadComponent', { skipLocationChange: true }).then(() => {
+            this._router.navigate(['market/trade/' + pair]);
+        }); 
+
+        // this._router.navigate(['market/trade/' + pair]);
     }
 
 }
