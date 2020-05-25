@@ -5,6 +5,7 @@ import { TradeComponent } from './components/trade/trade.component';
 import { OtcRoutingModule } from './otc-routing.module';
 import { MatSelectModule } from '@angular/material/select';
 import { OtcPlaceOrderModal } from './modals/otc-place-order/otc-place-order';
+import { OtcPlaceOrderErrorModal } from './modals/otc-place-order-error/otc-place-order-error.component';
 import { ApplyForMerchantModal } from './modals/apply-for-merchant/apply-for-merchant';
 import { ConfirmPaymentModal } from './modals/confirm-payment/confirm-payment';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -39,6 +40,7 @@ import { NgxPayPalModule } from 'ngx-paypal';
     PaymentmethodComponent,
     ConfirmPaymentModal,
     OtcPlaceOrderModal,
+    OtcPlaceOrderErrorModal,
     ApplyForMerchantModal,
     OrderComponent, 
     MerchantOrdersComponent,

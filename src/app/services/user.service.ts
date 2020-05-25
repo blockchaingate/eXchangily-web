@@ -10,5 +10,13 @@ export class UserService {
   getMe(token: string) {
     return this.http.get(environment.endpoints.blockchaingate + 'members/me?token=' + token);
   }
-
+  importAllAddresses(token: string, exgAddress: string, btcAddress: string, ethAddress: string) {
+    const data = {
+      token: token,
+      exgAddress: exgAddress,
+      btcAddress: btcAddress,
+      ethAddress: ethAddress
+  }
+  return this.http.post(environment.endpoints.blockchaingate + 'members/importAllAddresses', data);
+  }
 }

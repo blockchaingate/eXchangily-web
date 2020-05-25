@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { OtcPlaceOrderModal } from '../../modals/otc-place-order/otc-place-order';
+import { OtcPlaceOrderErrorModal } from '../../modals/otc-place-order-error/otc-place-order-error.component';
 import { ApplyForMerchantModal } from '../../modals/apply-for-merchant/apply-for-merchant';
 import { ConfirmPaymentModal } from '../../modals/confirm-payment/confirm-payment';
 import { Router } from '@angular/router';
@@ -49,6 +50,7 @@ export class TradeComponent implements OnInit {
   dataSource: any;
   @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal;
   @ViewChild('otcPlaceOrderModal', { static: true }) otcPlaceOrderModal: OtcPlaceOrderModal;
+  @ViewChild('otcPlaceOrderErrorModal', { static: true }) otcPlaceOrderErrorModal: OtcPlaceOrderErrorModal;
   @ViewChild('applyForMerchantModal', { static: true }) applyForMerchantModal: ApplyForMerchantModal;
   @ViewChild('confirmPaymentModal', { static: true }) confirmPaymentModal: ConfirmPaymentModal;
 
@@ -124,6 +126,11 @@ export class TradeComponent implements OnInit {
           let walletBtc = '';
           let walletEth = '';
 
+          if(!this.wallet) {
+            console.log('wallet not Existed');
+            this.otcPlaceOrderErrorModal.show('WalletNotExisted');
+            return;
+          }
           for(let i=0;i<this.wallet.mycoins.length;i++) {
             const mycoin = this.wallet.mycoins[i];
             if(mycoin.name == 'FAB') {
@@ -139,6 +146,9 @@ export class TradeComponent implements OnInit {
 
           if ((walletExgAddress != walletExg) || (walletBtcAddress != walletBtc) || (walletEthAddress != walletEth)) {
             this.addressIncorrect = true;
+            console.log('addressIncorrect');
+            this.otcPlaceOrderErrorModal.showEx('AddressesNotMatch', this.token, walletExg, walletBtc, walletEth);
+            return;
           }
           this.element = element;
           this.otcPlaceOrderModal.show(element);          
