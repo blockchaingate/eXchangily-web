@@ -18,7 +18,7 @@ export interface Section {
 })
 
 export class LiteListComponent implements OnInit {
-    select = 'USDT';
+    selectedcat = 'USDT';
     selectedpair = 'BTC/USDT';
     pdecimal = '1.2-2';
     vdecimal = '1.6-6';
@@ -32,12 +32,15 @@ export class LiteListComponent implements OnInit {
         private _router: Router, private _wsServ: WsService) {
     }
 
-    filterPrice(price: Price, select: string) {
+    filterPrice(price: Price, selectedcat: string) {
         // console.log('this.select=', select);
-        return price.symbol.indexOf(select) >= 0;
+        return price.symbol.indexOf(selectedcat) >= 0;
     }
 
     ngOnInit() {
+        this.selectedcat = sessionStorage.getItem('tradeCat');
+        this.selectedpair =  sessionStorage.getItem('tradePair');
+
         this.prices = this.prServ.getPriceList();
         // this._wsServ.getAllPrices();
         // this.socket = new WebSocketSubject(environment.websockets.allprices);
@@ -79,23 +82,25 @@ export class LiteListComponent implements OnInit {
 
     setSelect() {
         if (this.searchText) {
-            this.select = this.searchText.toUpperCase();
+            this.selectedpair = this.searchText.toUpperCase();
         }
     }
 
     selectCat(cat: string) {
-        this.select = cat;
+        this.selectedcat = cat;
+        sessionStorage.setItem('tradeCat', cat);
     }
 
     loadTradePair(pair: string) {
         this.selectedpair = pair;
+        sessionStorage.setItem('tradePair', pair);
         pair = pair.replace('/', '_');
 /*
         this._router.navigateByUrl('/OrderPadComponent', { skipLocationChange: true }).then(() => {
             this._router.navigate(['market/trade/' + pair]);
         });
 */
-         this._router.navigate(['market/trade/' + pair]);
+        this._router.navigate(['market/trade/' + pair]);
     }
 
 }

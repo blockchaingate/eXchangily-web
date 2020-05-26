@@ -25,7 +25,6 @@ export class MarketListComponent implements OnInit {
 
     constructor(private prServ: PriceService, private _router: Router, private storageServ: StorageService,
         private _wsServ: WsService, private kanbanService: KanbanService, public utilServ: UtilService) {
-
     }
 
     showAmount(amount: number, decimal: number) {

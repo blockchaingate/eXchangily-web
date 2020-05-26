@@ -12,6 +12,7 @@ import { Wallet } from '../../../../../models/wallet';
 import { WalletService } from '../../../../../services/wallet.service';
 import { MyordersComponent } from '../myorder/myorders.component';
 import { OrderPadComponent } from '../orderpad/order-pad.component';
+import { Pair } from '../../../models/pair';
 
 @Component({
     selector: 'app-trade-panel',
@@ -28,12 +29,15 @@ export class PanelComponent implements OnInit {
     cat = 2;
     select = 2;
     pair = 'BTC/USDT';
+    pairConfig: Pair = { name: 'BTCUSDT', priceDecimal: 2, qtyDecimal: 6 };
     searchText = '';
     baseCoin: number;
     targetCoin: number;
     mytokens: any;
     wallet: Wallet;
     address: string;
+    errMsg = '';
+
     constructor(private prServ: PriceService, private _orderServ: OrderService, private _route: ActivatedRoute, 
         private _router: Router, private walletService: WalletService, private kanbanService: KanbanService
         , private coinService: CoinService) {
@@ -41,25 +45,16 @@ export class PanelComponent implements OnInit {
     }
 
     onRefreshToken() {
-        // console.log('onRefreshToken');
-
         if (this.address) {
             this.kanbanService.getBalance(this.address).subscribe((resp) => {
                 // console.log('resp from getBalances===');
                 // console.log(resp);
                 this.mytokens = resp;
-
             });
-        }  
-          
+        }
     }
 
     async ngOnInit() {
-        /*
-        setInterval(() => {
-            this.onRefreshToken();
-        }, 1000);  
-        */
         this.screenwidth = window.innerWidth;
 
         this.screenheight = window.innerHeight;  
@@ -72,9 +67,6 @@ export class PanelComponent implements OnInit {
             console.log('current wallet not found');
         }
 
-        //  const Pair = <Price>JSON.parse(pair);
-        // alert(Pair.coin);
-
         this.orders = this.getOrders();
 
         const inPair = this._route.snapshot.paramMap.get('pair');
@@ -83,9 +75,28 @@ export class PanelComponent implements OnInit {
             this.baseCoin = this.coinName2Number(inPairArr[0]);
             this.targetCoin = this.coinName2Number(inPairArr[1]);
             this.pair = inPair.replace('_', '/');
+            this.setCurrentPair(inPairArr[0] + inPairArr[1]);
         }
     }
 
+    setCurrentPair(pairName: string) {
+        pairName = pairName.toLocaleUpperCase();
+        let coinsConfig = sessionStorage.getItem('pairsConfig');
+        if (!coinsConfig) {
+          this.kanbanService.getPairConfig().subscribe(
+            res => {
+              coinsConfig = JSON.stringify(res);
+              sessionStorage.setItem('pairsConfig', coinsConfig);
+              const pairsCof = <Pair[]>res;
+              this.pairConfig = pairsCof.find(item => item.name === pairName);
+            },
+            err => { this.errMsg = err.message; });
+        } else {
+          const pairsCof = <Pair[]>(JSON.parse(coinsConfig));
+          this.pairConfig = pairsCof.find(item => item.name === pairName);
+        }
+      }
+    
     coinName2Number(name: string) {
         return this.coinService.getCoinTypeIdByName(name);
     }

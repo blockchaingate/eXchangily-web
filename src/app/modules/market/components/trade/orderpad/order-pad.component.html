@@ -51,7 +51,6 @@
 
             <div class="transacs w-100">
                 <div class="orderbookitem" *ngFor="let tx of txOrders; let l=index">
-
                     <div class="price smallfont" [ngClass]="tx.m?'text-success':'text-danger'">
                         {{utilService.showAmount(tx.price, pairConfig.priceDecimal)}}</div>
                     <div class="quantity smallfont text-muted">
@@ -65,9 +64,11 @@
 
     <div class="middle w-100  mt-2">
         <div class="limitorder text-center text-white w-50 hand exg-bg mr-2 " (click)="orderType=1;" [class.selected]="orderType === 1">
-            {{'Limit Order' | translate}}</div>
+            {{'Limit Order' | translate}}
+        </div>
         <div class="marketorder text-center text-white w-50 hand exg-bg" (click)="orderType=2;" [class.selected]="orderType === 2">
-            {{'Limit Order' | translate}}</div>
+            {{'Limit Order' | translate}}
+        </div>
     </div>
     <!--Market Order-->
     <div class="lower w-100">
@@ -77,7 +78,7 @@
             </div>
 
             <div class="aspace text-white">{{'Price' | translate}}</div>
-            <div><input type="text" [decimal]=" pairConfig.priceDecimal" class="form-control" [disabled]="orderType === 2" [(ngModel)]="buyPrice"> </div>
+            <div><input type="text" [decimal]="pairConfig.priceDecimal" class="form-control" [disabled]="orderType === 2" [(ngModel)]="buyPrice"> </div>
 
             <div class="aspace text-white">{{'Quantity' | translate}}</div>
             <div><input type="text" [decimal]=" pairConfig.qtyDecimal" class="form-control" [(ngModel)]="buyQty"> </div>
@@ -140,9 +141,9 @@
             </div>
 
             <div class="aspace text-white">{{'Price' | translate}}</div>
-            <div><input type="text" [decimal]=" pairConfig.priceDecimal" class="form-control" [disabled]="orderType === 2" [(ngModel)]="sellPrice"></div>
+            <div><input type="text" [decimal]="pairConfig.priceDecimal" class="form-control" [disabled]="orderType === 2" [(ngModel)]="sellPrice"></div>
             <div class="aspace text-white">{{'Quantity' | translate}}</div>
-            <div><input type="text" [decimal]=" pairConfig.qtyDecimal" class="form-control" [(ngModel)]="sellQty"> </div>
+            <div><input type="text" [decimal]="pairConfig.qtyDecimal" class="form-control" [(ngModel)]="sellQty"> </div>
 
             <div class="container pt-2">
                 <div class="row text-white">
@@ -198,10 +199,6 @@
         </div>
     </div>
 </div>
-
-
-
-
 
 <ng-template #templatePasswd>
     <div class="modal-header text-center">

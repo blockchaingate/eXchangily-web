@@ -57,8 +57,8 @@
                 <div class="orditem text-white d-flex align-items-center" style="width: 5%;">
                     <div *ngIf="order.isActive">
                         <button mat-icon-button aria-label="Example icon-button with a heart icon" (click)="deleteOrder(order.orderHash)">
-                        <mat-icon>delete_outline</mat-icon>
-                      </button>
+                            <mat-icon>delete_outline</mat-icon>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -113,7 +113,7 @@
         </div>
     </div>
 
-    <div class="orders container" *ngIf="select == 100">
+    <div class="orders container w-100 pt-2" *ngIf="select == 100">
         <div class="row header">
             <div class="col col-3">
                 <label>{{'Coin' | translate }}</label>
@@ -127,8 +127,8 @@
             <div class="col col-3">
                 <label>{{'Withdraw' | translate }}</label>
                 <button mat-icon-button matTooltip="Withdraw history" aria-label="Withdraw history" (click)="showWithdrawHistory()">
-                        <mat-icon>history</mat-icon>
-                      </button>
+                    <mat-icon>history</mat-icon>
+                </button>
             </div>
         </div>
         <div class="myorderlist scroll-bar w-100">
@@ -144,8 +144,8 @@
                 </div>
                 <div class="col col-3 text-white">
                     <button mat-icon-button matTooltip="Withdraw" (click)="withdraw(templateWithdraw, token)" aria-label="Example icon-button with a heart icon">
-                    <mat-icon>arrow_upward</mat-icon>
-                </button>
+                        <mat-icon>arrow_upward</mat-icon>
+                    </button>
                 </div>
             </div>
         </div>
@@ -198,8 +198,8 @@
     <div class="modal-header text-center">
         <h4 class="modal-title w-100">{{'Withdraw' | translate }} {{coinName}}</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalWithdrawRef.hide()">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="modal-body">
         <div>

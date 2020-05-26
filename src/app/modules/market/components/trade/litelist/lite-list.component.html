@@ -1,10 +1,10 @@
 <div class="h-100">
     <div class="menu w-100">
-        <div class="menuitem hand smallfont text-white" [class.selected]="select === 'USDT'" (click)="selectCat('USDT');">USDT</div>
-        <div class="menuitem hand smallfont text-white" [class.selected]="select === 'DUSD'" (click)="selectCat('DUSD');">DUSD</div>
-        <div class="menuitem hand smallfont text-white" [class.selected]="select === 'BTC'" (click)="selectCat('BTC');">BTC</div>
-        <span class="menuitem hand smallfont text-white" [class.selected]="select === 'ETH'" (click)="selectCat('ETH');">ETH</span>
-        <div class="menuitem hand smallfont text-white" [class.selected]="select === 'EXG'" (click)="selectCat('EXG');">EXG</div>
+        <div class="menuitem hand smallfont text-white" [class.selected]="selectedcat === 'USDT'" (click)="selectCat('USDT');">USDT</div>
+        <div class="menuitem hand smallfont text-white" [class.selected]="selectedcat === 'DUSD'" (click)="selectCat('DUSD');">DUSD</div>
+        <div class="menuitem hand smallfont text-white" [class.selected]="selectedcat === 'BTC'" (click)="selectCat('BTC');">BTC</div>
+        <span class="menuitem hand smallfont text-white" [class.selected]="selectedcat === 'ETH'" (click)="selectCat('ETH');">ETH</span>
+        <div class="menuitem hand smallfont text-white" [class.selected]="selectedcat === 'EXG'" (click)="selectCat('EXG');">EXG</div>
     </div>
 
     <div class="input-group sarcharea px-2">
@@ -15,12 +15,12 @@
         <mat-list-item class="header apair">
             <div mat-line class="float-left text-white">{{'Pair'|translate}}</div>
             <div class="vertical-center">
-                <div class="smallfont text-muted p-1">{{'LatestPrice'|translate}}</div>
+                <div class="smallfont text-white p-1">{{'LatestPrice'|translate}}</div>
                 <div class="smallfont text-white p-1">{{'H24Change'|translate}}</div>
             </div>
             <mat-divider></mat-divider>
         </mat-list-item>
-        <mat-list-item class="apair dataline" [class.selectedpair]="selectedpair === pr.symbol" *ngFor="let pr of prices | callback: filterPrice : select; let i=index">
+        <mat-list-item class="apair dataline" [class.selectedpair]="selectedpair === pr.symbol" *ngFor="let pr of prices | callback: filterPrice : selectedcat; let i=index">
             <div mat-line class="float-left text-white" (click)="loadTradePair(pr.symbol)">{{pr.symbol}}</div>
             <div class="vertical-center pt-2 pb-2" (click)="loadTradePair(pr.symbol)">
                 <div class="text-muted vertical-right">{{utilServ.showAmount(pr.price, 6)}}</div>
