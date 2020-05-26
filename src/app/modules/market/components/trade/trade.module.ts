@@ -15,6 +15,7 @@ import { LiteListComponent } from './litelist/lite-list.component';
 import { TvChartContainerComponent } from './tv-chart-container/tv-chart-container.component';
 import { MyordersComponent } from './myorder/myorders.component';
 import { OrderPadComponent } from './orderpad/order-pad.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { PriceService } from '../../../../services/price.service';
 import { OrderService } from '../../services/order.service';
@@ -32,12 +33,14 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { WithdrawHistoryComponent } from './withdraw-history/withdraw-history.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { DecimalPrecisionDirective } from '../../../../directives/decimal-directive';
+import { PanelComponent } from './panel/panel.component';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
+        FlexLayoutModule,
         BsDropdownModule,
         HttpClientModule,
         RouterModule,
@@ -64,6 +67,7 @@ import { DecimalPrecisionDirective } from '../../../../directives/decimal-direct
     ],
     declarations: [
         TradeComponent,
+        PanelComponent,
         LiteListComponent,
         TvChartContainerComponent,
         MyordersComponent,
