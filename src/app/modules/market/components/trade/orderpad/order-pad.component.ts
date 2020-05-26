@@ -1,4 +1,4 @@
-import { Component, Output, TemplateRef, Input, OnInit, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, TemplateRef, Input, OnInit, EventEmitter, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
 // import { Order } from '../../../models/order';
@@ -38,9 +38,9 @@ declare let window: any;
 })
 
 export class OrderPadComponent implements OnInit, OnDestroy {
+  @Input() pairConfig: Pair = { name: 'BTCUSDT', priceDecimal: 2, qtyDecimal: 6 };
   wallet: Wallet;
   private _mytokens: any;
-
   screenheight = screen.height;
   select = 1;
   orderType = 1;
@@ -51,7 +51,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   aArray = [];
   bArray = [];
   txOrders: TxRecord[] = [];
-  pairConfig: Pair = { name: 'BTCUSDT', priceDecimal: 2, qtyDecimal: 6 };
   currentPrice = 0;
   currentQuantity = 0;
   change24h = 0;
@@ -222,7 +221,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
       oldOrderArr.splice(j, 0, item);
     }
-
 
     for (j = 0; j < oldOrderArr.length; j++) {
       const oldOrderItem = oldOrderArr[j];
@@ -574,29 +572,9 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       this.refreshOrders();
       this.refreshCoinAvail();
 
-      this.setCurrentPair(pairArray[0] + pairArray[1]);
       // this.loadChart(pairArray[0], pairArray[1]);
       // In a real app: dispatch action to load the details here.
     });
-
-  }
-
-  setCurrentPair(pairName: string) {
-    pairName = pairName.toLocaleUpperCase();
-    let coinsConfig = sessionStorage.getItem('pairsConfig');
-    if (!coinsConfig) {
-      this.kanbanService.getPairConfig().subscribe(
-        res => {
-          coinsConfig = JSON.stringify(res);
-          sessionStorage.setItem('pairsConfig', coinsConfig);
-          const pairsCof = <Pair[]>res;
-          this.pairConfig = pairsCof.find(item => item.name === pairName);
-        },
-        err => { this.errMsg = err.message; });
-    } else {
-      const pairsCof = <Pair[]>(JSON.parse(coinsConfig));
-      this.pairConfig = pairsCof.find(item => item.name === pairName);
-    }
   }
 
   // This method provides a unique value to track orders with.
