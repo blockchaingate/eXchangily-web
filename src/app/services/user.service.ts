@@ -16,7 +16,10 @@ export class UserService {
       exgAddress: exgAddress,
       btcAddress: btcAddress,
       ethAddress: ethAddress
+    }
+    return this.http.post(environment.endpoints.blockchaingate + 'members/importAllAddresses', data);
   }
-  return this.http.post(environment.endpoints.blockchaingate + 'members/importAllAddresses', data);
+  getUserPaymentMethods(memberId) {
+    return this.http.get(environment.endpoints.blockchaingate + 'userpaymentmethods/member/' + memberId);
   }
 }

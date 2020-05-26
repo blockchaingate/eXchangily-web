@@ -1,7 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { StorageService } from '../../../../services/storage.service';
 import { OtcService } from '../../../../services/otc.service';
+import { UserService } from '../../../../services/user.service';
 import { Router } from '@angular/router';
+import { MemberDetailModal } from '../../modals/member-detail/member-detail.component';
 
 @Component({
   selector: 'app-otc-order',
@@ -20,12 +22,13 @@ export class OrderComponent implements OnInit {
   sellOrderStatuses = ['Waiting for collect', 'Waiting for confirm', 'Finished', 'Cancelled', 'Frozened', 'All orders'];
   sellOrderButtonStatuses = ['I have collected', 'Finish'];
 
-
+  @ViewChild('memberDetailModal', { static: true }) memberDetailModal: MemberDetailModal;
   currentStatus: number;
   constructor(
     private router: Router,
     private storageService: StorageService,
-    private _otcServ: OtcService
+    private _otcServ: OtcService,
+    private _userServ: UserService
   ) {
     console.log('type==', this.type);
   }
@@ -60,6 +63,20 @@ export class OrderComponent implements OnInit {
         }
       }
     );
+  }
+
+  viewMemberDetail(bidOrAsk, coin, member) {
+    const memberId = member._id;
+    this._userServ.getUserPaymentMethods(memberId).subscribe(
+      (res: any) => {
+        console.log('res==', res);
+        if(res && res.ok) {
+          const userpaymentmethods = res._body;
+          this.memberDetailModal.show(bidOrAsk, coin, member, userpaymentmethods);
+        }
+      }
+    );
+    
   }
 
   ngOnInit() {

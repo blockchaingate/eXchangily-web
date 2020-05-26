@@ -31,6 +31,7 @@
                 <thead>
                     <tr>
                         <th scope="col"><small>Order number</small></th>
+                        <th scope="col" *ngIf="type == 'admin'"><small>Member</small></th>
                         <th scope="col"><small>Coin</small></th>
                         <th scope="col"><small>Price</small></th>
                         <th scope="col"><small>Quantity</small></th>
@@ -45,6 +46,11 @@
                         -->
                     <tr *ngFor="let element of orders | orderPipe : bidOrAsk : currentStatus">
                         <td>{{element._id}}</td>
+                        <td *ngIf="(type == 'admin') && element.buyerMemberId">
+                            <a class="view-detail" (click)="viewMemberDetail(bidOrAsk, element.items[0].title, element.buyerMemberId)">
+                                {{element.buyerMemberId.email}}
+                            </a>
+                        </td>
                         <td>{{element.items[0].title}}</td>
                         <td>{{element.items[0].price}}</td>
                         <td>{{element.items[0].quantity}}</td>
@@ -97,3 +103,5 @@
         </div>
     </div>
 </div>
+
+<otc-member-detail-modal #memberDetailModal></otc-member-detail-modal>
