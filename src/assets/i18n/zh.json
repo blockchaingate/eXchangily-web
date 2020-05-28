@@ -1,4 +1,5 @@
 {
+    "Security": "安全",
     "Header": {
         "Title": "eXchangily",
         "Navigation": {
@@ -202,6 +203,9 @@
         "Admin": {
             "Title": "管理员"
         },
+        "Security": {
+            "SideHeading": "安全"
+        },        
         "User Info": {
             "SideHeading": "用户资料",
             "Title": "用户资料",

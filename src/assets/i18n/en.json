@@ -1,4 +1,5 @@
 {
+    "Security": "Security",
     "Header": {
         "Title": "eXchangily",
         "Navigation": {
@@ -206,6 +207,9 @@
     "Account": {
         "Admin": {
             "Title": "Admin"
+        },
+        "Security": {
+            "SideHeading": "Security"
         },
         "User Info": {
             "SideHeading": "Profile",

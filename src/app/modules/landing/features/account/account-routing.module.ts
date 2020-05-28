@@ -12,7 +12,7 @@ import { PlaceOrderFormComponent } from './place-order/place-order-form/place-or
 import { OrderComponent } from './order/order.component';
 import { AuthGuard } from '../../guards/auth/auth.guard';
 import { AccountPaths } from '../../paths/account-paths';
-
+import { SecurityComponent } from './security/security.component';
 // import { AdminModule } from '../admin/admin.module';
 import { UserResolver, UserAdminResolver } from '../../resolvers/user/user.resolve';
 import { IcotxResolver, IcotxParentResolver } from '../../resolvers/icotx/icotx.resolve';
@@ -37,6 +37,10 @@ const routes: Routes = [
         path: AccountPaths[1].relative,
         component: KycComponent
       },
+      {
+        path: AccountPaths[5].relative,
+        component: SecurityComponent
+      },      
       {
         path: 'create-new-payment', redirectTo: '/promotion/main', pathMatch: 'full'  //  remove this line when resotre after campaign.
         /* Disabled temporily, will restore after campaign
