@@ -230,7 +230,6 @@ export class WalletService {
     }
     */
     saveCurrentWalletIndex(value: number) {
-        console.log('value for saveCurrentWalletIndex=' + value);
         /*
         this.localSt.removeItem('currentWalletIndex').subscribe(() => {
             this.localSt.setItem('currentWalletIndex', value).subscribe((newValue) => {console.log('newValue=' + newValue);});
@@ -238,7 +237,6 @@ export class WalletService {
         */
         this.localSt.setItem('currentWalletIndex', value).subscribe( async (newValue) => {
             const index = await this.getCurrentWalletIndex();
-            console.log('index=' + index);
         });
         
     }

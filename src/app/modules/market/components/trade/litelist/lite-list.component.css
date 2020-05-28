@@ -49,8 +49,12 @@
 
 .selected {
     font-weight: bold;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid white;
     padding-bottom: 0;
+}
+
+.selectedpair {
+    background-color: #3a3a55;
 }
 
 .pricelist {
@@ -143,6 +147,8 @@ mat-list {
 
 .vertical-center {
     vertical-align: middle;
+    text-align: left;
+    width: 75%;
 }
 
 .mat-list-item-ripple:hover {

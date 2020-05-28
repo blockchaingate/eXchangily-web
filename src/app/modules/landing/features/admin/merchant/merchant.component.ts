@@ -14,12 +14,12 @@ import { MerchantService } from '../../../../../services/merchant.service';
 export class MerchantComponent implements OnInit {
   merchants: any;
 
-  constructor(private merchantServ: MerchantService, private _appServ: AppService, private _appAuth: AppAuthService) {}
+  constructor(private merchantServ: MerchantService, private _appServ: AppService, private _appAuth: AppAuthService) { }
   ngOnInit() {
     this.merchantServ.getAll().subscribe(
       (res: any) => {
         console.log('res==', res);
-        if(res && res.ok) {
+        if (res && res.ok) {
           this.merchants = res._body;
         }
       }
@@ -29,15 +29,15 @@ export class MerchantComponent implements OnInit {
   approve(merchant) {
     this.merchantServ.approve(merchant._id).subscribe(
       (res: any) => {
-        if(res.ok) {
-          for(let i=0;i<this.merchants.length;i++) {
-            if(this.merchants[i]._id == merchant._id) {
+        if (res.ok) {
+          for (let i = 0; i < this.merchants.length; i++) {
+            if (this.merchants[i]._id === merchant._id) {
               this.merchants[i].otcApproved = true;
               break;
             }
           }
         }
       }
-    );    
+    );
   }
 }

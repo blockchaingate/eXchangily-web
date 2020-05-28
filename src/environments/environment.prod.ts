@@ -1,6 +1,8 @@
 import * as Btc from 'bitcoinjs-lib';
 export const environment = {
     production: true,
+    STRIPE_PUBLIC_KEY: 'pk_test_xVAqsYMxwh3AZfJcYu1hruyE',
+    PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',
     baseUrl: 'https://exchangily.com',
     url: 'https://kanbanprod.fabcoinapi.com/',
     tmpUrl: 'http://13.124.235.105:3000/', // replace this url once the temp api is deployed    

@@ -14,43 +14,43 @@
     </thead>
     <tbody>
         <tr *ngFor="let listing of listings">
-            <td>
+            <td (click)="openOrdersModal(listing)">
                 <span class="table-text">
                     {{listing.dateCreated}}
                 </span>
             </td>
-            <td>
+            <td (click)="openOrdersModal(listing)">
                 <span class="table-text">
                     {{(listing.buy ? 'Buy' : 'Sell') | translate }} {{listing.coin}}
                 </span>
             </td>
-            <td>
+            <td (click)="openOrdersModal(listing)">
                 <span class="table-text">
                     {{listing.qtyAvilable}}
                 </span>
             </td>
-            <td>
+            <td (click)="openOrdersModal(listing)">
                 <span class="table-text">
                     {{listing.qtyAvilable * 0.01}}{{listing.coin}}
                 </span>
             </td>
-            <td>
+            <td (click)="openOrdersModal(listing)">
                 <span class="table-text">
                 {{listing.qtyLimitPerOrderLow}}-{{listing.qtyLimitPerOrderHigh}}{{listing.fiat}}
                 </span>
             </td>
-            <td>
+            <td (click)="openOrdersModal(listing)">
                 <span class="table-text">
                     {{listing.price}}{{listing.fiat}}
                 </span>
             </td>
-            <td>
+            <td (click)="openOrdersModal(listing)">
                 <span class="table-text">
                 {{listing.orders ? listing.orders.length : 0}}
                 </span>
             </td>
 
-            <td>
+            <td (click)="openOrdersModal(listing)">
                 <span class="table-text">
                     {{listing.active ? 'Active' : 'Inactive'}}
                 </span>
@@ -61,3 +61,5 @@
         </tr>
     </tbody>
 </table>
+
+<admin-otc-listing-orders-modal #adminOtcListingOrders [listing]="listing"></admin-otc-listing-orders-modal>

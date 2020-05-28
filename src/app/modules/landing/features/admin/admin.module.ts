@@ -5,7 +5,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ComponentsModule } from '../../components/components.module';
-
+import { OtcModule } from '../../../otc/otc.module';
 import { NoAuthGuard } from '../../guards/no-auth/no-auth.guard';
 import { AuthGuard } from '../../guards/auth/auth.guard';
 import { ReferralModule } from '../account/referrals/referrals.module';
@@ -16,6 +16,7 @@ import { MerchantComponent } from './merchant/merchant.component';
 import { MembersComponent } from './members/members.component';
 import { PaymentMethodsComponent } from './paymentmethods/paymentmethods.component';
 import { OrderEditComponent } from './order/order-edit.component';
+import { OrdersComponent } from './otc/orders/orders.component';
 import { CampaignOrdersComponent } from './campaign-orders/campaign-orders.component';
 import { OrderManagementComponent } from './order/order-mngmt.component';
 import { OtcListingComponent } from './otc/otc-listing/otc-listing.component';
@@ -33,6 +34,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { PaymentMethodService } from '../../../../services/paymentmethod.service';
+import { OtcListingOrdersModal } from './modals/otc-listing-orders/otc-listing-orders.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -49,7 +52,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     AdminRoutingModule,
     ReferralModule,
     MatButtonModule,
-    MatDialogModule
+    OtcModule,
+    MatDialogModule,
+    ModalModule.forRoot()
   ],
   providers: [AuthGuard, NoAuthGuard, TokenlockService,
     PaymentMethodService, CampaignOrderService, MerchantService, OtcService],
@@ -61,12 +66,14 @@ export function HttpLoaderFactory(http: HttpClient) {
     MembersComponent,
     PaymentMethodsComponent,
     CampaignOrdersComponent,
+    OrdersComponent,
     OrderManagementComponent,
     KycComponent,
     MerchantComponent,
     KycsComponent,
     OrderItemComponent,
-    TokenlockComponent
+    TokenlockComponent,
+    OtcListingOrdersModal
   ]
 })
 export class AdminModule { }

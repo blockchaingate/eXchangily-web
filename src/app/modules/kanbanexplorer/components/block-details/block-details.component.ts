@@ -12,20 +12,19 @@ export class BlockDetailsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private kanbanService: KanbanService) {
-
   }
 
-  blockNumber: any
-  block: Block
+  blockNumber: any;
+  block: Block;
   ngOnInit(): void {
 
     this.route.paramMap.subscribe((params) => {
-      this.blockNumber = (params.get('blockNumber'))
+      this.blockNumber = (params.get('blockNumber'));
 
       this.kanbanService.getSingleBlockByNumber(this.blockNumber).subscribe((blk: Block) => {
-        this.block = blk
-      })
-    })
+        this.block = blk;
+      });
+    });
 
 
 

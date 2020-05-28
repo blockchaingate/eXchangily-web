@@ -5,10 +5,13 @@ import { TradeComponent } from './components/trade/trade.component';
 import { OtcRoutingModule } from './otc-routing.module';
 import { MatSelectModule } from '@angular/material/select';
 import { OtcPlaceOrderModal } from './modals/otc-place-order/otc-place-order';
+import { MemberDetailModal } from './modals/member-detail/member-detail.component';
+import { OtcPlaceOrderErrorModal } from './modals/otc-place-order-error/otc-place-order-error.component';
 import { ApplyForMerchantModal } from './modals/apply-for-merchant/apply-for-merchant';
 import { ConfirmPaymentModal } from './modals/confirm-payment/confirm-payment';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MerchantPipe } from './pipes/merchant.pipe';
+import { OrderPipe } from './pipes/order.pipe';
 import { PaymentmethodComponent } from './components/paymentmethod/paymentmethod.component';
 import { MerchantOrdersComponent } from './components/merchant-orders/merchant-orders';
 import { MemberOrdersComponent } from './components/member-orders/member-orders';
@@ -26,14 +29,20 @@ import { SharedModule } from '../shared/shared.module';
 import { OtcMerchantModule } from '../otc/components/otc-merchant/otc-merchant.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { PaymentMethodService } from '../../services/paymentmethod.service';
+import { StripeModule } from "stripe-angular"
+import { UserService } from '../../services/user.service';
+import { NgxPayPalModule } from 'ngx-paypal';
 
 @NgModule({
   declarations: [
     TradeComponent,
     MerchantPipe,
+    OrderPipe,
     PaymentmethodComponent,
     ConfirmPaymentModal,
     OtcPlaceOrderModal,
+    MemberDetailModal,
+    OtcPlaceOrderErrorModal,
     ApplyForMerchantModal,
     OrderComponent, 
     MerchantOrdersComponent,
@@ -51,12 +60,17 @@ import { PaymentMethodService } from '../../services/paymentmethod.service';
     MatIconModule,
     MatCardModule,
     SharedModule,
+    NgxPayPalModule,
     TranslateModule,
     MatInputModule,
     OtcRoutingModule,
     ModalModule,
-    OtcMerchantModule
+    OtcMerchantModule,
+    StripeModule.forRoot()
   ],
-  providers: [AuthGuard,PaymentMethodService]
+  exports: [
+    OrderComponent
+  ],
+  providers: [AuthGuard,PaymentMethodService,UserService]
 })
 export class OtcModule { }

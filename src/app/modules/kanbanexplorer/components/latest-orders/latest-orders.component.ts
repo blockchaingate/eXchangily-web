@@ -9,14 +9,14 @@ import { Order } from '../../models/order';
 })
 export class LatestOrdersComponent implements OnInit {
 
-  orders: Order[]
-  displayedColumns = ['Pair', 'Price', 'Quantity', 'Block']
+  orders: Order[];
+  displayedColumns = ['Pair', 'Price', 'Quantity', 'Block'];
   interval;
   constructor(private kanbanService: KanbanService) {
-    this.getLatestOrders()
+    this.getLatestOrders();
     this.interval = setInterval(() => {
-      this.getLatestOrders()
-    }, 10000)
+      this.getLatestOrders();
+    }, 10000);
   }
 
   ngOnInit(): void {
@@ -25,7 +25,7 @@ export class LatestOrdersComponent implements OnInit {
 
   getLatestOrders() {
     this.kanbanService.getLaetstOrders().subscribe(r => {
-      this.orders = r
-    })
+      this.orders = r;
+    });
   }
 }

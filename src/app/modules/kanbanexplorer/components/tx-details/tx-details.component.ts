@@ -14,21 +14,21 @@ export class TxDetailsComponent implements OnInit {
     private kanbanService: KanbanService,
     private router: Router) { }
 
-  txhash: string
-  transaction: Transaction
-  
+  txhash: string;
+  transaction: Transaction;
+
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      this.txhash = params.get('txhash')
-    })
-    console.log("skjdflsdhskldhf")
-    this.kanbanService.getTxByHash(this.txhash).subscribe((tx:Transaction)=>{
-      this.transaction = tx
-    },((e)=>{
-      console.log("in error")
-      this.router.navigate([`/block-detail/`,this.txhash])
-    }))
-  
+      this.txhash = params.get('txhash');
+    });
+    console.log('skjdflsdhskldhf');
+    this.kanbanService.getTxByHash(this.txhash).subscribe((tx: Transaction) => {
+      this.transaction = tx;
+    }, ((e) => {
+      console.log('in error');
+      this.router.navigate([`/block-detail/`, this.txhash]);
+    }));
+
   }
 
 }

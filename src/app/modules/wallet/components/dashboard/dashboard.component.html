@@ -30,12 +30,12 @@
 
                         </div>
                         <div class="col col-md-4" *ngIf="wallet && !wallet.hide">
-                            <h4>{{"EXG" | translate}} {{exgBalance}}
+                            <h4>{{"EXG" | translate}} {{utilServ.toPrecision(exgBalance)}}
 
                             </h4>
                             <div class="small">
                                 <span>
-                                    {{utilServ.toPrecision(exgBalance * 0.2 * currencyRate)}} 
+                                    {{utilServ.toPrecision(exgValue)}} 
                                 </span> {{currentCurrency | translate}}
                             </div>
                         </div>

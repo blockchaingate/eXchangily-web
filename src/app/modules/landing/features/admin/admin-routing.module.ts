@@ -4,6 +4,7 @@ import { AdminComponent } from './admin.component';
 import { PaymentMethodsComponent } from './paymentmethods/paymentmethods.component';
 import { AddcoinComponent } from './coin/addcoin.component';
 import { OrderEditComponent } from './order/order-edit.component';
+import { OrdersComponent } from './otc/orders/orders.component';
 import { MembersComponent } from './members/members.component';
 import { OrderManagementComponent } from './order/order-mngmt.component';
 import { AuthGuard } from '../../guards/auth/auth.guard';
@@ -52,7 +53,11 @@ const routes: Routes = [
         {
             path: 'otc-listing',
             component: OtcListingComponent
-        },        
+        },   
+        {
+            path: 'otc-orders',
+            component: OrdersComponent
+        },
         {
             path: 'kyc/:id',
             component: KycComponent

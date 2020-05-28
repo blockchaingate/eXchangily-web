@@ -20,7 +20,7 @@
     <div class="row py-3">
         <div class="col col-12 tab-status">
             <div class="d-inline-block px-3 el-tabs_item" *ngFor="let status of statuses" [ngClass]="(status == currentStatus)  ? 'is-active':''" (click)="changeStatus(status)">
-                {{status}}
+                {{getStatusText(bidOrAsk, status)}}
             </div>
         </div>
     </div>
@@ -31,6 +31,7 @@
                 <thead>
                     <tr>
                         <th scope="col"><small>Order number</small></th>
+                        <th scope="col" *ngIf="type == 'admin'"><small>Member</small></th>
                         <th scope="col"><small>Coin</small></th>
                         <th scope="col"><small>Price</small></th>
                         <th scope="col"><small>Quantity</small></th>
@@ -43,8 +44,13 @@
                     <!--
                     <tr *ngFor="let element of orders | merchantPipe: currency : bidOrAsk : coinName ">
                         -->
-                    <tr *ngFor="let element of orders">
+                    <tr *ngFor="let element of orders | orderPipe : bidOrAsk : currentStatus">
                         <td>{{element._id}}</td>
+                        <td *ngIf="(type == 'admin') && element.buyerMemberId">
+                            <a class="view-detail" (click)="viewMemberDetail(bidOrAsk, element.items[0].title, element.buyerMemberId)">
+                                {{element.buyerMemberId.email}}
+                            </a>
+                        </td>
                         <td>{{element.items[0].title}}</td>
                         <td>{{element.items[0].price}}</td>
                         <td>{{element.items[0].quantity}}</td>
@@ -63,19 +69,21 @@
                                     <button *ngIf="element.paymentStatus == 0" (click)="changePaymentStatus(element, 1)" mat-raised-button color="primary">
                                         {{getButtonText(element.buy, element.paymentStatus) | translate}}
                                     </button>    
-                                    
+                             <!--     
                                     <button *ngIf="element.paymentStatus != 0 && element.paymentStatus != 4" (click)="changePaymentStatus(element, 4)" mat-raised-button color="primary">
                                         {{'Frozen' | translate}}
-                                    </button>                                    
+                                    </button>  
+                                    -->                                    
                                 </div>
-                                <div *ngIf="type=='merchant'">
+                                <div *ngIf="type=='admin'">
                                     <button *ngIf="element.paymentStatus == 1" (click)="changePaymentStatus(element, 2)" mat-raised-button color="primary">
                                         {{getButtonText(element.buy, element.paymentStatus) | translate}}
                                     </button>
-
+                                    <!--
                                     <button *ngIf="element.paymentStatus != 0 && element.paymentStatus != 4" (click)="changePaymentStatus(element, 4)" mat-raised-button color="primary">
                                         {{'Frozen' | translate}}
-                                    </button>                                        
+                                    </button>  
+                                    -->                                      
                                 </div>
                             </div>
 
@@ -95,3 +103,5 @@
         </div>
     </div>
 </div>
+
+<otc-member-detail-modal #memberDetailModal></otc-member-detail-modal>
