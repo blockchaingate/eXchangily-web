@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'market/home', component: MarketHomeComponent },
   { path: 'market/list', component: MarketListComponent },
   { path: 'market/withdraw_history/:address', component: WithdrawHistoryComponent },
-  { path: 'market/trade/auto', component: TradeAutoComponent },
+//  { path: 'market/trade/auto', component: TradeAutoComponent },
 //  { path: 'market/trade/:pair', component: TradeComponent },
   { path: 'market/trade', component: TradeComponent },
   { path: 'market/tvchart/:pair', component: TvChartContainerComponent },

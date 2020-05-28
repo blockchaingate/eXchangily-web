@@ -39,7 +39,13 @@ export class LiteListComponent implements OnInit {
 
     ngOnInit() {
         this.selectedcat = sessionStorage.getItem('tradeCat');
-        this.selectedpair =  sessionStorage.getItem('tradePair');
+        if (!this.selectedcat) {
+            this.selectedcat = 'USDT';
+        }
+        this.selectedpair = sessionStorage.getItem('tradePair');
+        if (!this.selectedpair) {
+            this.selectedpair = 'BTC/USDT';
+        }
 
         this.prices = this.prServ.getPriceList();
         // this._wsServ.getAllPrices();
@@ -95,11 +101,11 @@ export class LiteListComponent implements OnInit {
         this.selectedpair = pair;
         sessionStorage.setItem('tradePair', pair);
         pair = pair.replace('/', '_');
-/*
-        this._router.navigateByUrl('/OrderPadComponent', { skipLocationChange: true }).then(() => {
-            this._router.navigate(['market/trade/' + pair]);
-        });
-*/
+        /*
+                this._router.navigateByUrl('/OrderPadComponent', { skipLocationChange: true }).then(() => {
+                    this._router.navigate(['market/trade/' + pair]);
+                });
+        */
         this._router.navigate(['market/trade/' + pair]);
     }
 
