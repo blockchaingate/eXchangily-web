@@ -1,8 +1,6 @@
-import { Component, ViewChild, EventEmitter, Output, Input, ElementRef } from '@angular/core';
+import { Component, ViewChild, EventEmitter, Output, Input } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { faPaypal } from '@fortawesome/free-brands-svg-icons';
-import { faCreditCard } from '@fortawesome/free-solid-svg-icons';
-import { StripeToken, StripeSource, StripeCard, StripeCardOptions } from 'stripe-angular'
+import { StripeToken, StripeSource, StripeCard } from 'stripe-angular'
 import { environment } from 'src/environments/environment';
 import { StripeScriptTag } from 'stripe-angular'
 import {
@@ -38,9 +36,7 @@ export class OtcPlaceOrderModal {
         }
     }
 
-    faPaypal = faPaypal;
     options: any;
-    faCreditCard = faCreditCard;
 
     @ViewChild('otcPlaceOrderModal', { static: true }) public otcPlaceOrderModal: ModalDirective;
     methods: string[] = ['Paypal', 'CreditCard'];

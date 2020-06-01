@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { CampaignOrderService } from 'src/app/services/campaignorder.service';
 import { StorageService } from '../../../../services/storage.service';
 import { environment } from '../../../../../environments/environment';
@@ -53,8 +52,7 @@ interface ExampleFlatNode {
 })
 
 export class RewardComponent implements OnInit {
-  faFacebook = faFacebook;
-  faTwitter = faTwitter;
+
   referralCode: string;
   teamsRewards: number;
   totalEXG = 0;

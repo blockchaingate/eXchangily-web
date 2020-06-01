@@ -9,7 +9,6 @@ import { MemberDetailModal } from './modals/member-detail/member-detail.componen
 import { OtcPlaceOrderErrorModal } from './modals/otc-place-order-error/otc-place-order-error.component';
 import { ApplyForMerchantModal } from './modals/apply-for-merchant/apply-for-merchant';
 import { ConfirmPaymentModal } from './modals/confirm-payment/confirm-payment';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MerchantPipe } from './pipes/merchant.pipe';
 import { OrderPipe } from './pipes/order.pipe';
 import { PaymentmethodComponent } from './components/paymentmethod/paymentmethod.component';
@@ -53,7 +52,6 @@ import { NgxPayPalModule } from 'ngx-paypal';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    FontAwesomeModule,
     MatSelectModule,
     MatRadioModule,
     MatButtonModule,
