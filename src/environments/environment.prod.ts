@@ -60,7 +60,8 @@ export const environment = {
     CoinType: {
         BTC: 0,
         ETH: 60,
-        FAB: 1150
+        FAB: 1150,
+        BCH: 145
     },
     addresses: {
         smartContract: {

@@ -5,18 +5,38 @@ import { PageNotFoundComponent } from './page-not-found.component';
 import { AppResolver } from './modules/landing/resolvers/app/app.resolve';
 
 const routes: Routes = [
-
-  { path: 'explorer', loadChildren: './modules/kanbanexplorer/kanbanexplorer.module#KanbanExplorerModule' },
-  { path: 'wallet', loadChildren: './modules/wallet/wallet.module#WalletModule' },
-  { path: 'otc', loadChildren: './modules/otc/otc.module#OtcModule' },
-  { path: 'promotion', loadChildren: './modules/promotion/promotion.module#PromotionModule' },
-  { path: 'smartcontract', loadChildren: './modules/smartcontract/smartcontract.module#SmartcontractModule' },
+  {
+    path: 'explorer',
+    loadChildren: () => import('./modules/kanbanexplorer/kanbanexplorer.module').then(m => m.KanbanExplorerModule)
+  },
+  {
+    path: 'wallet',
+    loadChildren: () => import('./modules/wallet/wallet.module').then(m => m.WalletModule)
+  },  
+  {
+    path: 'otc',
+    loadChildren: () => import('./modules/otc/otc.module').then(m => m.OtcModule)
+  },   
+  {
+    path: 'promotion',
+    loadChildren: () => import('./modules/promotion/promotion.module').then(m => m.PromotionModule)
+  },   
+  {
+    path: 'smartcontract',
+    loadChildren: () => import('./modules/smartcontract/smartcontract.module').then(m => m.SmartcontractModule)
+  },      
+  // { path: 'explorer', loadChildren: './modules/kanbanexplorer/kanbanexplorer.module#KanbanExplorerModule' },
+  // { path: 'wallet', loadChildren: './modules/wallet/wallet.module#WalletModule' },
+  // { path: 'otc', loadChildren: './modules/otc/otc.module#OtcModule' },
+  // { path: 'promotion', loadChildren: './modules/promotion/promotion.module#PromotionModule' },
+  // { path: 'smartcontract', loadChildren: './modules/smartcontract/smartcontract.module#SmartcontractModule' },
   {
     resolve: {
       app: AppResolver
     },
     path: 'home',
-    loadChildren: './modules/landing/features/home/home.module#HomeModule',
+    loadChildren: () => import('./modules/landing/features/home/home.module').then(m => m.HomeModule),
+    // loadChildren: './modules/landing/features/home/home.module#HomeModule',
     data: {
       title: 'Exchangily',
       isHome: true,
@@ -31,7 +51,8 @@ const routes: Routes = [
       app: AppResolver
     },
     path: 'login',
-    loadChildren: './modules/landing/features/login/login.module#LoginModule',
+    loadChildren: () => import('./modules/landing/features/login/login.module').then(m => m.LoginModule),
+    // loadChildren: './modules/landing/features/login/login.module#LoginModule',
     data: {
       title: 'Exchangily Login',
       isHome: false
@@ -42,7 +63,8 @@ const routes: Routes = [
       app: AppResolver
     },
     path: 'account',
-    loadChildren: './modules/landing/features/account/account.module#AccountModule',
+    loadChildren: () => import('./modules/landing/features/account/account.module').then(m => m.AccountModule),
+    // loadChildren: './modules/landing/features/account/account.module#AccountModule',
     data: {
       title: 'Exchangily Account',
       isHome: false
