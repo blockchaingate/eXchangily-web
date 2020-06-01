@@ -29,11 +29,8 @@ import { SendCoinForm } from '../../../../interfaces/kanban.interface';
 import { StorageService } from '../../../../services/storage.service';
 import { AlertService } from '../../../../services/alert.service';
 import { AngularCsv } from 'angular7-csv';
-import { MatIconRegistry } from '@angular/material/icon';
-import { DomSanitizer } from '@angular/platform-browser';
 import { TransactionItem } from '../../../../models/transaction-item';
 import BigNumber from 'bignumber.js/bignumber';
-import * as bs58 from 'bs58';
 import { TimerService } from '../../../../services/timer.service';
 import { WsService } from '../../../../services/ws.service';
 import { environment } from '../../../../../environments/environment';
@@ -99,18 +96,15 @@ export class WalletDashboardComponent implements OnInit {
         private campaignorderServ: CampaignOrderService,
         private route: Router, private walletServ: WalletService, private modalServ: BsModalService,
         private coinServ: CoinService, public utilServ: UtilService, private apiServ: ApiService, private _wsServ: WsService,
-        private kanbanServ: KanbanService, private web3Serv: Web3Service, private viewContainerRef: ViewContainerRef,
-        private alertServ: AlertService, private matIconRegistry: MatIconRegistry, private timerServ: TimerService,
-        private coinService: CoinService, private storageService: StorageService, private domSanitizer: DomSanitizer) {
+        private kanbanServ: KanbanService, private web3Serv: Web3Service,
+        private alertServ: AlertService, private timerServ: TimerService,
+        private coinService: CoinService, private storageService: StorageService) {
         this.lan = localStorage.getItem('Lan');
         this.showMyAssets = true;
         this.currentCurrency = 'USD';
         this.currencyRate = 1;
         this.showTransactionHistory = false;
-        this.matIconRegistry.addSvgIcon(
-            'icon_copy',
-            this.domSanitizer.bypassSecurityTrustResourceUrl('/images/copy.svg')
-        );
+
     }
 
     changeCurrency(name: string) {

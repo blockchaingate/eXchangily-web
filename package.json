@@ -75,7 +75,6 @@
         "hash-base": "^3.1.0",
         "lodash": "^4.17.15",
         "ng-chartist": "^4.1.0",
-        "ng2-ace-editor": "^0.3.9",
         "ngx-bootstrap": "^5.6.1",
         "ngx-clipboard": "^13.0.1",
         "ngx-paypal": "^6.1.0",
