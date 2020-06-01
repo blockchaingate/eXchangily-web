@@ -7,7 +7,8 @@ export const coin_list: Coin[] = [
     { id: 3, name: 'ETH', icon: '' },
     { id: 4, name: 'FAB', icon: '' },
     { id: 5, name: 'EXG', icon: '' },
-    { id: 6, name: 'DUSD', icon: ''}
+    { id: 6, name: 'DUSD', icon: ''},
+    { id: 7, name: 'BCH', icon: ''}
 ];
 
 export const price_list: Price[] = [

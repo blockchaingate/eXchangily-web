@@ -48,6 +48,7 @@
         "bip39": "^3.0.2",
         "bitcoinjs-lib": "^5.1.8",
         "bitcoinjs-message": "^2.1.0",
+        "bitcore-lib-cash": "^8.20.3",
         "bootstrap": "^4.5.0",
         "brace": "^0.11.1",
         "browser-solc": "^1.0.0",

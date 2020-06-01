@@ -28,18 +28,14 @@ export const AccountPaths = [
     i18n: 'Account.Referrals.Sideheading',
     absolute: '/account/referrals',
     relative: 'referrals'
-  },
+  }
+  /*
+  ,
   {
     title: 'Security',
     i18n: 'Security',
     absolute: '/account/security',
     relative: 'security'
   }
-  /*,
-  {
-    title: 'Admin',
-    i18n: 'Account.Admin.Title',
-    absolute: '/account/admin',
-    relative: 'admin'
-  }*/
+  */
 ];

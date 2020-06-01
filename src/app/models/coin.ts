@@ -35,6 +35,10 @@ export class Coin {
     if (name === 'DUSD') {
         this.coinType = environment.CoinType.FAB;
         this.decimals = 6;
+    } else 
+    if (name === 'BCH') {
+        this.coinType = environment.CoinType.BCH;
+        this.decimals = 8;
     }
    } 
 }

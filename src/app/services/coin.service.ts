@@ -8,6 +8,7 @@ import { Address } from '../models/address';
 import {coin_list} from '../config/coins';
 import {ApiService} from './api.service';
 import * as wif from 'wif';
+import * as bitcore from 'bitcore-lib-cash';
 import { Web3Service } from './web3.service';
 import {Signature} from '../interfaces/kanban.interface';
 import { UtilService } from './util.service';
@@ -70,8 +71,18 @@ export class CoinService {
         */
         const usdtCoin = this.initToken('ETH', 'USDT', 6, environment.addresses.smartContract.USDT, ethCoin);     
         this.fillUpAddress(usdtCoin, seed, 1, 0);
-        myCoins.push(usdtCoin);      
-             
+        myCoins.push(usdtCoin);  
+
+        const dusdCoin = this.initToken('FAB', 'DUSD', 18, environment.addresses.smartContract.DUSD, fabCoin);
+        this.fillUpAddress(dusdCoin, seed, 1, 0);  
+        
+        if(!environment.production) {
+            const bchCoin = new MyCoin('BCH');
+            this.fillUpAddress(bchCoin, seed, 1, 0);
+            myCoins.push(bchCoin);  
+        }
+
+
         return myCoins;
     }
 
@@ -343,6 +354,12 @@ export class CoinService {
             buffer = wif.decode(priKey); 
             priKeyDisp = priKey;              
         } else 
+        if (name === 'BCH') {
+            var wif2 = 'Kxr9tQED9H44gCmp6HAdmemAzU3n84H3dGkuWTKvE23JgHMW8gct';
+            var address = new bitcore.PrivateKey(wif2).toAddress();
+            addr = address;
+            console.log('BCH address===', address);
+        } else
         if (name === 'ETH' || tokenType === 'ETH') {
 
             const root = hdkey.fromMasterSeed(seed);

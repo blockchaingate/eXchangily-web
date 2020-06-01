@@ -11,12 +11,15 @@ import { Router } from '@angular/router';
 export class SecurityComponent implements OnInit {
   token: string;
   mobile: string;
+  verificationCode: string;
+  step: number;
   constructor(
     private _router: Router,
     private storageService: StorageService,
     private userServ: UserService) { }
 
   ngOnInit() {
+    this.step = 1;
       this.storageService.getToken().subscribe(
         (token: string) => {
           this.token = token;
@@ -48,10 +51,22 @@ export class SecurityComponent implements OnInit {
       (res: any) => {
         if(res && res.ok) {
           const data = res._body;
+          this.step = 2;
           console.log('data for validateNumber==', data);
           
         }
       }
     );    
+  }
+
+  confirmValifacationCode() {
+    this.userServ.confirmValifacationCode(this.token, this.verificationCode).subscribe(
+      (res: any) => {
+        if(res && res.ok) {
+          const data = res._body;
+          
+        }
+      }
+    );      
   }
 }
