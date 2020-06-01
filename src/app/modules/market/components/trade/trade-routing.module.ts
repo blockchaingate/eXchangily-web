@@ -8,8 +8,7 @@ const routes: Routes = [
     {
         path: '', component: TradeComponent,
         children: [
-            { path: 'market/trade/:pair', component: PanelComponent },
-            { path: '', redirectTo: 'market/trade', pathMatch: 'full' },
+            { path: ':pair', component: PanelComponent }
         ]
     }
 ];

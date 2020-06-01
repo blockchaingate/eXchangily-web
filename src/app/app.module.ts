@@ -5,8 +5,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { StorageModule } from '@ngx-pwa/local-storage';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
-import { MarketModule } from './modules/market/market.module';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -27,6 +26,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { HttpService } from './services/http.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {AlertService} from './services/alert.service';
+import {UtilService} from './services/util.service';
+import {KanbanService} from './services/kanban.service';
+import {ApiService} from './services/api.service';
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -43,7 +46,6 @@ export function HttpLoaderFactory(http: HttpClient) {
   imports: [
     BrowserAnimationsModule,
     HttpClientModule,
-    MarketModule,
     MatSidenavModule,
     MatToolbarModule,
     MatIconModule,
@@ -52,6 +54,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FlexLayoutModule,
     MatListModule,
     RouterModule,
+    MatSnackBarModule,
     FormsModule, ReactiveFormsModule,
     MatButtonModule,
     TranslateModule.forRoot(
@@ -66,7 +69,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     StorageModule.forRoot({ IDBNoWrap: true, }),
     AppRoutingModule,
   ],
-  providers: [AppResolver, HttpService, StorageService, TimerService],
+  providers: [AppResolver, HttpService, StorageService, TimerService, AlertService, UtilService, KanbanService, ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -16,7 +16,11 @@ const routes: Routes = [
   {
     path: 'otc',
     loadChildren: () => import('./modules/otc/otc.module').then(m => m.OtcModule)
-  },   
+  },  
+  {
+    path: 'market',
+    loadChildren: () => import('./modules/market/market.module').then(m => m.MarketModule)
+  },     
   {
     path: 'promotion',
     loadChildren: () => import('./modules/promotion/promotion.module').then(m => m.PromotionModule)
