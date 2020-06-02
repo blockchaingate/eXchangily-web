@@ -60,6 +60,9 @@ export const environment = {
         ETH: {
             exchangily: 'https://ethtest.fabcoinapi.com/',
             // etherscan: 'https://api-ropsten.etherscan.io/'
+        },
+        BCH: {
+            exchangily: 'https://bchtest.fabcoinapi.com/',
         }
         // pricehistory: 'http://18.223.17.4:3002/klinedata/'
 

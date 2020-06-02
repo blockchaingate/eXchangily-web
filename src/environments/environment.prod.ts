@@ -54,6 +54,9 @@ export const environment = {
         },
         ETH: {
             exchangily: 'https://ethprod.fabcoinapi.com/',
+        },
+        BCH: {
+            exchangily: 'https://bchprod.fabcoinapi.com/',
         }
         // pricehistory: 'https://fabprod.fabcoinapi.com:3002/klinedata/'
     },

@@ -404,6 +404,9 @@ export class WalletDashboardComponent implements OnInit {
         let btcAddress = '';
         let ethAddress = '';
         let fabAddress = '';
+        let bchAddress = '';
+        let dogAddress = '';
+        let ltcAddress = '';
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];
             if (coin.name == 'BTC' && !btcAddress) {
@@ -415,12 +418,24 @@ export class WalletDashboardComponent implements OnInit {
             if (coin.name == 'FAB' && !fabAddress) {
                 fabAddress = coin.receiveAdds[0].address;
             }
+            if (coin.name == 'BCH') {
+                bchAddress = coin.receiveAdds[0].address;
+            }
+            if (coin.name == 'DOG') {
+                dogAddress = coin.receiveAdds[0].address;
+            }   
+            if (coin.name == 'LTC') {
+                ltcAddress = coin.receiveAdds[0].address;
+            }                       
         }
 
         const data = {
             btcAddress: btcAddress,
             ethAddress: ethAddress,
-            fabAddress: fabAddress
+            fabAddress: fabAddress,
+            bchAddress: bchAddress,
+            dogAddress: dogAddress,
+            ltcAddress: ltcAddress
         };
         this.coinServ.walletBalance(data).subscribe(
             (res: any) => {

@@ -347,6 +347,14 @@ export class ApiService {
        return {balance, lockbalance};  
     }
 
+    async getBchBalance(address: string): Promise<Balance> {
+        const url = environment.endpoints.BCH.exchangily + 'getbalance/' + address;
+        const response = await this.http.get(url).toPromise()  as number;
+        const balance = response;
+        const lockbalance = 0;
+        return {balance, lockbalance};  
+     }
+
     async getEthTokenBalance(name: string, contractAddress: string, address: string) {
         /*
         const url = environment.endpoints.ETH.etherscan + 'api?module=account&action=tokenbalance&contractaddress='

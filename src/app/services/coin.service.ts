@@ -75,12 +75,10 @@ export class CoinService {
 
         const dusdCoin = this.initToken('FAB', 'DUSD', 18, environment.addresses.smartContract.DUSD, fabCoin);
         this.fillUpAddress(dusdCoin, seed, 1, 0);  
-        
-        if(!environment.production) {
-            const bchCoin = new MyCoin('BCH');
-            this.fillUpAddress(bchCoin, seed, 1, 0);
-            myCoins.push(bchCoin);  
-        }
+
+        const bchCoin = new MyCoin('BCH');
+        this.fillUpAddress(bchCoin, seed, 1, 0);
+        myCoins.push(bchCoin);  
 
 
         return myCoins;
@@ -227,6 +225,11 @@ export class CoinService {
             balance = balanceObj.balance / 1e18;
             lockbalance = balanceObj.lockbalance / 1e18;
         } else 
+        if (name === 'BCH') {
+            const balanceObj = await this.apiService.getBchBalance(addr);
+            balance = balanceObj.balance / 1e18;
+            lockbalance = balanceObj.lockbalance / 1e18;
+        } else         
         if (name === 'FAB') {
             const balanceObj = await this.apiService.getFabBalance(addr);
             balance = balanceObj.balance / 1e8;
@@ -355,10 +358,20 @@ export class CoinService {
             priKeyDisp = priKey;              
         } else 
         if (name === 'BCH') {
+            /*
             var wif2 = 'Kxr9tQED9H44gCmp6HAdmemAzU3n84H3dGkuWTKvE23JgHMW8gct';
             var address = new bitcore.PrivateKey(wif2).toAddress();
             addr = address;
             console.log('BCH address===', address);
+            */
+
+           var root = bitcore.HDPrivateKey.fromSeed(seed);
+           var child = root.deriveChild(path);
+           
+           var publicKey = child.publicKey;
+           addr = bitcore.Address.fromPublicKey(publicKey).toString();      
+           
+           
         } else
         if (name === 'ETH' || tokenType === 'ETH') {
 
