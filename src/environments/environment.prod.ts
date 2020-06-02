@@ -12,13 +12,13 @@ export const environment = {
     chains: {
         BTC: {
             network: Btc.networks.bitcoin,
-            satoshisPerBytes: 50,
+            satoshisPerBytes: 60,
             bytesPerInput: 152
         },
         ETH: {
             chain: 'mainnet',
             hardfork: 'petersburg',
-            gasPrice: 20000000000,
+            gasPrice: 30000000000,
             gasLimit: 100000
         },
         FAB: {

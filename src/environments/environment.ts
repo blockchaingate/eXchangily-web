@@ -16,13 +16,13 @@ export const environment = {
     chains: {
         BTC: {
             network: Btc.networks.testnet,
-            satoshisPerBytes: 50,
+            satoshisPerBytes: 60,
             bytesPerInput: 148
         },
         ETH: {
             chain: 'ropsten', 
             hardfork: 'byzantium',
-            gasPrice: 10000000000,
+            gasPrice: 30000000000,
             gasLimit: 100000
         },
         FAB: {
