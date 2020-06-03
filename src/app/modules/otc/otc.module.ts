@@ -31,6 +31,7 @@ import { PaymentMethodService } from '../../services/paymentmethod.service';
 import { StripeModule } from "stripe-angular"
 import { UserService } from '../../services/user.service';
 import { NgxPayPalModule } from 'ngx-paypal';
+import { CoinService } from '../../services/coin.service';
 
 @NgModule({
   declarations: [
@@ -62,13 +63,13 @@ import { NgxPayPalModule } from 'ngx-paypal';
     TranslateModule,
     MatInputModule,
     OtcRoutingModule,
-    ModalModule,
+    ModalModule.forRoot(),
     OtcMerchantModule,
     StripeModule.forRoot()
   ],
   exports: [
     OrderComponent
   ],
-  providers: [AuthGuard,PaymentMethodService,UserService]
+  providers: [AuthGuard,PaymentMethodService,UserService,CoinService]
 })
 export class OtcModule { }

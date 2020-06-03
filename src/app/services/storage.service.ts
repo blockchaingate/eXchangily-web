@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import { TransactionItem } from '../models/transaction-item';
-import {Subject} from 'rxjs/Subject';   
 import {Transaction} from '../interfaces/kanban.interface';
+import { Wallet } from '../models/wallet';
 
 @Injectable()
 export class StorageService {
@@ -10,7 +10,35 @@ export class StorageService {
 
     }
 
+    async getCurrentWallet() {
+        let currentWalletIndex = await this.getCurrentWalletIndex();
 
+        const wallets = await this.getWallets();
+        // console.log('currentWalletIndex=' + currentWalletIndex);
+        // console.log('walletsssss=', wallets);
+        if (wallets) {
+            if ((!currentWalletIndex) || (currentWalletIndex < 0)) {
+                currentWalletIndex = 0;
+            }
+            if (currentWalletIndex > wallets.length - 1) {
+                currentWalletIndex = wallets.length - 1;
+            }              
+            // console.log('currentWalletIndex here=' + currentWalletIndex);
+            return wallets[currentWalletIndex];
+        }
+        return null;
+    }
+    
+    async getWallets() {
+        const wallets = await this.localSt.getItem('wallets').toPromise() as Wallet[];
+        return wallets;
+    }   
+
+    async getCurrentWalletIndex() {
+        const currentWalletIndex = await this.localSt.getItem('currentWalletIndex').toPromise() as number;
+        // console.log('currentWalletIndex in get', currentWalletIndex);
+        return currentWalletIndex;
+    }
     addTradeTransaction(tx: Transaction) {
         this.localSt.getItem('mytransactions').subscribe((transactions: Transaction[]) => {
             if (!transactions) {

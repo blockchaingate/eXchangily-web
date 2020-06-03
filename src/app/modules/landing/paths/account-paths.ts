@@ -29,7 +29,6 @@ export const AccountPaths = [
     absolute: '/account/referrals',
     relative: 'referrals'
   }
-  /*
   ,
   {
     title: 'Security',
@@ -37,5 +36,5 @@ export const AccountPaths = [
     absolute: '/account/security',
     relative: 'security'
   }
-  */
+  
 ];

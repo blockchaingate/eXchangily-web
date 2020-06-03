@@ -6,7 +6,6 @@ import { ConfirmPaymentModal } from '../../modals/confirm-payment/confirm-paymen
 import { Router } from '@angular/router';
 import { StorageService } from '../../../../services/storage.service';
 import { OtcService } from '../../../../services/otc.service';
-import { WalletService } from '../../../../services/wallet.service';
 import { Wallet } from '../../../../models/wallet';
 import { PinNumberModal } from '../../../shared/modals/pin-number/pin-number.modal';
 import { UtilService } from '../../../../services/util.service';
@@ -61,7 +60,6 @@ export class TradeComponent implements OnInit {
     private alertServ: AlertService,
     private translateServ: TranslateService,
     public utilServ: UtilService,
-    private walletService: WalletService,
     private _router: Router,
     private storageService: StorageService, 
     private _otcServ: OtcService) { }
@@ -71,7 +69,7 @@ export class TradeComponent implements OnInit {
     this.bidOrAsk = true;
     this.coinName = 'USDT';
     this.currency = 'USD';
-    this.wallet = await this.walletService.getCurrentWallet();
+    this.wallet = await this.storageService.getCurrentWallet();
     // this.dataSource = ELEMENT_DATA;
     this.dataSource = [];
     this._otcServ.getPublicListings().subscribe(

@@ -22,6 +22,7 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { MemberModal } from './modals/member/member.component';
 import { TeamModal } from './modals/team/team.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { CoinService } from '../../services/coin.service';
 
 @NgModule({
   declarations: [IndexComponent, MainComponent, RewardComponent, FlyerComponent, MemberModal, TeamModal],
@@ -38,13 +39,13 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     MatIconModule,
     ChartistModule,
     QRCodeModule,
-    ModalModule,
+    ModalModule.forRoot(),
     MatDialogModule,
     MatExpansionModule,
     PromotionRoutingModule
   ],
   providers: [
-    CampaignOrderService
+    CampaignOrderService, CoinService
   ]
 })
 export class PromotionModule { }

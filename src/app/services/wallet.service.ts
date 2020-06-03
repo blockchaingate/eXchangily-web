@@ -166,6 +166,11 @@ export class WalletService {
         }
         return null;
     }
+    
+    async getWallets() {
+        const wallets = await this.localSt.getItem('wallets').toPromise() as Wallet[];
+        return wallets;
+    }
 
     async getCurrentWalletIndex() {
         const currentWalletIndex = await this.localSt.getItem('currentWalletIndex').toPromise() as number;
@@ -173,10 +178,7 @@ export class WalletService {
         return currentWalletIndex;
     }
 
-    async getWallets() {
-        const wallets = await this.localSt.getItem('wallets').toPromise() as Wallet[];
-        return wallets;
-    }
+
 
     storeToWalletList(wallet: Wallet) {
         this.localSt.getItem('wallets').subscribe((wallets: Wallet[]) => {
