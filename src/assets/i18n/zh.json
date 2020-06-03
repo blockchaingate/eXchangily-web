@@ -128,7 +128,7 @@
                     "Title": "证券交易总裁",
                     "Image": "john-kerin.jpg",
                     "Desc": [
-                        "芝加哥股票交易所首席执行官司",
+                        "前芝加哥股票交易所首席执行官",
                         "资深持牌证券交易专家"
                     ]
                 },
@@ -139,7 +139,7 @@
                     "Desc": [
                         "区块链技术博士生导师",
                         "匹茨堡大学博士",
-                        "拥有上百份篇出版刊登的终身教授"
+                        "拥有上百篇出版刊物的终身教授"
                     ]
                 },
                 "Member4": {
@@ -149,7 +149,7 @@
                     "Desc": [
                         "首席区块链专家",
                         "系统总设计师",
-                        "项目技术方案设计"
+                        "项目方案决策"
                     ]
                 },
                 "Member5": {
@@ -162,15 +162,6 @@
                     ]
                 },
                 "Member6": {
-                    "Name": "Andy Tucker",
-                    "Image": "andy-tucker.jpg",
-                    "Title": "律师",
-                    "Desc": [
-                        "证券法资深律师",
-                        "30年行业经验"
-                    ]
-                },
-                "Member7": {
                     "Name": "Jamie Tan",
                     "Title": "首席技术官",
                     "Image": "Jamie_Tan_m.jpg",
@@ -181,7 +172,25 @@
                         "Imaginestics创始人兼CEO"
                     ]
                 },
+                "Member7": {
+                    "Name": "Andy Tucker",
+                    "Image": "andy-tucker.jpg",
+                    "Title": "律师",
+                    "Desc": [
+                        "证券法资深律师",
+                        "30年行业经验"
+                    ]
+                },
                 "Member8": {
+                    "Name": "Jason Hong",
+                    "Image": "jason-hong.png",
+                    "Title": "技术总监",
+                    "Desc": [
+                        "计算机科学硕土",
+                        "区块链研究、开发专家"
+                    ]
+                },
+                "Member9": {
                     "Name": "Todor Milev",
                     "Image": "Todor_Milev_m.jpg",
                     "Title": "密码学及算法专家",
@@ -190,7 +199,7 @@
                         "密码学研究专家"
                     ]
                 },
-                "Member9": {
+                "Member10": {
                     "Name": "Radha Appan",
                     "Image": "radha-appan.jpg",
                     "Title": "首席系统顾问",
@@ -201,7 +210,7 @@
                         "信息安全与策略专家"
                     ]
                 },
-                "Member10": {
+                "Member11": {
                     "Name": "Wesam Helou",
                     "Image": "wesam-m.jpg",
                     "Title": "软件客服经理，企业系统开发工程师",
@@ -209,7 +218,7 @@
                         "信息科学博士"
                     ]
                 },
-                "Member11": {
+                "Member12": {
                     "Name": "Lawrence Fan",
                     "Image": "lawrence-fan.jpg",
                     "Title": "CFO",
@@ -220,16 +229,16 @@
                         "证券IPO专家"
                     ]
                 },
-                "Member12": {
+                "Member13": {
                     "Name": "Kaiqing Fan",
                     "Image": "kaiqing-m.jpg",
                     "Title": "高级软件工程师，开发组长",
                     "Desc": [
-                        "多伦多大学数学学士",
-                        "计算机科学硕士"
+                        "美国WU数学硕士",
+                        "计算机科学博士"
                     ]
                 },
-                "Member13": {
+                "Member14": {
                     "Name": "Ankit Shah",
                     "Image": "ankit-shah.jpg",
                     "Title": "高级软件工程师",
@@ -237,15 +246,43 @@
                         "计算机科学硕士"
                     ]
                 },
-                "Member14": {
+                "Member15": {
+                    "Name": "Kening Qiu",
+                    "Image": "kening-qiu.png",
+                    "Title": "高级软件工程师",
+                    "Desc": [
+                        "计算机科学硕士",
+                        "前端及App软件设计"
+                    ]
+                },
+                "Member16": {
                     "Name": "Harry He",
                     "Image": "harry-he.jpg",
                     "Title": "软件工程师",
                     "Desc": [
-                        "多伦多大学计算机工程"
+                        "多伦多大学计算机工程学士"
                     ]
                 },
-                "Member15": {
+                "Member17": {
+                    "Name": "Barry Singh",
+                    "Image": "barry-singh.png",
+                    "Title": "高级软件工程师",
+                    "Desc": [
+                        "计算机科学硕士",
+                        "前端及手机APP设计"
+                    ]
+                },
+                "Member18": {
+                    "Name": "Jack Sun",
+                    "Image": "jack-sun.png",
+                    "Title": "UI/UX工程师",
+                    "Desc": [
+                        "UI/UX设计师",
+                        "高级软件工程师",
+                        "前端及手机APP开发"
+                    ]
+                },
+                "Member19": {
                     "Name": "Muchtar Salimov",
                     "Image": "muchtar-salimov.jpg",
                     "Title": "系统测试工程师",
@@ -254,16 +291,16 @@
                         "计算机科学硕士"
                     ]
                 },
-                "Member16": {
-                    "Name": "Bruce Li",
-                    "Image": "bruce-li.jpg",
-                    "Title": "市场协调专员",
+                "Member21": {
+                    "Name": "Cary Chen",
+                    "Image": "cary-chen.png",
+                    "Title": "软件工程师",
                     "Desc": [
-                        "CWRU峰会副总裁",
-                        "美国Liepin人才招聘主办人"
+                        "计算机科学学士",
+                        "区块链系统工程师"
                     ]
                 },
-                "Member17": {
+                "Member22": {
                     "Name": "Sean Henderson",
                     "Image": "sean-henderson.jpg",
                     "Title": "联合CMO",
@@ -272,7 +309,7 @@
                         "30年金融业经验"
                     ]
                 },
-                "Member18": {
+                "Member23": {
                     "Name": "Nick Minovski",
                     "Image": "nick-minovski.jpg",
                     "Title": "首席数据官",
@@ -282,7 +319,7 @@
                         "金融战略师"
                     ]
                 },
-                "Member19": {
+                "Member24": {
                     "Name": "Randall Bunka",
                     "Image": "randall-bunka.jpg",
                     "Title": "首席企业战略官",
@@ -290,7 +327,15 @@
                         "企业管理专家"
                     ]
                 },
-                "Member20": {
+                "Member25": {
+                    "Name": "Lee Cunningham",
+                    "Image": "lee-cunningham.jpg",
+                    "Title": "英国市场总经理",
+                    "Desc": [
+                        "数字货币投资顾问"
+                    ]
+                },
+                "Member26": {
                     "Name": "Steve Zhou",
                     "Image": "steve-zhou.jpg",
                     "Title": "市场协调员",
@@ -299,15 +344,16 @@
                         "SellStudents创始人"
                     ]
                 },
-                "Member21": {
-                    "Name": "Lee Cunningham",
-                    "Image": "lee-cunningham.jpg",
-                    "Title": "英国市场总经理",
+                "Member27": {
+                    "Name": "Bruce Li",
+                    "Image": "bruce-li.jpg",
+                    "Title": "市场协调专员",
                     "Desc": [
-                        "数字货币投资顾问"
+                        "CWRU峰会副总裁",
+                        "美国Liepin人才招聘主办人"
                     ]
                 },
-                "Member22": {
+                "Member28": {
                     "Name": "Huiqiang Yue",
                     "Image": "huiqiang-yue.jpg",
                     "Title": "中国客户助理",
