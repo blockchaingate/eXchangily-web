@@ -189,6 +189,15 @@
                     ]
                 },
                 "Member8": {
+                    "Name": "Jason Hong",
+                    "Image": "jason-hong.png",
+                    "Title": "Technical Director",
+                    "Desc": [
+                        "Blockchain expert",
+                        "Senior software engineer"
+                    ]
+                },
+                "Member9": {
                     "Name": "Todor Milev",
                     "Image": "Todor_Milev_m.jpg",
                     "Title": "Cryptographer",
@@ -197,7 +206,7 @@
                         "Cryptography Expert"
                     ]
                 },
-                "Member9": {
+                "Member10": {
                     "Name": "Radha Appan",
                     "Image": "radha-appan.jpg",
                     "Title": "Chief Advisor",
@@ -209,7 +218,7 @@
                         "Expertise in IT Security & Strategy"
                     ]
                 },
-                "Member10": {
+                "Member11": {
                     "Name": "Wesam Helou",
                     "Image": "wesam-m.jpg",
                     "Title": "Manager, Software Support & Enterprise System Developer",
@@ -217,7 +226,7 @@
                         "PhD in Information Technology"
                     ]
                 },
-                "Member11": {
+                "Member12": {
                     "Name": "Lawrence Fan",
                     "Image": "lawrence-fan.jpg",
                     "Title": "CFO",
@@ -228,7 +237,7 @@
                         "IPO expert"
                     ]
                 },
-                "Member12": {
+                "Member13": {
                     "Name": "Kaiqing Fan",
                     "Image": "kaiqing-m.jpg",
                     "Title": "Senior Lead Developer",
@@ -237,7 +246,7 @@
                         "Senior at PNC Bank"
                     ]
                 },
-                "Member13": {
+                "Member14": {
                     "Name": "Ankit Shah",
                     "Image": "ankit-shah.jpg",
                     "Title": "Senior software engineer",
@@ -245,15 +254,43 @@
                         "MS in Computer Science"
                     ]
                 },
-                "Member14": {
+                "Member15": {
+                    "Name": "Ken Qiu",
+                    "Image": "kening-qiu.png",
+                    "Title": "Senior software engineer",
+                    "Desc": [
+                        "MS in Computer Science",
+                        "Senior web/app developer"
+                    ]
+                },
+                "Member16": {
                     "Name": "Harry He",
                     "Image": "harry-he.jpg",
                     "Title": "Software engineer",
                     "Desc": [
-                        "MS of Computer Engineer of Univ. of Toronto"
+                        "BS of Computer Engineer of Univ. of Toronto"
                     ]
                 },
-                "Member15": {
+                "Member17": {
+                    "Name": "Barry Singh",
+                    "Image": "barry-singh.png",
+                    "Title": "Senior software engineer",
+                    "Desc": [
+                        "BS of Computer Science",
+                        "Senior mobile app designer"
+                    ]
+                },
+                "Member18": {
+                    "Name": "Jack Sun",
+                    "Image": "jack-sun.png",
+                    "Title": "Senior UI/UX Engineer",
+                    "Desc": [
+                        "Senior software engineer",
+                        "UI/UX designer",
+                        "Web/mobile app developer"
+                    ]
+                },
+                "Member19": {
                     "Name": "Muchtar Salimov",
                     "Image": "muchtar-salimov.jpg",
                     "Title": "System test lead",
@@ -262,17 +299,15 @@
                         "MS of computer science"
                     ]
                 },
-                "Member16": {
-                    "Name": "Bruce Li",
-                    "Image": "bruce-li.jpg",
-                    "Title": "Marketing associate",
+                "Member20": {
+                    "Name": "Cary Chen",
+                    "Image": "cary-chen.png",
+                    "Title": "Software engineer",
                     "Desc": [
-                        "VP of CWRU Summit",
-                        "LaunchNet Startup Contest",
-                        "Liepin-USA Recruiting Event Host"
+                        "BS of Computer Science"
                     ]
                 },
-                "Member17": {
+                "Member21": {
                     "Name": "Sean Henderson",
                     "Image": "sean-henderson.jpg",
                     "Title": "CMO",
@@ -281,7 +316,7 @@
                         "30 yrs in financial services"
                     ]
                 },
-                "Member18": {
+                "Member22": {
                     "Name": "Nick Minovski",
                     "Image": "nick-minovski.jpg",
                     "Title": "Chief BD Officer",
@@ -291,7 +326,7 @@
                         "Accounting and Finance - CGA L5"
                     ]
                 },
-                "Member19": {
+                "Member23": {
                     "Name": "Randall Bunka",
                     "Image": "randall-bunka.jpg",
                     "Title": "Business Development Officer",
@@ -299,17 +334,7 @@
                         "BA in Business Administration"
                     ]
                 },
-                "Member20": {
-                    "Name": "Steve Zhou",
-                    "Image": "steve-zhou.jpg",
-                    "Title": "Marketing Associate",
-                    "Desc": [
-                        "Youbang Insurance",
-                        "Startup Salad",
-                        "SellStudents Founder"
-                    ]
-                },
-                "Member21": {
+                "Member24": {
                     "Name": "Lee Cunningham",
                     "Image": "lee-cunningham.jpg",
                     "Title": "Chief Marketing Advisor",
@@ -319,7 +344,27 @@
                         "Nurse Practitioner"
                     ]
                 },
-                "Member22": {
+                "Member25": {
+                    "Name": "Bruce Li",
+                    "Image": "bruce-li.jpg",
+                    "Title": "Marketing associate",
+                    "Desc": [
+                        "VP of CWRU Summit",
+                        "LaunchNet Startup Contest",
+                        "Liepin-USA Recruiting Event Host"
+                    ]
+                },
+                "Member26": {
+                    "Name": "Steve Zhou",
+                    "Image": "steve-zhou.jpg",
+                    "Title": "Marketing Associate",
+                    "Desc": [
+                        "Youbang Insurance",
+                        "Startup Salad",
+                        "SellStudents Founder"
+                    ]
+                },
+                "Member27": {
                     "Name": "Huiqiang Yue",
                     "Image": "huiqiang-yue.jpg",
                     "Title": "China Customer Service",
