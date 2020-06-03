@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { PinNumberModal } from '../../../shared/modals/pin-number/pin-number.modal';
-import {MatSelectChange} from '@angular/material/select';
 import { Wallet } from '../../../../models/wallet';
-import { WalletService } from '../../../../services/wallet.service';
+import { StorageService } from '../../../../services/storage.service';
 import { ApiService } from '../../../../services/api.service';
 import { Web3Service } from '../../../../services/web3.service';
 import { UtilService } from '../../../../services/util.service';
@@ -20,19 +19,22 @@ import {environment} from '../../../../../environments/environment';
 export class SmartContractComponent implements OnInit {
   @ViewChild('pinModal', {static: true}) pinModal: PinNumberModal;
   method: any;
+  action: string;
   smartContractName: string;
   result: string;
   error: string;
+  ethData: string;
   payableValue: number;
   selectedMethod: string;
   types = [];
   wallet: Wallet;
   smartContractAddress: string;
   mycoin: MyCoin;
+  ethCoin: MyCoin;
   balance: any;
   ABI = [];
   constructor(
-    private walletService: WalletService, 
+    private storageService: StorageService, 
     private apiServ: ApiService, 
     private web3Serv: Web3Service,
     private utilServ: UtilService,
@@ -74,9 +76,10 @@ export class SmartContractComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.action = '';
     this.smartContractAddress = environment.addresses.smartContract.FABLOCK;
     this.changeSmartContractAddress();
-    this.wallet = await this.walletService.getCurrentWallet();
+    this.wallet = await this.storageService.getCurrentWallet();
 
     if (!this.wallet) {
       this.alertServ.openSnackBar('no current wallet was found.', 'Ok');
@@ -89,7 +92,11 @@ export class SmartContractComponent implements OnInit {
         this.mycoin = coin;
         this.balance = await this.coinServ.getBalance(coin);
         console.log('this.balance=', this.balance);
-        break;
+        // break;
+      } else 
+      if (coin.name === 'ETH') {
+        this.ethCoin = coin;
+        this.balance = await this.coinServ.getBalance(coin);        
       }
     }  
     
@@ -194,13 +201,35 @@ export class SmartContractComponent implements OnInit {
     */
     return abi;
   }
-  async onConfirmedPin(pin: string) {
 
-    const abiHex = this.formABI();
-    const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
-    if (!seed) {
-      this.alertServ.openSnackBar('Your password is wrong.', 'Ok');
+  async deployEthDo(seed) {
+
+    const keyPair = this.coinServ.getKeyPairs(this.ethCoin, seed, 0, 0);
+    const nonce = await this.apiServ.getEthNonce(this.ethCoin.receiveAdds[0].address);
+    const txParams = {
+        nonce: nonce,
+        gasPrice: 100000000000,
+        gasLimit: 8000000,
+        to: '',
+        value: 0,
+        data: this.ethData          
+    };
+
+    // console.log('txParams=', txParams);
+    const txHex = await this.web3Serv.signTxWithPrivateKey(txParams, keyPair);
+
+
+    const retEth = await this.apiServ.postEthTx(txHex);   
+
+    console.log('retEth===', retEth);
+    if(retEth && retEth.txHash) {
+      this.alertServ.openSnackBar('Smart contract was deploy successfully.', 'Ok');
     }
+
+  }
+
+  async callFabSmartContract(seed) {
+    const abiHex = this.formABI();
     const gasLimit = 800000;
     const gasPrice = 40;
     let value = 0;
@@ -242,20 +271,28 @@ export class SmartContractComponent implements OnInit {
         if (errMsg) {
           this.error = errMsg;
         }
-    }    
-    /*
-    const includeCoin = true;
-    let value = 0;
-    if (this.method.stateMutability === 'payable') {
-      value = this.payableValue;
+    }  
+  }
+  async onConfirmedPin(pin: string) {
+
+    
+    const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
+    if (!seed) {
+      this.alertServ.openSnackBar('Your password is wrong.', 'Ok');
     }
-    const txHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce, includeCoin); 
-    this.kanbanServ.sendRawSignedTransaction(txHex).subscribe((resp: TransactionResp) => {
-      console.log('resp is:', resp);
-      if (resp && resp.transactionHash) {
-        this.result = 'txid-' + resp.transactionHash;
-      }
-    });
-    */
+
+    if(!this.action || (this.action == '')) {
+      await this.callFabSmartContract(seed);
+    } else 
+    if(this.action == 'deployEth') {
+      await this.deployEthDo(seed);
+    }
+
+  }
+
+  deployEth() {
+    this.action = 'deployEth';
+    //console.log('this.ethData==', this.ethData);
+    this.pinModal.show(); 
   }
 }

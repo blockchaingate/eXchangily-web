@@ -59,6 +59,7 @@
         "compression": "^1.7.4",
         "core-js": "^3.6.5",
         "crypto-js": "^4.0.0",
+        "dogecore": "^0.15.0",
         "ethereumjs-abi": "^0.6.8",
         "ethereumjs-common": "1.5.1",
         "ethereumjs-tx": "^2.1.2",

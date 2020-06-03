@@ -21,7 +21,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         DisplayPinNumberModal
     ],
     imports: [
-        ModalModule,
+        ModalModule.forRoot(),
         FormsModule,
         ReactiveFormsModule,
         HttpClientModule,

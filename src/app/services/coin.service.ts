@@ -10,6 +10,7 @@ import {ApiService} from './api.service';
 import * as wif from 'wif';
 import * as bitcore from 'bitcore-lib-cash';
 import * as litecore from 'litecore-lib';
+import * as dogecore from 'dogecore';
 import { Web3Service } from './web3.service';
 import {Signature} from '../interfaces/kanban.interface';
 import { UtilService } from './util.service';
@@ -87,7 +88,51 @@ export class CoinService {
         this.fillUpAddress(ltcCoin, seed, 1, 0);        
         myCoins.push(ltcCoin);  
 
+        const dogCoin = new MyCoin('DOG');
+        this.fillUpAddress(dogCoin, seed, 1, 0);        
+        myCoins.push(dogCoin);  
 
+        const erc20Tokens = [
+            'BNB', 'INB', 'REP', 'HOT', 'MATIC', 'IOST', 'CEL', 'MANA', 'FUN',
+            'WAX', 'ELF', 'GNO', 'POWR', 'WINGS', 'MTL', 'KNC', 'MHC', 'GVT'
+        ];
+
+        for(let i=0;i<erc20Tokens.length;i++) {
+            const tokenName = erc20Tokens[i];
+            const token = this.initToken('ETH', tokenName, 18, environment.addresses.smartContract[tokenName], ethCoin);     
+            this.fillUpAddress(token, seed, 1, 0);
+            myCoins.push(token); 
+        }
+        /*
+        const bnbCoin = this.initToken('ETH', 'BNB', 18, environment.addresses.smartContract.BNB, ethCoin);     
+        this.fillUpAddress(bnbCoin, seed, 1, 0);
+        myCoins.push(bnbCoin);  
+
+        const inbCoin = this.initToken('ETH', 'INB', 18, environment.addresses.smartContract.INB, ethCoin);     
+        this.fillUpAddress(inbCoin, seed, 1, 0);
+        myCoins.push(inbCoin);    
+        
+        const repCoin = this.initToken('ETH', 'REP', 18, environment.addresses.smartContract.REP, ethCoin);     
+        this.fillUpAddress(repCoin, seed, 1, 0);
+        myCoins.push(repCoin);    
+        
+        const hotCoin = this.initToken('ETH', 'HOT', 18, environment.addresses.smartContract.HOT, ethCoin);     
+        this.fillUpAddress(hotCoin, seed, 1, 0);
+        myCoins.push(hotCoin);   
+
+        const maticCoin = this.initToken('ETH', 'MATIC', 18, environment.addresses.smartContract.MATIC, ethCoin);     
+        this.fillUpAddress(maticCoin, seed, 1, 0);
+        myCoins.push(maticCoin);  
+
+        const iostCoin = this.initToken('ETH', 'IOST', 18, environment.addresses.smartContract.IOST, ethCoin);     
+        this.fillUpAddress(iostCoin, seed, 1, 0);
+        myCoins.push(iostCoin);  
+
+        const manaCoin = this.initToken('ETH', 'MANA', 18, environment.addresses.smartContract.MANA, ethCoin);     
+        this.fillUpAddress(manaCoin, seed, 1, 0);
+        myCoins.push(manaCoin);  
+        */
+       
         return myCoins;
     }
 
@@ -149,12 +194,19 @@ export class CoinService {
     }
 
     getOfficialAddress(myCoin: MyCoin) {
+        const coinName = myCoin.name;
+        /*
         const addresses = environment.addresses.exchangilyOfficial;
         for (let i = 0; i < addresses.length; i++) {
             if (addresses[i].name === myCoin.name) {
                 return addresses[i].address;
             }
         }
+        */
+       
+       if(environment.addresses.exchangilyOfficial[coinName]) {
+           return environment.addresses.exchangilyOfficial[coinName];
+       }
         return '';
     }
 
@@ -346,13 +398,14 @@ export class CoinService {
 
         if (name === 'BTC' || name === 'FAB') {
             const root = BIP32.fromSeed(seed, environment.chains.BTC.network);
-
+            /*
             const childNode1 = root.deriveHardened(44);
             const childNode2 = childNode1.deriveHardened(coin.coinType);
             const childNode3 = childNode2.deriveHardened(0);
             const childNode4 = childNode3.derive(chain);
             const childNode = childNode4.derive(index);
-          
+            */
+           const childNode = root.derivePath(path);
             const { address } = Btc.payments.p2pkh({
                 pubkey: childNode.publicKey,
                 network: environment.chains.BTC.network
@@ -371,13 +424,14 @@ export class CoinService {
             var publicKey = child.publicKey;
             addr = litecore.Address.fromPublicKey(publicKey).toString();   
         } else
+        if (name === 'DOG') {
+            var root = dogecore.HDPrivateKey.fromSeed(seed);
+            var child = root.deriveChild(path);
+            
+            var publicKey = child.publicKey;
+            addr = dogecore.Address.fromPublicKey(publicKey).toString();   
+        } else        
         if (name === 'BCH') {
-            /*
-            var wif2 = 'Kxr9tQED9H44gCmp6HAdmemAzU3n84H3dGkuWTKvE23JgHMW8gct';
-            var address = new bitcore.PrivateKey(wif2).toAddress();
-            addr = address;
-            console.log('BCH address===', address);
-            */
 
            var root = bitcore.HDPrivateKey.fromSeed(seed);
            var child = root.deriveChild(path);
@@ -945,9 +999,14 @@ export class CoinService {
             // const amountSent = amount * Math.pow(10, decimals);
             const amountSent = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, decimals)));
             const toAccount = toAddress;
-            let contractAddress = mycoin.contractAddr;
+            let contractAddress = environment.addresses.smartContract[mycoin.name];
+
+            console.log('contractAddress theee=', contractAddress);
             if (mycoin.name === 'USDT') {
                 contractAddress = environment.addresses.smartContract.USDT;
+            } else 
+            if (mycoin.name === 'BNB') {
+                contractAddress = environment.addresses.smartContract.BNB;
             }
             // console.log('nonce = ' + nonce);
             const func =    {  
@@ -989,7 +1048,7 @@ export class CoinService {
                 data: '0x' + abiHex + this.utilServ.fixedLengh(toAccount.slice(2), 64) + 
                 this.utilServ.fixedLengh(amountSent.integerValue().toString(16), 64)
             };
-            
+            console.log('txData==', txData);
             txHex = await this.web3Serv.signTxWithPrivateKey(txData, keyPair);
             // console.log('after sign');
             if (doSubmit) {

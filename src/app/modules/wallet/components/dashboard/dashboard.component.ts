@@ -944,7 +944,7 @@ export class WalletDashboardComponent implements OnInit {
         if (errMsg) {
             this.alertServ.openSnackBar(errMsg, 'Ok');
         } else {
-            const addrs = environment.addresses.exchangilyOfficial.map(({ name }) => 'FAB');
+            const addr = environment.addresses.exchangilyOfficial.FAB;
 
             const item: TransactionItem = {
                 walletId: this.wallet.id,
@@ -953,7 +953,7 @@ export class WalletDashboardComponent implements OnInit {
                 tokenType: currentCoin.tokenType,
                 amount: amount,
                 txid: txHash,
-                to: addrs[0],
+                to: addr,
                 time: new Date(),
                 confirmations: '0',
                 blockhash: '',

@@ -72,7 +72,8 @@ export const environment = {
         ETH: 60,
         FAB: 1150,
         BCH: 145,
-        LTC: 2
+        LTC: 2,
+        DOG: 3
     },
     addresses: {
         smartContract: {
@@ -80,8 +81,26 @@ export const environment = {
             // EXG: '0x311acf4666477a22c2f16c53b88c1734ee227fc6',
             EXG: '0x867480ba8e577402fa44f43c33875ce74bdc5df6',
             USDT: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',
-            DUSD: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed'
+            DUSD: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
+            BNB: '0xE90e361892d258F28e3a2E758EEB7E571e370c6f',
+            INB: '0x919c6d21670fe8cEBd1E86a82a1A74E9AA2988F8',
+            REP: '0x4659c4A33432A5091c322E438e0Fb1D286A1EbdE',
+            HOT: '0x5636bEa86FD27D383843DD370558A5038Be6bA10',
+            MATIC: '0x39ccec89a2251652265ab63fdcd551b6f65e37d5',
+            IOST: '0x4dd868d8d961f202e3244a25871105b5e1feaa62',
+            MANA: '',
+            FUN: '0xb39250c870a5070e9d4b52a055ef4a2dcef7b70a',
+            WAX: '0xb2140669d08a02b78a9fb4a9ebe36371ae023e5f',
+            ELF: '0x12e1ebea9e734e3c84bc59f5c51aff8cb4bbc80a',
+            GNO: '0x9240c40ca6e514dac115be0f30bb7bd8b82e2c66', //special
+            POWR: '0x6e981f5d973a3ab55ff9db9a77f4123b71d833dd',
+            WINGS: '0xcf824827dc175ab3a970ca5868efa94a0f12cf43',
+            MTL: '0x7a04bc3fb2350b67ea258813089ca4e07e9b0409',
+            KNC: '',
+            MHC: '0xa4d06b2f52d1e736754115be11b6b7b56566564d',
+            GVT: '0x12e5182f0871cc72948e2de7dcd971a800245e60'
         },
+        /*
         exchangilyOfficial: [
             { name: 'EXG', address: '0xdcd0f23125f74ef621dfa3310625f8af0dcd971b'},
             { name: 'FAB', address: 'n1eXG5oe6wJ6h43akutyGfphqQsY1UfAUR'},
@@ -90,6 +109,15 @@ export const environment = {
             { name: 'USDT', address: '0x02c55515e62a0b25d2447c6d70369186b8f10359'},
             { name: 'DUSD', address: '0xdcd0f23125f74ef621dfa3310625f8af0dcd971b'}
         ],
+        */
+       exchangilyOfficial: {
+        EXG: '0xdcd0f23125f74ef621dfa3310625f8af0dcd971b',
+        FAB: 'n1eXG5oe6wJ6h43akutyGfphqQsY1UfAUR',
+        BTC: 'muQDw5hVmFgD1GrrWvUt6kjrzauC4Msaki',
+        ETH: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
+        USDT: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
+        DUSD: '0xdcd0f23125f74ef621dfa3310625f8af0dcd971b'
+       },
         promotionOfficial: {
             USDT: '0x4e93c47b42d09f61a31f798877329890791077b2',
             DUSD: '0xcdd40948208b0098b6a51e69d945de4692766ef3',
