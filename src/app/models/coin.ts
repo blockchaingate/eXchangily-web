@@ -39,6 +39,10 @@ export class Coin {
     if (name === 'BCH') {
         this.coinType = environment.CoinType.BCH;
         this.decimals = 8;
+    } else 
+    if (name === 'LTC') {
+        this.coinType = environment.CoinType.LTC;
+        this.decimals = 8;
     }
    } 
 }

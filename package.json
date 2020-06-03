@@ -69,6 +69,7 @@
         "fs": "0.0.1-security",
         "hammerjs": "^2.0.8",
         "hash-base": "^3.1.0",
+        "litecore-lib": "^0.13.22",
         "lodash": "^4.17.15",
         "ng-chartist": "^4.1.0",
         "ngx-bootstrap": "^5.6.1",

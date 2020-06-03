@@ -64,7 +64,8 @@ export const environment = {
         BTC: 0,
         ETH: 60,
         FAB: 1150,
-        BCH: 145
+        BCH: 145,
+        LTC: 2
     },
     addresses: {
         smartContract: {
