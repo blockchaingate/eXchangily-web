@@ -93,8 +93,8 @@ export class CoinService {
         myCoins.push(dogCoin);  
 
         const erc20Tokens = [
-            'BNB', 'INB', 'REP', 'HOT', 'MATIC', 'IOST', 'CEL', 'MANA', 'FUN',
-            'WAX', 'ELF', 'GNO', 'POWR', 'WINGS', 'MTL', 'KNC', 'MHC', 'GVT'
+            'BNB', 'INB', 'REP', 'HOT', 'MATIC', 'IOST', 'MANA', 
+            'ELF', 'GNO', 'WINGS', 'KNC', 'MHC', 'GVT'
         ];
 
         for(let i=0;i<erc20Tokens.length;i++) {
@@ -103,6 +103,27 @@ export class CoinService {
             this.fillUpAddress(token, seed, 1, 0);
             myCoins.push(token); 
         }
+
+        const erc20Tokens2 = [
+            'FUN', 'WAX', 'MTL'
+        ];
+
+        for(let i=0;i<erc20Tokens2.length;i++) {
+            const tokenName = erc20Tokens2[i];
+            const token = this.initToken('ETH', tokenName, 8, environment.addresses.smartContract[tokenName], ethCoin);     
+            this.fillUpAddress(token, seed, 1, 0);
+            myCoins.push(token); 
+        }   
+        
+        let tokenName = 'POWR';
+        let token = this.initToken('ETH', tokenName, 6, environment.addresses.smartContract[tokenName], ethCoin);     
+        this.fillUpAddress(token, seed, 1, 0);
+        myCoins.push(token);   
+        
+        tokenName = 'CEL';
+        token = this.initToken('ETH', tokenName, 4, environment.addresses.smartContract[tokenName], ethCoin);     
+        this.fillUpAddress(token, seed, 1, 0);
+        myCoins.push(token);         
         /*
         const bnbCoin = this.initToken('ETH', 'BNB', 18, environment.addresses.smartContract.BNB, ethCoin);     
         this.fillUpAddress(bnbCoin, seed, 1, 0);
@@ -993,9 +1014,11 @@ export class CoinService {
             const nonce = await this.apiService.getEthNonce(address1.address);
 
             let decimals = mycoin.decimals;
+            
             if (!decimals) {
                 decimals = 18;
             }
+            console.log('decimals112===', decimals);
             // const amountSent = amount * Math.pow(10, decimals);
             const amountSent = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, decimals)));
             const toAccount = toAddress;

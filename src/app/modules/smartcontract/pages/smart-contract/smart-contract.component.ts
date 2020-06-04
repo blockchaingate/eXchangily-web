@@ -206,6 +206,7 @@ export class SmartContractComponent implements OnInit {
 
     const keyPair = this.coinServ.getKeyPairs(this.ethCoin, seed, 0, 0);
     const nonce = await this.apiServ.getEthNonce(this.ethCoin.receiveAdds[0].address);
+    console.log('this.ethData = ', this.ethData);
     const txParams = {
         nonce: nonce,
         gasPrice: 100000000000,

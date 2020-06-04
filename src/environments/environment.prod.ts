@@ -78,6 +78,7 @@ export const environment = {
             INB: '0x17aa18a4b64a55abed7fa543f2ba4e91f2dce482',
             REP: '0x1985365e9f78359a9B6AD760e32412f4a445E862',
             HOT: '0x6c6ee5e31d828de241282b9606c8e98ea48526e2',
+            CEL: '0xaaaebe6fe48e54f431b0c390cfaf0b017d09d42d',
             MATIC: '0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0',
             IOST: '0xfa1a856cfa3409cfa145fa4e20eb270df3eb21ab',
             MANA: '0x0f5d2fb29fb7d3cfee444a200298f468908cc942',
@@ -89,7 +90,7 @@ export const environment = {
             WINGS: '0x667088b212ce3d06a1b553a7221E1fD19000d9aF',
             MTL: '0xF433089366899D83a9f26A773D59ec7eCF30355e',
             KNC: '0xdd974d5c2e2928dea5f71b9825b8b646686bd200',
-            MHC: '0xEaB35Bd0533895856f200c99F693b2EC511BFfeE',
+            MHC: '0xEaB35Bd0533895856f200c99F693b2EC511BFfeE', //??
             GVT: '0x103c3A209da59d3E7C4A89307e66521e081CFDF0'
         },
         /*

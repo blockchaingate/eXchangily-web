@@ -85,20 +85,21 @@ export const environment = {
             BNB: '0xE90e361892d258F28e3a2E758EEB7E571e370c6f',
             INB: '0x919c6d21670fe8cEBd1E86a82a1A74E9AA2988F8',
             REP: '0x4659c4A33432A5091c322E438e0Fb1D286A1EbdE',
-            HOT: '0x5636bEa86FD27D383843DD370558A5038Be6bA10',
+            HOT: '0x6991d9fff5de74085f5c786d425403601280c8f4',
+            CEL: '0xa07a1ab0a8e4d95683dce8d22d0ed665499f0a2b',
             MATIC: '0x39ccec89a2251652265ab63fdcd551b6f65e37d5',
             IOST: '0x4dd868d8d961f202e3244a25871105b5e1feaa62',
-            MANA: '',
-            FUN: '0xb39250c870a5070e9d4b52a055ef4a2dcef7b70a',
+            MANA: '0x4527fa0ce6f221a7b9e54412d7a3edd9a37c350a',
+            FUN: '0x98e6affb8192ffd89a62e27dc5a594cd3c1fc8db', //??
             WAX: '0xb2140669d08a02b78a9fb4a9ebe36371ae023e5f',
-            ELF: '0x12e1ebea9e734e3c84bc59f5c51aff8cb4bbc80a',
-            GNO: '0x9240c40ca6e514dac115be0f30bb7bd8b82e2c66', //special
+            ELF: '0xdd3d64919c119a7cde45763b94cf3d1b33fdaff7',
+            GNO: '0x94fd1b18c927935d4f1751239172ad212281f4ac', 
             POWR: '0x6e981f5d973a3ab55ff9db9a77f4123b71d833dd',
-            WINGS: '0xcf824827dc175ab3a970ca5868efa94a0f12cf43',
-            MTL: '0x7a04bc3fb2350b67ea258813089ca4e07e9b0409',
-            KNC: '',
+            WINGS: '0x08705dc287150ba2da249b5a1b0c3b99c71b4100',
+            MTL: '0x1c9b5afa112b42b12fb06b62e5f1e159af49dfa7',
+            KNC: '0x3aad796ceb3a1063f727c6d0c698e37053292d10',
             MHC: '0xa4d06b2f52d1e736754115be11b6b7b56566564d',
-            GVT: '0x12e5182f0871cc72948e2de7dcd971a800245e60'
+            GVT: '0x3e610d9fb322063e50d185e2cc1b45f007e7180c'
         },
         /*
         exchangilyOfficial: [
