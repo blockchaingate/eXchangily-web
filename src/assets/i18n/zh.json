@@ -147,9 +147,9 @@
                     "Image": "paul-liu.jpg",
                     "Title": "联合创始人",
                     "Desc": [
-                        "首席区块链专家",
-                        "系统总设计师",
-                        "项目方案决策"
+                        "项目发起人",
+                        "发展计划及战略方案制订人",
+                        "项目技术方案协调人"
                     ]
                 },
                 "Member5": {
@@ -247,7 +247,7 @@
                     ]
                 },
                 "Member15": {
-                    "Name": "Kening Qiu",
+                    "Name": "Ken Qiu",
                     "Image": "kening-qiu.png",
                     "Title": "高级软件工程师",
                     "Desc": [
