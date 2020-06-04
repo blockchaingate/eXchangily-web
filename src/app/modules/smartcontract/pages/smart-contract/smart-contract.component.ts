@@ -32,6 +32,7 @@ export class SmartContractComponent implements OnInit {
   mycoin: MyCoin;
   ethCoin: MyCoin;
   balance: any;
+  ethBalance: any;
   ABI = [];
   constructor(
     private storageService: StorageService, 
@@ -96,7 +97,7 @@ export class SmartContractComponent implements OnInit {
       } else 
       if (coin.name === 'ETH') {
         this.ethCoin = coin;
-        this.balance = await this.coinServ.getBalance(coin);        
+        this.ethBalance = await this.coinServ.getBalance(coin);        
       }
     }  
     

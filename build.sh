@@ -1,1 +1,1 @@
-ng build --prod
+ng build
