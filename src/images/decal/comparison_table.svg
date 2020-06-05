@@ -68,7 +68,7 @@
 <tspan x="456.064" y="948">Moderate</tspan>
 </text>
 <text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
-<tspan x="430.36" y="997">ERCO tokens only</tspan>
+<tspan x="430.36" y="997">ERC20 tokens only</tspan>
 </text>
 <text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
 <tspan x="475.503" y="412">Fast</tspan>
@@ -95,7 +95,7 @@
 <tspan x="662.641" y="948">No</tspan>
 </text>
 <text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
-<tspan x="612.36" y="997">ERCO tokens only</tspan>
+<tspan x="612.36" y="997">ERC20 tokens only</tspan>
 </text>
 <text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
 <tspan x="655.991" y="412">Slow</tspan>
@@ -123,7 +123,7 @@
 <tspan x="845.641" y="948">No</tspan>
 </text>
 <text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
-<tspan x="795.36" y="997">ERCO tokens only</tspan>
+<tspan x="795.36" y="997">ERC20 tokens only</tspan>
 </text>
 <text fill="#545C65" font-family="Poppins-Regular, Poppins" font-size="14">
 <tspan x="838.991" y="412">Slow</tspan>
