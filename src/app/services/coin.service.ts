@@ -441,25 +441,36 @@ export class CoinService {
         if (name === 'LTC') {
             var root = litecore.HDPrivateKey.fromSeed(seed);
             var child = root.deriveChild(path);
-            
+            console.log('path for LTC=', path);
             var publicKey = child.publicKey;
-            addr = litecore.Address.fromPublicKey(publicKey).toString();   
+            if(!environment.production) {
+                addr = litecore.Address.fromPublicKey(publicKey, litecore.Networks.testnet).toString();  
+            } else {
+                addr = litecore.Address.fromPublicKey(publicKey).toString(); 
+            }    
         } else
         if (name === 'DOGE') {
             var root = dogecore.HDPrivateKey.fromSeed(seed);
             var child = root.deriveChild(path);
             
             var publicKey = child.publicKey;
-            addr = dogecore.Address.fromPublicKey(publicKey).toString();   
+            if(!environment.production) {
+                addr = dogecore.Address.fromPublicKey(publicKey, dogecore.Networks.testnet).toString();  
+            } else {
+                addr = dogecore.Address.fromPublicKey(publicKey).toString(); 
+            }            
         } else        
         if (name === 'BCH') {
 
            var root = bitcore.HDPrivateKey.fromSeed(seed);
            var child = root.deriveChild(path);
            
-           var publicKey = child.publicKey;
-           addr = bitcore.Address.fromPublicKey(publicKey).toString();      
-           
+           var publicKey = child.publicKey;    
+           if(!environment.production) {
+               addr = bitcore.Address.fromPublicKey(publicKey, bitcore.Networks.testnet).toString();  
+           } else {
+                addr = bitcore.Address.fromPublicKey(publicKey).toString(); 
+           }
            
         } else
         if (name === 'ETH' || tokenType === 'ETH') {

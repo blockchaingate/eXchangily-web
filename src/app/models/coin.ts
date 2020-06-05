@@ -45,7 +45,7 @@ export class Coin {
         this.decimals = 8;
     } else 
     if (name === 'DOGE') {
-        this.coinType = environment.CoinType.DOG;
+        this.coinType = environment.CoinType.DOGE;
         this.decimals = 8;
     }
    } 

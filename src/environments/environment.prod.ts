@@ -66,7 +66,7 @@ export const environment = {
         FAB: 1150,
         BCH: 145,
         LTC: 2,
-        DOG: 3
+        DOGE: 3
     }, 
     addresses: {
         smartContract: {
