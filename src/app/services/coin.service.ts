@@ -88,7 +88,7 @@ export class CoinService {
         this.fillUpAddress(ltcCoin, seed, 1, 0);        
         myCoins.push(ltcCoin);  
 
-        const dogCoin = new MyCoin('DOG');
+        const dogCoin = new MyCoin('DOGE');
         this.fillUpAddress(dogCoin, seed, 1, 0);        
         myCoins.push(dogCoin);  
 
@@ -445,7 +445,7 @@ export class CoinService {
             var publicKey = child.publicKey;
             addr = litecore.Address.fromPublicKey(publicKey).toString();   
         } else
-        if (name === 'DOG') {
+        if (name === 'DOGE') {
             var root = dogecore.HDPrivateKey.fromSeed(seed);
             var child = root.deriveChild(path);
             

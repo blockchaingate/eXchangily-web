@@ -104,9 +104,13 @@ export class WalletDashboardComponent implements OnInit {
         this.currentCurrency = 'USD';
         this.currencyRate = 1;
         this.showTransactionHistory = false;
-
+    
     }
-
+ 
+    getCoinLogo(coin) {
+        return '/assets/coins/' + coin.name.toLowerCase() + '.png'; 
+    }
+  
     changeCurrency(name: string) {
         this.currentCurrency = name;
         if (name === 'USD') {
@@ -421,13 +425,13 @@ export class WalletDashboardComponent implements OnInit {
             if (coin.name == 'BCH') {
                 bchAddress = coin.receiveAdds[0].address;
             }
-            if (coin.name == 'DOG') {
+            if (coin.name == 'DOGE') {
                 dogAddress = coin.receiveAdds[0].address;
             }   
             if (coin.name == 'LTC') {
                 ltcAddress = coin.receiveAdds[0].address;
             }                       
-        }
+        }  
 
         const data = {
             btcAddress: btcAddress,
