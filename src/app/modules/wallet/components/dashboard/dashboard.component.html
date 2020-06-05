@@ -167,14 +167,6 @@
 
                                         <div class="col-custom-1">
                                             <img src="{{getCoinLogo(mycoin)}}" class="icon" />
-                                            <!--
-                                            <img *ngIf="mycoin.name == 'BTC'" src="/assets/coins/btc.png" class="icon" />
-                                            <img *ngIf="mycoin.name == 'ETH'" src="/assets/coins/eth.png" class="icon" />
-                                            <img *ngIf="mycoin.name == 'EXG'" src="/assets/coins/exg.png" class="icon" />
-                                            <img *ngIf="mycoin.name == 'FAB'" src="/assets/coins/fab.png" class="icon" />
-                                            <img *ngIf="mycoin.name == 'USDT'" src="/assets/coins/usdt.png" class="icon" />
-                                            <img *ngIf="mycoin.name == 'DUSD'" src="/assets/coins/dusd.png" class="icon" />
-                                            -->
                                         </div>
                                         <div class="col-custom-1">
                                             {{mycoin.name}}
@@ -237,12 +229,7 @@
                             </div>
                             <div class="row apair dataline" *ngFor="let mycoin of wallet.mycoins; index as i">
                                 <div class="col-2">
-                                    <img *ngIf="mycoin.name == 'BTC'" src="/assets/coins/btc.png" class="icon" />
-                                    <img *ngIf="mycoin.name == 'ETH'" src="/assets/coins/eth.png" class="icon" />
-                                    <img *ngIf="mycoin.name == 'EXG'" src="/assets/coins/exg.png" class="icon" />
-                                    <img *ngIf="mycoin.name == 'FAB'" src="/assets/coins/fab.png" class="icon" />
-                                    <img *ngIf="mycoin.name == 'USDT'" src="/assets/coins/usdt.png" class="icon" />
-                                    <img *ngIf="mycoin.name == 'DUSD'" src="/assets/coins/dusd.png" class="icon" />
+                                    <img src="{{getCoinLogo(mycoin)}}" class="icon" />
                                 </div>
                                 <div class="col-2">
                                     {{mycoin.name}}
