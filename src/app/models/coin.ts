@@ -44,8 +44,8 @@ export class Coin {
         this.coinType = environment.CoinType.LTC;
         this.decimals = 8;
     } else 
-    if (name === 'DOG') {
-        this.coinType = environment.CoinType.DOG;
+    if (name === 'DOGE') {
+        this.coinType = environment.CoinType.DOGE;
         this.decimals = 8;
     }
    } 
