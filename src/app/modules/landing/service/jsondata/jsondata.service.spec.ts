@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { JsondataService } from './jsondata.service';
+import { JsonFileService } from './jsondata.service';
 
 describe('JsondataService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [JsondataService]
+      providers: [JsonFileService]
     });
   });
 
-  it('should be created', inject([JsondataService], (service: JsondataService) => {
+  it('should be created', inject([JsonFileService], (service: JsonFileService) => {
     expect(service).toBeTruthy();
   }));
 });
