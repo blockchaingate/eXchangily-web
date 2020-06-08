@@ -99,11 +99,13 @@
                             <div class="d-inline mr-3">
                                 <a (click)="addAssets()">{{"Add Assets" | translate}}</a>
                             </div>
-                            <!--
-                            <div class="d-inline">
-                                <a (click)="loadBalance()">{{"Refresh Assets" | translate}}</a>
+                            
+                            <div *ngIf="hasNewCoins" class="d-inline text-danger">
+                                <a (click)="loadnewCoins()">
+                                    {{"Load new assets" | translate}}
+                                </a>
                             </div>
--->
+
                         </div>
                         <div class="col col-4 col-md-6 small text-right fxHide-gt-sm">
                             <mat-menu #appMenu="matMenu">
