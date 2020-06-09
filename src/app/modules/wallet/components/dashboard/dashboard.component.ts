@@ -82,6 +82,7 @@ export class WalletDashboardComponent implements OnInit {
     coinsPrice: CoinsPrice;
     pin: string;
     seed: Buffer;
+    hasNewCoins: boolean;
     hideSmall: boolean;
     showMyAssets: boolean;
     showTransactionHistory: boolean;
@@ -103,6 +104,7 @@ export class WalletDashboardComponent implements OnInit {
         this.showMyAssets = true;
         this.currentCurrency = 'USD';
         this.currencyRate = 1;
+        this.hasNewCoins = false;
         this.showTransactionHistory = false;
     
     }
@@ -110,7 +112,12 @@ export class WalletDashboardComponent implements OnInit {
     getCoinLogo(coin) {
         return '/assets/coins/' + coin.name.toLowerCase() + '.png'; 
     }
-  
+    
+    loadnewCoins() {
+        this.opType = 'loadnewCoins';
+        this.pinModal.show();
+    }
+
     changeCurrency(name: string) {
         this.currentCurrency = name;
         if (name === 'USD') {
@@ -371,6 +378,7 @@ export class WalletDashboardComponent implements OnInit {
 
     }
 
+
     async loadCoinsPrice() {
         this.coinsPrice = await this.apiServ.getCoinsPrice();
 
@@ -433,6 +441,10 @@ export class WalletDashboardComponent implements OnInit {
             }                       
         }  
 
+        if(!bchAddress) {
+            this.hasNewCoins = true;
+        }
+
         const data = {
             btcAddress: btcAddress,
             ethAddress: ethAddress,
@@ -478,6 +490,7 @@ export class WalletDashboardComponent implements OnInit {
             async error => {
                 let updated = false;
                 let hasDUSD = false;
+                let hasBCH = false;
                 let exgCoin;
                 let fabCoin;
                 for (let i = 0; i < this.wallet.mycoins.length; i++) {
@@ -492,6 +505,9 @@ export class WalletDashboardComponent implements OnInit {
                         this.fabBalance = balance.balance;
                     } else if (coin.name === 'ETH') {
                         this.ethBalance = balance.balance;
+                    } else 
+                    if (coin.name === 'BCH') {
+                        hasBCH = true;
                     }
         
                     if (coin.balance !== balance.balance || coin.lockedBalance !== balance.lockbalance) {
@@ -516,7 +532,11 @@ export class WalletDashboardComponent implements OnInit {
                     dusdCoin.contractAddr = environment.addresses.smartContract.DUSD;
                     this.wallet.mycoins.push(dusdCoin);
                     updated = true;
-                }                
+                }  
+                
+                if(!hasBCH) {
+                    this.hasNewCoins = true;                    
+                }
             }            
         );
 
@@ -782,7 +802,74 @@ export class WalletDashboardComponent implements OnInit {
             this.displaySettingModal.show();
         } else if (this.opType === 'BTCinFAB') {
             this.btcInFab();
+        } else if (this.opType === 'loadnewCoins') {
+            this.loadNewCoinsDo();
         }
+    }
+
+    loadNewCoinsDo() {
+        const pin = this.pin;
+        const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);  
+        
+        const myCoins = this.wallet.mycoins;
+
+        let ethCoin;
+
+        for(let i=0;i<myCoins.length;i++) {
+            const coin = myCoins[i];
+            if (coin.name === 'ETH') {
+                ethCoin = coin;
+            }
+        }
+
+        const bchCoin = new MyCoin('BCH');
+        this.coinServ.fillUpAddress(bchCoin, seed, 1, 0);
+        myCoins.push(bchCoin);  
+
+        const ltcCoin = new MyCoin('LTC');
+        this.coinServ.fillUpAddress(ltcCoin, seed, 1, 0);        
+        myCoins.push(ltcCoin);  
+
+        const dogCoin = new MyCoin('DOGE');
+        this.coinServ.fillUpAddress(dogCoin, seed, 1, 0);        
+        myCoins.push(dogCoin);  
+
+        const erc20Tokens = [
+            'BNB', 'INB', 'REP', 'HOT', 'MATIC', 'IOST', 'MANA', 
+            'ELF', 'GNO', 'WINGS', 'KNC', 'MHC', 'GVT'
+        ];
+
+        for(let i=0;i<erc20Tokens.length;i++) {
+            const tokenName = erc20Tokens[i];
+            const token = this.coinServ.initToken('ETH', tokenName, 18, environment.addresses.smartContract[tokenName], ethCoin);     
+            this.coinServ.fillUpAddress(token, seed, 1, 0);
+            myCoins.push(token); 
+        }
+
+        const erc20Tokens2 = [
+            'FUN', 'WAX', 'MTL'
+        ];
+
+        for(let i=0;i<erc20Tokens2.length;i++) {
+            const tokenName = erc20Tokens2[i];
+            const token = this.coinServ.initToken('ETH', tokenName, 8, environment.addresses.smartContract[tokenName], ethCoin);     
+            this.coinServ.fillUpAddress(token, seed, 1, 0);
+            myCoins.push(token); 
+        }   
+        
+        let tokenName = 'POWR';
+        let token = this.coinServ.initToken('ETH', tokenName, 6, environment.addresses.smartContract[tokenName], ethCoin);     
+        this.coinServ.fillUpAddress(token, seed, 1, 0);
+        myCoins.push(token);   
+        
+        tokenName = 'CEL';
+        token = this.coinServ.initToken('ETH', tokenName, 4, environment.addresses.smartContract[tokenName], ethCoin);     
+        this.coinServ.fillUpAddress(token, seed, 1, 0);
+        myCoins.push(token);           
+
+        this.hasNewCoins = false;
+
+        this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
     }
 
     onConfirmedDisplayPin(pin: string) {
