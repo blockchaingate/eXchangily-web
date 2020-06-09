@@ -63,7 +63,14 @@ export const environment = {
         },
         BCH: {
             exchangily: 'https://bchtest.fabcoinapi.com/',
+        },
+        DOGE: {
+            exchangily: 'https://dogetest.fabcoinapi.com/',
+        },
+        LTC: {
+            exchangily: 'https://ltctest.fabcoinapi.com/',
         }
+        
         // pricehistory: 'http://18.223.17.4:3002/klinedata/'
 
     },

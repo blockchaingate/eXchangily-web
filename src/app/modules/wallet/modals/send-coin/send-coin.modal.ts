@@ -108,7 +108,7 @@ export class SendCoinModal {
         }
         
         if ((this.coin.name === 'BTC') || (this.coin.name === 'FAB') || (this.coin.name === 'ETH')) {
-            if (false && this.transFee > this.coin.balance) {
+            if (this.transFee > this.coin.balance) {
                 this.alertServ.openSnackBar('Insufficient ' + this.coin.name + ' for this transaction', 'Ok');
                 return;
             }
@@ -136,7 +136,7 @@ export class SendCoinModal {
         
         const selectedCoinIndex = Number(this.sendCoinForm.get('selectedCoinIndex').value);
         const amount = Number(this.sendCoinForm.get('sendAmount').value);
-        if (false && amount > this.coin.balance) {
+        if (amount > this.coin.balance) {
             this.alertServ.openSnackBar('Insufficient ' + this.coin.name + ' for this transaction', 'Ok');
             return;
         }

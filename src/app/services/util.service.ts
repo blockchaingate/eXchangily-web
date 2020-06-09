@@ -165,6 +165,25 @@ export class UtilService {
         return amount.toFixed(decimal);
     }
 
+    toBigNumber(amount, decimal: number) {
+        const amountStr = amount.toString();
+        const amountArr = amountStr.split('.');
+        const amountPart1 = amountArr[0];
+        const numPart1 = Number(amountPart1);
+        let amountPart2 = '';
+        if(amountArr[1]) {
+            amountPart2 = amountArr[1].substring(0, decimal - 1);
+        }
+        
+        const amountPart2Length = amountPart2.length;
+        for(let i=0;i<decimal - amountPart2Length;i++) {
+          amountPart2 += '0';
+        }
+        let amountStrFull = (numPart1 ? amountPart1 : '') + amountPart2;
+        amountStrFull = amountStrFull.replace(/^0+/, '');
+        return amountStrFull;
+    }
+
     showAmount(amount, decimal: number) {
 
         if (!amount || amount.toString() === '0') {

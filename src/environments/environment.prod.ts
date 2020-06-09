@@ -57,6 +57,12 @@ export const environment = {
         },
         BCH: {
             exchangily: 'https://bchprod.fabcoinapi.com/',
+        },
+        DOGE: {
+            exchangily: 'https://dogeprod.fabcoinapi.com/',
+        },
+        LTC: {
+            exchangily: 'https://ltcprod.fabcoinapi.com/',
         }
         // pricehistory: 'https://fabprod.fabcoinapi.com:3002/klinedata/'
     },
