@@ -185,7 +185,7 @@ export class WalletService {
             if (!wallets) {
                 wallets = [];
             }
-            const index = wallets.indexOf(wallet);
+            //const index = wallets.indexOf(wallet);
             if (wallets.indexOf(wallet) < 0) {
                 wallets.push(wallet);
                 
