@@ -417,7 +417,7 @@ export class WalletDashboardComponent implements OnInit {
         let ethAddress = '';
         let fabAddress = '';
         let bchAddress = '';
-        let dogAddress = '';
+        let dogeAddress = '';
         let ltcAddress = '';
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];
@@ -434,7 +434,7 @@ export class WalletDashboardComponent implements OnInit {
                 bchAddress = coin.receiveAdds[0].address;
             }
             if (coin.name == 'DOGE') {
-                dogAddress = coin.receiveAdds[0].address;
+                dogeAddress = coin.receiveAdds[0].address;
             }   
             if (coin.name == 'LTC') {
                 ltcAddress = coin.receiveAdds[0].address;
@@ -450,7 +450,7 @@ export class WalletDashboardComponent implements OnInit {
             ethAddress: ethAddress,
             fabAddress: fabAddress,
             bchAddress: bchAddress,
-            dogAddress: dogAddress,
+            dogeAddress: dogeAddress,
             ltcAddress: ltcAddress
         };
         this.coinServ.walletBalance(data).subscribe(

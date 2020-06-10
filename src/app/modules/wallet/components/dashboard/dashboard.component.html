@@ -174,10 +174,13 @@
                                             {{mycoin.name}}
                                         </div>
                                         <div class="col-2">
-                                            {{utilServ.toPrecision(mycoin.balance)}}
+                                            <p *ngIf="mycoin.balance >= 0">
+                                                {{utilServ.toPrecision(mycoin.balance)}}
+                                            </p>
+                                            
                                         </div>
                                         <div class="col-2">
-                                            <p *ngIf="mycoin.lockedBalance">
+                                            <p *ngIf="mycoin.lockedBalance && (mycoin.lockedBalance >= 0)">
                                                 {{utilServ.toPrecision(mycoin.lockedBalance)}}
                                             </p>
                                             
@@ -191,7 +194,7 @@
                                             <p *ngIf="mycoin.name == 'USDT' && coinsPrice && coinsPrice.tether">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.tether.usd)}}</p>
                                             <p *ngIf="mycoin.name == 'DUSD' ">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * 1)}}</p>
                                             -->
-                                            <p *ngIf="mycoin.usdPrice > 0">
+                                            <p *ngIf="(mycoin.balance >= 0) && mycoin.usdPrice > 0">
                                                 {{utilServ.toPrecision((mycoin.balance + (mycoin.lockedBalance ? mycoin.lockedBalance : 0)) * mycoin.usdPrice)}}
                                             </p>
                                         </div>
@@ -236,7 +239,7 @@
                                 <div class="col-2">
                                     {{mycoin.name}}
                                 </div>
-                                <div class="col-4">
+                                <div class="col-4" *ngIf="mycoin.balance >= 0">
                                     {{mycoin.balance}}
                                 </div>
 
@@ -248,12 +251,14 @@
                                         <mat-icon svgIcon="vertical_align_bottom"></mat-icon>
                                     </button>
                                 </div>
-                                <div class="col-12 text-muted" *ngIf="mycoin.lockedBalance">
-                                    {{"Frozen" | translate}}:{{mycoin.lockedBalance}}
+                                <div class="col-12 text-muted">
+                                    <p *ngIf="mycoin.lockedBalance && (mycoin.lockedBalance >= 0)">
+                                        {{"Frozen" | translate}}:{{mycoin.lockedBalance}}
+                                    </p>
                                 </div>
                                 <div class="col-12 text-muted">
                                     {{"Value(USD)" | translate}}:
-                                    <span *ngIf="mycoin.usdPrice > 0">
+                                    <span *ngIf="(mycoin.balance >= 0) && (mycoin.usdPrice > 0)">
                                         {{utilServ.toPrecision((mycoin.balance + (mycoin.lockedBalance ? mycoin.lockedBalance : 0)) * mycoin.usdPrice)}}
                                     </span>
                                     <!--
