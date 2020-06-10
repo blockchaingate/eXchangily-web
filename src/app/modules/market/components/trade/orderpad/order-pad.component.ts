@@ -27,6 +27,7 @@ import { TimerService } from '../../../../../services/timer.service';
 import BigNumber from 'bignumber.js/bignumber';
 
 import { Pair } from '../../../models/pair';
+import { number } from 'bitcoinjs-lib/types/script';
 
 declare let window: any;
 
@@ -149,50 +150,73 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     return regexpNumber.test(value);
   }
 
+  setValidValue(value: number, decimal: number) {
+    const svalue = value.toString();
+    const dotl = svalue.indexOf('.');
+    if (dotl < 1) {
+      return value;
+    }
+    if (svalue.length - svalue.indexOf('.') - 1 > decimal) {
+      // return value.toFixed(decimal);
+      return 0;
+    }
+    return value;
+  }
+
   checkBuyPrice() {
     const pairName = this.route.snapshot.paramMap.get('pair').replace('_', '');
-    this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
+    if (this.pairsConfig) {
+      this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
+    }
 
     const vald = this.checkRegExp(this.buyPrice.toString(), this.pairConfig.priceDecimal);
     if (vald) {
       this.validBuyPrice = this.buyPrice;
     } else {
+      this.validBuyPrice = this.setValidValue(this.validBuyPrice, this.pairConfig.priceDecimal);
       this.buyPrice = this.validBuyPrice;
     }
   }
 
   checkBuyQty() {
     const pairName = this.route.snapshot.paramMap.get('pair').replace('_', '');
-    this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
+    if (this.pairsConfig) {
+      this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
+    }
 
     const vald = this.checkRegExp(this.buyQty.toString(), this.pairConfig.qtyDecimal);
     if (vald) {
       this.validBuyQty = this.buyQty;
     } else {
+      this.validBuyQty = this.setValidValue(this.validBuyQty, this.pairConfig.qtyDecimal);
       this.buyQty = this.validBuyQty;
     }
   }
 
   checkSellPrice() {
     const pairName = this.route.snapshot.paramMap.get('pair').replace('_', '');
-    this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
-
+    if (this.pairsConfig) {
+      this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
+    }
     const vald = this.checkRegExp(this.sellPrice.toString(), this.pairConfig.priceDecimal);
     if (vald) {
       this.validSellPrice = this.sellPrice;
     } else {
+      this.validSellPrice = this.setValidValue(this.validSellPrice, this.pairConfig.priceDecimal);
       this.sellPrice = this.validSellPrice;
     }
   }
 
   checkSellQty() {
     const pairName = this.route.snapshot.paramMap.get('pair').replace('_', '');
-    this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
-
+    if (this.pairsConfig) {
+      this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
+    }
     const vald = this.checkRegExp(this.sellQty.toString(), this.pairConfig.qtyDecimal);
     if (vald) {
       this.validSellQty = this.sellQty;
     } else {
+      this.validSellQty = this.setValidValue(this.validSellQty, this.pairConfig.qtyDecimal);
       this.sellQty = this.validSellQty;
     }
   }
@@ -669,6 +693,27 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     this.modalRef.hide();
   }
 
+  finalExpCheck(price: number, qty: number) {
+    if (!this.checkRegExp(price.toString(), this.pairConfig.priceDecimal)) {
+      if (this.lan === 'zh') {
+        this.alertServ.openSnackBar('价格小数限' + this.pairConfig.priceDecimal + '位。', 'Ok');
+      } else {
+        this.alertServ.openSnackBar('Price decimal no more than ' + this.pairConfig.priceDecimal, 'ok');
+      }
+      return false;
+    }
+
+    if (!this.checkRegExp(qty.toString(), this.pairConfig.qtyDecimal)) {
+      if (this.lan === 'zh') {
+        this.alertServ.openSnackBar('购量小数限' + this.pairConfig.qtyDecimal + '位。', 'Ok');
+      } else {
+        this.alertServ.openSnackBar('Quantity decimal no more than ' + this.pairConfig.qtyDecimal, 'ok');
+      }
+      return false;
+    }
+    return true;
+  }
+
   buy(pinModal: TemplateRef<any>) {
     if (!this.wallet) {
       if (this.lan === 'zh') {
@@ -678,6 +723,9 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       }
       return;
     }
+
+    if (!this.finalExpCheck(this.buyPrice, this.buyQty)) { return; }
+
     this.bidOrAsk = true;
     this.pin = sessionStorage.getItem('pin');
     const pin_expired_at = sessionStorage.getItem('pin_expired_at');
@@ -718,6 +766,9 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       }
       return;
     }
+
+    if (!this.finalExpCheck(this.sellPrice, this.sellQty)) { return; }
+
     this.bidOrAsk = false;
     this.pin = sessionStorage.getItem('pin');
     this.price = this.sellPrice;
