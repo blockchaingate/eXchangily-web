@@ -145,10 +145,18 @@ mat-list {
     height: 792px;
 }
 
+.pairname {
+    width: 88px;
+    padding-top: 10px;
+}
+
 .vertical-center {
     vertical-align: middle;
     text-align: left;
-    width: 75%;
+}
+
+.vertical-right {
+    width: 100%;
 }
 
 .mat-list-item-ripple:hover {

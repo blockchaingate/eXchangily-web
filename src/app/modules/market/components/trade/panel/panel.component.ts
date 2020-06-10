@@ -12,7 +12,6 @@ import { Wallet } from '../../../../../models/wallet';
 import { WalletService } from '../../../../../services/wallet.service';
 import { MyordersComponent } from '../myorder/myorders.component';
 import { OrderPadComponent } from '../orderpad/order-pad.component';
-import { Pair } from '../../../models/pair';
 
 @Component({
     selector: 'app-trade-panel',
@@ -29,7 +28,7 @@ export class PanelComponent implements OnInit {
     cat = 2;
     select = 2;
     pair = 'BTC/USDT';
-    pairConfig: Pair = { name: 'BTCUSDT', priceDecimal: 2, qtyDecimal: 6 };
+    // pairConfig: Pair = { name: 'BTCUSDT', priceDecimal: 2, qtyDecimal: 6 };
     searchText = '';
     baseCoin: number;
     targetCoin: number;
@@ -75,28 +74,9 @@ export class PanelComponent implements OnInit {
             this.baseCoin = this.coinName2Number(inPairArr[0]);
             this.targetCoin = this.coinName2Number(inPairArr[1]);
             this.pair = inPair.replace('_', '/');
-            this.setCurrentPair(inPairArr[0] + inPairArr[1]);
         }
     }
-
-    setCurrentPair(pairName: string) {
-        pairName = pairName.toLocaleUpperCase();
-        let coinsConfig = sessionStorage.getItem('pairsConfig');
-        if (!coinsConfig) {
-          this.kanbanService.getPairConfig().subscribe(
-            res => {
-              coinsConfig = JSON.stringify(res);
-              sessionStorage.setItem('pairsConfig', coinsConfig);
-              const pairsCof = <Pair[]>res;
-              this.pairConfig = pairsCof.find(item => item.name === pairName);
-            },
-            err => { this.errMsg = err.message; });
-        } else {
-          const pairsCof = <Pair[]>(JSON.parse(coinsConfig));
-          this.pairConfig = pairsCof.find(item => item.name === pairName);
-        }
-      }
-    
+ 
     coinName2Number(name: string) {
         return this.coinService.getCoinTypeIdByName(name);
     }
