@@ -26,7 +26,6 @@ import { environment } from '../../../../../../environments/environment';
 import { TimerService } from '../../../../../services/timer.service';
 import BigNumber from 'bignumber.js/bignumber';
 
-// import { DecimalPrecisionDirective } from '../../../../../directives/decimal-directive';
 import { Pair } from '../../../models/pair';
 
 declare let window: any;
@@ -38,7 +37,8 @@ declare let window: any;
 })
 
 export class OrderPadComponent implements OnInit, OnDestroy {
-  @Input() pairConfig: Pair = { name: 'BTCUSDT', priceDecimal: 2, qtyDecimal: 6 };
+  pairsConfig: Pair[];
+  pairConfig: Pair = { name: 'BTCUSDT', priceDecimal: 2, qtyDecimal: 6 };
   wallet: Wallet;
   private _mytokens: any;
   screenheight = screen.height;
@@ -57,9 +57,13 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   totalBuy = 0.0;
   totalSell = 0.0;
   buyPrice = 0;
+  validBuyPrice = 0;
   buyQty = 0;
+  validBuyQty = 0;
   sellPrice = 0;
+  validSellPrice = 0;
   sellQty = 0;
+  validSellQty = 0;
   price = 0;
   qty = 0;
   pin: string;
@@ -132,6 +136,65 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     }
 
     return amountBig.toFixed(this.pairConfig.qtyDecimal);
+  }
+
+  checkRegExp(value: string, decimal: number) {
+    if (value === '') { return true; }
+
+    let regEx = '^\\d+$';
+    if (decimal > 0) {
+      regEx = '^\\d+(\\.\\d{0,' + decimal + '})?$';
+    }
+    const regexpNumber = new RegExp(regEx);
+    return regexpNumber.test(value);
+  }
+
+  checkBuyPrice() {
+    const pairName = this.route.snapshot.paramMap.get('pair').replace('_', '');
+    this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
+
+    const vald = this.checkRegExp(this.buyPrice.toString(), this.pairConfig.priceDecimal);
+    if (vald) {
+      this.validBuyPrice = this.buyPrice;
+    } else {
+      this.buyPrice = this.validBuyPrice;
+    }
+  }
+
+  checkBuyQty() {
+    const pairName = this.route.snapshot.paramMap.get('pair').replace('_', '');
+    this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
+
+    const vald = this.checkRegExp(this.buyQty.toString(), this.pairConfig.qtyDecimal);
+    if (vald) {
+      this.validBuyQty = this.buyQty;
+    } else {
+      this.buyQty = this.validBuyQty;
+    }
+  }
+
+  checkSellPrice() {
+    const pairName = this.route.snapshot.paramMap.get('pair').replace('_', '');
+    this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
+
+    const vald = this.checkRegExp(this.sellPrice.toString(), this.pairConfig.priceDecimal);
+    if (vald) {
+      this.validSellPrice = this.sellPrice;
+    } else {
+      this.sellPrice = this.validSellPrice;
+    }
+  }
+
+  checkSellQty() {
+    const pairName = this.route.snapshot.paramMap.get('pair').replace('_', '');
+    this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
+
+    const vald = this.checkRegExp(this.sellQty.toString(), this.pairConfig.qtyDecimal);
+    if (vald) {
+      this.validSellQty = this.sellQty;
+    } else {
+      this.sellQty = this.validSellQty;
+    }
   }
 
   showSellsAmount(sells: any, index: number) {
@@ -558,6 +621,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         this.setMytokens(tokens);
       }
     );
+
+    this.pairsConfig = <Pair[]>(JSON.parse(sessionStorage.getItem('pairsConfig')));
 
     this.sub = this.route.params.subscribe(params => {
       let pair = params['pair']; // (+) converts string 'id' to a number

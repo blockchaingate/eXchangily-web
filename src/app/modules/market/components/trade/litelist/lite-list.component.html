@@ -13,18 +13,22 @@
 
     <mat-list class="scroll-bar">
         <mat-list-item class="header apair">
-            <div mat-line class="float-left text-white">{{'Pair'|translate}}</div>
-            <div class="vertical-center">
-                <div class="smallfont text-white p-1">{{'LatestPrice'|translate}}</div>
-                <div class="smallfont text-white p-1">{{'H24Change'|translate}}</div>
+            <div class="row px-2">
+                <div mat-line class="text-white pairname">{{'Pair'|translate}}</div>
+                <div>
+                    <div class="smallfont text-white p-1">{{'LatestPrice'|translate}}</div>
+                    <div class="smallfont text-white p-1">{{'H24Change'|translate}}</div>
+                </div>
             </div>
             <mat-divider></mat-divider>
         </mat-list-item>
         <mat-list-item class="apair dataline" [class.selectedpair]="selectedpair === pr.symbol" *ngFor="let pr of prices | callback: filterPrice : selectedcat; let i=index">
-            <div mat-line class="float-left text-white" (click)="loadTradePair(pr.symbol)">{{pr.symbol}}</div>
-            <div class="vertical-center pt-2 pb-2" (click)="loadTradePair(pr.symbol)">
-                <div class="text-muted vertical-right">{{utilServ.showAmount(pr.price, 6)}}</div>
-                <div class="vertical-right" [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>=0"> {{pr.change24h | number:'.2'}}% </div>
+            <div class="row px-2">
+                <div mat-line class="text-white pairname" (click)="loadTradePair(pr.symbol)">{{pr.symbol}}</div>
+                <div class="pt-1 pb-1" (click)="loadTradePair(pr.symbol)">
+                    <div class="text-muted">{{utilServ.showAmount(pr.price, 6)}}</div>
+                    <div [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>=0"> {{pr.change24h | number:'.2'}}% </div>
+                </div>
             </div>
             <mat-divider></mat-divider>
         </mat-list-item>
