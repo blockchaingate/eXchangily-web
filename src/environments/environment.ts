@@ -124,7 +124,10 @@ export const environment = {
         BTC: 'muQDw5hVmFgD1GrrWvUt6kjrzauC4Msaki',
         ETH: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
         USDT: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
-        DUSD: '0xdcd0f23125f74ef621dfa3310625f8af0dcd971b'
+        DUSD: '0xdcd0f23125f74ef621dfa3310625f8af0dcd971b',
+        BCH: 'bchtest:qzvyhe6dn2hz7tgu624shm80js6knj2vj57l54rl6w',
+        LTC: 'muQDw5hVmFgD1GrrWvUt6kjrzauC4Msaki',
+        DOGE: 'ni5RuJJ5Bcbxe992Zm9X51HSFbR5UR44Hh'
        },
         promotionOfficial: {
             USDT: '0x4e93c47b42d09f61a31f798877329890791077b2',

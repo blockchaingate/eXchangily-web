@@ -782,8 +782,10 @@ export class WalletDashboardComponent implements OnInit {
             this.depositdo();
         } else if (this.opType === 'redeposit') {
             this.redepositdo();
+            /*
         } else if (this.opType === 'redeposit') {
             this.redepositdo();
+            */
         } else if (this.opType === 'addGas') {
             this.addGasDo();
         } else if (this.opType === 'sendCoin') {

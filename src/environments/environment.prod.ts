@@ -115,7 +115,11 @@ export const environment = {
         BTC: '1CKg6irbGXHxBHuTx7MeqYQUuMZ8aEok8z',
         ETH: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
         USDT: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
-        DUSD: '0x9d95ee21e4f1b05bbfd0094daf4ce110deb00931'
+        DUSD: '0x9d95ee21e4f1b05bbfd0094daf4ce110deb00931',
+        BCH: 'bitcoincash:qq7zkgp2vz3v5m38vy5cwf26k27y4rvkdy0fam589r',
+        LTC: 'LXgK78jxrVk9wVn1KJiU7SGawi6tJxv2tw',
+        DOGE: 'DM3aQpvSLDnFm6iYiNHZzTs4juRUSwb4ji',
+        BNB: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06'
        },
         promotionOfficial: {
             USDT: '0x4e93c47b42d09f61a31f798877329890791077b2',

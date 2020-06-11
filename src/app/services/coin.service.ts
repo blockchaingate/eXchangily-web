@@ -446,6 +446,7 @@ export class CoinService {
             var child = root.deriveChild(path);
             var publicKey = child.publicKey;
             priKey = child.privateKey; 
+
             if(!environment.production) {
                 addr = litecore.Address.fromPublicKey(publicKey, litecore.Networks.testnet).toString();  
             } else {
@@ -461,6 +462,7 @@ export class CoinService {
             
             var publicKey = child.publicKey;
             priKey = child.privateKey; 
+
             if(!environment.production) {
                 addr = dogecore.Address.fromPublicKey(publicKey, dogecore.Networks.testnet).toString();  
             } else {
@@ -477,6 +479,7 @@ export class CoinService {
            
            var publicKey = child.publicKey;  
            priKey = child.privateKey;  
+
            if(!environment.production) {
                addr = bitcore.Address.fromPublicKey(publicKey, bitcore.Networks.testnet).toString();  
            } else {
@@ -548,15 +551,25 @@ export class CoinService {
         } else 
         if (name === 'FAB' || name === 'BTC' || tokenType === 'FAB' || name === 'BCH' || name === 'DOGE' || name === 'LTC') {
             // signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
-            let signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey, 
-                keyPair.privateKeyBuffer.compressed);
-            if (name === 'LTC') {
+            let signBuffer;
+            console.log('keyPair.privateKeyBuffer.compressed===', keyPair.privateKeyBuffer.compressed);
+            if(name === 'FAB' || name === 'BTC' || tokenType === 'FAB') {
                 signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey, 
-                    keyPair.privateKeyBuffer.compressed, '\u0018Litecoin Signed Message:\n');
+                    keyPair.privateKeyBuffer.compressed);
+            } else 
+            if(name === 'BCH') {
+                signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKey.toBuffer(), 
+                    keyPair.privateKey.compressed);                
+            }
+
+            if (name === 'LTC') {
+                console.log('keyPair.privateKey==', keyPair.privateKey);
+                signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKey.toBuffer(), 
+                    keyPair.privateKey.compressed, '\u0018Litecoin Signed Message:\n');
             } else 
             if (name === 'DOGE') {
-                signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey, 
-                    keyPair.privateKeyBuffer.compressed, '\u0018Dogecoin Signed Message:\n');
+                signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKey.toBuffer(), 
+                    keyPair.privateKey.compressed, '\u0018Dogecoin Signed Message:\n');
             }
             // const signHex = `${signBuffer.toString('hex')}`;
             const v = `0x${signBuffer.slice(0, 1).toString('hex')}`;
