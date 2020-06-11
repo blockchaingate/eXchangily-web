@@ -9,7 +9,7 @@ export const environment = {
     STRIPE_PUBLIC_KEY: 'pk_test_xVAqsYMxwh3AZfJcYu1hruyE',
     PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',
     url:"https://kanbantest.fabcoinapi.com/",
-    tmpUrl:  "http://13.124.235.105:3000/",    
+    tmpUrl:  "https://kanbantest.fabcoinapi.com/",    
     baseUrl: 'https://exchangily.net',
     campaignId: 1,
     OTC_COMMISSION_RATE: 0.001,

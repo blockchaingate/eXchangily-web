@@ -546,11 +546,18 @@ export class CoinService {
             // console.log('signature in signed is ');
             // console.log(signature);
         } else 
-        if (name === 'FAB' || name === 'BTC' || tokenType === 'FAB') {
+        if (name === 'FAB' || name === 'BTC' || tokenType === 'FAB' || name === 'BCH' || name === 'DOGE' || name === 'LTC') {
             // signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
-            const signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey, 
+            let signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey, 
                 keyPair.privateKeyBuffer.compressed);
-            
+            if (name === 'LTC') {
+                signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey, 
+                    keyPair.privateKeyBuffer.compressed, '\u0018Litecoin Signed Message:\n');
+            } else 
+            if (name === 'DOGE') {
+                signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey, 
+                    keyPair.privateKeyBuffer.compressed, '\u0018Dogecoin Signed Message:\n');
+            }
             // const signHex = `${signBuffer.toString('hex')}`;
             const v = `0x${signBuffer.slice(0, 1).toString('hex')}`;
             const r = `0x${signBuffer.slice(1, 33).toString('hex')}`;
