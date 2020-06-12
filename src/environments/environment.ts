@@ -19,6 +19,18 @@ export const environment = {
             satoshisPerBytes: 60,
             bytesPerInput: 148
         },
+        DOGE: {
+            satoshisPerBytes: 400000,
+            bytesPerInput: 148
+        },
+        LTC: {
+            satoshisPerBytes: 200,
+            bytesPerInput: 148
+        },  
+        BCH: {
+            satoshisPerBytes: 30,
+            bytesPerInput: 148
+        },                      
         ETH: {
             chain: 'ropsten', 
             hardfork: 'byzantium',
@@ -156,7 +168,10 @@ export const environment = {
         FAB: 0.005,
         ETH: 0.01,
         USDT: 10,
-        DUSD: 10
+        DUSD: 10,
+        BCH: 0.002,
+        LTC: 0.02,
+        DOGE: 20
     },
     PaymentMethod: {
         ETransfer: {

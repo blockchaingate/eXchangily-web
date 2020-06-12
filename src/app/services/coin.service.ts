@@ -10,6 +10,9 @@ import {ApiService} from './api.service';
 import * as wif from 'wif';
 import * as bitcore from 'bitcore-lib-cash';
 import * as litecore from 'litecore-lib';
+import * as LiteMessage from 'litecore-message';
+//import * as BchMessage from 'bitcore-message';
+//import * as DogeMessage from 'dogecore-message';
 import * as dogecore from 'dogecore';
 import { Web3Service } from './web3.service';
 import {Signature} from '../interfaces/kanban.interface';
@@ -415,6 +418,19 @@ export class CoinService {
         let priKeyHex = '';
         let priKeyDisp = '';
         let buffer = Buffer.alloc(32);
+
+        if(!seed) {
+            return {
+                address: addr,
+                privateKey: priKey,
+                privateKeyHex: priKeyHex,
+                privateKeyBuffer: buffer,
+                privateKeyDisplay: priKeyDisp,
+                publicKey: pubKey,
+                name: name,
+                tokenType: tokenType               
+            };
+        }       
         const path = 'm/44\'/' + coin.coinType + '\'/0\'/' + chain + '/' + index;
 
         if (name === 'BTC' || name === 'FAB') {
@@ -454,6 +470,7 @@ export class CoinService {
             }    
         } else
         if (name === 'DOGE') {
+
             var root = dogecore.HDPrivateKey.fromSeed(seed);
             if (!environment.production) {
                 root = dogecore.HDPrivateKey.fromSeed(seed, dogecore.Networks.testnet);
@@ -563,13 +580,18 @@ export class CoinService {
             }
 
             if (name === 'LTC') {
-                console.log('keyPair.privateKey==', keyPair.privateKey);
+                var message = new LiteMessage(originalMessage);
+                var base64 = message.sign(keyPair.privateKey);
+
+                signBuffer = Buffer.from(base64, 'base64');
+                /*
                 signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKey.toBuffer(), 
-                    keyPair.privateKey.compressed, '\u0018Litecoin Signed Message:\n');
+                    keyPair.privateKey.compressed, 'Litecoin Signed Message:');
+                */
             } else 
             if (name === 'DOGE') {
                 signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKey.toBuffer(), 
-                    keyPair.privateKey.compressed, '\u0018Dogecoin Signed Message:\n');
+                    keyPair.privateKey.compressed, 'Dogecoin Signed Message:');
             }
             // const signHex = `${signBuffer.toString('hex')}`;
             const v = `0x${signBuffer.slice(0, 1).toString('hex')}`;
@@ -580,6 +602,8 @@ export class CoinService {
             // console.log('r=' + r);
             // console.log('s=' + s);
             signature = {r: r, s: s, v: v};
+
+            console.log('signature====', signature);
         }
         return signature;
     }
@@ -966,6 +990,12 @@ export class CoinService {
         } else 
         if (mycoin.name === 'BCH') {
             console.log('BCH there we go');
+            if (!satoshisPerBytes) {
+                satoshisPerBytes = environment.chains.BCH.satoshisPerBytes;
+            }
+            if (!bytesPerInput) {
+                bytesPerInput = environment.chains.BCH.bytesPerInput;
+            }               
             const keyPair = this.getKeyPairs(mycoin, seed, 0, 0);
             const address = keyPair.address;
             const privateKey = keyPair.privateKey;
@@ -1025,11 +1055,19 @@ export class CoinService {
             }            
         } else
         if (mycoin.name === 'DOGE') {
+            if (!satoshisPerBytes) {
+                satoshisPerBytes = environment.chains.DOGE.satoshisPerBytes;
+            }
+            if (!bytesPerInput) {
+                bytesPerInput = environment.chains.DOGE.bytesPerInput;
+            }               
             const keyPair = this.getKeyPairs(mycoin, seed, 0, 0);
             const address = keyPair.address;
             const privateKey = keyPair.privateKey;
             const balanceFull = await this.apiService.getDogeUtxos(address);
             const utxos = [];
+
+            let totalInput = 0;
             for (let i = 0; i < balanceFull.length; i++) {
                 const tx = balanceFull[i];
                 // console.log('i=' + i);
@@ -1047,6 +1085,7 @@ export class CoinService {
                     "satoshis" : tx.value
                 };
                 utxos.push(utxo);
+                totalInput += tx.value;
                 amountNum = amountNum.minus(tx.value);
                 if (amountNum.isLessThanOrEqualTo(0)) {
                     finished = true;
@@ -1062,12 +1101,56 @@ export class CoinService {
             console.log('amount==', amount);
             const amountBigNum = Number(this.utilServ.toBigNumber(amount, 8));
             console.log('amountBigNum==', amountBigNum);
+
+
+            const outputNum = 2;
+            transFee = ((utxos.length) * bytesPerInput + outputNum * 34 + 10) * satoshisPerBytes;
+
+            // console.log('totalInput=' + totalInput);
+            // console.log('amount=' + amount);
+            console.log('transFee for doge=' + transFee);
+            const output1 = Math.round(new BigNumber(totalInput - amount * 1e8 - transFee).toNumber());
+            
+            transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
+
+            if (getTransFeeOnly) {
+                return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
+            }
+            //const output2 = Math.round(new BigNumber(amount * 1e8).toNumber());     
+            //const output2 = Number(this.utilServ.toBigNumber(amount, 8));
+
+            console.log('totalInput=', totalInput);
+            console.log('output1=', output1);
+            console.log('output2=', amountBigNum);
+
+            
             var transaction = new dogecore.Transaction()
             .from(utxos)          // Feed information about what unspent outputs one can use
-            .to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
-            .change(address)      // Sets up a change address where the rest of the funds will go
-            .sign(privateKey)     // Signs all the inputs it can
-        
+            //.to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
+            //.change(address)      // Sets up a change address where the rest of the funds will go
+            
+            .addOutput(
+                new dogecore.Transaction.Output({
+                    script: dogecore.Script(new dogecore.Address(toAddress)),
+                    satoshis: amountBigNum
+                  })
+            )
+            .addOutput(
+                    new dogecore.Transaction.Output({
+                        script: dogecore.Script(new dogecore.Address(address)),
+                        satoshis: output1
+                      }) 
+            )  
+            
+            //.change(address)             
+           .sign(privateKey)     // Signs all the inputs it can
+/*
+.addOutput(new Output({
+    script: Script(new Address(address)),
+    satoshis: amount
+  }));
+*/
+            
             txHex = transaction.serialize();  
             
             if (doSubmit) {
@@ -1084,6 +1167,12 @@ export class CoinService {
             }            
         } else    
         if (mycoin.name === 'LTC') {
+            if (!satoshisPerBytes) {
+                satoshisPerBytes = environment.chains.LTC.satoshisPerBytes;
+            }
+            if (!bytesPerInput) {
+                bytesPerInput = environment.chains.LTC.bytesPerInput;
+            }               
             const keyPair = this.getKeyPairs(mycoin, seed, 0, 0);
             const address = keyPair.address;
             const privateKey = keyPair.privateKey;
