@@ -4,8 +4,10 @@
 
 th {
     color: white;
+    font-size: 1em;
 }
 
 td {
     color: lightgray;
+    font-size: small;
 }

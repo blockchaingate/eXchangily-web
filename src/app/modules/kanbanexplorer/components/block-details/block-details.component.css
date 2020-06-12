@@ -73,13 +73,13 @@ tr:nth-child(odd) td {
 
 .odd {
     padding: 10px;
-    background-color: #282840;
+    background-color: #383850;
     color: lightgray;
     text-align: left;
 }
 
 a {
-    color: #3F51B5;
+    color: #8F9fff;
     font-weight: 500;
     padding: 5px;
     border-radius: 2px;
