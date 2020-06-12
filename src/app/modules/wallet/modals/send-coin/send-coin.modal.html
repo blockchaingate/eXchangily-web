@@ -67,9 +67,11 @@
                         </div>
                     </div>
                     <div *ngIf="sendCoinForm.get('gasFeeCustomChecked').value">
-                        <div *ngIf="wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'ETH' || 
+                        <div *ngIf="
+                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'ETH' || 
                         wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].tokenType === 'ETH' ||
-                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].tokenType === 'FAB'">
+                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].tokenType === 'FAB'
+                        ">
                             <div class="form-group">
                                 <label for="gasPrice" class="text-dark">{{'Gas price' | translate }}({{getGasPriceUnit()}})</label>
                                 
@@ -90,7 +92,14 @@
                                 <input type="text" class="form-control" id="inputGasLimit" (input)="onTextChange($event.target.value)" formControlName="gasLimit" placeholder="0">
                             </div>
                         </div>
-                        <div *ngIf="wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'BTC' || wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'FAB' || wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].tokenType === 'FAB'">
+                        <div *ngIf="
+                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'BTC' 
+                        || wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'FAB' 
+                        || wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'LTC' 
+                        || wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'BCH' 
+                        || wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'DOGE' 
+                        || wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].tokenType === 'FAB'
+                        ">
                             <div class="form-group">
                                 <label for="gasPrice" class="text-dark">{{'Satoshis/byte' | translate }}</label>
                                 <input type="text" class="form-control" id="inputSatoshisPerByte" (input)="onTextChange($event.target.value)" formControlName="satoshisPerBytes" placeholder="0">

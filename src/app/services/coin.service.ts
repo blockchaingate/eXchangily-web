@@ -11,7 +11,7 @@ import * as wif from 'wif';
 import * as bitcore from 'bitcore-lib-cash';
 import * as litecore from 'litecore-lib';
 import * as LiteMessage from 'litecore-message';
-//import * as BchMessage from 'bitcore-message';
+import * as BchMessage from 'bitcore-message';
 //import * as DogeMessage from 'dogecore-message';
 import * as dogecore from 'dogecore';
 import { Web3Service } from './web3.service';
@@ -575,8 +575,25 @@ export class CoinService {
                     keyPair.privateKeyBuffer.compressed);
             } else 
             if(name === 'BCH') {
+                /*
                 signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKey.toBuffer(), 
-                    keyPair.privateKey.compressed);                
+                    keyPair.privateKey.compressed);   
+                */
+               
+               var message = new BchMessage(originalMessage);
+
+               //var signature = message.sign(privateKey);
+               
+               var hash = message.magicHash();
+               var ecdsa = new bitcore.crypto.ECDSA();
+               ecdsa.hashbuf = hash;
+               ecdsa.privkey = keyPair.privateKey;
+               ecdsa.pubkey = keyPair.privateKey.toPublicKey();
+               ecdsa.signRandomK();
+               ecdsa.calci();
+               signBuffer = ecdsa.sig.toCompact();
+               // console.log('signature=', signature);
+
             }
 
             if (name === 'LTC') {
@@ -590,8 +607,34 @@ export class CoinService {
                 */
             } else 
             if (name === 'DOGE') {
+                /*
                 signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKey.toBuffer(), 
                     keyPair.privateKey.compressed, 'Dogecoin Signed Message:');
+                */
+               //var message = new DogeMessage(originalMessage);
+
+
+               //var MAGIC_BYTES = new Buffer('Actinium Signed Message:\n');
+               var MAGIC_BYTES = new Buffer('Dogecoin Signed Message:\n');
+
+               var prefix1 = bitcore.encoding.BufferWriter.varintBufNum(MAGIC_BYTES.length);
+               var messageBuffer = new Buffer(originalMessage);
+               var prefix2 = bitcore.encoding.BufferWriter.varintBufNum(messageBuffer.length);
+               var buf = Buffer.concat([prefix1, MAGIC_BYTES, prefix2, messageBuffer]);
+               var hash = bitcore.crypto.Hash.sha256sha256(buf);
+               //  return hash;
+              
+
+
+
+               //var hash = message.magicHash();
+               var ecdsa = new bitcore.crypto.ECDSA();
+               ecdsa.hashbuf = hash;
+               ecdsa.privkey = keyPair.privateKey;
+               ecdsa.pubkey = keyPair.privateKey.toPublicKey();
+               ecdsa.signRandomK();
+               ecdsa.calci();
+               signBuffer = ecdsa.sig.toCompact();            
             }
             // const signHex = `${signBuffer.toString('hex')}`;
             const v = `0x${signBuffer.slice(0, 1).toString('hex')}`;
@@ -799,7 +842,7 @@ export class CoinService {
 
     async sendTransaction(mycoin: MyCoin, seed: Buffer, toAddress: string, amount: number, 
         options: any, doSubmit: boolean) {
-        // console.log('doSubmit in sendTransaction=', doSubmit);
+        console.log('doSubmit in sendTransaction=', doSubmit);
         let index = 0;
         let balance = 0;
         let finished = false;
@@ -997,10 +1040,11 @@ export class CoinService {
                 bytesPerInput = environment.chains.BCH.bytesPerInput;
             }               
             const keyPair = this.getKeyPairs(mycoin, seed, 0, 0);
-            const address = keyPair.address;
+            const address = mycoin.receiveAdds[0].address;
             const privateKey = keyPair.privateKey;
             const balanceFull = await this.apiService.getBchUtxos(address);
             const utxos = [];
+            totalInput = 0;
             for (let i = 0; i < balanceFull.length; i++) {
                 const tx = balanceFull[i];
                 // console.log('i=' + i);
@@ -1017,6 +1061,7 @@ export class CoinService {
                     "script" : new bitcore.Script(addr).toHex(),
                     "satoshis" : tx.value
                 };
+                totalInput += tx.value;
                 utxos.push(utxo);
                 amountNum = amountNum.minus(tx.value);
                 if (amountNum.isLessThanOrEqualTo(0)) {
@@ -1031,12 +1076,32 @@ export class CoinService {
                 return {txHex: txHex, txHash: txHash, errMsg: errMsg};
             }
             console.log('amount==', amount);
+            const outputNum = 2;
+            transFee = ((utxos.length) * bytesPerInput + outputNum * 34 + 10) * satoshisPerBytes;
+
+            // console.log('totalInput=' + totalInput);
+            // console.log('amount=' + amount);
+            console.log('transFee for doge=' + transFee);
+            const output1 = Math.round(new BigNumber(totalInput - amount * 1e8 - transFee).toNumber());
+
             const amountBigNum = Number(this.utilServ.toBigNumber(amount, 8));
             console.log('amountBigNum==', amountBigNum);
             var transaction = new bitcore.Transaction()
             .from(utxos)          // Feed information about what unspent outputs one can use
-            .to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
-            .change(address)      // Sets up a change address where the rest of the funds will go
+            //.to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
+            //.change(address)      // Sets up a change address where the rest of the funds will go
+            .addOutput(
+                new dogecore.Transaction.Output({
+                    script: dogecore.Script(new dogecore.Address(toAddress)),
+                    satoshis: amountBigNum
+                  })
+            )
+            .addOutput(
+                    new dogecore.Transaction.Output({
+                        script: dogecore.Script(new dogecore.Address(address)),
+                        satoshis: output1
+                      }) 
+            )             
             .sign(privateKey)     // Signs all the inputs it can
         
             txHex = transaction.serialize();  
@@ -1062,7 +1127,7 @@ export class CoinService {
                 bytesPerInput = environment.chains.DOGE.bytesPerInput;
             }               
             const keyPair = this.getKeyPairs(mycoin, seed, 0, 0);
-            const address = keyPair.address;
+            const address = mycoin.receiveAdds[0].address;
             const privateKey = keyPair.privateKey;
             const balanceFull = await this.apiService.getDogeUtxos(address);
             const utxos = [];
@@ -1119,11 +1184,6 @@ export class CoinService {
             //const output2 = Math.round(new BigNumber(amount * 1e8).toNumber());     
             //const output2 = Number(this.utilServ.toBigNumber(amount, 8));
 
-            console.log('totalInput=', totalInput);
-            console.log('output1=', output1);
-            console.log('output2=', amountBigNum);
-
-            
             var transaction = new dogecore.Transaction()
             .from(utxos)          // Feed information about what unspent outputs one can use
             //.to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
@@ -1174,10 +1234,11 @@ export class CoinService {
                 bytesPerInput = environment.chains.LTC.bytesPerInput;
             }               
             const keyPair = this.getKeyPairs(mycoin, seed, 0, 0);
-            const address = keyPair.address;
+            const address = mycoin.receiveAdds[0].address;
             const privateKey = keyPair.privateKey;
             const balanceFull = await this.apiService.getLtcUtxos(address);
             const utxos = [];
+            totalInput = 0;
             for (let i = 0; i < balanceFull.length; i++) {
                 const tx = balanceFull[i];
                 // console.log('i=' + i);
@@ -1194,6 +1255,7 @@ export class CoinService {
                     "script" : new litecore.Script(addr).toHex(),
                     "satoshis" : tx.value
                 };
+                totalInput += tx.value;
                 utxos.push(utxo);
                 amountNum = amountNum.minus(tx.value);
                 if (amountNum.isLessThanOrEqualTo(0)) {
@@ -1207,13 +1269,35 @@ export class CoinService {
                 errMsg = 'not enough fund.';
                 return {txHex: txHex, txHash: txHash, errMsg: errMsg};
             }
-            console.log('amount==', amount);
+
+            const outputNum = 2;
+            transFee = ((utxos.length) * bytesPerInput + outputNum * 34 + 10) * satoshisPerBytes;
+
+            // console.log('totalInput=' + totalInput);
+            // console.log('amount=' + amount);
+            console.log('transFee for lite=' + transFee);
+            const output1 = Math.round(new BigNumber(totalInput - amount * 1e8 - transFee).toNumber());
+            
+            transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
+
             const amountBigNum = Number(this.utilServ.toBigNumber(amount, 8));
             console.log('amountBigNum==', amountBigNum);
             var transaction = new litecore.Transaction()
             .from(utxos)          // Feed information about what unspent outputs one can use
-            .to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
-            .change(address)      // Sets up a change address where the rest of the funds will go
+            //.to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
+            //.change(address)      // Sets up a change address where the rest of the funds will go
+            .addOutput(
+                new litecore.Transaction.Output({
+                    script: litecore.Script(new litecore.Address(toAddress)),
+                    satoshis: amountBigNum
+                  })
+            )
+            .addOutput(
+                    new litecore.Transaction.Output({
+                        script: litecore.Script(new litecore.Address(address)),
+                        satoshis: output1
+                      }) 
+            )              
             .sign(privateKey)     // Signs all the inputs it can
         
             txHex = transaction.serialize();  
