@@ -123,6 +123,7 @@
                     "Name": "Dora Tang",
                     "Image": "Dora_Tang_m.jpg",
                     "Title": "CEO",
+                    "linkedIn": "https://www.linkedin.com/in/dora-tang-b0342bb/",
                     "Desc": [
                         "PHD in IS/ Research in Blockchain",
                         "MBA, MA & BA in International Finance",
@@ -133,6 +134,7 @@
                     "Name": "John Kerin",
                     "Title": "Principle of eXchangily",
                     "Image": "john-kerin.jpg",
+                    "linkedIn": "https://www.linkedin.com/in/john-kerin/",
                     "Desc": [
                         "Former CEO of Chicago Stock Exchange"
                     ]

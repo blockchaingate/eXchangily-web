@@ -7,13 +7,13 @@
                     <div class="member--image">
                         <div class="member--image-unit" [ngStyle]="{'background': 'url(\'./images/photos/' + member.Image + '\')'}"></div>
                     </div>
-                    <h5 class="semi-bold member--name center color-secondary">
+                    <h5 class="member--name center color-secondary">
                         {{ member.Name }}
                     </h5>
-                    <p class="member--title bold center color-secondary">{{ member.Title }} </p>
+                    <p class="member--title center color-secondary">{{ member.Title }} </p>
                     <ul class="member__list">
                         <li *ngFor="let skill of member.Desc; let k = index">
-                            {{ skill }}
+                            <span class="small">{{ skill }}</span>
                         </li>
                     </ul>
                     <a *ngIf="member.linkedIn" class="color-primary member--linkedin icon-linked-in" href="{{ member.linkedIn }}" target="_blank"></a>

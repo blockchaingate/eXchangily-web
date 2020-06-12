@@ -116,6 +116,7 @@
                     "Name": "Dora Tang",
                     "Image": "Dora_Tang_m.jpg",
                     "Title": "首席执行官",
+                    "linkedIn": "https://www.linkedin.com/in/dora-tang-b0342bb/",
                     "Desc": [
                         "美国区块链技术专家",
                         "信息系统学博士/区块链研究",
@@ -127,6 +128,7 @@
                     "Name": "John Kerin",
                     "Title": "证券交易总裁",
                     "Image": "john-kerin.jpg",
+                    "linkedIn": "https://www.linkedin.com/in/john-kerin/",
                     "Desc": [
                         "前芝加哥股票交易所首席执行官",
                         "资深持牌证券交易专家"
