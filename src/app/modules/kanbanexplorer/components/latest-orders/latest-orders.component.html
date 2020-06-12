@@ -25,7 +25,7 @@
             <td mat-cell *matCellDef="let element">
                 <!--{{element.time*1000 | date : 'EEEE, MMMM dd, yyyy'}} <br>
                 {{element.time*1000 | date : 'h:mm:ss a'}} -->
-                <a mat-button color="primary" [routerLink]="[ './block-detail', element.blockNumber.createOrder ]">{{element.blockNumber.createOrder}}</a>
+                <a mat-button [routerLink]="[ './block-detail', element.blockNumber.createOrder ]">{{element.blockNumber.createOrder}}</a>
             </td>
         </ng-container>
 

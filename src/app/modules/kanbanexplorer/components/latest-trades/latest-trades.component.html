@@ -23,7 +23,7 @@
         <ng-container matColumnDef="Block">
             <th mat-header-cell *matHeaderCellDef style="text-align: center;"> {{"Block"|translate}} </th>
             <td mat-cell *matCellDef="let element">
-                <a mat-button color="primary" [routerLink]="[ './block-detail', element.blockNumber ]"> {{element.blockNumber}}</a>
+                <a mat-button [routerLink]="[ './block-detail', element.blockNumber ]"> {{element.blockNumber}}</a>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky:true"></tr>

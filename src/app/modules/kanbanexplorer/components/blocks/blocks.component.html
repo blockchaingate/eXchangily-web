@@ -15,7 +15,7 @@
         <ng-container matColumnDef="number">
             <th mat-header-cell *matHeaderCellDef style="text-align: center;"> {{"Block Number"|translate}} </th>
             <td mat-cell *matCellDef="let element">
-                <a mat-button color="primary" [routerLink]="[ './block-detail', element.number ]"> {{element.number}}
+                <a mat-button [routerLink]="[ './block-detail', element.number ]"> {{element.number}}
                 </a></td>
         </ng-container>
 
