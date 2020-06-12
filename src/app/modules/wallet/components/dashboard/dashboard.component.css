@@ -34,8 +34,8 @@ tbody {
 }
 
 .icon {
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
 }
 
 .mat-select-value {
@@ -119,15 +119,15 @@ tbody {
     display: flex;
     margin-left: 1em;
     margin-right: 1em;
-    padding-bottom: 0.5em;
-    margin-bottom: 0.5em;
+    padding-bottom: 0.4em;
+    margin-bottom: 0.4em;
     border-bottom: 1px dashed #484969;
     color: silver;
     font-size: media;
 }
 
 .header {
-    font-weight: bold;
+    font-weight: 400;
     height: 2em;
     padding-top: 4px;
     background-color: #2c2c4e;

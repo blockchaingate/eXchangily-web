@@ -5,7 +5,7 @@
                 <div class="container py-2">
                     <div class="row">
                         <div class="col col-md-6">
-                            <div class="small pt-3">{{"My Wallet" | translate}}</div>
+                            <div class="header pt-3">{{"My Wallet" | translate}}</div>
                             <div *ngIf="wallets">
                                 <mat-form-field>
                                     <mat-select panelClass="example-panel" [value]="currentWalletIndex" (selectionChange)="changeWallet($event.value)">
@@ -26,16 +26,16 @@
                                     <mat-icon svgIcon="copy"></mat-icon>
                                 </button>
                             </div>
-                            <div class="small text-white" *ngIf="wallet && !wallet.hide">{{"Gas" | translate }}: {{gas}} <span class="warningMsg" *ngIf="gas<0.1">{{"No enough gas in exchange, please add gas to trade"|translate}}.</span></div>
+                            <div class="small text-white" *ngIf="wallet && !wallet.hide">{{"Gas" | translate }}: {{gas}}
+                                <span class="warningMsg" *ngIf="gas<0.1">{{"No enough gas in exchange, please add gas to trade"|translate}}.</span>
+                            </div>
 
                         </div>
                         <div class="col col-md-4" *ngIf="wallet && !wallet.hide">
-                            <h4>{{"EXG" | translate}} {{utilServ.toPrecision(exgBalance)}}
-
-                            </h4>
+                            {{"EXG" | translate}} {{utilServ.toPrecision(exgBalance)}}
                             <div class="small">
                                 <span>
-                                    {{utilServ.toPrecision(exgValue)}} 
+                                    {{utilServ.toPrecision(exgValue)}}
                                 </span> {{currentCurrency | translate}}
                             </div>
                         </div>
@@ -85,8 +85,10 @@
                 <div class="container py-2" *ngIf="wallet && (!wallet.hide)">
                     <div class="row">
                         <div class="col col-8 col-md-6">
-                            <h5 class="d-inline mr-3 hand-cursor" (click)="onShowMyAssets()">{{"My Assets" | translate}}</h5>
-                            <mat-checkbox [(ngModel)]="hideSmall" class="small">{{"Hide Small Amount Assets" | translate}}</mat-checkbox>
+                            <h6 class="d-inline mr-3 hand-cursor" (click)="onShowMyAssets()">{{"My Assets" | translate}}
+                            </h6>
+                            <mat-checkbox [(ngModel)]="hideSmall" class="small">
+                                {{"Hide Small Amount Assets" | translate}}</mat-checkbox>
                         </div>
 
                         <div class="col col-4 col-md-6 small text-right fxHide-sm">
@@ -99,7 +101,7 @@
                             <div class="d-inline mr-3">
                                 <a (click)="addAssets()">{{"Add Assets" | translate}}</a>
                             </div>
-                            
+
                             <div *ngIf="hasNewCoins" class="d-inline text-danger">
                                 <a (click)="loadnewCoins()">
                                     {{"Load new assets" | translate}}
@@ -114,7 +116,7 @@
                             </mat-menu>
 
                             <button mat-icon-button [matMenuTriggerFor]="appMenu">
-                                        <mat-icon svgIcon="more-vert"></mat-icon>
+                                <mat-icon svgIcon="more-vert"></mat-icon>
                             </button>
                         </div>
                     </div>
@@ -165,8 +167,7 @@
                             </div>
                             <div class="container-wallet-main scroll-bar">
                                 <ng-container *ngFor="let mycoin of wallet.mycoins; index as i">
-                                    <div class="row apair dataline" *ngIf="!hideSmall || mycoin.balance >= 0.1">
-
+                                    <div class="row apair dataline small" *ngIf="!hideSmall || mycoin.balance >= 0.1">
                                         <div class="col-custom-1">
                                             <img src="{{getCoinLogo(mycoin)}}" class="icon" />
                                         </div>
@@ -177,13 +178,13 @@
                                             <p *ngIf="mycoin.balance >= 0">
                                                 {{utilServ.toPrecision(mycoin.balance)}}
                                             </p>
-                                            
+
                                         </div>
                                         <div class="col-2">
                                             <p *ngIf="mycoin.lockedBalance && (mycoin.lockedBalance >= 0)">
                                                 {{utilServ.toPrecision(mycoin.lockedBalance)}}
                                             </p>
-                                            
+
                                         </div>
                                         <div class="col-2">
                                             <!--
@@ -288,16 +289,21 @@
     </div>
 
     <deposit-amount-modal #depositModal [coin]="currentCoin" (confirmedAmount)="onConfirmedDepositAmount($event)" [alertMsg]="alertMsg"></deposit-amount-modal>
-    <redeposit-amount-modal #redepositModal [coin]="currentCoin" (confirmedAmount)="onConfirmedRedepositAmount($event)"></redeposit-amount-modal>
+    <redeposit-amount-modal #redepositModal [coin]="currentCoin" (confirmedAmount)="onConfirmedRedepositAmount($event)">
+    </redeposit-amount-modal>
     <add-gas-modal #addGasModal (confirmedGas)="onConfirmedGas($event)"></add-gas-modal>
     <pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>
-    <display-pin-number-modal #displayPinModal (confirmedPin)="onConfirmedDisplayPin($event)"></display-pin-number-modal>
+    <display-pin-number-modal #displayPinModal (confirmedPin)="onConfirmedDisplayPin($event)">
+    </display-pin-number-modal>
     <add-assets-modal #addAssetsModal (confirmedAssets)="onConfirmedAssets($event)"></add-assets-modal>
     <send-coin-modal #sendCoinModal (confirmedCoinSent)="onConfirmedCoinSent($event)" [wallet]="wallet" [alertMsg]="alertMsg"></send-coin-modal>
     <show-seed-phrase-modal #showSeedPhraseModal></show-seed-phrase-modal>
     <tools-modal (confirmedTools)="onConfirmedTools($event)" #toolsModal></tools-modal>
     <verify-seed-phrase-modal #verifySeedPhraseModal></verify-seed-phrase-modal>
-    <backup-private-key-modal #backupPrivateKeyModal (confirmedBackupPrivateKey)="onConfirmedBackupPrivateKey($event)"></backup-private-key-modal>
+    <backup-private-key-modal #backupPrivateKeyModal (confirmedBackupPrivateKey)="onConfirmedBackupPrivateKey($event)">
+    </backup-private-key-modal>
     <delete-wallet-modal #deleteWalletModal (confirmedDeleteWallet)="onConfirmedDeleteWallet()"></delete-wallet-modal>
-    <login-setting-modal #loginSettingModal (confirmedLoginSetting)="onConfirmedLoginSetting($event)"></login-setting-modal>
-    <display-setting-modal #displaySettingModal (confirmedDisplaySetting)="onConfirmedDisplaySetting($event)"></display-setting-modal>
+    <login-setting-modal #loginSettingModal (confirmedLoginSetting)="onConfirmedLoginSetting($event)">
+    </login-setting-modal>
+    <display-setting-modal #displaySettingModal (confirmedDisplaySetting)="onConfirmedDisplaySetting($event)">
+    </display-setting-modal>

@@ -1,7 +1,7 @@
 .mat-badge-content {
     font-weight: 600;
     font-size: 12px;
-    font-family: Roboto, "Helvetica Neue", sans-serif
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 .mat-badge-small .mat-badge-content {
@@ -15,52 +15,52 @@
 .mat-h1,
 .mat-headline,
 .mat-typography h1 {
-    font: 400 24px/32px Roboto, "Helvetica Neue", sans-serif;
+    font: 400 24px/32px Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     margin: 0 0 16px
 }
 
 .mat-h2,
 .mat-title,
 .mat-typography h2 {
-    font: 500 20px/32px Roboto, "Helvetica Neue", sans-serif;
+    font: 500 20px/32px Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     margin: 0 0 16px
 }
 
 .mat-h3,
 .mat-subheading-2,
 .mat-typography h3 {
-    font: 400 16px/28px Roboto, "Helvetica Neue", sans-serif;
+    font: 400 16px/28px Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     margin: 0 0 16px
 }
 
 .mat-h4,
 .mat-subheading-1,
 .mat-typography h4 {
-    font: 400 15px/24px Roboto, "Helvetica Neue", sans-serif;
+    font: 400 15px/24px Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     margin: 0 0 16px
 }
 
 .mat-h5,
 .mat-typography h5 {
-    font: 400 11.62px/20px Roboto, "Helvetica Neue", sans-serif;
+    font: 400 11.62px/20px Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     margin: 0 0 12px
 }
 
 .mat-h6,
 .mat-typography h6 {
-    font: 400 9.38px/20px Roboto, "Helvetica Neue", sans-serif;
+    font: 400 9.38px/20px Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     margin: 0 0 12px
 }
 
 .mat-body-2,
 .mat-body-strong {
-    font: 500 14px/24px Roboto, "Helvetica Neue", sans-serif
+    font: 500 14px/24px Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 .mat-body,
 .mat-body-1,
 .mat-typography {
-    font: 400 14px/20px Roboto, "Helvetica Neue", sans-serif
+    font: 400 14px/20px Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 .mat-body p,
@@ -71,38 +71,38 @@
 
 .mat-caption,
 .mat-small {
-    font: 400 12px/20px Roboto, "Helvetica Neue", sans-serif
+    font: 400 12px/20px Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 .mat-display-4,
 .mat-typography .mat-display-4 {
-    font: 300 112px/112px Roboto, "Helvetica Neue", sans-serif;
+    font: 300 112px/112px Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     letter-spacing: -.05em;
     margin: 0 0 56px
 }
 
 .mat-display-3,
 .mat-typography .mat-display-3 {
-    font: 400 56px/56px Roboto, "Helvetica Neue", sans-serif;
+    font: 400 56px/56px Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     letter-spacing: -.02em;
     margin: 0 0 64px
 }
 
 .mat-display-2,
 .mat-typography .mat-display-2 {
-    font: 400 45px/48px Roboto, "Helvetica Neue", sans-serif;
+    font: 400 45px/48px Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     letter-spacing: -.005em;
     margin: 0 0 64px
 }
 
 .mat-display-1,
 .mat-typography .mat-display-1 {
-    font: 400 34px/40px Roboto, "Helvetica Neue", sans-serif;
+    font: 400 34px/40px Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     margin: 0 0 64px
 }
 
 .mat-bottom-sheet-container {
-    font: 400 14px/20px Roboto, "Helvetica Neue", sans-serif
+    font: 400 14px/20px Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 .mat-button,
@@ -112,17 +112,17 @@
 .mat-mini-fab,
 .mat-raised-button,
 .mat-stroked-button {
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     font-size: 14px;
     font-weight: 500
 }
 
 .mat-button-toggle {
-    font-family: Roboto, "Helvetica Neue", sans-serif
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 .mat-card {
-    font-family: Roboto, "Helvetica Neue", sans-serif
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 .mat-card-title {
@@ -140,7 +140,7 @@
 }
 
 .mat-checkbox {
-    font-family: Roboto, "Helvetica Neue", sans-serif
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 .mat-checkbox-layout .mat-checkbox-label {
@@ -158,7 +158,7 @@
 }
 
 .mat-table {
-    font-family: Roboto, "Helvetica Neue", sans-serif
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 .mat-header-cell {
@@ -172,7 +172,7 @@
 }
 
 .mat-calendar {
-    font-family: Roboto, "Helvetica Neue", sans-serif
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 .mat-calendar-body {
@@ -191,24 +191,24 @@
 }
 
 .mat-dialog-title {
-    font: 500 20px/32px Roboto, "Helvetica Neue", sans-serif
+    font: 500 20px/32px Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 .mat-expansion-panel-header {
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     font-size: 15px;
     font-weight: 400
 }
 
 .mat-expansion-panel-content {
-    font: 400 14px/20px Roboto, "Helvetica Neue", sans-serif
+    font: 400 14px/20px Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 .mat-form-field {
     font-size: inherit;
     font-weight: 400;
     line-height: 1.125;
-    font-family: Roboto, "Helvetica Neue", sans-serif
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 .mat-form-field-wrapper {
@@ -385,23 +385,23 @@ input.mat-input-element {
 }
 
 .mat-menu-item {
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     font-size: 14px;
     font-weight: 400
 }
 
 .mat-paginator,
 .mat-paginator-page-size .mat-select-trigger {
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     font-size: 12px
 }
 
 .mat-radio-button {
-    font-family: Roboto, "Helvetica Neue", sans-serif
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 .mat-select {
-    font-family: Roboto, "Helvetica Neue", sans-serif
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 .mat-select-trigger {
@@ -409,18 +409,18 @@ input.mat-input-element {
 }
 
 .mat-slide-toggle-content {
-    font-family: Roboto, "Helvetica Neue", sans-serif
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 .mat-slider-thumb-label-text {
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     font-size: 12px;
     font-weight: 500
 }
 
 .mat-stepper-horizontal,
 .mat-stepper-vertical {
-    font-family: Roboto, "Helvetica Neue", sans-serif
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 .mat-step-label {
@@ -442,12 +442,12 @@ input.mat-input-element {
 }
 
 .mat-tab-group {
-    font-family: Roboto, "Helvetica Neue", sans-serif
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 .mat-tab-label,
 .mat-tab-link {
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     font-size: 14px;
     font-weight: 500
 }
@@ -459,12 +459,12 @@ input.mat-input-element {
 .mat-toolbar h4,
 .mat-toolbar h5,
 .mat-toolbar h6 {
-    font: 500 20px/32px Roboto, "Helvetica Neue", sans-serif;
+    font: 500 20px/32px Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     margin: 0
 }
 
 .mat-tooltip {
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     font-size: 10px;
     padding-top: 6px;
     padding-bottom: 6px
@@ -477,11 +477,11 @@ input.mat-input-element {
 }
 
 .mat-list-item {
-    font-family: Roboto, "Helvetica Neue", sans-serif
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 .mat-list-option {
-    font-family: Roboto, "Helvetica Neue", sans-serif
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 .mat-list-base .mat-list-item {
@@ -517,7 +517,7 @@ input.mat-input-element {
 }
 
 .mat-list-base .mat-subheader {
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     font-size: 14px;
     font-weight: 500
 }
@@ -555,22 +555,22 @@ input.mat-input-element {
 }
 
 .mat-list-base[dense] .mat-subheader {
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     font-size: 12px;
     font-weight: 500
 }
 
 .mat-option {
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     font-size: 16px
 }
 
 .mat-optgroup-label {
-    font: 500 14px/24px Roboto, "Helvetica Neue", sans-serif
+    font: 500 14px/24px Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 .mat-simple-snackbar {
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
     font-size: 14px
 }
 
@@ -582,7 +582,7 @@ input.mat-input-element {
 }
 
 .mat-tree {
-    font-family: Roboto, "Helvetica Neue", sans-serif
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
 }
 
 .mat-nested-tree-node,
@@ -1445,8 +1445,8 @@ textarea.cdk-textarea-autosize-measuring {
 }
 
 .mat-card {
-    background: #fff;
-    color: rgba(0, 0, 0, .87)
+    background-color: #484866;
+    color: rgba(255, 255, 255, 1)
 }
 
 .mat-card:not([class*=mat-elevation-z]) {
@@ -1887,7 +1887,7 @@ th.mat-header-cell {
 }
 
 .mat-form-field-appearance-legacy .mat-form-field-underline {
-    background-color: #5A22A6;
+    background-color: #8f6fff;
 }
 
 .mat-form-field-appearance-legacy.mat-form-field-disabled .mat-form-field-underline {

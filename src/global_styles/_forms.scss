@@ -1,76 +1,57 @@
 @import 'fonts';
 @import 'colours';
 $input-border: #d3dce6;
-
 .form-input {
-  box-shadow: 2px 4px 4px 0px rgba(0,0,0,0.26);
-  border: 1px solid #F0F0F0;
-
-  &__field-wrap {
-    margin-bottom: 0em;
-    min-height: 5.2em;
-  }
-
-  &__text {
-    border-radius: .5em;
-    border-color: $input-border;
-    border-width: 1px;
-    border-style: solid;
-    height: 2em;
-    margin-right: 1em;
-    padding-left: 1em;
-    width: 300px;
-
-    &--round {
-      border-radius: 2em;
+    box-shadow: 2px 4px 4px 0px rgba(0, 0, 0, 0.26);
+    border: 1px solid #F0F0F0;
+    &__field-wrap {
+        margin-bottom: 0em;
+        min-height: 5.2em;
     }
-
-    &__label {
-      color: $grey;
-      font-size: .75em;
-      margin: .4em;
-    }
-  }
-
-  &__file-wrap {
-
-  }
-
-  &__file {
-
-  }
-
-  &__error {
-    color: $warning;
-    font-size: .65em;
-
-    p {
-      margin: 0;
-    }
-  }
-
-  &__button {
-    border: none;
-    border-radius: .5em;
-    cursor: pointer;
-    height: 3em;
-    width: 10em;
-
     &__text {
-      font-family: Titillium-Bold;
+        border-radius: .5em;
+        border-color: $input-border;
+        border-width: 1px;
+        border-style: solid;
+        height: 2em;
+        margin-right: 1em;
+        padding-left: 1em;
+        width: 300px;
+        &--round {
+            border-radius: 2em;
+        }
+        &__label {
+            color: $grey;
+            font-size: .75em;
+            margin: .4em;
+        }
     }
-  }
-
-  &__button +  &__error {
-    margin: 2em;
-  }
-
-  &__check-wrap {
-    input,
-    span {
-      cursor: pointer;
+    &__file-wrap {}
+    &__file {}
+    &__error {
+        color: $warning;
+        font-size: .65em;
+        p {
+            margin: 0;
+        }
     }
-  }
+    &__button {
+        border: none;
+        border-radius: .5em;
+        cursor: pointer;
+        height: 3em;
+        width: 10em;
+        &__text {
+            font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
+        }
+    }
+    &__button+&__error {
+        margin: 2em;
+    }
+    &__check-wrap {
+        input,
+        span {
+            cursor: pointer;
+        }
+    }
 }
-
-
