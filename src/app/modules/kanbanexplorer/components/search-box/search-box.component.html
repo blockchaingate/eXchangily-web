@@ -5,7 +5,7 @@
 <mat-card class="mat-elevation-z6" style="text-align: center;">
     <form class="example-form" style="width: 80%; padding-left: 10%;">
         <mat-form-field style="width: 100%;">
-            <mat-label>{{"Search Kanban"|translate}}</mat-label>
+            <mat-label style="color:white">{{"Search Kanban"|translate}}</mat-label>
             <input matInput placeholder="{{'Ex. block number, address, transaction hash, block hash'|translate}}" #searchText (keyup.enter)="searchClicked(searchText.value)">
         </mat-form-field>
         <button mat-raised-button color="accent" (click)="searchClicked(searchText.value)">{{"Search Kanban"|translate}}</button>

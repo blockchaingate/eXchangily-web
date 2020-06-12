@@ -1,7 +1,7 @@
 <mat-card class="mat-elevation-z6">
     <h3 style="text-align: center;">{{"Latest Trades"|translate}}</h3>
 
-    <table mat-table [dataSource]="trades" style="width: 100%; text-align: center;">
+    <table mat-table [dataSource]="trades" style="width: 100%; text-align: center;" class="exg-bg graycolor">
         <ng-container matColumnDef="Pair">
             <th mat-header-cell *matHeaderCellDef style="text-align: center;"> {{"Pair"|translate}} </th>
             <td mat-cell *matCellDef="let element">

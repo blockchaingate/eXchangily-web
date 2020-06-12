@@ -11,7 +11,7 @@
         <button style="margin:10px;" mat-raised-button color="accent" (click)="rightClicked()">&gt;</button>
     </span>
     </div>
-    <table mat-table [dataSource]="blocks" style=" width: 100%; text-align: center;">
+    <table mat-table [dataSource]="blocks" style=" width: 100%; text-align: center;" class="exg-bg graycolor">
         <ng-container matColumnDef="number">
             <th mat-header-cell *matHeaderCellDef style="text-align: center;"> {{"Block Number"|translate}} </th>
             <td mat-cell *matCellDef="let element">

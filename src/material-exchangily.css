@@ -1445,8 +1445,8 @@ textarea.cdk-textarea-autosize-measuring {
 }
 
 .mat-card {
-    background: #fff;
-    color: rgba(0, 0, 0, .87)
+    background-color: #484866;
+    color: rgba(255, 255, 255, 1)
 }
 
 .mat-card:not([class*=mat-elevation-z]) {
