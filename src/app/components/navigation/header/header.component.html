@@ -67,7 +67,7 @@
                 <ul fxLayout fxLayoutGap="15px" class="navigation-items">
                     <li class="nav-item lanbut">
                         <button mat-button [matMenuTriggerFor]="menu" class="text-white">
-                            <div class="d-flex">
+                            <div class="d-flex small">
                                 <div>
                                     {{currentLang}}
                                 </div>
@@ -76,11 +76,10 @@
                                 </div>
                                 
                             </div>
-                            
                         </button>
                         <mat-menu #menu="matMenu">
-                            <button mat-menu-item (click)="selectLan('en')">English</button>
-                            <button mat-menu-item (click)="selectLan('zh')" class="lanbut">中文</button>
+                            <button mat-menu-item small (click)="selectLan('en')">English</button>
+                            <button mat-menu-item small (click)="selectLan('zh')">中文</button>
                         </mat-menu>
                     </li>
                     <li class="nav-item">

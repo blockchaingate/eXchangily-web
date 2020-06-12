@@ -4,7 +4,7 @@
             <div class="exg-bg content">
                 <div class="container py-2">
                     <div class="row">
-                        <div class="col col-md-6">
+                        <div class="col col-md-8">
                             <div class="header pt-3">{{"My Wallet" | translate}}</div>
                             <div *ngIf="wallets">
                                 <mat-form-field>
@@ -21,8 +21,8 @@
                                 </div>
                             </div>
                             <div class="small text-white" *ngIf="wallet && !wallet.hide">
-                                {{"Wallet address" | translate }}: {{fabAddress}}
-                                <button mat-icon-button (click)="copyAddress()">
+                                {{"Wallet address" | translate }}: <span style="color: lightgray;" class="pl-2"> {{fabAddress}}</span>
+                                <button mat-icon-button (click)="copyAddress()" title="{{'Copy address'|translate}}">
                                     <mat-icon svgIcon="copy"></mat-icon>
                                 </button>
                             </div>
@@ -31,7 +31,7 @@
                             </div>
 
                         </div>
-                        <div class="col col-md-4" *ngIf="wallet && !wallet.hide">
+                        <div class="col col-md-2 small" *ngIf="wallet && !wallet.hide">
                             {{"EXG" | translate}} {{utilServ.toPrecision(exgBalance)}}
                             <div class="small">
                                 <span>
@@ -40,22 +40,22 @@
                             </div>
                         </div>
                         <div class="col col-md-2" *ngIf="wallet && !wallet.hide">
-                            <div class="small">+0%</div>
+                            <div class="small pl-3">{{valueChange| number:'0.2-2'}}%</div>
                             <div>
 
                                 <div class="btn-group" dropdown>
-                                    <button id="button-basic" dropdownToggle type="button" class="btn btn-link dropdown-toggle" aria-controls="dropdown-basic">
-                                        {{ ('in ' + currentCurrency) | translate}} <span class="caret"></span>
+                                    <button id="button-basic" dropdownToggle type="button" class="btn btn-link dropdown-toggle small" aria-controls="dropdown-basic">
+                                        <span class="caret small pl-0">{{currentCurrency | translate}}</span>
                                     </button>
                                     <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
                                         <li role="menuitem" *ngIf="currentCurrency !== 'USD'">
-                                            <a class="dropdown-item" (click)="changeCurrency('USD')">{{'in USD' | translate }}</a>
+                                            <a class="dropdown-item small" (click)="changeCurrency('USD')">{{'USD' | translate }}</a>
                                         </li>
                                         <li role="menuitem" *ngIf="currentCurrency !== 'CAD'">
-                                            <a class="dropdown-item" (click)="changeCurrency('CAD')">{{'in CAD' | translate }}</a>
+                                            <a class="dropdown-item small" (click)="changeCurrency('CAD')">{{'CAD' | translate }}</a>
                                         </li>
                                         <li role="menuitem" *ngIf="currentCurrency !== 'RMB'">
-                                            <a class="dropdown-item" (click)="changeCurrency('RMB')">{{'in RMB' | translate }}</a>
+                                            <a class="dropdown-item small" (click)="changeCurrency('RMB')">{{'RMB' | translate }}</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -153,16 +153,16 @@
                                     {{"Available" | translate}}
                                 </div>
                                 <div class="col-2">
-                                    {{"Frozen" | translate}}
+                                    {{"Locked" | translate}}
                                 </div>
                                 <div class="col-2">
                                     {{"Value(USD)" | translate}}
                                 </div>
                                 <div class="col-2">
-                                    {{"Profit sharing" | translate}}
+                                    {{"Dividend" | translate}}
                                 </div>
                                 <div class="col-custom-2">
-
+                                    {{"Action" | translate}}
                                 </div>
                             </div>
                             <div class="container-wallet-main scroll-bar">
@@ -175,29 +175,19 @@
                                             {{mycoin.name}}
                                         </div>
                                         <div class="col-2">
-                                            <p *ngIf="mycoin.balance >= 0">
+                                            <span *ngIf="mycoin.balance >= 0">
                                                 {{utilServ.toPrecision(mycoin.balance)}}
-                                            </p>
-
+                                            </span>
                                         </div>
                                         <div class="col-2">
-                                            <p *ngIf="mycoin.lockedBalance && (mycoin.lockedBalance >= 0)">
+                                            <span *ngIf="mycoin.lockedBalance && (mycoin.lockedBalance >= 0)">
                                                 {{utilServ.toPrecision(mycoin.lockedBalance)}}
-                                            </p>
-
+                                            </span>
                                         </div>
                                         <div class="col-2">
-                                            <!--
-                                            <p *ngIf="mycoin.name == 'EXG' && coinsPrice && coinsPrice.exgcoin">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.exgcoin.usd)}}</p>
-                                            <p *ngIf="mycoin.name == 'BTC' && coinsPrice && coinsPrice.bitcoin">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.bitcoin.usd)}}</p>
-                                            <p *ngIf="mycoin.name == 'FAB' && coinsPrice && coinsPrice.fabcoin">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.fabcoin.usd)}}</p>
-                                            <p *ngIf="mycoin.name == 'ETH' && coinsPrice && coinsPrice.ethereum">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.ethereum.usd)}}</p>
-                                            <p *ngIf="mycoin.name == 'USDT' && coinsPrice && coinsPrice.tether">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.tether.usd)}}</p>
-                                            <p *ngIf="mycoin.name == 'DUSD' ">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * 1)}}</p>
-                                            -->
-                                            <p *ngIf="(mycoin.balance >= 0) && mycoin.usdPrice > 0">
+                                            <span *ngIf="(mycoin.balance >= 0) && mycoin.usdPrice > 0">
                                                 {{utilServ.toPrecision((mycoin.balance + (mycoin.lockedBalance ? mycoin.lockedBalance : 0)) * mycoin.usdPrice)}}
-                                            </p>
+                                            </span>
                                         </div>
                                         <div class="col-2">
 
@@ -254,7 +244,7 @@
                                 </div>
                                 <div class="col-12 text-muted">
                                     <p *ngIf="mycoin.lockedBalance && (mycoin.lockedBalance >= 0)">
-                                        {{"Frozen" | translate}}:{{mycoin.lockedBalance}}
+                                        {{"Locked" | translate}}:{{mycoin.lockedBalance}}
                                     </p>
                                 </div>
                                 <div class="col-12 text-muted">

@@ -751,7 +751,7 @@
     "Asset": "资产",
     "Add Gas": "加燃料",
     "Gas": "燃料",
-    "Frozen": "冻结",
+    "Locked": "锁仓",
     "Value(USD)": "价值（美元）",
     "Profit sharing": "利润分成",
     "Manage My Wallet": "管理我的钱包",
@@ -1340,5 +1340,7 @@
     "Gas Price": "燃料价格",
     "Hash": "哈希",
     "Input": "输入",
-    "Load new assets": "加载新币种"
+    "Load new assets": "加载新币种",
+    "Dividend": "分红",
+    "Copy address": "复制地址"
 }
