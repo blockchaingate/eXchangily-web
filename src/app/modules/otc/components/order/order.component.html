@@ -68,12 +68,12 @@
 
                                     <button *ngIf="element.paymentStatus == 0" (click)="changePaymentStatus(element, 1)" mat-raised-button color="primary">
                                         {{getButtonText(element.buy, element.paymentStatus) | translate}}
-                                    </button>    
-                             <!--     
+                                    </button>
+                                    <!--     
                                     <button *ngIf="element.paymentStatus != 0 && element.paymentStatus != 4" (click)="changePaymentStatus(element, 4)" mat-raised-button color="primary">
-                                        {{'Frozen' | translate}}
+                                        {{'Locked' | translate}}
                                     </button>  
-                                    -->                                    
+                                    -->
                                 </div>
                                 <div *ngIf="type=='admin'">
                                     <button *ngIf="element.paymentStatus == 1" (click)="changePaymentStatus(element, 2)" mat-raised-button color="primary">
@@ -81,9 +81,9 @@
                                     </button>
                                     <!--
                                     <button *ngIf="element.paymentStatus != 0 && element.paymentStatus != 4" (click)="changePaymentStatus(element, 4)" mat-raised-button color="primary">
-                                        {{'Frozen' | translate}}
+                                        {{'Locked' | translate}}
                                     </button>  
-                                    -->                                      
+                                    -->
                                 </div>
                             </div>
 

@@ -42,10 +42,10 @@
                             </div>
                         </mat-tab>
                         <mat-tab label="{{'Etherrum'|translate}}">
-                            
+
                             <mat-selection-list #ethtokens (selectionChange)="onEthSelection($event, ethtokens.selectedOptions.selected)">
                                 <mat-list-option *ngFor="let token of ethTokens; let i = index" [value]="i+1">
-                                    
+
                                     {{token.name}}
                                 </mat-list-option>
                                 <mat-list-option value="0">
@@ -132,7 +132,7 @@
                     <input type="text" class="form-control" id="inputAvailable" aria-describedby="emailHelp" placeholder="0.0000">
                 </div>   
                 <div class="form-group">
-                        <label for="inputSendTo">Frozen</label>
+                        <label for="inputSendTo">Locked</label>
                         <input type="text" class="form-control" id="inputFrozen" aria-describedby="emailHelp" placeholder="0.0000">
                 </div>     
                 <div class="form-group">
