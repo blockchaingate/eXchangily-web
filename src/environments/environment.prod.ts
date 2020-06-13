@@ -131,7 +131,24 @@ export const environment = {
         BCH: 'bitcoincash:qq7zkgp2vz3v5m38vy5cwf26k27y4rvkdy0fam589r',
         LTC: 'LXgK78jxrVk9wVn1KJiU7SGawi6tJxv2tw',
         DOGE: 'DM3aQpvSLDnFm6iYiNHZzTs4juRUSwb4ji',
-        BNB: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06'
+        BNB: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
+        INB: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
+        REP: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
+        HOT: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
+        CEL: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
+        MATIC: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
+        IOST: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
+        MANA: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
+        FUN: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
+        WAX: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
+        ELF: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
+        GNO: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06', 
+        POWR: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
+        WINGS: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
+        MTL: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
+        KNC: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
+        MHC: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06', //??
+        GVT: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06'        
        },
         promotionOfficial: {
             USDT: '0x4e93c47b42d09f61a31f798877329890791077b2',
