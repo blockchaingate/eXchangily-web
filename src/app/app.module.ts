@@ -5,7 +5,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { StorageModule } from '@ngx-pwa/local-storage';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -26,10 +26,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { HttpService } from './services/http.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {AlertService} from './services/alert.service';
-import {UtilService} from './services/util.service';
-import {KanbanService} from './services/kanban.service';
-import {ApiService} from './services/api.service';
+import { AlertService } from './services/alert.service';
+import { UtilService } from './services/util.service';
+import { KanbanService } from './services/kanban.service';
+import { ApiService } from './services/api.service';
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);

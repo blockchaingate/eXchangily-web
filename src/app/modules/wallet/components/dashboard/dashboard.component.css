@@ -123,10 +123,11 @@ tbody {
     margin-bottom: 0.4em;
     border-bottom: 1px dashed #484969;
     color: silver;
-    font-size: media;
+    font-size: small;
 }
 
 .header {
+    font-size: 0.9em;
     font-weight: 400;
     height: 2em;
     padding-top: 4px;
@@ -180,7 +181,8 @@ a:not([href]):not([tabindex]):hover {
 }
 
 .container-wallet-main {
-    height: 363px;
+    height: 400px;
+    padding-left: 2px;
     overflow-y: scroll;
 }
 

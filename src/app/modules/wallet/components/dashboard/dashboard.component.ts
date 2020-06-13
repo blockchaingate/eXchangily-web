@@ -72,6 +72,7 @@ export class WalletDashboardComponent implements OnInit {
     fabAddress: string;
     exgBalance: number;
     exgValue: number;
+    valueChange = 0;
     currentWalletIndex: number;
     pairsConfig: Pair[];
     currentCoin: MyCoin;
