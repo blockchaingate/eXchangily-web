@@ -186,6 +186,8 @@ export class SendCoinModal {
             this.sendCoinForm.get('gasLimit').setValue(environment.chains.ETH.gasLimit);
         } else if (this.coin.name === 'FAB') {
             this.sendCoinForm.get('satoshisPerBytes').setValue(environment.chains.FAB.satoshisPerBytes);
+        } else if (this.coin.name === 'DOGE') {
+            this.sendCoinForm.get('satoshisPerBytes').setValue(environment.chains.DOGE.satoshisPerBytes);
         } else if (this.coin.name === 'BTC') {
             let defaultSatoshisPerBytes = environment.chains.BTC.satoshisPerBytes;
             if (this.btcTransFeeEstimate) {

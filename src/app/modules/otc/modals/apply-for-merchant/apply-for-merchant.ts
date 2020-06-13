@@ -1,7 +1,5 @@
 import { Component, ViewChild, EventEmitter, Output } from '@angular/core';
 import {  ModalDirective } from 'ngx-bootstrap/modal';
-import { faAlipay } from '@fortawesome/free-brands-svg-icons';
-import { faCreditCard } from '@fortawesome/free-solid-svg-icons';
 import { FormBuilder } from '@angular/forms';
 
 @Component({
@@ -10,8 +8,6 @@ import { FormBuilder } from '@angular/forms';
     styleUrls: ['./apply-for-merchant.css']
 })
 export class ApplyForMerchantModal {
-    faAlipay = faAlipay;
-    faCreditCard = faCreditCard;
     applyForMerchantModalForm = this.fb.group({
         quantity: ['0'],
         amount: ['0'],

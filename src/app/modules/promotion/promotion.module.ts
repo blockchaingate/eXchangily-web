@@ -11,7 +11,6 @@ import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { SharedModule } from '../shared/shared.module';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RewardComponent } from './components/reward/reward.component';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,6 +22,7 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { MemberModal } from './modals/member/member.component';
 import { TeamModal } from './modals/team/team.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { CoinService } from '../../services/coin.service';
 
 @NgModule({
   declarations: [IndexComponent, MainComponent, RewardComponent, FlyerComponent, MemberModal, TeamModal],
@@ -37,16 +37,15 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     SharedModule,
     MatTreeModule,
     MatIconModule,
-    FontAwesomeModule,
     ChartistModule,
     QRCodeModule,
-    ModalModule,
+    ModalModule.forRoot(),
     MatDialogModule,
     MatExpansionModule,
     PromotionRoutingModule
   ],
   providers: [
-    CampaignOrderService
+    CampaignOrderService, CoinService
   ]
 })
 export class PromotionModule { }

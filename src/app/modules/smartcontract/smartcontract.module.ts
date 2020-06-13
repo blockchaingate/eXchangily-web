@@ -7,6 +7,13 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatButtonModule} from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
+import { StorageService } from '../../services/storage.service';
+import { ApiService } from '../../services/api.service';
+import { Web3Service } from '../../services/web3.service';
+import { UtilService } from '../../services/util.service';
+import { CoinService } from '../../services/coin.service';
+import { AlertService } from '../../services/alert.service';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -19,8 +26,12 @@ import { SharedModule } from '../shared/shared.module';
     MatSelectModule,
     MatButtonModule,
     FormsModule,
+    MatTabsModule,
     ReactiveFormsModule,
     SharedModule
+  ],
+  providers: [
+    StorageService, Web3Service, AlertService, ApiService, UtilService, CoinService
   ]
 })
 export class SmartcontractModule { }

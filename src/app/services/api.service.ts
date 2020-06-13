@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 
-import {Balance, EthBalance,  EthTransactionRes
+import {Balance,  EthTransactionRes
     , FabTransactionResponse, CoinsPrice, BtcUtxo, KEthBalance, FabUtxo, EthTransactionStatusRes,
     FabTokenBalance, FabTransactionJson, BtcTransactionResponse, BtcTransaction} from '../interfaces/balance.interface';
 
@@ -49,6 +49,36 @@ export class ApiService {
         return response;
     }
     
+    async getBchUtxos(address: string): Promise<[BtcUtxo]> {
+        const url = environment.endpoints.BCH.exchangily + 'getutxos/' + address;
+        console.log('url in getBchUtxos' + url);
+        let response = null;
+        try {
+            response = await this.http.get(url).toPromise() as [BtcUtxo];
+        } catch (e) {console.log (e); }
+        return response;
+    }
+
+    async getDogeUtxos(address: string): Promise<[BtcUtxo]> {
+        const url = environment.endpoints.DOGE.exchangily + 'getutxos/' + address;
+        console.log('url for getDogeUtxos=', url);
+        let response = null;
+        try {
+            response = await this.http.get(url).toPromise() as [BtcUtxo];
+        } catch (e) {console.log (e); }
+        return response;
+    }
+
+    async getLtcUtxos(address: string): Promise<[BtcUtxo]> {
+        const url = environment.endpoints.LTC.exchangily + 'getutxos/' + address;
+        console.log('url for getLtcUtxos=', url);
+        let response = null;
+        try {
+            response = await this.http.get(url).toPromise() as [BtcUtxo];
+        } catch (e) {console.log (e); }
+        return response;
+    }
+
     async getBtcTransaction(txid: string) {
         txid = this.utilServ.stripHexPrefix(txid);
         const url = environment.endpoints.BTC.exchangily + 'gettransactionjson/' + txid;
@@ -339,6 +369,89 @@ export class ApiService {
        return {txHash, errMsg};
     }
 
+    async postBchTx(txHex: string) {
+        let txHash = '';
+        let errMsg = '';
+        const url = environment.endpoints.BCH.exchangily + 'postrawtransaction';
+        let response = null;
+ 
+        const data = {
+         rawtx: txHex
+        };
+ 
+        try {
+             if (txHex) {
+                 response = await this.http.post(url, data).toPromise() as BtcTransactionResponse;
+             }
+             if (response && response.txid) {
+             txHash = '0x' + response.txid;
+             }
+        } catch (err) {
+             if (err.error && err.error.Error) {
+             errMsg = err.error.Error;
+             console.log('err there we go', err.error.Error);
+            }
+        }
+ 
+        //return ret;
+        return {txHash, errMsg};
+     }
+
+     async postDogeTx(txHex: string) {
+        let txHash = '';
+        let errMsg = '';
+        const url = environment.endpoints.DOGE.exchangily + 'postrawtransaction';
+        let response = null;
+ 
+        const data = {
+         rawtx: txHex
+        };
+ 
+        try {
+             if (txHex) {
+                 response = await this.http.post(url, data).toPromise() as BtcTransactionResponse;
+             }
+             if (response && response.txid) {
+             txHash = '0x' + response.txid;
+             }
+        } catch (err) {
+             if (err.error && err.error.Error) {
+             errMsg = err.error.Error;
+             console.log('err there we go', err.error.Error);
+            }
+        }
+ 
+        //return ret;
+        return {txHash, errMsg};
+     }
+
+     async postLtcTx(txHex: string) {
+        let txHash = '';
+        let errMsg = '';
+        const url = environment.endpoints.LTC.exchangily + 'postrawtransaction';
+        let response = null;
+ 
+        const data = {
+         rawtx: txHex
+        };
+ 
+        try {
+             if (txHex) {
+                 response = await this.http.post(url, data).toPromise() as BtcTransactionResponse;
+             }
+             if (response && response.txid) {
+             txHash = '0x' + response.txid;
+             }
+        } catch (err) {
+             if (err.error && err.error.Error) {
+             errMsg = err.error.Error;
+             console.log('err there we go', err.error.Error);
+            }
+        }
+ 
+        //return ret;
+        return {txHash, errMsg};
+     }     
     async getEthBalance(address: string): Promise<Balance> {
        const url = environment.endpoints.ETH.exchangily + 'getbalance/' + address;
        const response = await this.http.get(url).toPromise()  as KEthBalance;
@@ -346,6 +459,14 @@ export class ApiService {
        const lockbalance = 0;
        return {balance, lockbalance};  
     }
+
+    async getBchBalance(address: string): Promise<Balance> {
+        const url = environment.endpoints.BCH.exchangily + 'getbalance/' + address;
+        const response = await this.http.get(url).toPromise()  as number;
+        const balance = response;
+        const lockbalance = 0;
+        return {balance, lockbalance};  
+     }
 
     async getEthTokenBalance(name: string, contractAddress: string, address: string) {
         /*

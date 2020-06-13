@@ -1,7 +1,7 @@
 <mat-card class="mat-elevation-z6">
-    <h3 style="text-align: center;">{{"Latest Trades"|translate}}</h3>
+    <h5 style="text-align: center;">{{"Latest Trades"|translate}}</h5>
 
-    <table mat-table [dataSource]="trades" style="width: 100%; text-align: center;">
+    <table mat-table [dataSource]="trades" style="width: 100%; text-align: center;" class="exg-bg graycolor">
         <ng-container matColumnDef="Pair">
             <th mat-header-cell *matHeaderCellDef style="text-align: center;"> {{"Pair"|translate}} </th>
             <td mat-cell *matCellDef="let element">
@@ -23,7 +23,7 @@
         <ng-container matColumnDef="Block">
             <th mat-header-cell *matHeaderCellDef style="text-align: center;"> {{"Block"|translate}} </th>
             <td mat-cell *matCellDef="let element">
-                <a mat-button color="primary" [routerLink]="[ './block-detail', element.blockNumber ]"> {{element.blockNumber}}</a>
+                <a mat-button [routerLink]="[ './block-detail', element.blockNumber ]"> {{element.blockNumber}}</a>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky:true"></tr>

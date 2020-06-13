@@ -1,7 +1,8 @@
 <div *ngFor="let method of methods" class="d-inline-block">
     <div class="px-1">
-        <fa-icon *ngIf="method.paymethod.name=='AliPay'" [icon]="faAlipay"></fa-icon>
-        <fa-icon *ngIf="method.paymethod.name=='EMT'" [icon]="faCreditCard"></fa-icon>
+
+        <mat-icon *ngIf="method.paymethod.name=='AliPay'" svgIcon="alipay"></mat-icon>
+        <mat-icon *ngIf="method.paymethod.name=='EMT'" svgIcon="credit-card"></mat-icon>
     </div>
 
 </div>

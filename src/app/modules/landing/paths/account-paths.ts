@@ -29,11 +29,12 @@ export const AccountPaths = [
     absolute: '/account/referrals',
     relative: 'referrals'
   }
-  /*,
+  ,
   {
-    title: 'Admin',
-    i18n: 'Account.Admin.Title',
-    absolute: '/account/admin',
-    relative: 'admin'
-  }*/
+    title: 'Security',
+    i18n: 'Security',
+    absolute: '/account/security',
+    relative: 'security'
+  }
+  
 ];

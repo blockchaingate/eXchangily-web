@@ -10,7 +10,6 @@ import { environment } from '../../../../../environments/environment';
 import { TimerService } from '../../../../services/timer.service';
 import { StorageService } from '../../../../services/storage.service';
 import BigNumber from 'bignumber.js/bignumber';
-import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { CampaignOrderService } from '../../../../services/campaignorder.service';
 import { Router } from '@angular/router';
 import { ApiService } from '../../../../services/api.service';
@@ -58,8 +57,6 @@ export class MainComponent implements OnInit {
   }
   referralCode: string;
 
-  faFacebook = faFacebook;
-  faTwitter = faTwitter;
   token: string;
 
   selectedPaymentMethod: string;
@@ -99,7 +96,6 @@ export class MainComponent implements OnInit {
     private router: Router,
     private timerServ: TimerService,
     private storageService: StorageService,
-    private walletService: WalletService,
     private alertServ: AlertService,
     public utilServ: UtilService,
     private apiServ: ApiService,
@@ -193,7 +189,7 @@ export class MainComponent implements OnInit {
 
     this.readyGo = true;
     this.step = 1;
-    this.wallet = await this.walletService.getCurrentWallet();
+    this.wallet = await this.storageService.getCurrentWallet();
     this.price = this.prices.EXG.USD;
     this.storageService.getToken().subscribe(
       (token: string) => {

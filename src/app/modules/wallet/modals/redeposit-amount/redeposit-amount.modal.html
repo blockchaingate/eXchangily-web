@@ -14,14 +14,14 @@
                             <div>
                                 amount: {{utilServ.showAmount(item.amount, 6)}}
                                 <button mat-icon-button aria-label="Show Details" (click)="showDetail(i)">
-                                    <mat-icon>unfold_more</mat-icon>
+                                    <mat-icon svgIcon="detail"></mat-icon>
                                 </button>
                             </div>
                             <div *ngIf="showDetailIndex == i">
                                 <div>
                                     txid:{{item.transactionID}}
                                     <button mat-icon-button (click)="copyTransactionID(item.transactionID)">
-                                        <mat-icon svgIcon="icon_copy"></mat-icon>
+                                        <mat-icon svgIcon="copy"></mat-icon>
                                     </button>
                                 </div>
                                 <div>

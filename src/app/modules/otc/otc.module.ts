@@ -9,7 +9,6 @@ import { MemberDetailModal } from './modals/member-detail/member-detail.componen
 import { OtcPlaceOrderErrorModal } from './modals/otc-place-order-error/otc-place-order-error.component';
 import { ApplyForMerchantModal } from './modals/apply-for-merchant/apply-for-merchant';
 import { ConfirmPaymentModal } from './modals/confirm-payment/confirm-payment';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MerchantPipe } from './pipes/merchant.pipe';
 import { OrderPipe } from './pipes/order.pipe';
 import { PaymentmethodComponent } from './components/paymentmethod/paymentmethod.component';
@@ -29,9 +28,10 @@ import { SharedModule } from '../shared/shared.module';
 import { OtcMerchantModule } from '../otc/components/otc-merchant/otc-merchant.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { PaymentMethodService } from '../../services/paymentmethod.service';
-import { StripeModule } from "stripe-angular"
+import { StripeModule } from 'stripe-angular';
 import { UserService } from '../../services/user.service';
 import { NgxPayPalModule } from 'ngx-paypal';
+import { CoinService } from '../../services/coin.service';
 
 @NgModule({
   declarations: [
@@ -53,7 +53,6 @@ import { NgxPayPalModule } from 'ngx-paypal';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    FontAwesomeModule,
     MatSelectModule,
     MatRadioModule,
     MatButtonModule,
@@ -64,13 +63,13 @@ import { NgxPayPalModule } from 'ngx-paypal';
     TranslateModule,
     MatInputModule,
     OtcRoutingModule,
-    ModalModule,
+    ModalModule.forRoot(),
     OtcMerchantModule,
     StripeModule.forRoot()
   ],
   exports: [
     OrderComponent
   ],
-  providers: [AuthGuard,PaymentMethodService,UserService]
+  providers: [AuthGuard,PaymentMethodService,UserService,CoinService]
 })
 export class OtcModule { }

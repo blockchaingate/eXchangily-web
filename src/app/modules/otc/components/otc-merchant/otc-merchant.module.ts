@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
@@ -31,7 +30,6 @@ import { SharedModule } from '../../../shared/shared.module';
         FormsModule,
         SharedModule,
         ReactiveFormsModule,
-        FontAwesomeModule,
         MatSelectModule, 
         MatRadioModule,
         MatButtonModule,

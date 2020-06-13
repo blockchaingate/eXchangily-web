@@ -1,90 +1,108 @@
 <div class="container text-white">
-
-    <div class="row row-flex">
-        <div class="w-50 px-1">
-            <div class="exg-bg content">
-                <div class="container">
-
-                    <div class="py-3">
-                        {{'Smart contract name' | translate}}: {{smartContractName}}
-                    </div>
-                    <mat-form-field class="example-full-width">
-                        <input matInput [(ngModel)]="smartContractAddress" name="smartContractAddress" (ngModelChange)="changeSmartContractAddress()">
-                        <mat-placeholder class="text-muted">{{'Smart contract address' | translate}}</mat-placeholder>
-                    </mat-form-field>
-                    <mat-form-field>
-                        <mat-label class="text-muted">{{'Function' | translate}}</mat-label>
-                        <mat-select (selectionChange)="changeMethod($event.value)" class="text-white">
-                            <mat-option *ngFor="let abi of ABI" [value]="abi.name">
-                                {{abi.name}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-
-                    <div class="py-3" *ngIf="wallet">
-                        {{'Current wallet' | translate}}: {{wallet.name}}
-                    </div>
-
-                    <div class="py-3" *ngIf="mycoin && balance">
-                        {{'Fab Balance' | translate}}: {{balance.balance}}
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="w-50 px-1">
-            <div class="exg-bg content">
-                <div class="container py-2" *ngIf="method">
-                    <div *ngFor="let input of method.inputs; let i = index">
-                        <div class="row">
-                            <div class="col col-4">
-                                <mat-form-field class="example-full-width">
-                                    <mat-label class="text-muted">{{input.name}}</mat-label>
-                                    <mat-select [(value)]="input.type">
-                                        <mat-option *ngFor="let type of types" [value]="type">
-                                            {{type}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-
+    <mat-tab-group mat-align-tabs="start">
+        <mat-tab label="FAB">
+            <div class="row row-flex">
+                <div class="w-50 px-1">
+                    <div class="exg-bg content">
+                        <div class="container">
+        
+                            <div class="py-3">
+                                {{'Smart contract name' | translate}}: {{smartContractName}}
                             </div>
-                            <div class="col col-8">
-                                <mat-form-field class="example-full-width">
-                                    <input matInput [(ngModel)]="input.val">
-                                </mat-form-field>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="row" *ngIf="method.stateMutability == 'payable'">
-                        <div class="col col-12">
                             <mat-form-field class="example-full-width">
-                                <input matInput [(ngModel)]="payableValue">
-                                <mat-placeholder class="text-muted">{{'Payable value' | translate}}</mat-placeholder>
+                                <input matInput [(ngModel)]="smartContractAddress" name="smartContractAddress" (ngModelChange)="changeSmartContractAddress()">
+                                <mat-placeholder class="text-muted">{{'Smart contract address' | translate}}</mat-placeholder>
                             </mat-form-field>
+                            <mat-form-field>
+                                <mat-label class="text-muted">{{'Function' | translate}}</mat-label>
+                                <mat-select (selectionChange)="changeMethod($event.value)" class="text-white">
+                                    <mat-option *ngFor="let abi of ABI" [value]="abi.name">
+                                        {{abi.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+        
+                            <div class="py-3" *ngIf="wallet">
+                                {{'Current wallet' | translate}}: {{wallet.name}}
+                            </div>
+        
+                            <div class="py-3" *ngIf="mycoin && balance">
+                                {{'Fab Balance' | translate}}: {{balance.balance}}
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col col-12">
-                            <button mat-raised-button color="primary" (click)="submit()"> {{method.stateMutability == 'view'?'View':'Submit'}}</button>
-                        </div>
-
-                    </div>
-                    <div class="row py-2" *ngIf="result">
-                        <div class="col col-12">
-                            {{'Result' | translate}}:{{result | json}}
-                        </div>
-                        <div class="col col-12">
-                            Please wait for a few minutes to confirm.
-                        </div>
-                    </div>
-                    <div class="row py-2" *ngIf="error">
-                        {{error}}
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+        
+                <div class="w-50 px-1">
+                    <div class="exg-bg content">
+                        <div class="container py-2" *ngIf="method">
+                            <div *ngFor="let input of method.inputs; let i = index">
+                                <div class="row">
+                                    <div class="col col-4">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label class="text-muted">{{input.name}}</mat-label>
+                                            <mat-select [(value)]="input.type">
+                                                <mat-option *ngFor="let type of types" [value]="type">
+                                                    {{type}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+        
+                                    </div>
+                                    <div class="col col-8">
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput [(ngModel)]="input.val">
+                                        </mat-form-field>
+                                    </div>
+        
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="method.stateMutability == 'payable'">
+                                <div class="col col-12">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput [(ngModel)]="payableValue">
+                                        <mat-placeholder class="text-muted">{{'Payable value' | translate}}</mat-placeholder>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col col-12">
+                                    <button mat-raised-button color="primary" (click)="submit()"> {{method.stateMutability == 'view'?'View':'Submit'}}</button>
+                                </div>
+        
+                            </div>
+                            <div class="row py-2" *ngIf="result">
+                                <div class="col col-12">
+                                    {{'Result' | translate}}:{{result | json}}
+                                </div>
+                                <div class="col col-12">
+                                    Please wait for a few minutes to confirm.
+                                </div>
+                            </div>
+                            <div class="row py-2" *ngIf="error">
+                                {{error}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </mat-tab>
+        <mat-tab label="ETH">
+            
+            <mat-tab-group mat-align-tabs="start">
+                <mat-tab label="Deploy">
+                    <mat-form-field class="example-full-width">
+                        <mat-label class="text-muted">Data</mat-label>
+                        <textarea [(ngModel)]="ethData" matInput></textarea>
+                    </mat-form-field>  
+                    <button mat-raised-button color="primary" (click)="deployEth()"> {{'Deploy' | translate}} </button>                  
+                </mat-tab>
+            </mat-tab-group>
+
+        </mat-tab>
+    </mat-tab-group>
+
+
 </div>
 
 <pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>

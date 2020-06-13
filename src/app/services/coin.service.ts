@@ -8,11 +8,18 @@ import { Address } from '../models/address';
 import {coin_list} from '../config/coins';
 import {ApiService} from './api.service';
 import * as wif from 'wif';
+import * as bitcore from 'bitcore-lib-cash';
+import * as litecore from 'litecore-lib';
+import * as LiteMessage from 'litecore-message';
+import * as BchMessage from 'bitcore-message';
+//import * as DogeMessage from 'dogecore-message';
+import * as dogecore from 'dogecore';
 import { Web3Service } from './web3.service';
 import {Signature} from '../interfaces/kanban.interface';
 import { UtilService } from './util.service';
 import { environment } from '../../environments/environment';
 import BigNumber from 'bignumber.js/bignumber';
+
 @Injectable()
 export class CoinService {
     constructor(private apiService: ApiService, private web3Serv: Web3Service, private utilServ: UtilService) {
@@ -70,8 +77,86 @@ export class CoinService {
         */
         const usdtCoin = this.initToken('ETH', 'USDT', 6, environment.addresses.smartContract.USDT, ethCoin);     
         this.fillUpAddress(usdtCoin, seed, 1, 0);
-        myCoins.push(usdtCoin);      
-             
+        myCoins.push(usdtCoin);  
+
+        const dusdCoin = this.initToken('FAB', 'DUSD', 18, environment.addresses.smartContract.DUSD, fabCoin);
+        this.fillUpAddress(dusdCoin, seed, 1, 0);  
+        myCoins.push(dusdCoin);
+
+        const bchCoin = new MyCoin('BCH');
+        this.fillUpAddress(bchCoin, seed, 1, 0);
+        myCoins.push(bchCoin);  
+
+        const ltcCoin = new MyCoin('LTC');
+        this.fillUpAddress(ltcCoin, seed, 1, 0);        
+        myCoins.push(ltcCoin);  
+
+        const dogCoin = new MyCoin('DOGE');
+        this.fillUpAddress(dogCoin, seed, 1, 0);        
+        myCoins.push(dogCoin);  
+
+        const erc20Tokens = [
+            'BNB', 'INB', 'REP', 'HOT', 'MATIC', 'IOST', 'MANA', 
+            'ELF', 'GNO', 'WINGS', 'KNC', 'MHC', 'GVT'
+        ];
+
+        for(let i=0;i<erc20Tokens.length;i++) {
+            const tokenName = erc20Tokens[i];
+            const token = this.initToken('ETH', tokenName, 18, environment.addresses.smartContract[tokenName], ethCoin);     
+            this.fillUpAddress(token, seed, 1, 0);
+            myCoins.push(token); 
+        }
+
+        const erc20Tokens2 = [
+            'FUN', 'WAX', 'MTL'
+        ];
+
+        for(let i=0;i<erc20Tokens2.length;i++) {
+            const tokenName = erc20Tokens2[i];
+            const token = this.initToken('ETH', tokenName, 8, environment.addresses.smartContract[tokenName], ethCoin);     
+            this.fillUpAddress(token, seed, 1, 0);
+            myCoins.push(token); 
+        }   
+        
+        let tokenName = 'POWR';
+        let token = this.initToken('ETH', tokenName, 6, environment.addresses.smartContract[tokenName], ethCoin);     
+        this.fillUpAddress(token, seed, 1, 0);
+        myCoins.push(token);   
+        
+        tokenName = 'CEL';
+        token = this.initToken('ETH', tokenName, 4, environment.addresses.smartContract[tokenName], ethCoin);     
+        this.fillUpAddress(token, seed, 1, 0);
+        myCoins.push(token);         
+        /*
+        const bnbCoin = this.initToken('ETH', 'BNB', 18, environment.addresses.smartContract.BNB, ethCoin);     
+        this.fillUpAddress(bnbCoin, seed, 1, 0);
+        myCoins.push(bnbCoin);  
+
+        const inbCoin = this.initToken('ETH', 'INB', 18, environment.addresses.smartContract.INB, ethCoin);     
+        this.fillUpAddress(inbCoin, seed, 1, 0);
+        myCoins.push(inbCoin);    
+        
+        const repCoin = this.initToken('ETH', 'REP', 18, environment.addresses.smartContract.REP, ethCoin);     
+        this.fillUpAddress(repCoin, seed, 1, 0);
+        myCoins.push(repCoin);    
+        
+        const hotCoin = this.initToken('ETH', 'HOT', 18, environment.addresses.smartContract.HOT, ethCoin);     
+        this.fillUpAddress(hotCoin, seed, 1, 0);
+        myCoins.push(hotCoin);   
+
+        const maticCoin = this.initToken('ETH', 'MATIC', 18, environment.addresses.smartContract.MATIC, ethCoin);     
+        this.fillUpAddress(maticCoin, seed, 1, 0);
+        myCoins.push(maticCoin);  
+
+        const iostCoin = this.initToken('ETH', 'IOST', 18, environment.addresses.smartContract.IOST, ethCoin);     
+        this.fillUpAddress(iostCoin, seed, 1, 0);
+        myCoins.push(iostCoin);  
+
+        const manaCoin = this.initToken('ETH', 'MANA', 18, environment.addresses.smartContract.MANA, ethCoin);     
+        this.fillUpAddress(manaCoin, seed, 1, 0);
+        myCoins.push(manaCoin);  
+        */
+       
         return myCoins;
     }
 
@@ -133,12 +218,19 @@ export class CoinService {
     }
 
     getOfficialAddress(myCoin: MyCoin) {
+        const coinName = myCoin.name;
+        /*
         const addresses = environment.addresses.exchangilyOfficial;
         for (let i = 0; i < addresses.length; i++) {
             if (addresses[i].name === myCoin.name) {
                 return addresses[i].address;
             }
         }
+        */
+       
+       if(environment.addresses.exchangilyOfficial[coinName]) {
+           return environment.addresses.exchangilyOfficial[coinName];
+       }
         return '';
     }
 
@@ -216,6 +308,11 @@ export class CoinService {
             balance = balanceObj.balance / 1e18;
             lockbalance = balanceObj.lockbalance / 1e18;
         } else 
+        if (name === 'BCH') {
+            const balanceObj = await this.apiService.getBchBalance(addr);
+            balance = balanceObj.balance / 1e18;
+            lockbalance = balanceObj.lockbalance / 1e18;
+        } else         
         if (name === 'FAB') {
             const balanceObj = await this.apiService.getFabBalance(addr);
             balance = balanceObj.balance / 1e8;
@@ -321,17 +418,31 @@ export class CoinService {
         let priKeyHex = '';
         let priKeyDisp = '';
         let buffer = Buffer.alloc(32);
+
+        if(!seed) {
+            return {
+                address: addr,
+                privateKey: priKey,
+                privateKeyHex: priKeyHex,
+                privateKeyBuffer: buffer,
+                privateKeyDisplay: priKeyDisp,
+                publicKey: pubKey,
+                name: name,
+                tokenType: tokenType               
+            };
+        }       
         const path = 'm/44\'/' + coin.coinType + '\'/0\'/' + chain + '/' + index;
 
         if (name === 'BTC' || name === 'FAB') {
             const root = BIP32.fromSeed(seed, environment.chains.BTC.network);
-
+            /*
             const childNode1 = root.deriveHardened(44);
             const childNode2 = childNode1.deriveHardened(coin.coinType);
             const childNode3 = childNode2.deriveHardened(0);
             const childNode4 = childNode3.derive(chain);
             const childNode = childNode4.derive(index);
-          
+            */
+           const childNode = root.derivePath(path);
             const { address } = Btc.payments.p2pkh({
                 pubkey: childNode.publicKey,
                 network: environment.chains.BTC.network
@@ -343,6 +454,56 @@ export class CoinService {
             buffer = wif.decode(priKey); 
             priKeyDisp = priKey;              
         } else 
+        if (name === 'LTC') {
+            var root = litecore.HDPrivateKey.fromSeed(seed);
+            if (!environment.production) {
+                root = litecore.HDPrivateKey.fromSeed(seed, litecore.Networks.testnet);
+            }             
+            var child = root.deriveChild(path);
+            var publicKey = child.publicKey;
+            priKey = child.privateKey; 
+
+            if(!environment.production) {
+                addr = litecore.Address.fromPublicKey(publicKey, litecore.Networks.testnet).toString();  
+            } else {
+                addr = litecore.Address.fromPublicKey(publicKey).toString(); 
+            }    
+        } else
+        if (name === 'DOGE') {
+
+            var root = dogecore.HDPrivateKey.fromSeed(seed);
+            if (!environment.production) {
+                root = dogecore.HDPrivateKey.fromSeed(seed, dogecore.Networks.testnet);
+            }            
+            var child = root.deriveChild(path);
+            
+            var publicKey = child.publicKey;
+            priKey = child.privateKey; 
+
+            if(!environment.production) {
+                addr = dogecore.Address.fromPublicKey(publicKey, dogecore.Networks.testnet).toString();  
+            } else {
+                addr = dogecore.Address.fromPublicKey(publicKey).toString(); 
+            }            
+        } else        
+        if (name === 'BCH') {
+
+           var root = bitcore.HDPrivateKey.fromSeed(seed);
+           if (!environment.production) {
+               root = bitcore.HDPrivateKey.fromSeed(seed, bitcore.Networks.testnet);
+           }
+           var child = root.deriveChild(path);
+           
+           var publicKey = child.publicKey;  
+           priKey = child.privateKey;  
+
+           if(!environment.production) {
+               addr = bitcore.Address.fromPublicKey(publicKey, bitcore.Networks.testnet).toString();  
+           } else {
+                addr = bitcore.Address.fromPublicKey(publicKey).toString(); 
+           }
+           
+        } else
         if (name === 'ETH' || tokenType === 'ETH') {
 
             const root = hdkey.fromMasterSeed(seed);
@@ -405,11 +566,76 @@ export class CoinService {
             // console.log('signature in signed is ');
             // console.log(signature);
         } else 
-        if (name === 'FAB' || name === 'BTC' || tokenType === 'FAB') {
+        if (name === 'FAB' || name === 'BTC' || tokenType === 'FAB' || name === 'BCH' || name === 'DOGE' || name === 'LTC') {
             // signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
-            const signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey, 
-                keyPair.privateKeyBuffer.compressed);
-            
+            let signBuffer;
+            console.log('keyPair.privateKeyBuffer.compressed===', keyPair.privateKeyBuffer.compressed);
+            if(name === 'FAB' || name === 'BTC' || tokenType === 'FAB') {
+                signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey, 
+                    keyPair.privateKeyBuffer.compressed);
+            } else 
+            if(name === 'BCH') {
+                /*
+                signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKey.toBuffer(), 
+                    keyPair.privateKey.compressed);   
+                */
+               
+               var message = new BchMessage(originalMessage);
+
+               //var signature = message.sign(privateKey);
+               
+               var hash = message.magicHash();
+               var ecdsa = new bitcore.crypto.ECDSA();
+               ecdsa.hashbuf = hash;
+               ecdsa.privkey = keyPair.privateKey;
+               ecdsa.pubkey = keyPair.privateKey.toPublicKey();
+               ecdsa.signRandomK();
+               ecdsa.calci();
+               signBuffer = ecdsa.sig.toCompact();
+               // console.log('signature=', signature);
+
+            }
+
+            if (name === 'LTC') {
+                var message = new LiteMessage(originalMessage);
+                var base64 = message.sign(keyPair.privateKey);
+
+                signBuffer = Buffer.from(base64, 'base64');
+                /*
+                signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKey.toBuffer(), 
+                    keyPair.privateKey.compressed, 'Litecoin Signed Message:');
+                */
+            } else 
+            if (name === 'DOGE') {
+                /*
+                signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKey.toBuffer(), 
+                    keyPair.privateKey.compressed, 'Dogecoin Signed Message:');
+                */
+               //var message = new DogeMessage(originalMessage);
+
+
+               //var MAGIC_BYTES = new Buffer('Actinium Signed Message:\n');
+               var MAGIC_BYTES = new Buffer('Dogecoin Signed Message:\n');
+
+               var prefix1 = bitcore.encoding.BufferWriter.varintBufNum(MAGIC_BYTES.length);
+               var messageBuffer = new Buffer(originalMessage);
+               var prefix2 = bitcore.encoding.BufferWriter.varintBufNum(messageBuffer.length);
+               var buf = Buffer.concat([prefix1, MAGIC_BYTES, prefix2, messageBuffer]);
+               var hash = bitcore.crypto.Hash.sha256sha256(buf);
+               //  return hash;
+              
+
+
+
+               //var hash = message.magicHash();
+               var ecdsa = new bitcore.crypto.ECDSA();
+               ecdsa.hashbuf = hash;
+               ecdsa.privkey = keyPair.privateKey;
+               ecdsa.pubkey = keyPair.privateKey.toPublicKey();
+               ecdsa.signRandomK();
+               ecdsa.calci();
+               signBuffer = ecdsa.sig.toCompact();            
+            }
             // const signHex = `${signBuffer.toString('hex')}`;
             const v = `0x${signBuffer.slice(0, 1).toString('hex')}`;
             const r = `0x${signBuffer.slice(1, 33).toString('hex')}`;
@@ -419,6 +645,8 @@ export class CoinService {
             // console.log('r=' + r);
             // console.log('s=' + s);
             signature = {r: r, s: s, v: v};
+
+            console.log('signature====', signature);
         }
         return signature;
     }
@@ -558,10 +786,10 @@ export class CoinService {
         const output1 = Math.round(totalInput
         - amount * 1e8 - extraTransactionFee * 1e8
         - transFee);
-        const output2 = Math.round(amount * 1e8);    
+
+        //const output2 = Math.round(amount * 1e8);    
+        const output2 = Number(this.utilServ.toBigNumber(amount, 8));
         
-        console.log('output1=', output1);
-        console.log('output2=', output2);
         if (output1 < 0) {
             // console.log('output1 or output2 should be greater than 0.');
             return {txHex: '', errMsg: 'output1 should be greater than 0.' + totalInput + ',' + amount + ',' + transFee + ',' + output1, transFee: 0};
@@ -614,7 +842,7 @@ export class CoinService {
 
     async sendTransaction(mycoin: MyCoin, seed: Buffer, toAddress: string, amount: number, 
         options: any, doSubmit: boolean) {
-        // console.log('doSubmit in sendTransaction=', doSubmit);
+        console.log('doSubmit in sendTransaction=', doSubmit);
         let index = 0;
         let balance = 0;
         let finished = false;
@@ -750,13 +978,8 @@ export class CoinService {
                 outputNum = 1;
             }
 
-            console.log('receiveAddsIndexArr.length=', receiveAddsIndexArr.length);
-            console.log('changeAddsIndexArr.length=', changeAddsIndexArr.length);
-            console.log('bytesPerInput=', bytesPerInput);
-            console.log('outputNum=', outputNum);
-            console.log('satoshisPerBytes=', satoshisPerBytes);
             transFee = ((receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput + outputNum * 34 + 10) * satoshisPerBytes;
-            console.log('transFee=', transFee);
+
             const changeAddress = mycoin.receiveAdds[0];
             // console.log('totalInput=' + totalInput);
             // console.log('amount=' + amount);
@@ -768,8 +991,8 @@ export class CoinService {
             if (getTransFeeOnly) {
                 return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
             }
-            const output2 = Math.round(new BigNumber(amount * 1e8).toNumber());     
-
+            //const output2 = Math.round(new BigNumber(amount * 1e8).toNumber());     
+            const output2 = Number(this.utilServ.toBigNumber(amount, 8));
             console.log('output1=', output1);
             if(amount > 0) {
                 txb.addOutput(changeAddress.address, output1);
@@ -808,6 +1031,290 @@ export class CoinService {
                 // console.log(txHash);
             }
         } else 
+        if (mycoin.name === 'BCH') {
+            console.log('BCH there we go');
+            if (!satoshisPerBytes) {
+                satoshisPerBytes = environment.chains.BCH.satoshisPerBytes;
+            }
+            if (!bytesPerInput) {
+                bytesPerInput = environment.chains.BCH.bytesPerInput;
+            }               
+            const keyPair = this.getKeyPairs(mycoin, seed, 0, 0);
+            const address = mycoin.receiveAdds[0].address;
+            const privateKey = keyPair.privateKey;
+            const balanceFull = await this.apiService.getBchUtxos(address);
+            const utxos = [];
+            totalInput = 0;
+            for (let i = 0; i < balanceFull.length; i++) {
+                const tx = balanceFull[i];
+                // console.log('i=' + i);
+                // console.log(tx);
+                if (tx.idx < 0) {
+                    continue;
+                }
+                const addrString = tx.address;
+                const addr = bitcore.Address.fromString(addrString);
+                const utxo = {
+                    txId : tx.txid,
+                    outputIndex : tx.idx,
+                    address : addrString,
+                    "script" : new bitcore.Script(addr).toHex(),
+                    "satoshis" : tx.value
+                };
+                totalInput += tx.value;
+                utxos.push(utxo);
+                amountNum = amountNum.minus(tx.value);
+                if (amountNum.isLessThanOrEqualTo(0)) {
+                    finished = true;
+                    break;
+                }
+            }  
+            if (!finished) {
+                txHex = '';
+                txHash = '';
+                errMsg = 'not enough fund.';
+                return {txHex: txHex, txHash: txHash, errMsg: errMsg};
+            }
+            console.log('amount==', amount);
+            const outputNum = 2;
+            transFee = ((utxos.length) * bytesPerInput + outputNum * 34 + 10) * satoshisPerBytes;
+
+            // console.log('totalInput=' + totalInput);
+            // console.log('amount=' + amount);
+            console.log('transFee for doge=' + transFee);
+            const output1 = Math.round(new BigNumber(totalInput - amount * 1e8 - transFee).toNumber());
+
+            const amountBigNum = Number(this.utilServ.toBigNumber(amount, 8));
+            console.log('amountBigNum==', amountBigNum);
+            var transaction = new bitcore.Transaction()
+            .from(utxos)          // Feed information about what unspent outputs one can use
+            //.to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
+            //.change(address)      // Sets up a change address where the rest of the funds will go
+            .addOutput(
+                new dogecore.Transaction.Output({
+                    script: dogecore.Script(new dogecore.Address(toAddress)),
+                    satoshis: amountBigNum
+                  })
+            )
+            .addOutput(
+                    new dogecore.Transaction.Output({
+                        script: dogecore.Script(new dogecore.Address(address)),
+                        satoshis: output1
+                      }) 
+            )             
+            .sign(privateKey)     // Signs all the inputs it can
+        
+            txHex = transaction.serialize();  
+            
+            if (doSubmit) {
+                // console.log('1');
+                const res = await this.apiService.postBchTx(txHex);
+                txHash = res.txHash;
+                errMsg = res.errMsg;                
+                // console.log(txHash);
+                
+            } else {
+                // console.log('2');
+                const tx = Btc.Transaction.fromHex(txHex);
+                txHash = '0x' + tx.getId();
+            }            
+        } else
+        if (mycoin.name === 'DOGE') {
+            if (!satoshisPerBytes) {
+                satoshisPerBytes = environment.chains.DOGE.satoshisPerBytes;
+            }
+            if (!bytesPerInput) {
+                bytesPerInput = environment.chains.DOGE.bytesPerInput;
+            }               
+            const keyPair = this.getKeyPairs(mycoin, seed, 0, 0);
+            const address = mycoin.receiveAdds[0].address;
+            const privateKey = keyPair.privateKey;
+            const balanceFull = await this.apiService.getDogeUtxos(address);
+            const utxos = [];
+
+            let totalInput = 0;
+            for (let i = 0; i < balanceFull.length; i++) {
+                const tx = balanceFull[i];
+                // console.log('i=' + i);
+                // console.log(tx);
+                if (tx.idx < 0) {
+                    continue;
+                }
+                const addrString = tx.address;
+                const addr = dogecore.Address.fromString(addrString);
+                const utxo = {
+                    txId : tx.txid,
+                    outputIndex : tx.idx,
+                    address : addrString,
+                    "script" : new dogecore.Script(addr).toHex(),
+                    "satoshis" : tx.value
+                };
+                utxos.push(utxo);
+                totalInput += tx.value;
+                amountNum = amountNum.minus(tx.value);
+                if (amountNum.isLessThanOrEqualTo(0)) {
+                    finished = true;
+                    break;
+                }
+            }  
+            if (!finished) {
+                txHex = '';
+                txHash = '';
+                errMsg = 'not enough fund.';
+                return {txHex: txHex, txHash: txHash, errMsg: errMsg};
+            }
+            console.log('amount==', amount);
+            const amountBigNum = Number(this.utilServ.toBigNumber(amount, 8));
+            console.log('amountBigNum==', amountBigNum);
+
+
+            const outputNum = 2;
+            transFee = ((utxos.length) * bytesPerInput + outputNum * 34 + 10) * satoshisPerBytes;
+
+            // console.log('totalInput=' + totalInput);
+            // console.log('amount=' + amount);
+            console.log('transFee for doge=' + transFee);
+            const output1 = Math.round(new BigNumber(totalInput - amount * 1e8 - transFee).toNumber());
+            
+            transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
+
+            if (getTransFeeOnly) {
+                return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
+            }
+            //const output2 = Math.round(new BigNumber(amount * 1e8).toNumber());     
+            //const output2 = Number(this.utilServ.toBigNumber(amount, 8));
+
+            var transaction = new dogecore.Transaction()
+            .from(utxos)          // Feed information about what unspent outputs one can use
+            //.to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
+            //.change(address)      // Sets up a change address where the rest of the funds will go
+            
+            .addOutput(
+                new dogecore.Transaction.Output({
+                    script: dogecore.Script(new dogecore.Address(toAddress)),
+                    satoshis: amountBigNum
+                  })
+            )
+            .addOutput(
+                    new dogecore.Transaction.Output({
+                        script: dogecore.Script(new dogecore.Address(address)),
+                        satoshis: output1
+                      }) 
+            )  
+            
+            //.change(address)             
+           .sign(privateKey)     // Signs all the inputs it can
+/*
+.addOutput(new Output({
+    script: Script(new Address(address)),
+    satoshis: amount
+  }));
+*/
+            
+            txHex = transaction.serialize();  
+            
+            if (doSubmit) {
+                // console.log('1');
+                const res = await this.apiService.postDogeTx(txHex);
+                txHash = res.txHash;
+                errMsg = res.errMsg;                
+                // console.log(txHash);
+                
+            } else {
+                // console.log('2');
+                const tx = Btc.Transaction.fromHex(txHex);
+                txHash = '0x' + tx.getId();
+            }            
+        } else    
+        if (mycoin.name === 'LTC') {
+            if (!satoshisPerBytes) {
+                satoshisPerBytes = environment.chains.LTC.satoshisPerBytes;
+            }
+            if (!bytesPerInput) {
+                bytesPerInput = environment.chains.LTC.bytesPerInput;
+            }               
+            const keyPair = this.getKeyPairs(mycoin, seed, 0, 0);
+            const address = mycoin.receiveAdds[0].address;
+            const privateKey = keyPair.privateKey;
+            const balanceFull = await this.apiService.getLtcUtxos(address);
+            const utxos = [];
+            totalInput = 0;
+            for (let i = 0; i < balanceFull.length; i++) {
+                const tx = balanceFull[i];
+                // console.log('i=' + i);
+                // console.log(tx);
+                if (tx.idx < 0) {
+                    continue;
+                }
+                const addrString = tx.address;
+                const addr = litecore.Address.fromString(addrString);
+                const utxo = {
+                    txId : tx.txid,
+                    outputIndex : tx.idx,
+                    address : addrString,
+                    "script" : new litecore.Script(addr).toHex(),
+                    "satoshis" : tx.value
+                };
+                totalInput += tx.value;
+                utxos.push(utxo);
+                amountNum = amountNum.minus(tx.value);
+                if (amountNum.isLessThanOrEqualTo(0)) {
+                    finished = true;
+                    break;
+                }
+            }  
+            if (!finished) {
+                txHex = '';
+                txHash = '';
+                errMsg = 'not enough fund.';
+                return {txHex: txHex, txHash: txHash, errMsg: errMsg};
+            }
+
+            const outputNum = 2;
+            transFee = ((utxos.length) * bytesPerInput + outputNum * 34 + 10) * satoshisPerBytes;
+
+            // console.log('totalInput=' + totalInput);
+            // console.log('amount=' + amount);
+            console.log('transFee for lite=' + transFee);
+            const output1 = Math.round(new BigNumber(totalInput - amount * 1e8 - transFee).toNumber());
+            
+            transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
+
+            const amountBigNum = Number(this.utilServ.toBigNumber(amount, 8));
+            console.log('amountBigNum==', amountBigNum);
+            var transaction = new litecore.Transaction()
+            .from(utxos)          // Feed information about what unspent outputs one can use
+            //.to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
+            //.change(address)      // Sets up a change address where the rest of the funds will go
+            .addOutput(
+                new litecore.Transaction.Output({
+                    script: litecore.Script(new litecore.Address(toAddress)),
+                    satoshis: amountBigNum
+                  })
+            )
+            .addOutput(
+                    new litecore.Transaction.Output({
+                        script: litecore.Script(new litecore.Address(address)),
+                        satoshis: output1
+                      }) 
+            )              
+            .sign(privateKey)     // Signs all the inputs it can
+        
+            txHex = transaction.serialize();  
+            
+            if (doSubmit) {
+                // console.log('1');
+                const res = await this.apiService.postLtcTx(txHex);
+                txHash = res.txHash;
+                errMsg = res.errMsg;                
+                // console.log(txHash);
+                
+            } else {
+                // console.log('2');
+                const tx = Btc.Transaction.fromHex(txHex);
+                txHash = '0x' + tx.getId();
+            }            
+        } else             
         if (mycoin.name === 'FAB') {
             if (!satoshisPerBytes) {
                 satoshisPerBytes = environment.chains.FAB.satoshisPerBytes;
@@ -900,15 +1407,22 @@ export class CoinService {
             const nonce = await this.apiService.getEthNonce(address1.address);
 
             let decimals = mycoin.decimals;
+            
             if (!decimals) {
                 decimals = 18;
             }
+            console.log('decimals112===', decimals);
             // const amountSent = amount * Math.pow(10, decimals);
             const amountSent = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, decimals)));
             const toAccount = toAddress;
-            let contractAddress = mycoin.contractAddr;
+            let contractAddress = environment.addresses.smartContract[mycoin.name];
+
+            console.log('contractAddress theee=', contractAddress);
             if (mycoin.name === 'USDT') {
                 contractAddress = environment.addresses.smartContract.USDT;
+            } else 
+            if (mycoin.name === 'BNB') {
+                contractAddress = environment.addresses.smartContract.BNB;
             }
             // console.log('nonce = ' + nonce);
             const func =    {  
@@ -950,7 +1464,7 @@ export class CoinService {
                 data: '0x' + abiHex + this.utilServ.fixedLengh(toAccount.slice(2), 64) + 
                 this.utilServ.fixedLengh(amountSent.integerValue().toString(16), 64)
             };
-            
+            console.log('txData==', txData);
             txHex = await this.web3Serv.signTxWithPrivateKey(txData, keyPair);
             // console.log('after sign');
             if (doSubmit) {

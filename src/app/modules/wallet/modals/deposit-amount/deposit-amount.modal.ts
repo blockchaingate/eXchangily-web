@@ -65,6 +65,15 @@ export class DepositAmountModal {
                 if (this.coin.name === 'FAB') {
                     this.depositAmountForm.get('satoshisPerBytes').setValue(environment.chains.FAB.satoshisPerBytes);
                 } else
+                if (this.coin.name === 'BCH') {
+                    this.depositAmountForm.get('satoshisPerBytes').setValue(environment.chains.BCH.satoshisPerBytes);
+                } else   
+                if (this.coin.name === 'LTC') {
+                    this.depositAmountForm.get('satoshisPerBytes').setValue(environment.chains.LTC.satoshisPerBytes);
+                } else      
+                if (this.coin.name === 'DOGE') {
+                    this.depositAmountForm.get('satoshisPerBytes').setValue(environment.chains.DOGE.satoshisPerBytes);
+                } else                       
                     if (this.coin.name === 'BTC') {
                         this.depositAmountForm.get('satoshisPerBytes').setValue(environment.chains.BTC.satoshisPerBytes);
                     } else

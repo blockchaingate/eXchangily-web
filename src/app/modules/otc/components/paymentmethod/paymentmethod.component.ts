@@ -1,6 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { faAlipay } from '@fortawesome/free-brands-svg-icons';
-import { faCreditCard } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-paymentmethod',
   templateUrl: './paymentmethod.component.html',
@@ -9,8 +7,6 @@ import { faCreditCard } from '@fortawesome/free-solid-svg-icons';
 export class PaymentmethodComponent implements OnInit {
   @Input() methods: any[];
   constructor() { }
-  faAlipay = faAlipay;
-  faCreditCard = faCreditCard;
 
   ngOnInit() {
   }

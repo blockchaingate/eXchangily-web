@@ -1,21 +1,22 @@
 <mat-card style="padding: 10px; overflow-y: auto;" class="mat-elevation-z6">
-    <h3 style="text-align: center;">{{"Latest Blocks"|translate}}</h3>
+    <h5 style="text-align: center;">{{"Latest Blocks"|translate}}</h5>
 
     <div style="display: flex; justify-content: space-between;">
         <span style="line-height: 2em; margin: 10px;">
-        <mat-slide-toggle (change)="test($event)">{{"Show Blocks with Transactions"|translate}}</mat-slide-toggle>
-    </span>
+            <mat-slide-toggle (change)="test($event)">{{"Show Blocks with Transactions"|translate}}</mat-slide-toggle>
+        </span>
 
         <span>
-        <button style="margin:10px;" mat-raised-button color="accent" (click)="leftClicked()">&lt;</button>
-        <button style="margin:10px;" mat-raised-button color="accent" (click)="rightClicked()">&gt;</button>
-    </span>
+            <button style="margin:10px;" mat-raised-button color="accent" (click)="leftClicked()">&lt;</button>
+            <button style="margin:10px;" mat-raised-button color="accent" (click)="rightClicked()">&gt;</button>
+        </span>
     </div>
-    <table mat-table [dataSource]="blocks" style=" width: 100%; text-align: center;">
+    <table mat-table [dataSource]="blocks" style=" width: 100%; text-align: center;" class="exg-bg graycolor">
         <ng-container matColumnDef="number">
             <th mat-header-cell *matHeaderCellDef style="text-align: center;"> {{"Block Number"|translate}} </th>
             <td mat-cell *matCellDef="let element">
-                <a mat-button color="primary" [routerLink]="[ './block-detail', element.number ]"> {{element.number}} </a></td>
+                <a mat-button [routerLink]="[ './block-detail', element.number ]"> {{element.number}}
+                </a></td>
         </ng-container>
 
         <ng-container matColumnDef="Mined On">

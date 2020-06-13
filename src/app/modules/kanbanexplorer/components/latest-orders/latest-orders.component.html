@@ -1,7 +1,7 @@
 <mat-card class="mat-elevation-z6">
-    <h3 style="text-align: center;">{{"Latest Orders"|translate}}</h3>
+    <h5 style="text-align: center;">{{"Latest Orders"|translate}}</h5>
 
-    <table mat-table [dataSource]="orders" style="width: 100%; text-align: center;">
+    <table mat-table [dataSource]="orders" style="width: 100%; text-align: center;" class="exg-bg graycolor">
         <ng-container matColumnDef="Pair">
             <th mat-header-cell *matHeaderCellDef style="text-align: center;"> {{"Pair"|translate}} </th>
             <td mat-cell *matCellDef="let element">
@@ -25,7 +25,7 @@
             <td mat-cell *matCellDef="let element">
                 <!--{{element.time*1000 | date : 'EEEE, MMMM dd, yyyy'}} <br>
                 {{element.time*1000 | date : 'h:mm:ss a'}} -->
-                <a mat-button color="primary" [routerLink]="[ './block-detail', element.blockNumber.createOrder ]">{{element.blockNumber.createOrder}}</a>
+                <a mat-button [routerLink]="[ './block-detail', element.blockNumber.createOrder ]">{{element.blockNumber.createOrder}}</a>
             </td>
         </ng-container>
 

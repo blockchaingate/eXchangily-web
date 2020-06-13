@@ -1,4 +1,5 @@
 {
+    "Security": "Security",
     "Header": {
         "Title": "eXchangily",
         "Navigation": {
@@ -31,8 +32,8 @@
     "Home": {
         "Top": {
             "Hero": {
-                "Line1": "The real decentralized exchange",
-                "Line2": "that's S.A.F.E. - Secure, Autonomous, Fast and Easy."
+                "Line1": "THE REAL DECENTRALIZED EXCHANGE",
+                "Line2": "That's S.A.F.E. - Secure, Autonomous, Fast and Easy. Never lose control of your crypto assets !"
             },
             "WhitepaperButton": "Download Whitepaper",
             "WhitelistCTA": {
@@ -122,6 +123,7 @@
                     "Name": "Dora Tang",
                     "Image": "Dora_Tang_m.jpg",
                     "Title": "CEO",
+                    "linkedIn": "https://www.linkedin.com/in/dora-tang-b0342bb/",
                     "Desc": [
                         "PHD in IS/ Research in Blockchain",
                         "MBA, MA & BA in International Finance",
@@ -129,26 +131,15 @@
                     ]
                 },
                 "Member2": {
-                    "Name": "Jamie Tan",
-                    "Title": "CTO",
-                    "Image": "Jamie_Tan_m.jpg",
+                    "Name": "John Kerin",
+                    "Title": "Principle of eXchangily",
+                    "Image": "john-kerin.jpg",
+                    "linkedIn": "https://www.linkedin.com/in/john-kerin/",
                     "Desc": [
-                        "PHD in Physics, MIT",
-                        "Founder & CEO, Vizseek",
-                        "Founder & CTO, Imaginestics"
+                        "Former CEO of Chicago Stock Exchange"
                     ]
                 },
                 "Member3": {
-                    "Name": "Liza Horowitz",
-                    "Title": "CIO",
-                    "Image": "Liza_Horowitz_m.jpg",
-                    "Desc": [
-                        "Board Member and Canadian Director, Global Women in Blockchain",
-                        "Master of Science, Environment and Communications",
-                        "Senior marketing and communication lead at Canadian Western Bank, Scotiabank and professional consultants"
-                    ]
-                },
-                "Member4": {
                     "Name": "Raymond Henry",
                     "Image": "Raymond_Henry_m.jpg",
                     "Title": "Chief Scientist",
@@ -158,7 +149,57 @@
                         "Tenured professor with hundreds of publications"
                     ]
                 },
+                "Member4": {
+                    "Name": "Paul Liu",
+                    "Image": "paul-liu.jpg",
+                    "Title": "Co-founder",
+                    "Desc": [
+                        "Chief blockchain expert",
+                        "System designer",
+                        "Project planner"
+                    ]
+                },
                 "Member5": {
+                    "Name": "Alan Tomko",
+                    "Image": "alan-tomko.jpg",
+                    "Title": "CCO",
+                    "Desc": [
+                        "General Auditor",
+                        "Security Licensed",
+                        "JP Graphics Founder"
+                    ]
+                },
+                "Member6": {
+                    "Name": "Andy Tucker",
+                    "Image": "andy-tucker.jpg",
+                    "Title": "Legal Consultant",
+                    "Desc": [
+                        "Atterney at Law",
+                        "Partner of Womble Bond Dickinson",
+                        "30 years industry practice",
+                        "STO/IPO expert"
+                    ]
+                },
+                "Member7": {
+                    "Name": "Jamie Tan",
+                    "Title": "CTO",
+                    "Image": "Jamie_Tan_m.jpg",
+                    "Desc": [
+                        "PHD in Physics, MIT",
+                        "Founder & CEO, Vizseek",
+                        "Founder & CTO, Imaginestics"
+                    ]
+                },
+                "Member8": {
+                    "Name": "Jason Hong",
+                    "Image": "jason-hong.png",
+                    "Title": "Technical Director",
+                    "Desc": [
+                        "Blockchain expert",
+                        "Senior software engineer"
+                    ]
+                },
+                "Member9": {
                     "Name": "Todor Milev",
                     "Image": "Todor_Milev_m.jpg",
                     "Title": "Cryptographer",
@@ -167,12 +208,19 @@
                         "Cryptography Expert"
                     ]
                 },
-                "Member6": {
-                    "Name": "Nader Shiri",
-                    "Image": "Nader_Shiri_m.jpg",
-                    "Title": "Systems Architect"
+                "Member10": {
+                    "Name": "Radha Appan",
+                    "Image": "radha-appan.jpg",
+                    "Title": "Chief Advisor",
+                    "Desc": [
+                        "Professor of Information Systems",
+                        "PhD in IS from Texas Tech University",
+                        "MS in MIS, MS in Finance",
+                        "Publications of Top Journals",
+                        "Expertise in IT Security & Strategy"
+                    ]
                 },
-                "Member7": {
+                "Member11": {
                     "Name": "Wesam Helou",
                     "Image": "wesam-m.jpg",
                     "Title": "Manager, Software Support & Enterprise System Developer",
@@ -180,32 +228,162 @@
                         "PhD in Information Technology"
                     ]
                 },
-                "Member8": {
+                "Member12": {
+                    "Name": "Lawrence Fan",
+                    "Image": "lawrence-fan.jpg",
+                    "Title": "CFO",
+                    "Desc": [
+                        "CFA, CIIA",
+                        "MBA, MS & BA in Finance",
+                        "PWC Consultant",
+                        "IPO expert"
+                    ]
+                },
+                "Member13": {
                     "Name": "Kaiqing Fan",
                     "Image": "kaiqing-m.jpg",
-                    "Title": "Senior Lead Developer"
+                    "Title": "Senior Lead Developer",
+                    "Desc": [
+                        "MS in Mathematics",
+                        "Senior at PNC Bank"
+                    ]
                 },
-                "Member9": {
-                    "Name": "Adil Asim",
-                    "Image": "Adil_Asim_m.jpg",
-                    "Title": "Software Engineer"
+                "Member14": {
+                    "Name": "Ankit Shah",
+                    "Image": "ankit-shah.jpg",
+                    "Title": "Senior software engineer",
+                    "Desc": [
+                        "MS in Computer Science"
+                    ]
                 },
-                "Member10": {
-                    "Name": "Bill Li",
-                    "Image": "Bill_Li_m.jpg",
-                    "Title": "Software Engineer"
+                "Member15": {
+                    "Name": "Ken Qiu",
+                    "Image": "kening-qiu.png",
+                    "Title": "Senior software engineer",
+                    "Desc": [
+                        "MS in Computer Science",
+                        "Senior web/app developer"
+                    ]
                 },
-                "Member11": {
-                    "Name": "Jerome Alve",
-                    "Image": "Jerome_Alve_m.jpg",
-                    "Title": "Software Engineer"
+                "Member16": {
+                    "Name": "Harry He",
+                    "Image": "harry-he.jpg",
+                    "Title": "Software engineer",
+                    "Desc": [
+                        "BS of Computer Engineer of Univ. of Toronto"
+                    ]
+                },
+                "Member17": {
+                    "Name": "Barry Singh",
+                    "Image": "barry-singh.png",
+                    "Title": "Senior software engineer",
+                    "Desc": [
+                        "BS of Computer Science",
+                        "Senior mobile app designer"
+                    ]
+                },
+                "Member18": {
+                    "Name": "Jack Sun",
+                    "Image": "jack-sun.png",
+                    "Title": "Senior UI/UX Engineer",
+                    "Desc": [
+                        "Senior software engineer",
+                        "UI/UX designer",
+                        "Web/mobile app developer"
+                    ]
+                },
+                "Member19": {
+                    "Name": "Muchtar Salimov",
+                    "Image": "muchtar-salimov.jpg",
+                    "Title": "System test lead",
+                    "Desc": [
+                        "BS in Mathmetics of Univ. of Toronto",
+                        "MS of computer science"
+                    ]
+                },
+                "Member20": {
+                    "Name": "Cary Chen",
+                    "Image": "cary-chen.png",
+                    "Title": "Software engineer",
+                    "Desc": [
+                        "BS of Computer Science"
+                    ]
+                },
+                "Member21": {
+                    "Name": "Sean Henderson",
+                    "Image": "sean-henderson.jpg",
+                    "Title": "CMO",
+                    "Desc": [
+                        "Licensed Agent",
+                        "30 yrs in financial services"
+                    ]
+                },
+                "Member22": {
+                    "Name": "Nick Minovski",
+                    "Image": "nick-minovski.jpg",
+                    "Title": "Chief BD Officer",
+                    "Desc": [
+                        "Founder of Multiple Startups",
+                        "Technologist/Developer/Financial Strategist",
+                        "Accounting and Finance - CGA L5"
+                    ]
+                },
+                "Member23": {
+                    "Name": "Randall Bunka",
+                    "Image": "randall-bunka.jpg",
+                    "Title": "Business Development Officer",
+                    "Desc": [
+                        "BA in Business Administration"
+                    ]
+                },
+                "Member24": {
+                    "Name": "Lee Cunningham",
+                    "Image": "lee-cunningham.jpg",
+                    "Title": "Chief Marketing Advisor",
+                    "Desc": [
+                        "Crypto Marketer",
+                        "Web Designer",
+                        "Nurse Practitioner"
+                    ]
+                },
+                "Member25": {
+                    "Name": "Bruce Li",
+                    "Image": "bruce-li.jpg",
+                    "Title": "Marketing associate",
+                    "Desc": [
+                        "VP of CWRU Summit",
+                        "LaunchNet Startup Contest",
+                        "Liepin-USA Recruiting Event Host"
+                    ]
+                },
+                "Member26": {
+                    "Name": "Steve Zhou",
+                    "Image": "steve-zhou.jpg",
+                    "Title": "Marketing Associate",
+                    "Desc": [
+                        "Youbang Insurance",
+                        "Startup Salad",
+                        "SellStudents Founder"
+                    ]
+                },
+                "Member27": {
+                    "Name": "Huiqiang Yue",
+                    "Image": "huiqiang-yue.jpg",
+                    "Title": "China Customer Service",
+                    "Desc": [
+                        "BS in Engineering"
+                    ]
                 }
+
             }
         }
     },
     "Account": {
         "Admin": {
             "Title": "Admin"
+        },
+        "Security": {
+            "SideHeading": "Security"
         },
         "User Info": {
             "SideHeading": "Profile",

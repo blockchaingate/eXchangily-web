@@ -14,19 +14,34 @@ h7 {
 }
 
 .vh500 {
-	overflow-y: auto;
-	min-height: 500px;
-	max-height: 500px;
-	word-wrap: break-word; 
-	
+    overflow-y: auto;
+    min-height: 500px;
+    max-height: 500px;
+    word-wrap: break-word;
 }
-
 
 .divider {
-	margin:10px; 
-	height: 2px; 
-	background-color: indigo;
+    margin: 10px;
+    height: 1px;
+    background-color: lightgray;
 }
+
+.grayback {
+    background-color: #383850;
+    color: lightgray;
+}
+
+th {
+    background-color: #343446;
+    color: white;
+    font-size: 1em;
+}
+
+td {
+    color: lightgray;
+    font-size: 0.9em;
+}
+
 
 /*
 table {

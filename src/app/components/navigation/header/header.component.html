@@ -15,7 +15,7 @@
         <mat-toolbar class="transparent">
             <div fxHide.gt-xs>
                 <button mat-icon-button [matMenuTriggerFor]="menu2">
-                    <mat-icon>menu</mat-icon>
+                    <mat-icon svgIcon="menu"></mat-icon>
                 </button>
                 <mat-menu #menu2="matMenu">
                     <button mat-menu-item class="highlight" (click)="linkTo('/promotion/main')">{{'New Campaign' | translate}}</button>
@@ -67,11 +67,19 @@
                 <ul fxLayout fxLayoutGap="15px" class="navigation-items">
                     <li class="nav-item lanbut">
                         <button mat-button [matMenuTriggerFor]="menu" class="text-white">
-                            {{currentLang}}<mat-icon>keyboard_arrow_right</mat-icon>
+                            <div class="d-flex small">
+                                <div>
+                                    {{currentLang}}
+                                </div>
+                                <div>
+                                    <mat-icon svgIcon="keyboard-arrow-right"></mat-icon>
+                                </div>
+                                
+                            </div>
                         </button>
                         <mat-menu #menu="matMenu">
-                            <button mat-menu-item (click)="selectLan('en')">English</button>
-                            <button mat-menu-item (click)="selectLan('zh')" class="lanbut">中文</button>
+                            <button mat-menu-item small (click)="selectLan('en')">English</button>
+                            <button mat-menu-item small (click)="selectLan('zh')">中文</button>
                         </mat-menu>
                     </li>
                     <li class="nav-item">

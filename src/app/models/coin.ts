@@ -35,6 +35,18 @@ export class Coin {
     if (name === 'DUSD') {
         this.coinType = environment.CoinType.FAB;
         this.decimals = 6;
+    } else 
+    if (name === 'BCH') {
+        this.coinType = environment.CoinType.BCH;
+        this.decimals = 8;
+    } else 
+    if (name === 'LTC') {
+        this.coinType = environment.CoinType.LTC;
+        this.decimals = 8;
+    } else 
+    if (name === 'DOGE') {
+        this.coinType = environment.CoinType.DOGE;
+        this.decimals = 8;
     }
    } 
 }

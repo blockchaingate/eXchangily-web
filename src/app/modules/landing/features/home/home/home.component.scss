@@ -4,7 +4,14 @@ h1,
 h2,
 h3,
 h4 {
-    font-family: helvetica, arial, tahoma, verdana, "geneva", lucida, 'lucida grande', "SimHei", "微软雅黑", "Yahei", sans-serif!important;
+    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
+}
+
+.topslogan {
+    background-image: url('/images/waves.svg');
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-position: left bottom;
 }
 
 .app-home {
@@ -29,16 +36,21 @@ h4 {
             }
         }
         &__title {
+            font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
+            font-size: 2.1em;
             color: $white;
             margin-top: 1em;
             margin-bottom: 0;
         }
         &__title2 {
+            font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
+            font-size: 1.1em;
             color: $white;
             margin-bottom: 1em;
         }
         &__download {
-            margin: 2em;
+            margin-top: 4em;
+            margin-bottom: 1em;
         }
         &__whitelist button {
             margin-left: .5em;
@@ -84,7 +96,8 @@ h4 {
     }
     &__how {
         @include padding-default;
-        @include linear-gradient(90deg, $yellow-pink-grad);
+        @include linear-gradient(90deg,
+        $yellow-pink-grad);
     }
     &__why {
         &__image {

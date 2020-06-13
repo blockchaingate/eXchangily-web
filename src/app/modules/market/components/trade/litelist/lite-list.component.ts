@@ -6,6 +6,7 @@ import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 import { WsService } from '../../../../../services/ws.service';
 import { UtilService } from '../../../../../services/util.service';
 import BigNumber from 'bignumber.js';
+import { Pair } from '../../../models/pair';
 
 export interface Section {
     name: string;
@@ -22,6 +23,8 @@ export class LiteListComponent implements OnInit {
     selectedpair = 'BTC/USDT';
     pdecimal = '1.2-2';
     vdecimal = '1.6-6';
+    // pairConfig: Pair = { name: 'BTCUSDT', priceDecimal: 2, qtyDecimal: 6 };
+    errMsg = '';
 
     prices: Price[] = [];
     searchText = '';
@@ -102,9 +105,9 @@ export class LiteListComponent implements OnInit {
         sessionStorage.setItem('tradePair', pair);
         pair = pair.replace('/', '_');
         /*
-                this._router.navigateByUrl('/OrderPadComponent', { skipLocationChange: true }).then(() => {
-                    this._router.navigate(['market/trade/' + pair]);
-                });
+            this._router.navigateByUrl('/OrderPadComponent', { skipLocationChange: true }).then(() => {
+                this._router.navigate(['market/trade/' + pair]);
+            });
         */
         this._router.navigate(['market/trade/' + pair]);
     }

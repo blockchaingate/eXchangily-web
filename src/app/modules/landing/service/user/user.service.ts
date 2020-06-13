@@ -94,6 +94,22 @@ export class UserService {
     return this.http.getPrivate(url, token).pipe(map(res => res));
   }
 
+  validateNumber(token, mobile) {
+    const url = path + 'validateNumber';
+    const data = {
+      mobile: mobile
+    };
+    return this.http.postPrivate(url, data, token).pipe(map(res => res));
+  }
+
+  confirmValifacationCode(token, mobileVerifyCode) {
+    const url = path + 'confirmValifacationCode';
+    const data = {
+      mobileVerifyCode: mobileVerifyCode
+    };
+    return this.http.postPrivate(url, data, token).pipe(map(res => res));
+  }
+
   getUsersAll() {
     return this.http.post(path + 'getAll', {}, true).pipe(map(res => res));
   }

@@ -1,12 +1,12 @@
 <mat-card class="mat-elevation-z6">
-    <h3 *ngIf="!block">{{"Fetching block"|translate}} # {{blockNumber}}</h3>
+    <h5 *ngIf="!block">{{"Fetching block"|translate}} # {{blockNumber}}</h5>
     <div *ngIf="!block" style="display: flex; justify-content: center; align-items: center;">
         <mat-spinner></mat-spinner>
     </div>
-    <h3 *ngIf="block">{{"Block Number"|translate}}: {{blockNumber}}</h3>
+    <h5 *ngIf="block">{{"Block Number"|translate}}: {{blockNumber}}</h5>
     <hr>
 
-    <div *ngIf="block" style="text-align:left;">
+    <div *ngIf="block" style="text-align:left;" class="small">
 
         <div class="even">
             <b>{{"Block Number"|translate}} : </b> {{block.number}}
@@ -85,7 +85,7 @@
             </i>
             <div *ngIf="block.transactions.length > 0">
                 <div *ngFor="let tx of block.transactions; index as i;">
-                    {{i+1}}
+                    {{i+1}}.
                     <a [routerLink]="['/explorer/tx-detail', tx ]">{{tx}}</a><br>
                 </div>
             </div>

@@ -125,14 +125,14 @@ export class KanbanService {
   async validateInputAndSetRoute(val: string) {
     if (val.length < 10) {
       // most likely blocknumber
-      this.router.navigate(['/block-detail/' + val]);
+      this.router.navigate(['/explorer/block-detail/' + val]);
     } else if (val.length > 10 && val.length < 50) {
       // most likely address
-      this.router.navigate(['/address-detail/' + val]);
+      this.router.navigate(['/explorer/address-detail/' + val]);
 
     } else {
       // assume transaction hash - temporary solution
-      this.router.navigate([`/tx-detail/${val}`]);
+      this.router.navigate([`/explorer/tx-detail/${val}`]);
 
       /*
       //either block or transaction

@@ -1,11 +1,7 @@
 <mat-card class="mat-elevation-z6">
-    <h3 style="text-align: center;">{{"Kanban Quick Stats"|translate}}</h3>
-    <div *ngIf="kanbanStats" style="text-align: center;">
-        <b>{{"Blocks"|translate}} : </b>{{ kanbanStats.lastBlockCrawled }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <b>{{"Orders"|translate}} : </b>{{ kanbanStats.totalOrders}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <b>{{"Trades"|translate}} : </b>{{ kanbanStats.totalTrades }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
-        <b>{{"Deposits"|translate}} : </b>{{kanbanStats.totalDepositRequests}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <b>{{"Withdraw Requests"|translate}} : </b>{{kanbanStats.totalWithdrawRequests}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <b>{{"Cancel Orders"|translate}} : </b>{{kanbanStats.totalCancelOrders}}
+    <h5 style="text-align: center;">{{"Kanban Quick Stats"|translate}}</h5>
+    <div *ngIf="kanbanStats" style="text-align: center;" class="small">
+        {{"Blocks"|translate}} : {{ kanbanStats.lastBlockCrawled }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{"Orders"|translate}} : {{ kanbanStats.totalOrders}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{"Trades"|translate}} : {{ kanbanStats.totalTrades }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>        {{"Deposits"|translate}} : {{kanbanStats.totalDepositRequests}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{"Withdraw Requests"|translate}} : {{kanbanStats.totalWithdrawRequests}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{"Cancel Orders"|translate}} :
+        {{kanbanStats.totalCancelOrders}}
     </div>
 </mat-card>

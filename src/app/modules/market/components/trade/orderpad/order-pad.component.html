@@ -78,10 +78,10 @@
             </div>
 
             <div class="aspace text-white">{{'Price' | translate}}</div>
-            <div><input type="text" [decimal]="pairConfig.priceDecimal" class="form-control" [disabled]="orderType === 2" [(ngModel)]="buyPrice"> </div>
+            <div><input type="text" class="form-control" [disabled]="orderType === 2" [(ngModel)]="buyPrice" (keyup)="checkBuyPrice()"> </div>
 
             <div class="aspace text-white">{{'Quantity' | translate}}</div>
-            <div><input type="text" [decimal]=" pairConfig.qtyDecimal" class="form-control" [(ngModel)]="buyQty"> </div>
+            <div><input type="text" class="form-control" [(ngModel)]="buyQty" (keyup)="checkBuyQty()"> </div>
             <div class="container pt-2">
                 <div class="row text-white">
                     <div class="col col-3 text-center hand" (click)="setBuyQtyPercent(0.25)">
@@ -141,9 +141,9 @@
             </div>
 
             <div class="aspace text-white">{{'Price' | translate}}</div>
-            <div><input type="text" [decimal]="pairConfig.priceDecimal" class="form-control" [disabled]="orderType === 2" [(ngModel)]="sellPrice"></div>
+            <div><input type="text" class="form-control" [disabled]="orderType === 2" [(ngModel)]="sellPrice" (keyup)="checkSellPrice()"></div>
             <div class="aspace text-white">{{'Quantity' | translate}}</div>
-            <div><input type="text" [decimal]="pairConfig.qtyDecimal" class="form-control" [(ngModel)]="sellQty"> </div>
+            <div><input type="text" class="form-control" [(ngModel)]="sellQty" (keyup)="checkSellQty()"> </div>
 
             <div class="container pt-2">
                 <div class="row text-white">

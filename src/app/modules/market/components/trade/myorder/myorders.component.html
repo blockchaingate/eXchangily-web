@@ -57,7 +57,7 @@
                 <div class="orditem text-white d-flex align-items-center" style="width: 5%;">
                     <div *ngIf="order.isActive">
                         <button mat-icon-button aria-label="Example icon-button with a heart icon" (click)="deleteOrder(order.orderHash)">
-                            <mat-icon>delete_outline</mat-icon>
+                            <mat-icon svgIcon="delete"></mat-icon>
                         </button>
                     </div>
                 </div>
@@ -127,7 +127,7 @@
             <div class="col col-3">
                 <label>{{'Withdraw' | translate }}</label>
                 <button mat-icon-button matTooltip="Withdraw history" aria-label="Withdraw history" (click)="showWithdrawHistory()">
-                    <mat-icon>history</mat-icon>
+                    <mat-icon svgIcon="history"></mat-icon>
                 </button>
             </div>
         </div>
@@ -144,53 +144,15 @@
                 </div>
                 <div class="col col-3 text-white">
                     <button mat-icon-button matTooltip="Withdraw" (click)="withdraw(templateWithdraw, token)" aria-label="Example icon-button with a heart icon">
-                        <mat-icon>arrow_upward</mat-icon>
+                        <mat-icon svgIcon="arrow-upward"></mat-icon>
                     </button>
                 </div>
             </div>
-        </div>
-        <!--
-        <div class="row orderline w-100 header py-3 title">
-            <div class="orditem w-25">Coin</div>
-            <div class="orditem w-25">Amount</div>
-            <div class="orditem w-25">Locked Amount</div>
-            <div class="orditem w-25"></div>
         </div>
 
-        <div class="myorderlist scroll-bar w-100 pt-2">
-            <div class="row orderline w-100 py-2" *ngFor="let token of mytokens; let i=index">
-                <div class="orditem text-white w-25">{{coinService.getCoinNameByTypeId(token.coinType)}}</div>
-                <div class="orditem text-white w-25">{{utilServ.showAmount(token.unlockedAmount)}}</div>
-                <div class="orditem text-white w-25">{{utilServ.showAmount(token.lockedAmount)}}</div>
-                <div>
-                    <button mat-icon-button matTooltip="Withdraw" (click)="withdraw(mycoin)" aria-label="Example icon-button with a heart icon">
-                        <mat-icon>arrow_upward</mat-icon>
-                    </button>
-                </div>
-            </div>
-        </div>
-        -->
     </div>
 </div>
 
-<!--
-<ng-template #templatePasswd>
-    <div class="modal-header text-center">
-        <h4 class="modal-title w-100">{{'Password' | translate }}</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalPinRef.hide()">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-    </div>
-    <div class="modal-body">
-        <div class="pb-4">
-            <input type="password" autocomplete="off" class="form-control" id="inputPin" [(ngModel)]="pin" aria-describedby="emailHelp" placeholder="{{'Please provide your password to confirm the transaction' | translate }}">
-        </div>
-
-        <button class="btn btn1 btn-gradient text-white" (click)="confirmPin()">{{"Confirm" | translate }}</button>
-
-    </div>
-</ng-template>
--->
 
 
 
