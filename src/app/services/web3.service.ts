@@ -374,7 +374,7 @@ export class Web3Service {
     };
     let abiHex = web3.eth.abi.encodeFunctionSignature(func).substring(2);
     // console.log('abiHex there we go:' + abiHex);  
-    abiHex += this.utilServ.fixedLengh(coinType, 64);
+    abiHex += this.utilServ.fixedLengh(coinType.toString(16), 64);
     // console.log('abiHex1=' + abiHex);
 
     const amountHex = amount.toString(16);
@@ -435,7 +435,7 @@ export class Web3Service {
     let abiHex = this.utilServ.stripHexPrefix(web3.eth.abi.encodeFunctionSignature(func));
     // console.log('abiHex for addDeposit=', abiHex);
     abiHex += this.utilServ.stripHexPrefix(signedMessage.v);
-    abiHex += this.utilServ.fixedLengh(coinType, 62);
+    abiHex += this.utilServ.fixedLengh(coinType.toString(16), 62);
     abiHex += this.utilServ.stripHexPrefix(txHash);
     const amountHex = amount.toString(16);
     console.log('amountHex=', this.utilServ.fixedLengh(amountHex, 64));

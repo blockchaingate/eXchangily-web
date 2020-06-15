@@ -189,7 +189,25 @@ export const environment = {
         DUSD: 10,
         BCH: 0.002,
         LTC: 0.02,
-        DOGE: 20
+        DOGE: 20,
+        BNB: 0.6,
+        INB: 20,
+        // REP: 16000,
+        HOT: 16000,
+        CEL: 40,
+        MATIC: 500,
+        IOST: 2000,
+        MANA: 240,
+        //FUN: '0x02c55515e62a0b25d2447c6d70369186b8f10359', //??
+        WAX: 200,
+        ELF: 100,
+        GNO: 0.4, 
+        POWR: 100,
+        WINGS: 200,
+        MTL: 40,
+        KNC: 10,
+        //MHC: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
+        GVT: 10       
     },
     PaymentMethod: {
         ETransfer: {

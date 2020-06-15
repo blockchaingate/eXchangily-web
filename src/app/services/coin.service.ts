@@ -831,7 +831,8 @@ export class CoinService {
     getOriginalMessage(coinType: number, txHash: string, amount: BigNumber, address: string) {
 
         let buf = '';
-        buf += this.utilServ.fixedLengh(coinType, 4);
+        const coinTypeHex = coinType.toString(16);
+        buf += this.utilServ.fixedLengh(coinTypeHex, 4);
         buf += this.utilServ.fixedLengh(txHash, 64);
         const hexString = amount.toString(16);
         buf += this.utilServ.fixedLengh(hexString, 64);
@@ -843,6 +844,7 @@ export class CoinService {
     async sendTransaction(mycoin: MyCoin, seed: Buffer, toAddress: string, amount: number, 
         options: any, doSubmit: boolean) {
         console.log('doSubmit in sendTransaction=', doSubmit);
+        console.log('toAddress==', toAddress);
         let index = 0;
         let balance = 0;
         let finished = false;
@@ -1091,14 +1093,14 @@ export class CoinService {
             //.to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
             //.change(address)      // Sets up a change address where the rest of the funds will go
             .addOutput(
-                new dogecore.Transaction.Output({
-                    script: dogecore.Script(new dogecore.Address(toAddress)),
+                new bitcore.Transaction.Output({
+                    script: bitcore.Script(new bitcore.Address(toAddress)),
                     satoshis: amountBigNum
                   })
             )
             .addOutput(
-                    new dogecore.Transaction.Output({
-                        script: dogecore.Script(new dogecore.Address(address)),
+                    new bitcore.Transaction.Output({
+                        script: bitcore.Script(new bitcore.Address(address)),
                         satoshis: output1
                       }) 
             )             
@@ -1184,11 +1186,13 @@ export class CoinService {
             //const output2 = Math.round(new BigNumber(amount * 1e8).toNumber());     
             //const output2 = Number(this.utilServ.toBigNumber(amount, 8));
 
+            console.log('doge toAddress==', toAddress);
+            console.log('doge address==', address);
             var transaction = new dogecore.Transaction()
             .from(utxos)          // Feed information about what unspent outputs one can use
-            //.to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
-            //.change(address)      // Sets up a change address where the rest of the funds will go
-            
+            .to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
+            .change(address)      // Sets up a change address where the rest of the funds will go
+            /*
             .addOutput(
                 new dogecore.Transaction.Output({
                     script: dogecore.Script(new dogecore.Address(toAddress)),
@@ -1201,7 +1205,7 @@ export class CoinService {
                         satoshis: output1
                       }) 
             )  
-            
+            */
             //.change(address)             
            .sign(privateKey)     // Signs all the inputs it can
 /*

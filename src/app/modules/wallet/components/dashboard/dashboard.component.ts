@@ -82,6 +82,7 @@ export class WalletDashboardComponent implements OnInit {
     ethBalance: number;
     coinsPrice: CoinsPrice;
     pin: string;
+    baseCoinBalance: number;
     seed: Buffer;
     hasNewCoins: boolean;
     hideSmall: boolean;
@@ -106,6 +107,7 @@ export class WalletDashboardComponent implements OnInit {
         this.currentCurrency = 'USD';
         this.currencyRate = 1;
         this.hasNewCoins = false;
+        this.baseCoinBalance = 0;
         this.showTransactionHistory = false;
     
     }
@@ -648,6 +650,12 @@ export class WalletDashboardComponent implements OnInit {
 
     deposit(currentCoin: MyCoin) {
         this.currentCoin = currentCoin;
+        if(currentCoin.tokenType === 'ETH') {
+            this.baseCoinBalance = this.ethBalance;
+        } else 
+        if(currentCoin.tokenType === 'FAB') {
+            this.baseCoinBalance = this.fabBalance;
+        }
         this.depositModal.initForm(currentCoin);
         this.depositModal.show();
     }
@@ -1277,6 +1285,7 @@ export class WalletDashboardComponent implements OnInit {
 
         const coinType = this.coinServ.getCoinTypeIdByName(currentCoin.name);
 
+        console.log('coinType is', coinType);
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         if (!seed) {
             this.warnPwdErr();

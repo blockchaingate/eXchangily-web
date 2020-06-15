@@ -15,11 +15,13 @@ import BigNumber from 'bignumber.js';
 export class DepositAmountModal {
     @ViewChild('depositModal', { static: true }) public depositModal: ModalDirective;
     @Input() coin: MyCoin;
+    @Input() baseCoinBalance: number;
     @Input() alertMsg: string;
     @Output() confirmedAmount = new EventEmitter<any>();
     transFee: number;
     firstTime: boolean;
     tranFeeUnit: string;
+    disabled: boolean;
     kanbanTransFee: number;
     depositAmountForm = this.fb.group({
         depositAmount: [''],
@@ -35,6 +37,7 @@ export class DepositAmountModal {
         this.transFee = 0;
         this.kanbanTransFee = 0;
         this.firstTime = true;
+        this.disabled = false;
     }
 
     getTransFeeUnit() {
@@ -42,11 +45,12 @@ export class DepositAmountModal {
             return '';
         }
         const name = this.coin.name;
+        const tokenType = this.coin.tokenType;
         let unit = '';
         if (name === 'EXG' || name === 'FAB' || name === 'DUSD') {
             unit = 'FAB';
         } else
-            if (name === 'ETH' || name === 'USDT') {
+            if (name === 'ETH' || tokenType === 'ETH') {
                 unit = 'ETH';
             } else
                 if (name === 'BTC') {
@@ -135,6 +139,7 @@ export class DepositAmountModal {
         const ret = await this.coinServ.sendTransaction(this.coin, null, to, amount, options, false);
         console.log('ret=', ret);
         this.transFee = ret.transFee;
+        this.getTransFeeUnit();
 
         const kanbanGasPrice = Number(this.depositAmountForm.get('kanbanGasPrice').value);
         const kanbanGasLimit = Number(this.depositAmountForm.get('kanbanGasLimit').value);
@@ -165,6 +170,32 @@ export class DepositAmountModal {
             this.alertServ.openSnackBar('No enough balance for deposit.', 'Ok');
             return;
         }
+
+        const coinName = this.coin.name;
+        const tokenType = this.coin.tokenType;
+        if(
+            (coinName === 'BTC')
+            || (coinName === 'ETH')
+            || (coinName === 'FAB')
+            || (coinName === 'DOGE')
+            || (coinName === 'BCH')
+            || (coinName === 'LTC')
+        ) {
+            if(this.coin.balance < (this.transFee + amount)) {
+                this.alertServ.openSnackBar('No enough balance for deposit.', 'Ok');
+                return;                
+            }
+        } else
+        if (
+            (tokenType === 'ETH')
+            || (tokenType === 'FAB')
+        ) {
+            if(this.coin.balance < (this.transFee)) {
+                this.alertServ.openSnackBar('No enough balance' + tokenType + ' for deposit.', 'Ok');
+                return;                
+            }            
+        }
+
         this.depositAmountForm.patchValue(
             { depositAmount: '' }
         );

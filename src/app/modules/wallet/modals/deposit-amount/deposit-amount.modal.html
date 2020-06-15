@@ -27,7 +27,7 @@
                                 {{'Transaction fee' | translate }} </div>
                             <div class="col text-muted">
                                 <div class="pull-right">
-                                    {{transFee}} {{getTransFeeUnit()}}
+                                    {{transFee}} {{tranFeeUnit}}
                                 </div>
                             </div>
                         </div>
@@ -97,7 +97,7 @@
                         {{'DepositNote' | translate}}
                     </div>
                     <div class="pull-left">
-                        <button class="btn btn-gradient text-white" type="submit"> {{'Confirm' | translate }} </button>
+                        <button class="btn btn-gradient text-white" type="submit" [disabled]="disabled"> {{'Confirm' | translate }} </button>
                     </div>
                 </div>
             </div>

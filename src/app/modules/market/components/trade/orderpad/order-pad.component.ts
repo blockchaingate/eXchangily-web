@@ -168,7 +168,13 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     if (this.pairsConfig) {
       this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
     }
-
+    if(!this.pairConfig) {
+      this.pairConfig = {
+        name: pairName,
+        priceDecimal: 2,
+        qtyDecimal: 2
+      }
+    }
     const vald = this.checkRegExp(this.buyPrice.toString(), this.pairConfig.priceDecimal);
     if (vald) {
       this.validBuyPrice = this.buyPrice;
@@ -183,7 +189,13 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     if (this.pairsConfig) {
       this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
     }
-
+    if(!this.pairConfig) {
+      this.pairConfig = {
+        name: pairName,
+        priceDecimal: 2,
+        qtyDecimal: 2
+      }
+    }
     const vald = this.checkRegExp(this.buyQty.toString(), this.pairConfig.qtyDecimal);
     if (vald) {
       this.validBuyQty = this.buyQty;
@@ -197,6 +209,13 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     const pairName = this.route.snapshot.paramMap.get('pair').replace('_', '');
     if (this.pairsConfig) {
       this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
+    }
+    if(!this.pairConfig) {
+      this.pairConfig = {
+        name: pairName,
+        priceDecimal: 2,
+        qtyDecimal: 2
+      }
     }
     const vald = this.checkRegExp(this.sellPrice.toString(), this.pairConfig.priceDecimal);
     if (vald) {
@@ -212,6 +231,13 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     if (this.pairsConfig) {
       this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
     }
+    if(!this.pairConfig) {
+      this.pairConfig = {
+        name: pairName,
+        priceDecimal: 2,
+        qtyDecimal: 2
+      }
+    }    
     const vald = this.checkRegExp(this.sellQty.toString(), this.pairConfig.qtyDecimal);
     if (vald) {
       this.validSellQty = this.sellQty;
