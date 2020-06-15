@@ -8,6 +8,7 @@ BNB:0xE90e361892d258F28e3a2E758EEB7E571e370c6f
 https://help.bitmesh.com/hc/en-us/articles/360005197453-Rules-for-OTC-Trading
 
 
+doge faucet: https://doge-faucet-testnet.ggcorp.fr/
 
 1693200252@qq.com
 

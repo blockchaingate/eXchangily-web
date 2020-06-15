@@ -1080,7 +1080,10 @@ export class CoinService {
             console.log('amount==', amount);
             const outputNum = 2;
             transFee = ((utxos.length) * bytesPerInput + outputNum * 34 + 10) * satoshisPerBytes;
-
+            transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
+            if (getTransFeeOnly) {
+                return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
+            }  
             // console.log('totalInput=' + totalInput);
             // console.log('amount=' + amount);
             console.log('transFee for doge=' + transFee);
@@ -1090,8 +1093,12 @@ export class CoinService {
             console.log('amountBigNum==', amountBigNum);
             var transaction = new bitcore.Transaction()
             .from(utxos)          // Feed information about what unspent outputs one can use
-            //.to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
-            //.change(address)      // Sets up a change address where the rest of the funds will go
+            .feePerKb(satoshisPerBytes * 1000)
+            .enableRBF()            
+            .to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
+            .change(address)      // Sets up a change address where the rest of the funds will go
+
+            /*
             .addOutput(
                 new bitcore.Transaction.Output({
                     script: bitcore.Script(new bitcore.Address(toAddress)),
@@ -1103,7 +1110,8 @@ export class CoinService {
                         script: bitcore.Script(new bitcore.Address(address)),
                         satoshis: output1
                       }) 
-            )             
+            )  
+            */           
             .sign(privateKey)     // Signs all the inputs it can
         
             txHex = transaction.serialize();  
@@ -1190,6 +1198,8 @@ export class CoinService {
             console.log('doge address==', address);
             var transaction = new dogecore.Transaction()
             .from(utxos)          // Feed information about what unspent outputs one can use
+            .feePerKb(satoshisPerBytes * 1000)
+            .enableRBF()
             .to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
             .change(address)      // Sets up a change address where the rest of the funds will go
             /*
@@ -1284,12 +1294,20 @@ export class CoinService {
             
             transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
 
+
+            if (getTransFeeOnly) {
+                return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
+            }  
             const amountBigNum = Number(this.utilServ.toBigNumber(amount, 8));
             console.log('amountBigNum==', amountBigNum);
+            console.log('utxos==', utxos);
             var transaction = new litecore.Transaction()
             .from(utxos)          // Feed information about what unspent outputs one can use
-            //.to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
-            //.change(address)      // Sets up a change address where the rest of the funds will go
+            .feePerKb(satoshisPerBytes * 1000)
+            .enableRBF()            
+            .to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
+            .change(address)      // Sets up a change address where the rest of the funds will go
+            /*
             .addOutput(
                 new litecore.Transaction.Output({
                     script: litecore.Script(new litecore.Address(toAddress)),
@@ -1301,7 +1319,8 @@ export class CoinService {
                         script: litecore.Script(new litecore.Address(address)),
                         satoshis: output1
                       }) 
-            )              
+            )   
+            */           
             .sign(privateKey)     // Signs all the inputs it can
         
             txHex = transaction.serialize();  
