@@ -617,18 +617,18 @@ export class CoinService {
                //var MAGIC_BYTES = new Buffer('Actinium Signed Message:\n');
                var MAGIC_BYTES = new Buffer('Dogecoin Signed Message:\n');
 
-               var prefix1 = bitcore.encoding.BufferWriter.varintBufNum(MAGIC_BYTES.length);
+               var prefix1 = dogecore.encoding.BufferWriter.varintBufNum(MAGIC_BYTES.length);
                var messageBuffer = new Buffer(originalMessage);
-               var prefix2 = bitcore.encoding.BufferWriter.varintBufNum(messageBuffer.length);
+               var prefix2 = dogecore.encoding.BufferWriter.varintBufNum(messageBuffer.length);
                var buf = Buffer.concat([prefix1, MAGIC_BYTES, prefix2, messageBuffer]);
-               var hash = bitcore.crypto.Hash.sha256sha256(buf);
+               var hash = dogecore.crypto.Hash.sha256sha256(buf);
                //  return hash;
               
 
 
 
                //var hash = message.magicHash();
-               var ecdsa = new bitcore.crypto.ECDSA();
+               var ecdsa = new dogecore.crypto.ECDSA();
                ecdsa.hashbuf = hash;
                ecdsa.privkey = keyPair.privateKey;
                ecdsa.pubkey = keyPair.privateKey.toPublicKey();
@@ -1356,7 +1356,7 @@ export class CoinService {
             if (!gasLimit) {
                 gasLimit = environment.chains.ETH.gasLimit;
             }     
-            transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e18)).toNumber();
+            transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
             if (getTransFeeOnly) {
                 return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
             }                     
@@ -1367,9 +1367,10 @@ export class CoinService {
             
             const keyPair = this.getKeyPairs(mycoin, seed, 0, currentIndex);
             const nonce = await this.apiService.getEthNonce(address1.address);
+            const gasPriceFinal = new BigNumber(gasPrice).multipliedBy(new BigNumber(1e9)).toNumber();
             const txParams = {
                 nonce: nonce,
-                gasPrice: gasPrice,
+                gasPrice: gasPriceFinal,
                 gasLimit: gasLimit,
                 to: toAddress,
                 value: amountNum.integerValue().toNumber()           
@@ -1401,7 +1402,7 @@ export class CoinService {
             if (!gasLimit) {
                 gasLimit = environment.chains.ETH.gasLimit;
             }      
-            transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e18)).toNumber();
+            transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
             if (getTransFeeOnly) {
                 return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
             }        
@@ -1456,10 +1457,10 @@ export class CoinService {
             const abiHex = this.web3Serv.getFuncABI(func);
             // a9059cbb
             // console.log('abiHexxx=' + abiHex);
-
+            const gasPriceFinal = new BigNumber(gasPrice).multipliedBy(new BigNumber(1e9)).toNumber();
             const txData = {
                 nonce: nonce,
-                gasPrice: gasPrice,
+                gasPrice: gasPriceFinal,
                 gasLimit: gasLimit,
                // to: contractAddress,
                 from: keyPair.address,

@@ -34,7 +34,7 @@ export const environment = {
         ETH: {
             chain: 'ropsten', 
             hardfork: 'byzantium',
-            gasPrice: 30000000000,
+            gasPrice: 30,
             gasLimit: 100000
         },
         FAB: {

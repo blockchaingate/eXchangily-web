@@ -57,9 +57,17 @@
                     <div *ngIf="depositAmountForm.get('gasFeeCustomChecked').value">
                         <div *ngIf="coin.name === 'ETH' || coin.tokenType === 'ETH' || coin.tokenType === 'FAB'">
                             <div class="form-group">
-                                <label for="gasPrice" class="text-dark">{{'Gas Price(LIU)' | translate }}</label>
+                                <label for="gasPrice" class="text-dark">
+                                    <p *ngIf="coin.tokenType === 'FAB'">{{'Gas Price(LIU)' | translate }}</p>
+                                    <p *ngIf="coin.name === 'ETH' || coin.tokenType === 'ETH'">{{'Gas Price(GWEI)' | translate }}</p>
+                                </label>
                                 <input type="text" class="form-control" id="inputGasPrice" (input)="onTextChange($event.target.value)" formControlName="gasPrice" placeholder="0">
-                                <small class="text-muted">{{'1 LIU = 10^(-8) FAB' | translate }}</small>
+                                <small class="text-muted">
+                                    <p *ngIf="coin.tokenType === 'FAB'">{{'1 LIU = 10^(-8) FAB' | translate }}</p>
+                                    <p *ngIf="coin.name === 'ETH' || coin.tokenType === 'ETH'">
+                                        {{'1 GWEI = 10^(-9) ETH' | translate }}
+                                    </p>
+                                </small>
                             </div>
                             <div class="form-group">
                                 <label for="gasPrice" class="text-dark">{{'Gas Limit' | translate }}</label>
