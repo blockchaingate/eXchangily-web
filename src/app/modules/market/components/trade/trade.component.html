@@ -1,4 +1,8 @@
-<div fxLayout="row" fxLayout.lt-lg="column">
+<div *ngIf="maintainence" class="d-flex justify-content-center align-items-center pt-3 mt-3">
+    <img src="/assets/maintainence.jpeg">
+</div>
+
+<div  fxLayout="row" fxLayout.lt-lg="column" *ngIf="!maintainence">
     <div fxFlex="200px" fxFlex.lt-lg="100%">
         <app-lite-list></app-lite-list>
     </div>

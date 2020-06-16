@@ -63,6 +63,7 @@ export class WalletDashboardComponent implements OnInit {
 
     sendCoinForm: SendCoinForm;
     wallet: Wallet;
+    maintainence: boolean;
     wallets: Wallet[];
     modalRef: BsModalRef;
     checked = true;
@@ -108,6 +109,7 @@ export class WalletDashboardComponent implements OnInit {
         this.currencyRate = 1;
         this.hasNewCoins = false;
         this.baseCoinBalance = 0;
+        this.maintainence = environment.maintainence;
         this.showTransactionHistory = false;
     
     }

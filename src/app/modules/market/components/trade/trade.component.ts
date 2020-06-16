@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { KanbanService } from '../../../../services/kanban.service';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
     selector: 'app-trade',
@@ -9,11 +10,12 @@ import { KanbanService } from '../../../../services/kanban.service';
 
 export class TradeComponent implements OnInit {
     errMsg = '';
-
+    maintainence: boolean;
     constructor(private kanbanService: KanbanService) {}
 
     ngOnInit() {
         this.setPairs();
+        this.maintainence = environment.maintainence;
     }
 
     setPairs() {

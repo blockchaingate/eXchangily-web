@@ -1,4 +1,7 @@
-<div class="containerX">
+<div *ngIf="maintainence" class="d-flex justify-content-center align-items-center pt-3 mt-3">
+    <img src="/assets/maintainence.jpeg">
+</div>
+<div class="containerX" *ngIf="!maintainence">
     <div class="gradient-back-area" fxLayout="column" fxFlexAlign.lt-md="300px">
         <div class="topslogan">
             <div class="container">

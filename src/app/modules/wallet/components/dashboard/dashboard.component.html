@@ -192,7 +192,7 @@
                                         <div class="col-2">
 
                                         </div>
-                                        <div class="col-custom-2" *ngIf="gas > 0">
+                                        <div class="col-custom-2" *ngIf="(gas > 0) && !maintainence">
                                             <button mat-icon-button matTooltip="{{'Move fund to DEX'|translate}}" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                                 <mat-icon svgIcon="arrow-downward"></mat-icon>
                                             </button>
@@ -235,10 +235,10 @@
                                 </div>
 
                                 <div class="col-4">
-                                    <button mat-icon-button matTooltip="Deposit" [disabled]="gas <= 0" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                    <button mat-icon-button matTooltip="Deposit" [disabled]="gas <= 0 || maintainence" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon svgIcon="arrow-downward"></mat-icon>
                                     </button>
-                                    <button mat-icon-button matTooltip="Redeposit" *ngIf="mycoin.redeposit && mycoin.redeposit.length > 0" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                    <button mat-icon-button matTooltip="Redeposit" *ngIf="(mycoin.redeposit && mycoin.redeposit.length > 0) || maintainence" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon svgIcon="vertical_align_bottom"></mat-icon>
                                     </button>
                                 </div>
