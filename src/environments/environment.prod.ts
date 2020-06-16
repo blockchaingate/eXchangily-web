@@ -109,7 +109,8 @@ export const environment = {
             WINGS: '0x667088b212ce3d06a1b553a7221E1fD19000d9aF',
             MTL: '0xF433089366899D83a9f26A773D59ec7eCF30355e',
             KNC: '0xdd974d5c2e2928dea5f71b9825b8b646686bd200',
-            GVT: '0x103c3A209da59d3E7C4A89307e66521e081CFDF0'
+            GVT: '0x103c3A209da59d3E7C4A89307e66521e081CFDF0',
+            DRGN: '0x419c4db4b9e25d6db2ad9691ccb832c8d9fda05e'
         },
         /*
         exchangilyOfficial: [
@@ -147,7 +148,8 @@ export const environment = {
         WINGS: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
         MTL: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
         KNC: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
-        GVT: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06'        
+        GVT: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
+        DRGN: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06'        
        },
         promotionOfficial: {
             USDT: '0x4e93c47b42d09f61a31f798877329890791077b2',
@@ -196,7 +198,8 @@ export const environment = {
         WINGS: 200,
         MTL: 40,
         KNC: 10,
-        GVT: 10 
+        GVT: 10,
+        DRGN: 10 
     },
     PaymentMethod: {
         ETransfer: {

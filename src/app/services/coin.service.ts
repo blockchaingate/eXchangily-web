@@ -97,7 +97,7 @@ export class CoinService {
 
         const erc20Tokens = [
             'BNB', 'INB', 'REP', 'HOT', 'MATIC', 'IOST', 'MANA', 
-            'ELF', 'GNO', 'WINGS', 'KNC', 'GVT'
+            'ELF', 'GNO', 'WINGS', 'KNC', 'GVT','DRGN'
         ];
 
         for(let i=0;i<erc20Tokens.length;i++) {

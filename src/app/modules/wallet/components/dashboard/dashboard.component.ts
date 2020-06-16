@@ -838,7 +838,7 @@ export class WalletDashboardComponent implements OnInit {
         const bchCoin = new MyCoin('BCH');
         this.coinServ.fillUpAddress(bchCoin, seed, 1, 0);
         myCoins.push(bchCoin);  
-
+ 
         const ltcCoin = new MyCoin('LTC');
         this.coinServ.fillUpAddress(ltcCoin, seed, 1, 0);        
         myCoins.push(ltcCoin);  
@@ -849,7 +849,7 @@ export class WalletDashboardComponent implements OnInit {
 
         const erc20Tokens = [
             'BNB', 'INB', 'REP', 'HOT', 'MATIC', 'IOST', 'MANA', 
-            'ELF', 'GNO', 'WINGS', 'KNC', 'GVT'
+            'ELF', 'GNO', 'WINGS', 'KNC', 'GVT', 'DRGN'
         ];
 
         for(let i=0;i<erc20Tokens.length;i++) {
