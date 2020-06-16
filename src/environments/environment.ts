@@ -117,7 +117,6 @@ export const environment = {
             WINGS: '0x08705dc287150ba2da249b5a1b0c3b99c71b4100',
             MTL: '0x1c9b5afa112b42b12fb06b62e5f1e159af49dfa7',
             KNC: '0x3aad796ceb3a1063f727c6d0c698e37053292d10',
-            MHC: '0xa4d06b2f52d1e736754115be11b6b7b56566564d',
             GVT: '0x3e610d9fb322063e50d185e2cc1b45f007e7180c'
         },
         /*
@@ -156,7 +155,6 @@ export const environment = {
         WINGS: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
         MTL: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
         KNC: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
-        MHC: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
         GVT: '0x02c55515e62a0b25d2447c6d70369186b8f10359'
        },
         promotionOfficial: {

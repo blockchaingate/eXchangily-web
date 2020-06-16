@@ -847,7 +847,7 @@ export class WalletDashboardComponent implements OnInit {
 
         const erc20Tokens = [
             'BNB', 'INB', 'REP', 'HOT', 'MATIC', 'IOST', 'MANA', 
-            'ELF', 'GNO', 'WINGS', 'KNC', 'MHC', 'GVT'
+            'ELF', 'GNO', 'WINGS', 'KNC', 'GVT'
         ];
 
         for(let i=0;i<erc20Tokens.length;i++) {
