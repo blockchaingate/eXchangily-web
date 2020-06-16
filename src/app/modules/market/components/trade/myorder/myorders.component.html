@@ -179,7 +179,7 @@
 
         <div class="d-flex justify-content-between py-1">
             <div>
-                {{'Transaction fee' | translate}}: {{utilServ.showAmount(gasPrice*gasLimit, 6)}}
+                {{'Transaction fee' | translate}}: {{utilServ.showAmount(gasPrice*gasLimit, 6)}}  {{'Gas' | translate}}
             </div>
             <div>
                 <mat-slide-toggle [(ngModel)]="transFeeAdvance"></mat-slide-toggle>
