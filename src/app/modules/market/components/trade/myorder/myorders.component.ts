@@ -19,6 +19,7 @@ import * as bs58 from 'bs58';
 import { environment } from '../../../../../../environments/environment';
 import BigNumber from 'bignumber.js/bignumber';
 import { PinNumberModal } from '../../../../shared/modals/pin-number/pin-number.modal';
+import * as createHash from 'create-hash';
 
 @Component({
     selector: 'app-myorders',
@@ -137,6 +138,21 @@ export class MyordersComponent implements OnInit, OnDestroy {
             const bytes = bs58.decode(addressInWallet);
             addressInWallet = bytes.toString('hex');
             console.log('address2==', addressInWallet);
+        } else 
+        if (currentCoin.name === 'BCH') {
+            const keyPairsCurrentCoin = this._coinServ.getKeyPairs(currentCoin, seed, 0, 0);
+            var prefix = '6f';
+            if (environment.production) {
+                prefix = '00';
+            }
+                //address = prefix + this.stripHexPrefix(address);
+            var addr = prefix + keyPairsCurrentCoin.addressHash;
+            var buf = Buffer.from(addr, 'hex');
+                
+            const hash1 = createHash('sha256').update(buf).digest().toString('hex');
+            const hash2 = createHash('sha256').update(Buffer.from(hash1, 'hex')).digest().toString('hex');
+                
+            addressInWallet = addr + hash2.substring(0,8);            
         }
         if (currentCoin.tokenType === 'FAB') {
             let fabAddress = '';

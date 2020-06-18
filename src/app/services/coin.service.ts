@@ -413,6 +413,7 @@ export class CoinService {
         
         const tokenType = coin.tokenType;
         let addr = '';
+        let addrHash = '';
         let priKey = '';
         let pubKey = '';
         let priKeyHex = '';
@@ -422,6 +423,7 @@ export class CoinService {
         if(!seed) {
             return {
                 address: addr,
+                addressHash: addrHash,
                 privateKey: priKey,
                 privateKeyHex: priKeyHex,
                 privateKeyBuffer: buffer,
@@ -498,9 +500,17 @@ export class CoinService {
            priKey = child.privateKey;  
 
            if(!environment.production) {
-               addr = bitcore.Address.fromPublicKey(publicKey, bitcore.Networks.testnet).toString();  
+               var addrObj = bitcore.Address.fromPublicKey(publicKey, bitcore.Networks.testnet);
+               addr = addrObj.toString();  
+
+               var json = addrObj.toJSON();
+               addrHash = json.hash;               
            } else {
-                addr = bitcore.Address.fromPublicKey(publicKey).toString(); 
+               var addrObj = bitcore.Address.fromPublicKey(publicKey);
+                addr = addrObj.toString(); 
+
+                var json = addrObj.toJSON();
+                addrHash = json.hash;                
            }
            
         } else
@@ -542,6 +552,7 @@ export class CoinService {
 
         const keyPairs = {
             address: addr,
+            addressHash: addrHash,
             privateKey: priKey,
             privateKeyHex: priKeyHex,
             privateKeyBuffer: buffer,
