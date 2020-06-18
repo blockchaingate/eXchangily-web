@@ -184,13 +184,13 @@ export const environment = {
         DOGE: 20,
         BNB: 0.6,
         INB: 20,
-        // REP: 16000,
+        REP: 0.8,
         HOT: 16000,
         CEL: 40,
         MATIC: 500,
         IOST: 2000,
         MANA: 240,
-        //FUN: '0x02c55515e62a0b25d2447c6d70369186b8f10359', //??
+        FUN: 3000,
         WAX: 200,
         ELF: 100,
         GNO: 0.4, 
@@ -199,7 +199,7 @@ export const environment = {
         MTL: 40,
         KNC: 10,
         GVT: 10,
-        DRGN: 10 
+        DRGN: 100 
     },
     PaymentMethod: {
         ETransfer: {
