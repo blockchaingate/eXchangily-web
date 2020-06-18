@@ -6,7 +6,7 @@ import * as Btc from 'bitcoinjs-lib';
 export const environment = {
     production: false,
     maintainence: false,
-    version: 0.07,
+    version: 0.08,
     STRIPE_PUBLIC_KEY: 'pk_test_xVAqsYMxwh3AZfJcYu1hruyE',
     PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',
     url:"https://kanbantest.fabcoinapi.com/",
