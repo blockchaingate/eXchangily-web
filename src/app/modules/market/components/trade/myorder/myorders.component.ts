@@ -153,7 +153,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
             const hash2 = createHash('sha256').update(Buffer.from(hash1, 'hex')).digest().toString('hex');
                 
             addressInWallet = addr + hash2.substring(0,8);            
-        }
+        } else
         if (currentCoin.tokenType === 'FAB') {
             let fabAddress = '';
             for (let i = 0; i < this.wallet.mycoins.length; i++) {
