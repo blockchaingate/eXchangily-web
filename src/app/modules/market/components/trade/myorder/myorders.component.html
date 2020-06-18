@@ -13,6 +13,9 @@
         <div class="d-inline-block p-2" [ngClass]="select === 100?'text-white':'text-muted'">
             <a class="tab-link" [class.selected]="select === 100" (click)="selectOrder(100);">{{'Balances' | translate }}</a>
         </div>
+        <div>
+
+        </div>
     </div>
     <div class="orders container fxHide-sm" *ngIf="select != 100">
         <div class="row px-4 header py-3">
