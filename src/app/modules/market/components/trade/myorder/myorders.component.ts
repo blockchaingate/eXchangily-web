@@ -30,7 +30,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     // @Input() wallet: Wallet;
     private wallet: any;
     screenheight = screen.height;
-    select = 0;
+    select = 100;
     myorders: Transaction[] = [];
     pin: string;
     orderHash: string;
@@ -127,7 +127,12 @@ export class MyordersComponent implements OnInit, OnDestroy {
         const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
         const amountInLink = new BigNumber(amount).multipliedBy(new BigNumber(1e18)); // it's for all coins.
         let addressInWallet = currentCoin.receiveAdds[0].address;
-        if (currentCoin.name === 'BTC' || currentCoin.name === 'FAB') {
+        if (
+            currentCoin.name === 'BTC' 
+            || currentCoin.name === 'FAB' 
+            || currentCoin.name === 'DOGE'
+            || currentCoin.name === 'LTC'
+        ) {
             console.log('address1==', addressInWallet);
             const bytes = bs58.decode(addressInWallet);
             addressInWallet = bytes.toString('hex');
