@@ -18,7 +18,6 @@ import { OrderPadComponent } from './orderpad/order-pad.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { PriceService } from '../../../../services/price.service';
-import { OrderService } from '../../services/order.service';
 import { UtilService } from '../../../../services/util.service';
 import { WalletService } from '../../../../services/wallet.service';
 import { CoinService } from '../../../../services/coin.service';
@@ -57,7 +56,6 @@ import { PanelComponent } from './panel/panel.component';
     ],
     providers: [
         PriceService,
-        OrderService,
         UtilService,
         WalletService,
         CoinService,

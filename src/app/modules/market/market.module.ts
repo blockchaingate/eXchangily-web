@@ -13,7 +13,6 @@ import { AlertService } from '../../services/alert.service';
 import { MarketHomeComponent } from './components/home/market-home.component';
 import { MarketListComponent } from './components/list/market-list.component';
 import { PriceService } from '../../services/price.service';
-import { OrderService } from './services/order.service';
 import { Web3Service } from '../../services/web3.service';
 import { TradeService } from './services/trade.service';
 import { KanbanService } from '../../services/kanban.service';
@@ -26,7 +25,6 @@ import { MarketTopComponent } from './components/top/market-top.component';
 import { MarketTopBlockComponent } from './components/top-block/market-top-block.component';
 import { TradeAutoComponent } from './components/trade-auto/trade-auto.component';
 import { SharedModule } from '../shared/shared.module';
-// import { ParticlesModule } from 'angular-particle';
 
 @NgModule({
   imports: [
@@ -35,7 +33,6 @@ import { SharedModule } from '../shared/shared.module';
     HttpClientModule,
     RouterModule,
     CarouselModule,
-//    ParticlesModule,
     MarketRoutingModule,
     TradeModule,
     MatSnackBarModule,
@@ -49,7 +46,6 @@ import { SharedModule } from '../shared/shared.module';
   ],
   providers: [
     PriceService,
-    OrderService,
     Web3Service,
     KanbanService,
     TradeService,

@@ -7,7 +7,6 @@ import { Order } from '../../../models/order';
 import { PriceService } from '../../../../../services/price.service';
 import { KanbanService } from '../../../../../services/kanban.service';
 import { CoinService } from '../../../../../services/coin.service';
-import { OrderService } from '../../../services/order.service';
 import { Wallet } from '../../../../../models/wallet';
 import { WalletService } from '../../../../../services/wallet.service';
 import { MyordersComponent } from '../myorder/myorders.component';
@@ -37,7 +36,7 @@ export class PanelComponent implements OnInit {
     address: string;
     errMsg = '';
 
-    constructor(private prServ: PriceService, private _orderServ: OrderService, private _route: ActivatedRoute, 
+    constructor(private prServ: PriceService, private _route: ActivatedRoute, 
         private _router: Router, private walletService: WalletService, private kanbanService: KanbanService
         , private coinService: CoinService) {
         setTheme('bs4'); // Bootstrap 4
@@ -66,7 +65,7 @@ export class PanelComponent implements OnInit {
             console.log('current wallet not found');
         }
 
-        this.orders = this.getOrders();
+        //this.orders = this.getOrders();
 
         const inPair = this._route.snapshot.paramMap.get('pair');
         if (inPair) {
@@ -85,7 +84,5 @@ export class PanelComponent implements OnInit {
         alert(selected);
     }
 
-    getOrders() {
-        return this._orderServ.getOrders();
-    }
+
 }

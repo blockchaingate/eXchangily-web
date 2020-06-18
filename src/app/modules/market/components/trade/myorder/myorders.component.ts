@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { OrderService } from '../../../services/order.service';
 import { TradeService } from '../../../services/trade.service';
 import { CoinService } from '../../../../../services/coin.service';
 import { UtilService } from '../../../../../services/util.service';
@@ -53,7 +52,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     coinServ: CoinService;
     lan = 'en';
 
-    constructor(private ordServ: OrderService, private _router: Router, private tradeService: TradeService,
+    constructor( private _router: Router, private tradeService: TradeService,
         public utilServ: UtilService, private kanbanServ: KanbanService, private _coinServ: CoinService,
         private modalService: BsModalService, private web3Serv: Web3Service, private alertServ: AlertService,
         private timerServ: TimerService, private walletServ: WalletService, private storageServ: StorageService) {
