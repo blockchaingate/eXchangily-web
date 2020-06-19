@@ -9,7 +9,6 @@ import { TeamComponent } from './team/team.component';
 import { RoadmapComponent } from './roadmap/roadmap.component';
 
 import { ComponentsModule } from '../../components/components.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -22,7 +21,6 @@ import { HttpService } from '../../../../services/http.service';
   imports: [
     CommonModule,
     HomeRoutingModule, 
-    FlexLayoutModule,
     TranslateModule,
     RouterModule,
     ComponentsModule,

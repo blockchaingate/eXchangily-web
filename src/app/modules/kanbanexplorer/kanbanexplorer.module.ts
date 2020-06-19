@@ -20,7 +20,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { KanbanStatsComponent } from './components/kanban-stats/kanban-stats.component';
 import { LatestOrdersComponent } from './components/latest-orders/latest-orders.component';
@@ -55,7 +54,6 @@ import { TranslateModule } from '@ngx-translate/core';
     MatListModule,
     MatProgressSpinnerModule,
     MatDividerModule,
-    FlexLayoutModule,
     KanbanexplorerRoutingModule,
     HttpClientModule
   ],

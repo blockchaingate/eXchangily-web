@@ -20,7 +20,6 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MarketTopComponent } from './components/top/market-top.component';
 import { MarketTopBlockComponent } from './components/top-block/market-top-block.component';
 import { TradeAutoComponent } from './components/trade-auto/trade-auto.component';
@@ -39,7 +38,6 @@ import { SharedModule } from '../shared/shared.module';
     MatIconModule,
     MatTooltipModule,
     MatButtonModule,
-    FlexLayoutModule,
     SharedModule,
     ModalModule.forRoot(),
     AdvModule

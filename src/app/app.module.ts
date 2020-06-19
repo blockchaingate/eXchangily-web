@@ -12,7 +12,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './app-routing.module';
 import { AppResolver } from './modules/landing/resolvers/app/app.resolve';
 import { AppComponent } from './app.component';
@@ -51,7 +50,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatIconModule,
     MatMenuModule,
     MatProgressSpinnerModule,
-    FlexLayoutModule,
     MatListModule,
     RouterModule,
     MatSnackBarModule,
