@@ -74,6 +74,9 @@ header .navbar {
 
 a.nav-link {
     line-height: 60px;
+    font-size: 1.1rem;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .dark-back {

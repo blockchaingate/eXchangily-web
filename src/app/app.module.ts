@@ -24,7 +24,6 @@ import { FooterComponent } from './components/navigation/footer/footer.component
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { HttpService } from './services/http.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlertService } from './services/alert.service';
 import { UtilService } from './services/util.service';
 import { KanbanService } from './services/kanban.service';
@@ -53,7 +52,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatListModule,
     RouterModule,
     MatSnackBarModule,
-    FormsModule, ReactiveFormsModule,
     MatButtonModule,
     TranslateModule.forRoot(
       {
