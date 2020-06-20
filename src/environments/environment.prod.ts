@@ -25,7 +25,7 @@ export const environment = {
             bytesPerInput: 148
         },  
         BCH: {
-            satoshisPerBytes: 30,
+            satoshisPerBytes: 50,
             bytesPerInput: 148
         },               
         ETH: {
