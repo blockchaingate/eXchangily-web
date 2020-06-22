@@ -1096,7 +1096,7 @@ export class CoinService {
             var transaction = new bitcore.Transaction()
             .from(utxos)          // Feed information about what unspent outputs one can use
             .feePerKb(satoshisPerBytes * 1000)
-            .enableRBF()            
+            //.enableRBF()            
             .to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
             .change(address)      // Sets up a change address where the rest of the funds will go
 
