@@ -397,15 +397,6 @@ export class CoinService {
         return {balance: totalBalance, lockbalance: totalLockBalance};
     }
 
-    getExPrivateKey(excoin: MyCoin, seed: Buffer) {
-        const root = hdkey.fromMasterSeed(seed);
-        const address1 = excoin.receiveAdds[0];
-        const currentIndex = address1.index;        
-        const wallet = root.derivePath( 'm/44\'/' + excoin.coinType + '\'/0/' + currentIndex ).getWallet();
-        const privateKey = wallet.getPrivateKey();  
-        // console.log('address is for getExPrivateKey:' + excoin.receiveAdds[0].address);
-        return privateKey;
-    }
 
     getKeyPairs(coin: MyCoin, seed: Buffer, chain: number, index: number) {
 

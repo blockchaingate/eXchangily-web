@@ -4,7 +4,6 @@ import { Router, NavigationEnd } from '@angular/router';
 // import { Order } from '../../../models/order';
 import { Order, OrderBookItem, OrderItem, TradeItem } from '../../../../../interfaces/kanban.interface';
 import { TxRecord } from '../../../models/order-book';
-import { OrderService } from '../../../services/order.service';
 import { Web3Service } from '../../../../../services/web3.service';
 import { KanbanService } from '../../../../../services/kanban.service';
 import { TradeService } from '../../../services/trade.service';

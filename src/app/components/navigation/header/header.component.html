@@ -1,19 +1,155 @@
 <header>
     <div class="text-center text-warning" *ngIf="testMode">
         <h2>
-            Exchangily Test Website
+            Exchangily Testt Website
         </h2>
     </div>
-    <!--
-    <div class="text-center text-warning">
-        <h2>
-            {{"Exchange is stopped for upgrading, please wait......, wallet is still working"|translate}}.
-        </h2>
-    </div>
--->
+
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top px-3" [ngClass]="background">
+        <a class="navbar-brand" href="/"><img src="./images/logo/exg-logo.svg" width="40px">eXchangily {{'Title' | translate}}</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/wallet/dashboard" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Wallet' | translate}}</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/market/home" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Market' | translate}}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/market/trade/BTC_USDT" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Trade' | translate}}</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/explorer" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Explore' | translate}}</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item d-flex justify-content-center align-items-center">
+                <button mat-button [matMenuTriggerFor]="menu" class="text-white">
+                    <div class="d-flex small">
+                        <div>
+                            {{currentLang}}
+                        </div>
+                        <div>
+                            <mat-icon svgIcon="keyboard-arrow-right"></mat-icon>
+                        </div>
+                        
+                    </div>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item small (click)="selectLan('en')">English</button>
+                    <button mat-menu-item small (click)="selectLan('zh')">中文</button>
+                </mat-menu>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/home" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Home' | translate}}</a>
+            </li>
+
+            <li class="nav-item" *ngIf="testMode">
+                <a class="nav-link" routerLink="/otc/trade" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'OTC Trade' | translate}}</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link highlight" routerLink="/promotion" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'New Campaign' | translate}}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://medium.com/exchangily-blog" target="_blank">{{'Blog' | translate}}</a>
+            </li>
+
+            <li class="nav-item d-flex justify-content-center align-items-center">
+                <mat-progress-spinner [diameter]="40" [color]="color" [mode]="'determinate'" [value]="value" [matMenuTriggerFor]="appMenu">
+                </mat-progress-spinner>
+
+                <mat-menu #appMenu="matMenu">
+                    <div class="container py-2" *ngIf="pendingtransactions && pendingtransactions.length === 0 && closetransactions && closetransactions.length === 0">
+                        no transactions
+                    </div>
+                    <div class="container py-2" *ngIf="pendingtransactions && pendingtransactions.length > 0">
+                        <div class="row px-2 border-bottom pb-1">
+                            <div class="col col-12">
+                                pending
+                            </div>
+                        </div>
+                        <div class="row px-2 py-2 border-bottom" *ngFor="let tr of pendingtransactions">
+                            <div class="col col-12">
+                                <small>{{tr.txid}}</small>
+
+                            </div>
+                            <div class="col col-12">
+                                {{utilServ.getFormattedDate(tr.time)}}
+                            </div>
+                            <div class="col col-3">
+                                <img *ngIf="tr.coin == 'BTC'" src="/assets/coins/btc.png" class="icon coin-logo" />
+                                <img *ngIf="tr.coin == 'ETH'" src="/assets/coins/eth.png" class="icon coin-logo" />
+                                <img *ngIf="tr.coin == 'EXG'" src="/assets/coins/exg.png" class="icon coin-logo" />
+                                <img *ngIf="tr.coin == 'FAB'" src="/assets/coins/fab.png" class="icon coin-logo" />
+                                <img *ngIf="tr.coin == 'USDT'" src="/assets/coins/usdt.png" class="icon coin-logo" />
+                                <img *ngIf="tr.coin == 'DUSD'" src="/assets/coins/dusd.png" class="icon coin-logo" />
+                            </div>
+                            <div class="col col-6">
+                                <div>{{tr.type}}</div>
+                                <div class="status-{{tr.status}}">
+                                    <svg class="lds-spinner" width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" style="background: none;"><g transform="rotate(0 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="-0.9166666666666666s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(30 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="-0.8333333333333334s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(60 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="-0.75s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(90 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="-0.6666666666666666s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(120 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="-0.5833333333333334s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(150 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="-0.5s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(180 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="-0.4166666666666667s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(210 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="-0.3333333333333333s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(240 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="-0.25s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(270 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="-0.16666666666666666s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(300 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="-0.08333333333333333s" repeatCount="indefinite"></animate></rect></g><g transform="rotate(330 50 50)"><rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000"><animate attributeName="opacity" values="1;0" dur="1s" begin="0s" repeatCount="indefinite"></animate></rect></g></svg>                                            {{tr.status}}
+                                </div>
+                            </div>
+                            <div class="col col-3">
+                                {{tr.amount}} {{tr.coin}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container py-2" *ngIf="closetransactions && closetransactions.length > 0">
+                        <div class="row px-2 border-bottom pb-1">
+                            <div class="col col-12">
+                                history
+                            </div>
+                        </div>
+                        <div class="row px-2 py-2 border-bottom" *ngFor="let tr of closetransactions">
+                            <div class="col col-12">
+                                <small>
+                                    {{tr.txid}}
+                                </small>
+
+                            </div>
+                            <div class="col col-12">
+                                {{utilServ.getFormattedDate(tr.time)}}
+                            </div>
+                            <div class="col col-3">
+                                <img *ngIf="tr.coin == 'BTC'" src="/assets/coins/btc.png" class="icon coin-logo" />
+                                <img *ngIf="tr.coin == 'ETH'" src="/assets/coins/eth.png" class="icon coin-logo" />
+                                <img *ngIf="tr.coin == 'EXG'" src="/assets/coins/exg.png" class="icon coin-logo" />
+                                <img *ngIf="tr.coin == 'FAB'" src="/assets/coins/fab.png" class="icon coin-logo" />
+                                <img *ngIf="tr.coin == 'USDT'" src="/assets/coins/usdt.png" class="icon coin-logo" />
+                                <img *ngIf="tr.coin == 'DUSD'" src="/assets/coins/dusd.png" class="icon coin-logo" />
+                            </div>
+                            <div class="col col-6">
+                                <div>{{tr.type}}</div>
+                                <div class="status-{{tr.status}}">
+                                    {{tr.status}}
+                                </div>
+                            </div>
+                            <div class="col col-3">
+                                {{tr.amount}} {{tr.coin}}
+                            </div>
+                        </div>
+                    </div>
+
+                </mat-menu>
+            </li>
+          </ul>
+      </div>
+    </nav>
+
+<!--
     <nav class="navbar navbar-expand-sm  navbar-dark sticky-top" [ngClass]="background">
         <mat-toolbar class="transparent">
-            <div fxHide.gt-xs>
+            <div class="d-lg-block">
                 <button mat-icon-button [matMenuTriggerFor]="menu2">
                     <mat-icon svgIcon="menu"></mat-icon>
                 </button>
@@ -22,15 +158,13 @@
                     <button mat-menu-item (click)="linkTo('/wallet/dashboard')">{{'Wallet' | translate}}</button>
                     <button mat-menu-item (click)="linkTo('/market/home')">{{'Market' | translate}}</button>
                     <button mat-menu-item (click)="linkTo('/wallet')">{{'Wallet' | translate}}</button>
-                    <button mat-menu-item (click)="linkTo('/explorer')">{{'Explore' | translate}}</button>
+                    <button mat-menu-item (click)="linkTo('/explorer')">{{'Explore' | translate}}222</button>
                     <button mat-menu-item [matMenuTriggerFor]="settingMenu">{{'Setting' | translate}}</button>
                     <button mat-menu-item (click)="selectLan('en')">English</button>
                     <button mat-menu-item (click)="selectLan('zh')">中文</button>
 
                     <button mat-menu-item (click)="linkTo('/home')">{{'Header.Navigation.Home' | translate}}</button>
                     <button mat-menu-item (click)="goToUrl('https://medium.com/exchangily-blog')">{{'Blog' | translate}}</button>
-
-                    <!--     <button mat-menu-item (click)="linkTo('login/signin')">{{ 'Header.Navigation.Signin' | translate }}</button> -->
 
                 </mat-menu>
                 <mat-menu #settingMenu="matMenu">
@@ -45,10 +179,10 @@
             <div>
                 <a class="navbar-brand" href="/"><img src="./images/logo/exg-logo.svg" width="40px">eXchangily {{'Title' | translate}}</a>
             </div>
-            <div fxFlex fxLayout fxHide.xs>
+            <div class="d-flex d-xs-none d-sm-block">
                 <ul fxLayout fxLayoutGap="15px" class="navigation-items">
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/wallet/dashboard" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Wallet' | translate}}</a>
+                        <a class="nav-link" routerLink="/wallet/dashboard" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Wallet' | translate}}111</a>
                     </li>
 
                     <li class="nav-item">
@@ -59,11 +193,11 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/explorer" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Explore' | translate}}</a>
+                        <a class="nav-link" routerLink="/explorer" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Explore' | translate}}333</a>
                     </li>
                 </ul>
             </div>
-            <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+            <div fxLayoutAlign="end" class="d-flex d-xs-none d-sm-block">
                 <ul fxLayout fxLayoutGap="15px" class="navigation-items">
                     <li class="nav-item lanbut">
                         <button mat-button [matMenuTriggerFor]="menu" class="text-white">
@@ -97,14 +231,6 @@
                         <a class="nav-link" href="https://medium.com/exchangily-blog" target="_blank">{{'Blog' | translate}}</a>
                     </li>
 
-                    <!--
-                    <li class="nav-item" *ngIf="!loggedIn">
-                        <a class="nav-link" routerLink="/login/signin" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Signin' | translate}}</a>
-                    </li>
-                    <li class="nav-item" *ngIf="loggedIn">
-                        <a class="nav-link pointer" routerLinkActive="selected" style="color: white" (click)="logout()">{{ 'Header.Navigation.Signout' | translate }}</a>
-                    </li>
--->
                     <li class="nav-item">
                         <mat-progress-spinner [diameter]="40" [color]="color" [mode]="'determinate'" [value]="value" [matMenuTriggerFor]="appMenu">
                         </mat-progress-spinner>
@@ -189,4 +315,5 @@
             </div>
         </mat-toolbar>
     </nav>
+-->
 </header>

@@ -12,7 +12,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './app-routing.module';
 import { AppResolver } from './modules/landing/resolvers/app/app.resolve';
 import { AppComponent } from './app.component';
@@ -25,7 +24,6 @@ import { FooterComponent } from './components/navigation/footer/footer.component
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { HttpService } from './services/http.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlertService } from './services/alert.service';
 import { UtilService } from './services/util.service';
 import { KanbanService } from './services/kanban.service';
@@ -51,11 +49,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatIconModule,
     MatMenuModule,
     MatProgressSpinnerModule,
-    FlexLayoutModule,
     MatListModule,
     RouterModule,
     MatSnackBarModule,
-    FormsModule, ReactiveFormsModule,
     MatButtonModule,
     TranslateModule.forRoot(
       {

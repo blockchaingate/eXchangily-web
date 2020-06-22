@@ -15,10 +15,8 @@ import { LiteListComponent } from './litelist/lite-list.component';
 import { TvChartContainerComponent } from './tv-chart-container/tv-chart-container.component';
 import { MyordersComponent } from './myorder/myorders.component';
 import { OrderPadComponent } from './orderpad/order-pad.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { PriceService } from '../../../../services/price.service';
-import { OrderService } from '../../services/order.service';
 import { UtilService } from '../../../../services/util.service';
 import { WalletService } from '../../../../services/wallet.service';
 import { CoinService } from '../../../../services/coin.service';
@@ -39,7 +37,6 @@ import { PanelComponent } from './panel/panel.component';
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        FlexLayoutModule,
         BsDropdownModule,
         HttpClientModule,
         RouterModule,
@@ -57,7 +54,6 @@ import { PanelComponent } from './panel/panel.component';
     ],
     providers: [
         PriceService,
-        OrderService,
         UtilService,
         WalletService,
         CoinService,
