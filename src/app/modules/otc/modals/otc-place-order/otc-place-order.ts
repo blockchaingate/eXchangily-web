@@ -1,4 +1,4 @@
-import { Component, ViewChild, EventEmitter, Output, Input } from '@angular/core';
+import { Component, ViewChild, EventEmitter, Output, Input, OnInit, AfterViewInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { StripeToken, StripeSource, StripeCard } from 'stripe-angular'
 import { environment } from 'src/environments/environment';
@@ -8,12 +8,14 @@ import {
     ICreateOrderRequest
 } from 'ngx-paypal';
 
+declare var SqPaymentForm : any; //magic to allow us to access the SquarePaymentForm lib
+
 @Component({
     selector: 'otc-place-order-modal',
     templateUrl: './otc-place-order.html',
     styleUrls: ['./otc-place-order.css']
 })
-export class OtcPlaceOrderModal {
+export class OtcPlaceOrderModal implements OnInit, AfterViewInit{
     public payPalConfig: any;
     @Input() balance: number;
     token: string;
@@ -50,6 +52,43 @@ export class OtcPlaceOrderModal {
     show(element) {
         this.element = element;
         this.otcPlaceOrderModal.show();
+
+        var applicationId = "sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg";
+  
+        console.log('rrrrr');
+        this.paymentForm = new SqPaymentForm({
+  
+          applicationId: applicationId,
+          inputClass: 'sq-input',
+          cardNumber: {
+              elementId: 'sq-card-number',
+              placeholder: 'Card Number'
+          },
+          cvv: {
+              elementId: 'sq-cvv',
+              placeholder: 'CVV'
+          },
+          expirationDate: {
+              elementId: 'sq-expiration-date',
+              placeholder: 'MM/YY'
+          },
+          postalCode: {
+              elementId: 'sq-postal-code',
+              placeholder: 'Postal'
+          },
+          // SqPaymentForm callback functions
+          callbacks: {
+              cardNonceResponseReceived: function (errors, nonce, cardData) {
+     
+     
+                 alert(`The generated nonce is:\n${nonce}`);
+              }
+          }
+        });
+  
+        this.paymentForm.build(); 
+        console.log('this.paymentForm===', this.paymentForm);
+        console.log('pppppp');          
     }
 
     hide() {
@@ -200,4 +239,197 @@ export class OtcPlaceOrderModal {
         console.error('Stripe erroree', error)
     }
 
+
+
+
+
+
+
+
+
+
+
+    paymentForm; //this is our payment form object
+
+    ngOnInit(){
+      // Set the application ID
+
+      /*
+      this.paymentForm = new SqPaymentForm({
+  
+        // Initialize the payment form elements
+        applicationId: applicationId,
+        locationId: locationId,
+        inputClass: 'sq-input',
+      
+        // Customize the CSS for SqPaymentForm iframe elements
+        inputStyles: [{
+            fontSize: '.9em'
+        }],
+      
+      
+      
+        // Initialize the credit card placeholders
+        cardNumber: {
+          elementId: 'sq-card-number',
+          placeholder: '•••• •••• •••• ••••'
+        },
+        cvv: {
+          elementId: 'sq-cvv',
+          placeholder: 'CVV'
+        },
+        expirationDate: {
+          elementId: 'sq-expiration-date',
+          placeholder: 'MM/YY'
+        },
+        postalCode: {
+          elementId: 'sq-postal-code'
+        },
+      
+        // SqPaymentForm callback functions
+        callbacks: {
+
+          methodsSupported: function (methods) {
+      
+            var applePayBtn = document.getElementById('sq-apple-pay');
+            var applePayLabel = document.getElementById('sq-apple-pay-label');
+            var masterpassBtn = document.getElementById('sq-masterpass');
+            var masterpassLabel = document.getElementById('sq-masterpass-label');
+      
+            // Only show the button if Apple Pay for Web is enabled
+            // Otherwise, display the wallet not enabled message.
+            if (methods.applePay === true) {
+              applePayBtn.style.display = 'inline-block';
+              applePayLabel.style.display = 'none' ;
+            }
+            // Only show the button if Masterpass is enabled
+            // Otherwise, display the wallet not enabled message.
+            if (methods.masterpass === true) {
+              masterpassBtn.style.display = 'inline-block';
+              masterpassLabel.style.display = 'none';
+            }
+          },
+      
+
+          createPaymentRequest: function () {
+            // The payment request below is provided as
+            // guidance. You should add code to create the object
+            // programmatically.
+            return {
+              requestShippingAddress: true,
+              currencyCode: "USD",
+              countryCode: "US",
+              total: {
+                label: "Hakuna",
+                amount: "{{REPLACE_ME}}",
+                pending: false,
+              },
+              lineItems: [
+                {
+                  label: "Subtotal",
+                  amount: "{{REPLACE_ME}}",
+                  pending: false,
+                },
+                {
+                  label: "Shipping",
+                  amount: "{{REPLACE_ME}}",
+                  pending: true,
+                },
+                {
+                  label: "Tax",
+                  amount: "{{REPLACE_ME}}",
+                  pending: false,
+                }
+              ]
+            };
+          },
+
+          cardNonceResponseReceived: function (errors, nonce, cardData)  {
+            if (errors) {
+              // Log errors from nonce generation to the Javascript console
+              console.log("Encountered errors:");
+              errors.forEach(function(error) {
+                console.log('  ' + error.message);
+              });
+      
+              return;
+            }
+      
+            alert('Nonce received: ' + nonce); 
+      
+            // Assign the nonce value to the hidden form field
+            // document.getElementById('card-nonce').value = nonce;
+            //needs to be extracted from the
+            (<HTMLInputElement>document.getElementById('card-nonce')).value = nonce; //casting so .value will work
+            //get this value from the database when the user is logged in
+            (<HTMLInputElement>document.getElementById('sq-id')).value = "CBASEC8F-Phq5_pV7UNi64_kX_4gAQ";
+      
+            // POST the nonce form to the payment processing page
+            (<HTMLFormElement>document.getElementById('nonce-form')).submit();
+      
+          },
+
+          unsupportedBrowserDetected: function() {
+          },
+
+          inputEventReceived: function(inputEvent) {
+            switch (inputEvent.eventType) {
+              case 'focusClassAdded':
+                break;
+              case 'focusClassRemoved':
+                break;
+              case 'errorClassAdded':
+                break;
+              case 'errorClassRemoved':
+                break;
+              case 'cardBrandChanged':
+                break;
+              case 'postalCodeChanged':
+                break;
+            }
+          },
+
+          paymentFormLoaded: function() {
+          }
+        }
+      });
+       */
+    }
+    requestCardNonce(event) {
+  
+      // Don't submit the form until SqPaymentForm returns with a nonce
+      //event.preventDefault();
+    
+      // Request a nonce from the SqPaymentForm object
+      console.log('111');
+      console.log('this.paymentForm555===', this.paymentForm);
+      this.paymentForm.requestCardNonce();
+      console.log('333');
+    }
+    ngAfterViewInit(){
+
+      
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    onGetCardNonce(event) {
+        console.log('event111=', event);
+        console.log('111');
+        this.paymentForm.requestCardNonce();
+        console.log('333');        
+    }
+
+    
 }

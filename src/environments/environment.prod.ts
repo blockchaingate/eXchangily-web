@@ -2,6 +2,8 @@ import * as Btc from 'bitcoinjs-lib';
 export const environment = {
     production: true,
     maintainence: false,
+    SQUARE_APP_ID: 'sq0idp-nZiB6Lt-tEtQXKYVN_iIAg', 
+    SQUARE_ACCESS_TOKEN: 'EAAAEAqIQVXf8QLAw5c6JqIvI5RjTVX2O8lh7ojwZmq6TzKvWaJhyjSh-3NEht0h',
     STRIPE_PUBLIC_KEY: 'pk_test_xVAqsYMxwh3AZfJcYu1hruyE',
     PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',
     baseUrl: 'https://exchangily.com',

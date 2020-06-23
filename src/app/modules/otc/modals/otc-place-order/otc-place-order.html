@@ -1,5 +1,7 @@
 <div bsModal #otcPlaceOrderModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-bg-grey" *ngIf="element">
+
+
         <form (ngSubmit)="selectedMethod == 'CreditCard' ? stripeCard.createToken(extraData) : onSubmit()">
             <div class="modal-content">
                 <div class="modal-header text-center">
@@ -76,7 +78,7 @@
                                     <div *ngIf="invalidError" style="color:red">
                                         {{ invalidError.message }}
                                       </div>
-                                       
+                                      <!--
                                       <stripe-card
                                       #stripeCard
                                       [options]="options"
@@ -85,6 +87,34 @@
                                       (tokenChange) = "setStripeToken($event)"
                                       (sourceChange) = "setStripeSource($event)"
                                     ></stripe-card>
+--> 
+
+
+
+
+
+
+<div id="form-container" class="pt-3">
+    <div id="sq-card-number"></div>
+    <div id="sq-expiration-date"></div>
+    <div id="sq-cvv"></div>
+    <div id="sq-postal-code"></div>
+    <button id="sq-creditcard" 
+          (click)="onGetCardNonce(event)">Pay $1.00</button>
+  </div> 
+
+
+
+
+
+
+
+
+
+
+
+
+
                                 </div>  
                                 <div *ngIf="selectedMethod == 'Paypal'">
                                     

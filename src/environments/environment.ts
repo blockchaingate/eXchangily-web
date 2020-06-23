@@ -7,6 +7,8 @@ export const environment = {
     production: false,
     maintainence: false,
     version: 0.10,
+    SQUARE_APP_ID: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', //account kenin
+    SQUARE_ACCESS_TOKEN: 'EAAAENxSVSG10rCtl6LUrHaIa80lkUNqNt-15jF-DPjFGCJ3FIYjvqvQlK9J3ugi',
     STRIPE_PUBLIC_KEY: 'pk_test_xVAqsYMxwh3AZfJcYu1hruyE',
     PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',
     url:"https://kanbantest.fabcoinapi.com/",
