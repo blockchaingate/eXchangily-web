@@ -487,6 +487,9 @@ export class WalletDashboardComponent implements OnInit {
                                     coin.usdPrice = item.usdValue.USD;
                                     updated = true;
                                 }
+                                if(coin.name == 'FAB') {
+                                    this.fabBalance = coin.balance;
+                                }
                             }
                         }
                         this.exgBalance = this.wallet.mycoins[0].balance + this.wallet.mycoins[0].lockedBalance;

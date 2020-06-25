@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg modal-bg-grey" *ngIf="element">
 
 
-        <form (ngSubmit)="selectedMethod == 'CreditCard' ? stripeCard.createToken(extraData) : onSubmit()">
+        <form (ngSubmit)="onSubmit()">
             <div class="modal-content">
                 <div class="modal-header text-center">
                     <h4 class="modal-title w-100 text-dark">{{(element.buy ? 'Sell' : 'Buy') | translate}} {{element.coin}}</h4>

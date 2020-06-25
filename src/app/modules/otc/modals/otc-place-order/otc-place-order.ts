@@ -79,9 +79,8 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit{
           // SqPaymentForm callback functions
           callbacks: {
               cardNonceResponseReceived: function (errors, nonce, cardData) {
-     
-     
                  alert(`The generated nonce is:\n${nonce}`);
+                 
               }
           }
         });
@@ -190,7 +189,8 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit{
     onSubmit() {
         // this.stripeCard.createToken(this.extraData);
         this.hide();
-
+        this.paymentForm.requestCardNonce();
+        /*
         console.log('token=', this.token);
         const data = {
             amount: this.amount,
@@ -200,6 +200,7 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit{
         };
         this.confirmed.emit(data);
         console.log('2');
+        */
     }
 
 
@@ -401,10 +402,7 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit{
       //event.preventDefault();
     
       // Request a nonce from the SqPaymentForm object
-      console.log('111');
-      console.log('this.paymentForm555===', this.paymentForm);
       this.paymentForm.requestCardNonce();
-      console.log('333');
     }
     ngAfterViewInit(){
 
@@ -427,7 +425,8 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit{
     onGetCardNonce(event) {
         console.log('event111=', event);
         console.log('111');
-        this.paymentForm.requestCardNonce();
+        const token = this.paymentForm.requestCardNonce();
+        console.log('token==', token);
         console.log('333');        
     }
 
