@@ -23,6 +23,7 @@ import { SendCoinModal } from '../../modals/send-coin/send-coin.modal';
 import { BackupPrivateKeyModal } from '../../modals/backup-private-key/backup-private-key.modal';
 import { DeleteWalletModal } from '../../modals/delete-wallet/delete-wallet.modal';
 import { LoginSettingModal } from '../../modals/login-setting/login-setting.modal';
+import { GetFreeFabModal } from '../../modals/get-free-fab/get-free-fab.modal';
 import { DisplaySettingModal } from '../../modals/display-setting/display-setting.modal';
 import { CoinsPrice } from '../../../../interfaces/balance.interface';
 import { SendCoinForm } from '../../../../interfaces/kanban.interface';
@@ -60,6 +61,8 @@ export class WalletDashboardComponent implements OnInit {
     @ViewChild('loginSettingModal', { static: true }) loginSettingModal: LoginSettingModal;
     @ViewChild('displaySettingModal', { static: true }) displaySettingModal: DisplaySettingModal;
     @ViewChild('toolsModal', { static: true }) toolsModal: ToolsModal;
+    @ViewChild('getFreeFabModal', { static: true }) getFreeFabModal: GetFreeFabModal;
+
 
     sendCoinForm: SendCoinForm;
     wallet: Wallet;
@@ -99,7 +102,8 @@ export class WalletDashboardComponent implements OnInit {
     constructor(
         private campaignorderServ: CampaignOrderService,
         private route: Router, private walletServ: WalletService, private modalServ: BsModalService,
-        private coinServ: CoinService, public utilServ: UtilService, private apiServ: ApiService, private _wsServ: WsService,
+        private coinServ: CoinService, public utilServ: UtilService, private apiServ: ApiService, 
+        private _wsServ: WsService,
         private kanbanServ: KanbanService, private web3Serv: Web3Service,
         private alertServ: AlertService, private timerServ: TimerService,
         private coinService: CoinService, private storageService: StorageService) {
@@ -113,7 +117,11 @@ export class WalletDashboardComponent implements OnInit {
         this.showTransactionHistory = false;
     
     }
- 
+
+    getFreeFab() {
+        this.getFreeFabModal.show();
+    }
+
     getCoinLogo(coin) {
         return '/assets/coins/' + coin.name.toLowerCase() + '.png'; 
     }

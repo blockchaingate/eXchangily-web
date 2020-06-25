@@ -1,0 +1,35 @@
+<div bsModal #getFreeFabModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-bg-grey">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 text-dark">{{'Get free FAB' | translate }}</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <div *ngIf="!error">
+                        <div class="form-group">
+                            <label for="exampleInputPassword1" class="text-dark">{{'Question' | translate }}</label>
+                            <div class="text-muted">
+                                {{question}}
+                            </div>
+    
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="exampleInputPassword2" class="text-dark">{{'Answer' | translate }}</label>
+                            <input type="text" autocomplete="off" class="form-control" [(ngModel)]="answer" id="displayPwdconfirm" placeholder="{{'Type answer' | translate }}">
+                        </div>
+                    </div>
+                    <div *ngIf="error" class="text-muted">
+                        {{error}}
+                    </div>
+                </div>
+
+                <div class="modal-footer justify-content-center" *ngIf="!error">
+                    <button class="btn btn-gradient text-white py-2 px-5" type="submit" (click)="onSubmit()"> {{'Confirm' | translate }} </button>
+                </div>
+            </div>
+    </div>
+</div>

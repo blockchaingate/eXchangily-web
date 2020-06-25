@@ -37,9 +37,11 @@ import { ShowSeedPhraseModal } from './modals/show-seed-phrase/show-seed-phrase.
 import { VerifySeedPhraseModal } from './modals/verify-seed-phrase/verify-seed-phrase.modal';
 import { BackupPrivateKeyModal } from './modals/backup-private-key/backup-private-key.modal';
 import { DeleteWalletModal } from './modals/delete-wallet/delete-wallet.modal';
+import { GetFreeFabModal } from './modals/get-free-fab/get-free-fab.modal';
 import { LoginSettingModal } from './modals/login-setting/login-setting.modal';
 import { DisplaySettingModal } from './modals/display-setting/display-setting.modal';
 import { KanbanService } from '../../services/kanban.service';
+import { AirdropService } from '../../services/airdrop.service';
 import { CampaignOrderService } from '../../services/campaignorder.service';
 import { Web3Service } from '../../services/web3.service';
 import { AlertService } from '../../services/alert.service';
@@ -83,6 +85,7 @@ import { TransactionTypePipe } from './pipes/transaction-type.pipe';
         VerifySeedPhraseModal,
         AddGasModal,
         ToolsModal,
+        GetFreeFabModal,
         BackupPrivateKeyModal,
         DeleteWalletModal,
         LoginSettingModal,
@@ -116,7 +119,11 @@ import { TransactionTypePipe } from './pipes/transaction-type.pipe';
 
     ],
     providers: [
-        KanbanService, Web3Service, AlertService, CampaignOrderService
+        KanbanService, 
+        Web3Service, 
+        AlertService, 
+        CampaignOrderService, 
+        AirdropService
     ]
 })
 export class WalletModule { }
