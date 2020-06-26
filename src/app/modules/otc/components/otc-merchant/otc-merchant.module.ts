@@ -11,7 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { TranslateModule } from '@ngx-translate/core';
 import { OtcMerchantRoutingModule } from './otc-merchant-routing.module';
-
+import { WalletService } from '../../../../services/wallet.service';
 import { MerchantService } from '../../../../services/merchant.service';
 import { OtcService } from '../../../../services/otc.service';
 import { OtcMerchantComponent } from './otc-merchant.component';
@@ -41,6 +41,6 @@ import { SharedModule } from '../../../shared/shared.module';
         OtcMerchantRoutingModule,
         ModalModule
     ],
-    providers: [MerchantService, OtcService]
+    providers: [MerchantService, OtcService, WalletService]
 })
 export class OtcMerchantModule { }

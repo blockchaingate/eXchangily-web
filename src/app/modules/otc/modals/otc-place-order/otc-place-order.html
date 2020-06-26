@@ -55,8 +55,10 @@
                         <div class="row form-group pt-3" [style.visibility]="!element.buy ? 'visible' : 'hidden'">
                             <div class="col col-12" [style.visibility]="!element.buy ? 'visible' : 'hidden'">
                                 <div>
-                                    {{'Payment method' | translate}}:
+                                    {{'Payment method' | translate}}: {{element.buy}}
                                 </div>
+
+                                <!--
                                 <div [style.visibility]="!element.buy ? 'visible' : 'hidden'">
                                     <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" name="method" [(ngModel)]="selectedMethod">
                                         <mat-radio-button class="px-2" *ngFor="let method of methods" [value]="method">
@@ -72,8 +74,8 @@
                                         </mat-radio-button>
                                     </mat-radio-group>
                                 </div>
-
-                                <div [style.visibility]="(!element.buy && (selectedMethod == 'CreditCard')) ? 'visible' : 'hidden'">
+                            -->
+                                <div [style.visibility]="(!element.buy) ? 'visible' : 'hidden'">
 
                                     <div *ngIf="invalidError" style="color:red">
                                         {{ invalidError.message }}
@@ -99,8 +101,6 @@
     <div id="sq-expiration-date"></div>
     <div id="sq-cvv"></div>
     <div id="sq-postal-code"></div>
-    <button id="sq-creditcard" 
-          (click)="onGetCardNonce(event)">Pay $1.00</button>
   </div> 
 
 

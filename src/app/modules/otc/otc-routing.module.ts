@@ -12,7 +12,12 @@ const routes: Routes = [
   { path: 'merchant-orders', component: MerchantOrdersComponent },
   { path: 'listing', component: ListingComponent },
   { path: 'userpaymentmethods', component: UserPaymentMethodsComponent },
-  { path: 'otc-merchant', loadChildren: './components/otc-merchant/otc-merchant.module#OtcMerchantModule'},
+  //{ path: 'otc-merchant', loadChildren: './components/otc-merchant/otc-merchant.module#OtcMerchantModule'},
+  {
+    path: 'otc-merchant',
+    loadChildren: () => import('./components/otc-merchant/otc-merchant.module').then(m => m.OtcMerchantModule)
+  },
+
   { path: '', redirectTo: 'trade', pathMatch: 'full' },
 ];
 

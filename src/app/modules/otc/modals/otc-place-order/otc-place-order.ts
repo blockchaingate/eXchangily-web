@@ -48,16 +48,19 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit{
         this.options = {
             hidePostalCode: true
         };
+        this.selectedMethod = 'CreditCard';
     }
     show(element) {
         this.element = element;
         this.otcPlaceOrderModal.show();
 
-        var applicationId = "sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg";
-  
-        console.log('rrrrr');
+        console.log('environment.SQUARE_APP_ID=', environment.SQUARE_APP_ID);
+        console.log('this.element.fiat=', this.element.fiat);
+        var applicationId = environment.SQUARE_APP_ID[this.element.fiat];
+
+        var that = this;
         this.paymentForm = new SqPaymentForm({
-  
+          //postalCode: false,
           applicationId: applicationId,
           inputClass: 'sq-input',
           cardNumber: {
@@ -78,9 +81,16 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit{
           },
           // SqPaymentForm callback functions
           callbacks: {
+              
               cardNonceResponseReceived: function (errors, nonce, cardData) {
-                 alert(`The generated nonce is:\n${nonce}`);
-                 
+                 const data = {
+                  amount: that.amount,
+                  quantity: that.quantity,
+                  method: that.selectedMethod,
+                  token: that.token,
+                  charge_id: nonce
+                  };
+                  that.confirmed.emit(data);                 
               }
           }
         });
