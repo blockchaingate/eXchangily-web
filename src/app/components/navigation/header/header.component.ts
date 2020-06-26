@@ -26,7 +26,6 @@ export class HeaderComponent implements OnInit {
   color = 'primary';
   mode = 'determinate';
   value = 100;
-  testMode: boolean;
   interval;
 
   constructor(private translate: TranslateService, private router: Router, private alertServ: AlertService,
@@ -34,10 +33,6 @@ export class HeaderComponent implements OnInit {
     private location: Location, private storageServ: StorageService, private apiServ: ApiService, private _userAuth: UserAuth) { }
   
   ngOnInit() {
-    this.testMode = true;
-    if (environment.production) {
-      this.testMode = false;
-    }
     this.pendingtransactions = [];
     this.closetransactions = [];
 

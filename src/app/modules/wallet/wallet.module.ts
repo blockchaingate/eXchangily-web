@@ -39,6 +39,7 @@ import { BackupPrivateKeyModal } from './modals/backup-private-key/backup-privat
 import { DeleteWalletModal } from './modals/delete-wallet/delete-wallet.modal';
 import { GetFreeFabModal } from './modals/get-free-fab/get-free-fab.modal';
 import { LoginSettingModal } from './modals/login-setting/login-setting.modal';
+import { LockedInfoModal } from './modals/locked-info/locked-info.modal';
 import { DisplaySettingModal } from './modals/display-setting/display-setting.modal';
 import { KanbanService } from '../../services/kanban.service';
 import { AirdropService } from '../../services/airdrop.service';
@@ -78,6 +79,7 @@ import { TransactionTypePipe } from './pipes/transaction-type.pipe';
         TransactionDetailModal,
         AddAssetsModal,
         SendCoinModal,
+        LockedInfoModal,
         ReceiveCoinModal,
         DepositAmountModal,
         RedepositAmountModal,

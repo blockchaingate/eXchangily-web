@@ -38,6 +38,7 @@ import { environment } from '../../../../../environments/environment';
 import { ManageWalletComponent } from '../manage-wallet/manage-wallet.component';
 import { CampaignOrderService } from '../../../../services/campaignorder.service';
 import { Pair } from 'src/app/modules/market/models/pair';
+import { LockedInfoModal } from '../../modals/locked-info/locked-info.modal';
 
 @Component({
     selector: 'app-wallet-dashboard',
@@ -62,7 +63,7 @@ export class WalletDashboardComponent implements OnInit {
     @ViewChild('displaySettingModal', { static: true }) displaySettingModal: DisplaySettingModal;
     @ViewChild('toolsModal', { static: true }) toolsModal: ToolsModal;
     @ViewChild('getFreeFabModal', { static: true }) getFreeFabModal: GetFreeFabModal;
-
+    @ViewChild('lockedInfoModal', { static: true }) lockedInfoModal: LockedInfoModal;
 
     sendCoinForm: SendCoinForm;
     wallet: Wallet;
@@ -483,6 +484,7 @@ export class WalletDashboardComponent implements OnInit {
                                     coin.lockedBalance = Number(item.lockBalance);
                                     updated = true;
                                 }
+                                coin.lockers = item.lockers ? item.lockers : item.fabLockers;
                                 if(coin.usdPrice != item.usdValue.USD) {
                                     coin.usdPrice = item.usdValue.USD;
                                     updated = true;
@@ -1011,7 +1013,9 @@ export class WalletDashboardComponent implements OnInit {
         this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);    
         */
     }
-
+    showLockedDetails(coin) {
+        this.lockedInfoModal.show(coin);
+    }
     verifySeedPhrase() {
         let seedPhrase = '';
         if (this.wallet.encryptedMnemonic) {

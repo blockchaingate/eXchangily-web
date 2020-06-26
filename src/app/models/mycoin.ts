@@ -4,6 +4,7 @@ import { Address } from './address';
 export class MyCoin extends Coin {
     balance: number;
     lockedBalance: number;
+    lockers: any;
     receiveAdds: Address[];
     changeAdds: Address[];
     tokenType: string;
