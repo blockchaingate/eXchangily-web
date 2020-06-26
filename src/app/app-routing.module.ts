@@ -38,7 +38,7 @@ const routes: Routes = [
     resolve: {
       app: AppResolver
     },
-    path: 'home',
+    path: '',
     loadChildren: () => import('./modules/landing/features/home/home.module').then(m => m.HomeModule),
     // loadChildren: './modules/landing/features/home/home.module#HomeModule',
     data: {
@@ -85,7 +85,6 @@ const routes: Routes = [
     }
     */
   },
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
 
