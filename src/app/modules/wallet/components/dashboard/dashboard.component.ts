@@ -23,6 +23,7 @@ import { SendCoinModal } from '../../modals/send-coin/send-coin.modal';
 import { BackupPrivateKeyModal } from '../../modals/backup-private-key/backup-private-key.modal';
 import { DeleteWalletModal } from '../../modals/delete-wallet/delete-wallet.modal';
 import { LoginSettingModal } from '../../modals/login-setting/login-setting.modal';
+import { GetFreeFabModal } from '../../modals/get-free-fab/get-free-fab.modal';
 import { DisplaySettingModal } from '../../modals/display-setting/display-setting.modal';
 import { CoinsPrice } from '../../../../interfaces/balance.interface';
 import { SendCoinForm } from '../../../../interfaces/kanban.interface';
@@ -37,6 +38,7 @@ import { environment } from '../../../../../environments/environment';
 import { ManageWalletComponent } from '../manage-wallet/manage-wallet.component';
 import { CampaignOrderService } from '../../../../services/campaignorder.service';
 import { Pair } from 'src/app/modules/market/models/pair';
+import { LockedInfoModal } from '../../modals/locked-info/locked-info.modal';
 
 @Component({
     selector: 'app-wallet-dashboard',
@@ -60,6 +62,8 @@ export class WalletDashboardComponent implements OnInit {
     @ViewChild('loginSettingModal', { static: true }) loginSettingModal: LoginSettingModal;
     @ViewChild('displaySettingModal', { static: true }) displaySettingModal: DisplaySettingModal;
     @ViewChild('toolsModal', { static: true }) toolsModal: ToolsModal;
+    @ViewChild('getFreeFabModal', { static: true }) getFreeFabModal: GetFreeFabModal;
+    @ViewChild('lockedInfoModal', { static: true }) lockedInfoModal: LockedInfoModal;
 
     sendCoinForm: SendCoinForm;
     wallet: Wallet;
@@ -99,7 +103,8 @@ export class WalletDashboardComponent implements OnInit {
     constructor(
         private campaignorderServ: CampaignOrderService,
         private route: Router, private walletServ: WalletService, private modalServ: BsModalService,
-        private coinServ: CoinService, public utilServ: UtilService, private apiServ: ApiService, private _wsServ: WsService,
+        private coinServ: CoinService, public utilServ: UtilService, private apiServ: ApiService, 
+        private _wsServ: WsService,
         private kanbanServ: KanbanService, private web3Serv: Web3Service,
         private alertServ: AlertService, private timerServ: TimerService,
         private coinService: CoinService, private storageService: StorageService) {
@@ -113,7 +118,11 @@ export class WalletDashboardComponent implements OnInit {
         this.showTransactionHistory = false;
     
     }
- 
+
+    getFreeFab() {
+        this.getFreeFabModal.show();
+    }
+
     getCoinLogo(coin) {
         return '/assets/coins/' + coin.name.toLowerCase() + '.png'; 
     }
@@ -475,9 +484,13 @@ export class WalletDashboardComponent implements OnInit {
                                     coin.lockedBalance = Number(item.lockBalance);
                                     updated = true;
                                 }
+                                coin.lockers = item.lockers ? item.lockers : item.fabLockers;
                                 if(coin.usdPrice != item.usdValue.USD) {
                                     coin.usdPrice = item.usdValue.USD;
                                     updated = true;
+                                }
+                                if(coin.name == 'FAB') {
+                                    this.fabBalance = coin.balance;
                                 }
                             }
                         }
@@ -1000,7 +1013,9 @@ export class WalletDashboardComponent implements OnInit {
         this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);    
         */
     }
-
+    showLockedDetails(coin) {
+        this.lockedInfoModal.show(coin);
+    }
     verifySeedPhrase() {
         let seedPhrase = '';
         if (this.wallet.encryptedMnemonic) {

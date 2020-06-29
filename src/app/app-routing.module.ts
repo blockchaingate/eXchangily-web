@@ -17,7 +17,7 @@ const routes: Routes = [
   {
     path: 'otc',
     loadChildren: () => import('./modules/otc/otc.module').then(m => m.OtcModule)
-  },  
+  },
   {
     path: 'market',
     loadChildren: () => import('./modules/market/market.module').then(m => m.MarketModule)
@@ -39,7 +39,7 @@ const routes: Routes = [
     resolve: {
       app: AppResolver
     },
-    path: 'home',
+    path: '',
     loadChildren: () => import('./modules/landing/features/home/home.module').then(m => m.HomeModule),
     // loadChildren: './modules/landing/features/home/home.module#HomeModule',
     data: {

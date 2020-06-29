@@ -27,7 +27,8 @@
                                 </button>
                             </div>
                             <div class="small text-white" *ngIf="wallet && !wallet.hide">{{"Gas" | translate }}: {{gas}}
-                                <span class="warningMsg" *ngIf="gas<0.1">{{"No enough gas in exchange, please add gas to trade"|translate}}.</span>
+                                <span class="warningMsg pr-2" *ngIf="gas<0.1">{{"No enough gas in exchange, please add gas to trade"|translate}}.</span>
+                                <button class="btn button btn-outline btn-basic-outline btn-fixed-width" *ngIf="(gas<0.1) && (fabBalance < 0.1)" (click)="getFreeFab()">{{"Get free FAB" | translate }}</button>
                             </div>
 
                         </div>
@@ -180,7 +181,8 @@
                                             </span>
                                         </div>
                                         <div class="col-2">
-                                            <span *ngIf="mycoin.lockedBalance && (mycoin.lockedBalance >= 0)">
+                                            <span class="link-span" *ngIf="mycoin.lockedBalance && (mycoin.lockedBalance >= 0)" (click)="showLockedDetails(mycoin)">
+                                            
                                                 {{utilServ.toPrecision(mycoin.lockedBalance)}}
                                             </span>
                                         </div>
@@ -300,3 +302,5 @@
     </login-setting-modal>
     <display-setting-modal #displaySettingModal (confirmedDisplaySetting)="onConfirmedDisplaySetting($event)">
     </display-setting-modal>
+    <get-free-fab-modal #getFreeFabModal [address]="fabAddress"></get-free-fab-modal>
+    <locked-info-modal #lockedInfoModal></locked-info-modal>

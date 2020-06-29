@@ -7,6 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { VersionComponent } from './version/version.component';
 import { TeamComponent } from './team/team.component';
 import { RoadmapComponent } from './roadmap/roadmap.component';
+import { LaunchpadComponent } from './launchpad/launchpad.component';
 
 import { ComponentsModule } from '../../components/components.module';
 import { RouterModule } from '@angular/router';
@@ -34,6 +35,7 @@ import { HttpService } from '../../../../services/http.service';
     HomeComponent,
     VersionComponent,
     TeamComponent,
+    LaunchpadComponent,
     RoadmapComponent
   ]
 })

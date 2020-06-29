@@ -210,3 +210,9 @@ button.button:hover {
     color: red;
     margin-left: 1em;
 }
+
+.link-span {
+    cursor: pointer;
+    color:lightgoldenrodyellow;
+    text-decoration: underline;
+}
