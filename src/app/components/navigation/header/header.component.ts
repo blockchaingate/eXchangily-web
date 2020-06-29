@@ -127,8 +127,10 @@ export class HeaderComponent implements OnInit {
   
     if (lang === 'zh') {
       this.currentLang = '中文';
+      this._userAuth.language = '简体中文';
     } else if (lang === 'en') {
       this.currentLang = 'English';
+      this._userAuth.language = 'English';
     }
     this.translate.use(lang.toLowerCase());
   }

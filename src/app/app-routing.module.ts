@@ -39,7 +39,7 @@ const routes: Routes = [
     resolve: {
       app: AppResolver
     },
-    path: '',
+    path: 'home',
     loadChildren: () => import('./modules/landing/features/home/home.module').then(m => m.HomeModule),
     // loadChildren: './modules/landing/features/home/home.module#HomeModule',
     data: {
