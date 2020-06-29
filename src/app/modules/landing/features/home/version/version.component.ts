@@ -8,6 +8,6 @@ import { environment } from '../../../../../../environments/environment';
 export class VersionComponent implements OnInit {
     version: string;
     ngOnInit() {
-        this.version = environment.production.toString();
+        this.version = environment.production.toString() + ' ' + environment.version;
     }    
 }
