@@ -223,9 +223,10 @@
                 "Member11": {
                     "Name": "Wesam Helou",
                     "Image": "wesam-m.jpg",
-                    "Title": "Manager, Software Support & Enterprise System Developer",
+                    "Title": "Manager, Software Support",
                     "Desc": [
-                        "PhD in Information Technology"
+                        "PhD in Information Technology",
+                        "Enterprise System Developer"
                     ]
                 },
                 "Member12": {

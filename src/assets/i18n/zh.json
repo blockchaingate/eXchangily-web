@@ -215,9 +215,10 @@
                 "Member11": {
                     "Name": "Wesam Helou",
                     "Image": "wesam-m.jpg",
-                    "Title": "软件客服经理，企业系统开发工程师",
+                    "Title": "软件客服经理",
                     "Desc": [
-                        "信息科学博士"
+                        "信息科学博士",
+                        "企业系统开发工程师"
                     ]
                 },
                 "Member12": {
@@ -363,7 +364,6 @@
                         "中国客户助理"
                     ]
                 }
-
 
             }
         }
@@ -1075,7 +1075,7 @@
     "Answer": "答案",
     "Locked Details": "锁仓详情",
     "Expired Block": "到期区块",
-    "Type answer": "输入答案",    
+    "Type answer": "输入答案",
     "Get free FAB": "获取免费FAB",
     "Orders": "订单",
     "Ongoing": "进行中",
