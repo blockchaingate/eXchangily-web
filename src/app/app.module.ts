@@ -22,12 +22,14 @@ import { PageNotFoundComponent } from './page-not-found.component';
 import { HeaderComponent } from './components/navigation/header/header.component';
 import { FooterComponent } from './components/navigation/footer/footer.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FaqComponent } from './components/help/faq.component';
 
 import { HttpService } from './services/http.service';
 import { AlertService } from './services/alert.service';
 import { UtilService } from './services/util.service';
 import { KanbanService } from './services/kanban.service';
 import { ApiService } from './services/api.service';
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -39,6 +41,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     PageNotFoundComponent,
     // TvChartContainerComponent,
     HeaderComponent,
+    FaqComponent,
     FooterComponent
   ],
   imports: [

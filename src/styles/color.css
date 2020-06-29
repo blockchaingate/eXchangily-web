@@ -1,0 +1,36 @@
+.white {
+    color: white;
+}
+
+.black {
+    color: black;
+}
+
+.brown {
+    color: brown;
+}
+
+.blue {
+    color: blue;
+}
+
+.cyan {
+    color: cyan;
+}
+
+.white-bg {
+    background-color: white;
+}
+
+.black-bg {
+    background-color: black;
+    ;
+}
+
+.lightgray-bg {
+    background-color: lightgray;
+}
+
+.darkgray-bg {
+    background-color: #4F4F4F;
+}

@@ -5,6 +5,10 @@
 @import 'fonts';
 @import 'sizing';
 @import 'forms';
+@import './styles/margin.css';
+@import './styles/padding.css';
+@import './styles/size.css';
+@import './styles/color.css';
 html,
 body {
     color: $secondary-light;

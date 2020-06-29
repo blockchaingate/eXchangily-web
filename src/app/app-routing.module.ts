@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { PageNotFoundComponent } from './page-not-found.component';
 import { AppResolver } from './modules/landing/resolvers/app/app.resolve';
+import { FaqComponent } from './components/help/faq.component';
 
 const routes: Routes = [
   {
@@ -85,6 +86,7 @@ const routes: Routes = [
     }
     */
   },
+  { path: 'faq', component: FaqComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
