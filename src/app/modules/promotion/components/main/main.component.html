@@ -264,7 +264,7 @@
                 </div>
 
                 <div class="d-flex justify-content-end">
-                    <button class="btn btn-gradient text-white py-2 px-5" (click)="next()" [disabled]="value === undefined || value < 100">
+                    <button class="btn btn-gradient text-white py-2 px-5" (click)="next()" [disabled]="value === undefined">
                         {{((step == 1) ? 'Next' : 'Confirm') | translate }} </button>
                 </div>
             </div>
