@@ -2,3 +2,18 @@
     width: 100%;
     height: auto;
 }
+
+a.btn {
+    width: 250px;
+    padding: 10px 25px 10px 25px;
+    font-family: Arial;
+    font-size: 16px;
+    text-decoration: none;
+    color: white;
+    background-color: #245191;
+  }
+  
+  a.btn:hover {
+    background-color: #243191;
+    color: white;
+  }
