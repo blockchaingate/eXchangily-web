@@ -471,10 +471,18 @@ export class WalletDashboardComponent implements OnInit {
             (res: any) => {
                 if(res && res.success) {
                     let updated = false;
+                    let hasDRGN = false;
+                    let ethCoin;
                     for(let i=0;i<res.data.length; i++) {
                         const item = res.data[i];
                         for(let j=0;j<this.wallet.mycoins.length;j++) {
                             const coin = this.wallet.mycoins[j];
+                            if(coin.name == 'DRGN') {
+                                hasDRGN = true;
+                            }
+                            if(coin.name == 'ETH') {
+                                ethCoin = coin;
+                            }                            
                             if(item.coin == coin.name) {
                                 if(coin.balance != Number(item.balance)) {
                                     coin.balance = Number(item.balance);
@@ -498,6 +506,20 @@ export class WalletDashboardComponent implements OnInit {
 
                         this.exgValue = (this.exgBalance) * this.wallet.mycoins[0].usdPrice;
                     }
+
+                    if (!hasDRGN) {
+                        const drgnCoin = new MyCoin('DRGN');
+                        drgnCoin.balance = 0;
+                        drgnCoin.decimals = 18;
+                        drgnCoin.coinType = environment.CoinType.ETH;
+                        drgnCoin.lockedBalance = 0;
+                        drgnCoin.receiveAdds.push(ethCoin.receiveAdds[0]);
+                        drgnCoin.tokenType = 'ETH';
+                        drgnCoin.baseCoin = ethCoin;
+                        drgnCoin.contractAddr = environment.addresses.smartContract.DRGN;
+                        this.wallet.mycoins.push(drgnCoin);
+                        updated = true;
+                    }                     
                     if (updated) {
                         // console.log('updated=' + updated);
                         this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
