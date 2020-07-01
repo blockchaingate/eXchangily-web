@@ -1,5 +1,5 @@
 <div bsModal #transactionDetailModal2="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header text-center">
                 <h4 class="modal-title w-100 text-dark">{{"Wallet Transaction History"|translate}}</h4>
@@ -9,7 +9,22 @@
             </div>
             <div class="modal-body" *ngIf="item">
                 <div class="py-3">
- rrr
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">{{'Chain' | translate}}</th>
+                            <th scope="col">{{'txid' | translate}}</th>
+                            <th scope="col">{{'status' | translate}}</th>
+                        </tr>
+                        </thead>
+                        <tbody class="text-muted">
+                        <tr *ngFor="let tx of item.transactions">
+                            <td><small>{{tx.chain}}</small></td>
+                            <td><small>{{tx.transactionId}}</small></td>
+                            <td><small>{{tx.status}}</small></td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
 
             </div>

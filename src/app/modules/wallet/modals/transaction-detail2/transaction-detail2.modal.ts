@@ -19,6 +19,7 @@ export class TransactionDetailModal2 {
 
     show(item: any) {
         this.item = item;
+        console.log('this.item=', this.item);
         this.transactionDetailModal2.show();
     }
 
