@@ -92,7 +92,10 @@ export class UtilService {
         return Math.round(num * 10000) / 10000;
     }
 
-    getFormattedDate(date: Date) {
+    getFormattedDate(date: any) {
+        if(Number.isInteger(date)) {
+            date = new Date(date * 1000);
+        }
         const month = date.getMonth() + 1;
         const day = date.getDate();
         const hour = date.getHours();

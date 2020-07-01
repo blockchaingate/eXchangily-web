@@ -94,6 +94,7 @@ export class WalletDashboardComponent implements OnInit {
     showMyAssets: boolean;
     showTransactionHistory: boolean;
     gas: number;
+    transactions: any;
     alertMsg: string;
     opType: string;
     currentCurrency: string;
@@ -465,8 +466,19 @@ export class WalletDashboardComponent implements OnInit {
             fabAddress: fabAddress,
             bchAddress: bchAddress,
             dogeAddress: dogeAddress,
-            ltcAddress: ltcAddress
+            ltcAddress: ltcAddress,
+            timestamp: 0
         };
+
+        this.coinServ.getTransactionHistoryEvents(data).subscribe(
+            (res: any) => {
+                if(res && res.success) {
+                    const data = res.data;
+                    console.log('data===', data);
+                    this.transactions = data;
+                }
+            }
+        );
         this.coinServ.walletBalance(data).subscribe(
             (res: any) => {
                 if(res && res.success) {

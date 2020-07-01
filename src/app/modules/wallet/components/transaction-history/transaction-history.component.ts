@@ -6,6 +6,7 @@ import { UtilService } from '../../../../services/util.service';
 import { ApiService } from '../../../../services/api.service';
 import { KanbanService } from '../../../../services/kanban.service';
 import { TransactionDetailModal } from '../../modals/transaction-detail/transaction-detail.modal';
+import { TransactionDetailModal2 } from '../../modals/transaction-detail2/transaction-detail2.modal';
 
 @Component({
     selector: 'app-transaction-history',
@@ -14,10 +15,11 @@ import { TransactionDetailModal } from '../../modals/transaction-detail/transact
 })
 export class TransactionHistoryComponent implements OnInit {
     @ViewChild('transactionDetailModal', { static: true }) transactionDetailModal: TransactionDetailModal;
-
+    @ViewChild('transactionDetailModal2', { static: true }) transactionDetailModal2: TransactionDetailModal2;
     transactionHistory: TransactionItem[];
     @Input() coinsPrice: CoinsPrice;
     @Input() walletId: string;
+    @Input() transactions: any;
     currentType: string;
     utilServ: UtilService;
 
@@ -44,6 +46,10 @@ export class TransactionHistoryComponent implements OnInit {
                 }
             }
         );
+    }
+
+    async showTransactionDetail2(item: any) {
+        this.transactionDetailModal2.show(item);
     }
 
     async showTransactionDetail(item: TransactionItem) {
