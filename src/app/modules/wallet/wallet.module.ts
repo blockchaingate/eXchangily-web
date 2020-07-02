@@ -26,6 +26,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { QRCodeModule } from 'angularx-qrcode';
 import { MatInputModule } from '@angular/material/input';
 import { TransactionDetailModal } from './modals/transaction-detail/transaction-detail.modal';
+import { TransactionDetailModal2 } from './modals/transaction-detail2/transaction-detail2.modal';
 import { AddAssetsModal } from './modals/add-assets/add-assets.modal';
 import { SendCoinModal } from './modals/send-coin/send-coin.modal';
 import { ReceiveCoinModal } from './modals/receive-coin/receive-coin.modal';
@@ -79,6 +80,7 @@ import { TransactionTypePipe } from './pipes/transaction-type.pipe';
         TransactionDetailModal,
         AddAssetsModal,
         SendCoinModal,
+        TransactionDetailModal2,
         LockedInfoModal,
         ReceiveCoinModal,
         DepositAmountModal,

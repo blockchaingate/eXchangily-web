@@ -344,6 +344,10 @@ export class CoinService {
         return this.apiService.getWalletBalance(data);
     }
 
+    getTransactionHistoryEvents(data: any) {
+        return this.apiService.getTransactionHistoryEvents(data);
+    }
+
     async getBalance(myCoin: MyCoin) {
         console.log('myCoin.name for getBalance=', myCoin.name);
         let balance;

@@ -27,7 +27,8 @@ export class AppComponent {
       if (e instanceof NavigationEnd) {
         const url = e.url;
         if (
-          (url.indexOf('/market') >= 0) 
+          (url.indexOf('/market') >= 0)
+          || (url.indexOf('/launchpad') >= 0)
           || (url.indexOf('/wallet') >= 0) 
           || (url.indexOf('/explorer') >= 0) 
           || (url.indexOf('/smartcontract') >= 0)
