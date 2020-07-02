@@ -19,15 +19,15 @@ export class TradeComponent implements OnInit {
     }
 
     setPairs() {
-        let pairsConfig = sessionStorage.getItem('pairsConfig');
-        if (!pairsConfig) {
+        let pairsConfig; // = sessionStorage.getItem('pairsConfig');
+        // if (!pairsConfig) {
             this.kanbanService.getPairConfig().subscribe(
                 res => {
                     pairsConfig = JSON.stringify(res);
                     sessionStorage.setItem('pairsConfig', pairsConfig);
                 },
                 err => { this.errMsg = err.message; });
-        }
+        // }
     }
 
 }

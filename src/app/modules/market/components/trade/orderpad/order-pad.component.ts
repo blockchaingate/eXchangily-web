@@ -167,11 +167,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     if (this.pairsConfig) {
       this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
     }
-    if(!this.pairConfig) {
+    if (!this.pairConfig) {
       this.pairConfig = {
         name: pairName,
-        priceDecimal: 2,
-        qtyDecimal: 2
+        priceDecimal: 6,
+        qtyDecimal: 6
       }
     }
     const vald = this.checkRegExp(this.buyPrice.toString(), this.pairConfig.priceDecimal);
@@ -191,8 +191,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     if(!this.pairConfig) {
       this.pairConfig = {
         name: pairName,
-        priceDecimal: 2,
-        qtyDecimal: 2
+        priceDecimal: 6,
+        qtyDecimal: 6
       }
     }
     const vald = this.checkRegExp(this.buyQty.toString(), this.pairConfig.qtyDecimal);
@@ -212,8 +212,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     if(!this.pairConfig) {
       this.pairConfig = {
         name: pairName,
-        priceDecimal: 2,
-        qtyDecimal: 2
+        priceDecimal: 6,
+        qtyDecimal: 6
       }
     }
     const vald = this.checkRegExp(this.sellPrice.toString(), this.pairConfig.priceDecimal);
@@ -233,8 +233,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     if(!this.pairConfig) {
       this.pairConfig = {
         name: pairName,
-        priceDecimal: 2,
-        qtyDecimal: 2
+        priceDecimal: 6,
+        qtyDecimal: 6
       }
     }    
     const vald = this.checkRegExp(this.sellQty.toString(), this.pairConfig.qtyDecimal);
