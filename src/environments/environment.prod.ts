@@ -17,11 +17,11 @@ export const environment = {
     chains: {
         BTC: {
             network: Btc.networks.bitcoin,
-            satoshisPerBytes: 60,
+            satoshisPerBytes: 100,
             bytesPerInput: 152
         },
         DOGE: {
-            satoshisPerBytes: 400000,
+            satoshisPerBytes: 800000,
             bytesPerInput: 148
         },
         LTC: {
@@ -29,13 +29,13 @@ export const environment = {
             bytesPerInput: 148
         },  
         BCH: {
-            satoshisPerBytes: 50,
+            satoshisPerBytes: 100,
             bytesPerInput: 148
         },               
         ETH: {
             chain: 'mainnet',
             hardfork: 'petersburg',
-            gasPrice: 30,
+            gasPrice: 100,
             gasLimit: 100000
         },
         FAB: {
@@ -44,7 +44,7 @@ export const environment = {
                 networkId: 0,
                 chainId: 0
             },
-            satoshisPerBytes: 50,
+            satoshisPerBytes: 100,
             bytesPerInput: 152,
             gasPrice: 50,
             gasLimit: 800000
