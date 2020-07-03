@@ -100,7 +100,17 @@
                     </div>
                 </div>
 
+
+                <div class="px-3 pb-2 text-warning">
+                    <p *ngIf="lan == 'en'">
+                        {{confirmations}} confirmations required.
+                    </p>
+                    <p *ngIf="lan == 'zh'">
+                        需要等待{{confirmations}}个确认。
+                    </p>
+                </div>
                 <div class="modal-footer">
+
                     <div class="text-info">
                         {{'DepositNote' | translate}}
                     </div>

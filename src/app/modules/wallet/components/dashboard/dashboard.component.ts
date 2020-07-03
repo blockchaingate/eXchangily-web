@@ -1422,9 +1422,9 @@ export class WalletDashboardComponent implements OnInit {
                 */
                 this.kanbanServ.incNonce();
                 if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('转币去交易所请求已提交，请耐心等待', 'Ok');
+                    this.alertServ.openSnackBar('转币去交易所请求已提交，请等待' + environment.depositMinimumConfirmations[currentCoin.name] + '个确认', 'Ok');
                 } else {
-                    this.alertServ.openSnackBar('Moving fund to DEX was submitted, please wait for confirmations.', 'Ok');
+                    this.alertServ.openSnackBar('Moving fund to DEX was submitted, please wait for ' + environment.depositMinimumConfirmations[currentCoin.name] + ' confirmations.', 'Ok');
                 }
             } else if (resp.error) {
                 this.alertServ.openSnackBar(resp.error, 'Ok');
