@@ -627,10 +627,12 @@ export class CoinService {
                var messageBuffer = new Buffer(originalMessage);
                var prefix2 = dogecore.encoding.BufferWriter.varintBufNum(messageBuffer.length);
                var buf = Buffer.concat([prefix1, MAGIC_BYTES, prefix2, messageBuffer]);
+                console.log('buf there eeeee=', buf);
                var hash = dogecore.crypto.Hash.sha256sha256(buf);
                //  return hash;
               
-
+               console.log('hash there we go=');
+               console.log(hash);
 
 
                //var hash = message.magicHash();

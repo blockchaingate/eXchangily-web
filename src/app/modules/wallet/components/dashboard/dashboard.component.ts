@@ -840,10 +840,6 @@ export class WalletDashboardComponent implements OnInit {
             this.depositdo();
         } else if (this.opType === 'redeposit') {
             this.redepositdo();
-            /*
-        } else if (this.opType === 'redeposit') {
-            this.redepositdo();
-            */
         } else if (this.opType === 'addGas') {
             this.addGasDo();
         } else if (this.opType === 'sendCoin') {
@@ -1383,11 +1379,9 @@ export class WalletDashboardComponent implements OnInit {
         const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(txHash)
             , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
 
-        console.log('originalMessage=', originalMessage);
 
         const signedMessage: Signature = this.coinServ.signedMessage(originalMessage, keyPairs);
 
-        console.log('signedMessage=', signedMessage);
 
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
         const abiHex = this.web3Serv.getDepositFuncABI(coinType, txHash, amountInLink, addressInKanban, signedMessage);
@@ -1407,6 +1401,7 @@ export class WalletDashboardComponent implements OnInit {
         this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp: any) => {
             // console.log('resp=', resp);
             if (resp && resp.data && resp.data.transactionID) {
+                /*
                 const item = {
                     walletId: this.wallet.id,
                     type: 'Deposit',
@@ -1424,11 +1419,12 @@ export class WalletDashboardComponent implements OnInit {
                 this.storageService.storeToTransactionHistoryList(item);
                 this.timerServ.transactionStatus.next(item);
                 this.timerServ.checkTransactionStatus(item);
+                */
                 this.kanbanServ.incNonce();
                 if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('转币去交易所提交成功', 'Ok');
+                    this.alertServ.openSnackBar('转币去交易所请求已提交，请耐心等待', 'Ok');
                 } else {
-                    this.alertServ.openSnackBar('Moving fund to DEX submitted successfully.', 'Ok');
+                    this.alertServ.openSnackBar('Moving fund to DEX was submitted, please wait for confirmations.', 'Ok');
                 }
             } else if (resp.error) {
                 this.alertServ.openSnackBar(resp.error, 'Ok');

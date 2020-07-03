@@ -195,6 +195,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this.kanbanServ.sendRawSignedTransaction(txKanbanHex).subscribe((resp: any) => {
             // console.log('resp=', resp);
             if (resp && resp.transactionHash) {
+                /*
                 const item = {
                     walletId: this.wallet.id,
                     type: 'Withdraw',
@@ -212,6 +213,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 this.storageServ.storeToTransactionHistoryList(item);
                 this.timerServ.transactionStatus.next(item);
                 this.timerServ.checkTransactionStatus(item);
+                */
                 this.modalWithdrawRef.hide();
                 this.kanbanServ.incNonce();
                 if (this.lan === 'zh') {

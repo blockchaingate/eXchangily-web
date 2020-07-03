@@ -20,7 +20,14 @@
                         <tbody class="text-muted">
                         <tr *ngFor="let tx of item.transactions">
                             <td><small>{{tx.chain}}</small></td>
-                            <td><small>{{tx.transactionId}}</small></td>
+                            <td>
+                                <small>
+                                    <a target="_blank" href="{{getTxUrl(tx)}}" class="tx-link">
+                                        {{tx.transactionId}}
+                                    </a>
+
+                                </small>
+                            </td>
                             <td><small>{{tx.status}}</small></td>
                         </tr>
                         </tbody>
