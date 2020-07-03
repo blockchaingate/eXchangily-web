@@ -17,19 +17,19 @@ export const environment = {
     chains: {
         BTC: {
             network: Btc.networks.bitcoin,
-            satoshisPerBytes: 80,
+            satoshisPerBytes: 90,
             bytesPerInput: 152
         },
         DOGE: {
-            satoshisPerBytes: 800000,
+            satoshisPerBytes: 1500000,
             bytesPerInput: 148
         },
         LTC: {
-            satoshisPerBytes: 600,
+            satoshisPerBytes: 150,
             bytesPerInput: 148
         },  
         BCH: {
-            satoshisPerBytes: 90,
+            satoshisPerBytes: 9,
             bytesPerInput: 148
         },               
         ETH: {
