@@ -44,7 +44,8 @@ export class DepositAmountModal {
         this.kanbanTransFee = 0;
         this.firstTime = true;
         this.disabled = false;
-        this.lan = localStorage.getItem('Lan');
+
+        console.log('this.lan===', this.lan);
     }
 
     getTransFeeUnit() {
@@ -99,6 +100,7 @@ export class DepositAmountModal {
     }
 
     initForm(coin) {
+        this.lan = this.tranServ.currentLang;
         this.firstTime = true;
         this.coin = coin;
         this.onTextChange(null);
