@@ -88,20 +88,7 @@ const routes: Routes = [
   },
   { path: 'faq', component: FaqComponent },
   {
-    resolve: {
-      app: AppResolver
-    },
-    path: '',
-    loadChildren: () => import('./modules/landing/features/home/home.module').then(m => m.HomeModule),
-    // loadChildren: './modules/landing/features/home/home.module#HomeModule',
-    data: {
-      title: 'Exchangily',
-      isHome: true,
-      metatags: {
-        description: 'Exchangily is a type of decentralized cryptocurrency exchange. Decentralized cryptocurrency exchanges are a new generation of peer-to-peer (P2P) platforms that will be more transparent in operations and fees than the current exchange model.',
-        keywords: 'blockchain, cryptocurrency, enterprise, exchangily'
-      }
-    }
+    path: '', redirectTo: '/market/home', pathMatch: 'full'
   },
   { path: '**', component: PageNotFoundComponent }
 ];

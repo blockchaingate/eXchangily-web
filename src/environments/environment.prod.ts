@@ -13,11 +13,11 @@ export const environment = {
     tmpUrl: 'https://kanbanprod.fabcoinapi.com/', // replace this url once the temp api is deployed    
     version: 0.11,
     campaignId: 1,
-    OTC_COMMISSION_RATE: 0.001,
+    OTC_COMMISSION_RATE: 0.01,
     chains: {
         BTC: {
             network: Btc.networks.bitcoin,
-            satoshisPerBytes: 100,
+            satoshisPerBytes: 80,
             bytesPerInput: 152
         },
         DOGE: {
@@ -25,18 +25,18 @@ export const environment = {
             bytesPerInput: 148
         },
         LTC: {
-            satoshisPerBytes: 200,
+            satoshisPerBytes: 600,
             bytesPerInput: 148
         },  
         BCH: {
-            satoshisPerBytes: 100,
+            satoshisPerBytes: 90,
             bytesPerInput: 148
         },               
         ETH: {
             chain: 'mainnet',
             hardfork: 'petersburg',
-            gasPrice: 100,
-            gasLimit: 100000
+            gasPrice: 90,
+            gasLimit: 200000
         },
         FAB: {
             chain: {
