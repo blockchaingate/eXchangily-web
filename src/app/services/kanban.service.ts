@@ -82,7 +82,7 @@ export class KanbanService {
         // console.log('nouse in here:', path);
         const res = await this.get(path).toPromise() as TransactionAccountResponse;
         return res.transactionCount;
-        
+
     }
 
     async getPendingNonce(address: string) {
