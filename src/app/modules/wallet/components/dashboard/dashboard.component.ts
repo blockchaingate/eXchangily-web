@@ -1287,6 +1287,7 @@ export class WalletDashboardComponent implements OnInit {
             gasPrice: gasPrice,
             gasLimit: gasLimit
         };
+
         const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, 0, options);
         this.kanbanServ.submitReDeposit(txKanbanHex).subscribe((resp: any) => {
             console.log('resp for submitrediposit=', resp);
