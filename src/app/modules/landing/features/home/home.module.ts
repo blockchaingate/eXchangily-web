@@ -18,6 +18,7 @@ import { JsonFileService } from '../../service/jsondata/jsondata.service';
 import { DirectivesModule } from '../../directives/directives.module';
 // import { UserService } from '../../service/user/user.service';
 import { HttpService } from '../../../../services/http.service';
+
 @NgModule({
   imports: [
     CommonModule,
