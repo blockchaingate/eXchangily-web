@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { KanbanGetBanalceResponse, KanbanNonceResponse, DepositStatusResp } from '../interfaces/kanban.interface';
+import { KanbanGetBanalceResponse, KanbanNonceResponse, DepositStatusResp, TransactionAccountResponse } from '../interfaces/kanban.interface';
 import { environment } from '../../environments/environment';
 import { UtilService } from './util.service';
 import { TransactionReceiptResp } from '../interfaces/kanban.interface';

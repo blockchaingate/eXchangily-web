@@ -26,6 +26,10 @@ export interface DepositStatusResp {
     code: number;
     message: string;
 }
+
+export interface TransactionAccountResponse {
+transactionCount: number;
+}
 export interface OrderBookItem {
     asks: [][];
     bids: [][];
