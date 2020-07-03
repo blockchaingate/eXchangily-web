@@ -206,6 +206,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
   checkSellPrice() {
     const pairName = this.route.snapshot.paramMap.get('pair').replace('_', '');
+    console.log('this.pairsConfig===', this.pairsConfig);
     if (this.pairsConfig) {
       this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
     }
@@ -671,8 +672,12 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.pairsConfig = <Pair[]>(JSON.parse(sessionStorage.getItem('pairsConfig')));
-
+    //this.pairsConfig = <Pair[]>(JSON.parse(sessionStorage.getItem('pairsConfig')));
+    this.kanbanService.getPairConfig().subscribe(
+      (res: any) => {
+        this.pairsConfig = res;
+      }
+    );
     this.sub = this.route.params.subscribe(params => {
       let pair = params['pair']; // (+) converts string 'id' to a number
       if (!pair) {
