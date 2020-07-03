@@ -680,9 +680,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     );
 
     //this.pairsConfig = <Pair[]>(JSON.parse(sessionStorage.getItem('pairsConfig')));
+    const pairName = this.route.snapshot.paramMap.get('pair').replace('_', '');
     this.kanbanService.getPairConfig().subscribe(
       (res: any) => {
         this.pairsConfig = res;
+        this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
       }
     );
     this.sub = this.route.params.subscribe(params => {
