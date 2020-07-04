@@ -683,7 +683,7 @@ export class WalletDashboardComponent implements OnInit {
         this.refreshGas();
     }
     exchangeMoney() {
-        this.route.navigate(['/market/home']);
+        this.route.navigate(['/market/trade/BTC_USDT']);
     }
     openModal(template: TemplateRef<any>) {
         this.modalRef = this.modalServ.show(template);
