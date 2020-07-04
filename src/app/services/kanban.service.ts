@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { KanbanGetBanalceResponse, KanbanNonceResponse, DepositStatusResp } from '../interfaces/kanban.interface';
+import { KanbanGetBanalceResponse, KanbanNonceResponse, DepositStatusResp, TransactionAccountResponse } from '../interfaces/kanban.interface';
 import { environment } from '../../environments/environment';
 import { UtilService } from './util.service';
 import { TransactionReceiptResp } from '../interfaces/kanban.interface';
@@ -76,13 +76,13 @@ export class KanbanService {
     }
 
     async getTransactionCount(address: string) {
-        return this.getNonce(address);
-        /*
+        //return this.getNonce(address);
+
         const path = 'kanban/getTransactionCount/' + address; 
         // console.log('nouse in here:', path);
         const res = await this.get(path).toPromise() as TransactionAccountResponse;
         return res.transactionCount;
-        */
+
     }
 
     async getPendingNonce(address: string) {

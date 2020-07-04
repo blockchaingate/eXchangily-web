@@ -683,7 +683,7 @@ export class WalletDashboardComponent implements OnInit {
         this.refreshGas();
     }
     exchangeMoney() {
-        this.route.navigate(['/market/home']);
+        this.route.navigate(['/market/trade/BTC_USDT']);
     }
     openModal(template: TemplateRef<any>) {
         this.modalRef = this.modalServ.show(template);
@@ -1287,6 +1287,7 @@ export class WalletDashboardComponent implements OnInit {
             gasPrice: gasPrice,
             gasLimit: gasLimit
         };
+
         const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, 0, options);
         this.kanbanServ.submitReDeposit(txKanbanHex).subscribe((resp: any) => {
             console.log('resp for submitrediposit=', resp);
@@ -1422,9 +1423,9 @@ export class WalletDashboardComponent implements OnInit {
                 */
                 this.kanbanServ.incNonce();
                 if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('转币去交易所请求已提交，请耐心等待', 'Ok');
+                    this.alertServ.openSnackBar('转币去交易所请求已提交，请等待' + environment.depositMinimumConfirmations[currentCoin.name] + '个确认', 'Ok');
                 } else {
-                    this.alertServ.openSnackBar('Moving fund to DEX was submitted, please wait for confirmations.', 'Ok');
+                    this.alertServ.openSnackBar('Moving fund to DEX was submitted, please wait for ' + environment.depositMinimumConfirmations[currentCoin.name] + ' confirmations.', 'Ok');
                 }
             } else if (resp.error) {
                 this.alertServ.openSnackBar(resp.error, 'Ok');

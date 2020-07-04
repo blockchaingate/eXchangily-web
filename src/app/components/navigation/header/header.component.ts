@@ -26,6 +26,7 @@ export class HeaderComponent implements OnInit {
   color = 'primary';
   mode = 'determinate';
   value = 100;
+  showCollapse: boolean;
   testMode: boolean;
   interval;
 
@@ -38,6 +39,7 @@ export class HeaderComponent implements OnInit {
     if (environment.production) {
       this.testMode = false;
     }
+    this.showCollapse = false;
     this.pendingtransactions = [];
     this.closetransactions = [];
 

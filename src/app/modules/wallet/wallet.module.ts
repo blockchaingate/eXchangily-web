@@ -59,7 +59,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
 import { SharedModule } from '../shared/shared.module';
 import { TransactionTypePipe } from './pipes/transaction-type.pipe';
-
 @NgModule({
     declarations: [
         WalletDashboardComponent,
@@ -124,7 +123,7 @@ import { TransactionTypePipe } from './pipes/transaction-type.pipe';
     ],
     providers: [
         KanbanService, 
-        Web3Service, 
+        Web3Service,
         AlertService, 
         CampaignOrderService, 
         AirdropService

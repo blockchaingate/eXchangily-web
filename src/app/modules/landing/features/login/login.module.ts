@@ -18,7 +18,7 @@ import { WalletService } from '../.../../../../../services/wallet.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { StorageService } from '../../../../services/storage.service';
 
-// import { UserService } from '../../service/user/user.service';
+import { CoinService } from '../../../../services/coin.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -32,7 +32,8 @@ import { StorageService } from '../../../../services/storage.service';
   providers: [
     NoAuthGuard,
     StorageService,
-    WalletService
+    WalletService,
+    CoinService
   ],
   declarations: [LoginComponent, SignupComponent, SigninComponent, ResetComponent, ActivateComponent, ChangePasswordComponent,]
 })

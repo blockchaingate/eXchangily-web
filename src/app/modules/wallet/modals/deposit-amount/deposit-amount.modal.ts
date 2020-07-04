@@ -6,6 +6,7 @@ import { AlertService } from '../../../../services/alert.service';
 import { environment } from '../../../../../environments/environment';
 import { CoinService } from '../../../../services/coin.service';
 import BigNumber from 'bignumber.js';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'deposit-amount-modal',
@@ -23,6 +24,8 @@ export class DepositAmountModal {
     tranFeeUnit: string;
     disabled: boolean;
     kanbanTransFee: number;
+    confirmations: number;
+    lan = 'en';
     depositAmountForm = this.fb.group({
         depositAmount: [''],
         gasFeeCustomChecked: [false],
@@ -33,11 +36,16 @@ export class DepositAmountModal {
         kanbanGasLimit: [environment.chains.KANBAN.gasLimit]
     });
 
-    constructor(private fb: FormBuilder, private alertServ: AlertService, private coinServ: CoinService) {
+    constructor(
+    private tranServ: TranslateService,
+    private fb: FormBuilder, private alertServ: AlertService, private coinServ: CoinService
+    ) {
         this.transFee = 0;
         this.kanbanTransFee = 0;
         this.firstTime = true;
         this.disabled = false;
+
+        console.log('this.lan===', this.lan);
     }
 
     getTransFeeUnit() {
@@ -92,6 +100,7 @@ export class DepositAmountModal {
     }
 
     initForm(coin) {
+        this.lan = this.tranServ.currentLang;
         this.firstTime = true;
         this.coin = coin;
         this.onTextChange(null);
@@ -216,6 +225,7 @@ export class DepositAmountModal {
     }
 
     show() {
+        this.confirmations = environment.depositMinimumConfirmations[this.coin.name];
         this.depositModal.show();
     }
     

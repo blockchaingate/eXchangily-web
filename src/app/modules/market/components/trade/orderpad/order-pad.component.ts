@@ -465,6 +465,13 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   setBuyQtyPercent(percent: number) {
+    if(this.buyPrice <= 0) {
+      return;
+    }
+    console.log('this.pairConfig.qtyDecimal==', this.pairConfig.qtyDecimal);
+    console.log('this.baseCoinAvail==', this.baseCoinAvail);
+    console.log('this.buyPrice==', this.buyPrice);
+    console.log(this.bigdiv(this.baseCoinAvail, this.buyPrice));
     this.buyQty = Number(this.utilService.showAmount(this.bigdiv(this.baseCoinAvail, this.buyPrice), this.pairConfig.qtyDecimal)) * percent;
   }
 
@@ -673,9 +680,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     );
 
     //this.pairsConfig = <Pair[]>(JSON.parse(sessionStorage.getItem('pairsConfig')));
+    const pairName = this.route.snapshot.paramMap.get('pair').replace('_', '');
     this.kanbanService.getPairConfig().subscribe(
       (res: any) => {
         this.pairsConfig = res;
+        this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
       }
     );
     this.sub = this.route.params.subscribe(params => {

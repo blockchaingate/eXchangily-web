@@ -132,6 +132,9 @@
             <div class="row orderline w-100 py-3" *ngFor="let token of mytokens; let i=index">
                 <div class="col col-3 text-white smallfont">
                     {{coinServ.getCoinNameByTypeId(token.coinType)}}
+                    <span *ngIf="(coinServ.getCoinNameByTypeId(token.coinType)=='BNB') || (coinServ.getCoinNameByTypeId(token.coinType) == 'USDT')">
+                                            (ERC20)
+                    </span>
                 </div>
                 <div class="col col-3 text-white smallfont">
                     {{utilServ.showAmount(token.unlockedAmount, 6)}}

@@ -17,19 +17,19 @@ export const environment = {
     chains: {
         BTC: {
             network: Btc.networks.bitcoin,
-            satoshisPerBytes: 80,
+            satoshisPerBytes: 90,
             bytesPerInput: 152
         },
         DOGE: {
-            satoshisPerBytes: 800000,
+            satoshisPerBytes: 1500000,
             bytesPerInput: 148
         },
         LTC: {
-            satoshisPerBytes: 600,
+            satoshisPerBytes: 150,
             bytesPerInput: 148
         },  
         BCH: {
-            satoshisPerBytes: 90,
+            satoshisPerBytes: 9,
             bytesPerInput: 148
         },               
         ETH: {
@@ -204,6 +204,35 @@ export const environment = {
         KNC: 10,
         GVT: 10,
         DRGN: 100 
+    },
+    depositMinimumConfirmations: {
+        EXG: 12,
+        BTC: 2,
+        FAB: 12,
+        ETH: 20,
+        USDT: 20,
+        DUSD: 12,
+        BCH: 2,
+        LTC: 8,
+        DOGE: 20,
+        BNB: 20,
+        INB: 20,
+        REP: 20,
+        HOT: 20,
+        CEL: 20,
+        MATIC: 20,
+        IOST: 20,
+        MANA: 20,
+        FUN: 20,
+        WAX: 20,
+        ELF: 20,
+        GNO: 20,
+        POWR: 20,
+        WINGS: 20,
+        MTL: 20,
+        KNC: 20,
+        GVT: 20,
+        DRGN: 20
     },
     PaymentMethod: {
         ETransfer: {
