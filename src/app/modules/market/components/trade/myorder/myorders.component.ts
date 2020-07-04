@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { OrderService } from '../../../services/order.service';
 import { TradeService } from '../../../services/trade.service';
 import { CoinService } from '../../../../../services/coin.service';
 import { UtilService } from '../../../../../services/util.service';
@@ -19,6 +18,7 @@ import * as bs58 from 'bs58';
 import { environment } from '../../../../../../environments/environment';
 import BigNumber from 'bignumber.js/bignumber';
 import { PinNumberModal } from '../../../../shared/modals/pin-number/pin-number.modal';
+import * as createHash from 'create-hash';
 
 @Component({
     selector: 'app-myorders',
@@ -30,7 +30,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     // @Input() wallet: Wallet;
     private wallet: any;
     screenheight = screen.height;
-    select = 0;
+    select = 100;
     myorders: Transaction[] = [];
     pin: string;
     orderHash: string;
@@ -52,7 +52,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     coinServ: CoinService;
     lan = 'en';
 
-    constructor(private ordServ: OrderService, private _router: Router, private tradeService: TradeService,
+    constructor( private _router: Router, private tradeService: TradeService,
         public utilServ: UtilService, private kanbanServ: KanbanService, private _coinServ: CoinService,
         private modalService: BsModalService, private web3Serv: Web3Service, private alertServ: AlertService,
         private timerServ: TimerService, private walletServ: WalletService, private storageServ: StorageService) {
@@ -127,12 +127,30 @@ export class MyordersComponent implements OnInit, OnDestroy {
         const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
         const amountInLink = new BigNumber(amount).multipliedBy(new BigNumber(1e18)); // it's for all coins.
         let addressInWallet = currentCoin.receiveAdds[0].address;
-        if (currentCoin.name === 'BTC' || currentCoin.name === 'FAB') {
-            console.log('address1==', addressInWallet);
+        if (
+            currentCoin.name === 'BTC' 
+            || currentCoin.name === 'FAB' 
+            || currentCoin.name === 'DOGE'
+            || currentCoin.name === 'LTC'
+        ) {
             const bytes = bs58.decode(addressInWallet);
             addressInWallet = bytes.toString('hex');
-            console.log('address2==', addressInWallet);
-        }
+        } else 
+        if (currentCoin.name === 'BCH') {
+            const keyPairsCurrentCoin = this._coinServ.getKeyPairs(currentCoin, seed, 0, 0);
+            var prefix = '6f';
+            if (environment.production) {
+                prefix = '00';
+            }
+                //address = prefix + this.stripHexPrefix(address);
+            var addr = prefix + keyPairsCurrentCoin.addressHash;
+            var buf = Buffer.from(addr, 'hex');
+                
+            const hash1 = createHash('sha256').update(buf).digest().toString('hex');
+            const hash2 = createHash('sha256').update(Buffer.from(hash1, 'hex')).digest().toString('hex');
+                
+            addressInWallet = addr + hash2.substring(0,8);            
+        } else
         if (currentCoin.tokenType === 'FAB') {
             let fabAddress = '';
             for (let i = 0; i < this.wallet.mycoins.length; i++) {
@@ -177,6 +195,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this.kanbanServ.sendRawSignedTransaction(txKanbanHex).subscribe((resp: any) => {
             // console.log('resp=', resp);
             if (resp && resp.transactionHash) {
+                /*
                 const item = {
                     walletId: this.wallet.id,
                     type: 'Withdraw',
@@ -194,6 +213,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 this.storageServ.storeToTransactionHistoryList(item);
                 this.timerServ.transactionStatus.next(item);
                 this.timerServ.checkTransactionStatus(item);
+                */
                 this.modalWithdrawRef.hide();
                 this.kanbanServ.incNonce();
                 if (this.lan === 'zh') {

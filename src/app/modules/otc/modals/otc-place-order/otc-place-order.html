@@ -1,6 +1,8 @@
 <div bsModal #otcPlaceOrderModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-bg-grey" *ngIf="element">
-        <form (ngSubmit)="selectedMethod == 'CreditCard' ? stripeCard.createToken(extraData) : onSubmit()">
+
+
+        <form (ngSubmit)="onSubmit()">
             <div class="modal-content">
                 <div class="modal-header text-center">
                     <h4 class="modal-title w-100 text-dark">{{(element.buy ? 'Sell' : 'Buy') | translate}} {{element.coin}}</h4>
@@ -52,9 +54,12 @@
                         </div>
                         <div class="row form-group pt-3" [style.visibility]="!element.buy ? 'visible' : 'hidden'">
                             <div class="col col-12" [style.visibility]="!element.buy ? 'visible' : 'hidden'">
+                                <!--
                                 <div>
                                     {{'Payment method' | translate}}:
                                 </div>
+
+                                
                                 <div [style.visibility]="!element.buy ? 'visible' : 'hidden'">
                                     <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" name="method" [(ngModel)]="selectedMethod">
                                         <mat-radio-button class="px-2" *ngFor="let method of methods" [value]="method">
@@ -70,13 +75,13 @@
                                         </mat-radio-button>
                                     </mat-radio-group>
                                 </div>
-
-                                <div [style.visibility]="(!element.buy && (selectedMethod == 'CreditCard')) ? 'visible' : 'hidden'">
+                            -->
+                                <div [style.visibility]="(!element.buy) ? 'visible' : 'hidden'">
 
                                     <div *ngIf="invalidError" style="color:red">
                                         {{ invalidError.message }}
                                       </div>
-                                       
+                                      <!--
                                       <stripe-card
                                       #stripeCard
                                       [options]="options"
@@ -85,6 +90,32 @@
                                       (tokenChange) = "setStripeToken($event)"
                                       (sourceChange) = "setStripeSource($event)"
                                     ></stripe-card>
+--> 
+
+
+
+
+
+
+<div id="form-container" class="pt-3">
+    <div id="sq-card-number"></div>
+    <div id="sq-expiration-date"></div>
+    <div id="sq-cvv"></div>
+    <div id="sq-postal-code"></div>
+  </div> 
+
+
+
+
+
+
+
+
+
+
+
+
+
                                 </div>  
                                 <div *ngIf="selectedMethod == 'Paypal'">
                                     

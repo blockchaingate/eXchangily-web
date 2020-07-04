@@ -97,7 +97,7 @@ export class CoinService {
 
         const erc20Tokens = [
             'BNB', 'INB', 'REP', 'HOT', 'MATIC', 'IOST', 'MANA', 
-            'ELF', 'GNO', 'WINGS', 'KNC', 'MHC', 'GVT'
+            'ELF', 'GNO', 'WINGS', 'KNC', 'GVT','DRGN'
         ];
 
         for(let i=0;i<erc20Tokens.length;i++) {
@@ -344,6 +344,10 @@ export class CoinService {
         return this.apiService.getWalletBalance(data);
     }
 
+    getTransactionHistoryEvents(data: any) {
+        return this.apiService.getTransactionHistoryEvents(data);
+    }
+
     async getBalance(myCoin: MyCoin) {
         console.log('myCoin.name for getBalance=', myCoin.name);
         let balance;
@@ -397,15 +401,6 @@ export class CoinService {
         return {balance: totalBalance, lockbalance: totalLockBalance};
     }
 
-    getExPrivateKey(excoin: MyCoin, seed: Buffer) {
-        const root = hdkey.fromMasterSeed(seed);
-        const address1 = excoin.receiveAdds[0];
-        const currentIndex = address1.index;        
-        const wallet = root.derivePath( 'm/44\'/' + excoin.coinType + '\'/0/' + currentIndex ).getWallet();
-        const privateKey = wallet.getPrivateKey();  
-        // console.log('address is for getExPrivateKey:' + excoin.receiveAdds[0].address);
-        return privateKey;
-    }
 
     getKeyPairs(coin: MyCoin, seed: Buffer, chain: number, index: number) {
 
@@ -413,6 +408,7 @@ export class CoinService {
         
         const tokenType = coin.tokenType;
         let addr = '';
+        let addrHash = '';
         let priKey = '';
         let pubKey = '';
         let priKeyHex = '';
@@ -422,6 +418,7 @@ export class CoinService {
         if(!seed) {
             return {
                 address: addr,
+                addressHash: addrHash,
                 privateKey: priKey,
                 privateKeyHex: priKeyHex,
                 privateKeyBuffer: buffer,
@@ -498,9 +495,17 @@ export class CoinService {
            priKey = child.privateKey;  
 
            if(!environment.production) {
-               addr = bitcore.Address.fromPublicKey(publicKey, bitcore.Networks.testnet).toString();  
+               var addrObj = bitcore.Address.fromPublicKey(publicKey, bitcore.Networks.testnet);
+               addr = addrObj.toString();  
+
+               var json = addrObj.toJSON();
+               addrHash = json.hash;               
            } else {
-                addr = bitcore.Address.fromPublicKey(publicKey).toString(); 
+               var addrObj = bitcore.Address.fromPublicKey(publicKey);
+                addr = addrObj.toString(); 
+
+                var json = addrObj.toJSON();
+                addrHash = json.hash;                
            }
            
         } else
@@ -542,6 +547,7 @@ export class CoinService {
 
         const keyPairs = {
             address: addr,
+            addressHash: addrHash,
             privateKey: priKey,
             privateKeyHex: priKeyHex,
             privateKeyBuffer: buffer,
@@ -617,18 +623,20 @@ export class CoinService {
                //var MAGIC_BYTES = new Buffer('Actinium Signed Message:\n');
                var MAGIC_BYTES = new Buffer('Dogecoin Signed Message:\n');
 
-               var prefix1 = bitcore.encoding.BufferWriter.varintBufNum(MAGIC_BYTES.length);
+               var prefix1 = dogecore.encoding.BufferWriter.varintBufNum(MAGIC_BYTES.length);
                var messageBuffer = new Buffer(originalMessage);
-               var prefix2 = bitcore.encoding.BufferWriter.varintBufNum(messageBuffer.length);
+               var prefix2 = dogecore.encoding.BufferWriter.varintBufNum(messageBuffer.length);
                var buf = Buffer.concat([prefix1, MAGIC_BYTES, prefix2, messageBuffer]);
-               var hash = bitcore.crypto.Hash.sha256sha256(buf);
+                console.log('buf there eeeee=', buf);
+               var hash = dogecore.crypto.Hash.sha256sha256(buf);
                //  return hash;
               
-
+               console.log('hash there we go=');
+               console.log(hash);
 
 
                //var hash = message.magicHash();
-               var ecdsa = new bitcore.crypto.ECDSA();
+               var ecdsa = new dogecore.crypto.ECDSA();
                ecdsa.hashbuf = hash;
                ecdsa.privkey = keyPair.privateKey;
                ecdsa.pubkey = keyPair.privateKey.toPublicKey();
@@ -831,7 +839,8 @@ export class CoinService {
     getOriginalMessage(coinType: number, txHash: string, amount: BigNumber, address: string) {
 
         let buf = '';
-        buf += this.utilServ.fixedLengh(coinType, 4);
+        const coinTypeHex = coinType.toString(16);
+        buf += this.utilServ.fixedLengh(coinTypeHex, 4);
         buf += this.utilServ.fixedLengh(txHash, 64);
         const hexString = amount.toString(16);
         buf += this.utilServ.fixedLengh(hexString, 64);
@@ -843,6 +852,7 @@ export class CoinService {
     async sendTransaction(mycoin: MyCoin, seed: Buffer, toAddress: string, amount: number, 
         options: any, doSubmit: boolean) {
         console.log('doSubmit in sendTransaction=', doSubmit);
+        console.log('toAddress==', toAddress);
         let index = 0;
         let balance = 0;
         let finished = false;
@@ -1078,7 +1088,10 @@ export class CoinService {
             console.log('amount==', amount);
             const outputNum = 2;
             transFee = ((utxos.length) * bytesPerInput + outputNum * 34 + 10) * satoshisPerBytes;
-
+            transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
+            if (getTransFeeOnly) {
+                return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
+            }  
             // console.log('totalInput=' + totalInput);
             // console.log('amount=' + amount);
             console.log('transFee for doge=' + transFee);
@@ -1088,20 +1101,25 @@ export class CoinService {
             console.log('amountBigNum==', amountBigNum);
             var transaction = new bitcore.Transaction()
             .from(utxos)          // Feed information about what unspent outputs one can use
-            //.to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
-            //.change(address)      // Sets up a change address where the rest of the funds will go
+            .feePerKb(satoshisPerBytes * 1000)
+            //.enableRBF()            
+            .to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
+            .change(address)      // Sets up a change address where the rest of the funds will go
+
+            /*
             .addOutput(
-                new dogecore.Transaction.Output({
-                    script: dogecore.Script(new dogecore.Address(toAddress)),
+                new bitcore.Transaction.Output({
+                    script: bitcore.Script(new bitcore.Address(toAddress)),
                     satoshis: amountBigNum
                   })
             )
             .addOutput(
-                    new dogecore.Transaction.Output({
-                        script: dogecore.Script(new dogecore.Address(address)),
+                    new bitcore.Transaction.Output({
+                        script: bitcore.Script(new bitcore.Address(address)),
                         satoshis: output1
                       }) 
-            )             
+            )  
+            */           
             .sign(privateKey)     // Signs all the inputs it can
         
             txHex = transaction.serialize();  
@@ -1184,11 +1202,15 @@ export class CoinService {
             //const output2 = Math.round(new BigNumber(amount * 1e8).toNumber());     
             //const output2 = Number(this.utilServ.toBigNumber(amount, 8));
 
+            console.log('doge toAddress==', toAddress);
+            console.log('doge address==', address);
             var transaction = new dogecore.Transaction()
             .from(utxos)          // Feed information about what unspent outputs one can use
-            //.to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
-            //.change(address)      // Sets up a change address where the rest of the funds will go
-            
+            .feePerKb(satoshisPerBytes * 1000)
+            .enableRBF()
+            .to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
+            .change(address)      // Sets up a change address where the rest of the funds will go
+            /*
             .addOutput(
                 new dogecore.Transaction.Output({
                     script: dogecore.Script(new dogecore.Address(toAddress)),
@@ -1201,7 +1223,7 @@ export class CoinService {
                         satoshis: output1
                       }) 
             )  
-            
+            */
             //.change(address)             
            .sign(privateKey)     // Signs all the inputs it can
 /*
@@ -1280,12 +1302,20 @@ export class CoinService {
             
             transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
 
+
+            if (getTransFeeOnly) {
+                return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
+            }  
             const amountBigNum = Number(this.utilServ.toBigNumber(amount, 8));
             console.log('amountBigNum==', amountBigNum);
+            console.log('utxos==', utxos);
             var transaction = new litecore.Transaction()
             .from(utxos)          // Feed information about what unspent outputs one can use
-            //.to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
-            //.change(address)      // Sets up a change address where the rest of the funds will go
+            .feePerKb(satoshisPerBytes * 1000)
+            .enableRBF()            
+            .to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
+            .change(address)      // Sets up a change address where the rest of the funds will go
+            /*
             .addOutput(
                 new litecore.Transaction.Output({
                     script: litecore.Script(new litecore.Address(toAddress)),
@@ -1297,7 +1327,8 @@ export class CoinService {
                         script: litecore.Script(new litecore.Address(address)),
                         satoshis: output1
                       }) 
-            )              
+            )   
+            */           
             .sign(privateKey)     // Signs all the inputs it can
         
             txHex = transaction.serialize();  
@@ -1352,7 +1383,7 @@ export class CoinService {
             if (!gasLimit) {
                 gasLimit = environment.chains.ETH.gasLimit;
             }     
-            transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e18)).toNumber();
+            transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
             if (getTransFeeOnly) {
                 return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
             }                     
@@ -1363,9 +1394,10 @@ export class CoinService {
             
             const keyPair = this.getKeyPairs(mycoin, seed, 0, currentIndex);
             const nonce = await this.apiService.getEthNonce(address1.address);
+            const gasPriceFinal = new BigNumber(gasPrice).multipliedBy(new BigNumber(1e9)).toNumber();
             const txParams = {
                 nonce: nonce,
-                gasPrice: gasPrice,
+                gasPrice: gasPriceFinal,
                 gasLimit: gasLimit,
                 to: toAddress,
                 value: amountNum.integerValue().toNumber()           
@@ -1397,7 +1429,7 @@ export class CoinService {
             if (!gasLimit) {
                 gasLimit = environment.chains.ETH.gasLimit;
             }      
-            transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e18)).toNumber();
+            transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
             if (getTransFeeOnly) {
                 return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
             }        
@@ -1452,10 +1484,10 @@ export class CoinService {
             const abiHex = this.web3Serv.getFuncABI(func);
             // a9059cbb
             // console.log('abiHexxx=' + abiHex);
-
+            const gasPriceFinal = new BigNumber(gasPrice).multipliedBy(new BigNumber(1e9)).toNumber();
             const txData = {
                 nonce: nonce,
-                gasPrice: gasPrice,
+                gasPrice: gasPriceFinal,
                 gasLimit: gasLimit,
                // to: contractAddress,
                 from: keyPair.address,

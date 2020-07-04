@@ -223,9 +223,10 @@
                 "Member11": {
                     "Name": "Wesam Helou",
                     "Image": "wesam-m.jpg",
-                    "Title": "Manager, Software Support & Enterprise System Developer",
+                    "Title": "Manager, Software Support",
                     "Desc": [
-                        "PhD in Information Technology"
+                        "PhD in Information Technology",
+                        "Enterprise System Developer"
                     ]
                 },
                 "Member12": {
@@ -1015,6 +1016,12 @@
     "Payment method": "Payment method",
     "Your referral code": "Your referral code",
     "Subtotal": "Total",
+    "Get free FAB": "Get free FAB",
+    "Question": "Question",
+    "Answer": "Answer",
+    "Locked Details": "Locked Details",
+    "Expired Block": "Expired Block",
+    "Type answer": "Type answer",
     "Your payment was confirmed": "Your payment was confirmed",
     "My order": "My order",
     "Your password is invalid.": "Your password is invalid.",

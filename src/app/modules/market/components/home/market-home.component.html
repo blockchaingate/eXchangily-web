@@ -1,9 +1,12 @@
-<div class="containerX">
+<div *ngIf="maintainence" class="d-flex justify-content-center align-items-center pt-3 mt-3">
+    <img src="/assets/maintainence.jpeg">
+</div>
+<div class="containerX" *ngIf="!maintainence">
     <div class="gradient-back-area" fxLayout="column" fxFlexAlign.lt-md="300px">
         <div class="topslogan">
             <div class="container">
                 <div class="slogan">
-                    <div class="slogan-left" [ngStyle.xs]="{'font-size.em': 1.0}">
+                    <div class="slogan-left">
                         {{'TopSologan' | translate}}
                         <div class="contentarea">
                             {{'TopSloganContent' | translate}}

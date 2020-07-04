@@ -5,7 +5,12 @@ import * as Btc from 'bitcoinjs-lib';
 
 export const environment = {
     production: false,
-    version: 0.03,
+    maintainence: false,
+    version: 0.11,
+    SQUARE_APP_ID: {
+        CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', //account kenin
+        USD: 'sandbox-sq0idb-gPdLBTvUKUk2-O2DdNZ3dA'  //account genta
+    },
     STRIPE_PUBLIC_KEY: 'pk_test_xVAqsYMxwh3AZfJcYu1hruyE',
     PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',
     url:"https://kanbantest.fabcoinapi.com/",
@@ -28,13 +33,13 @@ export const environment = {
             bytesPerInput: 148
         },  
         BCH: {
-            satoshisPerBytes: 30,
+            satoshisPerBytes: 50,
             bytesPerInput: 148
         },                      
         ETH: {
             chain: 'ropsten', 
             hardfork: 'byzantium',
-            gasPrice: 30000000000,
+            gasPrice: 30,
             gasLimit: 100000
         },
         FAB: {
@@ -117,8 +122,8 @@ export const environment = {
             WINGS: '0x08705dc287150ba2da249b5a1b0c3b99c71b4100',
             MTL: '0x1c9b5afa112b42b12fb06b62e5f1e159af49dfa7',
             KNC: '0x3aad796ceb3a1063f727c6d0c698e37053292d10',
-            MHC: '0xa4d06b2f52d1e736754115be11b6b7b56566564d',
-            GVT: '0x3e610d9fb322063e50d185e2cc1b45f007e7180c'
+            GVT: '0x3e610d9fb322063e50d185e2cc1b45f007e7180c',
+            DRGN: '0xbbdd7a557a0d8a9bf166dcc2730ae3ccec7df05c'
         },
         /*
         exchangilyOfficial: [
@@ -156,8 +161,8 @@ export const environment = {
         WINGS: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
         MTL: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
         KNC: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
-        MHC: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
-        GVT: '0x02c55515e62a0b25d2447c6d70369186b8f10359'
+        GVT: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
+        DRGN: '0x02c55515e62a0b25d2447c6d70369186b8f10359'
        },
         promotionOfficial: {
             USDT: '0x4e93c47b42d09f61a31f798877329890791077b2',
@@ -189,7 +194,54 @@ export const environment = {
         DUSD: 10,
         BCH: 0.002,
         LTC: 0.02,
-        DOGE: 20
+        DOGE: 20,
+        BNB: 0.6,
+        INB: 20,
+        REP: 0.8,
+        HOT: 16000,
+        CEL: 40,
+        MATIC: 500,
+        IOST: 2000,
+        MANA: 240,
+        FUN: 3000,
+        WAX: 200,
+        ELF: 100,
+        GNO: 0.4, 
+        POWR: 100,
+        WINGS: 200,
+        MTL: 40,
+        KNC: 10,
+        GVT: 10,
+        DRGN: 100       
+    },
+    depositMinimumConfirmations: {
+        EXG: 12,
+        BTC: 2,
+        FAB: 12,
+        ETH: 20,
+        USDT: 20,
+        DUSD: 12,
+        BCH: 2,
+        LTC: 8,
+        DOGE: 20,
+        BNB: 20,
+        INB: 20,
+        REP: 20,
+        HOT: 20,
+        CEL: 20,
+        MATIC: 20,
+        IOST: 20,
+        MANA: 20,
+        FUN: 20,
+        WAX: 20,
+        ELF: 20,
+        GNO: 20,
+        POWR: 20,
+        WINGS: 20,
+        MTL: 20,
+        KNC: 20,
+        GVT: 20,
+        DRGN: 20
     },
     PaymentMethod: {
         ETransfer: {

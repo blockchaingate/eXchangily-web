@@ -12,7 +12,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './app-routing.module';
 import { AppResolver } from './modules/landing/resolvers/app/app.resolve';
 import { AppComponent } from './app.component';
@@ -23,13 +22,14 @@ import { PageNotFoundComponent } from './page-not-found.component';
 import { HeaderComponent } from './components/navigation/header/header.component';
 import { FooterComponent } from './components/navigation/footer/footer.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FaqComponent } from './components/help/faq.component';
 
 import { HttpService } from './services/http.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlertService } from './services/alert.service';
 import { UtilService } from './services/util.service';
 import { KanbanService } from './services/kanban.service';
 import { ApiService } from './services/api.service';
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -41,6 +41,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     PageNotFoundComponent,
     // TvChartContainerComponent,
     HeaderComponent,
+    FaqComponent,
     FooterComponent
   ],
   imports: [
@@ -51,11 +52,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatIconModule,
     MatMenuModule,
     MatProgressSpinnerModule,
-    FlexLayoutModule,
     MatListModule,
     RouterModule,
     MatSnackBarModule,
-    FormsModule, ReactiveFormsModule,
     MatButtonModule,
     TranslateModule.forRoot(
       {

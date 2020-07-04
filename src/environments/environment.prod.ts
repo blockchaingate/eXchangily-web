@@ -1,37 +1,42 @@
 import * as Btc from 'bitcoinjs-lib';
 export const environment = {
     production: true,
+    maintainence: false,
+    SQUARE_APP_ID: {
+        CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', 
+        USD: 'sandbox-sq0idb-gPdLBTvUKUk2-O2DdNZ3dA'
+    },
     STRIPE_PUBLIC_KEY: 'pk_test_xVAqsYMxwh3AZfJcYu1hruyE',
     PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',
     baseUrl: 'https://exchangily.com',
     url: 'https://kanbanprod.fabcoinapi.com/',
     tmpUrl: 'https://kanbanprod.fabcoinapi.com/', // replace this url once the temp api is deployed    
-    version: 0.03,
+    version: 0.11,
     campaignId: 1,
-    OTC_COMMISSION_RATE: 0.001,
+    OTC_COMMISSION_RATE: 0.01,
     chains: {
         BTC: {
             network: Btc.networks.bitcoin,
-            satoshisPerBytes: 60,
+            satoshisPerBytes: 90,
             bytesPerInput: 152
         },
         DOGE: {
-            satoshisPerBytes: 400000,
+            satoshisPerBytes: 1500000,
             bytesPerInput: 148
         },
         LTC: {
-            satoshisPerBytes: 200,
+            satoshisPerBytes: 150,
             bytesPerInput: 148
         },  
         BCH: {
-            satoshisPerBytes: 30,
+            satoshisPerBytes: 9,
             bytesPerInput: 148
         },               
         ETH: {
             chain: 'mainnet',
             hardfork: 'petersburg',
-            gasPrice: 30000000000,
-            gasLimit: 100000
+            gasPrice: 90,
+            gasLimit: 200000
         },
         FAB: {
             chain: {
@@ -39,7 +44,7 @@ export const environment = {
                 networkId: 0,
                 chainId: 0
             },
-            satoshisPerBytes: 50,
+            satoshisPerBytes: 100,
             bytesPerInput: 152,
             gasPrice: 50,
             gasLimit: 800000
@@ -108,8 +113,8 @@ export const environment = {
             WINGS: '0x667088b212ce3d06a1b553a7221E1fD19000d9aF',
             MTL: '0xF433089366899D83a9f26A773D59ec7eCF30355e',
             KNC: '0xdd974d5c2e2928dea5f71b9825b8b646686bd200',
-            MHC: '0xEaB35Bd0533895856f200c99F693b2EC511BFfeE', //??
-            GVT: '0x103c3A209da59d3E7C4A89307e66521e081CFDF0'
+            GVT: '0x103c3A209da59d3E7C4A89307e66521e081CFDF0',
+            DRGN: '0x419c4db4b9e25d6db2ad9691ccb832c8d9fda05e'
         },
         /*
         exchangilyOfficial: [
@@ -147,8 +152,8 @@ export const environment = {
         WINGS: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
         MTL: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
         KNC: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
-        MHC: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06', //??
-        GVT: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06'        
+        GVT: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
+        DRGN: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06'        
        },
         promotionOfficial: {
             USDT: '0x4e93c47b42d09f61a31f798877329890791077b2',
@@ -180,7 +185,54 @@ export const environment = {
         DUSD: 20,
         BCH: 0.002,
         LTC: 0.02,
-        DOGE: 20
+        DOGE: 20,
+        BNB: 0.6,
+        INB: 20,
+        REP: 0.8,
+        HOT: 16000,
+        CEL: 40,
+        MATIC: 500,
+        IOST: 2000,
+        MANA: 240,
+        FUN: 3000,
+        WAX: 200,
+        ELF: 100,
+        GNO: 0.4, 
+        POWR: 100,
+        WINGS: 200,
+        MTL: 40,
+        KNC: 10,
+        GVT: 10,
+        DRGN: 100 
+    },
+    depositMinimumConfirmations: {
+        EXG: 12,
+        BTC: 2,
+        FAB: 12,
+        ETH: 20,
+        USDT: 20,
+        DUSD: 12,
+        BCH: 2,
+        LTC: 8,
+        DOGE: 20,
+        BNB: 20,
+        INB: 20,
+        REP: 20,
+        HOT: 20,
+        CEL: 20,
+        MATIC: 20,
+        IOST: 20,
+        MANA: 20,
+        FUN: 20,
+        WAX: 20,
+        ELF: 20,
+        GNO: 20,
+        POWR: 20,
+        WINGS: 20,
+        MTL: 20,
+        KNC: 20,
+        GVT: 20,
+        DRGN: 20
     },
     PaymentMethod: {
         ETransfer: {

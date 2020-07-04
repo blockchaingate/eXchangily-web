@@ -1,8 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-// import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
-import { MarketTopComponent } from '../top/market-top.component';
-import { MarketListComponent } from '../list/market-list.component';
-// import { environment } from '../../../../../environments/environment';
+import { Component, OnInit } from '@angular/core';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-market-home',
@@ -10,8 +7,11 @@ import { MarketListComponent } from '../list/market-list.component';
   styleUrls: ['./market-home.component.css']
 })
 export class MarketHomeComponent implements OnInit {
-  constructor() {}
+  maintainence: boolean;
 
+  constructor() {}
+  
   ngOnInit() {
+    this.maintainence = environment.maintainence;
   }
 }

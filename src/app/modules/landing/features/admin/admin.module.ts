@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ComponentsModule } from '../../components/components.module';
@@ -48,7 +47,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReactiveFormsModule,
     ComponentsModule,
     TranslateModule,
-    FlexLayoutModule,
     AdminRoutingModule,
     ReferralModule,
     MatButtonModule,

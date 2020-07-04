@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { ComponentsModule } from '../../components/components.module';
 import { ReferralModule } from './referrals/referrals.module';
 import {MatCardModule} from '@angular/material/card';
@@ -43,7 +42,6 @@ import {MatButtonModule} from '@angular/material/button';
     MatInputModule,
     MatButtonModule,
     ReactiveFormsModule,
-    FlexLayoutModule,
     ComponentsModule,
     ReferralModule
   ],

@@ -4,7 +4,6 @@ import { Router, NavigationEnd } from '@angular/router';
 // import { Order } from '../../../models/order';
 import { Order, OrderBookItem, OrderItem, TradeItem } from '../../../../../interfaces/kanban.interface';
 import { TxRecord } from '../../../models/order-book';
-import { OrderService } from '../../../services/order.service';
 import { Web3Service } from '../../../../../services/web3.service';
 import { KanbanService } from '../../../../../services/kanban.service';
 import { TradeService } from '../../../services/trade.service';
@@ -168,7 +167,13 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     if (this.pairsConfig) {
       this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
     }
-
+    if (!this.pairConfig) {
+      this.pairConfig = {
+        name: pairName,
+        priceDecimal: 6,
+        qtyDecimal: 6
+      }
+    }
     const vald = this.checkRegExp(this.buyPrice.toString(), this.pairConfig.priceDecimal);
     if (vald) {
       this.validBuyPrice = this.buyPrice;
@@ -183,7 +188,13 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     if (this.pairsConfig) {
       this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
     }
-
+    if(!this.pairConfig) {
+      this.pairConfig = {
+        name: pairName,
+        priceDecimal: 6,
+        qtyDecimal: 6
+      }
+    }
     const vald = this.checkRegExp(this.buyQty.toString(), this.pairConfig.qtyDecimal);
     if (vald) {
       this.validBuyQty = this.buyQty;
@@ -195,8 +206,16 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
   checkSellPrice() {
     const pairName = this.route.snapshot.paramMap.get('pair').replace('_', '');
+    console.log('this.pairsConfig===', this.pairsConfig);
     if (this.pairsConfig) {
       this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
+    }
+    if(!this.pairConfig) {
+      this.pairConfig = {
+        name: pairName,
+        priceDecimal: 6,
+        qtyDecimal: 6
+      }
     }
     const vald = this.checkRegExp(this.sellPrice.toString(), this.pairConfig.priceDecimal);
     if (vald) {
@@ -212,6 +231,13 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     if (this.pairsConfig) {
       this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
     }
+    if(!this.pairConfig) {
+      this.pairConfig = {
+        name: pairName,
+        priceDecimal: 6,
+        qtyDecimal: 6
+      }
+    }    
     const vald = this.checkRegExp(this.sellQty.toString(), this.pairConfig.qtyDecimal);
     if (vald) {
       this.validSellQty = this.sellQty;
@@ -439,6 +465,13 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   setBuyQtyPercent(percent: number) {
+    if(this.buyPrice <= 0) {
+      return;
+    }
+    console.log('this.pairConfig.qtyDecimal==', this.pairConfig.qtyDecimal);
+    console.log('this.baseCoinAvail==', this.baseCoinAvail);
+    console.log('this.buyPrice==', this.buyPrice);
+    console.log(this.bigdiv(this.baseCoinAvail, this.buyPrice));
     this.buyQty = Number(this.utilService.showAmount(this.bigdiv(this.baseCoinAvail, this.buyPrice), this.pairConfig.qtyDecimal)) * percent;
   }
 
@@ -646,8 +679,14 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.pairsConfig = <Pair[]>(JSON.parse(sessionStorage.getItem('pairsConfig')));
-
+    //this.pairsConfig = <Pair[]>(JSON.parse(sessionStorage.getItem('pairsConfig')));
+    const pairName = this.route.snapshot.paramMap.get('pair').replace('_', '');
+    this.kanbanService.getPairConfig().subscribe(
+      (res: any) => {
+        this.pairsConfig = res;
+        this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
+      }
+    );
     this.sub = this.route.params.subscribe(params => {
       let pair = params['pair']; // (+) converts string 'id' to a number
       if (!pair) {

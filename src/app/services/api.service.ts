@@ -490,7 +490,12 @@ export class ApiService {
         const url = environment.endpoints.kanban + 'walletBalances';
         return this.http.post(url, data);
     }
-    
+
+    getTransactionHistoryEvents(data) {
+        const url = environment.endpoints.kanban + 'getTransactionHistoryEvents';
+        return this.http.post(url, data);
+    }
+
     async fabCallContract(contractAddress: string, fxnCallHex: string) {
         const url = environment.endpoints.FAB.exchangily + 'callcontract';
 

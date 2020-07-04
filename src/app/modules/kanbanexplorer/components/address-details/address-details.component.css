@@ -23,7 +23,8 @@ h7 {
 .divider {
     margin: 10px;
     height: 1px;
-    background-color: lightgray;
+    color: lightgray;
+    border-top: 1px dashed lightgray;
 }
 
 .grayback {

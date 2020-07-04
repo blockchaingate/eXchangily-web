@@ -10,20 +10,20 @@
             <h6>{{"Balances"|translate}}</h6>
             <table mat-table [dataSource]="balances" style="width: 100%; text-align: center;" class="grayback">
                 <ng-container matColumnDef="coinType">
-                    <th mat-header-cell *matHeaderCellDef style="text-align: center;"> {{"Pair"|translate}} </th>
-                    <td mat-cell *matCellDef="let element">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: left;"> {{"Coin"|translate}} </th>
+                    <td style="text-align: left;" class="alileft" mat-cell *matCellDef="let element">
                         {{element.coinType}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="lockedAmount">
-                    <th mat-header-cell *matHeaderCellDef style="text-align: center;"> {{"Price"|translate}} </th>
-                    <td mat-cell *matCellDef="let element">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: left;"> {{"Price"|translate}} </th>
+                    <td style="text-align: left;" mat-cell *matCellDef="let element">
                         {{element.lockedAmount * 1e-18 | number:'1.5-5'}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="unlockedAmount">
-                    <th mat-header-cell *matHeaderCellDef style="text-align: center;"> {{"Quantity"|translate}} </th>
-                    <td mat-cell *matCellDef="let element">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: left;"> {{"Quantity"|translate}} </th>
+                    <td style="text-align: left;" mat-cell *matCellDef="let element">
                         {{element.unlockedAmount * 1e-18 | number:'1.5-5' }}</td>
                 </ng-container>
 
@@ -47,7 +47,7 @@
             <h6>{{orders.length}} {{"OrdersCount"|translate}}</h6>
             <div *ngIf="orders && orders.length>0" class="grayback small">
                 <div *ngFor="let order of orders;let i = index">
-                    <div style="line-height: 1.5em;">
+                    <div style="line-height: 1.5em; margin: 1em;">
                         <b>{{"Order"|translate}} : </b>{{i + 1}}<br>
                         <b>{{"Order Hash"|translate}} : </b>{{order.orderHash}}<br>
                         <b>{{"Pair"| translate}} : </b>{{order.pairName}}<br>
@@ -67,7 +67,7 @@
                         <b>{{"Matched Orders"|translate}} : </b>
                         <span *ngIf="order.matchedOrders.length === 0">{{"None"|translate}}</span><br>
                         <div *ngFor="let m of order.matchedOrders; let i=index" style="text-align: left; margin-left: 50px;">
-                            <hr><b>{{"Order Hash"|translate}} : </b> {{m.orderHash}}<br>
+                            <b>{{"Order Hash"|translate}} : </b> {{m.orderHash}}<br>
                             <b>{{"Quantity"|translate}} : </b>{{m.quantity | number:'1.2-10' }}<br>
                             <b>{{"Price"|translate}} : </b>{{m.price | number:'1.2-10' }}<br>
                             <b>{{"Block Number"|translate}} : </b>{{order.blockNumber.fulfilOrder[i]}}
@@ -88,7 +88,7 @@
             <h6>{{depositReqs.length}} {{"Deposits"|translate}}</h6>
             <div *ngIf="depositReqs" class="grayback small">
                 <div *ngFor="let d of depositReqs; let i = index">
-                    <div style="line-height: 1.5em;">
+                    <div style="line-height: 1.5em; margin: 1em;">
                         <b>{{"Deposit"|translate}} : </b>{{i+1}}<br>
                         <b>{{"Coin Name"|translate}} : </b>{{d.coinName}}<br>
                         <b>TXID : </b>{{d.txid}}<br>
@@ -108,7 +108,7 @@
             <h6>{{withdrawReqs.length}} {{"Withdraw Requests"|translate}}</h6>
             <div *ngIf="withdrawReqs" class="grayback small">
                 <div *ngFor="let w of withdrawReqs; let i = index">
-                    <div style="line-height: 1.5em;">
+                    <div style="line-height: 1.5em; margin: 1em;">
                         <b>{{"Withdraw Request"|translate}} : </b>{{i+1}}<br>
                         <b>{{"Coin Name"|translate}} : </b>{{w.coinName}}<br>
                         <b>{{"Value"|translate}} : </b>{{w.value | number:'1.2-10'}}<br>

@@ -1,3 +1,25 @@
+
+.area-container {
+    display: flex;
+}
+.left-area {
+    width: 200px;
+}
+
+.right-area {
+    flex-grow: 1;
+}
+
+@media screen and (max-width: 600px) {
+    .area-container {
+        display: block;
+    }
+    .left-area {
+        width: 100%;
+    }    
+}
+
+/*
 .outwraper {
     display: flex;
 }
@@ -81,7 +103,6 @@
     border-collapse: collapse;
     color: white;
     border: 1px solid white;
-    /*width: 100%;*/
 }
 
 .orderlist td,
@@ -152,3 +173,4 @@ th {
 .div-fixed-width {
     min-width: 600px;
 }
+*/

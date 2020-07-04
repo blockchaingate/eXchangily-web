@@ -13,6 +13,9 @@
         <div class="d-inline-block p-2" [ngClass]="select === 100?'text-white':'text-muted'">
             <a class="tab-link" [class.selected]="select === 100" (click)="selectOrder(100);">{{'Balances' | translate }}</a>
         </div>
+        <div>
+
+        </div>
     </div>
     <div class="orders container fxHide-sm" *ngIf="select != 100">
         <div class="row px-4 header py-3">
@@ -66,7 +69,7 @@
     </div>
 
     <div class="orders w-100 fxHide-gt-sm container" *ngIf="select != 100">
-        <div class="row  w-100 header py-3">
+        <div class="row w-100 header py-3">
             <div class="orditem col-5">{{'Time' | translate }}</div>
             <div class="orditem col-2">{{'Symbol' | translate }}</div>
             <div class="orditem col-2">{{'Price' | translate }}</div>
@@ -74,7 +77,7 @@
         </div>
 
         <div class="myorderlist scroll-bar w-100 pt-2" [style.height.px]="screenheight-680">
-            <div class="row row-with-line  w-100" *ngFor="let order of myorders | orderfilter: orderStatus; let i=index">
+            <div class="row row-with-line w-100" *ngFor="let order of myorders | orderfilter: orderStatus; let i=index">
                 <div class="text-muted col-5">
                     <p>
                         {{order.time | date:'yyyy-MM-dd HH:mm:ss'}}
@@ -113,39 +116,36 @@
         </div>
     </div>
 
-    <div class="orders container w-100 pt-2" *ngIf="select == 100">
-        <div class="row header">
-            <div class="col col-3">
-                <label>{{'Coin' | translate }}</label>
-            </div>
-            <div class="col col-3">
-                <label>{{'Amount' | translate }}</label>
-            </div>
-            <div class="col col-3">
-                <label>{{'Locked Amount' | translate }}</label>
-            </div>
-            <div class="col col-3">
-                <label>{{'Withdraw' | translate }}</label>
-                <button mat-icon-button matTooltip="Withdraw history" aria-label="Withdraw history" (click)="showWithdrawHistory()">
+    <div class="orders container w-100" *ngIf="select == 100">
+        <div class="row w-100 header py-3">
+            <div class="orditem col-2">{{'Coin' | translate }}</div>
+            <div class="orditem col-3">{{'Amount' | translate }}</div>
+            <div class="orditem col-3">{{'Locked Amount' | translate }}</div>
+            <div class="orditem col-3">
+                <span class="hand-cursor" (click)="showWithdrawHistory()">
+                    {{'Withdraw' | translate }}
                     <mat-icon svgIcon="history"></mat-icon>
-                </button>
+                </span>
             </div>
         </div>
         <div class="myorderlist scroll-bar w-100">
             <div class="row orderline w-100 py-3" *ngFor="let token of mytokens; let i=index">
-                <div class="col col-3 text-white">
-                    <label>{{coinServ.getCoinNameByTypeId(token.coinType)}}</label>
+                <div class="col col-3 text-white smallfont">
+                    {{coinServ.getCoinNameByTypeId(token.coinType)}}
+                    <span *ngIf="(coinServ.getCoinNameByTypeId(token.coinType)=='BNB') || (coinServ.getCoinNameByTypeId(token.coinType) == 'USDT')">
+                                            (ERC20)
+                    </span>
                 </div>
-                <div class="col col-3 text-white">
-                    <label> {{utilServ.showAmount(token.unlockedAmount, 6)}}</label>
+                <div class="col col-3 text-white smallfont">
+                    {{utilServ.showAmount(token.unlockedAmount, 6)}}
                 </div>
-                <div class="col col-3 text-white">
-                    <label>{{utilServ.showAmount(token.lockedAmount, 6)}}</label>
+                <div class="col col-3 text-whit smallfonte">
+                    {{utilServ.showAmount(token.lockedAmount, 6)}}
                 </div>
-                <div class="col col-3 text-white">
-                    <button mat-icon-button matTooltip="Withdraw" (click)="withdraw(templateWithdraw, token)" aria-label="Example icon-button with a heart icon">
+                <div class="col col-3 text-white smallfont">
+                    <span class="hand-cursor" (click)="withdraw(templateWithdraw, token)">
                         <mat-icon svgIcon="arrow-upward"></mat-icon>
-                    </button>
+                    </span>
                 </div>
             </div>
         </div>
@@ -179,7 +179,7 @@
 
         <div class="d-flex justify-content-between py-1">
             <div>
-                {{'Transaction fee' | translate}}: {{utilServ.showAmount(gasPrice*gasLimit, 6)}}
+                {{'Transaction fee' | translate}}: {{utilServ.showAmount(gasPrice*gasLimit, 6)}} {{'Gas' | translate}}
             </div>
             <div>
                 <mat-slide-toggle [(ngModel)]="transFeeAdvance"></mat-slide-toggle>

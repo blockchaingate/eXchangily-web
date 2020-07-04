@@ -62,10 +62,11 @@ export class SendCoinModal {
             return '';
         }
         const name = this.coin.name;
+        const tokenType = this.coin.tokenType;
         let unit = '';
         if (name === 'EXG' || name === 'FAB' || name === 'DUSD') {
             unit = 'FAB';
-        } else if (name === 'ETH' || name === 'USDT') {
+        } else if (name === 'ETH' || tokenType === 'ETH') {
             unit = 'ETH';
         } else if (name === 'BTC') {
             unit = 'BTC';
@@ -79,12 +80,13 @@ export class SendCoinModal {
             return '';
         }
         const name = this.coin.name;
+        const tokenType = this.coin.tokenType;
         let unit = '';
         if (name === 'EXG' || name === 'FAB' || name === 'DUSD') {
             unit = 'LIU';
         } else
-            if (name === 'ETH' || name === 'USDT') {
-                unit = 'WEI';
+            if (name === 'ETH' || tokenType === 'ETH') {
+                unit = 'GWEI';
             }
         this.gasUnit = unit;
         return unit;

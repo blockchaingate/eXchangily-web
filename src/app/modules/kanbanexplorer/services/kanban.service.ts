@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Block, BlockMetainfo } from '../models/block';
 import { Transaction, AddressTx, Balance, TransactionCount } from '../models/transaction';
@@ -10,7 +10,7 @@ import { WithdrawRequest } from '../models/withdrawRequest';
 import { DepositRequest } from '../models/depositRequest';
 import { KanbanStats } from '../models/kanbanStats';
 import { Trade } from '../models/trade';
-import { environment } from '../../../../environments/environment'
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -25,16 +25,16 @@ export class KanbanService {
   constructor(private http: HttpClient, private router: Router) {
 
     this.codeToCurrencyMap = new Map();
-    this.codeToCurrencyMap.set('1', 'USDT')
-    this.codeToCurrencyMap.set('2', 'BTC')
-    this.codeToCurrencyMap.set('3', 'ETH')
-    this.codeToCurrencyMap.set('4', 'FAB')
-    this.codeToCurrencyMap.set('5', 'EXG')
-    this.codeToCurrencyMap.set('6', 'DUSD')
+    this.codeToCurrencyMap.set('1', 'USDT');
+    this.codeToCurrencyMap.set('2', 'BTC');
+    this.codeToCurrencyMap.set('3', 'ETH');
+    this.codeToCurrencyMap.set('4', 'FAB');
+    this.codeToCurrencyMap.set('5', 'EXG');
+    this.codeToCurrencyMap.set('6', 'DUSD');
   }
 
   getCurrencyName(num: string): string {
-    return this.codeToCurrencyMap.get(num)
+    return this.codeToCurrencyMap.get(num);
   }
 
   // private tmpBlock: Block

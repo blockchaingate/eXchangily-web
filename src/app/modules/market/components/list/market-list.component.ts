@@ -83,6 +83,7 @@ export class MarketListComponent implements OnInit {
         this.selectCat(1000);
         this.tab_prices = this.prices.filter((listing: Price) => listing.symbol.indexOf(this.searchText) >= 0);
     }
+
     gotoTrade(id: number) {
         const pair = this.COINS[this.prices[id].coin_id].name + '_' + this.COINS[this.prices[id].base_id].name;
         this._router.navigate(['market/trade/' + pair]);

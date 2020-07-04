@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { KanbanService } from '../../services/kanban.service';
+import { UtilService } from '../../../../services/util.service';
 import { Balance, TransactionCount } from '../../models/transaction';
 import { Order } from '../../models/order';
 import { KanbanBalance } from '../../models/kanbanBalance';
@@ -24,15 +25,18 @@ export class AddressDetailsComponent implements OnInit {
   withdrawReqs: WithdrawRequest[] = [];
   depositReqs: DepositRequest[] = [];
 
-  constructor(private route: ActivatedRoute, private service: KanbanService) { }
+  constructor(private route: ActivatedRoute, private service: KanbanService, private utilServ: UtilService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.address = params.get('address');
       console.log(this.address);
-
+      let address = this.address.trim();
+      if(!address.startsWith('0x')) {
+        address = this.utilServ.fabToExgAddress(this.address);
+      }
       // get all the responses from services here
-      this.service.getAddressBalances(this.address).subscribe((bl: Balance[]) => {
+      this.service.getAddressBalances(address).subscribe((bl: Balance[]) => {
         this.balances = bl;
         this.balances.forEach(b => {
           b.coinType = this.service.getCurrencyName(b.coinType);
@@ -40,7 +44,7 @@ export class AddressDetailsComponent implements OnInit {
         console.log(this.balances);
       });
 
-      this.service.getAddressOrders(this.address).subscribe((orders: Order[]) => {
+      this.service.getAddressOrders(address).subscribe((orders: Order[]) => {
         this.orders = orders;
         this.orders.forEach((o) => {
           o.originalOrderQuantity = this.getHumanReadableFormat(o.originalOrderQuantity);
@@ -56,25 +60,25 @@ export class AddressDetailsComponent implements OnInit {
         // console.log(orders)
       });
 
-      this.service.getAddressKanbanBalance(this.address).subscribe((b: KanbanBalance) => {
+      this.service.getAddressKanbanBalance(address).subscribe((b: KanbanBalance) => {
         this.kanbanBalance = b;
         Object.keys(this.kanbanBalance.balance).forEach((k, v) => {
           this.kanbanBalance.balance[k] = (new BigNumber(this.kanbanBalance.balance[k], 16)).toString();
         });
       });
 
-      this.service.getAddressTxCount(this.address).subscribe((r: TransactionCount) => {
+      this.service.getAddressTxCount(address).subscribe((r: TransactionCount) => {
         this.nonce = r.transactionCount;
       });
 
-      this.service.getAddressWithdrawRequests(this.address).subscribe((w: WithdrawRequest[]) => {
+      this.service.getAddressWithdrawRequests(address).subscribe((w: WithdrawRequest[]) => {
         this.withdrawReqs = w;
         this.withdrawReqs.forEach((w) => {
           w.value = this.getHumanReadableFormat(w.value);
         });
       });
 
-      this.service.getAddressDepositRequests(this.address).subscribe((d: DepositRequest[]) => {
+      this.service.getAddressDepositRequests(address).subscribe((d: DepositRequest[]) => {
         this.depositReqs = d;
 
         this.depositReqs.forEach((d) => {

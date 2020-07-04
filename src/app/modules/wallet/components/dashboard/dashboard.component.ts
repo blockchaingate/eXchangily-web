@@ -23,6 +23,7 @@ import { SendCoinModal } from '../../modals/send-coin/send-coin.modal';
 import { BackupPrivateKeyModal } from '../../modals/backup-private-key/backup-private-key.modal';
 import { DeleteWalletModal } from '../../modals/delete-wallet/delete-wallet.modal';
 import { LoginSettingModal } from '../../modals/login-setting/login-setting.modal';
+import { GetFreeFabModal } from '../../modals/get-free-fab/get-free-fab.modal';
 import { DisplaySettingModal } from '../../modals/display-setting/display-setting.modal';
 import { CoinsPrice } from '../../../../interfaces/balance.interface';
 import { SendCoinForm } from '../../../../interfaces/kanban.interface';
@@ -37,6 +38,7 @@ import { environment } from '../../../../../environments/environment';
 import { ManageWalletComponent } from '../manage-wallet/manage-wallet.component';
 import { CampaignOrderService } from '../../../../services/campaignorder.service';
 import { Pair } from 'src/app/modules/market/models/pair';
+import { LockedInfoModal } from '../../modals/locked-info/locked-info.modal';
 
 @Component({
     selector: 'app-wallet-dashboard',
@@ -60,9 +62,12 @@ export class WalletDashboardComponent implements OnInit {
     @ViewChild('loginSettingModal', { static: true }) loginSettingModal: LoginSettingModal;
     @ViewChild('displaySettingModal', { static: true }) displaySettingModal: DisplaySettingModal;
     @ViewChild('toolsModal', { static: true }) toolsModal: ToolsModal;
+    @ViewChild('getFreeFabModal', { static: true }) getFreeFabModal: GetFreeFabModal;
+    @ViewChild('lockedInfoModal', { static: true }) lockedInfoModal: LockedInfoModal;
 
     sendCoinForm: SendCoinForm;
     wallet: Wallet;
+    maintainence: boolean;
     wallets: Wallet[];
     modalRef: BsModalRef;
     checked = true;
@@ -82,12 +87,14 @@ export class WalletDashboardComponent implements OnInit {
     ethBalance: number;
     coinsPrice: CoinsPrice;
     pin: string;
+    baseCoinBalance: number;
     seed: Buffer;
     hasNewCoins: boolean;
     hideSmall: boolean;
     showMyAssets: boolean;
     showTransactionHistory: boolean;
     gas: number;
+    transactions: any;
     alertMsg: string;
     opType: string;
     currentCurrency: string;
@@ -97,7 +104,8 @@ export class WalletDashboardComponent implements OnInit {
     constructor(
         private campaignorderServ: CampaignOrderService,
         private route: Router, private walletServ: WalletService, private modalServ: BsModalService,
-        private coinServ: CoinService, public utilServ: UtilService, private apiServ: ApiService, private _wsServ: WsService,
+        private coinServ: CoinService, public utilServ: UtilService, private apiServ: ApiService, 
+        private _wsServ: WsService,
         private kanbanServ: KanbanService, private web3Serv: Web3Service,
         private alertServ: AlertService, private timerServ: TimerService,
         private coinService: CoinService, private storageService: StorageService) {
@@ -106,10 +114,16 @@ export class WalletDashboardComponent implements OnInit {
         this.currentCurrency = 'USD';
         this.currencyRate = 1;
         this.hasNewCoins = false;
+        this.baseCoinBalance = 0;
+        this.maintainence = environment.maintainence;
         this.showTransactionHistory = false;
     
     }
- 
+
+    getFreeFab() {
+        this.getFreeFabModal.show();
+    }
+
     getCoinLogo(coin) {
         return '/assets/coins/' + coin.name.toLowerCase() + '.png'; 
     }
@@ -452,16 +466,35 @@ export class WalletDashboardComponent implements OnInit {
             fabAddress: fabAddress,
             bchAddress: bchAddress,
             dogeAddress: dogeAddress,
-            ltcAddress: ltcAddress
+            ltcAddress: ltcAddress,
+            timestamp: 0
         };
+
+        this.coinServ.getTransactionHistoryEvents(data).subscribe(
+            (res: any) => {
+                if(res && res.success) {
+                    const data = res.data;
+                    console.log('data===', data);
+                    this.transactions = data;
+                }
+            }
+        );
         this.coinServ.walletBalance(data).subscribe(
             (res: any) => {
                 if(res && res.success) {
                     let updated = false;
+                    let hasDRGN = false;
+                    let ethCoin;
                     for(let i=0;i<res.data.length; i++) {
                         const item = res.data[i];
                         for(let j=0;j<this.wallet.mycoins.length;j++) {
                             const coin = this.wallet.mycoins[j];
+                            if(coin.name == 'DRGN') {
+                                hasDRGN = true;
+                            }
+                            if(coin.name == 'ETH') {
+                                ethCoin = coin;
+                            }                            
                             if(item.coin == coin.name) {
                                 if(coin.balance != Number(item.balance)) {
                                     coin.balance = Number(item.balance);
@@ -471,9 +504,13 @@ export class WalletDashboardComponent implements OnInit {
                                     coin.lockedBalance = Number(item.lockBalance);
                                     updated = true;
                                 }
+                                coin.lockers = item.lockers ? item.lockers : item.fabLockers;
                                 if(coin.usdPrice != item.usdValue.USD) {
                                     coin.usdPrice = item.usdValue.USD;
                                     updated = true;
+                                }
+                                if(coin.name == 'FAB') {
+                                    this.fabBalance = coin.balance;
                                 }
                             }
                         }
@@ -481,6 +518,20 @@ export class WalletDashboardComponent implements OnInit {
 
                         this.exgValue = (this.exgBalance) * this.wallet.mycoins[0].usdPrice;
                     }
+
+                    if (!hasDRGN) {
+                        const drgnCoin = new MyCoin('DRGN');
+                        drgnCoin.balance = 0;
+                        drgnCoin.decimals = 18;
+                        drgnCoin.coinType = environment.CoinType.ETH;
+                        drgnCoin.lockedBalance = 0;
+                        drgnCoin.receiveAdds.push(ethCoin.receiveAdds[0]);
+                        drgnCoin.tokenType = 'ETH';
+                        drgnCoin.baseCoin = ethCoin;
+                        drgnCoin.contractAddr = environment.addresses.smartContract.DRGN;
+                        this.wallet.mycoins.push(drgnCoin);
+                        updated = true;
+                    }                     
                     if (updated) {
                         // console.log('updated=' + updated);
                         this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
@@ -632,7 +683,7 @@ export class WalletDashboardComponent implements OnInit {
         this.refreshGas();
     }
     exchangeMoney() {
-        this.route.navigate(['/market/home']);
+        this.route.navigate(['/market/trade/BTC_USDT']);
     }
     openModal(template: TemplateRef<any>) {
         this.modalRef = this.modalServ.show(template);
@@ -648,6 +699,12 @@ export class WalletDashboardComponent implements OnInit {
 
     deposit(currentCoin: MyCoin) {
         this.currentCoin = currentCoin;
+        if(currentCoin.tokenType === 'ETH') {
+            this.baseCoinBalance = this.ethBalance;
+        } else 
+        if(currentCoin.tokenType === 'FAB') {
+            this.baseCoinBalance = this.fabBalance;
+        }
         this.depositModal.initForm(currentCoin);
         this.depositModal.show();
     }
@@ -783,10 +840,6 @@ export class WalletDashboardComponent implements OnInit {
             this.depositdo();
         } else if (this.opType === 'redeposit') {
             this.redepositdo();
-            /*
-        } else if (this.opType === 'redeposit') {
-            this.redepositdo();
-            */
         } else if (this.opType === 'addGas') {
             this.addGasDo();
         } else if (this.opType === 'sendCoin') {
@@ -828,7 +881,7 @@ export class WalletDashboardComponent implements OnInit {
         const bchCoin = new MyCoin('BCH');
         this.coinServ.fillUpAddress(bchCoin, seed, 1, 0);
         myCoins.push(bchCoin);  
-
+ 
         const ltcCoin = new MyCoin('LTC');
         this.coinServ.fillUpAddress(ltcCoin, seed, 1, 0);        
         myCoins.push(ltcCoin);  
@@ -839,7 +892,7 @@ export class WalletDashboardComponent implements OnInit {
 
         const erc20Tokens = [
             'BNB', 'INB', 'REP', 'HOT', 'MATIC', 'IOST', 'MANA', 
-            'ELF', 'GNO', 'WINGS', 'KNC', 'MHC', 'GVT'
+            'ELF', 'GNO', 'WINGS', 'KNC', 'GVT', 'DRGN'
         ];
 
         for(let i=0;i<erc20Tokens.length;i++) {
@@ -990,7 +1043,9 @@ export class WalletDashboardComponent implements OnInit {
         this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);    
         */
     }
-
+    showLockedDetails(coin) {
+        this.lockedInfoModal.show(coin);
+    }
     verifySeedPhrase() {
         let seedPhrase = '';
         if (this.wallet.encryptedMnemonic) {
@@ -1232,6 +1287,7 @@ export class WalletDashboardComponent implements OnInit {
             gasPrice: gasPrice,
             gasLimit: gasLimit
         };
+
         const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, 0, options);
         this.kanbanServ.submitReDeposit(txKanbanHex).subscribe((resp: any) => {
             console.log('resp for submitrediposit=', resp);
@@ -1277,6 +1333,7 @@ export class WalletDashboardComponent implements OnInit {
 
         const coinType = this.coinServ.getCoinTypeIdByName(currentCoin.name);
 
+        console.log('coinType is', coinType);
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         if (!seed) {
             this.warnPwdErr();
@@ -1323,11 +1380,9 @@ export class WalletDashboardComponent implements OnInit {
         const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(txHash)
             , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
 
-        console.log('originalMessage=', originalMessage);
 
         const signedMessage: Signature = this.coinServ.signedMessage(originalMessage, keyPairs);
 
-        console.log('signedMessage=', signedMessage);
 
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
         const abiHex = this.web3Serv.getDepositFuncABI(coinType, txHash, amountInLink, addressInKanban, signedMessage);
@@ -1347,6 +1402,7 @@ export class WalletDashboardComponent implements OnInit {
         this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp: any) => {
             // console.log('resp=', resp);
             if (resp && resp.data && resp.data.transactionID) {
+                /*
                 const item = {
                     walletId: this.wallet.id,
                     type: 'Deposit',
@@ -1364,11 +1420,12 @@ export class WalletDashboardComponent implements OnInit {
                 this.storageService.storeToTransactionHistoryList(item);
                 this.timerServ.transactionStatus.next(item);
                 this.timerServ.checkTransactionStatus(item);
+                */
                 this.kanbanServ.incNonce();
                 if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('转币去交易所提交成功', 'Ok');
+                    this.alertServ.openSnackBar('转币去交易所请求已提交，请等待' + environment.depositMinimumConfirmations[currentCoin.name] + '个确认', 'Ok');
                 } else {
-                    this.alertServ.openSnackBar('Moving fund to DEX submitted successfully.', 'Ok');
+                    this.alertServ.openSnackBar('Moving fund to DEX was submitted, please wait for ' + environment.depositMinimumConfirmations[currentCoin.name] + ' confirmations.', 'Ok');
                 }
             } else if (resp.error) {
                 this.alertServ.openSnackBar(resp.error, 'Ok');
