@@ -701,7 +701,7 @@ export class CoinService {
                 // console.log('fabUtxos=', fabUtxos);
                 // console.log('fabUtxos.length=', fabUtxos.length);
                 for (let i = 0; i < fabUtxos.length; i++) {
-                    console.log('i=', i);
+                    console.log('i for fabUtxos=', i);
                     const utxo = fabUtxos[i];
                     const idx = utxo.idx;
                     /*

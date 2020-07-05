@@ -256,7 +256,7 @@ export class SmartContractComponent implements OnInit {
     const contractSize = contract.toJSON.toString().length;
     totalFee += this.utilServ.convertLiuToFabcoin(contractSize * 10);
 
-
+    this.mycoin.tokenType = 'FAB';
     const res = await this.coinServ.getFabTransactionHex(seed, this.mycoin, contract, value, 
       totalFee, environment.chains.FAB.satoshisPerBytes, environment.chains.FAB.bytesPerInput, false);
     

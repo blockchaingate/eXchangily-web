@@ -279,7 +279,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
           + pair.toUpperCase() + '@' + that.intervalMap[granularity]);
         that.socket.subscribe(
           (item) => {
-            console.log('item===', item);
+            //console.log('item===', item);
             if(!item) {
               return;
             }
