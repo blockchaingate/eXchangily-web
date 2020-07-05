@@ -138,13 +138,13 @@ export class MyordersComponent implements OnInit, OnDestroy {
         } else 
         if (currentCoin.name === 'BCH') {
             const keyPairsCurrentCoin = this._coinServ.getKeyPairs(currentCoin, seed, 0, 0);
-            var prefix = '6f';
+            let prefix = '6f';
             if (environment.production) {
                 prefix = '00';
             }
-                //address = prefix + this.stripHexPrefix(address);
-            var addr = prefix + keyPairsCurrentCoin.addressHash;
-            var buf = Buffer.from(addr, 'hex');
+                // address = prefix + this.stripHexPrefix(address);
+            const addr = prefix + keyPairsCurrentCoin.addressHash;
+            const buf = Buffer.from(addr, 'hex');
                 
             const hash1 = createHash('sha256').update(buf).digest().toString('hex');
             const hash2 = createHash('sha256').update(Buffer.from(hash1, 'hex')).digest().toString('hex');

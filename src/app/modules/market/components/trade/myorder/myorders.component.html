@@ -153,9 +153,6 @@
     </div>
 </div>
 
-
-
-
 <ng-template #templateWithdraw>
     <div class="modal-header text-center">
         <h4 class="modal-title w-100">{{'Withdraw' | translate }} {{coinName}}</h4>
@@ -175,7 +172,6 @@
             <label for="inputSendTo" class="text-muted">{{'Withdraw amount' | translate }}</label>
             <input type="number" class="form-control" id="inputWithdrawAmount" name="inputWithdrawAmount" [(ngModel)]="withdrawAmount" aria-describedby="emailHelp" placeholder="0.0000">
         </div>
-
 
         <div class="d-flex justify-content-between py-1">
             <div>
@@ -209,6 +205,5 @@
     </div>
 
 </ng-template>
-
 
 <pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>
