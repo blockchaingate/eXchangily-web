@@ -26,6 +26,7 @@ a.btn {
 
   .container-landing {
     max-width: 788px;
+    padding-top: 50px;
   }
 
   .text1 {
@@ -33,3 +34,21 @@ a.btn {
     padding-right: 10px;
     font-size: 1.1rem;
   }
+
+@media screen and (min-width: 600px) and (min-height: 800px) {
+ .container-landing {
+    padding-top: 100px;
+ }
+}
+
+@media screen and (min-width: 600px) and (min-height: 1000px) {
+ .container-landing {
+    padding-top: 150px;
+ }
+}
+
+@media screen and (min-width: 600px) and (min-height: 1200px) {
+ .container-landing {
+    padding-top: 200px;
+ }
+}
