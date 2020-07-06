@@ -13,7 +13,11 @@ const routes: Routes = [
   {
     path: 'wallet',
     loadChildren: () => import('./modules/wallet/wallet.module').then(m => m.WalletModule)
-  },  
+  },
+  {
+    path: 'walletnew',
+    loadChildren: () => import('./modulesnew/wallet/wallet.module').then(m => m.WalletNewModule)
+  },
   {
     path: 'otc',
     loadChildren: () => import('./modules/otc/otc.module').then(m => m.OtcModule)
