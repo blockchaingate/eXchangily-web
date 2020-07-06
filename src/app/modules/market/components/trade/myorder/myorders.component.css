@@ -62,3 +62,7 @@ label {
     vertical-align: middle;
     margin: 10px 0;
 }
+
+.smallfont {
+    font-size: small;
+}
