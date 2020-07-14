@@ -7,6 +7,7 @@ import { environment } from '../../../../../environments/environment';
 import { CoinService } from '../../../../services/coin.service';
 import BigNumber from 'bignumber.js';
 import { TranslateService } from '@ngx-translate/core';
+import { ApiService } from '../../../../services/api.service';
 
 @Component({
     selector: 'deposit-amount-modal',
@@ -21,6 +22,7 @@ export class DepositAmountModal {
     @Output() confirmedAmount = new EventEmitter<any>();
     transFee: number;
     firstTime: boolean;
+    sendAllCoinsFlag: boolean;
     tranFeeUnit: string;
     disabled: boolean;
     kanbanTransFee: number;
@@ -37,17 +39,75 @@ export class DepositAmountModal {
     });
 
     constructor(
-    private tranServ: TranslateService,
+    private tranServ: TranslateService, private apiService: ApiService, 
     private fb: FormBuilder, private alertServ: AlertService, private coinServ: CoinService
     ) {
         this.transFee = 0;
         this.kanbanTransFee = 0;
         this.firstTime = true;
         this.disabled = false;
-
+        this.sendAllCoinsFlag = false;
         console.log('this.lan===', this.lan);
     }
 
+    async sendAllAmount(event) {
+        console.log('event=', event);
+        this.sendAllCoinsFlag = event.checked;
+        console.log('this.sendAllCoinsFlag==', this.sendAllCoinsFlag);
+        const coinName = this.coin.name;
+        const tokenType = this.coin.tokenType;
+        const balance = this.coin.balance;
+        const address = this.coin.receiveAdds[0].address;
+        if(coinName == 'BTC') {
+            const utxos = await this.apiService.getBtcUtxos(address);
+            if(!utxos) {
+                return;
+            }
+            const utxoNum = utxos.length;
+            const bytesPerInput = environment.chains.BTC.bytesPerInput;
+            const satoshisPerBytes = environment.chains.BTC.satoshisPerBytes;
+            const transFee = (utxoNum * bytesPerInput + 2 * 34 + 10) * satoshisPerBytes;
+            const transFeeDouble = transFee / 1e8;
+            const transOut = balance - transFeeDouble;
+            if(transOut <= 0) {
+                return;
+            }
+            this.depositAmountForm.patchValue({'depositAmount': transOut});
+            this.onTextChange(transOut);    
+        } else
+        if(coinName == 'FAB') {
+            const utxos = await this.apiService.getFabUtxos(address);
+            if(!utxos) {
+                return;
+            }
+            const utxoNum = utxos.length;
+            const bytesPerInput = environment.chains.FAB.bytesPerInput;
+            const satoshisPerBytes = environment.chains.FAB.satoshisPerBytes;
+            const transFee = (utxoNum * bytesPerInput + 2 * 34 + 10) * satoshisPerBytes;
+            const transFeeDouble = transFee / 1e8;
+            const transOut = balance - transFeeDouble;
+            if(transOut <= 0) {
+                return;
+            }
+            this.depositAmountForm.patchValue({'depositAmount': transOut});  
+            this.onTextChange(transOut);             
+        } else
+        if(coinName == 'ETH') {
+            const gasPrice = environment.chains.ETH.gasPrice;
+            const gasLimit = environment.chains.ETH.gasLimit;
+            const transFeeDouble = gasPrice * gasLimit / 1e9;
+            const transOut = balance - transFeeDouble;
+            if(transOut <= 0) {
+                return;
+            }
+            this.depositAmountForm.patchValue({'depositAmount': transOut});   
+            this.onTextChange(transOut);               
+        } else
+        if(tokenType == 'FAB' || tokenType == 'ETH') {
+            this.depositAmountForm.patchValue({'depositAmount': balance});   
+            this.onTextChange(balance);    
+        }
+    }    
     getTransFeeUnit() {
         if (!this.coin) {
             return '';

@@ -38,9 +38,24 @@
                             </div>
                         </div>
                     </div>
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <label for="inputSendTo" class="text-dark">{{'Send amount' | translate }}</label>
+                        </div>
+                        <div *ngIf="
+                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'BTC' || 
+                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'FAB' || 
+                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'ETH' || 
+                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].tokenType === 'ETH' ||
+                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].tokenType === 'FAB'">
+                            <mat-slide-toggle (change)="sendAllAmount($event)" class="text-muted">
+                                {{'All' | translate}}
+                            </mat-slide-toggle>
+                        </div>
+                    </div>
                     <div class="form-group">
-                        <label for="inputSendTo" class="text-dark">{{'Send amount' | translate }}</label>
-                        <input type="text" class="form-control" (input)="onTextChange($event.target.value)" id="inputSendAmount" formControlName="sendAmount" aria-describedby="emailHelp" placeholder="0.0000">
+                        
+                        <input type="text" class="form-control" [attr.disabled]="sendAllCoinsFlag?'':null" (input)="onTextChange($event.target.value)" id="inputSendAmount" formControlName="sendAmount" aria-describedby="emailHelp" placeholder="0.0000">
                     </div>
 
                     <div class="form-group">

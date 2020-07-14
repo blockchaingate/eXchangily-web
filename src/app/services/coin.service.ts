@@ -788,13 +788,18 @@ export class CoinService {
         }
         transFee = ((receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput + outputNum * 34) * satoshisPerBytes;
 
-        if (getTransFeeOnly) {
-            return {txHex: '', errMsg: '', transFee: transFee + extraTransactionFee * Math.pow(10, this.utilServ.getDecimal(mycoin))};
-        }
+
         const output1 = Math.round(totalInput
         - amount * 1e8 - extraTransactionFee * 1e8
         - transFee);
 
+        if(output1 < 2730) {
+            transFee += output1;
+        }     
+        
+        if (getTransFeeOnly) {
+            return {txHex: '', errMsg: '', transFee: transFee + extraTransactionFee * Math.pow(10, this.utilServ.getDecimal(mycoin))};
+        }        
         //const output2 = Math.round(amount * 1e8);    
         const output2 = Number(this.utilServ.toBigNumber(amount, 8));
         
@@ -809,8 +814,10 @@ export class CoinService {
         // console.log('output1=' + output1 + ',output2=' + output2);
 
         if((amount > 0) || (mycoin.tokenType == 'FAB')) {
-            console.log('go heeee');
-            txb.addOutput(changeAddress.address, output1);
+            if(output1 >= 2730) {
+                txb.addOutput(changeAddress.address, output1);
+            }
+            // txb.addOutput(changeAddress.address, output1);
             txb.addOutput(to, output2);
         } else {
             txb.addOutput(to, output1);
@@ -996,6 +1003,9 @@ export class CoinService {
             // console.log('transFee=' + transFee);
             const output1 = Math.round(new BigNumber(totalInput - amount * 1e8 - transFee).toNumber());
             
+            if(output1 < 2730) {
+                transFee += output1;
+            }
             transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
 
             if (getTransFeeOnly) {
@@ -1005,7 +1015,9 @@ export class CoinService {
             const output2 = Number(this.utilServ.toBigNumber(amount, 8));
             console.log('output1=', output1);
             if(amount > 0) {
-                txb.addOutput(changeAddress.address, output1);
+                if(output1 >= 2730) {
+                    txb.addOutput(changeAddress.address, output1);
+                }
                 txb.addOutput(toAddress, output2);
             } else {
                 console.log('go amount = 0');
