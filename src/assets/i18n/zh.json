@@ -1071,6 +1071,7 @@
     "Transaction notes(optional)": "交易备注（可选）",
     "Commission": "手续费",
     "Limit": "限额",
+    "Not enough transaction fee": "交易费用不足",
     "Question": "问题",
     "Answer": "答案",
     "Locked Details": "锁仓详情",
