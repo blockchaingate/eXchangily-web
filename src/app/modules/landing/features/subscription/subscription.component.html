@@ -6,12 +6,12 @@
 
         <div class="div-center field">
             <div>{{"Name" | translate}}</div>
-            <div><input (keyup)="onNameKey($event)"></div>
+            <div><input #name (keyup)="onNameKey(name.value)"></div>
         </div>
 
         <div class="div-center field">
             <div class="text-left">Email *</div>
-            <div><input (keyup)="onEmailKey($event)"></div>
+            <div><input #email (keyup)="onEmailKey(email.value)"></div>
         </div>
 
         <div class="div-center field">

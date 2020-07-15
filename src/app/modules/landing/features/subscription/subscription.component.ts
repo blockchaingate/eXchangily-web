@@ -18,12 +18,12 @@ export class SubscriptionComponent {
 
   constructor(private _translate: TranslateService, private subscribServ: SubscriptionService) { }
 
-  onNameKey(event: any) {
-    this.name = event.target.value;
+  onNameKey(name: string) {
+    this.name = name;
   }
 
-  onEmailKey(event: any) {
-    this.email = event.target.value;
+  onEmailKey(email: string) {
+    this.email = email;
   }
 
   onSubmit() {
