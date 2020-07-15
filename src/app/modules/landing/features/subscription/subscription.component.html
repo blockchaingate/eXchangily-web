@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="top-frame">
+        <div class="div-center field">
+            <div><b>{{ 'Subscribe for Updates' | translate }}</b></div>
+        </div>
+
+        <div class="div-center field">
+            <div>{{"Name" | translate}}</div>
+            <div><input (keyup)="onNameKey($event)"></div>
+        </div>
+
+        <div class="div-center field">
+            <div class="text-left">Email *</div>
+            <div><input (keyup)="onEmailKey($event)"></div>
+        </div>
+
+        <div class="div-center field">
+            <div><button type="submit" (click)="onSubmit()">{{"Submit" | translate}}</button></div>
+        </div>
+
+        <div class="div-center field red" *ngIf="invalidEmail">
+            {{"Invalid email" | translate}}
+        </div>
+
+        <div class="div-center field green" *ngIf="success">
+            {{"Subscription submited successful" | translate}}
+        </div>
+    </div>
+</div>

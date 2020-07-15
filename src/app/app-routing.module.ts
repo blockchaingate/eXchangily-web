@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found.component';
 import { AppResolver } from './modules/landing/resolvers/app/app.resolve';
 import { FaqComponent } from './components/help/faq.component';
+import { SubscriptionComponent } from './modules/landing/features/subscription/subscription.component';
 
 const routes: Routes = [
   {
@@ -103,6 +104,7 @@ const routes: Routes = [
     */
   },
   { path: 'faq', component: FaqComponent },
+  { path: 'subscription', component: SubscriptionComponent },
   {
     path: '', redirectTo: '/market/home', pathMatch: 'full'
   },

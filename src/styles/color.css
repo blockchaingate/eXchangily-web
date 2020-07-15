@@ -18,6 +18,10 @@
     color: cyan;
 }
 
+.red {
+    color: red;
+}
+
 .white-bg {
     background-color: white;
 }
@@ -33,4 +37,8 @@
 
 .darkgray-bg {
     background-color: #4F4F4F;
+}
+
+.darkblue-bg {
+    background-color: #12024d;
 }
