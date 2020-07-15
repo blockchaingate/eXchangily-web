@@ -18,8 +18,8 @@
             <div><button type="submit" (click)="onSubmit()">{{"Submit" | translate}}</button></div>
         </div>
 
-        <div class="div-center field red" *ngIf="invalidEmail">
-            {{"Invalid email" | translate}}
+        <div class="div-center field red" *ngIf="errMsg">
+            {{this.errMsg | translate}}
         </div>
 
         <div class="div-center field green" *ngIf="success">

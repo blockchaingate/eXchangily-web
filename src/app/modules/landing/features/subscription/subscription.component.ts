@@ -6,41 +6,46 @@ import { SubscriptionService } from '../../../../services/subscription.service';
 const whitepaperPath = './assets/pdfs/wp';
 
 @Component({
-  selector: 'app-subscription',
-  templateUrl: './subscription.component.html',
-  styleUrls: ['./subscription.component.css']
+    selector: 'app-subscription',
+    templateUrl: './subscription.component.html',
+    styleUrls: ['./subscription.component.css']
 })
 export class SubscriptionComponent {
     name = '';
     email = '';
-    invalidEmail = false;
     success = false;
+    errMsg = '';
 
-  constructor(private _translate: TranslateService, private subscribServ: SubscriptionService) { }
+    constructor(private _translate: TranslateService, private subscribServ: SubscriptionService) { }
 
-  onNameKey(name: string) {
-    this.name = name;
-  }
+    onNameKey(name: string) {
+        this.name = name;
+    }
 
-  onEmailKey(email: string) {
-    this.email = email;
-  }
+    onEmailKey(email: string) {
+        this.email = email;
+    }
 
-  onSubmit() {
-      const validEmail = (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email));
-      if (!validEmail) {
-        this.invalidEmail = true;
-        return;
-      }
+    onSubmit() {
+        const validEmail = (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email));
+        if (!validEmail) {
+            this.errMsg = 'Invalid email';
+            return;
+        }
 
-      this.invalidEmail = false;
+        this.errMsg = '';
 
-      this.subscribServ.create(this.email, this.name).subscribe(
+        this.subscribServ.create(this.email, this.name).subscribe(
             (res: any) => {
                 if (res) {
                     this.success = true;
-                }          
+                    this.name = '';
+                    this.email = '';
+                }
+            },
+            (err: any) => {
+                this.errMsg = err.message;
             }
-      );
-  }
+        );
+    }
 }
