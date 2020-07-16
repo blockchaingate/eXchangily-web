@@ -3,11 +3,12 @@
     "version": "0.0.2",
     "scripts": {
         "ng": "ng",
-        "start": "ng serve",
+        "start": "ng serve --host 0.0.0.0",
         "build": "ng build",
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e",
+        "dev": "lite-server",
         "postinstall": "node patch.js"
     },
     "private": true,

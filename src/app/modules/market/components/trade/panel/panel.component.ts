@@ -54,6 +54,7 @@ export class PanelComponent implements OnInit {
 
     async ngOnInit() {
         this.screenwidth = window.innerWidth;
+        window.onresize = () => {this.screenwidth = window.innerWidth;};
 
         this.screenheight = window.innerHeight;  
         const wallet = await this.walletService.getCurrentWallet();

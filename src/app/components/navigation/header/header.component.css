@@ -86,7 +86,7 @@ a.nav-link {
 }
 
 .dark-back {
-    background-color: #2e2e45;
+    background-color: #2e2e4566;
 }
 
 .spinner {
@@ -123,4 +123,28 @@ a.nav-link {
     background-color: #cc785f;
     color: #ffffff;
     border-color: #c3512f;
+}
+
+
+
+@media (max-width:1200px){
+    .navbar-dark .navbar-nav .nav-link {
+        color: rgba(255,255,255,.5);
+        font-size: 13px;
+    }
+}
+
+@media (max-width:1050px){
+    .navbar-brand img{
+        width:20px
+    }
+
+    .navbar-dark .navbar-nav .nav-link {
+        font-size: 12px;
+    }
+
+    .navbar-expand-lg .navbar-nav .nav-link {
+        padding-right: 0;
+        padding-left: 0;
+    }
 }

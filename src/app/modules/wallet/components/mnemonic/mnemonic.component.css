@@ -1,6 +1,6 @@
 .panel2 {
     width: 100%;
-    height: 640px;
+    min-height: 640px;
 }
 
 .words {
@@ -31,4 +31,14 @@
 
 code {
     color: white;
+}
+
+@media (max-width:600px){
+    .words{
+        padding: 10px 0;
+    }
+
+    .word, .numbox{
+        font-size: 14px;
+    }
 }
