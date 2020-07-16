@@ -1540,8 +1540,8 @@ export class CoinService {
                 decimals = 18;
             }
             // const amountSent = BigInt(amount * Math.pow(10, decimals));
-            const amountSent = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, decimals)));
-
+            //const amountSent = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, decimals)));
+            const amountSent = this.utilServ.toBigNumber(amount, decimals);
             // const abiHex = this.web3Serv.getFabTransferABI([toAddress, amountSent.toString()]);
 
             const funcTransfer: any =	{
@@ -1568,9 +1568,9 @@ export class CoinService {
                 'type': 'function'
               }; 
             // console.log('foreeeee');
-            console.log('amountSent=', amountSent.toFixed());
+            console.log('amountSent=', amountSent);
             console.log('toAddress===', toAddress);
-            let fxnCallHex = this.web3Serv.getGeneralFunctionABI(funcTransfer, [toAddress, amountSent.toFixed()]);
+            let fxnCallHex = this.web3Serv.getGeneralFunctionABI(funcTransfer, [toAddress, amountSent]);
             // console.log('enddddd');
             fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
             let contractAddress = mycoin.contractAddr;
