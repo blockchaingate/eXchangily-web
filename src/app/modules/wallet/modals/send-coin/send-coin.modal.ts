@@ -62,6 +62,10 @@ export class SendCoinModal {
 
     async sendAllAmount(event) {
         console.log('event=', event);
+        if (this.wallet) {
+            this.coin = this.wallet.mycoins[this.currentCoinIndex];
+            console.log('this.coin111==', this.coin);
+        }        
         this.sendAllCoinsFlag = event.checked;
         console.log('this.sendAllCoinsFlag==', this.sendAllCoinsFlag);
         const coinName = this.coin.name;
@@ -75,13 +79,14 @@ export class SendCoinModal {
             }
             const utxoNum = utxos.length;
             const bytesPerInput = environment.chains.BTC.bytesPerInput;
-            const satoshisPerBytes = environment.chains.BTC.satoshisPerBytes;
+            const satoshisPerBytes = this.sendCoinForm.get('satoshisPerBytes').value ? Number(this.sendCoinForm.get('satoshisPerBytes').value) : environment.chains.BTC.satoshisPerBytes;
             const transFee = (utxoNum * bytesPerInput + 2 * 34 + 10) * satoshisPerBytes;
             const transFeeDouble = transFee / 1e8;
-            const transOut = balance - transFeeDouble;
+            let transOut = balance - transFeeDouble;
             if(transOut <= 0) {
                 return;
             }
+            transOut = Number(transOut.toFixed(8));
             this.sendCoinForm.patchValue({'sendAmount': transOut});
             this.onTextChange(transOut);    
         } else
@@ -92,24 +97,26 @@ export class SendCoinModal {
             }
             const utxoNum = utxos.length;
             const bytesPerInput = environment.chains.FAB.bytesPerInput;
-            const satoshisPerBytes = environment.chains.FAB.satoshisPerBytes;
+            const satoshisPerBytes = this.sendCoinForm.get('satoshisPerBytes').value ? Number(this.sendCoinForm.get('satoshisPerBytes').value) : environment.chains.FAB.satoshisPerBytes;
             const transFee = (utxoNum * bytesPerInput + 2 * 34 + 10) * satoshisPerBytes;
             const transFeeDouble = transFee / 1e8;
-            const transOut = balance - transFeeDouble;
+            let transOut = balance - transFeeDouble;
             if(transOut <= 0) {
                 return;
             }
+            transOut = Number(transOut.toFixed(8));
             this.sendCoinForm.patchValue({'sendAmount': transOut});    
             this.onTextChange(transOut);           
         } else
         if(coinName == 'ETH') {
-            const gasPrice = environment.chains.ETH.gasPrice;
-            const gasLimit = environment.chains.ETH.gasLimit;
+            const gasPrice = this.sendCoinForm.get('gasPrice').value ? Number(this.sendCoinForm.get('gasPrice').value) : environment.chains.ETH.gasPrice;
+            const gasLimit = this.sendCoinForm.get('gasLimit').value ? Number(this.sendCoinForm.get('gasLimit').value) : environment.chains.ETH.gasLimit;  
             const transFeeDouble = gasPrice * gasLimit / 1e9;
-            const transOut = balance - transFeeDouble;
+            let transOut = balance - transFeeDouble;
             if(transOut <= 0) {
                 return;
             }
+            transOut = Number(transOut.toFixed(8));
             this.sendCoinForm.patchValue({'sendAmount': transOut});     
             this.onTextChange(transOut);         
         } else

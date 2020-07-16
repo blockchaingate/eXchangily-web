@@ -93,12 +93,12 @@ export class UtilService {
     }
 
     getFormattedDate(date: any) {
-        console.log('origin date=', date);
+        //console.log('origin date=', date);
         //if(Number.is)
         if(!Number.isNaN(date)) {
             date = new Date(date * 1000);
         } 
-        console.log('date=', date);
+        //console.log('date=', date);
         const month = date.getMonth() + 1;
         const day = date.getDate();
         const hour = date.getHours();
