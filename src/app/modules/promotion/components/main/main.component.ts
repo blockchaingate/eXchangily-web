@@ -430,7 +430,27 @@ export class MainComponent implements OnInit {
 
         return;
       } else {
-        this.pinModal.show();
+        let eth = 0;
+        for(let i=0;i<this.wallet.mycoins.length;i++) {
+          if(this.wallet.mycoins[i].name == 'ETH') {
+            eth = this.wallet.mycoins[i].balance;
+          }
+        }
+        if(eth < (this.gasPrice * this.gasLimit / 1e9)) {
+          this.tranServ.get('Not enough transaction fee').subscribe(
+            (notEngoutTransactioFee: string) => {
+              this.tranServ.get('Ok').subscribe(
+                (ok: string) => {
+                  this.alertServ.openSnackBar(notEngoutTransactioFee, ok);
+                }
+              );             
+            }
+          );
+          return;
+        } else {
+          this.pinModal.show();
+        }
+        
         return;
       }
 
@@ -466,6 +486,7 @@ export class MainComponent implements OnInit {
       gasLimit: this.gasLimit,
       satoshisPerBytes: this.satoshisPerBytes
     };
+    console.log('options theee=', options);
     console.log('amount000===', amount);
     console.log('this.quantity000===', this.quantity);
     const { txHex, txHash, errMsg } = await this.coinService.sendTransaction(currentCoin, seed,

@@ -23,12 +23,14 @@ import { HeaderComponent } from './components/navigation/header/header.component
 import { FooterComponent } from './components/navigation/footer/footer.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FaqComponent } from './components/help/faq.component';
+import { SubscriptionComponent } from './modules/landing/features/subscription/subscription.component';
 
 import { HttpService } from './services/http.service';
 import { AlertService } from './services/alert.service';
 import { UtilService } from './services/util.service';
 import { KanbanService } from './services/kanban.service';
 import { ApiService } from './services/api.service';
+import { SubscriptionService } from './services/subscription.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -42,7 +44,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     // TvChartContainerComponent,
     HeaderComponent,
     FaqComponent,
-    FooterComponent
+    FooterComponent,
+    SubscriptionComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -68,7 +71,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     StorageModule.forRoot({ IDBNoWrap: true, }),
     AppRoutingModule,
   ],
-  providers: [AppResolver, HttpService, StorageService, TimerService, AlertService, UtilService, KanbanService, ApiService],
+  providers: [AppResolver, HttpService, StorageService, TimerService, AlertService, UtilService, KanbanService, ApiService,
+    SubscriptionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

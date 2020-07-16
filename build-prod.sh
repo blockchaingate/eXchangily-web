@@ -1,1 +1,1 @@
-node  node_modules/@angular/cli/bin/ng build --prod
+ng build --prod=true --aot=true --optimization=true

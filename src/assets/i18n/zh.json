@@ -1080,6 +1080,7 @@
     "Transaction notes(optional)": "交易备注（可选）",
     "Commission": "手续费",
     "Limit": "限额",
+    "Not enough transaction fee": "交易费用不足",
     "Question": "问题",
     "Answer": "答案",
     "Locked Details": "锁仓详情",
@@ -1359,5 +1360,10 @@
     "Input": "输入",
     "Load new assets": "加载新币种",
     "Dividend": "分红",
-    "Copy address": "复制地址"
+    "Copy address": "复制地址",
+    "Subscribe for Updates": "订阅获取最新动态",
+    "Name": "姓名",
+    "Submit": "提交",
+    "Invalid email": "无效的电子邮箱",
+    "Subscription submited successful": "您已成功提交订阅"
 }

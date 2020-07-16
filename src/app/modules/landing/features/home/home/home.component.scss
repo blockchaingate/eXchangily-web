@@ -109,8 +109,12 @@ h4 {
             margin-top: 4em;
             margin-bottom: 1em;
         }
-        &__whitelist button {
-            margin-left: 0.5em;
+        &__whitelist {
+            margin-left: .5em;
+            text-align: center;
+        }
+        &__whitelist a {
+            padding: 8px;
         }
     }
     &__concept {

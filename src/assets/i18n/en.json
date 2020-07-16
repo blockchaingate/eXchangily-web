@@ -32,7 +32,7 @@
     "Home": {
         "Top": {
             "Hero": {
-                "Line1": "THE REAL DECENTRALIZED EXCHANGE",
+                "Line1": "THE REAL-TIME DECENTRALIZED EXCHANGE",
                 "Line2": "That's S.A.F.E. - Secure, Autonomous, Fast and Easy. Never lose control of your crypto assets !"
             },
             "WhitepaperButton": "Download Whitepaper",
@@ -1025,6 +1025,7 @@
     "Payment method": "Payment method",
     "Your referral code": "Your referral code",
     "Subtotal": "Total",
+    "Not enough transaction fee": "Not enough transaction fee",
     "Get free FAB": "Get free FAB",
     "Question": "Question",
     "Answer": "Answer",
