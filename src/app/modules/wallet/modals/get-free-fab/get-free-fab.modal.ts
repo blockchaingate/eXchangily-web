@@ -2,6 +2,7 @@ import { Component, ViewChild, Input, OnInit } from '@angular/core';
 import {  ModalDirective } from 'ngx-bootstrap/modal';
 import { AirdropService } from '../../../../services/airdrop.service';
 import { AlertService } from '../../../../services/alert.service';
+import { HttpClient} from '@angular/common/http';
 
 @Component({
     selector: 'get-free-fab-modal',
@@ -15,12 +16,15 @@ export class GetFreeFabModal implements OnInit{
     questionair_id: string;
     answer: string;
     error: string;
-    constructor(private airdropServ: AirdropService, private alertServ: AlertService) {
+    publicIP: string;
+    constructor(private airdropServ: AirdropService, private alertServ: AlertService, private http: HttpClient) {
 
     }
 
     ngOnInit() {
-
+     this.http.get('https://api.ipify.org?format=json').subscribe(data => {
+      this.publicIP=data['ip'];
+      });
     }
 
     
@@ -41,7 +45,7 @@ export class GetFreeFabModal implements OnInit{
 
     show() {
         this.error = null;
-        this.airdropServ.getQuestionair(this.address).subscribe(
+        this.airdropServ.getQuestionair(this.address, this.publicIP).subscribe(
             (res: any) => {
                 if(res) {
                     const data = res._body;

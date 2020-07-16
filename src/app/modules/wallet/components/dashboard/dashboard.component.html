@@ -121,24 +121,7 @@
                             </button>
                         </div>
                     </div>
-                    <!--
-                        <div class="container">wallet.mycoins
-                            <div class="row apair header">
-                                <div class="col-3">
-                                    {{"Type" | translate}}
-                                </div>
-                                <div class="col-3">
-                                    {{"Asset" | translate}}
-                                </div>
-                                <div class="col-3">
-                                    {{"Amount" | translate}}
-                                </div>
-                                <div class="col-3">
-                                    {{"txid" | translate}}
-                                </div>
-                            </div>
-                        </div>
--->
+
                     <app-transaction-history class="row pt-4" *ngIf="showTransactionHistory" [transactions]="transactions" [walletId]="wallet.id" [coinsPrice]="coinsPrice"></app-transaction-history>
 
                     <div class="row pt-4" *ngIf="showMyAssets">
@@ -166,7 +149,7 @@
                                     {{"Action" | translate}}
                                 </div>
                             </div>
-                            <div class="container-wallet-main scroll-bar">
+                            <div class="container-wallet-main scroll-bar" *ngIf="wallet">
                                 <ng-container *ngFor="let mycoin of wallet.mycoins; index as i">
                                     <div class="row apair dataline small" *ngIf="!hideSmall || ((mycoin.usdPrice > 0) && ((mycoin.balance + (mycoin.lockedBalance ? mycoin.lockedBalance : 0)) * mycoin.usdPrice >= 1))">
                                         <div class="col-custom-1">

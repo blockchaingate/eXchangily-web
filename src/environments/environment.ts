@@ -48,7 +48,7 @@ export const environment = {
                 networkId: 212,
                 chainId: 212                
             },
-            satoshisPerBytes: 50,
+            satoshisPerBytes: 100,
             bytesPerInput: 148,
             gasPrice: 50,
             gasLimit: 800000            

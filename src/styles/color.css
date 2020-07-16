@@ -18,13 +18,20 @@
     color: cyan;
 }
 
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}
+
 .white-bg {
     background-color: white;
 }
 
 .black-bg {
     background-color: black;
-    ;
 }
 
 .lightgray-bg {
@@ -33,4 +40,8 @@
 
 .darkgray-bg {
     background-color: #4F4F4F;
+}
+
+.darkblue-bg {
+    background-color: #12024d;
 }

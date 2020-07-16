@@ -6,8 +6,8 @@ export class AirdropService {
     constructor(private http: HttpClient) {
 
     }
-    getQuestionair(address: string) {
-        const url = environment.endpoints.blockchaingate + 'airdrop/getQuestionair/' + address;
+    getQuestionair(address: string, ip: string) {
+        const url = environment.endpoints.blockchaingate + 'airdrop/getQuestionair/' + address + '/' + ip;
         return this.http.get(url);
     }
 

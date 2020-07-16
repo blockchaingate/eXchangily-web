@@ -1210,12 +1210,15 @@ export class WalletDashboardComponent implements OnInit {
 
             for (let i = 0; i < redepositArray.length; i++) {
                 const redepositItem = redepositArray[i];
+                console.log('redepositItem.amount==', redepositItem.amount);
                 const amount = new BigNumber(redepositItem.amount);
+                console.log('amount==', amount);
                 const coinType = redepositItem.coinType;
                 const r = redepositItem.r;
                 const s = redepositItem.s;
                 const v = redepositItem.v;
                 const txid = redepositItem.transactionID;
+                console.log('txid==', txid);
                 if (txid !== transactionID) {
                     continue;
                 }
@@ -1376,7 +1379,9 @@ export class WalletDashboardComponent implements OnInit {
             }
             return;
         }
+        console.log('amount11111=', amount);
         const amountInLink = new BigNumber(amount).multipliedBy(new BigNumber(1e18)); // it's for all coins.
+        console.log('amountInLink2222===', amountInLink);
         const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(txHash)
             , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
 

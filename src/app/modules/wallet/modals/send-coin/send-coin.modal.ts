@@ -7,8 +7,8 @@ import { MyCoin } from '../../../../models/mycoin';
 import { environment } from '../../../../../environments/environment';
 import { CoinService } from '../../../../services/coin.service';
 import { AlertService } from '../../../../services/alert.service';
-import * as bs58 from 'bs58';
 import { UtilService } from '../../../../services/util.service';
+import { ApiService } from '../../../../services/api.service';
 
 @Component({
     selector: 'send-coin-modal',
@@ -21,6 +21,7 @@ export class SendCoinModal {
     coin: MyCoin;
     gasUnit: string;
     transFee: number;
+    sendAllCoinsFlag: boolean;
     tranFeeUnit: string;
     @ViewChild('sendCoinModal', { static: true }) public sendCoinModal: ModalDirective;
     @Output() confirmedCoinSent = new EventEmitter<SendCoinForm>();
@@ -37,10 +38,11 @@ export class SendCoinModal {
         gasLimit: [environment.chains.FAB.gasLimit],
         satoshisPerBytes: [environment.chains.FAB.satoshisPerBytes]
     });
-    constructor(private fb: FormBuilder, private utilServ: UtilService,
+    constructor(private apiService: ApiService, private fb: FormBuilder, private utilServ: UtilService,
         private coinServ: CoinService, private alertServ: AlertService) {
         this.currentCoinIndex = 0;
         this.transFee = 0;
+        this.sendAllCoinsFlag = false;
         this.btcTransFeeEstimate = 0;
         /*
         this.apiServ.getBtcTransFeeEstimate().subscribe(
@@ -57,6 +59,73 @@ export class SendCoinModal {
             console.log('this.coin111==', this.coin);
         }
     }
+
+    async sendAllAmount(event) {
+        console.log('event=', event);
+        if (this.wallet) {
+            this.coin = this.wallet.mycoins[this.currentCoinIndex];
+            console.log('this.coin111==', this.coin);
+        }        
+        this.sendAllCoinsFlag = event.checked;
+        console.log('this.sendAllCoinsFlag==', this.sendAllCoinsFlag);
+        const coinName = this.coin.name;
+        const tokenType = this.coin.tokenType;
+        const balance = this.coin.balance;
+        const address = this.coin.receiveAdds[0].address;
+        if(coinName == 'BTC') {
+            const utxos = await this.apiService.getBtcUtxos(address);
+            if(!utxos) {
+                return;
+            }
+            const utxoNum = utxos.length;
+            const bytesPerInput = environment.chains.BTC.bytesPerInput;
+            const satoshisPerBytes = this.sendCoinForm.get('satoshisPerBytes').value ? Number(this.sendCoinForm.get('satoshisPerBytes').value) : environment.chains.BTC.satoshisPerBytes;
+            const transFee = (utxoNum * bytesPerInput + 2 * 34 + 10) * satoshisPerBytes;
+            const transFeeDouble = transFee / 1e8;
+            let transOut = balance - transFeeDouble;
+            if(transOut <= 0) {
+                return;
+            }
+            transOut = Number(transOut.toFixed(8));
+            this.sendCoinForm.patchValue({'sendAmount': transOut});
+            this.onTextChange(transOut);    
+        } else
+        if(coinName == 'FAB') {
+            const utxos = await this.apiService.getFabUtxos(address);
+            if(!utxos) {
+                return;
+            }
+            const utxoNum = utxos.length;
+            const bytesPerInput = environment.chains.FAB.bytesPerInput;
+            const satoshisPerBytes = this.sendCoinForm.get('satoshisPerBytes').value ? Number(this.sendCoinForm.get('satoshisPerBytes').value) : environment.chains.FAB.satoshisPerBytes;
+            const transFee = (utxoNum * bytesPerInput + 2 * 34 + 10) * satoshisPerBytes;
+            const transFeeDouble = transFee / 1e8;
+            let transOut = balance - transFeeDouble;
+            if(transOut <= 0) {
+                return;
+            }
+            transOut = Number(transOut.toFixed(8));
+            this.sendCoinForm.patchValue({'sendAmount': transOut});    
+            this.onTextChange(transOut);           
+        } else
+        if(coinName == 'ETH') {
+            const gasPrice = this.sendCoinForm.get('gasPrice').value ? Number(this.sendCoinForm.get('gasPrice').value) : environment.chains.ETH.gasPrice;
+            const gasLimit = this.sendCoinForm.get('gasLimit').value ? Number(this.sendCoinForm.get('gasLimit').value) : environment.chains.ETH.gasLimit;  
+            const transFeeDouble = gasPrice * gasLimit / 1e9;
+            let transOut = balance - transFeeDouble;
+            if(transOut <= 0) {
+                return;
+            }
+            transOut = Number(transOut.toFixed(8));
+            this.sendCoinForm.patchValue({'sendAmount': transOut});     
+            this.onTextChange(transOut);         
+        } else
+        if(tokenType == 'FAB' || tokenType == 'ETH') {
+            this.sendCoinForm.patchValue({'sendAmount': balance});   
+            this.onTextChange(balance);
+        }
+    }
+
     getTransFeeUnit() {
         if (!this.coin) {
             return '';

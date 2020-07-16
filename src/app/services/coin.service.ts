@@ -690,18 +690,17 @@ export class CoinService {
         const txb = new Btc.TransactionBuilder(network);
         // console.log('amountNum=', amountNum);
         let txHex = '';
-        console.log('address there wego=', address);
+
         for (index = 0; index < mycoin.receiveAdds.length; index ++) {
 
             address = mycoin.receiveAdds[index].address;
             // console.log('address in getFabTransactionHex=' + address);
             const fabUtxos = await this.apiService.getFabUtxos(address);
-            console.log('fabUtxos==', fabUtxos);
+
             if (fabUtxos && fabUtxos.length) {
                 // console.log('fabUtxos=', fabUtxos);
                 // console.log('fabUtxos.length=', fabUtxos.length);
                 for (let i = 0; i < fabUtxos.length; i++) {
-                    console.log('i for fabUtxos=', i);
                     const utxo = fabUtxos[i];
                     const idx = utxo.idx;
                     /*
@@ -716,12 +715,8 @@ export class CoinService {
                     receiveAddsIndexArr.push(index);
                     totalInput += utxo.value;
                     // console.log('totalInput here=', totalInput);
-                    console.log('amountNum1=', amountNum);
                     amountNum -= utxo.value;
                     amountNum += feePerInput;
-                    console.log('amount===', amount);
-                    console.log('amountNum2=', amountNum);
-                    console.log('mycoin==', mycoin);
                     if (((amount > 0) || (mycoin.tokenType == 'FAB')) && (amountNum <= 0)) {
                         console.log('finished');
                         finished = true;
@@ -742,7 +737,7 @@ export class CoinService {
                 address = mycoin.changeAdds[index].address;
                 
                 const fabUtxos = await this.apiService.getFabUtxos(address);
-                console.log('fabUtxos==', fabUtxos);
+
                 if (fabUtxos && fabUtxos.length) {
                     for (let i = 0; i < fabUtxos.length; i++) {
                         const utxo = fabUtxos[i];
@@ -788,13 +783,18 @@ export class CoinService {
         }
         transFee = ((receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput + outputNum * 34) * satoshisPerBytes;
 
-        if (getTransFeeOnly) {
-            return {txHex: '', errMsg: '', transFee: transFee + extraTransactionFee * Math.pow(10, this.utilServ.getDecimal(mycoin))};
-        }
+
         const output1 = Math.round(totalInput
         - amount * 1e8 - extraTransactionFee * 1e8
         - transFee);
 
+        if((output1 < 2730)  && !(mycoin.tokenType == 'FAB')) {
+            transFee += output1;
+        }     
+        
+        if (getTransFeeOnly) {
+            return {txHex: '', errMsg: '', transFee: transFee + extraTransactionFee * Math.pow(10, this.utilServ.getDecimal(mycoin))};
+        }        
         //const output2 = Math.round(amount * 1e8);    
         const output2 = Number(this.utilServ.toBigNumber(amount, 8));
         
@@ -809,8 +809,11 @@ export class CoinService {
         // console.log('output1=' + output1 + ',output2=' + output2);
 
         if((amount > 0) || (mycoin.tokenType == 'FAB')) {
-            console.log('go heeee');
-            txb.addOutput(changeAddress.address, output1);
+            if((output1 >= 2730) && !(mycoin.tokenType == 'FAB')) {
+                console.log('added output1');
+                txb.addOutput(changeAddress.address, output1);
+            }
+            // txb.addOutput(changeAddress.address, output1);
             txb.addOutput(to, output2);
         } else {
             txb.addOutput(to, output1);
@@ -996,6 +999,9 @@ export class CoinService {
             // console.log('transFee=' + transFee);
             const output1 = Math.round(new BigNumber(totalInput - amount * 1e8 - transFee).toNumber());
             
+            if(output1 < 2730) {
+                transFee += output1;
+            }
             transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
 
             if (getTransFeeOnly) {
@@ -1005,7 +1011,9 @@ export class CoinService {
             const output2 = Number(this.utilServ.toBigNumber(amount, 8));
             console.log('output1=', output1);
             if(amount > 0) {
-                txb.addOutput(changeAddress.address, output1);
+                if(output1 >= 2730) {
+                    txb.addOutput(changeAddress.address, output1);
+                }
                 txb.addOutput(toAddress, output2);
             } else {
                 console.log('go amount = 0');
@@ -1307,8 +1315,7 @@ export class CoinService {
                 return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
             }  
             const amountBigNum = Number(this.utilServ.toBigNumber(amount, 8));
-            console.log('amountBigNum==', amountBigNum);
-            console.log('utxos==', utxos);
+
             var transaction = new litecore.Transaction()
             .from(utxos)          // Feed information about what unspent outputs one can use
             .feePerKb(satoshisPerBytes * 1000)
@@ -1411,8 +1418,6 @@ export class CoinService {
                 const retEth = await this.apiService.postEthTx(txHex);
                 txHash = retEth.txHash;
                 errMsg = retEth.errMsg;
-                console.log('txHash for here=', txHash);
-                console.log('errMsg for here=', errMsg);
                 if (txHash.indexOf('txerError') >= 0) {
                     errMsg = txHash;
                     txHash = '';
@@ -1606,6 +1611,7 @@ export class CoinService {
             console.log('satoshisPerBytessatoshisPerBytessatoshisPerBytes=', satoshisPerBytes);
             const baseCoin = mycoin.baseCoin;
             baseCoin.tokenType = 'FAB';
+            console.log('totalFee==', totalFee);
             const res1 = await this.getFabTransactionHex(seed, baseCoin, contract, 0, totalFee, 
                 satoshisPerBytes, bytesPerInput, getTransFeeOnly);
 
