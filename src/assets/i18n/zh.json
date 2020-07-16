@@ -1351,5 +1351,10 @@
     "Input": "输入",
     "Load new assets": "加载新币种",
     "Dividend": "分红",
-    "Copy address": "复制地址"
+    "Copy address": "复制地址",
+    "Subscribe for Updates": "订阅获取最新动态",
+    "Name": "姓名",
+    "Submit": "提交",
+    "Invalid email": "无效的电子邮箱",
+    "Subscription submited successful": "您已成功提交订阅"
 }
