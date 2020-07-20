@@ -1,12 +1,10 @@
 <div class="container py-3">
-    ·
     <div class="row border-bottom py-2">
         <div class="col col-2">
-            <mat-form-field class="text-muted">
-                <mat-label>
-                    {{"Currency" | translate }}</mat-label>
-                <mat-select class="text-muted" [(ngModel)]="currency" [disableOptionCentering]="true">
-                    <mat-option *ngFor="let cur of currencies" [value]="cur" class="text-muted">
+            <mat-form-field>
+                <mat-label class="white">{{"Currency" | translate }}</mat-label>
+                <mat-select style="background-color: lightblue;" [(ngModel)]="currency" [disableOptionCentering]="true">
+                    <mat-option *ngFor="let cur of currencies" [value]="cur">
                         {{cur}}
                     </mat-option>
                 </mat-select>
@@ -16,7 +14,7 @@
         <div class="col col-3 border-right">
             <div class="container">
                 <div class="row py-2">
-                    <div class="col col-12 col-green">
+                    <div class="col col-12 brgreen">
                         {{'Buy' | translate }}
                     </div>
                 </div>
@@ -44,7 +42,7 @@
         <div class="col col-3">
             <div class="container">
                 <div class="row py-2">
-                    <div class="col col-12 col-red">
+                    <div class="col col-12 red">
                         {{'Sell' | translate }}
                     </div>
                 </div>
@@ -70,7 +68,7 @@
         </div>
 
         <div class="col col-4">
-            <div class="container col-blue">
+            <div class="container lightblue">
                 <div class="row">
                     <div class="col col-6">
                         <div>
