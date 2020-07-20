@@ -15,3 +15,24 @@ td {
 a {
     color: #8f9fff;
 }
+
+.blockControl {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media (max-width: 1620px) {
+    .blockControl {
+        display: block;
+        justify-content: space-between;
+        text-align: center;
+    }
+
+    .blockControlBtn {
+        /* display: flex; */
+        margin: 0 auto;
+        text-align: center;
+        align-self: center;
+        align-items: center;
+    }
+}

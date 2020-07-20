@@ -15,7 +15,7 @@
 
 .right-area {
     margin-left: 1px;
-    width: 36%;
+    /* width: 36%; */
 }
 
 .menu {
@@ -149,6 +149,22 @@ th {
     padding-bottom: 10px;
 }
 
-.div-fixed-width {
+/* .div-fixed-width {
     min-width: 600px;
+} */
+
+@media (max-width:1200px){
+    .outwraper {
+        display: block;
+    }
+
+    .center-area {
+        width: 100%;
+    }
+    
+    .right-area {
+        margin-left: 1px;
+        margin-top: 10px;
+        width: 100%;
+    }
 }

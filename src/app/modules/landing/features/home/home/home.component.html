@@ -1,16 +1,19 @@
 <div class="app-home">
-    <div class="app-home__hero gradient-back-area">
+
+    <div class="app-home__hero">
+
         <div class="topslogan">
             <div class="app-home__hero__content max-out">
                 <div class="app-home__hero-text">
-                    <div class="text-left txtarea titalarea">
+                    <div class="center txtarea titalarea">
                         <div class="left app-home__hero__title">{{ 'Home.Top.Hero.Line1' | translate }}</div>
                         <div class="left app-home__hero__title2">{{ 'Home.Top.Hero.Line2' | translate }}</div>
                     </div>
                 </div>
 
                 <div class="center app-home__hero__download">
-                    <a class="button secondary" [href]="whitepaper" target="_blank"> {{ 'Home.Top.WhitepaperButton' | translate }}</a>
+                    <a class="button secondary" [href]="whitepaper" target="_blank">
+                        {{ 'Home.Top.WhitepaperButton' | translate }}</a>
                 </div>
 
                 <div class="center app-home__hero__whitelist">
@@ -18,17 +21,179 @@
                     <!-- <a class="button white" href="https://visitor.r20.constantcontact.com/d.jsp?llr=olhycf6ab&amp;p=oi&amp;m=1130820803950&amp;sit=cklb98qmb&amp;f=2c910e35-5262-4d86-9b78-956cc6db860c" target="_blank">{{ 'Home.Top.WhitelistCTA.Button' | translate }}</a> -->
                     <a href="subscription" class="button secondary">{{ 'Subscribe for Updates' | translate }}</a>
                 </div>
-                <div clas="row center">
+                <!-- <div clas="row center">
                     <div class="store-link-box">
-                        <a href="https://apps.apple.com/ca/app/exchangily-dex-wallet/id1503068552?mt=8" style="display:inline-block;overflow:hidden;background:url(https://linkmaker.itunes.apple.com/en-us/badge-lrg.svg?releaseDate=2020-03-23&kind=iossoftware&bubble=ios_apps) no-repeat;width:135px;height:40px;"></a>
+                        <a href="https://apps.apple.com/ca/app/exchangily-dex-wallet/id1503068552?mt=8"
+                            style="display:inline-block;overflow:hidden;background:url(https://linkmaker.itunes.apple.com/en-us/badge-lrg.svg?releaseDate=2020-03-23&kind=iossoftware&bubble=ios_apps) no-repeat;width:135px;height:40px;"></a>
                         <img src="images/qrcode/exg-ios.svg" width="134px">
                     </div>
 
                     <div class="store-link-box">
                         <a href='https://play.google.com/store/apps/details?id=com.exchangily.wallet' target="_blank">
-                            <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width="155px">
+                            <img alt='Get it on Google Play'
+                                src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'
+                                width="155px">
                         </a>
                         <img class="ml-2" style="margin-top: -4px" src="images/qrcode/exg-android.svg" width="134px">
+                    </div>
+                </div> -->
+
+            </div>
+        </div>
+        <div class="wpb_wrapper"> <canvas id="c"
+                style="position: absolute; top: 0; left: 0; width:100%; height:100%; background-color: #333333;"
+                width="1333" height="849"></canvas>
+        </div>
+    </div>
+
+
+
+    <!-- overview -->
+    <div class="app-home__overview">
+        <div class="row  max-out">
+
+
+            <div class="col-md-6 ">
+                <div class="mdcenter">
+                    <h2 class="app-home__title">{{ 'Home.Overview.Title' | translate }}
+                    </h2>
+
+                    <p class="text-justify app-home__paragraph">{{ 'Home.Overview.Disc.Content1' | translate }}</p>
+                    <p class="text-justify app-home__paragraph">{{ 'Home.Overview.Disc.Content2' | translate }}</p>
+                    <a href="/market/trade/BTC_USDT"><button class="button"><span>{{ 'Home.Overview.Button' | translate }} </span></button></a>
+                </div>
+            </div>
+            <div class="col-md-6 exchangily-web-app">
+                <img src="/images/img/exchangily-app-trade-page.gif" alt="exchangily-web-app" />
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- OVERVIEW -->
+    <!-- <div class="app-home__overview max-out">
+        <h2 class="center color-secondary app-home__overview__title">{{ 'Home.Overview.Title' | translate }}</h2>
+
+        <p class="text-justify app-home__paragraph">{{ 'Home.Overview.Disc.Content1' | translate }}</p>
+        <p class="text-justify app-home__paragraph">{{ 'Home.Overview.Disc.Content2' | translate }}</p>
+
+    </div>
+    <div class="app-home__concept">
+        <div class="max-out app-home__concept__image">
+            <img src="/images/img/exchangily-app-trade-page.gif" />
+        </div>
+    </div> -->
+
+
+    <!-- How it Works TODO -->
+    <div class="app-home__how">
+        <div class="max-out" fxLayout="row" fxLayoutAlign="center">
+            <div class="col-md-12">
+                <h2 class="center app-home__title">{{ 'Home.Why.Title' | translate }}</h2>
+
+                <p class="text-justify app-home__paragraph">{{ 'Home.Why.Disc.Content1' | translate }}</p>
+
+                <p class="text-justify app-home__paragraph">{{ 'Home.Why.Disc.Content2' | translate }}</p>
+                <div class="center video-image">
+                    <img src="/images/img/play.jpg" />
+                    <div class="middle">
+                        <!-- <div class="text"></div> -->
+                    </div>
+                </div>
+            </div>
+            <!-- <div fxFlex="80">
+                <video controls width="100%" height="auto">
+                    <source src="/assets/videos/how.mp4">
+                </video>
+            </div> -->
+        </div>
+    </div>
+
+
+    <!-- APP -->
+    <div class="app-home__app">
+        <div class="row  max-out">
+
+            <div class="col-md-6 exchangily-app-screen-shot">
+                <img src="/images/img/app-in-iphone.gif" />
+            </div>
+            <div class="col-md-6">
+                <div class="mdcenter">
+                    <h2 class="app-home__title">{{ 'Home.App.Title' | translate }}
+                    </h2>
+                    <div clas="row center">
+                        <div class="store-link-box">
+                            <a href="https://apps.apple.com/ca/app/exchangily-dex-wallet/id1503068552?mt=8"
+                                style="display:inline-block;overflow:hidden;background:url(https://linkmaker.itunes.apple.com/en-us/badge-lrg.svg?releaseDate=2020-03-23&kind=iossoftware&bubble=ios_apps) no-repeat;width:135px;height:40px;"></a>
+                            <img src="images/qrcode/exg-ios.svg" width="134px">
+                        </div>
+
+                        <div class="store-link-box">
+                            <a href='https://play.google.com/store/apps/details?id=com.exchangily.wallet'
+                                target="_blank">
+                                <img alt='Get it on Google Play'
+                                    src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'
+                                    width="155px">
+                            </a>
+                            <img class="ml-2" style="margin-top: -4px" src="images/qrcode/exg-android.svg"
+                                width="134px">
+                        </div>
+                    </div>
+                    <!-- 
+                    <p class="text-justify app-home__paragraph">{{ 'Home.Overview.Disc.Content1' | translate }}</p>
+                    <p class="text-justify app-home__paragraph">{{ 'Home.Overview.Disc.Content2' | translate }}</p> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STAY IN TOUCH -->
+    <div class="app-home__social app-home__section2">
+        <div class=" max-out">
+            <h2 class="center app-home__title">{{ 'Home.Social.Title' | translate }}</h2>
+            <div class="title2">{{ 'Home.Social.TitleSub' | translate }}</div>
+            <div class="row">
+                <div class="col-md-2 col-sm-4 col-xs-6 content">
+                    <div class="social tele">
+                        <img _ngcontent-qie-c102="" src="./images/social/telegram-w.png">
+                        <div class="title">Telegram EN1</div>
+                        <a href="https://t.me/fabtoken"><button class="button"><span>{{ 'Home.Social.Button' | translate }} </span></button></a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4 col-xs-6 content">
+                    <div class="social tele">
+                        <img _ngcontent-qie-c102="" src="./images/social/telegram-w.png">
+                        <div class="title">Telegram EN2</div>
+                        <a href="https://t.me/exchangily_chat"><button class="button"><span>{{ 'Home.Social.Button' | translate }} </span></button></a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4 col-xs-6 content">
+                    <div class="social tele">
+                        <img _ngcontent-qie-c102="" src="./images/social/telegram-w.png">
+                        <div class="title">Telegram ZH1</div>
+                        <a href="https://t.me/Fabcn"><button class="button"><span>{{ 'Home.Social.Button' | translate }} </span></button></a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4 col-xs-6 content">
+                    <div class="social tele">
+                        <img _ngcontent-qie-c102="" src="./images/social/telegram-w.png">
+                        <div class="title">Telegram ZH2</div>
+                        <a href="https://t.me/exchangily1"><button class="button"><span>{{ 'Home.Social.Button' | translate }} </span></button></a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4 col-xs-6 content">
+                    <div class="social facebook">
+                        <img _ngcontent-qie-c102="" src="./images/social/facebook-w.png">
+                        <div class="title">Facebook</div>
+                        <a href="https://www.facebook.com/Exchangily-439040053240813"><button class="button"><span>{{ 'Home.Social.Button' | translate }} </span></button></a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4 col-xs-6 content">
+                    <div class="social twitter">
+                        <img _ngcontent-qie-c102="" src="./images/social/twitter-w.png">
+                        <div class="title">Twitter</div>
+                        <a href="https://twitter.com/Exchangily"><button class="button"><span>{{ 'Home.Social.Button' | translate }} </span></button></a>
                     </div>
                 </div>
 
@@ -36,61 +201,33 @@
         </div>
     </div>
 
-    <div class="app-home__section app-home__concept">
-        <div class="max-out app-home__concept__image">
-            <img src="/images/decal/exchangily-mockup.png" />
-            <p class="app-home__concept__paragraph">*Concept Only</p>
+    <!-- Team -->
+    <div class="app-home__team app-home__section2 ">
+        <div class="max-out">
+            <h2 class="center app-home__title">{{ 'Home.Team.Title'| translate }}</h2>
+            <app-team></app-team>
         </div>
+
     </div>
 
-    <!-- OVERVIEW -->
-    <div class="app-home__overview app-home__section max-out">
-        <h2 class="center color-secondary app-home__overview__title">{{ 'Home.Overview.Title' | translate }}</h2>
-        <!-- <div fxLayout="row wrap"> -->
-        <!-- <div fxFlex="50" fxFlex.lt-md="100"> -->
-        <p class="text-justify app-home__paragraph">{{ 'Home.Overview.Disc.Content1' | translate }}</p>
-        <p class="text-justify app-home__paragraph">{{ 'Home.Overview.Disc.Content2' | translate }}</p>
-        <!-- </div> -->
-
-        <!-- <div fxFlex="50"> -->
-        <!-- Image later probably -->
-        <!-- </div> -->
-        <!-- </div> -->
-    </div>
-
-    <!-- How it Works TODO -->
-    <div class="app-home__how">
-        <div class="max-out" fxLayout="row" fxLayoutAlign="center">
-            <div fxFlex="80">
-                <video controls width="100%" height="auto">
-          <source src="/assets/videos/how.mp4">
-        </video>
-            </div>
-        </div>
-    </div>
-    <!--                   -->
 
     <!-- Why -->
-    <div class="app-home__why app-home__section max-out">
-        <br>
+    <!-- <div class="app-home__why app-home__section max-out"> -->
+        <!-- <br>
         <h2 class="center color-secondary">{{ 'Home.Why.Title' | translate }}</h2>
-        <!-- <div fxLayout="row wrap"> -->
-        <!-- <div fxFlex="50" fxFlex.lt-md="100"> -->
+        
         <p class="text-justify app-home__paragraph">{{ 'Home.Why.Disc.Content1' | translate }}</p>
 
         <p class="text-justify app-home__paragraph">{{ 'Home.Why.Disc.Content2' | translate }}</p>
-        <!-- </div> -->
-        <!-- <div fxFlex="50" fxFlex.lt-md="100"> -->
-        <!-- Image later probably -->
-        <!-- </div> -->
+     -->
 
-        <div class="app-home__why">
+        <!-- <div class="app-home__why">
             <div class="app-home__why__image">
                 <img src="/images/decal/map.svg" />
             </div>
-        </div>
+        </div> -->
 
-        <div class="app-home__compare app-home__section">
+        <!-- <div class="app-home__compare app-home__section">
             <h2 class="center color-secondary">{{ 'Home.Comparison.Title' | translate }}</h2>
 
             <div class="app-home__compare__image max-out">
@@ -100,17 +237,13 @@
 
         <div class="app-home__roadmap max-out">
             <app-roadmap></app-roadmap>
-        </div>
+        </div> -->
 
-        <!-- Team -->
-        <div class="app-home__team app-home__section max-out">
-            <h2 class="center color-secondary">{{ 'Home.Team.Title'| translate }}</h2>
-            <app-team></app-team>
-        </div>
+
 
         <!-- FAQ -->
         <!-- <div class="app-home__faq app-home__section max-out"> -->
         <!--   <h2 class="center color-secondary"></h2> -->
         <!-- </div> -->
 
-    </div>
+    <!-- </div> -->

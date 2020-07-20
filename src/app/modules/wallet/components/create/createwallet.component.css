@@ -4,7 +4,7 @@
 }
 
 .panel {
-    height: 640px;
+    min-height: 640px;
     background-color: #343554;
     margin-bottom: 4em;
     padding-top: 1em;

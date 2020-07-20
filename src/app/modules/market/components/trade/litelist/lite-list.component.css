@@ -29,7 +29,7 @@
 }
 
 .search-entered {
-    background-image: url('/images/icons/searchicon-w.svg');
+    background-image: url("/images/icons/searchicon-w.svg");
 }
 
 .smallfont {
@@ -65,7 +65,7 @@
 }
 
 .orderlist {
-    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
+    font-family: Verdana, sans-serif, SimHei, "Microsoft YaHei";
     border-collapse: collapse;
     color: white;
     border: 1px solid white;
@@ -132,7 +132,7 @@ th {
 }
 
 mat-list-item {
-    height: auto!important;
+    height: auto !important;
 }
 
 mat-divider {
@@ -179,4 +179,48 @@ mat-list {
 
 .mat-list-base .mat-list-item {
     font-size: 13px;
+}
+
+@media (max-width: 1200px) and (min-width: 601px) {
+    mat-list {
+        overflow-y: visible;
+        overflow-x: hidden;
+        height: auto;
+    }
+}
+
+@media (max-width: 600px) {
+    /* .pnum .px-2{
+        padding: 0.5rem !important;
+    } */
+    .mat-list {
+        overflow-y: auto;
+        overflow-x: hidden;
+        height: 150px;
+    }
+
+    .sarcharea{
+        margin-bottom: 10px;
+    }
+
+    .scroll-bar {
+        scrollbar-color: #24a665 #0c0c0c;
+        margin-bottom: 10px;
+        background-color: #282840;
+    }
+
+    .scroll-bar::-webkit-scrollbar {
+        width: 6px;
+        background-color: #0c0c0c;
+    }
+
+    .scroll-bar::-webkit-scrollbar-thumb {
+        background-color: #24a665;
+        border-radius: 10px;
+    }
+
+    .mat-list-base .mat-list-item,
+    .mat-list-base .mat-list-option {
+        width: 99.5%;
+    }
 }

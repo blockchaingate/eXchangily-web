@@ -7,6 +7,13 @@ $small-angular: 600px;
 $mobile: 580px;
 $small-mobile: 480px;
 
+$p575: 575px;
+$p576: 576px;
+$p767: 767px;
+$p768: 768px;
+$p1023: 1023px;
+$p1024: 1024px;
+
 @mixin desktop {
   @media(min-width: #{$desktop}) {
     @content;

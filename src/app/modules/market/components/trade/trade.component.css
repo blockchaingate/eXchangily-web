@@ -10,13 +10,21 @@
     flex-grow: 1;
 }
 
+@media (max-width: 1200px) and (min-width:601px) {
+    .left-area{
+        margin-right: 5px;
+    }
+}
+
+
 @media screen and (max-width: 600px) {
     .area-container {
         display: block;
     }
     .left-area {
         width: 100%;
-    }    
+        background-color: #282840;
+    }
 }
 
 /*

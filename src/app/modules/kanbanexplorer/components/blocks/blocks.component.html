@@ -1,15 +1,15 @@
 <mat-card style="padding: 10px; overflow-y: auto;" class="mat-elevation-z6">
     <h5 style="text-align: center;">{{"Latest Blocks"|translate}}</h5>
 
-    <div style="display: flex; justify-content: space-between;">
-        <span style="line-height: 2em; margin: 10px;">
+    <div class="blockControl">
+        <div style="line-height: 2em; margin: 10px;">
             <mat-slide-toggle (change)="test($event)">{{"Show Blocks with Transactions"|translate}}</mat-slide-toggle>
-        </span>
+        </div>
 
-        <span>
+        <div class="blockControlBtn">
             <button style="margin:10px;" mat-raised-button color="accent" (click)="leftClicked()">&lt;</button>
             <button style="margin:10px;" mat-raised-button color="accent" (click)="rightClicked()">&gt;</button>
-        </span>
+        </div>
     </div>
     <table mat-table [dataSource]="blocks" style=" width: 100%; text-align: center;" class="exg-bg graycolor">
         <ng-container matColumnDef="number">
