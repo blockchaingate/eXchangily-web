@@ -787,10 +787,12 @@ export class CoinService {
         const output1 = Math.round(totalInput
         - amount * 1e8 - extraTransactionFee * 1e8
         - transFee);
-
+        
+        /*
         if((output1 < 2730)  && !(mycoin.tokenType == 'FAB')) {
             transFee += output1;
-        }     
+        } 
+        */    
         
         if (getTransFeeOnly) {
             return {txHex: '', errMsg: '', transFee: transFee + extraTransactionFee * Math.pow(10, this.utilServ.getDecimal(mycoin))};
@@ -809,10 +811,12 @@ export class CoinService {
         // console.log('output1=' + output1 + ',output2=' + output2);
 
         if((amount > 0) || (mycoin.tokenType == 'FAB')) {
+            /*
             if((output1 >= 2730) || (mycoin.tokenType == 'FAB')) {
                 console.log('added output1');
                 txb.addOutput(changeAddress.address, output1);
             }
+            */
             // txb.addOutput(changeAddress.address, output1);
             txb.addOutput(to, output2);
         } else {
