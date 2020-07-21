@@ -45,7 +45,8 @@
             "Disc": {
                 "Content1": "eXchangily is a new decentralized exchange model built on the prominent Fast Access Blockchain. It carries the best of a centralized exchange, namely the speed and ease of use, with all the security benefits of a decentralized exchange.",
                 "Content2": "Users retain control over their funds, their private keys, and their transaction information is transparent and secure. Individuals can trade, and enterprises can transact on eXchangily with ERC20 tokens and other cryptocurrencies. It is a fully democratic and autonomous platform."
-            }
+            },
+            "Button":"STSART NOW"
         },
         "Why": {
             "Title": "Why eXchangily?",
@@ -53,6 +54,14 @@
                 "Content1": "The top 10 centralized exchanges are generating as much as $3 million in fees revenue per day, raking in billions and their model is flawed. They are riddled with security vulnerabilities that put investors at risk and regulators are at the mercy of the exchange management.",
                 "Content2": "eXchangily is a new kind of decentralized exchange (DEX) that trades ERC-20 tokens and other cryptocurrencies. Technically, eXchangily is a side-chain, peer-to-peer trading platform with an on-chain settlement for withdrawals. Transactions are facilitated through a high-speed trading engine that can process payments and redeem transactions fast."
             }
+        },
+        "App":{
+            "Title" :"Proud to introduce our mobile app"
+        },
+        "Social":{
+            "Title" :"Stay In Touch",
+            "TitleSub" :"Contact us to get more information about our free coin giveaway event.",
+            "Button":"JOIN"
         },
         "Comparison": {
             "Title": "Compare eXchangily"
@@ -117,7 +126,7 @@
             }
         },
         "Team": {
-            "Title": "Team",
+            "Title": "Our Team",
             "TeamMembers": {
                 "Member1": {
                     "Name": "Dora Tang",

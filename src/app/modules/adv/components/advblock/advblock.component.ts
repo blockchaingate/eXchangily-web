@@ -4,9 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
     selector: 'app-advblock',
     templateUrl: './advblock.component.html',
-    styleUrls: ['./advblock.component.css']
+    styleUrls: ['./advblock.component.scss']
 })
 export class AdvblockComponent {
+    
+    @Input() bNum: string;
     @Input() title: string;
     @Input() desc1: string;
     @Input() desc2: string;
@@ -14,6 +16,8 @@ export class AdvblockComponent {
     @Input() desc4: string;
     @Input() bgimgurl: string;
     @Input() linkurl: string;
+    
+    
 
     constructor(private _router: Router) {}
 

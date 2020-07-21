@@ -4,7 +4,7 @@ import { environment } from '../../../../../environments/environment';
 @Component({
   selector: 'app-market-home',
   templateUrl: './market-home.component.html',
-  styleUrls: ['./market-home.component.css']
+  styleUrls: ['./market-home.component.scss']
 })
 export class MarketHomeComponent implements OnInit {
   maintainence: boolean;

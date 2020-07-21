@@ -16,6 +16,7 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
+    background-color: #181439;
 }
 
 a {
@@ -47,7 +48,8 @@ fieldset {
 // max out spread
 .max-out {
     margin: 0 auto;
-    max-width: 65em;
+    max-width: 1140px;
+    // max-width: 65em;
 }
 
 .child-route {

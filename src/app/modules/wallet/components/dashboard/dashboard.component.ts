@@ -195,6 +195,7 @@ export class WalletDashboardComponent implements OnInit {
             }
             */
 
+            /*
             this.kanbanServ.getDepositErr(this.exgAddress).subscribe(
                 (resp: any) => {
                     // console.log('resp=', resp);
@@ -219,6 +220,7 @@ export class WalletDashboardComponent implements OnInit {
                     // console.log('this.wallet.mycoinsssssssss===', this.wallet.mycoins);
                 }
             );
+            */
         }
         /*
         this.storageService.changedTransaction.subscribe(
@@ -718,7 +720,7 @@ export class WalletDashboardComponent implements OnInit {
             this.redepositModal.setTransactionID(this.currentCoin.redeposit[0].transactionID);
         }
 
-        this.redepositModal.show();
+        this.redepositModal.show(currentCoin);
     }
 
     onConfirmedDepositAmount(amountForm: any) {
@@ -1204,7 +1206,7 @@ export class WalletDashboardComponent implements OnInit {
             return;
         }
 
-        const redepositArray = this.currentCoin.redeposit;
+        const redepositArray = this.currentCoin.redeposit ? this.currentCoin.redeposit : this.currentCoin.depositErr;
         // const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
         if (redepositArray && redepositArray.length > 0) {
 

@@ -1,4 +1,4 @@
-<div *ngIf="screenwidth >= 960" class="outwraper w-100 fixed-height">
+<div   class="outwraper w-100 fixed-height">
     <div class="center-area h-100 mr-2">
         <div class="w-100">
             <app-tv-chart-container class="w-100"></app-tv-chart-container>
@@ -9,6 +9,36 @@
     </div>
 
     <div class="right-area h-100 div-fixed-width">
+        <app-order-pad></app-order-pad>
+    </div>
+</div>
+
+<!-- <div *ngIf="screenwidth >= 1200" class="outwraper w-100 fixed-height">
+    <div class="center-area h-100 mr-2">
+        <div class="w-100">
+            <app-tv-chart-container class="w-100"></app-tv-chart-container>
+        </div>
+        <div class="orderarea exg-bg mt-2">
+            <app-myorders></app-myorders>
+        </div>
+    </div>
+
+    <div class="right-area h-100 div-fixed-width">
+        <app-order-pad></app-order-pad>
+    </div>
+</div> -->
+<!-- 
+<div *ngIf="screenwidth >= 960 && screenwidth < 1200" class="outwraper w-100 fixed-height">
+    <div class="center-area h-100 row">
+        <div class="w-100">
+            <app-tv-chart-container class="w-100"></app-tv-chart-container>
+        </div>
+        <div class="orderarea exg-bg mt-2">
+            <app-myorders></app-myorders>
+        </div>
+    </div>
+
+    <div class="right-area h-100 row">
         <app-order-pad></app-order-pad>
     </div>
 </div>
@@ -31,4 +61,4 @@
             </mat-tab>
         </mat-tab-group>
     </div>
-</div>
+</div> -->

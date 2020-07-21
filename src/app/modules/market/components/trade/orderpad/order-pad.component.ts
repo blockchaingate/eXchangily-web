@@ -473,6 +473,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     console.log('this.buyPrice==', this.buyPrice);
     console.log(this.bigdiv(this.baseCoinAvail, this.buyPrice));
     this.buyQty = Number(this.utilService.showAmount(this.bigdiv(this.baseCoinAvail, this.buyPrice), this.pairConfig.qtyDecimal)) * percent;
+    const avail = parseFloat(this.utilService.showAmount(this.baseCoinAvail, this.pairConfig.qtyDecimal));
+
+    while (this.buyQty * this.buyPrice > avail) {
+      this.buyQty = this.buyQty - Math.pow(10, -this.pairConfig.qtyDecimal);
+    }
   }
 
   setSellQtyPercent(percent: number) {
