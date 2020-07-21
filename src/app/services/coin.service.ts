@@ -784,10 +784,16 @@ export class CoinService {
         transFee = ((receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput + outputNum * 34) * satoshisPerBytes;
 
 
+        console.log('amount==', amount);
+        console.log('extraTransactionFee==', extraTransactionFee);
+        console.log('transFee=', transFee);
+        console.log(totalInput);
+        console.log(new BigNumber(this.utilServ.toBigNumber(amount + extraTransactionFee, 8)).toNumber());
         const output1 = Math.round(totalInput
-        - new BigNumber(this.utilServ.toBigNumber(amount, 8)).toNumber() - new BigNumber(this.utilServ.toBigNumber(extraTransactionFee, 8)).toNumber()
+        - new BigNumber(this.utilServ.toBigNumber(amount + extraTransactionFee, 8)).toNumber()
         - transFee);
         
+        console.log('output1=', output1);
         /*
         if((output1 < 2730)  && !(mycoin.tokenType == 'FAB')) {
             transFee += output1;
@@ -817,7 +823,7 @@ export class CoinService {
                 txb.addOutput(changeAddress.address, output1);
             }
             */
-            // txb.addOutput(changeAddress.address, output1);
+            txb.addOutput(changeAddress.address, output1);
             txb.addOutput(to, output2);
         } else {
             txb.addOutput(to, output1);
