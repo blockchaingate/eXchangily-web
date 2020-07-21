@@ -38,7 +38,10 @@
                 </div>
                 <div class="orditem text-info d-flex align-items-center" style="width: 15%;">
                     <div>
+                        <!--
                         {{coinServ.getCoinNameByTypeId(order.pairLeft)}}/{{coinServ.getCoinNameByTypeId(order.pairRight)}}
+                        -->
+                        {{order.pairName}}
                     </div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 5%;">
@@ -85,7 +88,10 @@
                 </div>
                 <div class=" text-info col-2">
                     <p>
+                        {{order.pairName}}
+                        <!--
                         {{coinServ.getCoinNameByTypeId(order.pairLeft)}}/{{coinServ.getCoinNameByTypeId(order.pairRight)}}
+                        -->
                     </p>
                 </div>
                 <div class=" text-muted col-2">
