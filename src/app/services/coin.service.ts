@@ -680,7 +680,7 @@ export class CoinService {
         // console.log('extraTransactionFee=', extraTransactionFee);
         const totalAmount = Number(amount) + Number(extraTransactionFee);
         // console.log('totalAmount=', totalAmount);
-        let amountNum = totalAmount * 1e8;
+        let amountNum = new BigNumber(this.utilServ.toBigNumber(totalAmount, 8)).toNumber();
         // console.log('amountNum=', amountNum);
         amountNum += (2 * 34) * satoshisPerBytes;
         // console.log('amountNum=', amountNum);
@@ -809,7 +809,7 @@ export class CoinService {
         // console.log('output1=' + output1 + ',output2=' + output2);
 
         if((amount > 0) || (mycoin.tokenType == 'FAB')) {
-            if((output1 >= 2730) && !(mycoin.tokenType == 'FAB')) {
+            if((output1 >= 2730) || (mycoin.tokenType == 'FAB')) {
                 console.log('added output1');
                 txb.addOutput(changeAddress.address, output1);
             }
