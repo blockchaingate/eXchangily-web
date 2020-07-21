@@ -785,7 +785,7 @@ export class CoinService {
 
 
         const output1 = Math.round(totalInput
-        - amount * 1e8 - extraTransactionFee * 1e8
+        - new BigNumber(this.utilServ.toBigNumber(amount, 8)).toNumber() - new BigNumber(this.utilServ.toBigNumber(extraTransactionFee, 8)).toNumber()
         - transFee);
         
         /*
@@ -795,7 +795,7 @@ export class CoinService {
         */    
         
         if (getTransFeeOnly) {
-            return {txHex: '', errMsg: '', transFee: transFee + extraTransactionFee * Math.pow(10, this.utilServ.getDecimal(mycoin))};
+            return {txHex: '', errMsg: '', transFee: transFee + new BigNumber(this.utilServ.toBigNumber(extraTransactionFee, 8)).toNumber()};
         }        
         //const output2 = Math.round(amount * 1e8);    
         const output2 = Number(this.utilServ.toBigNumber(amount, 8));
