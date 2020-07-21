@@ -685,18 +685,20 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     );
 
     //this.pairsConfig = <Pair[]>(JSON.parse(sessionStorage.getItem('pairsConfig')));
-    const pairName = this.route.snapshot.paramMap.get('pair').replace('_', '');
-    this.kanbanService.getPairConfig().subscribe(
-      (res: any) => {
-        this.pairsConfig = res;
-        this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
-      }
-    );
+
     this.sub = this.route.params.subscribe(params => {
       let pair = params['pair']; // (+) converts string 'id' to a number
       if (!pair) {
         pair = 'BTC_USDT';
       }
+
+      const pairName = pair.replace('_', '');
+      this.kanbanService.getPairConfig().subscribe(
+        (res: any) => {
+          this.pairsConfig = res;
+          this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
+        }
+      );
       // console.log('pair for refresh pageeee=' + pair);
       const pairArray = pair.split('_');
       this.baseCoin = this._coinServ.getCoinTypeIdByName(pairArray[1]);

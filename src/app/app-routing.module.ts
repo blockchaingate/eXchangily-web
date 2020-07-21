@@ -75,7 +75,7 @@ const routes: Routes = [
       }
     }
   },
-  */
+*/
   {
     resolve: {
       app: AppResolver
