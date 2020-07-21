@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
                 <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="transactionID">
-                    <div *ngFor="let item of coin.redeposit; let i of index">
+                    <div *ngFor="let item of coin.redeposit; let i = index">
                         <mat-radio-button class="text-muted" [value]="item.transactionID">
                             <div>
                                 amount: {{utilServ.showAmount(item.amount, 6)}}
@@ -23,15 +23,6 @@
                                     <button mat-icon-button (click)="copyTransactionID(item.transactionID)">
                                         <mat-icon svgIcon="copy"></mat-icon>
                                     </button>
-                                </div>
-                                <div>
-                                    r:{{item.r}}
-                                </div>
-                                <div>
-                                    s:{{item.s}}
-                                </div>
-                                <div>
-                                    v:{{item.v}}
                                 </div>
                             </div>
                         </mat-radio-button>

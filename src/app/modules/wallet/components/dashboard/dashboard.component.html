@@ -270,7 +270,7 @@
     </div>
 
     <deposit-amount-modal #depositModal [coin]="currentCoin" [baseCoinBalance]="baseCoinBalance" (confirmedAmount)="onConfirmedDepositAmount($event)" [alertMsg]="alertMsg"></deposit-amount-modal>
-    <redeposit-amount-modal #redepositModal [coin]="currentCoin" (confirmedAmount)="onConfirmedRedepositAmount($event)">
+    <redeposit-amount-modal #redepositModal (confirmedAmount)="onConfirmedRedepositAmount($event)">
     </redeposit-amount-modal>
     <add-gas-modal #addGasModal (confirmedGas)="onConfirmedGas($event)"></add-gas-modal>
     <pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>
