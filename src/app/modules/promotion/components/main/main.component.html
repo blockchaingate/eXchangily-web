@@ -1,7 +1,7 @@
 <div class="container py-3">
     <div class="row">
         <a class="nav-link pointer" *ngIf="!loggedIn" routerLink="/login/signin" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Signin' | translate}}</a>
-        <a class="nav-link pointer" *ngIf="loggedIn" style="color: blue;" routerLinkActive="selected" (click)="logout()"><u>{{ 'Header.Navigation.Signout' | translate }}</u></a>
+        <a class="nav-link pointer" *ngIf="loggedIn" style="color: lightskyblue;" routerLinkActive="selected" (click)="logout()"><u>{{ 'Header.Navigation.Signout' | translate }}</u></a>
         <a class="nav-link" routerLink="/login/signup" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Signup' | translate}}</a>
     </div>
     <div class="row">
@@ -261,7 +261,7 @@
 
                         <label id="example-radio-group-label">{{'Transaction fee' | translate }}</label>: {{gasPrice * gasLimit / 1e9}} ETH
 
-                    </div>                    
+                    </div>
                 </div>
 
                 <div *ngIf="referralCode" class="py-2">

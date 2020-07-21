@@ -18,8 +18,8 @@
     height: auto;
 }
 
-a, a h3 {
-    color:blue;
+a,
+a h3 {
+    color: lightskyblue;
     text-decoration: underline;
 }
-

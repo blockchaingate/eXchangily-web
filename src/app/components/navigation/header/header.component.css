@@ -81,7 +81,7 @@ a.nav-link {
 
 @media only screen and (max-width: 600px) {
     a.nav-link {
-    line-height: 35px;
+        line-height: 35px;
     }
 }
 
@@ -125,24 +125,20 @@ a.nav-link {
     border-color: #c3512f;
 }
 
-
-
-@media (max-width:1200px){
+@media (max-width:1200px) {
     .navbar-dark .navbar-nav .nav-link {
-        color: rgba(255,255,255,.5);
+        color: rgba(255, 255, 255, .5);
         font-size: 13px;
     }
 }
 
-@media (max-width:1050px){
-    .navbar-brand img{
-        width:20px
+@media (max-width:1050px) {
+    .navbar-brand img {
+        width: 20px
     }
-
     .navbar-dark .navbar-nav .nav-link {
         font-size: 12px;
     }
-
     .navbar-expand-lg .navbar-nav .nav-link {
         padding-right: 0;
         padding-left: 0;

@@ -2,16 +2,12 @@
     color: black!important;
 }
 
-.col-green {
-    color: #33ae72;
+.mat-select-value-text {
+    color: green !important;
 }
 
-.col-red {
-    color: #eb6a61;
-}
-
-.col-blue {
-    color: #3b7bfd;
+.mat-select {
+    color: white;
 }
 
 table {
@@ -31,6 +27,10 @@ table {
     font-size: 14px;
     line-height: 36px;
     border-radius: 2px;
+}
+
+.brgreen {
+    color: #33ae72;
 }
 
 .btn-buy {
