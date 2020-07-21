@@ -32,7 +32,7 @@ interface BarData {
 
 export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
   private currentGranularity: any;
-  private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'BTC/USDT';
+  private _symbol: ChartingLibraryWidgetOptions['symbol'] = ' ';
   private _interval: ChartingLibraryWidgetOptions['interval'] = '30';
   // BEWARE: no trailing slash is expected in feed URL
   private _datafeedUrl = 'https://demo_feed.tradingview.com';
@@ -233,7 +233,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
           .pipe(
             tap(() => {
               onResolve({
-                name: targetCoinName.toLowerCase() + baseCoinName.toLowerCase(),
+                name: targetCoinName.toUpperCase() + '/' +  baseCoinName.toUpperCase(),
                 full_name: baseCoinName, // display on the chart
                 base_name: targetCoinName,
                 minmov: 1,

@@ -12,7 +12,7 @@ import BigNumber from 'bignumber.js';
 @Component({
     selector: 'app-market-list',
     templateUrl: './market-list.component.html',
-    styleUrls: ['./market-list.component.css']
+    styleUrls: ['./market-list.component.scss']
 })
 
 export class MarketListComponent implements OnInit {

@@ -5,7 +5,7 @@ import { WsService } from '../../../../services/ws.service';
 @Component({
   selector: 'app-market-top',
   templateUrl: './market-top.component.html',
-  styleUrls: ['./market-top.component.css']
+  styleUrls: ['./market-top.component.scss']
 })
 export class MarketTopComponent implements OnInit {
 

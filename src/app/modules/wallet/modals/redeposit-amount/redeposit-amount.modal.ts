@@ -15,7 +15,8 @@ import BigNumber from 'bignumber.js';
 })
 export class RedepositAmountModal implements OnInit {
     @ViewChild('depositModal', { static: true }) public depositModal: ModalDirective;
-    @Input() coin: MyCoin;
+    coin: MyCoin;
+    redeposit: any;
     @Output() confirmedAmount = new EventEmitter<any>();
     showDetailIndex: number;
     gasPrice = environment.chains.KANBAN.gasPrice;
@@ -52,7 +53,10 @@ export class RedepositAmountModal implements OnInit {
         this.hide();
     }
 
-    show() {
+    show(coin) {
+        this.coin = coin;
+        this.redeposit = coin.redeposit ? coin.redeposit : coin.depositErr;
+        console.log('redeposit==', this.redeposit);
         this.depositModal.show();
     }
     hide() {

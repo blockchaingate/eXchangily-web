@@ -104,7 +104,9 @@ export class HeaderComponent implements OnInit {
   }
 
   linkTo(url: string) {
+    this.showCollapse = false;
     this.router.navigate([url]);
+    
   }
 
   goToUrl(url: string): void {
@@ -138,6 +140,7 @@ export class HeaderComponent implements OnInit {
   }
 
   selectLan(lan: string) {
+    this.showCollapse = false;
     window.localStorage.setItem('Lan', lan);
     this.translate.use(lan);
     if (lan === 'en') {

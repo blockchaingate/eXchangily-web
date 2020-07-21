@@ -17,7 +17,7 @@
     padding: 0;
 }
 
-.myorderlist {
+.myorders .myorderlist {
     overflow-y: scroll;
     height: 306px;
 }
@@ -54,7 +54,7 @@
 
 a.tab-link:hover {
     cursor: pointer;
-    color: #DFDFDF!important;
+    color: #dfdfdf !important;
 }
 
 label {
@@ -65,4 +65,21 @@ label {
 
 .smallfont {
     font-size: small;
+}
+
+@media (max-width: 1200px) {
+    .myorders .myorderlist {
+        overflow-y: scroll;
+        height: 80px;
+
+        -webkit-transition: all 450ms ease-in-out;
+        -moz-transition: all 450ms ease-in-out;
+        -o-transition: all 450ms ease-in-out;
+        -ms-transition: all 450ms ease-in-out;
+        transition: all 450ms ease-in-out;
+    }
+
+    .myorders:hover .myorderlist {
+        height: 306px;
+    }
 }

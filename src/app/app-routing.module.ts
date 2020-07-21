@@ -58,7 +58,7 @@ const routes: Routes = [
       }
     }
   },
-/*  {
+  {
     resolve: {
       app: AppResolver
     },
@@ -74,7 +74,7 @@ const routes: Routes = [
       }
     }
   },
-  */
+
   {
     resolve: {
       app: AppResolver

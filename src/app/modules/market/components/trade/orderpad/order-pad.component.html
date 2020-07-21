@@ -1,6 +1,6 @@
 <div class="outwraper w-100 h-100">
     <div class="upper w-100">
-        <div class="orderbook w-50 h-100 mr-2 exg-bg">
+        <div class="orderbook  h-100 mr-2 exg-bg">
             <div class="w-100 headerl p-2">{{'Order Book' | translate }}</div>
             <div class="title w-100">
                 <div class="price">{{"Price" | translate}}</div>
@@ -41,7 +41,7 @@
                 </div>
             </div>
         </div>
-        <div class="trades w-50 h-100 exg-bg">
+        <div class="trades h-100 exg-bg">
             <div class="w-100 headerr p-2">{{'Market Trades' | translate }}</div>
             <div class="title w-100">
                 <div class="price">{{"Price" | translate}}</div>
@@ -83,16 +83,16 @@
             <div><input type="text" class="form-control" [(ngModel)]="buyQty" (keyup)="checkBuyQty()"> </div>
             <div class="container pt-2">
                 <div class="row text-white">
-                    <div class="col col-3 text-center hand" (click)="setBuyQtyPercent(0.25)">
+                    <div class="pnum text-center hand" (click)="setBuyQtyPercent(0.25)">
                         <div class="percent-text py-1 px-2 d-inline-block"><small>25%</small></div>
                     </div>
-                    <div class="col col-3 text-center hand" (click)="setBuyQtyPercent(0.5)">
+                    <div class="pnum text-center hand" (click)="setBuyQtyPercent(0.5)">
                         <div class="percent-text py-1 px-2 d-inline-block"><small>50%</small></div>
                     </div>
-                    <div class="col col-3 text-center hand" (click)="setBuyQtyPercent(0.75)">
+                    <div class="pnum text-center hand" (click)="setBuyQtyPercent(0.75)">
                         <div class="percent-text py-1 px-2 d-inline-block"><small>75%</small></div>
                     </div>
-                    <div class="col col-3 text-center hand" (click)="setBuyQtyPercent(1)">
+                    <div class="pnum text-center hand" (click)="setBuyQtyPercent(1)">
                         <div class="percent-text py-1 px-2 d-inline-block"><small>100%</small></div>
                     </div>
                 </div>
@@ -146,16 +146,16 @@
 
             <div class="container pt-2">
                 <div class="row text-white">
-                    <div class="col col-3 text-center hand" (click)="setSellQtyPercent(0.25)">
+                    <div class="pnum text-center hand" (click)="setSellQtyPercent(0.25)">
                         <div class="percent-text py-1 px-2 d-inline-block"><small>25%</small></div>
                     </div>
-                    <div class="col col-3 text-center hand" (click)="setSellQtyPercent(0.5)">
+                    <div class="pnum text-center hand" (click)="setSellQtyPercent(0.5)">
                         <div class="percent-text py-1 px-2 d-inline-block"><small>50%</small></div>
                     </div>
-                    <div class="col col-3 text-center hand" (click)="setSellQtyPercent(0.75)">
+                    <div class="pnum text-center hand" (click)="setSellQtyPercent(0.75)">
                         <div class="percent-text py-1 px-2 d-inline-block"><small>75%</small></div>
                     </div>
-                    <div class="col col-3 text-center hand" (click)="setSellQtyPercent(1)">
+                    <div class="pnum text-center hand" (click)="setSellQtyPercent(1)">
                         <div class="percent-text py-1 px-2 d-inline-block"><small>100%</small></div>
                     </div>
                 </div>
