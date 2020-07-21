@@ -12,6 +12,7 @@ export class MyCoin extends Coin {
     decimals: number;
     usdPrice: number;
     redeposit: any[];
+    depositErr: any[];
     contractAddr: string;
 
     constructor(name: string) {
