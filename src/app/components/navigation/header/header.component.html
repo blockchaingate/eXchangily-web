@@ -14,18 +14,18 @@
         <div class="collapse navbar-collapse" [ngClass]="showCollapse ? 'show' : ''" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/wallet/dashboard" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Wallet' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/wallet/dashboard')" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Wallet' | translate}}</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/market/home" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Market' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/market/home')" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Market' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/market/trade/BTC_USDT" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Trade' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/market/trade/BTC_USDT')" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Trade' | translate}}</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/explorer" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Explore' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/explorer')" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Explore' | translate}}</a>
                 </li>
             </ul>
 
@@ -54,15 +54,15 @@
                     <a class="nav-link" (click)="selectLan('zh')">中文</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/home" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Home' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/home')" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Home' | translate}}</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/otc/trade" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'OTC Trade' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/otc/trade')" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'OTC Trade' | translate}}</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link highlight" routerLink="/promotion" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'New Campaign' | translate}}</a>
+                    <a class="nav-link highlight" (click)="linkTo('/promotion')" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'New Campaign' | translate}}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="https://medium.com/exchangily-blog" target="_blank">{{'Blog' | translate}}</a>

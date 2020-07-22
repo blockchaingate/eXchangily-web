@@ -58,6 +58,7 @@ const routes: Routes = [
       }
     }
   },
+<<<<<<< HEAD
   /*
   {
     resolve: {
@@ -76,6 +77,14 @@ const routes: Routes = [
     }
   },
   */
+=======
+  
+  {
+    path: 'launchpad',
+    loadChildren: () => import('./modules/launchpad/launchpad.module').then(m => m.LaunchpadModule)
+  },  
+
+>>>>>>> master
   {
     resolve: {
       app: AppResolver
