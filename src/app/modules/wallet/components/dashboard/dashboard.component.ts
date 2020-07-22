@@ -496,7 +496,11 @@ export class WalletDashboardComponent implements OnInit {
                             }
                             if(coin.name == 'ETH') {
                                 ethCoin = coin;
-                            }                            
+                            }    
+                            if(coin.depositErr) {
+                                coin.redeposit = coin.depositErr;  
+                            }
+                                                  
                             if(item.coin == coin.name) {
                                 if(coin.balance != Number(item.balance)) {
                                     coin.balance = Number(item.balance);
@@ -515,6 +519,7 @@ export class WalletDashboardComponent implements OnInit {
                                     this.fabBalance = coin.balance;
                                 }
                             }
+                            
                         }
                         this.exgBalance = this.wallet.mycoins[0].balance + this.wallet.mycoins[0].lockedBalance;
 
