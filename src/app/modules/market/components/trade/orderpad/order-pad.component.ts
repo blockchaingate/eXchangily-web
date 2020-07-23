@@ -885,9 +885,9 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       if (resp && resp.transactionHash) {
         this.kanbanService.incNonce();
         if (this.lan === 'zh') {
-          this.alertServ.openSnackBar('下单成功。', 'Ok');
+          this.alertServ.openSnackBarSuccess('下单成功。', 'Ok');
         } else {
-          this.alertServ.openSnackBar('Your order was placed successfully.', 'Ok');
+          this.alertServ.openSnackBarSuccess('Your order was placed successfully.', 'Ok');
         }
 
         const address = this.wallet.excoin.receiveAdds[0].address;

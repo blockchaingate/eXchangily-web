@@ -180,7 +180,7 @@ export class TradeComponent implements OnInit {
           const data = res._body;
           this.element = data;
           if(data.charge_id) {
-            this.alertServ.openSnackBar(this.translateServ.instant('Your payment was confirmed'),this.translateServ.instant('Ok'));
+            this.alertServ.openSnackBarSuccess(this.translateServ.instant('Your payment was confirmed'),this.translateServ.instant('Ok'));
           }
           for (let i = 0; i < this.dataSource.length; i++) {
             if (this.dataSource[i]._id == this.element._id) {
@@ -229,7 +229,7 @@ export class TradeComponent implements OnInit {
         return;
     }
     if (txHex && txHash) {
-      this.alertServ.openSnackBar(this.translateServ.instant('your transaction was submitted successfully.'), 'Ok');
+      this.alertServ.openSnackBarSuccess(this.translateServ.instant('your transaction was submitted successfully.'), 'Ok');
       /*
         if (this.lan === 'zh') {
             this.alertServ.openSnackBar('交易成功提交', 'Ok');

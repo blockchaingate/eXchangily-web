@@ -225,7 +225,7 @@ export class SmartContractComponent implements OnInit {
 
     console.log('retEth===', retEth);
     if(retEth && retEth.txHash) {
-      this.alertServ.openSnackBar('Smart contract was deploy successfully.', 'Ok');
+      this.alertServ.openSnackBarSuccess('Smart contract was deploy successfully.', 'Ok');
     }
 
   }

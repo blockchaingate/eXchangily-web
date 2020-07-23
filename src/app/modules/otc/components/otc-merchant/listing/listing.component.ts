@@ -194,9 +194,9 @@ export class ListingComponent implements OnInit {
         }
         if (txHex && txHash) {
             if (this.lan === 'zh') {
-                this.alertServ.openSnackBar('交易成功提交', 'Ok');
+                this.alertServ.openSnackBarSuccess('交易成功提交', 'Ok');
             } else {
-                this.alertServ.openSnackBar('your transaction was submitted successfully.', 'Ok');
+                this.alertServ.openSnackBarSuccess('your transaction was submitted successfully.', 'Ok');
             }
 
             const item = {
