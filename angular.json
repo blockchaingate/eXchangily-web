@@ -35,8 +35,7 @@
                                 "src/assets"
                             ]
                         },
-                        "scripts": [],
-                        "es5BrowserSupport": true
+                        "scripts": []
                     },
                     "configurations": {
                         "production": {
