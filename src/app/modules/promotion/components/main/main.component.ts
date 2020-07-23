@@ -134,9 +134,9 @@ export class MainComponent implements OnInit {
           this.updated = true;
           this.readyGo = true;
           if (this.lan === 'zh') {
-            this.alertServ.openSnackBar('EXG地址已更新', 'Ok');
+            this.alertServ.openSnackBarSuccess('EXG地址已更新', 'Ok');
           } else {
-            this.alertServ.openSnackBar('EXG address was updated', 'Ok');
+            this.alertServ.openSnackBarSuccess('EXG address was updated', 'Ok');
           }
         } else {
           this.router.navigate(['/login/signin', { 'retUrl': '/promotion/main' }]);
@@ -501,9 +501,9 @@ export class MainComponent implements OnInit {
     }
     if (txHex && txHash) {
       if (this.lan === 'zh') {
-        this.alertServ.openSnackBar('交易提交成功。', 'Ok');
+        this.alertServ.openSnackBarSuccess('交易提交成功。', 'Ok');
       } else {
-        this.alertServ.openSnackBar('your transaction was submitted successfully.', 'Ok');
+        this.alertServ.openSnackBarSuccess('your transaction was submitted successfully.', 'Ok');
       }
 
       console.log('amount1===', amount);

@@ -62,9 +62,9 @@ export class OtcPlaceOrderErrorModal implements OnInit {
             if (res.ok) {
               this.updated = true;
               if (this.lan === 'zh') {
-                this.alertServ.openSnackBar('地址已更新', 'Ok');
+                this.alertServ.openSnackBarSuccess('地址已更新', 'Ok');
               } else {
-                this.alertServ.openSnackBar('Addresses was updated', 'Ok');
+                this.alertServ.openSnackBarSuccess('Addresses was updated', 'Ok');
               }
             } else {
               this.router.navigate(['/login/signin', { 'retUrl': '/otc/trade' }]);

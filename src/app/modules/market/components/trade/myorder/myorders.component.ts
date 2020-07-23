@@ -217,9 +217,9 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 this.modalWithdrawRef.hide();
                 this.kanbanServ.incNonce();
                 if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('提币请求提交成功，等待处理。', 'Ok');
+                    this.alertServ.openSnackBarSuccess('提币请求提交成功，等待处理。', 'Ok');
                 } else {
-                    this.alertServ.openSnackBar('Your withdraw request is pending.', 'Ok');
+                    this.alertServ.openSnackBarSuccess('Your withdraw request is pending.', 'Ok');
                 }
             } else {
                 if (this.lan === 'zh') {
