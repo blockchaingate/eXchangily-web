@@ -1,3 +1,37 @@
+a:hover,
+a:active,
+a:visited,
+a:focus,
+a.selected {
+    color: lightgray;
+}
+
+.nav-link {
+    color: lightgray;
+    -webkit-transition: all 450ms ease-in-out;
+    -moz-transition: all 450ms ease-in-out;
+    -o-transition: all 450ms ease-in-out;
+    -ms-transition: all 450ms ease-in-out;
+    transition: all 450ms ease-in-out;
+}
+
+.nav-link:hover {
+    color:#fff !important
+}
+
+a.selected:after {
+    content: "";
+    background: -webkit-linear-gradient(left, rgb(229, 159, 18) 0%, rgb(122, 28, 229) 100%);
+    display: block;
+    height: 2px;
+    width: 100%;
+    text-align: center;
+}
+
+a.selected-white:after {
+    background: #ffffff;
+}
+
 .navigation-items {
     list-style-type: none;
     padding: 0;
@@ -12,7 +46,7 @@ mat-toolbar {
     border-radius: 3px;
 }
 
-@media(max-width: 959px) {
+@media (max-width: 959px) {
     mat-toolbar {
         border-radius: 0px;
     }
@@ -20,11 +54,11 @@ mat-toolbar {
 
 .transparent {
     background: none;
-    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
+    font-family: Verdana, sans-serif, SimHei, "Microsoft YaHei";
 }
 
 .lanbut {
-    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
+    font-family: Verdana, sans-serif, SimHei, "Microsoft YaHei";
 }
 
 button:active,
@@ -75,8 +109,8 @@ a.nav-link {
 }
 
 .status-pending {
-    color: #CA810A;
-    background-color: #FFF2DB;
+    color: #ca810a;
+    background-color: #fff2db;
 }
 
 .status-confirmed {
@@ -94,14 +128,14 @@ a.nav-link {
 }
 
 .highlight {
-    background-color: #c3512f;
-    color: #ffffff;
+    /* background-color: #c3512f; */
+    color: #c3512f !important;
     border-color: #c3512f;
 }
 
 .highlight:hover {
-    background-color: #cc785f;
-    color: #ffffff;
+    /* background-color: #cc785f; */
+    color: #fff !important;
     border-color: #c3512f;
 }
 

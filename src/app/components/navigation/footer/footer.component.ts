@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ElementRef, HostListener, AfterViewInit } from '@angular/core';
 import { Icons } from '../../../../environments/icons';
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
@@ -12,10 +12,33 @@ export class FooterComponent implements OnInit {
   year: number;
   lang = 'en';
 
+  gradientTop: number;
+  gradientLeft: number;
+
   constructor(
     private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer    
+    private domSanitizer: DomSanitizer,
+    public el: ElementRef<HTMLElement>
+    // public el= document.querySelector("#page-footer")
   ) { }
+
+  get gradientStyle() {
+    const top = -this.gradientTop /10;
+    const left = -this.gradientLeft /10;
+
+    return {
+      'backgroundPositionX.px': left,
+      'backgroundPositionY.px': top,
+    };
+  }
+
+  @HostListener('mousemove', ['$event'])
+  onMouseMove(event: MouseEvent) {
+    this.gradientLeft = event.pageX - this.el.nativeElement.offsetLeft;
+    this.gradientTop = event.pageY - this.el.nativeElement.offsetTop;
+    // this.el.style.backgroundPositionX = -e.offsetX/4 + "px";
+    // this.el.style.backgroundPositionY = -e.offsetY/4 + "px";
+  }
 
   ngOnInit() {
     this.year = (new Date()).getFullYear();

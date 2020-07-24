@@ -46,7 +46,7 @@
                 "Content1": "eXchangily is a new decentralized exchange model built on the prominent Fast Access Blockchain. It carries the best of a centralized exchange, namely the speed and ease of use, with all the security benefits of a decentralized exchange.",
                 "Content2": "Users retain control over their funds, their private keys, and their transaction information is transparent and secure. Individuals can trade, and enterprises can transact on eXchangily with ERC20 tokens and other cryptocurrencies. It is a fully democratic and autonomous platform."
             },
-            "Button":"STSART NOW"
+            "Button":"START NOW"
         },
         "Why": {
             "Title": "Why eXchangily?",
@@ -149,6 +149,17 @@
                     ]
                 },
                 "Member3": {
+                    "Name": "Steven Givot",
+                    "Image": "Steven-Givot.jpg",
+                    "Title": "Board advisor, Principle of eXchangily",
+                    "Desc": [
+                        "46 years of experience in industry",
+                        "Member of 2 national securities & 3 futures exchanges",
+                        "Formed and operated four broker dealers",
+                        "Served on the board of directors of the CBOE for nine years"
+                    ]
+                },
+                "Member4": {
                     "Name": "Raymond Henry",
                     "Image": "Raymond_Henry_m.jpg",
                     "Title": "Chief Scientist",
@@ -158,7 +169,7 @@
                         "Tenured professor with hundreds of publications"
                     ]
                 },
-                "Member4": {
+                "Member5": {
                     "Name": "Paul Liu",
                     "Image": "paul-liu.jpg",
                     "Title": "Co-founder",
@@ -168,7 +179,7 @@
                         "Project planner"
                     ]
                 },
-                "Member5": {
+                "Member6": {
                     "Name": "Alan Tomko",
                     "Image": "alan-tomko.jpg",
                     "Title": "CCO",
@@ -178,7 +189,7 @@
                         "JP Graphics Founder"
                     ]
                 },
-                "Member6": {
+                "Member7": {
                     "Name": "Andy Tucker",
                     "Image": "andy-tucker.jpg",
                     "Title": "Legal Consultant",
@@ -189,7 +200,7 @@
                         "STO/IPO expert"
                     ]
                 },
-                "Member7": {
+                "Member8": {
                     "Name": "Jamie Tan",
                     "Title": "CTO",
                     "Image": "Jamie_Tan_m.jpg",
@@ -199,16 +210,16 @@
                         "Founder & CTO, Imaginestics"
                     ]
                 },
-                "Member8": {
+                "Member9": {
                     "Name": "Jason Hong",
-                    "Image": "jason-hong.png",
+                    "Image": "jason-hong.jpg",
                     "Title": "Technical Director",
                     "Desc": [
                         "Blockchain expert",
                         "Senior software engineer"
                     ]
                 },
-                "Member9": {
+                "Member10": {
                     "Name": "Todor Milev",
                     "Image": "Todor_Milev_m.jpg",
                     "Title": "Cryptographer",
@@ -217,7 +228,7 @@
                         "Cryptography Expert"
                     ]
                 },
-                "Member10": {
+                "Member11": {
                     "Name": "Radha Appan",
                     "Image": "radha-appan.jpg",
                     "Title": "Chief Advisor",
@@ -229,7 +240,8 @@
                         "Expertise in IT Security & Strategy"
                     ]
                 },
-                "Member11": {
+                
+                "Member12": {
                     "Name": "Wesam Helou",
                     "Image": "wesam-m.jpg",
                     "Title": "Manager, Software Support",
@@ -238,7 +250,7 @@
                         "Enterprise System Developer"
                     ]
                 },
-                "Member12": {
+                "Member13": {
                     "Name": "Lawrence Fan",
                     "Image": "lawrence-fan.jpg",
                     "Title": "CFO",
@@ -249,7 +261,7 @@
                         "IPO expert"
                     ]
                 },
-                "Member13": {
+                "Member14": {
                     "Name": "Kaiqing Fan",
                     "Image": "kaiqing-m.jpg",
                     "Title": "Senior Lead Developer",
@@ -258,7 +270,7 @@
                         "Senior at PNC Bank"
                     ]
                 },
-                "Member14": {
+                "Member15": {
                     "Name": "Ankit Shah",
                     "Image": "ankit-shah.jpg",
                     "Title": "Senior software engineer",
@@ -266,16 +278,16 @@
                         "MS in Computer Science"
                     ]
                 },
-                "Member15": {
+                "Member16": {
                     "Name": "Ken Qiu",
-                    "Image": "kening-qiu.png",
+                    "Image": "kening-qiu.jpg",
                     "Title": "Senior software engineer",
                     "Desc": [
                         "MS in Computer Science",
                         "Senior web/app developer"
                     ]
                 },
-                "Member16": {
+                "Member17": {
                     "Name": "Harry He",
                     "Image": "harry-he.jpg",
                     "Title": "Software engineer",
@@ -283,18 +295,18 @@
                         "BS of Computer Engineer of Univ. of Toronto"
                     ]
                 },
-                "Member17": {
-                    "Name": "Barry Singh",
-                    "Image": "barry-singh.png",
+                "Member18": {
+                    "Name": "Barry Ruprai",
+                    "Image": "barry-singh.jpg",
                     "Title": "Senior software engineer",
                     "Desc": [
                         "BS of Computer Science",
                         "Senior mobile app designer"
                     ]
                 },
-                "Member18": {
+                "Member19": {
                     "Name": "Jack Sun",
-                    "Image": "jack-sun.png",
+                    "Image": "jack-sun.jpg",
                     "Title": "Senior UI/UX Engineer",
                     "Desc": [
                         "Senior software engineer",
@@ -302,7 +314,7 @@
                         "Web/mobile app developer"
                     ]
                 },
-                "Member19": {
+                "Member20": {
                     "Name": "Muchtar Salimov",
                     "Image": "muchtar-salimov.jpg",
                     "Title": "System test lead",
@@ -311,15 +323,15 @@
                         "MS of computer science"
                     ]
                 },
-                "Member20": {
+                "Member21": {
                     "Name": "Cary Chen",
-                    "Image": "cary-chen.png",
+                    "Image": "cary-chen.jpg",
                     "Title": "Software engineer",
                     "Desc": [
                         "BS of Computer Science"
                     ]
                 },
-                "Member21": {
+                "Member22": {
                     "Name": "Sean Henderson",
                     "Image": "sean-henderson.jpg",
                     "Title": "CMO",
@@ -328,7 +340,7 @@
                         "30 yrs in financial services"
                     ]
                 },
-                "Member22": {
+                "Member23": {
                     "Name": "Nick Minovski",
                     "Image": "nick-minovski.jpg",
                     "Title": "Chief BD Officer",
@@ -338,7 +350,7 @@
                         "Accounting and Finance - CGA L5"
                     ]
                 },
-                "Member23": {
+                "Member24": {
                     "Name": "Randall Bunka",
                     "Image": "randall-bunka.jpg",
                     "Title": "Business Development Officer",
@@ -346,7 +358,7 @@
                         "BA in Business Administration"
                     ]
                 },
-                "Member24": {
+                "Member25": {
                     "Name": "Lee Cunningham",
                     "Image": "lee-cunningham.jpg",
                     "Title": "Chief Marketing Advisor",
@@ -356,7 +368,7 @@
                         "Nurse Practitioner"
                     ]
                 },
-                "Member25": {
+                "Member26": {
                     "Name": "Bruce Li",
                     "Image": "bruce-li.jpg",
                     "Title": "Marketing associate",
@@ -366,7 +378,7 @@
                         "Liepin-USA Recruiting Event Host"
                     ]
                 },
-                "Member26": {
+                "Member27": {
                     "Name": "Steve Zhou",
                     "Image": "steve-zhou.jpg",
                     "Title": "Marketing Associate",
@@ -376,7 +388,7 @@
                         "SellStudents Founder"
                     ]
                 },
-                "Member27": {
+                "Member28": {
                     "Name": "Huiqiang Yue",
                     "Image": "huiqiang-yue.jpg",
                     "Title": "China Customer Service",

@@ -3,8 +3,8 @@
     "version": "1.2.6",
     "scripts": {
         "ng": "ng",
-        "start": "ng serve --host 0.0.0.0",
-        "build": "ng build",
+        "start": "ng serve --aot --optimization",
+        "build": "ng build --prod --aot --vendor-chunk --common-chunk --delete-output-path --buildOptimizer",
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e",
