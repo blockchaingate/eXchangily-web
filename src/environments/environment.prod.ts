@@ -237,7 +237,7 @@ export const environment = {
     PaymentMethod: {
         ETransfer: {
             AccountName: 'Exchangily',
-            Email: 'info@exchangily.com'
+            Email: 'dora.tang@exchangily.com'
         },
         Wechat: 'exchangily',
         Alipay: 'info@exchangily.com',
