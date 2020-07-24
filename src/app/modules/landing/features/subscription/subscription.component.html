@@ -1,3 +1,31 @@
+<div class="">
+    <div class="">
+        <!-- <div class="div-center field">
+            <div><b>{{ 'Subscribe for Updates' | translate }}</b></div>
+        </div> -->
+
+        <div class="div-center field">
+            <div><input #name (keyup)="onNameKey(name.value)" placeholder="{{'Name' | translate}}"></div>
+        </div>
+
+        <div class="div-center field">
+            <div><input #email (keyup)="onEmailKey(email.value)" placeholder="Email *"></div>
+        </div>
+
+        <div class="div-center field">
+            <div><button type="submit" (click)="onSubmit()" id="submit">{{"Submit" | translate}}</button></div>
+        </div>
+
+        <div class="div-center field red" *ngIf="errMsg">
+            {{this.errMsg | translate}}
+        </div>
+
+        <div class="div-center field green" *ngIf="success">
+            {{"Subscription submited successful" | translate}}
+        </div>
+    </div>
+</div>
+<!-- 
 <div class="container">
     <div class="top-frame">
         <div class="div-center field">
@@ -26,4 +54,4 @@
             {{"Subscription submited successful" | translate}}
         </div>
     </div>
-</div>
+</div> -->

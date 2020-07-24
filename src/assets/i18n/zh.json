@@ -144,6 +144,17 @@
                     ]
                 },
                 "Member3": {
+                    "Name": "Steven Givot",
+                    "Image": "Steven-Givot.jpg",
+                    "Title": "董事会顾问, 执行董事",
+                    "Desc": [
+                        "46年行业经验",
+                        "2个国家证券和3个期货交易所的会员",
+                        "成立并运营了四个经纪人经销商",
+                        "在芝加哥期权交易所董事会任职九年"
+                    ]
+                },
+                "Member4": {
                     "Name": "Raymond Henry",
                     "Image": "Raymond_Henry_m.jpg",
                     "Title": "首席科学家",
@@ -153,7 +164,7 @@
                         "拥有上百篇出版刊物的终身教授"
                     ]
                 },
-                "Member4": {
+                "Member5": {
                     "Name": "Paul Liu",
                     "Image": "paul-liu.jpg",
                     "Title": "联合创始人",
@@ -163,7 +174,7 @@
                         "项目技术方案协调人"
                     ]
                 },
-                "Member5": {
+                "Member6": {
                     "Name": "Alan Tomko",
                     "Image": "alan-tomko.jpg",
                     "Title": "CCO",
@@ -172,7 +183,7 @@
                         "JP Graphics创始人"
                     ]
                 },
-                "Member6": {
+                "Member7": {
                     "Name": "Jamie Tan",
                     "Title": "首席技术官",
                     "Image": "Jamie_Tan_m.jpg",
@@ -183,7 +194,7 @@
                         "Imaginestics创始人兼CEO"
                     ]
                 },
-                "Member7": {
+                "Member8": {
                     "Name": "Andy Tucker",
                     "Image": "andy-tucker.jpg",
                     "Title": "律师",
@@ -192,16 +203,16 @@
                         "30年行业经验"
                     ]
                 },
-                "Member8": {
+                "Member9": {
                     "Name": "Jason Hong",
-                    "Image": "jason-hong.png",
+                    "Image": "jason-hong.jpg",
                     "Title": "技术总监",
                     "Desc": [
                         "计算机科学硕土",
                         "区块链研究、开发专家"
                     ]
                 },
-                "Member9": {
+                "Member10": {
                     "Name": "Todor Milev",
                     "Image": "Todor_Milev_m.jpg",
                     "Title": "密码学及算法专家",
@@ -210,7 +221,7 @@
                         "密码学研究专家"
                     ]
                 },
-                "Member10": {
+                "Member11": {
                     "Name": "Radha Appan",
                     "Image": "radha-appan.jpg",
                     "Title": "首席安全顾问",
@@ -221,7 +232,7 @@
                         "信息安全与策略专家"
                     ]
                 },
-                "Member11": {
+                "Member12": {
                     "Name": "Wesam Helou",
                     "Image": "wesam-m.jpg",
                     "Title": "软件客服经理",
@@ -230,7 +241,7 @@
                         "企业系统开发工程师"
                     ]
                 },
-                "Member12": {
+                "Member13": {
                     "Name": "Lawrence Fan",
                     "Image": "lawrence-fan.jpg",
                     "Title": "CFO",
@@ -241,7 +252,7 @@
                         "证券IPO专家"
                     ]
                 },
-                "Member13": {
+                "Member14": {
                     "Name": "Kaiqing Fan",
                     "Image": "kaiqing-m.jpg",
                     "Title": "高级软件工程师，开发组长",
@@ -250,7 +261,7 @@
                         "计算机科学博士"
                     ]
                 },
-                "Member14": {
+                "Member15": {
                     "Name": "Ankit Shah",
                     "Image": "ankit-shah.jpg",
                     "Title": "高级软件工程师",
@@ -258,16 +269,16 @@
                         "计算机科学硕士"
                     ]
                 },
-                "Member15": {
+                "Member16": {
                     "Name": "Ken Qiu",
-                    "Image": "kening-qiu.png",
+                    "Image": "kening-qiu.jpg",
                     "Title": "高级软件工程师",
                     "Desc": [
                         "计算机科学硕士",
                         "前端及App软件设计"
                     ]
                 },
-                "Member16": {
+                "Member17": {
                     "Name": "Harry He",
                     "Image": "harry-he.jpg",
                     "Title": "软件工程师",
@@ -275,18 +286,18 @@
                         "多伦多大学计算机工程学士"
                     ]
                 },
-                "Member17": {
-                    "Name": "Barry Singh",
-                    "Image": "barry-singh.png",
+                "Member18": {
+                    "Name": "Barry Ruprai",
+                    "Image": "barry-singh.jpg",
                     "Title": "高级软件工程师",
                     "Desc": [
                         "计算机科学硕士",
                         "前端及手机APP设计"
                     ]
                 },
-                "Member18": {
+                "Member19": {
                     "Name": "Jack Sun",
-                    "Image": "jack-sun.png",
+                    "Image": "jack-sun.jpg",
                     "Title": "UI/UX工程师",
                     "Desc": [
                         "UI/UX设计师",
@@ -294,7 +305,7 @@
                         "前端及手机APP开发"
                     ]
                 },
-                "Member19": {
+                "Member20": {
                     "Name": "Muchtar Salimov",
                     "Image": "muchtar-salimov.jpg",
                     "Title": "系统测试工程师",
@@ -305,7 +316,7 @@
                 },
                 "Member21": {
                     "Name": "Cary Chen",
-                    "Image": "cary-chen.png",
+                    "Image": "cary-chen.jpg",
                     "Title": "软件工程师",
                     "Desc": [
                         "计算机科学学士",
