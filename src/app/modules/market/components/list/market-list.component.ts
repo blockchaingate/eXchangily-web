@@ -16,7 +16,7 @@ import BigNumber from 'bignumber.js';
 })
 
 export class MarketListComponent implements OnInit {
-    select = 0;
+    select = 1;
     prices: Price[] = [];
     tab_prices: Price[] = [];
     favorite_pairs: string[] = [];
@@ -37,7 +37,7 @@ export class MarketListComponent implements OnInit {
         this.selectCat(1);
         this.storageServ.getFavoritePairs().subscribe(
             (pairs: string[]) => {
-                if (pairs) {
+                if (pairs && pairs.length > 0) {
                     this.favorite_pairs = pairs;
                     this.selectCat(100);
                 }

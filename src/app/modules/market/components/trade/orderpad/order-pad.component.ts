@@ -473,6 +473,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     console.log('this.buyPrice==', this.buyPrice);
     console.log(this.bigdiv(this.baseCoinAvail, this.buyPrice));
     this.buyQty = Number(this.utilService.showAmount(this.bigdiv(this.baseCoinAvail, this.buyPrice), this.pairConfig.qtyDecimal)) * percent;
+    const avail = parseFloat(this.utilService.showAmount(this.baseCoinAvail, this.pairConfig.qtyDecimal));
+
+    while (this.buyQty * this.buyPrice > avail) {
+      this.buyQty = this.buyQty - Math.pow(10, -this.pairConfig.qtyDecimal);
+    }
   }
 
   setSellQtyPercent(percent: number) {
@@ -680,18 +685,20 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     );
 
     //this.pairsConfig = <Pair[]>(JSON.parse(sessionStorage.getItem('pairsConfig')));
-    const pairName = this.route.snapshot.paramMap.get('pair').replace('_', '');
-    this.kanbanService.getPairConfig().subscribe(
-      (res: any) => {
-        this.pairsConfig = res;
-        this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
-      }
-    );
+
     this.sub = this.route.params.subscribe(params => {
       let pair = params['pair']; // (+) converts string 'id' to a number
       if (!pair) {
         pair = 'BTC_USDT';
       }
+
+      const pairName = pair.replace('_', '');
+      this.kanbanService.getPairConfig().subscribe(
+        (res: any) => {
+          this.pairsConfig = res;
+          this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
+        }
+      );
       // console.log('pair for refresh pageeee=' + pair);
       const pairArray = pair.split('_');
       this.baseCoin = this._coinServ.getCoinTypeIdByName(pairArray[1]);
@@ -878,9 +885,9 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       if (resp && resp.transactionHash) {
         this.kanbanService.incNonce();
         if (this.lan === 'zh') {
-          this.alertServ.openSnackBar('下单成功。', 'Ok');
+          this.alertServ.openSnackBarSuccess('下单成功。', 'Ok');
         } else {
-          this.alertServ.openSnackBar('Your order was placed successfully.', 'Ok');
+          this.alertServ.openSnackBarSuccess('Your order was placed successfully.', 'Ok');
         }
 
         const address = this.wallet.excoin.receiveAdds[0].address;

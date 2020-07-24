@@ -33,18 +33,19 @@ export class CanActivateTeam implements CanActivate {
 }
 
 const routes: Routes = [
-    { path: '', component: WalletComponent,
-                    children: [
-                        { path: 'dashboard', component: WalletDashboardComponent},
-                        { path: 'create', component: CreateWalletComponent },
-                        { path: 'no-wallet', component: NoWalletComponent },
-                        { path: 'confirm-words', component: ConfirmMnemonicsComponent },
-                        { path: 'set-password', component: WalletPwdComponent },
-                        { path: 'restore', component: RestoreWalletComponent },
-                        { path: 'restoreold', component: RestoreWalletOldComponent },
-                        { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
-                    
-                    ]
+    {
+        path: '', component: WalletComponent,
+        children: [
+            { path: 'dashboard', component: WalletDashboardComponent },
+            { path: 'create', component: CreateWalletComponent },
+            { path: 'no-wallet', component: NoWalletComponent },
+            { path: 'confirm-words', component: ConfirmMnemonicsComponent },
+            { path: 'set-password', component: WalletPwdComponent },
+            { path: 'restore', component: RestoreWalletComponent },
+            { path: 'restoreold', component: RestoreWalletOldComponent },
+            { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
+
+        ]
     },
 ];
 

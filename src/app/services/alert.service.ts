@@ -12,4 +12,11 @@ export class AlertService {
           panelClass: ['custom-snackbar']
         });
     }
+
+    openSnackBarSuccess(message: string, action: string) {
+      this._snackBar.open(message, action, {
+        duration: 100000,
+        panelClass: ['custom-snackbar-success']
+      });
+  }    
 }

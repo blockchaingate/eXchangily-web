@@ -4,14 +4,14 @@ export const environment = {
     maintainence: false,
     SQUARE_APP_ID: {
         CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', 
-        USD: 'sandbox-sq0idb-gPdLBTvUKUk2-O2DdNZ3dA'
+        USD: 'sq0idp-5W-PIrJbalW5u5KbeEA-Gw'
     },
     STRIPE_PUBLIC_KEY: 'pk_test_xVAqsYMxwh3AZfJcYu1hruyE',
     PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',
     baseUrl: 'https://exchangily.com',
     url: 'https://kanbanprod.fabcoinapi.com/',
     tmpUrl: 'https://kanbanprod.fabcoinapi.com/', // replace this url once the temp api is deployed    
-    version: 0.12,
+    version: 0.15,
     campaignId: 1,
     OTC_COMMISSION_RATE: 0.01,
     chains: {

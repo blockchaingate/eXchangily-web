@@ -195,6 +195,7 @@ export class WalletDashboardComponent implements OnInit {
             }
             */
 
+            /*
             this.kanbanServ.getDepositErr(this.exgAddress).subscribe(
                 (resp: any) => {
                     // console.log('resp=', resp);
@@ -219,6 +220,7 @@ export class WalletDashboardComponent implements OnInit {
                     // console.log('this.wallet.mycoinsssssssss===', this.wallet.mycoins);
                 }
             );
+            */
         }
         /*
         this.storageService.changedTransaction.subscribe(
@@ -494,7 +496,11 @@ export class WalletDashboardComponent implements OnInit {
                             }
                             if(coin.name == 'ETH') {
                                 ethCoin = coin;
-                            }                            
+                            }    
+                            if(coin.depositErr) {
+                                coin.redeposit = coin.depositErr;  
+                            }
+                                                  
                             if(item.coin == coin.name) {
                                 if(coin.balance != Number(item.balance)) {
                                     coin.balance = Number(item.balance);
@@ -513,6 +519,7 @@ export class WalletDashboardComponent implements OnInit {
                                     this.fabBalance = coin.balance;
                                 }
                             }
+                            
                         }
                         this.exgBalance = this.wallet.mycoins[0].balance + this.wallet.mycoins[0].lockedBalance;
 
@@ -718,7 +725,7 @@ export class WalletDashboardComponent implements OnInit {
             this.redepositModal.setTransactionID(this.currentCoin.redeposit[0].transactionID);
         }
 
-        this.redepositModal.show();
+        this.redepositModal.show(currentCoin);
     }
 
     onConfirmedDepositAmount(amountForm: any) {
@@ -1013,9 +1020,9 @@ export class WalletDashboardComponent implements OnInit {
         }
         if (txHex && txHash) {
             if (this.lan === 'zh') {
-                this.alertServ.openSnackBar('交易提交成功，请等一会查看结果', 'Ok');
+                this.alertServ.openSnackBarSuccess('交易提交成功，请等一会查看结果', 'Ok');
             } else {
-                this.alertServ.openSnackBar('your transaction was submitted successful, please wait a while to check status.', 'Ok');
+                this.alertServ.openSnackBarSuccess('your transaction was submitted successful, please wait a while to check status.', 'Ok');
             }
 
             const item = {
@@ -1112,9 +1119,9 @@ export class WalletDashboardComponent implements OnInit {
             this.storageService.storeToTransactionHistoryList(item);
 
             if (this.lan === 'zh') {
-                this.alertServ.openSnackBar('加燃料交易提交成功，请等40分钟后查看结果', 'Ok');
+                this.alertServ.openSnackBarSuccess('加燃料交易提交成功，请等40分钟后查看结果', 'Ok');
             } else {
-                this.alertServ.openSnackBar('Add gas transaction was submitted successfully, please check gas balance 40 minutes later.', 'Ok');
+                this.alertServ.openSnackBarSuccess('Add gas transaction was submitted successfully, please check gas balance 40 minutes later.', 'Ok');
             }
         }
     }
@@ -1155,9 +1162,9 @@ export class WalletDashboardComponent implements OnInit {
         }
         if (txHex && txHash) {
             if (this.lan === 'zh') {
-                this.alertServ.openSnackBar('交易提交成功，请等一会查看结果', 'Ok');
+                this.alertServ.openSnackBarSuccess('交易提交成功，请等一会查看结果', 'Ok');
             } else {
-                this.alertServ.openSnackBar('your transaction was submitted successful, please wait a while to check status.', 'Ok');
+                this.alertServ.openSnackBarSuccess('your transaction was submitted successful, please wait a while to check status.', 'Ok');
             }
 
             const item = {
@@ -1204,7 +1211,7 @@ export class WalletDashboardComponent implements OnInit {
             return;
         }
 
-        const redepositArray = this.currentCoin.redeposit;
+        const redepositArray = this.currentCoin.redeposit ? this.currentCoin.redeposit : this.currentCoin.depositErr;
         // const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
         if (redepositArray && redepositArray.length > 0) {
 
@@ -1298,9 +1305,9 @@ export class WalletDashboardComponent implements OnInit {
                 // const txid = resp.data.transactionID;
                 this.kanbanServ.incNonce();
                 if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('确认交易所入币成功提交', 'Ok');
+                    this.alertServ.openSnackBarSuccess('确认交易所入币成功提交', 'Ok');
                 } else {
-                    this.alertServ.openSnackBar('Confirmation was submitted successfully.', 'Ok');
+                    this.alertServ.openSnackBarSuccess('Confirmation was submitted successfully.', 'Ok');
                 }
             }
         },
@@ -1428,9 +1435,9 @@ export class WalletDashboardComponent implements OnInit {
                 */
                 this.kanbanServ.incNonce();
                 if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('转币去交易所请求已提交，请等待' + environment.depositMinimumConfirmations[currentCoin.name] + '个确认', 'Ok');
+                    this.alertServ.openSnackBarSuccess('转币去交易所请求已提交，请等待' + environment.depositMinimumConfirmations[currentCoin.name] + '个确认', 'Ok');
                 } else {
-                    this.alertServ.openSnackBar('Moving fund to DEX was submitted, please wait for ' + environment.depositMinimumConfirmations[currentCoin.name] + ' confirmations.', 'Ok');
+                    this.alertServ.openSnackBarSuccess('Moving fund to DEX was submitted, please wait for ' + environment.depositMinimumConfirmations[currentCoin.name] + ' confirmations.', 'Ok');
                 }
             } else if (resp.error) {
                 this.alertServ.openSnackBar(resp.error, 'Ok');

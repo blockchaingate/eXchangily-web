@@ -21,7 +21,13 @@ const routes: Routes = [
   },
   {
     path: 'market',
-    loadChildren: () => import('./modules/market/market.module').then(m => m.MarketModule)
+    loadChildren: () => import('./modules/market/market.module').then(m => m.MarketModule),
+    data: {
+      title: 'cryptocurrency market | buy bitcoin | btc/usdt | bitcoin price',
+      metatags: {
+        description: 'crypto market price, trade BTC, ETH, LTC, DOGE, FAB, USDT, bitcoin price trend.'
+      }
+    }
   },     
   {
     path: 'promotion',
@@ -47,27 +53,17 @@ const routes: Routes = [
       title: 'Exchangily',
       isHome: true,
       metatags: {
-        description: 'Exchangily is a type of decentralized cryptocurrency exchange. Decentralized cryptocurrency exchanges are a new generation of peer-to-peer (P2P) platforms that will be more transparent in operations and fees than the current exchange model.',
-        keywords: 'blockchain, cryptocurrency, enterprise, exchangily'
+        description: 'The best cryptocurrency exchange with open source digital currency wallet, trade Bitcoin (BTC), Ethereum (ETH), Litecoin (LTC), FAB, USDT.',
+        keywords: 'Bitcoin Exchange, trade bitcoin, decentralized exchange, btc/usdt, eth/usdt, dex'
       }
     }
   },
+  
   {
-    resolve: {
-      app: AppResolver
-    },
-    path: '',
-    loadChildren: () => import('./modules/landing/features/home/home.module').then(m => m.HomeModule),
-    // loadChildren: './modules/landing/features/home/home.module#HomeModule',
-    data: {
-      title: 'Exchangily',
-      isHome: true,
-      metatags: {
-        description: 'Exchangily is a type of decentralized cryptocurrency exchange. Decentralized cryptocurrency exchanges are a new generation of peer-to-peer (P2P) platforms that will be more transparent in operations and fees than the current exchange model.',
-        keywords: 'blockchain, cryptocurrency, enterprise, exchangily'
-      }
-    }
-  },
+    path: 'launchpad',
+    loadChildren: () => import('./modules/launchpad/launchpad.module').then(m => m.LaunchpadModule)
+  },  
+
   {
     resolve: {
       app: AppResolver

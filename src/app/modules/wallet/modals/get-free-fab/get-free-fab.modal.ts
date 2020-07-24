@@ -34,7 +34,7 @@ export class GetFreeFabModal implements OnInit{
                 if(res) {
                     if(res.ok) {
                         this.hide();
-                        return this.alertServ.openSnackBar('Congrat, you will get 2 free Gas shortly.','Ok');
+                        return this.alertServ.openSnackBarSuccess('Congrat, you will get 2 free Gas shortly.','Ok');
                     }
                     return this.alertServ.openSnackBar(res._body,'Ok');
                 } 

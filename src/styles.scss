@@ -366,6 +366,11 @@ body {
     color: white;
 }
 
-.custom-snackbar .mat-button-wrapper {
+.custom-snackbar-success {
+    background: rgb(34,139,34);
+    color: white;
+}
+
+.custom-snackbar .mat-button-wrapper, .custom-snackbar-success .mat-button-wrapper {
     color: white;
 }
