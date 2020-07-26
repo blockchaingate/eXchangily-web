@@ -15,7 +15,7 @@
                         {{element.coinType}}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="unlockedAmount">
+                <ng-container matColumnDef="freeAmount">
                     <th mat-header-cell *matHeaderCellDef style="text-align: left;"> {{"Quantity"|translate}} </th>
                     <td style="text-align: left;" mat-cell *matCellDef="let element">
                         {{element.unlockedAmount * 1e-18 | number:'1.5-5' }}</td>
