@@ -496,12 +496,16 @@ export class WalletDashboardComponent implements OnInit {
                             }
                             if(coin.name == 'ETH') {
                                 ethCoin = coin;
-                            }    
-                            if(coin.depositErr) {
-                                coin.redeposit = coin.depositErr;  
                             }
                                                   
                             if(item.coin == coin.name) {
+                                if(item.depositErr) {
+                                    coin.redeposit = item.depositErr;
+                                    updated = true;
+                                } else {
+                                    coin.redeposit = [];
+                                    updated = true;
+                                }
                                 if(coin.balance != Number(item.balance)) {
                                     coin.balance = Number(item.balance);
                                     updated = true;
