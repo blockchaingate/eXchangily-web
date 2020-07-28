@@ -18,7 +18,7 @@ import { environment } from '../../../../../environments/environment';
 
 export class TradeAutoComponent implements OnInit {
     nonces = [];
-    version: number;
+    version: string;
     constructor(private walletServ: WalletService, private web3Serv: Web3Service, private utilService: UtilService,
         private coinService: CoinService, private kanbanService: KanbanService) {
 

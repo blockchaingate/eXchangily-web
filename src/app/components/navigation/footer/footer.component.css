@@ -1,6 +1,6 @@
-.page-footer{
+.page-footer {
     padding-top: 100px;
-    background-color: #120641;
+    background-color: #181030;
     background-image: url("/images/logo/map-dotted-pattern-bg.png");
 }
 
@@ -14,16 +14,16 @@
     position: relative;
 }
 
-.social-media > a {
+.social-media>a {
     /* margin-left: 4px; */
     margin-right: 10px;
 }
 
-.wechat-qrcode > div {
+.wechat-qrcode>div {
     display: none;
 }
 
-.wechat-qrcode:hover > div {
+.wechat-qrcode:hover>div {
     display: block;
 }
 
@@ -61,16 +61,16 @@
     margin-right: 10px;
 }
 
-.footerBottom{
+.footerBottom {
     text-align: center;
 }
 
-.social-media{
+.social-media {
     padding-top: 20px;
 }
 
-.Subscribe{
-    text-align:center;
+.Subscribe {
+    text-align: center;
 }
 
 @media (min-width: 1200px) {
