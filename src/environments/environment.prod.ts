@@ -21,10 +21,33 @@ export const environment = {
             bytesPerInput: 152
         },
         DOGE: {
+            network: {
+                messagePrefix: '\u0019Dogecoin Signed Message:\n',
+                bech32: 'tb',
+                bip32: {
+                  public: 0x02facafd,
+                  private: 0x02fac398,
+                },
+                pubKeyHash: 0x1e,
+                scriptHash: 0x16,
+                wif: 0x9e,
+            },            
             satoshisPerBytes: 1500000,
             bytesPerInput: 148
         },
+
         LTC: {
+            network: {
+                messagePrefix: '\u0019Litecoin Signed Message:\n',
+                bech32: 'tb',
+                bip32: {
+                  public: 0x019da462,
+                  private: 0x019d9cfe,
+                },
+                pubKeyHash: 0x30,
+                scriptHash: 0x32,
+                wif: 0xb0,
+            },            
             satoshisPerBytes: 150,
             bytesPerInput: 148
         },  
@@ -39,6 +62,7 @@ export const environment = {
             gasLimit: 200000
         },
         FAB: {
+            network: Btc.networks.bitcoin,
             chain: {
                 name: 'mainnet',
                 networkId: 0,

@@ -327,6 +327,7 @@ export class SendCoinModal {
 
         const ret = await this.coinServ.sendTransaction(this.coin, null, to, amount, options, false);
 
+        console.log('ret===', ret);
         this.transFee = ret.transFee;
         return ret;
     }
