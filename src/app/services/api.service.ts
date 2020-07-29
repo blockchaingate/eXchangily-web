@@ -48,7 +48,17 @@ export class ApiService {
         } catch (e) {console.log (e); }
         return response;
     }
-    
+
+    async getUtxos(coin: string, address: string): Promise<[BtcUtxo]> {
+        const url = environment.endpoints[coin].exchangily + 'getutxos/' + address;
+        console.log('url in getBtcUtxos' + url);
+        let response = null;
+        try {
+            response = await this.http.get(url).toPromise() as [BtcUtxo];
+        } catch (e) {console.log (e); }
+        return response;
+    }
+
     async getBchUtxos(address: string): Promise<[BtcUtxo]> {
         const url = environment.endpoints.BCH.exchangily + 'getutxos/' + address;
         console.log('url in getBchUtxos' + url);
@@ -368,6 +378,34 @@ export class ApiService {
        //return ret;
        return {txHash, errMsg};
     }
+
+    async postTx(coin, txHex: string) {
+        let txHash = '';
+        let errMsg = '';
+        const url = environment.endpoints[coin].exchangily + 'postrawtransaction';
+        let response = null;
+ 
+        const data = {
+         rawtx: txHex
+        };
+ 
+        try {
+             if (txHex) {
+                 response = await this.http.post(url, data).toPromise() as BtcTransactionResponse;
+             }
+             if (response && response.txid) {
+             txHash = '0x' + response.txid;
+             }
+        } catch (err) {
+             if (err.error && err.error.Error) {
+             errMsg = err.error.Error;
+             console.log('err there we go', err.error.Error);
+            }
+        }
+ 
+        //return ret;
+        return {txHash, errMsg};
+     }
 
     async postBchTx(txHex: string) {
         let txHash = '';
