@@ -12,7 +12,7 @@ import { UtilService } from '../../../../../services/util.service';
 import { WalletService } from '../../../../../services/wallet.service';
 import { CoinService } from '../../../../../services/coin.service';
 import { Wallet } from '../../../../../models/wallet';
-import * as secureRandom from 'secure-random';
+import * as randombytes from 'randombytes';
 import { FormBuilder } from '@angular/forms';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -713,7 +713,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
   // This method provides a unique value to track orders with.
   generateOrderHash(bidOrAsk, orderType, baseCoin, targetCoin, amount, price, timeBeforeExpiration) {
-    const randomString = secureRandom.randomUint8Array(32).map(String).join('');
+    const randomString = randombytes(32).map(String).join('');
     const concatString = [bidOrAsk, orderType, baseCoin, targetCoin, amount, price, timeBeforeExpiration, randomString].join('');
     return this.web3Serv.sha3(concatString);
   }
