@@ -56,6 +56,17 @@ export const environment = {
             bytesPerInput: 148
         },  
         BCH: {
+            network: {
+                messagePrefix: '\u0018Bitcoin Signed Message:\n',
+                bech32: 'tb',
+                bip32: {
+                  public: 0x043587cf,
+                  private: 0x04358394,
+                },
+                pubKeyHash: 0x6f,
+                scriptHash: 0xc4,
+                wif: 0xef,
+            },            
             satoshisPerBytes: 50,
             bytesPerInput: 148
         },                      
