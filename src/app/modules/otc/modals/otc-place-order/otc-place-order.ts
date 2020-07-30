@@ -3,11 +3,12 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { StripeToken, StripeSource, StripeCard } from 'stripe-angular'
 import { environment } from 'src/environments/environment';
 import { StripeScriptTag } from 'stripe-angular'
+/*
 import {
     IPayPalConfig,
     ICreateOrderRequest
 } from 'ngx-paypal';
-
+*/
 declare var SqPaymentForm : any; //magic to allow us to access the SquarePaymentForm lib
 
 @Component({
@@ -113,6 +114,7 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit{
     }
 
     enablePaypal() {
+        /*
         console.log('enablePaypal====');
         const currency = this.element.fiat;
         if (!this.amount) {
@@ -194,6 +196,7 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit{
                 // this.resetStatus();
             },
         };
+        */
     }
 
     onSubmit() {
