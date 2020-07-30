@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppUsersService } from '../../../../service/app-users/app-users.service';
 import { AppUsers } from '../../../../models/app-users';
+import { UtilService } from '../../../../../../services/util.service';
 
 @Component({
   selector: 'app-info',
@@ -19,10 +20,15 @@ export class InfoComponent implements OnInit {
   };
 
   constructor(
+    private utilServ: UtilService,
     private _route: ActivatedRoute,
     private _appUsers: AppUsersService
   ) { }
 
+  clipboard(val: string) {
+    this.utilServ.copy(val);
+  }
+  
   ngOnInit() {
     this.appUser = this._route.snapshot.data.appUser;
     this.user = this._route.snapshot.data.user;
