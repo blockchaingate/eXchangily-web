@@ -8,13 +8,14 @@ import { Address } from '../models/address';
 import {coin_list} from '../config/coins';
 import {ApiService} from './api.service';
 import * as wif from 'wif';
-import * as bitcore from 'bitcore-lib-cash';
-import * as BchMessage from 'bitcore-message';
+//import * as bitcore from 'bitcore-lib-cash';
+//import * as BchMessage from 'bitcore-message';
 import { Web3Service } from './web3.service';
 import {Signature} from '../interfaces/kanban.interface';
 import { UtilService } from './util.service';
 import { environment } from '../../environments/environment';
 import BigNumber from 'bignumber.js/bignumber';
+import * as bchaddr from 'bchaddrjs';
 
 @Injectable()
 export class CoinService {
@@ -436,7 +437,7 @@ export class CoinService {
         }       
         const path = 'm/44\'/' + coin.coinType + '\'/0\'/' + chain + '/' + index;
 
-        if (name === 'BTC' || name === 'FAB' || name === 'LTC' || name === 'DOGE') {
+        if (name === 'BTC' || name === 'FAB' || name === 'LTC' || name === 'DOGE' || name === 'BCH') {
             const root = BIP32.fromSeed(seed, environment.chains[name]['network']);
             /*
             const childNode1 = root.deriveHardened(44);
@@ -450,8 +451,16 @@ export class CoinService {
                 pubkey: childNode.publicKey,
                 network: environment.chains[name]['network']
             });
+            if(name === 'BCH') {
+                console.log('address===', address);
+                addr = bchaddr.toCashAddress(address);
+            } else {
+                
+                addr = address;
+            }
+            
 
-            addr = address;
+
             priKey = childNode.toWIF();
             pubKey = `0x${childNode.publicKey.toString('hex')}`;
 
@@ -502,7 +511,8 @@ export class CoinService {
            addr = address;
            console.log('addr=', addr);            
         } else  
-        */      
+        */   
+       /*   
         if (name === 'BCH') {
 
            var root = bitcore.HDPrivateKey.fromSeed(seed);
@@ -529,6 +539,7 @@ export class CoinService {
            }
            
         } else
+        */
         if (name === 'ETH' || tokenType === 'ETH') {
 
             const root = hdkey.fromMasterSeed(seed);
@@ -596,7 +607,7 @@ export class CoinService {
             // signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
             let signBuffer;
             console.log('keyPair.privateKeyBuffer.compressed===', keyPair.privateKeyBuffer.compressed);
-            if(name === 'FAB' || name === 'BTC' || tokenType === 'FAB' || name === 'LTC' || name === 'DOGE') {
+            //if(name === 'FAB' || name === 'BTC' || tokenType === 'FAB' || name === 'LTC' || name === 'DOGE') {
                 const chainName = (tokenType === 'FAB') ? 'FAB' : name;
 
                 const messagePrefix = environment.chains[chainName].network.messagePrefix;
@@ -605,13 +616,10 @@ export class CoinService {
 
                 signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey, 
                     keyPair.privateKeyBuffer.compressed, messagePrefix);
-
+            /*
             } else 
             if(name === 'BCH') {
-                /*
-                signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKey.toBuffer(), 
-                    keyPair.privateKey.compressed);   
-                */
+
                
                var message = new BchMessage(originalMessage);
 
@@ -628,7 +636,7 @@ export class CoinService {
                // console.log('signature=', signature);
 
             }
-
+            */
             /*
             if (name === 'LTC') {
                 var message = new LiteMessage(originalMessage);
@@ -940,7 +948,10 @@ export class CoinService {
         // console.log('toAddress=' + toAddress + ',amount=' + amount + ',amountNum=' + amountNum);
         
 
-        if (mycoin.name === 'BTC' || mycoin.name == 'LTC' || mycoin.name == 'DOGE') { // btc address format
+        if (mycoin.name === 'BTC' || mycoin.name == 'LTC' || mycoin.name == 'DOGE' || mycoin.name == 'BCH') { // btc address format
+            if(mycoin.name == 'BCH') {
+                toAddress = bchaddr.toLegacyAddress(toAddress);
+            }
             if (!satoshisPerBytes) {
                 satoshisPerBytes = environment.chains[mycoin.name].satoshisPerBytes;
             }
@@ -1084,6 +1095,7 @@ export class CoinService {
                 // console.log(txHash);
             }
         } else 
+        /*
         if (mycoin.name === 'BCH') {
             console.log('BCH there we go');
             if (!satoshisPerBytes) {
@@ -1149,20 +1161,7 @@ export class CoinService {
             .to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
             .change(address)      // Sets up a change address where the rest of the funds will go
 
-            /*
-            .addOutput(
-                new bitcore.Transaction.Output({
-                    script: bitcore.Script(new bitcore.Address(toAddress)),
-                    satoshis: amountBigNum
-                  })
-            )
-            .addOutput(
-                    new bitcore.Transaction.Output({
-                        script: bitcore.Script(new bitcore.Address(address)),
-                        satoshis: output1
-                      }) 
-            )  
-            */           
+         
             .sign(privateKey)     // Signs all the inputs it can
         
             txHex = transaction.serialize();  
@@ -1180,6 +1179,7 @@ export class CoinService {
                 txHash = '0x' + tx.getId();
             }            
         } else
+        */
         /*
         if (mycoin.name === 'DOGE') {
             if (!satoshisPerBytes) {
