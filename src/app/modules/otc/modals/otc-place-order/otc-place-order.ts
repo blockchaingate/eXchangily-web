@@ -2,7 +2,7 @@ import { Component, ViewChild, EventEmitter, Output, Input, OnInit, AfterViewIni
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { StripeToken, StripeSource, StripeCard } from 'stripe-angular'
 import { environment } from 'src/environments/environment';
-import { StripeScriptTag } from 'stripe-angular'
+//import { StripeScriptTag } from 'stripe-angular'
 /*
 import {
     IPayPalConfig,
@@ -43,9 +43,9 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit{
 
     @ViewChild('otcPlaceOrderModal', { static: true }) public otcPlaceOrderModal: ModalDirective;
     methods: string[] = ['Paypal', 'CreditCard'];
-
-    constructor(public StripeScriptTag: StripeScriptTag) {
-        this.StripeScriptTag.setPublishableKey(environment.STRIPE_PUBLIC_KEY);
+    
+    constructor() {
+        //this.StripeScriptTag.setPublishableKey(environment.STRIPE_PUBLIC_KEY);
         this.options = {
             hidePostalCode: true
         };
