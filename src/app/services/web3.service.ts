@@ -62,10 +62,6 @@ export class Web3Service {
     return txhex;
   }
 
-  async sendSignedTransaction(txhex: string) {
-    const web3 = this.getWeb3Provider();
-    return await web3.eth.sendSignedTransaction(txhex);
-  }
 
   async signAbiHexWithPrivateKey(abiHex: string, keyPair: any, address: string, nonce: number,
     value = 0, options = { gasPrice: 0, gasLimit: 0 }) {
