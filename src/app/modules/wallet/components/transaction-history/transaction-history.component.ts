@@ -20,6 +20,7 @@ export class TransactionHistoryComponent implements OnInit {
     @Input() coinsPrice: CoinsPrice;
     @Input() walletId: string;
     @Input() transactions: any;
+
     currentType: string;
     utilServ: UtilService;
 
@@ -36,13 +37,76 @@ export class TransactionHistoryComponent implements OnInit {
         this.currentType = type;
     }
 
+    mergeSortedArray(a,b){
+
+        console.log('a==', a);
+        console.log('b==', b);
+        var tempArray = [];
+        var currentPos = {
+            a: 0,
+            b: 0
+        }
+        while(currentPos.a < a.length && currentPos.b < b.length) {
+
+            console.log('a[currentPos.a].timestamp==', a[currentPos.a].timestamp);
+            console.log('b[currentPos.b].timestamp==', b[currentPos.b].timestamp);
+            if(typeof a[currentPos.a] === 'undefined') {
+                tempArray.push(b[currentPos.b++]);
+            } else if(a[currentPos.a].timestamp > b[currentPos.b].timestamp){
+                console.log('bigger');
+                tempArray.push(a[currentPos.a++]);
+            } else {
+                console.log('smaller');
+                tempArray.push(b[currentPos.b++]);
+            }
+        }
+
+        while(currentPos.a < a.length) {
+            tempArray.push(a[currentPos.a++]);
+        }
+
+        while(currentPos.b < b.length) {
+            tempArray.push(b[currentPos.b++]);
+        }        
+        return tempArray;
+    }
+
+
     ngOnInit() {
+        console.log('transactions=', this.transactions);
         this.currentType = 'All';
         this.storageService.getTransactionHistoryList().subscribe(
             (transactionHistory: TransactionItem[]) => {
-                console.log('transactionHistory=', transactionHistory);
-                if (transactionHistory) {
-                    this.transactionHistory = transactionHistory.reverse().filter(s => s.walletId === this.walletId);
+                //console.log('transactionHistory=', transactionHistory);
+                if (transactionHistory && (transactionHistory.length > 0)) {
+                    //this.transactionHistory = transactionHistory.reverse().filter(s => s.walletId === this.walletId);
+                    let newTransactions = [];
+                    for(let i=transactionHistory.length - 1;i >= 0; i--) {
+                        const transactionItem = transactionHistory[i];
+                        console.log('transactionItem==', transactionItem);
+                        const time = transactionItem.time;
+                        const timestamp = Math.round(time.getTime() / 1000);
+
+                        const newTransaction = {
+                            action: transactionItem.type,
+                            coin: transactionItem.coin,
+                            quantity: transactionItem.amount,
+                            timestamp: timestamp,
+                            transactions: [
+                                {
+                                    chain: transactionItem.tokenType ? transactionItem.tokenType : transactionItem.coin,
+                                    status: transactionItem.status,
+                                    timestamp: '',
+                                    transactionId: transactionItem.txid
+                                }                               
+                            ]
+                        };
+
+                        newTransactions.push(newTransaction);
+                    }
+
+                    this.transactions = this.mergeSortedArray(this.transactions, newTransactions);
+
                 }
             }
         );

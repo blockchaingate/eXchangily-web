@@ -515,7 +515,7 @@ export class WalletDashboardComponent implements OnInit {
                                     updated = true;
                                 }
                                 coin.lockers = item.lockers ? item.lockers : item.fabLockers;
-                                if(coin.usdPrice != item.usdValue.USD) {
+                                if(item.usdValue && (coin.usdPrice != item.usdValue.USD)) {
                                     coin.usdPrice = item.usdValue.USD;
                                     updated = true;
                                 }

@@ -43,8 +43,6 @@
         "ethereumjs-common": "1.5.2",
         "ethereumjs-tx": "^2.1.2",
         "ethereumjs-wallet": "^0.6.3",
-        "fs": "0.0.1-security",
-        "hammerjs": "^2.0.8",
         "lodash": "^4.17.19",
         "ng-chartist": "^4.1.0",
         "ngx-bootstrap": "^5.6.1",
