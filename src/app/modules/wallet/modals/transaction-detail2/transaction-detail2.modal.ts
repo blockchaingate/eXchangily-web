@@ -17,6 +17,12 @@ export class TransactionDetailModal2 {
         this.utilService = _utilServ;
     }
 
+    getTo(item) {
+        if(item.coin == 'EXG') {
+            return this.utilService.exgToFabAddress(item.to);
+        }
+        return item.to;
+    }
     getTxUrl(tx) {
         const chain = tx.chain;
         const txid = tx.transactionId;

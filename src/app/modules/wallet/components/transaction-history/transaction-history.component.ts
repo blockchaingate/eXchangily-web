@@ -48,8 +48,6 @@ export class TransactionHistoryComponent implements OnInit {
         }
         while(currentPos.a < a.length && currentPos.b < b.length) {
 
-            console.log('a[currentPos.a].timestamp==', a[currentPos.a].timestamp);
-            console.log('b[currentPos.b].timestamp==', b[currentPos.b].timestamp);
             if(typeof a[currentPos.a] === 'undefined') {
                 tempArray.push(b[currentPos.b++]);
             } else if(a[currentPos.a].timestamp > b[currentPos.b].timestamp){
@@ -91,7 +89,9 @@ export class TransactionHistoryComponent implements OnInit {
                             action: transactionItem.type,
                             coin: transactionItem.coin,
                             quantity: transactionItem.amount,
+                            to: transactionItem.to,
                             timestamp: timestamp,
+                            comment: transactionItem.comment,
                             transactions: [
                                 {
                                     chain: transactionItem.tokenType ? transactionItem.tokenType : transactionItem.coin,

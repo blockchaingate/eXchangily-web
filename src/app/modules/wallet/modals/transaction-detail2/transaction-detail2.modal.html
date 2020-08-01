@@ -9,6 +9,9 @@
             </div>
             <div class="modal-body" *ngIf="item">
                 <div class="py-3">
+                    <div *ngIf="item.to" class="text-muted pb-3">
+                        To: {{getTo(item)}}
+                    </div>
                     <table class="table table-striped">
                         <thead>
                         <tr>
