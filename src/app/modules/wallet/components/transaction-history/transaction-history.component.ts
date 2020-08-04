@@ -39,8 +39,6 @@ export class TransactionHistoryComponent implements OnInit {
 
     mergeSortedArray(a,b){
 
-        console.log('a==', a);
-        console.log('b==', b);
         var tempArray = [];
         var currentPos = {
             a: 0,
@@ -51,10 +49,8 @@ export class TransactionHistoryComponent implements OnInit {
             if(typeof a[currentPos.a] === 'undefined') {
                 tempArray.push(b[currentPos.b++]);
             } else if(a[currentPos.a].timestamp > b[currentPos.b].timestamp){
-                console.log('bigger');
                 tempArray.push(a[currentPos.a++]);
             } else {
-                console.log('smaller');
                 tempArray.push(b[currentPos.b++]);
             }
         }
@@ -71,7 +67,6 @@ export class TransactionHistoryComponent implements OnInit {
 
 
     ngOnInit() {
-        console.log('transactions=', this.transactions);
         this.currentType = 'All';
         this.storageService.getTransactionHistoryList().subscribe(
             (transactionHistory: TransactionItem[]) => {
@@ -81,7 +76,6 @@ export class TransactionHistoryComponent implements OnInit {
                     let newTransactions = [];
                     for(let i=transactionHistory.length - 1;i >= 0; i--) {
                         const transactionItem = transactionHistory[i];
-                        console.log('transactionItem==', transactionItem);
                         const time = transactionItem.time;
                         const timestamp = Math.round(time.getTime() / 1000);
 

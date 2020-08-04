@@ -704,6 +704,7 @@ export class CoinService {
         let address = '';
         let totalInput = 0;
         let transFee = 0;
+        let amountInTx = 0;
         const feePerInput = bytesPerInput * satoshisPerBytes;
         const receiveAddsIndexArr = [];
         const changeAddsIndexArr = [];
@@ -728,6 +729,7 @@ export class CoinService {
             // console.log('address in getFabTransactionHex=' + address);
             const fabUtxos = await this.apiService.getFabUtxos(address);
 
+            console.log('fabUtxos==', fabUtxos);
             if (fabUtxos && fabUtxos.length) {
                 // console.log('fabUtxos=', fabUtxos);
                 // console.log('fabUtxos.length=', fabUtxos.length);
@@ -833,14 +835,14 @@ export class CoinService {
         
         console.log('extraTransactionFee=', extraTransactionFee);
         if (getTransFeeOnly) {
-            return {txHex: '', errMsg: '', transFee: transFee + new BigNumber(this.utilServ.toBigNumber(extraTransactionFee, 8)).toNumber()};
+            return {txHex: '', errMsg: '', transFee: transFee + new BigNumber(this.utilServ.toBigNumber(extraTransactionFee, 8)).toNumber(), amountInTx: amountInTx};
         }        
         //const output2 = Math.round(amount * 1e8);    
         const output2 = Number(this.utilServ.toBigNumber(amount, 8));
-        
+        amountInTx = output2;
         if (output1 < 0) {
             // console.log('output1 or output2 should be greater than 0.');
-            return {txHex: '', errMsg: 'output1 should be greater than 0.' + totalInput + ',' + amount + ',' + transFee + ',' + output1, transFee: 0};
+            return {txHex: '', errMsg: 'output1 should be greater than 0.' + totalInput + ',' + amount + ',' + transFee + ',' + output1, transFee: 0, amountInTx: amountInTx};
         }
         // console.log('amount=' + amount + ',totalInput=' + totalInput);
         // console.log('defaultTransactionFee=' + extraTransactionFee);
@@ -878,7 +880,7 @@ export class CoinService {
         }            
 
         txHex = txb.build().toHex();
-        return {txHex: txHex, errMsg: '', transFee: transFee};
+        return {txHex: txHex, errMsg: '', transFee: transFee, amountInTx: amountInTx};
     }
 
     getOriginalMessage(coinType: number, txHash: string, amount: BigNumber, address: string) {
@@ -912,6 +914,7 @@ export class CoinService {
         let txHash = '';
         let errMsg = '';
         let transFee = 0;
+        let amountInTx = 0;
         // console.log('options=', options);
         let getTransFeeOnly = false;
         if (options) {
@@ -1029,7 +1032,7 @@ export class CoinService {
                 txHex = '';
                 txHash = '';
                 errMsg = 'not enough fund.';
-                return {txHex: txHex, txHash: txHash, errMsg: errMsg};
+                return {txHex: txHex, txHash: txHash, errMsg: errMsg, amountInTx: amountInTx};
             }
 
             let outputNum = 2;
@@ -1043,7 +1046,7 @@ export class CoinService {
             // console.log('totalInput=' + totalInput);
             // console.log('amount=' + amount);
             // console.log('transFee=' + transFee);
-            const output1 = Math.round(new BigNumber(totalInput - amount * 1e8 - transFee).toNumber());
+            const output1 = Math.round(new BigNumber(totalInput - new BigNumber(amount).multipliedBy(new BigNumber(1e8)).toNumber() - transFee).toNumber());
             
             if(output1 < 2730) {
                 transFee += output1;
@@ -1051,11 +1054,12 @@ export class CoinService {
             transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
 
             if (getTransFeeOnly) {
-                return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
+                return {txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx};
             }
             //const output2 = Math.round(new BigNumber(amount * 1e8).toNumber());     
             const output2 = Number(this.utilServ.toBigNumber(amount, 8));
             console.log('output1=', output1);
+            amountInTx = output2;
             if(amount > 0) {
                 if(output1 >= 2730) {
                     txb.addOutput(changeAddress.address, output1);
@@ -1376,10 +1380,11 @@ export class CoinService {
             txHex = res1.txHex;
             errMsg = res1.errMsg;
             transFee = res1.transFee;
+            amountInTx = res1.amountInTx;
             transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
 
             if (getTransFeeOnly) {
-                return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
+                return {txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx};
             }            
             
             if (!errMsg && txHex) {
@@ -1403,7 +1408,7 @@ export class CoinService {
             }     
             transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
             if (getTransFeeOnly) {
-                return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
+                return {txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx};
             }                     
             // amountNum = amount * 1e18;
             amountNum = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, 18)));
@@ -1413,12 +1418,14 @@ export class CoinService {
             const keyPair = this.getKeyPairs(mycoin, seed, 0, currentIndex);
             const nonce = await this.apiService.getEthNonce(address1.address);
             const gasPriceFinal = new BigNumber(gasPrice).multipliedBy(new BigNumber(1e9)).toNumber();
+
+            amountInTx = amountNum.integerValue().toNumber() ;
             const txParams = {
                 nonce: nonce,
                 gasPrice: gasPriceFinal,
                 gasLimit: gasLimit,
                 to: toAddress,
-                value: amountNum.integerValue().toNumber()           
+                value: amountInTx          
             };
 
             // console.log('txParams=', txParams);
@@ -1447,7 +1454,7 @@ export class CoinService {
             }      
             transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
             if (getTransFeeOnly) {
-                return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
+                return {txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx};
             }        
             const currentIndex = address1.index;    
             // console.log('currentIndex=' + currentIndex);
@@ -1501,6 +1508,8 @@ export class CoinService {
             // a9059cbb
             // console.log('abiHexxx=' + abiHex);
             const gasPriceFinal = new BigNumber(gasPrice).multipliedBy(new BigNumber(1e9)).toNumber();
+
+            amountInTx = amountSent.integerValue().toNumber();
             const txData = {
                 nonce: nonce,
                 gasPrice: gasPriceFinal,
@@ -1581,6 +1590,7 @@ export class CoinService {
             // console.log('foreeeee');
             console.log('amountSent=', amountSent);
             console.log('toAddress===', toAddress);
+            amountInTx = Number(amountSent);
             let fxnCallHex = this.web3Serv.getGeneralFunctionABI(funcTransfer, [toAddress, amountSent]);
             // console.log('enddddd');
             fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
@@ -1634,7 +1644,7 @@ export class CoinService {
             transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
 
             if (getTransFeeOnly) {
-                return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
+                return {txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx};
             }  
 
             if (txHex) {
@@ -1648,7 +1658,7 @@ export class CoinService {
                 }
             }
         }
-        const ret = {txHex: txHex, txHash: txHash, errMsg: errMsg, transFee: transFee};
+        const ret = {txHex: txHex, txHash: txHash, errMsg: errMsg, transFee: transFee, amountInTx: amountInTx};
         console.log('ret there eeee=', ret);
         return ret;
     }

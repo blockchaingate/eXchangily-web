@@ -1373,7 +1373,7 @@ export class WalletDashboardComponent implements OnInit {
             gasLimit: this.amountForm.gasLimit,
             satoshisPerBytes: this.amountForm.satoshisPerBytes
         };
-        const { txHex, txHash, errMsg } = await this.coinServ.sendTransaction(
+        const { txHex, txHash, errMsg, amountInTx } = await this.coinServ.sendTransaction(
             currentCoin, seed, officalAddress, amount, options, doSubmit
         );
 
@@ -1390,9 +1390,34 @@ export class WalletDashboardComponent implements OnInit {
             }
             return;
         }
-        console.log('amount11111=', amount);
+        
         const amountInLink = new BigNumber(amount).multipliedBy(new BigNumber(1e18)); // it's for all coins.
-        console.log('amountInLink2222===', amountInLink);
+        
+        const amountInLinkString = amountInLink.toString();
+        const amountInTxString = amountInTx.toString();
+
+        console.log('amountInLinkString=', amountInLinkString);
+        console.log('amountInTxString=', amountInTxString);
+        
+        if(amountInLinkString.indexOf(amountInTxString) == -1) {
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('转账数量不相等', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('Inequal amount for deposit', 'Ok');
+            }
+            return;
+        }
+
+        const subString = amountInLinkString.substr(amountInTxString.length);
+        if(subString && Number(subString) != 0) {
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('转账数量不符合', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('deposit amount not the same', 'Ok');
+            }
+            return;            
+        }
+
         const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(txHash)
             , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
 
