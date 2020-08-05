@@ -1397,7 +1397,7 @@ export class WalletDashboardComponent implements OnInit {
         const amountInLinkString = amountInLink.toFixed();
         const amountInTxString = new BigNumber(amountInTx.toString()).toFixed();
 
-        if(amountInLinkString.indexOf(amountInTxString) == -1) {
+        if(amountInLinkString.indexOf(amountInTxString) === -1) {
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar('转账数量不相等', 'Ok');
             } else {
@@ -1407,7 +1407,7 @@ export class WalletDashboardComponent implements OnInit {
         }
 
         const subString = amountInLinkString.substr(amountInTxString.length);
-        if(subString && Number(subString) != 0) {
+        if(subString && Number(subString) !== 0) {
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar('转账数量不符合', 'Ok');
             } else {
