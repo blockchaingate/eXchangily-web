@@ -79,6 +79,10 @@ export class TransactionHistoryComponent implements OnInit {
                         const time = transactionItem.time;
                         const timestamp = Math.round(time.getTime() / 1000);
 
+                        const wid = transactionItem.walletId;
+                        if(wid != this.walletId) {
+                            continue;
+                        }
                         const newTransaction = {
                             action: transactionItem.type,
                             coin: transactionItem.coin,

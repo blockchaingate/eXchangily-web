@@ -1397,8 +1397,6 @@ export class WalletDashboardComponent implements OnInit {
         const amountInLinkString = amountInLink.toFixed();
         const amountInTxString = new BigNumber(amountInTx.toString()).toFixed();
 
-        console.log('amountInLinkString==', amountInLinkString);
-        console.log('amountInTxString==', amountInTxString);
         if(amountInLinkString.indexOf(amountInTxString) == -1) {
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar('转账数量不相等', 'Ok');
