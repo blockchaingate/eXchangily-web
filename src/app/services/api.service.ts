@@ -51,6 +51,7 @@ export class ApiService {
 
     async getUtxos(coin: string, address: string): Promise<[BtcUtxo]> {
         const url = environment.endpoints[coin].exchangily + 'getutxos/' + address;
+        
         console.log('url in getBtcUtxos' + url);
         let response = null;
         try {

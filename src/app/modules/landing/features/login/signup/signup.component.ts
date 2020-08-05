@@ -36,7 +36,20 @@ export class SignupComponent implements OnInit {
   get referralCode() { return this.signupForm.get('referralCode'); }
 
   async ngOnInit() {
-    const strRefCode: string = this._activeRout.snapshot.paramMap.get('refcode');
+    let strRefCode: string = this._activeRout.snapshot.paramMap.get('refcode');
+    console.log('strRefCode=', strRefCode);
+    if (strRefCode) {
+      this.localSt.setItem('refcode', strRefCode).subscribe(() => {
+      });  
+    } else {
+       this.localSt.getItem('refcode').subscribe(
+        (res: any) => {
+          strRefCode = res;
+          this.signupForm.controls['referralCode'].setValue(strRefCode);
+        }
+      );
+    }
+
 
     this.signupForm = new FormGroup({
       'email': new FormControl(this.user.email, [
