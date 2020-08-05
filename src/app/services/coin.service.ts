@@ -19,9 +19,12 @@ import * as bchaddr from 'bchaddrjs';
 
 @Injectable()
 export class CoinService {
+    txids: any;
     constructor(private apiService: ApiService, private web3Serv: Web3Service, private utilServ: UtilService) {
+        this.txids = [];
     } 
 
+    
     getCoinTypeIdByName(name: string) {
         for (let i = 0; i < coin_list.length; i++) {
             const coin = coin_list[i];
@@ -46,7 +49,9 @@ export class CoinService {
         // coin.receiveAdds.push(addr);
         return coin;
     }
-
+    addTxids(txids) {
+        this.txids = this.txids.concat(txids);
+    }
     initMyCoins(seed: Buffer): MyCoin[] {
         console.log('begin initMyCoins');
         const myCoins = [];
@@ -705,6 +710,7 @@ export class CoinService {
         let totalInput = 0;
         let transFee = 0;
         let amountInTx = 0;
+        let txids = [];
         const feePerInput = bytesPerInput * satoshisPerBytes;
         const receiveAddsIndexArr = [];
         const changeAddsIndexArr = [];
@@ -742,6 +748,30 @@ export class CoinService {
                         continue;
                     }
                     */
+                    
+
+                    const txidItem = {
+                        txid: utxo.txid,
+                        idx: idx
+                    };
+
+
+                    let existed = false;
+                    for(let iii = 0; iii < this.txids.length; iii++) {
+                        const ttt = this.txids[iii];
+                        if((ttt.txid == txidItem.txid) && (ttt.idx == txidItem.idx)) {
+                            console.log('continueeee');
+                            existed = true;
+                            break;
+                        }
+                    }
+
+                    if(existed) {
+                        continue;
+                    }
+
+                    txids.push(txidItem);
+
                     txb.addInput(utxo.txid, idx);
                     // console.log('input is');
                     // console.log(utxo.txid, utxo.idx, utxo.value);
@@ -782,6 +812,27 @@ export class CoinService {
                             continue;
                         }      
                         */              
+                        
+                        const txidItem = {
+                            txid: utxo.txid,
+                            idx: idx
+                        };
+
+                        let existed = false;
+                        for(let iii = 0; iii < this.txids.length; iii++) {
+                            const ttt = this.txids[iii];
+                            if((ttt.txid == txidItem.txid) && (ttt.idx == txidItem.idx)) {
+                                console.log('continueeee');
+                                existed = true;
+                                break;
+                            }
+                        }
+
+                        if(existed) {
+                            continue;
+                        }
+                        txids.push(txidItem);    
+                        
                         txb.addInput(utxo.txid, idx);
                         // console.log('input is');
                         // console.log(utxo.txid, utxo.idx, utxo.value);
@@ -804,7 +855,7 @@ export class CoinService {
         // console.log('totalInput here 2=', totalInput);
         if ((amount > 0) && !finished) {
             // console.log('not enough fab coin to make the transaction.');
-            return {txHex: '', errMsg: 'not enough fab coin to make the transaction.', transFee: 0};
+            return {txHex: '', errMsg: 'not enough fab coin to make the transaction.', transFee: 0, txids: txids};
         }
 
 
@@ -816,24 +867,16 @@ export class CoinService {
         }
         transFee = ((receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput + outputNum * 34) * satoshisPerBytes;
 
-
-        console.log('amount==', amount);
-        console.log('extraTransactionFee==', extraTransactionFee);
-        console.log('transFee=', transFee);
-        console.log(totalInput);
-        console.log(new BigNumber(this.utilServ.toBigNumber(amount + extraTransactionFee, 8)).toNumber());
         const output1 = Math.round(totalInput
         - new BigNumber(this.utilServ.toBigNumber(amount + extraTransactionFee, 8)).toNumber()
         - transFee);
-        
-        console.log('output1=', output1);
+
         /*
         if((output1 < 2730)  && !(mycoin.tokenType == 'FAB')) {
             transFee += output1;
         } 
         */    
-        
-        console.log('extraTransactionFee=', extraTransactionFee);
+
         if (getTransFeeOnly) {
             return {txHex: '', errMsg: '', transFee: transFee + new BigNumber(this.utilServ.toBigNumber(extraTransactionFee, 8)).toNumber(), amountInTx: amountInTx};
         }        
@@ -842,7 +885,9 @@ export class CoinService {
         amountInTx = output2;
         if (output1 < 0) {
             // console.log('output1 or output2 should be greater than 0.');
-            return {txHex: '', errMsg: 'output1 should be greater than 0.' + totalInput + ',' + amount + ',' + transFee + ',' + output1, transFee: 0, amountInTx: amountInTx};
+            return {txHex: '', 
+            errMsg: 'output1 should be greater than 0.' + totalInput + ',' + amount + ',' + transFee + ',' + output1, 
+            transFee: 0, amountInTx: amountInTx, txids: txids};
         }
         // console.log('amount=' + amount + ',totalInput=' + totalInput);
         // console.log('defaultTransactionFee=' + extraTransactionFee);
@@ -880,7 +925,7 @@ export class CoinService {
         }            
 
         txHex = txb.build().toHex();
-        return {txHex: txHex, errMsg: '', transFee: transFee, amountInTx: amountInTx};
+        return {txHex: txHex, errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids};
     }
 
     getOriginalMessage(coinType: number, txHash: string, amount: BigNumber, address: string) {
@@ -898,8 +943,7 @@ export class CoinService {
 
     async sendTransaction(mycoin: MyCoin, seed: Buffer, toAddress: string, amount: number, 
         options: any, doSubmit: boolean) {
-        console.log('doSubmit in sendTransaction=', doSubmit);
-        console.log('toAddress==', toAddress);
+            
         let index = 0;
         let balance = 0;
         let finished = false;
@@ -914,6 +958,7 @@ export class CoinService {
         let txHash = '';
         let errMsg = '';
         let transFee = 0;
+        let txids = [];
         let amountInTx = 0;
         // console.log('options=', options);
         let getTransFeeOnly = false;
@@ -980,6 +1025,28 @@ export class CoinService {
                     if (tx.idx < 0) {
                         continue;
                     }
+                    
+                    
+                    const txidItem = {
+                        txid: tx.txid,
+                        idx: tx.idx
+                    };
+
+                    let existed = false;
+                    for(let iii = 0; iii < this.txids.length; iii++) {
+                        const ttt = this.txids[iii];
+                        if((ttt.txid == txidItem.txid) && (ttt.idx == txidItem.idx)) {
+                            existed = true;
+                            break;
+                        }
+                    }
+
+                    if(existed) {
+                        continue;
+                    }
+
+                    txids.push(txidItem);
+
                     txb.addInput(tx.txid, tx.idx);
                     amountNum = amountNum.minus(tx.value);
                     amountNum = amountNum.plus(bytesPerInput * satoshisPerBytes);
@@ -1011,7 +1078,26 @@ export class CoinService {
                         if (tx.idx < 0) {
                             continue;
                         }
-                        txb.addInput(tx.txid, tx.idx);
+                        
+                        const txidItem = {
+                            txid: tx.txid,
+                            idx: tx.idx
+                        };
+                        let existed = false;
+                        for(let iii = 0; iii < this.txids.length; iii++) {
+                            const ttt = this.txids[iii];
+                            if((ttt.txid == txidItem.txid) && (ttt.idx == txidItem.idx)) {
+                                console.log('continueeee');
+                                existed = true;
+                                break;
+                            }
+                        }
+
+                        if(existed) {
+                            continue;
+                        }
+                        txids.push(txidItem);  
+                        txb.addInput(tx.txid, tx.idx);                    
                         amountNum = amountNum.minus(tx.value);
                         amountNum = amountNum.plus(bytesPerInput * satoshisPerBytes);
                         totalInput += tx.value;
@@ -1032,7 +1118,7 @@ export class CoinService {
                 txHex = '';
                 txHash = '';
                 errMsg = 'not enough fund.';
-                return {txHex: txHex, txHash: txHash, errMsg: errMsg, amountInTx: amountInTx};
+                return {txHex: txHex, txHash: txHash, errMsg: errMsg, amountInTx: amountInTx, txids: txids};
             }
 
             let outputNum = 2;
@@ -1054,7 +1140,7 @@ export class CoinService {
             transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
 
             if (getTransFeeOnly) {
-                return {txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx};
+                return {txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids};
             }
             //const output2 = Math.round(new BigNumber(amount * 1e8).toNumber());     
             const output2 = Number(this.utilServ.toBigNumber(amount, 8));
@@ -1371,9 +1457,7 @@ export class CoinService {
             if (!bytesPerInput) {
                 bytesPerInput = environment.chains.FAB.bytesPerInput;
             }    
-            
-            console.log('satoshisPerBytes=', satoshisPerBytes);
-            console.log('bytesPerInput=', bytesPerInput);
+
             const res1 = await this.getFabTransactionHex(seed, mycoin, toAddress, amount, 0, 
                 satoshisPerBytes, bytesPerInput, getTransFeeOnly);
             console.log('res1=', res1);    
@@ -1381,6 +1465,7 @@ export class CoinService {
             errMsg = res1.errMsg;
             transFee = res1.transFee;
             amountInTx = res1.amountInTx;
+            txids = res1.txids;
             transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
 
             if (getTransFeeOnly) {
@@ -1408,7 +1493,7 @@ export class CoinService {
             }     
             transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
             if (getTransFeeOnly) {
-                return {txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx};
+                return {txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids};
             }                     
             // amountNum = amount * 1e18;
             amountNum = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, 18)));
@@ -1454,7 +1539,7 @@ export class CoinService {
             }      
             transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
             if (getTransFeeOnly) {
-                return {txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx};
+                return {txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids};
             }        
             const currentIndex = address1.index;    
             // console.log('currentIndex=' + currentIndex);
@@ -1641,10 +1726,11 @@ export class CoinService {
             txHex = res1.txHex;
             errMsg = res1.errMsg;
             transFee = res1.transFee;
+            txids = res1.txids;
             transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
 
             if (getTransFeeOnly) {
-                return {txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx};
+                return {txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids};
             }  
 
             if (txHex) {
@@ -1658,7 +1744,7 @@ export class CoinService {
                 }
             }
         }
-        const ret = {txHex: txHex, txHash: txHash, errMsg: errMsg, transFee: transFee, amountInTx: amountInTx};
+        const ret = {txHex: txHex, txHash: txHash, errMsg: errMsg, transFee: transFee, amountInTx: amountInTx, txids: txids};
         console.log('ret there eeee=', ret);
         return ret;
     }

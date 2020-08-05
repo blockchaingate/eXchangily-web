@@ -1156,7 +1156,7 @@ export class WalletDashboardComponent implements OnInit {
         };
         console.log('currenCoin=====', currentCoin);
         console.log('addr=', this.sendCoinForm.to.trim());
-        const { txHex, txHash, errMsg } = await this.coinService.sendTransaction(currentCoin, seed,
+        const { txHex, txHash, errMsg, txids } = await this.coinService.sendTransaction(currentCoin, seed,
             this.sendCoinForm.to.trim(), amount, options, doSubmit
         );
         console.log('errMsg for sendcoin=', errMsg);
@@ -1190,6 +1190,7 @@ export class WalletDashboardComponent implements OnInit {
             this.timerServ.checkTransactionStatus(item);
             console.log('after next');
             this.storageService.storeToTransactionHistoryList(item);
+            this.coinService.addTxids(txids);
         }
     }
 
@@ -1373,7 +1374,7 @@ export class WalletDashboardComponent implements OnInit {
             gasLimit: this.amountForm.gasLimit,
             satoshisPerBytes: this.amountForm.satoshisPerBytes
         };
-        const { txHex, txHash, errMsg, amountInTx } = await this.coinServ.sendTransaction(
+        const { txHex, txHash, errMsg, amountInTx, txids } = await this.coinServ.sendTransaction(
             currentCoin, seed, officalAddress, amount, options, doSubmit
         );
 
@@ -1461,6 +1462,7 @@ export class WalletDashboardComponent implements OnInit {
                 this.timerServ.checkTransactionStatus(item);
                 */
                 this.kanbanServ.incNonce();
+                this.coinServ.addTxids(txids);
                 if (this.lan === 'zh') {
                     this.alertServ.openSnackBarSuccess('转币去交易所请求已提交，请等待' + environment.depositMinimumConfirmations[currentCoin.name] + '个确认', 'Ok');
                 } else {
