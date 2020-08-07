@@ -35,8 +35,11 @@ export class LiteListComponent implements OnInit {
         private _router: Router, private _wsServ: WsService) {
     }
 
-    filterPrice(price: Price, selectedcat: string) {
+    filterPrice(price: Price, selectedcat: string, searchText: string) {
         // console.log('this.select=', select);
+        if(searchText && searchText.trim() != '') {
+            return price.symbol.indexOf(searchText.toUpperCase()) >= 0;
+        }
         return price.symbol.indexOf(selectedcat) >= 0;
     }
 

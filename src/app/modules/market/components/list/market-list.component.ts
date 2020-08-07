@@ -79,9 +79,9 @@ export class MarketListComponent implements OnInit {
     }
 
     search() {
-        console.log('search begin', this.searchText);
+        const searchText = this.searchText.toUpperCase();
         this.selectCat(1000);
-        this.tab_prices = this.prices.filter((listing: Price) => listing.symbol.indexOf(this.searchText) >= 0);
+        this.tab_prices = this.prices.filter((listing: Price) => listing.symbol.indexOf(searchText) >= 0);
     }
 
     gotoTrade(id: number) {
