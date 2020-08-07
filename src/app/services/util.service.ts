@@ -172,6 +172,9 @@ export class UtilService {
     }
 
     toBigNumber(amount, decimal: number) {
+        if(amount == 0 || amount == '0') {
+            return '0';
+        }
         const amountStr = amount.toString();
         const amountArr = amountStr.split('.');
         const amountPart1 = amountArr[0];

@@ -42,12 +42,7 @@
                         <div>
                             <label for="inputSendTo" class="text-dark">{{'Send amount' | translate }}</label>
                         </div>
-                        <div *ngIf="
-                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'BTC' || 
-                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'FAB' || 
-                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'ETH' || 
-                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].tokenType === 'ETH' ||
-                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].tokenType === 'FAB'">
+                        <div>
                             <mat-slide-toggle (change)="sendAllAmount($event)" class="text-muted">
                                 {{'All' | translate}}
                             </mat-slide-toggle>

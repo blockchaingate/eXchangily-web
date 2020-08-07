@@ -134,7 +134,10 @@ export class MyordersComponent implements OnInit, OnDestroy {
             || currentCoin.name === 'LTC'
         ) {
             const bytes = bs58.decode(addressInWallet);
+            console.log('bytes=', bytes);
             addressInWallet = bytes.toString('hex');
+
+            console.log('addressInWallet=', addressInWallet);
         } else 
         if (currentCoin.name === 'BCH') {
             const keyPairsCurrentCoin = this._coinServ.getKeyPairs(currentCoin, seed, 0, 0);

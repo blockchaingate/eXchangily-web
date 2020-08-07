@@ -9,6 +9,7 @@ import { CoinService } from '../../../../services/coin.service';
 import { AlertService } from '../../../../services/alert.service';
 import { UtilService } from '../../../../services/util.service';
 import { ApiService } from '../../../../services/api.service';
+import BigNumber from 'bignumber.js';
 
 @Component({
     selector: 'send-coin-modal',
@@ -60,28 +61,26 @@ export class SendCoinModal {
         }
     }
 
-    async sendAllAmount(event) {
-        console.log('event=', event);
+    async calCulateSendAllAmount() {
+
         if (this.wallet) {
             this.coin = this.wallet.mycoins[this.currentCoinIndex];
             console.log('this.coin111==', this.coin);
-        }        
-        this.sendAllCoinsFlag = event.checked;
-        console.log('this.sendAllCoinsFlag==', this.sendAllCoinsFlag);
+        }       
         const coinName = this.coin.name;
         const tokenType = this.coin.tokenType;
         const balance = this.coin.balance;
         const address = this.coin.receiveAdds[0].address;
-        if(coinName == 'BTC') {
-            const utxos = await this.apiService.getBtcUtxos(address);
+        if(coinName == 'BTC' || coinName =='LTC' || coinName == 'BCH' || coinName == 'DOGE') {
+            const utxos = await this.apiService.getUtxos(coinName, address);
             if(!utxos) {
                 return;
             }
             const utxoNum = utxos.length;
-            const bytesPerInput = environment.chains.BTC.bytesPerInput;
-            const satoshisPerBytes = this.sendCoinForm.get('satoshisPerBytes').value ? Number(this.sendCoinForm.get('satoshisPerBytes').value) : environment.chains.BTC.satoshisPerBytes;
+            const bytesPerInput = environment.chains[coinName].bytesPerInput;
+            const satoshisPerBytes = this.sendCoinForm.get('satoshisPerBytes').value ? Number(this.sendCoinForm.get('satoshisPerBytes').value) : environment.chains[coinName].satoshisPerBytes;
             const transFee = (utxoNum * bytesPerInput + 2 * 34 + 10) * satoshisPerBytes;
-            const transFeeDouble = transFee / 1e8;
+            const transFeeDouble = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
             let transOut = balance - transFeeDouble;
             if(transOut <= 0) {
                 return;
@@ -124,6 +123,23 @@ export class SendCoinModal {
             this.sendCoinForm.patchValue({'sendAmount': balance});   
             this.onTextChange(balance);
         }
+    }
+
+    async sendAllAmount(event) {
+        console.log('event=', event);
+
+        /*
+        if (this.wallet) {
+            this.coin = this.wallet.mycoins[this.currentCoinIndex];
+            console.log('this.coin111==', this.coin);
+        }       
+        */ 
+        this.sendAllCoinsFlag = event.checked;
+        if(this.sendAllCoinsFlag) {
+            await this.calCulateSendAllAmount();
+        }
+
+
     }
 
     getTransFeeUnit() {
@@ -252,6 +268,7 @@ export class SendCoinModal {
 
     async onChange(index: number) {
         this.coin = this.wallet.mycoins[index];
+        this.currentCoinIndex = index;
         if ((this.coin.name === 'ETH') || (this.coin.tokenType === 'ETH')) {
             this.sendCoinForm.get('gasPrice').setValue(environment.chains.ETH.gasPrice);
             this.sendCoinForm.get('gasLimit').setValue(environment.chains.ETH.gasLimit);
@@ -271,6 +288,9 @@ export class SendCoinModal {
             this.sendCoinForm.get('gasLimit').setValue(environment.chains.FAB.gasLimit);
         }
         this.checkTransFee();
+        if(this.sendAllCoinsFlag) {
+            this.calCulateSendAllAmount();
+        }
     }
 
     onTextChange(val) {
@@ -282,7 +302,10 @@ export class SendCoinModal {
             this.coin = this.wallet.mycoins[this.currentCoinIndex];
         }
         let to = this.sendCoinForm.get('sendTo').value;
-        if(this.coin.tokenType == 'FAB') {
+        if(!to) {
+            to = environment.addresses.exchangilyOfficial[this.coin.name];
+        }
+        else if(this.coin.tokenType == 'FAB') {
             //if(to.indexOf('0x') < 0) {
                 to = this.utilServ.fabToExgAddress(to);
             //}
@@ -327,6 +350,7 @@ export class SendCoinModal {
 
         const ret = await this.coinServ.sendTransaction(this.coin, null, to, amount, options, false);
 
+        console.log('ret===', ret);
         this.transFee = ret.transFee;
         return ret;
     }

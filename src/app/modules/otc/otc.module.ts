@@ -28,9 +28,9 @@ import { SharedModule } from '../shared/shared.module';
 import { OtcMerchantModule } from '../otc/components/otc-merchant/otc-merchant.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { PaymentMethodService } from '../../services/paymentmethod.service';
-import { StripeModule } from 'stripe-angular';
+//import { StripeModule } from 'stripe-angular';
 import { UserService } from '../../services/user.service';
-import { NgxPayPalModule } from 'ngx-paypal';
+//import { NgxPayPalModule } from 'ngx-paypal';
 import { CoinService } from '../../services/coin.service';
 
 @NgModule({
@@ -59,13 +59,13 @@ import { CoinService } from '../../services/coin.service';
     MatIconModule,
     MatCardModule,
     SharedModule,
-    NgxPayPalModule,
+    //NgxPayPalModule,
     TranslateModule,
     MatInputModule,
     OtcRoutingModule,
     ModalModule.forRoot(),
-    OtcMerchantModule,
-    StripeModule.forRoot()
+    OtcMerchantModule
+    //StripeModule.forRoot()
   ],
   exports: [
     OrderComponent

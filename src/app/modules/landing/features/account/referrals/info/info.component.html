@@ -15,16 +15,16 @@
         <div class="referral-info__code__link text-justify">
             <p>{{ 'Account.Referrals.Page.ReferralCode.Link.Desc' | translate }}</p>
             <input class="form-input__text" type="text" readonly="true" value="https://exchangily.com/login/signup/{{appUser.referralCode}}" #referralLink>
-            <button (cbOnSuccess)="onCopiedSuccessfully('link')" [ngxClipboard]="referralLink" class="next-button form-input__button button secondary">{{ 'Account.Referrals.Page.ReferralCode.Link.Button' | translate }}</button>
-            <p class="copy-message" [hidden]="!showCopySuccess.link">{{"Copied Successfully"|translate}} !</p>
+            <button (click)="clipboard(referralLink)" class="next-button form-input__button button secondary">{{ 'Account.Referrals.Page.ReferralCode.Link.Button' | translate }}</button>
+
         </div>
 
         <div class="referral-info__code__code text-justify">
             <p>{{ 'Account.Referrals.Page.ReferralCode.Code.Desc' | translate }}</p>
             <input class="form-input__text" type="text" readonly="true" [value]="appUser.referralCode" #referralCode>
 
-            <button (cbOnSuccess)="onCopiedSuccessfully('code')" [ngxClipboard]="referralCode" class="next-button form-input__button button secondary">{{ 'Account.Referrals.Page.ReferralCode.Code.Button' | translate }}</button>
-            <p class="copy-message" [hidden]="!showCopySuccess.code">{{"Copied Successfully"|translate}} !</p>
+            <button (click)="clipboard(referralCode)"  class="next-button form-input__button button secondary">{{ 'Account.Referrals.Page.ReferralCode.Code.Button' | translate }}</button>
+
         </div>
     </div>
 

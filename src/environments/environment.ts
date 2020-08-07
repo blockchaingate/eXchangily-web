@@ -6,7 +6,7 @@ import * as Btc from 'bitcoinjs-lib';
 export const environment = {
     production: false,
     maintainence: false,
-    version: 0.15,
+    version: '1.3.1',
     SQUARE_APP_ID: {
         CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', //account kenin
         USD: 'sandbox-sq0idb-gPdLBTvUKUk2-O2DdNZ3dA'  //account genta
@@ -24,15 +24,49 @@ export const environment = {
             satoshisPerBytes: 60,
             bytesPerInput: 148
         },
+
         DOGE: {
+            network: {
+                messagePrefix: '\u0019Dogecoin Signed Message:\n',
+                bech32: 'tb',
+                bip32: {
+                  public: 0x043587cf,
+                  private: 0x04358394,
+                },
+                pubKeyHash: 0x71,
+                scriptHash: 0xc4,
+                wif: 0xf1,
+            },
             satoshisPerBytes: 400000,
             bytesPerInput: 148
         },
         LTC: {
+            network: {
+                messagePrefix: '\u0019Litecoin Signed Message:\n',
+                bech32: 'tb',
+                bip32: {
+                  public: 0x0436f6e1,
+                  private: 0x0436ef7d,
+                },
+                pubKeyHash: 0x6f,
+                scriptHash: 0x3a,
+                wif: 0xef,
+            },
             satoshisPerBytes: 200,
             bytesPerInput: 148
         },  
         BCH: {
+            network: {
+                messagePrefix: '\u0018Bitcoin Signed Message:\n',
+                bech32: 'tb',
+                bip32: {
+                  public: 0x043587cf,
+                  private: 0x04358394,
+                },
+                pubKeyHash: 0x6f,
+                scriptHash: 0xc4,
+                wif: 0xef,
+            },            
             satoshisPerBytes: 50,
             bytesPerInput: 148
         },                      
@@ -43,6 +77,7 @@ export const environment = {
             gasLimit: 100000
         },
         FAB: {
+            network: Btc.networks.testnet,
             chain: {
                 name: 'test',
                 networkId: 212,

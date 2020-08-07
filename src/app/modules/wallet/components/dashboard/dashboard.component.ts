@@ -496,12 +496,16 @@ export class WalletDashboardComponent implements OnInit {
                             }
                             if(coin.name == 'ETH') {
                                 ethCoin = coin;
-                            }    
-                            if(coin.depositErr) {
-                                coin.redeposit = coin.depositErr;  
                             }
                                                   
                             if(item.coin == coin.name) {
+                                if(item.depositErr) {
+                                    coin.redeposit = item.depositErr;
+                                    updated = true;
+                                } else {
+                                    coin.redeposit = [];
+                                    updated = true;
+                                }
                                 if(coin.balance != Number(item.balance)) {
                                     coin.balance = Number(item.balance);
                                     updated = true;
@@ -511,7 +515,7 @@ export class WalletDashboardComponent implements OnInit {
                                     updated = true;
                                 }
                                 coin.lockers = item.lockers ? item.lockers : item.fabLockers;
-                                if(coin.usdPrice != item.usdValue.USD) {
+                                if(item.usdValue && (coin.usdPrice != item.usdValue.USD)) {
                                     coin.usdPrice = item.usdValue.USD;
                                     updated = true;
                                 }
@@ -1152,7 +1156,7 @@ export class WalletDashboardComponent implements OnInit {
         };
         console.log('currenCoin=====', currentCoin);
         console.log('addr=', this.sendCoinForm.to.trim());
-        const { txHex, txHash, errMsg } = await this.coinService.sendTransaction(currentCoin, seed,
+        const { txHex, txHash, errMsg, txids } = await this.coinService.sendTransaction(currentCoin, seed,
             this.sendCoinForm.to.trim(), amount, options, doSubmit
         );
         console.log('errMsg for sendcoin=', errMsg);
@@ -1186,6 +1190,7 @@ export class WalletDashboardComponent implements OnInit {
             this.timerServ.checkTransactionStatus(item);
             console.log('after next');
             this.storageService.storeToTransactionHistoryList(item);
+            this.coinService.addTxids(txids);
         }
     }
 
@@ -1369,7 +1374,7 @@ export class WalletDashboardComponent implements OnInit {
             gasLimit: this.amountForm.gasLimit,
             satoshisPerBytes: this.amountForm.satoshisPerBytes
         };
-        const { txHex, txHash, errMsg } = await this.coinServ.sendTransaction(
+        const { txHex, txHash, errMsg, amountInTx, txids } = await this.coinServ.sendTransaction(
             currentCoin, seed, officalAddress, amount, options, doSubmit
         );
 
@@ -1386,9 +1391,31 @@ export class WalletDashboardComponent implements OnInit {
             }
             return;
         }
-        console.log('amount11111=', amount);
+        
         const amountInLink = new BigNumber(amount).multipliedBy(new BigNumber(1e18)); // it's for all coins.
-        console.log('amountInLink2222===', amountInLink);
+        
+        const amountInLinkString = amountInLink.toFixed();
+        const amountInTxString = new BigNumber(amountInTx.toString()).toFixed();
+
+        if(amountInLinkString.indexOf(amountInTxString) === -1) {
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('转账数量不相等', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('Inequal amount for deposit', 'Ok');
+            }
+            return;
+        }
+
+        const subString = amountInLinkString.substr(amountInTxString.length);
+        if(subString && Number(subString) !== 0) {
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('转账数量不符合', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('deposit amount not the same', 'Ok');
+            }
+            return;            
+        }
+
         const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(txHash)
             , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
 
@@ -1434,6 +1461,7 @@ export class WalletDashboardComponent implements OnInit {
                 this.timerServ.checkTransactionStatus(item);
                 */
                 this.kanbanServ.incNonce();
+                this.coinServ.addTxids(txids);
                 if (this.lan === 'zh') {
                     this.alertServ.openSnackBarSuccess('转币去交易所请求已提交，请等待' + environment.depositMinimumConfirmations[currentCoin.name] + '个确认', 'Ok');
                 } else {

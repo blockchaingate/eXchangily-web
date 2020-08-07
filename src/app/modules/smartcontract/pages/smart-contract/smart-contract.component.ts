@@ -24,6 +24,7 @@ export class SmartContractComponent implements OnInit {
   result: string;
   error: string;
   ethData: string;
+  kanbanData: string;
   payableValue: number;
   selectedMethod: string;
   types = [];
@@ -230,6 +231,33 @@ export class SmartContractComponent implements OnInit {
 
   }
 
+  async deployKanbanDo(seed) {
+
+    const keyPair = this.coinServ.getKeyPairs(this.ethCoin, seed, 0, 0);
+    const nonce = await this.apiServ.getEthNonce(this.ethCoin.receiveAdds[0].address);
+    console.log('this.ethData = ', this.ethData);
+    const txParams = {
+        nonce: nonce,
+        gasPrice: 100000000000,
+        gasLimit: 8000000,
+        to: '',
+        value: 0,
+        data: this.ethData          
+    };
+
+    // console.log('txParams=', txParams);
+    const txHex = await this.web3Serv.signTxWithPrivateKey(txParams, keyPair);
+
+
+    const retEth = await this.apiServ.postEthTx(txHex);   
+
+    console.log('retEth===', retEth);
+    if(retEth && retEth.txHash) {
+      this.alertServ.openSnackBarSuccess('Smart contract was deploy successfully.', 'Ok');
+    }
+
+  }
+
   async callFabSmartContract(seed) {
     const abiHex = this.formABI();
     const gasLimit = 800000;
@@ -288,13 +316,20 @@ export class SmartContractComponent implements OnInit {
     } else 
     if(this.action == 'deployEth') {
       await this.deployEthDo(seed);
+    } else
+    if(this.action == 'deployKanban') {
+      await this.deployKanbanDo(seed);
     }
-
   }
 
   deployEth() {
     this.action = 'deployEth';
     //console.log('this.ethData==', this.ethData);
+    this.pinModal.show(); 
+  }
+
+  deployKanban() {
+    this.action = 'deployKanban';
     this.pinModal.show(); 
   }
 }

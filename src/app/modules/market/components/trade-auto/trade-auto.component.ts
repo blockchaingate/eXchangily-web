@@ -1,6 +1,6 @@
 import { Component, Output, TemplateRef, Input, OnInit, EventEmitter, OnDestroy } from '@angular/core';
 import { WalletService } from '../../../../services/wallet.service';
-import * as secureRandom from 'secure-random';
+import * as randomBytes from 'randomBytes';
 import { Web3Service } from '../../../../services/web3.service';
 import { UtilService } from '../../../../services/util.service';
 import { CoinService } from '../../../../services/coin.service';
@@ -18,7 +18,7 @@ import { environment } from '../../../../../environments/environment';
 
 export class TradeAutoComponent implements OnInit {
     nonces = [];
-    version: number;
+    version: string;
     constructor(private walletServ: WalletService, private web3Serv: Web3Service, private utilService: UtilService,
         private coinService: CoinService, private kanbanService: KanbanService) {
 
@@ -47,7 +47,7 @@ export class TradeAutoComponent implements OnInit {
     }
 
     generateOrderHash(bidOrAsk, orderType, baseCoin, targetCoin, amount, price, timeBeforeExpiration) {
-        const randomString = secureRandom.randomUint8Array(32).map(String).join('');
+        const randomString = randomBytes(32).map(String).join('');
         const concatString = [bidOrAsk, orderType, baseCoin, targetCoin, amount, price, timeBeforeExpiration, randomString].join('');
         return this.web3Serv.sha3(concatString);
     }

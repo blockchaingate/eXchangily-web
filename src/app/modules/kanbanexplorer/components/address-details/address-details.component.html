@@ -15,16 +15,16 @@
                         {{element.coinType}}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="lockedAmount">
-                    <th mat-header-cell *matHeaderCellDef style="text-align: left;"> {{"Price"|translate}} </th>
-                    <td style="text-align: left;" mat-cell *matCellDef="let element">
-                        {{element.lockedAmount * 1e-18 | number:'1.5-5'}}</td>
-                </ng-container>
-
                 <ng-container matColumnDef="unlockedAmount">
                     <th mat-header-cell *matHeaderCellDef style="text-align: left;"> {{"Quantity"|translate}} </th>
                     <td style="text-align: left;" mat-cell *matCellDef="let element">
                         {{element.unlockedAmount * 1e-18 | number:'1.5-5' }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="lockedAmount">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: left;"> {{"Locked Amount"|translate}} </th>
+                    <td style="text-align: left;" mat-cell *matCellDef="let element">
+                        {{element.lockedAmount * 1e-18 | number:'1.5-5'}}</td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="balancesDisplayedColumns;sticky:true"></tr>

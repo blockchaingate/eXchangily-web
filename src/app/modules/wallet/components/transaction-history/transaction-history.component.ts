@@ -20,6 +20,7 @@ export class TransactionHistoryComponent implements OnInit {
     @Input() coinsPrice: CoinsPrice;
     @Input() walletId: string;
     @Input() transactions: any;
+
     currentType: string;
     utilServ: UtilService;
 
@@ -36,13 +37,74 @@ export class TransactionHistoryComponent implements OnInit {
         this.currentType = type;
     }
 
+    mergeSortedArray(a,b){
+
+        var tempArray = [];
+        var currentPos = {
+            a: 0,
+            b: 0
+        }
+        while(currentPos.a < a.length && currentPos.b < b.length) {
+
+            if(typeof a[currentPos.a] === 'undefined') {
+                tempArray.push(b[currentPos.b++]);
+            } else if(a[currentPos.a].timestamp > b[currentPos.b].timestamp){
+                tempArray.push(a[currentPos.a++]);
+            } else {
+                tempArray.push(b[currentPos.b++]);
+            }
+        }
+
+        while(currentPos.a < a.length) {
+            tempArray.push(a[currentPos.a++]);
+        }
+
+        while(currentPos.b < b.length) {
+            tempArray.push(b[currentPos.b++]);
+        }        
+        return tempArray;
+    }
+
+
     ngOnInit() {
         this.currentType = 'All';
         this.storageService.getTransactionHistoryList().subscribe(
             (transactionHistory: TransactionItem[]) => {
-                console.log('transactionHistory=', transactionHistory);
-                if (transactionHistory) {
-                    this.transactionHistory = transactionHistory.reverse().filter(s => s.walletId === this.walletId);
+                //console.log('transactionHistory=', transactionHistory);
+                if (transactionHistory && (transactionHistory.length > 0)) {
+                    //this.transactionHistory = transactionHistory.reverse().filter(s => s.walletId === this.walletId);
+                    let newTransactions = [];
+                    for(let i=transactionHistory.length - 1;i >= 0; i--) {
+                        const transactionItem = transactionHistory[i];
+                        const time = transactionItem.time;
+                        const timestamp = Math.round(time.getTime() / 1000);
+
+                        const wid = transactionItem.walletId;
+                        if(wid != this.walletId) {
+                            continue;
+                        }
+                        const newTransaction = {
+                            action: transactionItem.type,
+                            coin: transactionItem.coin,
+                            quantity: transactionItem.amount,
+                            to: transactionItem.to,
+                            timestamp: timestamp,
+                            comment: transactionItem.comment,
+                            transactions: [
+                                {
+                                    chain: transactionItem.tokenType ? transactionItem.tokenType : transactionItem.coin,
+                                    status: transactionItem.status,
+                                    timestamp: '',
+                                    transactionId: transactionItem.txid
+                                }                               
+                            ]
+                        };
+
+                        newTransactions.push(newTransaction);
+                    }
+
+                    this.transactions = this.mergeSortedArray(this.transactions, newTransactions);
+
                 }
             }
         );

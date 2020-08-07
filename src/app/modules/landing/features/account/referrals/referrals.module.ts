@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '../../../components/components.module';
-import { ClipboardModule } from 'ngx-clipboard';
 
 import { ReferralsRoutingModule } from './referrals-routing.module';
 
@@ -21,8 +20,7 @@ import { InfoComponent } from './info/info.component';
     FormsModule,
     ReactiveFormsModule,
     ReferralsRoutingModule,
-    ComponentsModule,
-    ClipboardModule
+    ComponentsModule
   ],
   providers: [
     AuthGuard,

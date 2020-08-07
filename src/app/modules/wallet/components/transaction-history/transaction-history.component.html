@@ -1,5 +1,5 @@
-<div class="container" *ngIf="transactionHistory">
-    <div class=" row apair header ">
+<div class="container" *ngIf="transactions">
+    <div class=" row apair header">
         <div class="col-2">
             <div class="btn-group" dropdown>
                 <button id="button-basic" dropdownToggle type="button" class="btn btn-link dropdown-toggle text-white" aria-controls="dropdown-basic">
@@ -38,7 +38,7 @@
         </div>
     </div>
     <div class="container-wallet-main scroll-bar">
-
+        
         <div class="row apair dataline" *ngFor="let item of transactions ; index as i">
             <div class="col-2">
                 <p>{{item.action}}</p>
@@ -56,13 +56,14 @@
            </div>
             <div class="col-custom-2">
                 <p>
+                    {{item.comment}}
                     <button mat-icon-button (click)="showTransactionDetail2(item)" aria-label="Example icon-button with a heart icon">
                         <mat-icon svgIcon="detail"></mat-icon>
                     </button>
                 </p>
             </div>
         </div>
-
+    <!--
         <div class="row apair dataline" *ngFor="let item of transactionHistory | transactionType:currentType ; index as i">
             <div class="col-2">
                 <p>{{item.type | translate}}</p>
@@ -92,8 +93,10 @@
                 </p>
             </div>  
         </div> 
+
+    -->
     </div>
 </div>
-<div class="px-3 text-muted container-no-transactions" *ngIf="!transactionHistory">{{"No transaction"|translate}}</div>
+<div class="px-3 text-muted container-no-transactions" *ngIf="!transactions">{{"No transaction"|translate}}</div>
 <transaction-detail-modal #transactionDetailModal></transaction-detail-modal>
 <transaction-detail2-modal #transactionDetailModal2></transaction-detail2-modal>
