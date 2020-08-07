@@ -22,7 +22,7 @@
             </div>
             <mat-divider></mat-divider>
         </mat-list-item>
-        <mat-list-item class="apair dataline" [class.selectedpair]="selectedpair === pr.symbol" *ngFor="let pr of prices | callback: filterPrice : selectedcat; let i=index">
+        <mat-list-item class="apair dataline" [class.selectedpair]="selectedpair === pr.symbol" *ngFor="let pr of prices | callback: filterPrice : selectedcat : searchText; let i=index">
             <div class="row px-2">
                 <div mat-line class="text-white pairname" (click)="loadTradePair(pr.symbol)">{{pr.symbol}}</div>
                 <div class="pt-1 pb-1" (click)="loadTradePair(pr.symbol)">
