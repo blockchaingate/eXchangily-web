@@ -31,7 +31,9 @@ export class MyordersComponent implements OnInit, OnDestroy {
     private wallet: any;
     screenheight = screen.height;
     select = 100;
-    myorders: Transaction[] = [];
+    openorders: Transaction[] = [];
+    closedorders: Transaction[] = [];
+    canceledorders: Transaction[] = [];
     pin: string;
     orderHash: string;
     modalWithdrawRef: BsModalRef;
@@ -43,6 +45,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     coinType: number;
     coinName: string;
     gasPrice: number;
+
     gasLimit: number;
     withdrawAmount: number;
     @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal;
@@ -69,7 +72,19 @@ export class MyordersComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.timerServ.unCheckAllOrderStatus();
     }
-
+    getOrders() {
+        let orders = [];
+        if(this.select == 0) {
+            orders = this.openorders;
+        } else 
+        if(this.select == 1) {
+            orders = this.closedorders;
+        } else 
+        if(this.select == 2) {
+            orders = this.canceledorders;
+        }
+        return orders;
+    }
     showWithdrawHistory() {
         const excoin: MyCoin = this.wallet.excoin;
         const url = '/market/withdraw_history/' + excoin.receiveAdds[0].address;
@@ -88,12 +103,21 @@ export class MyordersComponent implements OnInit, OnDestroy {
             this.timerServ.checkOrderStatus(address, 1);
             this.timerServ.checkTokens(address, 1);
         }
-        this.timerServ.ordersStatus.subscribe(
+        this.timerServ.openOrders.subscribe(
             (orders: any) => {
-                this.myorders = orders;
+                this.openorders = orders;
             }
         );
-
+        this.timerServ.closedOrders.subscribe(
+            (orders: any) => {
+                this.closedorders = orders;
+            }
+        );
+        this.timerServ.canceledOrders.subscribe(
+            (orders: any) => {
+                this.canceledorders = orders;
+            }
+        );        
         this.timerServ.tokens.subscribe(
             (tokens: any) => {
                 this.mytokens = tokens;
@@ -217,6 +241,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 this.timerServ.transactionStatus.next(item);
                 this.timerServ.checkTransactionStatus(item);
                 */
+               
                 this.modalWithdrawRef.hide();
                 this.kanbanServ.incNonce();
                 if (this.lan === 'zh') {
@@ -345,15 +370,19 @@ export class MyordersComponent implements OnInit, OnDestroy {
             if (resp && resp.transactionHash) {
                 // this.tradeService.deleteTransaction(this.orderHash);   
 
-                for (let i = 0; i < this.myorders.length; i++) {
-                    if (this.myorders[i].orderHash === this.orderHash) {
-                        this.myorders.splice(i, 1);
+                /*
+                for (let i = 0; i < this.openorders.length; i++) {
+                    if (this.openorders[i].orderHash === this.orderHash) {
+                        this.openorders.splice(i, 1);
                         break;
                     }
                 }
+                */
+               console.log('go this way, address=', keyPairsKanban.address);
+               this.timerServ.checkOrderStatus(keyPairsKanban.address, 10);
 
-                this.tradeService.saveTransactions(this.myorders);
-                this.kanbanServ.incNonce();
+                //this.tradeService.saveTransactions(this.openorders);
+                //this.kanbanServ.incNonce();
                 if (this.lan === 'zh') {
                     this.alertServ.openSnackBar('取消订单请求提交成功，等待区块链处理。', 'Ok');
                 } else {
