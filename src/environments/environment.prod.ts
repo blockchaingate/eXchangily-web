@@ -11,7 +11,7 @@ export const environment = {
     baseUrl: 'https://exchangily.com',
     url: 'https://kanbanprod.fabcoinapi.com/',
     tmpUrl: 'https://kanbanprod.fabcoinapi.com/', // replace this url once the temp api is deployed    
-    version: '1.3.2',
+    version: '1.3.3',
     campaignId: 1,
     OTC_COMMISSION_RATE: 0.01,
     chains: {
@@ -69,7 +69,8 @@ export const environment = {
         ETH: {
             chain: 'mainnet',
             hardfork: 'petersburg',
-            gasPrice: 100,
+            gasPrice: 90,
+            gasPriceMax: 200,
             gasLimit: 200000
         },
         FAB: {

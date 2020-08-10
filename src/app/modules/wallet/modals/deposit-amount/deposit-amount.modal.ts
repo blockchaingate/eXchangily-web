@@ -139,7 +139,7 @@ export class DepositAmountModal {
         if (this.firstTime && this.coin) {
             if ((this.coin.name === 'ETH') || (this.coin.tokenType === 'ETH')) {
                 let gasPrice = await this.coinServ.getEthGasprice();
-                if(!gasPrice) {
+                if(!gasPrice || (gasPrice < environment.chains.ETH.gasPrice)) {
                     gasPrice = environment.chains.ETH.gasPrice;
                 }
                 if(gasPrice > environment.chains.ETH.gasPriceMax) {
