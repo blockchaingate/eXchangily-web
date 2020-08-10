@@ -73,8 +73,9 @@ export const environment = {
         ETH: {
             chain: 'ropsten', 
             hardfork: 'byzantium',
-            gasPrice: 30,
-            gasLimit: 100000
+            gasPrice: 100,
+            gasPriceMax: 200,
+            gasLimit: 200000
         },
         FAB: {
             network: Btc.networks.testnet,
