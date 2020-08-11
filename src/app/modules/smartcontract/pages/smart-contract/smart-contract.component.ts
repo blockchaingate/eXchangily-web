@@ -290,13 +290,18 @@ export class SmartContractComponent implements OnInit {
     const serializedTx = tx.serialize();
     txhex = '0x' + serializedTx.toString('hex');
 
-    this.kanbanServ.sendRawSignedTransaction(txhex).subscribe((resp: TransactionResp) => {
+    this.kanbanServ.sendRawSignedTransaction(txhex).subscribe(
+      (resp: TransactionResp) => {
       if (resp && resp.transactionHash) {
         this.alertServ.openSnackBarSuccess('Smart contract was called successfully.', 'Ok');
       } else {
-        this.alertServ.openSnackBarSuccess('Failed to call smart contract.', 'Ok');
+        this.alertServ.openSnackBar('Failed to call smart contract.', 'Ok');
       }
-    });
+    },
+    error => {
+      this.alertServ.openSnackBar(error.error, 'Ok');
+    }
+    );
 
   }
 
