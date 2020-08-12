@@ -31,6 +31,13 @@ export const AccountPaths = [
   }
   ,
   {
+    title: 'Merchant',
+    i18n: 'Merchant',
+    absolute: '/account/merchant',
+    relative: 'merchant'
+  }  
+  ,
+  {
     title: 'Security',
     i18n: 'Security',
     absolute: '/account/security',
