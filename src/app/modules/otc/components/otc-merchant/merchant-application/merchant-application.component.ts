@@ -37,14 +37,17 @@ export class MerchantApplicationComponent implements OnInit {
         private _mcServ: MerchantService) { }
 
     ngOnInit() {
+        console.log('init in application');
+
+        
         this.lan = localStorage.getItem('Lan');
 
         this.storageService.getToken().subscribe(
             (token: string) => {
                 this.token = token;
+                console.log('token==', token);
                 this._userServ.getMe(token).subscribe(
                     (res: any) => {
-                        console.log('ressss=', res);
                         if (res && res.ok) {
                             const body = res._body;
                             const defaultMerchant = body.defaultMerchant;
@@ -53,7 +56,7 @@ export class MerchantApplicationComponent implements OnInit {
                             }
                             this.submited = true;
                             if (defaultMerchant.otcApproved) {
-                                this._router.navigate(['/otc/otc-merchant']);
+                                // this._router.navigate(['/otc/otc-merchant']);
                             } else {
                                 if (this.lan === 'zh') {
                                     this.msg = '您的商户申请正在审核，请耐心等候。';
@@ -62,58 +65,20 @@ export class MerchantApplicationComponent implements OnInit {
                                 }
                             }
                         } else {
-                            this._router.navigate(['/login/signin', { retUrl: '/otc/otc-merchant/merchant-application' }]);
+                            // this._router.navigate(['/login/signin', { retUrl: '/otc/otc-merchant/merchant-application' }]);
                         }
+                    },
+                    (error) => {
+                        console.log('error there we go', error);
                     }
                 );
             }
         );
-
-        /*
-        if (!this._userAuth.token) {
-            this._router.navigate(['/login/signin', { retUrl: '/otc/otc-merchant/merchant-application'}]);
-        } else {
-            this._userServ.getUserById(this._userAuth.id).subscribe(
-                ret => {
-                    console.log('ret===', ret);
-                    this.user = <User>ret;
-                    this.merchant.createMemberId = this.user._id;
-                    if (this.user.merchants && this.user.merchants[0]) {
-                        this.merchant = <Merchant>this.user.merchants[0];
-
-                        this.submited = true;
-                        if (this.merchant.otcApproved) {
-                            this._router.navigate(['/otc/otc-merchant']);
-                        } else {
-                            this.msg = 'Your merchant account is under review currently, please check later.';
-                        }
-                    } else {
-                        this._mcServ.find(this.user._id).subscribe(
-                            rets => {
-                                this.submited = true;
-                                const merchants = <Merchant[]>rets;
-                                if (merchants[0].otcApproved) {
-                                    this._router.navigate(['/otc/otc-merchant']);
-                                } else {
-                                    this.msg = 'Your merchant account is under review currently, please check later.';
-                                }        
-                            },
-                            err => {}
-                        );
-                    }
-                },
-                err => { this.errMsg = err.message; }
-            );
-        }
-        */
+            
     }
 
     onSubmit() {
-        /*
-        this.merchant.name = this.merchantForm.get('merchantName').value;
-        this.merchant.phone = this.merchantForm.get('phone').value;
-        this.merchant.email = this.merchantForm.get('email').value;
-        */
+
         const merchant = {
             name: this.merchantForm.get('merchantName').value,
             phone: this.merchantForm.get('phone').value,

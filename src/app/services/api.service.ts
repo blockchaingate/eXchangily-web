@@ -16,6 +16,11 @@ export class ApiService {
     
     constructor(private http: HttpClient, private web3Serv: Web3Service, private utilServ: UtilService, private alertServ: AlertService) { }
     
+    getExTransaction(code: string) {
+        const url = environment.endpoints.blockchaingate + 'payment/gateway/code/' + code;
+        return this.http.get(url);
+    }
+
     getSmartContractABI(address: string) {
         if (!address.startsWith('0x')) {
             address = '0x' + address;
