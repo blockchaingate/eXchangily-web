@@ -15,7 +15,9 @@ export class TimerService {
     private maxTimes: number;
 
     public transactionStatus: BehaviorSubject<any> = new BehaviorSubject({});
-    public ordersStatus: BehaviorSubject<any> = new BehaviorSubject([]);
+    public openOrders: BehaviorSubject<any> = new BehaviorSubject([]);
+    public closedOrders: BehaviorSubject<any> = new BehaviorSubject([]);
+    public canceledOrders: BehaviorSubject<any> = new BehaviorSubject([]);
     public tokens: BehaviorSubject<any> = new BehaviorSubject([]); 
     constructor(public kanbanServ: KanbanService, private apiServ: ApiService) { 
         this.transactionStatusSubscribe = [];
@@ -91,12 +93,15 @@ export class TimerService {
 
     checkOrderStatus(address: string, maxTimes = 160) {
 
+        console.log('1');
         if (this.maxTimes > 0) {
             maxTimes = this.maxTimes;
-        }        
+        }   
+        console.log('2');     
         if (!this.timerEnabled) {
             return;
-        }        
+        }     
+        console.log('3');   
         // console.log('begin checkint');
         for (let i = 0; i < this.orderStatusSubscribe.length; i++) {
             const item = this.orderStatusSubscribe[i];
@@ -104,20 +109,36 @@ export class TimerService {
                 return;
             }
         }
-
+        console.log('4');
         const source = timer(1000, 1000);
-
+        console.log('5');
         const subscribeItem = source.subscribe(val => {
             if ((maxTimes > 0) && (val >= maxTimes)) {
                 this.unCheckOrderStatus(address);
             }
-            this.kanbanServ.getOrdersByAddress(address)
+            this.kanbanServ.getOrdersByAddressStatus(address, 'open')
             .subscribe(
                 (orders: any) => { 
                     // console.log('ordersssssssssssssssssss=', orders);
-                    this.ordersStatus.next(orders);
+                    this.openOrders.next(orders);
                 }
-            );            
+            );   
+
+            this.kanbanServ.getOrdersByAddressStatus(address, 'closed')
+            .subscribe(
+                (orders: any) => { 
+                    // console.log('ordersssssssssssssssssss=', orders);
+                    this.closedOrders.next(orders);
+                }
+            );   
+            
+            this.kanbanServ.getOrdersByAddressStatus(address, 'canceled')
+            .subscribe(
+                (orders: any) => { 
+                    // console.log('ordersssssssssssssssssss=', orders);
+                    this.canceledOrders.next(orders);
+                }
+            );             
         });   
         
         this.orderStatusSubscribe.push(

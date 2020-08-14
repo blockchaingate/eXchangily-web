@@ -9,6 +9,10 @@ export interface TxRef {
     confirmations: number;
 }
 
+export interface GasPrice {
+    gasprice: number;
+}
+
 export interface Balance {
     /*
     address: string;

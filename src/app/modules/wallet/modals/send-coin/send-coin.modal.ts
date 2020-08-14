@@ -110,7 +110,7 @@ export class SendCoinModal {
         if(coinName == 'ETH') {
             const gasPrice = this.sendCoinForm.get('gasPrice').value ? Number(this.sendCoinForm.get('gasPrice').value) : environment.chains.ETH.gasPrice;
             const gasLimit = this.sendCoinForm.get('gasLimit').value ? Number(this.sendCoinForm.get('gasLimit').value) : environment.chains.ETH.gasLimit;  
-            const transFeeDouble = gasPrice * gasLimit / 1e9;
+            const transFeeDouble = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
             let transOut = balance - transFeeDouble;
             if(transOut <= 0) {
                 return;
@@ -270,7 +270,14 @@ export class SendCoinModal {
         this.coin = this.wallet.mycoins[index];
         this.currentCoinIndex = index;
         if ((this.coin.name === 'ETH') || (this.coin.tokenType === 'ETH')) {
-            this.sendCoinForm.get('gasPrice').setValue(environment.chains.ETH.gasPrice);
+            let gasPrice = await this.coinServ.getEthGasprice();
+            if(!gasPrice || (gasPrice < environment.chains.ETH.gasPrice)) {
+                gasPrice = environment.chains.ETH.gasPrice;
+            }
+            if(gasPrice > environment.chains.ETH.gasPriceMax) {
+                gasPrice = environment.chains.ETH.gasPriceMax
+            }
+            this.sendCoinForm.get('gasPrice').setValue(gasPrice);
             this.sendCoinForm.get('gasLimit').setValue(environment.chains.ETH.gasLimit);
         } else if (this.coin.name === 'FAB') {
             this.sendCoinForm.get('satoshisPerBytes').setValue(environment.chains.FAB.satoshisPerBytes);

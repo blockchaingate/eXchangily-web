@@ -101,7 +101,7 @@ export class DepositAmountModal {
             //const gasLimit = environment.chains.ETH.gasLimit;
             const gasPrice = this.depositAmountForm.get('gasPrice').value ? Number(this.depositAmountForm.get('gasPrice').value) : environment.chains.ETH.gasPrice;
             const gasLimit = this.depositAmountForm.get('gasLimit').value ? Number(this.depositAmountForm.get('gasLimit').value) : environment.chains.ETH.gasLimit;            
-            const transFeeDouble = gasPrice * gasLimit / 1e9;
+            const transFeeDouble = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
             let transOut = balance - transFeeDouble;
             if(transOut <= 0) {
                 return;
@@ -135,10 +135,17 @@ export class DepositAmountModal {
         return unit;
     }
 
-    onTextChange(val) {
+    async onTextChange(val) {
         if (this.firstTime && this.coin) {
             if ((this.coin.name === 'ETH') || (this.coin.tokenType === 'ETH')) {
-                this.depositAmountForm.get('gasPrice').setValue(environment.chains.ETH.gasPrice);
+                let gasPrice = await this.coinServ.getEthGasprice();
+                if(!gasPrice || (gasPrice < environment.chains.ETH.gasPrice)) {
+                    gasPrice = environment.chains.ETH.gasPrice;
+                }
+                if(gasPrice > environment.chains.ETH.gasPriceMax) {
+                    gasPrice = environment.chains.ETH.gasPriceMax
+                }
+                this.depositAmountForm.get('gasPrice').setValue(gasPrice);
                 this.depositAmountForm.get('gasLimit').setValue(environment.chains.ETH.gasLimit);
             } else
                 if (this.coin.name === 'FAB') {

@@ -436,7 +436,9 @@ export class MainComponent implements OnInit {
             eth = this.wallet.mycoins[i].balance;
           }
         }
-        if(eth < (this.gasPrice * this.gasLimit / 1e9)) {
+
+        const transFeeDouble = new BigNumber(this.gasPrice).multipliedBy(new BigNumber(this.gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
+        if(eth < transFeeDouble) {
           this.tranServ.get('Not enough transaction fee').subscribe(
             (notEngoutTransactioFee: string) => {
               this.tranServ.get('Ok').subscribe(

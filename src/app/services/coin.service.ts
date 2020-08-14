@@ -35,9 +35,15 @@ export class CoinService {
         return -1;
     }
 
+    async getEthGasprice() {
+        let gasPrice = await this.apiService.getEthGasPrice();
+        return new BigNumber(gasPrice).dividedBy(new BigNumber(1e9)).toNumber();
+    }
+
     getCoinNameByTypeId(id: number) {
         return coin_list[id].name;
     }
+
     initToken(type: string, name: string, decimals: number, address: string, baseCoin: MyCoin) {
         const coin = new MyCoin(name);
         coin.tokenType = type;
@@ -1491,7 +1497,7 @@ export class CoinService {
             if (!gasLimit) {
                 gasLimit = environment.chains.ETH.gasLimit;
             }     
-            transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
+            transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(5e9)).toNumber();
             if (getTransFeeOnly) {
                 return {txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids};
             }                     
@@ -1537,7 +1543,7 @@ export class CoinService {
             if (!gasLimit) {
                 gasLimit = environment.chains.ETH.gasLimit;
             }      
-            transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
+            transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(5e9)).toNumber();
             if (getTransFeeOnly) {
                 return {txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids};
             }        
