@@ -1374,6 +1374,7 @@
     "Subscribe for Updates": "订阅获取最新动态",
     "Name": "姓名",
     "Submit": "提交",
+    "Gas Price(GWEI)": "燃料价格(GWEI)",
     "Invalid email": "无效的电子邮箱",
     "Subscription submited successful": "您已成功提交订阅",
     "depends on the gas used on the chain": "实际根据链上gas消耗而定",

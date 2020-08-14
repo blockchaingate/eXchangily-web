@@ -69,7 +69,7 @@ export const environment = {
         ETH: {
             chain: 'mainnet',
             hardfork: 'petersburg',
-            gasPrice: 90,
+            gasPrice: 130,
             gasPriceMax: 200,
             gasLimit: 200000
         },
