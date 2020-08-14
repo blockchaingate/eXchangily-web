@@ -38,7 +38,7 @@
                 "Content1": "eXchangily是一个高速去中心化的加密货币交易所，是新一代利用Peer-to-Peer技术实施的交易平台。相比当前的中心化加密货币交易模型，其操作、结算和费用更具透明度。",
                 "Content2": "eXchangily亿币去中心化数字货币交易所集中心化交易所之高性能与去中心化交易所的安全、透明于一体，是社区治理、社区拥有的开源系统，亿币的所有交易费收入均分配给平台币EXG持币人，有关平台的一切决策也均由平台币持币人投票表决实施。"
             },
-            "Button":"开始体验"
+            "Button": "开始体验"
         },
         "Why": {
             "Title": "为什么选择eXchangily?",
@@ -47,13 +47,13 @@
                 "Content2": "更让人兴奋的是，eXchangily亿币交易所采用社区治理、社区拥有的代币经济模型，平台的交易费用等一切收入均按持币量分配给平台币EXG持币人，系统的一切决策也由持币人发起和表决进行实施。这将使亿币平台币EXG成为值得终生持有的数字资产，因为这意味着持有EXG就是亿币平台的主人，任何人都无法剥夺这一权力，即便项目开发者也无能为力，因为这是由去中心化开源系统保证的."
             }
         },
-        "App":{
-            "Title" :"推荐您使用我们最新的移动APP"
+        "App": {
+            "Title": "推荐您使用我们最新的移动APP"
         },
-        "Social":{
-            "Title" :"加入我们群组",
-            "TitleSub" :"加入我们群组并有机会参加我们免费获取代币的庆祝活动。",
-            "Button":"加入"
+        "Social": {
+            "Title": "加入我们群组",
+            "TitleSub": "加入我们群组并有机会参加我们免费获取代币的庆祝活动。",
+            "Button": "加入"
         },
         "Comparison": {
             "Title": "比较eXchangily"
@@ -384,7 +384,6 @@
                         "中国客户助理"
                     ]
                 }
-
             }
         }
     },
@@ -1377,5 +1376,33 @@
     "Submit": "提交",
     "Invalid email": "无效的电子邮箱",
     "Subscription submited successful": "您已成功提交订阅",
-    "depends on the gas used on the chain": "实际根据链上gas消耗而定"
+    "depends on the gas used on the chain": "实际根据链上gas消耗而定",
+    "EventPage": {
+        "title1": "美国亿币去中心化交易所开户",
+        "title2": "首届EXG股权奖励活动方案",
+        "titleSub": "美国亿币去中心化交易所安全快捷，代码开源，平台币EXG享受100%分红权。",
+        "eventTime": "活动时间",
+        "eventDetail": "2020年7月4日开始至1000万EXG股权奖励币送完为止， 活动结束后第二天所有奖励币到账。",
+        "eventContent": "活动内容",
+        "eventContentDetial1": "新开户奖励：活动期间，在亿币交易所开户且以市价买入EXG达到最低开户额度（100美元/700人民币/0.012BTC/0.5ETH），即可获得推荐码奖励；在亿币交易所开户但未达到最低开户额度的用户，不会获得推荐码奖励。",
+        "eventContentDetial2": "老用户奖励：在本活动开始前已成为亿币交易所的老用户，只要在活动期间至少存入等值100美元资产并认购EXG，即可获得推荐码奖励(每人仅限一个码)。",
+        "eventDesc": "活动说明",
+        "eventDescDetail1": "活动期间，所有推荐码奖励均以亿币交易所股权币EXG的方式支付。",
+        "eventDescDetail2": "所有购买或奖励的EXG都不锁仓，但参与各项奖励则需客户一直持仓。即，客户须在活动结束前一直持仓EXG，且没有卖出操作，才有资格获得推荐码奖励。若在活动结束前卖出部分或全部EXG，则将失去获得奖励资格，但仍被记入上级客户推荐人数，而不记入上级客户奖励基数。",
+        "eventDescDetail3": "美国和加拿大公民只有满足以下合格投资人条件之一的，才有资格参加此活动。",
+        "eventDescDetail3-1": "机构投资人；",
+        "eventDescDetail3-2": "过去一年收入在20万美元以上的投资人；",
+        "eventDescDetail3-3": "过去一年夫妻年收入合计在30万美元以上的投资人；",
+        "eventDescDetail3-4": "不算现住房，净资产在100万美元以上的投资人。",
+        "eventReward": "推荐码奖励",
+        "eventRewardDetail": "根据本人投入的金额，投资人可分为三个等级（白银级、黄金级、钻石级）；每个投资人最多可以获得三级推荐奖, 奖励为叠加累积式。请见下表：",
+        "eventRewardLevel-1": "白银级",
+        "eventRewardLevel-2": "黄金级",
+        "eventRewardLevel-3": "钻石级",
+        "eventRewardUserLevel-1": "一级客户",
+        "eventRewardUserLevel-2": "二级客户",
+        "eventRewardUserLevel-3": "三级客户",
+        "eventTeam": "团队奖励",
+        "eventTeamDetail": "如果某投资人至少直接推荐10人，并且本人投资3000美元（含）以上，则可获得10层下线团队奖。奖励方式请见下表："
+    }
 }

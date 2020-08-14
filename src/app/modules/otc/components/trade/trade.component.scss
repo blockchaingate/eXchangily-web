@@ -1,0 +1,142 @@
+:host {
+    color: #f3f3f3;
+}
+
+.trade-top {
+    background-color: #0f0d65;
+}
+
+@media (max-width: 991px) {
+    .trade-top {
+        padding: 20px;
+        .col-md-6 {
+            margin-bottom: 10px;
+            // border-right: none !important;
+            // border-bottom: 1px solid #ddd;
+        }
+    }
+}
+
+@media (max-width: 767px) {
+    .trade-top {
+        padding: 20px;
+        .col-md-6 {
+            margin-bottom: 10px;
+            border-right: none !important;
+            // border-bottom: 1px solid #ddd;
+        }
+    }
+}
+
+.trade-bottom {
+    // width: 100%;
+    // margin: 0 !important;
+    overflow-x: scroll;
+
+    .col {
+        padding: 0 !important;
+    }
+
+    .odd {
+        background-color: #2c2cb5;
+    }
+
+    .even {
+        background-color: #3a3abf !important;
+    }
+
+    table {
+        margin-bottom: 0;
+    }
+}
+
+.mat-select-value {
+    color: black !important;
+}
+
+.mat-select-value-text {
+    color: green !important;
+}
+
+.mat-select {
+    color: white;
+}
+
+table {
+    width: 100%;
+}
+
+.table-borderless td,
+.table-borderless th {
+    border: 0;
+}
+
+.btn-buy-sell {
+    display: inline-block;
+    height: 36px;
+    width: 80px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 36px;
+    border-radius: 2px;
+}
+
+.brgreen {
+    color: #33ae72;
+}
+
+.btn-buy {
+    color: #33ae72;
+    background: rgba(51, 174, 114, 0.14);
+    cursor: pointer;
+    -webkit-transition: all 450ms ease-in-out;
+    -moz-transition: all 450ms ease-in-out;
+    -o-transition: all 450ms ease-in-out;
+    -ms-transition: all 450ms ease-in-out;
+    transition: all 450ms ease-in-out;
+}
+
+.btn-buy:hover {
+    background: #33ae72;
+    color: #fff;
+}
+
+.btn-sell {
+    color: #fff;
+    background: #da7169;
+    cursor: pointer;
+    -webkit-transition: all 450ms ease-in-out;
+    -moz-transition: all 450ms ease-in-out;
+    -o-transition: all 450ms ease-in-out;
+    -ms-transition: all 450ms ease-in-out;
+    transition: all 450ms ease-in-out;
+}
+
+.btn-sell:hover {
+    background: rgba(255, 84, 71, 1);
+    color: #fff;
+}
+
+.type-buy {
+    color: #33ae72;
+    text-decoration: underline;
+}
+
+.type-sell {
+    color: #ff5447;
+    text-decoration: underline;
+}
+
+.coin-name {
+    cursor: pointer;
+}
+
+::ng-deep {
+    .modal-content {
+        background: #333;
+    }
+
+    h4.text-dark{
+        color: #fff !important;
+    }
+}

@@ -46,7 +46,7 @@
                 "Content1": "eXchangily is a new decentralized exchange model built on the prominent Fast Access Blockchain. It carries the best of a centralized exchange, namely the speed and ease of use, with all the security benefits of a decentralized exchange.",
                 "Content2": "Users retain control over their funds, their private keys, and their transaction information is transparent and secure. Individuals can trade, and enterprises can transact on eXchangily with ERC20 tokens and other cryptocurrencies. It is a fully democratic and autonomous platform."
             },
-            "Button":"START NOW"
+            "Button": "START NOW"
         },
         "Why": {
             "Title": "Why eXchangily?",
@@ -55,13 +55,13 @@
                 "Content2": "eXchangily is a new kind of decentralized exchange (DEX) that trades ERC-20 tokens and other cryptocurrencies. Technically, eXchangily is a side-chain, peer-to-peer trading platform with an on-chain settlement for withdrawals. Transactions are facilitated through a high-speed trading engine that can process payments and redeem transactions fast."
             }
         },
-        "App":{
-            "Title" :"Proud to introduce our mobile app"
+        "App": {
+            "Title": "Proud to introduce our mobile app"
         },
-        "Social":{
-            "Title" :"Stay In Touch",
-            "TitleSub" :"Contact us to get more information about our free coin giveaway event.",
-            "Button":"JOIN"
+        "Social": {
+            "Title": "Stay In Touch",
+            "TitleSub": "Contact us to get more information about our free coin giveaway event.",
+            "Button": "JOIN"
         },
         "Comparison": {
             "Title": "Compare eXchangily"
@@ -240,7 +240,6 @@
                         "Expertise in IT Security & Strategy"
                     ]
                 },
-                
                 "Member12": {
                     "Name": "Wesam Helou",
                     "Image": "wesam-m.jpg",
@@ -396,7 +395,6 @@
                         "BS in Engineering"
                     ]
                 }
-
             }
         }
     },
@@ -711,10 +709,8 @@
     "Slid2Content": "eXchangily is a real decentralized high performance cryptocurrencies exchange, you will domain your digital assets completely.",
     "Slid3Title": "Different Opportunity",
     "Slid3Content": "eXchangily brings you a fresh opportunity, learn all its features and functions, you may get a total different interest.",
-
     "TopSologan": "Your Secure Digital Asset Wallet & DEX",
     "TopSloganContent": "eXchangily is a universal crypto-currency wallet and application which enables you to trade on the eXchangily decentralized exchange. With the eXchangily wallet, you outright have 100% control of your crypto assets, 100% of the time, never losing custody of them.The eXchangily decentralized exchange is available via your eXchangily wallet, from here you can trade crypto-currencies, perform peer-to-peer payments, and easily manage your crypto assets in a secure autonomous manner.",
-
     "Announcement": {
         "01": "eXchangile will launch for production on July 1st, 2019",
         "02": "BTC, ETH, ETC, LTC, USDT, FAB, EXG will be listed at the first"
@@ -727,7 +723,6 @@
     "H24H": "24H High",
     "H24L": "24H Low",
     "Vol24": "24H Volume",
-
     "MnemNote": "Please accurately record and securely store the following twelve word mnemonic SEED, do not disclose the mnemonic SEED to anybody else. Disclosure of your mnemonic SEED will result in your account being compromised and you will lose all of your funds. Safely store your mnemonic SEED such that the loss or damage of a device does not impact your ability to access your mnemonic SEED. It is recommended to never send your mnemonic SEED via email or other social communication application. Be sure to only use your mnemonic SEED with the official eXchangily wallet.",
     "PwdNote": "Please note, this password is only for proectting wallet information in this device, it is not wallet private key.",
     "Wnvalid": "Wallet name must be 2 or more letters or numbers",
@@ -906,7 +901,6 @@
         "TOTAL_SUPPLY": "Total supply",
         "BALANCE_OF": "Balance of",
         "BALANCE_OF_LOCKED": "Balance of locked"
-
     },
     "WALLET_GENERATE": {
         "GENERATE": "Generate",
@@ -991,7 +985,6 @@
     "Bitcoin, Etherium, USDT,": "Bitcoin, Etherium, USDT, ",
     "FAB, EXG with eXchangily": "FAB, EXG with eXchangily",
     "Sleep well and trade": "Sleep well and trade",
-
     "confidently knowing your": "confidently knowing your",
     "crypto assets are always": "crypto assets are always",
     "in your wallet, and your": "in your wallet, and your",
@@ -1216,5 +1209,33 @@
     "BuyFABQ": "I need to add gas, but where to get FAB",
     "BuyFABA": "You can buy FAB in OTC area, or buy from other centralized exchange or from FAB holders, you can mine FAB also, Exchangily have events rewards FAB frequently, or you can contact us through customer service to get help quickly.",
     "OrdersCount": "Orders",
-    "depends on the gas used on the chain": "depends on the gas used on the chain"
+    "depends on the gas used on the chain": "depends on the gas used on the chain",
+    "EventPage": {
+        "title1": "U.S. Exchangily decentralized exchange ",
+        "title2": "account opening reward program",
+        "titleSub": "The US Exchangily decentralized exchange is safe and fast, the code is open source, and the platform currency EXG enjoys 100% dividend rights.",
+        "eventTime": "Event Time",
+        "eventDetail": "Starting from July 4, 2020 until the 10 million EXG equity bonus coins are given out, all bonus coins will be credited the next day after the event ends.",
+        "eventContent": "event Details",
+        "eventContentDetial1": "ew account opening reward: During the event, open an account on the billion currency exchange and buy EXG at the market price to reach the minimum account opening limit (100 USD/700 RMB/0.012BTC/0.5ETH) to get the referral code reward; open an account on the billion currency exchange However, users who have not reached the minimum account opening amount will not be rewarded with referral codes.",
+        "eventContentDetial2": "Reward for old users: You have become a veteran of the Yibi Exchange before the start of this activity. As long as you deposit at least the equivalent of $100 in assets and subscribe to EXG during the activity, you can get a referral code reward (each person is limited to one code).",
+        "eventDesc": "Event Description",
+        "eventDescDetail1": "During the event, all referral code rewards will be paid in the form of EXG, the equity currency of the billion currency exchange.",
+        "eventDescDetail2": "All purchases or rewards of EXG are not locked, but participating in various rewards requires customers to hold positions all the time. That is, customers must hold EXG positions until the end of the event and have not sold to be eligible for referral code rewards. If you sell part or all of the EXG before the end of the event, you will lose the eligibility for the reward, but it will still be counted as the number of recommendations from the superior customer instead of the superior customer reward base.",
+        "eventDescDetail3": "U.S. and Canadian citizens are only eligible to participate in this activity if they meet one of the following qualifications for qualified investors.",
+        "eventDescDetail3-1": "Organization Investors；",
+        "eventDescDetail3-2": "Investors with incomes of more than US$200,000 in the past year;",
+        "eventDescDetail3-3": "Investors whose spouse's combined annual income in the past year is more than US$300,000;",
+        "eventDescDetail3-4": "Excluding current housing, investors with net assets of more than US$1 million.",
+        "eventReward": "Referral Code Reward",
+        "eventRewardDetail": "According to the amount invested, investors can be divided into three levels (silver level, gold level, diamond level); each investor can receive up to three levels of recommendation awards, and the rewards are cumulative. Please see the table below：",
+        "eventRewardLevel-1": "silver",
+        "eventRewardLevel-2": "golden",
+        "eventRewardLevel-3": "diamond",
+        "eventRewardUserLevel-1": "tier 1",
+        "eventRewardUserLevel-2": "tier 2",
+        "eventRewardUserLevel-3": "tier 3",
+        "eventTeam": "Team Rewards",
+        "eventTeamDetail": "If an investor recruited at least 10 people and themself invested at least $ 3000USD, they will get a 10-tier team award under their umbrella. The Team reward will be paid in EXG and will be based on the below table:"
+    }
 }

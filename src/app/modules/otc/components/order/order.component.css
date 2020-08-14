@@ -1,6 +1,10 @@
+:host {
+    color: #f3f3f3;
+}
+
 .order-manage .el-tabs_item.is-active {
-    color: rgb(59, 123, 253);
-    border-bottom: 2px solid rgb(59, 123, 253);
+    /* color: rgb(59, 123, 253); */
+    /* border-bottom: 2px solid rgb(59, 123, 253); */
 }
 
 .tab-status .el-tabs_item {
@@ -11,6 +15,7 @@
     line-height: 32px;
     background: #f5f5f5;
     color: #354052;
+    cursor: pointer;
 }
 
 .tab-status .el-tabs_item.is-active {
@@ -24,9 +29,75 @@
     padding-top: 80px;
 }
 
-a.view-detail, a.view-detail:hover {
+a.view-detail,
+a.view-detail:hover {
     text-decoration: underline;
     cursor: pointer;
     text-decoration-color: rgb(59, 123, 253);
     color: rgb(59, 123, 253);
-  }
+}
+
+.order-top {
+    background-color: #0f0d65;
+}
+
+.order-status {
+    background-color: #0f0d65;
+}
+
+.order-table {
+    padding: 0 !important;
+    overflow-x: scroll;
+}
+
+table {
+    margin-bottom: 0;
+    /* overflow-x: scroll; */
+}
+
+table th,
+table td {
+    border: none;
+}
+
+.odd {
+    background-color: #2c2cb5;
+}
+
+.even {
+    background-color: #3a3abf !important;
+}
+
+.order-manage .el-tabs_item{
+padding: 10px;
+}
+
+.order-manage .el-tabs_item.is-active{
+    color: #fff;
+    background-color: rgb(59, 123, 253);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+}
+
+@media (min-width: 768px) {
+    .order-top-exportS {
+        display: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .order-top-exportL {
+        display: none;
+    }
+
+    .order-top-exportS {
+        padding-bottom: 20px;
+    }
+
+    .order-status .el-tabs_item{
+        margin-top: 10px;
+        width:100%;
+        text-align: center;
+    }
+}
