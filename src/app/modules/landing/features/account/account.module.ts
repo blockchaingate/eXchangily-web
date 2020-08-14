@@ -14,7 +14,7 @@ import { OrderListComponent } from './order-list/order-list.component';
 import { PlaceOrderComponent } from './place-order/order-page/place-order.component';
 import { ConfirmPageComponent } from './place-order/confirm-page/confirm-page.component';
 import { KycComponent } from './kyc/kyc.component';
-
+import {MatFormFieldModule} from '@angular/material/form-field';
 import { AppService } from '../../service/app-service/app.service';
 import { UserService } from '../../service/user/user.service';
 import { CurrenciesService } from '../../service/currencies/currencies.service';
@@ -43,7 +43,8 @@ import {MatButtonModule} from '@angular/material/button';
     MatButtonModule,
     ReactiveFormsModule,
     ComponentsModule,
-    ReferralModule
+    ReferralModule,
+    MatFormFieldModule
   ],
   providers: [
     AuthGuard,
