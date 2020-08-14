@@ -1395,9 +1395,12 @@ export class WalletDashboardComponent implements OnInit {
         const amountInLink = new BigNumber(amount).multipliedBy(new BigNumber(1e18)); // it's for all coins.
         
         const amountInLinkString = amountInLink.toFixed();
-        const amountInTxString = new BigNumber(amountInTx.toString()).toFixed();
+        const amountInTxString = amountInTx.toFixed();
 
+        console.log('amountInLinkString===', amountInLinkString);
+        console.log('amountInTxString===', amountInTxString);
         if(amountInLinkString.indexOf(amountInTxString) === -1) {
+            console.log('not equal 1');
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar('转账数量不相等', 'Ok');
             } else {
@@ -1408,6 +1411,7 @@ export class WalletDashboardComponent implements OnInit {
 
         const subString = amountInLinkString.substr(amountInTxString.length);
         if(subString && Number(subString) !== 0) {
+            console.log('not equal 2');
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar('转账数量不符合', 'Ok');
             } else {
