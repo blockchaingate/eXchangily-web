@@ -1376,6 +1376,7 @@
     "Submit": "提交",
     "Invalid email": "无效的电子邮箱",
     "Subscription submited successful": "您已成功提交订阅",
+    "depends on the gas used on the chain": "实际根据链上gas消耗而定",
     "EventPage": {
         "title1": "美国亿币去中心化交易所开户",
         "title2": "首届EXG股权奖励活动方案",
