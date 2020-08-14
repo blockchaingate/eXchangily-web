@@ -71,7 +71,7 @@ export class ApiService {
     }
 
     async getEthGasPrice(): Promise<number> {
-        const url = environment.endpoints.ETH.exchangily + 'getgasprice';
+        const url = 'https://ethprod.fabcoinapi.com/getgasprice';
         let gasPrice = 0;
         try {
             const response = await this.http.get(url).toPromise() as GasPrice;
