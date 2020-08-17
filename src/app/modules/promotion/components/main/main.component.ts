@@ -307,7 +307,7 @@ export class MainComponent implements OnInit {
     return result;
   }
 
-  selectCurrency(coinName: string) {
+  async selectCurrency(coinName: string)  {
     console.log('methods=', this.methods);
     this.submethods = this.methods[coinName];
     if (this.submethods && this.submethods.length) {
@@ -343,6 +343,12 @@ export class MainComponent implements OnInit {
 
           const chainName = this.currentCoin.tokenType ? this.currentCoin.tokenType : this.currentCoin.name;
           this.gasPrice = environment.chains[chainName]['gasPrice'];
+          if(coinName == 'USDT' || coinName == 'ETH') {
+            const gasPrice = await this.coinService.getEthGasprice();
+            if(gasPrice > this.gasPrice) {
+              this.gasPrice = gasPrice
+            }
+          }
           this.gasLimit = environment.chains[chainName]['gasLimit'];
           this.satoshisPerBytes = environment.chains[chainName]['satoshisPerBytes'];
 
