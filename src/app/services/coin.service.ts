@@ -1501,7 +1501,7 @@ export class CoinService {
             if (!gasLimit) {
                 gasLimit = environment.chains.ETH.gasLimit;
             }     
-            transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(5e9)).toNumber();
+            transFee = Number(new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(4.76e9)).toFixed(6));
             if (getTransFeeOnly) {
                 return {txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids};
             }                     
@@ -1549,7 +1549,7 @@ export class CoinService {
             if (!gasLimit) {
                 gasLimit = environment.chains.ETH.gasLimit;
             }      
-            transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(5e9)).toNumber();
+            transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(2.5e9)).toNumber();
             if (getTransFeeOnly) {
                 return {txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids};
             }        
