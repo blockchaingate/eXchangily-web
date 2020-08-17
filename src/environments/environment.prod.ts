@@ -71,7 +71,7 @@ export const environment = {
             hardfork: 'petersburg',
             gasPrice: 120,
             gasPriceMax: 200,
-            gasLimit: 200000
+            gasLimit: 100000
         },
         FAB: {
             network: Btc.networks.bitcoin,

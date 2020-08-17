@@ -75,7 +75,7 @@ export const environment = {
             hardfork: 'byzantium',
             gasPrice: 90,
             gasPriceMax: 200,
-            gasLimit: 200000
+            gasLimit: 100000
         },
         FAB: {
             network: Btc.networks.testnet,

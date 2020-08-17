@@ -26,6 +26,7 @@ export class MainComponent implements OnInit {
   wallet: Wallet;
   available: any;
   price: number;
+  isodd: boolean;
   showMarkedAsPaidId: string;
   quantity: number;
   comment: string;
