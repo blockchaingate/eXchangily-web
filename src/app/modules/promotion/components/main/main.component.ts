@@ -349,7 +349,7 @@ export class MainComponent implements OnInit {
               this.gasPrice = gasPrice
             }
           }
-          this.gasLimit = environment.chains[chainName]['gasLimit'];
+          this.gasLimit = environment.chains[chainName]['gasLimitToken'];
           this.satoshisPerBytes = environment.chains[chainName]['satoshisPerBytes'];
 
           break;

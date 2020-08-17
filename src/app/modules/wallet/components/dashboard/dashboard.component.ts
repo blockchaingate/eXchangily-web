@@ -1478,7 +1478,10 @@ export class WalletDashboardComponent implements OnInit {
             error => {
                 console.log('error====');
                 console.log(error);
-                if (error.message) {
+                if(error.error && error.error.error) {
+                    this.alertServ.openSnackBar(error.error.error, 'Ok');
+                }
+                else if (error.message) {
                     this.alertServ.openSnackBar(error.message, 'Ok');
                 }
             }
