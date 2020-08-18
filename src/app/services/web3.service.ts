@@ -320,7 +320,6 @@ export class Web3Service {
       'type': 'function'
     };
     const abiHex = web3.eth.abi.encodeFunctionCall(func, paramsArray);
-    console.log('abiHex for getCreateOrderFuncABI=', abiHex);
     return abiHex;
   }
 
