@@ -443,6 +443,17 @@
                                             {{currency | translate}}
                                         </mat-radio-button>
                                     </mat-radio-group>
+                                    <div *ngIf="coinName == 'USDT'">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label>{{'Gas Price(GWEI)' | translate}}</mat-label>
+                                            <input matInput placeholder="{{'Gas price' | translate}}" [(ngModel)]="gasPrice">
+                                        </mat-form-field> 
+                                        
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label>{{'Gas limit' | translate}}</mat-label>
+                                            <input matInput placeholder="{{'Gas limit' | translate}}" [(ngModel)]="gasLimit">
+                                        </mat-form-field>                                           
+                                    </div>
                                     <hr>
                                 </div>
                                 <div class="col-md-4 investmentField">

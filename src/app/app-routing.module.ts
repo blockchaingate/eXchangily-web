@@ -20,6 +20,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/otc/otc.module').then(m => m.OtcModule)
   },
   {
+    path: 'ex',
+    loadChildren: () => import('./modules/ex/ex.module').then(m => m.ExModule)
+  },  
+  {
     path: 'market',
     loadChildren: () => import('./modules/market/market.module').then(m => m.MarketModule),
     data: {

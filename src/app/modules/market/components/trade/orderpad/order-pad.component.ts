@@ -468,20 +468,19 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     if(this.buyPrice <= 0) {
       return;
     }
-    console.log('this.pairConfig.qtyDecimal==', this.pairConfig.qtyDecimal);
-    console.log('this.baseCoinAvail==', this.baseCoinAvail);
-    console.log('this.buyPrice==', this.buyPrice);
-    console.log(this.bigdiv(this.baseCoinAvail, this.buyPrice));
-    this.buyQty = Number(this.utilService.showAmount(this.bigdiv(this.baseCoinAvail, this.buyPrice), this.pairConfig.qtyDecimal)) * percent;
+
+    this.buyQty = Number(
+      (new BigNumber(this.utilService.showAmount(this.bigdiv(this.baseCoinAvail, this.buyPrice), this.pairConfig.qtyDecimal)).multipliedBy(new BigNumber(percent))).toFixed(this.pairConfig.qtyDecimal));
     const avail = parseFloat(this.utilService.showAmount(this.baseCoinAvail, this.pairConfig.qtyDecimal));
 
-    while (this.buyQty * this.buyPrice > avail) {
-      this.buyQty = this.buyQty - Math.pow(10, -this.pairConfig.qtyDecimal);
+    while ((new BigNumber(this.buyQty).multipliedBy(new BigNumber(this.buyPrice))).toNumber() > avail) {
+      const exp = Number(-this.pairConfig.qtyDecimal);
+      this.buyQty = Number(new BigNumber(this.buyQty).minus(new BigNumber(Math.pow(10, exp))).toFixed(this.pairConfig.qtyDecimal));
     }
   }
 
   setSellQtyPercent(percent: number) {
-    this.sellQty = Number(this.utilService.showAmount(this.targetCoinAvail, this.pairConfig.qtyDecimal)) * percent;
+    this.sellQty = Number(new BigNumber(this.utilService.showAmount(this.targetCoinAvail, this.pairConfig.qtyDecimal)).multipliedBy(new BigNumber(percent)).toFixed(this.pairConfig.qtyDecimal));
   }
 
   setPrice(price: number) {

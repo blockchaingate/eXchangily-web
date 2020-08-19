@@ -147,6 +147,9 @@ export class DepositAmountModal {
                 }
                 this.depositAmountForm.get('gasPrice').setValue(gasPrice);
                 this.depositAmountForm.get('gasLimit').setValue(environment.chains.ETH.gasLimit);
+                if(this.coin.tokenType === 'ETH') {
+                    this.depositAmountForm.get('gasLimit').setValue(environment.chains.ETH.gasLimitToken);
+                }                
             } else
                 if (this.coin.name === 'FAB') {
                     this.depositAmountForm.get('satoshisPerBytes').setValue(environment.chains.FAB.satoshisPerBytes);

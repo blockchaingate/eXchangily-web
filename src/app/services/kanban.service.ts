@@ -290,4 +290,7 @@ export class KanbanService {
     getPairConfig() {
         return this.get('kanban/getPairConfig');
     }
+
+
+  
 }

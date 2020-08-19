@@ -6,7 +6,7 @@ import * as Btc from 'bitcoinjs-lib';
 export const environment = {
     production: false,
     maintainence: false,
-    version: '1.3.4',
+    version: '1.3.8',
     SQUARE_APP_ID: {
         CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', // ccount kenin
         USD: 'sandbox-sq0idb-gPdLBTvUKUk2-O2DdNZ3dA'  // account genta
@@ -77,7 +77,8 @@ export const environment = {
             hardfork: 'byzantium',
             gasPrice: 90,
             gasPriceMax: 200,
-            gasLimit: 200000
+            gasLimit: 21000,
+            gasLimitToken: 70000
         },
         FAB: {
             network: Btc.networks.testnet,

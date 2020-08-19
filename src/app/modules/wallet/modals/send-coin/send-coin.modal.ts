@@ -279,6 +279,9 @@ export class SendCoinModal {
             }
             this.sendCoinForm.get('gasPrice').setValue(gasPrice);
             this.sendCoinForm.get('gasLimit').setValue(environment.chains.ETH.gasLimit);
+            if(this.coin.tokenType === 'ETH') {
+                this.sendCoinForm.get('gasLimit').setValue(environment.chains.ETH.gasLimitToken);
+            }
         } else if (this.coin.name === 'FAB') {
             this.sendCoinForm.get('satoshisPerBytes').setValue(environment.chains.FAB.satoshisPerBytes);
         } else if (this.coin.name === 'DOGE') {

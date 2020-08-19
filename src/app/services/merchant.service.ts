@@ -30,8 +30,9 @@ export class MerchantService {
   }
 
   // Get all
-  getAll() {
-    return this.http.get(path + 'all', true).pipe(map(res => <Merchant[]>res));
+  getAll(token: string) {
+    //return this.http.get(path + 'all', true).pipe(map(res => <Merchant[]>res));
+    return this.http.getPrivate(path + 'all', token);
   }
 
   approve(id) {

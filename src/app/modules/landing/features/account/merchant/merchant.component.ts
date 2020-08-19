@@ -13,11 +13,28 @@ export class MerchantComponent implements OnInit {
   mobile: string;
   verificationCode: string;
   step: number;
+  merchant: any;
+  member: any;
   constructor(
     private _router: Router,
     private storageService: StorageService,
     private userServ: UserService) { }
 
   ngOnInit() {
+
+    this.storageService.getToken().subscribe(
+      (token: string) => {
+          this.token = token;
+          console.log('token==', token);
+          this.userServ.getMerchant(token).subscribe(
+              (res: any) => {
+                console.log('res for getMerchant=', res);
+                  if (res && res.ok) {
+                    const body = res._body;
+                    this.merchant = body.merchant,
+                    this.member = body.member;
+                  }
+          });
+        });    
   }
 }

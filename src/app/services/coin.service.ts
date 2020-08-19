@@ -715,7 +715,7 @@ export class CoinService {
         let address = '';
         let totalInput = 0;
         let transFee = 0;
-        let amountInTx = 0;
+        let amountInTx = new BigNumber(0);
         let txids = [];
         const feePerInput = bytesPerInput * satoshisPerBytes;
         const receiveAddsIndexArr = [];
@@ -887,7 +887,7 @@ export class CoinService {
             return {txHex: '', errMsg: '', transFee: transFee + new BigNumber(this.utilServ.toBigNumber(extraTransactionFee, 8)).toNumber(), amountInTx: amountInTx};
         }        
         //const output2 = Math.round(amount * 1e8);    
-        const output2 = Number(this.utilServ.toBigNumber(amount, 8));
+        const output2 = new BigNumber(this.utilServ.toBigNumber(amount, 8));
         amountInTx = output2;
         if (output1 < 0) {
             // console.log('output1 or output2 should be greater than 0.');
@@ -909,7 +909,7 @@ export class CoinService {
             }
             */
             txb.addOutput(changeAddress.address, output1);
-            txb.addOutput(to, output2);
+            txb.addOutput(to, output2.toNumber());
         } else {
             txb.addOutput(to, output1);
         }
@@ -965,7 +965,7 @@ export class CoinService {
         let errMsg = '';
         let transFee = 0;
         let txids = [];
-        let amountInTx = 0;
+        let amountInTx = new BigNumber(0);
         // console.log('options=', options);
         let getTransFeeOnly = false;
         if (options) {
@@ -1148,15 +1148,19 @@ export class CoinService {
             if (getTransFeeOnly) {
                 return {txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids};
             }
-            //const output2 = Math.round(new BigNumber(amount * 1e8).toNumber());     
-            const output2 = Number(this.utilServ.toBigNumber(amount, 8));
+            //const output2 = Math.round(new BigNumber(amount * 1e8).toNumber());  
+            
+            console.log('amountttttt=', amount);
+            const output2 = new BigNumber(this.utilServ.toBigNumber(amount, 8));
+            console.log('this.utilServ.toBigNumber(amount, 8)=', this.utilServ.toBigNumber(amount, 8));
+
             console.log('output1=', output1);
             amountInTx = output2;
             if(amount > 0) {
                 if(output1 >= 2730) {
                     txb.addOutput(changeAddress.address, output1);
                 }
-                txb.addOutput(toAddress, output2);
+                txb.addOutput(toAddress, output2.toNumber());
             } else {
                 console.log('go amount = 0');
                 txb.addOutput(toAddress, output1);
@@ -1497,7 +1501,7 @@ export class CoinService {
             if (!gasLimit) {
                 gasLimit = environment.chains.ETH.gasLimit;
             }     
-            transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(5e9)).toNumber();
+            transFee = Number(new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toFixed(6));
             if (getTransFeeOnly) {
                 return {txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids};
             }                     
@@ -1510,13 +1514,15 @@ export class CoinService {
             const nonce = await this.apiService.getEthNonce(address1.address);
             const gasPriceFinal = new BigNumber(gasPrice).multipliedBy(new BigNumber(1e9)).toNumber();
 
-            amountInTx = amountNum.integerValue().toNumber() ;
+            amountInTx = amountNum;
+
+            console.log('amountNum.toString(16)==', amountNum.toString(16));
             const txParams = {
                 nonce: nonce,
                 gasPrice: gasPriceFinal,
                 gasLimit: gasLimit,
                 to: toAddress,
-                value: amountInTx          
+                value: '0x' + amountNum.toString(16)          
             };
 
             // console.log('txParams=', txParams);
@@ -1541,9 +1547,9 @@ export class CoinService {
                 gasPrice = environment.chains.ETH.gasPrice;
             }
             if (!gasLimit) {
-                gasLimit = environment.chains.ETH.gasLimit;
+                gasLimit = environment.chains.ETH.gasLimitToken;
             }      
-            transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(5e9)).toNumber();
+            transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
             if (getTransFeeOnly) {
                 return {txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids};
             }        
@@ -1600,7 +1606,7 @@ export class CoinService {
             // console.log('abiHexxx=' + abiHex);
             const gasPriceFinal = new BigNumber(gasPrice).multipliedBy(new BigNumber(1e9)).toNumber();
 
-            amountInTx = amountSent.integerValue().toNumber();
+            amountInTx = amountSent;
             const txData = {
                 nonce: nonce,
                 gasPrice: gasPriceFinal,
@@ -1610,7 +1616,7 @@ export class CoinService {
                 value: Number(0),         
                 to : contractAddress,
                 data: '0x' + abiHex + this.utilServ.fixedLengh(toAccount.slice(2), 64) + 
-                this.utilServ.fixedLengh(amountSent.integerValue().toString(16), 64)
+                this.utilServ.fixedLengh(amountSent.toString(16), 64)
             };
             console.log('txData==', txData);
             txHex = await this.web3Serv.signTxWithPrivateKey(txData, keyPair);
@@ -1681,7 +1687,7 @@ export class CoinService {
             // console.log('foreeeee');
             console.log('amountSent=', amountSent);
             console.log('toAddress===', toAddress);
-            amountInTx = Number(amountSent);
+            amountInTx = new BigNumber(amountSent);
             let fxnCallHex = this.web3Serv.getGeneralFunctionABI(funcTransfer, [toAddress, amountSent]);
             // console.log('enddddd');
             fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);

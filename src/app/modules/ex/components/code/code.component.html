@@ -1,0 +1,29 @@
+<div class="container">
+    <div>Pay to {{merchant.name}}(address {{merchant.walletExgAddress}}) {{gateway.trans_amount}} {{gateway.trans_currency}}</div>
+    <div>
+        {{gateway.description}}
+    </div>
+    <div *ngIf="gateway.attach">
+        {{gateway.attach}}
+    </div>
+    <button (click)="confirm(templatePasswd2)">Confirm</button>
+</div>
+
+<ng-template #templatePasswd2>
+    <div class="modal-header text-center">
+        <h4 class="modal-title w-100">Password</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="pb-4">
+            <input type="password" autocomplete="off" class="form-control" id="inputPin" 
+            (ngModelChange)="changePin($event)" [(ngModel)]="pinn" 
+            aria-describedby="emailHelp" placeholder="Please provide your password to confirmsss the transaction">
+        </div>
+
+        <button class="btn btn1 btn-gradient text-white" (click)="confirmPin()">{{"Confirm" }}</button>
+
+    </div>
+</ng-template>
