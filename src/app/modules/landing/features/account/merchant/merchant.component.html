@@ -3,34 +3,17 @@
         <div class="col">
             <div class="example-full-width">
                 <div>Merchant ID</div>
-                <input matInput placeholder="Merchant ID" value="MMFE23DDDFEW3S4">
+                <input matInput placeholder="Merchant ID" value="{{merchant._id}}">
             </div>            
         </div>
     </div>
 
-    <div class="row py-2">
-        <div class="col">
-            <div class="example-full-width">
-                <div>Store ID</div>
-                <input matInput placeholder="Store ID" value="4dee33ed3ssrw3">
-            </div>            
-        </div>
-    </div>  
-
-    <div class="row py-2">
-        <div class="col">
-            <div class="example-full-width">
-                <div>App ID</div>
-                <input matInput placeholder="Store ID" value="eddf333exwe32e">
-            </div>            
-        </div>
-    </div>
 
     <div class="row py-2">
         <div class="col">
             <div class="example-full-width">
                 <div>API Key</div>
-                <input matInput placeholder="Store ID" value="ee3erfw4334d">
+                <input matInput placeholder="Store ID" value="{{merchant.api_key}}">
             </div>            
         </div>
     </div>   
@@ -39,7 +22,7 @@
         <div class="col">
             <div class="example-full-width">
                 <div>FAB Address</div>
-                <input matInput placeholder="FAB Address" value="mnukWx4d73fyRKagbWfYjzascLhZ7PZPz6">
+    <input matInput placeholder="FAB Address" value="{{merchant.walletExgAddress}}">
             </div>            
         </div>
     </div>     
