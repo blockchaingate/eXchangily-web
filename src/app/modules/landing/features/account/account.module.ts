@@ -51,7 +51,6 @@ import { SharedModule } from '../../../shared/shared.module';
     ReactiveFormsModule,
     ComponentsModule,
     ReferralModule,
-    MatFormFieldModule
   ],
   providers: [
     AuthGuard,
