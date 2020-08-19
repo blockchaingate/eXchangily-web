@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '../../components/components.module';
 import { ReferralModule } from './referrals/referrals.module';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialogModule } from '@angular/material/dialog';
 import { AccountComponent } from './account/account.component';
 import { InfoComponent } from './info/info.component';
 import { AccountRoutingModule } from './account-routing.module';
@@ -14,6 +16,7 @@ import { OrderListComponent } from './order-list/order-list.component';
 import { PlaceOrderComponent } from './place-order/order-page/place-order.component';
 import { ConfirmPageComponent } from './place-order/confirm-page/confirm-page.component';
 import { KycComponent } from './kyc/kyc.component';
+import { MerchantComponent } from './merchant/merchant.component';
 
 import { AppService } from '../../service/app-service/app.service';
 import { UserService } from '../../service/user/user.service';
@@ -30,14 +33,18 @@ import { CreateOrderService } from '../../service/create-order/create-order.serv
 import { KycService } from '../../service/kyc/kyc.service';
 import { PlaceOrderFormComponent } from './place-order/place-order-form/place-order-form.component';
 import { CreateOrderSubmissionComponent } from './components/create-order-submission/create-order-submission.component';
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { SharedModule } from '../../../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     AccountRoutingModule,
     FormsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    SharedModule,
     MatCardModule,
     MatInputModule,
     MatButtonModule,
@@ -67,6 +74,7 @@ import {MatButtonModule} from '@angular/material/button';
     OrderListComponent,
     PlaceOrderComponent,
     SecurityComponent,
+    MerchantComponent,
     // IcotxComponent,
     ConfirmPageComponent,
     // OrderComponent,
@@ -74,6 +82,9 @@ import {MatButtonModule} from '@angular/material/button';
     KycComponent,
     CreateOrderSubmissionComponent,
     // ViewReferralsComponent
+  ],
+  exports: [
+     MerchantComponent,
   ]
 })
 export class AccountModule { }
