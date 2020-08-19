@@ -902,7 +902,7 @@ export class WalletDashboardComponent implements OnInit {
         myCoins.push(dogCoin);  
 
         const erc20Tokens = [
-            'BNB', 'INB', 'REP', 'HOT', 'MATIC', 'IOST', 'MANA', 
+            'INB', 'REP', 'HOT', 'MATIC', 'IOST', 'MANA', 
             'ELF', 'GNO', 'WINGS', 'KNC', 'GVT', 'DRGN'
         ];
 

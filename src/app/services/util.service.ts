@@ -227,7 +227,13 @@ export class UtilService {
         // const retNum = Number(retNumber);
         return retNumber;
         */
-        const fixN = bigN.toFixed(decimal).substr(0, 10);
+        // const fixN = bigN.toFixed(decimal).substr(0, 10);
+
+        const fixedString = bigN.toFixed();
+        if(fixedString.indexOf(".") < 0) {
+            return fixedString;
+        }
+        const fixN = fixedString.slice(0, (fixedString.indexOf("."))+decimal + 1);
         return fixN;
 
     }

@@ -1,4 +1,5 @@
-<div class="container">
+
+<div class="container" *ngIf="merchant && gateway">
     <div>Pay to {{merchant.name}}(address {{merchant.walletExgAddress}}) {{gateway.trans_amount}} {{gateway.trans_currency}}</div>
     <div>
         {{gateway.description}}
@@ -19,7 +20,7 @@
     <div class="modal-body">
         <div class="pb-4">
             <input type="password" autocomplete="off" class="form-control" id="inputPin" 
-            (ngModelChange)="changePin($event)" [(ngModel)]="pinn" 
+            (ngModelChange)="changePin($event)" [(ngModel)]="pin" 
             aria-describedby="emailHelp" placeholder="Please provide your password to confirmsss the transaction">
         </div>
 

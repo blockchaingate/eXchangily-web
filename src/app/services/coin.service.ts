@@ -114,7 +114,7 @@ export class CoinService {
         myCoins.push(dogCoin);  
 
         const erc20Tokens = [
-            'BNB', 'INB', 'REP', 'HOT', 'MATIC', 'IOST', 'MANA', 
+            'INB', 'REP', 'HOT', 'MATIC', 'IOST', 'MANA', 
             'ELF', 'GNO', 'WINGS', 'KNC', 'GVT','DRGN'
         ];
 
@@ -1572,9 +1572,6 @@ export class CoinService {
             console.log('contractAddress theee=', contractAddress);
             if (mycoin.name === 'USDT') {
                 contractAddress = environment.addresses.smartContract.USDT;
-            } else 
-            if (mycoin.name === 'BNB') {
-                contractAddress = environment.addresses.smartContract.BNB;
             }
             // console.log('nonce = ' + nonce);
             const func =    {  

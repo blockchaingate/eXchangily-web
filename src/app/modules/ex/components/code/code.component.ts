@@ -12,6 +12,7 @@ import { Wallet } from '../../../../models/wallet';
 import BigNumber from 'bignumber.js/bignumber';
 import { TransactionResp } from '../../../../interfaces/kanban.interface';
 import { environment } from '../../../../../environments/environment';
+
 @Component({
   selector: 'app-code',
   templateUrl: './code.component.html',
@@ -20,7 +21,7 @@ import { environment } from '../../../../../environments/environment';
 export class CodeComponent implements OnInit {
   gasLimit: number;
   gasPrice: number;
-  pinn: string;
+  pin: string;
   modalRef: BsModalRef;
   wallet: Wallet;
   merchant: any;
@@ -40,17 +41,15 @@ export class CodeComponent implements OnInit {
 
   }
   async ngOnInit() {
-    this.pinn = '';
+    this.pin = '';
     this.lan = localStorage.getItem('Lan');
     this.wallet = await this.walletService.getCurrentWallet();
     this.gasLimit = environment.chains.KANBAN.gasLimit;
     this.gasPrice = environment.chains.KANBAN.gasPrice;
 
     const code = this.route.snapshot.paramMap.get('code');
-    console.log('code=', code);
     this.apiServ.getExTransaction(code).subscribe(
       (res: any) => {
-        console.log('res==', res);
         if(res && res.ok) {
           const data = res._body;
           this.merchant = data.merchant;
@@ -66,9 +65,7 @@ export class CodeComponent implements OnInit {
   }
 
   confirmPin() {
-    console.log('this.pin=', this.pinn);
-    this.pinn = '1qaz@WSX';
-    const pwdHashStr = this.utilService.SHA256(this.pinn).toString();
+    const pwdHashStr = this.utilService.SHA256(this.pin).toString();
     if (this.wallet.pwdHash !== pwdHashStr) {
       if (this.lan === 'zh') {
         this.alertServ.openSnackBar('密码错误1', 'Ok');
@@ -90,8 +87,11 @@ export class CodeComponent implements OnInit {
   }
 
   async transferCoin() {
+    const address = this.utilService.fabToExgAddress(this.merchant.walletExgAddress);
+    const amount = this.gateway.trans_amount;
+    const coin = this._coinServ.getCoinTypeIdByName(this.gateway.trans_currency);
     const txHex = await this.txHexforSendToken(
-      this.pinn, this.wallet, '0x07b14b1a46438f242654effb746f5b55378d8288', 1, new BigNumber(2).multipliedBy(new BigNumber(1e6)).toFixed()
+      this.pin, this.wallet, address, coin, new BigNumber(amount).multipliedBy(new BigNumber(1e18)).toFixed()
     );
 
     this.kanbanService.sendRawSignedTransaction(txHex).subscribe((resp: TransactionResp) => {
@@ -168,7 +168,7 @@ export class CodeComponent implements OnInit {
       return;
     }
     const options = {
-      gasPrice: this.gasPrice * 1.3,
+      gasPrice: this.gasPrice,
       gasLimit: this.gasLimit
     };
 

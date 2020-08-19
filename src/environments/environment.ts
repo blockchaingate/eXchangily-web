@@ -6,7 +6,7 @@ import * as Btc from 'bitcoinjs-lib';
 export const environment = {
     production: false,
     maintainence: false,
-    version: '1.3.8',
+    version: '1.3.9',
     SQUARE_APP_ID: {
         CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', //account kenin
         USD: 'sandbox-sq0idb-gPdLBTvUKUk2-O2DdNZ3dA'  //account genta
@@ -139,11 +139,10 @@ export const environment = {
     addresses: {
         smartContract: {
             FABLOCK: '0xa7d4a4e23bf7dd7a1e03eda9eb7c28a016fd54aa',
-            // EXG: '0x311acf4666477a22c2f16c53b88c1734ee227fc6',
             EXG: '0x867480ba8e577402fa44f43c33875ce74bdc5df6',
             USDT: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',
             DUSD: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
-            BNB: '0xE90e361892d258F28e3a2E758EEB7E571e370c6f',
+            //BNB: '0xE90e361892d258F28e3a2E758EEB7E571e370c6f',
             INB: '0x919c6d21670fe8cEBd1E86a82a1A74E9AA2988F8',
             REP: '0x4659c4A33432A5091c322E438e0Fb1D286A1EbdE',
             HOT: '0x6991d9fff5de74085f5c786d425403601280c8f4',
@@ -162,16 +161,6 @@ export const environment = {
             GVT: '0x3e610d9fb322063e50d185e2cc1b45f007e7180c',
             DRGN: '0xbbdd7a557a0d8a9bf166dcc2730ae3ccec7df05c'
         },
-        /*
-        exchangilyOfficial: [
-            { name: 'EXG', address: '0xdcd0f23125f74ef621dfa3310625f8af0dcd971b'},
-            { name: 'FAB', address: 'n1eXG5oe6wJ6h43akutyGfphqQsY1UfAUR'},
-            { name: 'BTC', address: 'muQDw5hVmFgD1GrrWvUt6kjrzauC4Msaki'},
-            { name: 'ETH', address: '0x02c55515e62a0b25d2447c6d70369186b8f10359'},
-            { name: 'USDT', address: '0x02c55515e62a0b25d2447c6d70369186b8f10359'},
-            { name: 'DUSD', address: '0xdcd0f23125f74ef621dfa3310625f8af0dcd971b'}
-        ],
-        */
        exchangilyOfficial: {
         EXG: '0xdcd0f23125f74ef621dfa3310625f8af0dcd971b',
         FAB: 'n1eXG5oe6wJ6h43akutyGfphqQsY1UfAUR',
@@ -182,7 +171,7 @@ export const environment = {
         BCH: 'bchtest:qzvyhe6dn2hz7tgu624shm80js6knj2vj57l54rl6w',
         LTC: 'muQDw5hVmFgD1GrrWvUt6kjrzauC4Msaki',
         DOGE: 'ni5RuJJ5Bcbxe992Zm9X51HSFbR5UR44Hh',
-        BNB: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
+        //BNB: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
         INB: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
         REP: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
         HOT: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
