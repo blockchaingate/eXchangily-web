@@ -1,5 +1,5 @@
 import { Component, TemplateRef, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { ApiService } from '../../../../services/api.service';
 import { UtilService } from '../../../../services/util.service';
 import { CoinService } from '../../../../services/coin.service';
@@ -24,11 +24,15 @@ export class CodeComponent implements OnInit {
   pin: string;
   modalRef: BsModalRef;
   wallet: Wallet;
+  wallets: Wallet[];
   merchant: any;
+  available: string;
+  currentWalletIndex: number;
   gateway: any;
   lan = 'en';
 
   constructor(
+    private router: Router,
     private modalService: BsModalService,
     private utilService: UtilService, 
     private _coinServ: CoinService,
@@ -43,7 +47,7 @@ export class CodeComponent implements OnInit {
   async ngOnInit() {
     this.pin = '';
     this.lan = localStorage.getItem('Lan');
-    this.wallet = await this.walletService.getCurrentWallet();
+    
     this.gasLimit = environment.chains.KANBAN.gasLimit;
     this.gasPrice = environment.chains.KANBAN.gasPrice;
 
@@ -54,12 +58,57 @@ export class CodeComponent implements OnInit {
           const data = res._body;
           this.merchant = data.merchant;
           this.gateway = data.gateway;
+          this.loadWallets();
+        }
+      }
+    );
+
+    
+  }
+
+  async loadWallets() {
+    this.wallets = await this.walletService.getWallets();
+    if (!this.wallets || this.wallets.length === 0) {
+        this.router.navigate(['/wallet/create']);
+        return;
+    }
+    this.currentWalletIndex = await this.walletService.getCurrentWalletIndex();
+    if (this.currentWalletIndex == null || this.currentWalletIndex < 0) {
+        this.currentWalletIndex = 0;
+    }
+    if (this.currentWalletIndex > this.wallets.length - 1) {
+        this.currentWalletIndex = this.wallets.length - 1;
+    }
+    this.wallet = this.wallets[this.currentWalletIndex];
+    await this.loadWallet();
+  }
+
+  async changeWallet(value) {
+    this.currentWalletIndex = value;
+    // this.wallet = this.wallets[this.currentWalletIndex];
+    // this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
+    this.walletService.saveCurrentWalletIndex(this.currentWalletIndex);
+    this.wallet = this.wallets[this.currentWalletIndex];
+    // console.log('this.currentWalletIndex=' + this.currentWalletIndex);
+    await this.loadWallet();
+  } 
+
+  loadWallet() {
+    const address = this.wallet.excoin.receiveAdds[0].address;
+    console.log('address=', address);
+    this.kanbanService.getBalance(address).subscribe(
+      (res: any) => {
+        console.log('res==', res);
+        const coin = this._coinServ.getCoinTypeIdByName(this.gateway.trans_currency);
+        for(let i=0;i<res.length;i++) {
+          const item = res[i];
+          if(item.coinType == coin) {
+            this.available = this.utilService.showAmount(item.unlockedAmount, 18) ;
+          }
         }
       }
     );
   }
-
-
   confirm(pinModal) {
     this.openModal(pinModal);
   }
@@ -104,7 +153,7 @@ export class CodeComponent implements OnInit {
           this.alertServ.openSnackBarSuccess('Send Coin Transaction was submitted successfully.', 'Ok');
         }
 
-        const address = this.wallet.excoin.receiveAdds[0].address;
+        this.modalRef.hide();
 
 
       } else {
@@ -158,10 +207,9 @@ export class CodeComponent implements OnInit {
     };
 
     const params = [to, coin, value];
-    console.log('params==', params);
+    
     const abiHex = this.web3Serv.getGeneralFunctionABI(func, params);
 
-    console.log('abiHex=', abiHex);
     const nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
 
     if ((this.gasPrice <= 0) || (this.gasLimit <= 0)) {

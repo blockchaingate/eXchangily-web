@@ -7,6 +7,18 @@
     <div *ngIf="gateway.attach">
         {{gateway.attach}}
     </div>
+
+    <div *ngIf="wallets">
+        <mat-form-field>
+            <mat-select panelClass="example-panel" [value]="currentWalletIndex" (selectionChange)="changeWallet($event.value)">
+                <mat-option *ngFor="let wallet of wallets;let i = index" [value]="i">
+                    {{wallet.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        Available: {{available}} {{gateway.trans_currency}}
+    </div>
+
     <button (click)="confirm(templatePasswd2)">Confirm</button>
 </div>
 

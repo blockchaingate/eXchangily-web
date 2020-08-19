@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SharedModule } from '../shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ExRoutingModule } from './ex-routing.module';
@@ -13,6 +12,8 @@ import { KanbanService } from '../../services/kanban.service';
 import { Web3Service } from '../../services/web3.service';
 import { WalletService } from '../../services/wallet.service';
 import { AlertService } from '../../services/alert.service';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
     imports: [
@@ -20,8 +21,9 @@ import { AlertService } from '../../services/alert.service';
         ExRoutingModule,
         TranslateModule,
         FormsModule,
+        MatSelectModule,
         CommonModule,
-        SharedModule,
+        MatFormFieldModule,
         ModalModule.forRoot()
     ],
     providers: [
