@@ -8,13 +8,15 @@ export const environment = {
     maintainence: false,
     version: '1.3.9',
     SQUARE_APP_ID: {
-        CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', //account kenin
-        USD: 'sandbox-sq0idb-gPdLBTvUKUk2-O2DdNZ3dA'  //account genta
+        CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', // ccount kenin
+        USD: 'sandbox-sq0idb-gPdLBTvUKUk2-O2DdNZ3dA'  // account genta
     },
     STRIPE_PUBLIC_KEY: 'pk_test_xVAqsYMxwh3AZfJcYu1hruyE',
     PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',
-    url:"https://kanbantest.fabcoinapi.com/",
-    tmpUrl:  "https://kanbantest.fabcoinapi.com/",    
+    url: 'https://kanbantest.fabcoinapi.com/',
+    tmpUrl: 'https://kanbantest.fabcoinapi.com/',
+
+    // baseUrl: 'http://localhost:4200',
     baseUrl: 'https://exchangily.net',
     campaignId: 1,
     OTC_COMMISSION_RATE: 0.001,
@@ -30,8 +32,8 @@ export const environment = {
                 messagePrefix: '\u0019Dogecoin Signed Message:\n',
                 bech32: 'tb',
                 bip32: {
-                  public: 0x043587cf,
-                  private: 0x04358394,
+                    public: 0x043587cf,
+                    private: 0x04358394,
                 },
                 pubKeyHash: 0x71,
                 scriptHash: 0xc4,
@@ -45,8 +47,8 @@ export const environment = {
                 messagePrefix: '\u0019Litecoin Signed Message:\n',
                 bech32: 'tb',
                 bip32: {
-                  public: 0x0436f6e1,
-                  private: 0x0436ef7d,
+                    public: 0x0436f6e1,
+                    private: 0x0436ef7d,
                 },
                 pubKeyHash: 0x6f,
                 scriptHash: 0x3a,
@@ -54,24 +56,24 @@ export const environment = {
             },
             satoshisPerBytes: 200,
             bytesPerInput: 148
-        },  
+        },
         BCH: {
             network: {
                 messagePrefix: '\u0018Bitcoin Signed Message:\n',
                 bech32: 'tb',
                 bip32: {
-                  public: 0x043587cf,
-                  private: 0x04358394,
+                    public: 0x043587cf,
+                    private: 0x04358394,
                 },
                 pubKeyHash: 0x6f,
                 scriptHash: 0xc4,
                 wif: 0xef,
-            },            
+            },
             satoshisPerBytes: 50,
             bytesPerInput: 148
-        },                      
+        },
         ETH: {
-            chain: 'ropsten', 
+            chain: 'ropsten',
             hardfork: 'byzantium',
             gasPrice: 90,
             gasPriceMax: 200,
@@ -83,22 +85,22 @@ export const environment = {
             chain: {
                 name: 'test',
                 networkId: 212,
-                chainId: 212                
+                chainId: 212
             },
             satoshisPerBytes: 100,
             bytesPerInput: 148,
             gasPrice: 50,
-            gasLimit: 800000            
+            gasLimit: 800000
         },
         KANBAN: {
             chain: {
                 name: 'test',
                 networkId: 212,
-                chainId: 212                
+                chainId: 212
             },
             gasPrice: 50000000,
-            gasLimit: 20000000              
-        }        
+            gasLimit: 20000000
+        }
     },
     endpoints: {
         // blockchaingate: 'http://localhost:3002/v2/',
@@ -124,7 +126,7 @@ export const environment = {
         LTC: {
             exchangily: 'https://ltctest.fabcoinapi.com/',
         }
-        
+
         // pricehistory: 'http://18.223.17.4:3002/klinedata/'
 
     },
@@ -153,7 +155,7 @@ export const environment = {
             FUN: '0x98e6affb8192ffd89a62e27dc5a594cd3c1fc8db', //??
             WAX: '0xb2140669d08a02b78a9fb4a9ebe36371ae023e5f',
             ELF: '0xdd3d64919c119a7cde45763b94cf3d1b33fdaff7',
-            GNO: '0x94fd1b18c927935d4f1751239172ad212281f4ac', 
+            GNO: '0x94fd1b18c927935d4f1751239172ad212281f4ac',
             POWR: '0x6e981f5d973a3ab55ff9db9a77f4123b71d833dd',
             WINGS: '0x08705dc287150ba2da249b5a1b0c3b99c71b4100',
             MTL: '0x1c9b5afa112b42b12fb06b62e5f1e159af49dfa7',
@@ -203,13 +205,13 @@ export const environment = {
             BTC: 'muQDw5hVmFgD1GrrWvUt6kjrzauC4Msaki',
             ETH: '0x4e93c47b42d09f61a31f798877329890791077b2',
             FAB: 'n1eXG5oe6wJ6h43akutyGfphqQsY1UfAUR'
-        }       
+        }
     },
     websockets: {
         allprices: 'wss://kanbantest.fabcoinapi.com/ws/allprices',
         trades: 'wss://kanbantest.fabcoinapi.com/ws/trades',
         orders: 'wss://kanbantest.fabcoinapi.com/ws/orders',
-        kline: 'wss://kanbantest.fabcoinapi.com/ws/ticker' 
+        kline: 'wss://kanbantest.fabcoinapi.com/ws/ticker'
     },
     minimumWithdraw: {
         EXG: 10,
@@ -232,13 +234,13 @@ export const environment = {
         FUN: 3000,
         WAX: 200,
         ELF: 100,
-        GNO: 0.4, 
+        GNO: 0.4,
         POWR: 100,
         WINGS: 200,
         MTL: 40,
         KNC: 10,
         GVT: 10,
-        DRGN: 100       
+        DRGN: 100
     },
     depositMinimumConfirmations: {
         EXG: 12,
@@ -278,7 +280,7 @@ export const environment = {
         Alipay: 'info@exchangily.com',
         DirectTransfer: {
             BankName: '招商银行',
-            AccountName : 'Exchangily',
+            AccountName: 'Exchangily',
             Account: '88884556555433234455'
         }
     }
