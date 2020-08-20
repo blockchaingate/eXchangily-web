@@ -26,6 +26,7 @@ export class CodeComponent implements OnInit {
   wallet: Wallet;
   wallets: Wallet[];
   merchant: any;
+  code: string;
   available: string;
   currentWalletIndex: number;
   gateway: any;
@@ -52,6 +53,7 @@ export class CodeComponent implements OnInit {
     this.gasPrice = environment.chains.KANBAN.gasPrice;
 
     const code = this.route.snapshot.paramMap.get('code');
+    this.code = code;
     this.apiServ.getExTransaction(code).subscribe(
       (res: any) => {
         if(res && res.ok) {
@@ -146,15 +148,23 @@ export class CodeComponent implements OnInit {
     this.kanbanService.sendRawSignedTransaction(txHex).subscribe((resp: TransactionResp) => {
 
       if (resp && resp.transactionHash) {
-        this.kanbanService.incNonce();
+        
         if (this.lan === 'zh') {
           this.alertServ.openSnackBarSuccess('转账提交成功。', 'Ok');
         } else {
           this.alertServ.openSnackBarSuccess('Send Coin Transaction was submitted successfully.', 'Ok');
         }
 
+        
         this.modalRef.hide();
-
+        this.apiServ.updateExTransactionId(this.code, resp.transactionHash).subscribe(
+          (res: any) => {
+            console.log('res===', res);
+            if(res && res.ok) {
+              console.log('updated Transaction Id');
+            }
+          }
+        );
 
       } else {
         if (this.lan === 'zh') {

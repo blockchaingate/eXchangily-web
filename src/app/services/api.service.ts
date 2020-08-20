@@ -21,6 +21,15 @@ export class ApiService {
         return this.http.get(url);
     }
 
+    updateExTransactionId(trans_code: string, txid: string) {
+        const url = environment.endpoints.blockchaingate + 'payment/gateway/transaction';
+        const data = {
+            trans_code: trans_code,
+            txid: txid
+        };
+        return this.http.post(url, data);
+    }
+
     getSmartContractABI(address: string) {
         if (!address.startsWith('0x')) {
             address = '0x' + address;
