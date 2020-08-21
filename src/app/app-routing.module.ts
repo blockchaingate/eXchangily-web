@@ -22,7 +22,11 @@ const routes: Routes = [
   {
     path: 'ex',
     loadChildren: () => import('./modules/ex/ex.module').then(m => m.ExModule)
-  },  
+  },
+  {
+    path: 'reward',
+    loadChildren: () => import('./modules/reward/reward.module').then(m => m.RewardModule)
+  },     
   {
     path: 'market',
     loadChildren: () => import('./modules/market/market.module').then(m => m.MarketModule),

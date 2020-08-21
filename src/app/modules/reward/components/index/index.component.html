@@ -1,0 +1,18 @@
+<div class="container bg-white">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Address</th>
+            <th scope="col">Reward</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tradereward of traderewards">
+            <th scope="row">{{utilServ.exgToFabAddress(tradereward.address)}}</th>
+            <td>{{tradereward.reward}}</td>
+            <td>{{tradereward.status}}</td>
+          </tr>
+        </tbody>
+      </table>
+</div>
