@@ -9,10 +9,47 @@
         </thead>
         <tbody>
           <tr *ngFor="let tradereward of traderewards">
-            <th scope="row">{{utilServ.exgToFabAddress(tradereward.address)}}</th>
+            <th scope="row" (click)="setTradereward(tradereward)">{{utilServ.exgToFabAddress(tradereward.address)}}</th>
             <td>{{tradereward.reward}}</td>
-            <td>{{tradereward.status}}</td>
+            <td>
+              <a href="/explorer/tx-detail/{{tradereward.txid}}">
+                {{tradereward.status}}
+              </a>
+              
+            </td>
           </tr>
         </tbody>
       </table>
+</div>
+
+<div class="modal" [ngClass]="currentTradereward?'show':'hide'" tabindex="-1" role="dialog" [style.display]="currentTradereward?'block':'none'">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="currentTradereward">
+        <table class="table" style="overflow-y:scroll">
+          <thead>
+            <tr>
+              <th scope="col">Pair</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let detail of currentTradereward.details">
+              <th scope="row">{{detail.pair}}</th>
+              <td>{{detail.amount}}</td>
+              <td>{{detail.price}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
 </div>

@@ -59,6 +59,9 @@ export class HttpService {
        return this.http.get(path, options);
     }
 
+    getRaw(path: string) {
+        return this.http.get(path);
+    }
     constructor(private http: HttpClient, private userAuth: UserAuth) {
     }
 }

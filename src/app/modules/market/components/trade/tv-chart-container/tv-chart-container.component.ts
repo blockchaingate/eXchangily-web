@@ -82,7 +82,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
 
   @Input()
   set symbol(symbol: ChartingLibraryWidgetOptions['symbol']) {
-    this._symbol = symbol || this._symbol;
+    this._symbol = (symbol || this._symbol);
   }
 
   @Input()
@@ -234,8 +234,8 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
             tap(() => {
               onResolve({
                 name: targetCoinName.toUpperCase() + '/' +  baseCoinName.toUpperCase(),
-                full_name: baseCoinName, // display on the chart
-                base_name: targetCoinName,
+                full_name: targetCoinName.toUpperCase() + '/' +  baseCoinName.toUpperCase(), // display on the chart
+                base_name: targetCoinName.toUpperCase() + '/' +  baseCoinName.toUpperCase(),
                 minmov: 1,
                 minmov2: 2,
                 pricescale: 1000000,

@@ -20,7 +20,8 @@ import { environment } from '../../../../../environments/environment';
 })
 export class IndexComponent implements OnInit {
   traderewards: any;
-  
+  currentTradereward: any;
+
   constructor(private rewardService: RewardService, public utilServ: UtilService) {
   }  
   ngOnInit() {
@@ -33,5 +34,14 @@ export class IndexComponent implements OnInit {
         }
       }
     );
+  }
+
+  setTradereward(tradereward) {
+    console.log('setTradereward===', tradereward);
+    this.currentTradereward = tradereward;
+  }
+
+  close() {
+    this.currentTradereward = null;
   }
 }

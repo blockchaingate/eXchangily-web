@@ -35,8 +35,10 @@ export class MerchantService {
     return this.http.getPrivate(path + 'all', token);
   }
 
-  approve(id) {
-    return this.http.get(path + 'approve/' + id , true).pipe(map(res => <Merchant>res));
+  approve(id: string, token: string) {
+    const url = path + 'approve/' + id ;
+    console.log('url==', url);
+    return this.http.getPrivate(url, token);
   }
   // Find multiple merchants
   find(mermberId: string) {
