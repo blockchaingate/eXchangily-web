@@ -229,10 +229,12 @@ export class UtilService {
         */
         // const fixN = bigN.toFixed(decimal).substr(0, 10);
 
-        const fixedString = bigN.toFixed();
+        const fixedString = bigN.toFixed(decimal);
+        /*
         if(fixedString.indexOf(".") < 0) {
             return fixedString;
         }
+        */
         const fixN = fixedString.slice(0, (fixedString.indexOf("."))+decimal + 1);
         return fixN;
 

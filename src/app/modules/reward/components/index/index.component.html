@@ -5,6 +5,8 @@
             <th scope="col">Address</th>
             <th scope="col">Reward</th>
             <th scope="col">Status</th>
+            <th scope="col">Special reward</th>
+            <th scope="col">Status</th>            
           </tr>
         </thead>
         <tbody>
@@ -17,6 +19,14 @@
               </a>
               
             </td>
+
+            <td>{{tradereward.reward2}}</td>
+            <td>
+              <a href="/explorer/tx-detail/{{tradereward.txid}}">
+                {{tradereward.status2}}
+              </a>
+              
+            </td>            
           </tr>
         </tbody>
       </table>
