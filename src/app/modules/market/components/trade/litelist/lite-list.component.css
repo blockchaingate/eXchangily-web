@@ -33,7 +33,7 @@
 }
 
 .smallfont {
-    font-size: 0.8em;
+    font-size: 0.9em;
     margin-top: -0.5em;
 }
 
@@ -198,27 +198,22 @@ mat-list {
         overflow-x: hidden;
         height: 150px;
     }
-
-    .sarcharea{
+    .sarcharea {
         margin-bottom: 10px;
     }
-
     .scroll-bar {
         scrollbar-color: #24a665 #0c0c0c;
         margin-bottom: 10px;
         background-color: #282840;
     }
-
     .scroll-bar::-webkit-scrollbar {
         width: 6px;
         background-color: #0c0c0c;
     }
-
     .scroll-bar::-webkit-scrollbar-thumb {
         background-color: #24a665;
         border-radius: 10px;
     }
-
     .mat-list-base .mat-list-item,
     .mat-list-base .mat-list-option {
         width: 99.5%;
