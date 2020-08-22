@@ -2,31 +2,39 @@
     <table class="table">
         <thead>
           <tr>
-            <th scope="col">Address</th>
-            <th scope="col">Reward</th>
-            <th scope="col">Status</th>
-            <th scope="col">Special reward</th>
-            <th scope="col">Status</th>            
+            <th scope="col">{{'Address' | translate}}</th>
+            <th scope="col">{{'Reward' | translate }}</th>
+            <th scope="col">{{'Special reward' | translate}}</th>         
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let tradereward of traderewards">
             <th scope="row" (click)="setTradereward(tradereward)">{{utilServ.exgToFabAddress(tradereward.address)}}</th>
-            <td>{{tradereward.reward}}</td>
             <td>
-              <a href="/explorer/tx-detail/{{tradereward.txid}}">
-                {{tradereward.status}}
+              {{tradereward.reward}}
+              <a href="/explorer/tx-detail/{{tradereward.txid}}" target="_blank">
+                <img *ngIf="tradereward.status" src="/assets/svg/check.svg">
               </a>
               
             </td>
 
-            <td>{{tradereward.reward2}}</td>
+
+            <td>
+              {{tradereward.reward2}}
+              <a href="https://fabexplorer.info/#/transactions/{{tradereward.txid2}}" target="_blank">
+                <img *ngIf="tradereward.status2" src="/assets/svg/check.svg">
+              </a>
+              
+            </td>
+
+            <!--
             <td>
               <a href="/explorer/tx-detail/{{tradereward.txid}}">
                 {{tradereward.status2}}
               </a>
               
-            </td>            
+            </td>  
+            -->          
           </tr>
         </tbody>
       </table>

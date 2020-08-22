@@ -1093,6 +1093,8 @@
     "Not enough transaction fee": "交易费用不足",
     "Question": "问题",
     "Answer": "答案",
+    "Reward": "交易奖励",
+    "Special reward": "特别奖励",    
     "Locked Details": "锁仓详情",
     "Expired Block": "到期区块",
     "Type answer": "输入答案",
