@@ -1,4 +1,15 @@
 <div class="container bg-white">
+  <div class="text-center py-3">
+    <span *ngIf="totalReward" class="font-weight-bold">
+      {{'Total rewards' | translate}}:
+    </span>
+    {{totalReward}}
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <span *ngIf="totalReward2" class="font-weight-bold">
+      {{'Total special rewards' | translate}}:
+    </span>    
+    {{totalReward2}}
+  </div>
     <table class="table">
         <thead>
           <tr>

@@ -21,16 +21,24 @@ import { environment } from '../../../../../environments/environment';
 export class IndexComponent implements OnInit {
   traderewards: any;
   currentTradereward: any;
-
+  totalReward: number;
+  totalReward2: number;
   constructor(private rewardService: RewardService, public utilServ: UtilService) {
   }  
   ngOnInit() {
+    this.totalReward = 0;
+    this.totalReward2 = 0;
     this.rewardService.getRewards().subscribe(
       (res: any) => {
         if(res && res.ok) {
           const body = res._body;
           console.log('body=', body);
           this.traderewards = body;
+          for(let i=0;i<body.length; i++) {
+            const item = body[i];
+            this.totalReward += item.reward;
+            this.totalReward2 += item.reward2;
+          }
         }
       }
     );
