@@ -9,7 +9,9 @@
         </thead>
         <tbody>
           <tr *ngFor="let tradereward of traderewards">
-            <th scope="row" (click)="setTradereward(tradereward)">{{utilServ.exgToFabAddress(tradereward.address)}}</th>
+            <th scope="row" (click)="setTradereward(tradereward)" class="link">
+              {{utilServ.exgToFabAddress(tradereward.address)}}
+            </th>
             <td>
               {{tradereward.reward}}
               <a href="/explorer/tx-detail/{{tradereward.txid}}" target="_blank">
@@ -44,7 +46,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Details</h5>
+        <h5 class="modal-title">{{'Details' | translate}}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="close()">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -53,9 +55,9 @@
         <table class="table" style="overflow-y:scroll">
           <thead>
             <tr>
-              <th scope="col">Pair</th>
-              <th scope="col">Amount</th>
-              <th scope="col">Price</th>
+              <th scope="col">{{'Pair' | translate}}</th>
+              <th scope="col">{{'Amount' | translate}}</th>
+              <th scope="col">{{'Price' | translate}}</th>
             </tr>
           </thead>
           <tbody>
