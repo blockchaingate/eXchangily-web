@@ -25,6 +25,7 @@ import { FooterComponent } from './components/navigation/footer/footer.component
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FaqComponent } from './components/help/faq.component';
 import { SubscriptionComponent } from './modules/landing/features/subscription/subscription.component';
+import { HelpComponent } from './components/help/help.component';
 
 import { HttpService } from './services/http.service';
 import { AlertService } from './services/alert.service';
@@ -44,6 +45,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     PageNotFoundComponent,
     // TvChartContainerComponent,
     HeaderComponent,
+    HelpComponent,
     FaqComponent,
     FooterComponent,
     SubscriptionComponent

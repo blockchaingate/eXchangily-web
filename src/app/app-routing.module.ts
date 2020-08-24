@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found.component';
 import { AppResolver } from './modules/landing/resolvers/app/app.resolve';
 import { FaqComponent } from './components/help/faq.component';
+import { HelpComponent } from './components/help/help.component';
 import { SubscriptionComponent } from './modules/landing/features/subscription/subscription.component';
 
 const routes: Routes = [
@@ -14,7 +15,7 @@ const routes: Routes = [
   {
     path: 'wallet',
     loadChildren: () => import('./modules/wallet/wallet.module').then(m => m.WalletModule)
-  },  
+  },
   {
     path: 'otc',
     loadChildren: () => import('./modules/otc/otc.module').then(m => m.OtcModule)
@@ -26,7 +27,7 @@ const routes: Routes = [
   {
     path: 'reward',
     loadChildren: () => import('./modules/reward/reward.module').then(m => m.RewardModule)
-  },     
+  },
   {
     path: 'market',
     loadChildren: () => import('./modules/market/market.module').then(m => m.MarketModule),
@@ -36,15 +37,15 @@ const routes: Routes = [
         description: 'crypto market price, trade BTC, ETH, LTC, DOGE, FAB, USDT, bitcoin price trend.'
       }
     }
-  },     
+  },
   {
     path: 'promotion',
     loadChildren: () => import('./modules/promotion/promotion.module').then(m => m.PromotionModule)
-  },   
+  },
   {
     path: 'smartcontract',
     loadChildren: () => import('./modules/smartcontract/smartcontract.module').then(m => m.SmartcontractModule)
-  },      
+  },
   // { path: 'explorer', loadChildren: './modules/kanbanexplorer/kanbanexplorer.module#KanbanExplorerModule' },
   // { path: 'wallet', loadChildren: './modules/wallet/wallet.module#WalletModule' },
   // { path: 'otc', loadChildren: './modules/otc/otc.module#OtcModule' },
@@ -66,12 +67,10 @@ const routes: Routes = [
       }
     }
   },
-  
   {
     path: 'launchpad',
     loadChildren: () => import('./modules/launchpad/launchpad.module').then(m => m.LaunchpadModule)
-  },  
-
+  },
   {
     resolve: {
       app: AppResolver
@@ -85,9 +84,7 @@ const routes: Routes = [
     }
   },
   {
-    resolve: {
-      app: AppResolver
-    },
+    resolve: { app: AppResolver },
     path: 'account',
     loadChildren: () => import('./modules/landing/features/account/account.module').then(m => m.AccountModule),
     // loadChildren: './modules/landing/features/account/account.module#AccountModule',
@@ -107,11 +104,10 @@ const routes: Routes = [
     }
     */
   },
+  { path: 'help', component: HelpComponent },
   { path: 'faq', component: FaqComponent },
   { path: 'subscription', component: SubscriptionComponent },
-  {
-    path: '', redirectTo: '/market/home', pathMatch: 'full'
-  },
+  { path: '', redirectTo: '/market/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
 
