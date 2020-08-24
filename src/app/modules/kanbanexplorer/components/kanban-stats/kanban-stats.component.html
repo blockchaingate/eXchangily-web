@@ -12,5 +12,10 @@
         {{"Withdraw Requests"|translate}} : {{kanbanStats.totalWithdrawRequests}} 
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
         {{"Cancel Orders"|translate}} : {{kanbanStats.totalCancelOrders}}
+        <span *ngIf="dividends">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+            {{"Dividends"|translate}} : {{dividends.USDTOTAL}}    
+        </span>
+            
     </div>
 </mat-card>
