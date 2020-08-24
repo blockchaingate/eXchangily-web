@@ -198,7 +198,10 @@ export class MyordersComponent implements OnInit, OnDestroy {
             addressInWallet = bytes.toString('hex');
             console.log('addressInWallet for exg', addressInWallet);
         }
+
+        
         const abiHex = this.web3Serv.getWithdrawFuncABI(this.coinType, amountInLink, addressInWallet);
+        console.log('abiHex=====', abiHex);
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
         const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 

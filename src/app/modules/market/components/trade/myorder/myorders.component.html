@@ -143,10 +143,10 @@
                     </span>
                 </div>
                 <div class="col col-3 text-white smallfont">
-                    {{utilServ.showAmount(token.unlockedAmount, 6)}}
+                    {{utilServ.toNumber(utilServ.showAmount(token.unlockedAmount, 18))}}
                 </div>
                 <div class="col col-3 text-whit smallfonte">
-                    {{utilServ.showAmount(token.lockedAmount, 6)}}
+                    {{utilServ.toNumber(utilServ.showAmount(token.lockedAmount, 18))}}
                 </div>
                 <div class="col col-3 text-white smallfont">
                     <span class="hand-cursor" (click)="withdraw(templateWithdraw, token)">
@@ -168,7 +168,7 @@
     </div>
     <div class="modal-body">
         <div>
-            <label for="inputSendTo" class="text-muted">{{'Your balance' | translate }}:{{utilServ.showAmount(token.unlockedAmount, 6)}}</label>
+            <label for="inputSendTo" class="text-muted">{{'Your balance' | translate }}:{{utilServ.toNumber(utilServ.showAmount(token.unlockedAmount, 18))}}</label>
         </div>
 
         <div>
