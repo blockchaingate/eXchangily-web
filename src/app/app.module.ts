@@ -8,7 +8,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatFormFieldModule  } from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -57,6 +58,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatToolbarModule,
     MatIconModule,
     MatFormFieldModule,
+    MatSelectModule,
     MatMenuModule,
     MatProgressSpinnerModule,
     MatListModule,

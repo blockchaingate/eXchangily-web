@@ -1,3 +1,18 @@
 .help-area {
     margin-top: 2em;
 }
+
+.ticket {
+    width: 100%;
+    border: 1px solid red;
+}
+
+.ticket-form {
+    min-width: 150px;
+    width: 100%;
+    border: 1px solid green;
+}
+
+.ticket-full-width {
+    width: 80%;
+}

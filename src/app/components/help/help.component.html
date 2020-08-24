@@ -9,5 +9,30 @@
 
             </div>
         </div>
+
+        <div class="ticket">
+            <h4>Ticket</h4>
+            <form class="ticket-form">
+                <mat-form-field appearance="fill">
+                    <mat-label>Ticket category</mat-label>
+                    <mat-select class="white">
+                        <mat-option *ngFor="let tickcat of ticketCats" [value]="tickcat.value">
+                            {{tickcat.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="ticket-full-width">
+                    <mat-label>Email</mat-label>
+                    <input matInput placeholder="myemail@example.com">
+                </mat-form-field>
+
+                <mat-form-field class="ticket-full-width">
+                    <mat-label>Issue description</mat-label>
+                    <textarea class="ticket-full-width" matInput placeholder="Describe details of issue."></textarea>
+                </mat-form-field>
+            </form>
+
+        </div>
     </div>
 </div>
