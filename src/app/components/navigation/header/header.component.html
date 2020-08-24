@@ -3,7 +3,7 @@
         <h2>
             Exchangily Test Website
         </h2>
-    </div> 
+    </div>
 
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top px-3" [ngClass]="background">
         <a class="navbar-brand" href="/"><img src="./images/logo/exg-logo.svg" width="40px">eXchangily {{'Title' | translate}}</a>
@@ -14,18 +14,18 @@
         <div class="collapse navbar-collapse" [ngClass]="showCollapse ? 'show' : ''" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" (click)="linkTo('/wallet/dashboard')" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Wallet' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/wallet/dashboard');selectedItem=0" [class.selected]="selectedItem===0" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Wallet' | translate}}</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" (click)="linkTo('/market/home')" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Market' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/market/home');selectedItem=1" [class.selected]="selectedItem===1" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Market' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" (click)="linkTo('/market/trade/BTC_USDT')" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Trade' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/market/trade/BTC_USDT');selectedItem=2" [class.selected]="selectedItem===2" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Trade' | translate}}</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" (click)="linkTo('/explorer')" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Explore' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/explorer');selectedItem=3" [class.selected]="selectedItem===3" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Explore' | translate}}</a>
                 </li>
             </ul>
 
@@ -54,15 +54,15 @@
                     <a class="nav-link" (click)="selectLan('zh')">中文</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" (click)="linkTo('/home')" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Home' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/home');selectedItem=4" [class.selected]="selectedItem===4" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Home' | translate}}</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" (click)="linkTo('/otc/trade')" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'OTC Trade' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/otc/trade');selectedItem=5" [class.selected]="selectedItem===5" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'OTC Trade' | translate}}</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link highlight" (click)="linkTo('/promotion')" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'New Campaign' | translate}}</a>
+                    <a class="nav-link highlight" (click)="linkTo('/promotion');selectedItem=6" [class.selected]="selectedItem===6" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'New Campaign' | translate}}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="https://medium.com/exchangily-blog" target="_blank">{{'Blog' | translate}}</a>
