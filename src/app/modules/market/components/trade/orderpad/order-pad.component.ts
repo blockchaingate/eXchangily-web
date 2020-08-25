@@ -471,7 +471,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
     this.buyQty = Number(
       (new BigNumber(this.utilService.showAmount(this.bigdiv(this.baseCoinAvail, this.buyPrice), this.pairConfig.qtyDecimal)).multipliedBy(new BigNumber(percent))).toFixed(this.pairConfig.qtyDecimal));
-    const avail = parseFloat(this.utilService.showAmount(this.baseCoinAvail, this.pairConfig.qtyDecimal));
+    const avail = this.utilService.toNumber(this.utilService.showAmount(this.baseCoinAvail, 18));
 
     while ((new BigNumber(this.buyQty).multipliedBy(new BigNumber(this.buyPrice))).toNumber() > avail) {
       const exp = Number(-this.pairConfig.qtyDecimal);

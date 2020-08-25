@@ -12,8 +12,10 @@ export class KanbanStatsComponent implements OnInit, OnDestroy {
   public kanbanStats: KanbanStats;
   dividends: any;
   private interval;
+  
   constructor(private kanbanService: KanbanService) {
     this.getKanbanStats();
+    this.getDividends();
 
     this.interval = setInterval(() => {
       this.getKanbanStats();
@@ -35,9 +37,8 @@ export class KanbanStatsComponent implements OnInit, OnDestroy {
     this.kanbanService.getDividends().subscribe(r => {
       if(r.success) {
         this.dividends = r.data;
+        console.log('this.dividends=', this.dividends);
       }
-      
-      console.log('dividends==', r);
     });
   }  
 
