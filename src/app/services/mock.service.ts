@@ -42,7 +42,7 @@ export class MockService {
     this.gotHistoryList = true;
     const inter = param.interval;
     const symbol = param.symbol;
-    const url = environment.endpoints.kanban + 'klinedata/' + symbol + '/' + inter;
+    const url = environment.endpoints.kanban + 'v2/klinedata/' + symbol + '/' + inter;
     return this.http.get(url);    
   }
   async getHistoryList(param): Promise<BarData[]> {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { KanbanService } from '../../services/kanban.service';
 import { KanbanStats } from '../../models/kanbanStats';
 
@@ -7,15 +7,19 @@ import { KanbanStats } from '../../models/kanbanStats';
   templateUrl: './kanban-stats.component.html',
   styleUrls: ['./kanban-stats.component.css']
 })
-export class KanbanStatsComponent implements OnInit {
+export class KanbanStatsComponent implements OnInit, OnDestroy {
 
   public kanbanStats: KanbanStats;
+  dividends: any;
   private interval;
+  
   constructor(private kanbanService: KanbanService) {
     this.getKanbanStats();
+    this.getDividends();
 
     this.interval = setInterval(() => {
       this.getKanbanStats();
+      this.getDividends();
     }, 10000);
   }
 
@@ -29,4 +33,18 @@ export class KanbanStatsComponent implements OnInit {
     });
   }
 
+  getDividends() {
+    this.kanbanService.getDividends().subscribe(r => {
+      if(r.success) {
+        this.dividends = r.data;
+        console.log('this.dividends=', this.dividends);
+      }
+    });
+  }  
+
+  ngOnDestroy() {
+    if(this.interval) {
+      clearInterval(this.interval);
+    }
+  }
 }

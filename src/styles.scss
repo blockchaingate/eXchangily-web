@@ -1,18 +1,18 @@
 // Bootstrap
-@import '~bootstrap/scss/bootstrap-reboot';
-@import '~bootstrap/scss/bootstrap-grid';
-@import 'colours';
-@import 'fonts';
-@import 'sizing';
-@import 'forms';
-@import './styles/margin.css';
-@import './styles/padding.css';
-@import './styles/size.css';
-@import './styles/color.css';
+@import "~bootstrap/scss/bootstrap-reboot";
+@import "~bootstrap/scss/bootstrap-grid";
+@import "colours";
+@import "fonts";
+@import "sizing";
+@import "forms";
+@import "./styles/margin.css";
+@import "./styles/padding.css";
+@import "./styles/size.css";
+@import "./styles/color.css";
 html,
 body {
     color: $secondary-light;
-    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
+    font-family: Verdana, sans-serif, SimHei, "Microsoft YaHei";
     height: 100%;
     margin: 0;
     padding: 0;
@@ -61,7 +61,7 @@ fieldset {
         @include padding-default;
     }
     &form:before {
-        content: '';
+        content: "";
         margin: 1em;
         position: absolute;
     }
@@ -85,7 +85,7 @@ fieldset {
 
 // vimeo screen
 .custom-vimeo-screen {
-    background-color: rgba(0, 0, 0, .75);
+    background-color: rgba(0, 0, 0, 0.75);
     height: 100%;
     position: absolute;
     width: 100%;
@@ -102,7 +102,7 @@ fieldset {
     iframe {
         @include small-angular {
             height: calc(100% - 14.5em);
-            margin-left: .5em;
+            margin-left: 0.5em;
             margin-top: 7em;
             width: calc(100% - 4em);
         }
@@ -135,18 +135,18 @@ fieldset {
 }
 
 .input {
-    background-color: rgba(255, 255, 255, .3);
+    background-color: rgba(255, 255, 255, 0.3);
     border: none;
     min-height: 1.8em;
-    padding: .7em 1.3em;
+    padding: 0.7em 1.3em;
 }
 
 .button {
     border: none;
     box-shadow: none;
     display: inline-block;
-    font-size: .85em;
-    padding: .68em 1.3em;
+    font-size: 0.85em;
+    padding: 0.68em 1.3em;
     min-height: 1.3em;
     min-width: 5em;
     &.white {
@@ -210,17 +210,17 @@ fieldset {
 }
 
 .regular {
-    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
+    font-family: Verdana, sans-serif, SimHei, "Microsoft YaHei";
     font-weight: 500;
 }
 
 .semi-bold {
-    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
+    font-family: Verdana, sans-serif, SimHei, "Microsoft YaHei";
     font-weight: 600;
 }
 
 .bold {
-    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
+    font-family: Verdana, sans-serif, SimHei, "Microsoft YaHei";
     font-weight: 700;
 }
 
@@ -245,7 +245,7 @@ fieldset {
 }
 
 .modal-bg-grey {
-    background-color: #EBEEF5!important;
+    background-color: #ebeef5 !important;
 }
 
 .modal-content {
@@ -282,7 +282,7 @@ body {
 
 body {
     margin: 0;
-    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
+    font-family: Verdana, sans-serif, SimHei, "Microsoft YaHei";
 }
 
 .main-work-area {
@@ -321,13 +321,13 @@ body {
 
 @media only screen and (max-width: 959px) {
     .fxHide-sm {
-        display: none!important;
+        display: none !important;
     }
 }
 
 @media only screen and (min-width: 960px) {
     .fxHide-gt-sm {
-        display: none!important;
+        display: none !important;
     }
 }
 
@@ -354,11 +354,11 @@ body {
 }
 
 .btn-fixed-width {
-    width: 100px!important;
+    width: 100px !important;
 }
 
 .btn-lg-fixed-width {
-    width: 130px!important;
+    width: 130px !important;
 }
 
 .custom-snackbar {
@@ -367,10 +367,69 @@ body {
 }
 
 .custom-snackbar-success {
-    background: rgb(34,139,34);
+    background: rgb(34, 139, 34);
     color: white;
 }
 
-.custom-snackbar .mat-button-wrapper, .custom-snackbar-success .mat-button-wrapper {
+.custom-snackbar .mat-button-wrapper,
+.custom-snackbar-success .mat-button-wrapper {
     color: white;
+}
+
+.exbtn {
+    // background: linear-gradient(to right, #cd45ff 0%, #7368ff 50%, #cd45ff 100%);
+    background: rgba(59, 173, 227, 1);
+    background: linear-gradient(
+        45deg,
+        rgba(255, 53, 127, 1) 0%,
+        rgba(87, 111, 230, 1) 25%,
+        rgba(152, 68, 183, 1) 51%,
+        rgba(255, 53, 127, 1) 100%
+    );
+    border: 0 !important;
+    border-radius: 50px;
+    color: #fff;
+    font-weight: 900;
+    text-transform: uppercase;
+    transition: all 450ms ease-in-out;
+    background-size: 200%;
+    background-position: -100%;
+
+    &:hover {
+        background-position: 100%;
+    }
+
+    &:disabled {
+        background-color: #777;
+        background-image: none;
+    }
+}
+
+//campaign page only
+.promotionData {
+    .mat-form-field-appearance-legacy .mat-form-field-label {
+        color: rgba(255, 252, 252, 0.54) !important;
+    }
+
+    .example-radio-group {
+        display: flex;
+        flex-direction: column;
+        /* display: inline-grid; */
+        /* display: grid; */
+        margin: 15px 0;
+    }
+    
+    .mat-radio-outer-circle{
+        border-color: rgba(255,255,255,.84)
+    }
+
+    .exdisabled .mat-form-field-underline{
+        background-color: #999;
+    }
+
+    .step2 #currency-radio-group-label,
+    .step2 #method-radio-group-label
+    {
+        margin-left: 20px;
+    }
 }

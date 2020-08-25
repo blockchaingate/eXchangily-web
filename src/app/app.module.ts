@@ -8,10 +8,14 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
+import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppResolver } from './modules/landing/resolvers/app/app.resolve';
 import { AppComponent } from './app.component';
@@ -24,11 +28,13 @@ import { FooterComponent } from './components/navigation/footer/footer.component
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FaqComponent } from './components/help/faq.component';
 import { SubscriptionComponent } from './modules/landing/features/subscription/subscription.component';
+import { HelpComponent } from './components/help/help.component';
 
 import { HttpService } from './services/http.service';
 import { AlertService } from './services/alert.service';
 import { UtilService } from './services/util.service';
 import { KanbanService } from './services/kanban.service';
+import { TicketService } from './services/ticket.service';
 import { ApiService } from './services/api.service';
 import { SubscriptionService } from './services/subscription.service';
 
@@ -43,6 +49,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     PageNotFoundComponent,
     // TvChartContainerComponent,
     HeaderComponent,
+    HelpComponent,
     FaqComponent,
     FooterComponent,
     SubscriptionComponent
@@ -52,8 +59,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     HttpClientModule,
     MatSidenavModule,
     MatToolbarModule,
+    FormsModule,
     MatIconModule,
+    MatFormFieldModule,
+    MatSelectModule,
     MatMenuModule,
+    MatInputModule,
     MatProgressSpinnerModule,
     MatListModule,
     RouterModule,
@@ -72,7 +83,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppRoutingModule,
   ],
   providers: [AppResolver, HttpService, StorageService, TimerService, AlertService, UtilService, KanbanService, ApiService,
-    SubscriptionService],
+    SubscriptionService, TicketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

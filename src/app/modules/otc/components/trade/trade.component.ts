@@ -20,7 +20,7 @@ import { UserService } from '../../../../services/user.service';
 @Component({
   selector: 'app-trade',
   templateUrl: './trade.component.html',
-  styleUrls: ['./trade.component.css']
+  styleUrls: ['./trade.component.scss']
 })
 export class TradeComponent implements OnInit {
   balance: number;
@@ -263,12 +263,6 @@ export class TradeComponent implements OnInit {
 }
 
 
-
-
-  becomeMerchant() {
-    this._router.navigate(['/otc/otc-merchant/merchant-application']);
-    // this.applyForMerchantModal.show();
-  }
 
   placeAdv() {
 

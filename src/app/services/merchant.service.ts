@@ -30,12 +30,15 @@ export class MerchantService {
   }
 
   // Get all
-  getAll() {
-    return this.http.get(path + 'all', true).pipe(map(res => <Merchant[]>res));
+  getAll(token: string) {
+    //return this.http.get(path + 'all', true).pipe(map(res => <Merchant[]>res));
+    return this.http.getPrivate(path + 'all', token);
   }
 
-  approve(id) {
-    return this.http.get(path + 'approve/' + id , true).pipe(map(res => <Merchant>res));
+  approve(id: string, token: string) {
+    const url = path + 'approve/' + id ;
+    console.log('url==', url);
+    return this.http.getPrivate(url, token);
   }
   // Find multiple merchants
   find(mermberId: string) {

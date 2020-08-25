@@ -119,6 +119,14 @@ export class KanbanService {
         return res;
     }
 
+    getOrdersByAddressStatus(address: string, status: string, start: number = 0, count: number = 200) {
+        let path = 'ordersbyaddresspaged/' + address + '/' + start + '/' + count + '/' + status;
+        path = environment.endpoints.kanban + path;
+        // console.log('path for getOrdersByAddress=' + path);
+        const res = this.http.get(path);
+        return res;
+    }
+
     async getExchangeAddress() {
         const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
         let path = 'exchangily/getExchangeAddress';
@@ -282,4 +290,7 @@ export class KanbanService {
     getPairConfig() {
         return this.get('kanban/getPairConfig');
     }
+
+
+  
 }

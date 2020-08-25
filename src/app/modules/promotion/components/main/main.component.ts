@@ -19,13 +19,14 @@ import { UserAuth } from '../../../landing/service/user-auth/user-auth.service';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css']
+  styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
   orders: any;
   wallet: Wallet;
   available: any;
   price: number;
+  isodd: boolean;
   showMarkedAsPaidId: string;
   quantity: number;
   comment: string;
@@ -306,7 +307,7 @@ export class MainComponent implements OnInit {
     return result;
   }
 
-  selectCurrency(coinName: string) {
+  async selectCurrency(coinName: string)  {
     console.log('methods=', this.methods);
     this.submethods = this.methods[coinName];
     if (this.submethods && this.submethods.length) {
@@ -342,7 +343,13 @@ export class MainComponent implements OnInit {
 
           const chainName = this.currentCoin.tokenType ? this.currentCoin.tokenType : this.currentCoin.name;
           this.gasPrice = environment.chains[chainName]['gasPrice'];
-          this.gasLimit = environment.chains[chainName]['gasLimit'];
+          if(coinName == 'USDT' || coinName == 'ETH') {
+            const gasPrice = await this.coinService.getEthGasprice();
+            if(gasPrice > this.gasPrice) {
+              this.gasPrice = gasPrice
+            }
+          }
+          this.gasLimit = environment.chains[chainName]['gasLimitToken'];
           this.satoshisPerBytes = environment.chains[chainName]['satoshisPerBytes'];
 
           break;
@@ -436,7 +443,9 @@ export class MainComponent implements OnInit {
             eth = this.wallet.mycoins[i].balance;
           }
         }
-        if(eth < (this.gasPrice * this.gasLimit / 1e9)) {
+
+        const transFeeDouble = new BigNumber(this.gasPrice).multipliedBy(new BigNumber(this.gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
+        if(eth < transFeeDouble) {
           this.tranServ.get('Not enough transaction fee').subscribe(
             (notEngoutTransactioFee: string) => {
               this.tranServ.get('Ok').subscribe(

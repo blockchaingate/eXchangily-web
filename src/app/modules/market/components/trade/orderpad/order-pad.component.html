@@ -55,7 +55,7 @@
                         {{utilService.showAmount(tx.price, pairConfig.priceDecimal)}}</div>
                     <div class="quantity smallfont text-muted">
                         {{utilService.showAmount(tx.quantity, pairConfig.qtyDecimal)}}</div>
-                    <div class="total smallfont text-muted">{{tx.time | date:'mediumTime'}}</div>
+                    <div class="total smallfont text-muted">{{tx.time | date:'HH:mm:ss'}}</div>
                 </div>
             </div>
         </div>
@@ -73,7 +73,7 @@
     <div class="lower w-100">
         <div class="buyorder h-100 exg-bg mr-2 pb-3" *ngIf="baseCoin >= 0">
             <div class="aspace text-success">
-                {{'Available' | translate}} {{coinService.getCoinNameByTypeId(baseCoin)}}: {{utilService.showAmount(baseCoinAvail, pairConfig.qtyDecimal)}}
+                {{'Available' | translate}} {{coinService.getCoinNameByTypeId(baseCoin)}}: {{utilService.toNumber(utilService.showAmount(baseCoinAvail, 18))}}
             </div>
 
             <div class="aspace text-white">{{'Price' | translate}}</div>
@@ -136,7 +136,7 @@
 
         <div class="sellorder h-100 exg-bg pb-2" *ngIf="targetCoin >= 0">
             <div class="aspace text-danger">
-                {{'Available' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}: {{utilService.showAmount(targetCoinAvail, 6)}}
+                {{'Available' | translate}} {{coinService.getCoinNameByTypeId(targetCoin)}}: {{utilService.toNumber(utilService.showAmount(targetCoinAvail, 18))}}
             </div>
 
             <div class="aspace text-white">{{'Price' | translate}}</div>

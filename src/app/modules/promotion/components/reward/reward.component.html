@@ -1,93 +1,104 @@
 <div class="container py-3">
     <div class="row">
-        <div class="col col-4 border-right text-center">
-            <mat-card>
-                <div class="memer-type member-type-golden">
-                    {{membership | translate}}{{' member' | translate }}
-                </div>
-                <div>
-                    {{'My investment' | translate}}: {{totalValue}}
-                </div>   
-                <div>
-                    {{'My EXG' | translate }}: {{totalQuantities}}
-                </div>       
-                
-                <div *ngIf="referralCode && (membership != 'unqualified')" class="py-2">
-                    <div>
-                        {{'Referral code' | translate }}: {{referralCode}}
-                    </div>
-                    
-                    <div>
-                        {{'Referral link' | translate}}: {{baseUrl}}/login/signup/{{referralCode}}
-                    </div>
-                    
-                </div>                
-            </mat-card>
+        <div class="col col-12 text-center">
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-card class="topinfo memer-type-info">
+                        <div class="">
+                            <div class="memer-type member-type-golden">
+                                {{membership | translate}}{{' member' | translate }}
+                            </div>
+                            <div class="mt-3 memer-type-info-sub">
+                                {{'My investment' | translate}}: {{totalValue}}
+                            </div>
+                            <div>
+                                {{'My EXG' | translate }}: {{totalQuantities}}
+                            </div>
 
-            <mat-card class="mt-3">
-                <div class="memer-type member-type-golden">
-                    {{'My rewards' | translate }}
-                </div>
-                <div class="circle">
-                    <div class="circle-text">
-                    {{totalEXG}} EXG 
-                    </div>
+                            <div *ngIf="referralCode && (membership != 'unqualified')" class="mt-3">
+                                <div class="memer-type-info-sub">
+                                    {{'Referral code' | translate }}: {{referralCode}}
+                                </div>
 
+                                <div>
+                                    {{'Referral link' | translate}}:
+                                    <div class="member-link">{{baseUrl}}/login/signup/{{referralCode}}</div>
+                                </div>
+                                <button (click)="copyMessage()" value="click to copy">{{'Copy Link' | translate}}</button>
+                            </div>
+                        </div>
+                    </mat-card>
                 </div>
+                <div class="col-md-6 MY-REWARDS">
+                    <mat-card class=" topinfo">
+                        <div class="memer-type member-type-golden">
+                            {{'My rewards' | translate }}
+                        </div>
+                        <div class="circle">
+                            <div class="circle-text">
+                                {{totalEXG}} EXG
+                            </div>
 
-                <div>
-                    {{getTotalEXGValue()}} {{'USD' | translate }}
-                </div>
+                        </div>
+
+                        <div>
+                            {{getTotalEXGValue()}} {{'USD' | translate }}
+                        </div>
 
 
-                <div *ngIf="extraEXG">
-                    {{'You can get' | translate}} {{extraEXG}} {{'more EXG tokens if you upgrade your membership' | translate}}
+                        <div *ngIf="extraEXG">
+                            {{'You can get' | translate}} {{extraEXG}}
+                            {{'more EXG tokens if you upgrade your membership' | translate}}
+                        </div>
+                        <div>
+                            {{'Team rewards' | translate}}: {{teamsRewards}}
+                        </div>
+                    </mat-card>
                 </div>
-                <div>
-                    {{'Team rewards' | translate}}: {{teamsRewards}}
-                </div>
-            </mat-card>
+            </div>
         </div>
-        <div class="col col-8">
+        <div class="col col-12 member-chat">
 
-            <div class="container">
+            <div>
                 <div class="row">
-                    <div class="col col-6">
-                        <x-chartist
-                        [type]="type"
-                        [data]="dataPersonal1"
-                        [options]="options"
-                        [events]="events"
-                      ></x-chartist>
-                      <p class="text-center">
-                          <a (click)="openMemberModal()">
-                            {{'Members' | translate}}
-                          </a>
-                          
-                        </p>
+                    <div class="col-md-4">
+                        <div class="member-gb-pad">
+                            <p class="text-center">
+                                {{'Members' | translate}}
+                                <a (click)="openMemberModal()">
+                                    <button>
+                                        {{'Details' | translate}}
+                                    </button>
+                                </a>
+
+                            </p>
+                            <x-chartist [type]="type" [data]="dataPersonal1" [options]="options" [events]="events">
+                            </x-chartist>
+
+                        </div>
                     </div>
 
-                    <div class="col col-6">
-                        <x-chartist
-                        [type]="type"
-                        [data]="dataPersonal2"
-                        [options]="options"
-                        [events]="events"
-                      ></x-chartist>
-                      <p class="text-center">{{'Rewards' | translate }}</p>
-                    </div>                   
+                    <div class="col-md-4">
+                        <div class="member-gb-pad">
+                            <p class="text-center">{{'Rewards' | translate }}</p>
+                            <x-chartist [type]="type" [data]="dataPersonal2" [options]="options" [events]="events">
+                            </x-chartist>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="member-gb-pad fh">
+                            <div class="member-gb-pad-child">
+                                <p class="text-center">{{'Team rewards' | translate }}</p>
+                                <x-chartist [type]="'Pie'" [data]="data2" [options]="data2Options" [events]="events">
+                                </x-chartist>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="container">
-                <x-chartist
-                [type]="'Pie'"
-                [data]="data2"
-                [options]="data2Options"
-                [events]="events"
-                ></x-chartist>
-                <p class="text-center">{{'Team rewards' | translate }}</p>
-            </div>
+
         </div>
     </div>
 </div>

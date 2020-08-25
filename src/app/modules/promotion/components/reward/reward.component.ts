@@ -48,7 +48,7 @@ interface ExampleFlatNode {
 @Component({
   selector: 'app-reward',
   templateUrl: './reward.component.html',
-  styleUrls: ['./reward.component.css']
+  styleUrls: ['./reward.component.scss']
 })
 
 export class RewardComponent implements OnInit {
@@ -175,6 +175,21 @@ export class RewardComponent implements OnInit {
     }
     return 0;
   }
+
+  copyMessage(){
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = this.baseUrl+'/login/signup/'+this.referralCode;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+  }
+
   ngOnInit() {
     this.baseUrl = environment.baseUrl;
     this.teamsRewards = 0;

@@ -113,6 +113,12 @@ export class KanbanService {
     return this.http.get<KanbanStats>(`${this.tmpUrl}getkanbanstats`);
   }
 
+  getDividends(): Observable<any> {
+    const url = `${this.tmpUrl}exchangily/ExgDividend`;
+    console.log('url==', url);
+    return this.http.get<any>(url);
+  }
+
   getLaetstOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(`${this.tmpUrl}getlatestorders`);
   }

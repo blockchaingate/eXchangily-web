@@ -16,12 +16,12 @@ import { environment } from '../../../../../../environments/environment';
 // import { OrderTicketFocusControl } from 'dist/dex/assets/charting_library/charting_library.min';
 
 interface BarData {
-  time: number;
-  open: number;
-  high: number;
-  low: number;
-  close: number;
-  volume: number;
+  t: number;
+  o: number;
+  h: number;
+  l: number;
+  c: number;
+  v: number;  
 }
 
 @Component({
@@ -82,7 +82,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
 
   @Input()
   set symbol(symbol: ChartingLibraryWidgetOptions['symbol']) {
-    this._symbol = symbol || this._symbol;
+    this._symbol = (symbol || this._symbol);
   }
 
   @Input()
@@ -214,11 +214,11 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
           (res: any) => {
             if (res && res.length > 0) {
               for (let i = 0; i < res.length; i++) {
-                res[i].open = res[i].open / 1e18;
-                res[i].close = res[i].close / 1e18;
-                res[i].volume = res[i].volume / 1e18;
-                res[i].high = res[i].high / 1e18;
-                res[i].low = res[i].low / 1e18;
+                res[i].open = res[i].o;
+                res[i].close = res[i].c;
+                res[i].volume = res[i].v;
+                res[i].high = res[i].h;
+                res[i].low = res[i].l;
                 res[i].time = res[i].time * 1000;
               }
               onResult(res);
@@ -234,8 +234,8 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
             tap(() => {
               onResolve({
                 name: targetCoinName.toUpperCase() + '/' +  baseCoinName.toUpperCase(),
-                full_name: baseCoinName, // display on the chart
-                base_name: targetCoinName,
+                full_name: targetCoinName.toUpperCase() + '/' +  baseCoinName.toUpperCase(), // display on the chart
+                base_name: targetCoinName.toUpperCase() + '/' +  baseCoinName.toUpperCase(),
                 minmov: 1,
                 minmov2: 2,
                 pricescale: 1000000,
@@ -284,25 +284,15 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
               return;
             }
             const itemData = {
-              time: item.time * 1000,
-              open: item.open / 1e18,
-              high: item.high / 1e18,
-              low: item.low / 1e18,
-              close: item.close / 1e18,
-              volume: item.volume / 1e18
+              time: item.t * 1000,
+              open: item.o,
+              high: item.h,
+              low: item.l,
+              close: item.c,
+              volume: item.v
             };
 
-            //                 console.log('price=', itemData.price);
-            /*
-                             console.log('time=', itemData.time);
-            
-                             console.log('open=', itemData.open);
-                             console.log('high=', itemData.high);
-                             console.log('low=', itemData.low);
-                             console.log('close=', itemData.close);
-                             console.log('volume=', itemData.volume);
-            */
-            if (item.time > 0) {
+            if (item.t > 0) {
               onTick(itemData);
             }
 

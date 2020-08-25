@@ -13,6 +13,7 @@ import { OrderComponent } from './order/order.component';
 import { AuthGuard } from '../../guards/auth/auth.guard';
 import { AccountPaths } from '../../paths/account-paths';
 import { SecurityComponent } from './security/security.component';
+import { MerchantComponent } from './merchant/merchant.component';
 // import { AdminModule } from '../admin/admin.module';
 import { UserResolver, UserAdminResolver } from '../../resolvers/user/user.resolve';
 import { IcotxResolver, IcotxParentResolver } from '../../resolvers/icotx/icotx.resolve';
@@ -39,6 +40,10 @@ const routes: Routes = [
       },
       {
         path: AccountPaths[5].relative,
+        component: MerchantComponent
+      },         
+      {
+        path: AccountPaths[6].relative,
         component: SecurityComponent
       },      
       {

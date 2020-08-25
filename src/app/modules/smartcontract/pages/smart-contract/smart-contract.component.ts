@@ -9,8 +9,13 @@ import { UtilService } from '../../../../services/util.service';
 import { CoinService } from '../../../../services/coin.service';
 import { AlertService } from '../../../../services/alert.service';
 import * as Btc from 'bitcoinjs-lib';
+import { KanbanService } from '../../../../services/kanban.service';
 import { MyCoin } from '../../../../models/mycoin';
 import {environment} from '../../../../../environments/environment';
+import { TransactionResp } from '../../../../interfaces/kanban.interface';
+import Common from 'ethereumjs-common';
+import KanbanTxService from '../../../../services/kanban.tx.service';
+
 @Component({
   selector: 'app-smart-contract',
   templateUrl: './smart-contract.component.html',
@@ -24,6 +29,8 @@ export class SmartContractComponent implements OnInit {
   result: string;
   error: string;
   ethData: string;
+  kanbanTo: string;
+  kanbanValue: number;
   kanbanData: string;
   payableValue: number;
   selectedMethod: string;
@@ -32,6 +39,7 @@ export class SmartContractComponent implements OnInit {
   smartContractAddress: string;
   mycoin: MyCoin;
   ethCoin: MyCoin;
+  exgCoin: MyCoin;
   balance: any;
   ethBalance: any;
   ABI = [];
@@ -41,6 +49,7 @@ export class SmartContractComponent implements OnInit {
     private web3Serv: Web3Service,
     private utilServ: UtilService,
     private coinServ: CoinService,
+    private kanbanServ: KanbanService,
     private alertServ: AlertService
     ) { 
     // this.ABI = this.getFunctionABI(this.ABI);
@@ -99,6 +108,9 @@ export class SmartContractComponent implements OnInit {
       if (coin.name === 'ETH') {
         this.ethCoin = coin;
         this.ethBalance = await this.coinServ.getBalance(coin);        
+      }
+      if(coin.name === 'EXG') {
+        this.exgCoin = coin;
       }
     }  
     
@@ -231,30 +243,65 @@ export class SmartContractComponent implements OnInit {
 
   }
 
-  async deployKanbanDo(seed) {
+  async callKanbanDo(seed) {
 
-    const keyPair = this.coinServ.getKeyPairs(this.ethCoin, seed, 0, 0);
-    const nonce = await this.apiServ.getEthNonce(this.ethCoin.receiveAdds[0].address);
-    console.log('this.ethData = ', this.ethData);
-    const txParams = {
+    const keyPairsKanban = this.coinServ.getKeyPairs(this.exgCoin, seed, 0, 0);
+    // const nonce = await this.apiServ.getEthNonce(this.ethCoin.receiveAdds[0].address);
+    let gasPrice = environment.chains.KANBAN.gasPrice;
+    let gasLimit = environment.chains.KANBAN.gasLimit;
+    const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
+
+    let kanbanTo = '0x0000000000000000000000000000000000000000';
+    if(this.kanbanTo) {
+      kanbanTo = this.kanbanTo;
+    }
+
+    let kanbanValue = 0;
+    if(this.kanbanValue) {
+      kanbanValue = this.kanbanValue;
+    }
+    console.log(this.kanbanTo);
+    const txObject = {
         nonce: nonce,
-        gasPrice: 100000000000,
-        gasLimit: 8000000,
-        to: '',
-        value: 0,
-        data: this.ethData          
+        gasPrice: gasPrice,
+        gasLimit: gasLimit,
+        to: kanbanTo,
+        value: kanbanValue,
+        data: '0x' + this.utilServ.stripHexPrefix(this.kanbanData)          
     };
 
-    // console.log('txParams=', txParams);
-    const txHex = await this.web3Serv.signTxWithPrivateKey(txParams, keyPair);
+    const privKey = Buffer.from(keyPairsKanban.privateKeyHex, 'hex');
+
+    let txhex = '';
 
 
-    const retEth = await this.apiServ.postEthTx(txHex);   
+    const customCommon = Common.forCustomChain(
+      environment.chains.ETH.chain,
+      {
+        name: environment.chains.KANBAN.chain.name,
+        networkId: environment.chains.KANBAN.chain.networkId,
+        chainId: environment.chains.KANBAN.chain.chainId
+      },
+      environment.chains.ETH.hardfork,
+    );
+    const tx = new KanbanTxService(txObject, { common: customCommon });
 
-    console.log('retEth===', retEth);
-    if(retEth && retEth.txHash) {
-      this.alertServ.openSnackBarSuccess('Smart contract was deploy successfully.', 'Ok');
+    tx.sign(privKey);
+    const serializedTx = tx.serialize();
+    txhex = '0x' + serializedTx.toString('hex');
+
+    this.kanbanServ.sendRawSignedTransaction(txhex).subscribe(
+      (resp: TransactionResp) => {
+      if (resp && resp.transactionHash) {
+        this.alertServ.openSnackBarSuccess('Smart contract was called successfully.', 'Ok');
+      } else {
+        this.alertServ.openSnackBar('Failed to call smart contract.', 'Ok');
+      }
+    },
+    error => {
+      this.alertServ.openSnackBar(error.error, 'Ok');
     }
+    );
 
   }
 
@@ -317,8 +364,8 @@ export class SmartContractComponent implements OnInit {
     if(this.action == 'deployEth') {
       await this.deployEthDo(seed);
     } else
-    if(this.action == 'deployKanban') {
-      await this.deployKanbanDo(seed);
+    if(this.action == 'callKanban') {
+      await this.callKanbanDo(seed);
     }
   }
 
@@ -328,8 +375,8 @@ export class SmartContractComponent implements OnInit {
     this.pinModal.show(); 
   }
 
-  deployKanban() {
-    this.action = 'deployKanban';
+  callKanban() {
+    this.action = 'callKanban';
     this.pinModal.show(); 
   }
 }
