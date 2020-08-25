@@ -1,36 +1,63 @@
 <div class="container">
-    <div>
+    <div class="help-area">
         <div class="title mt-2">
             <h1>{{"Help" | translate}}</h1>
         </div>
 
         <div>
             <div>
-
             </div>
         </div>
 
         <div class="ticket">
-            <h4>Ticket</h4>
+            <h4>{{"Create Ticket"|translate}}</h4>
             <form class="ticket-form">
-                <mat-form-field appearance="fill">
-                    <mat-label>Ticket category</mat-label>
-                    <mat-select class="white">
-                        <mat-option *ngFor="let tickcat of ticketCats" [value]="tickcat.value">
-                            {{tickcat.viewValue}}
-                        </mat-option>
+                <mat-form-field appearance="fill" class="ticket-half-width">
+                    <mat-label class="white">{{"Category" | translate}} *</mat-label>
+                    <mat-select panelClass="cat-select-panel" [(value)]="selectedCat">
+                        <mat-option value="0">{{"Sending fund"| translate}}</mat-option>
+                        <mat-option value="1">{{"Receiving fund" | translate}}</mat-option>
+                        <mat-option value="2">{{"Move fund to DEX"|translate}}</mat-option>
+                        <mat-option value="3">{{"Withdraw fund from DEX"|translate}}</mat-option>
+                        <mat-option value="4">{{"Trade"|translate}}</mat-option>
+                        <mat-option value="5">{{"Cancel Orders"|translate}}</mat-option>
+                        <mat-option value="6">{{"Website issue"|translate}}</mat-option>
+                        <mat-option value="7">{{"Mobile app issue"|translate}}</mat-option>
+                        <mat-option value="8">{{"Others"|translate}}</mat-option>
                     </mat-select>
                 </mat-form-field>
-
+                <!--
                 <mat-form-field class="ticket-full-width">
-                    <mat-label>Email</mat-label>
-                    <input matInput placeholder="myemail@example.com">
+                    <mat-label>Email *</mat-label>
+                    <input matInput class="ticket-half-width" name="email" placeholder="myemail@example.com" [(ngModel)]="email">
+                </mat-form-field>
+            -->
+                <mat-form-field class="ticket-full-width">
+                    <mat-label>{{"Issue" | translate}} *</mat-label>
+                    <input matInput class="ticket-half-width" name="problem" [(ngModel)]="title">
                 </mat-form-field>
 
                 <mat-form-field class="ticket-full-width">
-                    <mat-label>Issue description</mat-label>
-                    <textarea class="ticket-full-width" matInput placeholder="Describe details of issue."></textarea>
+                    <mat-label>{{"Description"|translate}} *</mat-label>
+                    <textarea class="ticket-full-width" matInput name="desc" placeholder="Describe details of issue." [(ngModel)]="desc"></textarea>
                 </mat-form-field>
+
+                <div style="color: red;" *ngIf="!logIn || errMsg">
+                    {{"Token expired, please login and try again" | translate}}
+                </div>
+                <div style="color: red;" *ngIf="!catselected">
+                    {{"Please select category" | translate}}
+                </div>
+                <div style="color: red;" *ngIf="toShort">
+                    {{"Issue or description too short" | translate}}
+                </div>
+                <div style="color: lightgreen;" *ngIf="success">
+                    {{"tickCreateSuccess" | translate}}
+                </div>
+
+                <div class="submitBtn">
+                    <button type="submit" (click)="submit()">{{"Submit"|translate}}</button>
+                </div>
             </form>
 
         </div>

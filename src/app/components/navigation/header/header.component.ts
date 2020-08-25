@@ -19,7 +19,7 @@ import { environment } from '../../../../environments/environment';
 export class HeaderComponent implements OnInit {
   currentLang: string;
   loggedIn = false;
-  selectedItem = 0;
+  selectedItem = 2;
   // @Output() public sidenavToggle = new EventEmitter();
   background: string;
   pendingtransactions: TransactionItem[];

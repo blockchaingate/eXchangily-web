@@ -35,12 +35,12 @@ export class SigninComponent implements OnInit {
         this.afterLoginUrl = params['retUrl'];
     });
 
-    //console.log('token=', this._userAuth.token);
+    // console.log('token=', this._userAuth.token);
     this.isSystemAdmin = false;
     if (!this._userAuth.token) {
       this._storageServ.getToken().subscribe(
         (token: string) => {
-          //console.log('token=', token);
+          // console.log('token=', token);
         }
       );
     }

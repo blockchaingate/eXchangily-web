@@ -22,6 +22,10 @@ export class HttpService {
     }
 
     postPrivate(path: string, data: any, token: string) {
+        if (!token) {
+            token = this.userAuth.token;
+        }
+
         const httpHeaders = new HttpHeaders({
             'Content-Type': 'application/json',
             'x-access-token': token
@@ -33,6 +37,10 @@ export class HttpService {
     }
  
     getPrivate(path: string, token: string) {
+        if (!token) {
+            token = this.userAuth.token;
+        }
+
         const httpHeaders = new HttpHeaders({
             'Content-Type': 'application/json',
             'x-access-token': token

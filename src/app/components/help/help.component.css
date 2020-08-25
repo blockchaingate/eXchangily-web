@@ -1,18 +1,27 @@
 .help-area {
-    margin-top: 2em;
+    padding: 6em;
 }
 
 .ticket {
     width: 100%;
-    border: 1px solid red;
+    background-color: lightgray;
+    margin-top: 1em;
+    padding: 2em;
 }
 
 .ticket-form {
     min-width: 150px;
     width: 100%;
-    border: 1px solid green;
+}
+
+.ticket-half-width {
+    width: 300px;
 }
 
 .ticket-full-width {
     width: 80%;
+}
+
+.submitBtn {
+    margin-top: 2em;
 }

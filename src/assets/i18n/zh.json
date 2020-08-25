@@ -1096,7 +1096,7 @@
     "Total rewards": "交易奖励总额",
     "Total special rewards": "特别奖励总额",
     "Reward": "交易奖励",
-    "Special reward": "特别奖励",    
+    "Special reward": "特别奖励",
     "Locked Details": "锁仓详情",
     "Expired Block": "到期区块",
     "Type answer": "输入答案",
@@ -1198,7 +1198,7 @@
     "Rewards Program Example Detail 10": "客户A年收益率： APR = （552 EXG/1000 EXG)* (365 天/21天）= 959.4% (忽略不计团队的扩张，FAB价值和EXG的升值，假设活动21天后结束)",
     "Rewards Program Example Detail Beizhu": "备注：美国和加拿大公民需满足合格投资人条件之一才可参加此活动。合格投资人定义：",
     "Rewards Program Example Detail Beizhu 1": "1. 机构投资人",
-    "Token expired, please login and try again": "令牌已过期，请登录并重试",
+    "Token expired, please login and try again": "登录已过期，请登录并重试",
     "Rewards Program Example Detail Beizhu 2": "2. 过去年收入在20万美元以上的投资人",
     "Rewards Program Example Detail Beizhu 3": "3. 过去夫妻联合年收入在30万美元以上的投资人",
     "Rewards Program Example Detail Beizhu 4": "4. 不算现住房的净资产在100万美元以上的投资人",
@@ -1411,5 +1411,17 @@
         "eventRewardUserLevel-3": "三级客户",
         "eventTeam": "团队奖励",
         "eventTeamDetail": "如果某投资人至少直接推荐10人，并且本人投资3000美元（含）以上，则可获得10层下线团队奖。奖励方式请见下表："
-    }
+    },
+    "tickCreateSuccess": "您已成功提交求助请示，任何更新您将收到Email通知。",
+    "Issue": "问题",
+    "Description": "描述",
+    "Create Ticket": "提交帮助请求",
+    "Issue or description too short": "问题或描述太短，请填写详细信息",
+    "Category": "分类",
+    "Please select category": "请选择分类",
+    "Sending fund": "转账",
+    "Receiving fund": "收款",
+    "Website issue": "网站使用问题",
+    "Mobile app issue": "网站使用问题",
+    "Withdraw fund from DEX": "从交易所向钱包转币"
 }
