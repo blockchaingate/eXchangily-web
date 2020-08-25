@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 
 import {Balance,  EthTransactionRes
-    , FabTransactionResponse, CoinsPrice, BtcUtxo, KEthBalance, FabUtxo, EthTransactionStatusRes,
+    , FabTransactionResponse, CoinsPrice, BtcUtxo, KEthBalance, FabUtxo, EthTransactionStatusRes, GasPrice,
     FabTokenBalance, FabTransactionJson, BtcTransactionResponse, BtcTransaction} from '../interfaces/balance.interface';
 
 import {Web3Service} from './web3.service';
@@ -16,6 +16,20 @@ export class ApiService {
     
     constructor(private http: HttpClient, private web3Serv: Web3Service, private utilServ: UtilService, private alertServ: AlertService) { }
     
+    getExTransaction(code: string) {
+        const url = environment.endpoints.blockchaingate + 'payment/gateway/code/' + code;
+        return this.http.get(url);
+    }
+
+    updateExTransactionId(trans_code: string, txid: string) {
+        const url = environment.endpoints.blockchaingate + 'payment/gateway/transaction';
+        const data = {
+            trans_code: trans_code,
+            txid: txid
+        };
+        return this.http.post(url, data);
+    }
+
     getSmartContractABI(address: string) {
         if (!address.startsWith('0x')) {
             address = '0x' + address;
@@ -68,6 +82,16 @@ export class ApiService {
             response = await this.http.get(url).toPromise() as [BtcUtxo];
         } catch (e) {console.log (e); }
         return response;
+    }
+
+    async getEthGasPrice(): Promise<number> {
+        const url = 'https://ethprod.fabcoinapi.com/getgasprice';
+        let gasPrice = 0;
+        try {
+            const response = await this.http.get(url).toPromise() as GasPrice;
+            gasPrice = response.gasprice;
+        } catch (e) {console.log (e); }
+        return gasPrice;
     }
 
     async getDogeUtxos(address: string): Promise<[BtcUtxo]> {

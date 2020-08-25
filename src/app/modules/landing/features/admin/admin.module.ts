@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ComponentsModule } from '../../components/components.module';
@@ -35,6 +37,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { PaymentMethodService } from '../../../../services/paymentmethod.service';
 import { OtcListingOrdersModal } from './modals/otc-listing-orders/otc-listing-orders.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { SharedModule } from '../../../shared/shared.module';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -44,7 +47,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     CommonModule,
     RouterModule,
     FormsModule,
+    MatFormFieldModule,
+    SharedModule,
     ReactiveFormsModule,
+    MatInputModule,
     ComponentsModule,
     TranslateModule,
     AdminRoutingModule,

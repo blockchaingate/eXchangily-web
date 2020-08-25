@@ -11,7 +11,7 @@ export const environment = {
     baseUrl: 'https://exchangily.com',
     url: 'https://kanbanprod.fabcoinapi.com/',
     tmpUrl: 'https://kanbanprod.fabcoinapi.com/', // replace this url once the temp api is deployed    
-    version: '1.3.2',
+    version: '1.4.2',
     campaignId: 1,
     OTC_COMMISSION_RATE: 0.01,
     chains: {
@@ -70,7 +70,9 @@ export const environment = {
             chain: 'mainnet',
             hardfork: 'petersburg',
             gasPrice: 90,
-            gasLimit: 200000
+            gasPriceMax: 200,
+            gasLimit: 21000,
+            gasLimitToken: 70000
         },
         FAB: {
             network: Btc.networks.bitcoin,
@@ -132,7 +134,7 @@ export const environment = {
             EXG: '0xa3e26671a38978e8204b8a37f1c2897042783b00',
             USDT: '0xdac17f958d2ee523a2206206994597c13d831ec7',
             DUSD: '0x46e0021c17d30a2db972ee5719cdc7e829ed9930',
-            BNB: '0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
+            //BNB: '0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
             INB: '0x17aa18a4b64a55abed7fa543f2ba4e91f2dce482',
             REP: '0x1985365e9f78359a9B6AD760e32412f4a445E862',
             HOT: '0x6c6ee5e31d828de241282b9606c8e98ea48526e2',
@@ -171,7 +173,7 @@ export const environment = {
         BCH: 'bitcoincash:qq7zkgp2vz3v5m38vy5cwf26k27y4rvkdy0fam589r',
         LTC: 'LXgK78jxrVk9wVn1KJiU7SGawi6tJxv2tw',
         DOGE: 'DM3aQpvSLDnFm6iYiNHZzTs4juRUSwb4ji',
-        BNB: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
+        //BNB: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
         INB: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
         REP: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
         HOT: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',

@@ -94,6 +94,11 @@ export class UserService {
     return this.http.getPrivate(url, token).pipe(map(res => res));
   }
 
+  getMerchant(token) {
+    const url = path + 'merchant';
+    return this.http.getPrivate(url, token).pipe(map(res => res));
+  }
+
   validateNumber(token, mobile) {
     const url = path + 'validateNumber';
     const data = {

@@ -1,37 +1,65 @@
 <div class="container">
-    <div>
-        <div class="title" *ngIf="_authServ.lanCode==='EN'">
-            <h1>Help</h1>
-        </div>
-        <div class="title" *ngIf="_authServ.lanCode==='CN'">
-            <h1>帮助</h1>
+    <div class="help-area">
+        <div class="title mt-2">
+            <h1>{{"Help" | translate}}</h1>
         </div>
 
-        <div class="help-area" *ngIf="_authServ.lanCode==='EN'">
-            1. <b>How to register Exchangily account ?</b><br> Exchangily testnet is a testing network for testing core system development by core team, or testing application by application developers, coins in testnet is for test purpose only, no any
-            usage and value and unable being used in production network.<br> Generally, testnet is with all features of production network, however, it may have more and newer features compare to production network.
-            <br><br> 2. <b>What is testnet seed node ? How to check testnet state?</b><br> Exchangily official testnet seeds are: 35.182.160.212 and 13.59.134.49, if you know other nodes' ip, please take them for priority.<br> To check status of testnet
-            blockchain, please visit link: fabtest.info
-            <br><br> 3. <b>About Exchangily production network</b><br> Exchangily production network is the official Exchangily network, Exchangily coins in Exchangily production network is the official Exchangily coin, it is usable and valuable as whitepaper
-            outlined.
-            <br> According to Exchangily development plan, Exchangily production network will conduct a hard fork named "The Force" by the end of Sep. 2018, new netwrok after "The Force" day will be with full features designed in whitepaper, that is,
-            will meet enperprise grade needs.
-            <br><br> 4. <b>How to connect to production network? how to check production network status?</b><br> You can connect to Exchangily Foundation official seed nodes directly: 54.215.244.48 and 18.130.6.117, you may connect to any other nodes
-            also if you know.<br> To check status of Exchangily production network, please visit link: fabexplorer.info
-            <br><br> 5. <b>What kind wallet available?</b><br> Currently we have Ubentu version and windows wallet are available, web wallet or light wallet will be available in 2 weeks.
-            <br><br>
+        <div>
+            <div>
+            </div>
         </div>
 
-        <div class="help-area" *ngIf="_authServ.lanCode==='CN'">
-            1. <b>如何注册亿币账户 ？</b><br> 亿币测试网络是发链核心开发组用于测试系统功能的网络，大众也可以通过测试网络测试应用软件的功能，测试网络上的币没有任何实用价值，仅供系统及应用功能测试。
-            <br> 一般来说，测试网络具备生产网络的全部功能，尤其对于应用开发来说，在测试网络上稳定运行的仅执行生产网络功能的应用，应可以在生产网络上运行。但测试网络可能具有比生产网络更新及更多的功能，这些功能我们会在开发文档中作出说明。
-            <br><br> 2. <b>测试网络有哪些节点可供连接？如何查看测试网络的状态？</b><br> 在亿币网络域名服务器开通之前，请通过如下IP连接测试网络节点：35.182.160.212 及 13.59.134.49, 如果你知道其它节点，请优先使用其它节点IP。<br> 如果想查看测试网络状态，请通过如下链接查看：fabtest.info
-            <br><br> 3. <b>关于亿币生产网络</b><br> 亿币生产网络是发链系统的正式生产平台，生产网络上的发币是发链的官方货币，具有根据白皮书设定的功能及使用价值。
-            <br> 根据官方预定的开发计划，发链生产网络预计在2018年9月进行一次名为“原力(The Force)”的硬分叉行动，在原力日之后，发链将真正展示原始设计的力量: 满足企业级对去中心化应用的性能要求。<br><br> 4. <b>如何连接生产网络？如果查看生产网络状态？</b><br> 目前官方提供的种子节点为：54.215.244.48 及 18.130.6.117，以后会通过网络域名服务器提供动态联接IP服务。<br> 如果想查看生产网络区块链状态，请访问如下链接:
-            fabexplorer.info <br><br> 5. <b>目前亿币有什么版本的主链钱包？</b><br> 目前已经发布的发链主链钱包有Ubuntu版本及Windows版本，Web版本及轻量钱包将在两周内发布。
-            <br><br>
+        <div class="ticket">
+            <h4>{{"Create Ticket"|translate}}</h4>
+            <form class="ticket-form">
+                <mat-form-field appearance="fill" class="ticket-half-width">
+                    <mat-label class="white">{{"Category" | translate}} *</mat-label>
+                    <mat-select panelClass="cat-select-panel" [(value)]="selectedCat">
+                        <mat-option value="0">{{"Sending fund"| translate}}</mat-option>
+                        <mat-option value="1">{{"Receiving fund" | translate}}</mat-option>
+                        <mat-option value="2">{{"Move fund to DEX"|translate}}</mat-option>
+                        <mat-option value="3">{{"Withdraw fund from DEX"|translate}}</mat-option>
+                        <mat-option value="4">{{"Trade"|translate}}</mat-option>
+                        <mat-option value="5">{{"Cancel Orders"|translate}}</mat-option>
+                        <mat-option value="6">{{"Website issue"|translate}}</mat-option>
+                        <mat-option value="7">{{"Mobile app issue"|translate}}</mat-option>
+                        <mat-option value="8">{{"Others"|translate}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <!--
+                <mat-form-field class="ticket-full-width">
+                    <mat-label>Email *</mat-label>
+                    <input matInput class="ticket-half-width" name="email" placeholder="myemail@example.com" [(ngModel)]="email">
+                </mat-form-field>
+            -->
+                <mat-form-field class="ticket-full-width">
+                    <mat-label>{{"Issue" | translate}} *</mat-label>
+                    <input matInput class="ticket-half-width" name="problem" [(ngModel)]="title">
+                </mat-form-field>
+
+                <mat-form-field class="ticket-full-width">
+                    <mat-label>{{"Description"|translate}} *</mat-label>
+                    <textarea class="ticket-full-width" matInput name="desc" placeholder="Describe details of issue." [(ngModel)]="desc"></textarea>
+                </mat-form-field>
+
+                <div style="color: red;" *ngIf="!logIn || errMsg">
+                    {{"Token expired, please login and try again" | translate}}
+                </div>
+                <div style="color: red;" *ngIf="!catselected">
+                    {{"Please select category" | translate}}
+                </div>
+                <div style="color: red;" *ngIf="toShort">
+                    {{"Issue or description too short" | translate}}
+                </div>
+                <div style="color: lightgreen;" *ngIf="success">
+                    {{"tickCreateSuccess" | translate}}
+                </div>
+
+                <div class="submitBtn">
+                    <button type="submit" (click)="submit()">{{"Submit"|translate}}</button>
+                </div>
+            </form>
 
         </div>
-
     </div>
 </div>

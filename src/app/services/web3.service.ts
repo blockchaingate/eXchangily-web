@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import Web3 from 'web3';
 declare let window: any;
 import * as Eth from 'ethereumjs-tx';
-import Common from 'ethereumjs-common';
 import { Signature, EthTransactionObj } from '../interfaces/kanban.interface';
 import { UtilService } from './util.service';
 import * as ethUtil from 'ethereumjs-util';
+import Common from 'ethereumjs-common';
 import KanbanTxService from './kanban.tx.service';
 import { environment } from '../../environments/environment';
 import BigNumber from 'bignumber.js';
@@ -320,7 +320,6 @@ export class Web3Service {
       'type': 'function'
     };
     const abiHex = web3.eth.abi.encodeFunctionCall(func, paramsArray);
-    console.log('abiHex for getCreateOrderFuncABI=', abiHex);
     return abiHex;
   }
 

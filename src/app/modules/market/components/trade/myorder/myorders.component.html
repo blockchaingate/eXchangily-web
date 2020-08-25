@@ -30,7 +30,7 @@
         </div>
 
         <div class="myorderlist scroll-bar w-100 pt-2">
-            <div class="row orderline w-100" *ngFor="let order of myorders | orderfilter: orderStatus; let i=index">
+            <div class="row orderline w-100" *ngFor="let order of getOrders(); let i=index">
                 <div class="orditem text-white d-flex align-items-center" style="width: 20%;">
                     <div>
                         {{order.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}
@@ -80,7 +80,7 @@
         </div>
 
         <div class="myorderlist scroll-bar w-100 pt-2" [style.height.px]="screenheight-680">
-            <div class="row row-with-line w-100" *ngFor="let order of myorders | orderfilter: orderStatus; let i=index">
+            <div class="row row-with-line w-100" *ngFor="let order of getOrders(); let i=index">
                 <div class="text-muted col-5">
                     <p>
                         {{order.time | date:'yyyy-MM-dd HH:mm:ss'}}
@@ -143,10 +143,10 @@
                     </span>
                 </div>
                 <div class="col col-3 text-white smallfont">
-                    {{utilServ.showAmount(token.unlockedAmount, 6)}}
+                    {{utilServ.toNumber(utilServ.showAmount(token.unlockedAmount, 18))}}
                 </div>
                 <div class="col col-3 text-whit smallfonte">
-                    {{utilServ.showAmount(token.lockedAmount, 6)}}
+                    {{utilServ.toNumber(utilServ.showAmount(token.lockedAmount, 18))}}
                 </div>
                 <div class="col col-3 text-white smallfont">
                     <span class="hand-cursor" (click)="withdraw(templateWithdraw, token)">
@@ -168,7 +168,7 @@
     </div>
     <div class="modal-body">
         <div>
-            <label for="inputSendTo" class="text-muted">{{'Your balance' | translate }}:{{utilServ.showAmount(token.unlockedAmount, 6)}}</label>
+            <label for="inputSendTo" class="text-muted">{{'Your balance' | translate }}:{{utilServ.toNumber(utilServ.showAmount(token.unlockedAmount, 18))}}</label>
         </div>
 
         <div>

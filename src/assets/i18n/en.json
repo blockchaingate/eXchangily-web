@@ -1121,12 +1121,16 @@
     "Kanban Gas Limit": "Kanban Gas Limit",
     "My payment methods": "My payment methods",
     "BTC in FAB address": "BTC in FAB address",
+    "Dividends": "Dividends",
     "Tools": "Tools",
     "$150K": "$150K",
     "$250K": "$250K",
     "$350K": "$350K",
     "$500K": "$500K",
     "$750K": "$750K",
+    "Address": "Address",
+    "Reward": "Reward",
+    "Special reward": "Special reward",
     "Address transformer": "Address transformer",
     "FAB address": "FAB address",
     "EXG address": "EXG address",
@@ -1235,6 +1239,7 @@
         "eventRewardUserLevel-2": "tier 2",
         "eventRewardUserLevel-3": "tier 3",
         "eventTeam": "Team Rewards",
-        "eventTeamDetail": "If an investor recruited at least 10 people and themself invested at least $ 3000USD, they will get a 10-tier team award under their umbrella. The Team reward will be paid in EXG and will be based on the below table:"
+        "eventTeamDetail": "If an investor recruited at least 10 people and themself invested at least $ 3000USD, they will get a 10-tier team award under their umbrella. The Team reward will be paid in EXG and will be based on the below table:",
+        "tickCreateSuccess": "Thank you for submiting ticket, your ticket is created successful, you will receive email on update."
     }
 }

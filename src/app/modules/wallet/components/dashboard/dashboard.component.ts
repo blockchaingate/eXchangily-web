@@ -902,7 +902,7 @@ export class WalletDashboardComponent implements OnInit {
         myCoins.push(dogCoin);  
 
         const erc20Tokens = [
-            'BNB', 'INB', 'REP', 'HOT', 'MATIC', 'IOST', 'MANA', 
+            'INB', 'REP', 'HOT', 'MATIC', 'IOST', 'MANA', 
             'ELF', 'GNO', 'WINGS', 'KNC', 'GVT', 'DRGN'
         ];
 
@@ -1395,9 +1395,12 @@ export class WalletDashboardComponent implements OnInit {
         const amountInLink = new BigNumber(amount).multipliedBy(new BigNumber(1e18)); // it's for all coins.
         
         const amountInLinkString = amountInLink.toFixed();
-        const amountInTxString = new BigNumber(amountInTx.toString()).toFixed();
+        const amountInTxString = amountInTx.toFixed();
 
+        console.log('amountInLinkString===', amountInLinkString);
+        console.log('amountInTxString===', amountInTxString);
         if(amountInLinkString.indexOf(amountInTxString) === -1) {
+            console.log('not equal 1');
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar('转账数量不相等', 'Ok');
             } else {
@@ -1408,6 +1411,7 @@ export class WalletDashboardComponent implements OnInit {
 
         const subString = amountInLinkString.substr(amountInTxString.length);
         if(subString && Number(subString) !== 0) {
+            console.log('not equal 2');
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar('转账数量不符合', 'Ok');
             } else {
@@ -1474,7 +1478,10 @@ export class WalletDashboardComponent implements OnInit {
             error => {
                 console.log('error====');
                 console.log(error);
-                if (error.message) {
+                if(error.error && error.error.error) {
+                    this.alertServ.openSnackBar(error.error.error, 'Ok');
+                }
+                else if (error.message) {
                     this.alertServ.openSnackBar(error.message, 'Ok');
                 }
             }
