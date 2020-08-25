@@ -66,7 +66,11 @@ export class StorageService {
 
     getToken() {
         return this.localSt.getItem('token');
-    }  
+    }
+    
+    removeToken(){
+        return this.localSt.removeItem('token').subscribe(() => {});
+    }
 
     storeToTransactionHistoryList(transactionItem: TransactionItem) {
         this.getTransactionHistoryList().subscribe((transactionHistory: TransactionItem[]) => {

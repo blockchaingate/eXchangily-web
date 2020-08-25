@@ -1,0 +1,78 @@
+$easeInOutQuad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+
+:host {
+    color: #fff;
+}
+
+.topImage {
+    min-height: 500px;
+    color: #fff;
+    /* background-image: linear-gradient(90deg,#fbc879,#eb7f75,#a26aa7,#695aad,#3e51b0); */
+    background: #060610;
+    background-image: url("/images/img/support2.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    // background-position: 50% 50%;
+    text-align: center;
+    margin: 0 auto;
+
+    .topInfo {
+        padding-top: 120px;
+        font-size: 60px;
+        font-weight: 900;
+        animation: neonGlow 2s infinite alternate $easeInOutQuad;
+    }
+
+    .subInfo {
+        padding-top: 20px;
+        font-size: 18px;
+    }
+
+    .topSearch {
+        max-width: 600px;
+        margin: 20px auto;
+        padding-top: 30px;
+    }
+}
+
+.supportBody {
+    padding: 60px 0;
+
+    .support-section {
+        text-align: center;
+        padding: 30px;
+        // border: 1px solid #fff;
+
+        border-radius: 20px;
+
+        .support-section-title {
+            font-weight: 800;
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+
+        .support-section-btn {
+            margin-top: 30px;
+            padding: 3px 10px;
+            border-radius: 10px;
+        }
+    }
+
+    .support-section-s1 {
+        background-color: #000066;
+    }
+
+    .support-section-s2 {
+        background-color: #000077;
+    }
+
+    .support-section-s3 {
+        background-color: #000088;
+    }
+
+    .support-section-s1:hover,
+    .support-section-s2:hover,
+    .support-section-s3:hover {
+        background-color: #000099;
+    }
+}

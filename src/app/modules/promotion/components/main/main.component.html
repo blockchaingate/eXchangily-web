@@ -8,27 +8,30 @@
         </div>
         <div class="topButtons">
 
-            <a class="topBtn" *ngIf="!loggedIn" routerLink="/login/signup" routerLinkActive="selected"
-                [routerLinkActiveOptions]="{exact: true}"><button>{{'Header.Navigation.Signup' | translate}}</button></a>
-
+            <a class="topBtn" *ngIf="readyGo==false" routerLink="/login/signup" routerLinkActive="selected"
+                [routerLinkActiveOptions]="{exact: true}">
+                <button>{{'Header.Navigation.Signup' | translate}}</button>
+            </a>
             <a class="topBtn pointer" href="/promotion/reward"
-                *ngIf="membership && (membership != 'unqualified') &&loggedIn">
+                *ngIf="membership && (membership != 'unqualified')">
                 <button>{{'My rewards' | translate }}</button>
             </a>
-
-
-            <a class="topBtn pointer" href="/promotion/flyer" target="_blank" *ngIf="loggedIn">
+            <a class="topBtn pointer" href="/promotion/flyer" target="_blank" *ngIf="readyGo">
                 <button>{{'My referral' | translate }}</button>
             </a>
-            <a class="topBtn pointer" *ngIf="!loggedIn" routerLink="/login/signin" routerLinkActive="selected"
-                [routerLinkActiveOptions]="{exact: true}"><button>{{'Header.Navigation.Signin' | translate}}</button></a>
-            <a class="topBtn pointer" *ngIf="loggedIn" style="color: lightskyblue;" routerLinkActive="selected"
-                (click)="logout()"><u><button>{{ 'Header.Navigation.Signout' | translate }}</button></u></a>
+            <a class="topBtn pointer" *ngIf="readyGo==false" routerLink="/login/signin" routerLinkActive="selected"
+                [routerLinkActiveOptions]="{exact: true}">
+                <button>{{'Header.Navigation.Signin' | translate}}</button>
+            </a>
+            <a class="topBtn pointer" *ngIf="readyGo" style="color: lightskyblue;" routerLinkActive="selected"
+                (click)="logout()">
+                <button>{{ 'Header.Navigation.Signout' | translate }}</button>
+            </a>
 
 
         </div>
     </div>
-    <div class="container py-3 campaignDetail " *ngIf="!loggedIn">
+    <div class="container py-3 campaignDetail " *ngIf="readyGo==false">
         <h2 class="sectionTitle">
             {{'EventPage.title1' | translate }}<br>
             {{'EventPage.title2' | translate }}
@@ -372,7 +375,7 @@
                     </mat-accordion>
                 </div>
             </div> -->
-            <div class="col col-md-12 col-12 " *ngIf="loggedIn">
+            <div class="col col-md-12 col-12 " *ngIf="readyGo">
                 <div class="promotionData">
                     <div *ngIf="readyGoReasons && (readyGoReasons.length > 0)">
                         <h4 class="text-center pt-3">
@@ -571,7 +574,7 @@
             </div>
         </div>
 
-        <div class="row pt-3 readyTable" *ngIf="readyGo && loggedIn">
+        <div class="row pt-3 readyTable" *ngIf="readyGo">
             <div class="col col-12">
                 <table class="table table-striped">
                     <thead>

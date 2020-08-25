@@ -431,26 +431,26 @@ export class MainComponent implements OnInit {
         return;
       } else {
         let eth = 0;
-        for(let i=0;i<this.wallet.mycoins.length;i++) {
-          if(this.wallet.mycoins[i].name == 'ETH') {
+        for (let i = 0; i < this.wallet.mycoins.length; i++) {
+          if (this.wallet.mycoins[i].name == 'ETH') {
             eth = this.wallet.mycoins[i].balance;
           }
         }
-        if(eth < (this.gasPrice * this.gasLimit / 1e9)) {
+        if (eth < (this.gasPrice * this.gasLimit / 1e9)) {
           this.tranServ.get('Not enough transaction fee').subscribe(
             (notEngoutTransactioFee: string) => {
               this.tranServ.get('Ok').subscribe(
                 (ok: string) => {
                   this.alertServ.openSnackBar(notEngoutTransactioFee, ok);
                 }
-              );             
+              );
             }
           );
           return;
         } else {
           this.pinModal.show();
         }
-        
+
         return;
       }
 
@@ -533,10 +533,17 @@ export class MainComponent implements OnInit {
   }
 
   logout() {
+    console.log("Going to logout");
+    console.log("token: " + this.storageService.getToken());
+
+
     this._userAuth.id = '';
     this._userAuth.email = '';
     this._userAuth.token = '';
     this._userAuth.logout();
+    this.storageService.removeToken();
+
+    console.log("token: " + this.storageService.getToken());
     this.router.navigate(['/']);
   }
 

@@ -2,10 +2,10 @@
 
 .advblock-detail {
     width: 100%;
-    min-height: 100%;
+
     background-repeat: no-repeat;
     background-position: right bottom;
-
+    min-height: 150px;
 }
 
 @media (max-width: $p1024) {
@@ -14,25 +14,36 @@
     }
 }
 
+@media (max-width: 991px) and (min-width: 768px) {
+    .advblock-detail {
+        min-height: 230px;
+    }
+}
 
-.block1{
+@media (max-width: 767px) {
+    .advblock-detail {
+        min-height: 100%;
+    }
+}
+
+.block1 {
     background-color: #0d0a2d;
 }
 
-.block2{
+.block2 {
     background-color: #061561;
 }
 
-.block3{
+.block3 {
     background-color: #04103c;
 }
 
-.block4{
+.block4 {
     background-color: #04103c;
 }
 
 .title {
-    font-family: Verdana, sans-serif, SimHei, 'Microsoft YaHei';
+    font-family: Verdana, sans-serif, SimHei, "Microsoft YaHei";
     margin: 2px 12px;
     padding-top: 12px;
 }
