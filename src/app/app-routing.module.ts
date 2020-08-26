@@ -6,14 +6,14 @@ import { AppResolver } from './modules/landing/resolvers/app/app.resolve';
 import { FaqComponent } from './components/help/faq.component';
 import { HelpComponent } from './components/help/help.component';
 import { SubscriptionComponent } from './modules/landing/features/subscription/subscription.component';
-import {SupportComponent} from './modules/support/support.component';
-import {TicketComponent} from './modules/support/ticket/ticket.component';
-import {TicketAddComponent} from './modules/support/ticket-add/ticket-add.component';
-import {NewsComponent} from './modules/news/news.component';
+import { SupportComponent } from './modules/support/support.component';
+import { TicketComponent } from './modules/support/ticket/ticket.component';
+import { TicketAddComponent } from './modules/support/ticket-add/ticket-add.component';
+import { NewsComponent } from './modules/news/news.component';
 import { from } from 'rxjs';
 
 const routes: Routes = [
-  
+
   {
     path: 'explorer',
     loadChildren: () => import('./modules/kanbanexplorer/kanbanexplorer.module').then(m => m.KanbanExplorerModule)
@@ -113,17 +113,14 @@ const routes: Routes = [
   { path: 'help', component: HelpComponent },
   { path: 'faq', component: FaqComponent },
   { path: 'subscription', component: SubscriptionComponent },
-<<<<<<< HEAD
-  { path: 'support',component: SupportComponent },
-  { path: 'tickets',component: TicketComponent },
-  { path: 'ticket-add',component: TicketAddComponent },
-  { path: 'news',component: NewsComponent },
+  { path: 'support', component: SupportComponent },
+  { path: 'tickets', component: TicketComponent },
+  { path: 'ticket-add', component: TicketAddComponent },
+  { path: 'news', component: NewsComponent },
   {
     path: '', redirectTo: '/market/home', pathMatch: 'full'
   },
-=======
   { path: '', redirectTo: '/market/home', pathMatch: 'full' },
->>>>>>> c23ba22fbd76a1e2ea2f69ba17a7a4bf658e91e1
   { path: '**', component: PageNotFoundComponent }
 ];
 
