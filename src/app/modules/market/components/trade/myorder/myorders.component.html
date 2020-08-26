@@ -13,11 +13,14 @@
         <div class="d-inline-block p-2" [ngClass]="select === 100?'text-white':'text-muted'">
             <a class="tab-link" [class.selected]="select === 100" (click)="selectOrder(100);">{{'Balances' | translate }}</a>
         </div>
+        <div class="d-inline-block p-2" [ngClass]="select === 101?'text-white':'text-muted'">
+            <a class="tab-link" [class.selected]="select === 101" (click)="selectOrder(101);">{{'Transfer' | translate }}</a>
+        </div>        
         <div>
 
         </div>
     </div>
-    <div class="orders container fxHide-sm" *ngIf="select != 100">
+    <div class="orders container fxHide-sm" *ngIf="(select != 100) && (select != 101)">
         <div class="row px-4 header py-3">
             <div class="orditem" style="width: 20%; margin-left: -1.2em;">{{'Time' | translate }}</div>
             <div class="orditem" style="width: 15%;">{{'Symbol' | translate }}</div>
@@ -71,7 +74,7 @@
         </div>
     </div>
 
-    <div class="orders w-100 fxHide-gt-sm container" *ngIf="select != 100">
+    <div class="orders w-100 fxHide-gt-sm container" *ngIf="(select != 100) && (select != 100)">
         <div class="row w-100 header py-3">
             <div class="orditem col-5">{{'Time' | translate }}</div>
             <div class="orditem col-2">{{'Symbol' | translate }}</div>
@@ -154,6 +157,29 @@
                     </span>
                 </div>
             </div>
+        </div>
+
+    </div>
+    <div class="orders container w-100" *ngIf="select == 101">
+        <div class="row px-5">
+            <div class="form">
+                <form>
+                  <label for="fname">{{'Coin' | translate }}</label>
+                  <input type="text" id="fname" name="firstname" placeholder="Your name..">
+              
+                  <label for="lname">{{'Wallet address' | translate}}</label>
+                  <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+              
+                  <label for="country">Country</label>
+                  <select id="country" name="country">
+                    <option value="australia">Australia</option>
+                    <option value="canada">Canada</option>
+                    <option value="usa">USA</option>
+                  </select>
+                
+                  <input type="submit" value="Submit">
+                </form>
+              </div>
         </div>
 
     </div>
