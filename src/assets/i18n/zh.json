@@ -1304,6 +1304,7 @@
     "Tx Count": "交易计数器",
     "Kanban Gas Balance": "交易所燃料余额",
     "OrdersCount": "个订单",
+    "Transfer": "转账",
     "Deposits": "存款个数",
     "Withdraw Requests": "取款个数",
     "Order Hash": "订单哈希",
