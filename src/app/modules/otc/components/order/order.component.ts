@@ -8,7 +8,7 @@ import { MemberDetailModal } from '../../modals/member-detail/member-detail.comp
 @Component({
   selector: 'app-otc-order',
   templateUrl: './order.component.html',
-  styleUrls: ['./order.component.css']
+  styleUrls: ['./order.component.scss']
 })
 export class OrderComponent implements OnInit {
   bidOrAsk: boolean;

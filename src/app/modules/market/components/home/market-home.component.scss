@@ -12,6 +12,7 @@
         min-height: 340px;
     }
 
+   
     @media only screen and (max-width: 960px) {
         .topslogan {
             min-height: 300px;
@@ -24,7 +25,7 @@
     }
 
     .contentarea {
-        font-size: x-small;
+        font-size: 14px;
         margin-top: 1em;
     }
 
@@ -86,6 +87,12 @@
             margin-bottom: 3px;
         }
 
+        .advblock {
+            text-align: left;
+            color: white;
+        }
+
+
         // .advContainer:last-child {
         //     padding-right: 0;
         // }
@@ -98,13 +105,13 @@
         //     background-color: #000;
         // }
 
-        .advblock {
-            width: calc(25% - 1em);
-            height: 72px;
-            text-align: left;
-            color: white;
-            height: 100%;
-        }
+        // .advblock {
+        //     width: calc(25% - 1em);
+        //     height: 72px;
+        //     text-align: left;
+        //     color: white;
+        //     height: 100%;
+        // }
 
         // @media (max-width: $p1024) {
         //     .advblock {

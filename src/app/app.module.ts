@@ -15,7 +15,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
+<<<<<<< HEAD
+import {MatTabsModule} from '@angular/material/tabs';
+=======
 import { FormsModule } from '@angular/forms';
+>>>>>>> c23ba22fbd76a1e2ea2f69ba17a7a4bf658e91e1
 import { AppRoutingModule } from './app-routing.module';
 import { AppResolver } from './modules/landing/resolvers/app/app.resolve';
 import { AppComponent } from './app.component';
@@ -37,6 +41,10 @@ import { KanbanService } from './services/kanban.service';
 import { TicketService } from './services/ticket.service';
 import { ApiService } from './services/api.service';
 import { SubscriptionService } from './services/subscription.service';
+import { SupportComponent } from './modules/support/support.component';
+import { TicketComponent } from './modules/support/ticket/ticket.component';
+import { TicketAddComponent } from './modules/support/ticket-add/ticket-add.component';
+import { NewsComponent } from './modules/news/news.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -52,7 +60,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     HelpComponent,
     FaqComponent,
     FooterComponent,
-    SubscriptionComponent
+    SubscriptionComponent,
+    SupportComponent,
+    TicketComponent,
+    TicketAddComponent,
+    NewsComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -67,6 +79,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatInputModule,
     MatProgressSpinnerModule,
     MatListModule,
+    MatTabsModule,
     RouterModule,
     MatSnackBarModule,
     MatButtonModule,
