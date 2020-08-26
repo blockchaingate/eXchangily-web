@@ -38,7 +38,7 @@ import { KanbanService } from './services/kanban.service';
 import { TicketService } from './services/ticket.service';
 import { ApiService } from './services/api.service';
 import { SubscriptionService } from './services/subscription.service';
-import { SupportComponent } from './modules/support/support.component.ts';
+import { SupportComponent } from './modules/support/support.component';
 import { TicketComponent } from './modules/support/ticket/ticket.component';
 import { TicketAddComponent } from './modules/support/ticket-add/ticket-add.component';
 import { NewsComponent } from './modules/news/news.component';
