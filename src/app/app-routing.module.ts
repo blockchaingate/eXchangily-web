@@ -113,7 +113,6 @@ const routes: Routes = [
   { path: 'help', component: HelpComponent },
   { path: 'faq', component: FaqComponent },
   { path: 'subscription', component: SubscriptionComponent },
-<<<<<<< HEAD
   { path: 'support',component: SupportComponent },
   { path: 'tickets',component: TicketComponent },
   { path: 'ticket-add',component: TicketAddComponent },
@@ -121,9 +120,7 @@ const routes: Routes = [
   {
     path: '', redirectTo: '/market/home', pathMatch: 'full'
   },
-=======
   { path: '', redirectTo: '/market/home', pathMatch: 'full' },
->>>>>>> c23ba22fbd76a1e2ea2f69ba17a7a4bf658e91e1
   { path: '**', component: PageNotFoundComponent }
 ];
 
