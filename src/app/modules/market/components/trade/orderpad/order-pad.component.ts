@@ -480,7 +480,12 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   setSellQtyPercent(percent: number) {
-    this.sellQty = Number(new BigNumber(this.utilService.showAmount(this.targetCoinAvail, this.pairConfig.qtyDecimal)).multipliedBy(new BigNumber(percent)).toFixed(this.pairConfig.qtyDecimal));
+    this.sellQty = Number(new BigNumber(this.utilService.toNumber(this.utilService.showAmount(this.targetCoinAvail, 18))).multipliedBy(new BigNumber(percent)).toFixed(this.pairConfig.qtyDecimal));
+    while(this.sellQty > this.utilService.toNumber(this.utilService.showAmount(this.targetCoinAvail, 18))) {
+      this.sellQty -= Math.pow(10, -this.pairConfig.qtyDecimal);
+      this.sellQty = this.utilService.toNumber(this.sellQty.toFixed(this.pairConfig.qtyDecimal));
+    }
+
   }
 
   setPrice(price: number) {

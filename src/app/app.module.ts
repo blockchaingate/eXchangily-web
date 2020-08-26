@@ -15,7 +15,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
+<<<<<<< HEAD
 import {MatTabsModule} from '@angular/material/tabs';
+=======
+import { MatTabsModule } from '@angular/material/tabs';
+>>>>>>> master
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppResolver } from './modules/landing/resolvers/app/app.resolve';

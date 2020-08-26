@@ -23,7 +23,7 @@ import * as createHash from 'create-hash';
 @Component({
     selector: 'app-myorders',
     templateUrl: './myorders.component.html',
-    styleUrls: ['./myorders.component.css']
+    styleUrls: ['./myorders.component.scss']
 })
 
 export class MyordersComponent implements OnInit, OnDestroy {
