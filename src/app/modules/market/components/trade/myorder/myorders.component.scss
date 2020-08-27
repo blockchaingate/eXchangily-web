@@ -17,6 +17,10 @@
     padding: 0;
 }
 
+#coin {
+    background-color: gray;
+}
+
 .myorders .myorderlist {
     overflow-y: scroll;
     height: 306px;
@@ -71,23 +75,20 @@ label {
     .myorders .myorderlist {
         overflow-y: scroll;
         height: 80px;
-
         -webkit-transition: all 450ms ease-in-out;
         -moz-transition: all 450ms ease-in-out;
         -o-transition: all 450ms ease-in-out;
         -ms-transition: all 450ms ease-in-out;
         transition: all 450ms ease-in-out;
     }
-
     .myorders:hover .myorderlist {
         height: 306px;
     }
 }
 
-
-
 .form {
-    input[type=text], select {
+    input[type=text],
+    select {
         width: 100%;
         padding: 5px 7px;
         margin: 4px 0;
@@ -95,13 +96,10 @@ label {
         border: 1px solid #ccc;
         border-radius: 4px;
         box-sizing: border-box;
-
         color: white;
         background: transparent;
-        border: 1px solid #424257;        
-      }
-      
-
+        border: 1px solid #424257;
+    }
 }
 
 .px-5 {
