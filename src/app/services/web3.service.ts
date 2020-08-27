@@ -237,6 +237,43 @@ export class Web3Service {
     return abiHex;
   }
 
+  getTransferFuncABI(coin:number, address: string, amount: number) {
+    let value = new BigNumber(amount).multipliedBy(new BigNumber(1e18)).toFixed();
+    value = value.split('.')[0];
+    const params = [address, coin, value];
+     
+    const func = {
+     "constant": false,
+     "inputs": [
+       {
+         "name": "_to",
+         "type": "address"
+       },
+       {
+         "name": "_coinType",
+         "type": "uint32"
+       },
+       {
+         "name": "_value",
+         "type": "uint256"
+       }
+     ],
+     "name": "transfer",
+     "outputs": [
+       {
+         "name": "success",
+         "type": "bool"
+       }
+     ],
+     "payable": false,
+     "stateMutability": "nonpayable",
+     "type": "function"
+    };  
+     
+    const abiHex = this.getGeneralFunctionABI(func, params);
+    return abiHex;
+  }
+  
   getDeleteOrderFuncABI(orderHash: string) {
     const web3 = this.getWeb3Provider();
     const func: any = {

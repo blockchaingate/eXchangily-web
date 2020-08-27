@@ -89,12 +89,16 @@ label {
 .form {
     input[type=text], select {
         width: 100%;
-        padding: 12px 20px;
-        margin: 8px 0;
+        padding: 5px 7px;
+        margin: 4px 0;
         display: inline-block;
         border: 1px solid #ccc;
         border-radius: 4px;
         box-sizing: border-box;
+
+        color: white;
+        background: transparent;
+        border: 1px solid #424257;        
       }
       
 
@@ -103,4 +107,13 @@ label {
 .px-5 {
     padding-left: 3rem;
     padding-right: 3rem;
+}
+
+.button {
+    color: white;
+    background-color: #008CBA;
+}
+
+.transfer {
+    height: 356px;
 }
