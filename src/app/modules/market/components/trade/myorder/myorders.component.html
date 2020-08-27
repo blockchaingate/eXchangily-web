@@ -163,9 +163,8 @@
     <div class="transfer w-100" *ngIf="select == 101">
         <div class="row px-5">
             <div class="form">
-                <form>
                   <label for="fname">{{'Coin' | translate }}</label>
-                  <select id="coin" name="coin" [(ngModel)]="coin">
+                  <select id="coincoin" name="coincoin" [(ngModel)]="coin">
                     <ng-container *ngFor="let token of mytokens; let i=index">
                         <option *ngIf="token.unlockedAmount > 0" [value]="token.coinType">
                             {{coinServ.getCoinNameByTypeId(token.coinType)}}
@@ -186,7 +185,6 @@
                     <button class="button" (click)="confirmTransfer()">{{'Confirm' | translate}}</button>
                   </div>
                   
-                </form>
               </div>
         </div>
 

@@ -370,7 +370,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
             console.log('resp=', resp);
             if (resp && resp.transactionHash) {
 
-               this.timerServ.checkOrderStatus(keyPairsKanban.address, 10);
+               this.timerServ.checkTokens(keyPairsKanban.address, 10);
 
                 //this.tradeService.saveTransactions(this.openorders);
                 //this.kanbanServ.incNonce();

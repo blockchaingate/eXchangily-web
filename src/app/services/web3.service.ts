@@ -240,6 +240,7 @@ export class Web3Service {
   getTransferFuncABI(coin:number, address: string, amount: number) {
     let value = new BigNumber(amount).multipliedBy(new BigNumber(1e18)).toFixed();
     value = value.split('.')[0];
+    console.log('value for decimal=', value);
     const params = [address, coin, value];
      
     const func = {
@@ -271,6 +272,8 @@ export class Web3Service {
     };  
      
     const abiHex = this.getGeneralFunctionABI(func, params);
+
+    console.log('abiHex for transfer=', abiHex);
     return abiHex;
   }
   
