@@ -45,6 +45,10 @@ export class MyordersComponent implements OnInit, OnDestroy {
     coinType: number;
     coinName: string;
     gasPrice: number;
+    
+    coin: any;
+    address: string;
+    amount: number;
 
     gasLimit: number;
     withdrawAmount: number;
@@ -282,15 +286,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
         console.log('orderHash=' + orderHash);
         this.orderHash = orderHash;
         this.opType = 'deleteOrder';
-        /*
-        this.pin = sessionStorage.getItem('pin');
-        if (this.pin) {
-            this.deleteOrderDo();
-        
-        } else {
-            // this.openPinModal(pinModal);
-        }
-        */
+
         this.pinModal.show();
     }
 
@@ -350,14 +346,79 @@ export class MyordersComponent implements OnInit, OnDestroy {
             }
             return;
         }
-        if (this.opType === 'withdraw') {
+        if (this.opType == 'withdraw') {
             this.withdrawDo();
-        } else if (this.opType = 'deleteOrder') {
+        } else if (this.opType == 'deleteOrder') {
             this.deleteOrderDo();
+        } else if(this.opType == 'transfer') {
+            this.transferDo();
         }
 
     }
 
+    async transferDo() {
+        const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
+        const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
+        const abiHex = this.web3Serv.getTransferFuncABI(this.coin, this.utilServ.fabToExgAddress(this.address), this.amount);
+        console.log('abiHex for deleteOrderDo=', abiHex);
+        const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
+
+        const address = await this.kanbanServ.getCoinPoolAddress();
+        const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce);
+        console.log('txhex=', txhex);
+        this.kanbanServ.sendRawSignedTransaction(txhex).subscribe((resp: any) => {
+            console.log('resp=', resp);
+            if (resp && resp.transactionHash) {
+
+               this.timerServ.checkTokens(keyPairsKanban.address, 10);
+
+                //this.tradeService.saveTransactions(this.openorders);
+                //this.kanbanServ.incNonce();
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('转账请求提交成功，等待区块链处理。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Transfer request is pending.', 'Ok');
+                }
+            }
+        },
+        (error) => {
+            if(error.error) {
+                this.alertServ.openSnackBar(error.error, 'Ok');
+            }
+            
+        });
+    }
+    
+    confirmTransfer() {
+        console.log('coin=', this.coin);
+        console.log('address=', this.address);
+        console.log('amount111=', this.amount);
+        if(!this.coin && (this.mytokens.length > 0)) {
+            this.coin = this.mytokens[0];
+        }
+        for(let i=0;i<this.mytokens.length;i++) {
+            if(this.mytokens[i].coinType == this.coin) {
+                this.token = this.mytokens[i];
+                break;
+            }
+        }
+        if(!this.token) {
+            return;
+        }
+        console.log(this.utilServ.toNumber(this.utilServ.showAmount(this.token.unlockedAmount, 18)));
+        if(this.amount > this.utilServ.toNumber(this.utilServ.showAmount(this.token.unlockedAmount, 18))) {
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('余额不足。', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('Not enough balance.', 'Ok');
+            }     
+            
+            return;
+        }
+        this.opType = 'transfer';
+
+        this.pinModal.show();
+    }
     async deleteOrderDo() {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
         const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
@@ -371,16 +432,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this.kanbanServ.sendRawSignedTransaction(txhex).subscribe((resp: any) => {
             console.log('resp=', resp);
             if (resp && resp.transactionHash) {
-                // this.tradeService.deleteTransaction(this.orderHash);   
 
-                /*
-                for (let i = 0; i < this.openorders.length; i++) {
-                    if (this.openorders[i].orderHash === this.orderHash) {
-                        this.openorders.splice(i, 1);
-                        break;
-                    }
-                }
-                */
                console.log('go this way, address=', keyPairsKanban.address);
                this.timerServ.checkOrderStatus(keyPairsKanban.address, 10);
 

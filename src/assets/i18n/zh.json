@@ -1305,6 +1305,8 @@
     "Kanban Gas Balance": "交易所燃料余额",
     "OrdersCount": "个订单",
     "Transfer": "转账",
+    "Reciever's wallet address": "钱包地址",
+    "Transfer amount": "转账金额",
     "Deposits": "存款个数",
     "Withdraw Requests": "取款个数",
     "Order Hash": "订单哈希",

@@ -15,7 +15,7 @@
         </div>
         <div class="d-inline-block p-2" [ngClass]="select === 101?'text-white':'text-muted'">
             <a class="tab-link" [class.selected]="select === 101" (click)="selectOrder(101);">{{'Transfer' | translate }}</a>
-        </div>        
+        </div>
         <div>
 
         </div>
@@ -74,7 +74,7 @@
         </div>
     </div>
 
-    <div class="orders w-100 fxHide-gt-sm container" *ngIf="(select != 100) && (select != 100)">
+    <div class="orders w-100 fxHide-gt-sm container" *ngIf="(select != 100) && (select != 101)">
         <div class="row w-100 header py-3">
             <div class="orditem col-5">{{'Time' | translate }}</div>
             <div class="orditem col-2">{{'Symbol' | translate }}</div>
@@ -160,25 +160,31 @@
         </div>
 
     </div>
-    <div class="orders container w-100" *ngIf="select == 101">
+    <div class="transfer w-100" *ngIf="select == 101">
         <div class="row px-5">
             <div class="form">
-                <form>
                   <label for="fname">{{'Coin' | translate }}</label>
-                  <input type="text" id="fname" name="firstname" placeholder="Your name..">
+                  <select id="coincoin" name="coincoin" [(ngModel)]="coin">
+                    <ng-container *ngFor="let token of mytokens; let i=index">
+                        <option *ngIf="token.unlockedAmount > 0" [value]="token.coinType">
+                            {{coinServ.getCoinNameByTypeId(token.coinType)}}
+                            ({{utilServ.toNumber(utilServ.showAmount(token.unlockedAmount, 18))}})
+                        </option>                       
+                    </ng-container>
+
+                  </select>                  
+                  
               
-                  <label for="lname">{{'Wallet address' | translate}}</label>
-                  <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+                  <label for="address">{{'Wallet address' | translate}}</label>
+                  <input type="text" [(ngModel)]="address" id="address" name="address" placeholder="{{'Reciever\'s wallet address' | translate}}">
               
-                  <label for="country">Country</label>
-                  <select id="country" name="country">
-                    <option value="australia">Australia</option>
-                    <option value="canada">Canada</option>
-                    <option value="usa">USA</option>
-                  </select>
-                
-                  <input type="submit" value="Submit">
-                </form>
+                  <label for="price">{{'Amount' | translate}}</label>
+                  <input type="text" [(ngModel)]="amount" id="amount" name="amount" placeholder="{{'Transfer amount' | translate}}">
+                  
+                  <div class="py-3 text-center">
+                    <button class="button" (click)="confirmTransfer()">{{'Confirm' | translate}}</button>
+                  </div>
+                  
               </div>
         </div>
 
