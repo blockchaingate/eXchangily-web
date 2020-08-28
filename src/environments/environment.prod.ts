@@ -121,12 +121,12 @@ export const environment = {
         // pricehistory: 'https://fabprod.fabcoinapi.com:3002/klinedata/'
     },
     CoinType: {
-        BTC: 0,
-        ETH: 60,
-        FAB: 1150,
-        BCH: 145,
-        LTC: 2,
-        DOGE: 3
+        BTC: 0 + 19800704,
+        ETH: 60 + 19800704,
+        FAB: 1150 + 19800704,
+        BCH: 145 + 19800704,
+        LTC: 2 + 19800704,
+        DOGE: 3 + 19800704
     }, 
     addresses: {
         smartContract: {

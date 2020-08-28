@@ -131,12 +131,12 @@ export const environment = {
 
     },
     CoinType: {
-        BTC: 1,
-        ETH: 60,
-        FAB: 1150,
-        BCH: 1,
-        LTC: 1,
-        DOGE: 1
+        BTC: 1 + 19800704,
+        ETH: 60 + 19800704,
+        FAB: 1150 + 19800704,
+        BCH: 1 + 19800704,
+        LTC: 1 + 19800704,
+        DOGE: 1 + 19800704
     },
     addresses: {
         smartContract: {
