@@ -390,9 +390,18 @@ export class MyordersComponent implements OnInit, OnDestroy {
     }
     
     confirmTransfer() {
+        return;
         console.log('coin=', this.coin);
         console.log('address=', this.address);
         console.log('amount111=', this.amount);
+        if(this.address.indexOf('kbpay:') <= 0) {
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('账号不正确。', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('Account incorrect.', 'Ok');
+            }            
+            return;
+        }
         if(!this.coin && (this.mytokens.length > 0)) {
             this.coin = this.mytokens[0];
         }

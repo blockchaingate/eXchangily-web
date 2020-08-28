@@ -175,15 +175,15 @@
                   </select>                  
                   
               
-                  <label for="address">{{'Wallet address' | translate}}</label>
+                  <label for="address">{{'Wallet address' | translate}}</label>(started with kbpay:)
                   <input type="text" [(ngModel)]="address" id="address" name="address" placeholder="{{'Reciever\'s wallet address' | translate}}">
               
                   <label for="price">{{'Amount' | translate}}</label>
                   <input type="text" [(ngModel)]="amount" id="amount" name="amount" placeholder="{{'Transfer amount' | translate}}">
                   
                   <div class="py-3 text-center">
-                    <button class="button px-3 mx-3" (click)="confirmTransfer()">{{'Transfer' | translate}}</button>
-                    <button class="button px-3 mx-3" (click)="confirmTransfer()">{{'Receive' | translate}}</button>
+                    <button class="button px-3 mx-3" [disabled]="true" (click)="confirmTransfer()">{{'Transfer' | translate}}</button>
+                    <button class="button px-3 mx-3" [disabled]="true" (click)="confirmTransfer()">{{'Receive' | translate}}</button>
                   </div>
                   
               </div>
