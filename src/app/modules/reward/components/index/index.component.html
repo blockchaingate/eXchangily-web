@@ -26,7 +26,7 @@
             <td>
               {{tradereward.reward}}
               <a href="/explorer/tx-detail/{{tradereward.txid}}" target="_blank">
-                <img *ngIf="tradereward.status" src="/assets/svg/check.svg">
+                <img *ngIf="(tradereward.status > 0) && tradereward.txid" src="/assets/svg/check.svg">
               </a>
               
             </td>
@@ -35,7 +35,7 @@
             <td>
               {{tradereward.reward2}}
               <a href="https://fabexplorer.info/#/transactions/{{tradereward.txid2}}" target="_blank">
-                <img *ngIf="tradereward.status2" src="/assets/svg/check.svg">
+                <img *ngIf="(tradereward.status2 > 0) && tradereward.txid2" src="/assets/svg/check.svg">
               </a>
               
             </td>
