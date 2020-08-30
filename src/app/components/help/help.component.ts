@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { TicketCat } from '../../models/ticket-cat';
 import { Ticket } from '../../models/ticket';
+// import { UserAuth } from './landing/service/user-auth/user-auth.service';
+import { UserAuth } from '../../modules/landing/service/user-auth/user-auth.service';
 import { TicketService } from '../../services/ticket.service';
 import { StorageService } from '../../services/storage.service';
 
@@ -24,7 +26,7 @@ export class HelpComponent implements OnInit {
     logIn = true;
     errMsg: string;
 
-    constructor(private _ticketServ: TicketService, private storageService: StorageService) { }
+    constructor(private _ticketServ: TicketService, private storageService: StorageService, private _userServ: UserAuth) {}
 
     ngOnInit() {
         /* this._ticketServ.getTicketCats().subscribe(ret => {
@@ -38,7 +40,7 @@ export class HelpComponent implements OnInit {
     }
 
     submit() {
-        const ticket = { catId: this.selectedCat, title: this.title, desc: this.desc };
+        const ticket = { catId: this.selectedCat, email: this.email, title: this.title, desc: this.desc, memberId: this._userServ.id };
         if (!this.selectedCat) {
             this.catselected = false;
             return;
