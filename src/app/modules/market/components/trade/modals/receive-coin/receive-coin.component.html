@@ -1,4 +1,4 @@
-<button class="button btn-fixed-width" (click)="openModal(templateReceive)">{{"Receive" | translate }}</button>
+<button class="button" (click)="openModal(templateReceive)">{{"Receive" | translate }}</button>
 
 <ng-template #templateReceive class="modal-bg-grey">
     <div class="modal-header text-center">
@@ -9,7 +9,7 @@
     </div>
     <div class="modal-body">
 
-        <div class="text-dark">{{"Wallet address" | translate }}</div>
+        <div class="text-dark">{{"Receive address" | translate }}</div>
         <div>
             {{exAddr}}
             <button mat-icon-button (click)="copyAddress()">

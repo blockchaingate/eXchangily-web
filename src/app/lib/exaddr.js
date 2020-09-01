@@ -87,7 +87,7 @@ function detectAddressType (address) {
 function toLegacyAddress (address) {
   var decoded = decodeAddress(address)
   if (decoded.format === Format.Legacy) {
-    return address
+    return '';
   }
   return encodeAsLegacy(decoded)
 }

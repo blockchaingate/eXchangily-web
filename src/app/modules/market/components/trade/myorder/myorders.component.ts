@@ -20,6 +20,7 @@ import { environment } from '../../../../../../environments/environment';
 import BigNumber from 'bignumber.js/bignumber';
 import { PinNumberModal } from '../../../../shared/modals/pin-number/pin-number.modal';
 import * as createHash from 'create-hash';
+import * as exaddr from '../../../../../lib/exaddr';
 
 @Component({
     selector: 'app-myorders',
@@ -30,6 +31,7 @@ import * as createHash from 'create-hash';
 export class MyordersComponent implements OnInit, OnDestroy {
     // @Input() wallet: Wallet;
     private wallet: any;
+    exAddress: string;
     screenheight = screen.height;
     select = 100;
     openorders: Transaction[] = [];
@@ -105,6 +107,8 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this.wallet = await this.walletServ.getCurrentWallet();
         if (this.wallet) {
             const address = this.wallet.excoin.receiveAdds[0].address;
+            const fabAddress = this.utilServ.exgToFabAddress(address);
+            this.exAddress = exaddr.toKbpayAddress(fabAddress);
             this.timerServ.checkOrderStatus(address, 1);
             this.timerServ.checkTokens(address, 1);
         }
@@ -125,7 +129,20 @@ export class MyordersComponent implements OnInit, OnDestroy {
         );
         this.timerServ.tokens.subscribe(
             (tokens: any) => {
-                this.mytokens = tokens;
+                if(this.mytokens && (this.mytokens.length > 0)) {
+                    for(let i=0;i<tokens.length;i++) {
+                        const token = tokens[i];
+                        for(let j=0;j<this.mytokens.length;j++) {
+                            const mytoken = this.mytokens[j];
+                            if(mytoken.coinType == token.coinType) {
+                                mytoken.unlockedAmount = token.unlockedAmount;
+                            }
+                        }
+                    }
+                } else {
+                    this.mytokens = tokens;
+                }
+
             }
         );
 
@@ -352,7 +369,27 @@ export class MyordersComponent implements OnInit, OnDestroy {
     async transferDo() {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
         const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
-        const abiHex = this.web3Serv.getTransferFuncABI(this.coin, this.utilServ.fabToExgAddress(this.address), this.amount);
+        let toAddressLegacy = '';
+        try {
+            toAddressLegacy = exaddr.toLegacyAddress(this.address);
+            console.log('toAddressLegacy===', toAddressLegacy);
+        } catch(e) {
+
+        }
+        
+        
+        if(!toAddressLegacy) {
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('收款地址格式不对。', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('The format of the payment address is incorrect.', 'Ok');
+            }
+
+            return;            
+        }
+
+        console.log('toAddressLegacy===', toAddressLegacy);
+        const abiHex = this.web3Serv.getTransferFuncABI(this.coin, this.utilServ.fabToExgAddress(toAddressLegacy), this.amount);
         console.log('abiHex for deleteOrderDo=', abiHex);
         const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 
