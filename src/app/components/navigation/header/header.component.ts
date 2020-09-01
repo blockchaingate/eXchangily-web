@@ -29,6 +29,7 @@ export class HeaderComponent implements OnInit {
   value = 100;
   showCollapse: boolean;
   testMode: boolean;
+  displayHideLabel: boolean;
   interval;
 
   constructor(private translate: TranslateService, private router: Router, private alertServ: AlertService,
@@ -37,6 +38,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.testMode = true;
+    this.displayHideLabel = true;
     if (environment.production) {
       this.testMode = false;
     }
@@ -107,7 +109,7 @@ export class HeaderComponent implements OnInit {
   linkTo(url: string) {
     this.showCollapse = false;
     this.router.navigate([url]);
-    
+
   }
 
   goToUrl(url: string): void {
@@ -158,6 +160,11 @@ export class HeaderComponent implements OnInit {
     this._userAuth.token = '';
     this._userAuth.logout();
     this.router.navigate(['/']);
+  }
+
+  hideTestLabel() {
+    console.log("hideTestLabel working!!");
+    this.displayHideLabel = false;
   }
 
 }

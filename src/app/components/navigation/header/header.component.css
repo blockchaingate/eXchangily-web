@@ -14,7 +14,7 @@ a:focus {
 }
 
 .nav-link:hover {
-    color: #fff !important
+    color: #fff !important;
 }
 
 .nav-link.selected {
@@ -38,6 +38,16 @@ a.selected:after {
 
 mat-toolbar {
     border-radius: 3px;
+}
+
+mat-icon {
+    color: white;
+    vertical-align: middle;
+}
+
+.transMsg{
+    height: 36px;
+    width: 36px;
 }
 
 @media (max-width: 959px) {
@@ -134,16 +144,16 @@ a.nav-link {
     border-color: #c3512f;
 }
 
-@media (max-width:1200px) {
+@media (max-width: 1200px) {
     .navbar-dark .navbar-nav .nav-link {
         color: rgba(255, 255, 255);
         font-size: 13px;
     }
 }
 
-@media (max-width:1050px) {
+@media (max-width: 1050px) {
     .navbar-brand img {
-        width: 20px
+        width: 20px;
     }
     .navbar-dark .navbar-nav .nav-link {
         font-size: 12px;
@@ -153,3 +163,9 @@ a.nav-link {
         padding-left: 0;
     }
 }
+/* 
+@media (min-width: 979px) {
+    ul.nav li.dropdown:hover > ul.dropdown-menu {
+      display: block;
+    }
+  } */
