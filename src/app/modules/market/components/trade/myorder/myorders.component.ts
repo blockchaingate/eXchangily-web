@@ -388,11 +388,9 @@ export class MyordersComponent implements OnInit, OnDestroy {
             
         });
     }
-    
+
+
     confirmTransfer() {
-        console.log('coin=', this.coin);
-        console.log('address=', this.address);
-        console.log('amount111=', this.amount);
         if(!this.coin && (this.mytokens.length > 0)) {
             this.coin = this.mytokens[0];
         }

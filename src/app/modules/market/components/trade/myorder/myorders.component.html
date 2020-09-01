@@ -183,7 +183,9 @@
                   
                   <div class="py-3 text-center">
                     <button class="button px-3 mx-3" (click)="confirmTransfer()">{{'Transfer' | translate}}</button>
-                    <button class="button px-3 mx-3" (click)="confirmTransfer()">{{'Receive' | translate}}</button>
+                    <div>
+                        <modal-receive-coin [address]="'1NyBkqKe3zqcSCpdZJZXk4eTF4oytQKaLJ'"></modal-receive-coin>
+                    </div>
                   </div>
                   
               </div>
