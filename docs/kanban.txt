@@ -1,5 +1,6 @@
-http://169.45.42.108:8545
-
-http://169.53.144.184:8545
-
-http://161.202.172.110:8545
+BCH:bchtest:qqqzr50ll5wp9cqrxx4lypx3cvl6l3m9fqu6gcn854 
+BTC:mfXeovvWpfGfTuKb7cK2J4sHdcqgZpXrJB 
+DOGE:nUCrn9X6F2CR6mbmASyfGKQrtdMZznrLwQ 
+ETH:0x8bbf9ec9EF68B5f5e471104a1A2a00A8130a5645 
+FAB:mfXeovvWpfGfTuKb7cK2J4sHdcqgZpXrJB 
+LTC:mfXeovvWpfGfTuKb7cK2J4sHdcqgZpXrJB
