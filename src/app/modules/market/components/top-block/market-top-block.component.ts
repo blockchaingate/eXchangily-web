@@ -11,7 +11,7 @@ export class MarketTopBlockComponent implements OnInit {
   @Input() pair: string;
   price: string;
   volume: string;
-  changePercent: number;
+  changePercent: string;
   baseCoinName: string;
 
   constructor(private utilServ: UtilService) { }
@@ -19,24 +19,21 @@ export class MarketTopBlockComponent implements OnInit {
   ngOnInit() {
     this.price = '0';
     this.volume = '0';
-    this.changePercent = 0.00;
+    this.changePercent = '0.00';
     const arr = this.pair.split('/');
     this.baseCoinName = arr[0];
   }
 
+  toDecimal(amount: number, decimal: number) {
+    return amount.toFixed(decimal);
+  }
   updateTicker(ticker) {
-    const price = this.utilServ.showAmount(ticker.price, 6);
-    const volume = this.utilServ.showAmount(ticker['24h_volume'], 6);
-    const open = this.utilServ.showAmount(ticker['24h_open'], 6);
-    const close = this.utilServ.showAmount(ticker['24h_close'], 6);
+    console.log('updateTicker==', ticker);
+    const price = this.toDecimal(ticker.p, 6);
+    const volume = this.toDecimal(ticker.v, 6);
     this.price = price;
     this.volume = volume;
-    const bigO = new BigNumber(open);
-    const bigC = new BigNumber(close);
-    if (bigO.gt(0)) {
-      const change24hBig = bigC.minus(bigO).dividedBy(bigO).multipliedBy(new BigNumber(100));
-      this.changePercent = change24hBig.toNumber();
-      this.changePercent = Math.floor(this.changePercent * 100) / 100;
-    }
+
+   this.changePercent = ((ticker.c - ticker.o) / ticker.o * 100).toFixed(2);
   }
 }
