@@ -26,7 +26,7 @@ export class HelpComponent implements OnInit {
     logIn = true;
     errMsg: string;
 
-    constructor(private _ticketServ: TicketService, private storageService: StorageService, private _userServ: UserAuth) {}
+    constructor(private _ticketServ: TicketService, private storageService: StorageService, private _userAuth: UserAuth) {}
 
     ngOnInit() {
         /* this._ticketServ.getTicketCats().subscribe(ret => {
@@ -40,7 +40,12 @@ export class HelpComponent implements OnInit {
     }
 
     submit() {
-        const ticket = { catId: this.selectedCat, email: this.email, title: this.title, desc: this.desc, memberId: this._userServ.id };
+        this._userAuth.isLoggedIn$.subscribe((value: string) => {
+          console.log('value: ' + value);
+          this.logIn = value ? true : false;
+          // alert(this.loggedIn);
+
+        const ticket = { catId: this.selectedCat, email: this.email, title: this.title, content: this.desc, memberId: value };
         if (!this.selectedCat) {
             this.catselected = false;
             return;
@@ -63,11 +68,18 @@ export class HelpComponent implements OnInit {
                     this.success = false;
                 } else {
                     this._ticketServ.createTicket(ticket, this.token).subscribe(ret => {
-                        this.success = true; this.logIn = true; this.ticketId = ret['_id'];
+                        this.success = true;
+                        this.logIn = true;
+                        this.ticketId = ret['_id'];
                     },
-                        err => { this.errMsg = JSON.stringify(err); });
+                        err => {
+                            this.errMsg = JSON.stringify(err);
+                            this.logIn = true;
+                            this.success = false;
+                         });
                 }
             });
+        });
     }
 
 }
