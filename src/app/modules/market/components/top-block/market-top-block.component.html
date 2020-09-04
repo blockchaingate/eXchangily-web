@@ -1,9 +1,9 @@
-<div class="container coin-detail"  (click)="gotoTrade(pr.id)">
+<div class="container coin-detail"  (click)="gotoTrade()">
     <div class="row title">
         <div class="col col-6 text-muted text-color-purple">
             {{pair}}
         </div>
-        <div class="col col-6 text-right" [class.text-color-green]="changePercent>=0" [class.text-color-red]="changePercent<0">
+        <div class="col col-6 text-right" [class.text-color-green]="toNumber(changePercent)>=0" [class.text-color-red]="toNumber(changePercent)<0">
             {{changePercent}}%
         </div>
     </div>

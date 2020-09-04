@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UtilService } from '../../../../services/util.service';
 import BigNumber from 'bignumber.js';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-market-top-block',
@@ -13,8 +14,9 @@ export class MarketTopBlockComponent implements OnInit {
   volume: string;
   changePercent: string;
   baseCoinName: string;
+  targetCoinName: string;
 
-  constructor(private utilServ: UtilService) { }
+  constructor(private utilServ: UtilService,private _router: Router) { }
 
   ngOnInit() {
     this.price = '0';
@@ -22,6 +24,15 @@ export class MarketTopBlockComponent implements OnInit {
     this.changePercent = '0.00';
     const arr = this.pair.split('/');
     this.baseCoinName = arr[0];
+    this.targetCoinName = arr[1];
+  }
+
+  toNumber(str: string) {
+    return Number(str);
+  }
+  gotoTrade() {
+    const pair = this.targetCoinName + '_' + this.baseCoinName;
+    this._router.navigate(['market/trade/' + pair]);    
   }
 
   toDecimal(amount: number, decimal: number) {

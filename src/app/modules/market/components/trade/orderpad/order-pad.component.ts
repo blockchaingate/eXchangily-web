@@ -516,8 +516,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       (orders: any) => {
         //this.syncOrders(orders.sell, this.sells, false);
         //this.syncOrders(orders.buy, this.buys, true);
-        this.sells = orders.s;
-        this.buys = orders.b;
+        this.sells = orders.s.slice(0, 8).reverse();
+        this.buys = orders.b.slice(0, 8);
         // this.addTo(orders.sell, false);
         // this.addTo(orders.buy, true);
       },
