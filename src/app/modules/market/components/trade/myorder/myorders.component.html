@@ -163,8 +163,8 @@
     <div class="transfer w-100" *ngIf="select == 101">
         <div class="row px-5">
             <div class="form">
-                  <label for="fname">{{'Coin' | translate }}</label>
-                  <select id="coincoin" name="coincoin" [(ngModel)]="coin">
+                <label for="fname">{{'Coin' | translate }}</label>
+                <select id="coin" name="coincoin" [(ngModel)]="coin">
                     <ng-container *ngFor="let token of mytokens; let i=index">
                         <option *ngIf="token.unlockedAmount > 0" [value]="token.coinType">
                             {{coinServ.getCoinNameByTypeId(token.coinType)}}
@@ -172,26 +172,26 @@
                         </option>                       
                     </ng-container>
 
-                  </select>                  
-                  
-              
-                  <label for="address">{{'Receive address' | translate}}</label>
-                  <input type="text" [(ngModel)]="address" id="address" name="address" placeholder="{{'Receiver\'s address' | translate}}">
-              
-                  <label for="price">{{'Amount' | translate}}</label>
-                  <input type="text" [(ngModel)]="amount" id="amount" name="amount" placeholder="{{'Transfer amount' | translate}}">
-                  
-                  <div class="py-3 d-flex justify-content-between">
+                  </select>
+
+
+                <label for="address">{{'Receive address' | translate}}</label>
+                <input type="text" [(ngModel)]="address" id="address" name="address" placeholder="{{'Receiver\'s address' | translate}}">
+
+                <label for="price">{{'Amount' | translate}}</label>
+                <input type="text" [(ngModel)]="amount" id="amount" name="amount" placeholder="{{'Transfer amount' | translate}}">
+
+                <div class="py-3 d-flex justify-content-between">
                     <div>
                         <button class="button px-3 mx-3" (click)="confirmTransfer()">{{'Transfer' | translate}}</button>
                     </div>
-                    
+
                     <div>
                         <modal-receive-coin [address]="exAddress"></modal-receive-coin>
                     </div>
-                  </div>
-                  
-              </div>
+                </div>
+
+            </div>
         </div>
 
     </div>
