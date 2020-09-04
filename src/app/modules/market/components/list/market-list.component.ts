@@ -130,7 +130,7 @@ export class MarketListComponent implements OnInit {
             }
             */
             if(o > 0) {
-                change24h = Number(((c - o) / o).toFixed(2));
+                change24h = Number(((c - o) / o * 100).toFixed(2));
             }
             const v = item['v'];
 
