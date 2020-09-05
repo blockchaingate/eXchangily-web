@@ -72,13 +72,13 @@
                 </span>
 
             </div>
-            <div class="col-2 align-self-center">{{showAmount(pr.price, 6)}}</div>
+            <div class="col-2 align-self-center">{{toDecimal(pr.price, 6)}}</div>
             <div class="col-2 align-self-center" [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>=0">
                 {{(pr.change24h)}}%
             </div>
-            <div class="col-2 align-self-center">{{showAmount(pr.price24hh, 6)}}</div>
-            <div class="col-2 align-self-center">{{showAmount(pr.price24hl, 6)}}</div>
-            <div class="col-2 align-self-center">{{showAmount(pr.vol24h, 6)}}</div>
+            <div class="col-2 align-self-center">{{toDecimal(pr.price24hh, 6)}}</div>
+            <div class="col-2 align-self-center">{{toDecimal(pr.price24hl, 6)}}</div>
+            <div class="col-2 align-self-center">{{toDecimal(pr.vol24h, 6)}}</div>
         </div>
 
         <div class="row apair text-white pt-3 fxHide-gt-sm">
@@ -98,13 +98,13 @@
                         class="text-base-coin">/{{COINS[pr.base_id].name}}</span>
                 </span>
             </div>
-            <div class="col-4 align-self-center">{{showAmount(pr.price, 6)}}</div>
+            <div class="col-4 align-self-center">{{toDecimal(pr.price, 6)}}</div>
             <div class="col-3 align-self-center" [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>=0">
                 {{(pr.change24h)}}%
             </div>
-            <div class="col-12 text-muted">{{'H24H'|translate}}:{{showAmount(pr.price24hh, 6)}}</div>
-            <div class="col-12 text-muted">{{'H24L'|translate}}:{{showAmount(pr.price24hl, 6)}}</div>
-            <div class="col-12 text-muted">{{'Vol24'|translate}}:{{showAmount(pr.vol24h, 6)}}</div>
+            <div class="col-12 text-muted">{{'H24H'|translate}}:{{toDecimal(pr.price24hh, 6)}}</div>
+            <div class="col-12 text-muted">{{'H24L'|translate}}:{{toDecimal(pr.price24hl, 6)}}</div>
+            <div class="col-12 text-muted">{{'Vol24'|translate}}:{{toDecimal(pr.vol24h, 6)}}</div>
         </div>
 
     </div>

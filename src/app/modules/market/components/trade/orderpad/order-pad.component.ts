@@ -129,10 +129,10 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       return 0;
     }
 
-    let amountBig = new BigNumber(0);
+    let amountBig = 0;
     for (let i = 0; i <= index; i++) {
       const buy = buys[i];
-      amountBig = amountBig.plus(this.utilService.showAmountArr(buy.amountArr, this.pairConfig.qtyDecimal));
+      amountBig += buy.q;
     }
 
     return amountBig.toFixed(this.pairConfig.qtyDecimal);
@@ -247,18 +247,21 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     }
   }
 
+  toDecimal(amount: number, decimal: number) {
+    return amount.toFixed(decimal);
+  }
   showSellsAmount(sells: any, index: number) {
     if (!sells) {
       return 0;
     }
 
-    let amountBig = new BigNumber(0);
+    let amountTotal = 0;
     for (let i = sells.length - 1; i >= index; i--) {
       const sell = sells[i];
-      amountBig = amountBig.plus(this.utilService.showAmountArr(sell.amountArr, this.pairConfig.qtyDecimal));
+      amountTotal += sell.q;
     }
 
-    return amountBig.toFixed(this.pairConfig.qtyDecimal);
+    return amountTotal.toFixed(this.pairConfig.qtyDecimal);
   }
 
   syncOrders(newOrderArr, oldOrderArr, bidOrAsk: boolean) {
@@ -277,8 +280,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
       const newOrderItem = newOrderArr[i];
 
-      const newPrice = Number(newOrderItem.price);
-      const newAmount = Number(newOrderItem.orderQuantity);
+      const newPrice = Number(newOrderItem.p);
+      const newAmount = Number(newOrderItem.q);
       const newOrderHash = newOrderItem.orderHash;
 
       let newOrderHashExisted = false;
@@ -489,9 +492,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   setPrice(price: number) {
-    const realPrice = this.utilService.showAmount(price, this.pairConfig.priceDecimal);
-    this.buyPrice = Number(realPrice);
-    this.sellPrice = Number(realPrice);
+    this.buyPrice = Number(price);
+    this.sellPrice = Number(price);
   }
 
   refreshOrders() {
@@ -512,8 +514,10 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     this.socket = new WebSocketSubject(environment.websockets.orders + '@' + pair);
     this.socket.subscribe(
       (orders: any) => {
-        this.syncOrders(orders.sell, this.sells, false);
-        this.syncOrders(orders.buy, this.buys, true);
+        //this.syncOrders(orders.sell, this.sells, false);
+        //this.syncOrders(orders.buy, this.buys, true);
+        this.sells = orders.s.slice(0, 8).reverse();
+        this.buys = orders.b.slice(0, 8);
         // this.addTo(orders.sell, false);
         // this.addTo(orders.buy, true);
       },
@@ -537,15 +541,13 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         for (let i = 0; i < trades.length; i++) {
 
           const item = trades[i];
-          const tradeTime = item.time * 1000;
-
+          const tradeTime = item.t * 1000;
+          console.log();
           let tradeExisted = false;
 
-          const price = Number(item.price);
-          const quantity = Number(item.amount);
-          const buyerMarketMaker = item.bidOrAsk;
-          const orderHash1 = item.orderHash1;
-          const orderHash2 = item.orderHash2;
+          const price = Number(item.p);
+          const quantity = Number(item.q);
+          const buyerMarketMaker = item.b;
           if (i === trades.length - 1) {
             this.currentPrice = price;
             this.currentQuantity = quantity;
@@ -553,7 +555,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           // console.log('tradeTime=', tradeTime);
           for (let j = 0; j < this.txOrders.length; j++) {
             // console.log('this.txOrders[j].time=', this.txOrders[j].time);
-
+            /*
             const orderH1 = this.txOrders[j].orderHash1;
             const orderH2 = this.txOrders[j].orderHash2;
             if ((orderH1 === orderHash1) && (orderH2 === orderHash2)) {
@@ -561,6 +563,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
               // console.log('tradeExisted1=', tradeExisted);
               break;
             }
+            */
             // console.log('tradeExisted2=', tradeExisted);
           }
           // console.log();
@@ -573,8 +576,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
             quantity: quantity,
             m: buyerMarketMaker,
             time: tradeTime,
-            orderHash1: orderHash1,
-            orderHash2: orderHash2
+            orderHash1: '',
+            orderHash2: ''
           };
 
           if (this.txOrders.length > 22) {

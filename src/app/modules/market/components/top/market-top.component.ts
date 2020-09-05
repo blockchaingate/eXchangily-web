@@ -26,7 +26,7 @@ export class MarketTopComponent implements OnInit {
     for (let i = 0; i < arr.length; i++) {
       const item = arr[i];
 
-      const s = item.symbol;
+      const s = item.s;
       if (s === 'BTCUSDT') {
         this.marketTopBlock1.updateTicker(item);
       } else if (s === 'FABUSDT') {
