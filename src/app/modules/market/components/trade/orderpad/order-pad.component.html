@@ -54,12 +54,12 @@
             </div>
 
             <div class="transacs w-100">
-                <div class="orderbookitem" *ngFor="let tx of txOrders; let l=index">
-                    <div class="price smallfont" [ngClass]="tx.m?'text-success':'text-danger'">
-                        {{toDecimal(tx.price,pairConfig.priceDecimal)}}</div>
+                <div class="orderbookitem" *ngFor="let tx of trades; let l=index">
+                    <div class="price smallfont" [ngClass]="tx.b?'text-success':'text-danger'">
+                        {{toDecimal(tx.p,pairConfig.priceDecimal)}}</div>
                     <div class="quantity smallfont text-muted">
-                        {{toDecimal(tx.quantity,pairConfig.qtyDecimal)}}</div>
-                    <div class="total smallfont text-muted">{{tx.time | date:'HH:mm:ss'}}</div>
+                        {{toDecimal(tx.q,pairConfig.qtyDecimal)}}</div>
+                    <div class="total smallfont text-muted">{{tx.t * 1000 | date:'HH:mm:ss'}}</div>
                 </div>
             </div>
         </div>

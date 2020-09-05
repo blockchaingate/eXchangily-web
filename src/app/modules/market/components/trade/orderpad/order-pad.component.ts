@@ -66,6 +66,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   validSellQty = 0;
   price = 0;
   qty = 0;
+  trades: any;
   pin: string;
   modalRef: BsModalRef;
   baseCoinAvail: number;
@@ -535,9 +536,15 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     this.tradesSocket = new WebSocketSubject(environment.websockets.trades + '@' + pair);
     this.tradesSocket.subscribe(
       (trades: any) => {
-        trades = trades.reverse();
+        if(!trades || trades.length == 0) {
+          return;
+        }
+        this.trades = trades.slice(0, 23);
+        this.currentPrice = this.trades[0].p;
+        this.currentQuantity = this.trades[0].q;  
         // this.txOrders = [];
         // console.log('trades=', trades);
+        /*
         for (let i = 0; i < trades.length; i++) {
 
           const item = trades[i];
@@ -555,15 +562,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           // console.log('tradeTime=', tradeTime);
           for (let j = 0; j < this.txOrders.length; j++) {
             // console.log('this.txOrders[j].time=', this.txOrders[j].time);
-            /*
-            const orderH1 = this.txOrders[j].orderHash1;
-            const orderH2 = this.txOrders[j].orderHash2;
-            if ((orderH1 === orderHash1) && (orderH2 === orderHash2)) {
-              tradeExisted = true;
-              // console.log('tradeExisted1=', tradeExisted);
-              break;
-            }
-            */
+
             // console.log('tradeExisted2=', tradeExisted);
           }
           // console.log();
@@ -586,7 +585,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           }
           this.txOrders.unshift(txItem);
         }
-
+        */
       },
       (err) => {
         console.log('err:', err);
