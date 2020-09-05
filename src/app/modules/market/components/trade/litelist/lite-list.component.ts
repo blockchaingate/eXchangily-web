@@ -43,6 +43,9 @@ export class LiteListComponent implements OnInit {
         return price.symbol.indexOf(selectedcat) >= 0;
     }
 
+    toDecimal(amount: number, decimal: number) {
+        return amount.toFixed(decimal);
+    }
     ngOnInit() {
         this.selectedcat = sessionStorage.getItem('tradeCat');
         if (!this.selectedcat) {
@@ -61,12 +64,13 @@ export class LiteListComponent implements OnInit {
                 // console.log('tickets=', tickers);
                 for (let i = 0; i < tickers.length; i++) {
                     const ticker = tickers[i];
-                    const symbol = ticker.symbol;
-                    const price = Number(ticker.price);
-                    const open = Number(ticker['24h_open']);
-                    const close = Number(ticker['24h_close']);
+                    const symbol = ticker.s;
+                    const price = Number(ticker.p);
+                    const open = Number(ticker['o']);
+                    const close = Number(ticker['c']);
                     let change24h = 0;
 
+                    /*
                     const bigO = new BigNumber(ticker['24h_open']);
                     const bigC = new BigNumber(ticker['24h_close']);
                     if (bigO.gt(0)) {
@@ -77,13 +81,18 @@ export class LiteListComponent implements OnInit {
                         change24h = change24hBig.toNumber();
                         change24h = Math.floor(change24h * 100) / 100;
                     }
-                    const vol24h = Number(ticker['24h_volume']);
+                    */
+                   if(open > 0) {
+                    change24h = (close - open) / open * 100;
+                   }
+
+                    const vol24h = Number(ticker['v']);
 
                     for (let j = 0; j < this.prices.length; j++) {
                         const symbol_replace = this.prices[j].symbol.replace('/', '');
                         if (symbol === symbol_replace) {
                             this.prices[j].price = price;
-                            this.prices[j].change24h = change24h;
+                            this.prices[j].change24h = Number(change24h.toFixed(2));
                             this.prices[j].vol24h = vol24h;
                         }
                     }

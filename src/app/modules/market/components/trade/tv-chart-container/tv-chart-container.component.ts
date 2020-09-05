@@ -219,7 +219,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
                 res[i].volume = res[i].v;
                 res[i].high = res[i].h;
                 res[i].low = res[i].l;
-                res[i].time = res[i].time * 1000;
+                res[i].time = res[i].t * 1000;
               }
               onResult(res);
             }
