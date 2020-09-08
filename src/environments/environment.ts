@@ -5,7 +5,6 @@ import * as Btc from 'bitcoinjs-lib';
 
 export const environment = {
     production: false,
-    maintainence: false,
     version: '1.4.6',
     SQUARE_APP_ID: {
         CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', // ccount kenin

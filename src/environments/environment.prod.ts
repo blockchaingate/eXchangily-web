@@ -1,7 +1,6 @@
 import * as Btc from 'bitcoinjs-lib';
 export const environment = {
     production: true,
-    maintainence: true,
     SQUARE_APP_ID: {
         CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', 
         USD: 'sq0idp-5W-PIrJbalW5u5KbeEA-Gw'

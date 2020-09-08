@@ -13,17 +13,17 @@ export class MarketHomeComponent implements OnInit {
   constructor(private kanbanServ: KanbanService) {}
   
   ngOnInit() {
-    this.maintainence = false;
+    this.maintainence = true;
     this.kanbanServ.getKanbanStatus().subscribe(
         (res: any) => {
             if(res && res.success) {
                 const data = res.body;
-                if(data == 'maint') {
-                    this.maintainence = true;
+                if(data == 'live') {
+                    this.maintainence = false;
                 }
             }
         },
-        err => { console.log(err); });
+        err => { console.log(err); })
     ;
   }
 }
