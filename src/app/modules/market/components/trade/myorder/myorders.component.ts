@@ -38,6 +38,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     closedorders: Transaction[] = [];
     canceledorders: Transaction[] = [];
     pin: string;
+    //withdrawAddress: string;
     orderHash: string;
     modalWithdrawRef: BsModalRef;
     orderStatus: string;
@@ -174,6 +175,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
         const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
         const amountInLink = new BigNumber(amount).multipliedBy(new BigNumber(1e18)); // it's for all coins.
         let addressInWallet = currentCoin.receiveAdds[0].address;
+        //addressInWallet = this.withdrawAddress;
         if (currentCoin.name === 'BTC' || currentCoin.name === 'FAB' || currentCoin.name === 'DOGE' || currentCoin.name === 'LTC') {
             const bytes = bs58.decode(addressInWallet);
             console.log('bytes=', bytes);
