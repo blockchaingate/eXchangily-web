@@ -39,7 +39,6 @@ export class MarketTopBlockComponent implements OnInit {
     return amount.toFixed(decimal);
   }
   updateTicker(ticker) {
-    console.log('updateTicker==', ticker);
     const price = this.toDecimal(ticker.p, 6);
     const volume = this.toDecimal(ticker.v, 6);
     this.price = price;

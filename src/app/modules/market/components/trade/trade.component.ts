@@ -17,17 +17,22 @@ export class TradeComponent implements OnInit {
         
         this.setPairs();
 
-        this.maintainence = true;
+        this.maintainence = false;
+
         this.kanbanService.getKanbanStatus().subscribe(
             (res: any) => {
                 if(res && res.success) {
                     const data = res.body;
-                    if(data == 'live') {
-                        this.maintainence = false;
+                    if(data != 'live') {
+                        this.maintainence = true;
                     }
                 }
             },
-            err => { console.log(err); })
+            err => { 
+                if(environment.production) {
+                    this.maintainence = true;
+                }
+            })
         ;
     }
 

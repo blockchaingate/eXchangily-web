@@ -108,6 +108,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
         if (this.wallet) {
             const address = this.wallet.excoin.receiveAdds[0].address;
             const fabAddress = this.utilServ.exgToFabAddress(address);
+            console.log('fabAddress=', fabAddress);
             this.exAddress = exaddr.toKbpayAddress(fabAddress);
             this.timerServ.checkOrderStatus(address, 1);
             this.timerServ.checkTokens(address, 1);
@@ -390,7 +391,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
         console.log('toAddressLegacy===', toAddressLegacy);
         const abiHex = this.web3Serv.getTransferFuncABI(this.coin, this.utilServ.fabToExgAddress(toAddressLegacy), this.amount);
-        console.log('abiHex for deleteOrderDo=', abiHex);
+        console.log('abiHex for getTransferFuncABI=', abiHex);
         const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 
         const address = await this.kanbanServ.getCoinPoolAddress();
