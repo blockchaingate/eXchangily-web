@@ -1,86 +1,42 @@
 <div class="container bg-white">
-  <div class="text-center py-3">
-    <span *ngIf="totalReward" class="font-weight-bold">
-      {{'Total rewards' | translate}}:
-    </span>
-    {{totalReward}}
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <span *ngIf="totalReward2" class="font-weight-bold">
-      {{'Total special rewards' | translate}}:
-    </span>    
-    {{totalReward2}}
-  </div>
+
     <table class="table">
         <thead>
           <tr>
-            <th scope="col">{{'Address' | translate}}</th>
-            <th scope="col">{{'Reward' | translate }}</th>
-            <th scope="col">{{'Special reward' | translate}}</th>         
+            <th scope="col">{{'startBlock' | translate}}</th>
+            <th scope="col">{{'endBlock' | translate }}</th>
+            <th scope="col">{{'marketPrice' | translate}}</th> 
+            <th scope="col">{{'Time' | translate}}</th>    
+            <th scope="col">{{'Proof' | translate}}</th>         
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let tradereward of traderewards">
-            <th scope="row" (click)="setTradereward(tradereward)" class="link">
-              {{utilServ.exgToFabAddress(tradereward.address)}}
+          <tr *ngFor="let period of periods">
+            <th scope="row">
+              <a href="/reward/period/{{period._id}}">
+                {{period.startBlock}}
+              </a>
+              
             </th>
             <td>
-              {{tradereward.reward}}
-              <a href="/explorer/tx-detail/{{tradereward.txid}}" target="_blank">
-                <img *ngIf="(tradereward.status > 0) && tradereward.txid" src="/assets/svg/check.svg">
-              </a>
-              
+              {{period.endBlock}}
             </td>
-
-
             <td>
-              {{tradereward.reward2}}
-              <a href="https://fabexplorer.info/#/transactions/{{tradereward.txid2}}" target="_blank">
-                <img *ngIf="(tradereward.status2 > 0) && tradereward.txid2" src="/assets/svg/check.svg">
-              </a>
-              
+              {{period.marketPrice}}
             </td>
-
-            <!--
             <td>
-              <a href="/explorer/tx-detail/{{tradereward.txid}}">
-                {{tradereward.status2}}
-              </a>
-              
-            </td>  
-            -->          
+              {{utilServ.showTime(period.dateCreated)}}
+            </td> 
+            <td>
+              <div *ngFor="let pair of pairs">
+                <a href="{{getProofLink(pair, period)}}" target="_blank">
+                  {{pair}}
+                </a>
+                
+              </div>
+            </td>      
           </tr>
         </tbody>
       </table>
 </div>
 
-<div class="modal" [ngClass]="currentTradereward?'show':'hide'" tabindex="-1" role="dialog" [style.display]="currentTradereward?'block':'none'">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">{{'Details' | translate}}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="close()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" *ngIf="currentTradereward">
-        <table class="table" style="overflow-y:scroll">
-          <thead>
-            <tr>
-              <th scope="col">{{'Pair' | translate}}</th>
-              <th scope="col">{{'Amount' | translate}}</th>
-              <th scope="col">{{'Price' | translate}}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let detail of currentTradereward.details">
-              <th scope="row">{{detail.pair}}</th>
-              <td>{{detail.amount}}</td>
-              <td>{{detail.price}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-    </div>
-  </div>
-</div>
