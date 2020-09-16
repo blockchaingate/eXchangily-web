@@ -14,8 +14,26 @@ export class TradeComponent implements OnInit {
     constructor(private kanbanService: KanbanService) {}
 
     ngOnInit() {
+        
         this.setPairs();
-        this.maintainence = environment.maintainence;
+
+        this.maintainence = false;
+
+        this.kanbanService.getKanbanStatus().subscribe(
+            (res: any) => {
+                if(res && res.success) {
+                    const data = res.body;
+                    if(data != 'live') {
+                        this.maintainence = true;
+                    }
+                }
+            },
+            err => { 
+                if(environment.production) {
+                    this.maintainence = true;
+                }
+            })
+        ;
     }
 
     setPairs() {

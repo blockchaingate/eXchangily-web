@@ -27,6 +27,10 @@ export class KanbanService {
         return addr;
     }
 
+    getKanbanStatus() {
+        return this.get('status');
+    }
+
     getAccounts() {
         const path = 'kanban/getAccounts';
         const res = this.get(path);
