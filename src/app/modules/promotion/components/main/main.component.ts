@@ -15,6 +15,8 @@ import { Router } from '@angular/router';
 import { ApiService } from '../../../../services/api.service';
 import { TranslateService } from '@ngx-translate/core';
 import { UserAuth } from '../../../landing/service/user-auth/user-auth.service';
+import { LoginInfoService } from 'src/app/services/loginInfo.service';
+import { LoginQualifyService } from 'src/app/services/lgoin-quality.service';
 
 @Component({
   selector: 'app-main',
@@ -47,6 +49,8 @@ export class MainComponent implements OnInit {
   step: number;
   _value: number;
   updated = false;
+  LoginInfo: boolean;
+  LoginQualify: boolean;
 
   get value(): number {
     return this._value;
@@ -103,7 +107,9 @@ export class MainComponent implements OnInit {
     private campaignorderServ: CampaignOrderService,
     private coinService: CoinService,
     private tranServ: TranslateService,
-    private _userAuth: UserAuth
+    private _userAuth: UserAuth,
+    private LoginInfodata: LoginInfoService,
+    private LoginQualifydata: LoginQualifyService,
   ) { }
 
   getStatusText(status: number) {
@@ -170,6 +176,8 @@ export class MainComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.LoginInfodata.currentMessage.subscribe(isLogin => this.LoginInfo = isLogin);
+    this.LoginQualifydata.currentMessage.subscribe(isQualify => this.LoginQualify = isQualify);
     this.lan = localStorage.getItem('Lan');
     this.apiServ.getUSDValues().subscribe(
       (res: any) => {
@@ -551,6 +559,8 @@ export class MainComponent implements OnInit {
     this._userAuth.token = '';
     this._userAuth.logout();
     this.storageService.removeToken();
+    this.LoginInfodata.changeMessage(false);
+    this.LoginQualifydata.changeMessage(false);
 
     console.log("token: " + this.storageService.getToken());
     this.router.navigate(['/']);

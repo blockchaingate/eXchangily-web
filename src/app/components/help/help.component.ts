@@ -7,11 +7,11 @@ import { StorageService } from '../../services/storage.service';
 @Component({
     selector: 'app-help',
     templateUrl: './help.component.html',
-    styleUrls: ['./help.component.css'],
+    styleUrls: ['./help.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
 export class HelpComponent implements OnInit {
-    selectedCat: number;
+    selectedCat: number = -1;
     email: string;
     title: string;
     desc: string;
@@ -38,8 +38,12 @@ export class HelpComponent implements OnInit {
     }
 
     submit() {
+        console.log("selectedCat: " + this.selectedCat + "title: " + this.title + "desc: " + this.desc);
+
+
         const ticket = { catId: this.selectedCat, title: this.title, desc: this.desc };
-        if (!this.selectedCat) {
+
+        if (this.selectedCat == -1) {
             this.catselected = false;
             return;
         }

@@ -15,11 +15,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
-<<<<<<< HEAD
 import {MatTabsModule} from '@angular/material/tabs';
-=======
 import { FormsModule } from '@angular/forms';
->>>>>>> c23ba22fbd76a1e2ea2f69ba17a7a4bf658e91e1
 import { AppRoutingModule } from './app-routing.module';
 import { AppResolver } from './modules/landing/resolvers/app/app.resolve';
 import { AppComponent } from './app.component';
@@ -45,6 +42,12 @@ import { SupportComponent } from './modules/support/support.component';
 import { TicketComponent } from './modules/support/ticket/ticket.component';
 import { TicketAddComponent } from './modules/support/ticket-add/ticket-add.component';
 import { NewsComponent } from './modules/news/news.component';
+import { AppIntroComponent } from './modules/app-intro/app-intro.component';
+import { AnnouncementComponent } from './components/help/announcement.component';
+import { LanService } from './services/lan.service';
+import { LoginInfoService } from './services/loginInfo.service';
+import { CampaignOrderService } from './services/campaignorder.service';
+import { LoginQualifyService } from './services/lgoin-quality.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -64,7 +67,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     SupportComponent,
     TicketComponent,
     TicketAddComponent,
-    NewsComponent
+    NewsComponent,
+    AppIntroComponent,
+    AnnouncementComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -96,7 +101,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppRoutingModule,
   ],
   providers: [AppResolver, HttpService, StorageService, TimerService, AlertService, UtilService, KanbanService, ApiService,
-    SubscriptionService, TicketService],
+    SubscriptionService, TicketService,LanService,
+    LoginInfoService,
+    LoginQualifyService,
+    CampaignOrderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

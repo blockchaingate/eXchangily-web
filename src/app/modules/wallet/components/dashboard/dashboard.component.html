@@ -1,4 +1,4 @@
-<div class="container text-white">
+<div class="container text-white walletDashboard">
     <div class="row row-flex">
         <div class="w-75">
             <div class="exg-bg content">
@@ -66,16 +66,16 @@
 
                     <div class="row py-3" *ngIf="wallet && !wallet.hide">
                         <div class="col col-12">
-                            <div class="d-inline-block pr-3">
+                            <div class="d-inline-block pr-3 walletBtn">
                                 <modal-receive-coin [wallet]="wallet"></modal-receive-coin>
                             </div>
-                            <div class="d-inline-block pr-3">
+                            <div class="d-inline-block pr-3 walletBtn">
                                 <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="sendCoin()">{{"Send" | translate }}</button>
                             </div>
-                            <div class="d-inline-block pr-3">
+                            <div class="d-inline-block pr-3 walletBtn">
                                 <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="addGasFee()" [matTooltip]="fabBalance < 0.5 ? ('No enough FAB in wallet, can not add gas' | translate) : ''">{{"Add Gas" | translate }}</button>
                             </div>
-                            <div class="d-inline-block pr-3">
+                            <div class="d-inline-block pr-3 walletBtn">
                                 <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="exchangeMoney()">{{"Exchange" | translate }}</button>
                             </div>
                         </div>

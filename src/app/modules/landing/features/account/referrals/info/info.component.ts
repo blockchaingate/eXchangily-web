@@ -32,6 +32,11 @@ export class InfoComponent implements OnInit {
   ngOnInit() {
     this.appUser = this._route.snapshot.data.appUser;
     this.user = this._route.snapshot.data.user;
+
+    console.log("this.appUser: ");
+    console.log(this.appUser);
+    
+    
     
     this._appUsers.getChildReferrals(this.appUser.userId)
     .subscribe(

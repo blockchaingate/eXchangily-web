@@ -1,7 +1,7 @@
-<div class="container">
+<div class="container ticketPage">
     <div class="help-area">
         <div class="title mt-2">
-            <h1>{{"Help" | translate}}</h1>
+            <h1>{{"Create Ticket"|translate}}</h1>
         </div>
 
         <div>
@@ -10,6 +10,71 @@
         </div>
 
         <div class="ticket">
+            <!-- <h4>{{"Create Ticket"|translate}}</h4> -->
+            <form class="row my-3 ticket-form">
+                <!-- <div class="form-group col-md-6">
+                    <label for="FormControlInput1">Your Name</label>
+                    <input type="text" class="form-control " id="FormControlInput1" placeholder="First and last name">
+
+                </div>
+                <div class="form-group  col-md-6">
+                    <label for="FormControlInput1">Email address</label>
+                    <input type="email" class="form-control" id="FormControlInput1" placeholder="name@.com">
+                </div> -->
+
+                <div class="form-group col-md-12">
+                    <label for="FormControlSelect1">{{"Category" | translate}} *</label>
+                    <select class="form-control cat-select-panel" id="FormControlSelect1" name="category"[(ngModel)]="selectedCat">
+                        <option value="" disabled selected>- Please select a option -</option>
+                        <option value="0">{{"Sending fund"| translate}}</option>
+                        <option value="1">{{"Receiving fund" | translate}}</option>
+                        <option value="2">{{"Move fund to DEX"|translate}}</option>
+                        <option value="3">{{"Withdraw fund from DEX"|translate}}</option>
+                        <option value="4">{{"Trade"|translate}}</option>
+                        <option value="5">{{"Cancel Orders"|translate}}</option>
+                        <option value="6">{{"Website issue"|translate}}</option>
+                        <option value="7">{{"Mobile app issue"|translate}}</option>
+                        <option value="8">{{"Others"|translate}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="FormControlInput2">{{"Issue" | translate}} *</label>
+                    <input type="text" class="form-control" id="FormControlInput1"  name="problem" placeholder="Subject of you issue"
+                        [(ngModel)]="title">
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="FormControlTextarea1">{{"Description"|translate}} *</label>
+                    <textarea class="form-control" id="FormControlTextarea1" rows="3"  name="desc" placeholder="Detailed information"
+                        [(ngModel)]="desc"></textarea>
+                </div>
+
+                <div class="col-md-12">
+                    <div style="color: red;" *ngIf="!logIn || errMsg">
+                        {{"Token expired, please login and try again" | translate}}
+                    </div>
+                    <div style="color: red;" *ngIf="!catselected">
+                        {{"Please select category" | translate}}
+                    </div>
+                    <div style="color: red;" *ngIf="toShort">
+                        {{"Issue or description too short" | translate}}
+                    </div>
+                    <div style="color: lightgreen;" *ngIf="success">
+                        {{"tickCreateSuccess" | translate}}
+                    </div>
+                </div>
+
+                <!-- <div class="form-group col-md-12 ">
+                    <label for="exampleFormControlFile1">File input</label>
+                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                </div> -->
+
+                <div class="submitBtn col-md-12">
+                    <button type="submit" (click)="submit()" class="exbtn">{{"Submit"|translate}}</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- <div class="ticket">
             <h4>{{"Create Ticket"|translate}}</h4>
             <form class="ticket-form">
                 <mat-form-field appearance="fill" class="ticket-half-width">
@@ -26,12 +91,12 @@
                         <mat-option value="8">{{"Others"|translate}}</mat-option>
                     </mat-select>
                 </mat-form-field>
-                <!--
+                
                 <mat-form-field class="ticket-full-width">
                     <mat-label>Email *</mat-label>
                     <input matInput class="ticket-half-width" name="email" placeholder="myemail@example.com" [(ngModel)]="email">
                 </mat-form-field>
-            -->
+           
                 <mat-form-field class="ticket-full-width">
                     <mat-label>{{"Issue" | translate}} *</mat-label>
                     <input matInput class="ticket-half-width" name="problem" [(ngModel)]="title">
@@ -39,7 +104,8 @@
 
                 <mat-form-field class="ticket-full-width">
                     <mat-label>{{"Description"|translate}} *</mat-label>
-                    <textarea class="ticket-full-width" matInput name="desc" placeholder="Describe details of issue." [(ngModel)]="desc"></textarea>
+                    <textarea class="ticket-full-width" matInput name="desc" placeholder="Describe details of issue."
+                        [(ngModel)]="desc"></textarea>
                 </mat-form-field>
 
                 <div style="color: red;" *ngIf="!logIn || errMsg">
@@ -56,10 +122,10 @@
                 </div>
 
                 <div class="submitBtn">
-                    <button type="submit" (click)="submit()">{{"Submit"|translate}}</button>
+                    <button type="submit" (click)="submit()" class="exbtn">{{"Submit"|translate}}</button>
                 </div>
             </form>
 
-        </div>
+        </div> -->
     </div>
 </div>
