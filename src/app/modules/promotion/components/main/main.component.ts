@@ -177,6 +177,9 @@ export class MainComponent implements OnInit {
         if (res.success) {
           this.prices = res.data;
           this.price = this.prices.EXG.USD;
+          if(this.price < 0.25) {
+            this.price = 0.25;
+          }
         }
       }
     );
