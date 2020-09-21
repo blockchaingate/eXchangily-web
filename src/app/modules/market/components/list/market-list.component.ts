@@ -106,24 +106,33 @@ export class MarketListComponent implements OnInit {
         this.storageServ.storeFavoritePairs(this.favorite_pairs);
     }
 
+    toDecimal(amount: number, decimal: number) {
+        return amount.toFixed(decimal);
+    }
+    
     updateTickerList(arr) {
         for (let i = 0; i < arr.length; i++) {
             const item = arr[i];
-            const s = item.symbol;
-            const h = item['24h_high'];
-            const price = item.price;
-            const l = item['24h_low'];
+            const s = item.s;
+            const h = item['h'];
+            const price = item.p;
+            const l = item['l'];
             let change24h = 0;
-            const o = item['24h_open'];
-            const c = item['24h_close'];
-            const bigO = new BigNumber(o);
-            const bigC = new BigNumber(c);
+            const o = item['o'];
+            const c = item['c'];
+            //const bigO = new BigNumber(o);
+            //const bigC = new BigNumber(c);
+            /*
             if (bigO.gt(0)) {
                 const change24hBig = bigC.minus(bigO).dividedBy(bigO).multipliedBy(new BigNumber(100));
                 change24h = change24hBig.toNumber();
                 change24h = Math.floor(change24h * 100) / 100;
             }
-            const v = item['24h_volume'];
+            */
+            if(o > 0) {
+                change24h = Number(((c - o) / o * 100).toFixed(2));
+            }
+            const v = item['v'];
 
             for (let j = 0; j < this.tab_prices.length; j++) {
                 const tabItem = this.tab_prices[j];

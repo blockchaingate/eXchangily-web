@@ -15,7 +15,7 @@ import { LiteListComponent } from './litelist/lite-list.component';
 import { TvChartContainerComponent } from './tv-chart-container/tv-chart-container.component';
 import { MyordersComponent } from './myorder/myorders.component';
 import { OrderPadComponent } from './orderpad/order-pad.component';
-
+import { QRCodeModule } from 'angularx-qrcode';
 import { PriceService } from '../../../../services/price.service';
 import { UtilService } from '../../../../services/util.service';
 import { WalletService } from '../../../../services/wallet.service';
@@ -31,6 +31,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { WithdrawHistoryComponent } from './withdraw-history/withdraw-history.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { PanelComponent } from './panel/panel.component';
+import { ReceiveCoinModal } from './modals/receive-coin/receive-coin.component';
 
 @NgModule({
     imports: [
@@ -49,6 +50,7 @@ import { PanelComponent } from './panel/panel.component';
         TranslateModule,
         MatTableModule,
         MatSlideToggleModule,
+        QRCodeModule,
         ModalModule,
         SharedModule
     ],
@@ -68,6 +70,7 @@ import { PanelComponent } from './panel/panel.component';
         MyordersComponent,
         OrderPadComponent,
         CallbackPipe,
+        ReceiveCoinModal,
         OrderFilterPipe,
         WithdrawHistoryComponent
     ],

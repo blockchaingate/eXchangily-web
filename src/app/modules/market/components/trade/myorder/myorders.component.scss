@@ -17,6 +17,12 @@
     padding: 0;
 }
 
+#coin {
+    background-color: #333349;
+    color: white;
+    border: 1px solid #38384E;
+}
+
 .myorders .myorderlist {
     overflow-y: scroll;
     height: 306px;
@@ -71,15 +77,48 @@ label {
     .myorders .myorderlist {
         overflow-y: scroll;
         height: 80px;
-
         -webkit-transition: all 450ms ease-in-out;
         -moz-transition: all 450ms ease-in-out;
         -o-transition: all 450ms ease-in-out;
         -ms-transition: all 450ms ease-in-out;
         transition: all 450ms ease-in-out;
     }
-
     .myorders:hover .myorderlist {
         height: 306px;
     }
+}
+
+.form {
+    input[type=text],
+    select {
+        width: 100%;
+        padding: 5px 7px;
+        margin: 4px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        color: white;
+        background: transparent;
+        border: 1px solid #424257;
+    }
+}
+
+.px-5 {
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
+
+.button {
+    color: white;
+    box-shadow: 0 0 6px 0 rgba(157, 96, 212, 0.5);
+    border: solid 1px transparent;
+    background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(101deg, #e59f12, #7a1ce5);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    box-shadow: 2px 1000px 1px #282840 inset;
+}
+
+.transfer {
+    height: 356px;
 }

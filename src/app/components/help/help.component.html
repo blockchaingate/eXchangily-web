@@ -92,11 +92,13 @@
                     </mat-select>
                 </mat-form-field>
                 
+
                 <mat-form-field class="ticket-full-width">
                     <mat-label>Email *</mat-label>
                     <input matInput class="ticket-half-width" name="email" placeholder="myemail@example.com" [(ngModel)]="email">
                 </mat-form-field>
            
+
                 <mat-form-field class="ticket-full-width">
                     <mat-label>{{"Issue" | translate}} *</mat-label>
                     <input matInput class="ticket-half-width" name="problem" [(ngModel)]="title">
@@ -117,7 +119,7 @@
                 <div style="color: red;" *ngIf="toShort">
                     {{"Issue or description too short" | translate}}
                 </div>
-                <div style="color: lightgreen;" *ngIf="success">
+                <div style="color: green;" *ngIf="success">
                     {{"tickCreateSuccess" | translate}}
                 </div>
 

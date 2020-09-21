@@ -115,7 +115,26 @@ export class WalletDashboardComponent implements OnInit {
         this.currencyRate = 1;
         this.hasNewCoins = false;
         this.baseCoinBalance = 0;
-        this.maintainence = environment.maintainence;
+        this.maintainence = false;
+
+        this.kanbanServ.getKanbanStatus().subscribe(
+            (res: any) => {
+                if(res && res.success) {
+                    const data = res.body;
+                    if(data != 'live') {
+                        this.maintainence = true;
+                    }
+                }
+            },
+            err => { 
+                if(environment.production) {
+                    this.maintainence = true;
+                }
+              
+              console.log(err); 
+            })
+        ;
+
         this.showTransactionHistory = false;
     
     }

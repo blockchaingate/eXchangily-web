@@ -13,11 +13,14 @@
         <div class="d-inline-block p-2" [ngClass]="select === 100?'text-white':'text-muted'">
             <a class="tab-link" [class.selected]="select === 100" (click)="selectOrder(100);">{{'Balances' | translate }}</a>
         </div>
+        <div class="d-inline-block p-2" [ngClass]="select === 101?'text-white':'text-muted'">
+            <a class="tab-link" [class.selected]="select === 101" (click)="selectOrder(101);">{{'Transfer' | translate }}</a>
+        </div>
         <div>
 
         </div>
     </div>
-    <div class="orders container fxHide-sm" *ngIf="select != 100">
+    <div class="orders container fxHide-sm" *ngIf="(select != 100) && (select != 101)">
         <div class="row px-4 header py-3">
             <div class="orditem" style="width: 20%; margin-left: -1.2em;">{{'Time' | translate }}</div>
             <div class="orditem" style="width: 15%;">{{'Symbol' | translate }}</div>
@@ -71,7 +74,7 @@
         </div>
     </div>
 
-    <div class="orders w-100 fxHide-gt-sm container" *ngIf="select != 100">
+    <div class="orders w-100 fxHide-gt-sm container" *ngIf="(select != 100) && (select != 101)">
         <div class="row w-100 header py-3">
             <div class="orditem col-5">{{'Time' | translate }}</div>
             <div class="orditem col-2">{{'Symbol' | translate }}</div>
@@ -157,11 +160,48 @@
         </div>
 
     </div>
+    <div class="transfer w-100" *ngIf="select == 101">
+        <div class="row px-5">
+            <div class="form">
+                <label for="fname">{{'Coin' | translate }}</label>
+                <select name="coincoin" [(ngModel)]="coin">
+                    <ng-container *ngFor="let token of mytokens; let i=index">
+                        <option *ngIf="token.unlockedAmount > 0" [value]="token.coinType">
+                            {{coinServ.getCoinNameByTypeId(token.coinType)}}
+                            ({{utilServ.toNumber(utilServ.showAmount(token.unlockedAmount, 18))}})
+                        </option>                       
+                    </ng-container>
+
+                  </select>
+
+
+                <label for="address">{{'Receive address' | translate}}<small>({{'Receive address in eXchangily' | translate}})</small></label>
+                
+                <input type="text" [(ngModel)]="address" id="address" name="address" placeholder="{{'Receiver\'s address' | translate}}">
+
+                <label for="price">{{'Amount' | translate}}</label>
+                <input type="text" [(ngModel)]="amount" id="amount" name="amount" placeholder="{{'Transfer amount' | translate}}">
+
+                <div class="py-3 d-flex justify-content-between">
+                    <div>
+                        <button class="button px-3 mx-3" (click)="confirmTransfer()">{{'Transfer' | translate}}</button>
+                    </div>
+
+                    <div>
+                        <modal-receive-coin [address]="exAddress"></modal-receive-coin>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
 </div>
 
 <ng-template #templateWithdraw>
     <div class="modal-header text-center">
         <h4 class="modal-title w-100">{{'Withdraw' | translate }} {{coinName}}</h4>
+        
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalWithdrawRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>

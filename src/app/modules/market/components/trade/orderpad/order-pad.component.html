@@ -9,13 +9,15 @@
             </div>
             <div class="selllist w-100 pt-2">
                 <div class="selllist-wrapper">
-                    <div class="orderbookitem mt-1" *ngFor="let sell of sells; let i=index" (click)="setPrice(sell.price)">
+                    <div class="orderbookitem mt-1" *ngFor="let sell of sells; let i=index" (click)="setPrice(sell.p)">
                         <div [style.width.%]="sell.percentage" [style.height.%]="100" class="percentage-bar percentage-bar-red">&nbsp;</div>
                         <div class="price smallfont text-danger">
-                            {{utilService.showAmount(sell.price, pairConfig.priceDecimal)}}</div>
+                            {{toDecimal(sell.p,pairConfig.priceDecimal)}}</div>
                         <div class="quantity smallfont text-muted">
-                            {{utilService.showAmountArr(sell.amountArr, pairConfig.qtyDecimal)}}</div>
+                            {{toDecimal(sell.q,pairConfig.qtyDecimal)}}</div>
+                        
                         <div class="total smallfont text-muted">{{showSellsAmount(sells, i)}}</div>
+                        
                     </div>
                 </div>
             </div>
@@ -24,20 +26,22 @@
                 <div [style.width.%]="100" [style.height.%]="100" class="percentage-bar percentage-bar-blue">&nbsp;
                 </div>
                 <div style="width: 24%; text-align: right; font-size: larger;" class="text-info">
-                    {{utilService.showAmount(currentPrice.toString(), pairConfig.priceDecimal)}}</div>
+                    {{toDecimal(currentPrice, pairConfig.priceDecimal)}}</div>
                 <!--
                 <div [class.redcolor]="change24h<0" [class.greencolor]="change24h>0" class="text-info"> {{utilService.showAmount(currentQuantity.toString())}} </div>
                 -->
             </div>
 
             <div class="buylist w-100">
-                <div class="orderbookitem mt-1" *ngFor="let buy of buys; let i=index" (click)="setPrice(buy.price)">
+                <div class="orderbookitem mt-1" *ngFor="let buy of buys; let i=index" (click)="setPrice(buy.p)">
                     <div [style.width.%]="buy.percentage" [style.height.%]="100" class="percentage-bar percentage-bar-green">&nbsp;</div>
                     <div class="price smallfont text-success">
-                        {{utilService.showAmount(buy.price, pairConfig.priceDecimal)}}</div>
+                        {{toDecimal(buy.p,pairConfig.priceDecimal)}}</div>
                     <div class="quantity smallfont text-muted">
-                        {{utilService.showAmountArr(buy.amountArr, pairConfig.qtyDecimal)}}</div>
+                        {{toDecimal(buy.q,pairConfig.qtyDecimal)}}</div>
+                        
                     <div class="total smallfont text-muted">{{showBuysAmount(buys, i)}}</div>
+                    
                 </div>
             </div>
         </div>
@@ -50,12 +54,12 @@
             </div>
 
             <div class="transacs w-100">
-                <div class="orderbookitem" *ngFor="let tx of txOrders; let l=index">
-                    <div class="price smallfont" [ngClass]="tx.m?'text-success':'text-danger'">
-                        {{utilService.showAmount(tx.price, pairConfig.priceDecimal)}}</div>
+                <div class="orderbookitem" *ngFor="let tx of trades; let l=index">
+                    <div class="price smallfont" [ngClass]="tx.b?'text-success':'text-danger'">
+                        {{toDecimal(tx.p,pairConfig.priceDecimal)}}</div>
                     <div class="quantity smallfont text-muted">
-                        {{utilService.showAmount(tx.quantity, pairConfig.qtyDecimal)}}</div>
-                    <div class="total smallfont text-muted">{{tx.time | date:'HH:mm:ss'}}</div>
+                        {{toDecimal(tx.q,pairConfig.qtyDecimal)}}</div>
+                    <div class="total smallfont text-muted">{{tx.t * 1000 | date:'HH:mm:ss'}}</div>
                 </div>
             </div>
         </div>

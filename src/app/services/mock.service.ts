@@ -6,13 +6,12 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
 interface BarData {
-  time: number;
-  closeTime: number;
-  open: number;
-  high: number;
-  low: number;
-  close: number;
-  volume: number;
+  t: number;
+  o: number;
+  h: number;
+  l: number;
+  c: number;
+  v: number;
 }
 
 @Injectable({
@@ -69,12 +68,12 @@ export class MockService {
     const res = await this.http.get(url).toPromise() as [BarData];
     if (res && res.length > 0) {
       for (let i = 0; i < res.length; i++) {
-        res[i].open = res[i].open / 1e18;
-        res[i].close = res[i].close / 1e18;
-        res[i].volume = res[i].volume / 1e18;
-        res[i].high = res[i].high / 1e18;
-        res[i].low = res[i].low / 1e18;
-        res[i].time = res[i].time * 1000;
+        res[i].o = res[i].o;
+        res[i].c = res[i].c;
+        res[i].v = res[i].v;
+        res[i].h = res[i].h;
+        res[i].l = res[i].l;
+        res[i].t = res[i].t * 1000;
       }
     }
     this.gotHistoryList = true;

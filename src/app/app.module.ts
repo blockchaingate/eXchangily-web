@@ -15,7 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatTabsModule } from '@angular/material/tabs';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppResolver } from './modules/landing/resolvers/app/app.resolve';
@@ -43,11 +43,14 @@ import { TicketComponent } from './modules/support/ticket/ticket.component';
 import { TicketAddComponent } from './modules/support/ticket-add/ticket-add.component';
 import { NewsComponent } from './modules/news/news.component';
 import { AppIntroComponent } from './modules/app-intro/app-intro.component';
-import { AnnouncementComponent } from './components/help/announcement.component';
+// import { AnnouncementComponent } from './components/help/announcement.component';
 import { LanService } from './services/lan.service';
 import { LoginInfoService } from './services/loginInfo.service';
 import { CampaignOrderService } from './services/campaignorder.service';
 import { LoginQualifyService } from './services/lgoin-quality.service';
+import { AnnouncementsService } from './services/announcements.service';
+import { AnnouncementListComponent } from './components/help/announcement/announcement-list/announcement-list.component';
+import { AnnouncementComponent } from './components/help/announcement/announcement/announcement.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -69,7 +72,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TicketAddComponent,
     NewsComponent,
     AppIntroComponent,
-    AnnouncementComponent
+    AnnouncementComponent,
+    AnnouncementListComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -104,7 +108,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     SubscriptionService, TicketService,LanService,
     LoginInfoService,
     LoginQualifyService,
-    CampaignOrderService],
+    CampaignOrderService,
+    AnnouncementsService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
