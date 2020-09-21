@@ -11,6 +11,9 @@ import { TicketComponent } from './modules/support/ticket/ticket.component';
 import { TicketAddComponent } from './modules/support/ticket-add/ticket-add.component';
 import { NewsComponent } from './modules/news/news.component';
 import { from } from 'rxjs';
+import { AppIntroComponent } from './modules/app-intro/app-intro.component';
+import { AnnouncementComponent } from './components/help/announcement/announcement/announcement.component';
+// import { AnnouncementComponent } from './components/help/announcement.component';
 
 const routes: Routes = [
 
@@ -113,10 +116,12 @@ const routes: Routes = [
   { path: 'help', component: HelpComponent },
   { path: 'faq', component: FaqComponent },
   { path: 'subscription', component: SubscriptionComponent },
+  { path: 'app', component: AppIntroComponent },
   { path: 'support', component: SupportComponent },
   { path: 'tickets', component: TicketComponent },
   { path: 'ticket-add', component: TicketAddComponent },
   { path: 'news', component: NewsComponent },
+  { path: 'announcements', component: AnnouncementComponent },
   {
     path: '', redirectTo: '/market/home', pathMatch: 'full'
   },

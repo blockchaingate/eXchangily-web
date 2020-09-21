@@ -43,7 +43,7 @@ import { LockedInfoModal } from '../../modals/locked-info/locked-info.modal';
 @Component({
     selector: 'app-wallet-dashboard',
     templateUrl: './dashboard.component.html',
-    styleUrls: ['./dashboard.component.css'],
+    styleUrls: ['./dashboard.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
 export class WalletDashboardComponent implements OnInit {

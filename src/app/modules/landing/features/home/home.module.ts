@@ -17,6 +17,7 @@ import { JsonFileService } from '../../service/jsondata/jsondata.service';
 import { DirectivesModule } from '../../directives/directives.module';
 // import { UserService } from '../../service/user/user.service';
 import { HttpService } from '../../../../services/http.service';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { HttpService } from '../../../../services/http.service';
     RouterModule,
     ComponentsModule,
     DirectivesModule,
-    HttpClientModule
+    HttpClientModule,
+    ModalModule.forRoot(),
   ],
   providers: [
     JsonFileService, HttpService

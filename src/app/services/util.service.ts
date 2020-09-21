@@ -315,6 +315,8 @@ export class UtilService {
   
          return '0x' + hash2;
          */
+        console.log("publicKey: "+ publicKey);
+        
         const hash01 = Btc.crypto.sha256(publicKey);
         const hash02 = Btc.crypto.ripemd160(hash01).toString('hex');
         const address = '0x' + hash02;

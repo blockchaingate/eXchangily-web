@@ -44,7 +44,7 @@ export class ApiService {
     }
 
     getUSDValues() {
-        const url = 'https://kanbanprod.fabcoinapi.com/USDvalues';
+        const url = 'https://kanbanprod.fabcoinapi.com/getexgprice';
         return this.http.get(url);
     }
     

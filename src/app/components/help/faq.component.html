@@ -1,5 +1,5 @@
-<div class="container">
-    <div class="paragraph mt-4" *ngIf="_authServ.language==='English'">
+<div class="container faqPage">
+    <div class="paragraph mt-4" *ngIf="message==='en'">
         <h3>Frequently Asked Questions</h3>
         <div class="mt-1">
             <h4>Basic Issues</h4>
@@ -155,7 +155,7 @@
         </div>
     </div>
 
-    <div class="paragraph" *ngIf="_authServ.language==='简体中文'">
+    <div class="paragraph" *ngIf="message==='zh'">
         <h3>常见问题回答</h3>
 
         <div>
