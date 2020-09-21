@@ -183,8 +183,11 @@ export class MainComponent implements OnInit {
       (res: any) => {
         console.log('res for getUSDValues=', res);
         if (res.success) {
-          this.prices = res.data;
-          this.price = this.prices.EXG.USD;
+          const data = res.data;
+          this.price = data.USD;
+          if(this.price < 0.25) {
+            this.price = 0.25;
+          }
         }
       }
     );
@@ -199,7 +202,7 @@ export class MainComponent implements OnInit {
     this.readyGo = true;
     this.step = 1;
     this.wallet = await this.storageService.getCurrentWallet();
-    this.price = this.prices.EXG.USD;
+    // this.price = this.prices.EXG.USD;
     this.storageService.getToken().subscribe(
       (token: string) => {
         if (!token) {
