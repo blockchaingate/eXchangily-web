@@ -1241,6 +1241,7 @@
         "eventRewardUserLevel-3": "tier 3",
         "eventTeam": "Team Rewards",
         "eventTeamDetail": "If an investor recruited at least 10 people and themself invested at least $ 3000USD, they will get a 10-tier team award under their umbrella. The Team reward will be paid in EXG and will be based on the below table:",
-        "tickCreateSuccess": "Thank you for submiting ticket, your ticket is created successful, you will receive email on update."
+        "tickCreateSuccess": "Thank you for submiting ticket, your ticket is created successful, you will receive email on update.",
+        "VerifyMnemNote": "To make sure that you copied the mnemonics accurately, please enter it in order for verification."
     }
 }
