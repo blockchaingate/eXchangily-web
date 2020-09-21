@@ -2,36 +2,30 @@ import { Renderer2, Inject, Component, OnInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { Subscription } from 'rxjs/Subscription';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 const whitepaperPath = './assets/pdfs/wp';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  whitepaper: string;
-  lang: string;
-  private subscribers: Array<Subscription> = [];
+    whitepaper: string;
+    lang: string;
+    private subscribers: Array<Subscription> = [];
+    bsModalRef: BsModalRef;
 
-  constructor(
-    private _translate: TranslateService,
-    private _renderer2: Renderer2, 
-    @Inject(DOCUMENT) private _document: Document
+    constructor(
+        private modalService: BsModalService,
+        private _translate: TranslateService,
+        private _renderer2: Renderer2,
+        @Inject(DOCUMENT) private _document: Document
     ) { }
 
-  //   public setJsonLd(renderer2: Renderer2, data: any): void {
-
-  //     let script = renderer2.createElement('script');
-  //     script.type = 'application/ld+json';
-  //     script.text = `${JSON.stringify(data)}`;
-
-  //     renderer2.appendChild(this._document.body, script);
-  // }
-
-  ngOnInit() {
-    let script = this._renderer2.createElement('script');
+    ngOnInit() {
+        let script = this._renderer2.createElement('script');
         script.type = `text/javascript`;
         script.text = `
         var w = c.width = window.innerWidth,
@@ -389,20 +383,61 @@ export class HomeComponent implements OnInit {
 
         this._renderer2.appendChild(this._document.body, script);
 
-    this.getLang();
+        this.getLang();
 
-    this.subscribers.push(
-      this._translate.onLangChange
-      .subscribe((event: LangChangeEvent) => {
-        this.getLang(event.lang);
-      })
-    );
-  }
+        this.subscribers.push(
+            this._translate.onLangChange
+                .subscribe((event: LangChangeEvent) => {
+                    this.getLang(event.lang);
+                })
+        );
+    }
 
-  private getLang(language = ''): string {
-    const lang = language || this._translate.currentLang || window.localStorage.getItem('fabLanguagei18n');
-    this.lang = lang;
-    this.whitepaper = `${whitepaperPath}-${lang}.pdf`;
-    return lang;
-  }
+    private getLang(language = ''): string {
+        const lang = language || this._translate.currentLang || window.localStorage.getItem('fabLanguagei18n');
+        this.lang = lang;
+        this.whitepaper = `${whitepaperPath}-${lang}.pdf`;
+        return lang;
+    }
+
+    openModalWithComponent() {
+        const initialState = {
+            list: [
+                'Open a modal with component',
+                'Pass your data',
+                'Do something else',
+                '...'
+            ],
+            title: 'Modal with component'
+        };
+        this.bsModalRef = this.modalService.show(ModalContentComponent, { initialState });
+        this.bsModalRef.content.closeBtnName = 'Close';
+    }
+}
+
+
+@Component({
+    selector: 'modal-content',
+    template: `
+      <div class="modal-body">
+        <video controls width="100%" height="auto" preload="none">
+            <source src="/assets/videos/how.mp4">
+            Your browser does not support the video tag.
+        </video>
+        
+      </div>
+    `
+})
+
+
+export class ModalContentComponent implements OnInit {
+    title: string;
+    closeBtnName: string;
+    list: any[] = [];
+
+    constructor(public bsModalRef: BsModalRef) { }
+
+    ngOnInit() {
+        this.list.push('PROFIT!!!');
+    }
 }

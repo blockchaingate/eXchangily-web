@@ -1,0 +1,73 @@
+<div class="container bg-white">
+  <div class="text-center py-3">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <span *ngIf="totalReward2" class="font-weight-bold">
+      {{'Total rewards' | translate}}:
+    </span>    
+    {{totalReward2}}
+  </div>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">{{'Address' | translate}}</th>
+            <th scope="col">{{'Reward' | translate}}</th>         
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tradereward of traderewards">
+            <th scope="row" (click)="setTradereward(tradereward)" class="link">
+              {{utilServ.exgToFabAddress(tradereward.address)}}
+            </th>
+
+            <td>
+              {{tradereward.reward2}}
+              <a href="https://fabexplorer.info/#/transactions/{{tradereward.txid2}}" target="_blank">
+                <img *ngIf="(tradereward.status2 > 0) && tradereward.txid2" src="/assets/svg/check.svg">
+              </a>
+              
+            </td>
+
+            <!--
+            <td>
+              <a href="/explorer/tx-detail/{{tradereward.txid}}">
+                {{tradereward.status2}}
+              </a>
+              
+            </td>  
+            -->          
+          </tr>
+        </tbody>
+      </table>
+</div>
+
+<div class="modal" [ngClass]="currentTradereward?'show':'hide'" tabindex="-1" role="dialog" [style.display]="currentTradereward?'block':'none'">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{'Details' | translate}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="currentTradereward">
+        <table class="table" style="overflow-y:scroll">
+          <thead>
+            <tr>
+              <th scope="col">{{'Pair' | translate}}</th>
+              <th scope="col">{{'Amount' | translate}}</th>
+              <th scope="col">{{'Price' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let detail of currentTradereward.details">
+              <th scope="row">{{detail.pair}}</th>
+              <td>{{detail.amount}}</td>
+              <td>{{detail.price}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>

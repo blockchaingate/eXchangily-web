@@ -38,12 +38,16 @@ import { PaymentMethodService } from '../../../../services/paymentmethod.service
 import { OtcListingOrdersModal } from './modals/otc-listing-orders/otc-listing-orders.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { SharedModule } from '../../../shared/shared.module';
+import { AnnouncementsComponent } from './announcements/announcements.component';
+import { AnnouncementListComponent } from './announcements/announcement-list/announcement-list.component';
+import { AnnouncementAddComponent } from './announcement-add/announcement-add.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 @NgModule({
   imports: [
+    
     CommonModule,
     RouterModule,
     FormsModule,
@@ -77,7 +81,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     KycsComponent,
     OrderItemComponent,
     TokenlockComponent,
-    OtcListingOrdersModal
+    OtcListingOrdersModal,
+    AnnouncementsComponent,
+    AnnouncementListComponent,
+    AnnouncementAddComponent,
   ]
 })
 export class AdminModule { }

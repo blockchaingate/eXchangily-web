@@ -462,6 +462,8 @@ export class CoinService {
                 pubkey: childNode.publicKey,
                 network: environment.chains[name]['network']
             });
+
+            console.log("pubkey: " +childNode.publicKey.toString);
             if(name === 'BCH') {
                 console.log('address===', address);
                 addr = bchaddr.toCashAddress(address);
@@ -469,6 +471,10 @@ export class CoinService {
                 
                 addr = address;
             }
+
+            
+            
+
             
 
 

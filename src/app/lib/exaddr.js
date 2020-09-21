@@ -100,8 +100,11 @@ function toLegacyAddress (address) {
  * @throws {InvalidAddressError}
  */
 function toKbpayAddress (address) {
+  console.log('address for toKbpayAddress', address);
   var decoded = decodeAddress(address)
+  console.log('decoded=', decoded);
   if (decoded.format === Format.Kbpay) {
+    console.log('is Kbpay');
     return address
   }
   return encodeAsKbpay(decoded)
@@ -154,12 +157,16 @@ var BASE_58_CHECK_PAYLOAD_LENGTH = 21
  * @throws {InvalidAddressError}
  */
 function decodeBase58Address (address) {
+  console.log('decodeBase58Address begin');
   try {
+    console.log('address=', address);
     var payload = bs58check.decode(address)
+    console.log('payload=', payload);
     if (payload.length !== BASE_58_CHECK_PAYLOAD_LENGTH) {
       throw new InvalidAddressError()
     }
-    var versionByte = payload[0]
+    var versionByte = payload[0];
+    console.log('versionByte==', versionByte);
     var hash = Array.prototype.slice.call(payload, 1)
     switch (versionByte) {
       case VERSION_BYTE[Format.Legacy][Network.Mainnet][Type.P2PKH]:
@@ -170,6 +177,7 @@ function decodeBase58Address (address) {
           type: Type.P2PKH
         }
       case VERSION_BYTE[Format.Legacy][Network.Testnet][Type.P2PKH]:
+        console.log('this way');
         return {
           hash: hash,
           format: Format.Legacy,
@@ -220,10 +228,12 @@ function encodeAsLegacy (decoded) {
  * @returns {string}
  */
 function encodeAsKbpay (decoded) {
+  console.log('encodeAsKbpay begin');
   var versionByte = VERSION_BYTE[Format.Kbpay][decoded.network][decoded.type]
   var buffer = Buffer.alloc(1 + decoded.hash.length)
   buffer[0] = versionByte
   buffer.set(decoded.hash, 1)
+  console.log('buffer in encodeAsKbpay=', buffer);
   return bs58check.encode(buffer)
 }
 

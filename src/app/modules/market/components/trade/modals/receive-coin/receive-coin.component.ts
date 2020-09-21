@@ -16,6 +16,7 @@ export class ReceiveCoinModal {
 
     }
     openModal(template: TemplateRef<any>) {
+        console.log('this.address=', this.address);
         this.exAddr = exaddr.toKbpayAddress(this.address);
         this.modalRef = this.modalService.show(template);
     }  

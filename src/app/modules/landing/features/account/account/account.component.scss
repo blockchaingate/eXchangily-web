@@ -1,23 +1,22 @@
-@import '~bootstrap/scss/bootstrap-reboot';
-@import '~bootstrap/scss/bootstrap-grid';
+// @import '~bootstrap/scss/bootstrap-reboot';
+// @import '~bootstrap/scss/bootstrap-grid';
 
-@import 'sizing';
-@import 'colours';
+@import "sizing";
+@import "colours";
 
 .work-area {
   padding-top: 1em;
   min-height: 680px;
 }
 
-  ul {
-    list-style-type: none;
-    padding: 0 0 0 1em;
-    // margin: 1em 1em 1em -;
-    text-align: left;
-    text-decoration: none;
+ul {
+  list-style-type: none;
+  padding: 0 0 0 1em;
+  // margin: 1em 1em 1em -;
+  text-align: left;
+  text-decoration: none;
 
-    li {
-      margin-top: 1em;
-    }
+  li {
+    margin-top: 1em;
   }
-
+}

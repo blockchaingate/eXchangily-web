@@ -5,8 +5,7 @@ import * as Btc from 'bitcoinjs-lib';
 
 export const environment = {
     production: false,
-    maintainence: false,
-    version: '1.4.6',
+    version: '1.4.8',
     SQUARE_APP_ID: {
         CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', // ccount kenin
         USD: 'sandbox-sq0idb-gPdLBTvUKUk2-O2DdNZ3dA'  // account genta
@@ -164,33 +163,33 @@ export const environment = {
             DRGN: '0xbbdd7a557a0d8a9bf166dcc2730ae3ccec7df05c'
         },
        exchangilyOfficial: {
-        EXG: '0xdcd0f23125f74ef621dfa3310625f8af0dcd971b',
-        FAB: 'n1eXG5oe6wJ6h43akutyGfphqQsY1UfAUR',
-        BTC: 'muQDw5hVmFgD1GrrWvUt6kjrzauC4Msaki',
-        ETH: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
-        USDT: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
-        DUSD: '0xdcd0f23125f74ef621dfa3310625f8af0dcd971b',
-        BCH: 'bchtest:qzvyhe6dn2hz7tgu624shm80js6knj2vj57l54rl6w',
-        LTC: 'muQDw5hVmFgD1GrrWvUt6kjrzauC4Msaki',
-        DOGE: 'ni5RuJJ5Bcbxe992Zm9X51HSFbR5UR44Hh',
-        //BNB: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
-        INB: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
-        REP: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
-        HOT: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
-        CEL: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
-        MATIC: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
-        IOST: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
-        MANA: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
-        FUN: '0x02c55515e62a0b25d2447c6d70369186b8f10359', //??
-        WAX: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
-        ELF: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
-        GNO: '0x02c55515e62a0b25d2447c6d70369186b8f10359', 
-        POWR: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
-        WINGS: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
-        MTL: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
-        KNC: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
-        GVT: '0x02c55515e62a0b25d2447c6d70369186b8f10359',
-        DRGN: '0x02c55515e62a0b25d2447c6d70369186b8f10359'
+        EXG: '0xed76be271bb47a6df055bbc2039733c26fdecc82',
+        FAB: 'n3AYguoFtN7SqsfAJPx6Ky8FTTZUkeKbvc',
+        BTC: 'n3AYguoFtN7SqsfAJPx6Ky8FTTZUkeKbvc',
+        ETH: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
+        USDT: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
+        DUSD: '0xed76be271bb47a6df055bbc2039733c26fdecc82',
+        BCH: 'bchtest:qrkhd038rw685m0s2kauyquhx0pxlhkvsg6dydtwn9',
+        LTC: 'n3AYguoFtN7SqsfAJPx6Ky8FTTZUkeKbvc',
+        DOGE: 'nqqkf8PqJj3CUjwLMEcjJDfpiU5NDcMUrB',
+        //BNB: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
+        INB: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
+        REP: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
+        HOT: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
+        CEL: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
+        MATIC: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
+        IOST: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
+        MANA: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
+        FUN: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E', //??
+        WAX: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
+        ELF: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
+        GNO: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E', 
+        POWR: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
+        WINGS: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
+        MTL: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
+        KNC: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
+        GVT: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
+        DRGN: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E'
        },
         promotionOfficial: {
             USDT: '0x4e93c47b42d09f61a31f798877329890791077b2',

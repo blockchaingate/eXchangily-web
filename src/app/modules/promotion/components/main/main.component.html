@@ -2,9 +2,9 @@
     <div class="container-fluid topImage">
         <div class="topInfo">
             <div>
-                10 MILLION EQUITY TOKEN
+                {{'10 MILLION EQUITY TOKEN' | translate }}
             </div>
-            <div>GIVE AWAY</div>
+            <div>{{'GIVE AWAY' | translate }}</div>
         </div>
         <div class="topButtons">
 
@@ -12,8 +12,7 @@
                 [routerLinkActiveOptions]="{exact: true}">
                 <button>{{'Header.Navigation.Signup' | translate}}</button>
             </a>
-            <a class="topBtn pointer" href="/promotion/reward"
-                *ngIf="membership && (membership != 'unqualified')">
+            <a class="topBtn pointer" href="/promotion/reward">
                 <button>{{'My rewards' | translate }}</button>
             </a>
             <a class="topBtn pointer" href="/promotion/flyer" target="_blank" *ngIf="readyGo">

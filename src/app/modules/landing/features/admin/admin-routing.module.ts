@@ -14,6 +14,8 @@ import { TokenlockComponent } from './tokenlock/tokenlock.component';
 import { CampaignOrdersComponent } from './campaign-orders/campaign-orders.component';
 import { MerchantComponent } from './merchant/merchant.component';
 import { OtcListingComponent } from './otc/otc-listing/otc-listing.component';
+import { AnnouncementsComponent } from './announcements/announcements.component';
+import { AnnouncementAddComponent } from './announcement-add/announcement-add.component';
 
 const routes: Routes = [
     {
@@ -69,6 +71,14 @@ const routes: Routes = [
         {
             path: 'tokenlock',
             component: TokenlockComponent
+        },
+        {
+            path: 'announcements',
+            component: AnnouncementsComponent
+        },
+        {
+            path: 'announcements-add',
+            component:AnnouncementAddComponent
         },
         {
             path: '',

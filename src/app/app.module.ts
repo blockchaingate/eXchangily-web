@@ -42,6 +42,15 @@ import { SupportComponent } from './modules/support/support.component';
 import { TicketComponent } from './modules/support/ticket/ticket.component';
 import { TicketAddComponent } from './modules/support/ticket-add/ticket-add.component';
 import { NewsComponent } from './modules/news/news.component';
+import { AppIntroComponent } from './modules/app-intro/app-intro.component';
+// import { AnnouncementComponent } from './components/help/announcement.component';
+import { LanService } from './services/lan.service';
+import { LoginInfoService } from './services/loginInfo.service';
+import { CampaignOrderService } from './services/campaignorder.service';
+import { LoginQualifyService } from './services/lgoin-quality.service';
+import { AnnouncementsService } from './services/announcements.service';
+import { AnnouncementListComponent } from './components/help/announcement/announcement-list/announcement-list.component';
+import { AnnouncementComponent } from './components/help/announcement/announcement/announcement.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -61,7 +70,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     SupportComponent,
     TicketComponent,
     TicketAddComponent,
-    NewsComponent
+    NewsComponent,
+    AppIntroComponent,
+    AnnouncementComponent,
+    AnnouncementListComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -93,7 +105,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppRoutingModule,
   ],
   providers: [AppResolver, HttpService, StorageService, TimerService, AlertService, UtilService, KanbanService, ApiService,
-    SubscriptionService, TicketService],
+    SubscriptionService, TicketService,LanService,
+    LoginInfoService,
+    LoginQualifyService,
+    CampaignOrderService,
+    AnnouncementsService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

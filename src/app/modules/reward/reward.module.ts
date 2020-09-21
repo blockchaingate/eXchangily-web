@@ -4,6 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { RewardRoutingModule } from './reward-routing.module';
 import { IndexComponent } from './components/index/index.component';
+import { PeriodComponent } from './components/period/period.component';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { UtilService } from '../../services/util.service';
@@ -36,7 +37,8 @@ import {MatSelectModule} from '@angular/material/select';
         AlertService
     ],
     declarations: [
-        IndexComponent
+        IndexComponent,
+        PeriodComponent
     ],
     exports: [
     ]

@@ -72,6 +72,20 @@ export class StorageService {
         return this.localSt.removeItem('token').subscribe(() => {});
     }
 
+    storeCampaignQualify() {
+        return this.localSt.setItem('campaignQualify', true).subscribe(() => {});
+    }
+
+    getCampaignQualify() {
+        return this.localSt.getItem('campaignQualify');
+    }
+    
+    removeCampaignQualify(){
+        return this.localSt.removeItem('campaignQualify').subscribe(() => {});
+    }
+
+
+
     storeToTransactionHistoryList(transactionItem: TransactionItem) {
         this.getTransactionHistoryList().subscribe((transactionHistory: TransactionItem[]) => {
             if (!transactionHistory) {
@@ -101,6 +115,10 @@ export class StorageService {
     getTransactionHistoryList() {
         return this.localSt.getItem('transactions');
     }    
+
+    getCurrentLang(){
+        return this.localSt.getItem('Lan');
+    }
 
 
 }

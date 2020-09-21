@@ -1,5 +1,14 @@
 @import 'sizing';
 @import 'colours';
+:host{
+  color:#fff
+}
+
+.rightSide{
+  margin: 40px 0;
+  padding: 20px 20px;
+  background: #000066;
+}
 
 .container {
   margin: 0;
