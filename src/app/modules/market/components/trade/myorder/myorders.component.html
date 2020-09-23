@@ -164,7 +164,7 @@
         <div class="row px-5">
             <div class="form">
                 <label for="fname">{{'Coin' | translate }}</label>
-                <select name="coincoin" [(ngModel)]="coin">
+                <select id="coin" name="coin" class="coin" [(ngModel)]="coin">
                     <ng-container *ngFor="let token of mytokens; let i=index">
                         <option *ngIf="token.unlockedAmount > 0" [value]="token.coinType">
                             {{coinServ.getCoinNameByTypeId(token.coinType)}}
@@ -176,7 +176,7 @@
 
 
                 <label for="address">{{'Receive address' | translate}}<small>({{'Receive address in eXchangily' | translate}})</small></label>
-                
+
                 <input type="text" [(ngModel)]="address" id="address" name="address" placeholder="{{'Receiver\'s address' | translate}}">
 
                 <label for="price">{{'Amount' | translate}}</label>
@@ -201,7 +201,7 @@
 <ng-template #templateWithdraw>
     <div class="modal-header text-center">
         <h4 class="modal-title w-100">{{'Withdraw' | translate }} {{coinName}}</h4>
-        
+
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalWithdrawRef.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
