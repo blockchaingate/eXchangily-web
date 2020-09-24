@@ -171,6 +171,15 @@ export class SigninComponent implements OnInit {
         } else {
           this._router.navigate(['/account/user-info']);
         }
+      },
+      (error: any) => {
+        if (this.afterLoginUrl) {
+          this._router.navigate([this.afterLoginUrl]);
+        } else if (this.isSystemAdmin) {
+          this._router.navigate(['/admin']);
+        } else {
+          this._router.navigate(['/account/user-info']);
+        }
       }
     );
 

@@ -33,6 +33,9 @@ export class OrdersComponent implements OnInit {
                   }
                 }
               }
+            },
+            (error: any) => {
+              this.orders = [];
             }
           );
         }

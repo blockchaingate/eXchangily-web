@@ -26,6 +26,9 @@ export class CampaignOrdersComponent implements OnInit {
                 if(res.ok) {
                   this.orders = res._body;
                 }
+              },
+              (error: any) => {
+                this.orders = [];
               }
             );
           }
