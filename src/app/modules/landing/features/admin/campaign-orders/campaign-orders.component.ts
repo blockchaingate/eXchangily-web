@@ -9,42 +9,47 @@ import { UtilService } from '../../../../../services/util.service';
   styleUrls: ['./campaign-orders.component.scss']
 })
 export class CampaignOrdersComponent implements OnInit {
-    orders: any;
-    token: string;
-    constructor(
-      public utilServ: UtilService, 
-      private campaignorderServ: CampaignOrderService, 
-      private _storageServ: StorageService
-    ) {}
-    ngOnInit() {
-        this._storageServ.getToken().subscribe(
-          (token: string) => {
-            this.token = token;
-            this.campaignorderServ.getAllOrders(token).subscribe(
-              (res: any) => {
-                console.log('res=', res);
-                if(res.ok) {
-                  this.orders = res._body;
-                }
-              },
-              (error: any) => {
-                this.orders = [];
-              }
-            );
+  orders: any;
+  token: string;
+  
+  constructor(
+    public utilServ: UtilService,
+    private campaignorderServ: CampaignOrderService,
+    private _storageServ: StorageService
+  ) { }
+
+  ngOnInit() {
+    this._storageServ.getToken().subscribe(
+      (token: string) => {
+        this.token = token;
+        this.campaignorderServ.getAllOrders(token).subscribe(
+          (res: any) => {
+            console.log('res=', res);
+            if (res.ok) {
+              this.orders = res._body;
+              JSON.stringify(this.orders);
+            }
+          },
+          (error: any) => {
+            this.orders = [];
           }
         );
-    }
-    
-    getStatusText(status: number) {
-      return this.campaignorderServ.getStatusText(status);
-    }
-    confirmOrder(order) {
-      this.campaignorderServ.confirmOrder(this.token, order._id).subscribe(
-        (res: any) => {
-          if(res.ok) {
-            order.status = '3';
-          }
+      }
+    );
+  }
+
+  getStatusText(status: number) {
+    return this.campaignorderServ.getStatusText(status);
+  }
+
+  confirmOrder(order) {
+    this.campaignorderServ.confirmOrder(this.token, order._id).subscribe(
+      (res: any) => {
+        if (res.ok) {
+          order.status = '3';
         }
-      );
-    }
+      }
+    );
+  }
+
 }
