@@ -58,7 +58,7 @@ export class TimerService {
         const subscribeItem = source.subscribe(val => {
             // console.log('value for checking order ' + val);
             // console.log('maxTimes=' + maxTimes);
-            if ((maxTimes > 0) && (val >= maxTimes)) {
+            if ((maxTimes > 0) && (val >= maxTimes - 1)) {
 
                 this.unCheckTokens(address);
             }
@@ -113,7 +113,9 @@ export class TimerService {
         const source = timer(1000, 1000);
         console.log('5');
         const subscribeItem = source.subscribe(val => {
-            if ((maxTimes > 0) && (val >= maxTimes)) {
+            console.log('maxTimes===', maxTimes);
+            console.log('val==', val);
+            if ((maxTimes > 0) && (val >= maxTimes - 1)) {
                 this.unCheckOrderStatus(address);
             }
             this.kanbanServ.getOrdersByAddressStatus(address, 'open')
@@ -200,7 +202,7 @@ export class TimerService {
 
         const source = timer(10000, 20000);
         const subscribeItem = source.subscribe(val => {
-            if ((maxTimes > 0) && (val >= maxTimes)) {
+            if ((maxTimes > 0) && (val >= maxTimes - 1)) {
                 this.unCheckTransactionStatus(txid);
             }
             if (type === 'Withdraw') {

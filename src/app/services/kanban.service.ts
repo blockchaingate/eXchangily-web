@@ -126,7 +126,7 @@ export class KanbanService {
     getOrdersByAddressStatus(address: string, status: string, start: number = 0, count: number = 200) {
         let path = 'ordersbyaddresspaged/' + address + '/' + start + '/' + count + '/' + status;
         path = environment.endpoints.kanban + path;
-        // console.log('path for getOrdersByAddress=' + path);
+        console.log('path for getOrdersByAddress=' + path);
         const res = this.http.get(path);
         return res;
     }
