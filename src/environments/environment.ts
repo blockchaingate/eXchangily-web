@@ -5,7 +5,7 @@ import * as Btc from 'bitcoinjs-lib';
 
 export const environment = {
     production: false,
-    version: '1.4.8',
+    version: '1.4.9',
     SQUARE_APP_ID: {
         CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', // ccount kenin
         USD: 'sandbox-sq0idb-gPdLBTvUKUk2-O2DdNZ3dA'  // account genta

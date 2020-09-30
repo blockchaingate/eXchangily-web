@@ -75,8 +75,8 @@ export interface KanbanTransaction {
 }
 
 export interface OrderItem {
-    price: number;
-    amount: number;
+    p: number;
+    q: number;
 }
 
 export interface Order {

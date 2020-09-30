@@ -497,6 +497,14 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     this.sellPrice = Number(price);
   }
 
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
+
+  getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
   refreshOrders() {
     this.sells = [];
     this.buys = [];
@@ -515,12 +523,71 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     this.socket = new WebSocketSubject(environment.websockets.orders + '@' + pair);
     this.socket.subscribe(
       (orders: any) => {
-        //this.syncOrders(orders.sell, this.sells, false);
-        //this.syncOrders(orders.buy, this.buys, true);
         this.sells = orders.s.slice(0, 8).reverse();
         this.buys = orders.b.slice(0, 8);
-        // this.addTo(orders.sell, false);
-        // this.addTo(orders.buy, true);
+
+
+        for(let i=0;i<10;i++) {
+          const randNum = Math.floor((Math.random() * 10) + 1);
+          console.log('randNum==', randNum);
+          console.log('this.sells==', this.sells);
+          if(randNum > this.sells.length - 1) {
+            continue;
+          }
+
+          var price = this.getRandomArbitrary(this.sells[randNum - 1].p, this.sells[randNum].p);
+
+          if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.sells[randNum - 1].p, this.pairConfig.priceDecimal)) {
+            continue;
+          }
+
+          if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.sells[randNum].p, this.pairConfig.priceDecimal)) {
+            continue;
+          }
+
+          var newOrder = {
+            q: this.sells[randNum].q,
+            p: price
+          };
+          this.sells.splice(randNum, 0, newOrder);
+        }
+
+        for(let i=0;i<10;i++) {
+          const randNum = Math.floor((Math.random() * 10) + 1);
+
+          if(randNum > this.buys.length - 1) {
+            continue;
+          }  
+          
+          var price = this.getRandomArbitrary(this.buys[randNum - 1].p, this.buys[randNum].p);
+
+          if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.buys[randNum - 1].p, this.pairConfig.priceDecimal)) {
+            continue;
+          }
+
+          if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.buys[randNum].p, this.pairConfig.priceDecimal)) {
+            continue;
+          }
+
+          var newOrder = {
+            q: this.buys[randNum].q,
+            p: price
+          };
+          this.buys.splice(randNum, 0, newOrder);
+        }
+
+        for(let j=0;j<6;j++) {
+          for(let i=0;i<this.sells.length;i++) {
+            this.sells[i].q = this.sells[i].q * (1 + Math.random());
+
+          }
+          for(let i=0;i<this.buys.length;i++) {
+            this.buys[i].q = this.buys[i].q * (1 + Math.random());
+          }
+          this.delay(500);
+        }
+
+
       },
       (err) => {
         console.log('err:', err);
