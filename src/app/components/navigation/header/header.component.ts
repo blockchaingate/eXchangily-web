@@ -84,7 +84,7 @@ export class HeaderComponent implements OnInit {
         // alert(this.loggedIn);
       });
 
-    //check user login token.
+    // check user login token.
     this.readyGo = true;
     this.storageService.getToken().subscribe(
       (token: string) => {
@@ -96,10 +96,10 @@ export class HeaderComponent implements OnInit {
           this.storageService.getCampaignQualify().subscribe(
             (Qualify: boolean) => {
               // console.log('Qualify=', Qualify);
-              //set event menu items status.
+              // set event menu items status.
               this.LoginQualifydata.changeMessage(Qualify);
 
-              //test output
+              // test output
               // console.log("this.readyGo,isQualify: " + this.readyGo + Qualify);
               // console.log("LoginInfodata.currentMessage: " + this.LoginInfo);
               // console.log("LoginQualifydata: " + this.LoginQualify);
