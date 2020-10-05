@@ -529,8 +529,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
         for(let i=0;i<10;i++) {
           const randNum = Math.floor((Math.random() * 10) + 1);
-          console.log('randNum==', randNum);
-          console.log('this.sells==', this.sells);
           if(randNum > this.sells.length - 1) {
             continue;
           }
@@ -766,9 +764,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       }
 
       const pairName = pair.replace('_', '');
+      console.log('getPairConfig 1');
       this.kanbanService.getPairConfig().subscribe(
         (res: any) => {
           this.pairsConfig = res;
+
           this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
         }
       );
