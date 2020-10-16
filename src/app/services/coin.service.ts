@@ -26,6 +26,7 @@ export class CoinService {
 
     
     getCoinTypeIdByName(name: string) {
+        name = name.toUpperCase();
         for (let i = 0; i < coin_list.length; i++) {
             const coin = coin_list[i];
             if (coin.name === name) {

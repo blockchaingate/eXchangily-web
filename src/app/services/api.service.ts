@@ -21,6 +21,12 @@ export class ApiService {
         return this.http.get(url);
     }
 
+    getOrderByCode(code: string) {
+
+        const url = environment.endpoints.blockchaingate + 'orders/code/' + code;
+        return this.http.get(url);
+    }
+    
     updateExTransactionId(trans_code: string, txid: string) {
         const url = environment.endpoints.blockchaingate + 'payment/gateway/transaction';
         const data = {

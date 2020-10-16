@@ -27,13 +27,18 @@ export class CodeComponent implements OnInit {
   wallets: Wallet[];
   merchant: any;
   code: string;
+  coinID: number;
   available: string;
+  amount: number;
+  currency: string;
+  items: any;
+  description: string;
   currentWalletIndex: number;
-  gateway: any;
   lan = 'en';
 
   constructor(
     private router: Router,
+    
     private modalService: BsModalService,
     private utilService: UtilService, 
     private _coinServ: CoinService,
@@ -54,12 +59,20 @@ export class CodeComponent implements OnInit {
 
     const code = this.route.snapshot.paramMap.get('code');
     this.code = code;
-    this.apiServ.getExTransaction(code).subscribe(
+    this.apiServ.getOrderByCode(code).subscribe(
       (res: any) => {
+        console.log('');
         if(res && res.ok) {
           const data = res._body;
-          this.merchant = data.merchant;
-          this.gateway = data.gateway;
+          console.log('data===', data);
+          this.currency = data.paymentMethod ? data.paymentMethod.toUpperCase() : '';
+          this.coinID = this._coinServ.getCoinTypeIdByName(data.paymentMethod);
+          this.amount = data.totalToPay;
+          this.items = data.items;
+          console.log('this.items=', this.items);
+          this.description = 'pay for order:' + data._id;
+          console.log('this.coinID=', this.coinID);
+          this.merchant = data.merchantId;
           this.loadWallets();
         }
       }
@@ -101,7 +114,7 @@ export class CodeComponent implements OnInit {
     this.kanbanService.getBalance(address).subscribe(
       (res: any) => {
         console.log('res==', res);
-        const coin = this._coinServ.getCoinTypeIdByName(this.gateway.trans_currency);
+        const coin = this.coinID;
         for(let i=0;i<res.length;i++) {
           const item = res[i];
           if(item.coinType == coin) {
@@ -139,8 +152,8 @@ export class CodeComponent implements OnInit {
 
   async transferCoin() {
     const address = this.utilService.fabToExgAddress(this.merchant.walletExgAddress);
-    const amount = this.gateway.trans_amount;
-    const coin = this._coinServ.getCoinTypeIdByName(this.gateway.trans_currency);
+    const amount = this.amount;
+    const coin = this.coinID;
     const txHex = await this.txHexforSendToken(
       this.pin, this.wallet, address, coin, new BigNumber(amount).multipliedBy(new BigNumber(1e18)).toFixed()
     );

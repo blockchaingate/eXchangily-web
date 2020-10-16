@@ -1,26 +1,62 @@
 
-<div class="container" *ngIf="merchant && gateway">
-    <div>Pay to {{merchant.name}}(address {{merchant.walletExgAddress}}) {{gateway.trans_amount}} {{gateway.trans_currency}}</div>
-    <div>
-        {{gateway.description}}
-    </div>
-    <div *ngIf="gateway.attach">
-        {{gateway.attach}}
-    </div>
+<div class="m-3">
+    <div class="container border" *ngIf="merchant">
+        <div class="pt-3">
+            Merchant information
+        </div>
+        <div>{{merchant.name}}(address {{merchant.walletExgAddress}}) </div>
+        <div class="pt-3">
+            {{description}}
+        </div>
 
-    <div *ngIf="wallets">
-        <mat-form-field>
-            <mat-select panelClass="example-panel" [value]="currentWalletIndex" (selectionChange)="changeWallet($event.value)">
-                <mat-option *ngFor="let wallet of wallets;let i = index" [value]="i">
-                    {{wallet.name}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-        Available: {{available}} {{gateway.trans_currency}}
+        <div *ngIf="items" class="pt-3">
+            <div *ngFor="let item of items">
+                <div class="row">
+                    <div class="col col-3">
+                        <img class="img-thumbnail" [src]="item.thumbnailUrl">
+                    </div>
+                    
+                    <div class="col col-9">
+                        <div>
+                            {{item.title}}
+                        </div>
+                        <div class="w-100 row">
+                            <div class="col col-4">
+                                {{item.price}}
+                            </div>
+                            <div class="col col-4">
+                                x{{item.quantity}}
+                            </div>
+                            <div class="col col-4">
+                                {{item.price * item.quantity}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="pt-3 text-right">
+            Total: {{amount}} {{currency}}
+        </div>        
+        <div *ngIf="wallets">
+            <mat-form-field>
+                <mat-select panelClass="example-panel" [value]="currentWalletIndex" (selectionChange)="changeWallet($event.value)">
+                    <mat-option *ngFor="let wallet of wallets;let i = index" [value]="i">
+                        {{wallet.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            Available: {{available}} {{currency}}
+        </div>
+        
+        <div class="text-center p-3">
+            <button class="btn text-center" (click)="confirm(templatePasswd2)">Confirm</button>
+        </div>
+        
     </div>
-
-    <button (click)="confirm(templatePasswd2)">Confirm</button>
 </div>
+
 
 <ng-template #templatePasswd2>
     <div class="modal-header text-center">
