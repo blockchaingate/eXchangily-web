@@ -31,6 +31,14 @@ export class KanbanService {
         return this.get('status');
     }
 
+    getTransactionHistory(address: string) {
+        const data = {
+            fabAddress: address,
+            timestamp: 0
+        };
+        return this.post('getTransferHistoryEvents', data);
+    }
+
     getAccounts() {
         const path = 'kanban/getAccounts';
         const res = this.get(path);

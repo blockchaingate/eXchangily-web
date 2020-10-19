@@ -22,6 +22,7 @@ export class CodeComponent implements OnInit {
   gasLimit: number;
   gasPrice: number;
   pin: string;
+  orderID: string;
   modalRef: BsModalRef;
   wallet: Wallet;
   wallets: Wallet[];
@@ -65,6 +66,7 @@ export class CodeComponent implements OnInit {
         if(res && res.ok) {
           const data = res._body;
           console.log('data===', data);
+          this.orderID = data._id;
           this.currency = data.paymentMethod ? data.paymentMethod.toUpperCase() : '';
           this.coinID = this._coinServ.getCoinTypeIdByName(data.paymentMethod);
           this.amount = data.totalToPay;
@@ -158,6 +160,18 @@ export class CodeComponent implements OnInit {
       this.pin, this.wallet, address, coin, new BigNumber(amount).multipliedBy(new BigNumber(1e18)).toFixed()
     );
 
+    this.apiServ.chargeOrder(this.orderID, txHex).subscribe(
+      (res: any) => {
+        if(res && res.ok) {
+          if (this.lan === 'zh') {
+            this.alertServ.openSnackBarSuccess('转账提交成功。', 'Ok');
+          } else {
+            this.alertServ.openSnackBarSuccess('Send Coin Transaction was submitted successfully.', 'Ok');
+          }          
+        }
+      }
+    );
+    /*  
     this.kanbanService.sendRawSignedTransaction(txHex).subscribe((resp: TransactionResp) => {
 
       if (resp && resp.transactionHash) {
@@ -191,6 +205,7 @@ export class CodeComponent implements OnInit {
         this.alertServ.openSnackBar(error.error, 'Ok');
       }
     );
+    */
   }
 
   async txHexforSendToken
