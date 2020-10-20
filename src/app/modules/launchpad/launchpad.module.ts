@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { LaunchpadComponent } from './launchpad.component';
+import { IntroComponent } from './intro/intro.component';
 import { LaunchpadRoutingModule } from './launchpad-routing.module';
 import { TranslateModule } from '@ngx-translate/core';
 @NgModule({
@@ -10,7 +11,8 @@ import { TranslateModule } from '@ngx-translate/core';
   providers: [
   ],
   declarations: [
-    LaunchpadComponent
+    LaunchpadComponent,
+    IntroComponent
   ],
   exports: [
   ]
