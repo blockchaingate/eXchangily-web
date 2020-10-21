@@ -28,6 +28,7 @@ environment.endpoints.blockchaingate + 'orders/' + orderID + '/charge'
 get order information by get request 
 
 environment.endpoints.blockchaingate + 'orders/code/' + code;
+_body.paymentStatus
 
 
 
