@@ -27,7 +27,7 @@ export class WalletService {
     }
     generateMnemonic() {
         return BIP39.generateMnemonic();
-        //return 'dune stem onion cliff equip seek kiwi salute area elegant atom injury';
+        // return 'dune stem onion cliff equip seek kiwi salute area elegant atom injury';
     }
 
     // Format wallet from input data.
@@ -185,7 +185,7 @@ export class WalletService {
             if (!wallets) {
                 wallets = [];
             }
-            //const index = wallets.indexOf(wallet);
+            // const index = wallets.indexOf(wallet);
             if (wallets.indexOf(wallet) < 0) {
                 wallets.push(wallet);
                 
