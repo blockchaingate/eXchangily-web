@@ -505,6 +505,7 @@ export class WalletDashboardComponent implements OnInit {
                 if(res && res.success) {
                     let updated = false;
                     let hasDRGN = false;
+                    let hasNVZN = false;
                     let ethCoin;
                     for(let i=0;i<res.data.length; i++) {
                         const item = res.data[i];
@@ -513,6 +514,9 @@ export class WalletDashboardComponent implements OnInit {
                             if(coin.name == 'DRGN') {
                                 hasDRGN = true;
                             }
+                            if(coin.name == 'NVZN') {
+                                hasNVZN = true;
+                            }                            
                             if(coin.name == 'ETH') {
                                 ethCoin = coin;
                             }
@@ -561,7 +565,21 @@ export class WalletDashboardComponent implements OnInit {
                         drgnCoin.contractAddr = environment.addresses.smartContract.DRGN;
                         this.wallet.mycoins.push(drgnCoin);
                         updated = true;
-                    }                     
+                    }   
+                    
+                    if (!hasNVZN) {
+                        const newCoin = new MyCoin('NVZN');
+                        newCoin.balance = 0;
+                        newCoin.decimals = 18;
+                        newCoin.coinType = environment.CoinType.ETH;
+                        newCoin.lockedBalance = 0;
+                        newCoin.receiveAdds.push(ethCoin.receiveAdds[0]);
+                        newCoin.tokenType = 'ETH';
+                        newCoin.baseCoin = ethCoin;
+                        newCoin.contractAddr = environment.addresses.smartContract.NVZN;
+                        this.wallet.mycoins.push(newCoin);
+                        updated = true;
+                    }                       
                     if (updated) {
                         // console.log('updated=' + updated);
                         this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);

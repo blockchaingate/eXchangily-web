@@ -1,3 +1,7 @@
+NVZN TOKEN CONTRACT ADDRESS:
+
+0x99963EE76C886fc43D5063428fF8F926E8A50985
+
 if the barcode started with n., that means it's a ready to pay order.
 (1)
 get order information by get request 

@@ -168,6 +168,17 @@ export class CodeComponent implements OnInit {
           } else {
             this.alertServ.openSnackBarSuccess('Send Coin Transaction was submitted successfully.', 'Ok');
           }          
+        } else {
+          if(res._body) {
+            this.alertServ.openSnackBarSuccess(res._body, 'Ok');
+          } else {
+            if (this.lan === 'zh') {
+              this.alertServ.openSnackBarSuccess('转账提交失败。', 'Ok');
+            } else {
+              this.alertServ.openSnackBarSuccess('Send Coin Transaction failed.', 'Ok');
+            }  
+          }
+          
         }
       }
     );

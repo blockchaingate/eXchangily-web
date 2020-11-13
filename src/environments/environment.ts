@@ -5,7 +5,7 @@ import * as Btc from 'bitcoinjs-lib';
 
 export const environment = {
     production: false,
-    version: '1.4.9',
+    version: '1.5.0',
     SQUARE_APP_ID: {
         CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', // ccount kenin
         USD: 'sandbox-sq0idb-gPdLBTvUKUk2-O2DdNZ3dA'  // account genta
@@ -160,7 +160,8 @@ export const environment = {
             MTL: '0x1c9b5afa112b42b12fb06b62e5f1e159af49dfa7',
             KNC: '0x3aad796ceb3a1063f727c6d0c698e37053292d10',
             GVT: '0x3e610d9fb322063e50d185e2cc1b45f007e7180c',
-            DRGN: '0xbbdd7a557a0d8a9bf166dcc2730ae3ccec7df05c'
+            DRGN: '0xbbdd7a557a0d8a9bf166dcc2730ae3ccec7df05c',
+            NVZN: '0xbbdd7a557a0d8a9bf166dcc2730ae3ccec7df05c'
         },
        exchangilyOfficial: {
         EXG: '0xed76be271bb47a6df055bbc2039733c26fdecc82',
@@ -189,7 +190,8 @@ export const environment = {
         MTL: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
         KNC: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
         GVT: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
-        DRGN: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E'
+        DRGN: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
+        NVZN: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E'
        },
         promotionOfficial: {
             USDT: '0x4e93c47b42d09f61a31f798877329890791077b2',
@@ -239,7 +241,8 @@ export const environment = {
         MTL: 40,
         KNC: 10,
         GVT: 10,
-        DRGN: 100
+        DRGN: 100,
+        NVZN: 100
     },
     depositMinimumConfirmations: {
         EXG: 12,
@@ -268,7 +271,8 @@ export const environment = {
         MTL: 20,
         KNC: 20,
         GVT: 20,
-        DRGN: 20
+        DRGN: 20,
+        NVZN: 20
     },
     PaymentMethod: {
         ETransfer: {

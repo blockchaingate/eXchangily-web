@@ -28,7 +28,8 @@ export const coin_list: Coin[] = [
     { id: 24, name: 'GVT', icon: ''},
     { id: 25, name: 'REP', icon: ''},
     { id: 26, name: 'FUN', icon: ''},
-    { id: 27, name: 'DRGN', icon: ''}
+    { id: 27, name: 'DRGN', icon: ''},
+    { id: 28, name: 'NVZN', icon: ''}
     //REP: '0x1985365e9f78359a9B6AD760e32412f4a445E862',
     //FUN: '0x419d0d8bdd9af5e606ae2232ed285aff190e711b',
     //MHC: '0xEaB35Bd0533895856f200c99F693b2EC511BFfeE', //?? 
@@ -130,5 +131,7 @@ export const price_list: Price[] = [
 
     { id: 72, coin_id: 27, base_id: 5, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'DRGN/EXG' },
     { id: 73, coin_id: 27, base_id: 1, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'DRGN/USDT' },
-    { id: 74, coin_id: 27, base_id: 3, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'DRGN/ETH' }
+    { id: 74, coin_id: 27, base_id: 3, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'DRGN/ETH' },
+    { id: 75, coin_id: 28, base_id: 1, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'NVZN/USDT' }
+
 ];

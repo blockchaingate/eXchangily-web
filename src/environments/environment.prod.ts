@@ -10,7 +10,7 @@ export const environment = {
     baseUrl: 'https://exchangily.com',
     url: 'https://kanbanprod.fabcoinapi.com/',
     tmpUrl: 'https://kanbanprod.fabcoinapi.com/', // replace this url once the temp api is deployed    
-    version: '1.4.9',
+    version: '1.5.0',
     campaignId: 1,
     OTC_COMMISSION_RATE: 0.01,
     chains: {
@@ -150,7 +150,8 @@ export const environment = {
             MTL: '0xF433089366899D83a9f26A773D59ec7eCF30355e',
             KNC: '0xdd974d5c2e2928dea5f71b9825b8b646686bd200',
             GVT: '0x103c3A209da59d3E7C4A89307e66521e081CFDF0',
-            DRGN: '0x419c4db4b9e25d6db2ad9691ccb832c8d9fda05e'
+            DRGN: '0x419c4db4b9e25d6db2ad9691ccb832c8d9fda05e',
+            NVZN: '0x99963EE76C886fc43D5063428fF8F926E8A50985'
         },
         /*
         exchangilyOfficial: [
@@ -189,7 +190,8 @@ export const environment = {
         MTL: '0x0dF198C80893c1373a11AdE9ad6454181aE18E73',
         KNC: '0x0dF198C80893c1373a11AdE9ad6454181aE18E73',
         GVT: '0x0dF198C80893c1373a11AdE9ad6454181aE18E73',
-        DRGN: '0x0dF198C80893c1373a11AdE9ad6454181aE18E73'        
+        DRGN: '0x0dF198C80893c1373a11AdE9ad6454181aE18E73',
+        NVZN: '0x0dF198C80893c1373a11AdE9ad6454181aE18E73'        
        },
         promotionOfficial: {
             USDT: '0x4e93c47b42d09f61a31f798877329890791077b2',
@@ -239,7 +241,8 @@ export const environment = {
         MTL: 40 * 2,
         KNC: 10 * 2,
         GVT: 10 * 2,
-        DRGN: 100 * 2 
+        DRGN: 100 * 2,
+        NVZN: 100 * 2 
     },
     depositMinimumConfirmations: {
         EXG: 12,
@@ -268,7 +271,8 @@ export const environment = {
         MTL: 20,
         KNC: 20,
         GVT: 20,
-        DRGN: 20
+        DRGN: 20,
+        NVZN: 20
     },
     PaymentMethod: {
         ETransfer: {
