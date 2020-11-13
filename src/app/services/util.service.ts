@@ -93,12 +93,12 @@ export class UtilService {
     }
 
     getFormattedDate(date: any) {
-        //console.log('origin date=', date);
-        //if(Number.is)
-        if(!Number.isNaN(date)) {
+        // console.log('origin date=', date);
+        // if(Number.is)
+        if (!Number.isNaN(date)) {
             date = new Date(date * 1000);
-        } 
-        //console.log('date=', date);
+        }
+        // console.log('date=', date);
         const month = date.getMonth() + 1;
         const day = date.getDate();
         const hour = date.getHours();
@@ -172,7 +172,7 @@ export class UtilService {
     }
 
     toBigNumber(amount, decimal: number) {
-        if(amount == 0 || amount == '0') {
+        if (amount === 0 || amount === '0') {
             return '0';
         }
         const amountStr = amount.toString();
@@ -180,15 +180,15 @@ export class UtilService {
         const amountPart1 = amountArr[0];
         const numPart1 = Number(amountPart1);
         let amountPart2 = '';
-        if(amountArr[1]) {
+        if (amountArr[1]) {
             amountPart2 = amountArr[1].substring(0, decimal);
         }
-        
+
         const amountPart2Length = amountPart2.length;
-        if(decimal > amountPart2Length) {
-            for(let i=0;i<decimal - amountPart2Length;i++) {
+        if (decimal > amountPart2Length) {
+            for (let i = 0; i < decimal - amountPart2Length; i++) {
                 amountPart2 += '0';
-              }
+            }
         }
 
         let amountStrFull = (numPart1 ? amountPart1 : '') + amountPart2;
@@ -235,9 +235,8 @@ export class UtilService {
             return fixedString;
         }
         */
-        const fixN = fixedString.slice(0, (fixedString.indexOf("."))+decimal + 1);
+        const fixN = fixedString.slice(0, (fixedString.indexOf('.')) + decimal + 1);
         return fixN;
-
     }
 
     convertLiuToFabcoin(amount) {
@@ -254,11 +253,10 @@ export class UtilService {
             num = num >> 8;
         }
 
-        var top = buffer[buffer.length - 1];
+        const top = buffer[buffer.length - 1];
         if (top & 0x80) {
             buffer[buffer.length] = neg ? 0x80 : 0x00;
-        }
-        else if (neg) {
+        } else if (neg) {
             buffer[buffer.length - 1] = top | 0x80;
         }
         return Buffer.from(buffer);
@@ -268,8 +266,8 @@ export class UtilService {
         return Number(num);
     }
     hex2Buffer(hexString) {
-        var buffer = [];
-        for (var i = 0; i < hexString.length; i += 2) {
+        const buffer = [];
+        for (let i = 0; i < hexString.length; i += 2) {
             buffer[buffer.length] = (parseInt(hexString[i], 16) << 4) | parseInt(hexString[i + 1], 16);
         }
         return Buffer.from(buffer);
@@ -281,29 +279,23 @@ export class UtilService {
         console.log('addressInWallet==', addressInWallet);
         return '0x' + addressInWallet.substring(2, 42);
     }
-    
+
     exgToFabAddress(address: string) {
-
-
-
-        var prefix = '6f';
+        let prefix = '6f';
         if (environment.production) {
-          prefix = '00';
+            prefix = '00';
         }
         address = prefix + this.stripHexPrefix(address);
 
-        var buf = Buffer.from(address, 'hex');
+        let buf = Buffer.from(address, 'hex');
 
         const hash1 = createHash('sha256').update(buf).digest().toString('hex');
         const hash2 = createHash('sha256').update(Buffer.from(hash1, 'hex')).digest().toString('hex');
 
-        buf = Buffer.from(address + hash2.substring(0,8), 'hex');
+        buf = Buffer.from(address + hash2.substring(0, 8), 'hex');
         address = bs58.encode(buf);
 
         return address;
-
-
-
     }
 
     toKanbanAddress(publicKey: Buffer) {
@@ -315,8 +307,8 @@ export class UtilService {
   
          return '0x' + hash2;
          */
-        console.log("publicKey: "+ publicKey);
-        
+        console.log('publicKey: ' + publicKey);
+
         const hash01 = Btc.crypto.sha256(publicKey);
         const hash02 = Btc.crypto.ripemd160(hash01).toString('hex');
         const address = '0x' + hash02;
