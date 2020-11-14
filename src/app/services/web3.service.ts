@@ -53,6 +53,7 @@ export class Web3Service {
     console.log(signMess);
     return signMess.rawTransaction;
     */
+   console.log('txParams==', txParams);
     const privKey = keyPair.privateKeyBuffer;
     const EthereumTx = Eth.Transaction;
     const tx = new EthereumTx(txParams, { chain: environment.chains.ETH.chain, hardfork: environment.chains.ETH.hardfork });

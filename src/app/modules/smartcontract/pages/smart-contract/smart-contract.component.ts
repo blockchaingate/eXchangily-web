@@ -225,7 +225,6 @@ export class SmartContractComponent implements OnInit {
         nonce: nonce,
         gasPrice: 100000000000,
         gasLimit: 8000000,
-        to: '',
         value: 0,
         data: this.ethData          
     };

@@ -3,8 +3,9 @@ import { MyCoin } from '../models/mycoin';
 import * as BIP32 from 'node_modules/bip32';
 import * as Btc from 'bitcoinjs-lib';
 import * as bitcoinMessage from 'bitcoinjs-message';
-// import * as hdkey from 'ethereumjs-wallet/hdkey';
-import { hdkey } from 'ethereumjs-wallet';
+import * as hdkey from 'ethereumjs-wallet/hdkey';
+//import { hdkey } from 'ethereumjs-wallet'; deposit not working
+
 import { Address } from '../models/address';
 import { coin_list } from '../config/coins';
 import { ApiService } from './api.service';
