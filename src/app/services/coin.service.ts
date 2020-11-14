@@ -583,6 +583,7 @@ export class CoinService {
                     addr = this.utilServ.toKanbanAddress(publicKey);
 
 
+
                 }
 
         const keyPairs = {

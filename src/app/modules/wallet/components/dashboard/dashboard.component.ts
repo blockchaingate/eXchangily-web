@@ -188,6 +188,13 @@ export class WalletDashboardComponent implements OnInit {
     }
 
     async ngOnInit() {
+
+        /*
+        const anotherPublicKey = '0x4ac4691ef9cda915d6b4a48bf449fe9daba60281e0ab0ece80b1af89073ebb6b2a5a93054ce960e98ee7743bda765fc97215417ecd5132e030fbe876830b2c81';
+        const addr2 = this.utilServ.toKanbanAddress(Buffer.from(anotherPublicKey, 'hex'));
+        console.log('addr2====', addr2);
+        */
+
         this.setPairsConfig();
 
         await this.loadWallets();
