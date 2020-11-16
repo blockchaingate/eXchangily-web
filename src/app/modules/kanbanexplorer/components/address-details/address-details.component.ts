@@ -32,7 +32,7 @@ export class AddressDetailsComponent implements OnInit {
       this.address = params.get('address');
       console.log(this.address);
       let address = this.address.trim();
-      if(!address.startsWith('0x')) {
+      if (!address.startsWith('0x')) {
         address = this.utilServ.fabToExgAddress(this.address);
       }
       // get all the responses from services here
@@ -73,16 +73,16 @@ export class AddressDetailsComponent implements OnInit {
 
       this.service.getAddressWithdrawRequests(address).subscribe((w: WithdrawRequest[]) => {
         this.withdrawReqs = w;
-        this.withdrawReqs.forEach((w) => {
-          w.value = this.getHumanReadableFormat(w.value);
+        this.withdrawReqs.forEach((w2) => {
+          w2.value = this.getHumanReadableFormat(w2.value);
         });
       });
 
       this.service.getAddressDepositRequests(address).subscribe((d: DepositRequest[]) => {
         this.depositReqs = d;
 
-        this.depositReqs.forEach((d) => {
-          d.value = this.getHumanReadableFormat(d.value);
+        this.depositReqs.forEach((d2) => {
+          d2.value = this.getHumanReadableFormat(d2.value);
         });
       });
     });

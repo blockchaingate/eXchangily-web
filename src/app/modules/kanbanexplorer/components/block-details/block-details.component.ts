@@ -9,7 +9,6 @@ import { Block } from '../../models/block';
   styleUrls: ['./block-details.component.css']
 })
 export class BlockDetailsComponent implements OnInit {
-
   constructor(private route: ActivatedRoute,
     private kanbanService: KanbanService) {
   }
@@ -25,8 +24,6 @@ export class BlockDetailsComponent implements OnInit {
         this.block = blk;
       });
     });
-
-
 
   }
 

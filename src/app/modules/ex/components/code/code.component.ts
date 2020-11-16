@@ -1,5 +1,5 @@
 import { Component, TemplateRef, OnInit } from '@angular/core';
-import { ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../../../services/api.service';
 import { UtilService } from '../../../../services/util.service';
 import { CoinService } from '../../../../services/coin.service';
@@ -39,14 +39,14 @@ export class CodeComponent implements OnInit {
 
   constructor(
     private router: Router,
-    
+
     private modalService: BsModalService,
-    private utilService: UtilService, 
+    private utilService: UtilService,
     private _coinServ: CoinService,
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private alertServ: AlertService,
     private walletService: WalletService,
-    private kanbanService: KanbanService, 
+    private kanbanService: KanbanService,
     private web3Serv: Web3Service,
     private apiServ: ApiService) {
 
@@ -54,7 +54,7 @@ export class CodeComponent implements OnInit {
   async ngOnInit() {
     this.pin = '';
     this.lan = localStorage.getItem('Lan');
-    
+
     this.gasLimit = environment.chains.KANBAN.gasLimit;
     this.gasPrice = environment.chains.KANBAN.gasPrice;
 
@@ -63,7 +63,7 @@ export class CodeComponent implements OnInit {
     this.apiServ.getOrderByCode(code).subscribe(
       (res: any) => {
         console.log('');
-        if(res && res.ok) {
+        if (res && res.ok) {
           const data = res._body;
           console.log('data===', data);
           this.orderID = data._id;
@@ -80,21 +80,20 @@ export class CodeComponent implements OnInit {
       }
     );
 
-    
   }
 
   async loadWallets() {
     this.wallets = await this.walletService.getWallets();
     if (!this.wallets || this.wallets.length === 0) {
-        this.router.navigate(['/wallet/create']);
-        return;
+      this.router.navigate(['/wallet/create']);
+      return;
     }
     this.currentWalletIndex = await this.walletService.getCurrentWalletIndex();
     if (this.currentWalletIndex == null || this.currentWalletIndex < 0) {
-        this.currentWalletIndex = 0;
+      this.currentWalletIndex = 0;
     }
     if (this.currentWalletIndex > this.wallets.length - 1) {
-        this.currentWalletIndex = this.wallets.length - 1;
+      this.currentWalletIndex = this.wallets.length - 1;
     }
     this.wallet = this.wallets[this.currentWalletIndex];
     await this.loadWallet();
@@ -108,7 +107,7 @@ export class CodeComponent implements OnInit {
     this.wallet = this.wallets[this.currentWalletIndex];
     // console.log('this.currentWalletIndex=' + this.currentWalletIndex);
     await this.loadWallet();
-  } 
+  }
 
   loadWallet() {
     const address = this.wallet.excoin.receiveAdds[0].address;
@@ -117,10 +116,10 @@ export class CodeComponent implements OnInit {
       (res: any) => {
         console.log('res==', res);
         const coin = this.coinID;
-        for(let i=0;i<res.length;i++) {
+        for (let i = 0; i < res.length; i++) {
           const item = res[i];
-          if(item.coinType == coin) {
-            this.available = this.utilService.showAmount(item.unlockedAmount, 18) ;
+          if (item.coinType == coin) {
+            this.available = this.utilService.showAmount(item.unlockedAmount, 18);
           }
         }
       }
@@ -162,23 +161,23 @@ export class CodeComponent implements OnInit {
 
     this.apiServ.chargeOrder(this.orderID, txHex).subscribe(
       (res: any) => {
-        if(res && res.ok) {
+        if (res && res.ok) {
           if (this.lan === 'zh') {
             this.alertServ.openSnackBarSuccess('转账提交成功。', 'Ok');
           } else {
             this.alertServ.openSnackBarSuccess('Send Coin Transaction was submitted successfully.', 'Ok');
-          }          
+          }
         } else {
-          if(res._body) {
+          if (res._body) {
             this.alertServ.openSnackBarSuccess(res._body, 'Ok');
           } else {
             if (this.lan === 'zh') {
               this.alertServ.openSnackBarSuccess('转账提交失败。', 'Ok');
             } else {
               this.alertServ.openSnackBarSuccess('Send Coin Transaction failed.', 'Ok');
-            }  
+            }
           }
-          
+
         }
       }
     );
@@ -220,7 +219,7 @@ export class CodeComponent implements OnInit {
   }
 
   async txHexforSendToken
-    (pin: string, wallet: any,  to: string, coin: number, value: string) {
+    (pin: string, wallet: any, to: string, coin: number, value: string) {
 
     const seed = this.utilService.aesDecryptSeed(wallet.encryptedSeed, pin);
     const keyPairsKanban = this._coinServ.getKeyPairs(wallet.excoin, seed, 0, 0);
@@ -228,35 +227,35 @@ export class CodeComponent implements OnInit {
     const address = await this.kanbanService.getCoinPoolAddress();
 
     const func = {
-      "constant": false,
-      "inputs": [
+      'constant': false,
+      'inputs': [
         {
-          "name": "_to",
-          "type": "address"
+          'name': '_to',
+          'type': 'address'
         },
         {
-          "name": "_coinType",
-          "type": "uint32"
+          'name': '_coinType',
+          'type': 'uint32'
         },
         {
-          "name": "_value",
-          "type": "uint256"
+          'name': '_value',
+          'type': 'uint256'
         }
       ],
-      "name": "transfer",
-      "outputs": [
+      'name': 'transfer',
+      'outputs': [
         {
-          "name": "success",
-          "type": "bool"
+          'name': 'success',
+          'type': 'bool'
         }
       ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
+      'payable': false,
+      'stateMutability': 'nonpayable',
+      'type': 'function'
     };
 
     const params = [to, coin, value];
-    
+
     const abiHex = this.web3Serv.getGeneralFunctionABI(func, params);
 
     const nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
@@ -271,5 +270,5 @@ export class CodeComponent implements OnInit {
 
     const txHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce, 0, options);
     return txHex;
-  }  
+  }
 }
