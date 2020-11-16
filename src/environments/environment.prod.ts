@@ -10,7 +10,7 @@ export const environment = {
     baseUrl: 'https://exchangily.com',
     url: 'https://kanbanprod.fabcoinapi.com/',
     tmpUrl: 'https://kanbanprod.fabcoinapi.com/', // replace this url once the temp api is deployed    
-    version: '1.4.9',
+    version: '1.5.1',
     campaignId: 1,
     OTC_COMMISSION_RATE: 0.01,
     chains: {
@@ -133,7 +133,7 @@ export const environment = {
             EXG: '0xa3e26671a38978e8204b8a37f1c2897042783b00',
             USDT: '0xdac17f958d2ee523a2206206994597c13d831ec7',
             DUSD: '0x46e0021c17d30a2db972ee5719cdc7e829ed9930',
-            //BNB: '0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
+            // BNB: '0xB8c77482e45F1F44dE1745F52C74426C631bDD52',
             INB: '0x17aa18a4b64a55abed7fa543f2ba4e91f2dce482',
             REP: '0x1985365e9f78359a9B6AD760e32412f4a445E862',
             HOT: '0x6c6ee5e31d828de241282b9606c8e98ea48526e2',
@@ -150,7 +150,8 @@ export const environment = {
             MTL: '0xF433089366899D83a9f26A773D59ec7eCF30355e',
             KNC: '0xdd974d5c2e2928dea5f71b9825b8b646686bd200',
             GVT: '0x103c3A209da59d3E7C4A89307e66521e081CFDF0',
-            DRGN: '0x419c4db4b9e25d6db2ad9691ccb832c8d9fda05e'
+            DRGN: '0x419c4db4b9e25d6db2ad9691ccb832c8d9fda05e',
+            NVZN: '0x99963EE76C886fc43D5063428fF8F926E8A50985'
         },
         /*
         exchangilyOfficial: [
@@ -172,7 +173,7 @@ export const environment = {
         BCH: 'bitcoincash:qr75d4pf9c0cn3uwnecq5jtkeztq67zl3v3enf6wh0',
         LTC: 'LiKA51mv5QD96LKPkWvMB3VTyFfNVKjFVv',
         DOGE: 'DUEJM4QjJ9sNNXoqJxvcSnbJeB2PgbPCa9',
-        //BNB: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
+        // BNB: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
         INB: '0x0dF198C80893c1373a11AdE9ad6454181aE18E73',
         REP: '0x0dF198C80893c1373a11AdE9ad6454181aE18E73',
         HOT: '0x0dF198C80893c1373a11AdE9ad6454181aE18E73',
@@ -189,7 +190,8 @@ export const environment = {
         MTL: '0x0dF198C80893c1373a11AdE9ad6454181aE18E73',
         KNC: '0x0dF198C80893c1373a11AdE9ad6454181aE18E73',
         GVT: '0x0dF198C80893c1373a11AdE9ad6454181aE18E73',
-        DRGN: '0x0dF198C80893c1373a11AdE9ad6454181aE18E73'        
+        DRGN: '0x0dF198C80893c1373a11AdE9ad6454181aE18E73',
+        NVZN: '0x0dF198C80893c1373a11AdE9ad6454181aE18E73'        
        },
         promotionOfficial: {
             USDT: '0x4e93c47b42d09f61a31f798877329890791077b2',
@@ -239,7 +241,8 @@ export const environment = {
         MTL: 40 * 2,
         KNC: 10 * 2,
         GVT: 10 * 2,
-        DRGN: 100 * 2 
+        DRGN: 100 * 2,
+        NVZN: 100 * 2 
     },
     depositMinimumConfirmations: {
         EXG: 12,
@@ -268,7 +271,8 @@ export const environment = {
         MTL: 20,
         KNC: 20,
         GVT: 20,
-        DRGN: 20
+        DRGN: 20,
+        NVZN: 20
     },
     PaymentMethod: {
         ETransfer: {

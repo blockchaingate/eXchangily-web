@@ -1,3 +1,45 @@
+NVZN TOKEN CONTRACT ADDRESS:
+
+0x99963EE76C886fc43D5063428fF8F926E8A50985
+
+if the barcode started with n., that means it's a ready to pay order.
+(1)
+get order information by get request 
+
+environment.endpoints.blockchaingate + 'orders/code/' + code;
+example: 
+https://test.blockchaingate.com/v2/orders/code/n.131
+(2) 
+pay to  _body.merchantId.walletExgAddress
+amount:  _body.totalToPay
+coin: _body.paymentMethod
+
+orderID: _body._id
+show items to users as well.
+
+(3)
+when user clicked pay now.
+
+form the raw transaction as txhex, then 
+post 
+environment.endpoints.blockchaingate + 'orders/' + orderID + '/charge' 
+{
+            rawTransaction: txhex
+}
+
+(4) check payment information
+
+get order information by get request 
+
+environment.endpoints.blockchaingate + 'orders/code/' + code;
+_body.paymentStatus
+
+
+
+mm8opEU47DTbo8A3HdLVuypvv7Me7adD66
+
+http://localhost:4200/ex/n.125
+
 0x10c43d65
 000000000000000000000000f42adbcaa86a999a9583e45bb0ccf4c33a3e5624
 0000000000000000000000000000000000000000000000000000000000000004

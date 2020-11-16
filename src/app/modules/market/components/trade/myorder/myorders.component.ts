@@ -32,6 +32,8 @@ export class MyordersComponent implements OnInit, OnDestroy {
     // @Input() wallet: Wallet;
     private wallet: any;
     exAddress: string;
+    transactionHistory: boolean;
+    transactionHistories: any;
     screenheight = screen.height;
     select = 100;
     openorders: Transaction[] = [];
@@ -99,6 +101,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     }
 
     async ngOnInit() {
+        this.transactionHistory = false;
         this.lan = localStorage.getItem('Lan');
 
         this.gasPrice = environment.chains.KANBAN.gasPrice;
@@ -149,6 +152,19 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
     }
 
+    showTransactionHisotry() {
+        this.transactionHistory = true;
+        const address = this.wallet.excoin.receiveAdds[0].address;
+        const fabAddress = this.utilServ.exgToFabAddress(address);
+        this.kanbanServ.getTransactionHistory(fabAddress).subscribe(
+            (res: any) => {
+                console.log('resss=', res);
+                if(res && res.success) {
+                    this.transactionHistories = res.data.reverse();
+                }
+            }
+        );
+    }
     async withdrawDo() {
         const amount = this.withdrawAmount;
         const pin = this.pin;
@@ -423,6 +439,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
 
     confirmTransfer() {
+        this.transactionHistory = false;
         if(!this.coin && (this.mytokens.length > 0)) {
             this.coin = this.mytokens[0];
         }

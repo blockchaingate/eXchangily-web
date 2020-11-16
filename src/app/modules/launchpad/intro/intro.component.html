@@ -1,0 +1,140 @@
+<div class="container text-white py-2">
+    <div class="row">
+        <div class="col col-3">
+            <ul>
+                <li>
+                    <a (click)="goto('introduction')">
+                        Introduction
+                    </a>
+                </li>
+                <li>
+                    <a (click)="goto('create-wallet')">
+                        Create wallets
+                    </a>
+                </li>
+                <li>
+                    <a (click)="goto('receive-coins')">
+                        Receive coins
+                    </a>
+                </li>                
+                <li>
+                    <a  (click)="goto('add-gas')">
+                    Add gas
+                    </a>
+                </li>
+
+                <li>
+                    <a (click)="goto('deposit')">
+                        Deposit
+                    </a>
+                </li>
+                <li>
+                    <a (click)="goto('trade')">
+                        Trade
+                    </a>
+                </li>
+                <li>
+                    <a (click)="goto('withdraw')">
+                        Withdraw
+                    </a>
+                </li>
+                <li>
+                    <a (click)="goto('send-coin')">
+                        Send coin
+                    </a>
+                </li>
+              </ul>
+        </div>
+        <div class="col col-9">
+
+            <div class="pt-3 text-center">
+                <a class="btn" href="/wallet/create">{{"Create Wallet Now" | translate }}</a>
+            </div>
+
+            <div id="introduction" class="py-3">
+                <h5>Introduction</h5>
+                <div>
+                    Designed and built in the USA, eXchangily is the world's first open-source, multi-chain DEX. The eXchangily wallet is your gateway to the eXchangily DEX and the first step to autonomous crypto ownership. The eXchangily DEX is currently in a late stage Beta release, so keep a close eye on us as our world class team continues to eradicate the boundaries and restrictions of traditional exchanges as we bring the benefits and freedoms of decentralization to masses. Join us in the crypto revolution.
+                </div>
+            </div>
+
+            <div id="create-wallet" class="py-3">
+                <h5>Create wallets</h5>
+                <div>
+                    User can create secure wallets by generating random mnemonic or importing existing mnemonic. 
+                </div>
+            </div>  
+            
+            <div id="receive-coins" class="py-3">
+                <h5>Receive coins</h5>
+                <div>
+                    <div>
+                        Tap Receive button. Select digital assets. Your address along with the QR code will be generated.
+                    </div>
+
+                    <div>
+                        Put this address or scan the QR code when sending coins from the external wallet to eXchangily wallet.
+                    </div>
+                </div>
+            </div>  
+            
+            <div id="add-gas" class="py-3">
+                <h5>Add gas</h5>
+                <div>
+                    <div>
+                        To play around with our eXchangily, you have to have some gas which is converted from FAB. Click "Get free gas" if you don't have any FAB in your wallet.
+                        or click "Add gas" if you do have some.
+                    </div>
+
+                </div>
+            </div>   
+            
+            <div id="deposit" class="py-3">
+                <h5>Deposit</h5>
+                <div>
+                    <div>
+                        Once you have some gas, you can deposit your digital assets from your wallet to our eXchangily by clicking the "Deposit"(arrow down) button beside each asset.
+                    </div>
+                    <div>
+                        After waiting for some confirmations, you're ready to trade.
+                    </div>
+                </div>
+            </div>   
+            
+            
+            <div id="trade" class="py-3">
+                <h5>Trade</h5>
+                <div>
+                    <div>
+                        You can buy or sell digital assets by providing amount and price, then press "Buy" or "Sell" button.
+                    </div>
+                    <div>
+                        Once your orders get match, you will have new digital assets.
+                    </div>
+                </div>
+            </div>  
+            
+            <div id="withdraw" class="py-3">
+                <h5>Withdraw</h5>
+                <div>
+                    <div>
+                        You can click "Withdraw" button in your eXchangily assets tab and sending digital assets from eXchangily to your wallet.
+                    </div>
+                </div>
+            </div>    
+            
+            <div id="send-coin" class="py-3">
+                <h5>Send coin</h5>
+                <div>
+                    <div>
+                        You can click "Send" button and choose your coin and provide your external address to send out to your external wallet.
+                    </div>
+                </div>
+            </div>   
+            
+            <div class="pt-3 text-center">
+                <a class="btn" href="/wallet/create">{{"Create Wallet Now" | translate }}</a>
+            </div>            
+        </div>
+    </div>
+</div>

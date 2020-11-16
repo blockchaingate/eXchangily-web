@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row outbox">
 
-        <h3 class="color-primary">KYC</h3>
+        <h3>KYC</h3>
 
         <div class="statebox" *ngIf="_userAuth.kyc > 0 && _userAuth.kyc !== 3">
             {{kycState}}
@@ -15,17 +15,17 @@
                 <p class="app-kyc__note">{{ 'Form.USCitizen' | translate }}</p>
 
                 <div class="form-input__field-wrap">
-                    <label for="name" class="form-input__text__label block">{{ 'Form.Full Name' | translate }}</label>
+                    <label for="name" class="form-input__text__label block">{{ 'Form.Full Name' | translate }} *</label>
                     <input type="text" name="name" formControlName="name" required class="form-input__text">
                     <div *ngIf="kGet('name').invalid && (kGet('name').dirty || kGet('name').touched)" class="form-input__error">
                         <p *ngIf="kGet('name').errors.required">
                             {{ 'FormErrors.FieldRequiredError' | translate }}
                         </p>
-                    </div>
+                    </div>-
                 </div>
 
                 <div class="form-input__field-wrap">
-                    <label for="email" class="form-input__text__label block">{{ 'Form.Email' | translate }}</label>
+                    <label for="email" class="form-input__text__label block">{{ 'Form.Email' | translate }} *</label>
                     <input type="email" name="email" required class="form-input__text" formControlName="email">
                     <div *ngIf="kGet('email').invalid && (kGet('email').dirty || kGet('email').touched)" class="form-input__error">
                         <p *ngIf="kGet('email').errors.required">
@@ -109,7 +109,7 @@
                         <p>{{ 'Account.KYC.KYCForm.AccreditedInvestorVerification.Desc' | translate }}</p>
                     </div>
                 </div>
-<!--
+                <!--
                 <div *ngIf="couldBeAccredited && kGet('accreditedInvestor') && kGet('accreditedInvestor').value === 'true'">
                     <div class="form-input__field-wrap">
                         <label for="saftAgreement" class="form-input__text__label block">{{ 'Account.KYC.KYCForm.SAFT.Button' | translate }}</label>

@@ -526,65 +526,68 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         this.sells = orders.s.slice(0, 8).reverse();
         this.buys = orders.b.slice(0, 8);
 
+        console.log('pair=', pair);
+        if((pair.indexOf('NVZN') < 0) && environment.production) {
 
-        for(let i=0;i<10;i++) {
-          const randNum = Math.floor((Math.random() * 10) + 1);
-          console.log('randNum==', randNum);
-          console.log('this.sells==', this.sells);
-          if(randNum > this.sells.length - 1) {
-            continue;
+          /*
+          for(let i=0;i<10;i++) {
+            const randNum = Math.floor((Math.random() * 10) + 1);
+            if(randNum > this.sells.length - 1) {
+              continue;
+            }
+  
+            var price = this.getRandomArbitrary(this.sells[randNum - 1].p, this.sells[randNum].p);
+  
+            if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.sells[randNum - 1].p, this.pairConfig.priceDecimal)) {
+              continue;
+            }
+  
+            if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.sells[randNum].p, this.pairConfig.priceDecimal)) {
+              continue;
+            }
+  
+            var newOrder = {
+              q: this.sells[randNum].q,
+              p: price
+            };
+            this.sells.splice(randNum, 0, newOrder);
           }
-
-          var price = this.getRandomArbitrary(this.sells[randNum - 1].p, this.sells[randNum].p);
-
-          if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.sells[randNum - 1].p, this.pairConfig.priceDecimal)) {
-            continue;
+  
+          for(let i=0;i<10;i++) {
+            const randNum = Math.floor((Math.random() * 10) + 1);
+  
+            if(randNum > this.buys.length - 1) {
+              continue;
+            }  
+            
+            var price = this.getRandomArbitrary(this.buys[randNum - 1].p, this.buys[randNum].p);
+  
+            if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.buys[randNum - 1].p, this.pairConfig.priceDecimal)) {
+              continue;
+            }
+  
+            if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.buys[randNum].p, this.pairConfig.priceDecimal)) {
+              continue;
+            }
+  
+            var newOrder = {
+              q: this.buys[randNum].q,
+              p: price
+            };
+            this.buys.splice(randNum, 0, newOrder);
           }
-
-          if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.sells[randNum].p, this.pairConfig.priceDecimal)) {
-            continue;
+          */
+          for(let j=0;j<2;j++) {
+            let randNum = Math.floor((Math.random() * this.sells.length));
+            if(randNum > 0) {
+              this.sells.splice(randNum, 1);
+            }
+            randNum = Math.floor((Math.random() * this.buys.length));
+            if(randNum > 0) {
+              this.buys.splice(randNum, 1);
+            }
+            //this.delay(500);
           }
-
-          var newOrder = {
-            q: this.sells[randNum].q,
-            p: price
-          };
-          this.sells.splice(randNum, 0, newOrder);
-        }
-
-        for(let i=0;i<10;i++) {
-          const randNum = Math.floor((Math.random() * 10) + 1);
-
-          if(randNum > this.buys.length - 1) {
-            continue;
-          }  
-          
-          var price = this.getRandomArbitrary(this.buys[randNum - 1].p, this.buys[randNum].p);
-
-          if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.buys[randNum - 1].p, this.pairConfig.priceDecimal)) {
-            continue;
-          }
-
-          if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.buys[randNum].p, this.pairConfig.priceDecimal)) {
-            continue;
-          }
-
-          var newOrder = {
-            q: this.buys[randNum].q,
-            p: price
-          };
-          this.buys.splice(randNum, 0, newOrder);
-        }
-
-        for(let j=0;j<6;j++) {
-          for(let i=0;i<this.sells.length;i++) {
-            this.sells[i].q = this.sells[i].q * (1 + Math.random());
-
-          }
-          for(let i=0;i<this.buys.length;i++) {
-            this.buys[i].q = this.buys[i].q * (1 + Math.random());
-          }
-          this.delay(500);
         }
 
 
@@ -766,9 +769,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       }
 
       const pairName = pair.replace('_', '');
+      console.log('getPairConfig 1');
       this.kanbanService.getPairConfig().subscribe(
         (res: any) => {
           this.pairsConfig = res;
+
           this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
         }
       );
