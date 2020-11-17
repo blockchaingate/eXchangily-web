@@ -10,25 +10,26 @@ import { KanbanService } from '../../../../services/kanban.service';
 export class MarketHomeComponent implements OnInit {
   maintainence: boolean;
 
-  constructor(private kanbanServ: KanbanService) {}
-  
+  constructor(private kanbanServ: KanbanService) { }
+
   ngOnInit() {
     this.maintainence = false;
 
     this.kanbanServ.getKanbanStatus().subscribe(
-        (res: any) => {
-            if(res && res.success) {
-                const data = res.body;
-                if(data != 'live') {
-                    this.maintainence = true;
-                }
-            }
-        },
-        err => { 
-          if(environment.production) {
+      (res: any) => {
+        if (res && res.success) {
+          const data = res.body;
+          if (data !== 'live') {
             this.maintainence = true;
           }
-        })
-    ;
+        }
+      },
+      err => {
+        if (environment.production) {
+          this.maintainence = true;
+        }
+      });
   }
+
+  
 }
