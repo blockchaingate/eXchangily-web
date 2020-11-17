@@ -43,7 +43,6 @@ import { TicketComponent } from './modules/support/ticket/ticket.component';
 import { TicketAddComponent } from './modules/support/ticket-add/ticket-add.component';
 import { NewsComponent } from './modules/news/news.component';
 import { AppIntroComponent } from './modules/app-intro/app-intro.component';
-// import { AnnouncementComponent } from './components/help/announcement.component';
 import { LanService } from './services/lan.service';
 import { LoginInfoService } from './services/loginInfo.service';
 import { CampaignOrderService } from './services/campaignorder.service';

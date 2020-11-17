@@ -32,21 +32,19 @@ export class AnnouncementListComponent implements OnInit {
     this.success = true;
     // console.log("currentLan: ", currentLan);
 
-
-    this._announcementsService.getAnnouncementsList(currentLan == "en" ? "en" : "cn").subscribe(ret => {
+    this._announcementsService.getAnnouncementsList(currentLan === 'en' ? 'en' : 'cn').subscribe(ret => {
       // console.log("return: ");
       // console.log(ret);
 
-
-      if (ret["success"]) {
+      if (ret['success']) {
         // console.log("success");
 
         this.success = true;
-        this.announceList = ret["body"];
+        this.announceList = ret['body'];
       } else {
         // console.log("fail");
 
-        this.errMsg = "Server busy";
+        this.errMsg = 'Server busy';
         this.success = false;
 
       }

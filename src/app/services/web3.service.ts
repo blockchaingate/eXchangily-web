@@ -63,7 +63,6 @@ export class Web3Service {
     return txhex;
   }
 
-
   async signAbiHexWithPrivateKey(abiHex: string, keyPair: any, address: string, nonce: number,
     value = 0, options = { gasPrice: 0, gasLimit: 0 }) {
     // console.log('abiHex before', abiHex);
@@ -97,11 +96,9 @@ export class Web3Service {
       // gasPrice: 40  // in wei
     };
 
-
     const privKey = Buffer.from(keyPair.privateKeyHex, 'hex');
 
     let txhex = '';
-
 
     const customCommon = Common.forCustomChain(
       environment.chains.ETH.chain,
@@ -118,8 +115,6 @@ export class Web3Service {
     const serializedTx = tx.serialize();
     txhex = '0x' + serializedTx.toString('hex');
     return txhex;
-
-
 
     /*
     const web3 = this.getWeb3Provider();
