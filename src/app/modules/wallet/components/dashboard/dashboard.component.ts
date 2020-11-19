@@ -104,7 +104,7 @@ export class WalletDashboardComponent implements OnInit {
     constructor(
         private campaignorderServ: CampaignOrderService,
         private route: Router, private walletServ: WalletService, private modalServ: BsModalService,
-        private coinServ: CoinService, public utilServ: UtilService, private apiServ: ApiService, 
+        private coinServ: CoinService, public utilServ: UtilService, private apiServ: ApiService,
         private _wsServ: WsService,
         private kanbanServ: KanbanService, private web3Serv: Web3Service,
         private alertServ: AlertService, private timerServ: TimerService,
@@ -119,24 +119,24 @@ export class WalletDashboardComponent implements OnInit {
 
         this.kanbanServ.getKanbanStatus().subscribe(
             (res: any) => {
-                if(res && res.success) {
+                if (res && res.success) {
                     const data = res.body;
-                    if(data != 'live') {
+                    if (data != 'live') {
                         this.maintainence = true;
                     }
                 }
             },
-            err => { 
-                if(environment.production) {
+            err => {
+                if (environment.production) {
                     this.maintainence = true;
                 }
-              
-              console.log(err); 
+
+                console.log(err);
             })
-        ;
+            ;
 
         this.showTransactionHistory = false;
-    
+
     }
 
     getFreeFab() {
@@ -144,9 +144,9 @@ export class WalletDashboardComponent implements OnInit {
     }
 
     getCoinLogo(coin) {
-        return '/assets/coins/' + coin.name.toLowerCase() + '.png'; 
+        return '/assets/coins/' + coin.name.toLowerCase() + '.png';
     }
-    
+
     loadnewCoins() {
         this.opType = 'loadnewCoins';
         this.pinModal.show();
@@ -205,7 +205,7 @@ export class WalletDashboardComponent implements OnInit {
         }
         if (this.wallets) {
             await this.loadWallet(this.wallets[this.currentWalletIndex]);
-            //this.loadCoinsPrice();
+            // this.loadCoinsPrice();
 
             // this.startTimer();
             this.loadBalance();
@@ -478,13 +478,13 @@ export class WalletDashboardComponent implements OnInit {
             }
             if (coin.name == 'DOGE') {
                 dogeAddress = coin.receiveAdds[0].address;
-            }   
+            }
             if (coin.name == 'LTC') {
                 ltcAddress = coin.receiveAdds[0].address;
-            }                       
-        }  
+            }
+        }
 
-        if(!bchAddress) {
+        if (!bchAddress) {
             this.hasNewCoins = true;
         }
 
@@ -500,7 +500,7 @@ export class WalletDashboardComponent implements OnInit {
 
         this.coinServ.getTransactionHistoryEvents(data).subscribe(
             (res: any) => {
-                if(res && res.success) {
+                if (res && res.success) {
                     const data = res.data;
                     console.log('data===', data);
                     this.transactions = data;
@@ -509,51 +509,51 @@ export class WalletDashboardComponent implements OnInit {
         );
         this.coinServ.walletBalance(data).subscribe(
             (res: any) => {
-                if(res && res.success) {
+                if (res && res.success) {
                     let updated = false;
                     let hasDRGN = false;
                     let hasNVZN = false;
                     let ethCoin;
-                    for(let i=0;i<res.data.length; i++) {
+                    for (let i = 0; i < res.data.length; i++) {
                         const item = res.data[i];
-                        for(let j=0;j<this.wallet.mycoins.length;j++) {
+                        for (let j = 0; j < this.wallet.mycoins.length; j++) {
                             const coin = this.wallet.mycoins[j];
-                            if(coin.name == 'DRGN') {
+                            if (coin.name === 'DRGN') {
                                 hasDRGN = true;
                             }
-                            if(coin.name == 'NVZN') {
+                            if (coin.name === 'NVZN') {
                                 hasNVZN = true;
-                            }                            
-                            if(coin.name == 'ETH') {
+                            }
+                            if (coin.name === 'ETH') {
                                 ethCoin = coin;
                             }
-                                                  
-                            if(item.coin == coin.name) {
-                                if(item.depositErr) {
+
+                            if (item.coin === coin.name) {
+                                if (item.depositErr) {
                                     coin.redeposit = item.depositErr;
                                     updated = true;
                                 } else {
                                     coin.redeposit = [];
                                     updated = true;
                                 }
-                                if(coin.balance != Number(item.balance)) {
+                                if (coin.balance !== Number(item.balance)) {
                                     coin.balance = Number(item.balance);
                                     updated = true;
                                 }
-                                if(coin.lockedBalance != Number(item.lockBalance)) {
+                                if (coin.lockedBalance !== Number(item.lockBalance)) {
                                     coin.lockedBalance = Number(item.lockBalance);
                                     updated = true;
                                 }
                                 coin.lockers = item.lockers ? item.lockers : item.fabLockers;
-                                if(item.usdValue && (coin.usdPrice != item.usdValue.USD)) {
+                                if (item.usdValue && (coin.usdPrice !== item.usdValue.USD)) {
                                     coin.usdPrice = item.usdValue.USD;
                                     updated = true;
                                 }
-                                if(coin.name == 'FAB') {
+                                if (coin.name === 'FAB') {
                                     this.fabBalance = coin.balance;
                                 }
                             }
-                            
+
                         }
                         this.exgBalance = this.wallet.mycoins[0].balance + this.wallet.mycoins[0].lockedBalance;
 
@@ -572,8 +572,8 @@ export class WalletDashboardComponent implements OnInit {
                         drgnCoin.contractAddr = environment.addresses.smartContract.DRGN;
                         this.wallet.mycoins.push(drgnCoin);
                         updated = true;
-                    }   
-                    
+                    }
+
                     if (!hasNVZN) {
                         const newCoin = new MyCoin('NVZN');
                         newCoin.balance = 0;
@@ -586,7 +586,7 @@ export class WalletDashboardComponent implements OnInit {
                         newCoin.contractAddr = environment.addresses.smartContract.NVZN;
                         this.wallet.mycoins.push(newCoin);
                         updated = true;
-                    }                       
+                    }
                     if (updated) {
                         // console.log('updated=' + updated);
                         this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
@@ -612,19 +612,19 @@ export class WalletDashboardComponent implements OnInit {
                         this.fabBalance = balance.balance;
                     } else if (coin.name === 'ETH') {
                         this.ethBalance = balance.balance;
-                    } else 
-                    if (coin.name === 'BCH') {
-                        hasBCH = true;
-                    }
-        
+                    } else
+                        if (coin.name === 'BCH') {
+                            hasBCH = true;
+                        }
+
                     if (coin.balance !== balance.balance || coin.lockedBalance !== balance.lockbalance) {
-        
+
                         coin.balance = balance.balance;
                         // coin.receiveAdds[0].balance = balance.balance;
                         coin.lockedBalance = balance.lockbalance;
                         updated = true;
                     }
-        
+
                     console.log('balance for coin' + coin.name + '=', balance);
                 }
                 if (!hasDUSD) {
@@ -639,12 +639,12 @@ export class WalletDashboardComponent implements OnInit {
                     dusdCoin.contractAddr = environment.addresses.smartContract.DUSD;
                     this.wallet.mycoins.push(dusdCoin);
                     updated = true;
-                }  
-                
-                if(!hasBCH) {
-                    this.hasNewCoins = true;                    
                 }
-            }            
+
+                if (!hasBCH) {
+                    this.hasNewCoins = true;
+                }
+            }
         );
 
         /*
@@ -700,7 +700,7 @@ export class WalletDashboardComponent implements OnInit {
                 return;
             }
             const balance = coin.balance;
-            if (!coin.receiveAdds || (coin.receiveAdds.length == 0)) {
+            if (!coin.receiveAdds || (coin.receiveAdds.length === 0)) {
                 continue;
             }
             const address = coin.receiveAdds[0].address;
@@ -713,7 +713,7 @@ export class WalletDashboardComponent implements OnInit {
         }
         // console.log('this.wallet=', this.wallet);
         this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
-        
+
 
         this.campaignorderServ.getCheck(this.exgAddress).subscribe(
             (resp: any) => {
@@ -754,17 +754,17 @@ export class WalletDashboardComponent implements OnInit {
 
     deposit(currentCoin: MyCoin) {
         this.currentCoin = currentCoin;
-        if(currentCoin.tokenType === 'ETH') {
+        if (currentCoin.tokenType === 'ETH') {
             this.baseCoinBalance = this.ethBalance;
-        } else 
-        if(currentCoin.tokenType === 'FAB') {
-            this.baseCoinBalance = this.fabBalance;
-        }
+        } else
+            if (currentCoin.tokenType === 'FAB') {
+                this.baseCoinBalance = this.fabBalance;
+            }
         this.depositModal.initForm(currentCoin);
         this.depositModal.show();
     }
 
-    redeposit(currentCoin: MyCoin) {
+     redeposit(currentCoin: MyCoin) {
         this.currentCoin = currentCoin;
         console.log('this.currentCoin===', this.currentCoin);
         // this.opType = 'redeposit';
@@ -813,23 +813,21 @@ export class WalletDashboardComponent implements OnInit {
                 }
                 return;
             }
-        } else
-            if (tranFeeUnit === 'FAB') {
-                if (transFee > fabBalance) {
-                    this.alertServ.openSnackBar('Insufficient FAB for this transaction', 'Ok');
-                    return;
+        } else if (tranFeeUnit === 'FAB') {
+            if (transFee > fabBalance) {
+                this.alertServ.openSnackBar('Insufficient FAB for this transaction', 'Ok');
+                return;
+            }
+        } else if (tranFeeUnit === 'ETH') {
+            if (transFee > ethBalance) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('ETH余额不足', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Insufficient ETH for this transaction', 'Ok');
                 }
-            } else
-                if (tranFeeUnit === 'ETH') {
-                    if (transFee > ethBalance) {
-                        if (this.lan === 'zh') {
-                            this.alertServ.openSnackBar('ETH余额不足', 'Ok');
-                        } else {
-                            this.alertServ.openSnackBar('Insufficient ETH for this transaction', 'Ok');
-                        }
-                        return;
-                    }
-                }
+                return;
+            }
+        }
 
         if ((coinName === 'BTC') || (coinName === 'ETH') || (coinName === 'FAB')) {
             if (currentCoinBalance < amount + transFee) {
@@ -920,13 +918,13 @@ export class WalletDashboardComponent implements OnInit {
 
     loadNewCoinsDo() {
         const pin = this.pin;
-        const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);  
-        
+        const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
+
         const myCoins = this.wallet.mycoins;
 
         let ethCoin;
 
-        for(let i=0;i<myCoins.length;i++) {
+        for (let i = 0; i < myCoins.length; i++) {
             const coin = myCoins[i];
             if (coin.name === 'ETH') {
                 ethCoin = coin;
@@ -935,48 +933,48 @@ export class WalletDashboardComponent implements OnInit {
 
         const bchCoin = new MyCoin('BCH');
         this.coinServ.fillUpAddress(bchCoin, seed, 1, 0);
-        myCoins.push(bchCoin);  
- 
+        myCoins.push(bchCoin);
+
         const ltcCoin = new MyCoin('LTC');
-        this.coinServ.fillUpAddress(ltcCoin, seed, 1, 0);        
-        myCoins.push(ltcCoin);  
+        this.coinServ.fillUpAddress(ltcCoin, seed, 1, 0);
+        myCoins.push(ltcCoin);
 
         const dogCoin = new MyCoin('DOGE');
-        this.coinServ.fillUpAddress(dogCoin, seed, 1, 0);        
-        myCoins.push(dogCoin);  
+        this.coinServ.fillUpAddress(dogCoin, seed, 1, 0);
+        myCoins.push(dogCoin);
 
         const erc20Tokens = [
-            'INB', 'REP', 'HOT', 'MATIC', 'IOST', 'MANA', 
+            'INB', 'REP', 'HOT', 'MATIC', 'IOST', 'MANA',
             'ELF', 'GNO', 'WINGS', 'KNC', 'GVT', 'DRGN'
         ];
 
-        for(let i=0;i<erc20Tokens.length;i++) {
-            const tokenName = erc20Tokens[i];
-            const token = this.coinServ.initToken('ETH', tokenName, 18, environment.addresses.smartContract[tokenName], ethCoin);     
-            this.coinServ.fillUpAddress(token, seed, 1, 0);
-            myCoins.push(token); 
+        for (let i = 0; i < erc20Tokens.length; i++) {
+            const tokenName1 = erc20Tokens[i];
+            const token1 = this.coinServ.initToken('ETH', tokenName1, 18, environment.addresses.smartContract[tokenName1], ethCoin);
+            this.coinServ.fillUpAddress(token1, seed, 1, 0);
+            myCoins.push(token1);
         }
 
         const erc20Tokens2 = [
             'FUN', 'WAX', 'MTL'
         ];
 
-        for(let i=0;i<erc20Tokens2.length;i++) {
-            const tokenName = erc20Tokens2[i];
-            const token = this.coinServ.initToken('ETH', tokenName, 8, environment.addresses.smartContract[tokenName], ethCoin);     
-            this.coinServ.fillUpAddress(token, seed, 1, 0);
-            myCoins.push(token); 
-        }   
-        
+        for (let i = 0; i < erc20Tokens2.length; i++) {
+            const tokenName2 = erc20Tokens2[i];
+            const token2 = this.coinServ.initToken('ETH', tokenName2, 8, environment.addresses.smartContract[tokenName2], ethCoin);
+            this.coinServ.fillUpAddress(token2, seed, 1, 0);
+            myCoins.push(token2);
+        }
+
         let tokenName = 'POWR';
-        let token = this.coinServ.initToken('ETH', tokenName, 6, environment.addresses.smartContract[tokenName], ethCoin);     
+        let token = this.coinServ.initToken('ETH', tokenName, 6, environment.addresses.smartContract[tokenName], ethCoin);
         this.coinServ.fillUpAddress(token, seed, 1, 0);
-        myCoins.push(token);   
-        
+        myCoins.push(token);
+
         tokenName = 'CEL';
-        token = this.coinServ.initToken('ETH', tokenName, 4, environment.addresses.smartContract[tokenName], ethCoin);     
+        token = this.coinServ.initToken('ETH', tokenName, 4, environment.addresses.smartContract[tokenName], ethCoin);
         this.coinServ.fillUpAddress(token, seed, 1, 0);
-        myCoins.push(token);           
+        myCoins.push(token);
 
         this.hasNewCoins = false;
 
@@ -1435,15 +1433,15 @@ export class WalletDashboardComponent implements OnInit {
             }
             return;
         }
-        
+
         const amountInLink = new BigNumber(amount).multipliedBy(new BigNumber(1e18)); // it's for all coins.
-        
+
         const amountInLinkString = amountInLink.toFixed();
         const amountInTxString = amountInTx.toFixed();
 
         console.log('amountInLinkString===', amountInLinkString);
         console.log('amountInTxString===', amountInTxString);
-        if(amountInLinkString.indexOf(amountInTxString) === -1) {
+        if (amountInLinkString.indexOf(amountInTxString) === -1) {
             console.log('not equal 1');
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar('转账数量不相等', 'Ok');
@@ -1454,14 +1452,14 @@ export class WalletDashboardComponent implements OnInit {
         }
 
         const subString = amountInLinkString.substr(amountInTxString.length);
-        if(subString && Number(subString) !== 0) {
+        if (subString && Number(subString) !== 0) {
             console.log('not equal 2');
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar('转账数量不符合', 'Ok');
             } else {
                 this.alertServ.openSnackBar('deposit amount not the same', 'Ok');
             }
-            return;            
+            return;
         }
 
         const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(txHash)
@@ -1522,10 +1520,9 @@ export class WalletDashboardComponent implements OnInit {
             error => {
                 console.log('error====');
                 console.log(error);
-                if(error.error && error.error.error) {
+                if (error.error && error.error.error) {
                     this.alertServ.openSnackBar(error.error.error, 'Ok');
-                }
-                else if (error.message) {
+                } else if (error.message) {
                     this.alertServ.openSnackBar(error.message, 'Ok');
                 }
             }

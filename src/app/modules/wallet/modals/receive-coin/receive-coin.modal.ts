@@ -1,7 +1,7 @@
-import { Component, TemplateRef, Input} from '@angular/core';
+import { Component, TemplateRef, Input } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Wallet } from '../../../../models/wallet';
-import { MyCoin} from '../../../../models/mycoin';
+import { MyCoin } from '../../../../models/mycoin';
 import { UtilService } from '../../../../services/util.service';
 @Component({
     selector: 'modal-receive-coin',
@@ -20,32 +20,32 @@ export class ReceiveCoinModal {
     openModal(template: TemplateRef<any>) {
         if (this.wallet) {
             this.currentAddress = this.wallet.mycoins[1].receiveAdds[0].address;
-        }        
+        }
         console.log('open heere');
         this.modalRef = this.modalService.show(template);
-    }  
+    }
 
     copyAddress() {
         this.utilServ.copy(this.currentAddress);
     }
 
     onChange(index: number) {
-        if(this.wallet.mycoins[index].tokenType == 'FAB') {
+        if (this.wallet.mycoins[index].tokenType === 'FAB') {
             this.currentAddress = this.wallet.mycoins[1].receiveAdds[0].address;
         } else {
             this.currentAddress = this.wallet.mycoins[index].receiveAdds[0].address;
         }
-        
-        //console.log(selectedValue);
-    }    
-    
+
+        // console.log(selectedValue);
+    }
+
     dlDataUrlBin() {
         const y = document.getElementById('address_qr_code').getElementsByTagName('canvas')[0];
-        //console.log('y.src=' + y.src);
-        if(y) {
-            var link = y.toDataURL("image/png");
-            this.link = link;   
+        // console.log('y.src=' + y.src);
+        if (y) {
+            const link = y.toDataURL('image/png');
+            this.link = link;
         }
-     
+
     }
 }
