@@ -41,7 +41,7 @@
                                 </div>
                             </div>
                         </mat-tab>
-                        <mat-tab label="{{'Etherrum'|translate}}">
+                        <mat-tab label="{{'Ethereum'|translate}}">
 
                             <mat-selection-list #ethtokens (selectionChange)="onEthSelection($event, ethtokens.selectedOptions.selected)">
                                 <mat-list-option *ngFor="let token of ethTokens; let i = index" [value]="i+1">

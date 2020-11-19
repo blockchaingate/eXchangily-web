@@ -4,6 +4,7 @@ import * as BIP32 from 'node_modules/bip32';
 import * as Btc from 'bitcoinjs-lib';
 import * as bitcoinMessage from 'bitcoinjs-message';
 import { hdkey } from 'ethereumjs-wallet/dist';
+import * as bchaddr from 'bchaddrjs';
 // import { hdkey } from 'ethereumjs-wallet'; deposit not working
 
 import { Address } from '../models/address';
@@ -17,7 +18,7 @@ import { Signature } from '../interfaces/kanban.interface';
 import { UtilService } from './util.service';
 import { environment } from '../../environments/environment';
 import BigNumber from 'bignumber.js/bignumber';
-import * as bchaddr from 'bchaddrjs';
+
 
 @Injectable()
 export class CoinService {
