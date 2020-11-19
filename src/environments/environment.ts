@@ -143,7 +143,7 @@ export const environment = {
             EXG: '0x867480ba8e577402fa44f43c33875ce74bdc5df6',
             USDT: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',
             DUSD: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
-            //BNB: '0xE90e361892d258F28e3a2E758EEB7E571e370c6f',
+            // BNB: '0xE90e361892d258F28e3a2E758EEB7E571e370c6f',
             INB: '0x919c6d21670fe8cEBd1E86a82a1A74E9AA2988F8',
             REP: '0x4659c4A33432A5091c322E438e0Fb1D286A1EbdE',
             HOT: '0x6991d9fff5de74085f5c786d425403601280c8f4',
@@ -173,7 +173,7 @@ export const environment = {
         BCH: 'bchtest:qrkhd038rw685m0s2kauyquhx0pxlhkvsg6dydtwn9',
         LTC: 'n3AYguoFtN7SqsfAJPx6Ky8FTTZUkeKbvc',
         DOGE: 'nqqkf8PqJj3CUjwLMEcjJDfpiU5NDcMUrB',
-        //BNB: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
+        // BNB: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
         INB: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
         REP: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
         HOT: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
@@ -181,7 +181,7 @@ export const environment = {
         MATIC: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
         IOST: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
         MANA: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
-        FUN: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E', //??
+        FUN: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E', // ??
         WAX: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
         ELF: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
         GNO: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E', 

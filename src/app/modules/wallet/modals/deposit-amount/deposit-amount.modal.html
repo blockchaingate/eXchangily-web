@@ -5,8 +5,8 @@
                 <div class="modal-header text-center">
                     <h4 class="modal-title w-100 text-dark">{{'Deposit' | translate}} {{coin.name}}</h4>
                     <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
-            <span aria-hidden="true">&times;</span>
-          </button>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
 
@@ -31,7 +31,7 @@
                                 {{'All' | translate}}
                             </mat-slide-toggle>
                         </div>
-                    </div>                    
+                    </div>
                     <div class="form-group">
                         <input type="number" class="form-control" id="inputDepositAmount" [attr.disabled]="sendAllCoinsFlag?'':null" (input)="onTextChange($event.target.value)" formControlName="depositAmount" aria-describedby="emailHelp" placeholder="0.0000">
                     </div>
@@ -60,7 +60,7 @@
                             <div class="col text-muted">
                                 <small>{{'depends on the gas used on the chain' | translate}}</small>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                     <div class="form-group">
                         <div class="row">
