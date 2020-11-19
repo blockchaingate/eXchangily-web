@@ -265,6 +265,7 @@ export class UtilService {
     toNumber(num) {
         return Number(num);
     }
+    
     hex2Buffer(hexString) {
         const buffer = [];
         for (let i = 0; i < hexString.length; i += 2) {

@@ -1204,7 +1204,7 @@
     "NotReceivedQ": "Coin in wallet have been deducted, why not appear in Exchange",
     "NotReceivedA": "Move coin to Exchange is a crosschain transaction, Exchange will check originate blockchain for a certainty number of blocks confirmatin to decide it is a valid transaction, it may take half to one hour sometime even two hours, if still not receive after two hours, please check the deposit page to see if there is a Confirm Deposit button appear, if there is, just click on it and enter password to confirm your deposit, Exchange will confirm your deposit immediately.",
     "USDTNoETHQ": "When move USDT to the Exchange, why it prompts No Enough ETH in wallet",
-    "USDTNoETHA": "Exchangily is a decentralized wallet and Exchange, any coin moving will interact with its originate blockchain, because USDT is an Etherrum ERC-20 token, to move USDT (no matter to another wallet or to Exchange) you need to pay ETH as gas; similarily when you move EXG or DUSD, your wallet needs have enough FAB.",
+    "USDTNoETHA": "Exchangily is a decentralized wallet and Exchange, any coin moving will interact with its originate blockchain, because USDT is an Ethereum ERC-20 token, to move USDT (no matter to another wallet or to Exchange) you need to pay ETH as gas; similarily when you move EXG or DUSD, your wallet needs have enough FAB.",
     "HaveGasExchangeNotReceivedQ": "Wallet has enough ETH, why move USDT to Exchange still fail",
     "HaveGasExchangeNotReceivedA": "First please check if you have enough gas in Exchange, any operation in Exchange needs to pay Exchange gas, it is FAB, usually to use the Exchange, the first thing to do is Add Gas to Exchange.",
     "AddGasQ": "What does Add Gas mean? how much to add",
