@@ -2,7 +2,7 @@
     <img src="/assets/maintainence.jpeg">
 </div>
 <div class="containerX market-page" *ngIf="!maintainence">
-    <div class="gradient-back-area" fxLayout="column" fxFlexAlign.lt-md="300px">
+    <div class="gradient-back-area" fxLayout="column" fxFlex.lt-md="300px">
         <div class="topslogan">
             <div class="container">
                 <div class="slogan row">
@@ -14,30 +14,32 @@
                     </div>
                 </div>
 
-                <div class="tempadvimg">
-                    <div style="color: green; margin-top: 1em; margin-left:6em;padding-top: 1em; width:80%; height: 160px; text-align: center; font-size: 32px; font-weight: 600;">
-                        {{"advexplan" | translate}}
+                <div class="tempadvimg" fxLayout="column" fxLayoutAlign="space-around center">
+                    <div style="color: green; padding-top: 1em;">
+                        <h3>{{"advexplan" | translate}}</h3>
+                    </div>
 
-                        <div style="color: brown; font-size: small; margin-left: 16em; margin-top: 1em;">
-                            <div style="text-align: left;">
-                                {{"price1"| translate}}
-                            </div>
-                            <div style="text-align: left;">
-                                {{"price2"| translate}}
-                            </div>
-                            <div style="text-align: left;">
-                                {{"price3"| translate}}
-                            </div>
-                            <div style="text-align: left;">
-                                {{"price4"| translate}}
-                            </div>
+                    <div style="color: brown; font-size: small; margin-top: 1em; width:300px; padding-left:28%;">
 
+                        <div style="text-align: left; width: 300px; font-size: 10px;">
+                            {{"price1"| translate}}
+                        </div>
+                        <div style="text-align: left;width: 300px; font-size: 10px;">
+                            {{"price2"| translate}}
+                        </div>
+                        <div style="text-align: left;width: 300px; font-size: 10px;">
+                            {{"price3"| translate}}
+                        </div>
+                        <div style="text-align: left;width: 300px; font-size: 10px;">
+                            {{"price4"| translate}}
                         </div>
 
-                    </div>
-                    <div style=" width: 100%; text-align: left; margin-top: 9em; display:flex;">
-                        <a class="exbtn tempadvbutton hand-cursor" href="https://nvzntoken.com" target="_blank"> {{'Click for detials' | translate}} </a>
-                        <a class="exbtn tempadvbutton hand-cursor" href="https://exchangily.com/market/trade/NVZN_USDT"> {{'Goto IEO' | translate}} </a>
+                        <div style="text-align: left; width: 300px; margin-top: 1em; padding-bottom: 2em;">
+                            <a class="exbtn tempadvbutton hand-cursor" href="https://nvzntoken.com" target="_blank">
+                            {{'Click for detials' | translate}} </a>
+                            <a class="exbtn tempadvbutton hand-cursor" href="https://exchangily.com/market/trade/NVZN_USDT">
+                            {{'Goto IEO' | translate}} </a>
+                        </div>
                     </div>
                 </div>
 
