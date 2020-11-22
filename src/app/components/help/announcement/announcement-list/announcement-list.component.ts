@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Announcement } from '../../../../models/announcement';
 import { LanService } from 'src/app/services/lan.service';
 import { AnnouncementsService } from 'src/app/services/announcements.service';
 
@@ -32,7 +33,7 @@ export class AnnouncementListComponent implements OnInit {
     this.success = true;
     // console.log("currentLan: ", currentLan);
 
-    this._announcementsService.getAnnouncementsList(currentLan === 'en' ? 'en' : 'cn').subscribe(ret => {
+    this._announcementsService.getManyByLan(currentLan === 'en' ? 'en' : 'cn').subscribe(ret => {
       // console.log("return: ");
       // console.log(ret);
 

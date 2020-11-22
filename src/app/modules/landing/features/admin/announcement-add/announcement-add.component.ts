@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Announcement } from '../../../../../models/announcement';
 import { StorageService } from 'src/app/services/storage.service';
 import { UserAuth } from '../../../service/user-auth/user-auth.service';
 import { AnnouncementsService } from 'src/app/services/announcements.service';
@@ -51,31 +52,30 @@ export class AnnouncementAddComponent implements OnInit {
       this.logIn = value ? true : false;
       // alert(this.loggedIn);
 
-      console.log("selectedCat: " + this.selectedCat);
-      console.log("selectedLan: " + this.selectedLan);
-      console.log("title: " + this.title);
-      console.log("summary: " + this.summary);
-      console.log("desc: " + this.desc);
+      console.log('selectedCat: ' + this.selectedCat);
+      console.log('selectedLan: ' + this.selectedLan);
+      console.log('title: ' + this.title);
+      console.log('summary: ' + this.summary);
+      console.log('desc: ' + this.desc);
 
 
       // announcement object will post
-      const announce = {
-        "title": this.title,
-        "category": this.selectedCat,
-        "language": this.selectedLan,
-        "content": this.desc,
-        "contentSummary": this.title,
-        "createdBy": { "_id": "58dc560d6ed93640a1e56cb7" },
-        "headline": true
-      }
+      const announce: Announcement = {
+        'title': this.title,
+        'category': this.selectedCat,
+        'language': this.selectedLan,
+        'content': this.desc,
+        'contentSummary': this.title,
+        'createdBy': '58dc560d6ed93640a1e56cb7',
+        'headline': true
+      };
 
-
-      if (this.selectedCat == null || this.selectedCat == "") {
+      if (this.selectedCat == null || this.selectedCat === '') {
         this.catselected = false;
         return;
       }
 
-      if (this.selectedLan == null || this.selectedLan == "") {
+      if (this.selectedLan == null || this.selectedLan === '') {
         this.lanselected = false;
         return;
       }
@@ -97,8 +97,8 @@ export class AnnouncementAddComponent implements OnInit {
             this.logIn = false;
             this.success = false;
           } else {
-            this._AnnouncementServ.createAnnouncements(announce, this.token).subscribe(ret => {
-              console.log("Return: ");
+            this._AnnouncementServ.create(announce).subscribe(ret => {
+              console.log('Return: ');
               console.log(ret['body']);
 
 

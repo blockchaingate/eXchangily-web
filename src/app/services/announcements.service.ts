@@ -1,39 +1,41 @@
 
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
 import { HttpService } from '../services/http.service';
-
-const path = environment.endpoints.blockchaingate;
+import { Announcement } from '../models/announcement';
 
 @Injectable()
 export class AnnouncementsService {
     constructor(private http: HttpService) { }
 
-    getAnnouncementsCats(lan: String) {
-        return this.http.get(path + 'announcements/' + lan);
+    getAnnouncementsCats(lan: string) {
+        return this.http.get('announcements/categories/' + lan);
     }
 
-    getAnnouncementsList(lan: String) {
-        return this.http.get(path + 'announcements/' + lan);
+    getManyByLan(lan: string) {
+        return this.http.get('announcements/language/' + lan);
     }
 
-    // Create announcements
-    createAnnouncements(announcements, token) {
-        return this.http.postPrivate(path + 'announcements/create', announcements, token);
+    // Create an announcement
+    create(announcement: Announcement) {
+        return this.http.post('announcements/create', announcement, true);
     }
 
-    // Get announcements by id
-    getAnnouncements(id: string) {
-        return this.http.get(path + 'announcements/' + id);
+    // Get announcement by id
+    getById(id: string) {
+        return this.http.get('announcements/' + id);
     }
 
     // find by memberId, appId, active = true | false, lanCode
-    findAnnouncements(data, token) {
-        return this.http.postPrivate(path + 'announcements/find', data, token);
+    find(critia: any) {
+        return this.http.post('announcements/find', critia, true);
     }
 
-    // Update announcements
-    updateAnnouncements(announcements, token) {
-        return this.http.postPrivate(path + 'announcements/update', announcements, token);
+    // Update an announcements 
+    update(announcement: Announcement) {
+        return this.http.post('announcements/update', announcement, true);
+    }
+
+    delete(id: string) {
+        return this.http.get('announcements/delete/' + id, true);
     }
 }
