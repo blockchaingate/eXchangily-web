@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        let script = this._renderer2.createElement('script');
+        const script = this._renderer2.createElement('script');
         script.type = `text/javascript`;
         script.text = `
         var w = c.width = window.innerWidth,

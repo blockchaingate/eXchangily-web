@@ -13,7 +13,7 @@ import { NewsComponent } from './modules/news/news.component';
 import { from } from 'rxjs';
 import { AppIntroComponent } from './modules/app-intro/app-intro.component';
 import { AnnouncementComponent } from './components/help/announcement/announcement/announcement.component';
-// import { AnnouncementComponent } from './components/help/announcement.component';
+import { AnnouncementListComponent } from './components/help/announcement/announcement-list/announcement-list.component';
 
 const routes: Routes = [
 
@@ -121,10 +121,7 @@ const routes: Routes = [
   { path: 'tickets', component: TicketComponent },
   { path: 'ticket-add', component: TicketAddComponent },
   { path: 'news', component: NewsComponent },
-  { path: 'announcements', component: AnnouncementComponent },
-  {
-    path: '', redirectTo: '/market/home', pathMatch: 'full'
-  },
+  { path: 'announcements', component: AnnouncementListComponent },
   { path: '', redirectTo: '/market/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-
+import {MatIconModule} from '@angular/material/icon'
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home/home.component';
 import { VersionComponent } from './version/version.component';
@@ -23,6 +23,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 @NgModule({
   imports: [
     CommonModule,
+    MatIconModule,
     HomeRoutingModule, 
     TranslateModule,
     RouterModule,
