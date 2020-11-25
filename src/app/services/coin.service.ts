@@ -3,7 +3,8 @@ import { MyCoin } from '../models/mycoin';
 import * as BIP32 from 'node_modules/bip32';
 import * as Btc from 'bitcoinjs-lib';
 import * as bitcoinMessage from 'bitcoinjs-message';
-import { hdkey } from 'ethereumjs-wallet/dist';
+//import { hdkey } from 'ethereumjs-wallet/dist'; not working
+import * as hdkey from 'ethereumjs-wallet/hdkey';
 import * as bchaddr from 'bchaddrjs';
 // import { hdkey } from 'ethereumjs-wallet'; deposit not working
 
@@ -44,7 +45,17 @@ export class CoinService {
     }
 
     getCoinNameByTypeId(id: number) {
+
+        for (let i = 0; i < coin_list.length; i++) {
+            const coin = coin_list[i];
+            if (coin.id === id) {
+                return coin.name;
+            }
+        }
+        return '';        
+        /*
         return coin_list[id].name;
+        */
     }
 
     initToken(type: string, name: string, decimals: number, address: string, baseCoin: MyCoin) {
@@ -937,7 +948,7 @@ export class CoinService {
 
         let buf = '';
         const coinTypeHex = coinType.toString(16);
-        buf += this.utilServ.fixedLengh(coinTypeHex, 4);
+        buf += this.utilServ.fixedLengh(coinTypeHex, 8);
         buf += this.utilServ.fixedLengh(txHash, 64);
         const hexString = amount.toString(16);
         buf += this.utilServ.fixedLengh(hexString, 64);

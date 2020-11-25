@@ -1465,7 +1465,7 @@ export class WalletDashboardComponent implements OnInit {
         const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(txHash)
             , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
 
-
+        console.log('originalMessage in deposit=', originalMessage);
         const signedMessage: Signature = this.coinServ.signedMessage(originalMessage, keyPairs);
 
 

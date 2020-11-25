@@ -463,8 +463,9 @@ export class Web3Service {
       'stateMutability': 'nonpayable',
       'type': 'function'
     };
-    let abiHex = this.utilServ.stripHexPrefix(web3.eth.abi.encodeFunctionSignature(func));
+    //let abiHex = this.utilServ.stripHexPrefix(web3.eth.abi.encodeFunctionSignature(func));
     // console.log('abiHex for addDeposit=', abiHex);
+    let abiHex = '379eb862';
     abiHex += this.utilServ.stripHexPrefix(signedMessage.v);
     abiHex += this.utilServ.fixedLengh(coinType.toString(16), 62);
     abiHex += this.utilServ.stripHexPrefix(txHash);
