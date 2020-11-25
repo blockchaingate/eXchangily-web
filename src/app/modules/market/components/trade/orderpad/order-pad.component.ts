@@ -526,7 +526,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         this.sells = orders.s.slice(0, 8).reverse();
         this.buys = orders.b.slice(0, 8);
 
-        console.log('pair=', pair);
         if((pair.indexOf('NVZN') < 0) && environment.production) {
 
           /*
@@ -683,16 +682,19 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   refreshCoinAvail() {
+    console.log('this._mytokens==', this._mytokens);
     let baseCoinAvailExisted = false;
     let targetCoinAvailExisted = false;
+    console.log('this.baseCoin====', this.baseCoin);
     if (this.baseCoin && this.targetCoin) {
       if (this._mytokens && this._mytokens.length > 0) {
         for (let i = 0; i < this._mytokens.length; i++) {
-          if (this._mytokens[i].coinType === this.baseCoin.toString()) {
+
+          if (this._mytokens[i].coinType == this.baseCoin.toString()) {
             baseCoinAvailExisted = true;
             this.baseCoinAvail = Number(this._mytokens[i].unlockedAmount);
           }
-          if (this._mytokens[i].coinType === this.targetCoin.toString()) {
+          if (this._mytokens[i].coinType == this.targetCoin.toString()) {
             targetCoinAvailExisted = true;
             this.targetCoinAvail = Number(this._mytokens[i].unlockedAmount);
           }
@@ -751,11 +753,13 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
     if (this.wallet) {
       const address = this.wallet.excoin.receiveAdds[0].address;
+      console.log('address==', address);
       this.timerServ.checkTokens(address, 1);
     }
 
     this.timerServ.tokens.subscribe(
       (tokens: any) => {
+        console.log('tokens====', tokens);
         this.setMytokens(tokens);
       }
     );
@@ -932,9 +936,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     const qtyString = new BigNumber(qty).multipliedBy(new BigNumber(1e18)).toFixed();
     const priceString = new BigNumber(price).multipliedBy(new BigNumber(1e18)).toFixed();
 
-    const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk,
-      orderType, baseCoin, targetCoin, qtyString, priceString,
-      timeBeforeExpiration, false, orderHash]);
+    const abiHex = this.web3Serv.getCreateOrderFuncABI([false, bidOrAsk,
+      baseCoin, targetCoin, qtyString, priceString, orderHash]);
     const nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
 
     if ((this.gasPrice <= 0) || (this.gasLimit <= 0)) {

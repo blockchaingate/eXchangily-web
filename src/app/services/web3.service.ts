@@ -303,17 +303,18 @@ export class Web3Service {
     return web3.utils.sha3(str);
   }
   getCreateOrderFuncABI(paramsArray: any) {
+    
     const web3 = this.getWeb3Provider();
     const func: any = {
       'constant': false,
       'inputs': [
         {
-          'name': '_bidOrAsk',
+          'name': '_fromContract',
           'type': 'bool'
-        },
+        },        
         {
-          'name': '_orderType',
-          'type': 'uint8'
+          'name': '_bid',
+          'type': 'bool'
         },
         {
           'name': '_baseCoin',
@@ -330,14 +331,6 @@ export class Web3Service {
         {
           'name': '_price',
           'type': 'uint256'
-        },
-        {
-          'name': '_expiredTime',
-          'type': 'uint256'
-        },
-        {
-          'name': '_payWithEXG',
-          'type': 'bool'
         },
         {
           'name': '_orderHash',
@@ -375,6 +368,7 @@ export class Web3Service {
 
     // let abiHex = '3a5b6c70';
 
+    /*
     const web3 = this.getWeb3Provider();
     const func: any = {
       'constant': false,
@@ -404,6 +398,10 @@ export class Web3Service {
       'type': 'function'
     };
     let abiHex = web3.eth.abi.encodeFunctionSignature(func).substring(2);
+
+    */
+
+    let abiHex = 'cce185b8';
     // console.log('abiHex there we go:' + abiHex);  
     abiHex += this.utilServ.fixedLengh(coinType.toString(16), 64);
     // console.log('abiHex1=' + abiHex);
