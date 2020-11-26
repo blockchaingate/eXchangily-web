@@ -16,7 +16,7 @@ export const environment = {
     tmpUrl: 'https://kanbantest.fabcoinapi.com/',
 
     // baseUrl: 'http://localhost:4200',
-    baseUrl: 'https://exchangily.net',
+    baseUrl: 'https://test.exchangily.com',
     campaignId: 1,
     OTC_COMMISSION_RATE: 0.001,
     chains: {
