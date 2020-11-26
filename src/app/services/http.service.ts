@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserAuth } from '../modules/landing/service/user-auth/user-auth.service';
 import { User } from '../modules/landing/models/user';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class HttpService {
+    endpoint = environment.endpoints.blockchaingate;
     post(path: string, data: any, jwtAuth = false) {
         let httpHeaders = new HttpHeaders({
             'Content-Type': 'application/json',
@@ -18,6 +20,9 @@ export class HttpService {
         const options = {
             headers: httpHeaders
         };
+        if(path.indexOf('http') < 0) {
+            path = this.endpoint + path;
+        }        
         return this.http.post(path, data, options);
     }
 
@@ -33,6 +38,9 @@ export class HttpService {
         const options = {
             headers: httpHeaders
         };
+        if(path.indexOf('http') < 0) {
+            path = this.endpoint + path;
+        }
         return this.http.post(path, data, options);
     }
  
@@ -48,6 +56,9 @@ export class HttpService {
         const options = {
             headers: httpHeaders
         };
+        if(path.indexOf('http') < 0) {
+            path = this.endpoint + path;
+        }        
         return this.http.get(path, options);
     }
 
@@ -64,6 +75,9 @@ export class HttpService {
         const options = {
             headers: httpHeaders
         };
+        if(path.indexOf('http') < 0) {
+            path = this.endpoint + path;
+        }        
        return this.http.get(path, options);
     }
 

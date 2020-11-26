@@ -16,8 +16,8 @@ export class AnnouncementsService {
     }
 
     // Create an announcement
-    create(announcement: Announcement) {
-        return this.http.post('announcements/create', announcement, true);
+    create(announcement: Announcement, token: string) {
+        return this.http.postPrivate('announcements/create', announcement, token);
     }
 
     // Get announcement by id

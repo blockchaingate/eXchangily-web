@@ -97,7 +97,7 @@ export class AnnouncementAddComponent implements OnInit {
             this.logIn = false;
             this.success = false;
           } else {
-            this._AnnouncementServ.create(announce).subscribe(ret => {
+            this._AnnouncementServ.create(announce, token).subscribe(ret => {
               console.log('Return: ');
               console.log(ret['body']);
 
