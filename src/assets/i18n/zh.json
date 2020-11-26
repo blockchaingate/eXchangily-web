@@ -745,6 +745,7 @@
     "Verify Mnemonics": "验证助记词",
     "VerifyMnemNote": "为了确保您准确无误地记下了助记词，请按顺序输入一遍进行验证。",
     "Confirm": "确认",
+    "Announcements": "公告",
     "Set Password": "设置密码",
     "PwdNote": "设置本机密码。请注意，此密码仅保护本机钱包资料，并非钱包私钥。",
     "Wallet Name": "钱包名称",
