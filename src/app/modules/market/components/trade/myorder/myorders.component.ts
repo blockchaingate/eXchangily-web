@@ -385,6 +385,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     }
 
     async transferDo() {
+        console.log('transferDo start');
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
         const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
         let toAddressLegacy = '';
@@ -444,12 +445,13 @@ export class MyordersComponent implements OnInit, OnDestroy {
             this.coin = this.mytokens[0];
         }
         for (let i = 0; i < this.mytokens.length; i++) {
-            if (this.mytokens[i].coinType === this.coin) {
+            if (this.mytokens[i].coinType == this.coin) {
                 this.token = this.mytokens[i];
                 break;
             }
         }
         if (!this.token) {
+            console.log('this.token not found');
             return;
         }
         console.log(this.utilServ.toNumber(this.utilServ.showAmount(this.token.unlockedAmount, 18)));

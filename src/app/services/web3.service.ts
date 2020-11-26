@@ -234,10 +234,11 @@ export class Web3Service {
   }
 
   getTransferFuncABI(coin: number, address: string, amount: number) {
+    const web3 = this.getWeb3Provider();
     let value = new BigNumber(amount).multipliedBy(new BigNumber(1e18)).toFixed();
     value = value.split('.')[0];
     console.log('value for decimal=', value);
-    const params = [address, coin, value];
+    const params = [address, coin, value, web3.utils.asciiToHex('')];
 
     const func = {
       'constant': false,
@@ -253,6 +254,10 @@ export class Web3Service {
         {
           'name': '_value',
           'type': 'uint256'
+        },
+        {
+          "name": "_comment",
+          "type": "bytes32"
         }
       ],
       'name': 'transfer',
