@@ -406,7 +406,7 @@ export class Web3Service {
 
     */
 
-    let abiHex = 'cce185b8';
+    let abiHex = '3295d51e';
     // console.log('abiHex there we go:' + abiHex);  
     abiHex += this.utilServ.fixedLengh(coinType.toString(16), 64);
     // console.log('abiHex1=' + abiHex);
