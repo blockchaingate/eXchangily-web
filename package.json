@@ -41,7 +41,7 @@
         "crypto-js": "^4.0.0",
         "ethereumjs-common": "1.5.2",
         "ethereumjs-tx": "^2.1.2",
-        "ethereumjs-wallet": "^1.0.1",
+        "ethereumjs-wallet": "^0.6.5",
         "lodash": "^4.17.20",
         "ng-chartist": "^4.1.0",
         "ngx-bootstrap": "^6.2.0",
