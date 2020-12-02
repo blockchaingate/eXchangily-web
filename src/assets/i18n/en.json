@@ -1276,5 +1276,9 @@
     "10 MILLION EQUITY TOKEN": "10 MILLION EQUITY TOKEN",
     "GIVE AWAY": "GIVE AWAY",
     "Important Notice": "Important Notice",
-    "Important Notice txt": "The registration and login options here are just for the convenience of users to participate in our campaigns. We will only record your wallet address when you register, so that we can send you cryptocurrency. And we will never record your private key information. Our entire project is completely decentralized and open source. You can find and view our code through github."
+    "Important Notice txt": "The registration and login options here are just for the convenience of users to participate in our campaigns. We will only record your wallet address when you register, so that we can send you cryptocurrency. And we will never record your private key information. Our entire project is completely decentralized and open source. You can find and view our code through github.",
+    "upgrade20note1": "Exchangily will be upgraded to version 2.0 from November 28 to December 3, 2020, before completion of the upgrade, all deposit/withdrawal requests of current exchange are suspended. Users are recommended to cancel all active orders in exchange. After the upgrade finished, users' all balances of all coins in origin exchange (including locked balances and pending withdraw balances) will be paid to users' related accounts in the new exchange through official Exchangily account, nothing needs to do for website users, app users only need to install new 2.0 version app and restore wallet with current mnemonics.",
+    "upgrade20note2": "Version 2.0 upgrade will greatly improve the performance of the exchange and make it ready for a wide range of applications such as Biswap, liquidity provision, margin trading, futures, options, e-commerce, games, third-party applications support, etc.",
+    "upgrade20note3": "The upgrade only affects the exchange, the wallet is not affected at all.",
+    "upgrade20note0": "Exchangily upgrade announcement"
 }
