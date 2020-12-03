@@ -9,19 +9,6 @@
     </div>
     <nav class="navbar  navbar-expand-lg navbar-dark px-3 upperNav">
         <ul class="navbar-nav ml-auto">
-            <li *ngIf="!showCollapse" class="nav-item d-flex justify-content-center align-items-center">
-                <button mat-button [matMenuTriggerFor]="menu" class="text-white">
-                    <div class="d-flex small">
-                        <div>
-                            {{currentLang}}<mat-icon svgIcon="keyboard-arrow-right"></mat-icon>
-                        </div>
-                    </div>
-                </button>
-                <mat-menu #menu="matMenu">
-                    <button mat-menu-item small (click)="selectLan('en')">English</button>
-                    <button mat-menu-item small (click)="selectLan('zh')">中文</button>
-                </mat-menu>
-            </li>
             <li class="nav-item">
                 <a class="nav-link">{{'Language' | translate}} <mat-icon svgIcon="keyboard-arrow-right"></mat-icon></a>
                 <div class="exSubMenu">
@@ -40,13 +27,9 @@
                 </div>
             </li>
 
-
             <li class="nav-item">
                 <a class="nav-link" (click)="linkTo('/app');selectedItem=41" [class.selected]="selectedItem===41" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Mobile App' | translate}}</a>
             </li>
-
-
-
         </ul>
         <!-- </div> -->
     </nav>
