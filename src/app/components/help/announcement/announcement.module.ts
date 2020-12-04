@@ -5,8 +5,8 @@ import { AnnouncementListComponent } from './announcement-list/announcement-list
 
 @NgModule({
   declarations: [
-    AnnouncementComponent,
-    AnnouncementListComponent
+    // AnnouncementComponent,
+    // AnnouncementListComponent
   ],
   imports: [
     CommonModule
