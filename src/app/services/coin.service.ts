@@ -38,12 +38,7 @@ export class CoinService {
         }
         return -1;
     }
-
-    async getEthGasprice() {
-        const gasPrice = await this.apiService.getEthGasPrice();
-        return new BigNumber(gasPrice).dividedBy(new BigNumber(1e9)).toNumber();
-    }
-
+    
     getCoinNameByTypeId(id: number) {
 
         for (let i = 0; i < coin_list.length; i++) {
@@ -57,6 +52,12 @@ export class CoinService {
         return coin_list[id].name;
         */
     }
+    async getEthGasprice() {
+        const gasPrice = await this.apiService.getEthGasPrice();
+        return new BigNumber(gasPrice).dividedBy(new BigNumber(1e9)).toNumber();
+    }
+
+
 
     initToken(type: string, name: string, decimals: number, address: string, baseCoin: MyCoin) {
         const coin = new MyCoin(name);
@@ -720,6 +721,9 @@ export class CoinService {
 
     async getFabTransactionHex(seed: any, mycoin: MyCoin, to: any, amount: number, extraTransactionFee: number,
         satoshisPerBytes: number, bytesPerInput: number, getTransFeeOnly: boolean) {
+
+        extraTransactionFee = Number(extraTransactionFee);
+        amount = Number(amount);            
         let index = 0;
         let finished = false;
         let address = '';
