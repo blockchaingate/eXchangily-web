@@ -1439,10 +1439,7 @@ export class WalletDashboardComponent implements OnInit {
         const amountInLinkString = amountInLink.toFixed();
         const amountInTxString = amountInTx.toFixed();
 
-        console.log('amountInLinkString===', amountInLinkString);
-        console.log('amountInTxString===', amountInTxString);
         if (amountInLinkString.indexOf(amountInTxString) === -1) {
-            console.log('not equal 1');
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar('转账数量不相等', 'Ok');
             } else {
@@ -1465,7 +1462,7 @@ export class WalletDashboardComponent implements OnInit {
         const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(txHash)
             , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
 
-
+        console.log('originalMessage in deposit=', originalMessage);
         const signedMessage: Signature = this.coinServ.signedMessage(originalMessage, keyPairs);
 
 

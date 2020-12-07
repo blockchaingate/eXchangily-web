@@ -63,6 +63,7 @@ export class TimerService {
                 this.unCheckTokens(address);
             }
             this.kanbanServ.getBalance(address).subscribe((resp) => {
+                console.log('resp in kanban getBalance=', resp);
                 this.tokens.next(resp);
             });          
         });   

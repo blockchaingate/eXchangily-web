@@ -234,10 +234,11 @@ export class Web3Service {
   }
 
   getTransferFuncABI(coin: number, address: string, amount: number) {
+    const web3 = this.getWeb3Provider();
     let value = new BigNumber(amount).multipliedBy(new BigNumber(1e18)).toFixed();
     value = value.split('.')[0];
     console.log('value for decimal=', value);
-    const params = [address, coin, value];
+    const params = [address, coin, value, web3.utils.asciiToHex('')];
 
     const func = {
       'constant': false,
@@ -253,6 +254,10 @@ export class Web3Service {
         {
           'name': '_value',
           'type': 'uint256'
+        },
+        {
+          "name": "_comment",
+          "type": "bytes32"
         }
       ],
       'name': 'transfer',
@@ -303,17 +308,18 @@ export class Web3Service {
     return web3.utils.sha3(str);
   }
   getCreateOrderFuncABI(paramsArray: any) {
+    
     const web3 = this.getWeb3Provider();
     const func: any = {
       'constant': false,
       'inputs': [
         {
-          'name': '_bidOrAsk',
+          'name': '_fromContract',
           'type': 'bool'
-        },
+        },        
         {
-          'name': '_orderType',
-          'type': 'uint8'
+          'name': '_bid',
+          'type': 'bool'
         },
         {
           'name': '_baseCoin',
@@ -330,14 +336,6 @@ export class Web3Service {
         {
           'name': '_price',
           'type': 'uint256'
-        },
-        {
-          'name': '_expiredTime',
-          'type': 'uint256'
-        },
-        {
-          'name': '_payWithEXG',
-          'type': 'bool'
         },
         {
           'name': '_orderHash',
@@ -375,6 +373,7 @@ export class Web3Service {
 
     // let abiHex = '3a5b6c70';
 
+    /*
     const web3 = this.getWeb3Provider();
     const func: any = {
       'constant': false,
@@ -404,6 +403,10 @@ export class Web3Service {
       'type': 'function'
     };
     let abiHex = web3.eth.abi.encodeFunctionSignature(func).substring(2);
+
+    */
+
+    let abiHex = '3295d51e';
     // console.log('abiHex there we go:' + abiHex);  
     abiHex += this.utilServ.fixedLengh(coinType.toString(16), 64);
     // console.log('abiHex1=' + abiHex);
@@ -463,8 +466,9 @@ export class Web3Service {
       'stateMutability': 'nonpayable',
       'type': 'function'
     };
-    let abiHex = this.utilServ.stripHexPrefix(web3.eth.abi.encodeFunctionSignature(func));
+    //let abiHex = this.utilServ.stripHexPrefix(web3.eth.abi.encodeFunctionSignature(func));
     // console.log('abiHex for addDeposit=', abiHex);
+    let abiHex = '379eb862';
     abiHex += this.utilServ.stripHexPrefix(signedMessage.v);
     abiHex += this.utilServ.fixedLengh(coinType.toString(16), 62);
     abiHex += this.utilServ.stripHexPrefix(txHash);

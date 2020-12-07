@@ -3,9 +3,9 @@ import { MyCoin } from '../models/mycoin';
 import * as BIP32 from 'node_modules/bip32';
 import * as Btc from 'bitcoinjs-lib';
 import * as bitcoinMessage from 'bitcoinjs-message';
+// import { hdkey } from 'ethereumjs-wallet/dist'; // v1.0.1 version, not working?
+import * as hdkey from 'ethereumjs-wallet/hdkey';
 import * as bchaddr from 'bchaddrjs';
-// import { hdkey } from 'ethereumjs-wallet/dist'; deposit not working
-import * as hdkey from 'ethereumjs-wallet';
 
 import { Address } from '../models/address';
 import { coin_list } from '../config/coins';
@@ -37,15 +37,26 @@ export class CoinService {
         }
         return -1;
     }
+    
+    getCoinNameByTypeId(id: number) {
 
+        for (let i = 0; i < coin_list.length; i++) {
+            const coin = coin_list[i];
+            if (coin.id === id) {
+                return coin.name;
+            }
+        }
+        return '';        
+        /*
+        return coin_list[id].name;
+        */
+    }
     async getEthGasprice() {
         const gasPrice = await this.apiService.getEthGasPrice();
         return new BigNumber(gasPrice).dividedBy(new BigNumber(1e9)).toNumber();
     }
 
-    getCoinNameByTypeId(id: number) {
-        return coin_list[id].name;
-    }
+
 
     initToken(type: string, name: string, decimals: number, address: string, baseCoin: MyCoin) {
         const coin = new MyCoin(name);
@@ -709,6 +720,9 @@ export class CoinService {
 
     async getFabTransactionHex(seed: any, mycoin: MyCoin, to: any, amount: number, extraTransactionFee: number,
         satoshisPerBytes: number, bytesPerInput: number, getTransFeeOnly: boolean) {
+
+        extraTransactionFee = Number(extraTransactionFee);
+        amount = Number(amount);            
         let index = 0;
         let finished = false;
         let address = '';
@@ -937,7 +951,7 @@ export class CoinService {
 
         let buf = '';
         const coinTypeHex = coinType.toString(16);
-        buf += this.utilServ.fixedLengh(coinTypeHex, 4);
+        buf += this.utilServ.fixedLengh(coinTypeHex, 8);
         buf += this.utilServ.fixedLengh(txHash, 64);
         const hexString = amount.toString(16);
         buf += this.utilServ.fixedLengh(hexString, 64);
