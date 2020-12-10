@@ -198,13 +198,13 @@ export class HeaderComponent implements OnInit {
     if (lang === 'zh') {
       this.currentLang = '中文';
       this._userAuth.language = '简体中文';
-      this.lanData.changeMessage("zh");
+      this.lanData.changeMessage('zh');
 
 
     } else if (lang === 'en') {
       this.currentLang = 'English';
       this._userAuth.language = 'English';
-      this.lanData.changeMessage("en");
+      this.lanData.changeMessage('en');
     }
     this.translate.use(lang.toLowerCase());
   }
@@ -215,13 +215,13 @@ export class HeaderComponent implements OnInit {
     this.translate.use(lan);
     if (lan === 'en') {
       this.currentLang = 'English';
-      this.lanData.changeMessage("en");
-      console.log("switch lang: " + this.message);
+      this.lanData.changeMessage('en');
+      console.log('switch lang: ' + this.message);
     } else
       if (lan === 'zh') {
         this.currentLang = '中文';
-        this.lanData.changeMessage("zh");
-        console.log("switch lang: " + this.message);
+        this.lanData.changeMessage('zh');
+        console.log('switch lang: ' + this.message);
       }
   }
 
@@ -254,7 +254,7 @@ export class HeaderComponent implements OnInit {
   }
 
   hideTestLabel() {
-    console.log("hideTestLabel working!!");
+    console.log('hideTestLabel working!!');
     this.displayHideLabel = false;
   }
 

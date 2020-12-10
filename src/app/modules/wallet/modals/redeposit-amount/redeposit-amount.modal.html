@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg" *ngIf="coin">
         <div class="modal-content">
             <div class="modal-header text-center">
-                <h4 class="modal-title w-100 text-dark">Redeposit {{coin.name}}</h4>
+                <h4 class="modal-title w-100 text-dark">{{"Redeposit" | translate}} {{coin.name}}</h4>
                 <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -12,14 +12,14 @@
                     <div *ngFor="let item of coin.redeposit; let i = index">
                         <mat-radio-button class="text-muted" [value]="item.transactionID">
                             <div>
-                                amount: {{utilServ.showAmount(item.amount, 6)}}
+                                {{"Amount"| translate}}: {{utilServ.showAmount(item.amount, 6)}}
                                 <button mat-icon-button aria-label="Show Details" (click)="showDetail(i)">
                                     <mat-icon svgIcon="detail"></mat-icon>
                                 </button>
                             </div>
                             <div *ngIf="showDetailIndex == i">
                                 <div>
-                                    txid:{{item.transactionID}}
+                                    {{"TXID"|translate}}:{{item.transactionID}}
                                     <button mat-icon-button (click)="copyTransactionID(item.transactionID)">
                                         <mat-icon svgIcon="copy"></mat-icon>
                                     </button>
@@ -33,7 +33,7 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col text-dark">
-                            Transaction fee </div>
+                            {{"Transaction fee"|translate}} </div>
                         <div class="col text-muted">
                             <div class="pull-right">
                                 {{utilServ.showAmount(gasPrice*gasLimit, 6)}}
@@ -45,7 +45,7 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col text-dark">
-                            Transaction fee advanced
+                            {{"Transaction fee advanced"|translate}}
                         </div>
                         <div class="col text-muted">
                             <div class="pull-right">
@@ -57,11 +57,11 @@
                 <div *ngIf="gasFeeCustomChecked">
 
                     <div class="form-group">
-                        <label for="gasPrice" class="text-dark">Gas Price</label>
+                        <label for="gasPrice" class="text-dark">{{"Gas Price"|translate}}</label>
                         <input type="text" class="form-control" id="inputGasPrice" [(ngModel)]="gasPrice" placeholder="0">
                     </div>
                     <div class="form-group">
-                        <label for="gasPrice" class="text-dark">Gas Limit</label>
+                        <label for="gasPrice" class="text-dark">{{"Gas Limit"|translate}}</label>
                         <input type="text" class="form-control" id="inputGasLimit" [(ngModel)]="gasLimit" placeholder="0">
                     </div>
                 </div>
@@ -70,7 +70,7 @@
 
             <div class="modal-footer">
                 <div class="pull-left">
-                    <button class="btn btn-gradient text-white" (click)="onSubmit()"> Confirm </button>
+                    <button class="btn btn-gradient text-white" (click)="onSubmit()"> {{"Confirm"|translate}} </button>
                 </div>
             </div>
         </div>

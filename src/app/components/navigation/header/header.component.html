@@ -10,7 +10,7 @@
     <nav class="navbar  navbar-expand-lg navbar-dark px-3 upperNav">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link">{{'Language' | translate}} <mat-icon svgIcon="keyboard-arrow-right"></mat-icon></a>
+                <a class="nav-link">{{'Language' | translate}}</a>
                 <div class="exSubMenu">
                     <div class="exMenuContainer">
                         <div class="exMenuItemBox ">
@@ -72,7 +72,7 @@
                     <a class="nav-link" (click)="linkTo('/home');selectedItem=4" [class.selected]="selectedItem===4" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Home' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank">{{'News' | translate}}<mat-icon svgIcon="keyboard-arrow-right"></mat-icon></a>
+                    <a class="nav-link" target="_blank">{{'News' | translate}}</a>
                     <div class="exSubMenu">
                         <div class="exMenuContainer">
                             <div class="exMenuItemBox ">
@@ -89,7 +89,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank">{{'Support' | translate}} <mat-icon svgIcon="keyboard-arrow-right"></mat-icon></a>
+                    <a class="nav-link" target="_blank">{{'Support' | translate}}</a>
                     <div class="exSubMenu">
                         <div class="exMenuContainer">
                             <div class="exMenuItemBox ">
@@ -107,8 +107,25 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link highlight">{{'New Campaign' | translate}} <mat-icon
-                            svgIcon="keyboard-arrow-right"></mat-icon></a>
+                    <a class="nav-link" target="_blank">{{'Community' | translate}}</a>
+                    <div class="exSubMenu">
+                        <div class="exMenuContainer">
+                            <div class="exMenuItemBox ">
+                                <ul>
+                                    <li class="nav-item">
+                                        <a class="nav-link" (click)="linkTo('/chat/home')">{{'Chat room' | translate}}</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" (click)="linkTo('/club/home')">{{'Club' | translate}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link highlight">{{'New Campaign' | translate}}</a>
                     <div class="exSubMenu camMenu">
                         <div class="exMenuContainer">
                             <div class="exMenuTextBox">

@@ -24,8 +24,8 @@
 
                 <div class="form-group col-md-12">
                     <label for="FormControlSelect1">{{"Category" | translate}} *</label>
-                    <select class="form-control cat-select-panel" id="FormControlSelect1" name="category"[(ngModel)]="selectedCat">
-                        <option value="" disabled selected>- Please select a option -</option>
+                    <select class="form-control cat-select-panel" id="FormControlSelect1" name="category" [(ngModel)]="selectedCat">
+                        <option value="" disabled selected>- {{"Please select an option"| translate}} -</option>
                         <option value="0">{{"Sending fund"| translate}}</option>
                         <option value="1">{{"Receiving fund" | translate}}</option>
                         <option value="2">{{"Move fund to DEX"|translate}}</option>
@@ -39,13 +39,11 @@
                 </div>
                 <div class="form-group col-md-12">
                     <label for="FormControlInput2">{{"Issue" | translate}} *</label>
-                    <input type="text" class="form-control" id="FormControlInput1"  name="problem" placeholder="Subject of you issue"
-                        [(ngModel)]="title">
+                    <input type="text" class="form-control" id="FormControlInput1" name="problem" placeholder="{{'Subject of your issue'| translate}}" [(ngModel)]="title">
                 </div>
                 <div class="form-group col-md-12">
                     <label for="FormControlTextarea1">{{"Description"|translate}} *</label>
-                    <textarea class="form-control" id="FormControlTextarea1" rows="3"  name="desc" placeholder="Detailed information"
-                        [(ngModel)]="desc"></textarea>
+                    <textarea class="form-control" id="FormControlTextarea1" rows="3" name="desc" placeholder="{{'Detailed information'|translate}}" [(ngModel)]="desc"></textarea>
                 </div>
 
                 <div class="col-md-12">

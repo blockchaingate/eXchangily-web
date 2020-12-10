@@ -28,7 +28,7 @@
             "Home": "Home",
             "Whitepaper": "Download Whitepaper"
         },
-        "Copyright": "2019 eXchangily All Rights Reserved"
+        "Copyright": "2020 eXchangily All Rights Reserved"
     },
     "Home": {
         "Top": {
@@ -967,6 +967,7 @@
     "All": "All",
     "Deposit": "Deposit",
     "Withdraw": "Withdraw",
+    "WithdrawNote": "Note: Move coins to wallet will lead to a cross-chain transaction, need to pay third party's token as gas(or transactin fee), it is around 10 USDT, will be converted and charged from the amount you are moving. ",
     "Send": "Send",
     "Locked Amount": "Locked Amount",
     "Time": "Time",
@@ -1276,5 +1277,12 @@
     "10 MILLION EQUITY TOKEN": "10 MILLION EQUITY TOKEN",
     "GIVE AWAY": "GIVE AWAY",
     "Important Notice": "Important Notice",
+    "Please select an option": "Please select an option",
+    "Subject of your issue": "Subject of your question",
+    "Detailed information": "Detailed information",
+    "Others": "Others",
+    "Chat room": "Chat room",
+    "DCChat": "Decentralized chating room, integrated with crypto-currency operation & application, launch soon ...",
+    "Club": "Club",
     "Important Notice txt": "The registration and login options here are just for the convenience of users to participate in our campaigns. We will only record your wallet address when you register, so that we can send you cryptocurrency. And we will never record your private key information. Our entire project is completely decentralized and open source. You can find and view our code through github."
 }
