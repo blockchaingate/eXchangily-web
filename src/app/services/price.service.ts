@@ -3,8 +3,6 @@ import { HttpClient } from '@angular/common/http';
 
 import { price_list, coin_list } from '../config/coins';
 
-
-
 @Injectable()
 export class PriceService {
   constructor(private http: HttpClient) {

@@ -113,6 +113,12 @@ const routes: Routes = [
     }
     */
   },
+  {
+    path: 'chat', loadChildren: () => import('./modules/chat/chat.module').then(m => m.ChatModule)
+  },
+  {
+    path: 'club', loadChildren: () => import('./modules/club/club.module').then(m => m.ClubModule)
+  },
   { path: 'help', component: HelpComponent },
   { path: 'faq', component: FaqComponent },
   { path: 'subscription', component: SubscriptionComponent },

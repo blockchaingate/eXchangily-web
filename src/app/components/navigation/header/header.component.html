@@ -23,7 +23,7 @@
                 </mat-menu>
             </li> -->
             <li class="nav-item">
-                <a class="nav-link">{{'Language' | translate}} <mat-icon svgIcon="keyboard-arrow-right"></mat-icon></a>
+                <a class="nav-link">{{'Language' | translate}}</a>
                 <div class="exSubMenu">
                     <div class="exMenuContainer">
                         <div class="exMenuItemBox ">
@@ -42,8 +42,7 @@
 
 
             <li class="nav-item">
-                <a class="nav-link" (click)="linkTo('/app');selectedItem=41" [class.selected]="selectedItem===41"
-                    routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Mobile App' | translate}}</a>
+                <a class="nav-link" (click)="linkTo('/app');selectedItem=41" [class.selected]="selectedItem===41" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Mobile App' | translate}}</a>
             </li>
 
 
@@ -53,11 +52,8 @@
     </nav>
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top px-3" [ngClass]="background">
         <!-- <div class="container"> -->
-        <a class="navbar-brand" href="/"><img src="./images/logo/pureExLogo.svg" width="40px">eXchangily
-            {{'Title' | translate}}</a>
-        <button class="navbar-toggler" type="button" (click)="showCollapse = !showCollapse" data-toggle="collapse"
-            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation">
+        <a class="navbar-brand" href="/"><img src="./images/logo/pureExLogo.svg" width="40px">eXchangily {{'Title' | translate}}</a>
+        <button class="navbar-toggler" type="button" (click)="showCollapse = !showCollapse" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -65,49 +61,35 @@
 
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" (click)="linkTo('/wallet/dashboard');selectedItem=0"
-                        [class.selected]="selectedItem===0" routerLinkActive="selected"
-                        [routerLinkActiveOptions]="{exact: true}">{{'Wallet' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/wallet/dashboard');selectedItem=0" [class.selected]="selectedItem===0" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Wallet' | translate}}</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" (click)="linkTo('/market/home');selectedItem=1"
-                        [class.selected]="selectedItem===1" routerLinkActive="selected"
-                        [routerLinkActiveOptions]="{exact: true}">{{'Market' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/market/home');selectedItem=1" [class.selected]="selectedItem===1" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Market' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" (click)="linkTo('/market/trade/BTC_USDT');selectedItem=2"
-                        [class.selected]="selectedItem===2" routerLinkActive="selected"
-                        [routerLinkActiveOptions]="{exact: true}">{{'Trade' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/market/trade/BTC_USDT');selectedItem=2" [class.selected]="selectedItem===2" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Trade' | translate}}</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" (click)="linkTo('/explorer');selectedItem=3" [class.selected]="selectedItem===3"
-                        routerLinkActive="selected"
-                        [routerLinkActiveOptions]="{exact: true}">{{'Explore' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/explorer');selectedItem=3" [class.selected]="selectedItem===3" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Explore' | translate}}</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" (click)="linkTo('/otc/trade');selectedItem=5"
-                        [class.selected]="selectedItem===5" routerLinkActive="selected"
-                        [routerLinkActiveOptions]="{exact: true}">{{'OTC Trade' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/otc/trade');selectedItem=5" [class.selected]="selectedItem===5" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'OTC Trade' | translate}}</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" (click)="linkTo('/reward');selectedItem=40" [class.selected]="selectedItem===40"
-                        routerLinkActive="selected"
-                        [routerLinkActiveOptions]="{exact: true}">{{'Reward' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/reward');selectedItem=40" [class.selected]="selectedItem===40" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Reward' | translate}}</a>
                 </li>
 
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" (click)="linkTo('/home');selectedItem=4" [class.selected]="selectedItem===4"
-                        routerLinkActive="selected"
-                        [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Home' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/home');selectedItem=4" [class.selected]="selectedItem===4" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Home' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank">{{'News' | translate}}<mat-icon svgIcon="keyboard-arrow-right"></mat-icon></a>
+                    <a class="nav-link" target="_blank">{{'News' | translate}}</a>
                     <div class="exSubMenu">
                         <div class="exMenuContainer">
                             <div class="exMenuItemBox ">
@@ -116,8 +98,7 @@
                                         <a class="nav-link" (click)="linkTo('/announcements');">{{'AnnouncementTxt' | translate}}</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="https://medium.com/exchangily-blog"
-                                            target="_blank">{{'Blog' | translate}}</a>
+                                        <a class="nav-link" href="https://medium.com/exchangily-blog" target="_blank">{{'Blog' | translate}}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -125,7 +106,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank">{{'Support' | translate}} <mat-icon svgIcon="keyboard-arrow-right"></mat-icon></a>
+                    <a class="nav-link" target="_blank">{{'Support' | translate}}</a>
                     <div class="exSubMenu">
                         <div class="exMenuContainer">
                             <div class="exMenuItemBox ">
@@ -143,8 +124,25 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link highlight">{{'New Campaign' | translate}} <mat-icon
-                            svgIcon="keyboard-arrow-right"></mat-icon></a>
+                    <a class="nav-link" target="_blank">{{'Community' | translate}}</a>
+                    <div class="exSubMenu">
+                        <div class="exMenuContainer">
+                            <div class="exMenuItemBox ">
+                                <ul>
+                                    <li class="nav-item">
+                                        <a class="nav-link" (click)="linkTo('/chat/home')">{{'Chat room' | translate}}</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" (click)="linkTo('/club/home')">{{'Club' | translate}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link highlight">{{'New Campaign' | translate}}</a>
                     <div class="exSubMenu camMenu">
                         <div class="exMenuContainer">
                             <div class="exMenuTextBox">
@@ -158,13 +156,10 @@
                             <div class="exMenuItemBox ">
                                 <ul>
                                     <li class="nav-item">
-                                        <a class="nav-link" (click)="linkTo('/promotion');selectedItem=6"
-                                            [class.selected]="selectedItem===6" routerLinkActive="selected"
-                                            [routerLinkActiveOptions]="{exact: true}">{{'New Campaign' | translate}}</a>
+                                        <a class="nav-link" (click)="linkTo('/promotion');selectedItem=6" [class.selected]="selectedItem===6" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'New Campaign' | translate}}</a>
                                     </li>
                                     <li class="nav-item" *ngIf="!LoginInfo">
-                                        <a class="nav-link" routerLink="/login/signup" routerLinkActive="selected"
-                                            [routerLinkActiveOptions]="{exact: true}">
+                                        <a class="nav-link" routerLink="/login/signup" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">
                                             {{'Header.Navigation.Signup' | translate}}
                                         </a></li>
 
@@ -179,14 +174,12 @@
                                         </a></li>
 
                                     <li class="nav-item" *ngIf="!LoginInfo">
-                                        <a class="nav-link pointer" routerLink="/login/signin"
-                                            routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">
+                                        <a class="nav-link pointer" routerLink="/login/signin" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">
                                             {{'Header.Navigation.Signin' | translate}}
                                         </a></li>
 
                                     <li class="nav-item" *ngIf="LoginInfo">
-                                        <a class="nav-link pointer" style="color: lightskyblue;"
-                                            routerLinkActive="selected" (click)="logout()">
+                                        <a class="nav-link pointer" style="color: lightskyblue;" routerLinkActive="selected" (click)="logout()">
                                             {{ 'Header.Navigation.Signout' | translate }}
                                         </a>
                                     </li>
@@ -205,8 +198,7 @@
 
 
                     <mat-menu #appMenu="matMenu">
-                        <div class="container py-2"
-                            *ngIf="pendingtransactions && pendingtransactions.length === 0 && closetransactions && closetransactions.length === 0">
+                        <div class="container py-2" *ngIf="pendingtransactions && pendingtransactions.length === 0 && closetransactions && closetransactions.length === 0">
                             no transactions
                         </div>
                         <div class="container py-2" *ngIf="pendingtransactions && pendingtransactions.length > 0">
@@ -228,18 +220,13 @@
                                     <img *ngIf="tr.coin == 'ETH'" src="/assets/coins/eth.png" class="icon coin-logo" />
                                     <img *ngIf="tr.coin == 'EXG'" src="/assets/coins/exg.png" class="icon coin-logo" />
                                     <img *ngIf="tr.coin == 'FAB'" src="/assets/coins/fab.png" class="icon coin-logo" />
-                                    <img *ngIf="tr.coin == 'USDT'" src="/assets/coins/usdt.png"
-                                        class="icon coin-logo" />
-                                    <img *ngIf="tr.coin == 'DUSD'" src="/assets/coins/dusd.png"
-                                        class="icon coin-logo" />
+                                    <img *ngIf="tr.coin == 'USDT'" src="/assets/coins/usdt.png" class="icon coin-logo" />
+                                    <img *ngIf="tr.coin == 'DUSD'" src="/assets/coins/dusd.png" class="icon coin-logo" />
                                 </div>
                                 <div class="col col-6">
                                     <div>{{tr.type}}</div>
                                     <div class="status-{{tr.status}}">
-                                        <svg class="lds-spinner" width="20px" height="20px"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100"
-                                            preserveAspectRatio="xMidYMid" style="background: none;">
+                                        <svg class="lds-spinner" width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" style="background: none;">
                                             <g transform="rotate(0 50 50)">
                                                 <rect x="45" y="0" rx="0" ry="0" width="10" height="30" fill="#000000">
                                                     <animate attributeName="opacity" values="1;0" dur="1s"
@@ -344,10 +331,8 @@
                                     <img *ngIf="tr.coin == 'ETH'" src="/assets/coins/eth.png" class="icon coin-logo" />
                                     <img *ngIf="tr.coin == 'EXG'" src="/assets/coins/exg.png" class="icon coin-logo" />
                                     <img *ngIf="tr.coin == 'FAB'" src="/assets/coins/fab.png" class="icon coin-logo" />
-                                    <img *ngIf="tr.coin == 'USDT'" src="/assets/coins/usdt.png"
-                                        class="icon coin-logo" />
-                                    <img *ngIf="tr.coin == 'DUSD'" src="/assets/coins/dusd.png"
-                                        class="icon coin-logo" />
+                                    <img *ngIf="tr.coin == 'USDT'" src="/assets/coins/usdt.png" class="icon coin-logo" />
+                                    <img *ngIf="tr.coin == 'DUSD'" src="/assets/coins/dusd.png" class="icon coin-logo" />
                                 </div>
                                 <div class="col col-6">
                                     <div>{{tr.type}}</div>
