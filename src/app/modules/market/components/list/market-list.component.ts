@@ -89,7 +89,7 @@ export class MarketListComponent implements OnInit {
     }
 
     gotoTrade(id: number) {
-        const pair = this.COINS[this.prices[id].coin_id].name + '_' + this.COINS[this.prices[id].base_id].name;
+        const pair = this.getCoinName(this.prices[id].coin_id) + '_' + this.getCoinName(this.prices[id].base_id);
         this._router.navigate(['market/trade/' + pair]);
     }
 
