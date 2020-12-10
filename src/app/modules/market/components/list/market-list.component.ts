@@ -8,6 +8,7 @@ import { StorageService } from '../../../../services/storage.service';
 import { Order, Price, Coin } from '../../../../interfaces/kanban.interface';
 import { UtilService } from '../../../../services/util.service';
 import BigNumber from 'bignumber.js';
+import { CoinService } from 'src/app/services/coin.service';
 
 @Component({
     selector: 'app-market-list',
@@ -16,14 +17,16 @@ import BigNumber from 'bignumber.js';
 })
 
 export class MarketListComponent implements OnInit {
-    select = 1;
+    select = '';
     prices: Price[] = [];
     tab_prices: Price[] = [];
     favorite_pairs: string[] = [];
     searchText = '';
     COINS: Coin[];
 
-    constructor(private prServ: PriceService, private _router: Router, private storageServ: StorageService,
+    constructor(
+        private coinServ: CoinService,
+        private prServ: PriceService, private _router: Router, private storageServ: StorageService,
         private _wsServ: WsService, private kanbanService: KanbanService, public utilServ: UtilService) {
     }
 
@@ -33,13 +36,15 @@ export class MarketListComponent implements OnInit {
 
     ngOnInit() {
         this.prices = this.prServ.getPriceList();
+
+        console.log('this.prices=', this.prices);
         this.COINS = this.prServ.getCoinList();
-        this.selectCat(1);
+        this.selectCat('USDT');
         this.storageServ.getFavoritePairs().subscribe(
             (pairs: string[]) => {
                 if (pairs && pairs.length > 0) {
                     this.favorite_pairs = pairs;
-                    this.selectCat(100);
+                    this.selectCat('100');
                 }
             }
         );
@@ -67,20 +72,23 @@ export class MarketListComponent implements OnInit {
         */
     }
 
-    selectCat(cat: number) {
-        this.select = cat;
-        if (cat === 100) {
+    selectCat(catName: string) {
+        console.log('this.prices=', this.prices);
+        console.log('catName=', catName);
+        this.select = catName;
+        if (catName == '100') {
             this.tab_prices = this.prices.filter((listing: Price) => this.favorite_pairs.indexOf(listing.symbol) >= 0);
-        } else if (cat === 1000) {
+        } else if (catName == '1000') {
             this.tab_prices = [];
         } else {
-            this.tab_prices = this.prices.filter((listing: Price) => listing.base_id === cat);
+            this.tab_prices = this.prices.filter((listing: Price) => listing.symbol.indexOf('/' + catName) >= 0);
         }
+        console.log('this.tab_prices=', this.tab_prices);
     }
 
     search() {
         const searchText = this.searchText.toUpperCase();
-        this.selectCat(1000);
+        this.selectCat('1000');
         this.tab_prices = this.prices.filter((listing: Price) => listing.symbol.indexOf(searchText) >= 0);
     }
 
@@ -110,6 +118,9 @@ export class MarketListComponent implements OnInit {
         return amount.toFixed(decimal);
     }
     
+    getCoinName(coin_id: number) {
+        return this.coinServ.getCoinNameByTypeId(coin_id);
+    }
     updateTickerList(arr) {
         for (let i = 0; i < arr.length; i++) {
             const item = arr[i];
@@ -133,11 +144,10 @@ export class MarketListComponent implements OnInit {
                 change24h = Number(((c - o) / o * 100).toFixed(2));
             }
             const v = item['v'];
-
             for (let j = 0; j < this.tab_prices.length; j++) {
                 const tabItem = this.tab_prices[j];
-                const tabItemSymbol = this.COINS[tabItem.coin_id].name + this.COINS[tabItem.base_id].name;
-                if (s === tabItemSymbol) {
+                const tabItemSymbol = this.getCoinName(tabItem.coin_id) + this.getCoinName(tabItem.base_id);
+                if (s == tabItemSymbol) {
                     tabItem.change24h = change24h;
                     tabItem.price = price;
                     tabItem.price24hh = h;
