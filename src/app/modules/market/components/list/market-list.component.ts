@@ -9,6 +9,7 @@ import { Order, Price, Coin } from '../../../../interfaces/kanban.interface';
 import { UtilService } from '../../../../services/util.service';
 import BigNumber from 'bignumber.js';
 import { CoinService } from 'src/app/services/coin.service';
+import { stringify } from 'querystring';
 
 @Component({
     selector: 'app-market-list',
@@ -140,7 +141,7 @@ export class MarketListComponent implements OnInit {
                 change24h = Math.floor(change24h * 100) / 100;
             }
             */
-            if(o > 0) {
+            if (o > 0) {
                 change24h = Number(((c - o) / o * 100).toFixed(2));
             }
             const v = item['v'];

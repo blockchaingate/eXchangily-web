@@ -19,7 +19,7 @@
         "Address": "地址"
     },
     "Footer": {
-        "Copyright": "2019 eXchangily All Rights Reserved"
+        "Copyright": "2020 eXchangily All Rights Reserved"
     },
     "Home": {
         "Top": {
@@ -626,7 +626,7 @@
         "ERC20 Return Addr": "ERC20返回地址",
         "TX History": "交易历史",
         "KYC": "KYC",
-        "USCitizen": "注意：美国及加拿大居民必须是合资格投资者才允许参与我们的STO",
+        "USCitizen": "注意：美国及加拿大居民必须是合资格投资者才允许参与数字货币交易",
         "PhotoID": "照片ID验证",
         "IDExample": "例如：护照，驾照，公民卡。至少需要1张带照片的证件",
         "Verify": "请核实所有信息。提交后将无法修改。",
@@ -1433,7 +1433,7 @@
     "Sending fund": "转账",
     "Receiving fund": "收款",
     "Website issue": "网站使用问题",
-    "Mobile app issue": "网站使用问题",
+    "Mobile app issue": "手机APP使用问题",
     "Withdraw fund from DEX": "从交易所向钱包转币",
     "News": "新闻",
     "Support": "支持",
@@ -1466,5 +1466,12 @@
     "10 MILLION EQUITY TOKEN": "千万股权加密货币",
     "GIVE AWAY": "免费赠送",
     "Important Notice": "重要提醒",
+    "Please select an option": "请选择问题类别",
+    "Subject of your issue": "所提问题的标题",
+    "Detailed information": "问题详情",
+    "Others": "其它",
+    "Chat room": "聊天室",
+    "DCChat": "去中心化加密货币专业聊天室，集成加密货币交易及操作指令，暂未正式开通。",
+    "Club": "俱乐部",
     "Important Notice txt": "这里注册和登录选项只是为了让用户方便的参加我们派送加密货币的活动。我们在您注册的时候只会记录您的钱包地址，以方便我们向您派送加密货币，所以我们绝不会记录您的私钥信息。我们的整个项目是完全去中心化的，并且是开源的。您可以通过github来找到并查看我们的代码。"
 }
