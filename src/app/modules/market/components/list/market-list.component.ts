@@ -22,7 +22,6 @@ export class MarketListComponent implements OnInit {
     tab_prices: Price[] = [];
     favorite_pairs: string[] = [];
     searchText = '';
-    COINS: Coin[];
 
     constructor(
         private coinServ: CoinService,
@@ -37,7 +36,6 @@ export class MarketListComponent implements OnInit {
     ngOnInit() {
         this.prices = this.prServ.getPriceList();
 
-        this.COINS = this.prServ.getCoinList();
         this.selectCat('USDT');
         this.storageServ.getFavoritePairs().subscribe(
             (pairs: string[]) => {
