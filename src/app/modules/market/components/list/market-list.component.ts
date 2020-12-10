@@ -23,7 +23,6 @@ export class MarketListComponent implements OnInit {
     tab_prices: Price[] = [];
     favorite_pairs: string[] = [];
     searchText = '';
-    COINS: Coin[];
 
     constructor(
         private coinServ: CoinService,
@@ -38,8 +37,6 @@ export class MarketListComponent implements OnInit {
     ngOnInit() {
         this.prices = this.prServ.getPriceList();
 
-        console.log('this.prices=', this.prices);
-        this.COINS = this.prServ.getCoinList();
         this.selectCat('USDT');
         this.storageServ.getFavoritePairs().subscribe(
             (pairs: string[]) => {
@@ -74,8 +71,6 @@ export class MarketListComponent implements OnInit {
     }
 
     selectCat(catName: string) {
-        console.log('this.prices=', this.prices);
-        console.log('catName=', catName);
         this.select = catName;
         if (catName == '100') {
             this.tab_prices = this.prices.filter((listing: Price) => this.favorite_pairs.indexOf(listing.symbol) >= 0);
@@ -84,7 +79,6 @@ export class MarketListComponent implements OnInit {
         } else {
             this.tab_prices = this.prices.filter((listing: Price) => listing.symbol.indexOf('/' + catName) >= 0);
         }
-        console.log('this.tab_prices=', this.tab_prices);
     }
 
     search() {
@@ -94,7 +88,7 @@ export class MarketListComponent implements OnInit {
     }
 
     gotoTrade(id: number) {
-        const pair = this.COINS[this.prices[id].coin_id].name + '_' + this.COINS[this.prices[id].base_id].name;
+        const pair = this.getCoinName(this.prices[id].coin_id) + '_' + this.getCoinName(this.prices[id].base_id);
         this._router.navigate(['market/trade/' + pair]);
     }
 
