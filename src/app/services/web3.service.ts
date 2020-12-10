@@ -63,6 +63,41 @@ export class Web3Service {
     return txhex;
   }
 
+  sendGasHex(privateKey, address, amountInBigNumber, nonce) {
+
+    let gasPrice = environment.chains.KANBAN.gasPrice;
+    let gasLimit = environment.chains.KANBAN.gasLimit;
+    var to = address;
+    if(!to) {
+        return '';
+    }
+    const txObject = {
+      to: to,
+      nonce: nonce,
+      value: new BigNumber(amountInBigNumber).toNumber(),
+      gas: gasLimit,
+      gasPrice: gasPrice  // in wei
+    };
+ 
+ 
+    const customCommon = Common.forCustomChain(
+       environment.chains.ETH.chain, {
+            name: environment.chains.KANBAN.chain.name,
+            networkId: environment.chains.KANBAN.chain.networkId,
+            chainId: environment.chains.KANBAN.chain.chainId
+        },
+        environment.chains.ETH.hardfork,
+    );
+ 
+    const tx = new KanbanTxService(txObject, { common: customCommon });
+ 
+    tx.sign(privateKey);
+ 
+    const serializedTx = tx.serialize();
+    const txhex = '0x' + serializedTx.toString('hex');
+    return txhex;
+ }
+
   async signAbiHexWithPrivateKey(abiHex: string, keyPair: any, address: string, nonce: number,
     value = 0, options = { gasPrice: 0, gasLimit: 0 }) {
     // console.log('abiHex before', abiHex);
@@ -233,6 +268,49 @@ export class Web3Service {
     return abiHex;
   }
 
+  getTransferFuncABIAmountBig(coin: number, address: string, amountBig: number) {
+    const web3 = this.getWeb3Provider();
+    let value = amountBig;
+    console.log('value for decimal=', value);
+    const params = [address, coin, value, web3.utils.asciiToHex('')];
+
+    const func = {
+      'constant': false,
+      'inputs': [
+        {
+          'name': '_to',
+          'type': 'address'
+        },
+        {
+          'name': '_coinType',
+          'type': 'uint32'
+        },
+        {
+          'name': '_value',
+          'type': 'uint256'
+        },
+        {
+          "name": "_comment",
+          "type": "bytes32"
+        }
+      ],
+      'name': 'transfer',
+      'outputs': [
+        {
+          'name': 'success',
+          'type': 'bool'
+        }
+      ],
+      'payable': false,
+      'stateMutability': 'nonpayable',
+      'type': 'function'
+    };
+
+    const abiHex = this.getGeneralFunctionABI(func, params);
+
+    console.log('abiHex for transfer=', abiHex);
+    return abiHex;    
+  }
   getTransferFuncABI(coin: number, address: string, amount: number) {
     const web3 = this.getWeb3Provider();
     let value = new BigNumber(amount).multipliedBy(new BigNumber(1e18)).toFixed();

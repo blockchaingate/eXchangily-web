@@ -1,0 +1,29 @@
+<div class="container p-3 text-center">
+    <div *ngIf="!preview">
+        <textarea  name="balances" [(ngModel)]="balances" cols="120" rows="20"></textarea>
+<!--
+        <p>
+            Example:
+        </p>
+        <p>
+            { "0xca048dd6896a4ec4897863b1b5827e8cf5750a6c":
+   { "gas": "1999916031698000000",
+     "USDT": "10000000000",
+     "FAB": "72400000001300",
+     "EXG": "400000100" },
+  "0xcdd5129db1975a2e267683958cd04edf7af4968d":
+   { "gas": "2399949991700000000",
+     "USDT": "200000000000000000000",
+     "DRGN": "100000000000000000",
+     "FAB": "327680",
+     "EXG": "17556521739130000" }}
+        </p>
+-->
+        <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="previewDo()">Preview</button>
+    </div>
+    <div *ngIf="preview">
+        <app-bulk-transfer-preview [accounts]="accounts">
+
+        </app-bulk-transfer-preview>
+    </div>
+</div>

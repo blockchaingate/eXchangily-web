@@ -30,6 +30,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/otc/otc.module').then(m => m.OtcModule)
   },
   {
+    path: 'bulk',
+    loadChildren: () => import('./modules/bulk-transfer/bulk-transfer.module').then(m => m.BulkTransferModule)
+  },  
+  {
     path: 'ex',
     loadChildren: () => import('./modules/ex/ex.module').then(m => m.ExModule)
   },
