@@ -967,6 +967,7 @@
     "All": "All",
     "Deposit": "Deposit",
     "Withdraw": "Withdraw",
+    "WithdrawNote": "Note: Move coins to wallet will lead to a cross-chain transaction, need to pay third party's token as gas(or transactin fee), it is around 10 USDT, will be converted and charged from the amount you are moving. ",
     "Send": "Send",
     "Locked Amount": "Locked Amount",
     "Time": "Time",
