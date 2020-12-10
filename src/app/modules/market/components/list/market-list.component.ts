@@ -37,7 +37,6 @@ export class MarketListComponent implements OnInit {
     ngOnInit() {
         this.prices = this.prServ.getPriceList();
 
-        console.log('this.prices=', this.prices);
         this.COINS = this.prServ.getCoinList();
         this.selectCat('USDT');
         this.storageServ.getFavoritePairs().subscribe(
@@ -73,8 +72,6 @@ export class MarketListComponent implements OnInit {
     }
 
     selectCat(catName: string) {
-        console.log('this.prices=', this.prices);
-        console.log('catName=', catName);
         this.select = catName;
         if (catName == '100') {
             this.tab_prices = this.prices.filter((listing: Price) => this.favorite_pairs.indexOf(listing.symbol) >= 0);
@@ -83,7 +80,6 @@ export class MarketListComponent implements OnInit {
         } else {
             this.tab_prices = this.prices.filter((listing: Price) => listing.symbol.indexOf('/' + catName) >= 0);
         }
-        console.log('this.tab_prices=', this.tab_prices);
     }
 
     search() {
