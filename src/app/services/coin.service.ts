@@ -888,12 +888,6 @@ export class CoinService {
             - new BigNumber(this.utilServ.toBigNumber(amount + extraTransactionFee, 8)).toNumber()
             - transFee);
 
-        /*
-        if((output1 < 2730)  && !(mycoin.tokenType == 'FAB')) {
-            transFee += output1;
-        } 
-        */
-
         if (getTransFeeOnly) {
             return { txHex: '', errMsg: '', transFee: transFee + new BigNumber(this.utilServ.toBigNumber(extraTransactionFee, 8)).toNumber(), amountInTx: amountInTx };
         }
@@ -915,12 +909,7 @@ export class CoinService {
         // console.log('output1=' + output1 + ',output2=' + output2);
 
         if ((amount > 0) || (mycoin.tokenType == 'FAB')) {
-            /*
-            if((output1 >= 2730) || (mycoin.tokenType == 'FAB')) {
-                console.log('added output1');
-                txb.addOutput(changeAddress.address, output1);
-            }
-            */
+
             txb.addOutput(changeAddress.address, output1);
             txb.addOutput(to, output2.toNumber());
         } else {
@@ -977,6 +966,10 @@ export class CoinService {
         let errMsg = '';
         let transFee = 0;
         let txids = [];
+        let dustAmount = 2730;
+        if(mycoin.name =='DOGE') {
+            dustAmount = 100000000;
+        }
         let amountInTx = new BigNumber(0);
         // console.log('options=', options);
         let getTransFeeOnly = false;
@@ -1152,7 +1145,7 @@ export class CoinService {
             // console.log('transFee=' + transFee);
             const output1 = Math.round(new BigNumber(totalInput - new BigNumber(amount).multipliedBy(new BigNumber(1e8)).toNumber() - transFee).toNumber());
 
-            if (output1 < 2730) {
+            if (output1 < dustAmount) {
                 transFee += output1;
             }
             transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
@@ -1169,7 +1162,7 @@ export class CoinService {
             console.log('output1=', output1);
             amountInTx = output2;
             if (amount > 0) {
-                if (output1 >= 2730) {
+                if (output1 >= dustAmount) {
                     txb.addOutput(changeAddress.address, output1);
                 }
                 txb.addOutput(toAddress, output2.toNumber());
