@@ -7,6 +7,26 @@
             -->
         </h2>
     </div>
+    <div style="width: 100%; color: orange; padding-left:1em; padding-right: 1em;">
+        <br>
+        <div style="margin: auto; max-width: 1120px;" *ngIf="message==='en'">
+            <h2>Notes</h2>
+            <div>
+                Exchangily V2.0 software upgrade finished already, however, the new Ethereum node resyncronization is still in process, it may take another 24~48 hours until Dec. 12 to complete, before that, balances of ETH and all ERC-20 tokens in wallet are not available.
+                After syncronization finished, we will distribute all balances in old exchange to related users.
+                <br><br> Exchangily V2.0 starts with a new fee structure to encourage liquidity providing.<br> please check <a href="https://exchangily.com/fee"> New Fee Structure </a> for details.
+                <br><br> Once data ready, Exchangily Investors Club will provide message service to qualified users.
+            </div>
+        </div>
+        <div style="margin: auto; max-width: 1120px;" *ngIf="message==='zh'">
+            <h2>通知</h2>
+            <div>
+                亿币交易所V2.0软件升级已经完成，但由于新的以太坊节点重新同步仍在进行中，可能还需要24〜48小时至12月12日才能完成，在此之前，钱包中的以太币及所有ECR-20代币的余额都无法显示，也无法操作，请耐心等候。同步完成后，我们将把原交易所账户余额发送给用户。
+                <br> <br> 亿币V2.0采用新的交易费结构，以鼓励提供流动性。<br>请查看<a href="https://exchangily.com/fee"> 新费用结构 </a> 以了解详情。
+                <br> <br>一旦数据准备就绪，亿币王朝俱乐部也将开始提供服务。
+            </div>
+        </div>
+    </div>
     <nav class="navbar  navbar-expand-lg navbar-dark px-3 upperNav">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
@@ -99,6 +119,9 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" (click)="linkTo('/help')">{{'Ticket' | translate}}</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" (click)="linkTo('/fee')">{{'Fee structure' | translate}}</a>
                                     </li>
                                 </ul>
                             </div>

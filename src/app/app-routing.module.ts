@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found.component';
 import { AppResolver } from './modules/landing/resolvers/app/app.resolve';
 import { FaqComponent } from './components/help/faq.component';
+import { FeeComponent } from './components/help/fee.component';
 import { HelpComponent } from './components/help/help.component';
 import { SubscriptionComponent } from './modules/landing/features/subscription/subscription.component';
 import { SupportComponent } from './modules/support/support.component';
@@ -125,6 +126,7 @@ const routes: Routes = [
   },
   { path: 'help', component: HelpComponent },
   { path: 'faq', component: FaqComponent },
+  { path: 'fee', component: FeeComponent },
   { path: 'subscription', component: SubscriptionComponent },
   { path: 'app', component: AppIntroComponent },
   { path: 'support', component: SupportComponent },

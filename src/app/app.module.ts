@@ -28,6 +28,7 @@ import { HeaderComponent } from './components/navigation/header/header.component
 import { FooterComponent } from './components/navigation/footer/footer.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FaqComponent } from './components/help/faq.component';
+import { FeeComponent } from './components/help/fee.component';
 import { SubscriptionComponent } from './modules/landing/features/subscription/subscription.component';
 import { HelpComponent } from './components/help/help.component';
 
@@ -64,6 +65,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     HeaderComponent,
     HelpComponent,
     FaqComponent,
+    FeeComponent,
     FooterComponent,
     SubscriptionComponent,
     SupportComponent,
