@@ -9,11 +9,11 @@ import { AnnouncementsService } from 'src/app/services/announcements.service';
   styleUrls: ['./announcement-list.component.css']
 })
 export class AnnouncementListComponent implements OnInit {
-  currentLan: String;
+  currentLan: string;
   errMsg: string;
   success = true;
   busy = true;
-  announceList = [];
+  announceList: Announcement[] = [];
   constructor(
     private lanData: LanService,
     private _announcementsService: AnnouncementsService,
@@ -22,18 +22,17 @@ export class AnnouncementListComponent implements OnInit {
   ngOnInit(): void {
     this.lanData.currentMessage.subscribe(message => {
       // console.log("Yoyo lan changed: ", message);
-
       this.currentLan = message;
       this.getAnnouncements(this.currentLan);
     });
   }
 
-  getAnnouncements(currentLan: String) {
+  getAnnouncements(currentLan: string) {
     this.busy = true;
     this.success = true;
     // console.log("currentLan: ", currentLan);
-
-    this._announcementsService.getManyByLan(currentLan === 'en' ? 'en' : 'cn').subscribe(ret => {
+    if(currentLan === 'zh') currentLan = 'sc';
+    this._announcementsService.getManyByLan(currentLan).subscribe(ret => {
       // console.log("return: ");
       // console.log(ret);
 
@@ -41,7 +40,7 @@ export class AnnouncementListComponent implements OnInit {
         // console.log("success");
 
         this.success = true;
-        this.announceList = ret['body'];
+        this.announceList = ret['body'] as Announcement[];
       } else {
         // console.log("fail");
 

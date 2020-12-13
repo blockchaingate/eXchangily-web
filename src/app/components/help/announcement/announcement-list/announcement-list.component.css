@@ -1,22 +1,32 @@
-.newsBody{
+.newsBody {
     margin-top: 60px;
     margin-bottom: 60px;
 }
 
-.Articles{
+.Articles {
     margin-top: 60px;
     margin-bottom: 60px;
 }
 
-.media{
-    margin-bottom: 30px;
+.main-panel {
+    width: 100%;
+    max-width: 1120px;
+    margin: auto;
+    padding: 1em;
+}
+
+.announcements {
+    margin-top: 2em;
     width: 100%;
 }
 
-.media img{
+.media {
+    margin-top: 3em;
+    width: 100%;
+    padding: 1em;
+}
+
+.media img {
     width: 200px;
     height: 200px;
-}
-.articalBoty{
-    color:#ddd
 }

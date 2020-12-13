@@ -15,6 +15,9 @@ import { LanService } from 'src/app/services/lan.service';
 import { LoginInfoModel } from 'src/app/models/lgoin-info';
 import { LoginInfoService } from 'src/app/services/loginInfo.service';
 import { LoginQualifyService } from 'src/app/services/lgoin-quality.service';
+import { Announcement } from '../../../models/announcement';
+import { AnnouncementsService } from 'src/app/services/announcements.service';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -39,6 +42,7 @@ export class HeaderComponent implements OnInit {
   message: string;
   LoginInfo: boolean;
   LoginQualify: boolean;
+  urgentAnnouncementsList: Announcement[] = [];
 
   constructor(
     private translate: TranslateService, private router: Router,
@@ -53,7 +57,7 @@ export class HeaderComponent implements OnInit {
     private lanData: LanService,
     private LoginInfodata: LoginInfoService,
     private LoginQualifydata: LoginQualifyService,
-
+    private announceServ: AnnouncementsService
   ) { }
 
   ngOnInit() {
@@ -65,7 +69,11 @@ export class HeaderComponent implements OnInit {
     // console.log("init LoginInfodata: " + this.LoginInfo);
     // console.log("init LoginQualifydata: " + this.LoginQualify);
 
-    this.lanData.currentMessage.subscribe(message => this.message = message);
+    this.lanData.currentMessage.subscribe(
+      message => {
+        this.message = message;
+        this.getUrgentAnnouncements(message);
+      });
     // console.log("current lang: " + this.message);
 
     this.testMode = true;
@@ -107,11 +115,6 @@ export class HeaderComponent implements OnInit {
           );
         }
       })
-
-
-
-
-
 
     this.timerServ.transactionStatus.subscribe(
       (txItem: any) => {
@@ -155,7 +158,7 @@ export class HeaderComponent implements OnInit {
         }
 
       });
-    
+
 
     this.currentLang = 'English';
     this.translate.setDefaultLang('en');
@@ -258,6 +261,18 @@ export class HeaderComponent implements OnInit {
     this.displayHideLabel = false;
   }
 
-
+  getUrgentAnnouncements(currentLan: string) {
+    if (currentLan === 'zh') currentLan = 'sc';
+    const query = { lanCode: currentLan, active: true, urgent: true };
+    this.announceServ.find(query).subscribe(ret => {
+      if (ret['success']) {
+        this.urgentAnnouncementsList = ret['body'] as Announcement[];
+        alert(this.urgentAnnouncementsList[0].title)
+      } else {
+      }
+    },
+      err => {
+      });
+  }
 
 }

@@ -1,17 +1,28 @@
 <div class="row Articles">
-    <div class="col-md-12">
-        <ul class="list-unstyled" *ngIf="!busy && success">
-            <li class="media" *ngFor="let announce of announceList">
-                <!-- btn-info -->
-                <div class="media-body">
-                    <h5 class="mt-0 mb-1">{{announce.title}}</h5>
-                    <div class="articalSub my-2"><button type="button" class="btn btn-sm mr-2 btn-primary">{{announce.category}}</button>{{announce.postedDate}}</div>
-                    <p class="articalBody">
-                        {{announce.contentSummary}}
-                    </p>
-                </div>
-            </li>
-        </ul>
+    <div class="main-panel">
+        <div style="width:100%; text-align: center;">
+            <H2>{{"Announcements"|translate}}</H2>
+        </div>
+
+        <div class="announcements">
+            <ul class="list-unstyled" *ngIf="!busy && success">
+                <li class="media my-4" *ngFor="let announce of announceList; index as i;">
+                    <hr *ngIf="i>0">
+                    <div class="media-body">
+                        <h5 class="mt-0 mb-1">{{announce.title}}</h5>
+                        <div *ngIf="announce.subtitle">{{announce.subtitle}}</div>
+                        <div class="articalSub">
+                            {{announce.dateCreated | date: 'dd/MM/yyyy'}}
+                        </div>
+                        <div *ngIf="announce.contentSummary" class="my-2" [innerHTML]="announce.contentSummary">
+                        </div>
+                        <div class="my-2" [innerHTML]="announce.content">
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
         <div *ngIf="busy">
             Loading...
         </div>

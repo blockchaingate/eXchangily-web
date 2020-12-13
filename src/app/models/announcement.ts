@@ -2,6 +2,7 @@ export interface Announcement {
     _id?: string;
 
     title?: string;
+    subtitle?: string;
     appId?: string;
     category?: string;
     createdBy?: string; // MemberId
