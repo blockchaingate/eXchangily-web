@@ -10,7 +10,7 @@ export const environment = {
     baseUrl: 'https://exchangily.com',
     url: 'https://kanbanprod.fabcoinapi.com/',
     tmpUrl: 'https://kanbanprod.fabcoinapi.com/', // replace this url once the temp api is deployed    
-    version: '1.5.1',
+    version: '2.0.0',
     campaignId: 1,
     OTC_COMMISSION_RATE: 0.01,
     chains: {

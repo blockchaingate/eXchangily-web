@@ -747,7 +747,7 @@
     "exgshortintroduce": "亿币交易所是目前全球唯一准实时的去中心化加密货币交易所，具备各种主流区块链的跨链功能，提供快速、匿名交易处理能力。用户无需将资产托管给交易所，自己永远绝对拥有资产的控制权。亿币交易所的所有收益100%由平台币EXG持币人分享。",
     "VerifyMnemNote": "为了确保您准确无误地记下了助记词，请按顺序输入一遍进行验证。",
     "Confirm": "确认",
-    "Announcements": "公告",
+    "Announcements": "公 告",
     "Set Password": "设置密码",
     "PwdNote": "设置本机密码。请注意，此密码仅保护本机钱包资料，并非钱包私钥。",
     "Wallet Name": "钱包名称",
@@ -1426,6 +1426,8 @@
         "eventTeam": "团队奖励",
         "eventTeamDetail": "如果某投资人至少直接推荐10人，并且本人投资3000美元（含）以上，则可获得10层下线团队奖。奖励方式请见下表："
     },
+    "General Infomation": "普通咨询",
+    "Customer Support": "客户支持",
     "Redeposit": "确认向交易所转币",
     "tickCreateSuccess": "您已成功提交求助请示，任何更新您将收到Email通知。",
     "Issue": "问题",
