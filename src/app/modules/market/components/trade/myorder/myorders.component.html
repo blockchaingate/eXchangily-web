@@ -76,34 +76,36 @@
 
     <div class="orders w-100 fxHide-gt-sm container" *ngIf="(select != 100) && (select != 101)">
         <div class="row w-100 header py-3">
-            <div class="orditem col-5">{{'Time' | translate }}</div>
-            <div class="orditem col-2">{{'Symbol' | translate }}</div>
-            <div class="orditem col-2">{{'Price' | translate }}</div>
-            <div class="orditem col-2">{{'Action' | translate }}</div>
+            <div class="orditem col-4">{{'Symbol' | translate }}</div>
+            <div class="orditem col-4">{{'Price' | translate }}</div>
+            <div class="orditem col-3">{{'Action' | translate }}</div>
         </div>
 
-        <div class="myorderlist scroll-bar w-100 pt-2" [style.height.px]="screenheight-680">
+        <div class="myorderlist scroll-bar w-100 pl-2 pt-2" [style.height.px]="screenheight-680">
             <div class="row row-with-line w-100" *ngFor="let order of getOrders(); let i=index">
-                <div class="text-muted col-5">
-                    <p>
-                        {{order.time | date:'yyyy-MM-dd HH:mm:ss'}}
-                    </p>
-                </div>
-                <div class=" text-info col-2">
-                    <p>
+
+                <div class="col-4">
+                    <p class=" text-info">
                         {{order.pairName}}
-                        <!--
-                        {{coinServ.getCoinNameByTypeId(order.pairLeft)}}/{{coinServ.getCoinNameByTypeId(order.pairRight)}}
-                        -->
                     </p>
-                </div>
-                <div class=" text-muted col-2">
-                    <p>{{utilServ.showAmount(order.price, 6)}}</p>
-                </div>
-                <div class=" text-muted col-2">
-                    <p>cancel</p>
+                 
                 </div>
                 <div class=" text-muted col-4">
+                    <p>{{utilServ.showAmount(order.price, 6)}}</p>
+                </div>
+                <div class=" text-muted col-3">
+                    <div *ngIf="order.isActive">
+                        <button mat-icon-button aria-label="Example icon-button with a heart icon" (click)="deleteOrder(order.orderHash)">
+                            <mat-icon svgIcon="delete"></mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="text-muted col-8">
+                    <p>
+                        Time: {{order.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}
+                    </p>   
+                </div>
+                <div class=" text-muted col-3">
                     <p *ngIf="order.bidOrAsk">
                         {{'Type' | translate }}:{{'Buy' | translate }}
                     </p>
@@ -111,18 +113,20 @@
                         {{'Type' | translate }}:{{'Sell' | translate }}
                     </p>
                 </div>
-                <div class=" text-muted col-4">
+                <div class=" text-muted col-6">
                     {{'Order Qty' | translate }}:{{utilServ.showAmount(order.orderQuantity, 6)}}
                 </div>
-                <div class=" text-muted col-4">
+                <div class=" text-muted col-6">
                     {{'Filled Qty' | translate }}:{{utilServ.showAmount(order.filledQuantity, 6)}}
                 </div>
-                <div class=" text-muted col-4">
+                <div class=" text-muted col-6">
                     {{'Filled%' | translate }}:{{order.filledQuantity*100/order.orderQuantity|number:'2.2-2'}}
                 </div>
 
             </div>
         </div>
+
+
     </div>
 
     <div class="orders container w-100" *ngIf="select == 100">
