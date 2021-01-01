@@ -6,12 +6,7 @@ import { Component, OnInit} from '@angular/core';
     styleUrls: ['./club-event.component.css']
 })
 export class ClubEventComponent implements OnInit {
-
-    constructor () {
-
-    }
+    constructor () {}
     
-    ngOnInit() {
-
-    }
+    ngOnInit() {}
 }
