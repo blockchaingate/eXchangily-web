@@ -23,8 +23,8 @@ export class MarketTopBlockComponent implements OnInit {
     this.volume = '0';
     this.changePercent = '0.00';
     const arr = this.pair.split('/');
-    this.baseCoinName = arr[0];
-    this.targetCoinName = arr[1];
+    this.baseCoinName = arr[1];
+    this.targetCoinName = arr[0];
   }
 
   toNumber(str: string) {
