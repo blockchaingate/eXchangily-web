@@ -14,7 +14,7 @@ export class MarketHomeComponent implements OnInit {
 
   ngOnInit() {
     this.maintainence = false;
-    this.isMobile = true;
+    this.isMobile = false;
     if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
       this.isMobile = true;
     }
