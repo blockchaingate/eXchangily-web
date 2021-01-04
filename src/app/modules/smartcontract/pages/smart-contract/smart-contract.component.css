@@ -1,3 +1,8 @@
 .example-full-width {
     width: 100%;
 }
+
+.inner-text {
+    background-color: #282840;
+    color: red;
+}

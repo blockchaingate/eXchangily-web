@@ -7,16 +7,21 @@
                         <div class="container">
         
                             <div class="py-3">
-                                {{'Smart contract name' | translate}}: {{smartContractName}}
+                                {{'Smart contract name' | translate}}
+                                <mat-select (selectionChange)="changeContractName($event.value)" [value]="contractName">
+                                    <mat-option *ngFor="let name of contractNames" [value]="name" class="text-muted">
+                                        {{name}}
+                                    </mat-option>
+                                </mat-select>               
                             </div>
                             <mat-form-field class="example-full-width">
-                                <input matInput [(ngModel)]="smartContractAddress" name="smartContractAddress" (ngModelChange)="changeSmartContractAddress()">
+                                <input matInput [(ngModel)]="smartContractAddress" name="smartContractAddress">
                                 <mat-placeholder class="text-muted">{{'Smart contract address' | translate}}</mat-placeholder>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label class="text-muted">{{'Function' | translate}}</mat-label>
-                                <mat-select (selectionChange)="changeMethod($event.value)" class="text-white">
-                                    <mat-option *ngFor="let abi of ABI" [value]="abi.name">
+                                <mat-select (selectionChange)="changeMethod($event.value)" [value]="abiName">
+                                    <mat-option *ngFor="let abi of ABI" [value]="abi.name" class="text-muted">
                                         {{abi.name}}
                                     </mat-option>
                                 </mat-select>

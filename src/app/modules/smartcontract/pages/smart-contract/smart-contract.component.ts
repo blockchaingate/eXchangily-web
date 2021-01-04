@@ -25,6 +25,8 @@ export class SmartContractComponent implements OnInit {
   @ViewChild('pinModal', {static: true}) pinModal: PinNumberModal;
   method: any;
   action: string;
+  abiName: string;
+  contractName: string;
   smartContractName: string;
   result: string;
   error: string;
@@ -42,6 +44,11 @@ export class SmartContractComponent implements OnInit {
   exgCoin: MyCoin;
   balance: any;
   ethBalance: any;
+  contractNames = [
+    'Exg',
+    'Deploy',
+    'Fab Lock For EXG Airdrop'
+  ];
   ABI = [];
   constructor(
     private storageService: StorageService, 
@@ -55,16 +62,57 @@ export class SmartContractComponent implements OnInit {
     // this.ABI = this.getFunctionABI(this.ABI);
   }
 
+  changeContractName(name:string) {
+    console.log('change contract name:', name);
+    this.contractName=name;
+    if(name === 'Fab Lock For EXG Airdrop') {
+      this.smartContractAddress =  environment.addresses.smartContract.FABLOCK;
+    } else
+    if(name === 'Exg') {
+      this.smartContractAddress = environment.addresses.smartContract.EXG;
+    } else
+    if(name === 'Deploy') {
+      this.smartContractAddress = '0x0';
+    }
+    this.changeSmartContractAddress();
+  }
   changeSmartContractAddress() {
-    console.log('currentAddress=' + this.smartContractAddress);
-    if (this.smartContractAddress) {
+    if (this.smartContractAddress == environment.addresses.smartContract.FABLOCK) {
       this.apiServ.getSmartContractABI(this.smartContractAddress).subscribe((res: any) => {
         console.log('res=', res);
         if (res && res.abi) {
           this.ABI = this.getFunctionABI(res.abi);
-          this.smartContractName = res.Name;
+          if(this.ABI && this.ABI.length > 0) {
+            this.changeMethod(this.ABI[0].name);
+          }
+          
         }
       });
+      
+    } else 
+    if(this.smartContractAddress == environment.addresses.smartContract.EXG) {
+      this.ABI = [
+        {
+          "constant": false,
+          "inputs": [
+              {
+                  "name": "_account",
+                  "type": "address"
+              }
+          ],
+          "name": "unlockByAccount",
+          "outputs": [
+              {
+                  "name": "",
+                  "type": "bool"
+              }
+          ],
+          "payable": false,
+          "stateMutability": "nonpayable",
+          "type": "function"
+        }         
+      ];
+      this.changeMethod('unlockByAccount');
     }
   }
 
@@ -88,8 +136,8 @@ export class SmartContractComponent implements OnInit {
 
   async ngOnInit() {
     this.action = '';
-    this.smartContractAddress = environment.addresses.smartContract.FABLOCK;
-    this.changeSmartContractAddress();
+    //this.smartContractAddress = environment.addresses.smartContract.FABLOCK;
+    //this.changeSmartContractAddress();
     this.wallet = await this.storageService.getCurrentWallet();
 
     if (!this.wallet) {
@@ -107,7 +155,12 @@ export class SmartContractComponent implements OnInit {
       } else 
       if (coin.name === 'ETH') {
         this.ethCoin = coin;
-        this.ethBalance = await this.coinServ.getBalance(coin);        
+        try {
+          this.ethBalance = await this.coinServ.getBalance(coin);  
+        } catch(e) {
+
+        }
+              
       }
       if(coin.name === 'EXG') {
         this.exgCoin = coin;
@@ -117,7 +170,9 @@ export class SmartContractComponent implements OnInit {
     if (!this.mycoin) {
       this.alertServ.openSnackBar('no fab coin found for this wallet.', 'Ok');
       return;
-    }    
+    }  
+    
+    this.changeContractName('Exg');
   }
 
   getMethodDefinition = (json, method) => {
@@ -128,6 +183,7 @@ export class SmartContractComponent implements OnInit {
   }
 
   changeMethod(val: string) {
+    this.abiName = val;
     this.renderMethod(val);
   }
 
@@ -135,7 +191,18 @@ export class SmartContractComponent implements OnInit {
   renderMethod(method: string) {
 
     const def = this.getMethodDefinition(this.ABI, method);
-    console.log('def=', def);
+    console.log('def===', def);
+    const inputs = def.inputs;
+    if(inputs && inputs.length > 0) {
+      for(let i=0;i<inputs.length;i++) {
+        const input = inputs[i];
+        if(input.name === '_account' && input.type==='address' && this.smartContractAddress === environment.addresses.smartContract.EXG) {
+          input.val = this.exgCoin.receiveAdds[0].address;
+        }      
+      }
+    }
+
+
     this.method = def;
     /*
     console.log('def=', def);
