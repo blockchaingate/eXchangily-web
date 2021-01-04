@@ -26,6 +26,19 @@ export class Web3Service {
     }
   }
 
+  formCreateSmartContractABI(abiArray, bytecode, args) {
+    const web3 = this.getWeb3Provider();
+    var MyContract = new web3.eth.Contract(abiArray);
+
+    //const args = [123, 'My String'];
+    const abi = MyContract.deploy({
+        data: bytecode,
+        arguments: args
+    })
+    .encodeABI();   
+    return abi;
+  }
+
   signMessageWithPrivateKey(message: string, keyPair: any) {
     const privateKey = `0x${keyPair.privateKey.toString('hex')}`;
     const web3 = this.getWeb3Provider();

@@ -39,7 +39,7 @@
                 </div>
         
                 <div class="w-50 px-1">
-                    <div class="exg-bg content">
+                    <div class="exg-bg content" *ngIf="abiName!=''">
                         <div class="container py-2" *ngIf="method">
                             <div *ngFor="let input of method.inputs; let i = index">
                                 <div class="row">
@@ -89,7 +89,40 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="exg-bg content" *ngIf="abiName=='' && smartContractAddress=='0x0'">
+                        
+                        <mat-form-field class="example-full-width">
+                            <textarea [(ngModel)]="fabABI" placeholder="ABI" matInput></textarea>
+                        </mat-form-field>
+                        <mat-form-field class="example-full-width">
+                            <textarea [(ngModel)]="fabBytecode" placeholder="Bytecode" matInput></textarea>
+                        </mat-form-field>
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Arguments" [(ngModel)]="fabArguments">
+                        </mat-form-field>
+
+                        
+                        <div class="row">
+                            <div class="col col-12">
+                                <button mat-raised-button color="primary" (click)="submit()"> {{'Deploy'}}</button>
+                            </div>
+    
+                        </div>
+                        <div class="row py-2" *ngIf="result">
+                            <div class="col col-12">
+                                {{'Result' | translate}}:{{result | json}}
+                            </div>
+                            <div class="col col-12">
+                                Please wait for a few minutes to confirm.
+                            </div>
+                        </div>
+                        <div class="row py-2" *ngIf="error">
+                            {{error}}
+                        </div>                       
+                    </div>                    
                 </div>
+
             </div>            
         </mat-tab>
         <mat-tab label="ETH">

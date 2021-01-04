@@ -30,6 +30,9 @@ export class SmartContractComponent implements OnInit {
   smartContractName: string;
   result: string;
   error: string;
+  fabABI: string;
+  fabBytecode: string;
+  fabArguments: string;
   ethData: string;
   kanbanTo: string;
   kanbanValue: number;
@@ -113,6 +116,9 @@ export class SmartContractComponent implements OnInit {
         }         
       ];
       this.changeMethod('unlockByAccount');
+    } else 
+    if(this.smartContractAddress === '0x0') {
+      this.changeMethod('');
     }
   }
 
@@ -265,21 +271,7 @@ export class SmartContractComponent implements OnInit {
     } 
 
     const abi = this.web3Serv.getGeneralFunctionABI(this.method, vals);
-    /*
-    console.log('functionSig=', abi);
-    for (let i = 0; i < this.method.inputs.length; i++) {
-      const input = this.method.inputs[i];
-      const val = input.val;
-      console.log('val=' + val);
-      if (input.type) {
-        if (input.type.toLower() === 'address') {
 
-        } else {
-
-        }
-      }
-    }
-    */
     return abi;
   }
 
@@ -371,8 +363,26 @@ export class SmartContractComponent implements OnInit {
 
   }
 
+  formCreateSmartContractABI() {
+    const abi = JSON.parse(this.fabABI);
+    let args = [];
+    if(this.fabArguments) {
+      args = this.fabArguments.split(this.fabArguments).map(item => {return item.trim()});
+    }
+    return this.web3Serv.formCreateSmartContractABI(abi, this.fabBytecode.trim(), args);
+ 
+  }
+
   async callFabSmartContract(seed) {
-    const abiHex = this.formABI();
+    let abiHex = '';
+    let smartContractAddress = this.smartContractAddress;
+    if(smartContractAddress == '0x0') {
+      abiHex = this.formCreateSmartContractABI();
+      smartContractAddress = '0x0000000000000000000000000000000000000000';
+    } else {
+      abiHex = this.formABI();
+    }
+    
     const gasLimit = 800000;
     const gasPrice = 40;
     let value = 0;
@@ -390,7 +400,7 @@ export class SmartContractComponent implements OnInit {
       this.utilServ.number2Buffer(gasLimit),
       this.utilServ.number2Buffer(gasPrice),
       this.utilServ.hex2Buffer(this.utilServ.stripHexPrefix(abiHex)),
-      this.utilServ.hex2Buffer(this.utilServ.stripHexPrefix(this.smartContractAddress)),
+      this.utilServ.hex2Buffer(this.utilServ.stripHexPrefix(smartContractAddress)),
       194
     ]);
   
