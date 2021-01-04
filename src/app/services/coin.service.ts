@@ -100,29 +100,29 @@ export class CoinService {
         myCoins.push(coin);  
         */
         const usdtCoin = this.initToken('ETH', 'USDT', 6, environment.addresses.smartContract.USDT, ethCoin);
-        console.log('1');
+
         this.fillUpAddress(usdtCoin, seed, 1, 0);
-        console.log('2');
+
         myCoins.push(usdtCoin);
-        console.log('3');
+
         const dusdCoin = this.initToken('FAB', 'DUSD', 18, environment.addresses.smartContract.DUSD, fabCoin);
-        console.log('4');
+
         this.fillUpAddress(dusdCoin, seed, 1, 0);
-        console.log('5');
+
         myCoins.push(dusdCoin);
-        console.log('6');
+
         const bchCoin = new MyCoin('BCH');
-        console.log('7');
+
         this.fillUpAddress(bchCoin, seed, 1, 0);
-        console.log('8');
+
         myCoins.push(bchCoin);
-        console.log('9');
+
         const ltcCoin = new MyCoin('LTC');
-        console.log('10');
+
         this.fillUpAddress(ltcCoin, seed, 1, 0);
-        console.log('11');
+
         myCoins.push(ltcCoin);
-        console.log('here2');
+
         const dogCoin = new MyCoin('DOGE');
         this.fillUpAddress(dogCoin, seed, 1, 0);
         myCoins.push(dogCoin);
@@ -154,36 +154,12 @@ export class CoinService {
         token = this.initToken('ETH', tokenName, 4, environment.addresses.smartContract[tokenName], ethCoin);
         this.fillUpAddress(token, seed, 1, 0);
         myCoins.push(token);
-        /*
-        const bnbCoin = this.initToken('ETH', 'BNB', 18, environment.addresses.smartContract.BNB, ethCoin);     
-        this.fillUpAddress(bnbCoin, seed, 1, 0);
-        myCoins.push(bnbCoin);  
 
-        const inbCoin = this.initToken('ETH', 'INB', 18, environment.addresses.smartContract.INB, ethCoin);     
-        this.fillUpAddress(inbCoin, seed, 1, 0);
-        myCoins.push(inbCoin);    
-        
-        const repCoin = this.initToken('ETH', 'REP', 18, environment.addresses.smartContract.REP, ethCoin);     
-        this.fillUpAddress(repCoin, seed, 1, 0);
-        myCoins.push(repCoin);    
-        
-        const hotCoin = this.initToken('ETH', 'HOT', 18, environment.addresses.smartContract.HOT, ethCoin);     
-        this.fillUpAddress(hotCoin, seed, 1, 0);
-        myCoins.push(hotCoin);   
 
-        const maticCoin = this.initToken('ETH', 'MATIC', 18, environment.addresses.smartContract.MATIC, ethCoin);     
-        this.fillUpAddress(maticCoin, seed, 1, 0);
-        myCoins.push(maticCoin);  
+        const cnbCoin = this.initToken('FAB', 'CNB', 18, environment.addresses.smartContract.CNB, fabCoin);
+        this.fillUpAddress(cnbCoin, seed, 1, 0);
+        myCoins.push(cnbCoin);
 
-        const iostCoin = this.initToken('ETH', 'IOST', 18, environment.addresses.smartContract.IOST, ethCoin);     
-        this.fillUpAddress(iostCoin, seed, 1, 0);
-        myCoins.push(iostCoin);  
-
-        const manaCoin = this.initToken('ETH', 'MANA', 18, environment.addresses.smartContract.MANA, ethCoin);     
-        this.fillUpAddress(manaCoin, seed, 1, 0);
-        myCoins.push(manaCoin);  
-        */
-        console.log('end initMyCoins');
         return myCoins;
     }
 

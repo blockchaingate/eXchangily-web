@@ -513,7 +513,9 @@ export class WalletDashboardComponent implements OnInit {
                     let updated = false;
                     let hasDRGN = false;
                     let hasNVZN = false;
+                    let hasCNB = false;
                     let ethCoin;
+                    let fabCoin;
                     for (let i = 0; i < res.data.length; i++) {
                         const item = res.data[i];
                         for (let j = 0; j < this.wallet.mycoins.length; j++) {
@@ -527,7 +529,12 @@ export class WalletDashboardComponent implements OnInit {
                             if (coin.name === 'ETH') {
                                 ethCoin = coin;
                             }
-
+                            if (coin.name === 'FAB') {
+                                fabCoin = coin;
+                            }
+                            if (coin.name === 'CNB') {
+                                hasCNB = true;
+                            }
                             if (item.coin === coin.name) {
                                 if (item.depositErr) {
                                     coin.redeposit = item.depositErr;
@@ -586,6 +593,20 @@ export class WalletDashboardComponent implements OnInit {
                         newCoin.contractAddr = environment.addresses.smartContract.NVZN;
                         this.wallet.mycoins.push(newCoin);
                         updated = true;
+                    }
+
+                    if(!hasCNB) {
+                        const newCoin = new MyCoin('CNB');
+                        newCoin.balance = 0;
+                        newCoin.decimals = 18;
+                        newCoin.coinType = environment.CoinType.FAB;
+                        newCoin.lockedBalance = 0;
+                        newCoin.receiveAdds.push(fabCoin.receiveAdds[0]);
+                        newCoin.tokenType = 'FAB';
+                        newCoin.baseCoin = fabCoin;
+                        newCoin.contractAddr = environment.addresses.smartContract.CNB;
+                        this.wallet.mycoins.push(newCoin);
+                        updated = true;                        
                     }
                     if (updated) {
                         // console.log('updated=' + updated);

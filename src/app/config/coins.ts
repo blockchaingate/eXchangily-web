@@ -1,42 +1,5 @@
 import {Price, Coin } from '../interfaces/kanban.interface';
 
-/*
-        "131072": "FAB",
-        "131073": "EXG",
-        "131074": "DUSD",
-
-        "196608": "ETH",
-        "196609": "USDT",
-
-        "196610": "INB",
-        "196611": "HOT",
-        "196612": "CEL",
-
-        "196613": "MATIC",
-        "196614": "IOST",
-        "196615": "MANA",
-
-        "196616": "WAX",
-        "196617": "ELF",
-        "196618": "GNO",
-
-        "196619": "POWR",
-        "196620": "WINGS",
-        "196621": "MTL",
-        "196622": "KNC",
-
-        "196623": "GVT",
-        "196624": "REP",
-        "196625": "FUN",
-        "196626": "DRGN",
-        "196627": "NVZN",
-
-        "262144": "BCH",
-        "327680": "LTC",
-        "393216": "DOGE",
-        "65536": "BTC"
-    }
-*/
 export const coin_list: Coin[] = [
     { id: 196609, name: 'USDT', icon: '' },
     { id: 65536, name: 'BTC', icon: '' },
@@ -65,7 +28,8 @@ export const coin_list: Coin[] = [
     { id: 196624, name: 'REP', icon: ''},
     { id: 196625, name: 'FUN', icon: ''},
     { id: 196626, name: 'DRGN', icon: ''},
-    { id: 196627, name: 'NVZN', icon: ''}
+    { id: 196627, name: 'NVZN', icon: ''},
+    { id: 131075, name: 'CNB', icon: ''}
     //REP: '0x1985365e9f78359a9B6AD760e32412f4a445E862',
     //FUN: '0x419d0d8bdd9af5e606ae2232ed285aff190e711b',
     //MHC: '0xEaB35Bd0533895856f200c99F693b2EC511BFfeE', //?? 
@@ -166,6 +130,6 @@ export const price_list: Price[] = [
     { id: 70, coin_id: 196626, base_id: 131073, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'DRGN/EXG' },
     { id: 71, coin_id: 196626, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'DRGN/USDT' },
     { id: 72, coin_id: 196626, base_id: 196608, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'DRGN/ETH' },
-    
+    { id: 73, coin_id: 131075, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'CNB/USDT' }
 
 ];

@@ -143,7 +143,6 @@ export const environment = {
             EXG: '0x867480ba8e577402fa44f43c33875ce74bdc5df6',
             USDT: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',
             DUSD: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
-            // BNB: '0xE90e361892d258F28e3a2E758EEB7E571e370c6f',
             INB: '0x919c6d21670fe8cEBd1E86a82a1A74E9AA2988F8',
             REP: '0x4659c4A33432A5091c322E438e0Fb1D286A1EbdE',
             HOT: '0x6991d9fff5de74085f5c786d425403601280c8f4',
@@ -161,7 +160,8 @@ export const environment = {
             KNC: '0x3aad796ceb3a1063f727c6d0c698e37053292d10',
             GVT: '0x3e610d9fb322063e50d185e2cc1b45f007e7180c',
             DRGN: '0xbbdd7a557a0d8a9bf166dcc2730ae3ccec7df05c',
-            NVZN: '0xf18e828a19c00764522e50a511fffd521de4b119'
+            NVZN: '0xf18e828a19c00764522e50a511fffd521de4b119',
+            CNB: '0x867480ba8e577402fa44f43c33875ce74bdc5df6'
         },
        exchangilyOfficial: {
         EXG: '0xed76be271bb47a6df055bbc2039733c26fdecc82',

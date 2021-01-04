@@ -15,6 +15,12 @@ export class MarketHomeComponent implements OnInit {
   ngOnInit() {
     this.maintainence = false;
 
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+      console.log('isMobile');
+    }else{
+      console.log('not mobile');
+    }
+
     this.kanbanServ.getKanbanStatus().subscribe(
       (res: any) => {
         if (res && res.success) {
