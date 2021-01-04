@@ -4,7 +4,7 @@
             {{pair}}
         </div>
         <div class="col col-6 text-right" [class.text-color-green]="toNumber(changePercent)>=0" [class.text-color-red]="toNumber(changePercent)<0">
-            {{changePercent}}%
+            {{changePercent!='NaN' ? changePercent : 0.00}}%
         </div>
     </div>
     <div class="row">
