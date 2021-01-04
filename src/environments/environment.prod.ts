@@ -151,7 +151,8 @@ export const environment = {
             KNC: '0xdd974d5c2e2928dea5f71b9825b8b646686bd200',
             GVT: '0x103c3A209da59d3E7C4A89307e66521e081CFDF0',
             DRGN: '0x419c4db4b9e25d6db2ad9691ccb832c8d9fda05e',
-            NVZN: '0x99963EE76C886fc43D5063428fF8F926E8A50985'
+            NVZN: '0x99963EE76C886fc43D5063428fF8F926E8A50985',
+            CNB: 'ceb9a838c3f3ee6e3168c06734f9188f2693999f'
         },
         /*
         exchangilyOfficial: [
@@ -191,7 +192,8 @@ export const environment = {
         KNC: '0x4983f8634255762A18D854790E6d35A522E2633a',
         GVT: '0x4983f8634255762A18D854790E6d35A522E2633a',
         DRGN: '0x4983f8634255762A18D854790E6d35A522E2633a',
-        NVZN: '0x4983f8634255762A18D854790E6d35A522E2633a'        
+        NVZN: '0x4983f8634255762A18D854790E6d35A522E2633a',
+        CNB: '0xa7c8257b0571dc3d3c96b24b668c6569391b3ac9'        
        },
        
         promotionOfficial: {
@@ -243,7 +245,8 @@ export const environment = {
         KNC: 10 * 2,
         GVT: 10 * 2,
         DRGN: 100 * 2,
-        NVZN: 100 * 2 
+        NVZN: 100 * 2,
+        CNB: 100 * 2
     },
     depositMinimumConfirmations: {
         EXG: 12,
@@ -273,7 +276,8 @@ export const environment = {
         KNC: 20,
         GVT: 20,
         DRGN: 20,
-        NVZN: 20
+        NVZN: 20,
+        CNB: 6
     },
     PaymentMethod: {
         ETransfer: {
