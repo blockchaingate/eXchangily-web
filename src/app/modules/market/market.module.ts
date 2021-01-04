@@ -25,6 +25,7 @@ import { MarketTopBlockComponent } from './components/top-block/market-top-block
 import { TradeAutoComponent } from './components/trade-auto/trade-auto.component';
 import { SharedModule } from '../shared/shared.module';
 
+
 @NgModule({
   imports: [
     CommonModule,

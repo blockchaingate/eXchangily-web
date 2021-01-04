@@ -9,16 +9,14 @@ import { KanbanService } from '../../../../services/kanban.service';
 })
 export class MarketHomeComponent implements OnInit {
   maintainence: boolean;
-
+  isMobile: boolean;
   constructor(private kanbanServ: KanbanService) { }
 
   ngOnInit() {
     this.maintainence = false;
-
+    this.isMobile = true;
     if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-      console.log('isMobile');
-    }else{
-      console.log('not mobile');
+      this.isMobile = true;
     }
 
     this.kanbanServ.getKanbanStatus().subscribe(

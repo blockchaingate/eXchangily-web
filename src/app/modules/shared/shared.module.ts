@@ -11,6 +11,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { AppIntroComponent } from '../app-intro/app-intro.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
@@ -18,6 +19,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
     declarations: [
         PinNumberModal,
+        AppIntroComponent,
         DisplayPinNumberModal
     ],
     imports: [
@@ -43,6 +45,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     exports: [
         PinNumberModal,
         DisplayPinNumberModal,
+        AppIntroComponent,
         TranslateModule
     ],
     providers: [

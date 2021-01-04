@@ -43,7 +43,6 @@ import { SupportComponent } from './modules/support/support.component';
 import { TicketComponent } from './modules/support/ticket/ticket.component';
 import { TicketAddComponent } from './modules/support/ticket-add/ticket-add.component';
 import { NewsComponent } from './modules/news/news.component';
-import { AppIntroComponent } from './modules/app-intro/app-intro.component';
 import { LanService } from './services/lan.service';
 import { LoginInfoService } from './services/loginInfo.service';
 import { CampaignOrderService } from './services/campaignorder.service';
@@ -72,7 +71,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     TicketComponent,
     TicketAddComponent,
     NewsComponent,
-    AppIntroComponent,
     AnnouncementComponent,
     AnnouncementListComponent,
   ],

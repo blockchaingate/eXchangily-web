@@ -1,7 +1,11 @@
 <div *ngIf="maintainence" class="d-flex justify-content-center align-items-center pt-3 mt-3">
     <img src="/assets/maintainence.jpeg">
 </div>
+
 <div class="containerX market-page" *ngIf="!maintainence">
+    <div *ngIf="isMobile">
+        <app-app-intro [showHeadOnly]="true"></app-app-intro>
+    </div>
     <div class="gradient-back-area" fxLayout="column" fxFlex.lt-md="300px">
         <div class="topslogan">
             <div class="container">
