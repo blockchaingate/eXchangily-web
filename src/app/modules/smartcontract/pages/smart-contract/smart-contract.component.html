@@ -5,14 +5,14 @@
                 <div class="w-50 px-1">
                     <div class="exg-bg content">
                         <div class="container">
-        
+
                             <div class="py-3">
                                 {{'Smart contract name' | translate}}
                                 <mat-select (selectionChange)="changeContractName($event.value)" [value]="contractName">
                                     <mat-option *ngFor="let name of contractNames" [value]="name" class="text-muted">
                                         {{name}}
                                     </mat-option>
-                                </mat-select>               
+                                </mat-select>
                             </div>
                             <mat-form-field class="example-full-width">
                                 <input matInput [(ngModel)]="smartContractAddress" name="smartContractAddress">
@@ -26,18 +26,18 @@
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
-        
+
                             <div class="py-3" *ngIf="wallet">
                                 {{'Current wallet' | translate}}: {{wallet.name}}
                             </div>
-        
+
                             <div class="py-3" *ngIf="mycoin && balance">
                                 {{'Fab Balance' | translate}}: {{balance.balance}}
                             </div>
                         </div>
                     </div>
                 </div>
-        
+
                 <div class="w-50 px-1">
                     <div class="exg-bg content" *ngIf="abiName!=''">
                         <div class="container py-2" *ngIf="method">
@@ -52,14 +52,14 @@
                                                 </mat-option>
                                             </mat-select>
                                         </mat-form-field>
-        
+
                                     </div>
                                     <div class="col col-8">
                                         <mat-form-field class="example-full-width">
                                             <input matInput [(ngModel)]="input.val">
                                         </mat-form-field>
                                     </div>
-        
+
                                 </div>
                             </div>
                             <div class="row" *ngIf="method.stateMutability == 'payable'">
@@ -72,9 +72,9 @@
                             </div>
                             <div class="row">
                                 <div class="col col-12">
-                                    <button mat-raised-button color="primary" (click)="submit()"> {{method.stateMutability == 'view'?'View':'Submit'}}</button>
+                                    <button mat-raised-button color="primary" (click)="submit()"> {{method.stateMutability == 'view'?'View':'Submit' | translate}}</button>
                                 </div>
-        
+
                             </div>
                             <div class="row py-2" *ngIf="result">
                                 <div class="col col-12">
@@ -91,7 +91,7 @@
                     </div>
 
                     <div class="exg-bg content" *ngIf="abiName=='' && smartContractAddress=='0x0'">
-                        
+
                         <mat-form-field class="example-full-width">
                             <textarea [(ngModel)]="fabABI" placeholder="ABI" matInput></textarea>
                         </mat-form-field>
@@ -102,12 +102,12 @@
                             <input matInput placeholder="Arguments" [(ngModel)]="fabArguments">
                         </mat-form-field>
 
-                        
+
                         <div class="row">
                             <div class="col col-12">
                                 <button mat-raised-button color="primary" (click)="submit()"> {{'Deploy'}}</button>
                             </div>
-    
+
                         </div>
                         <div class="row py-2" *ngIf="result">
                             <div class="col col-12">
@@ -119,50 +119,49 @@
                         </div>
                         <div class="row py-2" *ngIf="error">
                             {{error}}
-                        </div>                       
-                    </div>                    
+                        </div>
+                    </div>
                 </div>
-
-            </div>            
+            </div>
         </mat-tab>
         <mat-tab label="ETH">
-            
+
             <mat-tab-group mat-align-tabs="start">
                 <mat-tab label="Deploy">
                     <mat-form-field class="example-full-width">
                         <mat-label class="text-muted">Data</mat-label>
                         <textarea [(ngModel)]="ethData" matInput></textarea>
-                    </mat-form-field>  
-                    <button mat-raised-button color="primary" (click)="deployEth()"> {{'Deploy' | translate}} </button>                  
+                    </mat-form-field>
+                    <button mat-raised-button color="primary" (click)="deployEth()"> {{'Deploy' | translate}} </button>
                 </mat-tab>
             </mat-tab-group>
 
         </mat-tab>
 
         <mat-tab label="KANBAN">
-            
+
             <mat-tab-group mat-align-tabs="start">
                 <mat-tab label="Call Smart Contract">
 
                     <mat-form-field class="example-full-width">
                         <mat-label class="text-muted">To</mat-label>
                         <input matInput [(ngModel)]="kanbanTo">
-                    </mat-form-field>     
-                    
+                    </mat-form-field>
+
                     <mat-form-field class="example-full-width">
                         <mat-label class="text-muted">Value</mat-label>
                         <input matInput [(ngModel)]="kanbanValue">
-                    </mat-form-field>   
+                    </mat-form-field>
 
                     <mat-form-field class="example-full-width">
                         <mat-label class="text-muted">Data</mat-label>
                         <textarea [(ngModel)]="kanbanData" matInput></textarea>
-                    </mat-form-field>  
-                    <button mat-raised-button color="primary" (click)="callKanban()"> {{'Submit' | translate}} </button>                  
+                    </mat-form-field>
+                    <button mat-raised-button color="primary" (click)="callKanban()"> {{'Submit' | translate}} </button>
                 </mat-tab>
             </mat-tab-group>
 
-        </mat-tab>        
+        </mat-tab>
     </mat-tab-group>
 
 
