@@ -63,8 +63,8 @@ export class CoinService {
         coin.contractAddr = address;
         coin.coinType = baseCoin.coinType;
         coin.baseCoin = baseCoin;
-        // const addr = new Address(baseCoin.coinType, baseCoin.receiveAdds[0].address, 0);
-        // coin.receiveAdds.push(addr);
+        const addr = new Address(baseCoin.coinType, baseCoin.receiveAdds[0].address, 0);
+        coin.receiveAdds.push(addr);
         return coin;
     }
 
@@ -347,7 +347,7 @@ export class CoinService {
     }
 
     async getBalance(myCoin: MyCoin) {
-        console.log('myCoin.name for getBalance=', myCoin.name);
+        console.log('myCoin.name for getBalance=', myCoin);
         let balance;
         let totalBalance = 0;
         let totalLockBalance = 0;

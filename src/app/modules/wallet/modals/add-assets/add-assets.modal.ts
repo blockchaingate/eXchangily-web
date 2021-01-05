@@ -36,10 +36,10 @@ export class AddAssetsModal {
             decimals: 18
         },        
         {
-            name: 'TTT', 
-            contractAddress: '0xc32ae45504ee9482db99cfa21066a59e877bc0e6',
-            symbol: 'Tangany Test Token',
-            decimals: 18
+            name: 'USD Coin', 
+            contractAddress: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+            symbol: 'USDC',
+            decimals: 6
         },
         {
             name: 'CT', 

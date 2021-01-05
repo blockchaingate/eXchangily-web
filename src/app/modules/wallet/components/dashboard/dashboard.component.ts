@@ -482,6 +482,11 @@ export class WalletDashboardComponent implements OnInit {
             if (coin.name == 'LTC') {
                 ltcAddress = coin.receiveAdds[0].address;
             }
+            if (coin.name == 'USD Coin') {
+                const balance = await this.coinServ.getBalance(coin);
+                coin.balance = balance.balance;
+                coin.lockedBalance = balance.lockbalance;
+            }
         }
 
         if (!bchAddress) {
