@@ -378,6 +378,7 @@ export class SmartContractComponent implements OnInit {
     let smartContractAddress = this.smartContractAddress;
     if(smartContractAddress == '0x0') {
       abiHex = this.formCreateSmartContractABI();
+      console.log('abiHex for smart contract:', abiHex);
       smartContractAddress = '0x0000000000000000000000000000000000000000';
     } else {
       abiHex = this.formABI();

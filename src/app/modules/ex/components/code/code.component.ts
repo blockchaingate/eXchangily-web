@@ -181,41 +181,7 @@ export class CodeComponent implements OnInit {
         }
       }
     );
-    /*  
-    this.kanbanService.sendRawSignedTransaction(txHex).subscribe((resp: TransactionResp) => {
 
-      if (resp && resp.transactionHash) {
-        
-        if (this.lan === 'zh') {
-          this.alertServ.openSnackBarSuccess('转账提交成功。', 'Ok');
-        } else {
-          this.alertServ.openSnackBarSuccess('Send Coin Transaction was submitted successfully.', 'Ok');
-        }
-
-        
-        this.modalRef.hide();
-        this.apiServ.updateExTransactionId(this.code, resp.transactionHash).subscribe(
-          (res: any) => {
-            console.log('res===', res);
-            if(res && res.ok) {
-              console.log('updated Transaction Id');
-            }
-          }
-        );
-
-      } else {
-        if (this.lan === 'zh') {
-          this.alertServ.openSnackBar('创建转账交易时发生错误, 提交失败。', 'Ok');
-        } else {
-          this.alertServ.openSnackBar('Error happened while sending coin.', 'Ok');
-        }
-      }
-    },
-      error => {
-        this.alertServ.openSnackBar(error.error, 'Ok');
-      }
-    );
-    */
   }
 
   async txHexforSendToken
