@@ -24,7 +24,7 @@ import { MarketTopComponent } from './components/top/market-top.component';
 import { MarketTopBlockComponent } from './components/top-block/market-top-block.component';
 import { TradeAutoComponent } from './components/trade-auto/trade-auto.component';
 import { SharedModule } from '../shared/shared.module';
-
+// import {SlideshowModule} from 'ng-simple-slideshow';
 
 @NgModule({
   imports: [
@@ -32,7 +32,7 @@ import { SharedModule } from '../shared/shared.module';
     FormsModule,
     HttpClientModule,
     RouterModule,
-    CarouselModule,
+    // CarouselModule,
     MarketRoutingModule,
     TradeModule,
     MatSnackBarModule,
@@ -41,7 +41,9 @@ import { SharedModule } from '../shared/shared.module';
     MatButtonModule,
     SharedModule,
     ModalModule.forRoot(),
-    AdvModule
+    AdvModule,
+    CarouselModule.forRoot()
+    // SlideshowModule,
   ],
   providers: [
     PriceService,

@@ -5,6 +5,16 @@ a:focus {
     color: lightgray;
 }
 
+.mobile-items{
+    display: none;
+}
+
+@media (max-width:767px){
+    .mobile-items{
+        display: block;
+    }
+}
+
 .nav-link {
     -webkit-transition: all 450ms ease-in-out;
     -moz-transition: all 450ms ease-in-out;

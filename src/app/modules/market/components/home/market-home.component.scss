@@ -1,9 +1,37 @@
 @import "sizing";
 .containerX {
-    background-color: #1f2233;
+    background-color: #070829;
 }
 
 .market-page {
+    .carousel-container {
+        background-color: #888;
+        height: calc(100vh - 154px);
+        position: relative;
+
+        #canvas-club {
+            overflow: hidden;
+            background: black;
+            // height: calc(100vh - 154px);
+            // width: 100%;
+        }
+
+        .m-carousel {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+        }
+
+        .carousel-inner {
+            position: relative;
+            top: 50%;
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+    }
+
     .topslogan {
         padding: 0.6em;
         text-align: center;
@@ -102,6 +130,44 @@
     @media (max-width: $p1023) {
         .slogan {
             margin: -15px 0;
+        }
+    }
+}
+
+::ng-deep {
+    .carousel {
+        position: relative;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
+    h2.carousel-txt {
+        font-weight: 800;
+        font-size: 70px;
+        text-transform: uppercase;
+    }
+
+    h3.carousel-txt {
+        font-weight: 800;
+        font-size: 40px;
+        text-transform: uppercase;
+    }
+
+    .carousel-txt-p {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    @media screen and (max-width: 1000px) {
+        .m-carousel {
+            transform: scale(0.7);
+        }
+        .carousel {
+
+            .lead img {
+                width: 60%;
+            }
         }
     }
 }

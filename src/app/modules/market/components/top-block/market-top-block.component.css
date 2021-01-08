@@ -29,10 +29,25 @@
 
 }
 
-@media (max-width: 575px) {
+
+@media (max-width: 767px) {
+
     .title {
-        background-color: #322e40;
+        background-color: #3d4bab;
+        
+    }
+
+    .title .text-muted{
+        color: #f7f7f7 !important;
     }
 
 
 }
+/* 
+@media (max-width: 575px) {
+    .title {
+        background-color: #412896;
+    }
+
+
+} */
