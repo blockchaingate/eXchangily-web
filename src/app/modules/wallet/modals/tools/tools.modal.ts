@@ -45,13 +45,20 @@ export class ToolsModal implements OnInit{
     }   
     
     BTCinFAB() {
-        console.log('to=', this.to);
         const toolData = {
             action: 'BTCinFAB',
             data: this.to,
             satoshisPerBytes: this.satoshisPerBytes
         };
         this.confirmedTools.emit(toolData);
+    }
 
+    FABinBTC() {
+        const toolData = {
+            action: 'FABinBTC',
+            data: this.to,
+            satoshisPerBytes: this.satoshisPerBytes
+        };
+        this.confirmedTools.emit(toolData);
     }
 }

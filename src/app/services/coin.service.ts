@@ -170,6 +170,13 @@ export class CoinService {
         return coin;
     }
 
+    initFABinBTC(seed: Buffer) {
+        const coin = new MyCoin('FAB');
+        coin.coinType = environment.CoinType.BTC;
+        this.fillUpAddress(coin, seed, 1, 0);
+        return coin;
+    }
+
     initMyCoinsOld(seed: Buffer): MyCoin[] {
         const myCoins = new Array();
 

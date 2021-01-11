@@ -3,9 +3,52 @@
         <div class="w-75">
             <div class="exg-bg content">
                 <div class="container py-2">
+
+                    <div class="row">
+                        <div class="col col-8 col-md-6">
+                            {{"My Wallet" | translate}}
+                        </div>
+                        
+                        <div class="col col-4 w-100 col-md-6 small text-right fxHide-gt-sm">
+                            <mat-menu #walletMenu="matMenu">
+                                <button mat-menu-item (click)="navigate('/wallet/restore')">{{"Import Wallet" | translate}}</button>
+                                <button (click)="navigate('/wallet/create')" mat-menu-item>{{"Create Wallet" | translate}}</button>
+                                <button (click)="onmanageWallet('LOGIN_SETTING')" mat-menu-item>{{"Login Setting" | translate}}</button>
+                                <button (click)="onmanageWallet('DISPLAY_SETTING')" mat-menu-item>{{"Display Setting" | translate}}</button>
+                                <button (click)="onmanageWallet('SHOW_SEED_PHRASE')" mat-menu-item>{{"Show seed phrase" | translate}}</button>
+
+                                <button (click)="onmanageWallet('VERIFY_SEED_PHRASE')" mat-menu-item>{{"Verify seed phrase" | translate}}</button>
+                                <button (click)="onmanageWallet('BACKUP_PRIVATE_KEY')" mat-menu-item>{{"Backup private key" | translate}}</button>
+                                <button (click)="onmanageWallet('DELETE_WALLET')" mat-menu-item>{{"Delete wallet" | translate}}</button>
+                                <button (click)="onmanageWallet('SMART_CONTRACT')" mat-menu-item>{{"Smart contract" | translate}}</button>
+                                <button (click)="onmanageWallet('HIDE_SHOW_WALLET')" mat-menu-item>{{ (hideWallet ? 'Show wallet' : 'Hide wallet') | translate}}  </button>
+                                <button (click)="onmanageWallet('TOOLS')" mat-menu-item>{{"Tools" | translate}}</button>
+                                                                                           
+                            </mat-menu>
+
+                            <button mat-icon-button [matMenuTriggerFor]="walletMenu">
+                                <mat-icon svgIcon="more-vert"></mat-icon>
+                            </button>
+                        </div>                                
+                    </div>    
+                    
+<!--
+                <li class="nav-item">
+                    <a (click)="hideShowWallet()" class="nav-link text-silver">
+                        {{ (hideWallet ? 'Show wallet' : 'Hide wallet') | translate}}  
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a (click)="manageWal('TOOLS')" class="nav-link text-silver">
+                        {{'Tools' | translate}}  
+                    </a>
+                </li>   
+-->
+                    
                     <div class="row">
                         <div class="col col-md-8">
-                            <div class="header pt-3">{{"My Wallet" | translate}}</div>
+
                             <div *ngIf="wallets">
                                 <mat-form-field>
                                     <mat-select panelClass="example-panel" [value]="currentWalletIndex" (selectionChange)="changeWallet($event.value)">

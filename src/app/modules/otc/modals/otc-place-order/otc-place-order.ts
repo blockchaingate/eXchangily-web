@@ -1,6 +1,6 @@
 import { Component, ViewChild, EventEmitter, Output, Input, OnInit, AfterViewInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { StripeToken, StripeSource, StripeCard } from 'stripe-angular'
+//import { StripeToken, StripeSource, StripeCard } from 'stripe-angular'
 import { environment } from 'src/environments/environment';
 // import { StripeScriptTag } from 'stripe-angular'
 /*
@@ -21,7 +21,7 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit {
   @Input() balance: number;
   token: string;
   @Output() confirmed = new EventEmitter<any>();
-  @ViewChild('stripeCard', { static: true }) stripeCard: StripeCard;
+  @ViewChild('stripeCard', { static: true }) stripeCard;
   element: any;
   amount: number;
   quantity: number;
@@ -226,11 +226,12 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit {
     */
   }
 
+  /*
   onStripeInvalid(error: Error) {
     console.log('Validation Erroree', error);
   }
 
-  setStripeToken(token: StripeToken) {
+  setStripeToken(token) {
     this.hide();
     this.token = token.id;
     const data = {
@@ -242,14 +243,14 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit {
     this.confirmed.emit(data);
   }
 
-  setStripeSource(source: StripeSource) {
+  setStripeSource(source) {
     console.log('Stripe sourceee', source);
   }
 
   onStripeError(error: Error) {
     console.error('Stripe erroree', error);
   }
-
+  */
   ngOnInit() {
     // Set the application ID
 

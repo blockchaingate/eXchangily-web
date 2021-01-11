@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { UtilService } from 'src/app/services/util.service';
 import { MyCoin } from '../../../../../models/mycoin';
 import { CoinService } from '../../../../../services/coin.service';
 @Component({
@@ -18,7 +19,9 @@ export class AddressKeyComponent implements OnInit, OnChanges {
     // MatPaginator Output
     pageEvent: PageEvent;
 
-    constructor(private coinServ: CoinService) { }
+    constructor(
+        private utilServ: UtilService,
+        private coinServ: CoinService) { }
 
     ngOnInit() {
         this.showPage();
@@ -29,7 +32,9 @@ export class AddressKeyComponent implements OnInit, OnChanges {
             this.showPage();
         }
     }
-
+    copyPrivateKey(priKey: string) {
+        this.utilServ.copy(priKey);
+    }
     showPage() {
         console.log('this.currentCoin======', this.currentCoin);
         const addsArray = (this.chain === 0) ? this.currentCoin.receiveAdds : this.currentCoin.changeAdds;

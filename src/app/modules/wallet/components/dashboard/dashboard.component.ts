@@ -33,6 +33,7 @@ import { AngularCsv } from 'angular7-csv';
 import { TransactionItem } from '../../../../models/transaction-item';
 import BigNumber from 'bignumber.js/bignumber';
 import { TimerService } from '../../../../services/timer.service';
+import { TranslateService } from '@ngx-translate/core';
 import { WsService } from '../../../../services/ws.service';
 import { environment } from '../../../../../environments/environment';
 import { ManageWalletComponent } from '../manage-wallet/manage-wallet.component';
@@ -106,6 +107,7 @@ export class WalletDashboardComponent implements OnInit {
         private route: Router, private walletServ: WalletService, private modalServ: BsModalService,
         private coinServ: CoinService, public utilServ: UtilService, private apiServ: ApiService,
         private _wsServ: WsService,
+        private translateServ: TranslateService,
         private kanbanServ: KanbanService, private web3Serv: Web3Service,
         private alertServ: AlertService, private timerServ: TimerService,
         private coinService: CoinService, private storageService: StorageService) {
@@ -389,6 +391,11 @@ export class WalletDashboardComponent implements OnInit {
             this.route.navigate(['/smartcontract']);
             return;
         } else if (type === 'HIDE_SHOW_WALLET') {
+            if(!this.wallet.pwdDisplayHash || this.wallet.pwdDisplayHash.length == 0) {
+
+                this.alertServ.openSnackBar(this.translateServ.instant('Please set your display password in display setting'), 'ok');
+                return;
+            }
             if (this.wallet.hide) {
                 this.opType = 'showWallet';
                 this.displayPinModal.show();
@@ -398,6 +405,9 @@ export class WalletDashboardComponent implements OnInit {
         }
     }
 
+    navigate(url: string) {
+        this.route.navigate([url]);
+    }
     onShowTransactionHistory() {
         this.showMyAssets = false;
         this.showTransactionHistory = true;
@@ -483,9 +493,14 @@ export class WalletDashboardComponent implements OnInit {
                 ltcAddress = coin.receiveAdds[0].address;
             }
             if (coin.name == 'USD Coin') {
-                const balance = await this.coinServ.getBalance(coin);
-                coin.balance = balance.balance;
-                coin.lockedBalance = balance.lockbalance;
+                try {
+                    const balance = await this.coinServ.getBalance(coin);
+                    coin.balance = balance.balance;
+                    coin.lockedBalance = balance.lockbalance;
+                } catch(e) {
+                    
+                }
+
             }
         }
 
@@ -534,6 +549,15 @@ export class WalletDashboardComponent implements OnInit {
                             if (coin.name === 'ETH') {
                                 ethCoin = coin;
                             }
+                            if(coin.name === 'EXG') {
+                                
+                                this.exgBalance = coin.balance + coin.lockedBalance;
+
+                                this.exgValue = (this.exgBalance) * coin.usdPrice;
+
+                                console.log('this.exgBalance=', this.exgBalance);
+                                         
+                            }
                             if (coin.name === 'FAB') {
                                 fabCoin = coin;
                             }
@@ -567,10 +591,7 @@ export class WalletDashboardComponent implements OnInit {
                             }
 
                         }
-                        this.exgBalance = this.wallet.mycoins[0].balance + this.wallet.mycoins[0].lockedBalance;
-
-                        this.exgValue = (this.exgBalance) * this.wallet.mycoins[0].usdPrice;
-                    }
+                   }
 
                     if (!hasDRGN) {
                         const drgnCoin = new MyCoin('DRGN');
@@ -1010,7 +1031,6 @@ export class WalletDashboardComponent implements OnInit {
     onConfirmedDisplayPin(pin: string) {
         this.pin = pin;
         const pinHash = this.utilServ.SHA256(pin).toString();
-        console.log('this.wallet.pwdDisplayHash==', this.wallet.pwdDisplayHash);
         if (pinHash !== this.wallet.pwdDisplayHash) {
             this.warnPwdErr();
             return;

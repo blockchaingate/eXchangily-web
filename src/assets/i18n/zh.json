@@ -1237,6 +1237,7 @@
     "My Orders": "我的订单",
     "Tools": "工具",
     "BTC in FAB address": "FAB地址的BTC",
+    "FAB in BTC address": "BTC地址的FAB",
     "My payment methods": "我的收款方式",
     "Merchant info": "商户信息",
     "Order info": "订单信息",
@@ -1480,5 +1481,6 @@
     "Chat room": "聊天室",
     "DCChat": "去中心化加密货币专业聊天室，集成加密货币交易及操作指令，暂未正式开通。",
     "Club": "俱乐部",
+    "Please set your display password in display setting": "请在显示设置中设置显示密码",
     "Important Notice txt": "这里注册和登录选项只是为了让用户方便的参加我们派送加密货币的活动。我们在您注册的时候只会记录您的钱包地址，以方便我们向您派送加密货币，所以我们绝不会记录您的私钥信息。我们的整个项目是完全去中心化的，并且是开源的。您可以通过github来找到并查看我们的代码。"
 }

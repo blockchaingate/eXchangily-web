@@ -1,6 +1,6 @@
 <div bsModal #backupPrivateKeyModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-bg-grey">
-        <form [formGroup]="backupPrivateKeyForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="backupPrivateKeyForm">
             <div class="modal-content" *ngIf="wallet">
                 <div class="modal-header text-center">
                     <h4 class="modal-title w-100 text-dark">{{'Backup private key' | translate }}</h4>
@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="modal-footer justify-content-center">
-                    <button class="btn btn-gradient text-white py-2 px-5 btn-lg-fixed-width" type="submit"> {{'Export' | translate}}</button>
+                    <button class="btn btn-gradient text-white py-2 px-5 btn-lg-fixed-width" (click)="onSubmit()"> {{'Export' | translate}}</button>
                 </div>
             </div>
         </form>
