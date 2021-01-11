@@ -1,5 +1,7 @@
 raven cabin cute bachelor mail broken diet night hurry alley bus gauge
 
+wif
+
 
 NVZN TOKEN CONTRACT ADDRESS:
 
