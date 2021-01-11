@@ -498,7 +498,7 @@ export class WalletDashboardComponent implements OnInit {
                     coin.balance = balance.balance;
                     coin.lockedBalance = balance.lockbalance;
                 } catch(e) {
-                    
+
                 }
 
             }
@@ -958,6 +958,8 @@ export class WalletDashboardComponent implements OnInit {
             this.displaySettingModal.show();
         } else if (this.opType === 'BTCinFAB') {
             this.btcInFab();
+        } else if (this.opType === 'FABinBTC') {
+            this.fabInBtc();            
         } else if (this.opType === 'loadnewCoins') {
             this.loadNewCoinsDo();
         }
@@ -1046,7 +1048,15 @@ export class WalletDashboardComponent implements OnInit {
             this.satoshisPerBytes = event.satoshisPerBytes;
             this.toolsModal.hide();
             this.pinModal.show();
+        } else
+        if (event.action === 'FABinBTC') {
+            this.opType = 'FABinBTC';
+            this.toAddress = event.data;
+            this.satoshisPerBytes = event.satoshisPerBytes;
+            this.toolsModal.hide();
+            this.pinModal.show();
         }
+
     }
 
     toggleWalletHide() {
@@ -1093,11 +1103,9 @@ export class WalletDashboardComponent implements OnInit {
         this.backupPrivateKeyModal.show(seed, this.wallet);
     }
 
-    async btcInFab() {
+    async fabInBtc() {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
-        const coin = this.coinServ.initBTCinFAB(seed);
-        console.log('coin===', coin);
-
+        const coin = this.coinServ.initFABinBTC(seed);
         const options = {
             satoshisPerBytes: this.satoshisPerBytes ? this.satoshisPerBytes : environment.chains.BTC.satoshisPerBytes
         };
@@ -1131,17 +1139,55 @@ export class WalletDashboardComponent implements OnInit {
                 comment: '',
                 status: 'pending'
             };
-            console.log('before next');
             this.timerServ.transactionStatus.next(item);
             this.timerServ.checkTransactionStatus(item);
-            console.log('after next');
             this.storageService.storeToTransactionHistoryList(item);
         }
-        /*
-        this.wallet.mycoins.push(coin);
-        this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);    
-        */
     }
+
+    async btcInFab() {
+        const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
+        const coin = this.coinServ.initBTCinFAB(seed);
+        const options = {
+            satoshisPerBytes: this.satoshisPerBytes ? this.satoshisPerBytes : environment.chains.BTC.satoshisPerBytes
+        };
+
+        const { txHex, txHash, errMsg } = await this.coinService.sendTransaction(coin, seed,
+            this.toAddress, 0, options, true
+        );
+        console.log('errMsg for sendcoin=', errMsg);
+        if (errMsg) {
+            this.alertServ.openSnackBar(errMsg, 'Ok');
+            return;
+        }
+        if (txHex && txHash) {
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBarSuccess('交易提交成功，请等一会查看结果', 'Ok');
+            } else {
+                this.alertServ.openSnackBarSuccess('your transaction was submitted successful, please wait a while to check status.', 'Ok');
+            }
+
+            const item = {
+                walletId: this.wallet.id,
+                type: 'Send',
+                coin: coin.name,
+                tokenType: coin.tokenType,
+                amount: 0,
+                txid: txHash,
+                to: this.toAddress,
+                time: new Date(),
+                confirmations: '0',
+                blockhash: '',
+                comment: '',
+                status: 'pending'
+            };
+            this.timerServ.transactionStatus.next(item);
+            this.timerServ.checkTransactionStatus(item);
+            this.storageService.storeToTransactionHistoryList(item);
+        }
+
+    }
+
     showLockedDetails(coin) {
         this.lockedInfoModal.show(coin);
     }
