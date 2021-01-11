@@ -18,7 +18,7 @@
 
     .row {
         display: flex;
-        align-items: center;
+        align-items: start;
     }
 
     table thead {
@@ -175,7 +175,7 @@
     }
 
     .container-wallet-main {
-        height: 400px;
+        height: 100%;
         padding-left: 2px;
         overflow-y: scroll;
     }

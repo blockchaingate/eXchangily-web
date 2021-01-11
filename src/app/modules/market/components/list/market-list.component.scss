@@ -25,7 +25,7 @@
     min-height: 600px;
     border: 1px solid #353655;
     margin-top: -9px;
-    background-color: #343554;
+    background-color: #151755;
 }
 
 .orderlist {
@@ -67,42 +67,55 @@ th {
     display: flex;
     margin-left: 1em;
     margin-right: 1em;
+    padding-top: 0.5em;
     padding-bottom: 0.5em;
-    margin-bottom: 0.5em;
+    // margin-bottom: 0.5em;
     border-bottom: 1px dashed #484969;
     color: silver;
     font-size: small;
 }
 
+.dataline {
+    transition: all 200ms ease-in-out;
+}
+
 .dataline:hover {
-    background-color: #3a3b5a;
+    // background-color: #3a3b5a;
+    transform: scale(1.02);
+    background: #4a52aa;
+    border-radius: 5px;
 }
 
 .header {
     font-weight: bold;
     height: 2em;
     padding-top: 4px;
-    background-color: #2c2c4e;
+    background-color: #4a52aa;
     color: white;
 }
 
 .selected {
-    background-color: #2c2c4e;
+    background-color: #4a52aa;
     color: white;
     font-weight: bold;
-    border-top: 1px solid;
-    border-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'><defs><linearGradient id='redgradient' x1='100%' x2='0%' y1='0%' y2='0%'><stop offset='0%' stop-color='rgb(122,28,229)' stop-opacity='1' /> <stop offset='100%' stop-color='rgb(229,159,18)' stop-opacity='1' /></linearGradient></defs><g id='Layer_1'><path d='M0,0 L50,0 L50,50 L0,50 L0,0 z' fill='url(%23redgradient)' width='100%' height='100%'/></g></svg>")
-        10% stretch;
+    border-top: 2px solid #2277ff;
+    border-bottom: none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    // border-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'><defs><linearGradient id='redgradient' x1='100%' x2='0%' y1='0%' y2='0%'><stop offset='0%' stop-color='rgb(122,28,229)' stop-opacity='1' /> <stop offset='100%' stop-color='rgb(229,159,18)' stop-opacity='1' /></linearGradient></defs><g id='Layer_1'><path d='M0,0 L50,0 L50,50 L0,50 L0,0 z' fill='url(%23redgradient)' width='100%' height='100%'/></g></svg>")
+    //     10% stretch;
 }
 
 .redcolor {
-    color: #ef5556;
+    color: #ef555666;
     background-color: #3c2d42;
+    border-radius: 5px;
 }
 
 .greencolor {
-    color: #7ed321;
+    color: #7ed32166;
     background-color: #253548;
+    border-radius: 5px;
 }
 
 .text-coin {
@@ -166,7 +179,15 @@ th {
     line-height: 16px;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
+    .market-panel {
+        padding: 0 15px;
+
+        .pricelist {
+            border-radius: 20px;
+        }
+    }
+
     .navbar-expand-sm {
         -webkit-box-orient: horizontal;
         -webkit-box-direction: normal;
@@ -178,8 +199,7 @@ th {
         text-align: center;
     }
 
-    .input-group-sm{
-
+    .input-group-sm {
         margin: 15px auto 0 auto;
     }
 
@@ -205,6 +225,8 @@ th {
     .apair > .col-5,
     .apair > .col-4,
     .apair > .col-3 {
-        background-color: #322e40;
+        background-color: #654aca;
+        line-height: 28px;
+        border-radius: 0;
     }
 }

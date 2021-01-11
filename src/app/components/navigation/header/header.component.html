@@ -1,12 +1,5 @@
 <header>
-    <div class="text-center text-warning test-warning" *ngIf="testMode && displayHideLabel">
-        <h2>
-            Exchangily Test Website
-            <!--
-            <button (click)="hideTestLabel();" class="btn btn-warning">X</button>
-            -->
-        </h2>
-    </div>
+    
     <div style="width: 100%; color: orange; padding-left:1em; padding-right: 1em;" *ngIf="urgentAnnouncementsList.length>0">
         <br>
         <div style="margin: auto; max-width: 1120px;">
@@ -17,6 +10,14 @@
         </div>
     </div>
     <nav class="navbar  navbar-expand-lg navbar-dark px-3 upperNav">
+        <div class="text-center text-warning test-warning" *ngIf="testMode && displayHideLabel">
+            <h2>
+                Exchangily Test Website
+                
+                <button (click)="hideTestLabel();" class="btn btn-warning">X</button>
+               
+            </h2>
+        </div>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
                 <a class="nav-link">{{'Language' | translate}}</a>
@@ -50,7 +51,29 @@
         </button>
 
         <div class="collapse navbar-collapse" [ngClass]="showCollapse ? 'show' : ''" id="navbarSupportedContent">
-
+            <ul class="navbar-nav mobile-items">
+                <li class="nav-item">
+                    <a class="nav-link">{{'Language' | translate}}</a>
+                    <div class="exSubMenu">
+                        <div class="exMenuContainer">
+                            <div class="exMenuItemBox ">
+                                <ul>
+                                    <li class="nav-item">
+                                        <a class="nav-link" (click)="selectLan('en')">English</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" (click)="selectLan('zh')">中文</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+    
+                <li class="nav-item">
+                    <a class="nav-link" (click)="linkTo('/app');selectedItem=41" [class.selected]="selectedItem===41" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Mobile App' | translate}}</a>
+                </li>
+            </ul>
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" (click)="linkTo('/wallet/dashboard');selectedItem=0" [class.selected]="selectedItem===0" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Wallet' | translate}}</a>

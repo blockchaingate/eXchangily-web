@@ -4,9 +4,10 @@
 
 <div class="containerX market-page" *ngIf="!maintainence">
     <div *ngIf="isMobile">
-        <app-app-intro [showHeadOnly]="true"></app-app-intro>
+        <!-- <app-app-intro [showHeadOnly]="true"></app-app-intro> -->
+        <div></div>
     </div>
-    <div class="gradient-back-area" fxLayout="column" fxFlex.lt-md="300px">
+    <!-- <div class="gradient-back-area" fxLayout="column" fxFlex.lt-md="300px">
         <div class="topslogan">
             <div class="container">
                 <div class="slogan row">
@@ -36,6 +37,63 @@
                 </div>
             </div>
         </div>
+    </div> -->
+    <div class="carousel-container">
+        <!-- <slideshow [height]="height" [minHeight]="'525px'" [autoPlay]="true" [showArrows]="false"
+            [imageUrls]="imageSources" [lazyLoad]="imageSources?.length > 1" [autoPlayWaitForLazyLoad]="true">
+        </slideshow> -->
+        <canvas id="canvas-club">
+
+        </canvas>
+        <carousel  [isAnimated]="true" class="m-carousel">
+            <div class="slider-wrap">
+              <slide>
+                <div class="text-center py-5 text-white">
+                  <h2 class="carousel-txt">Your Secure Digital</h2>
+                  <div class="lead">
+                    <h3 class="carousel-txt">Asset Wallet & DEX</h3>
+                    <img src="./images/mslider/fabCoin.png" alt="" >
+                    <p class="carousel-txt-p">eXchangily is a universal crypto-currency wallet and application which enables you to trade on the eXchangily decentralized exchange.</p>
+                  </div>
+                </div>
+              </slide>
+              <slide>
+                <div class="text-center py-5 text-white">
+                  <h2 class="carousel-txt">eXchangily is S.A.F.E</h2>
+                  <div class="lead">
+                    <h3 class="carousel-txt">Secure, Autonomous, Fast, Easy</h3>
+                    <img src="./images/mslider/fabCoin.png" alt="" >
+                    <p class="carousel-txt-p">To developing trust, which is why
+                      eXchangily is an open source
+                      project, our code is
+                      available for everyone to see</p>
+                  </div>
+                </div>
+              </slide>
+            </div>
+            
+            <!-- <slide>
+              <img src="https://images.unsplash.com/photo-1609965803451-43c6e8d7b346?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="first slide" style="display: block; width: 100%;">
+              <div class="carousel-caption d-none d-md-block">
+                <h3>First slide label</h3>
+                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+              </div>
+            </slide>
+            <slide>
+              <img src="https://images.unsplash.com/photo-1609974631970-5d2e640508f0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1400&q=80" alt="second slide" style="display: block; width: 100%;">
+              <div class="carousel-caption d-none d-md-block">
+                <h3>Second slide label</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              </div>
+            </slide>
+            <slide>
+              <img src="https://images.unsplash.com/photo-1609965803451-43c6e8d7b346?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="third slide" style="display: block; width: 100%;">
+              <div class="carousel-caption d-none d-md-block">
+                <h3>Third slide label</h3>
+                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+              </div>
+            </slide> -->
+          </carousel>
     </div>
 
     <app-market-top></app-market-top>
