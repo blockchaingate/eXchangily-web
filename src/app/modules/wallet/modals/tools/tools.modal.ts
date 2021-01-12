@@ -45,6 +45,7 @@ export class ToolsModal implements OnInit{
     }   
     
     BTCinFAB() {
+        
         const toolData = {
             action: 'BTCinFAB',
             data: this.to,

@@ -68,6 +68,8 @@ export class WalletDashboardComponent implements OnInit {
 
     sendCoinForm: SendCoinForm;
     wallet: Wallet;
+    privateKey: string;
+    coinName: string;
     maintainence: boolean;
     wallets: Wallet[];
     modalRef: BsModalRef;
@@ -528,7 +530,7 @@ export class WalletDashboardComponent implements OnInit {
             }
         );
         this.coinServ.walletBalance(data).subscribe(
-            (res: any) => {
+            async (res: any) => {
                 if (res && res.success) {
                     let updated = false;
                     let hasDRGN = false;
@@ -588,6 +590,10 @@ export class WalletDashboardComponent implements OnInit {
                                 if (coin.name === 'FAB') {
                                     this.fabBalance = coin.balance;
                                 }
+                            }
+
+                            if(coin.new) {
+                                await this.coinServ.updateCoinBalance(coin);
                             }
 
                         }
@@ -962,7 +968,20 @@ export class WalletDashboardComponent implements OnInit {
             this.fabInBtc();            
         } else if (this.opType === 'loadnewCoins') {
             this.loadNewCoinsDo();
+        } else if(this.opType == 'addNewAsset') {
+            this.addNewAssetDo();
         }
+    }
+
+    addNewAssetDo() {
+
+        const coin = new MyCoin(this.coinName);
+        coin.new = true;
+        coin.encryptedPrivateKey = this.utilServ.aesEncrypt(this.privateKey, this.pin);
+        this.coinServ.fillUpAddressByPrivateKey(coin, this.privateKey);
+        this.coinServ.updateCoinBalance(coin);
+        this.wallet.mycoins.push(coin);
+        this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
     }
 
     loadNewCoinsDo() {
@@ -1211,6 +1230,15 @@ export class WalletDashboardComponent implements OnInit {
             const name = token.name;
             const addr = token.address;
             const decimals = token.decimals;
+            if(name == 'FAB') {
+
+                this.opType = 'addNewAsset';
+                this.privateKey = token.privateKey;
+                this.coinName = 'FAB';
+                this.pinModal.show();   
+                return;
+            }
+
             for (let j = 0; j < 5; j++) {
                 if (this.wallet.mycoins[j].name === type) {
                     const baseCoin = this.wallet.mycoins[j];
@@ -1279,8 +1307,6 @@ export class WalletDashboardComponent implements OnInit {
         const pin = this.pin;
         const currentCoin = this.wallet.mycoins[this.sendCoinForm.coinIndex];
 
-        const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
-
         const amount = this.sendCoinForm.amount;
         const doSubmit = true;
         const options = {
@@ -1288,11 +1314,29 @@ export class WalletDashboardComponent implements OnInit {
             gasLimit: this.sendCoinForm.gasLimit,
             satoshisPerBytes: this.sendCoinForm.satoshisPerBytes
         };
-        console.log('currenCoin=====', currentCoin);
-        console.log('addr=', this.sendCoinForm.to.trim());
-        const { txHex, txHash, errMsg, txids } = await this.coinService.sendTransaction(currentCoin, seed,
-            this.sendCoinForm.to.trim(), amount, options, doSubmit
-        );
+        
+        let resForSendTx;
+        if(currentCoin.new && currentCoin.encryptedPrivateKey) {
+            const privateKey = this.utilServ.aesDecrypt(currentCoin.encryptedPrivateKey, pin);
+
+            resForSendTx = await this.coinService.sendTransactionWithPrivateKey(currentCoin, privateKey,
+                this.sendCoinForm.to.trim(), amount, options, doSubmit
+            );
+        } else {
+            const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
+            resForSendTx = await this.coinService.sendTransaction(currentCoin, seed,
+                this.sendCoinForm.to.trim(), amount, options, doSubmit
+            );
+        }
+
+        
+        if(!resForSendTx) {
+            return;
+        }
+        const txHex = resForSendTx.txHex;
+        const txHash = resForSendTx.txHash;
+        const errMsg = resForSendTx.errMsg;
+        const txids = resForSendTx.txids;
         console.log('errMsg for sendcoin=', errMsg);
         if (errMsg) {
             this.alertServ.openSnackBar(errMsg, 'Ok');
@@ -1500,7 +1544,7 @@ export class WalletDashboardComponent implements OnInit {
             return;
         }
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
-        const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
+        let keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
 
         const doSubmit = false;
         const options = {

@@ -32,7 +32,7 @@
 
                             </div>
                             <div class="col">
-                                <div class="pull-right text-muted" *ngIf="wallet">
+                                <div class="pull-right text-muted" *ngIf="wallet && wallet.mycoins && wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value]">
                                     {{'Balance' | translate }}:{{wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].balance}}
                                 </div>
                             </div>

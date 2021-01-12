@@ -9,8 +9,15 @@
               </button>
                 </div>
                 <div class="modal-body">
-                    <mat-tab-group>
+                    <mat-tab-group [(selectedIndex)]="selectedIndex">
                         <mat-tab label="{{'FAB'|translate}}">
+                            <div class="form-group pt-2">
+                                <label for="inputSendTo" class="text-muted">{{"Private key"|translate}}</label>
+                                <input type="text" class="form-control" id="fabPrivateKey" formControlName="fabPrivateKey" aria-describedby="fabContractAddress" placeholder="">
+                            </div>
+                        </mat-tab>
+                        <!--
+                        <mat-tab label="{{'FAB tokens'|translate}}">
                             <mat-selection-list #fabtokens (selectionChange)="onFabSelection($event, fabtokens.selectedOptions.selected)">
                                 <mat-list-option *ngFor="let token of fabTokens; let i = index" [value]="i+1">
 
@@ -41,7 +48,8 @@
                                 </div>
                             </div>
                         </mat-tab>
-                        <mat-tab label="{{'Ethereum'|translate}}">
+                    -->
+                        <mat-tab label="{{'Ethereum tokens'|translate}}">
 
                             <mat-selection-list #ethtokens (selectionChange)="onEthSelection($event, ethtokens.selectedOptions.selected)">
                                 <mat-list-option *ngFor="let token of ethTokens; let i = index" [value]="i+1">

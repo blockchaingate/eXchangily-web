@@ -2,6 +2,8 @@ raven cabin cute bachelor mail broken diet night hurry alley bus gauge
 
 wif
 
+uint8Array not defined
+btoa not defined
 
 NVZN TOKEN CONTRACT ADDRESS:
 
