@@ -192,7 +192,8 @@ export class WalletDashboardComponent implements OnInit {
     }
 
     async ngOnInit() {
-
+        this.exgBalance = 0;
+        this.exgValue = 0;
         /*
         const anotherPublicKey = '0x4ac4691ef9cda915d6b4a48bf449fe9daba60281e0ab0ece80b1af89073ebb6b2a5a93054ce960e98ee7743bda765fc97215417ecd5132e030fbe876830b2c81';
         const addr2 = this.utilServ.toKanbanAddress(Buffer.from(anotherPublicKey, 'hex'));
@@ -504,6 +505,24 @@ export class WalletDashboardComponent implements OnInit {
                 }
 
             }
+            if(coin.new) {
+                try {
+                    const balance = await this.coinServ.getBalance(coin);
+                    coin.balance = balance.balance;
+                    coin.lockedBalance = balance.lockbalance;
+
+                    if(coin.name === 'EXG') {
+                        if(!this.exgBalance) {
+                            this.exgBalance = coin.balance + coin.lockedBalance;
+                        } else {
+                            this.exgBalance += coin.balance + coin.lockedBalance;
+                        }       
+                    }                   
+                } catch(e) {
+
+                }          
+            }
+
         }
 
         if (!bchAddress) {
@@ -542,6 +561,9 @@ export class WalletDashboardComponent implements OnInit {
                         const item = res.data[i];
                         for (let j = 0; j < this.wallet.mycoins.length; j++) {
                             const coin = this.wallet.mycoins[j];
+                            if(coin.new) {
+                                continue;
+                            }
                             if (coin.name === 'DRGN') {
                                 hasDRGN = true;
                             }
@@ -552,12 +574,12 @@ export class WalletDashboardComponent implements OnInit {
                                 ethCoin = coin;
                             }
                             if(coin.name === 'EXG') {
-                                
-                                this.exgBalance = coin.balance + coin.lockedBalance;
-
-                                this.exgValue = (this.exgBalance) * coin.usdPrice;
-
-                                console.log('this.exgBalance=', this.exgBalance);
+                                this.exgValue = coin.usdPrice;
+                                if(!this.exgBalance) {
+                                    this.exgBalance = coin.balance + coin.lockedBalance;
+                                } else {
+                                    this.exgBalance += coin.balance + coin.lockedBalance;
+                                }
                                          
                             }
                             if (coin.name === 'FAB') {
@@ -592,9 +614,7 @@ export class WalletDashboardComponent implements OnInit {
                                 }
                             }
 
-                            if(coin.new) {
-                                await this.coinServ.updateCoinBalance(coin);
-                            }
+
 
                         }
                    }
@@ -979,9 +999,40 @@ export class WalletDashboardComponent implements OnInit {
         coin.new = true;
         coin.encryptedPrivateKey = this.utilServ.aesEncrypt(this.privateKey, this.pin);
         this.coinServ.fillUpAddressByPrivateKey(coin, this.privateKey);
+        for(let i=0;i<this.wallet.mycoins.length;i++) {
+            const item = this.wallet.mycoins[i];
+            if(item.name == 'FAB' && item.receiveAdds[0].address == coin.receiveAdds[0].address) {
+                this.alertServ.openSnackBarSuccess(this.translateServ.instant('FAB Coin already exists'), 'Ok');
+                return;
+            }
+        }
         this.coinServ.updateCoinBalance(coin);
         this.wallet.mycoins.push(coin);
+
+        if(this.coinName == 'FAB') {
+            const exgCoin = this.coinServ.initToken('FAB', 'EXG', 18, environment.addresses.smartContract.EXG, coin);
+            exgCoin.new = true;
+            exgCoin.encryptedPrivateKey = coin.encryptedPrivateKey;
+            this.coinServ.updateCoinBalance(exgCoin);
+
+            const dusdCoin = this.coinServ.initToken('FAB', 'DUSD', 18, environment.addresses.smartContract.DUSD, coin);
+            dusdCoin.new = true;
+            dusdCoin.encryptedPrivateKey = coin.encryptedPrivateKey;    
+            this.coinServ.updateCoinBalance(dusdCoin);
+
+            const cnbCoin = this.coinServ.initToken('FAB', 'CNB', 18, environment.addresses.smartContract.CNB, coin);
+            cnbCoin.new = true;
+            cnbCoin.encryptedPrivateKey = coin.encryptedPrivateKey; 
+            this.coinServ.updateCoinBalance(cnbCoin);
+
+            this.wallet.mycoins.push(exgCoin);
+            this.wallet.mycoins.push(dusdCoin);
+            this.wallet.mycoins.push(cnbCoin);
+        }
+
         this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
+
+        this.alertServ.openSnackBarSuccess(this.translateServ.instant('FAB Coin was added successfully'), 'Ok');
     }
 
     loadNewCoinsDo() {

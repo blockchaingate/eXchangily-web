@@ -937,6 +937,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
     const abiHex = this.web3Serv.getCreateOrderFuncABI([false, bidOrAsk,
       baseCoin, targetCoin, qtyString, priceString, orderHash]);
+
     const nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
 
     if ((this.gasPrice <= 0) || (this.gasLimit <= 0)) {

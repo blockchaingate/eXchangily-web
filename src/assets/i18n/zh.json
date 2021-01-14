@@ -1236,6 +1236,8 @@
     "Phone(China)": "电话(中国)",
     "My Orders": "我的订单",
     "Tools": "工具",
+    "FAB Coin already exists": "该FAB地址已存在",
+    "FAB Coin was added successfully": "成功添加FAB资产",    
     "BTC in FAB address": "FAB地址的BTC",
     "FAB in BTC address": "BTC地址的FAB",
     "My payment methods": "我的收款方式",

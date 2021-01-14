@@ -79,7 +79,7 @@
                             {{"EXG" | translate}} {{utilServ.toPrecision(exgBalance)}}
                             <div class="small">
                                 <span>
-                                    {{utilServ.toPrecision(exgValue * currencyRate)}}
+                                    {{utilServ.toPrecision(exgBalance * exgValue * currencyRate)}}
                                 </span> {{currentCurrency | translate}}
                             </div>
                         </div>
