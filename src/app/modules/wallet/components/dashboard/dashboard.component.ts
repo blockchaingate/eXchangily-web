@@ -485,6 +485,8 @@ export class WalletDashboardComponent implements OnInit {
             }
             if (coin.name == 'FAB' && !fabAddress) {
                 fabAddress = coin.receiveAdds[0].address;
+                this.fabBalance = coin.balance;
+                this.fabAddress = fabAddress;
             }
             if (coin.name == 'BCH') {
                 bchAddress = coin.receiveAdds[0].address;
@@ -766,26 +768,6 @@ export class WalletDashboardComponent implements OnInit {
 
     async loadWallet(wallet: Wallet) {
         this.wallet = wallet;
-
-        for (let i = 0; i < this.wallet.mycoins.length; i++) {
-            const coin = this.wallet.mycoins[i];
-            if (!coin.receiveAdds) {
-                return;
-            }
-            const balance = coin.balance;
-            if (!coin.receiveAdds || (coin.receiveAdds.length === 0)) {
-                continue;
-            }
-            const address = coin.receiveAdds[0].address;
-            if (coin.name === 'FAB') {
-                this.fabBalance = balance;
-                this.fabAddress = address;
-            } else if (coin.name === 'ETH') {
-                this.ethBalance = balance;
-            }
-        }
-        // console.log('this.wallet=', this.wallet);
-        this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
 
 
         this.campaignorderServ.getCheck(this.exgAddress).subscribe(
