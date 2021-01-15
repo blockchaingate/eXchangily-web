@@ -5,17 +5,14 @@
 
 .market-page {
     .carousel-container {
-        background-color: #888;
-        height: calc(100vh - 154px);
+        height: 500px;
         position: relative;
-
         #canvas-club {
             overflow: hidden;
             background: black;
             // height: calc(100vh - 154px);
             // width: 100%;
         }
-
         .m-carousel {
             position: absolute;
             top: 0;
@@ -23,7 +20,6 @@
             left: 0;
             bottom: 0;
         }
-
         .carousel-inner {
             position: relative;
             top: 50%;
@@ -31,7 +27,6 @@
             transform: translateY(-50%);
         }
     }
-
     .topslogan {
         padding: 0.6em;
         text-align: center;
@@ -141,32 +136,26 @@
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);
     }
-
     h2.carousel-txt {
-        font-weight: 800;
-        font-size: 70px;
-        text-transform: uppercase;
-    }
-
-    h3.carousel-txt {
-        font-weight: 800;
+        font-weight: 600;
         font-size: 40px;
         text-transform: uppercase;
     }
-
+    h3.carousel-txt {
+        font-weight: 600;
+        font-size: 28px;
+        text-transform: uppercase;
+    }
     .carousel-txt-p {
-        max-width: 700px;
         margin: 0 auto;
     }
-
-    @media screen and (max-width: 1000px) {
+    @media screen and (max-width: 1200px) {
         .m-carousel {
-            transform: scale(0.7);
+            transform: scale(0.8);
         }
         .carousel {
-
             .lead img {
-                width: 60%;
+                width: 100%;
             }
         }
     }
