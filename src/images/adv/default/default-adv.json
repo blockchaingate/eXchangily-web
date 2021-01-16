@@ -26,7 +26,7 @@
             { "lan": "sc", "text": "集加密货币钱包、交易所及市场于一体" }
         ],
         "desc": [
-            { "lan": "en", "text": "Exchangily mobile app integrated wallet, exchange, market all in one, you can store cryptocurrency, trading or shopping." },
+            { "lan": "en", "text": "Exchangily mobile app is wallet, exchange, market all in one for storing, trading or using crypto asstes" },
             { "lan": "sc", "text": "亿币钱包是去中心化的综合应用，作为钱包可以保存加密货币、交易所可以进行加密货币交易或在市场购物及支付。" }
         ],
         "imageUrl": "./images/adv/default/exchangily-mobile-app.png",
@@ -36,7 +36,7 @@
     },
     {
         "title": [
-            { "lan": "en", "text": "Exchangily is going to launch earn coins campaign" },
+            { "lan": "en", "text": "Exchangily will launch new campaign" },
             { "lan": "sc", "text": "亿币即将推出持币生息活动" }
         ],
         "subtitle": [
