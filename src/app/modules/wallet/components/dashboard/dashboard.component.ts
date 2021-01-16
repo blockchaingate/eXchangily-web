@@ -103,6 +103,7 @@ export class WalletDashboardComponent implements OnInit {
     currentCurrency: string;
     currencyRate: number;
     lan = 'en';
+    hideWallet = false;
 
     constructor(
         private campaignorderServ: CampaignOrderService,

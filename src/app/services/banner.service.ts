@@ -11,4 +11,8 @@ export class BannerService {
         const url = environment.endpoints.blockchaingate + 'banners/app/' + Config.appid;
         return this.http.get(url);
     }
+
+    getDefault() {
+        return this.http.get('/images/adv/default/default-adv.json');
+    }
 }

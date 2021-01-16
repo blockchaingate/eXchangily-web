@@ -29,7 +29,9 @@ export class MarketHomeComponent implements OnInit {
     private _renderer2: Renderer2,
     @Inject(DOCUMENT) private _document: Document
 
-  ) { }
+  ) {
+    this.getBannerAdv();
+  }
   // imageUrls: (string | IImage)[] = [
   //   { url: 'https://cdn.vox-cdn.com/uploads/chorus_image/image/56748793/dbohn_170625_1801_0018.0.0.jpg', caption: 'The first slide', href: '#config' },
   //   { url: 'https://cdn.vox-cdn.com/uploads/chorus_asset/file/9278671/jbareham_170917_2000_0124.jpg', clickAction: () => alert('custom click function') },
@@ -44,6 +46,9 @@ export class MarketHomeComponent implements OnInit {
 
 
   ngOnInit() {
+    if (this.banners.length < 1) {
+      this.getBannerAdv();
+    }
 
     // this.ctx = this.canvas.nativeElement.getContext('2d');
 
@@ -67,45 +72,55 @@ export class MarketHomeComponent implements OnInit {
           this.maintainence = true;
         }
       });
-
-      this.getBannerAdv();
   }
 
   getBannerAdv() {
     this.bannerServ.getAll().subscribe(
-      (res: Banner[]) => {
-        this.banners = res;
-        if(!this.banners || this.banners.length < 1) {
-          this.banners = DefaultBanner as Banner[];
+      res => {
+        this.banners = res['_body'] as Banner[];
+        if (!this.banners || this.banners.length < 1) {
+          // this.banners = DefaultBanner as Banner[];
+          this.getDefaultadv()
+        } else {
           this.handleBaner();
         }
       },
-        err => {
-          this.banners = DefaultBanner as Banner[];
-          this.handleBaner();
-        }
+      err => {
+        // this.banners = DefaultBanner as Banner[];
+        // this.handleBaner();
+        this.getDefaultadv();
+      }
     );
   }
 
+  getDefaultadv() {
+    this.bannerServ.getDefault().subscribe(
+      res => {
+        this.banners = res as Banner[];
+        this.handleBaner();
+      }
+    )
+  }
+
   handleBaner() {
-    let currentLan = localStorage.getItem('fabLanguagei18n');
-    if(currentLan === 'zh' || currentLan === 'cn') {
+    let currentLan = localStorage.getItem('Lan');
+    if (currentLan === 'zh' || currentLan === 'cn') {
       currentLan = 'sc';
     }
 
     this.banners.forEach(banner => {
       const titleItem = banner.title.filter(t => t.lan === currentLan) || banner.title.filter(t => t.lan === 'en');
-      if(titleItem) { 
+      if (titleItem) {
         banner.titleLan = titleItem[0].text;
       }
 
       const subtitleItem = banner.subtitle.filter(t => t.lan === currentLan) || banner.subtitle.filter(t => t.lan === 'en');
-      if(subtitleItem) { 
+      if (subtitleItem) {
         banner.subtitleLan = subtitleItem[0].text;
       }
 
       const descItem = banner.desc.filter(t => t.lan === currentLan) || banner.desc.filter(t => t.lan === 'en');
-      if(descItem) { 
+      if (descItem) {
         banner.descLan = descItem[0].text;
       }
     });

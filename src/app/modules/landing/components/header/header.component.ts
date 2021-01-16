@@ -51,7 +51,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   langToggle(lang) {
     this._translate.use(lang);
-    window.localStorage.setItem('fabLanguagei18n', lang);
+    window.localStorage.setItem('Lan', lang);
     this.setCurrentLang(lang);
   }
 
@@ -60,7 +60,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   private setCurrentLang(language = '') {
-    this.currentLang = language || this._translate.currentLang || window.localStorage.getItem('fabLanguagei18n');
+    this.currentLang = language || this._translate.currentLang || window.localStorage.getItem('Lan');
 
     if (!this.currentLang) {
       if (navigator.language.includes('zh')) {

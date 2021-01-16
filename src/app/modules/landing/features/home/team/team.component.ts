@@ -43,7 +43,7 @@ export class TeamComponent implements OnInit, OnDestroy {
   }
 
   private getTeam(language = ''): Observable<any> {
-    const lang = language || this._translate.currentLang || window.localStorage.getItem('fabLanguagei18n');
+    const lang = language || this._translate.currentLang || window.localStorage.getItem('Lan');
     console.log('lang=' + lang);
     return this._jsonData.getJsonFile('./assets/i18n/' + lang + '.json')
     .map((res: any) => {
