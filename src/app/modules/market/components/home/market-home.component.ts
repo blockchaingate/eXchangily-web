@@ -30,7 +30,7 @@ export class MarketHomeComponent implements OnInit {
     @Inject(DOCUMENT) private _document: Document
 
   ) {
-    this.getBannerAdv();
+     this.getBannerAdv();
   }
   // imageUrls: (string | IImage)[] = [
   //   { url: 'https://cdn.vox-cdn.com/uploads/chorus_image/image/56748793/dbohn_170625_1801_0018.0.0.jpg', caption: 'The first slide', href: '#config' },
