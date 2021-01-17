@@ -1,10 +1,14 @@
 import { Component, Inject, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { environment } from '../../../../../environments/environment';
-import { KanbanService } from '../../../../services/kanban.service';
-// import {IImage } from 'ng-simple-slideshow'
-import { CarouselConfig } from 'ngx-bootstrap/carousel';
 import { Renderer2 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { environment } from '../../../../../environments/environment';
+import { KanbanService } from '../../../../services/kanban.service';
+import { BannerService } from '../../../../services/banner.service';
+// import {IImage } from 'ng-simple-slideshow'
+import { CarouselConfig } from 'ngx-bootstrap/carousel';
+import DefaultBanner from '../../../../../images/adv/default/default-adv.json';
+import { Banner } from '../../../../models/banner';
+
 @Component({
   selector: 'app-market-home',
   templateUrl: './market-home.component.html',
@@ -14,18 +18,20 @@ import { DOCUMENT } from '@angular/common';
   ]
 })
 export class MarketHomeComponent implements OnInit {
-
+  banners: Banner[] = [];
   // @ViewChild('canvas', { static: true })
   // canvas: ElementRef<HTMLCanvasElement>;  
   // private ctx: CanvasRenderingContext2D;
 
   maintainence: boolean;
   isMobile: boolean;
-  constructor(private kanbanServ: KanbanService,
+  constructor(private kanbanServ: KanbanService, private bannerServ: BannerService,
     private _renderer2: Renderer2,
     @Inject(DOCUMENT) private _document: Document
 
-  ) { }
+  ) {
+    this.getBannerAdv();
+  }
   // imageUrls: (string | IImage)[] = [
   //   { url: 'https://cdn.vox-cdn.com/uploads/chorus_image/image/56748793/dbohn_170625_1801_0018.0.0.jpg', caption: 'The first slide', href: '#config' },
   //   { url: 'https://cdn.vox-cdn.com/uploads/chorus_asset/file/9278671/jbareham_170917_2000_0124.jpg', clickAction: () => alert('custom click function') },
@@ -39,20 +45,18 @@ export class MarketHomeComponent implements OnInit {
   // "https://cdn.vox-cdn.com/uploads/chorus_image/image/56748793/dbohn_170625_1801_0018.0.0.jpg"];
 
 
-
   ngOnInit() {
+    if (this.banners.length < 1) {
+      this.getBannerAdv();
+    }
 
     // this.ctx = this.canvas.nativeElement.getContext('2d');
-
-
 
     this.maintainence = false;
     this.isMobile = false;
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
       this.isMobile = true;
     }
-
-
 
     this.kanbanServ.getKanbanStatus().subscribe(
       (res: any) => {
@@ -70,15 +74,64 @@ export class MarketHomeComponent implements OnInit {
       });
   }
 
+  getBannerAdv() {
+    this.bannerServ.getAll().subscribe(
+      res => {
+        this.banners = res['_body'] as Banner[];
+        if (!this.banners || this.banners.length < 1) {
+          // this.banners = DefaultBanner as Banner[];
+          this.getDefaultadv()
+        } else {
+          this.handleBaner();
+        }
+      },
+      err => {
+        // this.banners = DefaultBanner as Banner[];
+        // this.handleBaner();
+        this.getDefaultadv();
+      }
+    );
+  }
+
+  getDefaultadv() {
+    this.bannerServ.getDefault().subscribe(
+      res => {
+        this.banners = res as Banner[];
+        this.handleBaner();
+      }
+    )
+  }
+
+  handleBaner() {
+    let currentLan = localStorage.getItem('Lan');
+    if (currentLan === 'zh' || currentLan === 'cn') {
+      currentLan = 'sc';
+    }
+
+    this.banners.forEach(banner => {
+      const titleItem = banner.title.filter(t => t.lan === currentLan) || banner.title.filter(t => t.lan === 'en');
+      if (titleItem) {
+        banner.titleLan = titleItem[0].text;
+      }
+
+      const subtitleItem = banner.subtitle.filter(t => t.lan === currentLan) || banner.subtitle.filter(t => t.lan === 'en');
+      if (subtitleItem) {
+        banner.subtitleLan = subtitleItem[0].text;
+      }
+
+      const descItem = banner.desc.filter(t => t.lan === currentLan) || banner.desc.filter(t => t.lan === 'en');
+      if (descItem) {
+        banner.descLan = descItem[0].text;
+      }
+    });
+  }
+
+  /*
   ngAfterViewInit() {
-
-
     const script = this._renderer2.createElement('script');
     script.type = `text/javascript`;
     script.text = `
         console.log("draw function!!");
-
-    
 
         draw();
 
@@ -186,11 +239,8 @@ export class MarketHomeComponent implements OnInit {
         `
     this._renderer2.appendChild(this._document.body, script);
 
-
-
-    // this.draw();
   }
-
+*/
   //   private draw() {
   //     var c = document.getElementById("canvas-club");
   //     var ctx = this.ctx;
