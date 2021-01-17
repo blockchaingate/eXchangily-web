@@ -31,7 +31,7 @@
         ],
         "imageUrl": "./images/adv/default/exchangily-mobile-app.png",
         "imageAlt": "Exchangily mobile app",
-        "clickLink": "",
+        "clickLink": "/app",
         "sequence": 1
     },
     {
@@ -67,7 +67,7 @@
         ],
         "imageUrl": "./images/adv/default/liquidity-provider.png",
         "imageAlt": "Liquidity providing",
-        "clickLink": "",
+        "clickLink": "/fee",
         "sequence": 3
     }
 ]
