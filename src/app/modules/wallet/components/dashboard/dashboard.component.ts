@@ -559,37 +559,41 @@ export class WalletDashboardComponent implements OnInit {
                     let hasCNB = false;
                     let ethCoin;
                     let fabCoin;
-                    for (let i = 0; i < res.data.length; i++) {
-                        const item = res.data[i];
-                        for (let j = 0; j < this.wallet.mycoins.length; j++) {
-                            const coin = this.wallet.mycoins[j];
-                            if(coin.new) {
-                                continue;
+                    for (let j = 0; j < this.wallet.mycoins.length; j++) {
+                        const coin = this.wallet.mycoins[j];   
+                        
+                        if(coin.new) {
+                            continue;
+                        }
+                        if (coin.name === 'DRGN') {
+                            hasDRGN = true;
+                        }
+                        if (coin.name === 'NVZN') {
+                            hasNVZN = true;
+                        }
+                        if (coin.name === 'ETH') {
+                            ethCoin = coin;
+                        }
+                        if(coin.name === 'EXG') {
+                            this.exgValue = coin.usdPrice;
+                            if(!this.exgBalance) {
+                                this.exgBalance = coin.balance + coin.lockedBalance;
+                            } else {
+                                this.exgBalance += coin.balance + coin.lockedBalance;
                             }
-                            if (coin.name === 'DRGN') {
-                                hasDRGN = true;
-                            }
-                            if (coin.name === 'NVZN') {
-                                hasNVZN = true;
-                            }
-                            if (coin.name === 'ETH') {
-                                ethCoin = coin;
-                            }
-                            if(coin.name === 'EXG') {
-                                this.exgValue = coin.usdPrice;
-                                if(!this.exgBalance) {
-                                    this.exgBalance = coin.balance + coin.lockedBalance;
-                                } else {
-                                    this.exgBalance += coin.balance + coin.lockedBalance;
-                                }
-                                         
-                            }
-                            if (coin.name === 'FAB') {
-                                fabCoin = coin;
-                            }
-                            if (coin.name === 'CNB') {
-                                hasCNB = true;
-                            }
+                                     
+                        }
+                        if (coin.name === 'FAB') {
+                            fabCoin = coin;
+                        }
+                        if (coin.name === 'CNB') {
+                            hasCNB = true;
+                        }                        
+
+                        for (let i = 0; i < res.data.length; i++) {
+                            const item = res.data[i];
+
+ 
                             if (item.coin === coin.name) {
                                 if (item.depositErr) {
                                     coin.redeposit = item.depositErr;
@@ -735,6 +739,7 @@ export class WalletDashboardComponent implements OnInit {
         this.walletServ.saveCurrentWalletIndex(this.currentWalletIndex);
         // console.log('this.currentWalletIndex=' + this.currentWalletIndex);
         await this.loadWallet(this.wallets[this.currentWalletIndex]);
+        this.loadBalance();
     }
 
     async loadWallets() {
@@ -768,7 +773,7 @@ export class WalletDashboardComponent implements OnInit {
 
     async loadWallet(wallet: Wallet) {
         this.wallet = wallet;
-
+        this.exgBalance = 0;
 
         this.campaignorderServ.getCheck(this.exgAddress).subscribe(
             (resp: any) => {
