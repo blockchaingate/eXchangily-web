@@ -107,8 +107,8 @@ export class MarketHomeComponent implements OnInit {
     });
   }
 
-  onClick(url) {
-    if(!url || url.length<1) { return; }
+  onClick(url: string) {
+    if (!url || url.length < 1) { return; }
     this._router.navigate([url]);
   }
 

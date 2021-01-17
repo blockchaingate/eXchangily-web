@@ -37,7 +37,7 @@
     {
         "title": [
             { "lan": "en", "text": "Exchangily will launch new campaign" },
-            { "lan": "sc", "text": "亿币即将推出持币生息活动" }
+            { "lan": "sc", "text": "亿币即将推出新奖励活动" }
         ],
         "subtitle": [
             { "lan": "en", "text": "Hold exchangily token to earn additional coins" },
@@ -45,7 +45,7 @@
         ],
         "desc": [
             { "lan": "en", "text": "Own more EXG tokens, earn more benefit from the platform." },
-            { "lan": "sc", "text": "拥有更多的平台币就拥有更多的平台收益" }
+            { "lan": "sc", "text": "拥有更多的平台币就拥有更多的收益, 亿币根植未来经济生态，拥有亿币将获长久收益" }
         ],
         "imageUrl": "./images/adv/default/exchangily-campaign.png",
         "imageAlt": "Hold EXG to earn tokens",
