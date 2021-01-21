@@ -18,6 +18,7 @@ import { Signature } from '../interfaces/kanban.interface';
 import { UtilService } from './util.service';
 import { environment } from '../../environments/environment';
 import BigNumber from 'bignumber.js/bignumber';
+import * as TronWeb from 'tronweb';
 
 @Injectable()
 export class CoinService {
@@ -126,6 +127,10 @@ export class CoinService {
         const dogCoin = new MyCoin('DOGE');
         this.fillUpAddress(dogCoin, seed, 1, 0);
         myCoins.push(dogCoin);
+
+        const trxCoin = new MyCoin('TRX');
+        this.fillUpAddress(trxCoin, seed, 1, 0);
+        myCoins.push(trxCoin);
 
         const erc20Tokens = ['INB', 'REP', 'HOT', 'MATIC', 'IOST', 'MANA', 'ELF', 'GNO', 'WINGS', 'KNC', 'GVT', 'DRGN'];
 
@@ -598,8 +603,20 @@ export class CoinService {
                 buffer = wallet.getPrivateKey();
                 priKey = wallet.getPrivateKey();
                 priKeyDisp = buffer.toString('hex');
+            } else
+            if (name === 'TRX') {
+                const root = BIP32.fromSeed(seed);
+                const childNode = root.derivePath(path);
+                
+                console.log('publicKey for TRX=', childNode.publicKey.toString('hex'));
 
-            } else if (name === 'EX' || tokenType === 'FAB') {
+                const privateKey = childNode.privateKey;
+                const address = 
+                TronWeb.utils.crypto.getBase58CheckAddress(TronWeb.utils.crypto.getAddressFromPriKey(privateKey))
+                ;
+                console.log('address=', address);
+            }
+            else if (name === 'EX' || tokenType === 'FAB') {
                 // console.log('000');
                 const root = BIP32.fromSeed(seed, environment.chains.BTC.network);
 
@@ -2267,15 +2284,10 @@ export class CoinService {
     fillUpAddress(mycoin: MyCoin, seed: Buffer, numReceiveAdds: number, numberChangeAdds: number) {
         // console.log('fillUpAddress for MyCoin');
         // console.log(mycoin);
-        console.log('begin fillUpAddress');
         for (let i = 0; i < numReceiveAdds; i++) {
-            console.log('i=', i);
             const keyPair = this.getKeyPairs(mycoin, seed, 0, i);
-            console.log('111');
             const addr = new Address(mycoin.coinType, keyPair.address, i);
-            console.log('222');
             mycoin.receiveAdds.push(addr);
-            console.log('333');
         }
         for (let i = 0; i < numberChangeAdds; i++) {
             const keyPair = this.getKeyPairs(mycoin, seed, 1, i);

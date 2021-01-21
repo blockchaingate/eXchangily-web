@@ -9,6 +9,8 @@ import Common from 'ethereumjs-common';
 import KanbanTxService from './kanban.tx.service';
 import { environment } from '../../environments/environment';
 import BigNumber from 'bignumber.js';
+import * as createHash from 'create-hash';
+import base58 from 'bs58';
 
 @Injectable({
   providedIn: 'root'
@@ -404,6 +406,7 @@ export class Web3Service {
     const web3 = this.getWeb3Provider();
     return web3.utils.sha3(str);
   }
+
   getCreateOrderFuncABI(paramsArray: any) {
     
     const web3 = this.getWeb3Provider();
