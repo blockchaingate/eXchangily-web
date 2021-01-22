@@ -18,7 +18,13 @@ import { Signature } from '../interfaces/kanban.interface';
 import { UtilService } from './util.service';
 import { environment } from '../../environments/environment';
 import BigNumber from 'bignumber.js/bignumber';
-import * as TronWeb from 'tronweb';
+import TronWeb from 'tronweb';
+
+
+const HttpProvider = TronWeb.providers.HttpProvider;
+const fullNode = new HttpProvider('https://api.trongrid.io');
+const solidityNode = new HttpProvider('https://api.trongrid.io');
+const eventServer = new HttpProvider('https://api.trongrid.io');
 
 @Injectable()
 export class CoinService {
@@ -95,11 +101,7 @@ export class CoinService {
         myCoins.push(ethCoin);
 
         console.log('here1');
-        /*
-        coin = new MyCoin('USDT');
-        this.fillUpAddress(coin, seed, 1, 0);
-        myCoins.push(coin);  
-        */
+
         const usdtCoin = this.initToken('ETH', 'USDT', 6, environment.addresses.smartContract.USDT, ethCoin);
 
         this.fillUpAddress(usdtCoin, seed, 1, 0);
@@ -131,6 +133,12 @@ export class CoinService {
         const trxCoin = new MyCoin('TRX');
         this.fillUpAddress(trxCoin, seed, 1, 0);
         myCoins.push(trxCoin);
+
+        const usdtTRXCoin = this.initToken('TRX', 'USDT', 6, environment.addresses.smartContract.USDT, trxCoin);
+
+        this.fillUpAddress(usdtTRXCoin, seed, 1, 0);
+
+        myCoins.push(usdtTRXCoin);
 
         const erc20Tokens = ['INB', 'REP', 'HOT', 'MATIC', 'IOST', 'MANA', 'ELF', 'GNO', 'WINGS', 'KNC', 'GVT', 'DRGN'];
 
@@ -519,80 +527,7 @@ export class CoinService {
             buffer = wif.decode(priKey);
             priKeyDisp = priKey;
         } else
-            /*
-            if (name === 'LTC') {
-                console.log('be for ltc');
-                let root = BIP32.fromSeed(seed, environment.chains.LTC.network);
-    
-                console.log('ltc2');         
-                var child = root.derivePath(path);
-                console.log('ltc3');
-                var publicKey = child.publicKey;
-                console.log('ltc4');
-                // priKey = child.privateKey; 
-    
-                console.log('publicKey=', publicKey);
-                const { address } = Btc.payments.p2pkh({
-                    pubkey: child.publicKey,
-                    network: environment.chains.BTC.network
-                });
-    
-                addr = address;
-                console.log('addr=', addr);
-    
-    
-            } else
-            if (name === 'DOGE') {
-    
-               
-               let root = BIP32.fromSeed(seed, environment.chains.DOGE.network);
-    
-               console.log('ltc2');         
-               var child = root.derivePath(path);
-               console.log('ltc3');
-               var publicKey = child.publicKey;
-               console.log('ltc4');
-               // priKey = child.privateKey; 
-    
-               console.log('publicKey=', publicKey);
-               const { address } = Btc.payments.p2pkh({
-                   pubkey: child.publicKey,
-                   network: environment.chains.BTC.network
-               });
-    
-               addr = address;
-               console.log('addr=', addr);            
-            } else  
-            */
-            /*   
-             if (name === 'BCH') {
-     
-                var root = bitcore.HDPrivateKey.fromSeed(seed);
-                if (!environment.production) {
-                    root = bitcore.HDPrivateKey.fromSeed(seed, bitcore.Networks.testnet);
-                }
-                var child = root.deriveChild(path);
-                
-                var publicKey = child.publicKey;  
-                priKey = child.privateKey;  
-     
-                if(!environment.production) {
-                    var addrObj = bitcore.Address.fromPublicKey(publicKey, bitcore.Networks.testnet);
-                    addr = addrObj.toString();  
-     
-                    var json = addrObj.toJSON();
-                    addrHash = json.hash;               
-                } else {
-                    var addrObj = bitcore.Address.fromPublicKey(publicKey);
-                     addr = addrObj.toString(); 
-     
-                     var json = addrObj.toJSON();
-                     addrHash = json.hash;                
-                }
-                
-             } else
-             */
-            if (name === 'ETH' || tokenType === 'ETH') {
+        if (name === 'ETH' || tokenType === 'ETH') {
 
                 const root = hdkey.fromMasterSeed(seed);
                 const childNode = root.derivePath(path);
@@ -603,20 +538,18 @@ export class CoinService {
                 buffer = wallet.getPrivateKey();
                 priKey = wallet.getPrivateKey();
                 priKeyDisp = buffer.toString('hex');
-            } else
-            if (name === 'TRX') {
+        } else
+        if (name === 'TRX' || tokenType === 'TRX') {
                 const root = BIP32.fromSeed(seed);
                 const childNode = root.derivePath(path);
                 
                 console.log('publicKey for TRX=', childNode.publicKey.toString('hex'));
 
-                const privateKey = childNode.privateKey;
-                const address = 
-                TronWeb.utils.crypto.getBase58CheckAddress(TronWeb.utils.crypto.getAddressFromPriKey(privateKey))
-                ;
-                console.log('address=', address);
-            }
-            else if (name === 'EX' || tokenType === 'FAB') {
+                priKey = childNode.privateKey;
+                addr = 
+                TronWeb.utils.crypto.getBase58CheckAddress(TronWeb.utils.crypto.getAddressFromPriKey(priKey));
+        }
+        else if (name === 'EX' || tokenType === 'FAB') {
                 // console.log('000');
                 const root = BIP32.fromSeed(seed, environment.chains.BTC.network);
 
@@ -635,7 +568,7 @@ export class CoinService {
                 // console.log('publicKey=', publicKey);
                 // const publicKeyString = `0x${publicKey.toString('hex')}`;
                 addr = this.utilServ.toKanbanAddress(publicKey);
-            }
+        }
 
         const keyPairs = {
             address: addr,
@@ -1721,272 +1654,8 @@ export class CoinService {
                 // console.log(txHash);
             }
         } else
-            /*
-            if (mycoin.name === 'BCH') {
-                console.log('BCH there we go');
-                if (!satoshisPerBytes) {
-                    satoshisPerBytes = environment.chains.BCH.satoshisPerBytes;
-                }
-                if (!bytesPerInput) {
-                    bytesPerInput = environment.chains.BCH.bytesPerInput;
-                }               
-                const keyPair = this.getKeyPairs(mycoin, seed, 0, 0);
-                const address = mycoin.receiveAdds[0].address;
-                const privateKey = keyPair.privateKey;
-                const balanceFull = await this.apiService.getBchUtxos(address);
-                const utxos = [];
-                totalInput = 0;
-                for (let i = 0; i < balanceFull.length; i++) {
-                    const tx = balanceFull[i];
-                    // console.log('i=' + i);
-                    // console.log(tx);
-                    if (tx.idx < 0) {
-                        continue;
-                    }
-                    const addrString = tx.address;
-                    const addr = bitcore.Address.fromString(addrString);
-                    const utxo = {
-                        txId : tx.txid,
-                        outputIndex : tx.idx,
-                        address : addrString,
-                        "script" : new bitcore.Script(addr).toHex(),
-                        "satoshis" : tx.value
-                    };
-                    totalInput += tx.value;
-                    utxos.push(utxo);
-                    amountNum = amountNum.minus(tx.value);
-                    if (amountNum.isLessThanOrEqualTo(0)) {
-                        finished = true;
-                        break;
-                    }
-                }  
-                if (!finished) {
-                    txHex = '';
-                    txHash = '';
-                    errMsg = 'not enough fund.';
-                    return {txHex: txHex, txHash: txHash, errMsg: errMsg};
-                }
-                console.log('amount==', amount);
-                const outputNum = 2;
-                transFee = ((utxos.length) * bytesPerInput + outputNum * 34 + 10) * satoshisPerBytes;
-                transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
-                if (getTransFeeOnly) {
-                    return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
-                }  
-                // console.log('totalInput=' + totalInput);
-                // console.log('amount=' + amount);
-                console.log('transFee for doge=' + transFee);
-                const output1 = Math.round(new BigNumber(totalInput - amount * 1e8 - transFee).toNumber());
-    
-                const amountBigNum = Number(this.utilServ.toBigNumber(amount, 8));
-                console.log('amountBigNum==', amountBigNum);
-                var transaction = new bitcore.Transaction()
-                .from(utxos)          // Feed information about what unspent outputs one can use
-                .feePerKb(satoshisPerBytes * 1000)
-                //.enableRBF()            
-                .to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
-                .change(address)      // Sets up a change address where the rest of the funds will go
-    
-             
-                .sign(privateKey)     // Signs all the inputs it can
-            
-                txHex = transaction.serialize();  
-                
-                if (doSubmit) {
-                    // console.log('1');
-                    const res = await this.apiService.postBchTx(txHex);
-                    txHash = res.txHash;
-                    errMsg = res.errMsg;                
-                    // console.log(txHash);
-                    
-                } else {
-                    // console.log('2');
-                    const tx = Btc.Transaction.fromHex(txHex);
-                    txHash = '0x' + tx.getId();
-                }            
-            } else
-            */
-            /*
-            if (mycoin.name === 'DOGE') {
-                if (!satoshisPerBytes) {
-                    satoshisPerBytes = environment.chains.DOGE.satoshisPerBytes;
-                }
-                if (!bytesPerInput) {
-                    bytesPerInput = environment.chains.DOGE.bytesPerInput;
-                }               
-                const keyPair = this.getKeyPairs(mycoin, seed, 0, 0);
-                const address = mycoin.receiveAdds[0].address;
-                const privateKey = keyPair.privateKey;
-                const balanceFull = await this.apiService.getDogeUtxos(address);
-                const utxos = [];
-    
-                let totalInput = 0;
-                for (let i = 0; i < balanceFull.length; i++) {
-                    const tx = balanceFull[i];
-                    // console.log('i=' + i);
-                    // console.log(tx);
-                    if (tx.idx < 0) {
-                        continue;
-                    }
-                    const addrString = tx.address;
-                    const addr = dogecore.Address.fromString(addrString);
-                    const utxo = {
-                        txId : tx.txid,
-                        outputIndex : tx.idx,
-                        address : addrString,
-                        "script" : new dogecore.Script(addr).toHex(),
-                        "satoshis" : tx.value
-                    };
-                    utxos.push(utxo);
-                    totalInput += tx.value;
-                    amountNum = amountNum.minus(tx.value);
-                    if (amountNum.isLessThanOrEqualTo(0)) {
-                        finished = true;
-                        break;
-                    }
-                }  
-                if (!finished) {
-                    txHex = '';
-                    txHash = '';
-                    errMsg = 'not enough fund.';
-                    return {txHex: txHex, txHash: txHash, errMsg: errMsg};
-                }
-                console.log('amount==', amount);
-                const amountBigNum = Number(this.utilServ.toBigNumber(amount, 8));
-                console.log('amountBigNum==', amountBigNum);
-    
-    
-                const outputNum = 2;
-                transFee = ((utxos.length) * bytesPerInput + outputNum * 34 + 10) * satoshisPerBytes;
-    
-                // console.log('totalInput=' + totalInput);
-                // console.log('amount=' + amount);
-                console.log('transFee for doge=' + transFee);
-                const output1 = Math.round(new BigNumber(totalInput - amount * 1e8 - transFee).toNumber());
-                
-                transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
-    
-                if (getTransFeeOnly) {
-                    return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
-                }
-                //const output2 = Math.round(new BigNumber(amount * 1e8).toNumber());     
-                //const output2 = Number(this.utilServ.toBigNumber(amount, 8));
-    
-                console.log('doge toAddress==', toAddress);
-                console.log('doge address==', address);
-                var transaction = new dogecore.Transaction()
-                .from(utxos)          // Feed information about what unspent outputs one can use
-                .feePerKb(satoshisPerBytes * 1000)
-                .enableRBF()
-                .to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
-                .change(address)      // Sets up a change address where the rest of the funds will go
-    
-                //.change(address)             
-               .sign(privateKey)     // Signs all the inputs it can
-    
-                
-                txHex = transaction.serialize();  
-                
-                if (doSubmit) {
-                    // console.log('1');
-                    const res = await this.apiService.postDogeTx(txHex);
-                    txHash = res.txHash;
-                    errMsg = res.errMsg;                
-                    // console.log(txHash);
-                    
-                } else {
-                    // console.log('2');
-                    const tx = Btc.Transaction.fromHex(txHex);
-                    txHash = '0x' + tx.getId();
-                }            
-            } else  
-    
-            if (mycoin.name === 'LTC') {
-                if (!satoshisPerBytes) {
-                    satoshisPerBytes = environment.chains.LTC.satoshisPerBytes;
-                }
-                if (!bytesPerInput) {
-                    bytesPerInput = environment.chains.LTC.bytesPerInput;
-                }               
-                const keyPair = this.getKeyPairs(mycoin, seed, 0, 0);
-                const address = mycoin.receiveAdds[0].address;
-                const privateKey = keyPair.privateKey;
-                const balanceFull = await this.apiService.getLtcUtxos(address);
-                const utxos = [];
-                totalInput = 0;
-                for (let i = 0; i < balanceFull.length; i++) {
-                    const tx = balanceFull[i];
-                    // console.log('i=' + i);
-                    // console.log(tx);
-                    if (tx.idx < 0) {
-                        continue;
-                    }
-                    const addrString = tx.address;
-                    const addr = litecore.Address.fromString(addrString);
-                    const utxo = {
-                        txId : tx.txid,
-                        outputIndex : tx.idx,
-                        address : addrString,
-                        "script" : new litecore.Script(addr).toHex(),
-                        "satoshis" : tx.value
-                    };
-                    totalInput += tx.value;
-                    utxos.push(utxo);
-                    amountNum = amountNum.minus(tx.value);
-                    if (amountNum.isLessThanOrEqualTo(0)) {
-                        finished = true;
-                        break;
-                    }
-                }  
-                if (!finished) {
-                    txHex = '';
-                    txHash = '';
-                    errMsg = 'not enough fund.';
-                    return {txHex: txHex, txHash: txHash, errMsg: errMsg};
-                }
-    
-                const outputNum = 2;
-                transFee = ((utxos.length) * bytesPerInput + outputNum * 34 + 10) * satoshisPerBytes;
-    
-                // console.log('totalInput=' + totalInput);
-                // console.log('amount=' + amount);
-                console.log('transFee for lite=' + transFee);
-                const output1 = Math.round(new BigNumber(totalInput - amount * 1e8 - transFee).toNumber());
-                
-                transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
-    
-    
-                if (getTransFeeOnly) {
-                    return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
-                }  
-                const amountBigNum = Number(this.utilServ.toBigNumber(amount, 8));
-    
-                var transaction = new litecore.Transaction()
-                .from(utxos)          // Feed information about what unspent outputs one can use
-                .feePerKb(satoshisPerBytes * 1000)
-                .enableRBF()            
-                .to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
-                .change(address)      // Sets up a change address where the rest of the funds will go
-           
-                .sign(privateKey)     // Signs all the inputs it can
-            
-                txHex = transaction.serialize();  
-                
-                if (doSubmit) {
-                    // console.log('1');
-                    const res = await this.apiService.postLtcTx(txHex);
-                    txHash = res.txHash;
-                    errMsg = res.errMsg;                
-                    // console.log(txHash);
-                    
-                } else {
-                    // console.log('2');
-                    const tx = Btc.Transaction.fromHex(txHex);
-                    txHash = '0x' + tx.getId();
-                }            
-            } else 
-            */
-            if (mycoin.name === 'FAB') {
+
+        if (mycoin.name === 'FAB') {
                 if (!satoshisPerBytes) {
                     satoshisPerBytes = environment.chains.FAB.satoshisPerBytes;
                 }
@@ -2019,7 +1688,47 @@ export class CoinService {
                     }
                 }
 
-            } else if (mycoin.name === 'ETH') {
+        } else if (mycoin.name == 'TRX') {
+            const address1 = mycoin.receiveAdds[0];
+            const currentIndex = address1.index;            
+            const keyPair = this.getKeyPairs(mycoin, seed, 0, currentIndex);
+            const tronWeb = new TronWeb(
+                fullNode,
+                solidityNode,
+                eventServer,
+                keyPair.privateKey
+            );
+
+            tronWeb.transactionBuilder.sendTrx(toAddress, amount, keyPair.address);
+        } else 
+        if (mycoin.tokenType == 'TRX') {
+            const trc20ContractAddress = environment.addresses.smartContract[mycoin.name + '_TRX'];//contract address
+            const address1 = mycoin.receiveAdds[0];
+            const currentIndex = address1.index;            
+            const keyPair = this.getKeyPairs(mycoin, seed, 0, currentIndex);
+            const tronWeb = new TronWeb(
+                fullNode,
+                solidityNode,
+                eventServer,
+                keyPair.privateKey
+            );
+            try {
+                let contract = await tronWeb.contract().at(trc20ContractAddress);
+                //Use call to execute a pure or view smart contract method.
+                // These methods do not modify the blockchain, do not cost anything to execute and are also not broadcasted to the network.
+                let result = await contract.transfer(
+                    toAddress, //address _to
+                    amount   //amount
+                ).send({
+                    feeLimit: 1000000
+                }).then(output => {console.log('- Output:', output, '\n');});
+                
+            } catch(error) {
+                console.error("trigger smart contract error",error)
+            }            
+        }
+
+        else if (mycoin.name === 'ETH') {
                 if (!gasPrice) {
                     gasPrice = environment.chains.ETH.gasPrice;
                 }
@@ -2065,7 +1774,7 @@ export class CoinService {
                 } else {
                     txHash = this.web3Serv.getTransactionHash(txHex);
                 }
-            } else if (mycoin.tokenType === 'ETH') { // etheruem tokens
+        } else if (mycoin.tokenType === 'ETH') { // etheruem tokens
                 const address1 = mycoin.receiveAdds[0];
                 if (!gasPrice) {
                     gasPrice = environment.chains.ETH.gasPrice;
@@ -2157,7 +1866,7 @@ export class CoinService {
                     txHash = this.web3Serv.getTransactionHash(txHex);
                     // console.log('444');
                 }
-            } else if (mycoin.tokenType === 'FAB') { // fab tokens
+        } else if (mycoin.tokenType === 'FAB') { // fab tokens
                 console.log('satoshisPerBytesgggg=', satoshisPerBytes);
                 if (!gasPrice) {
                     gasPrice = environment.chains.FAB.gasPrice;
