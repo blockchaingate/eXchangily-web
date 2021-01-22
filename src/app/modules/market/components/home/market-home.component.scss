@@ -144,7 +144,7 @@
 
     h2.carousel-txt {
         font-weight: 800;
-        font-size: 70px;
+        font-size: 50px;
         text-transform: uppercase;
     }
 
@@ -154,9 +154,21 @@
         text-transform: uppercase;
     }
 
+    .carousel-inner {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
     .carousel-txt-p {
         max-width: 700px;
         margin: 0 auto;
+    }
+
+    .innerImg{
+        max-width: 600px;   
+        max-height: 227px;
+        width: auto;
+        height: auto;
     }
 
     @media screen and (max-width: 1000px) {

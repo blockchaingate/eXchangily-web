@@ -189,17 +189,15 @@
                     <input type="text" [(ngModel)]="amount" id="amount" name="amount" placeholder="{{'Transfer amount' | translate}}">
                 </div>
                 <div *ngIf="transactionHistory" class="w-100">
-
-
                     <div class="row w-100 header py-3">
-                        <div class="orditem col-4">{{'Time' | translate }}</div>
+                        <div class="orditem col-3">{{'Time' | translate }}</div>
                         <div class="orditem col-2">{{'Type' | translate }}</div>
                         <div class="orditem col-2">{{'Coin' | translate }}</div>
-                        <div class="orditem col-2">{{'Amount' | translate }}</div>
+                        <div class="orditem col-3">{{'Amount' | translate }}</div>
                         <div class="orditem col-2">{{'Status' | translate }}</div>
                     </div>
 
-                    <div class="myorderlist scroll-bar w-100 pt-2" [style.height.px]="screenheight-680">
+                    <div class=" scroll-bar w-100 pt-2" [style.max-height.px]="screenheight-680">
                         <div class="row row-with-line w-100" *ngFor="let item of transactionHistories; let i=index">
                             <div class="text-muted col-4">
                                 <p>
@@ -229,7 +227,11 @@
                             </div>
                         </div>
                     </div>
-
+                    <!-- <div>
+                        <div>
+                            <button class="button px-3 mx-3" (click)="hideTransactionHisotry()">Go Back</button>
+                        </div>
+                    </div> -->
 
                 </div>
                 <div class="py-3 d-flex justify-content-between">

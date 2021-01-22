@@ -165,6 +165,12 @@ export class MyordersComponent implements OnInit, OnDestroy {
             }
         );
     }
+
+    hideTransactionHisotry() {
+        this.transactionHistory = false;
+    }
+
+
     async withdrawDo() {
         const amount = this.withdrawAmount;
         const pin = this.pin;

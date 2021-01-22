@@ -2,98 +2,32 @@
     <img src="/assets/maintainence.jpeg">
 </div>
 
-<div class="containerX market-page" *ngIf="!maintainence">
+<div class="containerX market-page" *ngIf="!maintainence" >
     <div *ngIf="isMobile">
         <!-- <app-app-intro [showHeadOnly]="true"></app-app-intro> -->
         <div></div>
     </div>
-    <!-- <div class="gradient-back-area" fxLayout="column" fxFlex.lt-md="300px">
-        <div class="topslogan">
-            <div class="container">
-                <div class="slogan row">
-                    <div class="slogan-left">
-                        {{'TopSologan' | translate}}
-                        <div class="contentarea">
-                            {{'TopSloganContent' | translate}}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row advblocks" fxHide.lt-md>
-                    <div class="col-md-3 advContainer">
-                        <app-advblock class="advblock right1em" [bNum]="'block1'" [title]="'eXchangily is S.A.F.E' | translate" [desc1]="'Secure, Autonomous, Fast, Easy' | translate" [bgimgurl]="'images/adv/01.png'"></app-advblock>
-                    </div>
-                    <div class="col-md-3 advContainer">
-                        <app-advblock class="advblock right1em" [bNum]="'block2'" [title]="'Buy and sell' | translate" [desc1]="'Bitcoin, Etherium, USDT,' | translate" [desc2]="'FAB, EXG with eXchangily' | translate" [bgimgurl]="'images/adv/02.png'"></app-advblock>
-                    </div>
-                    <div class="col-md-3 advContainer">
-                        <app-advblock class="advblock right1em" [bNum]="'block3'" [title]="'Sleep well and trade' | translate" [desc1]="'confidently knowing your' | translate" [desc2]="'crypto assets are always' | translate" [desc3]="'in your wallet, and your' | translate" [desc4]="'wallet is always under your control' | translate"
-                            [bgimgurl]="'images/adv/03.png'"></app-advblock>
-                    </div>
-                    <div class="col-md-3 advContainer">
-                        <app-advblock class="advblock right1em" [bNum]="'block4'" [title]="'We believe transparency is key' | translate" [desc1]="'to developing trust, which is why' | translate" [desc2]="'eXchangily is an open source' | translate" [desc3]="'project, our code is' | translate"
-                            [desc4]="'available for everyone to see' | translate" [bgimgurl]="'images/adv/04.png'"></app-advblock>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <div class="carousel-container">
-        <!-- <slideshow [height]="height" [minHeight]="'525px'" [autoPlay]="true" [showArrows]="false"
-            [imageUrls]="imageSources" [lazyLoad]="imageSources?.length > 1" [autoPlayWaitForLazyLoad]="true">
-        </slideshow> -->
+    <div class="carousel-container" >
         <canvas id="canvas-club">
 
         </canvas>
-        <carousel  [isAnimated]="true" class="m-carousel">
-            <div class="slider-wrap">
-              <slide>
+        <carousel  [isAnimated]="true" class="m-carousel" >
+            <div class="slider-wrap" >
+
+              <slide *ngFor="let banner of banners">
                 <div class="text-center py-5 text-white">
-                  <h2 class="carousel-txt">Your Secure Digital</h2>
+                  <h2 class="carousel-txt">{{message==='en'? banner['title']['en']:banner['title']['sc']}}</h2>
                   <div class="lead">
-                    <h3 class="carousel-txt">Asset Wallet & DEX</h3>
-                    <img src="./images/mslider/fabCoin.png" alt="" >
-                    <p class="carousel-txt-p">eXchangily is a universal crypto-currency wallet and application which enables you to trade on the eXchangily decentralized exchange.</p>
-                  </div>
-                </div>
-              </slide>
-              <slide>
-                <div class="text-center py-5 text-white">
-                  <h2 class="carousel-txt">eXchangily is S.A.F.E</h2>
-                  <div class="lead">
-                    <h3 class="carousel-txt">Secure, Autonomous, Fast, Easy</h3>
-                    <img src="./images/mslider/fabCoin.png" alt="" >
-                    <p class="carousel-txt-p">To developing trust, which is why
-                      eXchangily is an open source
-                      project, our code is
-                      available for everyone to see</p>
+                    <!-- <h3 class="carousel-txt">Asset Wallet & DEX</h3> -->
+                    <img [attr.src]="banner['image']" alt="" class="innerImg">
+                    <!-- <p class="carousel-txt-p">eXchangily is a universal crypto-currency wallet and application which enables you to trade on the eXchangily decentralized exchange.</p> -->
                   </div>
                 </div>
               </slide>
             </div>
             
-            <!-- <slide>
-              <img src="https://images.unsplash.com/photo-1609965803451-43c6e8d7b346?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="first slide" style="display: block; width: 100%;">
-              <div class="carousel-caption d-none d-md-block">
-                <h3>First slide label</h3>
-                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-              </div>
-            </slide>
-            <slide>
-              <img src="https://images.unsplash.com/photo-1609974631970-5d2e640508f0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1400&q=80" alt="second slide" style="display: block; width: 100%;">
-              <div class="carousel-caption d-none d-md-block">
-                <h3>Second slide label</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </div>
-            </slide>
-            <slide>
-              <img src="https://images.unsplash.com/photo-1609965803451-43c6e8d7b346?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="third slide" style="display: block; width: 100%;">
-              <div class="carousel-caption d-none d-md-block">
-                <h3>Third slide label</h3>
-                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-              </div>
-            </slide> -->
           </carousel>
+          <div >hahaha</div>
     </div>
 
     <app-market-top></app-market-top>
