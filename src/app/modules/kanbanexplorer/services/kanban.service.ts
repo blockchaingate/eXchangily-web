@@ -33,8 +33,8 @@ export class KanbanService {
     this.getTokenList().subscribe(cos => this.coins = cos);
   }
 
-  getCurrencyName(num: number): string {
-    const coin = this.coins.filter(c => c.coinType === num);
+  getCurrencyName(num: string): string {
+    const coin = this.coins.filter(c => c.coinType === parseInt(num));
     if (!coin || coin.length < 1) return '-';
     return coin[0].name;
     // return this.codeToCurrencyMap.get(num);
