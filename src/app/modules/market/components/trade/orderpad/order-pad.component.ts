@@ -605,6 +605,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     this.tradesSocket.subscribe(
       (trades: any) => {
         if (!trades || trades.length == 0) {
+          this.trades = [];
           return;
         }
         this.trades = trades.slice(0, 23);
