@@ -19,15 +19,16 @@ import * as exaddr from '../../../../lib/exaddr';
     }
 
     search() {
+        let fabAddress = this.fabAddress;
         try {
-            const fabaddr = exaddr.toLegacyAddress(this.fabAddress);
+            const fabaddr = exaddr.toLegacyAddress(fabAddress);
             if(fabaddr) {
-                this.fabAddress = fabaddr;
+                fabAddress = fabaddr;
             }
         } catch(e) {
 
         }
-        this.kanbanServ.getTransactionHistory(this.fabAddress).subscribe(
+        this.kanbanServ.getTransactionHistoryOnProduction(fabAddress).subscribe(
             (res: any) => {
                 console.log('resss=', res);
                 if(res && res.success) {
