@@ -384,8 +384,8 @@ export class SmartContractComponent implements OnInit {
       abiHex = this.formABI();
     }
     
-    const gasLimit = 800000;
-    const gasPrice = 40;
+    const gasLimit = 1000000;
+    const gasPrice = 50;
     let value = 0;
     if (this.method.stateMutability === 'payable') {
       value = Number(this.payableValue);
