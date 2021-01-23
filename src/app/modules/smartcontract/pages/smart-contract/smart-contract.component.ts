@@ -35,6 +35,8 @@ export class SmartContractComponent implements OnInit {
   fabArguments: string;
   ethData: string;
   kanbanTo: string;
+  gasPrice: number;
+  gasLimit: number;
   kanbanValue: number;
   kanbanData: string;
   payableValue: number;
@@ -142,6 +144,9 @@ export class SmartContractComponent implements OnInit {
 
   async ngOnInit() {
     this.action = '';
+
+    this.gasLimit = 1000000;
+    this.gasPrice = 50;    
     //this.smartContractAddress = environment.addresses.smartContract.FABLOCK;
     //this.changeSmartContractAddress();
     this.wallet = await this.storageService.getCurrentWallet();
@@ -384,8 +389,8 @@ export class SmartContractComponent implements OnInit {
       abiHex = this.formABI();
     }
     
-    const gasLimit = 1000000;
-    const gasPrice = 50;
+    const gasLimit = this.gasLimit;
+    const gasPrice = this.gasPrice;
     let value = 0;
     if (this.method.stateMutability === 'payable') {
       value = Number(this.payableValue);
