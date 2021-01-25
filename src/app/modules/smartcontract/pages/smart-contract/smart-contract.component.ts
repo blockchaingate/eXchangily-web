@@ -209,6 +209,10 @@ export class SmartContractComponent implements OnInit {
         const input = inputs[i];
         if(input.name === '_account' && input.type==='address' && this.smartContractAddress === environment.addresses.smartContract.EXG) {
           input.val = this.exgCoin.receiveAdds[0].address;
+          if(!input.val.startsWith('0x')) {
+            input.val = this.utilServ.fabToExgAddress(input.val);
+          }
+          console.log('input.val===', input.val);
         }      
       }
     }
