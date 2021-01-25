@@ -31,6 +31,7 @@ export interface AddressTx {
 
 export interface Balance {
     coinType: string;
+    symbol: string;
     unlockedAmount: string;
     lockedAmount: string;
 }
