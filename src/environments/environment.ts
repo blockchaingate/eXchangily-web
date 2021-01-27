@@ -84,7 +84,7 @@ export const environment = {
             chain: {
                 name: 'test',
                 networkId: 212,
-                chainId: 212
+                chainId: 212 
             },
             satoshisPerBytes: 100,
             bytesPerInput: 148,
