@@ -14,3 +14,13 @@ Epay账户间转账：
 文档地址：
 中文：https://docs.qq.com/doc/DTllraW5DaUFOdlRu；
 英文：https://docs.qq.com/doc/DTnNiQ0ZsRk1tc0hq；
+
+
+
+商家账户：test2020@epay.com
+api_key：3b660b341966bd753d7d2d3b2dc82368
+
+用户账户：ljy065@epay.com
+登录密码：a1111111
+支付密码：111222
+邮箱/谷歌验证码：任意6位数字

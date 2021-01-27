@@ -105,6 +105,9 @@ export class TradeComponent implements OnInit {
         const chainName = this.currentCoin.tokenType ? this.currentCoin.tokenType : this.currentCoin.name;
         this.gasPrice = environment.chains[chainName]['gasPrice'];
         this.gasLimit = environment.chains[chainName]['gasLimit'];
+        if(this.currentCoin.tokenType) {
+          this.gasLimit = environment.chains[chainName]['gasLimitToken'];
+        }
         this.satoshisPerBytes = environment.chains[chainName]['satoshisPerBytes'];        
       }
     }
@@ -149,7 +152,7 @@ export class TradeComponent implements OnInit {
             return;
           }
           this.element = element;
-          this.otcPlaceOrderModal.show(element);          
+          this.otcPlaceOrderModal.show(data, element);          
         } else {
           this._router.navigate(['/login/signin', { 'retUrl': '/otc/trade' }]);
         }
@@ -179,7 +182,7 @@ export class TradeComponent implements OnInit {
         if (res.ok) {
           const data = res._body;
           this.element = data;
-          if(data.charge_id) {
+          if(data.charge_id && data.method != 'Epay') {
             this.alertServ.openSnackBarSuccess(this.translateServ.instant('Your payment was confirmed'),this.translateServ.instant('Ok'));
           }
           for (let i = 0; i < this.dataSource.length; i++) {
@@ -213,6 +216,7 @@ export class TradeComponent implements OnInit {
 
     const amount = this.quantity * (1 + this.commissionRate);
 
+    console.log('amount=', amount);
     const doSubmit = true;
     const options = {
         gasPrice: this.gasPrice,
@@ -220,6 +224,7 @@ export class TradeComponent implements OnInit {
         satoshisPerBytes: this.satoshisPerBytes
     };
 
+    console.log('currentCoin==', currentCoin);
     const { txHex, txHash, errMsg } = await this.coinService.sendTransaction(currentCoin, seed,
         environment.addresses.otcOfficial[currentCoin.name], amount, options, doSubmit
     );

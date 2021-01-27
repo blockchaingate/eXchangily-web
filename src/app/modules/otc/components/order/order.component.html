@@ -1,4 +1,4 @@
-<div class="container py-3">
+<div class="container py-3 text-white">
     <div class="row border-bottom order-top pt-3">
         <div class="col-md-6 order-top-exportS">
             <div>
@@ -35,7 +35,7 @@
 
     <div class="row order-bottom">
         <div class="col col-12 order-table">
-            <table class="table table-striped table-borderless">
+            <table class="table table-striped table-borderless text-white">
                 <thead>
                     <tr class="odd">
                         <th scope="col"><small>Order number</small></th>
@@ -65,7 +65,7 @@
                         <td>{{element.items[0].price}}</td>
                         <td>{{element.items[0].quantity}}</td>
                         <td>{{element.totalToPay}}</td>
-                        <td>{{element.dateCreated}}</td>
+                        <td>{{element.dateCreated | date : 'mediumDate'}}</td>
                         <td>
                             <div class="text-center">
                                 {{getStatusText(element.buy, element.paymentStatus)}}

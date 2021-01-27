@@ -12,7 +12,7 @@ export const environment = {
     url: 'https://kanbanprod.fabcoinapi.com/',
     version: '2.0.4',
     campaignId: 1,
-    OTC_COMMISSION_RATE: 0.01,
+    OTC_COMMISSION_RATE: 0,
     chains: {
         BTC: {
             network: Btc.networks.bitcoin,

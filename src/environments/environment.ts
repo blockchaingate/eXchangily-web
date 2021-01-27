@@ -10,8 +10,7 @@ export const environment = {
         CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', // ccount kenin
         USD: 'sandbox-sq0idb-gPdLBTvUKUk2-O2DdNZ3dA'  // account genta
     },
-    //EPAY_API: 'http://29597375fx.zicp.vip/paymentApi',
-    EPAY_API: 'https://api.epay.com/paymentApi',
+    EPAY_API: 'http://29597375fx.zicp.vip/paymentApi',
     STRIPE_PUBLIC_KEY: 'pk_test_xVAqsYMxwh3AZfJcYu1hruyE',
     PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',
     url: 'https://kanbantest.fabcoinapi.com/',
@@ -19,7 +18,7 @@ export const environment = {
     // baseUrl: 'http://localhost:4200',
     baseUrl: 'https://test.exchangily.com',
     campaignId: 1,
-    OTC_COMMISSION_RATE: 0.001,
+    OTC_COMMISSION_RATE: 0,
     chains: {
         BTC: {
             network: Btc.networks.testnet,
@@ -90,7 +89,8 @@ export const environment = {
             satoshisPerBytes: 100,
             bytesPerInput: 148,
             gasPrice: 50,
-            gasLimit: 800000
+            gasLimit: 800000,
+            gasLimitToken: 1000000
         },
         KANBAN: {
             chain: {
