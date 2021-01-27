@@ -1,7 +1,7 @@
 import { Component, ViewChild, EventEmitter, Output, Input, OnInit, AfterViewInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 //import { StripeToken, StripeSource, StripeCard } from 'stripe-angular'
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../../environments/environment';
 // import { StripeScriptTag } from 'stripe-angular'
 /*
 import {
@@ -212,7 +212,85 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit {
   onSubmit() {
     // this.stripeCard.createToken(this.extraData);
     this.hide();
-    this.paymentForm.requestCardNonce();
+
+    const payeeAccount = 'genta.qiu@gmail.com';
+    const paymentAmount = '10.2';
+    const paymentUnit = 'USD';
+
+    const mapForm = document.createElement('form');
+    mapForm.method = 'POST';
+    mapForm.target = '_blank';
+    mapForm.action = `${environment.EPAY_API}/merReceive`;
+    mapForm.style.display = 'none';
+    
+    const mapInput = document.createElement('input');
+    mapInput.type = 'hidden';
+    mapInput.name = 'PAYEE_ACCOUNT';
+    mapInput.value = payeeAccount;
+    mapForm.appendChild(mapInput);
+    
+    const mapInput1 = document.createElement('input');
+    mapInput1.type = 'hidden';
+    mapInput1.name = 'PAYEE_NAME';
+    mapInput1.value = 'Ken pay';
+    mapForm.appendChild(mapInput1);
+
+    const mapInput2 = document.createElement('input');
+    mapInput2.type = 'hidden';
+    mapInput2.name = 'PAYMENT_AMOUNT';
+    mapInput2.value = paymentAmount;
+    mapForm.appendChild(mapInput2);
+
+    const mapInput3 = document.createElement('input');
+    mapInput3.type = 'hidden';
+    mapInput3.name = 'PAYMENT_UNITS';
+    mapInput3.value = paymentUnit;
+    mapForm.appendChild(mapInput3);
+
+    const mapInput4 = document.createElement('input');
+    mapInput4.type = 'hidden';
+    mapInput4.name = 'PAYMENT_ID';
+    mapInput4.value = '33fawe3feafeawdaw';
+    mapForm.appendChild(mapInput4);
+
+
+    const mapInput5 = document.createElement('input');
+    mapInput5.type = 'hidden';
+    mapInput5.name = 'STATUS_URL';
+    mapInput5.value = 'https://www.exchangily.com';
+    mapForm.appendChild(mapInput5);
+
+
+    const mapInput6 = document.createElement('input');
+    mapInput6.type = 'hidden';
+    mapInput6.name = 'PAYMENT_URL';
+    mapInput6.value = 'https://www.exchangily.com';
+    mapForm.appendChild(mapInput6);
+
+    const mapInput7 = document.createElement('input');
+    mapInput7.type = 'hidden';
+    mapInput7.name = 'PAYMENT_ID';
+    mapInput7.value = '33fawe3feafeawdaw';
+    mapForm.appendChild(mapInput7);
+
+    
+    //const hash = md5();
+    const mapInput8 = document.createElement('input');
+    mapInput8.type = 'hidden';
+    mapInput8.name = 'V2_HASH';
+    mapInput8.value = '40a1a35341c4bd78932f8b02c4b8fe1c';
+    mapForm.appendChild(mapInput8);
+
+
+
+
+
+    document.body.appendChild(mapForm);
+    
+    mapForm.submit();
+
+
+    //this.paymentForm.requestCardNonce();
     /*
     console.log('token=', this.token);
     const data = {

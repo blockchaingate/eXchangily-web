@@ -263,7 +263,11 @@ export class UtilService {
     }
 
     toNumber(num) {
-        return Number(num);
+        const arr = num.split('.');
+        if(arr.length <= 1) {
+            return Number(arr);
+        }
+        return Number(arr[0] + '.' + arr[1].substring(0, 7));
     }
     
     hex2Buffer(hexString) {

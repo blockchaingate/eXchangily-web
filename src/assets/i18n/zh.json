@@ -1227,6 +1227,8 @@
     "Kanban Gas Price(WEI)": "看板燃料价格(WEI)",
     "Kanban Gas Limit": "看板燃料限额",
     "Home Page": "首页",
+    "Fiat": "法币",
+    "Registration time": "注册时间",
     "Address transformer": "地址转换",
     "FAB address": "FAB地址",
     "EXG address": "EXG地址",
