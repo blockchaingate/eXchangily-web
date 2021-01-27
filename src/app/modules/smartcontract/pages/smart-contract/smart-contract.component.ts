@@ -34,6 +34,7 @@ export class SmartContractComponent implements OnInit {
   fabBytecode: string;
   fabArguments: string;
   ethData: string;
+  lockerHashes: any;
   kanbanTo: string;
   gasPrice: number;
   gasLimit: number;
@@ -101,6 +102,25 @@ export class SmartContractComponent implements OnInit {
           "constant": false,
           "inputs": [
               {
+                  "name": "_lockerHash",
+                  "type": "bytes32"
+              }
+          ],
+          "name": "unlockByLockerHash",
+          "outputs": [
+              {
+                  "name": "",
+                  "type": "bool"
+              }
+          ],
+          "payable": false,
+          "stateMutability": "nonpayable",
+          "type": "function"
+      },
+        {
+          "constant": false,
+          "inputs": [
+              {
                   "name": "_account",
                   "type": "address"
               }
@@ -117,7 +137,7 @@ export class SmartContractComponent implements OnInit {
           "type": "function"
         }         
       ];
-      this.changeMethod('unlockByAccount');
+      this.changeMethod('unlockByLockerHash');
     } else 
     if(this.smartContractAddress === '0x0') {
       this.changeMethod('');
@@ -144,7 +164,7 @@ export class SmartContractComponent implements OnInit {
 
   async ngOnInit() {
     this.action = '';
-
+    this.lockerHashes = [];
     this.gasLimit = 1000000;
     this.gasPrice = 50;    
     //this.smartContractAddress = environment.addresses.smartContract.FABLOCK;
@@ -178,11 +198,27 @@ export class SmartContractComponent implements OnInit {
       }
     }  
     
+
     if (!this.mycoin) {
       this.alertServ.openSnackBar('no fab coin found for this wallet.', 'Ok');
       return;
     }  
     
+    const fabAddress = this.mycoin.receiveAdds[0].address;
+
+    this.apiServ.getEXGLockerDetail(fabAddress).subscribe(
+      (ret:any) => {
+        if(ret.success) {
+          if(ret.data && (ret.data.length > 0)) {
+            console.log('ret.data==', ret.data);
+            this.lockerHashes = ret.data[0];
+            console.log('this.lockerHashes==', this.lockerHashes);
+            console.log(this.lockerHashes.length);
+          }
+          
+        }
+      }
+    );
     this.changeContractName('Exg');
   }
 

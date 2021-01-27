@@ -27,6 +27,11 @@ export class ApiService {
         return this.http.get(url);
     }
     
+    getEXGLockerDetail(fabAddress: string) {
+        const url = environment.endpoints.kanban + 'getLockerHashesByAccount/' + fabAddress;
+        return this.http.get(url);
+    }
+
     getEpayHash(paymentAmount: number, paymentUnit: string) {
         const url = environment.endpoints.blockchaingate + 'epay/hash/' + paymentAmount + '/' + paymentUnit;
         return this.http.get(url);       
