@@ -291,13 +291,13 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit {
           const mapInput6 = document.createElement('input');
           mapInput6.type = 'hidden';
           mapInput6.name = 'PAYMENT_URL';
-          mapInput6.value = 'https://www.exchangily.com/market/home';
+          mapInput6.value = environment.baseUrl + '/paymentsuccess';
           mapForm.appendChild(mapInput6);
       
           const mapInput7 = document.createElement('input');
           mapInput7.type = 'hidden';
           mapInput7.name = 'NOPAYMENT_URL';
-          mapInput7.value = 'https://www.exchangily.com/market/home';
+          mapInput7.value = environment.baseUrl + '/paymentfail';
           mapForm.appendChild(mapInput7);
           
           const mapInput8 = document.createElement('input');

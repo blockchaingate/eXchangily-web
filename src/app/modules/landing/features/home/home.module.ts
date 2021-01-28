@@ -5,6 +5,8 @@ import {MatIconModule} from '@angular/material/icon'
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home/home.component';
 import { VersionComponent } from './version/version.component';
+import { PaymentSuccessComponent } from './payment/success.component';
+import { PaymentFailComponent } from './payment/fail.component';
 import { TeamComponent } from './team/team.component';
 import { RoadmapComponent } from './roadmap/roadmap.component';
 
@@ -39,6 +41,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     HomeComponent,
     VersionComponent,
     TeamComponent,
+    PaymentSuccessComponent,
+    PaymentFailComponent,
     RoadmapComponent
   ]
 })
