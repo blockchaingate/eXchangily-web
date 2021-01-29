@@ -1,23 +1,24 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { appId } from '../../../../landing/app.constants';
-import { StorageService } from '../../../../../services/storage.service';
-import { OtcService } from '../../../../../services/otc.service';
+
 import { environment } from '../../../../../../environments/environment';
+import { Wallet } from '../../../../../models/wallet';
+import { MyCoin } from '../../../../../models/mycoin';
 import { PinNumberModal } from '../../../../shared/modals/pin-number/pin-number.modal';
 import { AlertService } from '../../../../../services/alert.service';
 import { UtilService } from '../../../../../services/util.service';
-import { Wallet } from '../../../../../models/wallet';
 import { WalletService } from '../../../../../services/wallet.service';
-import { MyCoin } from '../../../../../models/mycoin';
+import { StorageService } from '../../../../../services/storage.service';
+import { OtcService } from '../../../../../services/otc.service';
 import { CoinService } from '../../../../../services/coin.service';
 import { TimerService } from '../../../../../services/timer.service';
 
 @Component({
     selector: 'app-otc-listing',
-    templateUrl: './listing.component.html',
-    styleUrls: ['./listing.component.css']
+    templateUrl: './otc-listing.component.html',
+    styleUrls: ['./otc-listing.component.scss']
 })
-export class ListingComponent implements OnInit {
+export class OtcListingComponent implements OnInit {
     maxLimit: number;
     buy: boolean;
     coin: string;
@@ -80,6 +81,7 @@ export class ListingComponent implements OnInit {
     }
 
     addListing() {
+
         /*
         if (!this.buy) { // sell coins
             const payableQuantity = this.quantity * (1 + this.commissionRate);
@@ -97,7 +99,7 @@ export class ListingComponent implements OnInit {
             this.addListingDo();
         }
         */
-        this.addListingDo();
+       this.addListingDo();
     }
 
     addListingDo() {

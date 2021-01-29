@@ -190,7 +190,10 @@
                                         <a class="nav-link pointer" href="/promotion/flyer" target="_blank">
                                             {{'My referral' | translate }}
                                         </a></li>
-
+                                        <li class="nav-item" *ngIf="LoginInfo">
+                                            <a class="nav-link pointer" href="/account">
+                                                {{'My profile' | translate }}
+                                            </a></li>
                                     <li class="nav-item" *ngIf="!LoginInfo">
                                         <a class="nav-link pointer" routerLink="/login/signin" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">
                                             {{'Header.Navigation.Signin' | translate}}
