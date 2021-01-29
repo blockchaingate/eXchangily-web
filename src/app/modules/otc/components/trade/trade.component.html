@@ -1,4 +1,4 @@
-<div class="container py-3">
+<div class="container text-white py-3">
     <div class="row border-bottom py-2 trade-top">
         <div class="col-md-6 col-lg-3 lightblue">
             <div>
@@ -12,15 +12,14 @@
                 </a>
             </div>
 
-           
             <div>
                 <a href="/otc/otc-merchant/merchant-application"> {{'Become merchant' | translate }}</a>
 
             </div>
         </div>
-        <div class="col-md-6 col-lg-3">
+        <div class="col-md-6 col-lg-3 currencyarea, pl-1">
             <mat-label class="white mt-3 mb-1">{{"Currency" | translate }}</mat-label>
-            <mat-select class="mt-3" style="background-color: #fff;" [(ngModel)]="currency" [disableOptionCentering]="true">
+            <mat-select class="mt-3" panelClass="currency-panel-class" style="background-color: darkgray; padding-left: 0.3em;" [(ngModel)]="currency" [disableOptionCentering]="true">
                 <mat-option *ngFor="let cur of currencies" [value]="cur">
                     {{cur}}
                 </mat-option>
@@ -28,7 +27,7 @@
         </div>
 
         <div class="col-md-6 col-lg-3 border-right">
-            <div >
+            <div>
                 <div class="row py-2">
                     <div class="col col-12 brgreen">
                         {{'Buy' | translate }}
@@ -36,24 +35,19 @@
                 </div>
 
                 <div class="row">
-                    <div class="col col-3 coin-name" [ngClass]="(bidOrAsk && (coinName=='USDT'))?'type-buy':''"
-                        (click)="changeCoinName(true, 'USDT')">
+                    <div class="col col-3 coin-name" [ngClass]="(bidOrAsk && (coinName=='USDT'))?'type-buy':''" (click)="changeCoinName(true, 'USDT')">
                         USDT
                     </div>
-                    <div class="col col-2 coin-name" [ngClass]="(bidOrAsk && (coinName=='BTC'))?'type-buy':''"
-                        (click)="changeCoinName(true, 'BTC')">
+                    <div class="col col-2 coin-name" [ngClass]="(bidOrAsk && (coinName=='BTC'))?'type-buy':''" (click)="changeCoinName(true, 'BTC')">
                         BTC
                     </div>
-                    <div class="col col-2 coin-name" [ngClass]="(bidOrAsk && (coinName=='ETH'))?'type-buy':''"
-                        (click)="changeCoinName(true, 'ETH')">
+                    <div class="col col-2 coin-name" [ngClass]="(bidOrAsk && (coinName=='ETH'))?'type-buy':''" (click)="changeCoinName(true, 'ETH')">
                         ETH
                     </div>
-                    <div class="col col-2 coin-name" [ngClass]="(bidOrAsk && (coinName=='FAB'))?'type-buy':''"
-                        (click)="changeCoinName(true, 'FAB')">
+                    <div class="col col-2 coin-name" [ngClass]="(bidOrAsk && (coinName=='FAB'))?'type-buy':''" (click)="changeCoinName(true, 'FAB')">
                         FAB
                     </div>
-                    <div class="col col-3 coin-name" [ngClass]="(bidOrAsk && (coinName=='EXG'))?'type-buy':''"
-                        (click)="changeCoinName(true, 'EXG')">
+                    <div class="col col-3 coin-name" [ngClass]="(bidOrAsk && (coinName=='EXG'))?'type-buy':''" (click)="changeCoinName(true, 'EXG')">
                         EXG
                     </div>
                 </div>
@@ -61,7 +55,7 @@
         </div>
 
         <div class="col-md-6 col-lg-3">
-            <div >
+            <div>
                 <div class="row py-2">
                     <div class="col col-12 red">
                         {{'Sell' | translate }}
@@ -69,30 +63,24 @@
                 </div>
 
                 <div class="row">
-                    <div class="col col-3 coin-name" [ngClass]="(!bidOrAsk && (coinName=='USDT'))?'type-sell':''"
-                        (click)="changeCoinName(false, 'USDT')">
+                    <div class="col col-3 coin-name" [ngClass]="(!bidOrAsk && (coinName=='USDT'))?'type-sell':''" (click)="changeCoinName(false, 'USDT')">
                         USDT
                     </div>
-                    <div class="col col-2 coin-name" [ngClass]="(!bidOrAsk && (coinName=='BTC'))?'type-sell':''"
-                        (click)="changeCoinName(false, 'BTC')">
+                    <div class="col col-2 coin-name" [ngClass]="(!bidOrAsk && (coinName=='BTC'))?'type-sell':''" (click)="changeCoinName(false, 'BTC')">
                         BTC
                     </div>
-                    <div class="col col-2 coin-name" [ngClass]="(!bidOrAsk && (coinName=='ETH'))?'type-sell':''"
-                        (click)="changeCoinName(false, 'ETH')">
+                    <div class="col col-2 coin-name" [ngClass]="(!bidOrAsk && (coinName=='ETH'))?'type-sell':''" (click)="changeCoinName(false, 'ETH')">
                         ETH
                     </div>
-                    <div class="col col-2 coin-name" [ngClass]="(!bidOrAsk && (coinName=='FAB'))?'type-sell':''"
-                        (click)="changeCoinName(false, 'FAB')">
+                    <div class="col col-2 coin-name" [ngClass]="(!bidOrAsk && (coinName=='FAB'))?'type-sell':''" (click)="changeCoinName(false, 'FAB')">
                         FAB
                     </div>
-                    <div class="col col-3 coin-name" [ngClass]="(!bidOrAsk && (coinName=='EXG'))?'type-sell':''"
-                        (click)="changeCoinName(false, 'EXG')">
+                    <div class="col col-3 coin-name" [ngClass]="(!bidOrAsk && (coinName=='EXG'))?'type-sell':''" (click)="changeCoinName(false, 'EXG')">
                         EXG
                     </div>
                 </div>
             </div>
         </div>
-
 
     </div>
     <div class="row trade-bottom">
@@ -110,8 +98,7 @@
                 </thead>
                 <tbody>
 
-                    <tr *ngFor="let element of dataSource | merchantPipe: currency : bidOrAsk : coinName ; let i = index"
-                        ngClass="{{i%2 ? 'odd' : 'even'}}">
+                    <tr *ngFor="let element of dataSource | merchantPipe: currency : bidOrAsk : coinName ; let i = index" ngClass="{{i%2 ? 'odd' : 'even'}}">
                         <!--
                         <tr *ngFor="let element of dataSource">
                         -->
@@ -122,9 +109,8 @@
                         <td>{{element.qtyAvilable}}</td>
                         <td>{{element.qtyLimitPerOrderLow}}-{{element.qtyLimitPerOrderHigh}}</td>
                         <td>{{element.price}}</td>
-                        <td>
-                            <div class="btn-buy-sell" [ngClass]="element.BidOrAsk ? 'btn-buy' : 'btn-sell'"
-                                (click)="placeOrder(element)">
+                        <td style="width: 80px;">
+                            <div class="btn-buy-sell" [ngClass]="element.BidOrAsk ? 'btn-buy' : 'btn-sell'" (click)="placeOrder(element)">
                                 {{(element.buy ? 'Sell' : 'Buy') | translate}}
                             </div>
                         </td>
