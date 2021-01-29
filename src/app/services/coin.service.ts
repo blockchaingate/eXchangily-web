@@ -22,9 +22,9 @@ import TronWeb from 'tronweb';
 
 
 const HttpProvider = TronWeb.providers.HttpProvider;
-const fullNode = new HttpProvider('https://api.trongrid.io');
-const solidityNode = new HttpProvider('https://api.trongrid.io');
-const eventServer = new HttpProvider('https://api.trongrid.io');
+const fullNode = new HttpProvider(environment.chains.TRON.fullNode);
+const solidityNode = new HttpProvider(environment.chains.TRON.solidityNode);
+const eventServer = new HttpProvider(environment.chains.TRON.eventServer);
 
 @Injectable()
 export class CoinService {
@@ -1689,17 +1689,39 @@ export class CoinService {
                 }
 
         } else if (mycoin.name == 'TRX') {
+            console.log('start to send TRX');
             const address1 = mycoin.receiveAdds[0];
             const currentIndex = address1.index;            
             const keyPair = this.getKeyPairs(mycoin, seed, 0, currentIndex);
+            let priKeyDisp = keyPair.privateKey.toString('hex');
             const tronWeb = new TronWeb(
                 fullNode,
                 solidityNode,
                 eventServer,
-                keyPair.privateKey
+                priKeyDisp
             );
+            
 
-            tronWeb.transactionBuilder.sendTrx(toAddress, amount, keyPair.address);
+            console.log('111');
+            const tradeobj = await tronWeb.transactionBuilder.sendTrx(toAddress, amount, keyPair.address);
+            console.log('222');
+            txHex = await tronWeb.trx.sign(tradeobj, priKeyDisp);
+
+            if (txHex) {
+                if (doSubmit) {
+                    console.log('txHex===', txHex);
+                    const receipt = await tronWeb.trx.sendRawTransaction(txHex);
+                    txHash = receipt.transaction.txID;
+                    console.log('txHash1=', txHash);
+                    const tx = Btc.Transaction.fromHex(txHex);
+                    txHash = '0x' + tx.getId();
+                    console.log('txHash2=', txHash);
+                    errMsg = '';
+                } else {
+                    const tx = Btc.Transaction.fromHex(txHex);
+                    txHash = '0x' + tx.getId();
+                }
+            }
         } else 
         if (mycoin.tokenType == 'TRX') {
             const trc20ContractAddress = environment.addresses.smartContract[mycoin.name + '_TRX'];//contract address

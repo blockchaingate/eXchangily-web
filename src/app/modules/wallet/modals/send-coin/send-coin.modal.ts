@@ -223,7 +223,7 @@ export class SendCoinModal {
         
         const selectedCoinIndex = Number(this.sendCoinForm.get('selectedCoinIndex').value);
         const amount = Number(this.sendCoinForm.get('sendAmount').value);
-        if (amount > this.coin.balance) {
+        if (this.coin.balance != -1 && amount > this.coin.balance) {
             this.alertServ.openSnackBar('Insufficient ' + this.coin.name + ' for this transaction', 'Ok');
             return;
         }

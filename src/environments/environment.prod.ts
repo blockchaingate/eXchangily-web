@@ -93,6 +93,11 @@ export const environment = {
             },
             gasPrice: 50000000,
             gasLimit: 20000000
+        },
+        TRON: {
+            fullNode: 'https://api.trongrid.io',
+            solidityNode: 'https://api.trongrid.io',
+            eventServer: 'https://api.trongrid.io'          
         }
     },
     endpoints: {
