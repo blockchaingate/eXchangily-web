@@ -25,7 +25,7 @@ import { environment } from '../../../../../../environments/environment';
 import { TimerService } from '../../../../../services/timer.service';
 import BigNumber from 'bignumber.js/bignumber';
 
-import { Pair } from '../../../models/pair';
+import { Pair, defaultPairsConfig } from '../../../models/pair';
 import { number } from 'bitcoinjs-lib/types/script';
 
 declare let window: any;
@@ -773,12 +773,23 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       }
 
       const pairName = pair.replace('_', '');
-      console.log('getPairConfig 1');
       this.kanbanService.getPairConfig().subscribe(
         (res: any) => {
-          this.pairsConfig = res;
+          let pairsConfig = res;
+          const pairConfig = pairsConfig.find(item => item.name === pairName);
 
-          this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
+          if(pairConfig) {
+            this.pairConfig = pairConfig;
+          } else {
+            this.pairConfig = defaultPairsConfig.find(item => item.name === pairName);
+          }
+        },
+        error => {
+          const pairConfig = defaultPairsConfig.find(item => item.name === pairName);
+
+          if(pairConfig) {
+            this.pairConfig = pairConfig;
+          }          
         }
       );
       // console.log('pair for refresh pageeee=' + pair);
