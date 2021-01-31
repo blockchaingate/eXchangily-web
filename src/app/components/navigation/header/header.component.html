@@ -1,5 +1,5 @@
 <header>
-    
+
     <div style="width: 100%; color: orange; padding-left:1em; padding-right: 1em;" *ngIf="urgentAnnouncementsList.length>0">
         <br>
         <div style="margin: auto; max-width: 1120px;">
@@ -13,9 +13,9 @@
         <div class="text-center text-warning test-warning" *ngIf="testMode && displayHideLabel">
             <h2>
                 Exchangily Test Website
-                
+
                 <button (click)="hideTestLabel();" class="btn btn-warning">X</button>
-               
+
             </h2>
         </div>
         <ul class="navbar-nav ml-auto">
@@ -69,7 +69,7 @@
                         </div>
                     </div>
                 </li>
-    
+
                 <li class="nav-item">
                     <a class="nav-link" (click)="linkTo('/app');selectedItem=41" [class.selected]="selectedItem===41" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Mobile App' | translate}}</a>
                 </li>
@@ -93,11 +93,11 @@
                 <li class="nav-item">
                     <a class="nav-link" (click)="linkTo('/otc/trade');selectedItem=5" [class.selected]="selectedItem===5" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'OTC Trade' | translate}}</a>
                 </li>
-
+                <!-- Don't remove, may need it later
                 <li class="nav-item">
                     <a class="nav-link" (click)="linkTo('/reward');selectedItem=40" [class.selected]="selectedItem===40" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Reward' | translate}}</a>
                 </li>
-
+-->
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
@@ -190,8 +190,8 @@
                                         <a class="nav-link pointer" href="/promotion/flyer" target="_blank">
                                             {{'My referral' | translate }}
                                         </a></li>
-                                        <li class="nav-item" *ngIf="LoginInfo">
-                                            <a class="nav-link pointer" href="/account">
+                                    <li class="nav-item" *ngIf="LoginInfo">
+                                        <a class="nav-link pointer" href="/account">
                                                 {{'My profile' | translate }}
                                             </a></li>
                                     <li class="nav-item" *ngIf="!LoginInfo">

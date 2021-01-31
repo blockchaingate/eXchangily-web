@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { TradeService } from '../../../services/trade.service';
 import { CoinService } from '../../../../../services/coin.service';
@@ -36,9 +36,17 @@ export class MyordersComponent implements OnInit, OnDestroy {
     transactionHistories: any;
     screenheight = screen.height;
     select = 100;
+    showAll = false;
+    currentPair = '';
+    baseCoin: number;
+    targetCoin: number;
     openorders: Transaction[] = [];
     closedorders: Transaction[] = [];
     canceledorders: Transaction[] = [];
+    allOpenorders: Transaction[] = [];
+    allClosedorders: Transaction[] = [];
+    allCanceledorders: Transaction[] = [];
+
     pin: string;
     orderHash: string;
     modalWithdrawRef: BsModalRef;
@@ -64,7 +72,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     coinServ: CoinService;
     lan = 'en';
 
-    constructor(private _router: Router, private tradeService: TradeService,
+    constructor(private _router: Router, private tradeService: TradeService, private _route: ActivatedRoute,
         public utilServ: UtilService, private kanbanServ: KanbanService, private _coinServ: CoinService,
         private modalService: BsModalService, private web3Serv: Web3Service, private alertServ: AlertService,
         private timerServ: TimerService, private walletServ: WalletService, private storageServ: StorageService) {
@@ -85,11 +93,11 @@ export class MyordersComponent implements OnInit, OnDestroy {
     getOrders() {
         let orders = [];
         if (this.select === 0) {
-            orders = this.openorders;
+            orders = this.showAll? this.allOpenorders : this.openorders;
         } else if (this.select === 1) {
-            orders = this.closedorders;
+            orders = this.showAll? this.allClosedorders : this.closedorders;
         } else if (this.select === 2) {
-            orders = this.canceledorders;
+            orders = this.showAll? this.allCanceledorders : this.canceledorders;
         }
         return orders;
     }
@@ -101,6 +109,13 @@ export class MyordersComponent implements OnInit, OnDestroy {
     }
 
     async ngOnInit() {
+        this.currentPair = this._route.snapshot.paramMap.get('pair');
+        const pairCoins = this.currentPair.split('_');
+        this.baseCoin = this._coinServ.getCoinTypeIdByName(pairCoins[1]);
+        this.targetCoin = this._coinServ.getCoinTypeIdByName(pairCoins[0]);
+        this.currentPair = this.currentPair.replace('_', '');
+
+        // localStorage.removeItem("_myOrders");
         this.transactionHistory = false;
         this.lan = localStorage.getItem('Lan');
 
@@ -116,21 +131,9 @@ export class MyordersComponent implements OnInit, OnDestroy {
             this.timerServ.checkOrderStatus(address, 1);
             this.timerServ.checkTokens(address, 1);
         }
-        this.timerServ.openOrders.subscribe(
-            (orders: any) => {
-                this.openorders = orders;
-            }
-        );
-        this.timerServ.closedOrders.subscribe(
-            (orders: any) => {
-                this.closedorders = orders;
-            }
-        );
-        this.timerServ.canceledOrders.subscribe(
-            (orders: any) => {
-                this.canceledorders = orders;
-            }
-        );
+
+        this.prepareOrders();
+
         this.timerServ.tokens.subscribe(
             (tokens: any) => {
                 if(this.mytokens && (this.mytokens.length > 0)) {
@@ -152,6 +155,28 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
     }
 
+    prepareOrders() {
+        this.timerServ.openOrders.subscribe(
+            (orders: any) => {
+                this.openorders = orders.filter(oo=>oo.pairName === this.currentPair);
+                this.allOpenorders = orders;
+                // localStorage.setItem("_myOrders", orders);
+            }
+        );
+        this.timerServ.closedOrders.subscribe(
+            (orders: any) => {
+                this.closedorders = orders.filter(oo=>oo.pairName === this.currentPair);
+                this.allClosedorders = orders;
+            }
+        );
+        this.timerServ.canceledOrders.subscribe(
+            (orders: any) => {
+                this.canceledorders = orders.filter(oo=>oo.pairName === this.currentPair);
+                this.allCanceledorders = orders;
+            }
+        );
+    }
+
     showTransactionHisotry() {
         this.transactionHistory = true;
         const address = this.wallet.excoin.receiveAdds[0].address;
@@ -165,6 +190,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
             }
         );
     }
+
     async withdrawDo() {
         const amount = this.withdrawAmount;
         const pin = this.pin;
@@ -396,7 +422,6 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
         }
         
-        
         if(!toAddressLegacy) {
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar('收款地址格式不对。', 'Ok');
@@ -502,5 +527,9 @@ export class MyordersComponent implements OnInit, OnDestroy {
         const orderQtyFilledNum = new BigNumber(this.utilServ.showAddAmount(orderQty, orderFilledQty, 2));
         const ret = orderQtyNum.dividedBy(orderQtyFilledNum);
         return ret.toNumber() * 100;
+    }
+
+    eventCheck(event) {
+        this.showAll = event.target.checked;
     }
 }

@@ -77,6 +77,7 @@ export interface KanbanTransaction {
 export interface OrderItem {
     p: number;
     q: number;
+    my: boolean;
 }
 
 export interface Order {
