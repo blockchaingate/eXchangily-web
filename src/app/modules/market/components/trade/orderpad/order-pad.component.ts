@@ -40,6 +40,7 @@ declare let window: any;
 export class OrderPadComponent implements OnInit, OnDestroy {
   pairsConfig: Pair[];
   pairConfig: Pair = { name: 'BTCUSDT', priceDecimal: 2, qtyDecimal: 6 };
+  pairName = '';
   wallet: Wallet;
   private _mytokens: any;
   screenheight = screen.height;
@@ -49,8 +50,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   bidOrAsk: boolean;
   sells: OrderItem[] = [];
   buys: OrderItem[] = [];
-  mySellPrices: number[] = [];
-  myBuyPrices: number[] = [];
+  mySellPrices: string[] = [];
+  myBuyPrices: string[] = [];
   aArray = [];
   bArray = [];
   txOrders: TxRecord[] = [];
@@ -283,7 +284,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       }
     }
     for (i = (bidOrAsk ? 0 : (newOrderArr.length - 1)); bidOrAsk ? (i < newOrderArr.length) : (i >= 0); bidOrAsk ? (i++) : (i--)) {
-
       const newOrderItem = newOrderArr[i];
 
       const newPrice = Number(newOrderItem.p);
@@ -312,7 +312,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
             break;
           }
         }
-
 
         if (oldPrice === newPrice) {
           oldOrderItem.checkedArr.push(true);
@@ -478,8 +477,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.buyQty = Number(
-      (new BigNumber(this.utilService.showAmount(this.bigdiv(this.baseCoinAvail, this.buyPrice), this.pairConfig.qtyDecimal)).multipliedBy(new BigNumber(percent))).toFixed(this.pairConfig.qtyDecimal));
+    this.buyQty = Number((new BigNumber(this.utilService.showAmount(this.bigdiv(this.baseCoinAvail, this.buyPrice), this.pairConfig.qtyDecimal)).multipliedBy(new BigNumber(percent))).toFixed(this.pairConfig.qtyDecimal));
     const avail = this.utilService.toNumber(this.utilService.showAmount(this.baseCoinAvail, 18));
 
     while ((new BigNumber(this.buyQty).multipliedBy(new BigNumber(this.buyPrice))).toNumber() > avail) {
@@ -494,7 +492,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       this.sellQty -= Math.pow(10, -this.pairConfig.qtyDecimal);
       this.sellQty = this.utilService.toNumber(this.sellQty.toFixed(this.pairConfig.qtyDecimal));
     }
-
   }
 
   setPrice(price: number) {
@@ -517,6 +514,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     this.currentPrice = 0;
     this.currentQuantity = 0;
 
+    this.checkMyOrdersOfThisPair();
+
     const baseCoinName = this._coinServ.getCoinNameByTypeId(this.baseCoin);
     const targetCoinName = this._coinServ.getCoinNameByTypeId(this.targetCoin);
     const pair = targetCoinName + baseCoinName;
@@ -532,15 +531,14 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         this.buys = orders.b.slice(0, 10);
 
         this.sells.forEach(se => {
-          this.mySellPrices.filter(myS => myS - (+se.p) < 0.00000001).length > 0 ? se.my = true : se.my = false;
+          this.mySellPrices.filter(myS => +myS === se.p).length > 0 ? se.my = true : se.my = false;
         });
 
         this.buys.forEach(bu => {
-          this.mySellPrices.filter(myS => myS - (+bu.p) < 0.00000001).length > 0 ? bu.my = true : bu.my = false;
+          this.myBuyPrices.filter(myS => +myS === bu.p).length > 0 ? bu.my = true : bu.my = false;
         });
 
         //   if ((pair.indexOf('NVZN') < 0) && environment.production) {
-
         /*
         for(let i=0;i<10;i++) {
           const randNum = Math.floor((Math.random() * 10) + 1);
@@ -755,10 +753,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.lan = localStorage.getItem('Lan');
-    const pairName = this.route.snapshot.paramMap.get('pair');
-    const pairArray = pairName.split('_');
+    this.pairName = this.route.snapshot.paramMap.get('pair');
+    const pairArray = this.pairName.split('_');
     this.baseCoin = this._coinServ.getCoinTypeIdByName(pairArray[1]);
     this.targetCoin = this._coinServ.getCoinTypeIdByName(pairArray[0]);
+    this.pairName = this.pairName.replace('_', '');
 
     // console.log('ngOnInit for order Pad');
     this.oldNonce = -1;
@@ -781,20 +780,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.timerServ.openOrders.subscribe(
-      (orders: any) => {
-        const myOpenOrders = orders as Transaction[];
-        myOpenOrders.forEach(ordItm => {
-          if (ordItm.baseCoin === this.baseCoin && ordItm.targetCoin === this.targetCoin) {
-            if (ordItm.bidOrAsk) {
-              this.myBuyPrices.push(ordItm.price);
-            } else {
-              this.mySellPrices.push(ordItm.price);
-            }
-          }
-        });
-      }
-    );
+    this.checkMyOrdersOfThisPair();
 
     //this.pairsConfig = <Pair[]>(JSON.parse(sessionStorage.getItem('pairsConfig')));
 
@@ -834,6 +820,23 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       // this.loadChart(pairArray[0], pairArray[1]);
       // In a real app: dispatch action to load the details here.
     });
+  }
+
+  checkMyOrdersOfThisPair() {
+    this.timerServ.openOrders.subscribe(
+      (orders: any) => {
+        const myPairOrders = orders.filter(mo => mo.pairName === this.pairName);
+        myPairOrders.forEach(ordItm => {
+          const decimalPrice = this.utilService.showAmount(ordItm.price, this.pairConfig.priceDecimal);
+            if (ordItm.bidOrAsk) {
+              this.myBuyPrices.push(decimalPrice);
+            } else {
+              this.mySellPrices.push(decimalPrice);
+            }
+        });
+      }
+    );
+
   }
 
   // This method provides a unique value to track orders with.
