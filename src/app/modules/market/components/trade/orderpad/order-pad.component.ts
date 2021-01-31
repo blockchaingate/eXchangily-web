@@ -7,6 +7,7 @@ import { TxRecord } from '../../../models/order-book';
 import { Web3Service } from '../../../../../services/web3.service';
 import { KanbanService } from '../../../../../services/kanban.service';
 import { TradeService } from '../../../services/trade.service';
+import { TransactionReceiptResp, Transaction } from '../../../../../interfaces/kanban.interface';
 
 import { UtilService } from '../../../../../services/util.service';
 import { WalletService } from '../../../../../services/wallet.service';
@@ -25,7 +26,7 @@ import { environment } from '../../../../../../environments/environment';
 import { TimerService } from '../../../../../services/timer.service';
 import BigNumber from 'bignumber.js/bignumber';
 
-import { Pair } from '../../../models/pair';
+import { Pair, defaultPairsConfig } from '../../../models/pair';
 import { number } from 'bitcoinjs-lib/types/script';
 
 declare let window: any;
@@ -44,10 +45,12 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   screenheight = screen.height;
   select = 1;
   orderType = 1;
-  myorder: Order;
+  myorders: Order[];
   bidOrAsk: boolean;
   sells: OrderItem[] = [];
   buys: OrderItem[] = [];
+  mySellPrices: number[] = [];
+  myBuyPrices: number[] = [];
   aArray = [];
   bArray = [];
   txOrders: TxRecord[] = [];
@@ -129,6 +132,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     if (!buys) {
       return 0;
     }
+    const pairName = this.route.snapshot.paramMap.get('pair').replace('_', '');
 
     let amountBig = 0;
     for (let i = 0; i <= index; i++) {
@@ -527,68 +531,76 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         this.sells = orders.s.slice(0, 10).reverse();
         this.buys = orders.b.slice(0, 10);
 
-        if ((pair.indexOf('NVZN') < 0) && environment.production) {
+        this.sells.forEach(se => {
+          this.mySellPrices.filter(myS => myS - (+se.p) < 0.00000001).length > 0 ? se.my = true : se.my = false;
+        });
 
-          /*
-          for(let i=0;i<10;i++) {
-            const randNum = Math.floor((Math.random() * 10) + 1);
-            if(randNum > this.sells.length - 1) {
-              continue;
-            }
-  
-            var price = this.getRandomArbitrary(this.sells[randNum - 1].p, this.sells[randNum].p);
-  
-            if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.sells[randNum - 1].p, this.pairConfig.priceDecimal)) {
-              continue;
-            }
-  
-            if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.sells[randNum].p, this.pairConfig.priceDecimal)) {
-              continue;
-            }
-  
-            var newOrder = {
-              q: this.sells[randNum].q,
-              p: price
-            };
-            this.sells.splice(randNum, 0, newOrder);
+        this.buys.forEach(bu => {
+          this.mySellPrices.filter(myS => myS - (+bu.p) < 0.00000001).length > 0 ? bu.my = true : bu.my = false;
+        });
+
+        //   if ((pair.indexOf('NVZN') < 0) && environment.production) {
+
+        /*
+        for(let i=0;i<10;i++) {
+          const randNum = Math.floor((Math.random() * 10) + 1);
+          if(randNum > this.sells.length - 1) {
+            continue;
           }
-  
-          for(let i=0;i<10;i++) {
-            const randNum = Math.floor((Math.random() * 10) + 1);
-  
-            if(randNum > this.buys.length - 1) {
-              continue;
-            }  
-            
-            var price = this.getRandomArbitrary(this.buys[randNum - 1].p, this.buys[randNum].p);
-  
-            if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.buys[randNum - 1].p, this.pairConfig.priceDecimal)) {
-              continue;
-            }
-  
-            if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.buys[randNum].p, this.pairConfig.priceDecimal)) {
-              continue;
-            }
-  
-            var newOrder = {
-              q: this.buys[randNum].q,
-              p: price
-            };
-            this.buys.splice(randNum, 0, newOrder);
+ 
+          var price = this.getRandomArbitrary(this.sells[randNum - 1].p, this.sells[randNum].p);
+ 
+          if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.sells[randNum - 1].p, this.pairConfig.priceDecimal)) {
+            continue;
           }
-          */
-          for (let j = 0; j < 2; j++) {
-            let randNum = Math.floor((Math.random() * this.sells.length));
-            if (randNum > 0) {
-              this.sells.splice(randNum, 1);
-            }
-            randNum = Math.floor((Math.random() * this.buys.length));
-            if (randNum > 0) {
-              this.buys.splice(randNum, 1);
-            }
-            //this.delay(500);
+ 
+          if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.sells[randNum].p, this.pairConfig.priceDecimal)) {
+            continue;
           }
+ 
+          var newOrder = {
+            q: this.sells[randNum].q,
+            p: price
+          };
+          this.sells.splice(randNum, 0, newOrder);
         }
+ 
+        for(let i=0;i<10;i++) {
+          const randNum = Math.floor((Math.random() * 10) + 1);
+ 
+          if(randNum > this.buys.length - 1) {
+            continue;
+          }  
+          
+          var price = this.getRandomArbitrary(this.buys[randNum - 1].p, this.buys[randNum].p);
+ 
+          if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.buys[randNum - 1].p, this.pairConfig.priceDecimal)) {
+            continue;
+          }
+ 
+          if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.buys[randNum].p, this.pairConfig.priceDecimal)) {
+            continue;
+          }
+ 
+          var newOrder = {
+            q: this.buys[randNum].q,
+            p: price
+          };
+          this.buys.splice(randNum, 0, newOrder);
+        }
+        */
+        for (let j = 0; j < 2; j++) {
+          let randNum = Math.floor((Math.random() * this.sells.length));
+          if (randNum > 0) {
+            this.sells.splice(randNum, 1);
+          }
+          randNum = Math.floor((Math.random() * this.buys.length));
+          if (randNum > 0) {
+            this.buys.splice(randNum, 1);
+          }
+          //this.delay(500);
+        }
+        //     }
       },
       (err) => {
         console.log('err:', err);
@@ -605,6 +617,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     this.tradesSocket.subscribe(
       (trades: any) => {
         if (!trades || trades.length == 0) {
+          this.trades = [];
           return;
         }
         this.trades = trades.slice(0, 23);
@@ -742,6 +755,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.lan = localStorage.getItem('Lan');
+    const pairName = this.route.snapshot.paramMap.get('pair');
+    const pairArray = pairName.split('_');
+    this.baseCoin = this._coinServ.getCoinTypeIdByName(pairArray[1]);
+    this.targetCoin = this._coinServ.getCoinTypeIdByName(pairArray[0]);
+
     // console.log('ngOnInit for order Pad');
     this.oldNonce = -1;
     this.buyGasLimit = environment.chains.KANBAN.gasLimit;
@@ -763,6 +781,21 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       }
     );
 
+    this.timerServ.openOrders.subscribe(
+      (orders: any) => {
+        const myOpenOrders = orders as Transaction[];
+        myOpenOrders.forEach(ordItm => {
+          if (ordItm.baseCoin === this.baseCoin && ordItm.targetCoin === this.targetCoin) {
+            if (ordItm.bidOrAsk) {
+              this.myBuyPrices.push(ordItm.price);
+            } else {
+              this.mySellPrices.push(ordItm.price);
+            }
+          }
+        });
+      }
+    );
+
     //this.pairsConfig = <Pair[]>(JSON.parse(sessionStorage.getItem('pairsConfig')));
 
     this.sub = this.route.params.subscribe(params => {
@@ -772,12 +805,23 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       }
 
       const pairName = pair.replace('_', '');
-      console.log('getPairConfig 1');
       this.kanbanService.getPairConfig().subscribe(
         (res: any) => {
-          this.pairsConfig = res;
+          let pairsConfig = res;
+          const pairConfig = pairsConfig.find(item => item.name === pairName);
 
-          this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
+          if (pairConfig) {
+            this.pairConfig = pairConfig;
+          } else {
+            this.pairConfig = defaultPairsConfig.find(item => item.name === pairName);
+          }
+        },
+        error => {
+          const pairConfig = defaultPairsConfig.find(item => item.name === pairName);
+
+          if (pairConfig) {
+            this.pairConfig = pairConfig;
+          }
         }
       );
       // console.log('pair for refresh pageeee=' + pair);

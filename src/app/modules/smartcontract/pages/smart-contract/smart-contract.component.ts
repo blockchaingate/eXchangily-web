@@ -34,7 +34,10 @@ export class SmartContractComponent implements OnInit {
   fabBytecode: string;
   fabArguments: string;
   ethData: string;
+  lockerHashes: any;
   kanbanTo: string;
+  gasPrice: number;
+  gasLimit: number;
   kanbanValue: number;
   kanbanData: string;
   payableValue: number;
@@ -99,6 +102,25 @@ export class SmartContractComponent implements OnInit {
           "constant": false,
           "inputs": [
               {
+                  "name": "_lockerHash",
+                  "type": "bytes32"
+              }
+          ],
+          "name": "unlockByLockerHash",
+          "outputs": [
+              {
+                  "name": "",
+                  "type": "bool"
+              }
+          ],
+          "payable": false,
+          "stateMutability": "nonpayable",
+          "type": "function"
+      },
+        {
+          "constant": false,
+          "inputs": [
+              {
                   "name": "_account",
                   "type": "address"
               }
@@ -115,7 +137,7 @@ export class SmartContractComponent implements OnInit {
           "type": "function"
         }         
       ];
-      this.changeMethod('unlockByAccount');
+      this.changeMethod('unlockByLockerHash');
     } else 
     if(this.smartContractAddress === '0x0') {
       this.changeMethod('');
@@ -142,6 +164,9 @@ export class SmartContractComponent implements OnInit {
 
   async ngOnInit() {
     this.action = '';
+    this.lockerHashes = [];
+    this.gasLimit = 1000000;
+    this.gasPrice = 50;    
     //this.smartContractAddress = environment.addresses.smartContract.FABLOCK;
     //this.changeSmartContractAddress();
     this.wallet = await this.storageService.getCurrentWallet();
@@ -173,11 +198,27 @@ export class SmartContractComponent implements OnInit {
       }
     }  
     
+
     if (!this.mycoin) {
       this.alertServ.openSnackBar('no fab coin found for this wallet.', 'Ok');
       return;
     }  
     
+    const fabAddress = this.mycoin.receiveAdds[0].address;
+
+    this.apiServ.getEXGLockerDetail(fabAddress).subscribe(
+      (ret:any) => {
+        if(ret.success) {
+          if(ret.data && (ret.data.length > 0)) {
+            console.log('ret.data==', ret.data);
+            this.lockerHashes = ret.data[0];
+            console.log('this.lockerHashes==', this.lockerHashes);
+            console.log(this.lockerHashes.length);
+          }
+          
+        }
+      }
+    );
     this.changeContractName('Exg');
   }
 
@@ -204,6 +245,10 @@ export class SmartContractComponent implements OnInit {
         const input = inputs[i];
         if(input.name === '_account' && input.type==='address' && this.smartContractAddress === environment.addresses.smartContract.EXG) {
           input.val = this.exgCoin.receiveAdds[0].address;
+          if(!input.val.startsWith('0x')) {
+            input.val = this.utilServ.fabToExgAddress(input.val);
+          }
+          console.log('input.val===', input.val);
         }      
       }
     }
@@ -384,8 +429,8 @@ export class SmartContractComponent implements OnInit {
       abiHex = this.formABI();
     }
     
-    const gasLimit = 800000;
-    const gasPrice = 40;
+    const gasLimit = this.gasLimit;
+    const gasPrice = this.gasPrice;
     let value = 0;
     if (this.method.stateMutability === 'payable') {
       value = Number(this.payableValue);

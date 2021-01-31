@@ -27,6 +27,15 @@
                                 </mat-select>
                             </mat-form-field>
 
+                            <mat-form-field class="example-full-width">
+                                <input matInput [(ngModel)]="gasPrice" name="gasPrice">
+                                <mat-placeholder class="text-muted">{{'Gas Price' | translate}}</mat-placeholder>
+                            </mat-form-field>    
+                            
+                            <mat-form-field class="example-full-width">
+                                <input matInput [(ngModel)]="gasLimit" name="gasLimit">
+                                <mat-placeholder class="text-muted">{{'Gas Limit' | translate}}</mat-placeholder>
+                            </mat-form-field>                              
                             <div class="py-3" *ngIf="wallet">
                                 {{'Current wallet' | translate}}: {{wallet.name}}
                             </div>
@@ -34,6 +43,7 @@
                             <div class="py-3" *ngIf="mycoin && balance">
                                 {{'Fab Balance' | translate}}: {{balance.balance}}
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -75,6 +85,18 @@
                                     <button mat-raised-button color="primary" (click)="submit()"> {{method.stateMutability == 'view'?'View':'Submit' | translate}}</button>
                                 </div>
 
+                            </div>
+
+                            <div *ngIf="lockerHashes && ('unlockByLockerHash' == abiName)">
+                                <div>
+                                    {{'Please copy hashes below to the above textbox' | translate }}
+                                </div>
+                                <div *ngFor="let item of lockerHashes">
+                                    <small>
+                                        {{item}}
+                                    </small>
+                                    
+                                </div>
                             </div>
                             <div class="row py-2" *ngIf="result">
                                 <div class="col col-12">

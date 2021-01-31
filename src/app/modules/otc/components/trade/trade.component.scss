@@ -3,7 +3,7 @@
 }
 
 .trade-top {
-    background-color: #0f0d65;
+    background-color: #3c3c5e;
 }
 
 @media (max-width: 991px) {
@@ -31,25 +31,21 @@
 .trade-bottom {
     // width: 100%;
     // margin: 0 !important;
-    overflow-x: scroll;
-
+    // overflow-x: scroll;
     .col {
         padding: 0 !important;
     }
-
     .odd {
-        background-color: #2c2cb5;
+        background-color: #5c5c7e;
     }
-
     .even {
-        background-color: #3a3abf !important;
+        background-color: #696989 !important;
     }
-
     table {
         margin-bottom: 0;
     }
-
-    @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+    @media only screen and (max-width: 760px),
+    (min-device-width: 768px) and (max-device-width: 1024px) {
         /* Force table to not be like tables anymore */
         table,
         thead,
@@ -59,29 +55,22 @@
         tr {
             display: block;
         }
-
-
         /* Hide table headers (but not display: none;, for accessibility) */
         thead tr {
             position: absolute;
             top: -9999px;
             left: -9999px;
         }
-
         tr {
             margin: 0 0 5px 0;
         }
-
         td:nth-child(odd) {
             background-color: #2c2cb5;
         }
-    
         thead td,
         td {
             background-color: #3a3abf;
         }
-        
-
         td {
             /* Behave  like a "row" */
             border: none;
@@ -89,7 +78,6 @@
             position: relative;
             padding-left: 50%;
         }
-
         td:before {
             /* Now like a table header */
             position: absolute;
@@ -100,7 +88,6 @@
             padding-right: 10px;
             white-space: nowrap;
         }
-
         /*
       Label the data
       */
@@ -210,7 +197,6 @@ table {
     .modal-content {
         background: #333;
     }
-
     h4.text-dark {
         color: #fff !important;
     }

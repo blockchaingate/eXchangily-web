@@ -1,84 +1,83 @@
-<div class="container py-3">
+<div class="container py-3 text-white">
     <div class="row border-bottom order-top pt-3">
         <div class="col-md-6 order-top-exportS">
-            <div>
-                Export order records
+            <div class="hand-cursor">
+                {{"Export orders record"|translate}}
             </div>
         </div>
         <div class="col-md-6 order-manage">
             <div>
-                <div class="d-inline-block el-tabs_item" [ngClass]="bidOrAsk ? 'is-active':''"
-                    (click)="changeBidOrAsk(true)">
-                    Buy orders
+                <div class="d-inline-block el-tabs_item hand-cursor" [ngClass]="bidOrAsk ? 'is-active':''" (click)="changeBidOrAsk(true)">
+                    {{"Buy orders"| translate}}
                 </div>
-                <div class="d-inline-block el-tabs_item" [ngClass]="!bidOrAsk ? 'is-active':''"
-                    (click)="changeBidOrAsk(false)">
-                    Sell orders
+                <div class="d-inline-block el-tabs_item hand-cursor" *ngIf="!isMerchant" [ngClass]="!bidOrAsk ? 'is-active':''" (click)="changeBidOrAsk(false)">
+                    {{"Sell orders"|translate}}
                 </div>
             </div>
         </div>
         <div class="col-md-6 order-top-exportL">
-            <div class="text-right">
-                Export order records
+            <div class="text-right hand-cursor">
+                {{"Export orders record"|translate}}
             </div>
         </div>
     </div>
 
     <div class="row py-3 order-status">
         <div class="col col-12 tab-status">
-            <div class="d-inline-block px-3 el-tabs_item" *ngFor="let status of statuses"
-                [ngClass]="(status == currentStatus)  ? 'is-active':''" (click)="changeStatus(status)">
-                {{getStatusText(bidOrAsk, status)}}
+            <div class="d-inline-block px-3 el-tabs_item" *ngFor="let status of statuses" [ngClass]="(status == currentStatus)  ? 'is-active':''" (click)="changeStatus(status)">
+                {{getStatusText(bidOrAsk, status) | translate}}
             </div>
         </div>
     </div>
 
     <div class="row order-bottom">
         <div class="col col-12 order-table">
-            <table class="table table-striped table-borderless">
+            <table class="table table-striped table-borderless text-white">
                 <thead>
                     <tr class="odd">
-                        <th scope="col"><small>Order number</small></th>
-                        <th scope="col" *ngIf="type == 'admin'"><small>Member</small></th>
-                        <th scope="col"><small>Coin</small></th>
-                        <th scope="col"><small>Price</small></th>
-                        <th scope="col"><small>Quantity</small></th>
-                        <th scope="col"><small>Amount</small></th>
-                        <th scope="col"><small>Creating time</small></th>
-                        <th scope="col"><small>Status</small></th>
+                        <th scope="col"><small>{{"Order #"|translate}}</small></th>
+                        <th scope="col" *ngIf="type == 'admin'"><small>{{"Member"|translate}}</small></th>
+                        <th scope="col"><small>{{"Coin"|translate}}</small></th>
+                        <th scope="col"><small>{{"Price"|translate}}</small></th>
+                        <th scope="col"><small>{{"Currency"|translate}}</small></th>
+                        <th scope="col"><small>{{"Quantity"|translate}}</small></th>
+                        <th scope="col"><small>{{"Amount"|translate}}</small></th>
+                        <th scope="col"><small>{{"Time"|translate}}</small></th>
+                        <th scope="col"><small>{{"Status"|translate}}</small></th>
                     </tr>
                 </thead>
                 <tbody>
                     <!--
                     <tr *ngFor="let element of orders | merchantPipe: currency : bidOrAsk : coinName ">
                         -->
-                    <tr *ngFor="let element of orders | orderPipe : bidOrAsk : currentStatus ; let i = index"
-                        ngClass="{{i%2 ? 'odd' : 'even'}}">
+                    <tr *ngFor="let element of orders | orderPipe : bidOrAsk : currentStatus ; let i = index" ngClass="{{i%2 ? 'odd' : 'even'}}">
                         <td>{{element._id}}</td>
                         <td *ngIf="(type == 'admin') && element.buyerMemberId">
-                            <a class="view-detail"
-                                (click)="viewMemberDetail(bidOrAsk, element.items[0].title, element.buyerMemberId)">
+                            <a class="view-detail" (click)="viewMemberDetail(bidOrAsk, element.items[0].title, element.buyerMemberId)">
                                 {{element.buyerMemberId.email}}
                             </a>
                         </td>
                         <td>{{element.items[0].title}}</td>
                         <td>{{element.items[0].price}}</td>
+                        <td>{{element.items[0].currency}}</td>
                         <td>{{element.items[0].quantity}}</td>
                         <td>{{element.totalToPay}}</td>
-                        <td>{{element.dateCreated}}</td>
+                        <td>{{element.dateCreated | date : 'yyyy-MM-dd hh:mm'}}</td>
                         <td>
                             <div class="text-center">
-                                {{getStatusText(element.buy, element.paymentStatus)}}
+                                {{getStatusText(element.buy, element.paymentStatus) | translate}}
                             </div>
                             <div class="text-center">
                                 <div *ngIf="type=='member'">
-                                    <button *ngIf="element.paymentStatus == 0" (click)="changePaymentStatus(element, 3)"
-                                        mat-raised-button color="primary">
+                                    <button *ngIf="element.paymentStatus == 0" (click)="makePayment(element)" mat-raised-button color="primary">
+                                        {{'Make payment' | translate}}
+                                    </button>
+
+                                    <button *ngIf="element.paymentStatus == 0" (click)="changePaymentStatus(element, 3)" mat-raised-button color="primary">
                                         {{'Cancel' | translate}}
                                     </button>
 
-                                    <button *ngIf="element.paymentStatus == 0" (click)="changePaymentStatus(element, 1)"
-                                        mat-raised-button color="primary">
+                                    <button *ngIf="element.paymentStatus == 0" (click)="changePaymentStatus(element, 1)" mat-raised-button color="primary" style="margin-left: 0.4em;">
                                         {{getButtonText(element.buy, element.paymentStatus) | translate}}
                                     </button>
                                     <!--     
@@ -88,8 +87,7 @@
                                     -->
                                 </div>
                                 <div *ngIf="type=='admin'">
-                                    <button *ngIf="element.paymentStatus == 1" (click)="changePaymentStatus(element, 2)"
-                                        mat-raised-button color="primary">
+                                    <button *ngIf="element.paymentStatus == 1" (click)="changePaymentStatus(element, 2)" mat-raised-button color="primary">
                                         {{getButtonText(element.buy, element.paymentStatus) | translate}}
                                     </button>
                                     <!--
@@ -109,7 +107,7 @@
             <div class="noOrder" *ngIf="!orders">
                 <div class="d-inline-block">
                     <img src="/assets/noOrder.png">
-                    <p>No Order</p>
+                    <p>{{"No Order"|translate}}</p>
                 </div>
             </div>
 

@@ -20,7 +20,7 @@
                                 <div>Volume/30 d: 730 30 d completed rate: 87%</div>
                                 <div>Average coin-deliver time: 2.30min</div>
                                 -->
-                                <div>{{'Registration time' | translate}}: {{element.merchant.dateCreated}}</div>
+                                <div>{{'Registration time' | translate}}: {{element.merchant.dateCreated | date : 'mediumDate'}}</div>
                             </div>
                             <div class="col col-6 border-left">
                                 <div class="text-muted"><small>{{'Order info' | translate}}</small></div>
@@ -96,13 +96,15 @@
 
 
 
-
+<!--
 <div id="form-container" class="pt-3">
     <div id="sq-card-number"></div>
     <div id="sq-expiration-date"></div>
     <div id="sq-cvv"></div>
     <div id="sq-postal-code"></div>
   </div> 
+-->
+
 
 
 

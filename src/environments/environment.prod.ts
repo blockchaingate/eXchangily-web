@@ -5,14 +5,14 @@ export const environment = {
         CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', 
         USD: 'sq0idp-5W-PIrJbalW5u5KbeEA-Gw'
     },
+    EPAY_API: 'https://api.epay.com/paymentApi',
     STRIPE_PUBLIC_KEY: 'pk_test_xVAqsYMxwh3AZfJcYu1hruyE',
     PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',
     baseUrl: 'https://exchangily.com',
     url: 'https://kanbanprod.fabcoinapi.com/',
-    tmpUrl: 'https://kanbanprod.fabcoinapi.com/', // replace this url once the temp api is deployed    
     version: '2.0.4',
     campaignId: 1,
-    OTC_COMMISSION_RATE: 0.01,
+    OTC_COMMISSION_RATE: 0,
     chains: {
         BTC: {
             network: Btc.networks.bitcoin,

@@ -16,8 +16,8 @@
         <div class="d-inline-block p-2" [ngClass]="select === 101?'text-white':'text-muted'">
             <a class="tab-link" [class.selected]="select === 101" (click)="selectOrder(101);">{{'Transfer' | translate }}</a>
         </div>
-        <div>
-
+        <div class="d-inline-block p-2 small">
+            <input type="checkbox" [checked]="showAll" (change)="eventCheck($event)"> {{"Show all orders" | translate}}
         </div>
     </div>
     <div class="orders container fxHide-sm" *ngIf="(select != 100) && (select != 101)">
@@ -88,7 +88,7 @@
                     <p class=" text-info">
                         {{order.pairName}}
                     </p>
-                 
+
                 </div>
                 <div class=" text-muted col-4">
                     <p>{{utilServ.showAmount(order.price, 6)}}</p>
@@ -103,7 +103,7 @@
                 <div class="text-muted col-8">
                     <p>
                         Time: {{order.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}
-                    </p>   
+                    </p>
                 </div>
                 <div class=" text-muted col-3">
                     <p *ngIf="order.bidOrAsk">
@@ -125,7 +125,6 @@
 
             </div>
         </div>
-
 
     </div>
 
@@ -180,7 +179,6 @@
 
                     </select>
 
-
                     <label for="address">{{'Receive address' | translate}}<small>({{'Receive address in eXchangily' | translate}})</small></label>
 
                     <input type="text" [(ngModel)]="address" id="address" name="address" placeholder="{{'Receiver\'s address' | translate}}">
@@ -189,7 +187,6 @@
                     <input type="text" [(ngModel)]="amount" id="amount" name="amount" placeholder="{{'Transfer amount' | translate}}">
                 </div>
                 <div *ngIf="transactionHistory" class="w-100">
-
 
                     <div class="row w-100 header py-3">
                         <div class="orditem col-4">{{'Time' | translate }}</div>
@@ -229,7 +226,6 @@
                             </div>
                         </div>
                     </div>
-
 
                 </div>
                 <div class="py-3 d-flex justify-content-between">

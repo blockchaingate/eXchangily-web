@@ -39,7 +39,7 @@ export class AddressDetailsComponent implements OnInit {
       this.service.getAddressBalances(address).subscribe((bl: Balance[]) => {
         this.balances = bl;
         this.balances.forEach(b => {
-          b.coinType = this.service.getCurrencyName(b.coinType);
+          b.symbol = this.service.getCurrencyName(b.coinType);
         });
         console.log(this.balances);
       });

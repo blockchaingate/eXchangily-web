@@ -6,7 +6,6 @@ import { ApiService } from './api.service';
 
 @Injectable()
 export class TimerService {
-
     private timerEnabled: boolean;
     private transactionStatusSubscribe: any;
     private orderStatusSubscribe: any;
@@ -18,7 +17,8 @@ export class TimerService {
     public openOrders: BehaviorSubject<any> = new BehaviorSubject([]);
     public closedOrders: BehaviorSubject<any> = new BehaviorSubject([]);
     public canceledOrders: BehaviorSubject<any> = new BehaviorSubject([]);
-    public tokens: BehaviorSubject<any> = new BehaviorSubject([]); 
+    public tokens: BehaviorSubject<any> = new BehaviorSubject([]);
+
     constructor(public kanbanServ: KanbanService, private apiServ: ApiService) { 
         this.transactionStatusSubscribe = [];
         this.orderStatusSubscribe = [];
@@ -76,11 +76,6 @@ export class TimerService {
         );
     }
 
-
-
-
-
-
     unCheckOrderStatus(address: string) {
         for (let i = 0; i < this.orderStatusSubscribe.length; i++) {
             const item = this.orderStatusSubscribe[i];
@@ -93,7 +88,6 @@ export class TimerService {
     }
 
     checkOrderStatus(address: string, maxTimes = 160) {
-
         console.log('1');
         if (this.maxTimes > 0) {
             maxTimes = this.maxTimes;
@@ -158,8 +152,7 @@ export class TimerService {
             item.subscribeItem.unsubscribe();
         }
     }
-
-    
+   
     unCheckAllTransactionStatus() {
         for (let i = 0; i < this.transactionStatusSubscribe.length; i++) {
             const item = this.transactionStatusSubscribe[i];
@@ -179,7 +172,6 @@ export class TimerService {
     }
 
     checkTransactionStatus(item: TransactionItem, maxTimes = 160) {
-
         if (this.maxTimes > 0) {
             maxTimes = this.maxTimes;
         }        
@@ -224,8 +216,7 @@ export class TimerService {
                         }                      
                     }
                 );
-            } else
-            if (type === 'Deposit') {
+            } else if (type === 'Deposit') {
                 console.log('check deposit status');
                 this.kanbanServ.getDepositStatusSync(txid).subscribe((res: any) => {
                     if (res && res.code !== undefined) {
@@ -254,8 +245,7 @@ export class TimerService {
                 }, (error) => {
                     // console.log('error', error);
                 });
-            } else
-            if (type === 'Send' || type === 'Add Gas') {
+            } else if (type === 'Send' || type === 'Add Gas') {
                 if (coin === 'BTC') {
                     this.apiServ.getBtcTransactionSync(txid).subscribe( (res: any) => {
                         if (res.confirmations && res.confirmations >= 1) {
@@ -268,8 +258,7 @@ export class TimerService {
                             this.unCheckTransactionStatus(txid);                        
                         }
                     });
-                } else
-                if (coin === 'ETH' || tokenType === 'ETH') {
+                } else if (coin === 'ETH' || tokenType === 'ETH') {
                     this.apiServ.getEthTransactionSync(txid).subscribe( (res: any) => {
                         if (res) {
                             let confirmations = 0;
@@ -295,8 +284,7 @@ export class TimerService {
                             }
                         }
                     });
-                } else
-                if (coin === 'FAB' || tokenType === 'FAB') {
+                } else if (coin === 'FAB' || tokenType === 'FAB') {
                     this.apiServ.getFabTransactionJsonSync(txid).subscribe(
                         (res2: any) => {
                             let confirmations = 0;

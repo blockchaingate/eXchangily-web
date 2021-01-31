@@ -5,6 +5,7 @@ import { Block, BlockMetainfo } from '../models/block';
 import { Transaction, AddressTx, Balance, TransactionCount } from '../models/transaction';
 import { Router } from '@angular/router';
 import { Order } from '../models/order';
+import { Coin } from '../../../models/coin';
 import { KanbanBalance } from '../models/kanbanBalance';
 import { WithdrawRequest } from '../models/withdrawRequest';
 import { DepositRequest } from '../models/depositRequest';
@@ -16,25 +17,31 @@ import { environment } from '../../../../environments/environment';
   providedIn: 'root'
 })
 export class KanbanService {
-  codeToCurrencyMap: Map<string, string>;
-
-
+  coins: Coin[];
+  // codeToCurrencyMap: Map<string, string>;
   private url: string = environment.url;
-  private tmpUrl: string = environment.tmpUrl;
 
   constructor(private http: HttpClient, private router: Router) {
+    // this.codeToCurrencyMap = new Map();
+    // this.codeToCurrencyMap.set('196609', 'USDT');
+    // this.codeToCurrencyMap.set('65536', 'BTC');
+    // this.codeToCurrencyMap.set('196608', 'ETH');
+    // this.codeToCurrencyMap.set('131072', 'FAB');
+    // this.codeToCurrencyMap.set('131073', 'EXG');
+    // this.codeToCurrencyMap.set('131074', 'DUSD');
 
-    this.codeToCurrencyMap = new Map();
-    this.codeToCurrencyMap.set('1', 'USDT');
-    this.codeToCurrencyMap.set('2', 'BTC');
-    this.codeToCurrencyMap.set('3', 'ETH');
-    this.codeToCurrencyMap.set('4', 'FAB');
-    this.codeToCurrencyMap.set('5', 'EXG');
-    this.codeToCurrencyMap.set('6', 'DUSD');
+    this.getTokenList().subscribe(cos => this.coins = cos);
   }
 
   getCurrencyName(num: string): string {
-    return this.codeToCurrencyMap.get(num);
+    const coin = this.coins.filter(c => c.coinType === parseInt(num));
+    if (!coin || coin.length < 1) return '-';
+    return coin[0]['tickerName'];
+    // return this.codeToCurrencyMap.get(num);
+  }
+
+  getTokenList() {
+    return this.http.get<Coin[]>(`${this.url}exchangily/getTokenList`);
   }
 
   // private tmpBlock: Block
@@ -46,27 +53,27 @@ export class KanbanService {
 
   getLatestBlocksMetainfo(startBlock?: Number, onlyWithTransactions = false): Observable<BlockMetainfo[]> {
     if (onlyWithTransactions) {
-      return this.http.get<BlockMetainfo[]>(`${this.tmpUrl}getblockwithtxsmetainfo/` + startBlock.toString() + '/10');
+      return this.http.get<BlockMetainfo[]>(`${this.url}getblockwithtxsmetainfo/` + startBlock.toString() + '/10');
     }
 
     if (startBlock) {
       console.log(startBlock);
-      return this.http.get<BlockMetainfo[]>(`${this.tmpUrl}getblocksmetainfo/` + startBlock.toString() + '/10');
+      return this.http.get<BlockMetainfo[]>(`${this.url}getblocksmetainfo/` + startBlock.toString() + '/10');
     }
-    return this.http.get<BlockMetainfo[]>(`${this.tmpUrl}getblocksmetainfo/latest/10`);
+    return this.http.get<BlockMetainfo[]>(`${this.url}getblocksmetainfo/latest/10`);
   }
 
   getNextBlocksMetainfo(startBlock?: Number, onlyWithTransactions = false): Observable<BlockMetainfo[]> {
 
     if (onlyWithTransactions) {
-      return this.http.get<BlockMetainfo[]>(`${this.tmpUrl}getblockwithtxsfwdmetainfo/` + startBlock.toString() + '/10');
+      return this.http.get<BlockMetainfo[]>(`${this.url}getblockwithtxsfwdmetainfo/` + startBlock.toString() + '/10');
     }
 
     if (startBlock) {
       console.log(startBlock);
-      return this.http.get<BlockMetainfo[]>(`${this.tmpUrl}getblocksmetainfo/` + startBlock.toString() + '/10');
+      return this.http.get<BlockMetainfo[]>(`${this.url}getblocksmetainfo/` + startBlock.toString() + '/10');
     }
-    return this.http.get<BlockMetainfo[]>(`${this.tmpUrl}getblocksmetainfo/latest/10`);
+    return this.http.get<BlockMetainfo[]>(`${this.url}getblocksmetainfo/latest/10`);
   }
 
   getSingleBlockByNumber(blockNum: any): Observable<Block> {
@@ -98,7 +105,7 @@ export class KanbanService {
   }
 
   getAddressOrders(address: string): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.tmpUrl}getordersbyaddress/${address}`);
+    return this.http.get<Order[]>(`${this.url}getordersbyaddress/${address}`);
   }
 
   getAddressWithdrawRequests(address: String): Observable<WithdrawRequest[]> {
@@ -106,26 +113,25 @@ export class KanbanService {
   }
 
   getAddressDepositRequests(address: String): Observable<DepositRequest[]> {
-    return this.http.get<DepositRequest[]>(`${this.tmpUrl}getdepositrequestsbyaddress/${address}`);
+    return this.http.get<DepositRequest[]>(`${this.url}getdepositrequestsbyaddress/${address}`);
   }
 
   getKanbanStats(): Observable<KanbanStats> {
-    return this.http.get<KanbanStats>(`${this.tmpUrl}getkanbanstats`);
+    return this.http.get<KanbanStats>(`${this.url}getkanbanstats`);
   }
 
   getDividends(): Observable<any> {
-    const url = `${this.tmpUrl}exchangily/ExgDividend`;
+    const url = `${this.url}exchangily/ExgDividend`;
     console.log('url==', url);
     return this.http.get<any>(url);
   }
 
   getLaetstOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.tmpUrl}getlatestorders`);
+    return this.http.get<Order[]>(`${this.url}getlatestorders`);
   }
 
   getLatestTrades(): Observable<Trade[]> {
-    return this.http.get<Trade[]>(`${this.tmpUrl}getlatesttrades`);
-
+    return this.http.get<Trade[]>(`${this.url}getlatesttrades`);
   }
 
   async validateInputAndSetRoute(val: string) {

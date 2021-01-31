@@ -11,16 +11,17 @@ import { MemberDetailModal } from '../../modals/member-detail/member-detail.comp
   styleUrls: ['./order.component.scss']
 })
 export class OrderComponent implements OnInit {
+  @Input() isMerchant: boolean = false;
   bidOrAsk: boolean;
   statuses = [0,1,2,3];
   @Input() orders: any;
   @Input() type: string;
   token: string;
-  buyOrderStatuses = ['Waiting for pay', 'Paid already', 'Finished', 'Cancelled', 'Frozened', 'All orders'];
-  buyOrderButtonStatuses = ['I have paid', 'Finish'];
+  buyOrderStatuses = ['Waiting for payment', 'Marked as paid', 'Finished', 'Cancelled', 'Held', 'All orders'];
+  buyOrderButtonStatuses = ['Mark as paid', 'Finish'];
 
-  sellOrderStatuses = ['Waiting for collect', 'Waiting for confirm', 'Finished', 'Cancelled', 'Frozened', 'All orders'];
-  sellOrderButtonStatuses = ['I have collected', 'Finish'];
+  sellOrderStatuses = ['Waiting to pay', 'Waiting for confirm', 'Finished', 'Cancelled', 'Held', 'All orders'];
+  sellOrderButtonStatuses = ['I received', 'Finish'];
 
   @ViewChild('memberDetailModal', { static: true }) memberDetailModal: MemberDetailModal;
   currentStatus: number;
@@ -32,6 +33,7 @@ export class OrderComponent implements OnInit {
   ) {
     console.log('type==', this.type);
   }
+
   getButtonText(buy: boolean, status: number) {
     buy = !buy;
     let text = '';
@@ -53,6 +55,10 @@ export class OrderComponent implements OnInit {
       text = this.sellOrderStatuses[status];
     }
     return text;
+  }
+
+  makePayment(ord) {
+
   }
 
   changePaymentStatus(element, paymentStatus) {
