@@ -33,6 +33,11 @@ export class SmartContractComponent implements OnInit {
   fabABI: string;
   fabBytecode: string;
   fabArguments: string;
+
+  ethABI: string;
+  ethBytecode: string;
+  ethArguments: string;  
+
   ethData: string;
   kanbanTo: string;
   kanbanValue: number;
@@ -280,6 +285,8 @@ export class SmartContractComponent implements OnInit {
     const keyPair = this.coinServ.getKeyPairs(this.ethCoin, seed, 0, 0);
     const nonce = await this.apiServ.getEthNonce(this.ethCoin.receiveAdds[0].address);
     console.log('this.ethData = ', this.ethData);
+
+    this.ethData = this.formCreateEthSmartContractABI();
     const txParams = {
         nonce: nonce,
         gasPrice: 100000000000,
@@ -367,9 +374,19 @@ export class SmartContractComponent implements OnInit {
     const abi = JSON.parse(this.fabABI);
     let args = [];
     if(this.fabArguments) {
-      args = this.fabArguments.split(this.fabArguments).map(item => {return item.trim()});
+      args = this.fabArguments.split(',').map(item => {return item.trim()});
     }
     return this.web3Serv.formCreateSmartContractABI(abi, this.fabBytecode.trim(), args);
+ 
+  }
+
+  formCreateEthSmartContractABI() {
+    const abi = JSON.parse(this.ethABI);
+    let args = [];
+    if(this.ethArguments) {
+      args = this.ethArguments.split(',').map(item => {return item.trim()});
+    }
+    return this.web3Serv.formCreateSmartContractABI(abi, this.ethBytecode.trim(), args);
  
   }
 
