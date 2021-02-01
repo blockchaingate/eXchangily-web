@@ -326,6 +326,9 @@ export class MyordersComponent implements OnInit, OnDestroy {
     }
 
     selectOrder(ord: number) {
+        this.currentPair = this._route.snapshot.paramMap.get('pair').replace('_', '');
+        this.prepareOrders();
+
         this.select = ord;
         if (ord === 0) {
             this.orderStatus = 'open';
@@ -463,7 +466,6 @@ export class MyordersComponent implements OnInit, OnDestroy {
             });
     }
 
-
     confirmTransfer() {
         this.transactionHistory = false;
         if(!this.coin && (this.mytokens.length > 0)) {
@@ -531,5 +533,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
     eventCheck(event) {
         this.showAll = event.target.checked;
+        this.currentPair = this._route.snapshot.paramMap.get('pair').replace('_', '');
+        this.prepareOrders();
     }
 }

@@ -513,13 +513,16 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     this.txOrders = [];
     this.currentPrice = 0;
     this.currentQuantity = 0;
-
-    this.checkMyOrdersOfThisPair();
+    this.mySellPrices = [];
+    this.myBuyPrices = [];
 
     const baseCoinName = this._coinServ.getCoinNameByTypeId(this.baseCoin);
     const targetCoinName = this._coinServ.getCoinNameByTypeId(this.targetCoin);
     const pair = targetCoinName + baseCoinName;
+    this.pairName = pair;
+
     // console.log('pair = ' + pair);
+    this.checkMyOrdersOfThisPair();
 
     if (this.socket) {
       this.socket.unsubscribe();
@@ -823,6 +826,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   checkMyOrdersOfThisPair() {
+    this.myBuyPrices = [];
+    this.mySellPrices = [];
     this.timerServ.openOrders.subscribe(
       (orders: any) => {
         const myPairOrders = orders.filter(mo => mo.pairName === this.pairName);
