@@ -28,7 +28,7 @@ export class LiteListComponent implements OnInit {
 
     prices: Price[] = [];
     searchText = '';
-    socket: WebSocketSubject<[Ticker]>;
+    // socket: WebSocketSubject<[Ticker]>;
     constructor(private prServ: PriceService,
         public utilServ: UtilService,
         private _route: ActivatedRoute,
@@ -46,6 +46,7 @@ export class LiteListComponent implements OnInit {
     toDecimal(amount: number, decimal: number) {
         return amount.toFixed(decimal);
     }
+
     ngOnInit() {
         this.selectedcat = sessionStorage.getItem('tradeCat');
         if (!this.selectedcat) {
