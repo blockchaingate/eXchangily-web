@@ -14,6 +14,7 @@ import { OrderPipe } from './pipes/order.pipe';
 import { PaymentmethodComponent } from './components/paymentmethod/paymentmethod.component';
 import { MerchantOrdersComponent } from './components/merchant-orders/merchant-orders';
 import { MemberOrdersComponent } from './components/member-orders/member-orders';
+import { OrderDetailComponent } from './components/order-detail/order-detail.component';
 import { UserPaymentMethodsComponent } from './components/userpaymentmethods/userpaymentmethods.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -47,6 +48,7 @@ import { CoinService } from '../../services/coin.service';
     OrderComponent,
     MerchantOrdersComponent,
     MemberOrdersComponent,
+    OrderDetailComponent,
     UserPaymentMethodsComponent
   ],
   imports: [

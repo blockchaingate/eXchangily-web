@@ -1,0 +1,28 @@
+<div class="container text-white py-3" *ngIf="order">
+    <div>
+        Order #: {{id}}
+    </div>
+    <div>
+        Order Type: {{order.items[0].buy ? 'buy' : 'sell'}} {{order.items[0].title}}
+    </div>
+  
+    <div>
+        Price: {{order.items[0].price}} {{order.items[0].currency}} / {{order.items[0].title}}
+    </div>    
+    <div>
+        Quantity: {{order.items[0].quantity}}
+    </div>
+
+    <div>
+        Total: {{order.totalToPay}} {{order.currency}}
+    </div>   
+    
+    <div *ngIf="order.paymentStatus==0" class="text-center">
+        <button class="btn btn-gradient text-white py-2 px-5" type="button" (click)="payByEpay()"> {{'Pay by Epay' | translate}} </button>
+    </div>
+
+    <div *ngIf="order.paymentStatus==1" class="text-center">
+        This order was paid.
+    </div>    
+</div>
+
