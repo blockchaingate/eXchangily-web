@@ -138,7 +138,7 @@ export const environment = {
             FABLOCK: '0x04baa04d9550c49831427c6abe16def2c579af4a',
             EXG: '0xa3e26671a38978e8204b8a37f1c2897042783b00',
             USDT: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-            USDT_TRX: 'TQQg4EL8o1BSeKJY4MJ8TB8XK7xufxFBvK',
+            USDT_TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t',
             DUSD: '0x46e0021c17d30a2db972ee5719cdc7e829ed9930',
             INB: '0x17aa18a4b64a55abed7fa543f2ba4e91f2dce482',
             REP: '0x1985365e9f78359a9B6AD760e32412f4a445E862',
@@ -180,7 +180,6 @@ export const environment = {
         BCH: 'bitcoincash:qznusftmq4cac0fuj6eyke5vv45njxe6eyafcld37l',
         LTC: 'LaX6sfX8RoHbQHNDEBmdzyBMN9vFa95FXL',
         DOGE: 'DLSF9i9weYwpgUrendmuGiHC35HGoHuvR9',
-        // BNB: '0xe7721493eea554b122dfd2c6243ef1c6f2fe0a06',
         INB: '0x4983f8634255762A18D854790E6d35A522E2633a',
         REP: '0x4983f8634255762A18D854790E6d35A522E2633a',
         HOT: '0x4983f8634255762A18D854790E6d35A522E2633a',
@@ -199,7 +198,8 @@ export const environment = {
         GVT: '0x4983f8634255762A18D854790E6d35A522E2633a',
         DRGN: '0x4983f8634255762A18D854790E6d35A522E2633a',
         NVZN: '0x4983f8634255762A18D854790E6d35A522E2633a',
-        CNB: '0xa7c8257b0571dc3d3c96b24b668c6569391b3ac9'        
+        CNB: '0xa7c8257b0571dc3d3c96b24b668c6569391b3ac9',
+        TRX: 'TGGJPohUhzpW8W1LTRhPejGK8LDyR7ofM3'
        },
        
         promotionOfficial: {

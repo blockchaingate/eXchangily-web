@@ -476,6 +476,8 @@ export class WalletDashboardComponent implements OnInit {
         let bchAddress = '';
         let dogeAddress = '';
         let ltcAddress = '';
+        let trxAddress = '';
+
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];
             if (coin.name == 'BTC' && !btcAddress) {
@@ -492,6 +494,9 @@ export class WalletDashboardComponent implements OnInit {
             if (coin.name == 'BCH') {
                 bchAddress = coin.receiveAdds[0].address;
             }
+            if (coin.name == 'TRX') {
+                trxAddress = coin.receiveAdds[0].address;
+            }            
             if (coin.name == 'DOGE') {
                 dogeAddress = coin.receiveAdds[0].address;
             }
@@ -539,6 +544,7 @@ export class WalletDashboardComponent implements OnInit {
             bchAddress: bchAddress,
             dogeAddress: dogeAddress,
             ltcAddress: ltcAddress,
+            trxAddress: trxAddress,
             timestamp: 0
         };
 
@@ -595,7 +601,7 @@ export class WalletDashboardComponent implements OnInit {
                             const item = res.data[i];
 
  
-                            if (item.coin === coin.name) {
+                            if (item.coin === coin.name || (item.coin === 'USDTX') && coin.name ==='USDT' && coin.tokenType === 'TRX') {
                                 if (item.depositErr) {
                                     coin.redeposit = item.depositErr;
                                     updated = true;

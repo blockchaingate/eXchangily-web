@@ -543,7 +543,7 @@ export class CoinService {
                 const root = BIP32.fromSeed(seed);
                 const childNode = root.derivePath(path);
                 
-                console.log('publicKey for TRX=', childNode.publicKey.toString('hex'));
+                //console.log('publicKey for TRX=', childNode.publicKey.toString('hex'));
 
                 priKey = childNode.privateKey;
                 addr = 
@@ -1690,6 +1690,10 @@ export class CoinService {
 
         } else if (mycoin.name == 'TRX') {
             console.log('start to send TRX');
+
+            if (getTransFeeOnly) {
+                return { txHex: '', txHash: '', errMsg: '', transFee: 0, amountInTx: 0, txids: '' };
+            }            
             const address1 = mycoin.receiveAdds[0];
             const currentIndex = address1.index;            
             const keyPair = this.getKeyPairs(mycoin, seed, 0, currentIndex);
@@ -1702,48 +1706,70 @@ export class CoinService {
             );
             
 
-            console.log('111');
-            const tradeobj = await tronWeb.transactionBuilder.sendTrx(toAddress, amount, keyPair.address);
-            console.log('222');
-            txHex = await tronWeb.trx.sign(tradeobj, priKeyDisp);
+            let amountNum = new BigNumber(this.utilServ.toBigNumber(amount, 6)).toNumber();
 
-            if (txHex) {
+            const tradeobj = await tronWeb.transactionBuilder.sendTrx(toAddress, amountNum, keyPair.address);
+
+            const txHexObj = await tronWeb.trx.sign(tradeobj, priKeyDisp);
+
+            if (txHexObj) {
                 if (doSubmit) {
-                    console.log('txHex===', txHex);
-                    const receipt = await tronWeb.trx.sendRawTransaction(txHex);
+                    const receipt = await tronWeb.trx.sendRawTransaction(txHexObj);
+                    txHex = txHexObj.raw_data_hex;
                     txHash = receipt.transaction.txID;
-                    console.log('txHash1=', txHash);
-                    const tx = Btc.Transaction.fromHex(txHex);
-                    txHash = '0x' + tx.getId();
-                    console.log('txHash2=', txHash);
                     errMsg = '';
                 } else {
-                    const tx = Btc.Transaction.fromHex(txHex);
-                    txHash = '0x' + tx.getId();
+                    txHex = txHexObj.raw_data_hex;
+                    txHash = txHexObj.txID;
                 }
             }
         } else 
         if (mycoin.tokenType == 'TRX') {
+
+            if (getTransFeeOnly) {
+                return { txHex: '', txHash: '', errMsg: '', transFee: 0, amountInTx: 0, txids: '' };
+            }              
             const trc20ContractAddress = environment.addresses.smartContract[mycoin.name + '_TRX'];//contract address
             const address1 = mycoin.receiveAdds[0];
             const currentIndex = address1.index;            
             const keyPair = this.getKeyPairs(mycoin, seed, 0, currentIndex);
+            let priKeyDisp = keyPair.privateKey.toString('hex');
             const tronWeb = new TronWeb(
                 fullNode,
                 solidityNode,
                 eventServer,
-                keyPair.privateKey
+                priKeyDisp
             );
+
+            let amountNum = new BigNumber(this.utilServ.toBigNumber(amount, mycoin.decimals)).toNumber();
+            console.log('amountNum for send is:', amountNum);
             try {
                 let contract = await tronWeb.contract().at(trc20ContractAddress);
+                console.log('gogogo');
                 //Use call to execute a pure or view smart contract method.
                 // These methods do not modify the blockchain, do not cost anything to execute and are also not broadcasted to the network.
-                let result = await contract.transfer(
-                    toAddress, //address _to
-                    amount   //amount
-                ).send({
-                    feeLimit: 1000000
-                }).then(output => {console.log('- Output:', output, '\n');});
+                if (doSubmit) {
+
+                    txHash = await contract.transfer(
+                        toAddress, //address _to
+                        amountNum   //amount
+                    ).send({
+                        feeLimit: 1000000
+                    });
+                } else {
+
+                     const transaction = await tronWeb.transactionBuilder.triggerSmartContract(
+                        trc20ContractAddress,
+                        this.functionSelector,
+                        options,
+                        parameters,
+                        address1
+                    );
+                    const txHexObj = await tronWeb.trx.sign(transaction.transaction, priKeyDisp);
+                    txHex = txHexObj.raw_data_hex;
+                    txHash = txHexObj.txID;
+                }
+                
                 
             } catch(error) {
                 console.error("trigger smart contract error",error)
