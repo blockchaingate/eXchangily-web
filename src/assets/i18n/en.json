@@ -1298,5 +1298,6 @@
     "DCChat": "Decentralized chating room, integrated with crypto-currency operation & application, launch soon ...",
     "Club": "Club",
     "Please set your display password first": "Please set your display password first",
-    "Important Notice txt": "The registration and login options here are just for the convenience of users to participate in our campaigns. We will only record your wallet address when you register, so that we can send you cryptocurrency. And we will never record your private key information. Our entire project is completely decentralized and open source. You can find and view our code through github."
+    "Important Notice txt": "The registration and login options here are just for the convenience of users to participate in our campaigns. We will only record your wallet address when you register, so that we can send you cryptocurrency. And we will never record your private key information. Our entire project is completely decentralized and open source. You can find and view our code through github.",
+    "EpayNote": "Make payment through Epay global payment."
 }

@@ -22,7 +22,7 @@
                 <div class="row">
                     <div class="col col-3 coin-name" [ngClass]="(buy && (coin=='DUSD'))?'type-buy':''" (click)="changeCoin(true, 'DUSD')">
                         DUSD
-                    </div>                    
+                    </div>
                     <div class="col col-3 coin-name" [ngClass]="(buy && (coin=='USDT'))?'type-buy':''" (click)="changeCoin(true, 'USDT')">
                         USDT
                     </div>
@@ -53,7 +53,7 @@
                 <div class="row">
                     <div class="col col-3 coin-name" [ngClass]="(!buy && (coin=='DUSD'))?'type-sell':''" (click)="changeCoin(false, 'DUSD')">
                         DUSD
-                    </div>                    
+                    </div>
                     <div class="col col-3 coin-name" [ngClass]="(!buy && (coin=='USDT'))?'type-sell':''" (click)="changeCoin(false, 'USDT')">
                         USDT
                     </div>
@@ -205,7 +205,7 @@
                         <td>
                             <span class="table-text">
                                 {{listing.active}}
-                            </span>                            
+                            </span>
                         </td>
                     </tr>
                 </tbody>
