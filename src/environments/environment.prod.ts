@@ -94,7 +94,12 @@ export const environment = {
             gasPrice: 50000000,
             gasLimit: 20000000
         },
-        TRON: {
+        TRX: {
+            network: {
+                messagePrefix: '\u0015TRON Signed Message:\n'
+            },     
+            feeLimit: 2000000,
+            feeLimitToken: 2000000,                   
             fullNode: 'https://api.trongrid.io',
             solidityNode: 'https://api.trongrid.io',
             eventServer: 'https://api.trongrid.io'          

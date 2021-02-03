@@ -521,7 +521,7 @@ export class Web3Service {
     return abiHex;
   }
 
-  getDepositFuncABI(coinType: number, txHash: string, amount: BigNumber, addressInKanban: string, signedMessage: Signature) {
+  getDepositFuncABI(coinType: number, txHash: string, amount: BigNumber, addressInKanban: string, signedMessage: Signature, coinTypePrefix = null) {
 
     // console.log('params for getDepositFuncABI:');
     // console.log('coinType=' + coinType + ',txHash=' + txHash + ',amount=' + amount + ',addressInKanban=' + addressInKanban);
@@ -570,7 +570,13 @@ export class Web3Service {
     // console.log('abiHex for addDeposit=', abiHex);
     let abiHex = '379eb862';
     abiHex += this.utilServ.stripHexPrefix(signedMessage.v);
-    abiHex += this.utilServ.fixedLengh(coinType.toString(16), 62);
+    if(!coinTypePrefix) {
+      abiHex += this.utilServ.fixedLengh(coinType.toString(16), 62);
+    } else {
+      abiHex += this.utilServ.fixedLengh(coinTypePrefix.toString(16), 54);
+      abiHex += this.utilServ.fixedLengh(coinType.toString(16), 8);
+    }
+    
     abiHex += this.utilServ.stripHexPrefix(txHash);
     const amountHex = amount.toString(16);
     console.log('amountHex=', this.utilServ.fixedLengh(amountHex, 64));

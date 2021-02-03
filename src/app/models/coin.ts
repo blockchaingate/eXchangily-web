@@ -50,7 +50,7 @@ export class Coin {
     } else 
     if (name == 'TRX') {
         this.coinType = environment.CoinType.TRX;
-        this.decimals = 18;
+        this.decimals = 6;
     }
    } 
 }
