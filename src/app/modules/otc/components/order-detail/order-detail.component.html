@@ -1,0 +1,38 @@
+<div class="container text-white py-3" *ngIf="order">
+    <div class="title div-center">
+        <H3>{{"Order details & payment"|translate}}</H3>
+    </div>
+    <div class="row my-2">
+        <div class="leftar col-2 right">{{"Order #"|translate}}:</div>
+        <div> {{id}}</div>
+    </div>
+    <div class="row my-2">
+        <div class="leftar col-2 right">{{"Order Type"|translate}}:</div>
+        <div>{{order.items[0].buy ? 'Buy' : 'Sell' | translate}} {{order.items[0].title}}</div>
+    </div>
+
+    <div class="row my-2">
+        <div class="leftar col-2 right">{{"Price"|translate}}:</div>
+        <div>{{order.items[0].price}} {{order.items[0].currency}} / {{order.items[0].title}}</div>
+    </div>
+    <div class="row my-2">
+        <div class="leftar col-2 right">{{"Quantity"|translate}}:</div>
+        <div>{{order.items[0].quantity}}</div>
+    </div>
+
+    <div class="row my-2">
+        <div class="leftar col-2 right">{{"Total"|translate}}:</div>
+        <div>{{order.totalToPay}} {{order.currency}}</div>
+    </div>
+
+    <div *ngIf="order.paymentStatus==0" class="text-center">
+        <button class="btn btn-gradient text-white py-2 px-5" type="button" (click)="payByEpay()"> {{'Pay by Epay' | translate}} </button>
+        <div class="notes color-warning">
+            {{"EpayNote"|translate}}
+        </div>
+    </div>
+
+    <div *ngIf="order.paymentStatus==1" class="text-center">
+        {{"This order was paid"| translate}}.
+    </div>
+</div>

@@ -58,7 +58,7 @@ export class OrderComponent implements OnInit {
   }
 
   makePayment(ord) {
-
+    this.router.navigate(['/otc/order-detail/' + ord._id]);
   }
 
   changePaymentStatus(element, paymentStatus) {

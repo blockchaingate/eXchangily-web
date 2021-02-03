@@ -158,34 +158,43 @@ export class TradeComponent implements OnInit {
 
   onConfirmedPlaceOrder(event) {
 
+    /*
     console.log('event=', event);
-    this.order = event;
+    
     if (this.bidOrAsk) {
-      this.addOrderDo();
+      
     } else {
       console.log('haha');
       this.quantity = this.order.quantity;
       this.pinModal.show();
     }
-
+    */
+   this.order = event;
+   this.addOrderDo();
   }
 
   addOrderDo() {
     //txid;
+    console.log('addOrderDo start');
     this._otcServ.addOrder(this.token, this.element._id, this.order).subscribe(
       (res: any) => {
         console.log('res for addOrder=', res);
         if (res.ok) {
           const data = res._body;
           this.element = data;
+          /*
           if (data.charge_id && data.method != 'Epay') {
             this.alertServ.openSnackBarSuccess(this.translateServ.instant('Your payment was confirmed'), this.translateServ.instant('Ok'));
           }
+          */
+         /*
           for (let i = 0; i < this.dataSource.length; i++) {
             if (this.dataSource[i]._id == this.element._id) {
               this.dataSource[i].qtyAvilable = this.element.qtyAvilable;
             }
           }
+          */
+          this._router.navigate(['/otc/order-detail/' + data]);
         }
       }
     );

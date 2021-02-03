@@ -20,6 +20,12 @@ Epay账户间转账：
 商家账户：test2020@epay.com
 api_key：3b660b341966bd753d7d2d3b2dc82368
 
+otc merchant account for exchange:
+email:kenin.qiu+111000@gmail.com      
+password:98523020
+
+
+epay test account:
 用户账户：ljy065@epay.com
 登录密码：a1111111
 支付密码：111222

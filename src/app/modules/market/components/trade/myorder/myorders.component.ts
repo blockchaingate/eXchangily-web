@@ -219,10 +219,8 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
         if (currentCoin.name === 'BTC' || currentCoin.name === 'FAB' || currentCoin.name === 'DOGE' || currentCoin.name === 'LTC') {
             const bytes = bs58.decode(addressInWallet);
-            console.log('bytes=', bytes);
             addressInWallet = bytes.toString('hex');
 
-            console.log('addressInWallet=', addressInWallet);
         } else if (currentCoin.name === 'BCH') {
             const keyPairsCurrentCoin = this._coinServ.getKeyPairs(currentCoin, seed, 0, 0);
             let prefix = '6f';
@@ -243,6 +241,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 const coin = this.wallet.mycoins[i];
                 if (coin.name === 'FAB') {
                     fabAddress = coin.receiveAdds[0].address;
+                    break;
                 }
             }
             if (fabAddress === '') {
@@ -259,7 +258,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
         }
 
         const abiHex = this.web3Serv.getWithdrawFuncABI(this.coinType, amountInLink, addressInWallet);
-        console.log('abiHex=====', abiHex);
+
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
         const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 
