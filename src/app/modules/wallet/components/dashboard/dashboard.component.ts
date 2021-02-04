@@ -1481,9 +1481,15 @@ export class WalletDashboardComponent implements OnInit {
 
         const coinName = this.coinServ.getCoinNameByTypeId(coinType);
 
+        if(coinName == 'USDTX') {
+            coinType = 196609;
+        }
         let currentCoin;
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
-            if (this.wallet.mycoins[i].name === coinName) {
+            if (
+                (this.wallet.mycoins[i].name === coinName) || 
+                coinName == 'USDTX' && this.wallet.mycoins[i].name == 'USDT' && this.wallet.mycoins[i].tokenType == 'TRX'
+            ) {
                 currentCoin = this.wallet.mycoins[i];
             }
         }
@@ -1497,6 +1503,7 @@ export class WalletDashboardComponent implements OnInit {
             return;
         }
 
+        console.log('currentCoin===', currentCoin);
         let coinTypePrefix;
         if(currentCoin.name == 'USDT') {
             if(currentCoin.tokenType == 'ETH') {
