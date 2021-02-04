@@ -96,7 +96,7 @@ export const environment = {
         },
         TRX: {
             network: {
-                messagePrefix: '\u0015TRON Signed Message:\n'
+                messagePrefix: '\x15TRON Signed Message:\n'
             },     
             feeLimit: 2000000,
             feeLimitToken: 2000000,                   

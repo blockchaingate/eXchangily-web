@@ -603,20 +603,36 @@ export class CoinService {
             },
             value: privateKey
         }
-        const signingKey = new TronWeb.utils.SigningKey(value);
+        console.log('message=', message);
+        console.log('environment.chains.TRX.network.messagePrefix=', environment.chains.TRX.network.messagePrefix);
+        const signingKey = new TronWeb.utils.ethersUtils.SigningKey(value);
+        const length = message.length;
         const messageBytes = [
-            ...TronWeb.Trx.toUtf8Bytes(environment.chains.TRX.network.messagePrefix),
-            ...TronWeb.Trx.utils.code.hexStr2byteArray(message)
+            ...TronWeb.utils.ethersUtils.toUtf8Bytes(environment.chains.TRX.network.messagePrefix),
+            //length,
+            ...TronWeb.utils.ethersUtils.toUtf8Bytes(message)
         ];
-        const messageDigest = TronWeb.utils.keccak256(messageBytes);
+        
+
+        //const messageBytes = environment.chains.TRX.network.messagePrefix + message;
+        console.log('messageBytes=', messageBytes);
+        const messageDigest = TronWeb.utils.ethersUtils.keccak256(messageBytes);
+        console.log('messageDigest=', messageDigest);
         const signature = signingKey.signDigest(messageDigest);
+        
+
+        /*
         const signatureHex = [
             '0x',
             signature.r.substring(2),
             signature.s.substring(2),
             Number(signature.v).toString(16)
         ].join('');
-        return signatureHex
+        */
+        //console.log('signatureHex=', signatureHex);
+        signature.v = '0x' + Number(signature.v).toString(16);
+        console.log('signature=', signature);
+        return signature
     }
 
     async signedMessage(originalMessage: string, keyPair: any) {
@@ -632,7 +648,12 @@ export class CoinService {
             signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
             // console.log('signature in signed is ');
             // console.log(signature);
-        } else if (name === 'FAB' || name === 'BTC' || tokenType === 'FAB' || name === 'BCH' || name === 'DOGE' || name === 'LTC' || name === 'TRX' || tokenType == 'TRX') {
+        } else 
+        if (name === 'TRX' || tokenType == 'TRX') {
+            const priKeyDisp = keyPair.privateKey.toString('hex'); 
+            signature = this.signStringTron(originalMessage, priKeyDisp);
+        }
+        else if (name === 'FAB' || name === 'BTC' || tokenType === 'FAB' || name === 'BCH' || name === 'DOGE' || name === 'LTC') {
             // signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
             console.log('1aaa');
             let signBuffer: Buffer;
@@ -647,6 +668,7 @@ export class CoinService {
             let v = '';
             let r = '';
             let s = '';
+            /*
             console.log('2bbb');
             if((name === 'TRX' || tokenType == 'TRX')) {
                 const priKeyDisp = keyPair.privateKey.toString('hex'); 
@@ -661,13 +683,14 @@ export class CoinService {
                 console.log('for trx');
                 console.log(v,r,s);
             } else {
-                signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey,
-                    keyPair.privateKeyBuffer.compressed, messagePrefix);
-                v = `0x${signBuffer.slice(0, 1).toString('hex')}`;
-                r = `0x${signBuffer.slice(1, 33).toString('hex')}`;
-                s = `0x${signBuffer.slice(33, 65).toString('hex')}`;  
+ 
             }
-
+            */
+            signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey,
+                keyPair.privateKeyBuffer.compressed, messagePrefix);
+            v = `0x${signBuffer.slice(0, 1).toString('hex')}`;
+            r = `0x${signBuffer.slice(1, 33).toString('hex')}`;
+            s = `0x${signBuffer.slice(33, 65).toString('hex')}`; 
 
             signature = { r: r, s: s, v: v };
 
