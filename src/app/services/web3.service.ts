@@ -471,7 +471,7 @@ export class Web3Service {
     return abiHex;
   }
 
-  getWithdrawFuncABI(coinType: number, amount: BigNumber, destAddress: string) {
+  getWithdrawFuncABI(coinType: number, amount: BigNumber, destAddress: string, coinTypePrefix = null) {
 
     // let abiHex = '3a5b6c70';
 
@@ -510,7 +510,13 @@ export class Web3Service {
 
     let abiHex = '3295d51e';
     // console.log('abiHex there we go:' + abiHex);  
-    abiHex += this.utilServ.fixedLengh(coinType.toString(16), 64);
+    if(coinTypePrefix) {
+      abiHex += this.utilServ.fixedLengh(coinTypePrefix.toString(16), 56);
+      abiHex += this.utilServ.fixedLengh(coinType.toString(16), 8);
+    } else {
+      abiHex += this.utilServ.fixedLengh(coinType.toString(16), 64);
+    }
+    
     // console.log('abiHex1=' + abiHex);
 
     const amountHex = amount.toString(16);

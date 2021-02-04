@@ -65,6 +65,10 @@ export class CoinService {
         */
     }
 
+    trxToHex(address: string) {
+        return tronWeb.address.toHex(address);
+    }
+
     async getEthGasprice() {
         const gasPrice = await this.apiService.getEthGasPrice();
         return new BigNumber(gasPrice).dividedBy(new BigNumber(1e9)).toNumber();

@@ -1447,7 +1447,7 @@ export class WalletDashboardComponent implements OnInit {
 
             for (let i = 0; i < redepositArray.length; i++) {
                 const redepositItem = redepositArray[i];
-                console.log('redepositItem.amount==', redepositItem.amount);
+                console.log('redepositItemyyyyy==', redepositItem);
                 const amount = new BigNumber(redepositItem.amount);
                 console.log('amount==', amount);
                 const coinType = redepositItem.coinType;
@@ -1467,6 +1467,7 @@ export class WalletDashboardComponent implements OnInit {
     }
 
     async submitrediposit(coinType: number, amount: BigNumber, transactionID: string, gasPrice: number, gasLimit: number) {
+        console.log('coinType=', coinType);
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
         const nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
         const pin = this.pin;
@@ -1509,10 +1510,8 @@ export class WalletDashboardComponent implements OnInit {
 
         const amountInLink = amount; // it's for all coins.
         const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(transactionID)
-            , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
+            , amountInLink, this.utilServ.stripHexPrefix(addressInKanban), coinTypePrefix);
 
-        console.log('originalMessage=', originalMessage);
-        
 
 
 
@@ -1522,22 +1521,8 @@ export class WalletDashboardComponent implements OnInit {
 
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
-        /*
-        const signedMessage: Signature = {
-            r: r,
-            s: s,
-            v: v
-        };
-        */
-        /*
-        console.log('r=', r);
-        console.log('signedMessage.r=', signedMessage.r);
-        console.log('s=', s);
-        console.log('signedMessage.s=', signedMessage.s);
-        console.log('v=', v);
-        console.log('signedMessage.v=', signedMessage.v);
-*/
-        const abiHex = this.web3Serv.getDepositFuncABI(coinType, transactionID, amount, addressInKanban, signedMessage);
+
+        const abiHex = this.web3Serv.getDepositFuncABI(coinType, transactionID, amount, addressInKanban, signedMessage, coinTypePrefix);
         console.log('abiHex for redeposit===');
         console.log(abiHex);
         const options = {
