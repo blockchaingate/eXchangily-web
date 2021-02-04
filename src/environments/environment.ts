@@ -236,6 +236,7 @@ export const environment = {
             ETH: 10,
             TRX: 0.2
         },
+        TRX: 0.2,
         DUSD: 10,
         BCH: 0.002,
         LTC: 0.02,

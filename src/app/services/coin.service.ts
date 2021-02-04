@@ -1744,6 +1744,11 @@ export class CoinService {
                 } else {
                     txHex = txHexObj.raw_data_hex;
                     txHash = txHexObj.txID;
+
+                    const raw_dat_hex = txHexObj.raw_data_hex;
+                    txHash = txHexObj.txID;
+                    txHex = '0a' + (raw_dat_hex.length / 2).toString(16) + '01' + raw_dat_hex + '1241' + txHexObj.signature;
+                      
                 }
             }
         } else 
@@ -1831,13 +1836,7 @@ export class CoinService {
                        },
                        { type: 'uint256', value: amountNum }
                    ];
-            
-            
-                   console.log('1=', tronWeb.address.toHex(trc20ContractAddress));
-                   console.log('2=', functionSelector);
-                   console.log('3=', options);
-                   console.log('4=', parameters);
-                   console.log('5=', tronWeb.address.toHex(keyPair.address));
+
                     const transaction = await tronWeb.transactionBuilder.triggerSmartContract(
                         tronWeb.address.toHex(trc20ContractAddress),
                        functionSelector,
