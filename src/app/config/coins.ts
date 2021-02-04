@@ -29,7 +29,9 @@ export const coin_list: Coin[] = [
     { id: 196625, name: 'FUN', icon: ''},
     { id: 196626, name: 'DRGN', icon: ''},
     { id: 196627, name: 'NVZN', icon: ''},
-    { id: 131075, name: 'CNB', icon: ''}
+    { id: 131075, name: 'CNB', icon: ''},
+    { id: 458752, name: 'TRX', icon: ''},
+    { id: 458753, name: 'USDTX', icon: ''}
     //REP: '0x1985365e9f78359a9B6AD760e32412f4a445E862',
     //FUN: '0x419d0d8bdd9af5e606ae2232ed285aff190e711b',
     //MHC: '0xEaB35Bd0533895856f200c99F693b2EC511BFfeE', //?? 

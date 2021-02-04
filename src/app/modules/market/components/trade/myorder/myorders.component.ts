@@ -54,6 +54,17 @@ export class MyordersComponent implements OnInit, OnDestroy {
     mytokens: any;
     opType: string;
     token: any;
+    _chain: string;
+    set chain(val: string) {
+        this._chain = val;
+        if(val && this.coinName) {
+            this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+        }
+        
+    }
+    get chain() {
+        return this._chain;
+    }
     minimumWithdrawAmount: number;
     coinType: number;
     coinName: string;
@@ -109,6 +120,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     }
 
     async ngOnInit() {
+
         this.currentPair = this._route.snapshot.paramMap.get('pair');
         const pairCoins = this.currentPair.split('_');
         this.baseCoin = this._coinServ.getCoinTypeIdByName(pairCoins[1]);
@@ -116,6 +128,9 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this.currentPair = this.currentPair.replace('_', '');
 
         // localStorage.removeItem("_myOrders");
+
+        this.chain = 'TRX';
+
         this.transactionHistory = false;
         this.lan = localStorage.getItem('Lan');
 
@@ -198,7 +213,11 @@ export class MyordersComponent implements OnInit, OnDestroy {
         let currentCoin;
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             currentCoin = this.wallet.mycoins[i];
-            if (currentCoin.name === this.coinName) {
+            if (
+                (this.coinName != 'USDT' && (currentCoin.name === this.coinName))
+                ||
+                (this.coinName == 'USDT' && (currentCoin.name === this.coinName) && currentCoin.tokenType == this.chain)
+                ) {
                 break;
             }
         }
@@ -217,9 +236,13 @@ export class MyordersComponent implements OnInit, OnDestroy {
         const amountInLink = new BigNumber(amount).multipliedBy(new BigNumber(1e18)); // it's for all coins.
         let addressInWallet = currentCoin.receiveAdds[0].address;
 
-        if (currentCoin.name === 'BTC' || currentCoin.name === 'FAB' || currentCoin.name === 'DOGE' || currentCoin.name === 'LTC') {
+        if (
+            currentCoin.name === 'BTC' || currentCoin.name === 'FAB' || 
+            currentCoin.name === 'DOGE' || currentCoin.name === 'LTC' ||
+            currentCoin.name == 'TRX' || currentCoin.tokenType == 'TRX') {
             const bytes = bs58.decode(addressInWallet);
             addressInWallet = bytes.toString('hex');
+            console.log('addressInWallet there we go:', addressInWallet);
 
         } else if (currentCoin.name === 'BCH') {
             const keyPairsCurrentCoin = this._coinServ.getKeyPairs(currentCoin, seed, 0, 0);
@@ -254,10 +277,25 @@ export class MyordersComponent implements OnInit, OnDestroy {
             }
             const bytes = bs58.decode(fabAddress);
             addressInWallet = bytes.toString('hex');
-            console.log('addressInWallet for exg', addressInWallet);
         }
 
-        const abiHex = this.web3Serv.getWithdrawFuncABI(this.coinType, amountInLink, addressInWallet);
+        /*
+         else if () {
+            const address = currentCoin.receiveAdds[0].address;
+            addressInWallet = this.coinServ.trxToHex(address);
+        }
+        */
+        let coinTypePrefix;
+        if(currentCoin.name == 'USDT') {
+            if(currentCoin.tokenType == 'ETH') {
+                coinTypePrefix = 3
+            } else 
+
+            if(currentCoin.tokenType == 'TRX') {
+                coinTypePrefix = 7
+            }
+        }        
+        const abiHex = this.web3Serv.getWithdrawFuncABI(this.coinType, amountInLink, addressInWallet, coinTypePrefix);
 
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
         const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
@@ -320,7 +358,13 @@ export class MyordersComponent implements OnInit, OnDestroy {
     }
 
     openWithdrawModal(template: TemplateRef<any>) {
-        this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName];
+        if(this.coinName == 'USDT') {
+            this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+        } else {
+            this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName];
+        }
+        
+
         this.modalWithdrawRef = this.modalService.show(template, { class: 'second' });
     }
 

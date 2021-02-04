@@ -150,10 +150,26 @@
 
             <mat-tab-group mat-align-tabs="start">
                 <mat-tab label="Deploy">
+
+
+                    
+                    <mat-form-field class="example-full-width">
+                        <textarea [(ngModel)]="ethABI" placeholder="ABI" matInput></textarea>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <textarea [(ngModel)]="ethBytecode" placeholder="Bytecode" matInput></textarea>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Arguments" [(ngModel)]="ethArguments">
+                    </mat-form-field>
+
+
+                    <!--
                     <mat-form-field class="example-full-width">
                         <mat-label class="text-muted">Data</mat-label>
                         <textarea [(ngModel)]="ethData" matInput></textarea>
                     </mat-form-field>
+                -->
                     <button mat-raised-button color="primary" (click)="deployEth()"> {{'Deploy' | translate}} </button>
                 </mat-tab>
             </mat-tab-group>

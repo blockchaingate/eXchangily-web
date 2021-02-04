@@ -476,6 +476,8 @@ export class WalletDashboardComponent implements OnInit {
         let bchAddress = '';
         let dogeAddress = '';
         let ltcAddress = '';
+        let trxAddress = '';
+
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];
             if (coin.name == 'BTC' && !btcAddress) {
@@ -492,6 +494,9 @@ export class WalletDashboardComponent implements OnInit {
             if (coin.name == 'BCH') {
                 bchAddress = coin.receiveAdds[0].address;
             }
+            if (coin.name == 'TRX') {
+                trxAddress = coin.receiveAdds[0].address;
+            }            
             if (coin.name == 'DOGE') {
                 dogeAddress = coin.receiveAdds[0].address;
             }
@@ -539,6 +544,7 @@ export class WalletDashboardComponent implements OnInit {
             bchAddress: bchAddress,
             dogeAddress: dogeAddress,
             ltcAddress: ltcAddress,
+            trxAddress: trxAddress,
             timestamp: 0
         };
 
@@ -595,7 +601,7 @@ export class WalletDashboardComponent implements OnInit {
                             const item = res.data[i];
 
  
-                            if (item.coin === coin.name) {
+                            if (item.coin === coin.name || (item.coin === 'USDTX') && coin.name ==='USDT' && coin.tokenType === 'TRX') {
                                 if (item.depositErr) {
                                     coin.redeposit = item.depositErr;
                                     updated = true;
@@ -1424,6 +1430,7 @@ export class WalletDashboardComponent implements OnInit {
         const gasPrice = Number(this.amountForm.gasPrice);
         const gasLimit = Number(this.amountForm.gasLimit);
 
+        const currentCoin = this.currentCoin;
         if (!transactionID || !gasPrice || !gasLimit) {
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar('没有转币去交易所输入', 'Ok');
@@ -1433,13 +1440,14 @@ export class WalletDashboardComponent implements OnInit {
             return;
         }
 
-        const redepositArray = this.currentCoin.redeposit ? this.currentCoin.redeposit : this.currentCoin.depositErr;
+
+        const redepositArray = currentCoin.redeposit ? currentCoin.redeposit : currentCoin.depositErr;
         // const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
         if (redepositArray && redepositArray.length > 0) {
 
             for (let i = 0; i < redepositArray.length; i++) {
                 const redepositItem = redepositArray[i];
-                console.log('redepositItem.amount==', redepositItem.amount);
+                console.log('redepositItemyyyyy==', redepositItem);
                 const amount = new BigNumber(redepositItem.amount);
                 console.log('amount==', amount);
                 const coinType = redepositItem.coinType;
@@ -1459,6 +1467,7 @@ export class WalletDashboardComponent implements OnInit {
     }
 
     async submitrediposit(coinType: number, amount: BigNumber, transactionID: string, gasPrice: number, gasLimit: number) {
+        console.log('coinType=', coinType);
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
         const nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
         const pin = this.pin;
@@ -1470,19 +1479,21 @@ export class WalletDashboardComponent implements OnInit {
             return;
         }
 
-        const amountInLink = amount; // it's for all coins.
-        const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(transactionID)
-            , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
-
-        console.log('originalMessage=', originalMessage);
         const coinName = this.coinServ.getCoinNameByTypeId(coinType);
 
+        if(coinName == 'USDTX') {
+            coinType = 196609;
+        }
         let currentCoin;
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
-            if (this.wallet.mycoins[i].name === coinName) {
+            if (
+                (this.wallet.mycoins[i].name === coinName) || 
+                coinName == 'USDTX' && this.wallet.mycoins[i].name == 'USDT' && this.wallet.mycoins[i].tokenType == 'TRX'
+            ) {
                 currentCoin = this.wallet.mycoins[i];
             }
         }
+        
         if (!currentCoin) {
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar('币类型错误', 'Ok');
@@ -1492,27 +1503,33 @@ export class WalletDashboardComponent implements OnInit {
             return;
         }
 
+        console.log('currentCoin===', currentCoin);
+        let coinTypePrefix;
+        if(currentCoin.name == 'USDT') {
+            if(currentCoin.tokenType == 'ETH') {
+                coinTypePrefix = 3
+            } else 
+
+            if(currentCoin.tokenType == 'TRX') {
+                coinTypePrefix = 7
+            }
+        }
+
+        const amountInLink = amount; // it's for all coins.
+        const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(transactionID)
+            , amountInLink, this.utilServ.stripHexPrefix(addressInKanban), coinTypePrefix);
+
+
+
+
+
         const keyPairs = this.coinServ.getKeyPairs(currentCoin, seed, 0, 0);
-        const signedMessage: Signature = this.coinServ.signedMessage(originalMessage, keyPairs);
+        const signedMessage: Signature = await this.coinServ.signedMessage(originalMessage, keyPairs);
 
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
-        /*
-        const signedMessage: Signature = {
-            r: r,
-            s: s,
-            v: v
-        };
-        */
-        /*
-        console.log('r=', r);
-        console.log('signedMessage.r=', signedMessage.r);
-        console.log('s=', s);
-        console.log('signedMessage.s=', signedMessage.s);
-        console.log('v=', v);
-        console.log('signedMessage.v=', signedMessage.v);
-*/
-        const abiHex = this.web3Serv.getDepositFuncABI(coinType, transactionID, amount, addressInKanban, signedMessage);
+
+        const abiHex = this.web3Serv.getDepositFuncABI(coinType, transactionID, amount, addressInKanban, signedMessage, coinTypePrefix);
         console.log('abiHex for redeposit===');
         console.log(abiHex);
         const options = {
@@ -1614,6 +1631,8 @@ export class WalletDashboardComponent implements OnInit {
         const amountInLinkString = amountInLink.toFixed();
         const amountInTxString = amountInTx.toFixed();
 
+        console.log('amountInLinkString=', amountInLinkString);
+        console.log('amountInTxString=', amountInTxString);
         if (amountInLinkString.indexOf(amountInTxString) === -1) {
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar('转账数量不相等', 'Ok');
@@ -1624,6 +1643,8 @@ export class WalletDashboardComponent implements OnInit {
         }
 
         const subString = amountInLinkString.substr(amountInTxString.length);
+
+        console.log('subString==', subString);
         if (subString && Number(subString) !== 0) {
             console.log('not equal 2');
             if (this.lan === 'zh') {
@@ -1634,15 +1655,26 @@ export class WalletDashboardComponent implements OnInit {
             return;
         }
 
+        let coinTypePrefix;
+        if(currentCoin.name == 'USDT') {
+            if(currentCoin.tokenType == 'ETH') {
+                coinTypePrefix = 3
+            } else 
+
+            if(currentCoin.tokenType == 'TRX') {
+                coinTypePrefix = 7
+            }
+        }
+
         const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(txHash)
-            , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
+            , amountInLink, this.utilServ.stripHexPrefix(addressInKanban), coinTypePrefix);
 
         console.log('originalMessage in deposit=', originalMessage);
-        const signedMessage: Signature = this.coinServ.signedMessage(originalMessage, keyPairs);
+        const signedMessage: Signature = await this.coinServ.signedMessage(originalMessage, keyPairs);
 
 
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
-        const abiHex = this.web3Serv.getDepositFuncABI(coinType, txHash, amountInLink, addressInKanban, signedMessage);
+        const abiHex = this.web3Serv.getDepositFuncABI(coinType, txHash, amountInLink, addressInKanban, signedMessage, coinTypePrefix);
 
         console.log('abiHex=', abiHex);
         const nonce = await this.kanbanServ.getTransactionCount(addressInKanban);

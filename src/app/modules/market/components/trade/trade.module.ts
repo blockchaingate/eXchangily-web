@@ -22,6 +22,7 @@ import { WalletService } from '../../../../services/wallet.service';
 import { CoinService } from '../../../../services/coin.service';
 import { ApiService } from '../../../../services/api.service';
 import { MatTabsModule } from '@angular/material/tabs';
+import {MatRadioModule} from '@angular/material/radio';
 import { MatListModule } from '@angular/material/list';
 import { MockService } from '../../../../services/mock.service';
 import { CallbackPipe } from '../../../shared/pipes/callback.pipe';
@@ -49,6 +50,7 @@ import { ReceiveCoinModal } from './modals/receive-coin/receive-coin.component';
         TradeRoutingModule,
         TranslateModule,
         MatTableModule,
+        MatRadioModule,
         MatSlideToggleModule,
         QRCodeModule,
         ModalModule,
