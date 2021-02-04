@@ -594,7 +594,32 @@ export class CoinService {
         return keyPairs;
     }
 
-    signedMessage(originalMessage: string, keyPair: any) {
+
+    signStringTron(message, privateKey) {
+        message = message.replace(/^0x/, '');
+        const value ={
+            toHexString: function() {
+                return '0x' + privateKey
+            },
+            value: privateKey
+        }
+        const signingKey = new TronWeb.utils.SigningKey(value);
+        const messageBytes = [
+            ...TronWeb.Trx.toUtf8Bytes(environment.chains.TRX.network.messagePrefix),
+            ...TronWeb.Trx.utils.code.hexStr2byteArray(message)
+        ];
+        const messageDigest = TronWeb.utils.keccak256(messageBytes);
+        const signature = signingKey.signDigest(messageDigest);
+        const signatureHex = [
+            '0x',
+            signature.r.substring(2),
+            signature.s.substring(2),
+            Number(signature.v).toString(16)
+        ].join('');
+        return signatureHex
+    }
+
+    async signedMessage(originalMessage: string, keyPair: any) {
         // originalMessage = '000254cbd93f69af7373dcf5fc01372230d309684f95053c7c9cbe95cf4e4e2da731000000000000000000000000000000000000000000000000000009184e72a000000000000000000000000000a2a3720c00c2872397e6d98f41305066cbf0f8b3';
         // console.log('originalMessage=', originalMessage);
         let signature: Signature;
@@ -623,9 +648,12 @@ export class CoinService {
             let r = '';
             let s = '';
             console.log('2bbb');
-            if(name === 'TRX' || tokenType == 'TRX') {
+            if((name === 'TRX' || tokenType == 'TRX')) {
                 const priKeyDisp = keyPair.privateKey.toString('hex'); 
-                const signiture = TronWeb.Trx.signString(originalMessage, priKeyDisp);
+                //const signiture = TronWeb.Trx.signString(originalMessage, priKeyDisp);
+                //const signiture = await tronWeb.trx.sign(originalMessage, priKeyDisp);
+
+                const signiture = this.signStringTron(originalMessage, priKeyDisp);
                 console.log('signiture=', signiture);
                 r = '0x' + signiture.slice(2, 66);
                 s = '0x' + signiture.slice(66, 130);
@@ -1028,8 +1056,11 @@ export class CoinService {
         if(coinTypePrefix) {
             const coinTypePrefixHex = coinTypePrefix.toString(16);
             buf += this.utilServ.fixedLengh(coinTypePrefixHex, 4);
+            buf += coinTypeHex.substring(coinTypeHex.length - 4);
+        } else {
+            buf += this.utilServ.fixedLengh(coinTypeHex, 8);
         }
-        buf += this.utilServ.fixedLengh(coinTypeHex, 8);
+        
         buf += this.utilServ.fixedLengh(txHash, 64);
         const hexString = amount.toString(16);
         buf += this.utilServ.fixedLengh(hexString, 64);

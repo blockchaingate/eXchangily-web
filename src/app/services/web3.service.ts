@@ -11,7 +11,7 @@ import { environment } from '../../environments/environment';
 import BigNumber from 'bignumber.js';
 import * as createHash from 'create-hash';
 import base58 from 'bs58';
-
+//import * as ethLib from 'eth-lib';
 @Injectable({
   providedIn: 'root'
 })
@@ -47,11 +47,52 @@ export class Web3Service {
     return abi;
   }
 
+
+/*
+   hashMessage(data) {
+    const web3 = this.getWeb3Provider();
+    var messageHex = web3.utils.isHexStrict(data) ? data : web3.utils.utf8ToHex(data);
+    var messageBytes = web3.utils.hexToBytes(messageHex);
+    var messageBuffer = Buffer.from(messageBytes);
+    var preamble = '\x19Ethereum Signed Message:\n' + messageBytes.length;
+    var preambleBuffer = Buffer.from(preamble);
+    var ethMessage = Buffer.concat([preambleBuffer, messageBuffer]);
+    return ethLib.Hash.keccak256s(ethMessage);
+};
+
+ sign(data, privateKey) {
+  
+    if (!privateKey.startsWith('0x')) {
+        privateKey = '0x' + privateKey;
+    }
+
+    // 64 hex characters + hex-prefix
+    if (privateKey.length !== 66) {
+        throw new Error("Private key must be 32 bytes long");
+    }
+
+    var hash = this.hashMessage(data);
+    var signature = ethLib.Account.sign(hash, privateKey);
+    var vrs = ethLib.Account.decodeSignature(signature);
+    return {
+        message: data,
+        messageHash: hash,
+        v: vrs[0],
+        r: vrs[1],
+        s: vrs[2],
+        signature: signature
+    };
+};
+*/
+
+
+
   signMessageWithPrivateKey(message: string, keyPair: any) {
     const privateKey = `0x${keyPair.privateKey.toString('hex')}`;
     const web3 = this.getWeb3Provider();
 
     const signMess = web3.eth.accounts.sign(message, privateKey);
+    //const signMess = this.sign(message, privateKey);
     return signMess;
   }
 

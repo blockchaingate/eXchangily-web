@@ -1518,7 +1518,7 @@ export class WalletDashboardComponent implements OnInit {
 
 
         const keyPairs = this.coinServ.getKeyPairs(currentCoin, seed, 0, 0);
-        const signedMessage: Signature = this.coinServ.signedMessage(originalMessage, keyPairs);
+        const signedMessage: Signature = await this.coinServ.signedMessage(originalMessage, keyPairs);
 
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
@@ -1678,7 +1678,7 @@ export class WalletDashboardComponent implements OnInit {
             , amountInLink, this.utilServ.stripHexPrefix(addressInKanban), coinTypePrefix);
 
         console.log('originalMessage in deposit=', originalMessage);
-        const signedMessage: Signature = this.coinServ.signedMessage(originalMessage, keyPairs);
+        const signedMessage: Signature = await this.coinServ.signedMessage(originalMessage, keyPairs);
 
 
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
