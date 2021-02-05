@@ -25,6 +25,11 @@
         <div>{{order.totalToPay}} {{order.currency}}</div>
     </div>
 
+    <div class="row my-2">
+        <div class="leftar col-2 right">{{"Note"|translate}}:</div>
+        <div>{{order.note}}</div>
+    </div>
+
     <div *ngIf="order.paymentStatus==0" class="text-center">
         <button class="btn btn-gradient text-white py-2 px-5" type="button" (click)="payByEpay()"> {{'Pay by Epay' | translate}} </button>
         <div class="notes color-warning">

@@ -457,13 +457,13 @@ export class MyordersComponent implements OnInit, OnDestroy {
     }
 
     async transferDo() {
-        console.log('transferDo start');
+        //console.log('transferDo start');
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
         const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
         let toAddressLegacy = '';
         try {
             toAddressLegacy = exaddr.toLegacyAddress(this.address);
-            console.log('toAddressLegacy===', toAddressLegacy);
+            //console.log('toAddressLegacy===', toAddressLegacy);
         } catch(e) {
 
         }
