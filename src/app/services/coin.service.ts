@@ -1741,7 +1741,7 @@ export class CoinService {
             console.log('start to send TRX');
 
             if (getTransFeeOnly) {
-                return { txHex: '', txHash: '', errMsg: '', transFee: 0, amountInTx: 0, txids: '' };
+                return { txHex: '', txHash: '', errMsg: '', transFee: 1, amountInTx: 0, txids: '' };
             }            
             const address1 = mycoin.receiveAdds[0];
             const currentIndex = address1.index;            
@@ -1777,7 +1777,7 @@ export class CoinService {
         if (mycoin.tokenType == 'TRX') {
 
             if (getTransFeeOnly) {
-                return { txHex: '', txHash: '', errMsg: '', transFee: 0, amountInTx: 0, txids: '' };
+                return { txHex: '', txHash: '', errMsg: '', transFee: 1.2, amountInTx: 0, txids: '' };
             }              
             const trc20ContractAddress = environment.addresses.smartContract[mycoin.name + '_TRX'];//contract address
             const address1 = mycoin.receiveAdds[0];

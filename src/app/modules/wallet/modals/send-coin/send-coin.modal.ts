@@ -155,6 +155,8 @@ export class SendCoinModal {
             unit = 'ETH';
         } else if (name === 'BTC') {
             unit = 'BTC';
+        } else {
+            unit = tokenType ? tokenType: name;
         }
         this.tranFeeUnit = unit;
         return unit;
