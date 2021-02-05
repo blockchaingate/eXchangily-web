@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { TradeService } from '../../../services/trade.service';
+import { ApiService } from '../../../../../services/api.service';
 import { CoinService } from '../../../../../services/coin.service';
 import { UtilService } from '../../../../../services/util.service';
 import { KanbanService } from '../../../../../services/kanban.service';
@@ -55,16 +55,20 @@ export class MyordersComponent implements OnInit, OnDestroy {
     opType: string;
     token: any;
     _chain: string;
-    set chain(val: string) {
+    set  chain(val: string) {
         this._chain = val;
-        if(val && this.coinName) {
+        if(val && this.coinName == 'USDT') {
             this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+
         }
         
     }
     get chain() {
         return this._chain;
     }
+
+    trxUSDTTSBalance: number;
+    ethUSDTTSBalance: number;
     minimumWithdrawAmount: number;
     coinType: number;
     coinName: string;
@@ -83,7 +87,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     coinServ: CoinService;
     lan = 'en';
 
-    constructor(private _router: Router, private tradeService: TradeService, private _route: ActivatedRoute,
+    constructor(private _router: Router, private apiServ: ApiService, private _route: ActivatedRoute,
         public utilServ: UtilService, private kanbanServ: KanbanService, private _coinServ: CoinService,
         private modalService: BsModalService, private web3Serv: Web3Service, private alertServ: AlertService,
         private timerServ: TimerService, private walletServ: WalletService, private storageServ: StorageService) {
@@ -129,7 +133,8 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
         // localStorage.removeItem("_myOrders");
 
-        this.chain = 'TRX';
+        
+        this.chain = '';
 
         this.transactionHistory = false;
         this.lan = localStorage.getItem('Lan');
@@ -357,9 +362,22 @@ export class MyordersComponent implements OnInit, OnDestroy {
         });
     }
 
-    openWithdrawModal(template: TemplateRef<any>) {
+    async openWithdrawModal(template: TemplateRef<any>) {
         if(this.coinName == 'USDT') {
+            console.log('this.coinNamethis.coinNamethis.coinName=', this.coinName);
+            this.chain = 'TRX';
             this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+
+                if(!this.trxUSDTTSBalance) {
+                    this.trxUSDTTSBalance = await this.coinServ.getTrxTokenBalance(environment.addresses.smartContract.USDT_TRX, environment.addresses.exchangilyOfficial.TRX);
+                    this.trxUSDTTSBalance = this.trxUSDTTSBalance / 1e6;
+                }
+
+                if(!this.ethUSDTTSBalance) {
+                    const balance = await this.apiServ.getEthTokenBalance('USDT', environment.addresses.smartContract.USDT, environment.addresses.exchangilyOfficial.USDT);
+                    
+                    this.ethUSDTTSBalance = balance.balance / 1e6;
+                }           
         } else {
             this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName];
         }
@@ -430,6 +448,25 @@ export class MyordersComponent implements OnInit, OnDestroy {
             return;
         }
 
+        if(this.coinName == 'USDT') {
+            if(this.chain == 'TRX' && amount > this.trxUSDTTSBalance) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;                
+            }
+
+            if(this.chain == 'ETH' && amount > this.ethUSDTTSBalance) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;                
+            }            
+        }
         this.modalWithdrawRef.hide();
 
         this.pinModal.show();

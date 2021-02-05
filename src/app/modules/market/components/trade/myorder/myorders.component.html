@@ -274,11 +274,19 @@
         </div>
 
         <div *ngIf="coinName == 'USDT'">
-            <mat-radio-group aria-label="Select an option" [(ngModel)]="chain">
-                <mat-radio-button value="ETH">ERC20</mat-radio-button>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <mat-radio-button value="TRX">TRC20</mat-radio-button>
-              </mat-radio-group>
+            <div>
+                <mat-radio-group aria-label="Select an option" [(ngModel)]="chain">
+                    <mat-radio-button value="ETH">ERC20</mat-radio-button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <mat-radio-button value="TRX">TRC20</mat-radio-button>
+                  </mat-radio-group>
+            </div>
+            <div>
+                TS Wallet Balance: 
+                <span *ngIf="chain == 'TRX'">{{trxUSDTTSBalance}}</span>
+                <span *ngIf="chain == 'ETH'">{{ethUSDTTSBalance}}</span>
+            </div>
+
         </div>
 
         <div class="d-flex justify-content-between py-1">

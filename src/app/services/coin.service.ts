@@ -74,6 +74,28 @@ export class CoinService {
         return new BigNumber(gasPrice).dividedBy(new BigNumber(1e9)).toNumber();
     }
 
+    async getTrxTokenBalance(smartContractAddress: string, address: string) {
+        
+        console.log('smartContractAddress=', smartContractAddress);
+        console.log('address=', address);
+        //address = 'TM2TmqauSEiRf16CyFgzHV2BVxBejY9iyR';
+        //address = tronWeb.address.toHex(address);
+        //console.log('address=', address);
+        //smartContractAddress = tronWeb.address.toHex(address);
+        //console.log('smartContractAddress=', smartContractAddress);
+        try {
+            let contract = await tronWeb.contract().at(smartContractAddress);
+            //Use call to execute a pure or view smart contract method.
+            // These methods do not modify the blockchain, do not cost anything to execute and are also not broadcasted to the network.
+            let result = await contract.balanceOf(address).call({from: address});
+            return result.toNumber();
+            //console.log('result: ', result);
+        } catch(error) {
+            console.error("trigger smart contract error",error)
+        }  
+        
+        return -1;
+    }
     initToken(type: string, name: string, decimals: number, address: string, baseCoin: MyCoin) {
         const coin = new MyCoin(name);
         coin.tokenType = type;
