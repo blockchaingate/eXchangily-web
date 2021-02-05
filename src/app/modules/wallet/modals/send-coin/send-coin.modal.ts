@@ -119,9 +119,14 @@ export class SendCoinModal {
             this.sendCoinForm.patchValue({'sendAmount': transOut});     
             this.onTextChange(transOut);         
         } else
-        if(tokenType == 'FAB' || tokenType == 'ETH') {
+        if(tokenType == 'FAB' || tokenType == 'ETH' || tokenType == 'TRX') {
             this.sendCoinForm.patchValue({'sendAmount': balance});   
             this.onTextChange(balance);
+        } else
+        if(coinName == 'TRX') {
+            let transOut = balance;
+            this.sendCoinForm.patchValue({'sendAmount': transOut});     
+            this.onTextChange(transOut);              
         }
     }
 

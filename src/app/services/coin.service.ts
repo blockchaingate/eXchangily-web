@@ -1331,7 +1331,6 @@ export class CoinService {
             }     
             
             else if(mycoin.tokenType === 'FAB') {
-                console.log('satoshisPerBytesgggg=', satoshisPerBytes);
                 if (!gasPrice) {
                     gasPrice = environment.chains.FAB.gasPrice;
                 }
@@ -1741,7 +1740,7 @@ export class CoinService {
             console.log('start to send TRX');
 
             if (getTransFeeOnly) {
-                return { txHex: '', txHash: '', errMsg: '', transFee: 1, amountInTx: 0, txids: '' };
+                return { txHex: '', txHash: '', errMsg: '', transFee: environment.chains.TRX.feeLimit / 1e6, amountInTx: 0, txids: '' };
             }            
             const address1 = mycoin.receiveAdds[0];
             const currentIndex = address1.index;            
@@ -1777,7 +1776,7 @@ export class CoinService {
         if (mycoin.tokenType == 'TRX') {
 
             if (getTransFeeOnly) {
-                return { txHex: '', txHash: '', errMsg: '', transFee: 1.2, amountInTx: 0, txids: '' };
+                return { txHex: '', txHash: '', errMsg: '', transFee: environment.chains.TRX.feeLimitToken / 1e6, amountInTx: 0, txids: '' };
             }              
             const trc20ContractAddress = environment.addresses.smartContract[mycoin.name + '_TRX'];//contract address
             const address1 = mycoin.receiveAdds[0];
@@ -1806,7 +1805,7 @@ export class CoinService {
                         toAddress, //address _to
                         amountNum   //amount
                     ).send({
-                        feeLimit: 1000000
+                        feeLimit: environment.chains.TRX.feeLimitToken
                     });
                 } else {
 
@@ -1844,7 +1843,7 @@ export class CoinService {
                    const functionSelector = 'transfer(address,uint256)';
 
                    const options= {
-                       feeLimit: 2000000,
+                       feeLimit: environment.chains.TRX.feeLimitToken,
                        callValue: 0,
                        userFeePercentage: 100,
                        shouldPollResponse: false,
