@@ -283,8 +283,8 @@
             </div>
             <div>
                 TS Wallet Balance: 
-                <span *ngIf="chain == 'TRX'">{{trxUSDTTSBalance}}</span>
-                <span *ngIf="chain == 'ETH'">{{ethUSDTTSBalance}}</span>
+                <span *ngIf="chain == 'TRX'">{{trxUSDTTSBalance?trxUSDTTSBalance:'NA'}}</span>
+                <span *ngIf="chain == 'ETH'">{{ethUSDTTSBalance?ethUSDTTSBalance:'NA'}}</span>
             </div>
 
         </div>

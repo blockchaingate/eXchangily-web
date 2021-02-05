@@ -103,6 +103,7 @@ export class WalletDashboardComponent implements OnInit {
     currentCurrency: string;
     currencyRate: number;
     lan = 'en';
+    walletUpdateToDate: boolean;
     hideWallet = false;
 
     constructor(
@@ -115,6 +116,7 @@ export class WalletDashboardComponent implements OnInit {
         private alertServ: AlertService, private timerServ: TimerService,
         private coinService: CoinService, private storageService: StorageService) {
         this.lan = localStorage.getItem('Lan');
+        this.walletUpdateToDate = false;
         this.showMyAssets = true;
         this.currentCurrency = 'USD';
         this.currencyRate = 1;
@@ -304,6 +306,11 @@ export class WalletDashboardComponent implements OnInit {
 
     copyAddress() {
         this.utilServ.copy(this.fabAddress);
+    }
+
+    updateWallet() {
+        this.opType = 'updateWallet';
+        this.pinModal.show();
     }
 
     onConfirmedBackupPrivateKey(cmd: string) {
@@ -548,6 +555,9 @@ export class WalletDashboardComponent implements OnInit {
             timestamp: 0
         };
 
+        if(trxAddress) {
+            this.walletUpdateToDate = true;
+        }
         this.coinServ.getTransactionHistoryEvents(data).subscribe(
             (res: any) => {
                 if (res && res.success) {
@@ -984,7 +994,34 @@ export class WalletDashboardComponent implements OnInit {
             this.loadNewCoinsDo();
         } else if(this.opType == 'addNewAsset') {
             this.addNewAssetDo();
+        } else if(this.opType == 'updateWallet') {
+            this.updateWalletDo();
         }
+    }
+
+    async updateWalletDo() {
+
+        const mnemonic = this.utilServ.aesDecrypt(this.wallet.encryptedMnemonic, this.pin);
+
+        if (!mnemonic) {
+            this.warnPwdErr();
+            return;
+        }        
+        const wallet = this.walletServ.generateWallet(this.pin, this.wallet.name, mnemonic);
+
+        console.log('wallet=', wallet);
+        if (!wallet) {
+          if (localStorage.getItem('Lan') === 'zh') {
+            alert('发生错误，请再试一次。');
+          } else {
+            alert('Error occured, please try again.');
+          }
+        } else {
+            this.walletServ.updateToWalletList(wallet, this.currentWalletIndex);
+            this.walletUpdateToDate = true;
+            this.wallet = wallet;
+            await this.loadBalance();
+        }         
     }
 
     addNewAssetDo() {

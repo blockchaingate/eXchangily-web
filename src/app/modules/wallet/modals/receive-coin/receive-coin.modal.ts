@@ -3,6 +3,8 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Wallet } from '../../../../models/wallet';
 import { MyCoin } from '../../../../models/mycoin';
 import { UtilService } from '../../../../services/util.service';
+import bchaddr from 'bchaddrjs';
+
 @Component({
     selector: 'modal-receive-coin',
     templateUrl: './receive-coin.modal.html',
@@ -37,6 +39,10 @@ export class ReceiveCoinModal {
         }
 
         // console.log(selectedValue);
+    }
+
+    changeToLegacyAddress() {
+        this.currentAddress = bchaddr.toLegacyAddress(this.currentAddress);
     }
 
     dlDataUrlBin() {

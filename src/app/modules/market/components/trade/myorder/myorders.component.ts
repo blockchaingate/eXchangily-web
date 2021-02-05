@@ -363,10 +363,12 @@ export class MyordersComponent implements OnInit, OnDestroy {
     }
 
     async openWithdrawModal(template: TemplateRef<any>) {
+        this.modalWithdrawRef = this.modalService.show(template, { class: 'second' });
         if(this.coinName == 'USDT') {
             console.log('this.coinNamethis.coinNamethis.coinName=', this.coinName);
             this.chain = 'TRX';
-            this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+            try {
+                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
 
                 if(!this.trxUSDTTSBalance) {
                     this.trxUSDTTSBalance = await this.coinServ.getTrxTokenBalance(environment.addresses.smartContract.USDT_TRX, environment.addresses.exchangilyOfficial.TRX);
@@ -377,13 +379,16 @@ export class MyordersComponent implements OnInit, OnDestroy {
                     const balance = await this.apiServ.getEthTokenBalance('USDT', environment.addresses.smartContract.USDT, environment.addresses.exchangilyOfficial.USDT);
                     
                     this.ethUSDTTSBalance = balance.balance / 1e6;
-                }           
+                }
+            }catch(e) {
+
+            }           
         } else {
             this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName];
         }
         
 
-        this.modalWithdrawRef = this.modalService.show(template, { class: 'second' });
+        
     }
 
     selectOrder(ord: number) {
@@ -449,7 +454,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
         }
 
         if(this.coinName == 'USDT') {
-            if(this.chain == 'TRX' && amount > this.trxUSDTTSBalance) {
+            if(this.chain == 'TRX' && (!this.trxUSDTTSBalance || (amount > this.trxUSDTTSBalance))) {
                 if (this.lan === 'zh') {
                     this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
                 } else {
@@ -458,7 +463,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 return;                
             }
 
-            if(this.chain == 'ETH' && amount > this.ethUSDTTSBalance) {
+            if(this.chain == 'ETH' && (!this.ethUSDTTSBalance || (amount > this.ethUSDTTSBalance))) {
                 if (this.lan === 'zh') {
                     this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
                 } else {

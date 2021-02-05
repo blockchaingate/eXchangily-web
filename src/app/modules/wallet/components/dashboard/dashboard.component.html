@@ -122,6 +122,10 @@
                             <div class="d-inline-block pr-3 walletBtn">
                                 <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="exchangeMoney()">{{"Exchange" | translate }}</button>
                             </div>
+
+                            <div class="d-inline-block pr-3 walletBtn" *ngIf="!walletUpdateToDate">
+                                <button class="btn button btn-outline btn-basic-outline btn-fixed-width text-danger font-weight-bold" (click)="updateWallet()">{{"Update" | translate }}</button>
+                            </div>                            
                         </div>
                     </div>
                 </div>
