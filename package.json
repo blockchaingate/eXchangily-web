@@ -1,7 +1,7 @@
 {
     "name": "dex",
     "version": "0.0.2",
-    "note": "If error message Can't resolve 'crypto' in ... happens, in node_modules/@angular-devkit/build-angular/src/webpack/configs/browser.js, change node: false to node: { crypto: true, stream: true }",
+    "note": "If error message [Can't resolve 'crypto' in ...] happens, in node_modules/@angular-devkit/build-angular/src/webpack/configs/browser.js, change [node: false] to [node: { crypto: true, stream: true }]",
     "scripts": {
         "ng": "ng",
         "start": "ng serve --host 0.0.0.0",
