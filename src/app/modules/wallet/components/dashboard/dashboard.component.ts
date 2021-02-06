@@ -1424,7 +1424,7 @@ export class WalletDashboardComponent implements OnInit {
             this.alertServ.openSnackBar(errMsg, 'Ok');
             return;
         }
-        if (txHex && txHash) {
+        if (txHash) {
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBarSuccess('交易提交成功，请等一会查看结果', 'Ok');
             } else {
