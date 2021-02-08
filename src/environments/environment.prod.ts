@@ -204,7 +204,7 @@ export const environment = {
         DRGN: '0x4983f8634255762A18D854790E6d35A522E2633a',
         NVZN: '0x4983f8634255762A18D854790E6d35A522E2633a',
         CNB: '0xa7c8257b0571dc3d3c96b24b668c6569391b3ac9',
-        TRX: 'TGGJPohUhzpW8W1LTRhPejGK8LDyR7ofM3'
+        TRX: 'TGfvRWxddNoWrghwE5zC1JEcbXyMdPATdo'
        },
        
         promotionOfficial: {
