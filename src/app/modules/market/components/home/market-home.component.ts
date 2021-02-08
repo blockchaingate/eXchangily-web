@@ -71,34 +71,13 @@ export class MarketHomeComponent implements OnInit {
       (res: any) => {
         console.log("Banner:");
 
-        
-        if (res && res.ok) {
+
+        // if (res && res.ok) {
+        if (false) {
           this.banners = res['_body'];
           console.log(this.banners);
         } else {
-          this.banners =  [{
-              "title": {
-                "en": "Wecome to the wonderful cryptocurrency world !",
-                "sc": "欢迎光临精彩的加密货币世界 ！"
-              },
-              "image": "./images/mslider/fabCoin.png",
-              "sequence": 2,
-            }, {
-              "title": {
-                "en": "Your Secure Digital Asset Wallet & DEX",
-                "sc": "值得您信赖的数字货币钱包及去中心化交易所"
-              },
-              "image": "./images/mslider/fabCoin2.png",
-              "sequence": 1,
-            }]
-          ;
-        }
-        this.ready = true;
-        console.log("ready: ", this.ready);
-
-      },
-      err => {
-        this.banners =  [{
+          this.banners = [{
             "title": {
               "en": "Wecome to the wonderful cryptocurrency world !",
               "sc": "欢迎光临精彩的加密货币世界 ！"
@@ -113,7 +92,29 @@ export class MarketHomeComponent implements OnInit {
             "image": "./images/mslider/fabCoin2.png",
             "sequence": 1,
           }]
-        ;
+            ;
+        }
+        this.ready = true;
+        console.log("ready: ", this.ready);
+
+      },
+      err => {
+        this.banners = [{
+          "title": {
+            "en": "Wecome to the wonderful cryptocurrency world !",
+            "sc": "欢迎光临精彩的加密货币世界 ！"
+          },
+          "image": "./images/mslider/fabCoin.png",
+          "sequence": 2,
+        }, {
+          "title": {
+            "en": "Your Secure Digital Asset Wallet & DEX",
+            "sc": "值得您信赖的数字货币钱包及去中心化交易所"
+          },
+          "image": "./images/mslider/fabCoin2.png",
+          "sequence": 1,
+        }]
+          ;
         this.ready = true;
       }
     );
