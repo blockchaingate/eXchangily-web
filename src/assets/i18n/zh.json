@@ -1509,5 +1509,6 @@
     "Order details & payment": "确认订单并付款",
     "EpayNote": "通过Epay全球支付向亿币付款，Epay支持除美国外的世界几乎所有主要国家充提款业务。如果您希望通过Epay支付，请前往Epay开通账户，并向账户注资，然后可以在亿币购买。",
     "This order was paid": "该订单已付款",
-    "Pay by Epay": "使用Epay付款"
+    "Pay by Epay": "使用Epay付款",
+    "Update": "更新"
 }
