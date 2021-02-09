@@ -27,6 +27,16 @@ export class ApiService {
         return this.http.get(url);
     }
     
+    getEXGLockerDetail(fabAddress: string) {
+        const url = environment.endpoints.kanban + 'getLockerHashesByAccount/' + fabAddress;
+        return this.http.get(url);
+    }
+
+    getEpayHash(paymentAmount: number, paymentUnit: string) {
+        const url = environment.endpoints.blockchaingate + 'epay/hash/' + paymentAmount + '/' + paymentUnit;
+        return this.http.get(url);       
+    }
+    ///hash/:payeeAccount/:paymentAmount/:paymentUnit
     chargeOrder(orderID, txhex: string) {
         const url = environment.endpoints.blockchaingate + 'orders/' + orderID + '/charge' ;
 
@@ -45,6 +55,8 @@ export class ApiService {
         };
         return this.http.post(url, data);
     }
+
+    
 
     getSmartContractABI(address: string) {
         if (!address.startsWith('0x')) {
@@ -637,5 +649,11 @@ export class ApiService {
             }
         }
         return {balance, lockbalance};
+    }
+
+    postCampaignSingleDetail(id: string) {
+        const url = environment.endpoints.kanban + 'kanban/getCampaignSingle';
+        const data = {"id":id};
+        return this.http.post(url, data);
     }
 }

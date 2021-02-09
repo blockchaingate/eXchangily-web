@@ -1,5 +1,5 @@
 
-import {throwError as observableThrowError} from 'rxjs';
+import { throwError as observableThrowError } from 'rxjs';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -28,7 +28,7 @@ export class JsonFileService {
     return this.http.get(filePath);
   }
 
-  private logAndPassOn (error: Error) {
+  private logAndPassOn(error: Error) {
     return observableThrowError(error);
   }
 

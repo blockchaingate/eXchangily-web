@@ -85,6 +85,14 @@ $easeInOutQuad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
     .campaignDetail {
         text-align: center;
 
+        .eventFormTable{
+            margin: 10px auto;
+
+            td{
+                padding: 0 20px;
+            }
+        }
+
         .sectionTitle {
             font-size: 35px;
             text-align: center;

@@ -1,28 +1,30 @@
-.container {
-    width: 100vw;
+.menu {
+    width: 100%;
+    display: flex;
+    background-color: lightblue;
 }
 
 .selected {
-    background-color: lightblue;
+    background-color: lightcyan;
     color: white;
-}
-
-.orders {
-    padding: 0 0 3em 0;
-    margin-top: 0.8em;
-    margin-bottom: 3em;
-    width: 100%;
 }
 
 .menuitm {
     cursor: pointer;
     color: black;
+    width: 64px;
     margin-left: 0.3em;
     padding: 2px 8px;
 }
 
+.orders {
+    width: 1200px;
+    background-color: #F0F0F0;
+    color: black;
+}
+
 .list-title {
-    font-weight: bold;
+    display: flex;
     margin-bottom: 0.3em;
 }
 
@@ -35,9 +37,11 @@
 .item8em {
     width: 8em;
 }
+
 .item12em {
     width: 12em;
 }
+
 .item18em {
     width: 18em;
 }

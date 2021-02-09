@@ -11,7 +11,7 @@ import {Token} from '../../../../interfaces/kanban.interface';
 export class AddAssetsModal {
     @ViewChild('addAssetsModal', {static: true}) public addAssetsModal: ModalDirective;
     @Output() confirmedAssets = new EventEmitter<[Token]>();
-
+    selectedIndex: number;
     fabCoinsSelected = [];
     ethCoinsSelected = [];
     otherCoinsSelected = [];
@@ -29,24 +29,13 @@ export class AddAssetsModal {
     ];
     */
     ethTokens = [
-        {
-            name: 'EAB', 
-            contractAddress: '0x8278FDC79A8041667e79bBB20331c7c8548DEd20',
-            symbol: 'EAB',
-            decimals: 18
-        },        
+       
         {
             name: 'USD Coin', 
             contractAddress: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
             symbol: 'USDC',
             decimals: 6
-        },
-        {
-            name: 'CT', 
-            contractAddress: '0x20fe562d797a42dcb3399062ae9546cd06f63280',
-            symbol: 'ChainLink Token',
-            decimals: 18
-        },        
+        }      
     ]; 
 
     fabTokens = [
@@ -59,12 +48,13 @@ export class AddAssetsModal {
     ]; 
 
     addAssetsForm = this.fb.group({
+        fabPrivateKey: [''],
         fabContractAddress: [''],
         ethContractAddress: [''],
     });    
 
     constructor(private fb: FormBuilder) {
-
+        this.selectedIndex = 0;
     }
     
     onFabSelection(e, v) {
@@ -113,6 +103,19 @@ export class AddAssetsModal {
 
     onSubmit() {
         const tokens = [];
+        if(this.selectedIndex == 0) {
+            const token = {
+                type: '',
+                name: 'FAB',
+                privateKey: this.addAssetsForm.get('fabPrivateKey').value
+            }
+            tokens.push(token);
+
+            this.confirmedAssets.emit(tokens as [Token]);
+            this.hide();            
+            return;
+        }
+        
         for (let i = 0; i < this.fabCoinsSelected.length; i++) {
             const token = {
                 type: 'FAB',

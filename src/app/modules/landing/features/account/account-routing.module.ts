@@ -12,6 +12,7 @@ import { PlaceOrderFormComponent } from './place-order/place-order-form/place-or
 import { OrderComponent } from './order/order.component';
 import { AuthGuard } from '../../guards/auth/auth.guard';
 import { AccountPaths } from '../../paths/account-paths';
+import { OtcListingComponent } from './otc-listing/otc-listing.component';
 import { SecurityComponent } from './security/security.component';
 import { MerchantComponent } from './merchant/merchant.component';
 // import { AdminModule } from '../admin/admin.module';
@@ -19,6 +20,8 @@ import { UserResolver, UserAdminResolver } from '../../resolvers/user/user.resol
 import { IcotxResolver, IcotxParentResolver } from '../../resolvers/icotx/icotx.resolve';
 import { AppUsersResolver, ChildReferralsResolver } from '../../resolvers/app-users/app-users.resolve';
 // import { ReferralModule } from './referrals/referrals.module';
+import { OtcOrderComponent } from './otc-order/otc-order.component';
+import { MyOtcOrderComponent } from './my-otc-order/my-otc-order.component';
 
 const routes: Routes = [
 {
@@ -28,10 +31,8 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     children: [
       {
-        resolve: {
-          appUser: AppUsersResolver
-        },
-        path: AccountPaths[0].relative,
+
+        path: 'user-info',
         component: InfoComponent
       },
       {
@@ -41,7 +42,19 @@ const routes: Routes = [
       {
         path: AccountPaths[5].relative,
         component: MerchantComponent
-      },         
+      },   
+      {
+        path: 'otc-listing',
+        component: OtcListingComponent
+      },     
+      {
+        path: 'otc-order',
+        component: OtcOrderComponent
+      },   
+      {
+        path: 'my-otc-order',
+        component: MyOtcOrderComponent
+      },           
       {
         path: AccountPaths[6].relative,
         component: SecurityComponent
@@ -102,7 +115,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: AccountPaths[0].relative,
+        redirectTo: AccountPaths[1].relative,
       }
     ]
   }

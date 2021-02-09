@@ -5,20 +5,20 @@ import * as Btc from 'bitcoinjs-lib';
 
 export const environment = {
     production: false,
-    version: '2.0.1',
+    version: '2.0.2',
     SQUARE_APP_ID: {
         CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', // ccount kenin
         USD: 'sandbox-sq0idb-gPdLBTvUKUk2-O2DdNZ3dA'  // account genta
     },
+    EPAY_API: 'http://29597375fx.zicp.vip/paymentApi',
     STRIPE_PUBLIC_KEY: 'pk_test_xVAqsYMxwh3AZfJcYu1hruyE',
     PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',
     url: 'https://kanbantest.fabcoinapi.com/',
-    tmpUrl: 'https://kanbantest.fabcoinapi.com/',
 
     // baseUrl: 'http://localhost:4200',
     baseUrl: 'https://test.exchangily.com',
     campaignId: 1,
-    OTC_COMMISSION_RATE: 0.001,
+    OTC_COMMISSION_RATE: 0,
     chains: {
         BTC: {
             network: Btc.networks.testnet,
@@ -84,12 +84,13 @@ export const environment = {
             chain: {
                 name: 'test',
                 networkId: 212,
-                chainId: 212
+                chainId: 212 
             },
             satoshisPerBytes: 100,
             bytesPerInput: 148,
             gasPrice: 50,
-            gasLimit: 800000
+            gasLimit: 800000,
+            gasLimitToken: 1000000
         },
         KANBAN: {
             chain: {
@@ -99,6 +100,16 @@ export const environment = {
             },
             gasPrice: 50000000,
             gasLimit: 20000000
+        },
+        TRX: {
+            network: {
+                messagePrefix: '\x15TRON Signed Message:\n'
+            },
+            feeLimit: 1000000,
+            feeLimitToken: 1200000,
+            fullNode: 'https://api.trongrid.io',
+            solidityNode: 'https://api.trongrid.io',
+            eventServer: 'https://api.trongrid.io'       
         }
     },
     endpoints: {
@@ -135,13 +146,15 @@ export const environment = {
         FAB: 1150,
         BCH: 1,
         LTC: 1,
-        DOGE: 1
+        DOGE: 1,
+        TRX: 195
     },
     addresses: {
         smartContract: {
             FABLOCK: '0xa7d4a4e23bf7dd7a1e03eda9eb7c28a016fd54aa',
             EXG: '0x867480ba8e577402fa44f43c33875ce74bdc5df6',
             USDT: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',
+            USDT_TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t',
             DUSD: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
             INB: '0x919c6d21670fe8cEBd1E86a82a1A74E9AA2988F8',
             REP: '0x4659c4A33432A5091c322E438e0Fb1D286A1EbdE',
@@ -173,7 +186,6 @@ export const environment = {
         BCH: 'bchtest:qrkhd038rw685m0s2kauyquhx0pxlhkvsg6dydtwn9',
         LTC: 'n3AYguoFtN7SqsfAJPx6Ky8FTTZUkeKbvc',
         DOGE: 'nqqkf8PqJj3CUjwLMEcjJDfpiU5NDcMUrB',
-        // BNB: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
         INB: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
         REP: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
         HOT: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
@@ -192,7 +204,8 @@ export const environment = {
         GVT: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
         DRGN: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
         NVZN: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
-        CNB: '0xed76be271bb47a6df055bbc2039733c26fdecc82'
+        CNB: '0xed76be271bb47a6df055bbc2039733c26fdecc82',
+        TRX: 'TGGJPohUhzpW8W1LTRhPejGK8LDyR7ofM3'
        },
         promotionOfficial: {
             USDT: '0x4e93c47b42d09f61a31f798877329890791077b2',
@@ -220,7 +233,11 @@ export const environment = {
         BTC: 0.002,
         FAB: 0.005,
         ETH: 0.01,
-        USDT: 10,
+        USDT: {
+            ETH: 10,
+            TRX: 0.2
+        },
+        TRX: 0.2,
         DUSD: 10,
         BCH: 0.002,
         LTC: 0.02,

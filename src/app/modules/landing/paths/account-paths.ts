@@ -34,9 +34,33 @@ export const AccountPaths = [
     title: 'Merchant',
     i18n: 'Merchant',
     absolute: '/account/merchant',
-    relative: 'merchant'
+    relative: 'merchant',
+    merchantOnly: true
   }  
   ,
+  {
+    title: 'Otc Listing',
+    i18n: 'Otc Listing',
+    absolute: '/account/otc-listing',
+    relative: 'otc-listing',
+    merchantOnly: true
+  }  
+  ,  
+  {
+    title: 'Otc Order',
+    i18n: 'Otc Order',
+    absolute: '/account/otc-order',
+    relative: 'otc-order',
+    merchantOnly: true
+  }  
+  ,    
+  {
+    title: 'My Otc Order',
+    i18n: 'My Otc Order',
+    absolute: '/account/my-otc-order',
+    relative: 'my-otc-order'
+  }  
+  ,   
   {
     title: 'Security',
     i18n: 'Security',

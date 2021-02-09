@@ -394,7 +394,7 @@ export class HomeComponent implements OnInit {
     }
 
     private getLang(language = ''): string {
-        const lang = language || this._translate.currentLang || window.localStorage.getItem('fabLanguagei18n');
+        const lang = language || this._translate.currentLang || window.localStorage.getItem('Lan');
         this.lang = lang;
         this.whitepaper = `${whitepaperPath}-${lang}.pdf`;
         return lang;

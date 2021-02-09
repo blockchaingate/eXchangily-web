@@ -1,0 +1,83 @@
+.container {
+    background-color: white;
+}
+.mat-select-value {
+    color: black!important;
+}
+
+.col-green {
+    color: #33ae72;
+}
+
+.col-red {
+    color: #eb6a61;
+}
+
+.col-blue {
+    color: #3b7bfd;
+}
+
+.adv-type-active {
+    color: #3b7bfd;
+}
+
+table {
+    width: 100%;
+}
+
+.table-borderless td,
+.table-borderless th {
+    border: 0;
+}
+
+.btn-buy-sell {
+    display: inline-block;
+    height: 36px;
+    width: 80px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 36px;
+    border-radius: 2px;
+}
+
+.btn-buy {
+    color: #33ae72;
+    background: rgba(51, 174, 114, .14);
+}
+
+.btn-buy:hover {
+    background: #33ae72;
+    color: #fff;
+}
+
+.btn-sell {
+    color: #eb6a61;
+    background: rgba(255, 84, 71, .14);
+}
+
+.btn-sell:hover {
+    background: #ff5447;
+    color: #fff;
+}
+
+.type-buy {
+    color: #33ae72;
+    text-decoration: underline;
+}
+
+.type-sell {
+    color: #ff5447;
+    text-decoration: underline;
+}
+
+.coin-name {
+    cursor: pointer;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+.table-text {
+    line-height: 40px;
+}

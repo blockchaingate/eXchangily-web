@@ -24,6 +24,8 @@ import { MarketTopComponent } from './components/top/market-top.component';
 import { MarketTopBlockComponent } from './components/top-block/market-top-block.component';
 import { TradeAutoComponent } from './components/trade-auto/trade-auto.component';
 import { SharedModule } from '../shared/shared.module';
+import { BannerService } from '../../services/banner.service';
+import { from } from 'rxjs';
 // import {SlideshowModule} from 'ng-simple-slideshow';
 
 @NgModule({
@@ -48,6 +50,7 @@ import { SharedModule } from '../shared/shared.module';
   providers: [
     PriceService,
     Web3Service,
+    BannerService,
     KanbanService,
     TradeService,
     AlertService

@@ -12,7 +12,7 @@
                     <div *ngFor="let item of coin.redeposit; let i = index">
                         <mat-radio-button class="text-muted" [value]="item.transactionID">
                             <div>
-                                {{"Amount"| translate}}: {{utilServ.showAmount(item.amount, 6)}}
+                                {{"Quantity"| translate}}: {{utilServ.showAmount(item.amount, 6)}}
                                 <button mat-icon-button aria-label="Show Details" (click)="showDetail(i)">
                                     <mat-icon svgIcon="detail"></mat-icon>
                                 </button>

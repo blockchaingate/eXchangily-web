@@ -40,11 +40,7 @@ export class TradeComponent implements OnInit {
   addressIncorrect: boolean;
 
   commissionRate = environment.OTC_COMMISSION_RATE;
-  currencies: string[] = [
-    'USD',
-    'CAD',
-    'CNY'
-  ];
+  currencies: string[] = ['USD', 'CAD', 'CNY', 'EURO'];
 
   dataSource: any;
   @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal;
@@ -61,7 +57,7 @@ export class TradeComponent implements OnInit {
     private translateServ: TranslateService,
     public utilServ: UtilService,
     private _router: Router,
-    private storageService: StorageService, 
+    private storageService: StorageService,
     private _otcServ: OtcService) { }
 
   async ngOnInit() {
@@ -94,9 +90,9 @@ export class TradeComponent implements OnInit {
   changeCoinName(bOrA: boolean, coin: string) {
     this.bidOrAsk = bOrA;
     this.coinName = coin;
-    for(let i=0;i<this.wallet.mycoins.length;i++) {
+    for (let i = 0; i < this.wallet.mycoins.length; i++) {
       const mycoin = this.wallet.mycoins[i];
-      if(mycoin.name == coin) {
+      if (mycoin.name == coin) {
         this.balance = mycoin.balance;
         console.log('this.balance=', this.balance);
 
@@ -105,7 +101,10 @@ export class TradeComponent implements OnInit {
         const chainName = this.currentCoin.tokenType ? this.currentCoin.tokenType : this.currentCoin.name;
         this.gasPrice = environment.chains[chainName]['gasPrice'];
         this.gasLimit = environment.chains[chainName]['gasLimit'];
-        this.satoshisPerBytes = environment.chains[chainName]['satoshisPerBytes'];        
+        if (this.currentCoin.tokenType) {
+          this.gasLimit = environment.chains[chainName]['gasLimitToken'];
+        }
+        this.satoshisPerBytes = environment.chains[chainName]['satoshisPerBytes'];
       }
     }
   }
@@ -124,22 +123,22 @@ export class TradeComponent implements OnInit {
           let walletBtc = '';
           let walletEth = '';
 
-          if(!this.wallet) {
+          if (!this.wallet) {
             console.log('wallet not Existed');
             this.otcPlaceOrderErrorModal.show('WalletNotExisted');
             return;
           }
-          for(let i=0;i<this.wallet.mycoins.length;i++) {
+          for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const mycoin = this.wallet.mycoins[i];
-            if(mycoin.name == 'FAB') {
+            if (mycoin.name == 'FAB') {
               walletExg = mycoin.receiveAdds[0].address;
             }
-            if(mycoin.name == 'BTC') {
+            if (mycoin.name == 'BTC') {
               walletBtc = mycoin.receiveAdds[0].address;
-            }  
-            if(mycoin.name == 'ETH') {
+            }
+            if (mycoin.name == 'ETH') {
               walletEth = mycoin.receiveAdds[0].address;
-            }                       
+            }
           }
 
           if ((walletExgAddress != walletExg) || (walletBtcAddress != walletBtc) || (walletEthAddress != walletEth)) {
@@ -149,49 +148,57 @@ export class TradeComponent implements OnInit {
             return;
           }
           this.element = element;
-          this.otcPlaceOrderModal.show(element);          
+          this.otcPlaceOrderModal.show(data, element);
         } else {
           this._router.navigate(['/login/signin', { 'retUrl': '/otc/trade' }]);
         }
-      });    
+      });
 
   }
 
   onConfirmedPlaceOrder(event) {
 
+    /*
     console.log('event=', event);
-    this.order = event;
-    if(this.bidOrAsk) {
-      this.addOrderDo();
+    
+    if (this.bidOrAsk) {
+      
     } else {
       console.log('haha');
       this.quantity = this.order.quantity;
       this.pinModal.show();
     }
-
+    */
+   this.order = event;
+   this.addOrderDo();
   }
 
   addOrderDo() {
     //txid;
+    console.log('addOrderDo start');
     this._otcServ.addOrder(this.token, this.element._id, this.order).subscribe(
       (res: any) => {
         console.log('res for addOrder=', res);
         if (res.ok) {
           const data = res._body;
           this.element = data;
-          if(data.charge_id) {
-            this.alertServ.openSnackBarSuccess(this.translateServ.instant('Your payment was confirmed'),this.translateServ.instant('Ok'));
+          /*
+          if (data.charge_id && data.method != 'Epay') {
+            this.alertServ.openSnackBarSuccess(this.translateServ.instant('Your payment was confirmed'), this.translateServ.instant('Ok'));
           }
+          */
+         /*
           for (let i = 0; i < this.dataSource.length; i++) {
             if (this.dataSource[i]._id == this.element._id) {
               this.dataSource[i].qtyAvilable = this.element.qtyAvilable;
             }
           }
+          */
+          this._router.navigate(['/otc/order-detail/' + data]);
         }
       }
     );
   }
-
 
   async onConfirmedPin(pin: string) {
     const pinHash = this.utilServ.SHA256(pin).toString();
@@ -203,8 +210,8 @@ export class TradeComponent implements OnInit {
             this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
         }
         */
-       this.alertServ.openSnackBar(this.translateServ.instant('Your password is invalid.'), 'Ok');
-        return;
+      this.alertServ.openSnackBar(this.translateServ.instant('Your password is invalid.'), 'Ok');
+      return;
     }
 
     const currentCoin = this.currentCoin;
@@ -213,20 +220,22 @@ export class TradeComponent implements OnInit {
 
     const amount = this.quantity * (1 + this.commissionRate);
 
+    console.log('amount=', amount);
     const doSubmit = true;
     const options = {
-        gasPrice: this.gasPrice,
-        gasLimit: this.gasLimit,
-        satoshisPerBytes: this.satoshisPerBytes
+      gasPrice: this.gasPrice,
+      gasLimit: this.gasLimit,
+      satoshisPerBytes: this.satoshisPerBytes
     };
 
+    console.log('currentCoin==', currentCoin);
     const { txHex, txHash, errMsg } = await this.coinService.sendTransaction(currentCoin, seed,
-        environment.addresses.otcOfficial[currentCoin.name], amount, options, doSubmit
+      environment.addresses.otcOfficial[currentCoin.name], amount, options, doSubmit
     );
 
     if (errMsg) {
-        this.alertServ.openSnackBar(errMsg, 'Ok');
-        return;
+      this.alertServ.openSnackBar(errMsg, 'Ok');
+      return;
     }
     if (txHex && txHash) {
       this.alertServ.openSnackBarSuccess(this.translateServ.instant('your transaction was submitted successfully.'), 'Ok');
@@ -237,35 +246,32 @@ export class TradeComponent implements OnInit {
             this.alertServ.openSnackBar('your transaction was submitted successfully.', 'Ok');
         }
       */
-        const item = {
-            walletId: this.wallet.id,
-            type: 'Send',
-            coin: currentCoin.name,
-            tokenType: currentCoin.tokenType,
-            amount: amount,
-            txid: txHash,
-            to: environment.addresses.otcOfficial[currentCoin.name],
-            time: new Date(),
-            confirmations: '0',
-            blockhash: '',
-            comment: '',
-            status: 'pending'
-        };
-        this.timerServ.transactionStatus.next(item);
-        this.timerServ.checkTransactionStatus(item);
-        this.storageService.storeToTransactionHistoryList(item);
+      const item = {
+        walletId: this.wallet.id,
+        type: 'Send',
+        coin: currentCoin.name,
+        tokenType: currentCoin.tokenType,
+        amount: amount,
+        txid: txHash,
+        to: environment.addresses.otcOfficial[currentCoin.name],
+        time: new Date(),
+        confirmations: '0',
+        blockhash: '',
+        comment: '',
+        status: 'pending'
+      };
+      this.timerServ.transactionStatus.next(item);
+      this.timerServ.checkTransactionStatus(item);
+      this.storageService.storeToTransactionHistoryList(item);
 
-        this.txid = txHash.trim();
-        this.order.txid = txHash.trim();
-        this.addOrderDo();
-        // this.addOrder(txHash, amount, this.quantity);
+      this.txid = txHash.trim();
+      this.order.txid = txHash.trim();
+      this.addOrderDo();
+      // this.addOrder(txHash, amount, this.quantity);
     }
-}
-
-
+  }
 
   placeAdv() {
-
   }
 
   onBecomeMerchant(event) {

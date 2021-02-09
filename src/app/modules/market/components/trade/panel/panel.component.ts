@@ -36,9 +36,8 @@ export class PanelComponent implements OnInit {
     address: string;
     errMsg = '';
 
-    constructor(private prServ: PriceService, private _route: ActivatedRoute, 
-        private _router: Router, private walletService: WalletService, private kanbanService: KanbanService
-        , private coinService: CoinService) {
+    constructor(private prServ: PriceService, private _route: ActivatedRoute, private _router: Router,
+        private walletService: WalletService, private kanbanService: KanbanService, private coinService: CoinService) {
         setTheme('bs4'); // Bootstrap 4
     }
 

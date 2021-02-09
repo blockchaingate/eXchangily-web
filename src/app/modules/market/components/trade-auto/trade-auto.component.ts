@@ -74,7 +74,8 @@ export class TradeAutoComponent implements OnInit {
         const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk,
             orderType, baseCoin, targetCoin, (Math.floor(qty * 1e18)).toString(), (Math.floor(price * 1e18)).toString(),
             timeBeforeExpiration, false, orderHash]);
-
+        
+        console.log('abiHex=', abiHex);
         /*
         if (this.oldNonce === nonce) {
             this.alertServ.openSnackBar('Please wait a sec, no rush.', 'ok');

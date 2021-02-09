@@ -50,6 +50,7 @@ export class InfoComponent implements OnInit {
   }
 
   getUser(id: number | string, parentReferral: string) {
+    console.log('getUser=', id);
     this._userService.getUserById(id).subscribe(
       (ret: User) => {
         this.processRetGetUser(ret);

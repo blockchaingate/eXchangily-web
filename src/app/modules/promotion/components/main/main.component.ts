@@ -51,6 +51,9 @@ export class MainComponent implements OnInit {
   updated = false;
   LoginInfo: boolean;
   LoginQualify: boolean;
+  eventInfo = {};
+  eventInfoReady = false;
+  eventInfoError = false;
 
   get value(): number {
     return this._value;
@@ -179,13 +182,29 @@ export class MainComponent implements OnInit {
     this.LoginInfodata.currentMessage.subscribe(isLogin => this.LoginInfo = isLogin);
     this.LoginQualifydata.currentMessage.subscribe(isQualify => this.LoginQualify = isQualify);
     this.lan = localStorage.getItem('Lan');
+    this.apiServ.postCampaignSingleDetail("001").subscribe(
+      (res: any) => {
+        if (res && res != {}) {
+          this.eventInfo = res;
+          console.log("eventInfo: ");
+          console.log(res);
+        } else {
+          this.eventInfoError = true;
+          console.log("eventInfoError");
+          console.log(res);
+        }
+        this.eventInfoReady = true;
+
+      }
+    );
+
     this.apiServ.getUSDValues().subscribe(
       (res: any) => {
         console.log('res for getUSDValues=', res);
         if (res.success) {
           const data = res.data;
           this.price = data.USD;
-          if(this.price < 0.25) {
+          if (this.price < 0.25) {
             this.price = 0.25;
           }
         }
@@ -318,7 +337,7 @@ export class MainComponent implements OnInit {
     return result;
   }
 
-  async selectCurrency(coinName: string)  {
+  async selectCurrency(coinName: string) {
     console.log('methods=', this.methods);
     this.submethods = this.methods[coinName];
     if (this.submethods && this.submethods.length) {
@@ -354,9 +373,9 @@ export class MainComponent implements OnInit {
 
           const chainName = this.currentCoin.tokenType ? this.currentCoin.tokenType : this.currentCoin.name;
           this.gasPrice = environment.chains[chainName]['gasPrice'];
-          if(coinName == 'USDT' || coinName == 'ETH') {
+          if (coinName == 'USDT' || coinName == 'ETH') {
             const gasPrice = await this.coinService.getEthGasprice();
-            if(gasPrice > this.gasPrice) {
+            if (gasPrice > this.gasPrice) {
               this.gasPrice = gasPrice
             }
           }
@@ -456,7 +475,7 @@ export class MainComponent implements OnInit {
         }
 
         const transFeeDouble = new BigNumber(this.gasPrice).multipliedBy(new BigNumber(this.gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
-        if(eth < transFeeDouble) {
+        if (eth < transFeeDouble) {
           this.tranServ.get('Not enough transaction fee').subscribe(
             (notEngoutTransactioFee: string) => {
               this.tranServ.get('Ok').subscribe(

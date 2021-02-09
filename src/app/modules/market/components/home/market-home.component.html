@@ -7,27 +7,27 @@
         <!-- <app-app-intro [showHeadOnly]="true"></app-app-intro> -->
         <div></div>
     </div>
-    <div class="carousel-container" >
-        <canvas id="canvas-club">
+    <div class="gradient-back-area" fxLayout="column" fxFlex.lt-md="300px">
+        <div class="topslogan">
+            <div class="container carousel-container">
 
-        </canvas>
-        <carousel  [isAnimated]="true" class="m-carousel" >
-            <div class="slider-wrap" >
+                <carousel [isAnimated]="true" class="m-carousel">
+                    <div class="slider-wrap">
+                        <slide *ngFor="let banner of banners">
+                            <div class="text-center py-5 text-white pointer" (click)="onClick(banner.clickLink)">
+                                <h2 class="carousel-txt">{{banner.titleLan}}</h2>
+                                <div class="lead">
+                                    <h3 class="carousel-txt">{{banner.subtitleLan}}</h3>
+                                    <img src="{{banner.imageUrl}}" alt="{{banner.imageAlt}}">
+                                    <p class="carousel-txt-p">{{banner.descLan}}</p>
+                                </div>
+                            </div>
+                        </slide>
+                    </div>
+                </carousel>
 
-              <slide *ngFor="let banner of banners">
-                <div class="text-center py-5 text-white">
-                  <h2 class="carousel-txt">{{message==='en'? banner['title']['en']:banner['title']['sc']}}</h2>
-                  <div class="lead">
-                    <!-- <h3 class="carousel-txt">Asset Wallet & DEX</h3> -->
-                    <img [attr.src]="banner['image']" alt="" class="innerImg">
-                    <!-- <p class="carousel-txt-p">eXchangily is a universal crypto-currency wallet and application which enables you to trade on the eXchangily decentralized exchange.</p> -->
-                  </div>
-                </div>
-              </slide>
             </div>
-            
-          </carousel>
-          <div >hahaha</div>
+        </div>
     </div>
 
     <app-market-top></app-market-top>
