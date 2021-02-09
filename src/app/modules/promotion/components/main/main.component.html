@@ -1,46 +1,78 @@
 <div class="campaignPage">
-    <div class="container-fluid topImage">
-        <div class="topInfo">
-            <div>
-                {{'10 MILLION EQUITY TOKEN' | translate }}
+    <div class="container-fluid topImage" *ngIf="eventInfoReady">
+        <div *ngIf="!eventInfoError">
+            <div class="topInfo">
+                <div>
+                    {{eventInfo[lan]['title']['up'] }}
+                </div>
+                <div>{{eventInfo[lan]['title']['main']}}</div>
             </div>
-            <div>{{'GIVE AWAY' | translate }}</div>
-        </div>
-        <div class="topButtons">
+            <div class="topButtons">
 
-            <a class="topBtn" *ngIf="readyGo==false" routerLink="/login/signup" routerLinkActive="selected"
-                [routerLinkActiveOptions]="{exact: true}">
-                <button>{{'Header.Navigation.Signup' | translate}}</button>
-            </a>
-            <a class="topBtn pointer" href="/promotion/reward">
-                <button>{{'My rewards' | translate }}</button>
-            </a>
-            <a class="topBtn pointer" href="/promotion/flyer" target="_blank" *ngIf="readyGo">
-                <button>{{'My referral' | translate }}</button>
-            </a>
-            <a class="topBtn pointer" *ngIf="readyGo==false" routerLink="/login/signin" routerLinkActive="selected"
-                [routerLinkActiveOptions]="{exact: true}">
-                <button>{{'Header.Navigation.Signin' | translate}}</button>
-            </a>
-            <a class="topBtn pointer" *ngIf="readyGo" style="color: lightskyblue;" routerLinkActive="selected"
-                (click)="logout()">
-                <button>{{ 'Header.Navigation.Signout' | translate }}</button>
-            </a>
+                <a class="topBtn" *ngIf="readyGo==false" routerLink="/login/signup" routerLinkActive="selected"
+                    [routerLinkActiveOptions]="{exact: true}">
+                    <button>{{'Header.Navigation.Signup' | translate}}</button>
+                </a>
+                <a class="topBtn pointer" href="/promotion/reward">
+                    <button>{{'My rewards' | translate }}</button>
+                </a>
+                <a class="topBtn pointer" href="/promotion/flyer" target="_blank" *ngIf="readyGo">
+                    <button>{{'My referral' | translate }}</button>
+                </a>
+                <a class="topBtn pointer" *ngIf="readyGo==false" routerLink="/login/signin" routerLinkActive="selected"
+                    [routerLinkActiveOptions]="{exact: true}">
+                    <button>{{'Header.Navigation.Signin' | translate}}</button>
+                </a>
+                <a class="topBtn pointer" *ngIf="readyGo" style="color: lightskyblue;" routerLinkActive="selected"
+                    (click)="logout()">
+                    <button>{{ 'Header.Navigation.Signout' | translate }}</button>
+                </a>
 
 
+            </div>
         </div>
     </div>
     <div class="container py-3 campaignDetail " *ngIf="readyGo==false">
+        <div *ngIf="eventInfoReady && !eventInfoError">
+            <div *ngFor="let info of eventInfo[lan]['body']; let i = index">
+                <div *ngIf="info['type'] == 'row'">
+                    <h2 class="sectionTitle">
+                        {{info['title']}}{{info.hasOwnProperty('title2')?info['title2']:"" }}
+                    </h2>
+                    <div class="sectionTitleSub">
+                        {{info['text'] }}
+                    </div>
+                </div>
+                <div *ngIf="info['type'] == 'rowList'">
+                    <h2 class="sectionTitle">
+                        {{info['title']}}{{info.hasOwnProperty('title2')?info['title2']:"" }}
+                    </h2>
+                    <div class="sectionTitleSub">
+                        <div *ngFor="let t of info['text']; let l = index">
+                            <div>
+                                {{(l+1) + ". "}}{{t}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="info['type'] == 'table'">
+                    <table class="eventFormTable">
+                        <tr  *ngFor="let t of info['content']; let l = index" ngClass="{{l%2 ? 'topForm' : 'btmForm'}}">
+                            <td *ngFor="let y of t" >
+                                {{y}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+<!-- 
         <h2 class="sectionTitle">
             {{'EventPage.title1' | translate }}<br> {{'EventPage.title2' | translate }}
         </h2>
         <h4 class="sectionTitleSub">{{'EventPage.titleSub' | translate }}</h4>
-        <h2 class="sectionTitle">
-            {{'EventPage.eventTime' | translate }}
-        </h2>
-        <div class="sectionTitleSub">
-            {{'EventPage.eventDetail' | translate }}
-        </div>
+
         <h2 class="sectionTitle">
             {{'EventPage.eventContent' | translate }}
         </h2>
@@ -86,8 +118,8 @@
         </div>
         <h2 class="sectionTitle">
             {{'EventPage.eventReward' | translate }}
-        </h2>
-        <div class="sectionTitleSub">
+        </h2> -->
+        <!-- <div class="sectionTitleSub">
             <div class="fromInfo">
                 {{'EventPage.eventRewardDetail' | translate }}
             </div>
@@ -145,8 +177,8 @@
         </div>
         <h2 class="sectionTitle">
             {{'EventPage.eventTeam' | translate }}
-        </h2>
-        <div class="sectionTitleSub">
+        </h2> -->
+        <!-- <div class="sectionTitleSub">
             <div class="fromInfo">
                 {{'EventPage.eventTeamDetail' | translate }}
             </div>
@@ -225,7 +257,7 @@
                 </div>
             </div>
 
-        </div>
+        </div> -->
     </div>
     <div class="container py-3">
 
@@ -368,19 +400,23 @@
                         <div *ngFor="let reason of readyGoReasons" class="infoBody">
                             <div *ngIf="reason == 'NoWallet'" class="py-2">
                                 {{'No exchangily wallet found.' | translate}}
-                                <a mat-raised-button color="primary" class="nav-link" routerLink="/wallet/create">{{"Create Wallet" | translate}}</a>
+                                <a mat-raised-button color="primary" class="nav-link"
+                                    routerLink="/wallet/create">{{"Create Wallet" | translate}}</a>
                             </div>
                             <div *ngIf="reason == 'NotLogin'" class="py-2">
                                 {{'You have to login to participate this campaign' | translate}}
-                                <a mat-raised-button color="primary" class="nav-link" routerLink="/login/signin">{{"Login" | translate}}</a>
+                                <a mat-raised-button color="primary" class="nav-link"
+                                    routerLink="/login/signin">{{"Login" | translate}}</a>
                             </div>
                             <div *ngIf="reason == 'NoKyc'" class="py-2">
                                 {{'Complete the KYC form to qualify for this campaign' | translate}}
-                                <a mat-raised-button color="primary" class="nav-link" routerLink="/account/kyc">{{"KYC" | translate}}</a>
+                                <a mat-raised-button color="primary" class="nav-link" routerLink="/account/kyc">{{"KYC"
+                                    | translate}}</a>
                             </div>
                             <div *ngIf="reason == 'KycDenied'" class="py-2">
                                 {{'Your kyc was denied, please submit a new one' | translate}}
-                                <a mat-raised-button color="primary" class="nav-link" routerLink="/account/kyc">{{"KYC" | translate}}</a>
+                                <a mat-raised-button color="primary" class="nav-link" routerLink="/account/kyc">{{"KYC"
+                                    | translate}}</a>
                             </div>
                             <div *ngIf="reason == 'SubmitKyc'" class="py-2">
                                 {{'Your kyc was submitted, please wait for approval' | translate}}
@@ -390,17 +426,21 @@
                             </div>
                             <div *ngIf="reason == 'TokenExpired'" class="py-2">
                                 {{'Token expired, please login and try again' | translate}}
-                                <a mat-raised-button color="primary" class="nav-link" routerLink="/login/signin">{{"Login" | translate}}</a>
+                                <a mat-raised-button color="primary" class="nav-link"
+                                    routerLink="/login/signin">{{"Login" | translate}}</a>
                             </div>
                             <div *ngIf="reason == 'KycHasProblem'" class="py-2">
                                 {{'Your kyc has problem, please submit a new one' | translate}}
-                                <a mat-raised-button color="primary" class="nav-link" routerLink="/account/kyc">{{"KYC" | translate}}</a>
+                                <a mat-raised-button color="primary" class="nav-link" routerLink="/account/kyc">{{"KYC"
+                                    | translate}}</a>
                             </div>
                             <div *ngIf="reason == 'exgAddressNotMatch'" class="py-2">
-                                <p>{{'Your EXG address does not match the one associated with your account' | translate}}
+                                <p>{{'Your EXG address does not match the one associated with your account' |
+                                    translate}}
                                 </p>
 
-                                <p class="text-center button-container" *ngIf="!updated"><button class="btn exbtn py-2 px-5" (click)="updateAdd()">
+                                <p class="text-center button-container" *ngIf="!updated"><button
+                                        class="btn exbtn py-2 px-5" (click)="updateAdd()">
                                         {{'Update EXG Address' | translate }} </button></p>
                                 <p *ngIf="updated"> {{"Updated successful" | translate}} !</p>
                             </div>
@@ -424,7 +464,8 @@
                                 <div class="col-md-4 exdisabled investmentInput">
                                     <mat-form-field class="example-full-width">
                                         <mat-label>{{'EXG price' | translate }}</mat-label>
-                                        <input readonly matInput placeholder="" [(ngModel)]="price" value="" class="fInput">
+                                        <input readonly matInput placeholder="" [(ngModel)]="price" value=""
+                                            class="fInput">
                                     </mat-form-field>
                                     {{'USD' | translate }}
                                 </div>
@@ -432,7 +473,8 @@
                                 <div class="col-md-4 exdisabled investmentInput">
                                     <mat-form-field class="example-full-width">
                                         <mat-label>{{'EXG quantity' | translate }}</mat-label>
-                                        <input readonly matInput placeholder="" [(ngModel)]="quantity" value="" class="fInput">
+                                        <input readonly matInput placeholder="" [(ngModel)]="quantity" value=""
+                                            class="fInput">
                                     </mat-form-field>{{'piece' | translate}}
                                 </div>
                             </div>
@@ -443,29 +485,37 @@
                             <div class="row">
                                 <div class="col-md-4 investmentField">
                                     <label id="currency-radio-group-label">{{'Currency' | translate }}</label>
-                                    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedPaymentCurrency">
+                                    <mat-radio-group aria-labelledby="example-radio-group-label"
+                                        class="example-radio-group" [(ngModel)]="selectedPaymentCurrency">
 
-                                        <mat-radio-button class="example-radio-button" *ngFor="let currency of currencies" (click)="selectCurrency(currency)" [value]="currency">
+                                        <mat-radio-button class="example-radio-button"
+                                            *ngFor="let currency of currencies" (click)="selectCurrency(currency)"
+                                            [value]="currency">
                                             {{currency | translate}}
                                         </mat-radio-button>
                                     </mat-radio-group>
                                     <div *ngIf="coinName == 'USDT'">
                                         <mat-form-field class="example-full-width">
                                             <mat-label>{{'Gas Price(GWEI)' | translate}}</mat-label>
-                                            <input matInput placeholder="{{'Gas price' | translate}}" [(ngModel)]="gasPrice">
-                                        </mat-form-field> 
-                                        
+                                            <input matInput placeholder="{{'Gas price' | translate}}"
+                                                [(ngModel)]="gasPrice">
+                                        </mat-form-field>
+
                                         <mat-form-field class="example-full-width">
                                             <mat-label>{{'Gas limit' | translate}}</mat-label>
-                                            <input matInput placeholder="{{'Gas limit' | translate}}" [(ngModel)]="gasLimit">
-                                        </mat-form-field>                                           
+                                            <input matInput placeholder="{{'Gas limit' | translate}}"
+                                                [(ngModel)]="gasLimit">
+                                        </mat-form-field>
                                     </div>
                                     <hr>
                                 </div>
                                 <div class="col-md-4 investmentField">
-                                    <label id="method-radio-group-label" *ngIf="submethods">{{'Payment Method' | translate }}</label>
-                                    <mat-radio-group *ngIf="submethods" aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedPaymentMethod">
-                                        <mat-radio-button class="example-radio-button" *ngFor="let method of submethods" [value]="method">
+                                    <label id="method-radio-group-label" *ngIf="submethods">{{'Payment Method' |
+                                        translate }}</label>
+                                    <mat-radio-group *ngIf="submethods" aria-labelledby="example-radio-group-label"
+                                        class="example-radio-group" [(ngModel)]="selectedPaymentMethod">
+                                        <mat-radio-button class="example-radio-button" *ngFor="let method of submethods"
+                                            [value]="method">
                                             {{method | translate}}
                                         </mat-radio-button>
                                     </mat-radio-group>
@@ -479,7 +529,8 @@
 
                                     <div *ngIf="selectedPaymentMethod == 'By Cash App'">
                                         <div>
-                                            <a target="_blank" href="https://cash.app/app/RDKTFGD?from=groupmessage&isappinstalled=0">Cash
+                                            <a target="_blank"
+                                                href="https://cash.app/app/RDKTFGD?from=groupmessage&isappinstalled=0">Cash
                                                 App</a>
                                         </div>
                                     </div>
@@ -507,19 +558,24 @@
                                     </div>
 
                                     <div *ngIf="payableAmount" class="py-2">
-                                        <div>{{'Payable Amount' | translate}}:{{payableAmount}} {{selectedPaymentCurrency | translate}}
+                                        <div>{{'Payable Amount' | translate}}:{{payableAmount}}
+                                            {{selectedPaymentCurrency | translate}}
                                         </div>
                                     </div>
 
                                     <!-- <div class="d-flex" -->
-                                    <div *ngIf="(selectedPaymentCurrency=='USDT') || (selectedPaymentCurrency=='DUSD') || (selectedPaymentCurrency=='FAB') || (selectedPaymentCurrency=='BTC') || (selectedPaymentCurrency=='ETH')">
-                                        <label id="example-radio-group-label">{{'Available' | translate }}</label>: {{available}} {{selectedPaymentCurrency}}
+                                    <div
+                                        *ngIf="(selectedPaymentCurrency=='USDT') || (selectedPaymentCurrency=='DUSD') || (selectedPaymentCurrency=='FAB') || (selectedPaymentCurrency=='BTC') || (selectedPaymentCurrency=='ETH')">
+                                        <label id="example-radio-group-label">{{'Available' | translate }}</label>:
+                                        {{available}} {{selectedPaymentCurrency}}
                                     </div>
 
 
-                                    <div *ngIf="(selectedPaymentCurrency=='USDT') || (selectedPaymentCurrency=='DUSD') || (selectedPaymentCurrency=='FAB') || (selectedPaymentCurrency=='BTC') || (selectedPaymentCurrency=='ETH')">
+                                    <div
+                                        *ngIf="(selectedPaymentCurrency=='USDT') || (selectedPaymentCurrency=='DUSD') || (selectedPaymentCurrency=='FAB') || (selectedPaymentCurrency=='BTC') || (selectedPaymentCurrency=='ETH')">
 
-                                        <label id="example-radio-group-label">{{'Transaction fee' | translate }}</label>: {{gasPrice * gasLimit / 1e9}} ETH
+                                        <label id="example-radio-group-label">{{'Transaction fee' | translate
+                                            }}</label>: {{gasPrice * gasLimit / 1e9}} ETH
 
                                     </div>
                                 </div>
@@ -535,7 +591,8 @@
                         <!-- <div class="d-flex justify-content-end"> -->
                         <div class="d-flex flex-row  " [ngClass]="{'col-md-3': step==1, 'col-md-12':step==2 }">
                             <div class="align-self-center button-container finalBtn">
-                                <button class="btn exbtn text-white py-2 px-5 " (click)="next()" [disabled]="value === undefined">
+                                <button class="btn exbtn text-white py-2 px-5 " (click)="next()"
+                                    [disabled]="value === undefined">
                                     {{((step == 1) ? 'Next' : 'Confirm') | translate }} </button>
                             </div>
 
@@ -572,7 +629,8 @@
                                 <td>{{utilServ.showTime(order.dateCreated)}}</td>
                                 <td>
                                     {{getStatusText(order.status)}}
-                                    <button *ngIf="order.status==1" (click)="markedAsPaid(order)" mat-raised-button color="primary">{{getStatusText(2)}}</button>
+                                    <button *ngIf="order.status==1" (click)="markedAsPaid(order)" mat-raised-button
+                                        color="primary">{{getStatusText(2)}}</button>
                                 </td>
                             </tr>
                             <tr ngClass="{{i%2 ? 'odd' : 'even'}}">
@@ -587,7 +645,8 @@
                                                 </mat-form-field>
                                             </div>
                                             <div class="col col-3">
-                                                <button (click)="confirmMarkedAsPaid(order)" mat-raised-button color="primary">{{'Confirm' | translate}}</button>
+                                                <button (click)="confirmMarkedAsPaid(order)" mat-raised-button
+                                                    color="primary">{{'Confirm' | translate}}</button>
                                             </div>
                                         </div>
 

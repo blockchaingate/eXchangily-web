@@ -8,7 +8,8 @@ $easeInOutQuad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
         color: #fff;
         /* background-image: linear-gradient(90deg,#fbc879,#eb7f75,#a26aa7,#695aad,#3e51b0); */
         background: #060610;
-        background-image: url("/images/img/slider.jpg");
+        // background-image: url("/images/img/slider.jpg");
+        background-image: url("https://prodid.s3.amazonaws.com/45fdssirfssss/newyearbg");
         background-repeat: no-repeat;
         background-size: 100% auto;
         background-position: 100% 100%;
@@ -84,6 +85,14 @@ $easeInOutQuad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
 
     .campaignDetail {
         text-align: center;
+
+        .eventFormTable{
+            margin: 10px auto;
+
+            td{
+                padding: 0 20px;
+            }
+        }
 
         .sectionTitle {
             font-size: 35px;

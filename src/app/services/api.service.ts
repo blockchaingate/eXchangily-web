@@ -56,6 +56,8 @@ export class ApiService {
         return this.http.post(url, data);
     }
 
+    
+
     getSmartContractABI(address: string) {
         if (!address.startsWith('0x')) {
             address = '0x' + address;
@@ -647,5 +649,11 @@ export class ApiService {
             }
         }
         return {balance, lockbalance};
+    }
+
+    postCampaignSingleDetail(id: string) {
+        const url = environment.endpoints.kanban + 'kanban/getCampaignSingle';
+        const data = {"id":id};
+        return this.http.post(url, data);
     }
 }
