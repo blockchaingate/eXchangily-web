@@ -11,13 +11,18 @@ $easeInOutQuad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
         // background-image: url("/images/img/slider.jpg");
         background-image: url("https://prodid.s3.amazonaws.com/45fdssirfssss/newyearbg");
         background-repeat: no-repeat;
-        background-size: 100% auto;
-        background-position: 100% 100%;
+        // background-size: 100% auto;
+        // background-position: 100% 100%;
+        background-size: cover;
+        background-position: center;
         text-align: center;
         margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         .topInfo {
-            padding-top: 120px;
+            // padding-top: 120px;
             font-size: 60px;
             font-weight: 900;
             animation: neonGlow 2s infinite alternate $easeInOutQuad;
@@ -86,10 +91,10 @@ $easeInOutQuad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
     .campaignDetail {
         text-align: center;
 
-        .eventFormTable{
+        .eventFormTable {
             margin: 10px auto;
 
-            td{
+            td {
                 padding: 0 20px;
             }
         }
@@ -207,7 +212,7 @@ $easeInOutQuad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
             }
         }
 
-        @media (max-width:991px) {
+        @media (max-width: 991px) {
             .price .grey {
                 font-size: 22px;
             }
@@ -344,8 +349,6 @@ $easeInOutQuad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
     }
 }
 
-
-
-::ng-deep  .mat-form-field-appearance-legacy .mat-form-field-label {
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-label {
     color: rgba(255, 252, 252, 0.54) !important;
 }
