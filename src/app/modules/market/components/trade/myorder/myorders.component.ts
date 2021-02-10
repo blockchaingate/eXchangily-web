@@ -203,7 +203,6 @@ export class MyordersComponent implements OnInit, OnDestroy {
         const fabAddress = this.utilServ.exgToFabAddress(address);
         this.kanbanServ.getTransactionHistory(fabAddress).subscribe(
             (res: any) => {
-                console.log('resss=', res);
                 if(res && res.success) {
                     this.transactionHistories = res.data.reverse();
                 }
@@ -211,6 +210,9 @@ export class MyordersComponent implements OnInit, OnDestroy {
         );
     }
 
+    showTxid(txid: string) {
+        return txid.substring(0, 4) + '...' + txid.substring(txid.length - 2);
+    }
     async withdrawDo() {
         const amount = this.withdrawAmount;
         const pin = this.pin;
