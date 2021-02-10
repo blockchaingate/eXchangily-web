@@ -274,7 +274,9 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
           }
         );
         */
-
+        if (that.socket) {
+          that.socket.unsubscribe();
+        }
         that.socket = new WebSocketSubject(environment.websockets.kline + '@'
           + pair.toUpperCase() + '@' + that.intervalMap[granularity]);
         that.socket.subscribe(
