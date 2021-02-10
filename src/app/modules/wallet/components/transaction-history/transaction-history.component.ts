@@ -37,6 +37,16 @@ export class TransactionHistoryComponent implements OnInit {
         this.currentType = type;
     }
 
+    showCoinName(name: string) {
+        if(name == 'USDT') {
+            return 'USDT(ERC20)';
+        } else 
+
+        if(name == 'TRON_USDT') {
+            return 'USDT(TRC20)';
+        }
+        return name;
+    }
     mergeSortedArray(a,b){
 
         var tempArray = [];

@@ -196,7 +196,7 @@
                         <div class="orditem col-2">{{'Status' | translate }}</div>
                     </div>
 
-                    <div class=" scroll-bar w-100 pt-2" [style.max-height.px]="screenheight-680">
+                    <div class="myorderlist scroll-bar w-100 pt-2" [style.max-height.px]="screenheight-680">
                         <div class="row row-with-line w-100" *ngFor="let item of transactionHistories; let i=index">
                             <div class="text-muted col-4">
                                 <p>
@@ -222,6 +222,12 @@
                             <div class=" text-info col-2">
                                 <p>
                                     {{item.status == 1 ? 'Success' : 'Failed'}}
+                                </p>
+                                <p>
+                                    <a target="_blank" href="/explorer/tx-detail/{{item.txid}}">
+                                        {{showTxid(item.txid)}}
+                                    </a>
+                                    
                                 </p>
                             </div>
                         </div>
