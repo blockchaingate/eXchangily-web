@@ -46,6 +46,9 @@ export class TransactionDetailModal2 {
         } else
         if(chain == 'BCH') {
             return 'https://explorer.bitcoin.com/bch/tx/' + txid;
+        } else
+        if(chain == 'TRX') {
+            return 'https://tronscan.org/#/transaction/' + txid;
         }
     }
 
