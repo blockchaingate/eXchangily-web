@@ -121,16 +121,7 @@ export class DepositAmountModal {
         }
         const name = this.coin.name;
         const tokenType = this.coin.tokenType;
-        let unit = '';
-        if (name === 'EXG' || name === 'FAB' || name === 'DUSD') {
-            unit = 'FAB';
-        } else
-            if (name === 'ETH' || tokenType === 'ETH') {
-                unit = 'ETH';
-            } else
-                if (name === 'BTC') {
-                    unit = 'BTC';
-                }
+        let unit = tokenType ? tokenType: name;
         this.tranFeeUnit = unit;
         return unit;
     }

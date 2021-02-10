@@ -153,16 +153,20 @@ export class SendCoinModal {
         }
         const name = this.coin.name;
         const tokenType = this.coin.tokenType;
-        let unit = '';
-        if (name === 'EXG' || name === 'FAB' || name === 'DUSD') {
+        let unit = tokenType ? tokenType: name;
+
+
+        /*
+        if (name === 'EXG' || (name === 'FAB' && !tokenType) || name === 'DUSD') {
             unit = 'FAB';
         } else if (name === 'ETH' || tokenType === 'ETH') {
             unit = 'ETH';
         } else if (name === 'BTC') {
             unit = 'BTC';
         } else {
-            unit = tokenType ? tokenType: name;
+            unit = 
         }
+        */
         this.tranFeeUnit = unit;
         return unit;
     }
@@ -195,7 +199,7 @@ export class SendCoinModal {
         let trxBalance = 0;
 
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
-            if (this.wallet.mycoins[i].name === 'FAB') {
+            if (this.wallet.mycoins[i].name === 'FAB' && !this.wallet.mycoins[i].tokenType) {
                 fabBalance = this.wallet.mycoins[i].balance;
             } else if (this.wallet.mycoins[i].name === 'ETH') {
                 ethBalance = this.wallet.mycoins[i].balance;
@@ -205,7 +209,7 @@ export class SendCoinModal {
             }
         }
         
-        if ((this.coin.name === 'BTC') || (this.coin.name === 'FAB') || (this.coin.name === 'ETH') || this.coin.name === 'TRX') {
+        if ((this.coin.name === 'BTC') || (this.coin.name === 'FAB' && !this.coin.tokenType) || (this.coin.name === 'ETH') || this.coin.name === 'TRX') {
             if (this.transFee > this.coin.balance) {
                 this.alertServ.openSnackBar('Insufficient ' + this.coin.name + ' for this transaction', 'Ok');
                 return;
@@ -230,7 +234,7 @@ export class SendCoinModal {
         let to = this.sendCoinForm.get('sendTo').value;
         if(this.coin.tokenType == 'FAB') {
             //if(to.indexOf('0x') < 0) {
-                to = this.utilServ.fabToExgAddress(to);
+            to = this.utilServ.fabToExgAddress(to);
             //}
             
         }    

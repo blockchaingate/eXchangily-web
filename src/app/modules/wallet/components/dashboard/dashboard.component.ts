@@ -487,12 +487,19 @@ export class WalletDashboardComponent implements OnInit {
 
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];
+
+
+            if(coin.name === 'EXG' && coin.tokenType === 'ETH') {
+                this.walletUpdateToDate = true;
+            }            
+
             if (coin.name == 'BTC' && !btcAddress) {
                 btcAddress = coin.receiveAdds[0].address;
             }
             if (coin.name == 'ETH' && !ethAddress) {
                 ethAddress = coin.receiveAdds[0].address;
             }
+            
             if (coin.name == 'FAB' && !fabAddress) {
                 fabAddress = coin.receiveAdds[0].address;
                 this.fabBalance = coin.balance;
@@ -555,9 +562,6 @@ export class WalletDashboardComponent implements OnInit {
             timestamp: 0
         };
 
-        if(trxAddress) {
-            this.walletUpdateToDate = true;
-        }
         this.coinServ.getTransactionHistoryEvents(data).subscribe(
             (res: any) => {
                 if (res && res.success) {
@@ -655,6 +659,8 @@ export class WalletDashboardComponent implements OnInit {
                         this.wallet.mycoins.push(drgnCoin);
                         updated = true;
                     }
+
+
 
                     if (!hasNVZN) {
                         const newCoin = new MyCoin('NVZN');
@@ -1041,7 +1047,7 @@ export class WalletDashboardComponent implements OnInit {
         this.wallet.mycoins.push(coin);
 
         if(this.coinName == 'FAB') {
-            const exgCoin = this.coinServ.initToken('FAB', 'EXG', 18, environment.addresses.smartContract.EXG, coin);
+            const exgCoin = this.coinServ.initToken('FAB', 'EXG', 18, environment.addresses.smartContract.EXG.FAB, coin);
             exgCoin.new = true;
             exgCoin.encryptedPrivateKey = coin.encryptedPrivateKey;
             this.coinServ.updateCoinBalance(exgCoin);
@@ -1405,10 +1411,13 @@ export class WalletDashboardComponent implements OnInit {
                 this.sendCoinForm.to.trim(), amount, options, doSubmit
             );
         } else {
+            console.log('currentCoin for sendCoinDo==', currentCoin);
             const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
             resForSendTx = await this.coinService.sendTransaction(currentCoin, seed,
                 this.sendCoinForm.to.trim(), amount, options, doSubmit
             );
+
+            console.log('resForSendTx===', resForSendTx);
         }
 
         
@@ -1540,17 +1549,7 @@ export class WalletDashboardComponent implements OnInit {
             return;
         }
 
-        console.log('currentCoin===', currentCoin);
-        let coinTypePrefix;
-        if(currentCoin.name == 'USDT') {
-            if(currentCoin.tokenType == 'ETH') {
-                coinTypePrefix = 3
-            } else 
-
-            if(currentCoin.tokenType == 'TRX') {
-                coinTypePrefix = 7
-            }
-        }
+        let coinTypePrefix = this.coinServ.getCoinTypePrefix(currentCoin);
 
         const amountInLink = amount; // it's for all coins.
         const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(transactionID)
@@ -1636,6 +1635,16 @@ export class WalletDashboardComponent implements OnInit {
             }
             return;
         }
+        const depositable = this.coinServ.isDepositable(currentCoin);
+        if (!depositable) {
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('交易所不支持该币', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('deposit for ' + currentCoin.name + ' is unavailable', 'Ok');
+            }
+            return;
+        }
+
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
         let keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
 
@@ -1692,17 +1701,10 @@ export class WalletDashboardComponent implements OnInit {
             return;
         }
 
-        let coinTypePrefix;
-        if(currentCoin.name == 'USDT') {
-            if(currentCoin.tokenType == 'ETH') {
-                coinTypePrefix = 3
-            } else 
+        let coinTypePrefix = this.coinServ.getCoinTypePrefix(currentCoin);
 
-            if(currentCoin.tokenType == 'TRX') {
-                coinTypePrefix = 7
-            }
-        }
 
+        console.log('coinTypePrefix==', coinTypePrefix);
         const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(txHash)
             , amountInLink, this.utilServ.stripHexPrefix(addressInKanban), coinTypePrefix);
 

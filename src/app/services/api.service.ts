@@ -568,7 +568,7 @@ export class ApiService {
         const balance = response.result;
         */
        if (name === 'USDT') {
-        contractAddress = environment.addresses.smartContract.USDT;
+        contractAddress = environment.addresses.smartContract.USDT.ETH;
        }
        const url = environment.endpoints.ETH.exchangily + 'callcontract/' + contractAddress + '/' + address;
        const response = await this.http.get(url).toPromise()  as KEthBalance;
@@ -617,7 +617,7 @@ export class ApiService {
         return {balance, lockbalance};    
     }
     async getExgBalance(address: string) {
-        const contractAddress = environment.addresses.smartContract.EXG;
+        const contractAddress = environment.addresses.smartContract.EXG.FAB;
         // console.log('contractAddress=' + contractAddress + ',address=' + address);
         let fxnCallHex = this.web3Serv.getFabBalanceOfABI([address]);
         fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex); 

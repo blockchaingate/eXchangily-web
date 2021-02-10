@@ -141,9 +141,15 @@ export const environment = {
     addresses: {
         smartContract: {
             FABLOCK: '0x04baa04d9550c49831427c6abe16def2c579af4a',
-            EXG: '0xa3e26671a38978e8204b8a37f1c2897042783b00',
-            USDT: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-            USDT_TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t',
+            EXG: {
+                FAB: '0xa3e26671a38978e8204b8a37f1c2897042783b00',
+                ETH: ''
+            },
+            USDT: {
+                ETH: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+                TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t'
+            },
+            FAB: '',
             DUSD: '0x46e0021c17d30a2db972ee5719cdc7e829ed9930',
             INB: '0x17aa18a4b64a55abed7fa543f2ba4e91f2dce482',
             REP: '0x1985365e9f78359a9B6AD760e32412f4a445E862',
@@ -176,6 +182,14 @@ export const environment = {
         ],
         */
        exchangilyOfficial: {
+        FAB: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
+        BTC: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
+        ETH: '0x4983f8634255762A18D854790E6d35A522E2633a',      
+        BCH: 'bitcoincash:qznusftmq4cac0fuj6eyke5vv45njxe6eyafcld37l',
+        LTC: 'LaX6sfX8RoHbQHNDEBmdzyBMN9vFa95FXL',
+        DOGE: 'DLSF9i9weYwpgUrendmuGiHC35HGoHuvR9',   
+        TRX: 'TGfvRWxddNoWrghwE5zC1JEcbXyMdPATdo'          
+           /*
         EXG: '0xa7c8257b0571dc3d3c96b24b668c6569391b3ac9',
         FAB: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
         BTC: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
@@ -205,6 +219,7 @@ export const environment = {
         NVZN: '0x4983f8634255762A18D854790E6d35A522E2633a',
         CNB: '0xa7c8257b0571dc3d3c96b24b668c6569391b3ac9',
         TRX: 'TGfvRWxddNoWrghwE5zC1JEcbXyMdPATdo'
+        */
        },
        
         promotionOfficial: {
@@ -292,7 +307,7 @@ export const environment = {
         GVT: 20,
         DRGN: 20,
         NVZN: 20,
-        CNB: 6
+        CNB: 20
     },
     PaymentMethod: {
         ETransfer: {

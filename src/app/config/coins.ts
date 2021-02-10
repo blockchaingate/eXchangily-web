@@ -142,6 +142,30 @@ export const price_list: Price[] = [
     { id: 74, coin_id: 196626, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'DRGN/USDT' },
     { id: 75, coin_id: 196626, base_id: 196608, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'DRGN/ETH' },
     { id: 76, coin_id: 196627, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'NVZN/USDT' },
-    { id: 77, coin_id: 131075, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'CNB/USDT' }
+    { id: 77, coin_id: 131075, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'CNB/USDT' },
 
+    { id: 78, coin_id: 65536, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'BTC/DUSD' },
+    { id: 79, coin_id: 196608, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'ETH/DUSD' },
+    { id: 80, coin_id: 262144, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'BCH/DUSD' },
+    { id: 81, coin_id: 327680, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'LTC/DUSD' },
+    { id: 82, coin_id: 393216, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'DOGE/DUSD' },
+    { id: 83, coin_id: 196610, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'INB/DUSD' },
+    { id: 84, coin_id: 196611, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'HOT/DUSD' },
+    { id: 85, coin_id: 196612, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'CEL/DUSD' },    
+
+    { id: 86, coin_id: 196613, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'MATIC/DUSD' },
+    { id: 87, coin_id: 196614, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'IOST/DUSD' },
+    { id: 88, coin_id: 196615, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'MANA/DUSD' },
+    { id: 89, coin_id: 196616, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'WAX/DUSD' },
+    { id: 90, coin_id: 196617, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'ELF/DUSD' },
+    { id: 91, coin_id: 196618, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'GNO/DUSD' },
+    { id: 92, coin_id: 196619, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'POWR/DUSD' },
+    { id: 93, coin_id: 196620, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'WINGS/DUSD' }, 
+
+    { id: 94, coin_id: 196621, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'MTL/DUSD' },
+    { id: 95, coin_id: 196622, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'KNC/DUSD' },
+    { id: 96, coin_id: 196623, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'GVT/DUSD' },
+    { id: 97, coin_id: 196624, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'REP/DUSD' },
+    { id: 98, coin_id: 196625, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'FUN/DUSD' },
+    { id: 99, coin_id: 196626, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'DRGN/DUSD' },    
 ];

@@ -292,16 +292,8 @@ export class MyordersComponent implements OnInit, OnDestroy {
             addressInWallet = this.coinServ.trxToHex(address);
         }
         */
-        let coinTypePrefix;
-        if(currentCoin.name == 'USDT') {
-            if(currentCoin.tokenType == 'ETH') {
-                coinTypePrefix = 3
-            } else 
-
-            if(currentCoin.tokenType == 'TRX') {
-                coinTypePrefix = 7
-            }
-        }        
+        let coinTypePrefix = this.coinServ.getCoinTypePrefix(currentCoin);
+      
         const abiHex = this.web3Serv.getWithdrawFuncABI(this.coinType, amountInLink, addressInWallet, coinTypePrefix);
 
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
@@ -373,13 +365,12 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
 
                 if(!this.trxUSDTTSBalance) {
-                    this.trxUSDTTSBalance = await this.coinServ.getTrxTokenBalance(environment.addresses.smartContract.USDT_TRX, environment.addresses.exchangilyOfficial.TRX);
+                    this.trxUSDTTSBalance = await this.coinServ.getTrxTokenBalance(environment.addresses.smartContract.USDT.TRX, environment.addresses.exchangilyOfficial.TRX);
                     this.trxUSDTTSBalance = this.trxUSDTTSBalance / 1e6;
                 }
 
                 if(!this.ethUSDTTSBalance) {
-                    const balance = await this.apiServ.getEthTokenBalance('USDT', environment.addresses.smartContract.USDT, environment.addresses.exchangilyOfficial.USDT);
-                    
+                    const balance = await this.apiServ.getEthTokenBalance('USDT', environment.addresses.smartContract.USDT.ETH, environment.addresses.exchangilyOfficial.ETH);                    
                     this.ethUSDTTSBalance = balance.balance / 1e6;
                 }
             }catch(e) {

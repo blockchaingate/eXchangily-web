@@ -119,7 +119,7 @@ export class CoinService {
         const fabCoin = new MyCoin('FAB');
         this.fillUpAddress(fabCoin, seed, 1, 0);
 
-        const exgCoin = this.initToken('FAB', 'EXG', 18, environment.addresses.smartContract.EXG, fabCoin);
+        const exgCoin = this.initToken('FAB', 'EXG', 18, environment.addresses.smartContract.EXG.FAB, fabCoin);
         this.fillUpAddress(exgCoin, seed, 1, 0);
 
         myCoins.push(exgCoin);
@@ -135,7 +135,7 @@ export class CoinService {
 
         console.log('here1');
 
-        const usdtCoin = this.initToken('ETH', 'USDT', 6, environment.addresses.smartContract.USDT, ethCoin);
+        const usdtCoin = this.initToken('ETH', 'USDT', 6, environment.addresses.smartContract.USDT.ETH, ethCoin);
 
         this.fillUpAddress(usdtCoin, seed, 1, 0);
 
@@ -167,11 +167,22 @@ export class CoinService {
         this.fillUpAddress(trxCoin, seed, 1, 0);
         myCoins.push(trxCoin);
 
-        const usdtTRXCoin = this.initToken('TRX', 'USDT', 6, environment.addresses.smartContract.USDT, trxCoin);
+        const usdtTRXCoin = this.initToken('TRX', 'USDT', 6, environment.addresses.smartContract.USDT.TRX, trxCoin);
 
         this.fillUpAddress(usdtTRXCoin, seed, 1, 0);
 
         myCoins.push(usdtTRXCoin);
+
+
+        let tokenName = 'FAB';
+        let token = this.initToken('ETH', tokenName, 8, environment.addresses.smartContract[tokenName], ethCoin);
+        this.fillUpAddress(token, seed, 1, 0);
+        myCoins.push(token);
+
+        tokenName = 'EXG';
+        token = this.initToken('ETH', tokenName, 18, environment.addresses.smartContract[tokenName]['ETH'], ethCoin);
+        this.fillUpAddress(token, seed, 1, 0);
+        myCoins.push(token);
 
         const erc20Tokens = ['INB', 'REP', 'HOT', 'MATIC', 'IOST', 'MANA', 'ELF', 'GNO', 'WINGS', 'KNC', 'GVT', 'DRGN'];
 
@@ -191,8 +202,8 @@ export class CoinService {
             myCoins.push(tokener);
         }
 
-        let tokenName = 'POWR';
-        let token = this.initToken('ETH', tokenName, 6, environment.addresses.smartContract[tokenName], ethCoin);
+        tokenName = 'POWR';
+        token = this.initToken('ETH', tokenName, 6, environment.addresses.smartContract[tokenName], ethCoin);
         this.fillUpAddress(token, seed, 1, 0);
         myCoins.push(token);
 
@@ -230,7 +241,7 @@ export class CoinService {
         fabCoin.coinType = 0;
         this.fillUpAddress(fabCoin, seed, 1, 0);
 
-        const exgCoin = this.initToken('FAB', 'EXG', 18, environment.addresses.smartContract.EXG, fabCoin);
+        const exgCoin = this.initToken('FAB', 'EXG', 18, environment.addresses.smartContract.EXG.FAB, fabCoin);
         exgCoin.coinType = 0;
         this.fillUpAddress(exgCoin, seed, 1, 0);
 
@@ -252,7 +263,7 @@ export class CoinService {
         this.fillUpAddress(coin, seed, 1, 0);
         myCoins.push(coin);  
         */
-        const usdtCoin = this.initToken('ETH', 'USDT', 6, environment.addresses.smartContract.USDT, ethCoin);
+        const usdtCoin = this.initToken('ETH', 'USDT', 6, environment.addresses.smartContract.USDT.ETH, ethCoin);
         usdtCoin.coinType = 0;
         this.fillUpAddress(usdtCoin, seed, 1, 0);
         myCoins.push(usdtCoin);
@@ -273,8 +284,21 @@ export class CoinService {
         return coin;
     }
 
+    isDepositable(coin: MyCoin): boolean {
+        const name = coin.name;
+        const tokenType = coin.tokenType;
+        if(environment.addresses.smartContract[name] || environment.addresses.smartContract[name][tokenType]) {
+            if(this.getCoinTypeIdByName(name) > 0) {
+                return true;
+            }
+            
+        }
+        return false;
+    }
+
     getOfficialAddress(myCoin: MyCoin) {
         const coinName = myCoin.name;
+        const tokenType = myCoin.tokenType;
         /*
         const addresses = environment.addresses.exchangilyOfficial;
         for (let i = 0; i < addresses.length; i++) {
@@ -284,8 +308,13 @@ export class CoinService {
         }
         */
 
-        if (environment.addresses.exchangilyOfficial[coinName]) {
-            return environment.addresses.exchangilyOfficial[coinName];
+        const chain = tokenType ? tokenType : coinName;
+        if (environment.addresses.exchangilyOfficial[chain]) {
+            let address = environment.addresses.exchangilyOfficial[chain];
+            if(tokenType == 'FAB') {
+                address = this.utilServ.fabToExgAddress(tokenType);
+            }
+            return address;
         }
         return '';
     }
@@ -531,7 +560,7 @@ export class CoinService {
         }
         const path = 'm/44\'/' + coin.coinType + '\'/0\'/' + chain + '/' + index;
 
-        if (name === 'BTC' || name === 'FAB' || name === 'LTC' || name === 'DOGE' || name === 'BCH') {
+        if (name === 'BTC' || (name === 'FAB' && !tokenType) || name === 'LTC' || name === 'DOGE' || name === 'BCH') {
             const root = BIP32.fromSeed(seed, environment.chains[name]['network']);
             /*
             const childNode1 = root.deriveHardened(44);
@@ -546,7 +575,6 @@ export class CoinService {
                 network: environment.chains[name]['network']
             });
 
-            console.log('pubkey: ' + childNode.publicKey.toString);
             if (name === 'BCH') {
                 console.log('address===', address);
                 addr = bchaddr.toCashAddress(address);
@@ -1118,6 +1146,32 @@ export class CoinService {
         return buf;
     }
 
+    getCoinTypePrefix(coin: MyCoin): number {
+        let prefix = 0;
+        if(coin.name == 'USDT') {
+            if(coin.tokenType == 'ETH') {
+                prefix = 3
+            } else 
+            if(coin.tokenType == 'TRX') {
+                prefix = 7
+            }
+        } else 
+        if (coin.name == 'FAB') {
+            if(coin.tokenType == 'ETH') {
+                prefix = 3
+            }             
+        } else
+        if(coin.name == 'EXG') {
+            if(coin.tokenType == 'ETH') {
+                prefix = 3
+            } else
+            if(coin.tokenType == 'FAB') {
+                prefix = 2
+            }          
+        } 
+        
+        return prefix;
+    }
     async sendTransactionWithPrivateKey(mycoin: MyCoin, privateKey: string, toAddress: string, amount: number,
         options: any, doSubmit: boolean) {
             console.log('begin sendTransactionWithPrivateKey');
@@ -1385,7 +1439,7 @@ export class CoinService {
                 fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
                 let contractAddress = mycoin.contractAddr;
                 if (mycoin.name === 'EXG') {
-                    contractAddress = environment.addresses.smartContract.EXG;
+                    contractAddress = environment.addresses.smartContract.EXG.FAB;
                 } else if (mycoin.name === 'DUSD') {
                     contractAddress = environment.addresses.smartContract.DUSD;
                 }
@@ -1703,7 +1757,7 @@ export class CoinService {
             }
         } else
 
-        if (mycoin.name === 'FAB') {
+        if (mycoin.name === 'FAB' && !mycoin.tokenType) {
                 if (!satoshisPerBytes) {
                     satoshisPerBytes = environment.chains.FAB.satoshisPerBytes;
                 }
@@ -1926,6 +1980,7 @@ export class CoinService {
                     txHash = this.web3Serv.getTransactionHash(txHex);
                 }
         } else if (mycoin.tokenType === 'ETH') { // etheruem tokens
+            console.log('mycoin.tokenType === ETH');
                 const address1 = mycoin.receiveAdds[0];
                 if (!gasPrice) {
                     gasPrice = environment.chains.ETH.gasPrice;
@@ -1953,10 +2008,16 @@ export class CoinService {
                 const toAccount = toAddress;
                 let contractAddress = environment.addresses.smartContract[mycoin.name];
 
-                console.log('contractAddress theee=', contractAddress);
+                //console.log('contractAddress theee=', contractAddress);
+                /*
                 if (mycoin.name === 'USDT') {
-                    contractAddress = environment.addresses.smartContract.USDT;
+                    contractAddress = environment.addresses.smartContract.USDT.ETH;
                 }
+                */
+               const addressType = typeof contractAddress;
+               if(addressType != 'string') {
+                contractAddress = contractAddress['ETH'];
+               }
                 // console.log('nonce = ' + nonce);
                 const func = {
                     'constant': false,
@@ -2073,7 +2134,7 @@ export class CoinService {
                 fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
                 let contractAddress = mycoin.contractAddr;
                 if (mycoin.name === 'EXG') {
-                    contractAddress = environment.addresses.smartContract.EXG;
+                    contractAddress = environment.addresses.smartContract.EXG.FAB;
                 } else if (mycoin.name === 'DUSD') {
                     contractAddress = environment.addresses.smartContract.DUSD;
                 }

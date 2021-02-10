@@ -152,9 +152,15 @@ export const environment = {
     addresses: {
         smartContract: {
             FABLOCK: '0xa7d4a4e23bf7dd7a1e03eda9eb7c28a016fd54aa',
-            EXG: '0x867480ba8e577402fa44f43c33875ce74bdc5df6',
-            USDT: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',
-            USDT_TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t',
+            EXG: {
+                FAB: '0x867480ba8e577402fa44f43c33875ce74bdc5df6',
+                ETH: '0x9cffdbe1bc18c3de44893107b8d2b16d515dbbf7'
+            },
+            USDT: {
+                ETH: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',
+                TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t'
+            },
+            FAB: '0xd8b836a7276b3D28FE98CE9d5C8D3041051b792C',
             DUSD: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
             INB: '0x919c6d21670fe8cEBd1E86a82a1A74E9AA2988F8',
             REP: '0x4659c4A33432A5091c322E438e0Fb1D286A1EbdE',
@@ -177,6 +183,14 @@ export const environment = {
             CNB: '0x466bc642fdd001b49aa8fa76c8058934bd428526'
         },
        exchangilyOfficial: {
+        FAB: 'n3AYguoFtN7SqsfAJPx6Ky8FTTZUkeKbvc',
+        BTC: 'n3AYguoFtN7SqsfAJPx6Ky8FTTZUkeKbvc',
+        ETH: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
+        BCH: 'bchtest:qrkhd038rw685m0s2kauyquhx0pxlhkvsg6dydtwn9',
+        LTC: 'n3AYguoFtN7SqsfAJPx6Ky8FTTZUkeKbvc',
+        DOGE: 'nqqkf8PqJj3CUjwLMEcjJDfpiU5NDcMUrB',        
+        TRX: 'TGGJPohUhzpW8W1LTRhPejGK8LDyR7ofM3'
+        /*
         EXG: '0xed76be271bb47a6df055bbc2039733c26fdecc82',
         FAB: 'n3AYguoFtN7SqsfAJPx6Ky8FTTZUkeKbvc',
         BTC: 'n3AYguoFtN7SqsfAJPx6Ky8FTTZUkeKbvc',
@@ -206,6 +220,7 @@ export const environment = {
         NVZN: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
         CNB: '0xed76be271bb47a6df055bbc2039733c26fdecc82',
         TRX: 'TGGJPohUhzpW8W1LTRhPejGK8LDyR7ofM3'
+        */
        },
         promotionOfficial: {
             USDT: '0x4e93c47b42d09f61a31f798877329890791077b2',
@@ -292,7 +307,7 @@ export const environment = {
         GVT: 20,
         DRGN: 20,
         NVZN: 20,
-        CNB: 6
+        CNB: 20
     },
     PaymentMethod: {
         ETransfer: {

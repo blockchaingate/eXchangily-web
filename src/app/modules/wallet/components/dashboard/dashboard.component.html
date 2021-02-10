@@ -205,7 +205,7 @@
                                         </div>
                                         <div class="col-custom-1">
                                             {{mycoin.name}}
-                                            <div *ngIf="(mycoin.name == 'USDT')">
+                                            <div *ngIf="(mycoin.name == 'USDT') || (mycoin.name == 'FAB') || (mycoin.name == 'EXG')">
                                                 <div *ngIf="(mycoin.tokenType=='ETH')">
                                                     (ERC20)
                                                 </div>
