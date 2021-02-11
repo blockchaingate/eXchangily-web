@@ -149,7 +149,9 @@ export const environment = {
                 ETH: '0xdac17f958d2ee523a2206206994597c13d831ec7',
                 TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t'
             },
-            FAB: '',
+            FAB: {
+                ETH: ''
+            },
             DUSD: '0x46e0021c17d30a2db972ee5719cdc7e829ed9930',
             INB: '0x17aa18a4b64a55abed7fa543f2ba4e91f2dce482',
             REP: '0x1985365e9f78359a9B6AD760e32412f4a445E862',
@@ -244,9 +246,15 @@ export const environment = {
         kline: 'wss://kanbanprod.fabcoinapi.com/ws/ticker'
     },
     minimumWithdraw: {
-        EXG: 50,
+        EXG: {
+            FAB:50,
+            ETH: 50
+        },
         BTC: 0.01,
-        FAB: 50,
+        FAB: {
+            FAB:50,
+            ETH: 100
+        },
         ETH: 0.1 * 2,
         USDT: {
             ETH: 20 * 2,

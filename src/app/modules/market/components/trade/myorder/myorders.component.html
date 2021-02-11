@@ -295,6 +295,36 @@
 
         </div>
 
+        <div *ngIf="coinName == 'FAB'">
+            <div>
+                <mat-radio-group aria-label="Select an option" [(ngModel)]="chain">
+                    <mat-radio-button value="FAB">{{'FAB Chain' | translate}}</mat-radio-button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <mat-radio-button value="ETH">ERC20</mat-radio-button>
+                  </mat-radio-group>
+            </div>
+            <div>
+                TS Wallet Balance: 
+                <span *ngIf="chain == 'FAB'">{{fabTSBalance?fabTSBalance:'NA'}}</span>
+                <span *ngIf="chain == 'ETH'">{{ethFABTSBalance?ethFABTSBalance:'NA'}}</span>
+            </div>
+        </div>
+
+        <div *ngIf="coinName == 'EXG'">
+            <div>
+                <mat-radio-group aria-label="Select an option" [(ngModel)]="chain">
+                    <mat-radio-button value="FAB">{{'FAB Chain' | translate}}</mat-radio-button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <mat-radio-button value="ETH">ERC20</mat-radio-button>
+                  </mat-radio-group>
+            </div>
+            <div>
+                TS Wallet Balance: 
+                <span *ngIf="chain == 'FAB'">{{exgTSBalance?exgTSBalance:'NA'}}</span>
+                <span *ngIf="chain == 'ETH'">{{ethEXGTSBalance?ethEXGTSBalance:'NA'}}</span>
+            </div>
+        </div>
+
         <div class="d-flex justify-content-between py-1">
             <div>
                 {{'Transaction fee' | translate}}: {{utilServ.showAmount(gasPrice*gasLimit, 6)}} {{'Gas' | translate}}

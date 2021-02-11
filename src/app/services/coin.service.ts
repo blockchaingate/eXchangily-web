@@ -175,12 +175,12 @@ export class CoinService {
 
 
         let tokenName = 'FAB';
-        let token = this.initToken('ETH', tokenName, 8, environment.addresses.smartContract[tokenName], ethCoin);
+        let token = this.initToken('ETH', tokenName, 8, environment.addresses.smartContract.FAB.ETH, ethCoin);
         this.fillUpAddress(token, seed, 1, 0);
         myCoins.push(token);
 
         tokenName = 'EXG';
-        token = this.initToken('ETH', tokenName, 18, environment.addresses.smartContract[tokenName]['ETH'], ethCoin);
+        token = this.initToken('ETH', tokenName, 18, environment.addresses.smartContract.EXG.ETH, ethCoin);
         this.fillUpAddress(token, seed, 1, 0);
         myCoins.push(token);
 
@@ -696,6 +696,7 @@ export class CoinService {
         const name = keyPair.name;
         const tokenType = keyPair.tokenType;
 
+        console.log('in signedMessage');
         console.log('name==', name);
         console.log('tokenType==', tokenType);
         if (name === 'ETH' || tokenType === 'ETH') {
@@ -707,7 +708,7 @@ export class CoinService {
             const priKeyDisp = keyPair.privateKey.toString('hex'); 
             signature = this.signStringTron(originalMessage, priKeyDisp);
         }
-        else if (name === 'FAB' || name === 'BTC' || tokenType === 'FAB' || name === 'BCH' || name === 'DOGE' || name === 'LTC') {
+        else if ((name === 'FAB' && !tokenType) || name === 'BTC' || tokenType === 'FAB' || name === 'BCH' || name === 'DOGE' || name === 'LTC') {
             // signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
             console.log('1aaa');
             let signBuffer: Buffer;
@@ -1126,17 +1127,13 @@ export class CoinService {
         return { txHex: txHex, errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids };
     }
 
-    getOriginalMessage(coinType: number, txHash: string, amount: BigNumber, address: string, coinTypePrefix = null) {
+    getOriginalMessage(coinType: number, txHash: string, amount: BigNumber, address: string) {
 
         let buf = '';
         const coinTypeHex = coinType.toString(16);
-        if(coinTypePrefix) {
-            const coinTypePrefixHex = coinTypePrefix.toString(16);
-            buf += this.utilServ.fixedLengh(coinTypePrefixHex, 4);
-            buf += coinTypeHex.substring(coinTypeHex.length - 4);
-        } else {
-            buf += this.utilServ.fixedLengh(coinTypeHex, 8);
-        }
+
+        buf += this.utilServ.fixedLengh(coinTypeHex, 8);
+
         
         buf += this.utilServ.fixedLengh(txHash, 64);
         const hexString = amount.toString(16);
@@ -1172,6 +1169,28 @@ export class CoinService {
         
         return prefix;
     }
+
+    getUpdatedCoinType(coin: MyCoin): number {
+        let name = coin.name.toUpperCase();
+        const tokenType = coin.tokenType;
+        if(name == 'USDT' && tokenType == 'TRX') {
+            name = 'USDTX';
+        } else 
+        if(name == 'FAB' && tokenType == 'ETH') {
+            name = 'FABE';
+        } else 
+        if(name == 'EXG' && tokenType == 'ETH') {
+            name = 'EXGE';
+        }
+        for (let i = 0; i < coin_list.length; i++) {
+            const coin = coin_list[i];
+            if (coin.name === name) {
+                return coin.id;
+            }
+        }
+        return -1;
+    }
+
     async sendTransactionWithPrivateKey(mycoin: MyCoin, privateKey: string, toAddress: string, amount: number,
         options: any, doSubmit: boolean) {
             console.log('begin sendTransactionWithPrivateKey');

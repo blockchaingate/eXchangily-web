@@ -59,7 +59,6 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this._chain = val;
         if(val && this.coinName == 'USDT') {
             this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
-
         }
         
     }
@@ -69,6 +68,11 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
     trxUSDTTSBalance: number;
     ethUSDTTSBalance: number;
+    fabTSBalance: number;
+    ethFABTSBalance: number;
+    exgTSBalance: number;
+    ethEXGTSBalance: number;
+
     minimumWithdrawAmount: number;
     coinType: number;
     coinName: string;
@@ -224,6 +228,12 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 (this.coinName != 'USDT' && (currentCoin.name === this.coinName))
                 ||
                 (this.coinName == 'USDT' && (currentCoin.name === this.coinName) && currentCoin.tokenType == this.chain)
+                ||
+                (this.coinName == 'FAB' && (currentCoin.name === this.coinName) && !currentCoin.tokenType)
+                ||
+                (this.coinName == 'FAB'  && (currentCoin.name === this.coinName) && currentCoin.tokenType == this.chain)
+                ||
+                (this.coinName == 'EXG'  && (currentCoin.name === this.coinName) && currentCoin.tokenType == this.chain)                
                 ) {
                 break;
             }
@@ -296,6 +306,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
       
         const abiHex = this.web3Serv.getWithdrawFuncABI(this.coinType, amountInLink, addressInWallet, coinTypePrefix);
 
+        console.log('abiHex for withdraw=', abiHex);
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
         const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 
@@ -359,7 +370,6 @@ export class MyordersComponent implements OnInit, OnDestroy {
     async openWithdrawModal(template: TemplateRef<any>) {
         this.modalWithdrawRef = this.modalService.show(template, { class: 'second' });
         if(this.coinName == 'USDT') {
-            console.log('this.coinNamethis.coinNamethis.coinName=', this.coinName);
             this.chain = 'TRX';
             try {
                 this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
@@ -376,7 +386,41 @@ export class MyordersComponent implements OnInit, OnDestroy {
             }catch(e) {
 
             }           
-        } else {
+        } else if(this.coinName == 'FAB') {
+            this.chain = 'FAB';
+            try {
+                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+
+                if(!this.ethFABTSBalance) {
+                    const balance = await this.apiServ.getEthTokenBalance('FAB', environment.addresses.smartContract.FAB.ETH, environment.addresses.exchangilyOfficial.ETH);                    
+                    this.ethFABTSBalance = balance.balance / 1e8;
+                }
+                if(!this.fabTSBalance) {
+                    const balance = await this.apiServ.getFabBalance(environment.addresses.exchangilyOfficial.FAB);
+                    this.fabTSBalance = balance.balance / 1e8;
+                }
+            }catch(e) {
+
+            }                
+        }else if(this.coinName == 'EXG') {
+            console.log();
+            this.chain = 'FAB';
+            try {
+                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+
+                if(!this.ethEXGTSBalance) {
+                    const balance = await this.apiServ.getEthTokenBalance('EXG', environment.addresses.smartContract.EXG.ETH, environment.addresses.exchangilyOfficial.ETH);                    
+                    this.ethEXGTSBalance = balance.balance / 1e18;
+                }
+                if(!this.exgTSBalance) {
+                    const balance = await this.apiServ.getFabTokenBalance('EXG', this.utilServ.fabToExgAddress(environment.addresses.exchangilyOfficial.FAB));
+                    this.exgTSBalance = balance.balance / 1e18;
+                }
+            }catch(e) {
+
+            }  
+        } else
+        {
             this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName];
         }
         
@@ -465,6 +509,47 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 return;                
             }            
         }
+
+        if(this.coinName == 'FAB') {
+            if(this.chain == 'FAB' && (!this.fabTSBalance || (amount > this.fabTSBalance))) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;                
+            }
+
+            if(this.chain == 'ETH' && (!this.ethFABTSBalance || (amount > this.ethFABTSBalance))) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;                
+            }            
+        }
+
+        if(this.coinName == 'EXG') {
+            if(this.chain == 'FAB' && (!this.exgTSBalance || (amount > this.exgTSBalance))) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;                
+            }
+
+            if(this.chain == 'ETH' && (!this.ethEXGTSBalance || (amount > this.ethEXGTSBalance))) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;                
+            }            
+        }
+
         this.modalWithdrawRef.hide();
 
         this.pinModal.show();

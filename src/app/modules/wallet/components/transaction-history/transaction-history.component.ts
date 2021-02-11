@@ -44,6 +44,12 @@ export class TransactionHistoryComponent implements OnInit {
 
         if(name == 'TRON_USDT') {
             return 'USDT(TRC20)';
+        } else 
+        if (name == 'ETH_FAB') {
+            return 'FAB(ERC20)'
+        } else
+        if (name == 'ETH_EXG') {
+            return 'EXG(ERC20)'
         }
         return name;
     }

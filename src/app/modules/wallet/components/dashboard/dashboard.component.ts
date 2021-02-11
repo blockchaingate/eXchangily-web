@@ -595,7 +595,7 @@ export class WalletDashboardComponent implements OnInit {
                         if (coin.name === 'ETH') {
                             ethCoin = coin;
                         }
-                        if(coin.name === 'EXG') {
+                        if(coin.name === 'EXG' && coin.tokenType == 'FAB') {
                             this.exgValue = coin.usdPrice;
                             if(!this.exgBalance) {
                                 this.exgBalance = coin.balance + coin.lockedBalance;
@@ -604,7 +604,7 @@ export class WalletDashboardComponent implements OnInit {
                             }
                                      
                         }
-                        if (coin.name === 'FAB') {
+                        if (coin.name === 'FAB' && !coin.tokenType) {
                             fabCoin = coin;
                         }
                         if (coin.name === 'CNB') {
@@ -615,7 +615,12 @@ export class WalletDashboardComponent implements OnInit {
                             const item = res.data[i];
 
  
-                            if (item.coin === coin.name || (item.coin === 'USDTX') && coin.name ==='USDT' && coin.tokenType === 'TRX') {
+                            if (
+                                (item.coin === coin.name) || 
+                                ((item.coin === 'USDTX') && (coin.name ==='USDT') && (coin.tokenType === 'TRX')) ||
+                                ((item.coin === 'FABE') && (coin.name ==='FAB') && (coin.tokenType === 'ETH')) ||
+                                ((item.coin === 'EXGE') && (coin.name ==='EXG') && (coin.tokenType === 'ETH'))
+                            ) {
                                 if (item.depositErr) {
                                     coin.redeposit = item.depositErr;
                                     updated = true;
@@ -1528,13 +1533,22 @@ export class WalletDashboardComponent implements OnInit {
         const coinName = this.coinServ.getCoinNameByTypeId(coinType);
 
         if(coinName == 'USDTX') {
-            coinType = 196609;
+            coinType = this.coinServ.getCoinTypeIdByName('USDT');
+        } else
+        if(coinName == 'FABE') {
+            coinType = this.coinServ.getCoinTypeIdByName('FAB');
+        } else 
+        if(coinName == 'EXGE') {
+            coinType = this.coinServ.getCoinTypeIdByName('EXG');
         }
+
         let currentCoin;
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             if (
-                (this.wallet.mycoins[i].name === coinName) || 
-                coinName == 'USDTX' && this.wallet.mycoins[i].name == 'USDT' && this.wallet.mycoins[i].tokenType == 'TRX'
+                ((this.wallet.mycoins[i].name === coinName)) || 
+                (coinName == 'USDTX' && this.wallet.mycoins[i].name == 'USDT' && this.wallet.mycoins[i].tokenType == 'TRX') ||
+                (coinName == 'FABE' && this.wallet.mycoins[i].name == 'FAB' && this.wallet.mycoins[i].tokenType == 'ETH') ||
+                (coinName == 'EXGE' && this.wallet.mycoins[i].name == 'EXG' && this.wallet.mycoins[i].tokenType == 'ETH')
             ) {
                 currentCoin = this.wallet.mycoins[i];
             }
@@ -1551,9 +1565,11 @@ export class WalletDashboardComponent implements OnInit {
 
         let coinTypePrefix = this.coinServ.getCoinTypePrefix(currentCoin);
 
+        console.log('coinTypePrefix==', coinTypePrefix);
         const amountInLink = amount; // it's for all coins.
-        const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(transactionID)
-            , amountInLink, this.utilServ.stripHexPrefix(addressInKanban), coinTypePrefix);
+        const updatedCoinType = this.coinServ.getUpdatedCoinType(currentCoin);
+        const originalMessage = this.coinServ.getOriginalMessage(updatedCoinType, this.utilServ.stripHexPrefix(transactionID)
+            , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
 
 
 
@@ -1704,9 +1720,9 @@ export class WalletDashboardComponent implements OnInit {
         let coinTypePrefix = this.coinServ.getCoinTypePrefix(currentCoin);
 
 
-        console.log('coinTypePrefix==', coinTypePrefix);
-        const originalMessage = this.coinServ.getOriginalMessage(coinType, this.utilServ.stripHexPrefix(txHash)
-            , amountInLink, this.utilServ.stripHexPrefix(addressInKanban), coinTypePrefix);
+        const updatedCoinType = this.coinServ.getUpdatedCoinType(currentCoin);
+        const originalMessage = this.coinServ.getOriginalMessage(updatedCoinType, this.utilServ.stripHexPrefix(txHash)
+            , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
 
         console.log('originalMessage in deposit=', originalMessage);
         const signedMessage: Signature = await this.coinServ.signedMessage(originalMessage, keyPairs);
