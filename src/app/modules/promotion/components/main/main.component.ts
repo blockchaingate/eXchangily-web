@@ -54,6 +54,7 @@ export class MainComponent implements OnInit {
   eventInfo = {};
   eventInfoReady = false;
   eventInfoError = false;
+  eventNeedButtons = false;
 
   get value(): number {
     return this._value;
