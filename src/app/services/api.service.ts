@@ -36,7 +36,7 @@ export class ApiService {
         const url = environment.endpoints.blockchaingate + 'epay/hash/' + paymentAmount + '/' + paymentUnit;
         return this.http.get(url);       
     }
-    ///hash/:payeeAccount/:paymentAmount/:paymentUnit
+    /// hash/:payeeAccount/:paymentAmount/:paymentUnit
     chargeOrder(orderID, txhex: string) {
         const url = environment.endpoints.blockchaingate + 'orders/' + orderID + '/charge' ;
 
