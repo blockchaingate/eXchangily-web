@@ -1,7 +1,7 @@
 import { Component, ViewChild, EventEmitter, Output, Input, OnInit, AfterViewInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
-//import { StripeToken, StripeSource, StripeCard } from 'stripe-angular'
+// import { StripeToken, StripeSource, StripeCard } from 'stripe-angular'
 import { environment } from '../../../../../environments/environment';
 // import { StripeScriptTag } from 'stripe-angular'
 /*

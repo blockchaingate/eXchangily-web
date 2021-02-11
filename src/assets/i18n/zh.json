@@ -634,7 +634,7 @@
         "ForgotPassword": "忘记密码？",
         "Sign Up": "注册",
         "SignUpEmail": "使用电子邮件注册",
-        "Thank You For Signing Up": "感谢注册",
+        "Thank You": "感谢您注册亿币去中心化交易所用户社区",
         "Check Inbox": "请检查您的收件箱",
         "Click Link": "直接点击电子邮件中的链接，或复制并粘贴以下激活码：",
         "General": "通用",
@@ -1499,6 +1499,7 @@
     "Order #": "订单号",
     "No Order": "没有订单",
     "Cancel": "取消",
+    "Legacy Address": "旧地址",
     "Mark as paid": "我已付款",
     "Marked as paid": "标为已付",
     "Please set your display password in display setting": "请在显示设置中设置显示密码",
@@ -1508,5 +1509,6 @@
     "Order details & payment": "确认订单并付款",
     "EpayNote": "通过Epay全球支付向亿币付款，Epay支持除美国外的世界几乎所有主要国家充提款业务。如果您希望通过Epay支付，请前往Epay开通账户，并向账户注资，然后可以在亿币购买。",
     "This order was paid": "该订单已付款",
-    "Pay by Epay": "使用Epay付款"
+    "Pay by Epay": "使用Epay付款",
+    "Update": "更新"
 }

@@ -122,6 +122,10 @@
                             <div class="d-inline-block pr-3 walletBtn">
                                 <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="exchangeMoney()">{{"Exchange" | translate }}</button>
                             </div>
+
+                            <div class="d-inline-block pr-3 walletBtn" *ngIf="!walletUpdateToDate">
+                                <button class="btn button btn-outline btn-basic-outline btn-fixed-width text-danger font-weight-bold" (click)="updateWallet()">{{"Update" | translate }}</button>
+                            </div>                            
                         </div>
                     </div>
                 </div>
@@ -201,9 +205,16 @@
                                         </div>
                                         <div class="col-custom-1">
                                             {{mycoin.name}}
-                                            <div *ngIf="(mycoin.name=='BNB') || (mycoin.name == 'USDT')">
-                                                (ERC20)
+                                            <div *ngIf="(mycoin.name == 'USDT')">
+                                                <div *ngIf="(mycoin.tokenType=='ETH')">
+                                                    (ERC20)
+                                                </div>
+                                                <div *ngIf="(mycoin.tokenType=='TRX')">
+                                                    (TRC20)
+                                                </div>                                                
                                             </div>
+
+
                                         </div>
                                         <div class="col-2">
                                             <span *ngIf="mycoin.balance >= 0">

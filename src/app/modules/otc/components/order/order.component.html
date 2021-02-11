@@ -36,7 +36,7 @@
                 <thead>
                     <tr class="odd">
                         <th scope="col"><small>{{"Order #"|translate}}</small></th>
-                        <th scope="col" *ngIf="type == 'admin'"><small>{{"Member"|translate}}</small></th>
+                        <th scope="col"><small>{{"Member"|translate}}</small></th>
                         <th scope="col"><small>{{"Coin"|translate}}</small></th>
                         <th scope="col"><small>{{"Price"|translate}}</small></th>
                         <th scope="col"><small>{{"Currency"|translate}}</small></th>
@@ -51,8 +51,12 @@
                     <tr *ngFor="let element of orders | merchantPipe: currency : bidOrAsk : coinName ">
                         -->
                     <tr *ngFor="let element of orders | orderPipe : bidOrAsk : currentStatus ; let i = index" ngClass="{{i%2 ? 'odd' : 'even'}}">
-                        <td>{{element._id}}</td>
-                        <td *ngIf="(type == 'admin') && element.buyerMemberId">
+                        <td>
+                            <a target="_blank" href="/otc/order-detail/{{element._id}}">
+                                {{element._id}}
+                            </a>
+                        </td>
+                        <td *ngIf="element.buyerMemberId">
                             <a class="view-detail" (click)="viewMemberDetail(bidOrAsk, element.items[0].title, element.buyerMemberId)">
                                 {{element.buyerMemberId.email}}
                             </a>

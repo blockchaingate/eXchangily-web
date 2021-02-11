@@ -199,14 +199,18 @@ export class WalletService {
                 wallets = [];
             }
             if (wallets && wallets.length > 0) {
+                /*
                 if (index < 0 || index >= wallets.length) {
                     for (let i = 0; i < wallets.length; i++) {
                         index = i;
+                        
                         if (wallets[i].name === wallet.name) {
                             break;
                         }
+                        
                     }
                 }
+                */
                 wallets[index] = wallet;
             }
 

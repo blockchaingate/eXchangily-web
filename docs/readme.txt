@@ -1,6 +1,8 @@
 https://composer.alchemyapi.io/
 
-wif
+raven cabin cute bachelor mail broken diet night hurry alley bus gauge
+dune stem onion cliff equip seek kiwi salute area elegant atom injury
+tortoise cry hello tail taste goose rural fringe destroy next age tray
 
 uint8Array not defined
 btoa not defined
