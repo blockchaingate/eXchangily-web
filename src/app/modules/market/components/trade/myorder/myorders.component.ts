@@ -222,14 +222,15 @@ export class MyordersComponent implements OnInit, OnDestroy {
         const pin = this.pin;
 
         let currentCoin;
+        console.log();
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             currentCoin = this.wallet.mycoins[i];
             if (
-                (this.coinName != 'USDT' && (currentCoin.name === this.coinName))
+                ((this.coinName != 'USDT') && (this.coinName != 'FAB') && (this.coinName != 'EXG') && (currentCoin.name === this.coinName))
                 ||
                 (this.coinName == 'USDT' && (currentCoin.name === this.coinName) && currentCoin.tokenType == this.chain)
                 ||
-                (this.coinName == 'FAB' && (currentCoin.name === this.coinName) && !currentCoin.tokenType)
+                (this.coinName == 'FAB' && (currentCoin.name === this.coinName) && !currentCoin.tokenType && (this.chain == 'FAB'))
                 ||
                 (this.coinName == 'FAB'  && (currentCoin.name === this.coinName) && currentCoin.tokenType == this.chain)
                 ||
@@ -254,7 +255,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
         let addressInWallet = currentCoin.receiveAdds[0].address;
 
         if (
-            currentCoin.name === 'BTC' || currentCoin.name === 'FAB' || 
+            currentCoin.name === 'BTC' || ((currentCoin.name === 'FAB') && !currentCoin.tokenType) || 
             currentCoin.name === 'DOGE' || currentCoin.name === 'LTC' ||
             currentCoin.name == 'TRX' || currentCoin.tokenType == 'TRX') {
             const bytes = bs58.decode(addressInWallet);
@@ -302,8 +303,10 @@ export class MyordersComponent implements OnInit, OnDestroy {
             addressInWallet = this.coinServ.trxToHex(address);
         }
         */
+
+        console.log('currentCoin==', currentCoin);
         let coinTypePrefix = this.coinServ.getCoinTypePrefix(currentCoin);
-      
+        console.log('coinTypePrefix=',coinTypePrefix);
         const abiHex = this.web3Serv.getWithdrawFuncABI(this.coinType, amountInLink, addressInWallet, coinTypePrefix);
 
         console.log('abiHex for withdraw=', abiHex);
