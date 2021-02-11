@@ -5,7 +5,7 @@ import * as Btc from 'bitcoinjs-lib';
 
 export const environment = {
     production: false,
-    version: '2.0.2',
+    version: '2.0.5',
     SQUARE_APP_ID: {
         CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', // ccount kenin
         USD: 'sandbox-sq0idb-gPdLBTvUKUk2-O2DdNZ3dA'  // account genta
@@ -106,7 +106,7 @@ export const environment = {
                 messagePrefix: '\x15TRON Signed Message:\n'
             },
             feeLimit: 1000000,
-            feeLimitToken: 6000000,
+            feeLimitToken: 10000000,
             fullNode: 'https://api.trongrid.io',
             solidityNode: 'https://api.trongrid.io',
             eventServer: 'https://api.trongrid.io'       

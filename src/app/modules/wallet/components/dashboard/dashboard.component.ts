@@ -1670,6 +1670,8 @@ export class WalletDashboardComponent implements OnInit {
             gasLimit: this.amountForm.gasLimit,
             satoshisPerBytes: this.amountForm.satoshisPerBytes
         };
+
+        console.log('currentCoin for deposit=', currentCoin);
         const { txHex, txHash, errMsg, amountInTx, txids } = await this.coinServ.sendTransaction(
             currentCoin, seed, officalAddress, amount, options, doSubmit
         );

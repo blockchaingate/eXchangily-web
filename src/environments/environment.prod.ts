@@ -10,7 +10,7 @@ export const environment = {
     PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',
     baseUrl: 'https://exchangily.com',
     url: 'https://kanbanprod.fabcoinapi.com/',
-    version: '2.0.4',
+    version: '2.0.5',
     campaignId: 1,
     OTC_COMMISSION_RATE: 0,
     chains: {
@@ -99,7 +99,7 @@ export const environment = {
                 messagePrefix: '\x15TRON Signed Message:\n'
             },     
             feeLimit: 1000000,
-            feeLimitToken: 6000000,                   
+            feeLimitToken: 10000000,                   
             fullNode: 'https://api.trongrid.io',
             solidityNode: 'https://api.trongrid.io',
             eventServer: 'https://api.trongrid.io'          

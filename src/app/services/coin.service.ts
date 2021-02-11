@@ -287,6 +287,9 @@ export class CoinService {
     isDepositable(coin: MyCoin): boolean {
         const name = coin.name;
         const tokenType = coin.tokenType;
+        if(!tokenType) {
+            return true;
+        }
         if(environment.addresses.smartContract[name] || environment.addresses.smartContract[name][tokenType]) {
             if(this.getCoinTypeIdByName(name) > 0) {
                 return true;
@@ -312,7 +315,7 @@ export class CoinService {
         if (environment.addresses.exchangilyOfficial[chain]) {
             let address = environment.addresses.exchangilyOfficial[chain];
             if(tokenType == 'FAB') {
-                address = this.utilServ.fabToExgAddress(tokenType);
+                address = this.utilServ.fabToExgAddress(address);
             }
             return address;
         }
