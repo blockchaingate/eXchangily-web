@@ -222,6 +222,7 @@ export class DepositAmountModal {
     }
 
     onSubmit() {
+        console.log('this.coin==', this.coin);
         const gasPrice = this.depositAmountForm.get('gasPrice').value ? Number(this.depositAmountForm.get('gasPrice').value) : 0;
         const gasLimit = this.depositAmountForm.get('gasLimit').value ? Number(this.depositAmountForm.get('gasLimit').value) : 0;
         const satoshisPerBytes = this.depositAmountForm.get('satoshisPerBytes').value ?
@@ -248,7 +249,7 @@ export class DepositAmountModal {
         if (
             (coinName === 'BTC')
             || (coinName === 'ETH')
-            || (coinName === 'FAB')
+            || (coinName === 'FAB' && !tokenType)
             || (coinName === 'DOGE')
             || (coinName === 'BCH')
             || (coinName === 'LTC')

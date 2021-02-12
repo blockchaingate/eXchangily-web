@@ -872,8 +872,14 @@ export class WalletDashboardComponent implements OnInit {
         const amount = amountForm.amount;
         const transFee = amountForm.transFee;
         const tranFeeUnit = amountForm.tranFeeUnit;
+        const currentCoin = this.currentCoin;
+
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
-            if (this.wallet.mycoins[i].name === 'FAB') {
+
+            if (
+                (this.wallet.mycoins[i].name === 'FAB') &&
+                (currentCoin.receiveAdds[0].address == this.wallet.mycoins[i].receiveAdds[0].address)
+            ) {
                 fabBalance = this.wallet.mycoins[i].balance;
             } else if (this.wallet.mycoins[i].name === 'ETH') {
                 ethBalance = this.wallet.mycoins[i].balance;
