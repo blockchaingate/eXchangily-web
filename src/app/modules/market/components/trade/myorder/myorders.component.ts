@@ -32,6 +32,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     // @Input() wallet: Wallet;
     private wallet: any;
     exAddress: string;
+    isProduction: boolean;
     transactionHistory: boolean;
     transactionHistories: any;
     screenheight = screen.height;
@@ -128,7 +129,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     }
 
     async ngOnInit() {
-
+        this.isProduction = environment.production;
         this.currentPair = this._route.snapshot.paramMap.get('pair');
         const pairCoins = this.currentPair.split('_');
         this.baseCoin = this._coinServ.getCoinTypeIdByName(pairCoins[1]);
@@ -150,7 +151,6 @@ export class MyordersComponent implements OnInit, OnDestroy {
         if (this.wallet) {
             const address = this.wallet.excoin.receiveAdds[0].address;
             const fabAddress = this.utilServ.exgToFabAddress(address);
-            console.log('fabAddress=', fabAddress);
             this.exAddress = exaddr.toKbpayAddress(fabAddress);
             this.timerServ.checkOrderStatus(address, 1);
             this.timerServ.checkTokens(address, 1);
