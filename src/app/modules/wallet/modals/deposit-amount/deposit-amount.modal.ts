@@ -122,15 +122,15 @@ export class DepositAmountModal {
         const name = this.coin.name;
         const tokenType = this.coin.tokenType;
         let unit = '';
-        if (name === 'EXG' || name === 'FAB' || name === 'DUSD') {
+        if (name === 'EXG' || (name === 'FAB' && !tokenType) || name === 'DUSD') {
             unit = 'FAB';
-        } else
-            if (name === 'ETH' || tokenType === 'ETH') {
-                unit = 'ETH';
-            } else
-                if (name === 'BTC') {
-                    unit = 'BTC';
-                }
+        } else if (name === 'ETH' || tokenType === 'ETH') {
+            unit = 'ETH';
+        } else if (name === 'BTC') {
+            unit = 'BTC';
+        } else {
+            unit = tokenType;
+        }
         this.tranFeeUnit = unit;
         return unit;
     }
@@ -252,8 +252,10 @@ export class DepositAmountModal {
             return;
         }
 
+        /*
         const coinName = this.coin.name;
         const tokenType = this.coin.tokenType;
+        
         if (
             (coinName === 'BTC')
             || (coinName === 'ETH')
@@ -274,11 +276,11 @@ export class DepositAmountModal {
                 || (tokenType === 'TRX')
             ) {
                 if (this.coin.balance < (this.transFee)) {
-                    this.alertServ.openSnackBar('No enough balance' + tokenType + ' for deposit.', 'Ok');
+                    this.alertServ.openSnackBar('No enough balance ' + tokenType + ' for deposit.', 'Ok');
                     return;
                 }
             }
-
+        */
         this.depositAmountForm.patchValue(
             { depositAmount: '' }
         );

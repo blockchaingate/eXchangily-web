@@ -861,6 +861,10 @@ export class WalletDashboardComponent implements OnInit {
         const amount = this.amountForm.amount;
         const transFee = this.amountForm.transFee;
         const tranFeeUnit = this.amountForm.tranFeeUnit;
+        console.log('in checkAmount');
+        console.log('amount=', amount);
+        console.log('transFee=', transFee);
+        console.log('tranFeeUnit=', tranFeeUnit);
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             if (this.wallet.mycoins[i].name === 'FAB' && !fabBalance) {
                 fabBalance = this.wallet.mycoins[i].balance;
