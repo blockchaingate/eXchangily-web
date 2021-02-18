@@ -295,7 +295,7 @@
 
         </div>
 
-        <div *ngIf="!isProduction">
+        
             <div *ngIf="coinName == 'FAB'">
                 <div>
                     <mat-radio-group aria-label="Select an option" [(ngModel)]="chain">
@@ -310,7 +310,8 @@
                     <span *ngIf="chain == 'ETH'">{{ethFABTSBalance?ethFABTSBalance:'NA'}}</span>
                 </div>
             </div>
-    
+            
+        <div *ngIf="!isProduction">
             <div *ngIf="coinName == 'EXG'">
                 <div>
                     <mat-radio-group aria-label="Select an option" [(ngModel)]="chain">
