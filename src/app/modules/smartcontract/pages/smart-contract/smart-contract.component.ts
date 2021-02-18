@@ -216,7 +216,7 @@ export class SmartContractComponent implements OnInit {
         if(ret.success) {
           if(ret.data && (ret.data.length > 0)) {
             console.log('ret.data==', ret.data);
-            this.lockerHashes = ret.data[0];
+            this.lockerHashes = ret.data;
             console.log('this.lockerHashes==', this.lockerHashes);
             console.log(this.lockerHashes.length);
           }
