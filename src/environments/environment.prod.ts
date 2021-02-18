@@ -98,8 +98,8 @@ export const environment = {
             network: {
                 messagePrefix: '\x15TRON Signed Message:\n'
             },     
-            feeLimit: 10000000,
-            feeLimitToken: 10000000,                   
+            feeLimit: 15000000,
+            feeLimitToken: 15000000,                   
             fullNode: 'https://api.trongrid.io',
             solidityNode: 'https://api.trongrid.io',
             eventServer: 'https://api.trongrid.io'          
@@ -150,7 +150,7 @@ export const environment = {
                 TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t'
             },
             FAB: {
-                ETH: ''
+                ETH: '0xf2260ed15c59c9437848afed04645044a8d5e270'
             },
             DUSD: '0x46e0021c17d30a2db972ee5719cdc7e829ed9930',
             INB: '0x17aa18a4b64a55abed7fa543f2ba4e91f2dce482',

@@ -70,6 +70,7 @@ export class WalletDashboardComponent implements OnInit {
     wallet: Wallet;
     privateKey: string;
     coinName: string;
+    amountForm: any;
     maintainence: boolean;
     wallets: Wallet[];
     modalRef: BsModalRef;
@@ -85,7 +86,6 @@ export class WalletDashboardComponent implements OnInit {
     pairsConfig: Pair[];
     currentCoin: MyCoin;
     amount: number;
-    amountForm: any;
     fabBalance: number;
     ethBalance: number;
     coinsPrice: CoinsPrice;
@@ -864,30 +864,32 @@ export class WalletDashboardComponent implements OnInit {
         this.redepositModal.show(currentCoin);
     }
 
-    onConfirmedDepositAmount(amountForm: any) {
-
+    checkAmount() {
         let fabBalance = 0;
         let ethBalance = 0;
         let btcBalance = 0;
-        const amount = amountForm.amount;
-        const transFee = amountForm.transFee;
-        const tranFeeUnit = amountForm.tranFeeUnit;
-        const currentCoin = this.currentCoin;
-
+        let trxBalance = 0;
+        const amount = this.amountForm.amount;
+        const transFee = this.amountForm.transFee;
+        const tranFeeUnit = this.amountForm.tranFeeUnit;
+        console.log('in checkAmount');
+        console.log('amount=', amount);
+        console.log('transFee=', transFee);
+        console.log('tranFeeUnit=', tranFeeUnit);
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
-
-            if (
-                (this.wallet.mycoins[i].name === 'FAB') &&
-                (currentCoin.receiveAdds[0].address == this.wallet.mycoins[i].receiveAdds[0].address)
-            ) {
+            if (this.wallet.mycoins[i].name === 'FAB' && !fabBalance) {
                 fabBalance = this.wallet.mycoins[i].balance;
-            } else if (this.wallet.mycoins[i].name === 'ETH') {
+            } else if (this.wallet.mycoins[i].name === 'ETH' && !ethBalance) {
                 ethBalance = this.wallet.mycoins[i].balance;
-            } else if (this.wallet.mycoins[i].name === 'BTC') {
+            } else if (this.wallet.mycoins[i].name === 'BTC' && !btcBalance) {
                 btcBalance = this.wallet.mycoins[i].balance;
+            } else if (this.wallet.mycoins[i].name === 'TRX' && !trxBalance) {
+                trxBalance = this.wallet.mycoins[i].balance;
             }
         }
 
+        console.log('ethBalance=', ethBalance);
+        console.log('transFee=', transFee);
         const currentCoinBalance = this.currentCoin.balance;
         const coinName = this.currentCoin.name;
         if (currentCoinBalance < amount) {
@@ -896,7 +898,7 @@ export class WalletDashboardComponent implements OnInit {
             } else {
                 this.alertServ.openSnackBar('Insufficient ' + coinName + ' for this transaction', 'Ok');
             }
-            return;
+            return false;
         }
         if (tranFeeUnit === 'BTC') {
             if (transFee > btcBalance) {
@@ -905,35 +907,52 @@ export class WalletDashboardComponent implements OnInit {
                 } else {
                     this.alertServ.openSnackBar('Insufficient BTC for this transaction', 'Ok');
                 }
-                return;
+                return false;
             }
         } else if (tranFeeUnit === 'FAB') {
             if (transFee > fabBalance) {
                 this.alertServ.openSnackBar('Insufficient FAB for this transaction', 'Ok');
-                return;
+                return false;
             }
         } else if (tranFeeUnit === 'ETH') {
             if (transFee > ethBalance) {
                 if (this.lan === 'zh') {
                     this.alertServ.openSnackBar('ETH余额不足', 'Ok');
                 } else {
-                    this.alertServ.openSnackBar('Insufficient ETH for this transaction', 'Ok');
+                    this.alertServ.openSnackBar('Insufficient 1 ETH for this transaction', 'Ok');
                 }
-                return;
+                return false;
+            }
+        } else if (tranFeeUnit === 'TRX') {
+            if (transFee > trxBalance) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TRX余额不足', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Insufficient TRX for this transaction', 'Ok');
+                }
+                return false;
             }
         }
 
-        if ((coinName === 'BTC') || (coinName === 'ETH') || (coinName === 'FAB')) {
+        if ((coinName === 'BTC') || (coinName === 'ETH') || (coinName === 'FAB') || (coinName === 'TRX')) {
             if (currentCoinBalance < amount + transFee) {
                 if (this.lan === 'zh') {
                     this.alertServ.openSnackBar(coinName + '余额不足', 'Ok');
                 } else {
-                    this.alertServ.openSnackBar('Insufficient ' + coinName + ' for this transaction', 'Ok');
+                    this.alertServ.openSnackBar('Insufficient 2 ' + coinName + ' for this transaction', 'Ok');
                 }
-                return;
+                return false;
             }
         }
+
+        return true;
+    }
+
+    onConfirmedDepositAmount(amountForm: any) {
         this.amountForm = amountForm;
+        if(!this.checkAmount()) {
+            return;
+        }
         this.opType = 'deposit';
         this.pinModal.show();
     }
@@ -1633,6 +1652,10 @@ export class WalletDashboardComponent implements OnInit {
     */
 
     async depositdo() {
+        await this.loadBalance();
+        if(!this.checkAmount()) {
+            return;
+        }
         const currentCoin = this.currentCoin;
 
         const amount = this.amountForm.amount;

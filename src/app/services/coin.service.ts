@@ -1742,7 +1742,11 @@ export class CoinService {
             amountInTx = output2;
             if (amount > 0) {
                 if (output1 >= dustAmount) {
-                    txb.addOutput(changeAddress.address, output1);
+                    let myChangeAddress = changeAddress.address;
+                    if (mycoin.name === 'BCH') {
+                        myChangeAddress = bchaddr.toLegacyAddress(myChangeAddress);
+                    }                    
+                    txb.addOutput(myChangeAddress, output1);
                 }
                 txb.addOutput(toAddress, output2.toNumber());
             } else {

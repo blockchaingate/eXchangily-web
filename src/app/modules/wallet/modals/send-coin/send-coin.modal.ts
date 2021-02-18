@@ -208,9 +208,9 @@ export class SendCoinModal {
                 trxBalance = this.wallet.mycoins[i].balance;
             }
         }
-        
-        if ((this.coin.name === 'BTC') || (this.coin.name === 'FAB' && !this.coin.tokenType) || (this.coin.name === 'ETH') || this.coin.name === 'TRX') {
-            if (this.transFee > this.coin.balance) {
+        const amount = Number(this.sendCoinForm.get('sendAmount').value);
+        if ((this.coin.name === 'BTC') || (this.coin.name === 'FAB' && !this.coin.coinType) || (this.coin.name === 'ETH') || this.coin.name === 'TRX') {
+            if ((this.transFee + amount) > this.coin.balance) {
                 this.alertServ.openSnackBar('Insufficient ' + this.coin.name + ' for this transaction', 'Ok');
                 return;
             }
@@ -240,11 +240,13 @@ export class SendCoinModal {
         }    
         
         const selectedCoinIndex = Number(this.sendCoinForm.get('selectedCoinIndex').value);
-        const amount = Number(this.sendCoinForm.get('sendAmount').value);
+        
+        /*
         if (this.coin.balance != -1 && amount > this.coin.balance) {
             this.alertServ.openSnackBar('Insufficient ' + this.coin.name + ' for this transaction', 'Ok');
             return;
         }
+        */
         const comment = this.sendCoinForm.get('comment').value;
         const gasPrice = this.sendCoinForm.get('gasPrice').value ? Number(this.sendCoinForm.get('gasPrice').value) : 0;
         const gasLimit = this.sendCoinForm.get('gasLimit').value ? Number(this.sendCoinForm.get('gasLimit').value) : 0;
