@@ -183,7 +183,7 @@ export class SmartContractComponent implements OnInit {
     
     for (let i = 0; i < this.wallet.mycoins.length; i++) {
       const coin = this.wallet.mycoins[i];
-      if (coin.name === 'FAB') {
+      if ((coin.name === 'FAB') && !coin.tokenType && !this.balance) {
         this.mycoin = coin;
         this.balance = await this.coinServ.getBalance(coin);
         console.log('this.balance=', this.balance);
