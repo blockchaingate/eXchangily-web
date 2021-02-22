@@ -628,12 +628,12 @@ export class WalletDashboardComponent implements OnInit {
                                     coin.redeposit = [];
                                     updated = true;
                                 }
-                                if (coin.balance !== Number(item.balance)) {
-                                    coin.balance = Number(item.balance);
+                                if (coin.balance !== this.utilServ.toPrecision(item.balance)) {
+                                    coin.balance = this.utilServ.toPrecision(item.balance);
                                     updated = true;
                                 }
-                                if (coin.lockedBalance !== Number(item.lockBalance)) {
-                                    coin.lockedBalance = Number(item.lockBalance);
+                                if (coin.lockedBalance !== this.utilServ.toPrecision(item.lockBalance)) {
+                                    coin.lockedBalance = this.utilServ.toPrecision(item.lockBalance);
                                     updated = true;
                                 }
                                 coin.lockers = item.lockers ? item.lockers : item.fabLockers;
@@ -651,49 +651,6 @@ export class WalletDashboardComponent implements OnInit {
                         }
                    }
 
-                    if (!hasDRGN) {
-                        const drgnCoin = new MyCoin('DRGN');
-                        drgnCoin.balance = 0;
-                        drgnCoin.decimals = 18;
-                        drgnCoin.coinType = environment.CoinType.ETH;
-                        drgnCoin.lockedBalance = 0;
-                        drgnCoin.receiveAdds.push(ethCoin.receiveAdds[0]);
-                        drgnCoin.tokenType = 'ETH';
-                        drgnCoin.baseCoin = ethCoin;
-                        drgnCoin.contractAddr = environment.addresses.smartContract.DRGN;
-                        this.wallet.mycoins.push(drgnCoin);
-                        updated = true;
-                    }
-
-
-
-                    if (!hasNVZN) {
-                        const newCoin = new MyCoin('NVZN');
-                        newCoin.balance = 0;
-                        newCoin.decimals = 18;
-                        newCoin.coinType = environment.CoinType.ETH;
-                        newCoin.lockedBalance = 0;
-                        newCoin.receiveAdds.push(ethCoin.receiveAdds[0]);
-                        newCoin.tokenType = 'ETH';
-                        newCoin.baseCoin = ethCoin;
-                        newCoin.contractAddr = environment.addresses.smartContract.NVZN;
-                        this.wallet.mycoins.push(newCoin);
-                        updated = true;
-                    }
-
-                    if(!hasCNB) {
-                        const newCoin = new MyCoin('CNB');
-                        newCoin.balance = 0;
-                        newCoin.decimals = 18;
-                        newCoin.coinType = environment.CoinType.FAB;
-                        newCoin.lockedBalance = 0;
-                        newCoin.receiveAdds.push(fabCoin.receiveAdds[0]);
-                        newCoin.tokenType = 'FAB';
-                        newCoin.baseCoin = fabCoin;
-                        newCoin.contractAddr = environment.addresses.smartContract.CNB;
-                        this.wallet.mycoins.push(newCoin);
-                        updated = true;                        
-                    }
                     if (updated) {
                         // console.log('updated=' + updated);
                         this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
