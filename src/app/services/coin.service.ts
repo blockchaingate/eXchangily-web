@@ -11,7 +11,7 @@ import { Address } from '../models/address';
 import { coin_list } from '../config/coins';
 import { ApiService } from './api.service';
 import * as wif from 'wif';
-// import * as bitcore from 'bitcore-lib-cash';
+import * as bitcore from 'bitcore-lib-cash';
 // import * as BchMessage from 'bitcore-message';
 import { Web3Service } from './web3.service';
 import { Signature } from '../interfaces/kanban.interface';
@@ -1587,10 +1587,12 @@ export class CoinService {
         // 2 output
         // console.log('toAddress=' + toAddress + ',amount=' + amount + ',amountNum=' + amountNum);
 
-        if (mycoin.name === 'BTC' || mycoin.name === 'LTC' || mycoin.name === 'DOGE' || mycoin.name === 'BCH') { // btc address format
+        if (mycoin.name === 'BTC' || mycoin.name === 'LTC' || mycoin.name === 'DOGE') { // btc address format
+            /*
             if (mycoin.name === 'BCH') {
                 toAddress = bchaddr.toLegacyAddress(toAddress);
             }
+            */
             if (!satoshisPerBytes) {
                 satoshisPerBytes = environment.chains[mycoin.name].satoshisPerBytes;
             }
@@ -1743,9 +1745,11 @@ export class CoinService {
             if (amount > 0) {
                 if (output1 >= dustAmount) {
                     let myChangeAddress = changeAddress.address;
+                    /*
                     if (mycoin.name === 'BCH') {
                         myChangeAddress = bchaddr.toLegacyAddress(myChangeAddress);
-                    }                    
+                    }   
+                    */                 
                     txb.addOutput(myChangeAddress, output1);
                 }
                 txb.addOutput(toAddress, output2.toNumber());
@@ -1782,6 +1786,92 @@ export class CoinService {
                 // console.log(txHash);
             }
         } else
+
+        if (mycoin.name === 'BCH') {
+            console.log('BCH there we go');
+            if (!satoshisPerBytes) {
+                satoshisPerBytes = environment.chains.BCH.satoshisPerBytes;
+            }
+            if (!bytesPerInput) {
+                bytesPerInput = environment.chains.BCH.bytesPerInput;
+            }               
+            const keyPair = this.getKeyPairs(mycoin, seed, 0, 0);
+            const address = mycoin.receiveAdds[0].address;
+            const privateKey = keyPair.privateKey;
+            const balanceFull = await this.apiService.getBchUtxos(address);
+            const utxos = [];
+            totalInput = 0;
+            for (let i = 0; i < balanceFull.length; i++) {
+                const tx = balanceFull[i];
+                // console.log('i=' + i);
+                // console.log(tx);
+                if (tx.idx < 0) {
+                    continue;
+                }
+                const addrString = tx.address;
+                const addr = bitcore.Address.fromString(addrString);
+                const utxo = {
+                    txId : tx.txid,
+                    outputIndex : tx.idx,
+                    address : addrString,
+                    "script" : new bitcore.Script(addr).toHex(),
+                    "satoshis" : tx.value
+                };
+                totalInput += tx.value;
+                utxos.push(utxo);
+                amountNum = amountNum.minus(tx.value);
+                if (amountNum.isLessThanOrEqualTo(0)) {
+                    finished = true;
+                    break;
+                }
+            }  
+            if (!finished) {
+                txHex = '';
+                txHash = '';
+                errMsg = 'not enough fund.';
+                return {txHex: txHex, txHash: txHash, errMsg: errMsg};
+            }
+            console.log('amount==', amount);
+            const outputNum = 2;
+            transFee = ((utxos.length) * bytesPerInput + outputNum * 34 + 10) * satoshisPerBytes;
+            transFee = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
+            if (getTransFeeOnly) {
+                return {txHex: '', txHash: '', errMsg: '', transFee: transFee};
+            }  
+            // console.log('totalInput=' + totalInput);
+            // console.log('amount=' + amount);
+            console.log('transFee for doge=' + transFee);
+            const output1 = Math.round(new BigNumber(totalInput - amount * 1e8 - transFee).toNumber());
+
+            const amountBigNum = Number(this.utilServ.toBigNumber(amount, 8));
+            console.log('amountBigNum==', amountBigNum);
+            var transaction = new bitcore.Transaction()
+            .from(utxos)          // Feed information about what unspent outputs one can use
+            .feePerKb(satoshisPerBytes * 1000)
+            //.enableRBF()            
+            .to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
+            .change(address)      // Sets up a change address where the rest of the funds will go
+
+         
+            .sign(privateKey)     // Signs all the inputs it can
+        
+            txHex = transaction.serialize();  
+            
+            if (doSubmit) {
+                // console.log('1');
+                const res = await this.apiService.postBchTx(txHex);
+                txHash = res.txHash;
+                errMsg = res.errMsg;                
+                // console.log(txHash);
+                
+            } else {
+                // console.log('2');
+                const tx = Btc.Transaction.fromHex(txHex);
+                txHash = '0x' + tx.getId();
+            }            
+        } 
+
+
 
         if (mycoin.name === 'FAB' && !mycoin.tokenType) {
                 if (!satoshisPerBytes) {
