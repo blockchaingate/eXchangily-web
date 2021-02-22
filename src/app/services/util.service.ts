@@ -91,10 +91,7 @@ export class UtilService {
     toPrecision(num: number) {
         //console.log('num=', num);
         let decimal = 5;
-        if(num > 10) {
-            decimal = 2;
-        }
-        else if(num < 0.001) {
+        if(num < 0.001) {
             decimal = 7;
         }
 
