@@ -471,6 +471,7 @@ export class WalletDashboardComponent implements OnInit {
     }
 
     async loadBalance() {
+        console.log('typeof Buffer=', (typeof Buffer));
         // console.log('this.coinsPrice=');
         // console.log(this.coinsPrice);
         if (!this.wallet) {
