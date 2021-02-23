@@ -822,15 +822,12 @@ export class WalletDashboardComponent implements OnInit {
         this.redepositModal.show(currentCoin);
     }
 
-    checkAmount() {
+    checkAmount(amount: number, transFee: number, tranFeeUnit: string) {
         let fabBalance = 0;
         let ethBalance = 0;
         let btcBalance = 0;
         let trxBalance = 0;
-        const amount = this.amountForm.amount;
-        const transFee = this.amountForm.transFee;
-        const tranFeeUnit = this.amountForm.tranFeeUnit;
-        console.log('in checkAmount');
+
         console.log('amount=', amount);
         console.log('transFee=', transFee);
         console.log('tranFeeUnit=', tranFeeUnit);
@@ -908,9 +905,7 @@ export class WalletDashboardComponent implements OnInit {
 
     onConfirmedDepositAmount(amountForm: any) {
         this.amountForm = amountForm;
-        if(!this.checkAmount()) {
-            return;
-        }
+
         this.opType = 'deposit';
         this.pinModal.show();
     }
@@ -940,6 +935,7 @@ export class WalletDashboardComponent implements OnInit {
     }
 
     onConfirmedCoinSent(sendCoinForm: SendCoinForm) {
+        this.currentCoin = this.wallet.mycoins[sendCoinForm.coinIndex];
         this.sendCoinForm = sendCoinForm;
         this.opType = 'sendCoin';
         this.pinModal.show();
@@ -1383,7 +1379,16 @@ export class WalletDashboardComponent implements OnInit {
         const pin = this.pin;
         const currentCoin = this.wallet.mycoins[this.sendCoinForm.coinIndex];
 
+        
         const amount = this.sendCoinForm.amount;
+
+        await this.loadBalance();
+        if(!this.checkAmount(this.sendCoinForm.amount, this.sendCoinForm.transFee, this.sendCoinForm.transFeeUnit)) {
+
+
+            return;
+        }
+
         const doSubmit = true;
         const options = {
             gasPrice: this.sendCoinForm.gasPrice,
@@ -1611,9 +1616,10 @@ export class WalletDashboardComponent implements OnInit {
 
     async depositdo() {
         await this.loadBalance();
-        if(!this.checkAmount()) {
+        if(!this.checkAmount(this.amountForm.amount, this.amountForm.transFee, this.amountForm.tranFeeUnit)) {
             return;
         }
+
         const currentCoin = this.currentCoin;
 
         const amount = this.amountForm.amount;

@@ -232,6 +232,8 @@ export interface SendCoinForm {
     to: string;
     coinIndex: number;
     amount: number;
+    transFee: number;
+    transFeeUnit: string;
     comment: string;
     gasPrice: number;
     gasLimit: number;

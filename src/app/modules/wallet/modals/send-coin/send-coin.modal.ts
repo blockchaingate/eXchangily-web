@@ -277,6 +277,8 @@ export class SendCoinModal {
             to: to,
             coinIndex: selectedCoinIndex,
             amount: amount,
+            transFee: this.transFee,
+            transFeeUnit: this.tranFeeUnit,
             comment: comment,
             gasPrice: gasPrice,
             gasLimit: gasLimit,
