@@ -62,7 +62,7 @@ export const environment = {
                 scriptHash: 40,
                 wif: 0x80,
             },            
-            satoshisPerBytes: 9,
+            satoshisPerBytes: 40,
             bytesPerInput: 148
         },               
         ETH: {

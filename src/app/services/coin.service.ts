@@ -1918,11 +1918,9 @@ export class CoinService {
             }  
             // console.log('totalInput=' + totalInput);
             // console.log('amount=' + amount);
-            console.log('transFee for doge=' + transFee);
             const output1 = Math.round(new BigNumber(totalInput - amount * 1e8 - transFee).toNumber());
 
             const amountBigNum = Number(this.utilServ.toBigNumber(amount, 8));
-            console.log('amountBigNum==', amountBigNum);
             var transaction = new bitcore.Transaction()
             .from(utxos)          // Feed information about what unspent outputs one can use
             .fee(transFeeSatoshis)
