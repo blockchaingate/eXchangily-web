@@ -90,6 +90,11 @@ export class UtilService {
 
     toPrecision(num: number) {
         //console.log('num=', num);
+
+        if(!num) {
+            return 0;
+        }
+                
         let decimal = 5;
         if(num < 0.001) {
             decimal = 7;

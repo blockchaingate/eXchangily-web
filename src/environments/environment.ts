@@ -163,6 +163,9 @@ export const environment = {
             FAB: {
                 ETH: '0xd8b836a7276b3D28FE98CE9d5C8D3041051b792C'
             },
+            DSC: {
+                ETH: ''
+            },            
             DUSD: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
             INB: '0x919c6d21670fe8cEBd1E86a82a1A74E9AA2988F8',
             REP: '0x4659c4A33432A5091c322E438e0Fb1D286A1EbdE',

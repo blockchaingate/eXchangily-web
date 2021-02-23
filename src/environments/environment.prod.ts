@@ -143,7 +143,7 @@ export const environment = {
             FABLOCK: '0x04baa04d9550c49831427c6abe16def2c579af4a',
             EXG: {
                 FAB: '0xa3e26671a38978e8204b8a37f1c2897042783b00',
-                ETH: ''
+                ETH: '0xebbe2e94b6efd2a09b707167f796ef2616291438'
             },
             USDT: {
                 ETH: '0xdac17f958d2ee523a2206206994597c13d831ec7',
@@ -151,6 +151,9 @@ export const environment = {
             },
             FAB: {
                 ETH: '0xf2260ed15c59c9437848afed04645044a8d5e270'
+            },
+            DSC: {
+                ETH: '0xe3d64fca00dd7b76b45f4b8425f49f6e6327623d'
             },
             DUSD: '0x46e0021c17d30a2db972ee5719cdc7e829ed9930',
             INB: '0x17aa18a4b64a55abed7fa543f2ba4e91f2dce482',
