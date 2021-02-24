@@ -1,4 +1,6 @@
 import { Component, OnInit, Renderer2, Inject } from '@angular/core';
+import { HttpService } from '../../services/http.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-bulk-transfer',
@@ -9,18 +11,25 @@ export class BulkTransferComponent implements OnInit {
     preview: boolean;
     accounts: any;
     balances: string;
-    constructor() {
+    constructor(private httpServ: HttpService) {
     }
     ngOnInit() {
         this.preview = false;
-        console.log('preview', this.preview);
     }
 
     previewDo() {
-        console.log('this.balances==', this.balances);
         this.accounts = JSON.parse(this.balances);
-        console.log('this.accounts=', this.accounts);
         this.preview = true;
+    }
 
+    springFestival() {
+        const fromTimestamp = 1612846800;
+        const toTimeStamp = 1613624400;
+        let url = environment.endpoints.kanban + 'tradesbetweentimestamps/' + fromTimestamp + '/' + toTimeStamp;
+        this.httpServ.getRaw(url).subscribe(
+            (res) => {
+                console.log('res==', res);
+            }
+        );
     }
 }

@@ -1920,12 +1920,13 @@ export class CoinService {
             // console.log('amount=' + amount);
             const output1 = Math.round(new BigNumber(totalInput - amount * 1e8 - transFee).toNumber());
 
-            const amountBigNum = Number(this.utilServ.toBigNumber(amount, 8));
+            const amountBigNum = new BigNumber(this.utilServ.toBigNumber(amount, 8));
+            amountInTx = amountBigNum;
             var transaction = new bitcore.Transaction()
             .from(utxos)          // Feed information about what unspent outputs one can use
             .fee(transFeeSatoshis)
-            .enableRBF()            
-            .to(toAddress, amountBigNum)  // Add an output with the given amount of satoshis
+            //.enableRBF()            
+            .to(toAddress, amountBigNum.toNumber())  // Add an output with the given amount of satoshis
             .change(address)      // Sets up a change address where the rest of the funds will go
 
          
