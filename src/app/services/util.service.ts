@@ -88,6 +88,12 @@ export class UtilService {
         return 8;
     }
 
+    toPrecisionMul(unlockBal: any, lockBal: any, val: any) {
+        const unlockNum = unlockBal ? Number(unlockBal) : 0;
+        const lockNum = lockBal ? Number(lockBal) : 0;
+        return this.toPrecision((unlockNum + lockNum) * Number(val));
+    }
+    
     toPrecision(num: number) {
         //console.log('num=', num);
 

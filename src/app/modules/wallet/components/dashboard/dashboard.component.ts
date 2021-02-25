@@ -536,10 +536,9 @@ export class WalletDashboardComponent implements OnInit {
 
                     if(coin.name === 'EXG') {
                         if(!this.exgBalance) {
-                            this.exgBalance = coin.balance + coin.lockedBalance;
-                        } else {
-                            this.exgBalance += coin.balance + coin.lockedBalance;
-                        }       
+                            this.exgBalance = Number(coin.balance) + Number(coin.lockedBalance);
+                            console.log('this.exgBalance=', this.exgBalance);
+                        }      
                     }                   
                 } catch(e) {
 
@@ -597,12 +596,14 @@ export class WalletDashboardComponent implements OnInit {
                             ethCoin = coin;
                         }
                         if(coin.name === 'EXG' && coin.tokenType == 'FAB') {
-                            this.exgValue = coin.usdPrice;
+                            console.log('coin=', coin);
+                            console.log('this.exgBalance=', this.exgBalance);
                             if(!this.exgBalance) {
-                                this.exgBalance = coin.balance + coin.lockedBalance;
-                            } else {
-                                this.exgBalance += coin.balance + coin.lockedBalance;
+                                this.exgBalance = Number(coin.balance) + Number(coin.lockedBalance);
+                                this.exgValue = coin.usdPrice;
                             }
+
+                            console.log('this.exgBalance=', this.exgBalance);
                                      
                         }
                         if (coin.name === 'FAB' && !coin.tokenType) {
