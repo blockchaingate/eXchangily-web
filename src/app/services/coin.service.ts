@@ -146,6 +146,20 @@ export class CoinService {
 
         myCoins.push(dusdCoin);
 
+        const dscCoin = this.initToken('FAB', 'DSC', 18, environment.addresses.smartContract.DSC.FAB, fabCoin);
+
+        this.fillUpAddress(dscCoin, seed, 1, 0);
+
+        myCoins.push(dscCoin);    
+        
+        
+        const bstCoin = this.initToken('FAB', 'BST', 18, environment.addresses.smartContract.BST.FAB, fabCoin);
+
+        this.fillUpAddress(bstCoin, seed, 1, 0);
+
+        myCoins.push(bstCoin);      
+
+
         const bchCoin = new MyCoin('BCH');
 
         this.fillUpAddress(bchCoin, seed, 1, 0);
@@ -182,6 +196,16 @@ export class CoinService {
         token = this.initToken('ETH', tokenName, 18, environment.addresses.smartContract.EXG.ETH, ethCoin);
         this.fillUpAddress(token, seed, 1, 0);
         myCoins.push(token);
+
+        tokenName = 'DSC';
+        token = this.initToken('ETH', tokenName, 18, environment.addresses.smartContract.DSC.ETH, ethCoin);
+        this.fillUpAddress(token, seed, 1, 0);
+        myCoins.push(token);
+
+        tokenName = 'BST';
+        token = this.initToken('ETH', tokenName, 18, environment.addresses.smartContract.BST.ETH, ethCoin);
+        this.fillUpAddress(token, seed, 1, 0);
+        myCoins.push(token);        
 
         const erc20Tokens = ['INB', 'REP', 'HOT', 'MATIC', 'IOST', 'MANA', 'ELF', 'GNO', 'WINGS', 'KNC', 'GVT', 'DRGN'];
 
@@ -1215,14 +1239,14 @@ export class CoinService {
                 prefix = 3
             }             
         } else
-        if(coin.name == 'EXG') {
+        if(['EXG', 'DSC', 'BST'].indexOf(coin.name) >= 0) {
             if(coin.tokenType == 'ETH') {
                 prefix = 3
             } else
             if(coin.tokenType == 'FAB') {
                 prefix = 2
             }          
-        } 
+        }
         
         return prefix;
     }
@@ -1238,6 +1262,12 @@ export class CoinService {
         } else 
         if(name == 'EXG' && tokenType == 'ETH') {
             name = 'EXGE';
+        } else 
+        if(name == 'DSC' && tokenType == 'ETH') {
+            name = 'DSCE';
+        } else 
+        if(name == 'BST' && tokenType == 'ETH') {
+            name = 'BSTE';
         }
         for (let i = 0; i < coin_list.length; i++) {
             const coin = coin_list[i];
@@ -2211,6 +2241,8 @@ export class CoinService {
                if(addressType != 'string') {
                 contractAddress = contractAddress['ETH'];
                }
+
+               console.log('contractAddresscontractAddresscontractAddress=', contractAddress);
                 // console.log('nonce = ' + nonce);
                 const func = {
                     'constant': false,
@@ -2326,12 +2358,20 @@ export class CoinService {
                 // console.log('enddddd');
                 fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
                 let contractAddress = mycoin.contractAddr;
+
+                /*
                 if (mycoin.name === 'EXG') {
                     contractAddress = environment.addresses.smartContract.EXG.FAB;
                 } else if (mycoin.name === 'DUSD') {
                     contractAddress = environment.addresses.smartContract.DUSD;
                 }
-
+                */
+               contractAddress = environment.addresses.smartContract[mycoin.name];
+               const addressType = typeof contractAddress;
+               if(addressType != 'string') {
+                contractAddress = contractAddress['FAB'];
+               }
+               console.log('contractAddresscontractAddresscontractAddress=', contractAddress);
                 // const keyPair = this.getKeyPairs(mycoin, seed, 0, 0);
 
                 // contractAddress = '0x28a6efffaf9f721a1e95667e3de54c622edc5ffa';

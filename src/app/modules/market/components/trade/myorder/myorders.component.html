@@ -311,7 +311,7 @@
                 </div>
         </div>
             
-        <div *ngIf="coinName == 'EXG'">
+        <div *ngIf="(coinName == 'EXG') || (coinName == 'DSC') || (coinName == 'BST')">
                 <div>
                     <mat-radio-group aria-label="Select an option" [(ngModel)]="chain">
                         <mat-radio-button value="FAB">{{'FAB Chain' | translate}}</mat-radio-button>

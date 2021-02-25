@@ -480,6 +480,7 @@ export class SmartContractComponent implements OnInit {
     if (!errMsg) {
         const res2 = await this.apiServ.postFabTx(txHex);
         txHash = res2.txHash;
+        console.log('txHashtxHash=', txHash);
         errMsg = res2.errMsg;
         if (txHash) {
           this.result = txHash;

@@ -7,10 +7,12 @@ export const coin_list: Coin[] = [
     { id: 131072, name: 'FAB', icon: '' },
     { id: 131073, name: 'EXG', icon: '' },
     { id: 131074, name: 'DUSD', icon: ''},
+    { id: 131075, name: 'CNB', icon: ''},
+    { id: 131076, name: 'DSC', icon: ''},
+    { id: 131077, name: 'BST', icon: ''},
     { id: 262144, name: 'BCH', icon: ''},
     { id: 327680, name: 'LTC', icon: ''},
     { id: 393216, name: 'DOGE', icon: ''},
-    //{ id: 10, name: 'BNB', icon: ''},
     { id: 196610, name: 'INB', icon: ''},
     { id: 196611, name: 'HOT', icon: ''},
     { id: 196612, name: 'CEL', icon: ''},
@@ -29,14 +31,12 @@ export const coin_list: Coin[] = [
     { id: 196625, name: 'FUN', icon: ''},
     { id: 196626, name: 'DRGN', icon: ''},
     { id: 196627, name: 'NVZN', icon: ''},
-    { id: 131075, name: 'CNB', icon: ''},
     { id: 458752, name: 'TRX', icon: ''},
     { id: 458753, name: 'USDTX', icon: ''},
     { id: 196628, name: 'FABE', icon: ''},
-    { id: 196629, name: 'EXGE', icon: ''}
-    //REP: '0x1985365e9f78359a9B6AD760e32412f4a445E862',
-    //FUN: '0x419d0d8bdd9af5e606ae2232ed285aff190e711b',
-    //MHC: '0xEaB35Bd0533895856f200c99F693b2EC511BFfeE', //?? 
+    { id: 196629, name: 'EXGE', icon: ''},
+    { id: 196630, name: 'DSCE', icon: ''},
+    { id: 196631, name: 'BSTE', icon: ''}
 ];
 
 export const price_list: Price[] = [

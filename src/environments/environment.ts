@@ -156,7 +156,7 @@ export const environment = {
                 FAB: '0x867480ba8e577402fa44f43c33875ce74bdc5df6',
                 ETH: '0x9cffdbe1bc18c3de44893107b8d2b16d515dbbf7'
             },
-            USDT: {
+            USDT: { 
                 ETH: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',
                 TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t'
             },
@@ -164,8 +164,13 @@ export const environment = {
                 ETH: '0xd8b836a7276b3D28FE98CE9d5C8D3041051b792C'
             },
             DSC: {
-                ETH: ''
-            },            
+                FAB: '0xc65624b3bbdf3e786705045405b5f09ab811b9dd',
+                ETH: '0x2c4eac82c6aca937c9dc30796f1f8e7f1c04843b'
+            }, 
+            BST: {
+                FAB: '0x3407424d43886a93434e7ff220c1c5a3bf75327b',
+                ETH: '0x3732abecb2b660334ea71c029b10494ce9972cfe'
+            },           
             DUSD: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
             INB: '0x919c6d21670fe8cEBd1E86a82a1A74E9AA2988F8',
             REP: '0x4659c4A33432A5091c322E438e0Fb1D286A1EbdE',
@@ -253,6 +258,14 @@ export const environment = {
             FAB: 50,
             ETH: 100
         },
+        DSC: {
+            FAB: 50,
+            ETH: 250
+        },
+        BST: {
+            FAB: 10,
+            ETH: 50
+        },                
         BTC: 0.002,
         FAB: {
             FAB: 50,

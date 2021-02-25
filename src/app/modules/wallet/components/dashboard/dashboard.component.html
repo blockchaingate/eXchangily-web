@@ -205,7 +205,8 @@
                                         </div>
                                         <div class="col-custom-1">
                                             {{mycoin.name}}
-                                            <div *ngIf="(mycoin.name == 'USDT') || (mycoin.name == 'FAB') || (mycoin.name == 'EXG')">
+                                            <div *ngIf="(mycoin.name == 'USDT') || (mycoin.name == 'FAB') || (mycoin.name == 'EXG')
+                                            || (mycoin.name == 'DSC')  || (mycoin.name == 'BST')">
                                                 <div *ngIf="(mycoin.tokenType=='ETH')">
                                                     (ERC20)
                                                 </div>
@@ -253,6 +254,7 @@
                             <div class="row apair header">
                                 <div class="col-2">
                                     {{"Symbol" | translate}}
+                                    
                                 </div>
                                 <div class="col-2">
                                     {{"Asset" | translate}}
@@ -274,6 +276,16 @@
                                     </div>
                                     <div class="col-2">
                                         {{mycoin.name}}
+
+                                        <div *ngIf="(mycoin.name == 'USDT') || (mycoin.name == 'FAB') || (mycoin.name == 'EXG')
+                                        || (mycoin.name == 'DSC')  || (mycoin.name == 'BST')">
+                                            <div *ngIf="(mycoin.tokenType=='ETH')">
+                                                (ERC20)
+                                            </div>
+                                            <div *ngIf="(mycoin.tokenType=='TRX')">
+                                                (TRC20)
+                                            </div>                                                
+                                        </div>                                       
                                     </div>
                                     <div class="col-4" *ngIf="mycoin.balance >= 0">
                                         {{mycoin.balance}}

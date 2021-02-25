@@ -490,7 +490,7 @@ export class WalletDashboardComponent implements OnInit {
             const coin = this.wallet.mycoins[i];
 
 
-            if(coin.name === 'EXG' && coin.tokenType === 'ETH') {
+            if(coin.name === 'BST' && coin.tokenType === 'ETH') {
                 this.walletUpdateToDate = true;
             }            
 
@@ -545,10 +545,6 @@ export class WalletDashboardComponent implements OnInit {
                 }          
             }
 
-        }
-
-        if (!bchAddress) {
-            this.hasNewCoins = true;
         }
 
         const data = {
@@ -621,7 +617,9 @@ export class WalletDashboardComponent implements OnInit {
                                 (item.coin === coin.name) || 
                                 ((item.coin === 'USDTX') && (coin.name ==='USDT') && (coin.tokenType === 'TRX')) ||
                                 ((item.coin === 'FABE') && (coin.name ==='FAB') && (coin.tokenType === 'ETH')) ||
-                                ((item.coin === 'EXGE') && (coin.name ==='EXG') && (coin.tokenType === 'ETH'))
+                                ((item.coin === 'EXGE') && (coin.name ==='EXG') && (coin.tokenType === 'ETH')) ||
+                                ((item.coin === 'DSCE') && (coin.name ==='DSC') && (coin.tokenType === 'ETH')) ||
+                                ((item.coin === 'BSTE') && (coin.name ==='BST') && (coin.tokenType === 'ETH'))
                             ) {
                                 if (item.depositErr) {
                                     coin.redeposit = item.depositErr;
@@ -693,23 +691,7 @@ export class WalletDashboardComponent implements OnInit {
 
                     console.log('balance for coin' + coin.name + '=', balance);
                 }
-                if (!hasDUSD) {
-                    const dusdCoin = new MyCoin('DUSD');
-                    dusdCoin.balance = 0;
-                    dusdCoin.decimals = 6;
-                    dusdCoin.coinType = environment.CoinType.FAB;
-                    dusdCoin.lockedBalance = 0;
-                    dusdCoin.receiveAdds.push(exgCoin.receiveAdds[0]);
-                    dusdCoin.tokenType = 'FAB';
-                    dusdCoin.baseCoin = fabCoin;
-                    dusdCoin.contractAddr = environment.addresses.smartContract.DUSD;
-                    this.wallet.mycoins.push(dusdCoin);
-                    updated = true;
-                }
 
-                if (!hasBCH) {
-                    this.hasNewCoins = true;
-                }
             }
         );
 
@@ -1507,7 +1489,7 @@ export class WalletDashboardComponent implements OnInit {
     }
 
     async submitrediposit(coinType: number, amount: BigNumber, transactionID: string, gasPrice: number, gasLimit: number) {
-        console.log('coinType=', coinType);
+        
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
         const nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
         const pin = this.pin;
@@ -1529,6 +1511,12 @@ export class WalletDashboardComponent implements OnInit {
         } else 
         if(coinName == 'EXGE') {
             coinType = this.coinServ.getCoinTypeIdByName('EXG');
+        } else 
+        if(coinName == 'DSCE') {
+            coinType = this.coinServ.getCoinTypeIdByName('DSC');
+        } else 
+        if(coinName == 'BSTE') {
+            coinType = this.coinServ.getCoinTypeIdByName('BST');
         }
 
         let currentCoin;
@@ -1537,12 +1525,16 @@ export class WalletDashboardComponent implements OnInit {
                 ((this.wallet.mycoins[i].name === coinName)) || 
                 (coinName == 'USDTX' && this.wallet.mycoins[i].name == 'USDT' && this.wallet.mycoins[i].tokenType == 'TRX') ||
                 (coinName == 'FABE' && this.wallet.mycoins[i].name == 'FAB' && this.wallet.mycoins[i].tokenType == 'ETH') ||
-                (coinName == 'EXGE' && this.wallet.mycoins[i].name == 'EXG' && this.wallet.mycoins[i].tokenType == 'ETH')
+                (coinName == 'EXGE' && this.wallet.mycoins[i].name == 'EXG' && this.wallet.mycoins[i].tokenType == 'ETH') ||
+                (coinName == 'DSCE' && this.wallet.mycoins[i].name == 'DSC' && this.wallet.mycoins[i].tokenType == 'ETH') ||
+                (coinName == 'BSTE' && this.wallet.mycoins[i].name == 'BST' && this.wallet.mycoins[i].tokenType == 'ETH')
             ) {
                 currentCoin = this.wallet.mycoins[i];
             }
         }
         
+        console.log('for redeposit, coinType=', coinType);
+        console.log('currentCoin=', currentCoin);
         if (!currentCoin) {
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar('币类型错误', 'Ok');

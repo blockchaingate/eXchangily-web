@@ -153,8 +153,13 @@ export const environment = {
                 ETH: '0xf2260ed15c59c9437848afed04645044a8d5e270'
             },
             DSC: {
+                FAB: '0x393b3e956ccf8d041ad597b654b8d11b6705c9c9',
                 ETH: '0xe3d64fca00dd7b76b45f4b8425f49f6e6327623d'
             },
+            BST: {
+                FAB: '0xcc96f862438984496db99f35c62f20f1ac22322a',
+                ETH: '0x4fe1819daf783a3f3151ea0937090063b85d6122'
+            },              
             DUSD: '0x46e0021c17d30a2db972ee5719cdc7e829ed9930',
             INB: '0x17aa18a4b64a55abed7fa543f2ba4e91f2dce482',
             REP: '0x1985365e9f78359a9B6AD760e32412f4a445E862',
@@ -253,6 +258,14 @@ export const environment = {
             FAB:50,
             ETH: 50
         },
+        DSC: {
+            FAB: 50,
+            ETH: 250
+        },
+        BST: {
+            FAB: 10,
+            ETH: 50
+        },                
         BTC: 0.01,
         FAB: {
             FAB:50,

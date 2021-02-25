@@ -222,11 +222,10 @@ export class MyordersComponent implements OnInit, OnDestroy {
         const pin = this.pin;
 
         let currentCoin;
-        console.log();
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             currentCoin = this.wallet.mycoins[i];
             if (
-                ((this.coinName != 'USDT') && (this.coinName != 'FAB') && (this.coinName != 'EXG') && (currentCoin.name === this.coinName))
+                ((this.coinName != 'USDT') && (this.coinName != 'FAB') && (['EXG', 'DSC', 'BST'].indexOf(this.coinName) < 0) && (currentCoin.name === this.coinName))
                 ||
                 (this.coinName == 'USDT' && (currentCoin.name === this.coinName) && currentCoin.tokenType == this.chain)
                 ||
@@ -234,7 +233,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 ||
                 (this.coinName == 'FAB'  && (currentCoin.name === this.coinName) && currentCoin.tokenType == this.chain)
                 ||
-                (this.coinName == 'EXG'  && (currentCoin.name === this.coinName) && currentCoin.tokenType == this.chain)                
+                ((['EXG', 'DSC', 'BST'].indexOf(this.coinName) >= 0)  && (currentCoin.name === this.coinName) && currentCoin.tokenType == this.chain)                
                 ) {
                 break;
             }
@@ -372,6 +371,8 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
     async openWithdrawModal(template: TemplateRef<any>) {
         this.modalWithdrawRef = this.modalService.show(template, { class: 'second' });
+
+        console.log('this.coinName==', this.coinName);
         if(this.coinName == 'USDT') {
             this.chain = 'TRX';
             try {
@@ -394,31 +395,27 @@ export class MyordersComponent implements OnInit, OnDestroy {
             try {
                 this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
 
-                if(!this.ethFABTSBalance) {
-                    const balance = await this.apiServ.getEthTokenBalance('FAB', environment.addresses.smartContract.FAB.ETH, environment.addresses.exchangilyOfficial.ETH);                    
-                    this.ethFABTSBalance = balance.balance / 1e8;
-                }
-                if(!this.fabTSBalance) {
-                    const balance = await this.apiServ.getFabBalance(environment.addresses.exchangilyOfficial.FAB);
-                    this.fabTSBalance = balance.balance / 1e8;
-                }
+                let balance = await this.apiServ.getEthTokenBalance('FAB', environment.addresses.smartContract.FAB.ETH, environment.addresses.exchangilyOfficial.ETH);                    
+                this.ethFABTSBalance = balance.balance / 1e8;
+                    
+
+                balance = await this.apiServ.getFabBalance(environment.addresses.exchangilyOfficial.FAB);
+                this.fabTSBalance = balance.balance / 1e8;
+
             }catch(e) {
 
             }                
-        }else if(this.coinName == 'EXG') {
-            console.log();
+        }else if(['EXG', 'DSC', 'BST'].indexOf(this.coinName) >= 0) {
             this.chain = 'FAB';
             try {
                 this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
 
-                if(!this.ethEXGTSBalance) {
-                    const balance = await this.apiServ.getEthTokenBalance('EXG', environment.addresses.smartContract.EXG.ETH, environment.addresses.exchangilyOfficial.ETH);                    
-                    this.ethEXGTSBalance = balance.balance / 1e18;
-                }
-                if(!this.exgTSBalance) {
-                    const balance = await this.apiServ.getFabTokenBalance('EXG', this.utilServ.fabToExgAddress(environment.addresses.exchangilyOfficial.FAB));
-                    this.exgTSBalance = balance.balance / 1e18;
-                }
+                let balance = await this.apiServ.getEthTokenBalance(this.coinName, environment.addresses.smartContract[this.coinName]['ETH'], environment.addresses.exchangilyOfficial.ETH);                    
+                this.ethEXGTSBalance = balance.balance / 1e18;
+
+                balance = await this.apiServ.getFabTokenBalance(this.coinName, this.utilServ.fabToExgAddress(environment.addresses.exchangilyOfficial.FAB));
+                this.exgTSBalance = balance.balance / 1e18;
+
             }catch(e) {
 
             }  
@@ -484,7 +481,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
             return;
         }
 
-        if (amount > Number(this.utilServ.showAmount(this.token.unlockedAmount, 6))) {
+        if (amount > Number(this.utilServ.showAmount(this.token.unlockedAmount, 18))) {
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar('提币数量超过可用余额。', 'Ok');
             } else {
@@ -533,7 +530,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
             }            
         }
 
-        if(this.coinName == 'EXG') {
+        if(['EXG', 'DSC', 'BST'].indexOf(this.coinName) >= 0) {
             if(this.chain == 'FAB' && (!this.exgTSBalance || (amount > this.exgTSBalance))) {
                 if (this.lan === 'zh') {
                     this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
