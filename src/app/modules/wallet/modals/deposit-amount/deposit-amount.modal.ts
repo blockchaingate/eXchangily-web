@@ -122,15 +122,15 @@ export class DepositAmountModal {
         const name = this.coin.name;
         const tokenType = this.coin.tokenType;
         let unit = '';
-        if (name === 'EXG' || name === 'FAB' || name === 'DUSD') {
+        if (name === 'EXG' || (name === 'FAB' && !tokenType) || name === 'DUSD') {
             unit = 'FAB';
-        } else
-            if (name === 'ETH' || tokenType === 'ETH') {
-                unit = 'ETH';
-            } else
-                if (name === 'BTC') {
-                    unit = 'BTC';
-                }
+        } else if (name === 'ETH' || tokenType === 'ETH') {
+            unit = 'ETH';
+        } else if (name === 'BTC') {
+            unit = 'BTC';
+        } else {
+            unit = tokenType;
+        }
         this.tranFeeUnit = unit;
         return unit;
     }
@@ -230,7 +230,7 @@ export class DepositAmountModal {
         return ret;
     }
 
-    onSubmit() {
+    async onSubmit() {
         const gasPrice = this.depositAmountForm.get('gasPrice').value ? Number(this.depositAmountForm.get('gasPrice').value) : 0;
         const gasLimit = this.depositAmountForm.get('gasLimit').value ? Number(this.depositAmountForm.get('gasLimit').value) : 0;
         const satoshisPerBytes = this.depositAmountForm.get('satoshisPerBytes').value ?
@@ -252,14 +252,17 @@ export class DepositAmountModal {
             return;
         }
 
+        /*
         const coinName = this.coin.name;
         const tokenType = this.coin.tokenType;
+        
         if (
             (coinName === 'BTC')
             || (coinName === 'ETH')
-            || (coinName === 'FAB')
+            || (coinName === 'FAB' && !tokenType)
             || (coinName === 'DOGE')
             || (coinName === 'BCH')
+            || (coinName === 'TRX')
             || (coinName === 'LTC')
         ) {
             if (this.coin.balance < (this.transFee + amount)) {
@@ -270,13 +273,14 @@ export class DepositAmountModal {
             if (
                 (tokenType === 'ETH')
                 || (tokenType === 'FAB')
+                || (tokenType === 'TRX')
             ) {
                 if (this.coin.balance < (this.transFee)) {
-                    this.alertServ.openSnackBar('No enough balance' + tokenType + ' for deposit.', 'Ok');
+                    this.alertServ.openSnackBar('No enough balance ' + tokenType + ' for deposit.', 'Ok');
                     return;
                 }
             }
-
+        */
         this.depositAmountForm.patchValue(
             { depositAmount: '' }
         );

@@ -88,8 +88,43 @@ export class UtilService {
         return 8;
     }
 
+    toPrecisionMul(unlockBal: any, lockBal: any, val: any) {
+        const unlockNum = unlockBal ? Number(unlockBal) : 0;
+        const lockNum = lockBal ? Number(lockBal) : 0;
+        return this.toPrecision((unlockNum + lockNum) * Number(val));
+    }
+    
     toPrecision(num: number) {
+        //console.log('num=', num);
+
+        if(!num) {
+            return 0;
+        }
+                
+        let decimal = 5;
+        if(num < 0.001) {
+            decimal = 7;
+        }
+
+        const numString = num.toString();
+        if(numString.indexOf('e') >= 0) {
+            return num;
+        }
+
+        const numArr = numString.split('.');
+        if(numArr.length == 1) {
+            return num;
+        }
+
+        //console.log('numArr==', numArr);
+        return Number(numArr[0] + '.' + numArr[1].substring(0, decimal));
+        /*
+        if(num >= 0.1) {
+            return Number(num.toFixed(5));
+        }
         return Math.round(num * 10000) / 10000;
+        */
+
     }
 
     getFormattedDate(date: any) {
@@ -172,8 +207,27 @@ export class UtilService {
     }
 
     toBigNumber(amount, decimal: number) {
+        console.log('amount=', amount);
+        console.log('decimal=', decimal);
         if (amount === 0 || amount === '0') {
             return '0';
+        }
+
+        if(amount.toString().indexOf('e-') > 0) {
+            const amountArr = amount.toString().split('e');
+            /*
+            if(decimal >= amountArr[1]) {
+                const 
+                let amountStrFull = amountArr[0];
+                for(let i=0;i<decimal-amountArr[1];i++) {
+                    amountStrFull += '0';
+                }
+                return amountStrFull;
+            } else {
+                return (amountArr[0] + 'e-' + (amountArr[1] - decimal));
+            }
+            */
+           return new BigNumber(amountArr[0] + 'e' + (Number(amountArr[1]) + decimal)).toFixed();
         }
         const amountStr = amount.toString();
         const amountArr = amountStr.split('.');
@@ -193,6 +247,7 @@ export class UtilService {
 
         let amountStrFull = (numPart1 ? amountPart1 : '') + amountPart2;
         amountStrFull = amountStrFull.replace(/^0+/, '');
+        console.log('amountStrFull=', amountStrFull);
         return amountStrFull;
     }
 

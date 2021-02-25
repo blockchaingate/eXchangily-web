@@ -39,6 +39,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/ex/ex.module').then(m => m.ExModule)
   },
   {
+    path: 'amm',
+    loadChildren: () => import('./modules/amm/amm.module').then(m => m.AmmModule)
+  },  
+  {
     path: 'reward',
     loadChildren: () => import('./modules/reward/reward.module').then(m => m.RewardModule)
   },

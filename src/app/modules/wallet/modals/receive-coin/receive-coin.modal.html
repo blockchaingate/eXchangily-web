@@ -13,10 +13,10 @@
             <select class="form-control" (change)="onChange($event.target.value)">
                 <option [value]="i" *ngFor="let coin of wallet.mycoins;let i = index">
                     {{coin.name}}
-                    <span *ngIf="(coin.name == 'USDT') && coin.tokenType=='ETH'">
+                    <span *ngIf="((coin.name == 'USDT') || (coin.name == 'FAB') || (coin.name == 'EXG')) && coin.tokenType=='ETH'">
                         (ERC20)
                     </span>
-                    <span *ngIf="(coin.name == 'USDT') && coin.tokenType=='TRX'">
+                    <span *ngIf="((coin.name == 'USDT') || (coin.name == 'FAB') || (coin.name == 'EXG')) && coin.tokenType=='TRX'">
                         (TRC20)
                     </span>                    
                 </option>

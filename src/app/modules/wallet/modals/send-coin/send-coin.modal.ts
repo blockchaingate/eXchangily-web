@@ -153,16 +153,20 @@ export class SendCoinModal {
         }
         const name = this.coin.name;
         const tokenType = this.coin.tokenType;
-        let unit = '';
-        if (name === 'EXG' || name === 'FAB' || name === 'DUSD') {
+        let unit = tokenType ? tokenType: name;
+
+
+        /*
+        if (name === 'EXG' || (name === 'FAB' && !tokenType) || name === 'DUSD') {
             unit = 'FAB';
         } else if (name === 'ETH' || tokenType === 'ETH') {
             unit = 'ETH';
         } else if (name === 'BTC') {
             unit = 'BTC';
         } else {
-            unit = tokenType ? tokenType: name;
+            unit = 
         }
+        */
         this.tranFeeUnit = unit;
         return unit;
     }
@@ -195,7 +199,7 @@ export class SendCoinModal {
         let trxBalance = 0;
 
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
-            if (this.wallet.mycoins[i].name === 'FAB') {
+            if (this.wallet.mycoins[i].name === 'FAB' && !this.wallet.mycoins[i].tokenType) {
                 fabBalance = this.wallet.mycoins[i].balance;
             } else if (this.wallet.mycoins[i].name === 'ETH') {
                 ethBalance = this.wallet.mycoins[i].balance;
@@ -204,9 +208,9 @@ export class SendCoinModal {
                 trxBalance = this.wallet.mycoins[i].balance;
             }
         }
-        
-        if ((this.coin.name === 'BTC') || (this.coin.name === 'FAB') || (this.coin.name === 'ETH') || this.coin.name === 'TRX') {
-            if (this.transFee > this.coin.balance) {
+        const amount = Number(this.sendCoinForm.get('sendAmount').value);
+        if ((this.coin.name === 'BTC') || (this.coin.name === 'FAB' && !this.coin.coinType) || (this.coin.name === 'ETH') || this.coin.name === 'TRX') {
+            if ((this.transFee + amount) > this.coin.balance) {
                 this.alertServ.openSnackBar('Insufficient ' + this.coin.name + ' for this transaction', 'Ok');
                 return;
             }
@@ -230,17 +234,19 @@ export class SendCoinModal {
         let to = this.sendCoinForm.get('sendTo').value;
         if(this.coin.tokenType == 'FAB') {
             //if(to.indexOf('0x') < 0) {
-                to = this.utilServ.fabToExgAddress(to);
+            to = this.utilServ.fabToExgAddress(to);
             //}
             
         }    
         
         const selectedCoinIndex = Number(this.sendCoinForm.get('selectedCoinIndex').value);
-        const amount = Number(this.sendCoinForm.get('sendAmount').value);
+        
+        /*
         if (this.coin.balance != -1 && amount > this.coin.balance) {
             this.alertServ.openSnackBar('Insufficient ' + this.coin.name + ' for this transaction', 'Ok');
             return;
         }
+        */
         const comment = this.sendCoinForm.get('comment').value;
         const gasPrice = this.sendCoinForm.get('gasPrice').value ? Number(this.sendCoinForm.get('gasPrice').value) : 0;
         const gasLimit = this.sendCoinForm.get('gasLimit').value ? Number(this.sendCoinForm.get('gasLimit').value) : 0;
@@ -271,6 +277,8 @@ export class SendCoinModal {
             to: to,
             coinIndex: selectedCoinIndex,
             amount: amount,
+            transFee: this.transFee,
+            transFeeUnit: this.tranFeeUnit,
             comment: comment,
             gasPrice: gasPrice,
             gasLimit: gasLimit,

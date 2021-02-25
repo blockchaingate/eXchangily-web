@@ -80,7 +80,7 @@ export class SmartContractComponent implements OnInit {
       this.smartContractAddress =  environment.addresses.smartContract.FABLOCK;
     } else
     if(name === 'Exg') {
-      this.smartContractAddress = environment.addresses.smartContract.EXG;
+      this.smartContractAddress = environment.addresses.smartContract.EXG.FAB;
     } else
     if(name === 'Deploy') {
       this.smartContractAddress = '0x0';
@@ -101,7 +101,7 @@ export class SmartContractComponent implements OnInit {
       });
       
     } else 
-    if(this.smartContractAddress == environment.addresses.smartContract.EXG) {
+    if(this.smartContractAddress == environment.addresses.smartContract.EXG.FAB) {
       this.ABI = [
         {
           "constant": false,
@@ -183,7 +183,7 @@ export class SmartContractComponent implements OnInit {
     
     for (let i = 0; i < this.wallet.mycoins.length; i++) {
       const coin = this.wallet.mycoins[i];
-      if (coin.name === 'FAB') {
+      if ((coin.name === 'FAB') && !coin.tokenType && !this.balance) {
         this.mycoin = coin;
         this.balance = await this.coinServ.getBalance(coin);
         console.log('this.balance=', this.balance);
@@ -216,7 +216,7 @@ export class SmartContractComponent implements OnInit {
         if(ret.success) {
           if(ret.data && (ret.data.length > 0)) {
             console.log('ret.data==', ret.data);
-            this.lockerHashes = ret.data[0];
+            this.lockerHashes = ret.data;
             console.log('this.lockerHashes==', this.lockerHashes);
             console.log(this.lockerHashes.length);
           }
@@ -248,7 +248,7 @@ export class SmartContractComponent implements OnInit {
     if(inputs && inputs.length > 0) {
       for(let i=0;i<inputs.length;i++) {
         const input = inputs[i];
-        if(input.name === '_account' && input.type==='address' && this.smartContractAddress === environment.addresses.smartContract.EXG) {
+        if(input.name === '_account' && input.type==='address' && this.smartContractAddress === environment.addresses.smartContract.EXG.FAB) {
           input.val = this.exgCoin.receiveAdds[0].address;
           if(!input.val.startsWith('0x')) {
             input.val = this.utilServ.fabToExgAddress(input.val);

@@ -10,7 +10,7 @@ export const environment = {
     PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',
     baseUrl: 'https://exchangily.com',
     url: 'https://kanbanprod.fabcoinapi.com/',
-    version: '2.0.4',
+    version: '2.0.5',
     campaignId: 1,
     OTC_COMMISSION_RATE: 0,
     chains: {
@@ -98,8 +98,8 @@ export const environment = {
             network: {
                 messagePrefix: '\x15TRON Signed Message:\n'
             },     
-            feeLimit: 1000000,
-            feeLimitToken: 1200000,                   
+            feeLimit: 15000000,
+            feeLimitToken: 15000000,                   
             fullNode: 'https://api.trongrid.io',
             solidityNode: 'https://api.trongrid.io',
             eventServer: 'https://api.trongrid.io'          
@@ -141,9 +141,20 @@ export const environment = {
     addresses: {
         smartContract: {
             FABLOCK: '0x04baa04d9550c49831427c6abe16def2c579af4a',
-            EXG: '0xa3e26671a38978e8204b8a37f1c2897042783b00',
-            USDT: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-            USDT_TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t',
+            EXG: {
+                FAB: '0xa3e26671a38978e8204b8a37f1c2897042783b00',
+                ETH: '0xebbe2e94b6efd2a09b707167f796ef2616291438'
+            },
+            USDT: {
+                ETH: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+                TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t'
+            },
+            FAB: {
+                ETH: '0xf2260ed15c59c9437848afed04645044a8d5e270'
+            },
+            DSC: {
+                ETH: '0xe3d64fca00dd7b76b45f4b8425f49f6e6327623d'
+            },
             DUSD: '0x46e0021c17d30a2db972ee5719cdc7e829ed9930',
             INB: '0x17aa18a4b64a55abed7fa543f2ba4e91f2dce482',
             REP: '0x1985365e9f78359a9B6AD760e32412f4a445E862',
@@ -176,6 +187,14 @@ export const environment = {
         ],
         */
        exchangilyOfficial: {
+        FAB: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
+        BTC: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
+        ETH: '0x4983f8634255762A18D854790E6d35A522E2633a',      
+        BCH: 'bitcoincash:qznusftmq4cac0fuj6eyke5vv45njxe6eyafcld37l',
+        LTC: 'LaX6sfX8RoHbQHNDEBmdzyBMN9vFa95FXL',
+        DOGE: 'DLSF9i9weYwpgUrendmuGiHC35HGoHuvR9',   
+        TRX: 'TGfvRWxddNoWrghwE5zC1JEcbXyMdPATdo'          
+           /*
         EXG: '0xa7c8257b0571dc3d3c96b24b668c6569391b3ac9',
         FAB: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
         BTC: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
@@ -205,6 +224,7 @@ export const environment = {
         NVZN: '0x4983f8634255762A18D854790E6d35A522E2633a',
         CNB: '0xa7c8257b0571dc3d3c96b24b668c6569391b3ac9',
         TRX: 'TGfvRWxddNoWrghwE5zC1JEcbXyMdPATdo'
+        */
        },
        
         promotionOfficial: {
@@ -229,9 +249,15 @@ export const environment = {
         kline: 'wss://kanbanprod.fabcoinapi.com/ws/ticker'
     },
     minimumWithdraw: {
-        EXG: 50,
+        EXG: {
+            FAB:50,
+            ETH: 50
+        },
         BTC: 0.01,
-        FAB: 50,
+        FAB: {
+            FAB:50,
+            ETH: 100
+        },
         ETH: 0.1 * 2,
         USDT: {
             ETH: 20 * 2,
@@ -292,7 +318,7 @@ export const environment = {
         GVT: 20,
         DRGN: 20,
         NVZN: 20,
-        CNB: 6
+        CNB: 20
     },
     PaymentMethod: {
         ETransfer: {

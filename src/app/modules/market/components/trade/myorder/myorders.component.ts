@@ -32,6 +32,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     // @Input() wallet: Wallet;
     private wallet: any;
     exAddress: string;
+    isProduction: boolean;
     transactionHistory: boolean;
     transactionHistories: any;
     screenheight = screen.height;
@@ -59,7 +60,6 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this._chain = val;
         if(val && this.coinName == 'USDT') {
             this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
-
         }
         
     }
@@ -69,6 +69,11 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
     trxUSDTTSBalance: number;
     ethUSDTTSBalance: number;
+    fabTSBalance: number;
+    ethFABTSBalance: number;
+    exgTSBalance: number;
+    ethEXGTSBalance: number;
+
     minimumWithdrawAmount: number;
     coinType: number;
     coinName: string;
@@ -124,7 +129,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     }
 
     async ngOnInit() {
-
+        this.isProduction = environment.production;
         this.currentPair = this._route.snapshot.paramMap.get('pair');
         const pairCoins = this.currentPair.split('_');
         this.baseCoin = this._coinServ.getCoinTypeIdByName(pairCoins[1]);
@@ -146,7 +151,6 @@ export class MyordersComponent implements OnInit, OnDestroy {
         if (this.wallet) {
             const address = this.wallet.excoin.receiveAdds[0].address;
             const fabAddress = this.utilServ.exgToFabAddress(address);
-            console.log('fabAddress=', fabAddress);
             this.exAddress = exaddr.toKbpayAddress(fabAddress);
             this.timerServ.checkOrderStatus(address, 1);
             this.timerServ.checkTokens(address, 1);
@@ -218,12 +222,19 @@ export class MyordersComponent implements OnInit, OnDestroy {
         const pin = this.pin;
 
         let currentCoin;
+        console.log();
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             currentCoin = this.wallet.mycoins[i];
             if (
-                (this.coinName != 'USDT' && (currentCoin.name === this.coinName))
+                ((this.coinName != 'USDT') && (this.coinName != 'FAB') && (this.coinName != 'EXG') && (currentCoin.name === this.coinName))
                 ||
                 (this.coinName == 'USDT' && (currentCoin.name === this.coinName) && currentCoin.tokenType == this.chain)
+                ||
+                (this.coinName == 'FAB' && (currentCoin.name === this.coinName) && !currentCoin.tokenType && (this.chain == 'FAB'))
+                ||
+                (this.coinName == 'FAB'  && (currentCoin.name === this.coinName) && currentCoin.tokenType == this.chain)
+                ||
+                (this.coinName == 'EXG'  && (currentCoin.name === this.coinName) && currentCoin.tokenType == this.chain)                
                 ) {
                 break;
             }
@@ -244,7 +255,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
         let addressInWallet = currentCoin.receiveAdds[0].address;
 
         if (
-            currentCoin.name === 'BTC' || currentCoin.name === 'FAB' || 
+            currentCoin.name === 'BTC' || ((currentCoin.name === 'FAB') && !currentCoin.tokenType) || 
             currentCoin.name === 'DOGE' || currentCoin.name === 'LTC' ||
             currentCoin.name == 'TRX' || currentCoin.tokenType == 'TRX') {
             const bytes = bs58.decode(addressInWallet);
@@ -292,18 +303,13 @@ export class MyordersComponent implements OnInit, OnDestroy {
             addressInWallet = this.coinServ.trxToHex(address);
         }
         */
-        let coinTypePrefix;
-        if(currentCoin.name == 'USDT') {
-            if(currentCoin.tokenType == 'ETH') {
-                coinTypePrefix = 3
-            } else 
 
-            if(currentCoin.tokenType == 'TRX') {
-                coinTypePrefix = 7
-            }
-        }        
+        console.log('currentCoin==', currentCoin);
+        let coinTypePrefix = this.coinServ.getCoinTypePrefix(currentCoin);
+        console.log('coinTypePrefix=',coinTypePrefix);
         const abiHex = this.web3Serv.getWithdrawFuncABI(this.coinType, amountInLink, addressInWallet, coinTypePrefix);
 
+        console.log('abiHex for withdraw=', abiHex);
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
         const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 
@@ -367,25 +373,57 @@ export class MyordersComponent implements OnInit, OnDestroy {
     async openWithdrawModal(template: TemplateRef<any>) {
         this.modalWithdrawRef = this.modalService.show(template, { class: 'second' });
         if(this.coinName == 'USDT') {
-            console.log('this.coinNamethis.coinNamethis.coinName=', this.coinName);
             this.chain = 'TRX';
             try {
                 this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
 
                 if(!this.trxUSDTTSBalance) {
-                    this.trxUSDTTSBalance = await this.coinServ.getTrxTokenBalance(environment.addresses.smartContract.USDT_TRX, environment.addresses.exchangilyOfficial.TRX);
+                    this.trxUSDTTSBalance = await this.coinServ.getTrxTokenBalance(environment.addresses.smartContract.USDT.TRX, environment.addresses.exchangilyOfficial.TRX);
                     this.trxUSDTTSBalance = this.trxUSDTTSBalance / 1e6;
                 }
 
                 if(!this.ethUSDTTSBalance) {
-                    const balance = await this.apiServ.getEthTokenBalance('USDT', environment.addresses.smartContract.USDT, environment.addresses.exchangilyOfficial.USDT);
-                    
+                    const balance = await this.apiServ.getEthTokenBalance('USDT', environment.addresses.smartContract.USDT.ETH, environment.addresses.exchangilyOfficial.ETH);                    
                     this.ethUSDTTSBalance = balance.balance / 1e6;
                 }
             }catch(e) {
 
             }           
-        } else {
+        } else if(this.coinName == 'FAB') {
+            this.chain = 'FAB';
+            try {
+                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+
+                if(!this.ethFABTSBalance) {
+                    const balance = await this.apiServ.getEthTokenBalance('FAB', environment.addresses.smartContract.FAB.ETH, environment.addresses.exchangilyOfficial.ETH);                    
+                    this.ethFABTSBalance = balance.balance / 1e8;
+                }
+                if(!this.fabTSBalance) {
+                    const balance = await this.apiServ.getFabBalance(environment.addresses.exchangilyOfficial.FAB);
+                    this.fabTSBalance = balance.balance / 1e8;
+                }
+            }catch(e) {
+
+            }                
+        }else if(this.coinName == 'EXG') {
+            console.log();
+            this.chain = 'FAB';
+            try {
+                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+
+                if(!this.ethEXGTSBalance) {
+                    const balance = await this.apiServ.getEthTokenBalance('EXG', environment.addresses.smartContract.EXG.ETH, environment.addresses.exchangilyOfficial.ETH);                    
+                    this.ethEXGTSBalance = balance.balance / 1e18;
+                }
+                if(!this.exgTSBalance) {
+                    const balance = await this.apiServ.getFabTokenBalance('EXG', this.utilServ.fabToExgAddress(environment.addresses.exchangilyOfficial.FAB));
+                    this.exgTSBalance = balance.balance / 1e18;
+                }
+            }catch(e) {
+
+            }  
+        } else
+        {
             this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName];
         }
         
@@ -474,6 +512,47 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 return;                
             }            
         }
+
+        if(this.coinName == 'FAB') {
+            if(this.chain == 'FAB' && (!this.fabTSBalance || (amount > this.fabTSBalance))) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;                
+            }
+
+            if(this.chain == 'ETH' && (!this.ethFABTSBalance || (amount > this.ethFABTSBalance))) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;                
+            }            
+        }
+
+        if(this.coinName == 'EXG') {
+            if(this.chain == 'FAB' && (!this.exgTSBalance || (amount > this.exgTSBalance))) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;                
+            }
+
+            if(this.chain == 'ETH' && (!this.ethEXGTSBalance || (amount > this.ethEXGTSBalance))) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;                
+            }            
+        }
+
         this.modalWithdrawRef.hide();
 
         this.pinModal.show();
