@@ -1674,15 +1674,24 @@ export class WalletDashboardComponent implements OnInit {
             return;
         }
 
-        if (!txHex || !txHash) {
+        if (!txHex) {
             if (this.lan === 'zh') {
-                this.alertServ.openSnackBar('txHash内部错误', 'Ok');
+                this.alertServ.openSnackBar('内部错误，txHex为空', 'Ok');
             } else {
-                this.alertServ.openSnackBar('Internal error for txHex or txHash', 'Ok');
+                this.alertServ.openSnackBar('Internal error, txHex is null', 'Ok');
             }
             return;
         }
 
+        if (!txHash) {
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('内部错误，txHash为空', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('Internal error, txHash is null', 'Ok');
+            }
+            return;
+        }
+        
         const amountInLink = new BigNumber(amount).multipliedBy(new BigNumber(1e18)); // it's for all coins.
 
         const amountInLinkString = amountInLink.toFixed();
