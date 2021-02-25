@@ -2025,7 +2025,7 @@ export class CoinService {
             if (getTransFeeOnly) {
                 return { txHex: '', txHash: '', errMsg: '', transFee: environment.chains.TRX.feeLimitToken / 1e6, amountInTx: 0, txids: '' };
             }              
-            const trc20ContractAddress = environment.addresses.smartContract[mycoin.name + '_TRX'];//contract address
+            const trc20ContractAddress = environment.addresses.smartContract[mycoin.name]['TRX'];//contract address
             const address1 = mycoin.receiveAdds[0];
             const currentIndex = address1.index;            
             const keyPair = this.getKeyPairs(mycoin, seed, 0, currentIndex);
