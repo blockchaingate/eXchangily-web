@@ -50,6 +50,12 @@ export class TransactionHistoryComponent implements OnInit {
         } else
         if (name == 'ETH_EXG') {
             return 'EXG(ERC20)'
+        } else 
+        if (name == 'ETH_DSC') {
+            return 'DSC(ERC20)'
+        } else
+        if (name == 'ETH_BST') {
+            return 'BST(ERC20)'
         }
         return name;
     }

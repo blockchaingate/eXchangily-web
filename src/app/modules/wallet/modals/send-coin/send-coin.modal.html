@@ -24,7 +24,7 @@
                                 <select class="custom-select" (change)="onChange($event.target.value)" formControlName="selectedCoinIndex" *ngIf="wallet">
                                     <option [value]="i" *ngFor="let coin of wallet.mycoins;let i = index">
                                         {{coin.name}}
-                                        <span *ngIf="((coin.name == 'USDT') || (coin.name == 'FAB') || (coin.name == 'EXG')) && (coin.tokenType == 'ETH')">
+                                        <span *ngIf="((coin.name == 'USDT') || (coin.name == 'FAB') || (coin.name == 'EXG') || (coin.name == 'DSC') || (coin.name == 'BST')) && (coin.tokenType == 'ETH')">
                                             (ERC20)
                                         </span>
                                         <span *ngIf="((coin.name == 'USDT') || (coin.name == 'FAB') || (coin.name == 'EXG')) && (coin.tokenType == 'TRX')">
