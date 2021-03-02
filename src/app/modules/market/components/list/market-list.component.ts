@@ -24,6 +24,16 @@ export class MarketListComponent implements OnInit {
     favorite_pairs: string[] = [];
     searchText = '';
 
+    sortField: string;
+    sortFieldType: string;
+    sortAsc: boolean;
+    sortAscPair: number;
+    sortAscPrice: number;
+    sortAscChange: number;
+    sortAscHigh: number;
+    sortAscLow: number;
+    sortAscVolume: number;
+
     constructor(
         private coinServ: CoinService,
         private prServ: PriceService, private _router: Router, private storageServ: StorageService,
@@ -34,7 +44,97 @@ export class MarketListComponent implements OnInit {
         return this.utilServ.showAmount(amount, decimal);
     }
 
+    changeSort(field: string, fieldType: string) {
+        this.sortField = field;
+        this.sortFieldType = fieldType;
+        if(field == 'coin_id') {
+            if(!this.sortAscPair) {
+                this.sortAscPair = 1;
+            } else {
+                this.sortAscPair = -this.sortAscPair;
+            }
+            if(this.sortAscPair == 1) {
+                this.sortAsc = true;
+            } else {
+                this.sortAsc = false;
+            }
+        } else
+        if(field == 'price') {
+            if(!this.sortAscPrice) {
+                this.sortAscPrice = 1;
+            } else {
+                this.sortAscPrice = -this.sortAscPrice;
+            }
+            if(this.sortAscPrice == 1) {
+                this.sortAsc = true;
+            } else {
+                this.sortAsc = false;
+            }            
+        } else
+        if(field == 'change24h') {
+            if(!this.sortAscChange) {
+                this.sortAscChange = 1;
+            } else {
+                this.sortAscChange = -this.sortAscChange;
+            }
+            if(this.sortAscChange == 1) {
+                this.sortAsc = true;
+            } else {
+                this.sortAsc = false;
+            }             
+        } else
+        if(field == 'price24hh') {
+            if(!this.sortAscHigh) {
+                this.sortAscHigh = 1;
+            } else {
+                this.sortAscHigh = -this.sortAscHigh;
+            }
+            if(this.sortAscHigh == 1) {
+                this.sortAsc = true;
+            } else {
+                this.sortAsc = false;
+            }             
+        } else
+        if(field == 'price24hl') {
+            if(!this.sortAscLow) {
+                this.sortAscLow = 1;
+            } else {
+                this.sortAscLow = -this.sortAscLow;
+            }
+            if(this.sortAscLow == 1) {
+                this.sortAsc = true;
+            } else {
+                this.sortAsc = false;
+            }             
+        } else
+        if(field == 'vol24h') {
+            if(!this.sortAscVolume) {
+                this.sortAscVolume = 1;
+            } else {
+                this.sortAscVolume = -this.sortAscVolume;
+            }
+            if(this.sortAscVolume == 1) {
+                this.sortAsc = true;
+            } else {
+                this.sortAsc = false;
+            }             
+        }      
+        
+    }
+
+
     ngOnInit() {
+
+        this.sortField = '';
+        this.sortFieldType = '';
+        this.sortAsc = true;
+        this.sortAscPair = 0;
+        this.sortAscPrice = 0;
+        this.sortAscChange = 0;
+        this.sortAscHigh = 0;
+        this.sortAscLow = 0;
+        this.sortAscVolume = 0;
+
         this.prices = this.prServ.getPriceList();
 
         this.selectCat('USDT');

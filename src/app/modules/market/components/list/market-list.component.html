@@ -51,15 +51,15 @@
         </div>
 
         <div class="apair header fxHide-sm">
-            <div class="col-2">{{'Pair'|translate}}</div>
-            <div class="col-2">{{'LatestPrice'|translate}}</div>
-            <div class="col-2">{{'H24Change'|translate}}</div>
-            <div class="col-2">{{'H24H'|translate}}</div>
-            <div class="col-2">{{'H24L'|translate}}</div>
-            <div class="col-2">{{'Vol24'|translate}}</div>
+            <div class="col-2 sortable" (click)="changeSort('coin_id', 'number')">{{'Pair'|translate}}</div>
+            <div class="col-2 sortable" (click)="changeSort('price', 'number')">{{'LatestPrice'|translate}}</div>
+            <div class="col-2 sortable" (click)="changeSort('change24h', 'number')">{{'H24Change'|translate}}</div>
+            <div class="col-2 sortable" (click)="changeSort('price24hh', 'number')">{{'H24H'|translate}}</div>
+            <div class="col-2 sortable" (click)="changeSort('price24hl', 'number')">{{'H24L'|translate}}</div>
+            <div class="col-2 sortable" (click)="changeSort('vol24h', 'number')">{{'Vol24'|translate}}</div>
         </div>
 
-        <div class="apair dataline fxHide-sm" *ngFor="let pr of tab_prices; let i=index">
+        <div class="apair dataline fxHide-sm" *ngFor="let pr of tab_prices | sortByField : sortField : sortFieldType : sortAsc; let i=index">
             <div class="col-md-2 hand align-self-center">
                 <button mat-icon-button (click)="toggleFavorite(pr)" aria-label="Example icon-button with a heart icon" class="text-right">
                     <img [src]="isFavorite(pr) ? '/images/star-light.svg' : '/images/star-grey.svg'">
