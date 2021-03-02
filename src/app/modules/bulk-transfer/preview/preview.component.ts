@@ -18,6 +18,7 @@ export class PreviewComponent implements OnInit {
     assets: any;
     pin: string;
     item: any;
+    nonce: number;
     seed: any;
     wallet: any;
     @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal;
@@ -63,16 +64,19 @@ export class PreviewComponent implements OnInit {
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, this.seed, 0, 0);
         const gas = this.item.assets.gas;
         const address = this.item.address;
-        let nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
+        if(!this.nonce) {
+            this.nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
+        }
+        
 
         var keyNames = Object.keys(this.item.assets);
         keyNames.forEach(
             (name) => {
                 const value = this.item.assets[name];
                 if(name == 'gas') {
-                    this.sendGas(keyPairsKanban, address, gas, nonce ++);
+                    this.sendGas(keyPairsKanban, address, gas, this.nonce ++);
                 } else {
-                    this.sendAsset(keyPairsKanban, address, name, value, nonce ++);
+                    this.sendAsset(keyPairsKanban, address, name, value, this.nonce ++);
                 }
             }
         );
