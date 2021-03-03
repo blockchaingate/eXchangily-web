@@ -5,6 +5,8 @@ import { ApiService } from '../../../../services/api.service';
 import { environment } from '../../../../../environments/environment';
 import { UserService } from '../../../../services/user.service';
 import { StorageService } from '../../../../services/storage.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { PaymentMethodService } from '../../../../services/paymentmethod.service';
 
 @Component({
   selector: 'app-otc-order-detail',
@@ -15,36 +17,162 @@ export class OrderDetailComponent implements OnInit {
   id: string;
   order: any;
   user: any;
+  accountName: string;
+  memberAccountName: string;
+  receivingAddress: string;
+  token: string;
+  userpaymentmethodCashApp: any;
+  userpaymentmethods: any;
+  goPayStep: number;
+  modalRef: BsModalRef;
+
   constructor(
+    private modalService: BsModalService,
     private storageService: StorageService,
     private userServ: UserService,
     private apiServ: ApiService,
+    private paymentmethodServ: PaymentMethodService,
     private route: ActivatedRoute,
     private _otcServ: OtcService) {
 
   }
   ngOnInit() {
-
+    this.goPayStep = 1;
+    this.id = this.route.snapshot.paramMap.get('id');
     this.storageService.getToken().subscribe(
       (token: string) => {
+        this.token = token;
+
+        this.paymentmethodServ.getUserPaymentMethods(this.token).subscribe(
+          (res: any) => {
+            console.log('res for getUserPaymentMethods', res);
+
+            if (res && res.ok) {
+              this.userpaymentmethods = res._body;
+              console.log('this.userpaymentmethods==', this.userpaymentmethods);
+              for(let i = 0; i < this.userpaymentmethods.length;i++) {
+                const userpaymentmethod = this.userpaymentmethods[i];
+                if(userpaymentmethod.method == 'CashApp') {
+                  this.userpaymentmethodCashApp = userpaymentmethod;
+                  this.accountName = userpaymentmethod.details;
+                  break;
+                }
+              }
+            }
+        });
+
         this.userServ.getMe(token).subscribe(
           (res: any) => {
             console.log('res===', res);
             if (res && res.ok) {
               this.user = res._body;
+
+              this._otcServ.getOrder(this.id).subscribe(
+                (res: any) => {
+                  if (res.ok) {
+                    this.order = res._body;
+                    if(this.order.paymentMethod == 'CashApp') {
+                      const memberId = this.order.merchantId._id;
+                      this.paymentmethodServ.getUserPaymentMethodsByMemberId(memberId).subscribe(
+                        (res: any) => {
+                          if (res && res.ok) {
+                            const body = res._body;
+                            for(let i = 0; i < this.userpaymentmethods.length;i++) {
+                              const userpaymentmethod = this.userpaymentmethods[i];
+                              if(userpaymentmethod.method == 'CashApp') {
+                                this.memberAccountName = userpaymentmethod.details;
+                                break;
+                              }
+                            }
+                          }                          
+                        }
+                      );
+                    }
+
+                    const coinName = this.order.items[0].title;
+          
+                    if (coinName === 'BTC') {
+                      this.receivingAddress = this.user.walletBtcAddress;
+                    } else
+                    if (coinName === 'ETH' || coinName === 'USDT') {
+                      this.receivingAddress = this.user.walletEthAddress;
+                    } else
+                    if (coinName === 'FAB' || coinName === 'EXG' || coinName == 'DUSD') {
+                      this.receivingAddress = this.user.walletExgAddress;
+                    }          
+          
+                    console.log('this.receivingAddress==', this.receivingAddress);
+                  }
+                }
+              );
+
             }
           }
         );
       }
     );
-    this.id = this.route.snapshot.paramMap.get('id');
-    this._otcServ.getOrder(this.id).subscribe(
+    
+
+  }
+
+
+  changePaymentMethod() {
+    this._otcServ.changePaymentMethod(this.token, this.id, 'CashApp').subscribe(
       (res: any) => {
-        if (res.ok) {
-          this.order = res._body;
+        console.log('res==', res);
+        if(res && res.ok) {
+          this.goPayStep = 2;
+          window.open("https://cash.app/$exchangily", "_blank");
         }
       }
     );
+  }
+
+  changePaymentStatus(paymentStatus) {
+    this._otcServ.changePaymentStatus(this.token, this.id, paymentStatus).subscribe(
+      (res: any) => {
+        if (res && res.ok) {
+          this.goPayStep = 3;
+        }
+      }
+    );
+  }
+
+  confirmCashAppPay() {
+    const data = {
+      method: 'CashApp',
+      details: this.accountName
+    }
+
+    if(!this.userpaymentmethodCashApp) {
+      this.paymentmethodServ.addUserPaymentmethod(this.token, data).subscribe(
+        (res: any) => {
+          console.log('res in addUserPaymentmethod==', res);
+          if(res && res.ok) {
+            this.changePaymentMethod();
+          }
+        }
+      );
+    } else {
+      if(this.accountName == this.userpaymentmethodCashApp.details) {
+        this.changePaymentMethod();
+      } else {
+        this.paymentmethodServ.updateUserPaymentmethod(this.token, this.userpaymentmethodCashApp._id, data).subscribe(
+          (res: any) => {
+            if(res && res.ok) {
+              this.changePaymentMethod();
+            }
+          }
+        );
+      }
+      
+    }
+
+
+  }
+  payByCashApp(template) {
+    this.modalRef = this.modalService.show(template);
+
   }
 
   payByEpay() {
@@ -137,15 +265,7 @@ export class OrderDetailComponent implements OnInit {
           mapInput10.name = 'SUGGESTED_MEMO';
           const coinName = this.order.items[0].title;
           mapInput10.value = this.user.email + ' buy ' + this.order.items[0].quantity + coinName + ' with ' + paymentAmount + paymentUnit + '(receiving address:';
-          if (coinName === 'BTC') {
-            mapInput10.value += this.user.walletBtcAddress;
-          } else
-            if (coinName === 'ETH' || coinName === 'USDT') {
-              mapInput10.value += this.user.walletEthAddress;
-            } else
-              if (coinName === 'FAB' || coinName === 'EXG') {
-                mapInput10.value += this.user.walletExgAddress;
-              }
+          mapInput10.value += this.receivingAddress;
           mapInput10.value += ')';
           mapForm.appendChild(mapInput10);
 

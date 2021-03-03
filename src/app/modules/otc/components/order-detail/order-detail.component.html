@@ -26,14 +26,32 @@
     </div>
 
     <div class="row my-2">
+        <div class="leftar col-2 right">{{"Payment Method"|translate}}:</div>
+        <div>
+            {{order.paymentMethod}}
+            <span *ngIf="order.paymentMethod == 'CashApp'">
+                ({{memberAccountName}})
+            </span>
+        </div>
+    </div>
+
+    <div class="row my-2">
         <div class="leftar col-2 right">{{"Note"|translate}}:</div>
         <div>{{order.note}}</div>
     </div>
 
-    <div *ngIf="order.paymentStatus==0" class="text-center">
-        <button class="btn btn-gradient text-white py-2 px-5" type="button" (click)="payByEpay()"> {{'Pay by Epay' | translate}} </button>
-        <div class="notes color-warning">
-            {{"EpayNote"|translate}}
+    <div *ngIf="order.paymentStatus==0" class="text-center d-flex justify-content-between">
+        <div>
+            <button class="btn btn-gradient text-white py-2 px-5" type="button" (click)="payByEpay()"> {{'Pay by Epay' | translate}} </button>
+            <div class="notes color-warning">
+                {{"EpayNote"|translate}}
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-gradient text-white py-2 px-5" type="button" (click)="payByCashApp(cashAppModalTemplate)"> {{'Pay by Cash App' | translate}} </button>
+            <div class="notes color-warning">
+                {{"CashAppNote"|translate}}
+            </div>           
         </div>
     </div>
 
@@ -41,3 +59,40 @@
         {{"This order was paid"| translate}}.
     </div>
 </div>
+
+
+<ng-template #cashAppModalTemplate>
+    <div class="modal-bg-grey">
+        <div class="modal-header">
+            <h4 class="modal-title text-center">Pay be Cash App</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <div class="form-group">
+                  <label for="exampleInputEmail1">Cash App Account Name</label>
+                  <input type="text" [(ngModel)]="accountName" class="form-control" id="inputAccountName" aria-describedby="emailHelp" placeholder="Enter Account Name">
+                  <small id="emailHelp" class="form-text text-muted">Not in Cash App yet? click <a target="_blank" href="https://cash.app/app/LGPXWPX">https://cash.app/app/LGPXWPX</a> to register</small>
+              </div>
+              <div class="form-group">
+                  <label for="exampleInputEmail1">Amount: {{order.totalToPay}} {{order.currency}}</label>
+              </div>
+
+              <div class="form-group">
+                <label for="exampleInputEmail1">Receiving Address: {{receivingAddress}}</label>
+            </div>              
+          </div>   
+          
+          <div class="modal-footer  justify-content-center">
+            <button *ngIf="goPayStep == 1" class="btn btn-gradient text-white py-2 px-5" type="button" (click)="confirmCashAppPay()" [disabled]="!accountName || !receivingAddress"> {{'Confirm and Pay' | translate}} </button>
+            <button *ngIf="goPayStep == 2" (click)="changePaymentStatus(1)" mat-raised-button color="primary">
+                {{'Marked as paid' | translate}}
+            </button>   
+            <div *ngIf="goPayStep == 3">
+                {{'You finshed your payment' | translate}}
+            </div>         
+        </div>          
+    </div>
+
+</ng-template>
