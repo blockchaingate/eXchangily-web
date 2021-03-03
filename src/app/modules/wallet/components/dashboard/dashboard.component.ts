@@ -698,9 +698,6 @@ export class WalletDashboardComponent implements OnInit {
                                     coin.usdPrice = item.usdValue.USD;
                                     updated = true;
                                 }
-                                if (coin.name === 'FAB') {
-                                    this.fabBalance = coin.balance;
-                                }
                             }
 
 
