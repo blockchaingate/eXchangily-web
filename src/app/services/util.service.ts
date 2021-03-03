@@ -334,28 +334,38 @@ export class UtilService {
     }
 
     fabToExgAddress(address: string) {
-        const bytes = bs58.decode(address);
-        const addressInWallet = bytes.toString('hex');
-        console.log('addressInWallet==', addressInWallet);
-        return '0x' + addressInWallet.substring(2, 42);
+        try {
+            const bytes = bs58.decode(address);
+            const addressInWallet = bytes.toString('hex');
+            console.log('addressInWallet==', addressInWallet);
+            return '0x' + addressInWallet.substring(2, 42);
+        } catch(e) {
+
+        }
+        return '';
     }
 
     exgToFabAddress(address: string) {
-        let prefix = '6f';
-        if (environment.production) {
-            prefix = '00';
-        }
-        address = prefix + this.stripHexPrefix(address);
+        
+        try {
+            let prefix = '6f';
+            if (environment.production) {
+                prefix = '00';
+            }
+            address = prefix + this.stripHexPrefix(address);
+    
+            let buf = Buffer.from(address, 'hex');
+    
+            const hash1 = createHash('sha256').update(buf).digest().toString('hex');
+            const hash2 = createHash('sha256').update(Buffer.from(hash1, 'hex')).digest().toString('hex');
+    
+            buf = Buffer.from(address + hash2.substring(0, 8), 'hex');
+            address = bs58.encode(buf);
+            return address;
+        } catch(e) {}
 
-        let buf = Buffer.from(address, 'hex');
 
-        const hash1 = createHash('sha256').update(buf).digest().toString('hex');
-        const hash2 = createHash('sha256').update(Buffer.from(hash1, 'hex')).digest().toString('hex');
-
-        buf = Buffer.from(address + hash2.substring(0, 8), 'hex');
-        address = bs58.encode(buf);
-
-        return address;
+        return '';
     }
 
     toKanbanAddress(publicKey: Buffer) {

@@ -10,6 +10,7 @@ import { AlertService } from '../../../../services/alert.service';
 import { UtilService } from '../../../../services/util.service';
 import { ApiService } from '../../../../services/api.service';
 import BigNumber from 'bignumber.js';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'send-coin-modal',
@@ -39,8 +40,13 @@ export class SendCoinModal {
         gasLimit: [environment.chains.FAB.gasLimit],
         satoshisPerBytes: [environment.chains.FAB.satoshisPerBytes]
     });
-    constructor(private apiService: ApiService, private fb: FormBuilder, private utilServ: UtilService,
-        private coinServ: CoinService, private alertServ: AlertService) {
+    constructor(
+        private apiService: ApiService, 
+        private fb: FormBuilder, 
+        private utilServ: UtilService,
+        private translateServ: TranslateService,
+        private coinServ: CoinService, 
+        private alertServ: AlertService) {
         this.currentCoinIndex = 0;
         this.transFee = 0;
         this.sendAllCoinsFlag = false;
@@ -233,12 +239,15 @@ export class SendCoinModal {
 
         let to = this.sendCoinForm.get('sendTo').value;
         if(this.coin.tokenType == 'FAB') {
-            //if(to.indexOf('0x') < 0) {
             to = this.utilServ.fabToExgAddress(to);
-            //}
-            
         }    
         
+        if(!to) {
+            this.alertServ.openSnackBar(
+                this.translateServ.instant('Wallet address incorrect'), 
+                this.translateServ.instant('Ok'));
+            return;
+        }
         const selectedCoinIndex = Number(this.sendCoinForm.get('selectedCoinIndex').value);
         
         /*
