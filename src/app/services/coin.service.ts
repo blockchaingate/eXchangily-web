@@ -140,7 +140,7 @@ export class CoinService {
 
         myCoins.push(usdtCoin);
 
-        const dusdCoin = this.initToken('FAB', 'DUSD', 18, environment.addresses.smartContract.DUSD, fabCoin);
+        const dusdCoin = this.initToken('FAB', 'DUSD', 6, environment.addresses.smartContract.DUSD, fabCoin);
 
         this.fillUpAddress(dusdCoin, seed, 1, 0);
 
@@ -2321,6 +2321,9 @@ export class CoinService {
                 let decimals = mycoin.decimals;
                 if (!decimals) {
                     decimals = 18;
+                }
+                if(mycoin.name == 'DUSD') {
+                    decimals = 6;
                 }
                 // const amountSent = BigInt(amount * Math.pow(10, decimals));
                 // const amountSent = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, decimals)));
