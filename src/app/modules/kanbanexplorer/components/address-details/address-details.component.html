@@ -49,7 +49,12 @@
                 <div *ngFor="let order of orders;let i = index">
                     <div style="line-height: 1.5em; margin: 1em;">
                         <b>{{"Order"|translate}} : </b>{{i + 1}}<br>
-                        <b>{{"Order Hash"|translate}} : </b>{{order.orderHash}}<br>
+                        <b>{{"Order Hash"|translate}} : </b>
+                        <a href="/explorer/order-detail/{{order.orderHash}}">
+                            {{order.orderHash}}
+                        </a>
+                        
+                        <br>
                         <b>{{"Pair"| translate}} : </b>{{order.pairName}}<br>
                         <b>{{"Order Type"|translate}} :
                             <span *ngIf="order.bidOrAsk" style="color: green;">{{"Buy"|translate}}</span>
@@ -67,7 +72,12 @@
                         <b>{{"Matched Orders"|translate}} : </b>
                         <span *ngIf="order.matchedOrders.length === 0">{{"None"|translate}}</span><br>
                         <div *ngFor="let m of order.matchedOrders; let i=index" style="text-align: left; margin-left: 50px;">
-                            <b>{{"Order Hash"|translate}} : </b> {{m.orderHash}}<br>
+                            <b>{{"Order Hash"|translate}} : </b> 
+                            <a href="/explorer/order-detail/{{m.orderHash}}">
+                                {{m.orderHash}}
+                            </a>                            
+                            
+                            <br>
                             <b>{{"Quantity"|translate}} : </b>{{m.quantity | number:'1.2-10' }}<br>
                             <b>{{"Price"|translate}} : </b>{{m.price | number:'1.2-10' }}<br>
                             <b>{{"Block Number"|translate}} : </b>{{order.blockNumber.fulfilOrder[i]}}
