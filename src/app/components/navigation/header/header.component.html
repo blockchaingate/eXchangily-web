@@ -176,10 +176,7 @@
                                     <li class="nav-item">
                                         <a class="nav-link" (click)="linkTo('/promotion');selectedItem=6" [class.selected]="selectedItem===6" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'New Campaign' | translate}}</a>
                                     </li>
-                                    <li class="nav-item" *ngIf="!LoginInfo">
-                                        <a class="nav-link" routerLink="/login/signup" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">
-                                            {{'Header.Navigation.Signup' | translate}}
-                                        </a></li>
+
 
                                     <li class="nav-item" *ngIf="LoginQualify">
                                         <a class="nav-link pointer" href="/promotion/reward">
@@ -190,6 +187,28 @@
                                         <a class="nav-link pointer" href="/promotion/flyer" target="_blank">
                                             {{'My referral' | translate }}
                                         </a></li>
+
+                                </ul>
+                            </div>
+
+                            
+                        </div>
+                    </div>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link">{{'Settings' | translate}}</a>
+                    <div class="exSubMenu camMenu">
+                        <div class="exMenuContainer">
+
+                            <div class="exMenuItemBox ">
+                                <ul>
+                                    <li class="nav-item" *ngIf="!LoginInfo">
+                                        <a class="nav-link" routerLink="/login/signup" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">
+                                            {{'Header.Navigation.Signup' | translate}}
+                                        </a></li>
+
                                     <li class="nav-item" *ngIf="LoginInfo">
                                         <a class="nav-link pointer" href="/account">
                                                 {{'My profile' | translate }}
@@ -206,9 +225,14 @@
                                     </li>
                                 </ul>
                             </div>
+
+                            
                         </div>
                     </div>
                 </li>
+
+
+
                 <li class="nav-item d-flex justify-content-center align-items-center" *ngIf="!showCollapse">
                     <!-- <mat-progress-spinner [diameter]="40" [color]="color" [mode]="'determinate'" [value]="value"
                         [matMenuTriggerFor]="appMenu">
