@@ -76,22 +76,22 @@
             </ul>
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" (click)="linkTo('/wallet/dashboard');selectedItem=0" [class.selected]="selectedItem===0" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Wallet' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/wallet/dashboard');selectedItem=0" [class.selected]="selectedItem==0" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Wallet' | translate}}</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" (click)="linkTo('/market/home');selectedItem=1" [class.selected]="selectedItem===1" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Market' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/market/home');selectedItem=1" [class.selected]="selectedItem==1" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Market' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" (click)="linkTo('/market/trade/BTC_USDT');selectedItem=2" [class.selected]="selectedItem===2" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Trade' | translate}}</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" (click)="linkTo('/explorer');selectedItem=3" [class.selected]="selectedItem===3" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Explore' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/market/trade/BTC_USDT');selectedItem=2" [class.selected]="selectedItem==2" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Trade' | translate}}</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" (click)="linkTo('/otc/trade');selectedItem=5" [class.selected]="selectedItem===5" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'OTC Trade' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/explorer');selectedItem=3" [class.selected]="selectedItem==3" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Explore' | translate}}</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" (click)="linkTo('/otc/trade');selectedItem=5" [class.selected]="selectedItem==5" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'OTC Trade' | translate}}</a>
                 </li>
                 <!-- Don't remove, may need it later
                 <li class="nav-item">

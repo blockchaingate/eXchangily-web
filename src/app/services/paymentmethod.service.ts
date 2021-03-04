@@ -19,6 +19,10 @@ export class PaymentMethodService {
     return this.http.postPrivate(environment.endpoints.blockchaingate + 'userpaymentmethods/create', data, token);
   }
 
+  updateUserPaymentmethod(token: string, userpaymentmethod_id: string, data) {
+    return this.http.postPrivate(environment.endpoints.blockchaingate + 'userpaymentmethods/' + userpaymentmethod_id + '/update', data, token);
+  }
+
   deleteUserPaymentmethod(token: string, id: string) {
     return this.http.getPrivate(environment.endpoints.blockchaingate + 'userpaymentmethods/' + id + '/delete', token);
   }
@@ -33,5 +37,9 @@ export class PaymentMethodService {
 
   getUserPaymentMethods(token) {
     return this.http.getPrivate(environment.endpoints.blockchaingate + 'userpaymentmethods/owned', token);
+  }
+
+  getUserPaymentMethodsByMemberId(memberId: string) {
+    return this.http.getRaw(environment.endpoints.blockchaingate + 'userpaymentmethods/member/' + memberId);
   }
 }

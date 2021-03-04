@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { KanbanexplorerRoutingModule } from './kanbanexplorer-routing.module';
 import { KanbanexplorerComponent } from './kanbanexplorer.component';
 import { BlocksComponent } from './components/blocks/blocks.component';
+import { OrdeDetailComponent } from './components/order-detail/order-detail.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BlockDetailsComponent } from './components/block-details/block-details.component';
 import { TxDetailsComponent } from './components/tx-details/tx-details.component';
@@ -32,6 +33,7 @@ import { TranslateModule } from '@ngx-translate/core';
   declarations: [
     KanbanexplorerComponent,
     BlocksComponent,
+    OrdeDetailComponent,
     BlockDetailsComponent,
     TxDetailsComponent,
     SearchBoxComponent,

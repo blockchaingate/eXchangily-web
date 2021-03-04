@@ -39,7 +39,7 @@
                         <th scope="col"><small>{{"Member"|translate}}</small></th>
                         <th scope="col"><small>{{"Coin"|translate}}</small></th>
                         <th scope="col"><small>{{"Price"|translate}}</small></th>
-                        <th scope="col"><small>{{"Currency"|translate}}</small></th>
+                        <th scope="col"><small>{{"Method"|translate}}</small></th>
                         <th scope="col"><small>{{"Quantity"|translate}}</small></th>
                         <th scope="col"><small>{{"Amount"|translate}}</small></th>
                         <th scope="col"><small>{{"Time"|translate}}</small></th>
@@ -62,8 +62,8 @@
                             </a>
                         </td>
                         <td>{{element.items[0].title}}</td>
-                        <td>{{element.items[0].price}}</td>
-                        <td>{{element.items[0].currency}}</td>
+                        <td>{{element.items[0].price}} {{element.items[0].currency}}</td>
+                        <td>{{element.paymentMethod}}</td>
                         <td>{{element.items[0].quantity}}</td>
                         <td>{{element.totalToPay}}</td>
                         <td>{{element.dateCreated | date : 'yyyy-MM-dd hh:mm'}}</td>
@@ -73,17 +73,24 @@
                             </div>
                             <div class="text-center">
                                 <div *ngIf="type=='member'">
-                                    <button *ngIf="element.paymentStatus == 0" (click)="makePayment(element)" mat-raised-button color="primary">
-                                        {{'Make payment' | translate}}
-                                    </button>
+                                    <div class="py-1">
+                                        <button *ngIf="element.paymentStatus == 0" (click)="makePayment(element)" mat-raised-button color="primary">
+                                            {{'Make payment' | translate}}
+                                        </button>
+                                    </div>
 
-                                    <button *ngIf="element.paymentStatus == 0" (click)="changePaymentStatus(element, 3)" mat-raised-button color="primary">
-                                        {{'Cancel' | translate}}
-                                    </button>
+                                    <div class="py-1">
+                                        <button *ngIf="element.paymentStatus == 0" (click)="changePaymentStatus(element, 3)" mat-raised-button color="primary">
+                                            {{'Cancel' | translate}}
+                                        </button>
+                                    </div>
 
-                                    <button *ngIf="element.paymentStatus == 0" (click)="changePaymentStatus(element, 1)" mat-raised-button color="primary" style="margin-left: 0.4em;">
-                                        {{getButtonText(element.buy, element.paymentStatus) | translate}}
-                                    </button>
+                                    <div class="py-1">
+                                        <button *ngIf="element.paymentStatus == 0" (click)="changePaymentStatus(element, 1)" mat-raised-button color="primary" style="margin-left: 0.4em;">
+                                            {{getButtonText(element.buy, element.paymentStatus) | translate}}
+                                        </button>
+                                    </div>
+
                                     <!--     
                                     <button *ngIf="element.paymentStatus != 0 && element.paymentStatus != 4" (click)="changePaymentStatus(element, 4)" mat-raised-button color="primary">
                                         {{'Locked' | translate}}

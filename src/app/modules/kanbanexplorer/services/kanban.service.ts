@@ -130,6 +130,10 @@ export class KanbanService {
     return this.http.get<Order[]>(`${this.url}getlatestorders`);
   }
 
+  getOrder(orderHash: string): Observable<Order> {
+    return this.http.get<Order>(`${this.url}getOrderByOrderHash/${orderHash}`);
+  } 
+
   getLatestTrades(): Observable<Trade[]> {
     return this.http.get<Trade[]>(`${this.url}getlatesttrades`);
   }

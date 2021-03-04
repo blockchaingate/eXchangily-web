@@ -178,14 +178,20 @@
                                 <div class="col-custom-1">
                                     {{"Symbol" | translate}}
                                 </div>
-                                <div class="col-custom-1">
+                                <div class="col-custom-1 sortable" (click)="changeSort('name', 'string')">
                                     {{"Asset" | translate}}
+                                    <span *ngIf="sortAscName == 1">&uarr;</span>
+                                    <span *ngIf="sortAscName == -1 ">&darr;</span>
                                 </div>
-                                <div class="col-2">
+                                <div class="col-2 sortable" (click)="changeSort('balance', 'number')">
                                     {{"Available" | translate}}
+                                    <span *ngIf="sortAscBalance == 1">&uarr;</span>
+                                    <span *ngIf="sortAscBalance == -1">&darr;</span>
                                 </div>
-                                <div class="col-2">
+                                <div class="col-2 sortable" (click)="changeSort('lockedBalance', 'number')">
                                     {{"Locked" | translate}}
+                                    <span *ngIf="sortAscLockedBalance == 1">&uarr;</span>
+                                    <span *ngIf="sortAscLockedBalance == -1">&darr;</span>                                    
                                 </div>
                                 <div class="col-2">
                                     {{"Value(USD)" | translate}}
@@ -198,7 +204,7 @@
                                 </div>
                             </div>
                             <div class="container-wallet-main scroll-bar" *ngIf="wallet">
-                                <ng-container *ngFor="let mycoin of wallet.mycoins; index as i">
+                                <ng-container *ngFor="let mycoin of wallet.mycoins | sortByField : sortField : sortFieldType : sortAsc; index as i">
                                     <div class="row apair dataline small" *ngIf="(mycoin.name!='BNB') && (!hideSmall || ((mycoin.usdPrice > 0) && ((mycoin.balance + (mycoin.lockedBalance ? mycoin.lockedBalance : 0)) * mycoin.usdPrice >= 1)))">
                                         <div class="col-custom-1">
                                             <img src="{{getCoinLogo(mycoin)}}" class="icon" />

@@ -106,6 +106,13 @@ export class WalletDashboardComponent implements OnInit {
     walletUpdateToDate: boolean;
     hideWallet = false;
 
+    sortField: string;
+    sortFieldType: string;
+    sortAsc: boolean;
+    sortAscName: number;
+    sortAscBalance: number;
+    sortAscLockedBalance: number;
+
     constructor(
         private campaignorderServ: CampaignOrderService,
         private route: Router, private walletServ: WalletService, private modalServ: BsModalService,
@@ -123,6 +130,11 @@ export class WalletDashboardComponent implements OnInit {
         this.hasNewCoins = false;
         this.baseCoinBalance = 0;
         this.maintainence = false;
+        this.sortField = '';
+        this.sortFieldType = '';
+        this.sortAscName = 0;
+        this.sortAscBalance = 0;
+        this.sortAscLockedBalance = 0;   
 
         this.kanbanServ.getKanbanStatus().subscribe(
             (res: any) => {
@@ -148,6 +160,49 @@ export class WalletDashboardComponent implements OnInit {
 
     getFreeFab() {
         this.getFreeFabModal.show();
+    }
+
+    changeSort(field: string, fieldType: string) {
+        this.sortField = field;
+        this.sortFieldType = fieldType;
+        if(field == 'name') {
+            if(!this.sortAscName) {
+                this.sortAscName = 1;
+            } else {
+                this.sortAscName = -this.sortAscName;
+            }
+            if(this.sortAscName == 1) {
+                this.sortAsc = true;
+            } else {
+                this.sortAsc = false;
+            }
+        } else
+        if(field == 'balance') {
+            if(!this.sortAscBalance) {
+                this.sortAscBalance = 1;
+            } else {
+                this.sortAscBalance = -this.sortAscBalance;
+            }
+            if(this.sortAscBalance == 1) {
+                this.sortAsc = true;
+            } else {
+                this.sortAsc = false;
+            }            
+        } else
+        if(field == 'lockedBalance') {
+            if(!this.sortAscLockedBalance) {
+                this.sortAscLockedBalance = 1;
+            } else {
+                this.sortAscLockedBalance = -this.sortAscLockedBalance;
+            }
+            if(this.sortAscLockedBalance == 1) {
+                this.sortAsc = true;
+            } else {
+                this.sortAsc = false;
+            }             
+        }   
+        
+        this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
     }
 
     getCoinLogo(coin) {
@@ -501,7 +556,7 @@ export class WalletDashboardComponent implements OnInit {
                 ethAddress = coin.receiveAdds[0].address;
             }
             
-            if (coin.name == 'FAB' && !fabAddress) {
+            if (coin.name == 'FAB' && !coin.tokenType && !coin.encryptedPrivateKey && !fabAddress) {
                 fabAddress = coin.receiveAdds[0].address;
                 this.fabBalance = coin.balance;
                 this.fabAddress = fabAddress;
@@ -534,12 +589,14 @@ export class WalletDashboardComponent implements OnInit {
                     coin.balance = balance.balance;
                     coin.lockedBalance = balance.lockbalance;
 
+                    /*
                     if(coin.name === 'EXG') {
                         if(!this.exgBalance) {
                             this.exgBalance = Number(coin.balance) + Number(coin.lockedBalance);
                             console.log('this.exgBalance=', this.exgBalance);
                         }      
-                    }                   
+                    }   
+                    */                
                 } catch(e) {
 
                 }          
@@ -591,15 +648,15 @@ export class WalletDashboardComponent implements OnInit {
                         if (coin.name === 'ETH') {
                             ethCoin = coin;
                         }
-                        if(coin.name === 'EXG' && coin.tokenType == 'FAB') {
-                            console.log('coin=', coin);
-                            console.log('this.exgBalance=', this.exgBalance);
+                        if(coin.name === 'EXG' && coin.tokenType == 'FAB' && !coin.encryptedPrivateKey) {
+                            //console.log('coin=', coin);
+                            //console.log('this.exgBalance=', this.exgBalance);
                             if(!this.exgBalance) {
                                 this.exgBalance = Number(coin.balance) + Number(coin.lockedBalance);
                                 this.exgValue = coin.usdPrice;
                             }
 
-                            console.log('this.exgBalance=', this.exgBalance);
+                            //console.log('this.exgBalance=', this.exgBalance);
                                      
                         }
                         if (coin.name === 'FAB' && !coin.tokenType) {
@@ -640,9 +697,6 @@ export class WalletDashboardComponent implements OnInit {
                                 if (item.usdValue && (coin.usdPrice !== item.usdValue.USD)) {
                                     coin.usdPrice = item.usdValue.USD;
                                     updated = true;
-                                }
-                                if (coin.name === 'FAB') {
-                                    this.fabBalance = coin.balance;
                                 }
                             }
 

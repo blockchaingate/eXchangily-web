@@ -23,6 +23,11 @@ export class OtcService {
     return this.http.postPrivate(path + 'orders/' + order_id + '/changePaymentStatus',data, token);
   }
 
+  changePaymentMethod(token:string, order_id: string, method: string) {
+
+    return this.http.getPrivate(path + 'orders/' + order_id + '/changePaymentMethod/' + method, token);
+  }
+
   addOrder(token: string, listing_id: string, data: any) {
     return this.http.postPrivate(path + 'otc-listing/' + listing_id + '/add-order', data, token);
   }
