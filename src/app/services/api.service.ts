@@ -32,6 +32,16 @@ export class ApiService {
         return this.http.get(url);
     }
 
+    getCoin(symbol: string) {
+        const url = environment.endpoints.kanban + 'coins/' + symbol;
+        return this.http.get(url);
+    }
+
+    getAllCoins() {
+        const url = environment.endpoints.kanban + 'coins/';
+        return this.http.get(url).toPromise();
+    }
+
     getEpayHash(paymentAmount: number, paymentUnit: string) {
         const url = environment.endpoints.blockchaingate + 'epay/hash/' + paymentAmount + '/' + paymentUnit;
         return this.http.get(url);       

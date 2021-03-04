@@ -9,7 +9,7 @@ export const environment = {
     STRIPE_PUBLIC_KEY: 'pk_test_xVAqsYMxwh3AZfJcYu1hruyE',
     PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',
     baseUrl: 'https://exchangily.com',
-    url: 'https://kanbanprod.fabcoinapi.com/',
+    url: 'https://api.exchangily.com/',
     version: '2.0.5',
     campaignId: 1,
     OTC_COMMISSION_RATE: 0,
@@ -108,7 +108,7 @@ export const environment = {
     endpoints: {
         blockchaingate: 'https://api.blockchaingate.com/v2/',
         coingecko: 'https://api.coingecko.com/',
-        kanban: 'https://kanbanprod.fabcoinapi.com/',
+        kanban: 'https://api.exchangily.com/',
         BTC: {
             exchangily: 'https://btcprod.fabcoinapi.com/'
         },

@@ -2,12 +2,51 @@ import { Blockchain } from './blockchain';
 
 import { environment } from '../../environments/environment';
 export class Coin {
+    _id?: string;
     name: string;
     symbol: string;
-    desc?: string;
     decimals: number;
     coinType: number; // Bip44 cointype
     blockchain: Blockchain;
+
+    internalOnly?: boolean;  // This coin only for Exchangily use, not exposure to external.
+    needsStripping?: boolean;
+    chain?: number;
+    chainName?: string;
+    isERC20?: boolean;
+    protocol?: string; // ERC20, TRC20, FRC20 etc.
+    contractAddress?: string; // If it is a contract token
+    trimPrefix?: boolean;
+
+    issueTime?: string;
+    totalsupply?: number;
+    circulation?: number;
+    getCirculationLink?: string;
+    burned?: number;
+
+    summary?: string;
+    summaryLan?: [{lan: string, summary: string}];
+    introduction?: string;
+    descLan?: [{lan: string, desc: string}];
+    website?: string;
+    whitepaper?: string;
+    explorer?: string;
+    sourcecode?: string;
+    communities?: [{name: string, link: string}];
+
+    // below parameters are for CoinMarketCap
+    unified_cryptoasset_id?: number;
+    can_withdraw?: boolean;
+    can_deposit?: boolean;
+    min_withdraw?: number;
+    max_withdraw?: number;
+    maker_fee?: number;
+    taker_fee?: number;
+
+    active?: boolean;
+
+    dateCreated?:  Date;
+    lastUpdated?: Date;
 
    constructor(name: string) {
     this.name = name;
@@ -48,7 +87,7 @@ export class Coin {
         this.coinType = environment.CoinType.DOGE;
         this.decimals = 8;
     } else 
-    if (name == 'TRX') {
+    if (name === 'TRX') {
         this.coinType = environment.CoinType.TRX;
         this.decimals = 6;
     }

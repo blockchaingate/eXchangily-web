@@ -15,12 +15,16 @@ import { from } from 'rxjs';
 import { AppIntroComponent } from './modules/app-intro/app-intro.component';
 import { AnnouncementComponent } from './components/help/announcement/announcement/announcement.component';
 import { AnnouncementListComponent } from './components/help/announcement/announcement-list/announcement-list.component';
+// import { CoininfoComponent } from './components/coin/coin-info.component';
 
 const routes: Routes = [
-
   {
     path: 'explorer',
     loadChildren: () => import('./modules/kanbanexplorer/kanbanexplorer.module').then(m => m.KanbanExplorerModule)
+  },
+  {
+    path: 'assets',
+    loadChildren: () => import('./components/coin/coin.module').then(c => c.CoinModule)
   },
   {
     path: 'wallet',
@@ -137,6 +141,7 @@ const routes: Routes = [
   { path: 'tickets', component: TicketComponent },
   { path: 'ticket-add', component: TicketAddComponent },
   { path: 'news', component: NewsComponent },
+//  { path: 'coin/:symbol', component: CoininfoComponent },
   { path: 'announcements', component: AnnouncementListComponent },
   { path: '', redirectTo: '/market/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
