@@ -1007,7 +1007,8 @@ export class CoinService {
         transFee = ((receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput + outputNum * 34) * satoshisPerBytes;
 
         const output1 = Math.round(totalInput
-            - new BigNumber(this.utilServ.toBigNumber(amount + extraTransactionFee, 8)).toNumber()
+         //   - new BigNumber(this.utilServ.toBigNumber(amount + extraTransactionFee, 8)).toNumber()
+            - (amount + extraTransactionFee) * 1e8
             - transFee);
 
         if (getTransFeeOnly) {
@@ -1165,7 +1166,8 @@ export class CoinService {
         transFee = ((receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput + outputNum * 34) * satoshisPerBytes;
 
         const output1 = Math.round(totalInput
-            - new BigNumber(this.utilServ.toBigNumber(amount + extraTransactionFee, 8)).toNumber()
+//            - new BigNumber(this.utilServ.toBigNumber(amount + extraTransactionFee, 8)).toNumber()
+            - (amount + extraTransactionFee) * 1e8
             - transFee);
 
         if (getTransFeeOnly) {
@@ -1178,7 +1180,8 @@ export class CoinService {
             // console.log('output1 or output2 should be greater than 0.');
             return {
                 txHex: '',
-                errMsg: 'output1 should be greater than 0.' + totalInput + ',' + amount + ',' + transFee + ',' + output1,
+                errMsg: 'output1 should be greater than 0,' + totalInput + ',' + amount + ',' + transFee 
+                + ',' + output1 + ',' + extraTransactionFee,
                 transFee: 0, amountInTx: amountInTx, txids: txids
             };
         }
