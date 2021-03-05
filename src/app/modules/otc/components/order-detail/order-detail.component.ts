@@ -265,7 +265,7 @@ export class OrderDetailComponent implements OnInit {
           mapInput10.name = 'SUGGESTED_MEMO';
           const coinName = this.order.items[0].title;
           mapInput10.value = this.user.email + ' buy ' + this.order.items[0].quantity + coinName + ' with ' + paymentAmount + paymentUnit + '(receiving address:';
-          mapInput10.value += this.receivingAddress;
+          mapInput10.value += this.order.name;
           mapInput10.value += ')';
           mapForm.appendChild(mapInput10);
 
