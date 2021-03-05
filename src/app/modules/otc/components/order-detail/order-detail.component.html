@@ -48,16 +48,16 @@
     <div *ngIf="order.paymentStatus==0" class="text-center d-flex justify-content-between">
         <div>
             <button class="btn btn-gradient text-white py-2 px-5" type="button" (click)="payByEpay()"> {{'Pay by Epay' | translate}} </button>
-            <div class="notes text-info">
+            <div class="notes color-warning">
                 {{"EpayNote"|translate}}
             </div>
         </div>
         <div>
             <button class="btn btn-gradient text-white py-2 px-5" type="button" (click)="payByCashApp(cashAppModalTemplate)"> {{'Pay by Cash App' | translate}} </button>
-            <div class="pt-2 color-warning">
-                {{"CashAppRequiredNote"|translate}}{{order._id}}
+            <div class="text-success pt-2">
+                {{'Not in Cash App yet? click' | translate}} <a target="_blank" href="https://cash.app/app/LGPXWPX">https://cash.app/app/LGPXWPX</a>
             </div>
-            <div class="notes text-info">
+            <div class="notes color-warning">
                 {{"CashAppNote"|translate}}
             </div>           
         </div>
@@ -86,7 +86,7 @@
                       {{'to register' | translate}}</small>
               </div>
               <div class="form-group">
-                  <label for="exampleInputEmail1">{{'Amount' | translate}}: {{order.totalToPay}} {{order.currency}}</label>
+                  <label for="exampleInputEmail1">{{'Amount' | translate}}: {{order.totalToPay}} {{order.currency | translate}}</label>
               </div>
 
               <div class="form-group">
@@ -95,10 +95,20 @@
           </div>   
           
           <div class="modal-footer  justify-content-center">
-            <button *ngIf="goPayStep == 1" class="btn btn-gradient text-white py-2 px-5" type="button" (click)="confirmCashAppPay()" [disabled]="!accountName || !receivingAddress"> {{'Confirm and Pay' | translate}} </button>
-            <button *ngIf="goPayStep == 2" (click)="changePaymentStatus(1)" mat-raised-button color="primary">
-                {{'Marked as paid' | translate}}
-            </button>   
+            <div *ngIf="goPayStep == 1 || goPayStep == 2">
+                <div class="text-center">
+                    <button *ngIf="goPayStep == 1" class="btn btn-gradient text-white py-2 px-5" type="button" (click)="confirmCashAppPay()" [disabled]="!accountName || !receivingAddress"> 
+                        {{'Confirm and Pay' | translate}} 
+                    </button>
+                    <button *ngIf="goPayStep == 2" (click)="changePaymentStatus(1)" mat-raised-button color="primary">
+                        {{'Marked as paid' | translate}}
+                    </button>                       
+                </div>
+                <div class="pt-2 color-warning">
+                    {{"CashAppRequiredNote"|translate}}{{order._id}}
+                </div>
+            </div>
+
             <div *ngIf="goPayStep == 3">
                 {{'You finshed your payment' | translate}}
             </div>         
