@@ -1839,4 +1839,8 @@ export class WalletDashboardComponent implements OnInit {
         );
 
     }
+
+    selectCoin(coinSymbol: string) {
+        this.route.navigate(['/assets/' + coinSymbol]);
+    }
 }

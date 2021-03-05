@@ -8,7 +8,7 @@
                         <div class="col col-8 col-md-6">
                             {{"My Wallet" | translate}}
                         </div>
-                        
+
                         <div class="col col-4 w-100 col-md-6 small text-right fxHide-gt-sm">
                             <mat-menu #walletMenu="matMenu">
                                 <button (click)="onmanageWallet('BACKUP_PRIVATE_KEY')" mat-menu-item>{{"Backup private key" | translate}}</button>
@@ -19,21 +19,21 @@
                                 <button (click)="onmanageWallet('SHOW_SEED_PHRASE')" mat-menu-item>{{"Show seed phrase" | translate}}</button>
 
                                 <button (click)="onmanageWallet('VERIFY_SEED_PHRASE')" mat-menu-item>{{"Verify seed phrase" | translate}}</button>
-                                
+
                                 <button (click)="onmanageWallet('DELETE_WALLET')" mat-menu-item>{{"Delete wallet" | translate}}</button>
                                 <button (click)="onmanageWallet('SMART_CONTRACT')" mat-menu-item>{{"Smart contract" | translate}}</button>
                                 <button (click)="onmanageWallet('HIDE_SHOW_WALLET')" mat-menu-item>{{ (hideWallet ? 'Show wallet' : 'Hide wallet') | translate}}  </button>
                                 <button (click)="onmanageWallet('TOOLS')" mat-menu-item>{{"Tools" | translate}}</button>
-                                                                                           
+
                             </mat-menu>
 
                             <button mat-icon-button [matMenuTriggerFor]="walletMenu">
                                 <mat-icon svgIcon="more-vert"></mat-icon>
                             </button>
-                        </div>                                
-                    </div>    
-                    
-<!--
+                        </div>
+                    </div>
+
+                    <!--
                 <li class="nav-item">
                     <a (click)="hideShowWallet()" class="nav-link text-silver">
                         {{ (hideWallet ? 'Show wallet' : 'Hide wallet') | translate}}  
@@ -46,7 +46,7 @@
                     </a>
                 </li>   
 -->
-                    
+
                     <div class="row">
                         <div class="col col-md-8">
 
@@ -125,7 +125,7 @@
 
                             <div class="d-inline-block pr-3 walletBtn" *ngIf="!walletUpdateToDate">
                                 <button class="btn button btn-outline btn-basic-outline btn-fixed-width text-danger font-weight-bold" (click)="updateWallet()">{{"Update" | translate }}</button>
-                            </div>                            
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -191,7 +191,7 @@
                                 <div class="col-2 sortable" (click)="changeSort('lockedBalance', 'number')">
                                     {{"Locked" | translate}}
                                     <span *ngIf="sortAscLockedBalance == 1">&uarr;</span>
-                                    <span *ngIf="sortAscLockedBalance == -1">&darr;</span>                                    
+                                    <span *ngIf="sortAscLockedBalance == -1">&darr;</span>
                                 </div>
                                 <div class="col-2">
                                     {{"Value(USD)" | translate}}
@@ -205,7 +205,7 @@
                             </div>
                             <div class="container-wallet-main scroll-bar" *ngIf="wallet">
                                 <ng-container *ngFor="let mycoin of wallet.mycoins | sortByField : sortField : sortFieldType : sortAsc; index as i">
-                                    <div class="row apair dataline small" *ngIf="(mycoin.name!='BNB') && (!hideSmall || ((mycoin.usdPrice > 0) && ((mycoin.balance + (mycoin.lockedBalance ? mycoin.lockedBalance : 0)) * mycoin.usdPrice >= 1)))">
+                                    <div class="row apair dataline small pointer" *ngIf="(mycoin.name!='BNB') && (!hideSmall || ((mycoin.usdPrice > 0) && ((mycoin.balance + (mycoin.lockedBalance ? mycoin.lockedBalance : 0)) * mycoin.usdPrice >= 1)))" (click)="selectCoin(mycoin.symbol)">
                                         <div class="col-custom-1">
                                             <img src="{{getCoinLogo(mycoin)}}" class="icon" />
                                         </div>
@@ -218,10 +218,8 @@
                                                 </div>
                                                 <div *ngIf="(mycoin.tokenType=='TRX')">
                                                     (TRC20)
-                                                </div>                                                
+                                                </div>
                                             </div>
-
-
                                         </div>
                                         <div class="col-2">
                                             <span *ngIf="mycoin.balance >= 0">
@@ -260,7 +258,7 @@
                             <div class="row apair header">
                                 <div class="col-2">
                                     {{"Symbol" | translate}}
-                                    
+
                                 </div>
                                 <div class="col-2">
                                     {{"Asset" | translate}}
@@ -290,8 +288,8 @@
                                             </div>
                                             <div *ngIf="(mycoin.tokenType=='TRX')">
                                                 (TRC20)
-                                            </div>                                                
-                                        </div>                                       
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-4" *ngIf="mycoin.balance >= 0">
                                         {{mycoin.balance}}

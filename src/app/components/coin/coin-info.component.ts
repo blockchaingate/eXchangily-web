@@ -15,7 +15,7 @@ export class CoininfoComponent implements OnInit {
     @Input() coin: Coin;
     symbol = '';
 
-    constructor(private _route: ActivatedRoute, private _router: Router, private api: ApiService) { }
+    constructor(private _route: ActivatedRoute, private api: ApiService) { }
 
     ngOnInit(): void {
         this._route.params.subscribe(params => {
