@@ -4,10 +4,13 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { environment } from '../../../../../environments/environment';
-import { HttpService } from '../../../../services/http.service';
+// import { HttpService } from '../../../../services/http.service';
+// Here can't use HttpService because it uses local path.
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 @Injectable()
 export class JsonFileService {
-  constructor(private http: HttpService) {
+  constructor(private http: HttpClient) {
   }
 
   get apiUrl(): string {

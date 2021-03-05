@@ -29,7 +29,6 @@
         .row {
             overflow: hidden;
         }
-
         height: max-content;
         margin: 2em 0;
         overflow: hidden;
@@ -38,19 +37,13 @@
             height: 20em !important;
         }
         &--transparent {
-            background: linear-gradient(
-                to bottom,
-                rgba(0, 0, 0, 0) 0%,
-                rgba(255, 255, 255, 0.68) 50%,
-                rgba(255, 255, 255, 1) 100%
-            );
+            background: linear-gradient( to bottom, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0.68) 50%, rgba(255, 255, 255, 1) 100%);
             bottom: 0;
             height: 10em;
             position: absolute;
             width: 100%;
         }
     }
-
     &__section__member {
         overflow: hidden;
         margin: 1em 0;
@@ -62,7 +55,6 @@
         // border-top: 5px solid #181439;
         // background-clip: padding-box;
         // background-color: #000066;
-
         .member-detail {
             padding: 30px 15px;
             color: #ffffff;
@@ -75,25 +67,20 @@
             -o-transition: all 450ms ease-in-out;
             -ms-transition: all 450ms ease-in-out;
             transition: all 450ms ease-in-out;
-
             .member--title {
                 color: #dddddd;
             }
-
             .member__list {
                 color: #dddddd;
             }
         }
-
         .member-detail:hover {
             background-color: #6958f1;
             -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 1);
             -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 1);
             box-shadow: 0 0 20px rgba(0, 0, 0, 1);
         }
-
         // padding: ;
-
         @media (max-width: $p768) {
             .member-detail {
                 height: auto;
@@ -143,9 +130,12 @@
     }
 }
 
-
 @media (max-width: $p768) {
-    .home__team { 
+    .home__team {
         padding: 0 30px;
     }
+}
+
+.title {
+    margin-top: 4em;
 }
