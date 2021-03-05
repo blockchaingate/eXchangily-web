@@ -1515,6 +1515,7 @@
     "Legacy Address": "旧地址",
     "Mark as paid": "我已付款",
     "Note": "备注",
+    "CashAppRequiredNote": "请在付款时加备注： otc订单",
     "My Otc Order": "我的法币交易",
     "Method": "付款方式",
     "Member": "客户",
