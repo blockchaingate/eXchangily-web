@@ -37,16 +37,22 @@
 
     <div class="button-wrapper">
         <button type="submit" [disabled]="!formDir.form.valid" class="form-input__button fancy-button background-primary"><span class="color-white">{{ 'Header.Navigation.Signup' | translate }}</span></button>
-        <p *ngIf="serverErrorMsg" class="form-input__error center">
+        <p *ngIf="serverErrorMsg" class="form-input__error center alert alert-danger">
             {{ serverErrorMsg | translate }}
         </p>
-        <p *ngIf="ExgAddRegistered">
+        <p *ngIf="ExgAddRegistered" class="alert alert-danger">
             {{"Wallet EXG address registered already"| translate}}
         </p>
-        <p *ngIf="NoWallet">
-            {{"No wallet address available, please create or restore your wallet first"| translate}}.
-        </p>
-    </div>
+        <div *ngIf="NoWallet" class="pt-3">
+            <p class="pt-3 alert alert-danger">
+                {{"No wallet address available, please create or restore your wallet first"| translate}}.
+            </p>
+    
+            <p class="text-center"><a class="color-primary" [routerLink]="['/wallet/create']">{{'Create Wallet' | translate}}</a></p>
+            <p class="text-center"><a class="color-primary" [routerLink]="['/wallet/restore']">{{'Restore Wallet' | translate}}</a></p>
+     
+        </div>
+   </div>
 
     <p class="text-center"><a class="color-primary" [routerLink]="['/login/signin']">{{'Got an account already? Login here!' | translate}}</a></p>
 </form>
