@@ -32,6 +32,11 @@ export class UserPaymentMethodsComponent implements OnInit {
             }
           });
       });
+
+      this.paymentmethods = [
+        "Cash App"
+      ];
+      /*
     this.paymentmethodServ.getPaymentMethods().subscribe(
       (res: any) => {
         console.log('res for ');
@@ -40,6 +45,7 @@ export class UserPaymentMethodsComponent implements OnInit {
           console.log('this.paymentmethods===', this.paymentmethods);
         }
       });
+      */
   }
 
   delete(userpaymentmethod_id: string) {

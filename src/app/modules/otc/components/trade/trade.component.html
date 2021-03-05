@@ -103,9 +103,13 @@
                         <tr *ngFor="let element of dataSource">
                         -->
                         <td>{{element.merchant ? element.merchant.merchantName : ''}}</td>
+                        
                         <td>
+                            <!--
                             <app-paymentmethod [methods]="element.paymentmethods"></app-paymentmethod>
+                            -->
                         </td>
+                        
                         <td>{{element.qtyAvilable}}</td>
                         <td>{{element.qtyLimitPerOrderLow}}-{{element.qtyLimitPerOrderHigh}}</td>
                         <td>{{element.price}}</td>
@@ -125,6 +129,8 @@
 
 <otc-place-order-modal #otcPlaceOrderModal [balance]="balance" (confirmed)="onConfirmedPlaceOrder($event)">
 </otc-place-order-modal>
+
+<otc-coin-address-modal #otcCoinAddressModal (confirmed)="onConfirmedCoinAddress($event)"></otc-coin-address-modal>
 <otc-place-order-error-modal #otcPlaceOrderErrorModal></otc-place-order-error-modal>
 <apply-for-merchant-modal #applyForMerchantModal (confirmed)="onBecomeMerchant($event)"></apply-for-merchant-modal>
 <confirm-payment-modal #confirmPaymentModal (confirmed)="onConfirmPayment($event)"></confirm-payment-modal>

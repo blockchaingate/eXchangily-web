@@ -27,6 +27,7 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit {
   amount: number;
   user: any;
   quantity: number;
+  coinAddress: string;
   invalidError = { message: '' };
   selectedMethod: string;
   paymentForm; // this is our payment form object

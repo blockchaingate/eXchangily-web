@@ -36,7 +36,7 @@
                                     {{'Quantity' | translate}}({{element.coin}}):
                                 </div>
                                 <div>
-                                    <input type="text" class="form-control" id="inputGasAmount" name="quantity" [(ngModel)]="quantity" (input)="changeQuantity($event.target.value)" aria-describedby="emailHelp" placeholder="0.0000">
+                                    <input type="text" class="form-control" id="inputQuantity" name="quantity" [(ngModel)]="quantity" (input)="changeQuantity($event.target.value)" aria-describedby="emailHelp" placeholder="0.0000">
                                 </div>
                                 <div *ngIf="balance">
                                     {{'Balance' | translate}}:{{balance}}
@@ -47,9 +47,11 @@
                                     {{'Payable Amount' | translate}}({{element.fiat | translate}}):
                                 </div>
                                 <div>
-                                    <input type="text" class="form-control" id="inputGasAmount" name="amount" [(ngModel)]="amount" (input)="changeAmount($event.target.value)" aria-describedby="emailHelp" placeholder="0.0000">
+                                    <input type="text" class="form-control" id="inputPayableAmount" name="amount" [(ngModel)]="amount" (input)="changeAmount($event.target.value)" aria-describedby="emailHelp" placeholder="0.0000">
                                 </div>
                             </div>
+
+
                         </div>
                         <div class="row form-group pt-3" [style.visibility]="!element.buy ? 'visible' : 'hidden'">
                             <div class="col col-12" [style.visibility]="!element.buy ? 'visible' : 'hidden'">

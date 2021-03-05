@@ -3,6 +3,7 @@ import { OtcPlaceOrderModal } from '../../modals/otc-place-order/otc-place-order
 import { OtcPlaceOrderErrorModal } from '../../modals/otc-place-order-error/otc-place-order-error.component';
 import { ApplyForMerchantModal } from '../../modals/apply-for-merchant/apply-for-merchant';
 import { ConfirmPaymentModal } from '../../modals/confirm-payment/confirm-payment';
+import { OtcCoinAddressModal } from '../../modals/otc-coin-address/otc-coin-address.component';
 import { Router } from '@angular/router';
 import { StorageService } from '../../../../services/storage.service';
 import { OtcService } from '../../../../services/otc.service';
@@ -30,6 +31,7 @@ export class TradeComponent implements OnInit {
   currency: string;
   token: string;
   element: any;
+  orderId: string;
   txid: string;
   quantity: number;
   currentCoin: MyCoin;
@@ -45,6 +47,7 @@ export class TradeComponent implements OnInit {
   dataSource: any;
   @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal;
   @ViewChild('otcPlaceOrderModal', { static: true }) otcPlaceOrderModal: OtcPlaceOrderModal;
+  @ViewChild('otcCoinAddressModal', { static: true }) otcCoinAddressModal: OtcCoinAddressModal;
   @ViewChild('otcPlaceOrderErrorModal', { static: true }) otcPlaceOrderErrorModal: OtcPlaceOrderErrorModal;
   @ViewChild('applyForMerchantModal', { static: true }) applyForMerchantModal: ApplyForMerchantModal;
   @ViewChild('confirmPaymentModal', { static: true }) confirmPaymentModal: ConfirmPaymentModal;
@@ -110,12 +113,12 @@ export class TradeComponent implements OnInit {
   }
 
   placeOrder(element) {
-
     this.userServ.getMe(this.token).subscribe(
       (res: any) => {
         console.log('res===', res);
         if (res && res.ok) {
           const data = res._body;
+          /*
           const walletExgAddress = data.walletExgAddress;
           const walletBtcAddress = data.walletBtcAddress;
           const walletEthAddress = data.walletEthAddress;
@@ -123,6 +126,7 @@ export class TradeComponent implements OnInit {
           let walletBtc = '';
           let walletEth = '';
 
+          
           if (!this.wallet) {
             console.log('wallet not Existed');
             this.otcPlaceOrderErrorModal.show('WalletNotExisted');
@@ -147,6 +151,7 @@ export class TradeComponent implements OnInit {
             this.otcPlaceOrderErrorModal.showEx('AddressesNotMatch', this.token, walletExg, walletBtc, walletEth);
             return;
           }
+          */
           this.element = element;
           this.otcPlaceOrderModal.show(data, element);
         } else {
@@ -154,6 +159,18 @@ export class TradeComponent implements OnInit {
         }
       });
 
+  }
+
+  onConfirmedCoinAddress(event) {
+    console.log('onConfirmedCoinAddress start');
+    const address = event.address;
+    this._otcServ.updateOrderAddress(this.token, this.orderId, address).subscribe(
+      (res: any) => {
+        if(res && res.ok) {
+          this._router.navigate(['/otc/order-detail/' + this.orderId]);
+        }
+      }
+    );
   }
 
   onConfirmedPlaceOrder(event) {
@@ -180,21 +197,11 @@ export class TradeComponent implements OnInit {
       (res: any) => {
         console.log('res for addOrder=', res);
         if (res.ok) {
-          const data = res._body;
-          this.element = data;
-          /*
-          if (data.charge_id && data.method != 'Epay') {
-            this.alertServ.openSnackBarSuccess(this.translateServ.instant('Your payment was confirmed'), this.translateServ.instant('Ok'));
-          }
-          */
-         /*
-          for (let i = 0; i < this.dataSource.length; i++) {
-            if (this.dataSource[i]._id == this.element._id) {
-              this.dataSource[i].qtyAvilable = this.element.qtyAvilable;
-            }
-          }
-          */
-          this._router.navigate(['/otc/order-detail/' + data]);
+          const orderId = res._body;
+          this.orderId = orderId;
+          //this.element = data;
+          this.otcCoinAddressModal.show(this.element.coin, this.wallet);
+          //this._router.navigate(['/otc/order-detail/' + data]);
         }
       }
     );
