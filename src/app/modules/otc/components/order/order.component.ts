@@ -4,6 +4,8 @@ import { OtcService } from '../../../../services/otc.service';
 import { UserService } from '../../../../services/user.service';
 import { Router } from '@angular/router';
 import { MemberDetailModal } from '../../modals/member-detail/member-detail.component';
+import { AlertService } from '../../../../services/alert.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-otc-order',
@@ -26,7 +28,9 @@ export class OrderComponent implements OnInit {
   @ViewChild('memberDetailModal', { static: true }) memberDetailModal: MemberDetailModal;
   currentStatus: number;
   constructor(
+    private alertServ: AlertService,
     private router: Router,
+    private translateServ: TranslateService,
     private storageService: StorageService,
     private _otcServ: OtcService,
     private _userServ: UserService
@@ -66,6 +70,9 @@ export class OrderComponent implements OnInit {
       (res: any) => {
         if (res && res.ok) {
           element.paymentStatus = paymentStatus;
+          this.alertServ.openSnackBarSuccess(
+            this.translateServ.instant('Good job'), 
+            this.translateServ.instant('Ok'));
         }
       }
     );

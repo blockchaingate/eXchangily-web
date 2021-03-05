@@ -10,6 +10,19 @@ import {UtilService} from './util.service';
 import {AlertService} from './alert.service';
 
 import { environment } from '../../environments/environment';
+import TronWeb from 'tronweb';
+
+const HttpProvider = TronWeb.providers.HttpProvider;
+const fullNode = new HttpProvider(environment.chains.TRX.fullNode);
+const solidityNode = new HttpProvider(environment.chains.TRX.solidityNode);
+const eventServer = new HttpProvider(environment.chains.TRX.eventServer);
+const ADDRESS_PREFIX_REGEX = /^(41)/;
+
+const tronWeb = new TronWeb(
+    fullNode,
+    solidityNode,
+    eventServer
+);
 
 @Injectable() 
 export class ApiService {
@@ -19,6 +32,17 @@ export class ApiService {
     getExTransaction(code: string) {
         const url = environment.endpoints.blockchaingate + 'payment/gateway/code/' + code;
         return this.http.get(url);
+    }
+
+    async getTrxTransactionStatus(txid: string) {
+        const transactionInfo = await tronWeb.trx.getTransactionInfo(txid);
+        if(transactionInfo && transactionInfo.receipt) {
+            if(transactionInfo.receipt.result == 'SUCCESS') {
+                return 'confirmed';
+            } 
+            return 'failed';
+        }
+        return 'pending';
     }
 
     getOrderByCode(code: string) {

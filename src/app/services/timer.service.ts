@@ -194,7 +194,7 @@ export class TimerService {
         }    
 
         const source = timer(10000, 20000);
-        const subscribeItem = source.subscribe(val => {
+        const subscribeItem = source.subscribe(async val => {
             if ((maxTimes > 0) && (val >= maxTimes - 1)) {
                 this.unCheckTransactionStatus(txid);
             }
@@ -303,6 +303,18 @@ export class TimerService {
                             }
                         } 
                     );
+                } else 
+                if(coin == 'TRX' || tokenType == 'TRX') {
+                    const status = await this.apiServ.getTrxTransactionStatus(txid);
+                    this.transactionStatus.next(
+                        {
+                            txid: txid,
+                            status: status
+                        }
+                    );
+                    if(status == 'confirmed') {
+                        this.unCheckTransactionStatus(txid); 
+                    }
                 }
             }                
         }); 
