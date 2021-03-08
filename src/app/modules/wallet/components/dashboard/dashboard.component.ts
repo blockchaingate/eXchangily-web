@@ -1544,6 +1544,7 @@ export class WalletDashboardComponent implements OnInit {
 
     async submitrediposit(coinType: number, amount: BigNumber, transactionID: string, gasPrice: number, gasLimit: number) {
         
+        console.log('submit redeposit');
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
         const nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
         const pin = this.pin;
@@ -1557,6 +1558,7 @@ export class WalletDashboardComponent implements OnInit {
 
         const coinName = this.coinServ.getCoinNameByTypeId(coinType);
 
+        console.log('coinType==' + coinType + ',coinName==' + coinName);
         if(coinName == 'USDTX') {
             coinType = this.coinServ.getCoinTypeIdByName('USDT');
         } else
@@ -1573,7 +1575,8 @@ export class WalletDashboardComponent implements OnInit {
             coinType = this.coinServ.getCoinTypeIdByName('BST');
         }
 
-        let currentCoin;
+        let currentCoin = this.currentCoin;
+        /*
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             if (
                 ((this.wallet.mycoins[i].name === coinName)) || 
@@ -1586,7 +1589,7 @@ export class WalletDashboardComponent implements OnInit {
                 currentCoin = this.wallet.mycoins[i];
             }
         }
-        
+        */
         console.log('for redeposit, coinType=', coinType);
         console.log('currentCoin=', currentCoin);
         if (!currentCoin) {
