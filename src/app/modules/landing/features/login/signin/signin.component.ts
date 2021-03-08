@@ -82,7 +82,10 @@ export class SigninComponent implements OnInit {
 
     this._userService.loginUser(this.email.value.toLowerCase(), this.password.value)
       .subscribe((user: User) => this.processLogin(user),
-        err => this.loginError = err.error.message
+        err =>  {
+          this.submitted = false;
+          this.loginError = err.error.message
+        }
       );
   }
 
@@ -143,6 +146,7 @@ export class SigninComponent implements OnInit {
     this.campaignorderServ.getProfile(token).subscribe(
       (res: any) => {
         if (res && res.ok) {
+          //this.submitted = false;
           const body = res._body;
           this.membership = body.membership;
           if (this.membership && (this.membership != 'unqualified')) {
@@ -173,6 +177,7 @@ export class SigninComponent implements OnInit {
         }
       },
       (error: any) => {
+        //this.submitted = false;
         if (this.afterLoginUrl) {
           this._router.navigate([this.afterLoginUrl]);
         } else if (this.isSystemAdmin) {
