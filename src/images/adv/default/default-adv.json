@@ -8,7 +8,7 @@
             { "lan": "sc", "text": "您的资产永远在您的绝对控制之中" }
         ],
         "desc": [
-            { "lan": "en", "text": "At exchangily, your assets are under your control all the way, it's S.A.F.E - Secure, Autonomous, Fast and Easy !" },
+            { "lan": "en", "text": "At exchangily, your assets are completely under your control. It's S.A.F.E - Secure, Autonomous, Fast and Easy !" },
             { "lan": "sc", "text": "亿币交易所是S.A.F.E. - 安全(Secure)、自主(Autonomous)、快捷(Fast)、简易(Easy)" }
         ],
         "imageUrl": "./images/adv/default/btc-eth-fab.png",
@@ -26,7 +26,7 @@
             { "lan": "sc", "text": "集加密货币钱包、交易所及市场于一体" }
         ],
         "desc": [
-            { "lan": "en", "text": "Exchangily mobile app is wallet, exchange, market all in one for storing, trading or using crypto assets" },
+            { "lan": "en", "text": "The eXchangily mobile app is an all in one wallet, exchange, and market for storing, trading and using crypto assets" },
             { "lan": "sc", "text": "亿币钱包是去中心化的综合应用，作为钱包可以保存加密货币、交易所可以进行加密货币交易或在市场购物及支付。" }
         ],
         "imageUrl": "./images/adv/default/exchangily-mobile-app.png",
@@ -44,7 +44,7 @@
             { "lan": "sc", "text": "持有亿币平台币EXG将自动获得收益增值" }
         ],
         "desc": [
-            { "lan": "en", "text": "Own more EXG tokens, earn more benefit from the platform." },
+            { "lan": "en", "text": "Own more EXG tokens to get more benefit from the platform." },
             { "lan": "sc", "text": "拥有更多的平台币就拥有更多的收益, 亿币根植未来经济生态，拥有亿币将获长久收益" }
         ],
         "imageUrl": "./images/adv/default/exchangily-campaign.png",

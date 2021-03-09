@@ -13,7 +13,7 @@
             </div>
 
             <div>
-                <a href="/otc/otc-merchant/merchant-application"> {{'Become merchant' | translate }}</a>
+                <a href="/otc/otc-merchant/merchant-application"> {{'Become a merchant' | translate }}</a>
 
             </div>
         </div>
@@ -103,13 +103,13 @@
                         <tr *ngFor="let element of dataSource">
                         -->
                         <td>{{element.merchant ? element.merchant.merchantName : ''}}</td>
-                        
+
                         <td>
                             <!--
                             <app-paymentmethod [methods]="element.paymentmethods"></app-paymentmethod>
                             -->
                         </td>
-                        
+
                         <td>{{element.qtyAvilable}}</td>
                         <td>{{element.qtyLimitPerOrderLow}}-{{element.qtyLimitPerOrderHigh}}</td>
                         <td>{{element.price}}</td>
