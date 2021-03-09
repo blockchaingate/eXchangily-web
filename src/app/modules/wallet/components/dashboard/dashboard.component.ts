@@ -1590,7 +1590,7 @@ export class WalletDashboardComponent implements OnInit {
             }
         }
         */
-        console.log('for redeposit, coinType=', coinType);
+        //console.log('for redeposit, coinType=', coinType);
         console.log('currentCoin=', currentCoin);
         if (!currentCoin) {
             if (this.lan === 'zh') {
@@ -1603,7 +1603,7 @@ export class WalletDashboardComponent implements OnInit {
 
         let coinTypePrefix = this.coinServ.getCoinTypePrefix(currentCoin);
 
-        console.log('coinTypePrefix==', coinTypePrefix);
+        //console.log('coinTypePrefix==', coinTypePrefix);
         const amountInLink = amount; // it's for all coins.
         const updatedCoinType = this.coinServ.getUpdatedCoinType(currentCoin);
         const originalMessage = this.coinServ.getOriginalMessage(updatedCoinType, this.utilServ.stripHexPrefix(transactionID)

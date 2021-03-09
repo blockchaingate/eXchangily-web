@@ -199,6 +199,7 @@ export class SendCoinModal {
             this.coin = this.wallet.mycoins[this.currentCoinIndex];
         }
 
+
         
         let fabBalance = 0;
         let ethBalance = 0;
@@ -248,6 +249,19 @@ export class SendCoinModal {
                 this.translateServ.instant('Ok'));
             return;
         }
+
+        console.log('this.coin==', this.coin);
+        if(this.coin.name === 'TRX' || this.coin.tokenType === 'TRX') {
+            console.log('fsdfaes');
+            console.log('to=', to);
+            if(to.indexOf('T') !== 0 ) {
+
+                this.alertServ.openSnackBar(
+                    this.translateServ.instant('Wallet address incorrect'), 
+                    this.translateServ.instant('Ok'));
+                return;                
+            }
+        }        
         const selectedCoinIndex = Number(this.sendCoinForm.get('selectedCoinIndex').value);
         
         /*
