@@ -6,6 +6,7 @@ import { WalletService } from '../../../services/wallet.service';
 import { CoinService } from '../../../services/coin.service';
 import { KanbanService } from '../../../services/kanban.service';
 import { Web3Service } from '../../../services/web3.service';
+import BigNumber from 'bignumber.js';
 
 @Component({
   selector: 'app-bulk-transfer-preview',
@@ -96,7 +97,7 @@ export class PreviewComponent implements OnInit {
     
     sendGas(keyPairsKanban, address, gas, nonce) {
         const privateKey = Buffer.from(keyPairsKanban.privateKeyHex, 'hex');
-        const txhex = this.web3Serv.sendGasHex(privateKey, address, gas, nonce);
+        const txhex = this.web3Serv.sendGasHex(privateKey, address, new BigNumber(gas).multipliedBy(new BigNumber(1e18)), nonce);
 
         this.kanbanServ.sendRawSignedTransaction(txhex).subscribe((resp: any) => {
             console.log('resp=', resp);
@@ -109,7 +110,8 @@ export class PreviewComponent implements OnInit {
 
     async sendAsset(keyPairsKanban, address, name, amount, nonce) {
         const coin = this.coinServ.getCoinTypeIdByName(name);
-        const abiHex = this.web3Serv.getTransferFuncABIAmountBig(coin, address, amount);
+        
+        const abiHex = this.web3Serv.getTransferFuncABIAmountBig(coin, address, new BigNumber(amount).multipliedBy(new BigNumber(1e18)));
 
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
         const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce);

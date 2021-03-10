@@ -295,7 +295,7 @@ export class Web3Service {
     return abiHex;
   }
 
-  getTransferFuncABIAmountBig(coin: number, address: string, amountBig: number) {
+  getTransferFuncABIAmountBig(coin: number, address: string, amountBig: BigNumber) {
     const web3 = this.getWeb3Provider();
     let value = amountBig;
     console.log('value for decimal=', value);
