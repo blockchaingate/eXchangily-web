@@ -101,7 +101,7 @@ export class Web3Service {
     const txObject = {
       to: to,
       nonce: nonce,
-      value: amountInBigNumber.toFixed(),
+      value: amountInBigNumber.toNumber(),
       gas: gasLimit,
       gasPrice: gasPrice  // in wei
     };
