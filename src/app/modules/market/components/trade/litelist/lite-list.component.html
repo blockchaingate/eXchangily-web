@@ -13,34 +13,29 @@
 
     <mat-list class="scroll-bar">
         <mat-list-item class="header apair">
-            <div class="row px-2">
-                <div mat-line class="text-white pairname sortable" 
-                (click)="changeSort('symbol', 'string')">
-                {{'Pair'|translate}}
-                <span *ngIf="sortAscPair == 1">&uarr;</span>
-                <span *ngIf="sortAscPair == -1">&darr;</span>               
-            </div>
-                <div>
-                    <div class="smallfont text-white p-1 sortable"
-                    (click)="changeSort('price', 'number')"
-                    >{{'LatestPrice'|translate}}
-                    <span *ngIf="sortAscPrice == 1">&uarr;</span>
-                    <span *ngIf="sortAscPrice == -1">&darr;</span>                        
+            <div class="row" fxLayout="row">
+                <div mat-line class="text-white pairname sortable" (click)="changeSort('symbol', 'string')">
+                    {{'Pair'|translate}}
+                    <span *ngIf="sortAscPair == 1">&uarr;</span>
+                    <span *ngIf="sortAscPair == -1">&darr;</span>
+                </div>
+                <div class="pairvalue">
+                    <div class="smallfont text-white p-1 sortable" (click)="changeSort('price', 'number')">{{'LatestPrice'|translate}}
+                        <span *ngIf="sortAscPrice == 1">&uarr;</span>
+                        <span *ngIf="sortAscPrice == -1">&darr;</span>
                     </div>
-                    <div class="smallfont text-white p-1 sortable"
-                    (click)="changeSort('change24h', 'number')"
-                    >{{'H24Change'|translate}}
-                    <span *ngIf="sortAscChange == 1">&uarr;</span>
-                    <span *ngIf="sortAscChange == -1">&darr;</span>                      
+                    <div class="smallfont text-white p-1 sortable" (click)="changeSort('change24h', 'number')">{{'H24Change'|translate}}
+                        <span *ngIf="sortAscChange == 1">&uarr;</span>
+                        <span *ngIf="sortAscChange == -1">&darr;</span>
                     </div>
                 </div>
             </div>
             <mat-divider></mat-divider>
         </mat-list-item>
         <mat-list-item class="apair dataline" [class.selectedpair]="selectedpair === pr.symbol" *ngFor="let pr of prices | callback: filterPrice : selectedcat : searchText | sortByField : sortField : sortFieldType : sortAsc; let i=index">
-            <div class="row px-2">
+            <div class="row">
                 <div mat-line class="text-white pairname" (click)="loadTradePair(pr.symbol)">{{pr.symbol}}</div>
-                <div class="pt-1 pb-1" (click)="loadTradePair(pr.symbol)">
+                <div class="pt-1 pb-1 pairvalue" (click)="loadTradePair(pr.symbol)">
                     <div class="text-muted smallfont">{{toDecimal(pr.price, 5)}}</div>
                     <div [class.redcolor]="pr.change24h<0" [class.greencolor]="pr.change24h>=0"> {{pr.change24h | number:'.2'}}% </div>
                 </div>
