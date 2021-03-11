@@ -4,7 +4,6 @@
     padding-top: 3em;
     padding-bottom: 6em;
     font-size: small;
-    ;
 }
 
 .item {
@@ -20,4 +19,14 @@
 .selected {
     background-color: rgb(104, 180, 206);
     color: white;
+}
+
+.coinlist {
+    display: inline;
+    width: 25%;
+}
+
+.coininfo {
+    display: inline;
+    width: 74%;
 }
