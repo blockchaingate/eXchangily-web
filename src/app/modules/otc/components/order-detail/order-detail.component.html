@@ -3,31 +3,31 @@
         <H3>{{"Order details & payment"|translate}}</H3>
     </div>
     <div class="row my-2">
-        <div class="leftar col-2 right">{{"Order #"|translate}}:</div>
-        <div> {{id}}</div>
+        <div class="col leftar col-2 right">{{"Order #"|translate}}:</div>
+        <div class="col col-10"> {{id}}</div>
     </div>
     <div class="row my-2">
-        <div class="leftar col-2 right">{{"Order Type"|translate}}:</div>
-        <div>{{order.items[0].buy ? 'Buy' : 'Sell' | translate}} {{order.items[0].title}}</div>
-    </div>
-
-    <div class="row my-2">
-        <div class="leftar col-2 right">{{"Price"|translate}}:</div>
-        <div>{{order.items[0].price}} {{order.items[0].currency}} / {{order.items[0].title}}</div>
-    </div>
-    <div class="row my-2">
-        <div class="leftar col-2 right">{{"Quantity"|translate}}:</div>
-        <div>{{order.items[0].quantity}}</div>
+        <div class="col leftar col-2 right">{{"Order Type"|translate}}:</div>
+        <div class="col col-10">{{order.items[0].buy ? 'Buy' : 'Sell' | translate}} {{order.items[0].title}}</div>
     </div>
 
     <div class="row my-2">
-        <div class="leftar col-2 right">{{"Total"|translate}}:</div>
-        <div>{{order.totalToPay}} {{order.currency}}</div>
+        <div class="col leftar col-2 right">{{"Price"|translate}}:</div>
+        <div class="col col-10">{{order.items[0].price}} {{order.items[0].currency}} / {{order.items[0].title}}</div>
+    </div>
+    <div class="row my-2">
+        <div class="col leftar col-2 right">{{"Quantity"|translate}}:</div>
+        <div class="col col-10">{{order.items[0].quantity}}</div>
     </div>
 
     <div class="row my-2">
-        <div class="leftar col-2 right">{{"Payment Method"|translate}}:</div>
-        <div>
+        <div class="col leftar col-2 right">{{"Total"|translate}}:</div>
+        <div class="col col-10">{{order.totalToPay}} {{order.currency}}</div>
+    </div>
+
+    <div class="row my-2">
+        <div class="col leftar col-2 right">{{"Payment Method"|translate}}:</div>
+        <div class="col col-10">
             {{order.paymentMethod}}
             <span *ngIf="order.paymentMethod == 'CashApp'">
                 ({{memberAccountName}})
@@ -36,13 +36,13 @@
     </div>
 
     <div class="row my-2">
-        <div class="leftar col-2 right">{{"Address"|translate}}:</div>
-        <div>{{order.name}}</div>
+        <div class="col leftar col-2 right">{{"Address"|translate}}:</div>
+        <div class="col col-10">{{order.name}}</div>
     </div>
 
     <div class="row my-2">
-        <div class="leftar col-2 right">{{"Note"|translate}}:</div>
-        <div>{{order.note}}</div>
+        <div class="col leftar col-2 right">{{"Note"|translate}}:</div>
+        <div class="col col-10">{{order.note}}</div>
     </div>
 
     <div *ngIf="order.paymentStatus==0" class="text-center d-flex justify-content-between">
@@ -63,7 +63,7 @@
         </div>
     </div>
 
-    <div *ngIf="order.paymentStatus==1" class="text-center">
+    <div *ngIf="order.paymentStatus==1 || order.paymentStatus==2" class="text-center">
         {{"This order was paid"| translate}}.
     </div>
 </div>
