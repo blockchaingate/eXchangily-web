@@ -36,7 +36,9 @@
                 <thead>
                     <tr class="odd">
                         <th scope="col"><small>{{"Order #"|translate}}</small></th>
+                        <!--
                         <th scope="col"><small>{{"Member"|translate}}</small></th>
+                        -->
                         <th scope="col"><small>{{"Coin"|translate}}</small></th>
                         <th scope="col"><small>{{"Price"|translate}}</small></th>
                         <th scope="col"><small>{{"Method"|translate}}</small></th>
@@ -56,11 +58,13 @@
                                 {{element._id}}
                             </a>
                         </td>
+                        <!--
                         <td *ngIf="element.buyerMemberId">
                             <a class="view-detail" (click)="viewMemberDetail(bidOrAsk, element.items[0].title, element.buyerMemberId)">
                                 {{element.buyerMemberId.email}}
                             </a>
                         </td>
+                        -->
                         <td>{{element.items[0].title}}</td>
                         <td>{{element.items[0].price}} {{element.items[0].currency}}</td>
                         <td>{{element.paymentMethod}}</td>
