@@ -90,7 +90,7 @@ export class Web3Service {
     return txhex;
   }
 
-  sendGasHex(privateKey, address, amountInBigNumber, nonce) {
+  sendGasHex(privateKey, address, amountInBigNumber: BigNumber, nonce) {
 
     let gasPrice = environment.chains.KANBAN.gasPrice;
     let gasLimit = environment.chains.KANBAN.gasLimit;
@@ -101,7 +101,7 @@ export class Web3Service {
     const txObject = {
       to: to,
       nonce: nonce,
-      value: new BigNumber(amountInBigNumber).toNumber(),
+      value: amountInBigNumber.toFixed(),
       gas: gasLimit,
       gasPrice: gasPrice  // in wei
     };
@@ -297,7 +297,7 @@ export class Web3Service {
 
   getTransferFuncABIAmountBig(coin: number, address: string, amountBig: BigNumber) {
     const web3 = this.getWeb3Provider();
-    let value = amountBig;
+    let value = amountBig.toFixed();
     console.log('value for decimal=', value);
     const params = [address, coin, value, web3.utils.asciiToHex('')];
 
