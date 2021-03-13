@@ -1437,6 +1437,7 @@
     "Redeposit": "确认向交易所转币",
     "tickCreateSuccess": "您已成功提交求助请示，任何更新您将收到Email通知。",
     "Issue": "问题",
+    "You applied merchant account already.": "你已经申请了商户账号",
     "Description": "描述",
     "Create Ticket": "提交帮助请求",
     "Issue or description too short": "问题或描述太短，请填写详细信息",
