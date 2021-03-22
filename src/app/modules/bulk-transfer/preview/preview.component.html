@@ -1,5 +1,7 @@
-<div class="container bg-white">
-
+<div class="container bg-white" *ngIf="wallet">
+    <div class="text-center">
+        <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="sendAll()">{{'Send All' | translate}}</button>
+    </div>
     <table class="table">
         <thead>
           <tr>
@@ -13,7 +15,7 @@
                 <td>{{item.address}}</td>
                 <td>{{item.assets | json}}</td>
                 <td>
-                    <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="sendAssets(item)">Send</button>
+                    <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="sendAssets(item)">{{'Send' | translate}}</button>
                 </td>
             </tr>
 
@@ -21,4 +23,7 @@
     </table>
 </div>
 
+<div *ngIf="!wallet" class="text-white">
+    {{'Please create or import wallet first.' | translate}}
+</div>
 <pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>

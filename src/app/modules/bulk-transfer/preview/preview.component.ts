@@ -19,8 +19,10 @@ export class PreviewComponent implements OnInit {
     assets: any;
     pin: string;
     item: any;
+    sendAllFlag: boolean;
     nonce: number;
     seed: any;
+    noWallet
     wallet: any;
     @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal;
 
@@ -34,13 +36,16 @@ export class PreviewComponent implements OnInit {
     ) {
     }
     async ngOnInit() {
+        this.sendAllFlag = false;
+        console.log('this.accounts in ngOnInit==', this.accounts);
         var keyNames = Object.keys(this.accounts);
+
         this.assets = [];
         this.wallet = await this.walletServ.getCurrentWallet();
+
         keyNames.forEach(
             (address) => {
                 const value = this.accounts[address];
-                console.log('valuuu=', value);
                 this.assets.push(
                     {
                         address: address,
@@ -52,6 +57,8 @@ export class PreviewComponent implements OnInit {
     }
 
     sendAssets(item) {
+        this.sendAllFlag = false;
+        console.log('item for sendAssets=', item);
         this.item = item;
         if(!this.seed) {
             this.pinModal.show();
@@ -61,26 +68,47 @@ export class PreviewComponent implements OnInit {
         
     }
 
+    async sendAll() {
+        
+        this.sendAllFlag = true;
+        if(!this.seed) {
+            this.pinModal.show();
+        } else {
+            for(let i = 0; i < this.assets.length; i++) {
+                const item = this.assets[i];
+                await this.sendAssetsDoItem(item);
+            };
+        }
+
+
+    }
     async sendAssetsDo() {
+        this.sendAssetsDoItem(this.item);
+    }
+
+    async sendAssetsDoItem(item) {
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, this.seed, 0, 0);
-        const gas = this.item.assets.gas;
-        const address = this.item.address;
+        const gas = item.assets.gas;
+        let address = item.address;
+
+        console.log('this.nonce before =', this.nonce);
         if(!this.nonce) {
             this.nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
         }
-        
+        console.log('this.nonce after =', this.nonce);
 
-        var keyNames = Object.keys(this.item.assets);
-        keyNames.forEach(
-            (name) => {
-                const value = this.item.assets[name];
-                if(name == 'gas') {
-                    this.sendGas(keyPairsKanban, address, gas, this.nonce ++);
-                } else {
-                    this.sendAsset(keyPairsKanban, address, name, value, this.nonce ++);
-                }
-            }
-        );
+        var keyNames = Object.keys(item.assets);
+        for(let i = 0; i<keyNames.length;i++) {
+            const name = keyNames[i];
+            const value = item.assets[name];
+            if(name == 'gas') {
+                this.sendGas(keyPairsKanban, address, gas, this.nonce);
+            } else {
+                this.sendAsset(keyPairsKanban, address, name, value, this.nonce);
+            }  
+            this.nonce ++;          
+        }
+        console.log('this.nonce before exit =', this.nonce);
     }
 
     async onConfirmedPin(pin: string) {
@@ -92,11 +120,24 @@ export class PreviewComponent implements OnInit {
         }
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         this.seed = seed;
-        this.sendAssetsDo();
+        if(!this.sendAllFlag) {
+            this.sendAssetsDo();
+        } else {
+            for(let i = 0; i < this.assets.length; i++) {
+                const item = this.assets[i];
+                await this.sendAssetsDoItem(item);
+            };            
+        }
+        
     } 
     
     sendGas(keyPairsKanban, address, gas, nonce) {
         const privateKey = Buffer.from(keyPairsKanban.privateKeyHex, 'hex');
+
+        if(address.indexOf('0x') < 0) {
+            address = this.utilServ.fabToExgAddress(address);
+        }
+
         const txhex = this.web3Serv.sendGasHex(privateKey, address, new BigNumber(gas).multipliedBy(new BigNumber(1e18)), nonce);
 
         this.kanbanServ.sendRawSignedTransaction(txhex).subscribe((resp: any) => {
@@ -110,7 +151,11 @@ export class PreviewComponent implements OnInit {
 
     async sendAsset(keyPairsKanban, address, name, amount, nonce) {
         const coin = this.coinServ.getCoinTypeIdByName(name);
-        
+
+        if(address.indexOf('0x') < 0) {
+            address = this.utilServ.fabToExgAddress(address);
+        }
+
         const abiHex = this.web3Serv.getTransferFuncABIAmountBig(coin, address, new BigNumber(amount).multipliedBy(new BigNumber(1e18)));
 
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
