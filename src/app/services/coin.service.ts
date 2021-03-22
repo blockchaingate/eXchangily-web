@@ -2240,18 +2240,20 @@ export class CoinService {
                 // const amountSent = amount * Math.pow(10, decimals);
                 const amountSent = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, decimals)));
                 const toAccount = toAddress;
-                let contractAddress = environment.addresses.smartContract[mycoin.name];
 
-                //console.log('contractAddress theee=', contractAddress);
-                /*
-                if (mycoin.name === 'USDT') {
-                    contractAddress = environment.addresses.smartContract.USDT.ETH;
+                console.log('mycoin.name==', mycoin.name);
+                let contractAddress = environment.addresses.smartContract[mycoin.name];
+                if(contractAddress) {
+                    console.log('contractAddress==', contractAddress);
+                
+                    const addressType = typeof contractAddress;
+                    if(addressType != 'string') {
+                     contractAddress = contractAddress['ETH'];
+                    }
+                } else {
+                    contractAddress = mycoin.contractAddr;
                 }
-                */
-               const addressType = typeof contractAddress;
-               if(addressType != 'string') {
-                contractAddress = contractAddress['ETH'];
-               }
+
 
                console.log('contractAddresscontractAddresscontractAddress=', contractAddress);
                 // console.log('nonce = ' + nonce);
