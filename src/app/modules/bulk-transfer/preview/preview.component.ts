@@ -22,6 +22,7 @@ export class PreviewComponent implements OnInit {
     sendAllFlag: boolean;
     nonce: number;
     seed: any;
+    noWallet
     wallet: any;
     @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal;
 
@@ -41,6 +42,7 @@ export class PreviewComponent implements OnInit {
 
         this.assets = [];
         this.wallet = await this.walletServ.getCurrentWallet();
+
         keyNames.forEach(
             (address) => {
                 const value = this.accounts[address];
