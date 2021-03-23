@@ -5,7 +5,7 @@ import * as Btc from 'bitcoinjs-lib';
 
 export const environment = {
     production: false,
-    version: '2.0.6',
+    version: '2.0.8',
     SQUARE_APP_ID: {
         CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', // ccount kenin
         USD: 'sandbox-sq0idb-gPdLBTvUKUk2-O2DdNZ3dA'  // account genta
@@ -190,7 +190,8 @@ export const environment = {
             GVT: '0x3e610d9fb322063e50d185e2cc1b45f007e7180c',
             DRGN: '0xbbdd7a557a0d8a9bf166dcc2730ae3ccec7df05c',
             NVZN: '0xf18e828a19c00764522e50a511fffd521de4b119',
-            CNB: '0x466bc642fdd001b49aa8fa76c8058934bd428526'
+            CNB: '0x466bc642fdd001b49aa8fa76c8058934bd428526',
+            USDC: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c'
         },
        exchangilyOfficial: {
         FAB: 'n3AYguoFtN7SqsfAJPx6Ky8FTTZUkeKbvc',

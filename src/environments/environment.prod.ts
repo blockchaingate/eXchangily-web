@@ -10,7 +10,7 @@ export const environment = {
     PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',
     baseUrl: 'https://exchangily.com',
     url: 'https://api.exchangily.com/',
-    version: '2.0.6',
+    version: '2.0.8',
     campaignId: 1,
     OTC_COMMISSION_RATE: 0,
     chains: {
@@ -179,7 +179,8 @@ export const environment = {
             GVT: '0x103c3A209da59d3E7C4A89307e66521e081CFDF0',
             DRGN: '0x419c4db4b9e25d6db2ad9691ccb832c8d9fda05e',
             NVZN: '0x99963EE76C886fc43D5063428fF8F926E8A50985',
-            CNB: '0xceb9a838c3f3ee6e3168c06734f9188f2693999f'
+            CNB: '0xceb9a838c3f3ee6e3168c06734f9188f2693999f',
+            USDC: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
         },
         /*
         exchangilyOfficial: [

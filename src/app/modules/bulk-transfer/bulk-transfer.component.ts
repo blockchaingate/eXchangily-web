@@ -2,7 +2,8 @@ import { Component, OnInit, Renderer2, Inject } from '@angular/core';
 import { HttpService } from '../../services/http.service';
 import { environment } from '../../../environments/environment';
 import { Observable, forkJoin } from 'rxjs';
-
+import { UtilService } from '../../services/util.service';
+import { AlertService } from '../../services/alert.service';
 @Component({
   selector: 'app-bulk-transfer',
   templateUrl: './bulk-transfer.component.html',
@@ -12,7 +13,7 @@ export class BulkTransferComponent implements OnInit {
     preview: boolean;
     accounts: any;
     balances: string;
-    constructor(private httpServ: HttpService) {
+    constructor(private alertServ: AlertService, private utilServ: UtilService, private httpServ: HttpService) {
     }
     ngOnInit() {
         this.preview = false;
@@ -48,10 +49,47 @@ export class BulkTransferComponent implements OnInit {
 
             for(let i = 1; i < list.length; i++) {
                 const item = list[i];
+
+                
+                if(!item) {
+                    continue;
+                }
+                
+                //console.log('item=', item);
                 const data = item.split(',');
+                
+                if(!data || (data.length < 2)) {
+                    continue;
+                }
+                
+                //console.log('data=', data);
                 const coinsMap = {};
-                coinsMap[coinName] = Number(data[1].trim());
-                this.accounts[data[0]] = coinsMap;
+                try {
+                    coinsMap[coinName] = Number(data[1].trim());
+                } catch(e) {
+
+                }
+                if(!coinsMap[coinName] || coinsMap[coinName] <= 0) {
+                    this.alertServ.openSnackBar('Amount ' + data[1].trim() + ' is invalid', 'Ok');
+                    return;                    
+                }
+                const address = data[0];
+                let exgAddress = '';
+                try {
+                    exgAddress = this.utilServ.fabToExgAddress(address);
+                } catch(e) {
+
+                }
+                if(address.indexOf('19Txgh32N16g4sWiZ9JnzoVXQxxqAk4wC') == 0) {
+                    console.log('address=====', address);
+                    console.log('exgAddress=====', exgAddress);
+                }
+                if(!exgAddress || (exgAddress.indexOf('0x') != 0) || (exgAddress.length != 42)) {
+                    this.alertServ.openSnackBar('Address ' + address + ' is invalid', 'Ok');
+                    return;
+                }
+
+                this.accounts[address] = coinsMap;
             }
 
             

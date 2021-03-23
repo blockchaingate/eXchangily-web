@@ -1333,6 +1333,7 @@ export class WalletDashboardComponent implements OnInit {
     }
 
     onConfirmedAssets(assets: [Token]) {
+        console.log('assets to be added=', assets);
         for (let i = 0; i < assets.length; i++) {
             const token = assets[i];
             const type = token.type;
@@ -1348,7 +1349,7 @@ export class WalletDashboardComponent implements OnInit {
                 return;
             }
 
-            for (let j = 0; j < 5; j++) {
+            for (let j = 0; j < this.wallet.mycoins.length; j++) {
                 if (this.wallet.mycoins[j].name === type) {
                     const baseCoin = this.wallet.mycoins[j];
                     const mytoken = this.coinServ.initToken(type, name, decimals, addr, baseCoin);

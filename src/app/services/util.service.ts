@@ -337,7 +337,9 @@ export class UtilService {
         try {
             const bytes = bs58.decode(address);
             const addressInWallet = bytes.toString('hex');
-            console.log('addressInWallet==', addressInWallet);
+            if(!addressInWallet || (addressInWallet.length != 50)) {
+                return '';
+            }
             return '0x' + addressInWallet.substring(2, 42);
         } catch(e) {
 
