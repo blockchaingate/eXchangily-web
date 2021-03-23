@@ -1,5 +1,8 @@
 <div class="container bg-white" *ngIf="wallet">
-    <div class="text-center">
+    <div class="py-2">
+        Total:{{total | json}}
+    </div>
+    <div class="text-center py-2">
         <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="sendAll()">{{'Send All' | translate}}</button>
     </div>
     <table class="table">

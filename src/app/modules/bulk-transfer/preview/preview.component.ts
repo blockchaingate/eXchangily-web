@@ -18,6 +18,7 @@ export class PreviewComponent implements OnInit {
     @Input() accounts: any;
     assets: any;
     pin: string;
+    total: any;
     item: any;
     sendAllFlag: boolean;
     nonce: number;
@@ -36,6 +37,7 @@ export class PreviewComponent implements OnInit {
     ) {
     }
     async ngOnInit() {
+        this.total = {};
         this.sendAllFlag = false;
         console.log('this.accounts in ngOnInit==', this.accounts);
         var keyNames = Object.keys(this.accounts);
@@ -43,17 +45,29 @@ export class PreviewComponent implements OnInit {
         this.assets = [];
         this.wallet = await this.walletServ.getCurrentWallet();
 
-        keyNames.forEach(
-            (address) => {
-                const value = this.accounts[address];
-                this.assets.push(
-                    {
-                        address: address,
-                        assets: value
-                    }
-                );
+
+        for(let i = 0; i < keyNames.length; i++) {
+            const address = keyNames[i];
+            const value = this.accounts[address];
+            const keys = Object.keys(value);
+            
+            for(let j = 0; j < keys.length; j++) {
+                const key = keys[j];
+                if(!this.total[key]) {
+                    this.total[key] = value[key];
+                } else {
+                    this.total[key] += value[key];
+                }
             }
-        );
+            this.assets.push(
+                {
+                    address: address,
+                    assets: value
+                }
+            );            
+        }
+
+
     }
 
     sendAssets(item) {
