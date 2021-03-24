@@ -28,6 +28,7 @@ import { CampaignOrderService } from '../../service/campaignorder/campaignorder.
 import { MerchantService } from '../../service/../../../services/merchant.service';
 import { OrderItemComponent } from './order/order-item.component';
 import { TokenlockService } from '../../service/tokenlock/tokenlock.service';
+import { StarService } from '../../service/star/star.service';
 import { TokenlockComponent } from './tokenlock/tokenlock.component';
 import { MatButtonModule } from '@angular/material/button';
 import { OtcService } from '../../../../services/otc.service';
@@ -41,6 +42,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { AnnouncementsComponent } from './announcements/announcements.component';
 import { AnnouncementListComponent } from './announcements/announcement-list/announcement-list.component';
 import { AnnouncementAddComponent } from './announcement-add/announcement-add.component';
+import { StarOrdersComponent } from './star-orders/star-orders.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -64,7 +66,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatDialogModule,
     ModalModule.forRoot()
   ],
-  providers: [AuthGuard, NoAuthGuard, TokenlockService,
+  providers: [AuthGuard, NoAuthGuard, TokenlockService, StarService,
     PaymentMethodService, CampaignOrderService, MerchantService, OtcService],
   declarations: [
     AdminComponent,
@@ -85,6 +87,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AnnouncementsComponent,
     AnnouncementListComponent,
     AnnouncementAddComponent,
+    StarOrdersComponent
   ]
 })
 export class AdminModule { }
