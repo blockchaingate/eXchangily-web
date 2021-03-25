@@ -14,9 +14,10 @@ export class StarService {
         return this.http.get(environment.endpoints.blockchaingate + '7star-payment/order/' + orderId + '/all');
     }
 
-    changeOrderStatus(id: string, status:number) {
+    changeOrderStatus(id: string, status:number, token: string) {
         const url = environment.endpoints.blockchaingate + '7star-order/update';
         const body = {
+            token: token,
            id: id,
            status: status
         }

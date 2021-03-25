@@ -72,7 +72,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
       }
 
       changeStatus(order: any, status: number) {
-        this.starServ.changeOrderStatus(order._id, status).subscribe(
+        this.starServ.changeOrderStatus(order._id, status, this.token).subscribe(
           (res: any) => {
             if(res && res._id) {
               order.status = status;
