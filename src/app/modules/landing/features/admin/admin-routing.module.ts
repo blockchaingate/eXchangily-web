@@ -16,6 +16,7 @@ import { MerchantComponent } from './merchant/merchant.component';
 import { OtcListingComponent } from './otc/otc-listing/otc-listing.component';
 import { AnnouncementsComponent } from './announcements/announcements.component';
 import { AnnouncementAddComponent } from './announcement-add/announcement-add.component';
+import { StarOrdersComponent } from './star-orders/star-orders.component';
 
 const routes: Routes = [
     {
@@ -47,7 +48,11 @@ const routes: Routes = [
         {
             path: 'campaign-orders',
             component: CampaignOrdersComponent
-        },        
+        }, 
+        {
+            path: 'star-orders',
+            component: StarOrdersComponent
+        },               
         {
             path: 'order-mngmt',
             component: OrderManagementComponent
