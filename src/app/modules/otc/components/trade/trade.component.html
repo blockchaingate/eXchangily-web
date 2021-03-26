@@ -35,6 +35,9 @@
                 </div>
 
                 <div class="row">
+                    <div class="col col-3 coin-name" [ngClass]="(bidOrAsk && (coinName=='DUSD'))?'type-buy':''" (click)="changeCoinName(true, 'DUSD')">
+                        DUSD
+                    </div>                    
                     <div class="col col-3 coin-name" [ngClass]="(bidOrAsk && (coinName=='USDT'))?'type-buy':''" (click)="changeCoinName(true, 'USDT')">
                         USDT
                     </div>
@@ -46,9 +49,6 @@
                     </div>
                     <div class="col col-2 coin-name" [ngClass]="(bidOrAsk && (coinName=='FAB'))?'type-buy':''" (click)="changeCoinName(true, 'FAB')">
                         FAB
-                    </div>
-                    <div class="col col-3 coin-name" [ngClass]="(bidOrAsk && (coinName=='EXG'))?'type-buy':''" (click)="changeCoinName(true, 'EXG')">
-                        EXG
                     </div>
                 </div>
             </div>
@@ -63,6 +63,9 @@
                 </div>
 
                 <div class="row">
+                    <div class="col col-3 coin-name" [ngClass]="(!bidOrAsk && (coinName=='DUSD'))?'type-sell':''" (click)="changeCoinName(false, 'DUSD')">
+                        DUSD
+                    </div>                    
                     <div class="col col-3 coin-name" [ngClass]="(!bidOrAsk && (coinName=='USDT'))?'type-sell':''" (click)="changeCoinName(false, 'USDT')">
                         USDT
                     </div>
@@ -75,9 +78,7 @@
                     <div class="col col-2 coin-name" [ngClass]="(!bidOrAsk && (coinName=='FAB'))?'type-sell':''" (click)="changeCoinName(false, 'FAB')">
                         FAB
                     </div>
-                    <div class="col col-3 coin-name" [ngClass]="(!bidOrAsk && (coinName=='EXG'))?'type-sell':''" (click)="changeCoinName(false, 'EXG')">
-                        EXG
-                    </div>
+
                 </div>
             </div>
         </div>
