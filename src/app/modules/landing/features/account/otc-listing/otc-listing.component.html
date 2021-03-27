@@ -35,9 +35,6 @@
                     <div class="col col-2 coin-name" [ngClass]="(buy && (coin=='FAB'))?'type-buy':''" (click)="changeCoin(true, 'FAB')">
                         FAB
                     </div>
-                    <div class="col col-3 coin-name" [ngClass]="(buy && (coin=='EXG'))?'type-buy':''" (click)="changeCoin(true, 'EXG')">
-                        EXG
-                    </div>
                 </div>
             </div>
         </div>
@@ -65,9 +62,6 @@
                     </div>
                     <div class="col col-2 coin-name" [ngClass]="(!buy && (coin=='FAB'))?'type-sell':''" (click)="changeCoin(false, 'FAB')">
                         FAB
-                    </div>
-                    <div class="col col-3 coin-name" [ngClass]="(!buy && (coin=='EXG'))?'type-sell':''" (click)="changeCoin(false, 'EXG')">
-                        EXG
                     </div>
                 </div>
             </div>
