@@ -590,7 +590,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           this.buys.splice(randNum, 0, newOrder);
         }
         */
-       if(environment.production) {
         for (let j = 0; j < 2; j++) {
           let randNum = Math.floor((Math.random() * this.sells.length));
           if (randNum > 0) {
@@ -600,9 +599,9 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           if (randNum > 0) {
             this.buys.splice(randNum, 1);
           }
+          //this.delay(500);
         }
-       }
-
+        //     }
       },
       (err) => {
         console.log('err:', err);

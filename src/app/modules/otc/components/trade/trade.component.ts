@@ -73,8 +73,10 @@ export class TradeComponent implements OnInit {
     this.dataSource = [];
     this._otcServ.getPublicListings().subscribe(
       (res: any) => {
+        console.log('res from addListing=', res);
         if (res && res.ok) {
-          this.dataSource = res._body.filter(item => item.qtyAvilable > 0);
+          this.dataSource = res._body;
+          console.log('this.dataSource===', this.dataSource);
         }
       }
     );
