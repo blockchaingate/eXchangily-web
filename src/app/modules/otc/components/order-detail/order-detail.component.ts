@@ -25,7 +25,10 @@ export class OrderDetailComponent implements OnInit {
   userpaymentmethods: any;
   goPayStep: number;
   modalRef: BsModalRef;
-
+  achChecked: boolean;
+  routingNumber: string;
+  accountNumber: string;
+  
   constructor(
     private modalService: BsModalService,
     private storageService: StorageService,
@@ -37,6 +40,7 @@ export class OrderDetailComponent implements OnInit {
 
   }
   ngOnInit() {
+    this.achChecked = true;
     this.goPayStep = 1;
     this.id = this.route.snapshot.paramMap.get('id');
     this.storageService.getToken().subscribe(
@@ -176,6 +180,10 @@ export class OrderDetailComponent implements OnInit {
 
   payByACH(template) {
     this.modalRef = this.modalService.show(template);
+  }
+
+  confirmACHPay() {
+
   }
 
   payByEpay() {
