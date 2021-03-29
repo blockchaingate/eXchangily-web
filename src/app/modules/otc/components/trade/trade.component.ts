@@ -76,6 +76,9 @@ export class TradeComponent implements OnInit {
         console.log('res from addListing=', res);
         if (res && res.ok) {
           this.dataSource = res._body;
+          if(this.dataSource && (this.dataSource.length > 0)) {
+            this.dataSource = this.dataSource.filter(item => item.qtyAvilable > 0);
+          }
           console.log('this.dataSource===', this.dataSource);
         }
       }
