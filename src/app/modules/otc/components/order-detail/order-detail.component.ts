@@ -28,7 +28,7 @@ export class OrderDetailComponent implements OnInit {
   achChecked: boolean;
   routingNumber: string;
   accountNumber: string;
-  
+
   constructor(
     private modalService: BsModalService,
     private storageService: StorageService,
@@ -142,6 +142,9 @@ export class OrderDetailComponent implements OnInit {
     );
   }
 
+  changeAchCheck(event) {
+    this.achChecked = !this.achChecked;
+  }
   confirmCashAppPay() {
     const data = {
       method: 'CashApp',
