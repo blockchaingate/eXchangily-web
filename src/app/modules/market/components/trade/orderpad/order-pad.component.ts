@@ -28,6 +28,7 @@ import BigNumber from 'bignumber.js/bignumber';
 
 import { Pair, defaultPairsConfig } from '../../../models/pair';
 import { number } from 'bitcoinjs-lib/types/script';
+import { env } from 'process';
 
 declare let window: any;
 
@@ -590,6 +591,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           this.buys.splice(randNum, 0, newOrder);
         }
         */
+       if(environment.production) {
         for (let j = 0; j < 2; j++) {
           let randNum = Math.floor((Math.random() * this.sells.length));
           if (randNum > 0) {
@@ -601,6 +603,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           }
           //this.delay(500);
         }
+       }
+
         //     }
       },
       (err) => {
