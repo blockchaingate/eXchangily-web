@@ -46,6 +46,14 @@
     </div>
 
     <div *ngIf="order.paymentStatus==0" class="text-center d-flex justify-content-between">
+
+        <div>
+            <button class="btn btn-gradient text-white py-2 px-5" type="button" (click)="payByACH(achModalTemplate)"> {{'Pay by ACH' | translate}} </button>
+            <div class="notes color-warning">
+                {{"ACHNote"|translate}}
+            </div>
+        </div>
+
         <div>
             <button class="btn btn-gradient text-white py-2 px-5" type="button" (click)="payByEpay()"> {{'Pay by Epay' | translate}} </button>
             <div class="notes color-warning">
@@ -112,6 +120,51 @@
             <div *ngIf="goPayStep == 3">
                 {{'You finshed your payment' | translate}}
             </div>         
+        </div>          
+    </div>
+
+</ng-template>
+
+
+<ng-template #achModalTemplate>
+    <div class="modal-bg-grey">
+        <div class="modal-header">
+            <h4 class="modal-title text-center">{{'Pay by ACH' | translate}}</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <div class="form-group">
+                  <label for="exampleInputRoutingNumber">{{'Routing number' | translate}}</label>
+                  <input type="text" [(ngModel)]="routingNumber" class="form-control" id="inputRoutingNumber" aria-describedby="emailHelp" placeholder="{{'Enter routing number' | translate}}">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputAccountNumber">{{'Account number' | translate}}</label>
+                <input type="text" [(ngModel)]="accountNumber" class="form-control" id="inputAccountNumber" aria-describedby="emailHelp" placeholder="{{'Enter account number' | translate}}">
+              </div>                        
+              <div class="form-group">
+                  <label for="exampleInputEmail1">{{'Amount' | translate}}: {{order.totalToPay}} {{order.currency | translate}}</label>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">{{'Receiving Address' | translate}}: {{order.name}}</label>
+            </div> 
+            
+            <div class="form-check">
+                <input type="checkbox" [(ngModel)]="achChecked" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">{{'I have the permission for this withdraw' | translate}}</label>
+              </div>            
+          </div>   
+          
+          <div class="modal-footer  justify-content-center">
+            <div>
+                <div class="text-center">
+                    <button [disabled]="!achChecked" class="btn btn-gradient text-white py-2 px-5" [ngClass]="achChecked ? '' : 'btn-disabled'" type="button" (click)="confirmACHPay()" [disabled]="!accountName || !receivingAddress"> 
+                        {{'Confirm and Pay' | translate}} 
+                    </button>                     
+                </div>
+            </div>
+       
         </div>          
     </div>
 
