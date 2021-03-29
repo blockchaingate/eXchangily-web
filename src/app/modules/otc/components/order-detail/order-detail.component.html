@@ -138,6 +138,17 @@
                 <label for="exampleInputRoutingNumber">{{'Routing number' | translate}}</label>
                 <input type="text" [(ngModel)]="routingNumber" class="form-control" id="inputRoutingNumber" aria-describedby="routing number" placeholder="{{'Enter routing number' | translate}}">
             </div>
+
+            <div class="form-group">
+                <label for="exampleInputAccountNumber">{{'Account number' | translate}}</label>
+                <input type="text" [(ngModel)]="accountNumber" class="form-control" id="inputAccountNumber" aria-describedby="emailHelp" placeholder="{{'Enter account number' | translate}}">
+              </div>                        
+              <div class="form-group">
+                  <label for="exampleInputEmail1">{{'Amount' | translate}}: {{order.totalToPay}} {{order.currency | translate}}</label>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">{{'Receiving Address' | translate}}: {{order.name}}</label>
+            </div>             
         </div>        
     </div>
     <!--
