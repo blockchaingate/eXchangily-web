@@ -52,8 +52,7 @@
             <div class="notes color-warning">
                 {{"ACHNote"|translate}}
             </div>
-        </div>
-
+        </div>        
         <div>
             <button class="btn btn-gradient text-white py-2 px-5" type="button" (click)="payByEpay()"> {{'Pay by Epay' | translate}} </button>
             <div class="notes color-warning">
@@ -125,7 +124,6 @@
 
 </ng-template>
 
-
 <ng-template #achModalTemplate>
     <div class="modal-bg-grey">
         <div class="modal-header">
@@ -149,13 +147,13 @@
               <div class="form-group">
                 <label for="exampleInputEmail1">{{'Receiving Address' | translate}}: {{order.name}}</label>
             </div> 
-            
+
             <div class="form-check">
                 <input type="checkbox" [(ngModel)]="achChecked" class="form-check-input" id="exampleCheck1">
                 <label class="form-check-label" for="exampleCheck1">{{'I have the permission for this withdraw' | translate}}</label>
               </div>            
           </div>   
-          
+
           <div class="modal-footer  justify-content-center">
             <div>
                 <div class="text-center">
@@ -164,7 +162,7 @@
                     </button>                     
                 </div>
             </div>
-       
+
         </div>          
     </div>
 
