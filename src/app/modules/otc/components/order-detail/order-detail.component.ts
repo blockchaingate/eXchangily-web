@@ -201,27 +201,22 @@ export class OrderDetailComponent implements OnInit {
       details: this.routingNumber + '_' + this.accountNumber
     }
 
-    if(!this.userpaymentmethodCashApp) {
+    if(!this.userpaymentmethodACH) {
       this.paymentmethodServ.addUserPaymentmethod(this.token, data).subscribe(
         (res: any) => {
-          console.log('res in addUserPaymentmethod==', res);
           if(res && res.ok) {
             this.changePaymentMethodACH();
           }
         }
       );
     } else {
-      if(this.accountName == this.userpaymentmethodCashApp.details) {
-        this.changePaymentMethodACH();
-      } else {
-        this.paymentmethodServ.updateUserPaymentmethod(this.token, this.userpaymentmethodCashApp._id, data).subscribe(
-          (res: any) => {
-            if(res && res.ok) {
-              this.changePaymentMethodACH();
-            }
+      this.paymentmethodServ.updateUserPaymentmethod(this.token, this.userpaymentmethodACH._id, data).subscribe(
+        (res: any) => {
+          if(res && res.ok) {
+            this.changePaymentMethodACH();
           }
-        );
-      }
+        }
+      );
       
     }
   }
