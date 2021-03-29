@@ -17,15 +17,16 @@ export class OrderDetailComponent implements OnInit {
   id: string;
   order: any;
   user: any;
+  achChecked: boolean;
   accountName: string;
   memberAccountName: string;
   receivingAddress: string;
   token: string;
   userpaymentmethodCashApp: any;
+  userpaymentmethodACH: any;
   userpaymentmethods: any;
   goPayStep: number;
   modalRef: BsModalRef;
-  achChecked: boolean;
   routingNumber: string;
   accountNumber: string;
 
@@ -59,7 +60,9 @@ export class OrderDetailComponent implements OnInit {
                 if(userpaymentmethod.method == 'CashApp') {
                   this.userpaymentmethodCashApp = userpaymentmethod;
                   this.accountName = userpaymentmethod.details;
-                  break;
+                } else 
+                if(userpaymentmethod.method == 'ACH') {
+                  this.userpaymentmethodACH = userpaymentmethod;
                 }
               }
             }
@@ -120,7 +123,7 @@ export class OrderDetailComponent implements OnInit {
   }
 
 
-  changePaymentMethod() {
+  changePaymentMethodCashApp() {
     this._otcServ.changePaymentMethod(this.token, this.id, 'CashApp').subscribe(
       (res: any) => {
         console.log('res==', res);
@@ -132,6 +135,15 @@ export class OrderDetailComponent implements OnInit {
     );
   }
 
+  changePaymentMethodACH() {
+    this._otcServ.changePaymentMethod(this.token, this.id, 'ACH').subscribe(
+      (res: any) => {
+        if(res && res.ok) {
+        }
+      }
+    );
+  }
+  
   changePaymentStatus(paymentStatus) {
     this._otcServ.changePaymentStatus(this.token, this.id, paymentStatus).subscribe(
       (res: any) => {
@@ -142,9 +154,10 @@ export class OrderDetailComponent implements OnInit {
     );
   }
 
-  changeAchCheck(event) {
-    this.achChecked = !this.achChecked;
+  payByACH(template) {
+    this.modalRef = this.modalService.show(template);
   }
+
   confirmCashAppPay() {
     const data = {
       method: 'CashApp',
@@ -156,18 +169,18 @@ export class OrderDetailComponent implements OnInit {
         (res: any) => {
           console.log('res in addUserPaymentmethod==', res);
           if(res && res.ok) {
-            this.changePaymentMethod();
+            this.changePaymentMethodCashApp();
           }
         }
       );
     } else {
       if(this.accountName == this.userpaymentmethodCashApp.details) {
-        this.changePaymentMethod();
+        this.changePaymentMethodCashApp();
       } else {
         this.paymentmethodServ.updateUserPaymentmethod(this.token, this.userpaymentmethodCashApp._id, data).subscribe(
           (res: any) => {
             if(res && res.ok) {
-              this.changePaymentMethod();
+              this.changePaymentMethodCashApp();
             }
           }
         );
@@ -179,14 +192,37 @@ export class OrderDetailComponent implements OnInit {
   }
   payByCashApp(template) {
     this.modalRef = this.modalService.show(template);
+
   }
 
-  payByACH(template) {
-    this.modalRef = this.modalService.show(template);
+  achCheckedChange(event) {
+    this.achChecked = !this.achChecked;
   }
-
+  
   confirmACHPay() {
+    const data = {
+      method: 'ACH',
+      details: this.routingNumber + '_' + this.accountNumber
+    }
 
+    if(!this.userpaymentmethodACH) {
+      this.paymentmethodServ.addUserPaymentmethod(this.token, data).subscribe(
+        (res: any) => {
+          if(res && res.ok) {
+            this.changePaymentMethodACH();
+          }
+        }
+      );
+    } else {
+      this.paymentmethodServ.updateUserPaymentmethod(this.token, this.userpaymentmethodACH._id, data).subscribe(
+        (res: any) => {
+          if(res && res.ok) {
+            this.changePaymentMethodACH();
+          }
+        }
+      );
+      
+    }
   }
 
   payByEpay() {
