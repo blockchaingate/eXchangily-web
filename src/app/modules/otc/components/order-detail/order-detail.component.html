@@ -131,6 +131,13 @@
             <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
               <span aria-hidden="true">&times;</span>
             </button>
+        </div>  
+        
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="exampleInputRoutingNumber">{{'Routing number' | translate}}</label>
+                <input type="text" [(ngModel)]="routingNumber" class="form-control" id="inputRoutingNumber" aria-describedby="routing number" placeholder="{{'Enter routing number' | translate}}">
+            </div>
         </div>        
     </div>
     <!--
