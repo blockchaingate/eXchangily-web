@@ -1,6 +1,6 @@
 import { Component, Output, TemplateRef, Input, OnInit, EventEmitter, OnDestroy } from '@angular/core';
 import { WalletService } from '../../../../services/wallet.service';
-import * as randomBytes from 'randomBytes';
+import * as randomBytes from 'randombytes';
 import { Web3Service } from '../../../../services/web3.service';
 import { UtilService } from '../../../../services/util.service';
 import { CoinService } from '../../../../services/coin.service';
