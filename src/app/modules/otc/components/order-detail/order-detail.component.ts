@@ -25,6 +25,8 @@ export class OrderDetailComponent implements OnInit {
   memberAccountName: string;
   receivingAddress: string;
   token: string;
+  achAccountBundle: any;
+  privateKey: string;
   achAccount: string;
   userpaymentmethodCashApp: any;
   userpaymentmethodACH: any;
@@ -110,7 +112,6 @@ export class OrderDetailComponent implements OnInit {
                               const userpaymentmethod = this.userpaymentmethods[i];
                               if(userpaymentmethod.method == 'ACH') {
                                 this.achAccount = userpaymentmethod.details;
-                                break;
                               }
                             }
                           }                          
@@ -218,7 +219,20 @@ export class OrderDetailComponent implements OnInit {
   }
   payByCashApp(template) {
     this.modalRef = this.modalService.show(template);
+  }
 
+
+  decryptAccount() {
+    this.achAccountBundle = this.utilServ.decrypt(this.privateKey, this.achAccount);
+    console.log('achAccountBundle=',this.achAccountBundle);
+    if(this.achAccountBundle) {
+      this.achAccountBundle = JSON.parse(this.achAccountBundle);
+    }
+    console.log('achAccountBundle=',this.achAccountBundle);
+  }
+
+  decrypt(template) {
+    this.modalRef = this.modalService.show(template);
   }
 
   achCheckedChange(event) {
@@ -226,12 +240,13 @@ export class OrderDetailComponent implements OnInit {
   }
 
   confirmACHPay() {
-    const rawData = '{routingNumber:"' + this.routingNumber + '",accountNumber:"' + this.accountNumber + '"}';
+    const rawData = '{"routingNumber":"' + this.routingNumber + '","accountNumber":"' + this.accountNumber + '"}';
     const data = {
       method: 'ACH',
       details: this.utilServ.encrypt(environment.PUBLIC_KEY, rawData)
     }
 
+    console.log('this.userpaymentmethodACH==', this.userpaymentmethodACH);
     if(!this.userpaymentmethodACH) {
       this.paymentmethodServ.addUserPaymentmethod(this.token, data).subscribe(
         (res: any) => {

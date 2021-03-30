@@ -32,8 +32,8 @@
             <span *ngIf="order.paymentMethod == 'CashApp'">
                 ({{memberAccountName}})
             </span>
-            <span *ngIf="order.paymentMethod == 'ACH'">
-                ({{achAccount}})
+            <span *ngIf="order.paymentMethod == 'ACH'" (click)="decrypt(decryptACHAccountModalTemplate)">
+                (******)
             </span>            
         </div>
     </div>
@@ -171,4 +171,43 @@
         </div>          
     </div>
 
+</ng-template>
+
+<ng-template #decryptACHAccountModalTemplate>
+    <div class="modal-bg-grey">
+        <div class="modal-header">
+            <h4 class="modal-title text-center">{{'Decrypt ACH Account' | translate}}</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="exampleInputRoutingNumber">{{'Private Key' | translate}}</label>
+                <input type="password" [(ngModel)]="privateKey" class="form-control" id="inputprivateKey" aria-describedby="privateKey" placeholder="{{'Enter private key' | translate}}">
+            </div>
+
+            <div *ngIf="achAccountBundle">
+                <div>
+                    {{'Routing number' | translate}}: {{achAccountBundle.routingNumber}}
+                </div>
+                <div>
+                    {{'Account number' | translate}}: {{achAccountBundle.accountNumber}}
+                </div>                    
+            </div>            
+        </div>
+
+        <div class="modal-footer  justify-content-center">
+            <div>
+                <div class="text-center">
+                    <button [disabled]="!achChecked" class="btn btn-gradient text-white py-2 px-5" [ngClass]="achChecked ? '' : 'btn-disabled'" type="button" (click)="decryptAccount()" [disabled]="!accountName || !receivingAddress"> 
+                        {{'Decrypt' | translate}} 
+                    </button>                     
+                </div>
+            </div>
+       
+        </div>          
+
+    </div>
 </ng-template>
