@@ -38,6 +38,10 @@ export class SmartContractComponent implements OnInit {
   ethBytecode: string;
   ethArguments: string;  
 
+  kanbanABI: string;
+  kanbanBytecode: string;
+  kanbanArguments: string;  
+
   ethData: string;
   lockerHashes: any;
   kanbanTo: string;
@@ -353,6 +357,86 @@ export class SmartContractComponent implements OnInit {
 
   }
 
+  async deployKanbanDo(seed) {
+    const keyPairsKanban = this.coinServ.getKeyPairs(this.exgCoin, seed, 0, 0);
+    // const nonce = await this.apiServ.getEthNonce(this.ethCoin.receiveAdds[0].address);
+    let gasPrice = environment.chains.KANBAN.gasPrice;
+    let gasLimit = environment.chains.KANBAN.gasLimit;
+    const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
+
+    let kanbanTo = '0x0000000000000000000000000000000000000000';
+
+    let kanbanValue = 0;
+
+    const kanbanData = this.formCreateKanbanSmartContractABI();
+    const txObject = {
+        nonce: nonce,
+        gasPrice: gasPrice,
+        gasLimit: gasLimit,
+        to: kanbanTo,
+        value: kanbanValue,
+        data: '0x' + this.utilServ.stripHexPrefix(kanbanData)          
+    };
+
+    const privKey = Buffer.from(keyPairsKanban.privateKeyHex, 'hex');
+
+    let txhex = '';
+
+
+    const customCommon = Common.forCustomChain(
+      environment.chains.ETH.chain,
+      {
+        name: environment.chains.KANBAN.chain.name,
+        networkId: environment.chains.KANBAN.chain.networkId,
+        chainId: environment.chains.KANBAN.chain.chainId
+      },
+      environment.chains.ETH.hardfork,
+    );
+    const tx = new KanbanTxService(txObject, { common: customCommon });
+
+    tx.sign(privKey);
+    const serializedTx = tx.serialize();
+    txhex = '0x' + serializedTx.toString('hex');
+
+    this.kanbanServ.sendRawSignedTransaction(txhex).subscribe(
+      (resp: TransactionResp) => {
+      if (resp && resp.transactionHash) {
+        this.alertServ.openSnackBarSuccess('Smart contract was created successfully.', 'Ok');
+      } else {
+        this.alertServ.openSnackBar('Failed to create smart contract.', 'Ok');
+      }
+    },
+    error => {
+      this.alertServ.openSnackBar(error.error, 'Ok');
+    }
+    );
+    /*
+    const keyPair = this.coinServ.getKeyPairs(this.ethCoin, seed, 0, 0);
+    const nonce = await this.apiServ.getEthNonce(this.ethCoin.receiveAdds[0].address);
+    console.log('this.ethData = ', this.ethData);
+
+    this.ethData = this.formCreateEthSmartContractABI();
+    const txParams = {
+        nonce: nonce,
+        gasPrice: 100000000000,
+        gasLimit: 8000000,
+        value: 0,
+        data: this.ethData          
+    };
+
+    // console.log('txParams=', txParams);
+    const txHex = await this.web3Serv.signTxWithPrivateKey(txParams, keyPair);
+
+
+    const retEth = await this.apiServ.postEthTx(txHex);   
+
+    console.log('retEth===', retEth);
+    if(retEth && retEth.txHash) {
+      this.alertServ.openSnackBarSuccess('Smart contract was deploy successfully.', 'Ok');
+    }
+    */
+  }
+
   async callKanbanDo(seed) {
 
     const keyPairsKanban = this.coinServ.getKeyPairs(this.exgCoin, seed, 0, 0);
@@ -435,6 +519,16 @@ export class SmartContractComponent implements OnInit {
  
   }
 
+  formCreateKanbanSmartContractABI() {
+    const abi = JSON.parse(this.kanbanABI);
+    let args = [];
+    if(this.kanbanArguments) {
+      args = this.kanbanArguments.split(',').map(item => {return item.trim()});
+    }
+    return this.web3Serv.formCreateSmartContractABI(abi, this.kanbanBytecode.trim(), args);
+ 
+  }
+
   async callFabSmartContract(seed) {
     let abiHex = '';
     let smartContractAddress = this.smartContractAddress;
@@ -490,6 +584,12 @@ export class SmartContractComponent implements OnInit {
         }
     }  
   }
+
+  deployKanban() {
+    this.action = 'deployKanban';
+    this.pinModal.show(); 
+  }
+
   async onConfirmedPin(pin: string) {
 
     
@@ -506,12 +606,14 @@ export class SmartContractComponent implements OnInit {
     } else
     if(this.action == 'callKanban') {
       await this.callKanbanDo(seed);
+    } else
+    if(this.action == 'deployKanban') {
+      await this.deployKanbanDo(seed);
     }
   }
 
   deployEth() {
     this.action = 'deployEth';
-    //console.log('this.ethData==', this.ethData);
     this.pinModal.show(); 
   }
 

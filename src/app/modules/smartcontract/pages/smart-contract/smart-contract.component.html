@@ -176,7 +176,7 @@
 
         </mat-tab>
 
-        <mat-tab label="KANBAN">
+        <mat-tab label="Kanban Call">
 
             <mat-tab-group mat-align-tabs="start">
                 <mat-tab label="Call Smart Contract">
@@ -200,6 +200,28 @@
             </mat-tab-group>
 
         </mat-tab>
+
+
+        <mat-tab label="Kanban Deploy">
+
+            <mat-tab-group mat-align-tabs="start">
+                <mat-tab label="Call Smart Contract">
+
+                    <mat-form-field class="example-full-width">
+                        <textarea [(ngModel)]="kanbanABI" placeholder="ABI" matInput></textarea>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <textarea [(ngModel)]="kanbanBytecode" placeholder="Bytecode" matInput></textarea>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Arguments" [(ngModel)]="kanbanArguments">
+                    </mat-form-field>
+
+                    <button mat-raised-button color="primary" (click)="deployKanban()"> {{'Deploy' | translate}} </button>
+                </mat-tab>
+            </mat-tab-group>
+
+        </mat-tab>        
     </mat-tab-group>
 
 
