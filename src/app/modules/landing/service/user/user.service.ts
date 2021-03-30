@@ -81,7 +81,7 @@ export class UserService {
   // Activation
   activation(email: string, activeCode: string) {
     sessionStorage.setItem('id_token', '');
-    return this.http.get(path + 'activation/' + email + '/' + activeCode).pipe(map(res => res));
+    return this.http.get(path + 'activation/' + email + '/' + activeCode).toPromise();
   }
 
   // Get member by using id
@@ -135,7 +135,7 @@ export class UserService {
     const theBody = { 'email': email, appId: this._appAuth.id };
     sessionStorage.removeItem('id_token');
 
-    return this.http.post(path + 'requestpwdreset', theBody).pipe(map(res => res));
+    return this.http.post(path + 'requestpwdreset', theBody).toPromise();
   }
 
   // Execute Password Reset
@@ -147,7 +147,7 @@ export class UserService {
     };
 
     sessionStorage.removeItem('id_token');
-    return this.http.post(path + 'exepwdreset', theBody).pipe(map(res => res));
+    return this.http.post(path + 'exepwdreset', theBody).toPromise();
   }
 
   private convertResponseToUser(res: Response) {

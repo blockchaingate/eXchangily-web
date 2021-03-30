@@ -29,8 +29,7 @@ export class ResetComponent implements OnInit {
   }
 
   onSubmit() {
-    this._userService.requestPwdReset(this.email.value)
-    .subscribe(
+    this._userService.requestPwdReset(this.email.value).then(
       ret => this.processSuccess(ret),
       error => { this.errorMessage = error; }
     );
