@@ -7,8 +7,9 @@ import { UserService } from '../../../../services/user.service';
 import { StorageService } from '../../../../services/storage.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { PaymentMethodService } from '../../../../services/paymentmethod.service';
-import { AlertService } from 'src/app/services/alert.service';
+import { AlertService } from '../../../../services/alert.service';
 import { TranslateService } from '@ngx-translate/core';
+import { UtilService } from '../../../../services/util.service';
 
 @Component({
   selector: 'app-otc-order-detail',
@@ -24,6 +25,7 @@ export class OrderDetailComponent implements OnInit {
   memberAccountName: string;
   receivingAddress: string;
   token: string;
+  achAccount: string;
   userpaymentmethodCashApp: any;
   userpaymentmethodACH: any;
   userpaymentmethods: any;
@@ -39,6 +41,7 @@ export class OrderDetailComponent implements OnInit {
     private alertServ: AlertService,
     private translateServ: TranslateService,
     private apiServ: ApiService,
+    private utilServ: UtilService,
     private paymentmethodServ: PaymentMethodService,
     private route: ActivatedRoute,
     private _otcServ: OtcService) {
@@ -58,7 +61,6 @@ export class OrderDetailComponent implements OnInit {
 
             if (res && res.ok) {
               this.userpaymentmethods = res._body;
-              console.log('this.userpaymentmethods==', this.userpaymentmethods);
               for(let i = 0; i < this.userpaymentmethods.length;i++) {
                 const userpaymentmethod = this.userpaymentmethods[i];
                 if(userpaymentmethod.method == 'CashApp') {
@@ -82,8 +84,8 @@ export class OrderDetailComponent implements OnInit {
                 (res: any) => {
                   if (res.ok) {
                     this.order = res._body;
+                    const memberId = this.order.buyerMemberId;
                     if(this.order.paymentMethod == 'CashApp') {
-                      const memberId = this.order.merchantId._id;
                       this.paymentmethodServ.getUserPaymentMethodsByMemberId(memberId).subscribe(
                         (res: any) => {
                           if (res && res.ok) {
@@ -98,7 +100,23 @@ export class OrderDetailComponent implements OnInit {
                           }                          
                         }
                       );
-                    }
+                    } else
+                    if(this.order.paymentMethod == 'ACH') {
+                      this.paymentmethodServ.getUserPaymentMethodsByMemberId(memberId).subscribe(
+                        (res: any) => {
+                          if (res && res.ok) {
+                            const body = res._body;
+                            for(let i = 0; i < this.userpaymentmethods.length;i++) {
+                              const userpaymentmethod = this.userpaymentmethods[i];
+                              if(userpaymentmethod.method == 'ACH') {
+                                this.achAccount = userpaymentmethod.details;
+                                break;
+                              }
+                            }
+                          }                          
+                        }
+                      );
+                    }                     
 
                     const coinName = this.order.items[0].title;
           
@@ -176,7 +194,6 @@ export class OrderDetailComponent implements OnInit {
     if(!this.userpaymentmethodCashApp) {
       this.paymentmethodServ.addUserPaymentmethod(this.token, data).subscribe(
         (res: any) => {
-          console.log('res in addUserPaymentmethod==', res);
           if(res && res.ok) {
             this.changePaymentMethodCashApp();
           }
@@ -209,9 +226,10 @@ export class OrderDetailComponent implements OnInit {
   }
 
   confirmACHPay() {
+    const rawData = '{routingNumber:"' + this.routingNumber + '",accountNumber:"' + this.accountNumber + '"}';
     const data = {
       method: 'ACH',
-      details: this.routingNumber + '_' + this.accountNumber
+      details: this.utilServ.encrypt(environment.PUBLIC_KEY, rawData)
     }
 
     if(!this.userpaymentmethodACH) {

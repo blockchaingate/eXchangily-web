@@ -32,6 +32,9 @@
             <span *ngIf="order.paymentMethod == 'CashApp'">
                 ({{memberAccountName}})
             </span>
+            <span *ngIf="order.paymentMethod == 'ACH'">
+                ({{achAccount}})
+            </span>            
         </div>
     </div>
 

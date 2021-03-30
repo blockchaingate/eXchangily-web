@@ -15,6 +15,7 @@ export const environment = {
     PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',
     url: 'https://kanbantest.fabcoinapi.com/',
 
+    PUBLIC_KEY: 'e0d262b939cd0267cfbe3f004e2863d41d1f631ce33701a8920ba73925189f5d15be92cea3c58987aa47ca70216182ba6bd89026fc15edfe2092a66f59a14003',
     // baseUrl: 'http://localhost:4200',
     baseUrl: 'https://test.exchangily.com',
     campaignId: 1,

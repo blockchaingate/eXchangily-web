@@ -5,6 +5,7 @@ import * as createHash from 'create-hash';
 import BigNumber from 'bignumber.js/bignumber';
 import * as Btc from 'bitcoinjs-lib';
 import * as bs58 from 'bs58';
+import * as ecies from 'eth-ecies';
 import { environment } from 'src/environments/environment';
 @Injectable()
 export class UtilService {
@@ -26,6 +27,26 @@ export class UtilService {
             return encryptedRawData.slice(this.auth_code.length);
         } catch (e) { }
         return '';
+    }
+
+    encrypt(publicKey, data) {
+        console.log('publicKey==', publicKey);
+        console.log('data==', data);
+        let userPublicKey = Buffer.from(publicKey, 'hex');
+        let bufferData = Buffer.from(data);
+    
+        let encryptedData = ecies.encrypt(userPublicKey, bufferData);
+    
+        return encryptedData.toString('base64')
+    }   
+
+    decrypt(privateKey, encryptedData) {
+        let userPrivateKey = Buffer.from(privateKey, 'hex');
+        let bufferEncryptedData = Buffer.from(encryptedData, 'base64');
+    
+        let decryptedData = ecies.decrypt(userPrivateKey, bufferEncryptedData);
+        
+        return decryptedData.toString('utf8');
     }
 
     aesEncryptSeed(seed: Buffer, pwd: string) {
