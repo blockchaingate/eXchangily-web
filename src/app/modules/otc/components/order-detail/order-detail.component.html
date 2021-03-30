@@ -102,22 +102,32 @@
 
               <div class="form-group">
                 <label for="exampleInputEmail1">{{'Receiving Address' | translate}}: {{order.name}}</label>
-            </div>              
-          </div>   
-          
-          <div class="modal-footer  justify-content-center">
-            <div *ngIf="goPayStep == 1 || goPayStep == 2">
-                <div class="text-center">
-                    <button *ngIf="goPayStep == 1" class="btn btn-gradient text-white py-2 px-5" type="button" (click)="confirmCashAppPay()" [disabled]="!accountName || !receivingAddress"> 
-                        {{'Confirm and Pay' | translate}} 
-                    </button>
-                    <button *ngIf="goPayStep == 2" (click)="changePaymentStatus(1)" mat-raised-button color="primary">
-                        {{'Marked as paid' | translate}}
-                    </button>                       
+            </div>  
+            
+            <div class="text-center">
+                <img src="/assets/exchangily.png">
+                <div>
+                    {{'Scan to pay with Cash App, or pay to $exchangily directly with Cash App. Please click "Marked as paid" button after payment finished' | translate}}
                 </div>
                 <div class="pt-2 color-warning">
                     {{"CashAppRequiredNote"|translate}}{{order._id}}
+                </div>                
+            </div>
+          </div>   
+          
+          <div class="modal-footer  justify-content-center">
+            <div>
+                <div class="text-center" *ngIf="goPayStep == 1 || goPayStep == 2">
+                    <!--
+                    <button *ngIf="goPayStep == 1" class="btn btn-gradient text-white py-2 px-5" type="button" (click)="confirmCashAppPay()" [disabled]="!accountName || !receivingAddress"> 
+                        {{'Confirm and Pay' | translate}} 
+                    </button>
+                    -->
+                    <button (click)="changePaymentStatus(1)" mat-raised-button color="primary">
+                        {{'Marked as paid' | translate}}
+                    </button>                       
                 </div>
+
             </div>
 
             <div *ngIf="goPayStep == 3">
