@@ -7,6 +7,8 @@ import { UserService } from '../../../../services/user.service';
 import { StorageService } from '../../../../services/storage.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { PaymentMethodService } from '../../../../services/paymentmethod.service';
+import { AlertService } from 'src/app/services/alert.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-otc-order-detail',
@@ -34,6 +36,8 @@ export class OrderDetailComponent implements OnInit {
     private modalService: BsModalService,
     private storageService: StorageService,
     private userServ: UserService,
+    private alertServ: AlertService,
+    private translateServ: TranslateService,
     private apiServ: ApiService,
     private paymentmethodServ: PaymentMethodService,
     private route: ActivatedRoute,
@@ -139,6 +143,11 @@ export class OrderDetailComponent implements OnInit {
     this._otcServ.changePaymentMethod(this.token, this.id, 'ACH').subscribe(
       (res: any) => {
         if(res && res.ok) {
+          this.modalRef.hide();
+          this.alertServ.openSnackBarSuccess(
+            this.translateServ.instant("Your payment is pending"),
+            this.translateServ.instant("Ok")
+            );
         }
       }
     );
@@ -198,7 +207,7 @@ export class OrderDetailComponent implements OnInit {
   achCheckedChange(event) {
     this.achChecked = !this.achChecked;
   }
-  
+
   confirmACHPay() {
     const data = {
       method: 'ACH',
