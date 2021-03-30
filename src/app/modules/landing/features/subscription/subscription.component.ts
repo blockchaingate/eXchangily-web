@@ -35,7 +35,7 @@ export class SubscriptionComponent {
 
         this.errMsg = '';
 
-        this.subscribServ.create(this.email, this.name).subscribe(
+        this.subscribServ.create(this.email, this.name).then(
             (res: any) => {
                     this.success = true;
                     this.name = '';
