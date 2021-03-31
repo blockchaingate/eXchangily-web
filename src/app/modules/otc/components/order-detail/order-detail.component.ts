@@ -26,15 +26,28 @@ export class OrderDetailComponent implements OnInit {
   receivingAddress: string;
   token: string;
   achAccountBundle: any;
+  achAccount2: any;
   privateKey: string;
   achAccount: string;
   userpaymentmethodCashApp: any;
   userpaymentmethodACH: any;
+  userpaymentmethodACH2: any;
   userpaymentmethods: any;
   goPayStep: number;
   modalRef: BsModalRef;
+
   routingNumber: string;
   accountNumber: string;
+
+  customerName: string;
+  companyName: string;
+  billingAddress: string;
+  city: string;
+  country: string;
+  state: string;
+  zip: string;
+  email: string;
+  phone: string;
 
   constructor(
     private modalService: BsModalService,
@@ -71,6 +84,9 @@ export class OrderDetailComponent implements OnInit {
                 } else 
                 if(userpaymentmethod.method == 'ACH') {
                   this.userpaymentmethodACH = userpaymentmethod;
+                } else
+                if(userpaymentmethod.method == 'ACH2') {
+                  this.userpaymentmethodACH2 = userpaymentmethod;
                 }
               }
             }
@@ -92,8 +108,8 @@ export class OrderDetailComponent implements OnInit {
                         (res: any) => {
                           if (res && res.ok) {
                             const body = res._body;
-                            for(let i = 0; i < this.userpaymentmethods.length;i++) {
-                              const userpaymentmethod = this.userpaymentmethods[i];
+                            for(let i = 0; i < body.length;i++) {
+                              const userpaymentmethod = body[i];
                               if(userpaymentmethod.method == 'CashApp') {
                                 this.memberAccountName = userpaymentmethod.details;
                                 break;
@@ -108,8 +124,8 @@ export class OrderDetailComponent implements OnInit {
                         (res: any) => {
                           if (res && res.ok) {
                             const body = res._body;
-                            for(let i = 0; i < this.userpaymentmethods.length;i++) {
-                              const userpaymentmethod = this.userpaymentmethods[i];
+                            for(let i = 0; i < body.length;i++) {
+                              const userpaymentmethod = body[i];
                               if(userpaymentmethod.method == 'ACH') {
                                 this.achAccount = userpaymentmethod.details;
                               }
@@ -117,7 +133,26 @@ export class OrderDetailComponent implements OnInit {
                           }                          
                         }
                       );
-                    }                     
+                    } else
+                    if(this.order.paymentMethod == 'ACH2') {
+                      this.paymentmethodServ.getUserPaymentMethodsByMemberId(memberId).subscribe(
+                        (res: any) => {
+                          if (res && res.ok) {
+                            const body = res._body;
+
+                            for(let i = 0; i < body.length;i++) {
+                              const userpaymentmethod = body[i];
+
+                              console.log('userpaymentmethod===', userpaymentmethod);
+                              if(userpaymentmethod.method == 'ACH2') {
+                                this.achAccount2 = JSON.parse(userpaymentmethod.details);
+                                console.log('this.achAccount2==', this.achAccount2);
+                              }
+                            }
+                          }                          
+                        }
+                      );
+                    }                      
 
                     const coinName = this.order.items[0].title;
           
@@ -171,7 +206,21 @@ export class OrderDetailComponent implements OnInit {
       }
     );
   }
-  
+ 
+  changePaymentMethodACH2() {
+    this._otcServ.changePaymentMethod(this.token, this.id, 'ACH2').subscribe(
+      (res: any) => {
+        if(res && res.ok) {
+          this.modalRef.hide();
+          this.alertServ.openSnackBarSuccess(
+            this.translateServ.instant("Your payment is pending"),
+            this.translateServ.instant("Ok")
+            );
+        }
+      }
+    );
+  }
+
   changePaymentStatus(paymentStatus) {
     this._otcServ.changePaymentStatus(this.token, this.id, paymentStatus).subscribe(
       (res: any) => {
@@ -186,6 +235,9 @@ export class OrderDetailComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  payByACH2(template) {
+    this.modalRef = this.modalService.show(template, {class: 'modal-lg'});
+  }
   confirmCashAppPay() {
     const data = {
       method: 'CashApp',
@@ -260,6 +312,43 @@ export class OrderDetailComponent implements OnInit {
         (res: any) => {
           if(res && res.ok) {
             this.changePaymentMethodACH();
+          }
+        }
+      );
+      
+    }
+  }
+
+  confirmACHPay2() {
+    const rawData = {
+      customerName: this.customerName,
+      companyName: this.companyName,
+      billingAddress: this.billingAddress,
+      city: this.city,
+      country: this.country,
+      state: this.state,
+      zip: this.zip,
+      email: this.email,
+      phone: this.phone
+    };
+    const data = {
+      method: 'ACH2',
+      details: JSON.stringify(rawData)
+    }
+
+    if(!this.userpaymentmethodACH2) {
+      this.paymentmethodServ.addUserPaymentmethod(this.token, data).subscribe(
+        (res: any) => {
+          if(res && res.ok) {
+            this.changePaymentMethodACH2();
+          }
+        }
+      );
+    } else {
+      this.paymentmethodServ.updateUserPaymentmethod(this.token, this.userpaymentmethodACH2._id, data).subscribe(
+        (res: any) => {
+          if(res && res.ok) {
+            this.changePaymentMethodACH2();
           }
         }
       );
