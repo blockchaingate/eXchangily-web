@@ -1078,6 +1078,7 @@
     "Payable Amount": "Payable Amount",
     "Create Time": "Create Time",
     "Status": "Status",
+    "ACHConfirmationNote": "Please check the payment email within 24 hours and click the link in the email to complete the payment process",
     "Total Quantity": "Quantity",
     "Send Coin": "Send Coin",
     "Send to": "Send to",

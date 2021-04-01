@@ -211,11 +211,14 @@ export class OrderDetailComponent implements OnInit {
     this._otcServ.changePaymentMethod(this.token, this.id, 'ACH2').subscribe(
       (res: any) => {
         if(res && res.ok) {
-          this.modalRef.hide();
+          this.goPayStep = 2;
+          //this.modalRef.hide();
+          /*
           this.alertServ.openSnackBarSuccess(
             this.translateServ.instant("Your payment is pending"),
             this.translateServ.instant("Ok")
             );
+          */
         }
       }
     );

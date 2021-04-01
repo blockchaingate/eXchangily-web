@@ -1556,6 +1556,7 @@
     "Enter phone": "输入电话号码",
     "Import CSV": "导入CSV",
     "Preview": "预览",
+    "ACHConfirmationNote": "24小时内，请注意查收付款邮件，点击邮件内链接来完成付款流程",
     "Receiving Address": "收款地址",
     "Cash App Account Name": "Cash App用户名",
     "No wallet?, click": "没有钱包？点击",
