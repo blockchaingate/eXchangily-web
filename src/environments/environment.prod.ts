@@ -154,11 +154,11 @@ export const environment = {
                 ETH: '0xf2260ed15c59c9437848afed04645044a8d5e270'
             },
             DSC: {
-                FAB: '0x393b3e956ccf8d041ad597b654b8d11b6705c9c9',
+                FAB: '0x64f1f72543c9d517a4e0bee32a3d11a21dc87de4',
                 ETH: '0xe3d64fca00dd7b76b45f4b8425f49f6e6327623d'
             },
             BST: {
-                FAB: '0xcc96f862438984496db99f35c62f20f1ac22322a',
+                FAB: '0x3e6f8813ab824ac2fea001091fb2ce0365297164',
                 ETH: '0x4fe1819daf783a3f3151ea0937090063b85d6122'
             },              
             DUSD: '0x46e0021c17d30a2db972ee5719cdc7e829ed9930',
