@@ -71,7 +71,7 @@ export class TradeComponent implements OnInit {
     this.wallet = await this.storageService.getCurrentWallet();
     // this.dataSource = ELEMENT_DATA;
     this.dataSource = [];
-    this._otcServ.getPublicListings().subscribe(
+    this._otcServ.getPublicListings().toPromise().then(
       (res: any) => {
         console.log('res from addListing=', res);
         if (res && res.ok) {
@@ -98,7 +98,7 @@ export class TradeComponent implements OnInit {
     this.coinName = coin;
     for (let i = 0; i < this.wallet.mycoins.length; i++) {
       const mycoin = this.wallet.mycoins[i];
-      if (mycoin.name == coin) {
+      if (mycoin.name === coin) {
         this.balance = mycoin.balance;
         console.log('this.balance=', this.balance);
 
@@ -167,7 +167,7 @@ export class TradeComponent implements OnInit {
   onConfirmedCoinAddress(event) {
     console.log('onConfirmedCoinAddress start');
     const address = event.address;
-    this._otcServ.updateOrderAddress(this.token, this.orderId, address).subscribe(
+    this._otcServ.updateOrderAddress(this.token, this.orderId, address).toPromise().then(
       (res: any) => {
         if(res && res.ok) {
           this._router.navigate(['/otc/order-detail/' + this.orderId]);
@@ -194,17 +194,16 @@ export class TradeComponent implements OnInit {
   }
 
   addOrderDo() {
-    //txid;
     console.log('addOrderDo start');
-    this._otcServ.addOrder(this.token, this.element._id, this.order).subscribe(
+    this._otcServ.addOrder(this.token, this.element._id, this.order).toPromise().then(
       (res: any) => {
         console.log('res for addOrder=', res);
         if (res.ok) {
           const orderId = res._body;
           this.orderId = orderId;
-          //this.element = data;
+          // this.element = data;
           this.otcCoinAddressModal.show(this.element.coin, this.wallet);
-          //this._router.navigate(['/otc/order-detail/' + data]);
+          // this._router.navigate(['/otc/order-detail/' + data]);
         }
       }
     );

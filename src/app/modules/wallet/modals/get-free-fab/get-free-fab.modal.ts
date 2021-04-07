@@ -27,7 +27,6 @@ export class GetFreeFabModal implements OnInit {
         });
     }
 
-
     onSubmit() {
         this.airdropServ.answerQuestionair(this.address, this.questionair_id, this.answer).subscribe(
             (res: any) => {
