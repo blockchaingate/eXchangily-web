@@ -37,7 +37,7 @@
                 <div class="row">
                     <div class="col col-3 coin-name" [ngClass]="(bidOrAsk && (coinName=='DUSD'))?'type-buy':''" (click)="changeCoinName(true, 'DUSD')">
                         DUSD
-                    </div>                    
+                    </div>
                     <div class="col col-3 coin-name" [ngClass]="(bidOrAsk && (coinName=='USDT'))?'type-buy':''" (click)="changeCoinName(true, 'USDT')">
                         USDT
                     </div>
@@ -65,7 +65,7 @@
                 <div class="row">
                     <div class="col col-3 coin-name" [ngClass]="(!bidOrAsk && (coinName=='DUSD'))?'type-sell':''" (click)="changeCoinName(false, 'DUSD')">
                         DUSD
-                    </div>                    
+                    </div>
                     <div class="col col-3 coin-name" [ngClass]="(!bidOrAsk && (coinName=='USDT'))?'type-sell':''" (click)="changeCoinName(false, 'USDT')">
                         USDT
                     </div>
@@ -112,7 +112,7 @@
                         </td>
 
                         <td>{{element.qtyAvilable}}</td>
-                        <td>{{element.qtyLimitPerOrderLow}}-{{element.qtyLimitPerOrderHigh}}</td>
+                        <td>{{element.qtyLimitPerOrderLow}} ~ {{element.qtyLimitPerOrderHigh}}</td>
                         <td>{{element.price}}</td>
                         <td style="width: 80px;">
                             <div class="btn-buy-sell" [ngClass]="element.BidOrAsk ? 'btn-buy' : 'btn-sell'" (click)="placeOrder(element)">
