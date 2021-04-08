@@ -796,6 +796,8 @@ export class WalletDashboardComponent implements OnInit {
 
     async loadWallet(wallet: Wallet) {
         this.wallet = wallet;
+
+        console.log('wallet=', wallet);
         this.exgBalance = 0;
 
         this.campaignorderServ.getCheck(this.exgAddress).subscribe(

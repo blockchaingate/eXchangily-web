@@ -32,12 +32,14 @@ export class ReceiveCoinModal {
     }
 
     onChange(index: number) {
+        /*
         if (this.wallet.mycoins[index].tokenType === 'FAB') {
             this.currentAddress = this.wallet.mycoins[1].receiveAdds[0].address;
         } else {
             this.currentAddress = this.wallet.mycoins[index].receiveAdds[0].address;
         }
-
+        */
+       this.currentAddress = this.wallet.mycoins[index].receiveAdds[0].address;
         // console.log(selectedValue);
     }
 
