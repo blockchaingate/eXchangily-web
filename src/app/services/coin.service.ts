@@ -102,11 +102,6 @@ export class CoinService {
         return -1;
     }
     initToken(type: string, name: string, decimals: number, address: string, baseCoin: MyCoin) {
-        if(name == 'EXG') {
-            console.log('initToken for EXG');
-            console.log('address==', address);
-            console.log('baseCoin==', baseCoin);
-        }
         const coin = new MyCoin(name);
         coin.tokenType = type;
         coin.decimals = decimals;
@@ -115,10 +110,7 @@ export class CoinService {
         coin.baseCoin = baseCoin;
         const addr = new Address(baseCoin.coinType, baseCoin.receiveAdds[0].address, 0);
         coin.receiveAdds.push(addr);
-
-        if(name == 'EXG') {
-            console.log('coin==', coin);
-        }        
+     
         return coin;
     }
 
@@ -127,7 +119,6 @@ export class CoinService {
     }
 
     initMyCoins(seed: Buffer): MyCoin[] {
-        console.log('begin initMyCoins');
         const myCoins = [];
 
         const fabCoin = new MyCoin('FAB');
