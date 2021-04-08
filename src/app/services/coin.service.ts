@@ -102,6 +102,11 @@ export class CoinService {
         return -1;
     }
     initToken(type: string, name: string, decimals: number, address: string, baseCoin: MyCoin) {
+        if(name == 'EXG') {
+            console.log('initToken for EXG');
+            console.log('address==', address);
+            console.log('baseCoin==', baseCoin);
+        }
         const coin = new MyCoin(name);
         coin.tokenType = type;
         coin.decimals = decimals;
@@ -110,6 +115,10 @@ export class CoinService {
         coin.baseCoin = baseCoin;
         const addr = new Address(baseCoin.coinType, baseCoin.receiveAdds[0].address, 0);
         coin.receiveAdds.push(addr);
+
+        if(name == 'EXG') {
+            console.log('coin==', coin);
+        }        
         return coin;
     }
 
@@ -2457,12 +2466,17 @@ export class CoinService {
         for (let i = 0; i < numReceiveAdds; i++) {
             const keyPair = this.getKeyPairs(mycoin, seed, 0, i);
             const addr = new Address(mycoin.coinType, keyPair.address, i);
-            mycoin.receiveAdds.push(addr);
+            if(mycoin.receiveAdds.length == 0) {
+                mycoin.receiveAdds.push(addr);
+            }
+            
         }
         for (let i = 0; i < numberChangeAdds; i++) {
             const keyPair = this.getKeyPairs(mycoin, seed, 1, i);
             const addr = new Address(mycoin.coinType, keyPair.address, i);
-            mycoin.changeAdds.push(addr);
+            if(mycoin.changeAdds.length == 0) {
+                mycoin.changeAdds.push(addr);
+            }
         }
 
     }
