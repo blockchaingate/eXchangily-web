@@ -32,20 +32,20 @@ export class UtilService {
     encrypt(publicKey, data) {
         console.log('publicKey==', publicKey);
         console.log('data==', data);
-        let userPublicKey = Buffer.from(publicKey, 'hex');
-        let bufferData = Buffer.from(data);
-    
-        let encryptedData = ecies.encrypt(userPublicKey, bufferData);
-    
+        const userPublicKey = Buffer.from(publicKey, 'hex');
+        const bufferData = Buffer.from(data);
+
+        const encryptedData = ecies.encrypt(userPublicKey, bufferData);
+
         return encryptedData.toString('base64')
-    }   
+    }
 
     decrypt(privateKey, encryptedData) {
-        let userPrivateKey = Buffer.from(privateKey, 'hex');
-        let bufferEncryptedData = Buffer.from(encryptedData, 'base64');
-    
-        let decryptedData = ecies.decrypt(userPrivateKey, bufferEncryptedData);
-        
+        const userPrivateKey = Buffer.from(privateKey, 'hex');
+        const bufferEncryptedData = Buffer.from(encryptedData, 'base64');
+
+        const decryptedData = ecies.decrypt(userPrivateKey, bufferEncryptedData);
+
         return decryptedData.toString('utf8');
     }
 
@@ -76,10 +76,12 @@ export class UtilService {
         // console.log('rightHex=' + rightHex);
         return this.hexToDec(leftHex) * 16 + this.hexCharToDec(rightHex);
     }
+
     showTime(time: string) {
         const timeArray = time.split('.');
         return timeArray[0].replace('T', ' ');
     }
+
     copy(str: string) {
         const selBox = document.createElement('textarea');
         selBox.style.position = 'fixed';
@@ -114,30 +116,28 @@ export class UtilService {
         const lockNum = lockBal ? Number(lockBal) : 0;
         return this.toPrecision((unlockNum + lockNum) * Number(val));
     }
-    
-    toPrecision(num: number) {
-        //console.log('num=', num);
 
-        if(!num) {
+    toPrecision(num: number) {
+        if (!num) {
             return 0;
         }
-                
+
         let decimal = 5;
-        if(num < 0.001) {
+        if (num < 0.001) {
             decimal = 7;
         }
 
         const numString = num.toString();
-        if(numString.indexOf('e') >= 0) {
+        if (numString.indexOf('e') >= 0) {
             return num;
         }
 
         const numArr = numString.split('.');
-        if(numArr.length == 1) {
+        if (numArr.length === 1) {
             return num;
         }
 
-        //console.log('numArr==', numArr);
+        // console.log('numArr==', numArr);
         return Number(numArr[0] + '.' + numArr[1].substring(0, decimal));
         /*
         if(num >= 0.1) {
@@ -145,7 +145,6 @@ export class UtilService {
         }
         return Math.round(num * 10000) / 10000;
         */
-
     }
 
     getFormattedDate(date: any) {
@@ -234,8 +233,8 @@ export class UtilService {
             return '0';
         }
 
-        if(amount.toString().indexOf('e-') > 0) {
-            const amountArr = amount.toString().split('e');
+        if (amount.toString().indexOf('e-') > 0) {
+            const amountArrr = amount.toString().split('e');
             /*
             if(decimal >= amountArr[1]) {
                 const 
@@ -248,7 +247,7 @@ export class UtilService {
                 return (amountArr[0] + 'e-' + (amountArr[1] - decimal));
             }
             */
-           return new BigNumber(amountArr[0] + 'e' + (Number(amountArr[1]) + decimal)).toFixed();
+            return new BigNumber(amountArrr[0] + 'e' + (Number(amountArrr[1]) + decimal)).toFixed();
         }
         const amountStr = amount.toString();
         const amountArr = amountStr.split('.');
@@ -340,12 +339,12 @@ export class UtilService {
 
     toNumber(num) {
         const arr = num.split('.');
-        if(arr.length <= 1) {
+        if (arr.length <= 1) {
             return Number(arr);
         }
         return Number(arr[0] + '.' + arr[1].substring(0, 7));
     }
-    
+
     hex2Buffer(hexString) {
         const buffer = [];
         for (let i = 0; i < hexString.length; i += 2) {
@@ -358,34 +357,34 @@ export class UtilService {
         try {
             const bytes = bs58.decode(address);
             const addressInWallet = bytes.toString('hex');
-            if(!addressInWallet || (addressInWallet.length != 50)) {
+            if (!addressInWallet || (addressInWallet.length !== 50)) {
                 return '';
             }
             return '0x' + addressInWallet.substring(2, 42);
-        } catch(e) {
+        } catch (e) {
 
         }
         return '';
     }
 
     exgToFabAddress(address: string) {
-        
+
         try {
             let prefix = '6f';
             if (environment.production) {
                 prefix = '00';
             }
             address = prefix + this.stripHexPrefix(address);
-    
+
             let buf = Buffer.from(address, 'hex');
-    
+
             const hash1 = createHash('sha256').update(buf).digest().toString('hex');
             const hash2 = createHash('sha256').update(Buffer.from(hash1, 'hex')).digest().toString('hex');
-    
+
             buf = Buffer.from(address + hash2.substring(0, 8), 'hex');
             address = bs58.encode(buf);
             return address;
-        } catch(e) {}
+        } catch (e) { }
 
 
         return '';
