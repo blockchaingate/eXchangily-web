@@ -8,11 +8,13 @@ import { KanbanBalance } from '../../models/kanbanBalance';
 import { BigNumber } from 'bignumber.js';
 import { WithdrawRequest } from '../../models/withdrawRequest';
 import { DepositRequest } from '../../models/depositRequest';
+import { CoinService } from 'src/app/services/coin.service';
 
 @Component({
   selector: 'app-address-details',
   templateUrl: './address-details.component.html',
-  styleUrls: ['./address-details.component.css']
+  styleUrls: ['./address-details.component.css'],
+  providers: [CoinService]
 })
 export class AddressDetailsComponent implements OnInit {
   address: string;
@@ -25,7 +27,9 @@ export class AddressDetailsComponent implements OnInit {
   withdrawReqs: WithdrawRequest[] = [];
   depositReqs: DepositRequest[] = [];
 
-  constructor(private route: ActivatedRoute, private service: KanbanService, private utilServ: UtilService) { }
+  constructor(
+    private coinServ: CoinService,
+    private route: ActivatedRoute, private service: KanbanService, private utilServ: UtilService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -92,4 +96,7 @@ export class AddressDetailsComponent implements OnInit {
     return (new BigNumber(num).multipliedBy(new BigNumber(1e-18))).toFixed(18);
   }
 
+  getCoinName(coin_id: number) {
+    return this.coinServ.getCoinNameByTypeId(coin_id);
+  }
 }

@@ -75,8 +75,7 @@ export class CoinService {
 
     async getTrxTokenBalance(smartContractAddress: string, address: string) {
         
-        console.log('smartContractAddress=', smartContractAddress);
-        console.log('address=', address);
+
         //address = 'TM2TmqauSEiRf16CyFgzHV2BVxBejY9iyR';
         //address = tronWeb.address.toHex(address);
         //console.log('address=', address);
@@ -86,11 +85,9 @@ export class CoinService {
             let contract = await tronWeb.contract().at(smartContractAddress);
             //Use call to execute a pure or view smart contract method.
             // These methods do not modify the blockchain, do not cost anything to execute and are also not broadcasted to the network.
-            console.log('11111');
+
             if(contract.balanceOf(address)) {
-                console.log('22222');
                 let result = await contract.balanceOf(address).call({from: address});
-                console.log('33333');
                 return result.toNumber();
             }
             return -1;

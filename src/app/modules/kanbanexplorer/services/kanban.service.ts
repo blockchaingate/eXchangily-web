@@ -34,6 +34,9 @@ export class KanbanService {
   }
 
   getCurrencyName(num: string): string {
+    if(!this.coins || !Array.isArray(this.coins)) {
+      return '-';
+    }
     const coin = this.coins.filter(c => c.coinType === parseInt(num));
     if (!coin || coin.length < 1) return '-';
     return coin[0]['tickerName'];
