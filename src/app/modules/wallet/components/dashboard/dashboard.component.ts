@@ -541,13 +541,11 @@ export class WalletDashboardComponent implements OnInit {
         let ltcAddress = '';
         let trxAddress = '';
 
+        if(this.wallet.mycoins[4].name == 'TRX') {
+            this.walletUpdateToDate = true;
+        }
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
-            const coin = this.wallet.mycoins[i];
-
-
-            if(coin.name === 'BST' && coin.tokenType === 'ETH') {
-                this.walletUpdateToDate = true;
-            }            
+            const coin = this.wallet.mycoins[i];       
 
             if (coin.name == 'BTC' && !btcAddress) {
                 btcAddress = coin.receiveAdds[0].address;

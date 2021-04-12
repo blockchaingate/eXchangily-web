@@ -135,7 +135,13 @@ export class CoinService {
         this.fillUpAddress(ethCoin, seed, 1, 0);
         myCoins.push(ethCoin);
 
-        console.log('here1');
+        const trxCoin = new MyCoin('TRX');
+        this.fillUpAddress(trxCoin, seed, 1, 0);
+        myCoins.push(trxCoin);
+
+        const usdtTRXCoin = this.initToken('TRX', 'USDT', 6, environment.addresses.smartContract.USDT.TRX, trxCoin);
+        this.fillUpAddress(usdtTRXCoin, seed, 1, 0);
+        myCoins.push(usdtTRXCoin);        
 
         const usdtCoin = this.initToken('ETH', 'USDT', 6, environment.addresses.smartContract.USDT.ETH, ethCoin);
 
@@ -178,16 +184,6 @@ export class CoinService {
         const dogCoin = new MyCoin('DOGE');
         this.fillUpAddress(dogCoin, seed, 1, 0);
         myCoins.push(dogCoin);
-
-        const trxCoin = new MyCoin('TRX');
-        this.fillUpAddress(trxCoin, seed, 1, 0);
-        myCoins.push(trxCoin);
-
-        const usdtTRXCoin = this.initToken('TRX', 'USDT', 6, environment.addresses.smartContract.USDT.TRX, trxCoin);
-
-        this.fillUpAddress(usdtTRXCoin, seed, 1, 0);
-
-        myCoins.push(usdtTRXCoin);
 
 
         let tokenName = 'FAB';
