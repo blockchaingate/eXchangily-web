@@ -127,3 +127,16 @@ label {
 .transfer {
     height: 356px;
 }
+
+.mat-radio-button {
+    padding-top: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 3px;
+    margin-bottom: 0.5rem;
+}
+
+.mat-radio-button.mat-radio-checked {
+    border: 1px solid #ff4081;
+}

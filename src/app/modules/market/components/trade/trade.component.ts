@@ -40,7 +40,6 @@ export class TradeComponent implements OnInit {
     setPairs() {
         let pairsConfig; // = sessionStorage.getItem('pairsConfig');
         // if (!pairsConfig) {
-            console.log('getPairConfig 2');
             this.kanbanService.getPairConfig().subscribe(
                 res => {
                     pairsConfig = JSON.stringify(res);

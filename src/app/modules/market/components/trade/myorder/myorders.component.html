@@ -285,7 +285,7 @@
                   </mat-radio-group>
             </div>
             <div>
-                TS Wallet Balance: 
+                {{'TS Wallet Balance' | translate}}: 
                 <span *ngIf="chain == 'TRX'">{{trxUSDTTSBalance?trxUSDTTSBalance:'NA'}}</span>
                 <span *ngIf="chain == 'ETH'">{{ethUSDTTSBalance?ethUSDTTSBalance:'NA'}}</span>
             </div>
@@ -302,7 +302,7 @@
                       </mat-radio-group>
                 </div>
                 <div>
-                    TS Wallet Balance: 
+                    {{'TS Wallet Balance' | translate}}: 
                     <span *ngIf="chain == 'FAB'">{{fabTSBalance?fabTSBalance:'NA'}}</span>
                     <span *ngIf="chain == 'ETH'">{{ethFABTSBalance?ethFABTSBalance:'NA'}}</span>
                 </div>
@@ -317,7 +317,7 @@
                       </mat-radio-group>
                 </div>
                 <div>
-                    TS Wallet Balance: 
+                    {{'TS Wallet Balance' | translate}}: 
                     <span *ngIf="chain == 'FAB'">{{exgTSBalance?exgTSBalance:'NA'}}</span>
                     <span *ngIf="chain == 'ETH'">{{ethEXGTSBalance?ethEXGTSBalance:'NA'}}</span>
                 </div>
