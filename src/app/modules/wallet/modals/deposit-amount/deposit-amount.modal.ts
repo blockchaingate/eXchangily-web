@@ -47,7 +47,6 @@ export class DepositAmountModal {
         this.firstTime = true;
         this.disabled = false;
         this.sendAllCoinsFlag = false;
-        console.log('this.lan===', this.lan);
     }
 
     async sendAllAmount(event) {

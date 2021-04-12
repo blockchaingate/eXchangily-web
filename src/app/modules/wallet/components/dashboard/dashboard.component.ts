@@ -40,6 +40,7 @@ import { ManageWalletComponent } from '../manage-wallet/manage-wallet.component'
 import { CampaignOrderService } from '../../../../services/campaignorder.service';
 import { Pair } from 'src/app/modules/market/models/pair';
 import { LockedInfoModal } from '../../modals/locked-info/locked-info.modal';
+import { WalletUpdateModal } from '../../modals/wallet-update/wallet-update.modal';
 
 @Component({
     selector: 'app-wallet-dashboard',
@@ -65,6 +66,7 @@ export class WalletDashboardComponent implements OnInit {
     @ViewChild('toolsModal', { static: true }) toolsModal: ToolsModal;
     @ViewChild('getFreeFabModal', { static: true }) getFreeFabModal: GetFreeFabModal;
     @ViewChild('lockedInfoModal', { static: true }) lockedInfoModal: LockedInfoModal;
+    @ViewChild('walletUpdateModal', { static: true }) walletUpdateModal: WalletUpdateModal;
 
     sendCoinForm: SendCoinForm;
     wallet: Wallet;
@@ -123,7 +125,7 @@ export class WalletDashboardComponent implements OnInit {
         private alertServ: AlertService, private timerServ: TimerService,
         private coinService: CoinService, private storageService: StorageService) {
         this.lan = localStorage.getItem('Lan');
-        this.walletUpdateToDate = false;
+        
         this.showMyAssets = true;
         this.currentCurrency = 'USD';
         this.currencyRate = 1;
@@ -202,7 +204,7 @@ export class WalletDashboardComponent implements OnInit {
             }             
         }   
         
-        this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
+        //this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
     }
 
     getCoinLogo(coin) {
@@ -526,7 +528,7 @@ export class WalletDashboardComponent implements OnInit {
     }
 
     async loadBalance() {
-        console.log('typeof Buffer=', (typeof Buffer));
+        this.walletUpdateToDate = false;
         // console.log('this.coinsPrice=');
         // console.log(this.coinsPrice);
         if (!this.wallet) {
@@ -543,6 +545,8 @@ export class WalletDashboardComponent implements OnInit {
 
         if(this.wallet.mycoins[4].name == 'TRX') {
             this.walletUpdateToDate = true;
+        } else {
+            this.walletUpdateModal.show();
         }
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];       
@@ -617,7 +621,6 @@ export class WalletDashboardComponent implements OnInit {
             (res: any) => {
                 if (res && res.success) {
                     const data = res.data;
-                    console.log('data===', data);
                     this.transactions = data;
                 }
             }
@@ -795,12 +798,10 @@ export class WalletDashboardComponent implements OnInit {
     async loadWallet(wallet: Wallet) {
         this.wallet = wallet;
 
-        console.log('wallet=', wallet);
         this.exgBalance = 0;
 
         this.campaignorderServ.getCheck(this.exgAddress).subscribe(
             (resp: any) => {
-                console.log('resp for getCheck=', resp);
                 if (resp.ok) {
                     if (resp._body && resp._body.totalQuantities > 0) {
                         this.alertMsg = 'Disqualified with campaign';
@@ -1036,7 +1037,6 @@ export class WalletDashboardComponent implements OnInit {
         }        
         const wallet = this.walletServ.generateWallet(this.pin, this.wallet.name, mnemonic);
 
-        console.log('wallet=', wallet);
         if (!wallet) {
           if (localStorage.getItem('Lan') === 'zh') {
             alert('发生错误，请再试一次。');

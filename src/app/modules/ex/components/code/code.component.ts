@@ -65,7 +65,6 @@ export class CodeComponent implements OnInit {
         console.log('');
         if (res && res.ok) {
           const data = res._body;
-          console.log('data===', data);
           this.orderID = data._id;
           this.currency = data.paymentMethod ? data.paymentMethod.toUpperCase() : '';
           this.coinID = this._coinServ.getCoinTypeIdByName(data.paymentMethod);
