@@ -361,7 +361,7 @@ export class SmartContractComponent implements OnInit {
     const keyPairsKanban = this.coinServ.getKeyPairs(this.exgCoin, seed, 0, 0);
     // const nonce = await this.apiServ.getEthNonce(this.ethCoin.receiveAdds[0].address);
     let gasPrice = environment.chains.KANBAN.gasPrice;
-    let gasLimit = environment.chains.KANBAN.gasLimit;
+    let gasLimit = 8000000;
     const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 
     let kanbanTo = '0x0000000000000000000000000000000000000000';
@@ -378,8 +378,12 @@ export class SmartContractComponent implements OnInit {
         data: '0x' + this.utilServ.stripHexPrefix(kanbanData)          
     };
 
-    const privKey = Buffer.from(keyPairsKanban.privateKeyHex, 'hex');
+    let privKey: any = keyPairsKanban.privateKeyBuffer;
 
+    if(!Buffer.isBuffer(privKey)) {
+      privKey = privKey.privateKey;
+    }
+    
     let txhex = '';
 
 
@@ -401,6 +405,7 @@ export class SmartContractComponent implements OnInit {
     this.kanbanServ.sendRawSignedTransaction(txhex).subscribe(
       (resp: TransactionResp) => {
       if (resp && resp.transactionHash) {
+        this.result = 'txid:' + resp.transactionHash;
         this.alertServ.openSnackBarSuccess('Smart contract was created successfully.', 'Ok');
       } else {
         this.alertServ.openSnackBar('Failed to create smart contract.', 'Ok');
