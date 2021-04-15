@@ -190,6 +190,9 @@ export class UtilService {
     }
 
     stripHexPrefix(str) {
+        if(!str) {
+            return '';
+        }
         if (str && (str.length > 2) && (str[0] === '0') && (str[1] === 'x')) {
             return str.slice(2);
         }

@@ -248,6 +248,9 @@ export class SmartContractComponent implements OnInit {
 
     const def = this.getMethodDefinition(this.ABI, method);
     console.log('def===', def);
+    if(!def) {
+      return;
+    }
     const inputs = def.inputs;
     if(inputs && inputs.length > 0) {
       for(let i=0;i<inputs.length;i++) {
@@ -540,7 +543,7 @@ export class SmartContractComponent implements OnInit {
     if(smartContractAddress == '0x0') {
       abiHex = this.formCreateSmartContractABI();
       console.log('abiHex for smart contract:', abiHex);
-      smartContractAddress = '0x0000000000000000000000000000000000000000';
+      smartContractAddress = null;
     } else {
       abiHex = this.formABI();
     }
