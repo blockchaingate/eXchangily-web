@@ -339,7 +339,10 @@ export class SmartContractComponent implements OnInit {
     const vals = [];
     for (let i = 0; i < this.method.inputs.length; i++) {
       const input = this.method.inputs[i];
-      const val = input.val;
+      let val = input.val;
+      if(!val) {
+        val = '';
+      }
       vals.push(val);
     } 
 
