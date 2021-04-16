@@ -341,7 +341,7 @@ export class SmartContractComponent implements OnInit {
       const input = this.method.inputs[i];
       let val = input.val;
       if(!val) {
-        val = '';
+        val = '0x0000000000000000000000000000000000000000000000000000000000000000';
       }
       vals.push(val);
     } 
