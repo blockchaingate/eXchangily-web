@@ -60,7 +60,7 @@ export class SmartContractComponent implements OnInit {
   balance: any;
   ethBalance: any;
   contractNames = [
-    'Exg',
+    'EXG',
     'Deploy',
     'Fab Lock For EXG Airdrop'
   ];
@@ -83,7 +83,7 @@ export class SmartContractComponent implements OnInit {
     if(name === 'Fab Lock For EXG Airdrop') {
       this.smartContractAddress =  environment.addresses.smartContract.FABLOCK;
     } else
-    if(name === 'Exg') {
+    if(name === 'EXG') {
       this.smartContractAddress = environment.addresses.smartContract.EXG.FAB;
     } else
     if(name === 'Deploy') {
@@ -92,6 +92,7 @@ export class SmartContractComponent implements OnInit {
     this.changeSmartContractAddress();
   }
   changeSmartContractAddress() {
+    /*
     if (this.smartContractAddress == environment.addresses.smartContract.FABLOCK) {
       this.apiServ.getSmartContractABI(this.smartContractAddress).subscribe((res: any) => {
         console.log('res=', res);
@@ -148,8 +149,23 @@ export class SmartContractComponent implements OnInit {
       ];
       this.changeMethod('unlockByLockerHash');
     } else 
+    */
     if(this.smartContractAddress === '0x0') {
       this.changeMethod('');
+    } else {
+      this.apiServ.getSmartContractABI(this.smartContractAddress).subscribe((res: any) => {
+        if (res && res.abi) {
+          this.ABI = this.getFunctionABI(res.abi);
+          if(this.ABI && this.ABI.length > 0) {
+            if(this.smartContractAddress == environment.addresses.smartContract.EXG.FAB) {
+              this.changeMethod('unlockByLockerHash');
+            } else {
+              this.changeMethod(this.ABI[0].name);
+            }
+            
+          }
+        }
+      });      
     }
   }
 
@@ -228,7 +244,7 @@ export class SmartContractComponent implements OnInit {
         }
       }
     );
-    this.changeContractName('Exg');
+    this.changeContractName('EXG');
   }
 
   getMethodDefinition = (json, method) => {
