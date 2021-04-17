@@ -40,12 +40,13 @@ export class SendCoinModal {
         gasLimit: [environment.chains.FAB.gasLimit],
         satoshisPerBytes: [environment.chains.FAB.satoshisPerBytes]
     });
+
     constructor(
-        private apiService: ApiService, 
-        private fb: FormBuilder, 
+        private apiService: ApiService,
+        private fb: FormBuilder,
         private utilServ: UtilService,
         private translateServ: TranslateService,
-        private coinServ: CoinService, 
+        private coinServ: CoinService,
         private alertServ: AlertService) {
         this.currentCoinIndex = 0;
         this.transFee = 0;
@@ -72,14 +73,14 @@ export class SendCoinModal {
         if (this.wallet) {
             this.coin = this.wallet.mycoins[this.currentCoinIndex];
             console.log('this.coin111==', this.coin);
-        }       
+        }
         const coinName = this.coin.name;
         const tokenType = this.coin.tokenType;
         const balance = this.coin.balance;
         const address = this.coin.receiveAdds[0].address;
-        if(coinName == 'BTC' || coinName =='LTC' || coinName == 'BCH' || coinName == 'DOGE') {
+        if (coinName === 'BTC' || coinName === 'LTC' || coinName === 'BCH' || coinName === 'DOGE') {
             const utxos = await this.apiService.getUtxos(coinName, address);
-            if(!utxos) {
+            if (!utxos) {
                 return;
             }
             const utxoNum = utxos.length;
@@ -88,16 +89,15 @@ export class SendCoinModal {
             const transFee = (utxoNum * bytesPerInput + 2 * 34 + 10) * satoshisPerBytes;
             const transFeeDouble = new BigNumber(transFee).dividedBy(new BigNumber(1e8)).toNumber();
             let transOut = balance - transFeeDouble;
-            if(transOut <= 0) {
+            if (transOut <= 0) {
                 return;
             }
             transOut = Number(transOut.toFixed(8));
-            this.sendCoinForm.patchValue({'sendAmount': transOut});
-            this.onTextChange(transOut);    
-        } else
-        if(coinName == 'FAB') {
+            this.sendCoinForm.patchValue({ 'sendAmount': transOut });
+            this.onTextChange(transOut);
+        } else if (coinName === 'FAB') {
             const utxos = await this.apiService.getFabUtxos(address);
-            if(!utxos) {
+            if (!utxos) {
                 return;
             }
             const utxoNum = utxos.length;
@@ -106,33 +106,30 @@ export class SendCoinModal {
             const transFee = (utxoNum * bytesPerInput + 2 * 34 + 10) * satoshisPerBytes;
             const transFeeDouble = transFee / 1e8;
             let transOut = balance - transFeeDouble;
-            if(transOut <= 0) {
+            if (transOut <= 0) {
                 return;
             }
             transOut = Number(transOut.toFixed(8));
-            this.sendCoinForm.patchValue({'sendAmount': transOut});    
-            this.onTextChange(transOut);           
-        } else
-        if(coinName == 'ETH') {
+            this.sendCoinForm.patchValue({ 'sendAmount': transOut });
+            this.onTextChange(transOut);
+        } else if (coinName === 'ETH') {
             const gasPrice = this.sendCoinForm.get('gasPrice').value ? Number(this.sendCoinForm.get('gasPrice').value) : environment.chains.ETH.gasPrice;
-            const gasLimit = this.sendCoinForm.get('gasLimit').value ? Number(this.sendCoinForm.get('gasLimit').value) : environment.chains.ETH.gasLimit;  
+            const gasLimit = this.sendCoinForm.get('gasLimit').value ? Number(this.sendCoinForm.get('gasLimit').value) : environment.chains.ETH.gasLimit;
             const transFeeDouble = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
             let transOut = balance - transFeeDouble;
-            if(transOut <= 0) {
+            if (transOut <= 0) {
                 return;
             }
             transOut = Number(transOut.toFixed(8));
-            this.sendCoinForm.patchValue({'sendAmount': transOut});     
-            this.onTextChange(transOut);         
-        } else
-        if(tokenType == 'FAB' || tokenType == 'ETH' || tokenType == 'TRX') {
-            this.sendCoinForm.patchValue({'sendAmount': balance});   
+            this.sendCoinForm.patchValue({ 'sendAmount': transOut });
+            this.onTextChange(transOut);
+        } else if (tokenType === 'FAB' || tokenType === 'ETH' || tokenType === 'TRX') {
+            this.sendCoinForm.patchValue({ 'sendAmount': balance });
             this.onTextChange(balance);
-        } else
-        if(coinName == 'TRX') {
-            let transOut = balance;
-            this.sendCoinForm.patchValue({'sendAmount': transOut});     
-            this.onTextChange(transOut);              
+        } else if (coinName === 'TRX') {
+            const transOut = balance;
+            this.sendCoinForm.patchValue({ 'sendAmount': transOut });
+            this.onTextChange(transOut);
         }
     }
 
@@ -144,13 +141,11 @@ export class SendCoinModal {
             this.coin = this.wallet.mycoins[this.currentCoinIndex];
             console.log('this.coin111==', this.coin);
         }       
-        */ 
+        */
         this.sendAllCoinsFlag = event.checked;
-        if(this.sendAllCoinsFlag) {
+        if (this.sendAllCoinsFlag) {
             await this.calCulateSendAllAmount();
         }
-
-
     }
 
     getTransFeeUnit() {
@@ -159,8 +154,7 @@ export class SendCoinModal {
         }
         const name = this.coin.name;
         const tokenType = this.coin.tokenType;
-        let unit = tokenType ? tokenType: name;
-
+        const unit = tokenType ? tokenType : name;
 
         /*
         if (name === 'EXG' || (name === 'FAB' && !tokenType) || name === 'DUSD') {
@@ -186,10 +180,9 @@ export class SendCoinModal {
         let unit = '';
         if (name === 'EXG' || name === 'FAB' || name === 'DUSD') {
             unit = 'LIU';
-        } else
-            if (name === 'ETH' || tokenType === 'ETH') {
-                unit = 'GWEI';
-            }
+        } else if (name === 'ETH' || tokenType === 'ETH') {
+            unit = 'GWEI';
+        }
         this.gasUnit = unit;
         return unit;
     }
@@ -199,8 +192,6 @@ export class SendCoinModal {
             this.coin = this.wallet.mycoins[this.currentCoinIndex];
         }
 
-
-        
         let fabBalance = 0;
         let ethBalance = 0;
         let trxBalance = 0;
@@ -210,8 +201,7 @@ export class SendCoinModal {
                 fabBalance = this.wallet.mycoins[i].balance;
             } else if (this.wallet.mycoins[i].name === 'ETH') {
                 ethBalance = this.wallet.mycoins[i].balance;
-            } else 
-            if(this.wallet.mycoins[i].name === 'TRX') {
+            } else if (this.wallet.mycoins[i].name === 'TRX') {
                 trxBalance = this.wallet.mycoins[i].balance;
             }
         }
@@ -239,31 +229,31 @@ export class SendCoinModal {
         }
 
         let to = this.sendCoinForm.get('sendTo').value;
-        if(this.coin.tokenType == 'FAB') {
+        if (this.coin.tokenType === 'FAB') {
             to = this.utilServ.fabToExgAddress(to);
-        }    
-        
-        if(!to) {
+        }
+
+        if (!to) {
             this.alertServ.openSnackBar(
-                this.translateServ.instant('Wallet address incorrect'), 
+                this.translateServ.instant('Wallet address incorrect'),
                 this.translateServ.instant('Ok'));
             return;
         }
 
         console.log('this.coin==', this.coin);
-        if(this.coin.name === 'TRX' || this.coin.tokenType === 'TRX') {
+        if (this.coin.name === 'TRX' || this.coin.tokenType === 'TRX') {
             console.log('fsdfaes');
             console.log('to=', to);
-            if(to.indexOf('T') !== 0 ) {
+            if (to.indexOf('T') !== 0) {
 
                 this.alertServ.openSnackBar(
-                    this.translateServ.instant('Wallet address incorrect'), 
+                    this.translateServ.instant('Wallet address incorrect'),
                     this.translateServ.instant('Ok'));
-                return;                
+                return;
             }
-        }        
+        }
         const selectedCoinIndex = Number(this.sendCoinForm.get('selectedCoinIndex').value);
-        
+
         /*
         if (this.coin.balance != -1 && amount > this.coin.balance) {
             this.alertServ.openSnackBar('Insufficient ' + this.coin.name + ' for this transaction', 'Ok');
@@ -316,15 +306,15 @@ export class SendCoinModal {
         this.currentCoinIndex = index;
         if ((this.coin.name === 'ETH') || (this.coin.tokenType === 'ETH')) {
             let gasPrice = await this.coinServ.getEthGasprice();
-            if(!gasPrice || (gasPrice < environment.chains.ETH.gasPrice)) {
+            if (!gasPrice || (gasPrice < environment.chains.ETH.gasPrice)) {
                 gasPrice = environment.chains.ETH.gasPrice;
             }
-            if(gasPrice > environment.chains.ETH.gasPriceMax) {
-                gasPrice = environment.chains.ETH.gasPriceMax
+            if (gasPrice > environment.chains.ETH.gasPriceMax) {
+                gasPrice = environment.chains.ETH.gasPriceMax;
             }
             this.sendCoinForm.get('gasPrice').setValue(gasPrice);
             this.sendCoinForm.get('gasLimit').setValue(environment.chains.ETH.gasLimit);
-            if(this.coin.tokenType === 'ETH') {
+            if (this.coin.tokenType === 'ETH') {
                 this.sendCoinForm.get('gasLimit').setValue(environment.chains.ETH.gasLimitToken);
             }
         } else if (this.coin.name === 'FAB') {
@@ -343,7 +333,7 @@ export class SendCoinModal {
             this.sendCoinForm.get('gasLimit').setValue(environment.chains.FAB.gasLimit);
         }
         this.checkTransFee();
-        if(this.sendAllCoinsFlag) {
+        if (this.sendAllCoinsFlag) {
             this.calCulateSendAllAmount();
         }
     }
@@ -357,14 +347,13 @@ export class SendCoinModal {
             this.coin = this.wallet.mycoins[this.currentCoinIndex];
         }
         let to = this.sendCoinForm.get('sendTo').value;
-        if(!to) {
+        if (!to) {
             to = environment.addresses.exchangilyOfficial[this.coin.name];
+        } else if (this.coin.tokenType === 'FAB') {
+            // if(to.indexOf('0x') < 0) {
+            to = this.utilServ.fabToExgAddress(to);
+            // }
         }
-        else if(this.coin.tokenType == 'FAB') {
-            //if(to.indexOf('0x') < 0) {
-                to = this.utilServ.fabToExgAddress(to);
-            //}
-        }        
 
         console.log('to===', to);
         const selectedCoinIndex = Number(this.sendCoinForm.get('selectedCoinIndex').value);
