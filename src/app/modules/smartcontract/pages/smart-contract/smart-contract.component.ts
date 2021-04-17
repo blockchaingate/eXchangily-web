@@ -60,7 +60,7 @@ export class SmartContractComponent implements OnInit {
   balance: any;
   ethBalance: any;
   contractNames = [
-    'Exg',
+    'EXG',
     'Deploy',
     'Fab Lock For EXG Airdrop'
   ];
@@ -83,7 +83,7 @@ export class SmartContractComponent implements OnInit {
     if(name === 'Fab Lock For EXG Airdrop') {
       this.smartContractAddress =  environment.addresses.smartContract.FABLOCK;
     } else
-    if(name === 'Exg') {
+    if(name === 'EXG') {
       this.smartContractAddress = environment.addresses.smartContract.EXG.FAB;
     } else
     if(name === 'Deploy') {
@@ -92,6 +92,7 @@ export class SmartContractComponent implements OnInit {
     this.changeSmartContractAddress();
   }
   changeSmartContractAddress() {
+    /*
     if (this.smartContractAddress == environment.addresses.smartContract.FABLOCK) {
       this.apiServ.getSmartContractABI(this.smartContractAddress).subscribe((res: any) => {
         console.log('res=', res);
@@ -148,8 +149,23 @@ export class SmartContractComponent implements OnInit {
       ];
       this.changeMethod('unlockByLockerHash');
     } else 
+    */
     if(this.smartContractAddress === '0x0') {
       this.changeMethod('');
+    } else {
+      this.apiServ.getSmartContractABI(this.smartContractAddress).subscribe((res: any) => {
+        if (res && res.abi) {
+          this.ABI = this.getFunctionABI(res.abi);
+          if(this.ABI && this.ABI.length > 0) {
+            if(this.smartContractAddress == environment.addresses.smartContract.EXG.FAB) {
+              this.changeMethod('unlockByLockerHash');
+            } else {
+              this.changeMethod(this.ABI[0].name);
+            }
+            
+          }
+        }
+      });      
     }
   }
 
@@ -228,7 +244,7 @@ export class SmartContractComponent implements OnInit {
         }
       }
     );
-    this.changeContractName('Exg');
+    this.changeContractName('EXG');
   }
 
   getMethodDefinition = (json, method) => {
@@ -248,6 +264,9 @@ export class SmartContractComponent implements OnInit {
 
     const def = this.getMethodDefinition(this.ABI, method);
     console.log('def===', def);
+    if(!def) {
+      return;
+    }
     const inputs = def.inputs;
     if(inputs && inputs.length > 0) {
       for(let i=0;i<inputs.length;i++) {
@@ -320,7 +339,10 @@ export class SmartContractComponent implements OnInit {
     const vals = [];
     for (let i = 0; i < this.method.inputs.length; i++) {
       const input = this.method.inputs[i];
-      const val = input.val;
+      let val = input.val;
+      if(!val) {
+        val = '0x0000000000000000000000000000000000000000000000000000000000000000';
+      }
       vals.push(val);
     } 
 
@@ -361,7 +383,7 @@ export class SmartContractComponent implements OnInit {
     const keyPairsKanban = this.coinServ.getKeyPairs(this.exgCoin, seed, 0, 0);
     // const nonce = await this.apiServ.getEthNonce(this.ethCoin.receiveAdds[0].address);
     let gasPrice = environment.chains.KANBAN.gasPrice;
-    let gasLimit = environment.chains.KANBAN.gasLimit;
+    let gasLimit = 8000000;
     const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 
     let kanbanTo = '0x0000000000000000000000000000000000000000';
@@ -378,8 +400,12 @@ export class SmartContractComponent implements OnInit {
         data: '0x' + this.utilServ.stripHexPrefix(kanbanData)          
     };
 
-    const privKey = Buffer.from(keyPairsKanban.privateKeyHex, 'hex');
+    let privKey: any = keyPairsKanban.privateKeyBuffer;
 
+    if(!Buffer.isBuffer(privKey)) {
+      privKey = privKey.privateKey;
+    }
+    
     let txhex = '';
 
 
@@ -401,6 +427,7 @@ export class SmartContractComponent implements OnInit {
     this.kanbanServ.sendRawSignedTransaction(txhex).subscribe(
       (resp: TransactionResp) => {
       if (resp && resp.transactionHash) {
+        this.result = 'txid:' + resp.transactionHash;
         this.alertServ.openSnackBarSuccess('Smart contract was created successfully.', 'Ok');
       } else {
         this.alertServ.openSnackBar('Failed to create smart contract.', 'Ok');
@@ -535,7 +562,7 @@ export class SmartContractComponent implements OnInit {
     if(smartContractAddress == '0x0') {
       abiHex = this.formCreateSmartContractABI();
       console.log('abiHex for smart contract:', abiHex);
-      smartContractAddress = '0x0000000000000000000000000000000000000000';
+      smartContractAddress = null;
     } else {
       abiHex = this.formABI();
     }

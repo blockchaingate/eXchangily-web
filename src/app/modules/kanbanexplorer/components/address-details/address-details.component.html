@@ -12,7 +12,7 @@
                 <ng-container matColumnDef="coinType">
                     <th mat-header-cell *matHeaderCellDef style="text-align: left;"> {{"Coin"|translate}} </th>
                     <td style="text-align: left;" class="alileft" mat-cell *matCellDef="let element">
-                        {{element.symbol}} ({{element.coinType}})</td>
+                        {{getCoinName(element.coinType)}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="unlockedAmount">

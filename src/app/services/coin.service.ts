@@ -75,8 +75,7 @@ export class CoinService {
 
     async getTrxTokenBalance(smartContractAddress: string, address: string) {
         
-        console.log('smartContractAddress=', smartContractAddress);
-        console.log('address=', address);
+
         //address = 'TM2TmqauSEiRf16CyFgzHV2BVxBejY9iyR';
         //address = tronWeb.address.toHex(address);
         //console.log('address=', address);
@@ -86,11 +85,9 @@ export class CoinService {
             let contract = await tronWeb.contract().at(smartContractAddress);
             //Use call to execute a pure or view smart contract method.
             // These methods do not modify the blockchain, do not cost anything to execute and are also not broadcasted to the network.
-            console.log('11111');
+
             if(contract.balanceOf(address)) {
-                console.log('22222');
                 let result = await contract.balanceOf(address).call({from: address});
-                console.log('33333');
                 return result.toNumber();
             }
             return -1;
@@ -138,7 +135,13 @@ export class CoinService {
         this.fillUpAddress(ethCoin, seed, 1, 0);
         myCoins.push(ethCoin);
 
-        console.log('here1');
+        const trxCoin = new MyCoin('TRX');
+        this.fillUpAddress(trxCoin, seed, 1, 0);
+        myCoins.push(trxCoin);
+
+        const usdtTRXCoin = this.initToken('TRX', 'USDT', 6, environment.addresses.smartContract.USDT.TRX, trxCoin);
+        this.fillUpAddress(usdtTRXCoin, seed, 1, 0);
+        myCoins.push(usdtTRXCoin);        
 
         const usdtCoin = this.initToken('ETH', 'USDT', 6, environment.addresses.smartContract.USDT.ETH, ethCoin);
 
@@ -181,16 +184,6 @@ export class CoinService {
         const dogCoin = new MyCoin('DOGE');
         this.fillUpAddress(dogCoin, seed, 1, 0);
         myCoins.push(dogCoin);
-
-        const trxCoin = new MyCoin('TRX');
-        this.fillUpAddress(trxCoin, seed, 1, 0);
-        myCoins.push(trxCoin);
-
-        const usdtTRXCoin = this.initToken('TRX', 'USDT', 6, environment.addresses.smartContract.USDT.TRX, trxCoin);
-
-        this.fillUpAddress(usdtTRXCoin, seed, 1, 0);
-
-        myCoins.push(usdtTRXCoin);
 
 
         let tokenName = 'FAB';

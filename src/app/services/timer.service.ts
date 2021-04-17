@@ -63,7 +63,6 @@ export class TimerService {
                 this.unCheckTokens(address);
             }
             this.kanbanServ.getBalance(address).subscribe((resp) => {
-                console.log('resp in kanban getBalance=', resp);
                 this.tokens.next(resp);
             });          
         });   
@@ -88,15 +87,12 @@ export class TimerService {
     }
 
     checkOrderStatus(address: string, maxTimes = 160) {
-        console.log('1');
         if (this.maxTimes > 0) {
             maxTimes = this.maxTimes;
-        }   
-        console.log('2');     
+        }      
         if (!this.timerEnabled) {
             return;
-        }     
-        console.log('3');   
+        }       
         // console.log('begin checkint');
         for (let i = 0; i < this.orderStatusSubscribe.length; i++) {
             const item = this.orderStatusSubscribe[i];
@@ -104,12 +100,8 @@ export class TimerService {
                 return;
             }
         }
-        console.log('4');
         const source = timer(1000, 1000);
-        console.log('5');
         const subscribeItem = source.subscribe(val => {
-            console.log('maxTimes===', maxTimes);
-            console.log('val==', val);
             if ((maxTimes > 0) && (val >= maxTimes - 1)) {
                 this.unCheckOrderStatus(address);
             }

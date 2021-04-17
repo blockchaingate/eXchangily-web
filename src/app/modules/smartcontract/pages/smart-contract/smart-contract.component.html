@@ -218,6 +218,10 @@
                     </mat-form-field>
 
                     <button mat-raised-button color="primary" (click)="deployKanban()"> {{'Deploy' | translate}} </button>
+
+                    <div *ngIf="result" class="py-2 text-white">
+                        {{result}}
+                    </div>
                 </mat-tab>
             </mat-tab-group>
 

@@ -11,7 +11,6 @@ export class PaymentMethodService {
       const data = {
           name: name
       }
-      console.log('data===', data);
     return this.http.postPrivate(environment.endpoints.blockchaingate + 'paymentmethods/create', data, token);
   }
 

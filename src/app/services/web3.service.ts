@@ -33,21 +33,16 @@ export class Web3Service {
   }
 
   formCreateSmartContractABI(abiArray, bytecode, args) {
-    console.log('abiArray=', abiArray);
-    console.log('bytecode=',bytecode);
-    console.log('args=',args);
+
     const web3 = this.getWeb3Provider();
     var MyContract = new web3.eth.Contract(abiArray);
 
-    //const args = [123, 'My String'];
     const abi = MyContract.deploy({
         data: bytecode,
         arguments: args
     })
     .encodeABI();   
 
-    console.log('abiiiiii==');
-    console.log(abi);
     return abi;
   }
 
@@ -471,6 +466,7 @@ export class Web3Service {
 
   getGeneralFunctionABI(func, paramsArray) {
     const web3 = this.getWeb3Provider();
+    console.log('paramsArray==', paramsArray);
     const abiHex = web3.eth.abi.encodeFunctionCall(func, paramsArray);
     return abiHex;
   }

@@ -699,10 +699,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   refreshCoinAvail() {
-    console.log('this._mytokens==', this._mytokens);
     let baseCoinAvailExisted = false;
     let targetCoinAvailExisted = false;
-    console.log('this.baseCoin====', this.baseCoin);
     if (this.baseCoin && this.targetCoin) {
       if (this._mytokens && this._mytokens.length > 0) {
         for (let i = 0; i < this._mytokens.length; i++) {
