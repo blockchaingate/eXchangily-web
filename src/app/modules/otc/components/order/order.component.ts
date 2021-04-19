@@ -35,7 +35,6 @@ export class OrderComponent implements OnInit {
     private _otcServ: OtcService,
     private _userServ: UserService
   ) {
-    console.log('type==', this.type);
   }
 
   getButtonText(buy: boolean, status: number) {

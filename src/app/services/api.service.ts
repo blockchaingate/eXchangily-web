@@ -96,6 +96,12 @@ export class ApiService {
         if (!address.startsWith('0x')) {
             address = '0x' + address;
         }
+        if(
+            (address == environment.addresses.smartContract.DSC.FAB)
+            || (address == environment.addresses.smartContract.BST.FAB)
+        ) {
+            address = environment.addresses.smartContract.EXG.FAB;
+        }
         const url = environment.endpoints.FAB.exchangily + 'getabiforcontract/' + address; 
         return this.http.get(url);
     }
