@@ -222,7 +222,7 @@
                   <div class="row">
                       <div class="col col-6">
                         <div class="form-group">
-                            <label for="exampleInputRoutingNumber">{{'Customer Name' | translate}}(*)</label>
+                            <label for="exampleInputRoutingNumber">{{'Customer Name' | translate}}(<span class="alert-text">*</span>)</label>
                             <input type="text" [(ngModel)]="customerName" class="form-control" id="inputCustomerName" aria-describedby="emailHelp" placeholder="{{'Enter customer name' | translate}}">
                         </div>
                         <div class="form-group">
@@ -231,20 +231,26 @@
                         </div>   
                         
                         <div class="form-group">
-                            <label for="exampleInputAccountNumber">{{'Email' | translate}}</label>
+                            <label for="exampleInputAccountNumber">{{'Email' | translate}}(<span class="alert-text">*</span>)</label>
                             <input type="text" [(ngModel)]="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="{{'Enter email' | translate}}">
-                          </div>   
-                          <div class="form-group">
+                        </div>   
+
+                        <div class="form-group">
+                            <label for="exampleInputAccountNumber">{{'Confirm Email' | translate}}(<span class="alert-text">*</span>)</label>
+                            <input type="text" [(ngModel)]="email2" class="form-control" id="inputEmail2" aria-describedby="emailHelp" placeholder="{{'Confirm Email' | translate}}">
+                        </div>   
+                        <div class="form-group alert-text" *ngIf="email != email2">
+                            <label for="exampleInputAccountNumber">{{'Email not the same' | translate}}</label>
+                        </div>                                               
+                        <div class="form-group">
                             <label for="exampleInputAccountNumber">{{'Phone' | translate}}</label>
                             <input type="text" [(ngModel)]="phone" class="form-control" id="inputPhone" aria-describedby="emailHelp" placeholder="{{'Enter phone' | translate}}">
-                          </div>   
-                          <div class="form-group">
-                            <label for="exampleInputAccountNumber">{{'Account Numeber' | translate}}</label>
+                        </div>   
+                        <div class="form-group">
+                            <label for="exampleInputAccountNumber">{{'Account Numeber' | translate}}(<span class="alert-text">*</span>)</label>
                             <input type="text" [(ngModel)]="accountNumber" class="form-control" id="inputAccountNumber" aria-describedby="emailHelp" placeholder="{{'Enter account number' | translate}}">
-                          </div>                                                                     
-                          <div class="form-group">
-                              <label for="exampleInputEmail1">{{'Amount' | translate}}: {{order.totalToPay}} {{order.currency | translate}}</label>
-                          </div>
+                        </div>                                                                     
+
                         
 
                       </div>
@@ -271,9 +277,20 @@
                             <input type="text" [(ngModel)]="zip" class="form-control" id="inputZip" aria-describedby="emailHelp" placeholder="{{'Enter zip' | translate}}">
                           </div>   
                           <div class="form-group">
-                            <label for="exampleInputEmail1">{{'Receiving Address' | translate}}: <small>{{order.name}}</small></label>
-                        </div>                            
-                          
+                              <div>
+                                <label for="exampleInputEmail1">{{'Receiving Address' | translate}}: <small>{{order.name}}</small></label>
+                              </div>
+                            
+                              <div>
+                                <label for="exampleInputEmail1">{{'Amount' | translate}}: {{order.totalToPay}} {{order.currency | translate}}</label>
+                              </div>
+                            
+                              <div>
+                                <label for="exampleInputEmail1">{{'Quantity' | translate}}: {{order.items[0].quantity}} {{order.items[0].title | translate}}</label>
+                              </div>
+                            
+
+                        </div>                          
                     </div>                      
                   </div>
               </div>
@@ -288,7 +305,8 @@
           <div class="modal-footer  justify-content-center" *ngIf="goPayStep == 1">
             <div>
                 <div class="text-center">
-                    <button [disabled]="!achChecked" class="btn btn-gradient text-white py-2 px-5" [ngClass]="achChecked ? '' : 'btn-disabled'" type="button" (click)="confirmACHPay2()" [disabled]="!customerName || !receivingAddress"> 
+                    <button class="btn btn-gradient text-white py-2 px-5" [ngClass]="achChecked ? '' : 'btn-disabled'" type="button" (click)="confirmACHPay2()" 
+                    [disabled]="!customerName || !receivingAddress || email != email2"> 
                         {{'Confirm and Pay' | translate}} 
                     </button>                     
                 </div>
@@ -381,8 +399,19 @@
                 </div>   
                 <div>
                     {{'Phone' | translate}}: {{achAccount2.phone}}
-                </div>                 
-
+                </div>  
+                <div>
+                    {{'Account Number' | translate}}: {{achAccount2.accountNumber}}
+                </div>
+                <div>
+                    {{'Receiving Address' | translate}}: {{achAccount2.receivingAddress}}
+                </div> 
+                <div>
+                    {{'Amount' | translate}}: {{achAccount2.amount}}
+                </div> 
+                <div>
+                    {{'Quantity' | translate}}: {{achAccount2.quantity}}
+                </div>                                 
             </div>            
         </div>
         
