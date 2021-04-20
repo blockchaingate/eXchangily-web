@@ -886,54 +886,47 @@ export class WalletDashboardComponent implements OnInit {
         const currentCoinBalance = this.currentCoin.balance;
         const coinName = this.currentCoin.name;
         if (currentCoinBalance < amount) {
-            if (this.lan === 'zh') {
-                this.alertServ.openSnackBar(coinName + '余额不足', 'Ok');
-            } else {
-                this.alertServ.openSnackBar('Insufficient ' + coinName + ' for this transaction', 'Ok');
-            }
+            this.alertServ.openSnackBar(
+                this.translateServ.instant('InsufficientForTransaction', {coin: coinName}),
+                this.translateServ.instant('Ok'));
+
             return false;
         }
         if (tranFeeUnit === 'BTC') {
             if (transFee > btcBalance) {
-                if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('BTC余额不足', 'Ok');
-                } else {
-                    this.alertServ.openSnackBar('Insufficient BTC for this transaction', 'Ok');
-                }
+                this.alertServ.openSnackBar(
+                    this.translateServ.instant('InsufficientForTransaction', {coin: tranFeeUnit}),
+                    this.translateServ.instant('Ok'));
                 return false;
             }
         } else if (tranFeeUnit === 'FAB') {
             if (transFee > fabBalance) {
-                this.alertServ.openSnackBar('Insufficient FAB for this transaction', 'Ok');
+                this.alertServ.openSnackBar(
+                    this.translateServ.instant('InsufficientForTransaction', {coin: tranFeeUnit}),
+                    this.translateServ.instant('Ok'));
                 return false;
             }
         } else if (tranFeeUnit === 'ETH') {
             if (transFee > ethBalance) {
-                if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('ETH余额不足', 'Ok');
-                } else {
-                    this.alertServ.openSnackBar('Insufficient 1 ETH for this transaction', 'Ok');
-                }
+                this.alertServ.openSnackBar(
+                    this.translateServ.instant('InsufficientForTransaction', {coin: tranFeeUnit}),
+                    this.translateServ.instant('Ok'));
                 return false;
             }
         } else if (tranFeeUnit === 'TRX') {
             if (transFee > trxBalance) {
-                if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('TRX余额不足', 'Ok');
-                } else {
-                    this.alertServ.openSnackBar('Insufficient TRX for this transaction', 'Ok');
-                }
+                this.alertServ.openSnackBar(
+                    this.translateServ.instant('InsufficientForTransaction', {coin: tranFeeUnit}),
+                    this.translateServ.instant('Ok'));
                 return false;
             }
         }
 
         if ((coinName === 'BTC') || (coinName === 'ETH') || (coinName === 'FAB') || (coinName === 'TRX')) {
             if (currentCoinBalance < amount + transFee) {
-                if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar(coinName + '余额不足', 'Ok');
-                } else {
-                    this.alertServ.openSnackBar('Insufficient 2 ' + coinName + ' for this transaction', 'Ok');
-                }
+                this.alertServ.openSnackBar(
+                    this.translateServ.instant('InsufficientForTransaction', {coin: coinName}),
+                    this.translateServ.instant('Ok'));
                 return false;
             }
         }
