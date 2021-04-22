@@ -46,48 +46,48 @@ export class LiteListComponent implements OnInit {
     changeSort(field: string, fieldType: string) {
         this.sortField = field;
         this.sortFieldType = fieldType;
-        if(field == 'symbol') {
-            if(!this.sortAscPair) {
+        if (field === 'symbol') {
+            if (!this.sortAscPair) {
                 this.sortAscPair = 1;
             } else {
                 this.sortAscPair = -this.sortAscPair;
             }
-            if(this.sortAscPair == 1) {
+            if (this.sortAscPair === 1) {
                 this.sortAsc = true;
             } else {
                 this.sortAsc = false;
             }
         } else
-        if(field == 'price') {
-            if(!this.sortAscPrice) {
-                this.sortAscPrice = 1;
-            } else {
-                this.sortAscPrice = -this.sortAscPrice;
-            }
-            if(this.sortAscPrice == 1) {
-                this.sortAsc = true;
-            } else {
-                this.sortAsc = false;
-            }            
-        } else
-        if(field == 'change24h') {
-            if(!this.sortAscChange) {
-                this.sortAscChange = 1;
-            } else {
-                this.sortAscChange = -this.sortAscChange;
-            }
-            if(this.sortAscChange == 1) {
-                this.sortAsc = true;
-            } else {
-                this.sortAsc = false;
-            }             
-        }    
-        
+            if (field === 'price') {
+                if (!this.sortAscPrice) {
+                    this.sortAscPrice = 1;
+                } else {
+                    this.sortAscPrice = -this.sortAscPrice;
+                }
+                if (this.sortAscPrice === 1) {
+                    this.sortAsc = true;
+                } else {
+                    this.sortAsc = false;
+                }
+            } else
+                if (field === 'change24h') {
+                    if (!this.sortAscChange) {
+                        this.sortAscChange = 1;
+                    } else {
+                        this.sortAscChange = -this.sortAscChange;
+                    }
+                    if (this.sortAscChange === 1) {
+                        this.sortAsc = true;
+                    } else {
+                        this.sortAsc = false;
+                    }
+                }
+
     }
 
     filterPrice(price: Price, selectedcat: string, searchText: string) {
         // console.log('this.select=', select);
-        if(searchText && searchText.trim() != '') {
+        if (searchText && searchText.trim() !== '') {
             return price.symbol.indexOf(searchText.toUpperCase()) >= 0;
         }
         return price.symbol.indexOf(selectedcat) >= 0;
@@ -104,7 +104,7 @@ export class LiteListComponent implements OnInit {
         this.sortAsc = true;
         this.sortAscPair = 0;
         this.sortAscPrice = 0;
-        this.sortAscChange = 0;      
+        this.sortAscChange = 0;
 
         this.selectedcat = sessionStorage.getItem('tradeCat');
         if (!this.selectedcat) {
@@ -141,9 +141,9 @@ export class LiteListComponent implements OnInit {
                         change24h = Math.floor(change24h * 100) / 100;
                     }
                     */
-                   if(open > 0) {
-                    change24h = (close - open) / open * 100;
-                   }
+                    if (open > 0) {
+                        change24h = (close - open) / open * 100;
+                    }
 
                     const vol24h = Number(ticker['v']);
 
