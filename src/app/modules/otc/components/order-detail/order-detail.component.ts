@@ -47,6 +47,7 @@ export class OrderDetailComponent implements OnInit {
   state: string;
   zip: string;
   email: string;
+  email2: string;
   phone: string;
 
   constructor(
@@ -323,6 +324,13 @@ export class OrderDetailComponent implements OnInit {
   }
 
   confirmACHPay2() {
+    if(!this.email || !this.email2 || (this.email.trim() != this.email2.trim())) {
+      this.modalRef.hide();
+      this.alertServ.openSnackBar(
+        this.translateServ.instant('Email not the same'), this.translateServ.instant('Ok')
+      );
+      return;
+    }
     const rawData = {
       customerName: this.customerName,
       companyName: this.companyName,
@@ -332,7 +340,11 @@ export class OrderDetailComponent implements OnInit {
       state: this.state,
       zip: this.zip,
       email: this.email,
-      phone: this.phone
+      phone: this.phone,
+      accountNumber: this.accountNumber,
+      receivingAddress: this.order.name,
+      amount: this.order.totalToPay + this.order.currency,
+      quantity: this.order.items[0].quantity + this.order.items[0].title
     };
     const data = {
       method: 'ACH2',

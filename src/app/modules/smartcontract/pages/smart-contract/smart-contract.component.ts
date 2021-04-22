@@ -61,6 +61,8 @@ export class SmartContractComponent implements OnInit {
   ethBalance: any;
   contractNames = [
     'EXG',
+    'DSC',
+    'BST',
     'Deploy',
     'Fab Lock For EXG Airdrop'
   ];
@@ -83,12 +85,12 @@ export class SmartContractComponent implements OnInit {
     if(name === 'Fab Lock For EXG Airdrop') {
       this.smartContractAddress =  environment.addresses.smartContract.FABLOCK;
     } else
-    if(name === 'EXG') {
-      this.smartContractAddress = environment.addresses.smartContract.EXG.FAB;
-    } else
     if(name === 'Deploy') {
       this.smartContractAddress = '0x0';
+    } else {
+      this.smartContractAddress = environment.addresses.smartContract[name].FAB;
     }
+
     this.changeSmartContractAddress();
   }
   changeSmartContractAddress() {
@@ -176,11 +178,9 @@ export class SmartContractComponent implements OnInit {
       for (let j = 0; j < item.inputs.length; j ++) {
         const input = item.inputs[j];
         const type = input.type;
-        console.log('type=' + type);
         if (this.types.includes(type)) {
           continue;
         }
-        console.log('added it.');
         this.types.push(type);
       }
     }

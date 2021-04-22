@@ -243,11 +243,15 @@ export class DepositAmountModal {
         const amount = Number(depositAmount);
         // console.log('amount=', amount);
         if ((amount <= 0) || Number.isNaN(amount)) {
-            this.alertServ.openSnackBar('Please enter valid deposit amount.', 'Ok');
+            this.alertServ.openSnackBar(
+                this.tranServ.instant('Please enter valid deposit amount.'), 
+                this.tranServ.instant('Ok'));
             return;
         }
         if (amount > this.coin.balance) {
-            this.alertServ.openSnackBar('No enough balance for deposit.', 'Ok');
+            this.alertServ.openSnackBar(
+                this.tranServ.instant('No enough balance for deposit.'), 
+                this.tranServ.instant('Ok'));
             return;
         }
 
