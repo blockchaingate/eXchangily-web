@@ -31,6 +31,7 @@ export class MarketTopBlockComponent implements OnInit {
   toNumber(str: string) {
     return Number(str);
   }
+  
   gotoTrade() {
     const pair = this.targetCoinName + '_' + this.baseCoinName;
     this._router.navigate(['market/trade/' + pair]);
@@ -39,6 +40,7 @@ export class MarketTopBlockComponent implements OnInit {
   toDecimal(amount: number, decimal: number) {
     return amount.toFixed(decimal);
   }
+
   updateTicker(ticker) {
     const price = this.toDecimal(ticker.p, 6);
     const volume = this.toDecimal(ticker.v, 6);
