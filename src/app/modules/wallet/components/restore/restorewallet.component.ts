@@ -61,7 +61,6 @@ export class RestoreWalletComponent implements OnInit {
       const mnemonic = this.seedPhrase;
       const wallet = this.walletServ.generateWallet(pwd, name, mnemonic);
 
-      console.log('wallet=', wallet);
       if (!wallet) {
         if (localStorage.getItem('Lan') === 'zh') {
           alert('发生错误，请再试一次。');
