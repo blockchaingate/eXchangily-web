@@ -120,6 +120,16 @@ export class KanbanService {
         return res.nonce;
     }
 
+    async kanbanCall(to: string, abiData: string) {
+        const data = {
+            to: to,
+            data: abiData
+        };
+        const path = 'kanban/call';
+        const res = await this.post(path, data).toPromise();
+        return res;
+    }
+
     async getLatestNonce(address: string) {
         const path = 'kanban/explorer/getnonce/' + address + '/latest';
         const res = await this.get(path).toPromise() as KanbanNonceResponse;
