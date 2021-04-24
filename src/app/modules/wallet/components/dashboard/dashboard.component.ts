@@ -560,7 +560,8 @@ export class WalletDashboardComponent implements OnInit {
             
             if (coin.name == 'FAB' && !coin.tokenType && !coin.encryptedPrivateKey && !fabAddress) {
                 fabAddress = coin.receiveAdds[0].address;
-                this.fabBalance = coin.balance;
+                //this.fabBalance = coin.balance;
+                //console.log('this.fabBalance==', this.fabBalance);
                 this.fabAddress = fabAddress;
             }
             if (coin.name == 'BCH') {
@@ -662,6 +663,7 @@ export class WalletDashboardComponent implements OnInit {
                         }
                         if (coin.name === 'FAB' && !coin.tokenType) {
                             fabCoin = coin;
+                            
                         }
                         if (coin.name === 'CNB') {
                             hasCNB = true;
@@ -670,7 +672,9 @@ export class WalletDashboardComponent implements OnInit {
                         for (let i = 0; i < res.data.length; i++) {
                             const item = res.data[i];
 
- 
+                            if(item.coin == 'FAB') {
+                                this.fabBalance = item.balance;
+                            }
                             if (
                                 (item.coin === coin.name) || 
                                 ((item.coin === 'USDTX') && (coin.name ==='USDT') && (coin.tokenType === 'TRX')) ||
@@ -828,7 +832,7 @@ export class WalletDashboardComponent implements OnInit {
         this.modalRef = this.modalServ.show(template);
     }
 
-    addGasFee() {
+    async addGasFee() {
         if (this.fabBalance < 0.5) {
             return;
         }
@@ -866,9 +870,6 @@ export class WalletDashboardComponent implements OnInit {
         let btcBalance = 0;
         let trxBalance = 0;
 
-        console.log('amount=', amount);
-        console.log('transFee=', transFee);
-        console.log('tranFeeUnit=', tranFeeUnit);
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             if (this.wallet.mycoins[i].name === 'FAB' && !fabBalance) {
                 fabBalance = this.wallet.mycoins[i].balance;
