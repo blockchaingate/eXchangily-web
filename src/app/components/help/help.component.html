@@ -41,6 +41,12 @@
                     <label for="FormControlInput2">{{"Issue" | translate}} *</label>
                     <input type="text" class="form-control" id="FormControlInput1" name="problem" placeholder="{{'Subject of your issue'| translate}}" [(ngModel)]="title">
                 </div>
+
+                <div class="form-group col-md-12">
+                    <label for="FormControlTextarea1">{{"Email"|translate}} *</label>
+                    <input type="email" class="form-control" id="FormControlInput1" rows="4" name="Email" placeholder="{{'Email'| translate}}" [(ngModel)]="email">
+                </div>
+
                 <div class="form-group col-md-12">
                     <label for="FormControlTextarea1">{{"Description"|translate}} *</label>
                     <textarea class="form-control" id="FormControlTextarea1" rows="3" name="desc" placeholder="{{'Detailed information'|translate}}" [(ngModel)]="desc"></textarea>

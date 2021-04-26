@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
@@ -31,6 +32,7 @@ import { FaqComponent } from './components/help/faq.component';
 import { FeeComponent } from './components/help/fee.component';
 import { SubscriptionComponent } from './modules/landing/features/subscription/subscription.component';
 import { HelpComponent } from './components/help/help.component';
+import { ManualComponent } from './components/manual/manual.component';
 
 import { HttpService } from './services/http.service';
 import { AlertService } from './services/alert.service';
@@ -63,6 +65,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     // TvChartContainerComponent,
     HeaderComponent,
     HelpComponent,
+    ManualComponent,
     FaqComponent,
     FeeComponent,
     FooterComponent,
@@ -80,6 +83,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatSidenavModule,
     MatToolbarModule,
     FormsModule,
+    MatCardModule,
     MatIconModule,
     MatFormFieldModule,
     MatSelectModule,

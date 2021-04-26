@@ -57,31 +57,29 @@ export class LiteListComponent implements OnInit {
             } else {
                 this.sortAsc = false;
             }
-        } else
-            if (field === 'price') {
-                if (!this.sortAscPrice) {
-                    this.sortAscPrice = 1;
-                } else {
-                    this.sortAscPrice = -this.sortAscPrice;
-                }
-                if (this.sortAscPrice === 1) {
-                    this.sortAsc = true;
-                } else {
-                    this.sortAsc = false;
-                }
-            } else
-                if (field === 'change24h') {
-                    if (!this.sortAscChange) {
-                        this.sortAscChange = 1;
-                    } else {
-                        this.sortAscChange = -this.sortAscChange;
-                    }
-                    if (this.sortAscChange === 1) {
-                        this.sortAsc = true;
-                    } else {
-                        this.sortAsc = false;
-                    }
-                }
+        } else if (field === 'price') {
+            if (!this.sortAscPrice) {
+                this.sortAscPrice = 1;
+            } else {
+                this.sortAscPrice = -this.sortAscPrice;
+            }
+            if (this.sortAscPrice === 1) {
+                this.sortAsc = true;
+            } else {
+                this.sortAsc = false;
+            }
+        } else if (field === 'change24h') {
+            if (!this.sortAscChange) {
+                this.sortAscChange = 1;
+            } else {
+                this.sortAscChange = -this.sortAscChange;
+            }
+            if (this.sortAscChange === 1) {
+                this.sortAsc = true;
+            } else {
+                this.sortAsc = false;
+            }
+        }
 
     }
 

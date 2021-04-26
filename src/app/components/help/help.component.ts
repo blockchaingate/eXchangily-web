@@ -13,7 +13,7 @@ import { StorageService } from '../../services/storage.service';
     encapsulation: ViewEncapsulation.None
 })
 export class HelpComponent implements OnInit {
-    selectedCat: number = -1;
+    selectedCat = -1;
     email: string;
     title: string;
     desc: string;
@@ -46,12 +46,12 @@ export class HelpComponent implements OnInit {
             this.logIn = value ? true : false;
             // alert(this.loggedIn);
 
-            console.log("selectedCat: " + this.selectedCat + "title: " + this.title + "desc: " + this.desc);
+            console.log('selectedCat: ' + this.selectedCat + 'title: ' + this.title + 'desc: ' + this.desc);
 
 
             //   const ticket = { catId: this.selectedCat, title: this.title, desc: this.desc };
             const ticket = { catId: this.selectedCat, email: this.email, title: this.title, content: this.desc, memberId: value };
-            if (this.selectedCat == -1) {
+            if (this.selectedCat === -1) {
                 this.catselected = false;
                 return;
             }
