@@ -333,7 +333,7 @@ export class OrderDetailComponent implements OnInit {
     }
     const rawData = {
       customerName: this.customerName,
-      companyName: this.companyName,
+      //companyName: this.companyName,
       billingAddress: this.billingAddress,
       city: this.city,
       country: this.country,
@@ -341,7 +341,7 @@ export class OrderDetailComponent implements OnInit {
       zip: this.zip,
       email: this.email,
       phone: this.phone,
-      accountNumber: this.accountNumber,
+      //accountNumber: this.accountNumber,
       receivingAddress: this.order.name,
       amount: this.order.totalToPay + this.order.currency,
       quantity: this.order.items[0].quantity + this.order.items[0].title
