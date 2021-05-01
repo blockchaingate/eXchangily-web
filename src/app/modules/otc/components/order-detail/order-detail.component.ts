@@ -334,7 +334,7 @@ export class OrderDetailComponent implements OnInit {
     const rawData = {
       customerName: this.customerName,
       //companyName: this.companyName,
-      //billingAddress: this.billingAddress,
+      billingAddress: this.billingAddress,
       city: this.city,
       country: this.country,
       state: this.state,

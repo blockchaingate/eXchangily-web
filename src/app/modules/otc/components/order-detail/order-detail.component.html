@@ -244,7 +244,7 @@
                             <label for="exampleInputAccountNumber">{{'Email not the same' | translate}}</label>
                         </div>                                               
                         <div class="form-group">
-                            <label for="exampleInputAccountNumber">{{'Phone' | translate}}</label>
+                            <label for="exampleInputAccountNumber">{{'Phone' | translate}}(<span class="alert-text">*</span>)</label>
                             <input type="text" [(ngModel)]="phone" class="form-control" id="inputPhone" aria-describedby="emailHelp" placeholder="{{'Enter phone' | translate}}">
                         </div>   
                         <!--
@@ -257,17 +257,24 @@
                             <div>
                               <label for="exampleInputEmail1">{{'Receiving Address' | translate}}: <small>{{order.name}}</small></label>
                             </div>
+                            <div>
+                                <label for="exampleInputEmail1">{{'Amount' | translate}}: {{order.totalToPay}} {{order.currency | translate}}</label>
+                              </div>
+                            
+                              <div>
+                                <label for="exampleInputEmail1">{{'Quantity' | translate}}: {{order.items[0].quantity}} {{order.items[0].title | translate}}</label>
+                              </div>                            
                         </div>                      
 
                       </div>
 
                       <div class="col col-6">
-                          <!--
+                          
                           <div class="form-group">
-                            <label for="exampleInputAccountNumber">{{'Billing Address' | translate}}</label>
-                            <input type="text" [(ngModel)]="billingAddress" class="form-control" id="inputBillingAddress" aria-describedby="emailHelp" placeholder="{{'Enter billing address' | translate}}">
+                            <label for="exampleInputAccountNumber">{{'Address' | translate}}(<span class="alert-text">*</span>)</label>
+                            <input type="text" [(ngModel)]="billingAddress" class="form-control" id="inputBillingAddress" aria-describedby="emailHelp" placeholder="{{'Enter address' | translate}}">
                           </div>   
-                          --> 
+                          
                           <div class="form-group">
                             <label for="exampleInputAccountNumber">{{'City' | translate}}</label>
                             <input type="text" [(ngModel)]="city" class="form-control" id="inputCity" aria-describedby="emailHelp" placeholder="{{'Enter city' | translate}}">
@@ -285,22 +292,22 @@
                             <label for="exampleInputAccountNumber">{{'Zip' | translate}}</label>
                             <input type="text" [(ngModel)]="zip" class="form-control" id="inputZip" aria-describedby="emailHelp" placeholder="{{'Enter zip' | translate}}">
                           </div>   
-                          <div class="form-group">
-                              <div>
-                                <label for="exampleInputEmail1">{{'Amount' | translate}}: {{order.totalToPay}} {{order.currency | translate}}</label>
-                              </div>
-                            
-                              <div>
-                                <label for="exampleInputEmail1">{{'Quantity' | translate}}: {{order.items[0].quantity}} {{order.items[0].title | translate}}</label>
-                              </div>
-                            
-
-                        </div>                          
+                        
                     </div>                      
                   </div>
               </div>
               <div *ngIf="goPayStep == 2" class="text-center">
-                {{'ACHConfirmationNote' | translate}}
+                  <div>
+                    {{'ACHConfirmationNote' | translate}}
+                  </div>
+                  <div>
+                      {{'Please check' | translate}} 
+                      <a class="ach-link" target="_blank" href="/assets/pdfs/ACH_PAY_04272021.pdf">
+                        {{'ACH PAY Tutorial' | translate}}
+                      </a>
+                      {{'for more details' | translate}}
+                  </div>
+
               </div>
 
             
@@ -311,7 +318,7 @@
             <div>
                 <div class="text-center">
                     <button class="btn btn-gradient text-white py-2 px-5" [ngClass]="achChecked ? '' : 'btn-disabled'" type="button" (click)="confirmACHPay2()" 
-                    [disabled]="!customerName || !receivingAddress || email != email2"> 
+                    [disabled]="!customerName || !phone || !billingAddress || !email || (email != email2)"> 
                         {{'Confirm' | translate}} 
                     </button>                     
                 </div>
@@ -381,6 +388,9 @@
                 <div>
                     {{'Customer Name' | translate}}: {{achAccount2.customerName}}
                 </div>
+                <div>
+                    {{'Address' | translate}}: {{achAccount2.billingAddress}}
+                </div>                
                 <div>
                     {{'City' | translate}}: {{achAccount2.city}}
                 </div>
