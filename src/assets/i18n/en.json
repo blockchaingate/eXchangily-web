@@ -1300,7 +1300,8 @@
     "InsufficientForTransaction": "Insufficient {{coin}} from this transaction",
     "Please set your display password first": "Please set your display password first",
     "Important Notice txt": "The registration and login options here are just for the convenience of users to participate in our campaigns. We will only record your wallet address when you register, so that we can send you cryptocurrency. And we will never record your private key information. Our entire project is completely decentralized and open source. You can find and view our code through github.",
-    "EpayNote": "Applicable to countries other than the United States and China",
-    "CashAppNote": "Applicable to U.S. dollar personal accounts",
-    "CashAppRegNote": ""
+    "EpayNote": "Make payment through Epay global payment.",
+    "CashAppNote": "Make payment through Cash App.",
+    "Gas balance in Exchange": "Gas balance in Exchange",
+    "User manual": "User manual"
 }
