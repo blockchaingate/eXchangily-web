@@ -302,6 +302,10 @@ export class KanbanService {
         return status;
     }
 
+    getTransactionReceipt(txid: string) {
+        return this.get('kanban/getTransactionReceipt/' + txid);
+    }
+    
     async getTransactionStatus(txid: string) {
         let response = null;
         let status = 'failed';

@@ -30,6 +30,7 @@ export class SmartContractComponent implements OnInit {
   smartContractName: string;
   result: string;
   error: string;
+  newSmartContractAddress: string;
   fabABI: string;
   fabBytecode: string;
   fabArguments: string;
@@ -218,7 +219,7 @@ export class SmartContractComponent implements OnInit {
         }
               
       }
-      if(coin.name === 'EXG') {
+      if(coin.name === 'EXG' && coin.tokenType == 'FAB') {
         this.exgCoin = coin;
       }
     }  
@@ -381,12 +382,13 @@ export class SmartContractComponent implements OnInit {
 
   async deployKanbanDo(seed) {
     const keyPairsKanban = this.coinServ.getKeyPairs(this.exgCoin, seed, 0, 0);
+    console.log('keyPairsKanban=', keyPairsKanban);
     // const nonce = await this.apiServ.getEthNonce(this.ethCoin.receiveAdds[0].address);
     let gasPrice = environment.chains.KANBAN.gasPrice;
     let gasLimit = 8000000;
     const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 
-    let kanbanTo = '0x0000000000000000000000000000000000000000';
+    //let kanbanTo = '0x0000000000000000000000000000000000000000';
 
     let kanbanValue = 0;
 
@@ -395,7 +397,7 @@ export class SmartContractComponent implements OnInit {
         nonce: nonce,
         gasPrice: gasPrice,
         gasLimit: gasLimit,
-        to: kanbanTo,
+        //to: kanbanTo,
         value: kanbanValue,
         data: '0x' + this.utilServ.stripHexPrefix(kanbanData)          
     };
@@ -426,9 +428,24 @@ export class SmartContractComponent implements OnInit {
 
     this.kanbanServ.sendRawSignedTransaction(txhex).subscribe(
       (resp: TransactionResp) => {
+        console.log('resp for deploy kanban==', resp);
       if (resp && resp.transactionHash) {
         this.result = 'txid:' + resp.transactionHash;
         this.alertServ.openSnackBarSuccess('Smart contract was created successfully.', 'Ok');
+
+        var that = this;
+        var myInterval = setInterval(function(){ 
+          that.kanbanServ.getTransactionReceipt(resp.transactionHash).subscribe(
+            (receipt: any) => {
+              if(receipt && receipt.transactionReceipt) {
+                clearInterval(myInterval);
+                if(receipt.transactionReceipt.contractAddress) {
+                  that.newSmartContractAddress = receipt.transactionReceipt.contractAddress;
+                }
+              }
+            }
+          );
+        }, 1000);
       } else {
         this.alertServ.openSnackBar('Failed to create smart contract.', 'Ok');
       }

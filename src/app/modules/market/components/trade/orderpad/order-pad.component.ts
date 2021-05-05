@@ -989,6 +989,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     const qtyString = new BigNumber(qty).multipliedBy(new BigNumber(1e18)).toFixed();
     const priceString = new BigNumber(price).multipliedBy(new BigNumber(1e18)).toFixed();
 
+    //console.log('qtyString=', qtyString);
+    //console.log('priceString=', priceString);
     const abiHex = this.web3Serv.getCreateOrderFuncABI([false, bidOrAsk,
       baseCoin, targetCoin, qtyString, priceString, orderHash]);
     console.log('abiHex=', abiHex);
