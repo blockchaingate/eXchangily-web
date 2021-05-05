@@ -6,9 +6,10 @@ import { environment } from '../../../../../environments/environment';
 import { KanbanService } from '../../../../services/kanban.service';
 import { BannerService } from '../../../../services/banner.service';
 import { CarouselConfig } from 'ngx-bootstrap/carousel';
-import DefaultBanner from '../../../../../images/adv/default/default-adv.json';
+//import DefaultBanner from '../../../../../images/adv/default/default-adv.json';
 import { Banner } from '../../../../models/banner';
 
+var DefaultBanner = require('../../../../../images/adv/default/default-adv.json');
 @Component({
   selector: 'app-market-home',
   templateUrl: './market-home.component.html',
@@ -25,14 +26,13 @@ export class MarketHomeComponent implements OnInit {
   constructor(private kanbanServ: KanbanService, private bannerServ: BannerService, private _router: Router,
     private _renderer2: Renderer2, @Inject(DOCUMENT) private _document: Document
   ) {
-    this.getBannerAdv();
+    //this.getBannerAdv();
   }
 
   ngOnInit() {
-    if (this.banners.length < 1) {
-      this.getBannerAdv();
-    }
-
+    //if (this.banners.length < 1) {
+    this.getBannerAdv();
+    //}
     this.maintainence = false;
     this.isMobile = false;
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -75,12 +75,16 @@ export class MarketHomeComponent implements OnInit {
   }
 
   getDefaultadv() {
+    /*
     this.bannerServ.getDefault().subscribe(
       res => {
         this.banners = res as Banner[];
         this.handleBaner();
       }
     )
+    */
+   this.banners = DefaultBanner;
+   this.handleBaner();
   }
 
   handleBaner() {
