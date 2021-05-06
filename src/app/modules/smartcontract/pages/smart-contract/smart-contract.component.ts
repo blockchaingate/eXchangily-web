@@ -382,7 +382,6 @@ export class SmartContractComponent implements OnInit {
 
   async deployKanbanDo(seed) {
     const keyPairsKanban = this.coinServ.getKeyPairs(this.exgCoin, seed, 0, 0);
-    console.log('keyPairsKanban=', keyPairsKanban);
     // const nonce = await this.apiServ.getEthNonce(this.ethCoin.receiveAdds[0].address);
     let gasPrice = environment.chains.KANBAN.gasPrice;
     let gasLimit = 8000000;

@@ -560,7 +560,6 @@ export class CoinService {
     }
 
     getKeyPairs(coin: MyCoin, seed: Buffer, chain: number, index: number) {
-        console.log('coin for getKeypairs=', coin);
         const name = coin.name;
 
         const tokenType = coin.tokenType;
