@@ -26,6 +26,7 @@ export class SmartContractComponent implements OnInit {
   method: any;
   action: string;
   abiName: string;
+  txid: string;
   contractName: string;
   smartContractName: string;
   result: string;
@@ -193,6 +194,7 @@ export class SmartContractComponent implements OnInit {
     this.lockerHashes = [];
     this.gasLimit = 1000000;
     this.gasPrice = 50;    
+    this.kanbanValue = 0;
     //this.smartContractAddress = environment.addresses.smartContract.FABLOCK;
     //this.changeSmartContractAddress();
     this.wallet = await this.storageService.getCurrentWallet();
@@ -488,7 +490,7 @@ export class SmartContractComponent implements OnInit {
     let gasLimit = environment.chains.KANBAN.gasLimit;
     const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 
-    let kanbanTo = '0x0000000000000000000000000000000000000000';
+    let kanbanTo = null;
     if(this.kanbanTo) {
       kanbanTo = this.kanbanTo;
     }
@@ -497,13 +499,14 @@ export class SmartContractComponent implements OnInit {
     if(this.kanbanValue) {
       kanbanValue = this.kanbanValue;
     }
-    console.log(this.kanbanTo);
+    
+    console.log('kanbanValue.toString(16)=', kanbanValue.toString(16));
     const txObject = {
         nonce: nonce,
         gasPrice: gasPrice,
         gasLimit: gasLimit,
         to: kanbanTo,
-        value: kanbanValue,
+        value: '0x' + kanbanValue.toString(16),
         data: '0x' + this.utilServ.stripHexPrefix(this.kanbanData)          
     };
 
@@ -530,6 +533,7 @@ export class SmartContractComponent implements OnInit {
     this.kanbanServ.sendRawSignedTransaction(txhex).subscribe(
       (resp: TransactionResp) => {
       if (resp && resp.transactionHash) {
+        this.txid = resp.transactionHash;
         this.alertServ.openSnackBarSuccess('Smart contract was called successfully.', 'Ok');
       } else {
         this.alertServ.openSnackBar('Failed to call smart contract.', 'Ok');
@@ -540,6 +544,10 @@ export class SmartContractComponent implements OnInit {
     }
     );
 
+  }
+
+  getReceiptLink(txid) {
+    return environment.endpoints.kanban + 'kanban/getTransactionReceipt/' + txid;
   }
 
   formCreateSmartContractABI() {

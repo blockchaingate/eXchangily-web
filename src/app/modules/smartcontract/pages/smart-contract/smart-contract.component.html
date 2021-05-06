@@ -196,6 +196,9 @@
                         <textarea [(ngModel)]="kanbanData" matInput></textarea>
                     </mat-form-field>
                     <button mat-raised-button color="primary" (click)="callKanban()"> {{'Submit' | translate}} </button>
+                    <div *ngIf="txid">
+                        txid: <a target="_blank" class="link" href="{{getReceiptLink(txid)}}">{{txid}}</a>
+                    </div>
                 </mat-tab>
             </mat-tab-group>
 
