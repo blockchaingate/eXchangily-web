@@ -61,12 +61,17 @@
                           
                           <mat-form-field class="example-full-width">
                             <mat-label>{{'FAB address' | translate}}</mat-label>
-                            <input name="to" [(ngModel)]="fabAddress" matInput>
+                            <input name="fabAddress" [(ngModel)]="fabAddress" matInput>
                           </mat-form-field>
 
                           <mat-form-field class="example-full-width">
                             <mat-label>{{'EXG address' | translate}}</mat-label>
-                            <input name="satoshisPerBytes" [(ngModel)]="exgAddress" matInput>
+                            <input name="exgAddress" [(ngModel)]="exgAddress" matInput>
+                          </mat-form-field>   
+
+                          <mat-form-field class="example-full-width">
+                            <mat-label>{{'KB address' | translate}}</mat-label>
+                            <input name="kbAddress" [(ngModel)]="kbAddress" matInput>
                           </mat-form-field>   
 
                         </mat-expansion-panel>                        

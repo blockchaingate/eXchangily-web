@@ -85,6 +85,9 @@ function detectAddressType (address) {
  * @throws {InvalidAddressError}
  */
 function toLegacyAddress (address) {
+  if(!address) {
+    return '';
+  }
   var decoded = decodeAddress(address)
   if (decoded.format === Format.Legacy) {
     return '';
@@ -100,6 +103,9 @@ function toLegacyAddress (address) {
  * @throws {InvalidAddressError}
  */
 function toKbpayAddress (address) {
+  if(!address) {
+    return '';
+  }
   var decoded = decodeAddress(address)
   if (decoded.format === Format.Kbpay) {
     return address
