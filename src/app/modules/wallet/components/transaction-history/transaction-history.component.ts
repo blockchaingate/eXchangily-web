@@ -17,10 +17,10 @@ import { CoinService } from '../../../../services/coin.service';
 export class TransactionHistoryComponent implements OnInit {
     @ViewChild('transactionDetailModal', { static: true }) transactionDetailModal: TransactionDetailModal;
     @ViewChild('transactionDetailModal2', { static: true }) transactionDetailModal2: TransactionDetailModal2;
-    transactionHistory: TransactionItem[];
+
     @Input() coinsPrice: CoinsPrice;
     @Input() walletId: string;
-    @Input() transactions: any;
+    @Input() transactions: TransactionItem[];
 
     currentType: string;
     utilServ: UtilService;
@@ -39,24 +39,25 @@ export class TransactionHistoryComponent implements OnInit {
         this.currentType = type;
     }
 
-    showCoinName(name: string) {
-        if(name == 'USDT') {
+    showCoinName(name: string, tokenType: string) {
+        console.log('tokenType for showCoinName=', tokenType);
+        if ((name == 'USDT') && (tokenType == 'ETH')) {
             return 'USDT(ERC20)';
         } else 
 
-        if(name == 'TRON_USDT') {
+        if ((name == 'TRON_USDT') || ((name == 'USDT') && (tokenType == 'TRX'))) {
             return 'USDT(TRC20)';
         } else 
-        if (name == 'ETH_FAB') {
+        if ((name == 'ETH_FAB') || ((name == 'FAB') && (tokenType == 'ETH'))) {
             return 'FAB(ERC20)'
         } else
-        if (name == 'ETH_EXG') {
+        if ((name == 'ETH_EXG') || ((name == 'EXG') && (tokenType == 'ETH'))) {
             return 'EXG(ERC20)'
         } else 
-        if (name == 'ETH_DSC') {
+        if ((name == 'ETH_DSC') || ((name == 'DSC') && (tokenType == 'ETH'))) {
             return 'DSC(ERC20)'
         } else
-        if (name == 'ETH_BST') {
+        if ((name == 'ETH_BST') || ((name == 'BST') && (tokenType == 'ETH'))) {
             return 'BST(ERC20)'
         }
         return name;
@@ -110,6 +111,7 @@ export class TransactionHistoryComponent implements OnInit {
                         const newTransaction = {
                             action: transactionItem.type,
                             coin: transactionItem.coin,
+                            tokenType: transactionItem.tokenType,
                             quantity: transactionItem.amount,
                             to: transactionItem.to,
                             timestamp: timestamp,

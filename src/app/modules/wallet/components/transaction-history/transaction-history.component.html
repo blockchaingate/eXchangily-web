@@ -44,7 +44,7 @@
                 <p>{{item.action}}</p>
             </div>
             <div class="col-custom-1">
-                <p>{{showCoinName(item.coin)}}</p>
+                <p>{{showCoinName(item.coin, item.tokenType)}}</p>
             </div>
             <div class="col-3 ">
                 <p>{{item.timestamp?utilServ.getFormattedDate(item.timestamp):''}}</p>
