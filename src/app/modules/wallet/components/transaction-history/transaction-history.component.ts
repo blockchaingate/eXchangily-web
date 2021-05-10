@@ -41,13 +41,14 @@ export class TransactionHistoryComponent implements OnInit {
 
     showCoinName(name: string, tokenType: string) {
         console.log('tokenType for showCoinName=', tokenType);
-        if ((name == 'USDT') && (tokenType == 'ETH')) {
-            return 'USDT(ERC20)';
-        } else 
+
 
         if ((name == 'TRON_USDT') || ((name == 'USDT') && (tokenType == 'TRX'))) {
             return 'USDT(TRC20)';
         } else 
+        if (name == 'USDT') {
+            return 'USDT(ERC20)';
+        } else         
         if ((name == 'ETH_FAB') || ((name == 'FAB') && (tokenType == 'ETH'))) {
             return 'FAB(ERC20)'
         } else
