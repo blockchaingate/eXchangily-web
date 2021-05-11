@@ -870,12 +870,15 @@ export class CoinService {
         // console.log('amountNum=', amountNum);
         let txHex = '';
 
+        //console.log('mycoin.receiveAdds=', mycoin.receiveAdds);
+
         for (index = 0; index < mycoin.receiveAdds.length; index++) {
 
             address = mycoin.receiveAdds[index].address;
             // console.log('address in getFabTransactionHex=' + address);
             const fabUtxos = await this.apiService.getFabUtxos(address);
 
+            //console.log('fabUtxos=', fabUtxos);
             if (fabUtxos && fabUtxos.length) {
                 // console.log('fabUtxos=', fabUtxos);
                 // console.log('fabUtxos.length=', fabUtxos.length);
@@ -1019,7 +1022,7 @@ export class CoinService {
             // console.log('output1 or output2 should be greater than 0.');
             return {
                 txHex: '',
-                errMsg: 'output1 should be greater than 0.' + totalInput + ',' + amount + ',' + transFee + ',' + output1,
+                errMsg: 'output1 1 should be greater than 0.' + totalInput + ',' + amount + ',' + transFee + ',' + output1,
                 transFee: 0, amountInTx: amountInTx, txids: txids
             };
         }
