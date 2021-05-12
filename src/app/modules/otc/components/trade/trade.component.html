@@ -90,9 +90,11 @@
                 <thead>
                     <tr class="odd">
                         <th scope="col">{{'Merchant' | translate }}</th>
+                        <!--
                         <th scope="col">{{'PaymentMethod' | translate }}</th>
-                        <th scope="col">{{'Total Quantity' | translate }}/{{coinName}}</th>
-                        <th scope="col">{{'Limits' | translate }}/{{currency}}</th>
+                        -->
+                        <th scope="col">{{'Total Quantity' | translate }} {{coinName}}</th>
+                        <th scope="col">{{'Minimum Purchase' | translate }}</th>
                         <th scope="col">{{'Price' | translate }}/{{currency}}</th>
                         <th scope="col">{{'Operation' | translate }}</th>
                     </tr>
@@ -104,13 +106,13 @@
                         <tr *ngFor="let element of dataSource">
                         -->
                         <td>{{element.merchant ? element.merchant.merchantName : ''}}</td>
-
+<!--
                         <td>
-                            <!--
+                            
                             <app-paymentmethod [methods]="element.paymentmethods"></app-paymentmethod>
-                            -->
+                            
                         </td>
-
+-->
                         <td>{{element.qtyAvilable}}</td>
                         <td>{{element.qtyLimitPerOrderLow}} ~ {{element.qtyLimitPerOrderHigh}}</td>
                         <td>{{element.price}}</td>
