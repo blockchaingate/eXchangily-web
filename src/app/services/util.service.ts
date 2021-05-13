@@ -150,10 +150,11 @@ export class UtilService {
     getFormattedDate(date: any) {
         // console.log('origin date=', date);
         // if(Number.is)
-        if (!Number.isNaN(date)) {
+        if (!Number.isNaN(date) && !(date instanceof Date)) {
             date = new Date(date * 1000);
         }
-        // console.log('date=', date);
+
+        //console.log('date2=', date);
         const month = date.getMonth() + 1;
         const day = date.getDate();
         const hour = date.getHours();

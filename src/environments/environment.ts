@@ -89,7 +89,7 @@ export const environment = {
             },
             satoshisPerBytes: 100,
             bytesPerInput: 148,
-            gasPrice: 50,
+            gasPrice: 40,
             gasLimit: 800000,
             gasLimitToken: 1000000
         },
