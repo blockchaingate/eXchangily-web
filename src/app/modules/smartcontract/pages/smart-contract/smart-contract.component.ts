@@ -65,7 +65,6 @@ export class SmartContractComponent implements OnInit {
     'EXG',
     'DSC',
     'BST',
-    'Deploy',
     'Fab Lock For EXG Airdrop'
   ];
   ABI = [];
@@ -190,6 +189,7 @@ export class SmartContractComponent implements OnInit {
   }
 
   async ngOnInit() {
+
     this.action = '';
     this.lockerHashes = [];
     this.gasLimit = 1000000;
@@ -382,6 +382,11 @@ export class SmartContractComponent implements OnInit {
 
   }
 
+  async deployFabDo(seed) {
+    this.smartContractAddress = '0x0';
+    await this.callFabSmartContract(seed);
+  }
+
   async deployKanbanDo(seed) {
     const keyPairsKanban = this.coinServ.getKeyPairs(this.exgCoin, seed, 0, 0);
     // const nonce = await this.apiServ.getEthNonce(this.ethCoin.receiveAdds[0].address);
@@ -551,11 +556,13 @@ export class SmartContractComponent implements OnInit {
   }
 
   formCreateSmartContractABI() {
-    const abi = JSON.parse(this.fabABI);
+    let abi = JSON.parse(this.fabABI);
+
     let args = [];
     if(this.fabArguments) {
       args = this.fabArguments.split(',').map(item => {return item.trim()});
     }
+
     return this.web3Serv.formCreateSmartContractABI(abi, this.fabBytecode.trim(), args);
  
   }
@@ -582,17 +589,19 @@ export class SmartContractComponent implements OnInit {
 
   async callFabSmartContract(seed) {
     let abiHex = '';
+    let gasLimit = this.gasLimit;
+    const gasPrice = this.gasPrice;    
     let smartContractAddress = this.smartContractAddress;
     if(smartContractAddress == '0x0') {
+      gasLimit = 8000000;
       abiHex = this.formCreateSmartContractABI();
       console.log('abiHex for smart contract:', abiHex);
-      smartContractAddress = null;
+      //smartContractAddress = null;
     } else {
       abiHex = this.formABI();
     }
     
-    const gasLimit = this.gasLimit;
-    const gasPrice = this.gasPrice;
+
     let value = 0;
     if (this.method.stateMutability === 'payable') {
       value = Number(this.payableValue);
@@ -603,14 +612,28 @@ export class SmartContractComponent implements OnInit {
 
     let totalFee = totalAmount;
 
-    const contract = Btc.script.compile([
+    //console.log('number==', (smartContractAddress == '0x0') ? 193 : 194);
+
+    console.log('gasLimit=', gasLimit);
+    let contract = Btc.script.compile([
       84,
       this.utilServ.number2Buffer(gasLimit),
       this.utilServ.number2Buffer(gasPrice),
       this.utilServ.hex2Buffer(this.utilServ.stripHexPrefix(abiHex)),
       this.utilServ.hex2Buffer(this.utilServ.stripHexPrefix(smartContractAddress)),
       194
-    ]);
+    ]);    
+    if(smartContractAddress == '0x0') {
+      
+      contract = Btc.script.compile([
+        84,
+        this.utilServ.number2Buffer(gasLimit),
+        this.utilServ.number2Buffer(gasPrice),
+        this.utilServ.hex2Buffer(this.utilServ.stripHexPrefix(abiHex)),
+        193
+      ]); 
+    }
+
   
     const contractSize = contract.toJSON.toString().length;
     totalFee += this.utilServ.convertLiuToFabcoin(contractSize * 10);
@@ -634,7 +657,10 @@ export class SmartContractComponent implements OnInit {
         if (errMsg) {
           this.error = errMsg;
         }
-    }  
+    } else {
+      console.log('error msg=', errMsg);
+      this.error = errMsg;
+    } 
   }
 
   deployKanban() {
@@ -656,6 +682,9 @@ export class SmartContractComponent implements OnInit {
     if(this.action == 'deployEth') {
       await this.deployEthDo(seed);
     } else
+    if(this.action == 'deployFab') {
+      await this.deployFabDo(seed);
+    } else    
     if(this.action == 'callKanban') {
       await this.callKanbanDo(seed);
     } else
@@ -667,6 +696,11 @@ export class SmartContractComponent implements OnInit {
   deployEth() {
     this.action = 'deployEth';
     this.pinModal.show(); 
+  }
+
+  deployFab() {
+    this.action = 'deployFab';
+    this.pinModal.show();     
   }
 
   callKanban() {
