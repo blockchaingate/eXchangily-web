@@ -26,7 +26,8 @@
                         ],
                         "styles": [
                             "src/material-exchangily.css",
-                            "node_modules/chartist/dist/chartist.css"
+                            "node_modules/chartist/dist/chartist.css",
+                            "src/styles.scss"
                         ],
                         "stylePreprocessorOptions": {
                             "includePaths": [
