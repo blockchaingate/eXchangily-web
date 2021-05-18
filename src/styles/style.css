@@ -4117,7 +4117,7 @@ body {
 }
 
 /* NEW NEW  */
-
+/* 
 
 body > app-root > div > section > app-market-home > div > app-market-list > div > div > div:nth-child(n) > div.navbar.navbar-expand-sm.mktmenu.col-md-9 > div.nav-item.hand.selected{
     background-color: #f5e9ff !important;
@@ -4637,4 +4637,4 @@ body > app-root > div > section > app-market-home > div > app-market-top > div >
     .orderbook, .trades{
         min-height: 520px !important 
     }
-} 
+}  */
