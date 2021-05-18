@@ -3944,67 +3944,67 @@ fieldset {
 }
 
 .semi-bold {
-    font-weight: 600
+    font-weight: 600;
 }
 
 .bold {
     font-family: Verdana,sans-serif,SimHei,Microsoft YaHei;
-    font-weight: 700
+    font-weight: 700;
 }
 
 .uppercase {
-    text-transform: uppercase
+    text-transform: uppercase;
 }
 
 .table {
-    display: table
+    display: table;
 }
 
 .table-row {
-    display: table-row
+    display: table-row;
 }
 
 .table-cell {
-    display: table-cell
+    display: table-cell;
 }
 
 .text-divider {
-    margin: 0 1em
+    margin: 0 1em;
 }
 
 .modal-bg-grey {
-    background-color: #ebeef5!important
+    background-color: #ebeef5 !important;
 }
 
 .modal-content {
     border: none;
-    border-radius: 0
+    border-radius: 0;
 }
 
 .text-muted {
-    color: #fff
+    color: #fff;
 }
 
 .row-flex {
     display: flex;
-    flex-wrap: wrap
+    flex-wrap: wrap;
 }
 
 .content {
-    height: 100%
+    height: 100%;
 }
 
 a.explorer-link {
     color: #3498db;
-    background-color: transparent
+    background-color: transparent;
 }
 
 .color-silver {
-    color: silver
+    color: silver;
 }
 
 .hand-cursor {
-    cursor: pointer
+    cursor: pointer;
 }
 
 body,html {
@@ -4013,82 +4013,82 @@ body,html {
 
 body {
     margin: 0;
-    font-family: Verdana,sans-serif,SimHei,Microsoft YaHei
+    font-family: Verdana,sans-serif,SimHei,Microsoft YaHei;
 }
 
 .main-work-area {
-    min-height: 680px
+    min-height: 680px;
 }
 
 .hand {
-    cursor: pointer
+    cursor: pointer;
 }
 
 .gradient-back-title {
-    background-image: linear-gradient(90deg,#e6b572,#d9736e,#95629b,#63539e,#3a4ba3)
+    background-image: linear-gradient(90deg,#e6b572,#d9736e,#95629b,#63539e,#3a4ba3);
 }
 
 .gradient-back-area {
     color: #fff;
-    background-image: linear-gradient(90deg,#fbc879,#eb7f75,#a26aa7,#695aad,#3e51b0)
+    background-image: linear-gradient(90deg,#fbc879,#eb7f75,#a26aa7,#695aad,#3e51b0);
 }
 
 @media only screen and (max-width: 959px) {
     .fxHide-sm {
-        display:none!important
+        display:none!important;
     }
 }
 
 @media only screen and (min-width: 960px) {
     .fxHide-gt-sm {
-        display:none!important
+        display:none!important;
     }
 }
 
 :focus {
     outline: none!important;
-    border: 0!important
+    border: 0!important;
 }
 
 .container-wallet-main {
-    height: 325px
+    height: 325px;
 }
 
 .color-purple {
-    color: #871fff
+    color: #871fff;
 }
 
 .scroll-bar::-webkit-scrollbar {
     width: 6px;
-    background-color: transparent
+    background-color: transparent;
 }
 
 .scroll-bar::-webkit-scrollbar-thumb {
-    background-color: #424266
+    background-color: #424266;
 }
 
 .custom-snackbar {
     background: #b66262;
-    color: #fff
+    color: #fff;
 }
 
 .custom-snackbar-success {
     background: #228b22;
-    color: #fff
+    color: #fff;
 }
 
 .custom-snackbar-success .mat-button-wrapper,.custom-snackbar .mat-button-wrapper,.exbtn {
-    color: #fff
+    color: #fff;
 }
 
 .promotionData .mat-form-field-appearance-legacy .mat-form-field-label {
-    color: rgba(255,252,252,.54)!important
+    color: rgba(255,252,252,.54) !important;
 }
 
 .promotionData .example-radio-group {
     display: flex;
     flex-direction: column;
-    margin: 15px 0
+    margin: 15px 0;
 }
 
 .promotionData .mat-radio-outer-circle {
@@ -4096,24 +4096,24 @@ body {
 }
 
 .promotionData .exdisabled .mat-form-field-underline {
-    background-color: #999
+    background-color: #999;
 }
 
 .promotionData .step2 #currency-radio-group-label,.promotionData .step2 #method-radio-group-label {
-    margin-left: 20px
+    margin-left: 20px;
 }
 
 .modal {
-    z-index: 9999
+    z-index: 9999;
 }
 
 .sortable {
     text-decoration: underline;
-    cursor: pointer
+    cursor: pointer;
 }
 
 .mat-form-field-appearance-legacy .mat-form-field-label {
-    color: grey
+    color: grey;
 }
 
 /* NEW NEW  */
@@ -4446,8 +4446,8 @@ body > app-root > div > app-header > header > nav.navbar.navbar-expand-lg.navbar
     color: #4c2020 !important;
 }
 
-.title[_ngcontent-mcw-c231]{
-    background-color: rgb(250 240 255)!important;
+.title{
+    background-color: rgb(250 240 255) !important;
     color: #33275e !important;
     padding: 5px;
 }
@@ -4489,15 +4489,15 @@ body > app-root > div > app-header > header > nav.navbar.navbar-expand-lg.navbar
 
 
 .exg-bg {
-    background-color: #e5e5e5;
+    background-color: #ffffff !important;
 }
 
 .exg-bg-light {
-    background-color: #f2f2f2;
+    background-color: #fbfbfb !important;
 }
 
 .exg-bg-dark {
-    background-color: #e9e9e9;
+    background-color: #fbfbfb !important;
 }
 
  div.orderbook, div .trades,
@@ -4559,7 +4559,7 @@ body > app-root > div > app-header > header > nav.navbar.navbar-expand-lg.navbar
     position: fixed;
     top: 0px;
     width: 100vw;
-    background-color: white;
+    background-color: white !important;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
