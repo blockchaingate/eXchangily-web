@@ -52,6 +52,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/reward/reward.module').then(m => m.RewardModule)
   },
   {
+    path: 'issue',
+    loadChildren: () => import('./modules/issue-token/issue-token.module').then(m => m.IssueTokenModule)
+  },  
+  {
     path: 'market',
     loadChildren: () => import('./modules/market/market.module').then(m => m.MarketModule),
     data: {
