@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators/map';
 import { Icotx } from '../../models/icotx';
 import { IcotxService } from '../../service/icotx/icotx.service';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class IcotxResolver implements Resolve<Observable<Icotx>> {

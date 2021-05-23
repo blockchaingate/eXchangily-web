@@ -5,8 +5,8 @@ import { UserAuth } from '../../../service/user-auth/user-auth.service';
 import { UserService } from '../../../service/user/user.service';
 import { User } from '../../../models/user';
 
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { mergeMap ,  map ,  filter } from 'rxjs/operators';
 
 @Component({

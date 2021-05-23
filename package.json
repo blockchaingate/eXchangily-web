@@ -52,7 +52,7 @@
         "ng-chartist": "^4.1.0",
         "ngx-bootstrap": "^6.2.0",
         "reflect": "^0.1.3",
-        "rxjs": "^6.6.3",
+        "rxjs": "^6.6.7",
         "s": "^1.0.0",
         "tronweb": "^3.2.3",
         "tslib": "^2.2.0",
