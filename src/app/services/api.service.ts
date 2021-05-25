@@ -627,6 +627,12 @@ export class ApiService {
         return this.http.post(url, data);
     }
 
+    async getFabTransactionReceiptAsync(txid: string) {
+        const url = environment.endpoints.FAB.exchangily + 'gettransactionreceipt/' + txid;
+
+        return await this.http.get(url).toPromise();
+    }
+
     async fabCallContract(contractAddress: string, fxnCallHex: string) {
         const url = environment.endpoints.FAB.exchangily + 'callcontract';
 

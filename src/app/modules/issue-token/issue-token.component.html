@@ -18,24 +18,13 @@
                 <a href="/issue/frc20" target="_blank">FRC20代币</a>
             </td>
         </tr>        
- 
-        <tr>
-            <td class="text-right">
-                Total supply: 
-            </td>
-            <td>
-                <mat-form-field class="example-full-width">
-                    <input matInput placeholder="" value="Sushi">
-                  </mat-form-field>
-            </td>
-        </tr>   
         <tr>
             <td class="text-right">
                 Name: 
             </td>
             <td>
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="" value="Sushi">
+                    <input matInput placeholder="" [(ngModel)]="name">
                   </mat-form-field>
             </td>
         </tr>  
@@ -45,17 +34,28 @@
             </td>
             <td>
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="" value="Sushi">
+                    <input matInput placeholder="" [(ngModel)]="symbol">
                   </mat-form-field>
             </td>
-        </tr>          
+        </tr>    
+        <tr>
+            <td class="text-right">
+                Total supply: 
+            </td>
+            <td>
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="" [(ngModel)]="totalSupply">
+                  </mat-form-field>
+            </td>
+        </tr>   
+       
         <tr>
             <td class="text-right">
                 Decimal: 
             </td>
             <td>
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="" value="Sushi">
+                    <input matInput placeholder="" [(ngModel)]="decimals">
                   </mat-form-field>
             </td>
         </tr>  
@@ -67,15 +67,28 @@
             <td>
                 50.4FAB
             </td>
-        </tr>          
+        </tr>   
+
+        <tr *ngIf="errMsg">
+            <td class="text-right">
+                Error: 
+            </td>
+            <td>
+                {{errMsg}}
+            </td>            
+        </tr>        
     </table>
 
 </div>
 <div class="main-container text-center py-3">
-    <button class="btn btn-gradient text-white py-2 px-5 btn-lg-fixed-width" type="submit"> {{'Confirm' | translate }} </button>
+    <button class="btn btn-gradient text-white py-2 px-5 btn-lg-fixed-width" (click)="confirm()"> {{'Confirm' | translate }} </button>
+</div>
+<div class="main-container text-center py-3" *ngIf="txs && txs.length > 0">
+    <app-issue-token-history [txs]="txs"></app-issue-token-history>
 </div>
 
 
+<pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>
 <!--
 <mat-horizontal-stepper linear #stepper>
     <mat-step [stepControl]="firstFormGroup" [editable]="isEditable">

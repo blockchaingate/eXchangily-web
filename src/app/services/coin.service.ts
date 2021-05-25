@@ -457,6 +457,9 @@ export class CoinService {
         return this.apiService.getTransactionHistoryEvents(data);
     }
 
+    async getFabTransactionReceipt(txid: string) {
+        return await this.apiService.getFabTransactionReceiptAsync(txid);
+    }
     async getBalance(myCoin: MyCoin) {
         // console.log('myCoin.name for getBalance=', myCoin);
         let balance;
@@ -838,6 +841,136 @@ export class CoinService {
         let retString = v;
         retString = retString + this.utilServ.fixedLengh(coinType, 32 - v.length);
         return retString;
+    }
+
+    async getFabTransactionHexMultiTos (privateKey, fromAddress, tos, extraTransactionFee, 
+        satoshisPerBytes, bytesPerInput) {
+        let index = 0;
+        let balance = 0;
+        let finished = false;
+        let address = '';
+        let totalInput = 0;
+        let transFee = 0;
+        
+        let amountInTx = new BigNumber(0);
+        const feePerInput = bytesPerInput * satoshisPerBytes;
+        const receiveAddsIndexArr = [];
+        const changeAddsIndexArr = [];
+        // console.log('amount111111111111=', amount);
+        // console.log('extraTransactionFee=', extraTransactionFee);
+        let amount = 0;
+        tos.forEach(to => {
+            amount += Number(to.amount);
+        });
+        const totalAmount = Number(amount) + Number(extraTransactionFee);
+        console.log('totalAmount=', totalAmount);
+        //let amountNum = new BigNumber(this.utilServ.toBigNumber(totalAmount, 8)).toNumber();
+    
+        let amountNum = totalAmount * 1e8;
+        // console.log('amountNum=', amountNum);
+        amountNum += ((tos.length + 1) * 34) * satoshisPerBytes;
+        // console.log('amountNum=', amountNum);
+        // const TestNet = Btc.networks.testnet;
+        const network = environment.production ? Btc.networks.bitcoin : Btc.networks.testnet;
+    
+        const txb = new Btc.TransactionBuilder(network);
+        // console.log('amountNum=', amountNum);
+        let txHex = '';
+    
+        const fabUtxos = await this.apiService.getFabUtxos(fromAddress);
+    
+        console.log('fabUtxos==', fabUtxos);
+        if (fabUtxos && fabUtxos.length) {
+            // console.log('fabUtxos=', fabUtxos);
+            // console.log('fabUtxos.length=', fabUtxos.length);
+            for (let i = 0; i < fabUtxos.length; i++) {
+
+                console.log('i=', i);
+                const utxo = fabUtxos[i];
+                const idx = utxo.idx;
+    
+                const txidItem = {
+                    txid: utxo.txid,
+                    idx: idx
+                };
+    
+    
+                let existed = false;
+                for(let iii = 0; iii < this.txids.length; iii++) {
+                    const ttt = this.txids[iii];
+                    if((ttt.txid == txidItem.txid) && (ttt.idx == txidItem.idx)) {
+                        existed = true;
+                        console.log('existed');
+                        break;
+                    }
+                }
+    
+                if(existed) {
+                    continue;
+                }
+    
+                console.log('push one');
+                this.txids.push(txidItem);
+    
+                txb.addInput(utxo.txid, idx);
+                // console.log('input is');
+                // console.log(utxo.txid, utxo.idx, utxo.value);
+                receiveAddsIndexArr.push(index);
+                totalInput += utxo.value;
+                // console.log('totalInput here=', totalInput);
+                amountNum -= utxo.value;
+                amountNum += feePerInput;
+                console.log('amountNum=', amountNum);
+                if (amountNum <= 0) {
+                    console.log('finished');
+                    finished = true;
+                    break;
+                }                 
+            }    
+        }
+       
+        // console.log('totalInput here 2=', totalInput);
+        if (!finished) {
+            // console.log('not enough fab coin to make the transaction.');
+            return {txHex: '', errMsg: 'not enough fab coin to make the transaction.', transFee: 0, txids: this.txids};
+        }
+    
+    
+        const changeAddress = fromAddress;
+    
+        let outputNum = (tos.length + 1);
+    
+        transFee = ((receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput + outputNum * 34) * satoshisPerBytes;
+    
+        const output1 = Math.round(totalInput
+        - (amount + extraTransactionFee) * 1e8
+        - transFee);
+           
+        //const output2 = Math.round(amount * 1e8);    
+
+        if (output1 < 0) {
+            // console.log('output1 or output2 should be greater than 0.');
+            return {txHex: '', 
+            errMsg: 'output1 should be greater than 0.' + totalInput + ',' + amount + ',' + transFee + ',' + output1, 
+            transFee: 0, amountInTx: amountInTx, txids: this.txids};
+        }
+    
+    
+        txb.addOutput(changeAddress, output1);
+        tos.forEach(to => {
+            const output2 = new BigNumber(to.amount).multipliedBy(new BigNumber(1e8));
+            amountInTx = output2;
+            txb.addOutput(to.address, Number(output2.toFixed()));
+        });
+
+        for (index = 0; index < receiveAddsIndexArr.length; index ++) {
+            //const alice = Btc.ECPair.fromPrivateKey(privateKey, { network: network });
+            const alice = Btc.ECPair.fromWIF(privateKey, network);
+            txb.sign(index, alice);                
+        }
+           
+        txHex = txb.build().toHex();
+        return {txHex: txHex, errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: this.txids};
     }
 
     async getFabTransactionHex(seed: any, mycoin: MyCoin, to: any, amount: number, extraTransactionFee: number,
