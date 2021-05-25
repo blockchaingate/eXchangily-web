@@ -3,8 +3,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService} from '@ngx-translate/core';
 import { JsonFileService } from '../../../service/jsondata/jsondata.service';
 
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { stringify } from '@angular/compiler/src/util';
 

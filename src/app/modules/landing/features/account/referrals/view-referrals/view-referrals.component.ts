@@ -5,9 +5,9 @@ import { IcotxService } from '../../../../service/icotx/icotx.service';
 import { Icotx, IcotxSorted } from '../../../../models/icotx';
 import { UserAuth } from '../../../../service/user-auth/user-auth.service';
 
-import { Subscription } from 'rxjs/Subscription';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { mergeMap ,  map ,  filter } from 'rxjs/operators';
 
 @Component({

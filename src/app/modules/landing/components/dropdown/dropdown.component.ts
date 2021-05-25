@@ -1,8 +1,8 @@
 
 import {fromEvent as observableFromEvent} from 'rxjs';
 import { Component, OnDestroy, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 interface DropdownData {
   text: string;

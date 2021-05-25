@@ -4,8 +4,8 @@ import { IcotxService } from '../../../service/icotx/icotx.service';
 import { Icotx, IcotxStatus, IcotxSorted } from '../../../models/icotx';
 import { IcotxesAuthService } from '../../../service/icotxes-auth/icotxes-auth.service';
 
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { mergeMap ,  map ,  filter } from 'rxjs/operators';
 
 @Component({

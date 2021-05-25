@@ -1022,7 +1022,8 @@ export class CoinService {
             // console.log('output1 or output2 should be greater than 0.');
             return {
                 txHex: '',
-                errMsg: 'output1 1 should be greater than 0.' + totalInput + ',' + amount + ',' + transFee + ',' + output1,
+                errMsg: 'Not enough Utxos, please wait a few minutes and try again.',
+                //errMsg: 'output1 1 should be greater than 0.' + totalInput + ',' + amount + ',' + transFee + ',' + output1,
                 transFee: 0, amountInTx: amountInTx, txids: txids
             };
         }

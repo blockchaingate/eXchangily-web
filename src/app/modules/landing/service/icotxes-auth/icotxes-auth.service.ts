@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { IcotxSorted, IcotxStatus, Icotx } from '../../models/icotx';
 
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

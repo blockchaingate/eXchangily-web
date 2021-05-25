@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
-import { BlocksComponent } from './components/blocks/blocks.component';
 import { Router } from '@angular/router';
-import { SearchBoxComponent } from './components/search-box/search-box.component';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-kanbanexplorer',
@@ -10,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./kanbanexplorer.component.css']
 })
 export class KanbanexplorerComponent {
-  constructor(private router: Router, private tasnServ: TranslateService) {
+  constructor(private router: Router) {
   }
 
   title = 'KanbanExplorer';
