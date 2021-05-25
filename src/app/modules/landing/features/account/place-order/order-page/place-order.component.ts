@@ -8,7 +8,7 @@ import { AppService } from '../../../../service/app-service/app.service';
 import { Application } from '../../../../models/application';
 
 import { Payment, Icotx } from '../../../../models/icotx';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 // import { DISABLED } from '@angular/forms/src/model';
 
 @Component({
