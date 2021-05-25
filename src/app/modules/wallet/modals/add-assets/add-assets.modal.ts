@@ -40,18 +40,19 @@ export class AddAssetsModal {
     ]; 
 
     fabTokens = [
-        {
-            name: 'KAB',
-            contractAddress: '',
-            symbol: 'KAB',
-            decimals: 18
-        }
+
     ]; 
 
     addAssetsForm = this.fb.group({
         fabPrivateKey: [''],
         fabContractAddress: [''],
+        fabTokenName: [''],
+        fabTokenSymbol: [''],
+        fabTokenDecimals: [18],
         ethContractAddress: [''],
+        ethTokenName: [''],
+        ethTokenSymbol: [''],
+        ethTokenDecimals: [18]        
     });    
 
     constructor(private fb: FormBuilder) {
@@ -104,7 +105,7 @@ export class AddAssetsModal {
 
     onSubmit() {
         const tokens = [];
-        if(this.selectedIndex == 0) {
+        if(this.selectedIndex == 0) { //FAB
             const token = {
                 type: '',
                 name: 'FAB',
@@ -115,29 +116,80 @@ export class AddAssetsModal {
             this.confirmedAssets.emit(tokens as [Token]);
             this.hide();            
             return;
-        }
-        
-        for (let i = 0; i < this.fabCoinsSelected.length; i++) {
-            const token = {
-                type: 'FAB',
-                address: this.fabTokens[this.fabCoinsSelected[i] - 1].contractAddress,
-                name: this.fabTokens[this.fabCoinsSelected[i] - 1].name,
-                symbol: this.ethTokens[this.fabCoinsSelected[i] - 1].symbol,
-                decimals: this.fabTokens[this.fabCoinsSelected[i] - 1].decimals
-            };
-            tokens.push(token);
+        } else
+        if(this.selectedIndex == 1) { //FAB token
+            const smartContractAddress = this.addAssetsForm.get('fabContractAddress').value;
+            const name = this.addAssetsForm.get('fabTokenName').value;
+            const symbol = this.addAssetsForm.get('fabTokenSymbol').value;
+            const decimals = this.addAssetsForm.get('fabTokenDecimals').value;
+            console.log('smartContractAddress=', smartContractAddress);
+            console.log('name=', name);
+            console.log('symbol=', symbol);
+            console.log('decimals=', decimals);
+
+            if(smartContractAddress && name && symbol && decimals) {
+                const token = {
+                    type: 'FAB',
+                    address: smartContractAddress,
+                    name: name,
+                    symbol: symbol,
+                    decimals: decimals
+                };
+                tokens.push(token);               
+            }
+        } else 
+        if(this.selectedIndex == 2) { //ETH token
+            const smartContractAddress = this.addAssetsForm.get('ethContractAddress').value;
+            const name = this.addAssetsForm.get('ethTokenName').value;
+            const symbol = this.addAssetsForm.get('ethTokenSymbol').value;
+            const decimals = this.addAssetsForm.get('ethTokenDecimals').value;
+            if(smartContractAddress && name && symbol && decimals) {
+                const token = {
+                    type: 'ETH',
+                    address: smartContractAddress,
+                    name: name,
+                    symbol: symbol,
+                    decimals: decimals
+                };
+                tokens.push(token);               
+            }
         }
 
-        for (let i = 0; i < this.ethCoinsSelected.length; i++) {
-            const token = {
-                type: 'ETH',
-                address: this.ethTokens[this.ethCoinsSelected[i] - 1].contractAddress,
-                name: this.ethTokens[this.ethCoinsSelected[i] - 1].name,
-                symbol: this.ethTokens[this.ethCoinsSelected[i] - 1].symbol,
-                decimals: this.ethTokens[this.ethCoinsSelected[i] - 1].decimals
-            };
-            tokens.push(token);
+
+        if(this.fabCoinsSelected && this.fabCoinsSelected.length > 0) {
+            for (let i = 0; i < this.fabCoinsSelected.length; i++) {
+                const fabToken = this.fabTokens[this.fabCoinsSelected[i] - 1];
+                if(fabToken) {
+                    const token = {
+                        type: 'FAB',
+                        address: fabToken.contractAddress,
+                        name: fabToken.name,
+                        symbol: fabToken.symbol,
+                        decimals: fabToken.decimals
+                    };
+                    tokens.push(token);
+                }
+
+            }
         }
+
+        if(this.ethCoinsSelected && this.ethCoinsSelected.length > 0) {
+            for (let i = 0; i < this.ethCoinsSelected.length; i++) {
+                const ethToken = this.ethTokens[this.ethCoinsSelected[i] - 1];
+                if(ethToken) {
+                    const token = {
+                        type: 'ETH',
+                        address: ethToken.contractAddress,
+                        name: ethToken.name,
+                        symbol: ethToken.symbol,
+                        decimals: ethToken.decimals
+                    };
+                    tokens.push(token);
+                }
+
+            }
+        }
+
 
         this.confirmedAssets.emit(tokens as [Token]);
         this.hide();

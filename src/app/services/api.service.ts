@@ -647,8 +647,10 @@ export class ApiService {
         return response;
     }
 
-    async getFabTokenBalance(name: string, address: string) {
-        let contractAddress = environment.addresses.smartContract[name];
+    async getFabTokenBalance(name: string, address: string, contractAddress?: string) {
+        if(!contractAddress) {
+            contractAddress = environment.addresses.smartContract[name];
+        }
         if(typeof contractAddress != 'string') {
             contractAddress = contractAddress['FAB'];
         }

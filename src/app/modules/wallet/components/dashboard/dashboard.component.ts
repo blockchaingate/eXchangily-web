@@ -586,9 +586,12 @@ export class WalletDashboardComponent implements OnInit {
                 }
 
             }
+
             if(coin.new) {
                 try {
+                    console.log('coin custom=', coin);
                     const balance = await this.coinServ.getBalance(coin);
+                    console.log('balance=', balance);
                     coin.balance = balance.balance;
                     coin.lockedBalance = balance.lockbalance;
 
@@ -1347,6 +1350,7 @@ export class WalletDashboardComponent implements OnInit {
                 if (this.wallet.mycoins[j].name === type) {
                     const baseCoin = this.wallet.mycoins[j];
                     const mytoken = this.coinServ.initToken(type, name, decimals, addr, baseCoin);
+                    mytoken.new = true;
                     this.wallet.mycoins.push(mytoken);
                     break;
                 }

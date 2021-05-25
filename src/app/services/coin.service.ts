@@ -434,15 +434,18 @@ export class CoinService {
             balance = balanceObj.balance / Math.pow(10, decimals);
             lockbalance = balanceObj.lockbalance / Math.pow(10, decimals);
         } else if (tokenType === 'FAB') {
+            console.log('haha');
             if (addr.indexOf('0x') < 0) {
                 addr = this.utilServ.fabToExgAddress(addr);
             }
             let balanceObj;
+            console.log('name=', name);
             if (name === 'EXG') {
                 balanceObj = await this.apiService.getExgBalance(addr);
             } else {
-                balanceObj = await this.apiService.getFabTokenBalance(name, addr);
+                balanceObj = await this.apiService.getFabTokenBalance(name, addr, contractAddr);
             }
+            console.log('balanceObj=', balanceObj);
             balance = balanceObj.balance / Math.pow(10, decimals);
             lockbalance = balanceObj.lockbalance / Math.pow(10, decimals);
         }
@@ -488,6 +491,7 @@ export class CoinService {
             const addr = myCoin.receiveAdds[i].address;
 
             const decimals = myCoin.decimals;
+            console.log('go get it');
             balance = await this.getBlanceByAddress(tokenType, contractAddr, coinName, addr, decimals);
 
             myCoin.receiveAdds[i].balance = balance.balance;
@@ -2498,9 +2502,13 @@ export class CoinService {
                 */
                contractAddress = environment.addresses.smartContract[mycoin.name];
                const addressType = typeof contractAddress;
-               if (addressType !== 'string') {
+               if (contractAddress && (addressType !== 'string')) {
                 contractAddress = contractAddress['FAB'];
                }
+               if(!contractAddress) {
+                   contractAddress = mycoin.contractAddr;
+               }
+               console.log('mycoin==', mycoin);
                console.log('contractAddresscontractAddresscontractAddress=', contractAddress);
                 // const keyPair = this.getKeyPairs(mycoin, seed, 0, 0);
 
