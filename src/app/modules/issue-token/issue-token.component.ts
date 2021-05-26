@@ -102,7 +102,7 @@ export class IssueTokenComponent  implements OnInit{
       
       return;
     }
-    if(this.balance < 50.4) {
+    if(this.balance < 52) {
       this.alertServ.openSnackBar(this.translateServ.instant('Not enough balance'), this.translateServ.instant('Ok'));
     }
     this.pinModal.show(); 
@@ -166,7 +166,7 @@ export class IssueTokenComponent  implements OnInit{
 
   deployFabSmartContract() {
     let abiHex = this.formCreateSmartContractABI();
-    let gasLimit = 8000000;
+    let gasLimit = 4000000;
     const gasPrice = 40;    
 
 
