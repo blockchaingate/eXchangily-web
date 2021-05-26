@@ -73,10 +73,17 @@
                 {{'Fee total' | translate}}: 
             </td>
             <td>
-                50.4FAB
+                54FAB
             </td>
         </tr>   
-
+        <tr>
+            <td class="text-right">
+                {{'Wallet balance' | translate}}: 
+            </td>
+            <td>
+                {{balance}}FAB
+            </td>
+        </tr>  
         <tr *ngIf="errMsg">
             <td class="text-right">
                 {{'Error' | translate}}: 

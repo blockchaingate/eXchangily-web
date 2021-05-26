@@ -18,6 +18,7 @@
                         </mat-tab>
                         
                         <mat-tab label="{{'FAB tokens'|translate}}">
+                            <!--
                             <mat-selection-list #fabtokens (selectionChange)="onFabSelection($event, fabtokens.selectedOptions.selected)">
                                 <mat-list-option *ngFor="let token of fabTokens; let i = index" [value]="i+1">
 
@@ -28,7 +29,7 @@
                                     {{"Custom"| translate}}
                                 </mat-list-option>
                             </mat-selection-list>
-
+-->
                             <div *ngIf="showFabCustom">
                                 <div class="form-group">
                                     <label for="inputSendTo" class="text-muted">{{"Contract Address"|translate}}</label>
@@ -50,7 +51,7 @@
                         </mat-tab>
                    
                         <mat-tab label="{{'Ethereum tokens'|translate}}">
-
+                            <!--
                             <mat-selection-list #ethtokens (selectionChange)="onEthSelection($event, ethtokens.selectedOptions.selected)">
                                 <mat-list-option *ngFor="let token of ethTokens; let i = index" [value]="i+1">
 
@@ -60,7 +61,7 @@
                                     {{"Custom"| translate}}
                                 </mat-list-option>
                             </mat-selection-list>
-
+-->
                             <div *ngIf="showEthCustom">
                                 <div class="form-group">
                                     <label for="inputSendTo" class="text-muted">{{"Contract Address"|translate}}</label>

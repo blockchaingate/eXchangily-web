@@ -16,8 +16,8 @@ export class AddAssetsModal {
     fabCoinsSelected = [];
     ethCoinsSelected = [];
     otherCoinsSelected = [];
-    showFabCustom = false;
-    showEthCustom = false;
+    showFabCustom = true;
+    showEthCustom = true;
 
     /*
     otherCoins = [

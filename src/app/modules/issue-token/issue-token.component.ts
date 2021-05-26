@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 import { FRC20 } from '../../config/frc20';
 import { ApiService } from 'src/app/services/api.service';
 import {IssueToken} from '../../interfaces/fab.interface';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-issue-token',
@@ -39,6 +40,7 @@ export class IssueTokenComponent  implements OnInit{
     private storageService: StorageService,
     private alertServ: AlertService,
     private apiServ: ApiService,
+    private translateServ: TranslateService,
     private coinServ: CoinService,
     private web3Serv: Web3Service) {}
 
@@ -100,6 +102,9 @@ export class IssueTokenComponent  implements OnInit{
       
       return;
     }
+    if(this.balance < 50.4) {
+      this.alertServ.openSnackBar(this.translateServ.instant('Not enough balance'), this.translateServ.instant('Ok'));
+    }
     this.pinModal.show(); 
   }
 
@@ -142,10 +147,11 @@ export class IssueTokenComponent  implements OnInit{
       };
       this.storageService.addIssueTokenTransaction(tx);
       this.txs.push(tx);
-      this.alertServ.openSnackBar('Your transaction was submitted.', 'Ok');
+      this.alertServ.openSnackBar(this.translateServ.instant('Your transaction was submitted.'), this.translateServ.instant('Ok'));
     } else
     if(errMsg) {
-      this.errMsg = errMsg;
+      this.alertServ.openSnackBar(errMsg, this.translateServ.instant('Ok'));
+      //this.errMsg = errMsg;
     }
   }
 
@@ -186,6 +192,7 @@ export class IssueTokenComponent  implements OnInit{
     const contractSize = contract.toJSON.toString().length;
     totalFee += this.utilServ.convertLiuToFabcoin(contractSize * 10);
 
+    console.log('totalFee==', totalFee);
     return {contract, totalFee};
   }  
 

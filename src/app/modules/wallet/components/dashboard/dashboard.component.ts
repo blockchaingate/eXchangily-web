@@ -1357,6 +1357,7 @@ export class WalletDashboardComponent implements OnInit {
             }
         }
         this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
+        this.alertServ.openSnackBar(this.translateServ.instant('Your asset was added successfully.'), this.translateServ.instant('Ok'));
     }
 
     async depositFab(currentCoin) {
