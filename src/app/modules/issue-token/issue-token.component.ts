@@ -54,11 +54,11 @@ export class IssueTokenComponent  implements OnInit{
     }  
 
     for (let i = 0; i < this.wallet.mycoins.length; i++) {
-      const coin = this.wallet.mycoins[i];
+      const coin: MyCoin = this.wallet.mycoins[i];
       if ((coin.name === 'FAB') && !coin.tokenType) {
         this.mycoin = coin;
-        const { balance, lockbalance } = await this.coinServ.getBalance(coin);
-        this.balance = balance;
+        //const { balance, lockbalance } = await this.coinServ.getBalance(coin);
+        this.balance = coin.balance;
         this.address = this.mycoin.receiveAdds[0].address;
         break;
       }
