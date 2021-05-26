@@ -114,7 +114,11 @@ export class AddAssetsModal {
             tokens.push(token);
 
             this.confirmedAssets.emit(tokens as [Token]);
-            this.hide();            
+            this.hide();   
+            
+            this.addAssetsForm.patchValue({
+                fabPrivateKey: ''
+            });           
             return;
         } else
         if(this.selectedIndex == 1) { //FAB token
@@ -122,10 +126,7 @@ export class AddAssetsModal {
             const name = this.addAssetsForm.get('fabTokenName').value;
             const symbol = this.addAssetsForm.get('fabTokenSymbol').value;
             const decimals = this.addAssetsForm.get('fabTokenDecimals').value;
-            console.log('smartContractAddress=', smartContractAddress);
-            console.log('name=', name);
-            console.log('symbol=', symbol);
-            console.log('decimals=', decimals);
+
 
             if(smartContractAddress && name && symbol && decimals) {
                 const token = {
@@ -135,7 +136,14 @@ export class AddAssetsModal {
                     symbol: symbol,
                     decimals: decimals
                 };
-                tokens.push(token);               
+                tokens.push(token);    
+                
+                this.addAssetsForm.patchValue({
+                    fabContractAddress: '',
+                    fabTokenName: '',
+                    fabTokenSymbol: '',
+                    fabTokenDecimals: 18
+                });
             }
         } else 
         if(this.selectedIndex == 2) { //ETH token
@@ -151,7 +159,14 @@ export class AddAssetsModal {
                     symbol: symbol,
                     decimals: decimals
                 };
-                tokens.push(token);               
+                tokens.push(token);    
+                
+                this.addAssetsForm.patchValue({
+                    ethContractAddress: '',
+                    ethTokenName: '',
+                    ethTokenSymbol: '',
+                    ethTokenDecimals: 18
+                });           
             }
         }
 
