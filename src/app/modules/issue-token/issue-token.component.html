@@ -3,24 +3,32 @@
     <table>
         <tr>
             <td class="text-right">
-                token type: 
+                {{'Token type' | translate}}: 
             </td>
             <td>
-                固定总量FRC-20
+                {{'FRC20 token' | translate}}
+                
             </td>
         </tr>
+        <tr></tr>
         <tr>
             <td class="text-right">
-                description: 
+                {{'Description' | translate}}: 
             </td>
             <td>
-                在合约部署时创建总供应，使供应量固定不变，永不增发。了解更多固定总量
-                <a href="/issue/frc20" target="_blank">FRC20代币</a>
+                <div>
+                    {{'The total supply is created when the contract is deployed, so that the supply is fixed and will never be issued.' | translate}}
+                </div>
+                <div>
+                    {{'Learn more about ' | translate}}<a href="/issue/frc20" target="_blank">{{'FRC20 token' | translate}}</a>
+                </div>
+                 
+                
             </td>
         </tr>        
         <tr>
             <td class="text-right">
-                Name: 
+                {{'Token name' | translate}}: 
             </td>
             <td>
                 <mat-form-field class="example-full-width">
@@ -30,7 +38,7 @@
         </tr>  
         <tr>
             <td class="text-right">
-                Symbol: 
+                {{'Token symbol' | translate}}: 
             </td>
             <td>
                 <mat-form-field class="example-full-width">
@@ -40,7 +48,7 @@
         </tr>    
         <tr>
             <td class="text-right">
-                Total supply: 
+                {{'Total supply' | translate}}: 
             </td>
             <td>
                 <mat-form-field class="example-full-width">
@@ -51,7 +59,7 @@
        
         <tr>
             <td class="text-right">
-                Decimal: 
+                {{'Token decimals' | translate}}: 
             </td>
             <td>
                 <mat-form-field class="example-full-width">
@@ -62,7 +70,7 @@
 
         <tr>
             <td class="text-right">
-                Fee total: 
+                {{'Fee total' | translate}}: 
             </td>
             <td>
                 50.4FAB
@@ -71,7 +79,7 @@
 
         <tr *ngIf="errMsg">
             <td class="text-right">
-                Error: 
+                {{'Error' | translate}}: 
             </td>
             <td>
                 {{errMsg}}

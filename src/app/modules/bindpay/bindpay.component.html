@@ -1,0 +1,47 @@
+<div class="row d-flex justify-content-center">
+    <div class="form">
+
+        <div *ngIf="!transactionHistory" class="main-container">
+                <label for="fname">{{'Coin' | translate }}</label>
+                <select id="coin" name="coin" class="coin" [(ngModel)]="coin">
+                    <ng-container *ngFor="let token of mytokens; let i=index">
+                        <option *ngIf="token.unlockedAmount > 0" [value]="token.coinType">
+                            {{coinServ.getCoinNameByTypeId(token.coinType)}}
+                            ({{utilServ.toNumber(utilServ.showAmount(token.unlockedAmount, 18))}})
+                        </option>                       
+                    </ng-container>
+    
+                </select>
+
+            <label for="address">{{'Receive address' | translate}}<small>({{'Receive address in eXchangily' | translate}})</small></label>
+            
+            <input type="text" [(ngModel)]="receiverAddress" id="receiverAddress" name="receiverAddress" placeholder="{{'Receiver\'s address' | translate}}">
+
+                <label for="amount">{{'Amount' | translate}}</label>
+                <input type="text" [(ngModel)]="amount" id="amount" name="amount" placeholder="{{'Transfer amount' | translate}}">    
+
+        </div>
+        <div *ngIf="transactionHistory" class="w-100">
+
+            <app-bindpay-transaction-history [transactionHistories]="transactionHistories"></app-bindpay-transaction-history>
+
+        </div>
+        <div class="py-3 d-flex justify-content-between">
+            <div>
+                <button class="button px-3 mx-3" (click)="confirmTransfer()">{{'BindPay' | translate}}</button>
+            </div>
+
+            <div>
+                <modal-receive-coin [address]="exAddress"></modal-receive-coin>
+            </div>
+
+            <div>
+                <button class="button px-3 mx-3" (click)="showTransactionHisotry()">{{'Transaction History' | translate}}</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>

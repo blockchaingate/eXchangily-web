@@ -16,6 +16,7 @@ import { from } from 'rxjs';
 import { AppIntroComponent } from './modules/app-intro/app-intro.component';
 import { AnnouncementComponent } from './components/help/announcement/announcement/announcement.component';
 import { AnnouncementListComponent } from './components/help/announcement/announcement-list/announcement-list.component';
+import { BindpayComponent } from './modules/bindpay/bindpay.component';
 // import { CoininfoComponent } from './components/coin/coin-info.component';
 
 const routes: Routes = [
@@ -55,6 +56,10 @@ const routes: Routes = [
     path: 'issue',
     loadChildren: () => import('./modules/issue-token/issue-token.module').then(m => m.IssueTokenModule)
   },  
+  {
+    path: 'bindpay',
+    loadChildren: () => import('./modules/bindpay/bindpay.module').then(m => m.BindpayModule)
+  },
   {
     path: 'market',
     loadChildren: () => import('./modules/market/market.module').then(m => m.MarketModule),

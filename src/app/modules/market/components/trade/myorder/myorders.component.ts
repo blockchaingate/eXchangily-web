@@ -201,22 +201,9 @@ export class MyordersComponent implements OnInit, OnDestroy {
         );
     }
 
-    showTransactionHisotry() {
-        this.transactionHistory = true;
-        const address = this.wallet.excoin.receiveAdds[0].address;
-        const fabAddress = this.utilServ.exgToFabAddress(address);
-        this.kanbanServ.getTransactionHistory(fabAddress).subscribe(
-            (res: any) => {
-                if(res && res.success) {
-                    this.transactionHistories = res.data.reverse();
-                }
-            }
-        );
-    }
 
-    showTxid(txid: string) {
-        return txid.substring(0, 4) + '...' + txid.substring(txid.length - 2);
-    }
+
+
     async withdrawDo() {
         const amount = this.withdrawAmount;
         const pin = this.pin;
@@ -570,94 +557,12 @@ export class MyordersComponent implements OnInit, OnDestroy {
             this.withdrawDo();
         } else if (this.opType === 'deleteOrder') {
             this.deleteOrderDo();
-        } else if (this.opType === 'transfer') {
-            this.transferDo();
         }
 
     }
 
-    async transferDo() {
-        //console.log('transferDo start');
-        const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
-        const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
-        let toAddressLegacy = '';
-        try {
-            toAddressLegacy = exaddr.toLegacyAddress(this.address);
-            //console.log('toAddressLegacy===', toAddressLegacy);
-        } catch(e) {
 
-        }
-        
-        if(!toAddressLegacy) {
-            if (this.lan === 'zh') {
-                this.alertServ.openSnackBar('收款地址格式不对。', 'Ok');
-            } else {
-                this.alertServ.openSnackBar('The format of the payment address is incorrect.', 'Ok');
-            }
 
-            return;            
-        }
-
-        console.log('toAddressLegacy===', toAddressLegacy);
-        const abiHex = this.web3Serv.getTransferFuncABI(this.coin, this.utilServ.fabToExgAddress(toAddressLegacy), this.amount);
-        console.log('abiHex for getTransferFuncABI=', abiHex);
-        const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
-
-        const address = await this.kanbanServ.getCoinPoolAddress();
-        const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce);
-        console.log('txhex=', txhex);
-        this.kanbanServ.sendRawSignedTransaction(txhex).subscribe((resp: any) => {
-            console.log('resp=', resp);
-            if (resp && resp.transactionHash) {
-
-                this.timerServ.checkTokens(keyPairsKanban.address, 10);
-
-                // this.tradeService.saveTransactions(this.openorders);
-                // this.kanbanServ.incNonce();
-                if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('转账请求提交成功，等待区块链处理。', 'Ok');
-                } else {
-                    this.alertServ.openSnackBar('Transfer request is pending.', 'Ok');
-                }
-            }
-        },
-            (error) => {
-                if (error.error) {
-                    this.alertServ.openSnackBar(error.error, 'Ok');
-                }
-
-            });
-    }
-
-    confirmTransfer() {
-        this.transactionHistory = false;
-        if(!this.coin && (this.mytokens.length > 0)) {
-            this.coin = this.mytokens[0];
-        }
-        for (let i = 0; i < this.mytokens.length; i++) {
-            if (this.mytokens[i].coinType == this.coin) {
-                this.token = this.mytokens[i];
-                break;
-            }
-        }
-        if (!this.token) {
-            console.log('this.token not found');
-            return;
-        }
-        console.log(this.utilServ.toNumber(this.utilServ.showAmount(this.token.unlockedAmount, 18)));
-        if (this.amount > this.utilServ.toNumber(this.utilServ.showAmount(this.token.unlockedAmount, 18))) {
-            if (this.lan === 'zh') {
-                this.alertServ.openSnackBar('余额不足。', 'Ok');
-            } else {
-                this.alertServ.openSnackBar('Not enough balance.', 'Ok');
-            }
-
-            return;
-        }
-        this.opType = 'transfer';
-
-        this.pinModal.show();
-    }
 
     async deleteOrderDo() {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);

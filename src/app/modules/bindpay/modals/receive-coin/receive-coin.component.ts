@@ -1,6 +1,6 @@
 import { Component, TemplateRef, Input} from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import * as exaddr from '../../../../../../lib/exaddr';
+import * as exaddr from '../../../../lib/exaddr';
 
 @Component({
     selector: 'modal-receive-coin',
@@ -16,8 +16,8 @@ export class ReceiveCoinModal {
 
     }
     openModal(template: TemplateRef<any>) {
-        console.log('this.address=', this.address);
-        this.exAddr = exaddr.toKbpayAddress(this.address);
+        console.log('this.addresseeee=', this.address);
+        this.exAddr = this.address;
         this.modalRef = this.modalService.show(template);
     }  
 
