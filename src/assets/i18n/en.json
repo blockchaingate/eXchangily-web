@@ -1115,7 +1115,6 @@
     "Team Investment": "Team Investment",
     "Rewards(EXG)": "Rewards(EXG)",
     "Deposit amount": "Deposit amount",
-    "Kanban Transaction fee": "Kanban Transaction fee",
     "Transaction fee advanced": "Transaction fee advanced",
     "$50K": "$50K",
     "FAB address transformer": "FAB address transformer",
@@ -1302,6 +1301,6 @@
     "Important Notice txt": "The registration and login options here are just for the convenience of users to participate in our campaigns. We will only record your wallet address when you register, so that we can send you cryptocurrency. And we will never record your private key information. Our entire project is completely decentralized and open source. You can find and view our code through github.",
     "EpayNote": "Make payment through Epay global payment.",
     "CashAppNote": "Make payment through Cash App.",
-    "Gas balance in Exchange": "Gas balance in Exchange",
+    "Kanban Gas": "Kanban Gas",
     "User manual": "User manual"
 }

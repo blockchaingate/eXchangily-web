@@ -1239,7 +1239,7 @@
     "Listing": "挂单",
     "Not enough fund": "余额不足",
     "Ok": "确认",
-    "Kanban Transaction fee": "看板交易费",
+    "Kanban Gas": "看板交易费",
     "Deposit amount": "转账数量",
     "Transaction fee advanced": "高级设置",
     "Gas amount": "燃料数量",
@@ -1336,7 +1336,7 @@
     "Kanban Explorer": "区块链浏览器",
     "Tx Count": "交易计数器",
     "Receive address": "收款地址",
-    "Kanban Gas Balance": "交易所燃料余额",
+    "Kanban Gas": "看板燃料",
     "OrdersCount": "个订单",
     "Transfer": "转账",
     "Scan to pay with Cash App, or pay to $exchangily directly with Cash App. Please click \"Marked as paid\" button after payment finished": "用Cash App扫描并支付，或者直接用Cash App给$exchangily转账。支付或转账完成后，请点击“确认付款”按钮",
@@ -1609,6 +1609,5 @@
     "Update": "更新",
     "Team": "团队",
     "Assets": "数字资产",
-    "Gas balance in Exchange": "交易所燃料余额",
     "User manual": "用户手册"
 }
