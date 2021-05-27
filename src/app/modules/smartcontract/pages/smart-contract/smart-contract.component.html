@@ -18,13 +18,14 @@
                                 <input matInput [(ngModel)]="smartContractAddress" name="smartContractAddress">
                                 <mat-placeholder class="text-muted">{{'Smart contract address' | translate}}</mat-placeholder>
                             </mat-form-field>
-                            <mat-form-field>
+                            <mat-form-field class="example-full-width">
                                 <mat-label class="text-muted">{{'Function' | translate}}</mat-label>
-                                <mat-select (selectionChange)="changeMethod($event.value)" [value]="abiName">
+                                <mat-select (selectionChange)="changeMethod($event.value)" [value]="abiName" *ngIf="contractName != 'Custom'">
                                     <mat-option *ngFor="let abi of ABI" [value]="abi.name" class="text-muted">
                                         {{abi.name}}
                                     </mat-option>
                                 </mat-select>
+                                <textarea matInput rows="8" *ngIf="contractName == 'Custom'" [(ngModel)]="customAbi" (input)="inputCustomAbi($event)" name="customAbi"></textarea>
                             </mat-form-field>
 
                             <mat-form-field class="example-full-width">

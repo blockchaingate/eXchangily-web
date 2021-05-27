@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ɵRender3NgModuleRef } from '@angular/core';
 
 import { PinNumberModal } from '../../../shared/modals/pin-number/pin-number.modal';
 import { Wallet } from '../../../../models/wallet';
@@ -27,6 +27,7 @@ export class SmartContractComponent implements OnInit {
   action: string;
   abiName: string;
   txid: string;
+  customAbi: string;
   contractName: string;
   smartContractName: string;
   result: string;
@@ -65,7 +66,8 @@ export class SmartContractComponent implements OnInit {
     'EXG',
     'DSC',
     'BST',
-    'Fab Lock For EXG Airdrop'
+    'Fab Lock For EXG Airdrop',
+    'Custom'
   ];
   ABI = [];
   constructor(
@@ -86,8 +88,8 @@ export class SmartContractComponent implements OnInit {
     if(name === 'Fab Lock For EXG Airdrop') {
       this.smartContractAddress =  environment.addresses.smartContract.FABLOCK;
     } else
-    if(name === 'Deploy') {
-      this.smartContractAddress = '0x0';
+    if(name === 'Custom') {
+      this.smartContractAddress = '';
     } else {
       this.smartContractAddress = environment.addresses.smartContract[name].FAB;
     }
@@ -262,14 +264,7 @@ export class SmartContractComponent implements OnInit {
     this.renderMethod(val);
   }
 
-  
-  renderMethod(method: string) {
-
-    const def = this.getMethodDefinition(this.ABI, method);
-    console.log('def===', def);
-    if(!def) {
-      return;
-    }
+  renderAbi(def: any) {
     const inputs = def.inputs;
     if(inputs && inputs.length > 0) {
       for(let i=0;i<inputs.length;i++) {
@@ -283,9 +278,23 @@ export class SmartContractComponent implements OnInit {
         }      
       }
     }
-
-
     this.method = def;
+  }
+
+  inputCustomAbi(event) {
+    const def = JSON.parse(this.customAbi);
+    this.renderAbi(def);
+  }
+  
+  renderMethod(method: string) {
+
+    const def = this.getMethodDefinition(this.ABI, method);
+    console.log('def===', def);
+    if(!def) {
+      return;
+    }
+    this.renderAbi(def);
+
     /*
     console.log('def=', def);
     if (canRenderMethodParams(this.ABI, method)) {
