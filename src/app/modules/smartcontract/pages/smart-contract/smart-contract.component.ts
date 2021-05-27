@@ -174,18 +174,21 @@ export class SmartContractComponent implements OnInit {
     }
   }
 
+  formTypes(abi) {
+    for (let j = 0; j < abi.inputs.length; j ++) {
+      const input = abi.inputs[j];
+      const type = input.type;
+      if (this.types.includes(type)) {
+        continue;
+      }
+      this.types.push(type);
+    }
+  }
   getFunctionABI(ABI: any) {
     const retABI = ABI.filter((abi) => abi.type === 'function');
     for (let i = 0; i < retABI.length; i++) {
       const item = retABI[i];
-      for (let j = 0; j < item.inputs.length; j ++) {
-        const input = item.inputs[j];
-        const type = input.type;
-        if (this.types.includes(type)) {
-          continue;
-        }
-        this.types.push(type);
-      }
+      this.formTypes(item);
     }
     return retABI;
   }
@@ -283,6 +286,7 @@ export class SmartContractComponent implements OnInit {
 
   inputCustomAbi(event) {
     const def = JSON.parse(this.customAbi);
+    this.formTypes(def);
     this.renderAbi(def);
   }
   
