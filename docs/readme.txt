@@ -1,19 +1,4 @@
-55680.68797
-
-55629.49559
-
-
-c8e61b84e6176bc373c274a24acf3b0b3f5463b5f4a62bb1dc396b7f57fe8802
-
-https://github.com/LimelabsTech/eth-ecies
-
-transaction id:
-8e1c35fdc2c7cf0c7246424a10a2c7b93144fd9f69fc8b0371474b3cd93d5059
-
-DSC
-
-erc721
-
+4e9c689a2f536a5c01ac7dee2d5c5f0cdd5125054034b320d0ee63c412d6135f
 
 
 DSC FAB:

@@ -30,6 +30,7 @@ export class SmartContractComponent implements OnInit {
   customAbi: string;
   contractName: string;
   smartContractName: string;
+  currentTabIndex: number;
   result: string;
   error: string;
   newSmartContractAddress: string;
@@ -193,8 +194,13 @@ export class SmartContractComponent implements OnInit {
     return retABI;
   }
 
-  async ngOnInit() {
+  tabChanged(event) {
+    console.log('event=', event);
+    this.currentTabIndex = event.index;
+  }
 
+  async ngOnInit() {
+    this.currentTabIndex = 0;
     this.action = '';
     this.lockerHashes = [];
     this.gasLimit = 1000000;
@@ -647,6 +653,7 @@ export class SmartContractComponent implements OnInit {
     }
 
   
+    console.log('smartContractAddress123==', smartContractAddress);
     const contractSize = contract.toJSON.toString().length;
     totalFee += this.utilServ.convertLiuToFabcoin(contractSize * 10);
 
