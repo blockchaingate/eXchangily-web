@@ -1,53 +1,63 @@
 <div class="app-home">
 
-    <div class="app-home__hero">
+    <!-- <div class="app-section app-home__hero">
 
-        <div class="topslogan">
-            <div class="app-home__hero__content max-out">
-                <div class="app-home__hero-text">
-                    <div class="center txtarea titalarea">
-                        <div class="left app-home__hero__title">{{ 'Home.Top.Hero.Line1' | translate }}</div>
-                        <div class="left app-home__hero__title2">{{ 'Home.Top.Hero.Line2' | translate }}</div>
+        <mat-grid-list cols="2" rowHeight="2:1">
+            <mat-grid-tile>
+                <div class="topslogan">
+                    <div class="app-home__hero__content max-out">
+                        <div class="app-home__hero-text">
+                            <div class="center txtarea titalarea">
+                                <div class="left app-home__hero__title">{{ 'Home.Top.Hero.Line1' | translate }}</div>
+                                <div class="left app-home__hero__title2">{{ 'Home.Top.Hero.Line2' | translate }}</div>
+                            </div>
+                        </div>
+        
+                        <div class="center app-home__hero__download">
+                            <a class="button secondary" [href]="whitepaper" target="_blank">
+                                {{ 'Home.Top.WhitepaperButton' | translate }}</a>
+                        </div>
+        
+                        <div class="center app-home__hero__whitelist">
+                            <!- <input class="input" type="email" placeholder="Your Email"> -->
+                            <!-- <a class="button white" href="https://visitor.r20.constantcontact.com/d.jsp?llr=olhycf6ab&amp;p=oi&amp;m=1130820803950&amp;sit=cklb98qmb&amp;f=2c910e35-5262-4d86-9b78-956cc6db860c" target="_blank">{{ 'Home.Top.WhitelistCTA.Button' | translate }}</a> ->
+                            <a href="subscription" class="button secondary">{{ 'Subscribe for Updates' | translate }}</a>
+                        </div>
+                        <!- <div clas="row center">
+                            <div class="store-link-box">
+                                <a href="https://apps.apple.com/ca/app/exchangily-dex-wallet/id1503068552?mt=8"
+                                    style="display:inline-block;overflow:hidden;background:url(https://linkmaker.itunes.apple.com/en-us/badge-lrg.svg?releaseDate=2020-03-23&kind=iossoftware&bubble=ios_apps) no-repeat;width:135px;height:40px;"></a>
+                                <img src="images/qrcode/exg-ios.svg" width="134px">
+                            </div>
+        
+                            <div class="store-link-box">
+                                <a href='https://play.google.com/store/apps/details?id=com.exchangily.wallet' target="_blank">
+                                    <img alt='Get it on Google Play'
+                                        src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'
+                                        width="155px">
+                                </a>
+                                <img class="ml-2" style="margin-top: -4px" src="images/qrcode/exg-android.svg" width="134px">
+                            </div>
+                        </div>
+        
                     </div>
                 </div>
+            </mat-grid-tile>
 
-                <div class="center app-home__hero__download">
-                    <a class="button secondary" [href]="whitepaper" target="_blank">
-                        {{ 'Home.Top.WhitepaperButton' | translate }}</a>
-                </div>
-
-                <div class="center app-home__hero__whitelist">
-                    <!-- <input class="input" type="email" placeholder="Your Email"> -->
-                    <!-- <a class="button white" href="https://visitor.r20.constantcontact.com/d.jsp?llr=olhycf6ab&amp;p=oi&amp;m=1130820803950&amp;sit=cklb98qmb&amp;f=2c910e35-5262-4d86-9b78-956cc6db860c" target="_blank">{{ 'Home.Top.WhitelistCTA.Button' | translate }}</a> -->
-                    <a href="subscription" class="button secondary">{{ 'Subscribe for Updates' | translate }}</a>
-                </div>
-                <!-- <div clas="row center">
-                    <div class="store-link-box">
-                        <a href="https://apps.apple.com/ca/app/exchangily-dex-wallet/id1503068552?mt=8"
-                            style="display:inline-block;overflow:hidden;background:url(https://linkmaker.itunes.apple.com/en-us/badge-lrg.svg?releaseDate=2020-03-23&kind=iossoftware&bubble=ios_apps) no-repeat;width:135px;height:40px;"></a>
-                        <img src="images/qrcode/exg-ios.svg" width="134px">
-                    </div>
-
-                    <div class="store-link-box">
-                        <a href='https://play.google.com/store/apps/details?id=com.exchangily.wallet' target="_blank">
-                            <img alt='Get it on Google Play'
-                                src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'
-                                width="155px">
-                        </a>
-                        <img class="ml-2" style="margin-top: -4px" src="images/qrcode/exg-android.svg" width="134px">
-                    </div>
-                </div> -->
-
-            </div>
-        </div>
-        <div class="wpb_wrapper"> <canvas id="c" style="position: absolute; top: 0; left: 0; width:100%; height:100%; background-color: #333333;" width="1333" height="849"></canvas>
-        </div>
-    </div>
+            <mat-grid-tile>
+                <object class="img_landing" type="image/svg+xml" data="/images/landing_animation.svg">
+    
+                    <img class="img_landing" src="/images/landing_animation.svg" />
+                    
+                </object>
+            </mat-grid-tile>
+          </mat-grid-list>
+    </div> -->
 
 
 
     <!-- overview -->
-    <div class="app-home__overview">
+    <div class="app-section app-home__overview">
         <div class="row  max-out">
 
 
@@ -85,7 +95,7 @@
 
 
     <!-- How it Works TODO -->
-    <div class="app-home__how">
+    <div class="app-section app-home__how">
         <div class="max-out" fxLayout="row" fxLayoutAlign="center">
             <div class="col-md-12">
                 <h2 class="center app-home__title">{{ 'Home.Why.Title' | translate }}</h2>
@@ -108,9 +118,55 @@
         </div>
     </div>
 
+    <div class="app-section app-home__hero">
+
+        <mat-grid-list cols="2" rowHeight="2:1">
+            <mat-grid-tile class = "tile_left">
+                <div class="topslogan">
+                    <div class="app-home__hero__content max-out">
+                        <div class="app-home__hero-text">
+                            <div class="center txtarea titalarea">
+                                <div class="left app-home__hero__title">{{ 'Home.OTC.Title' | translate }}</div>
+                            </div>
+                        </div>
+        
+                        <div class="center app-home__hero__download">
+                            <a href="/otc/trade"><button class="button"><span>{{ 'Home.OTC.Sub' | translate }} </span></button></a>
+                        </div>
+                        <!-- <div clas="row center">
+                            <div class="store-link-box">
+                                <a href="https://apps.apple.com/ca/app/exchangily-dex-wallet/id1503068552?mt=8"
+                                    style="display:inline-block;overflow:hidden;background:url(https://linkmaker.itunes.apple.com/en-us/badge-lrg.svg?releaseDate=2020-03-23&kind=iossoftware&bubble=ios_apps) no-repeat;width:135px;height:40px;"></a>
+                                <img src="images/qrcode/exg-ios.svg" width="134px">
+                            </div>
+        
+                            <div class="store-link-box">
+                                <a href='https://play.google.com/store/apps/details?id=com.exchangily.wallet' target="_blank">
+                                    <img alt='Get it on Google Play'
+                                        src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'
+                                        width="155px">
+                                </a>
+                                <img class="ml-2" style="margin-top: -4px" src="images/qrcode/exg-android.svg" width="134px">
+                            </div>
+                        </div> -->
+        
+                    </div>
+                </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile class = "tile_right">
+                <object class="img_landing" type="image/svg+xml" data="/images/landing_animation.svg">
+    
+                    <img class="img_landing" src="/images/landing_animation.svg" />
+                    
+                </object>
+            </mat-grid-tile>
+          </mat-grid-list>
+    </div>
+
 
     <!-- APP -->
-    <div class="app-home__app">
+    <div class="app-section app-home__app">
         <div class="row  max-out">
 
             <div class="col-md-6 exchangily-app-screen-shot">
@@ -142,7 +198,7 @@
     </div>
 
     <!-- STAY IN TOUCH -->
-    <div class="app-home__social app-home__section2">
+    <div class="app-section app-home__social app-home__section2">
         <div class=" max-out">
             <h2 class="center app-home__title">{{ 'Home.Social.Title' | translate }}</h2>
             <div class="title2">{{ 'Home.Social.TitleSub' | translate }}</div>
@@ -150,42 +206,42 @@
                 <div class="col-md-2 col-sm-4 col-xs-6 content">
                     <div class="social tele">
                         <img _ngcontent-qie-c102="" src="./images/social/telegram-w.png">
-                        <div class="title">Telegram EN1</div>
+                        <div class="sm-title">Telegram EN1</div>
                         <a href="https://t.me/fabtoken"><button class="button"><span>{{ 'Home.Social.Button' | translate }} </span></button></a>
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-4 col-xs-6 content">
                     <div class="social tele">
                         <img _ngcontent-qie-c102="" src="./images/social/telegram-w.png">
-                        <div class="title">Telegram EN2</div>
+                        <div class="sm-title">Telegram EN2</div>
                         <a href="https://t.me/exchangily_chat"><button class="button"><span>{{ 'Home.Social.Button' | translate }} </span></button></a>
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-4 col-xs-6 content">
                     <div class="social tele">
                         <img _ngcontent-qie-c102="" src="./images/social/telegram-w.png">
-                        <div class="title">Telegram ZH1</div>
+                        <div class="sm-title">Telegram ZH1</div>
                         <a href="https://t.me/Fabcn"><button class="button"><span>{{ 'Home.Social.Button' | translate }} </span></button></a>
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-4 col-xs-6 content">
                     <div class="social tele">
                         <img _ngcontent-qie-c102="" src="./images/social/telegram-w.png">
-                        <div class="title">Telegram ZH2</div>
+                        <div class="sm-title">Telegram ZH2</div>
                         <a href="https://t.me/exchangily1"><button class="button"><span>{{ 'Home.Social.Button' | translate }} </span></button></a>
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-4 col-xs-6 content">
                     <div class="social facebook">
                         <img _ngcontent-qie-c102="" src="./images/social/facebook-w.png">
-                        <div class="title">Facebook</div>
+                        <div class="sm-title">Facebook</div>
                         <a href="https://www.facebook.com/Exchangily-439040053240813"><button class="button"><span>{{ 'Home.Social.Button' | translate }} </span></button></a>
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-4 col-xs-6 content">
                     <div class="social twitter">
                         <img _ngcontent-qie-c102="" src="./images/social/twitter-w.png">
-                        <div class="title">Twitter</div>
+                        <div class="sm-title">Twitter</div>
                         <a href="https://twitter.com/ExchangilyC"><button class="button"><span>{{ 'Home.Social.Button' | translate }} </span></button></a>
                     </div>
                 </div>

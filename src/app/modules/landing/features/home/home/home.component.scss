@@ -5,7 +5,7 @@ h1,
 h2,
 h3,
 h4 {
-    font-family: Verdana, sans-serif, SimHei, "Microsoft YaHei";
+    font-family: Lato, Verdana, sans-serif, SimHei, "Microsoft YaHei";
 }
 
 .store-link-box {
@@ -20,19 +20,54 @@ h4 {
     background-size: 100% auto;
     background-position: left bottom;
     z-index: 999;
+    margin:0;
     position: relative;
+    display:inline-block;
+    -webkit-align-items: center; /* Safari 7.0+ */
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+
+@media (max-width: 991px) {
+
+    .app-section {
+        margin: 10px !important;
+    }
+    
+    .app-home {
+        width: 98% !important;
+    }
+    .img_landing{
+        left: 55px !important;
+    }
+
+}
+
+.app-section {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    margin: 50px;
+    padding: 10px;
+    border-radius: 50px;
+    background-color: white;
 }
 
 .app-home {
+    width: 65%;
+    margin: 0 auto;
+
     &__title {
-        color: #fff;
+        color: #5043bd;
         font-size: 50px;
     }
 
     &__paragraph {
         margin: 1em auto;
         font-size: 15px;
-        color: #eee;
+        color: #3f387a;
         // max-width: 35em;
     }
     &__section {
@@ -63,10 +98,10 @@ h4 {
     &__hero {
         // margin-bottom: 2em;
         // min-height: 12em;
-        height: 100vh;
+        // height: 100vh;
         overflow: hidden;
-        width: 100%;
-        background: linear-gradient(45deg, #560267, #000066);
+        // width: 100%;
+        background: white;
         &__content {
             @include padding-default;
         }
@@ -76,13 +111,44 @@ h4 {
             //     height: 4em;
             // }
         }
+        .button {
+            border-radius: 20px;
+            background: linear-gradient(to right, #cd45ff 0%, #7368ff 50%, #cd45ff 100%);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+            border: none;
+            color: #ffffff;
+            text-align: center;
+            font-size: 20px;
+            padding: 20px 10px;
+            width: 200px;
+            -webkit-transition: all 450ms ease-in-out;
+            -moz-transition: all 450ms ease-in-out;
+            -o-transition: all 450ms ease-in-out;
+            -ms-transition: all 450ms ease-in-out;
+            transition: all 450ms ease-in-out;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+        .button:hover {
+            background: linear-gradient(to right, #7368ff 50%, #cd45ff 100%);
+            box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+        }
+        &__content {
+            -webkit-align-items: center; /* Safari 7.0+ */
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            vertical-align: middle;
+            top:50%; 
+        }
         &__title {
-            font-family: Verdana, sans-serif, SimHei, "Microsoft YaHei";
+            font-family: Lato, Verdana, sans-serif, SimHei, "Microsoft YaHei";
             // font-size: 2.1em;
-            color: $white;
+            color: #5043bd;
             margin-top: 1em;
             margin-bottom: 0;
-            font-size: 80px;
+            font-size: 50px;
             font-weight: 800;
             text-align: center;
         }
@@ -100,7 +166,7 @@ h4 {
         }
 
         &__title2 {
-            font-family: Verdana, sans-serif, SimHei, "Microsoft YaHei";
+            font-family: Lato, Verdana, sans-serif, SimHei, "Microsoft YaHei";
             font-size: 1.1em;
             color: $white;
             margin-bottom: 1em;
@@ -141,7 +207,6 @@ h4 {
     //What is eXchangily
     &__overview {
         overflow: hidden;
-        background: linear-gradient(135deg, #560267, #000066);
         .mdcenter {
             position: relative;
             top: 50%;
@@ -158,8 +223,10 @@ h4 {
         }
 
         .button {
-            border-radius: 4px;
-            background-color: #5043bd;
+            border-radius: 20px;
+            background: linear-gradient(to right, #cd45ff 0%, #7368ff 50%, #cd45ff 100%);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            transition: all 0.3s cubic-bezier(.25,.8,.25,1);
             border: none;
             color: #ffffff;
             text-align: center;
@@ -176,7 +243,8 @@ h4 {
         }
 
         .button:hover {
-            background-color: #6958f1;
+            background: linear-gradient(to right, #7368ff 50%, #cd45ff 100%);
+            box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
         }
 
         .button span {
@@ -230,6 +298,7 @@ h4 {
     //Why eXchangily
     &__how {
         padding: 100px 0;
+        background: linear-gradient(135deg, #e15dfb, #a5a5ff);
         .video-image {
             padding-top: 30px;
 
@@ -288,7 +357,7 @@ h4 {
     //app screenshot
     &__app {
         padding: 60px 0px;
-        background: linear-gradient(-45deg, #560267, #000066);
+        background: linear-gradient(-45deg, #e470fb, #6b6bff);
         // @include padding-default;
         // @include linear-gradient(90deg, $yellow-pink-grad);
         .exchangily-app-screen-shot {
@@ -319,7 +388,7 @@ h4 {
         }
 
         .title2 {
-            color: #eee;
+            color: #5043bd;
             padding-bottom: 40px;
             font-size: 14px;
             text-align: center;
@@ -349,6 +418,9 @@ h4 {
 
         
 
+        .social:hover {
+            box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+        }
         .social {
             -webkit-transition: all 450ms ease-in-out;
             -moz-transition: all 450ms ease-in-out;
@@ -356,9 +428,12 @@ h4 {
             -ms-transition: all 450ms ease-in-out;
             transition: all 450ms ease-in-out;
             text-align: center;
-            border-radius: 5px;
+            border-radius: 20px;
             // background-color: #303052;
             padding: 30px 0;
+
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 
             img {
                 width: 30px;
@@ -516,4 +591,32 @@ h4 {
 
 .ng-star-inserted {
     display: none;
+}
+
+mat-grid-list{
+    display: flex;
+}
+mat-grid-tile{
+    flex: 0 0 50%;
+    max-width: 50%;
+    float: left;
+    display:block;
+}
+.img_landing{
+    width: auto;
+    max-height: 550px;
+    position: relative;
+    left: -250px;
+    top: 15px;
+    vertical-align: middle;
+}
+.tile_left{
+    align-items: right;
+    align-content: right;
+    text-align: right;
+}
+.tile_right{
+    align-items: left;
+    align-content: left;
+    text-align: left;
 }

@@ -3880,13 +3880,15 @@ fieldset {
 }
 
 .button {
-    border: none;
+    border-color: rgba(255, 255, 255, 0);
+    border-radius: 20px;
     box-shadow: none;
     display: inline-block;
     font-size: .85em;
     padding: .68em 1.3em;
     min-height: 1.3em;
-    min-width: 5em
+    min-width: 5em;
+    color: #ffffff;
 }
 
 .button.white {
@@ -4178,8 +4180,8 @@ body > app-root > div > section > app-market-home > div > app-market-top > div >
     margin: 0 !important;
 }
 
-body, body > app-root > div > section > app-market-home > div{
-    background-color: #f4f4f4 !important;
+html, body, body > app-root > div > section > app-market-home > div{
+    background-color: rgb(250, 250, 250) !important;
     color: #7d7d7d !important;
 }
 
@@ -4447,7 +4449,7 @@ body > app-root > div > app-header > header > nav.navbar.navbar-expand-lg.navbar
 }
 
 .title{
-    background-color: rgb(250 240 255) !important;
+    background-color: rgb(250 240 255);
     color: #33275e !important;
     padding: 5px;
 }
@@ -4529,8 +4531,13 @@ div .row div.col[_ngcontent-mcw-c163]{
 }
 
 .title{
-    background-color: #cc758ba1 !important;
+    background-color: #cc758ba1;
     border-radius: 20px !important;
+}
+
+.sm-title{
+    color: white !important;
+    font-weight: bold;
 }
 
 td{
@@ -4597,6 +4604,10 @@ div .row div.col[_ngcontent-mcw-c163] {
 body > app-root > div > section > app-market-home > div > app-market-top > div > div > div:nth-child(n):hover,
 .top-border-right:hover {
     border: 1px solid #e8e8e8 !important;
+}
+
+body > app-root > div > section > app-flyer > div > div{
+    color: #5043bd;
 }
 
 

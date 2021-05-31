@@ -56,6 +56,10 @@
                 "Content2": "eXchangily is a new kind of decentralized exchange (DEX) that trades ERC-20 tokens and other cryptocurrencies. Technically, eXchangily is a side-chain, peer-to-peer trading platform with an on-chain settlement for withdrawals. Transactions are facilitated through a high-speed trading engine that can process payments and redeem transactions fast."
             }
         },
+        "OTC": {
+            "Title": "Buy Crypto Now!",
+            "Sub": "Start Here"
+        },
         "App": {
             "Title": "Proud to introduce our mobile app"
         },

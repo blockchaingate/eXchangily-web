@@ -17,6 +17,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppResolver } from './modules/landing/resolvers/app/app.resolve';
@@ -95,6 +96,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     RouterModule,
     MatSnackBarModule,
     MatButtonModule,
+    MatGridListModule,
     TranslateModule.forRoot(
       {
         loader: {

@@ -11,7 +11,7 @@ a:focus {
 
 .align-right {
     position: absolute;
-    right: 0px;
+    right: 50px;
 }
 
 @media (max-width:767px) {
@@ -115,7 +115,7 @@ a.nav-link {
         padding-right: 3px;
     }
     .exSubMenu {
-        border-top: 3px solid #7368ff; // #cd45ff;
+        border-top: 3px solid #7268ff86; // #cd45ff;
         z-index: 1201;
         ul {
             margin: 0 auto;
@@ -135,9 +135,6 @@ a.nav-link {
         }
         &:hover mat-icon {
             color: white;
-        }
-        .camMenu {
-            right: 10px;
         }
         .exSubMenu {
             border-radius: 10px;
@@ -258,6 +255,31 @@ a.nav-link {
     }
 }
 
+.profile-nav{
+    position: absolute;
+    left: 5px;
+    width: 100%;
+}
+
+#navbarSupportedContent > ul.navbar-nav.mr-auto{
+    position: absolute;
+    left: 250px;
+    width: 100%;
+}
+
+
+.signout{
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12) inset, 0 1px 2px rgba(0,0,0,0.24) inset;
+}
+.signout .nav-link {
+    width: 100%;
+    text-align: center;
+}
+
+::ng-deep  .mat-menu-panel{
+    width: 1000px !important;
+}
+
 @media (max-width: 1200px) {
     .navbar-dark .navbar-nav .nav-link {
         color: rgba(255, 255, 255);
@@ -287,5 +309,16 @@ a.nav-link {
 ::ng-deep {
     .cdk-overlay-container {
         z-index: 1200;
+        div:nth-child(3){
+            top: 151px !important;
+            right: 4px !important;
+        }
+        div:nth-child(2){
+            top: 71.5px !important;
+            right: 4px !important;
+        }
+        div div div.comm_menu{
+            transform: translate(0px, -71px);
+        }
     }
 }
