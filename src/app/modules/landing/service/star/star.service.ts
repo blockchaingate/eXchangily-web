@@ -22,5 +22,20 @@ export class StarService {
            status: status
         }
         return this.http.post(url, body);
-     }    
+    }
+    
+    upsertSetting(setting: any) {
+        const url = environment.endpoints.blockchaingate + '7star-setting/upsert';
+        return this.http.post(url, setting);        
+    }
+
+    getSetting(id: string) {
+        const url = environment.endpoints.blockchaingate + '7star-setting/' + id;
+        return this.http.get(url);
+    }
+
+    getSettings() {
+        const url = environment.endpoints.blockchaingate + '7star-setting';
+        return this.http.get(url);        
+    }
 }

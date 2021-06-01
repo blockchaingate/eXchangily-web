@@ -10,7 +10,6 @@ import { OtcModule } from '../../../otc/otc.module';
 import { NoAuthGuard } from '../../guards/no-auth/no-auth.guard';
 import { AuthGuard } from '../../guards/auth/auth.guard';
 import { ReferralModule } from '../account/referrals/referrals.module';
-
 import { AdminComponent } from './admin.component';
 import { AddcoinComponent } from './coin/addcoin.component';
 import { MerchantComponent } from './merchant/merchant.component';
@@ -43,6 +42,8 @@ import { AnnouncementsComponent } from './announcements/announcements.component'
 import { AnnouncementListComponent } from './announcements/announcement-list/announcement-list.component';
 import { AnnouncementAddComponent } from './announcement-add/announcement-add.component';
 import { StarOrdersComponent } from './star-orders/star-orders.component';
+import { StarSettingsComponent } from './star-settings/star-settings.component';
+import { StarSettingAddComponent } from './star-setting-add/star-setting-add.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -87,7 +88,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     AnnouncementsComponent,
     AnnouncementListComponent,
     AnnouncementAddComponent,
-    StarOrdersComponent
+    StarOrdersComponent,
+    StarSettingsComponent,
+    StarSettingAddComponent
   ]
 })
 export class AdminModule { }
