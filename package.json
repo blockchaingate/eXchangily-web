@@ -48,7 +48,7 @@
         "ethereumjs-tx": "^2.1.2",
         "ethereumjs-wallet": "^0.6.5",
         "fs": "0.0.1-security",
-        "lodash": "^4.17.20",
+        "lodash": "^4.17.21",
         "ng-chartist": "^4.1.0",
         "ngx-bootstrap": "^6.2.0",
         "reflect": "^0.1.3",
