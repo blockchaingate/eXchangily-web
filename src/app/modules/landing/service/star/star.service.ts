@@ -10,6 +10,14 @@ export class StarService {
         return this.http.get(environment.endpoints.blockchaingate + '7star-order?token=' + token);
     }
 
+    getAllEvents(token: string) {
+        return this.http.get(environment.endpoints.blockchaingate + '7star-event?token=' + token);
+    }
+
+    getEvent(id: string, token: string) {
+        return this.http.get(environment.endpoints.blockchaingate + '7star-event/' + id + '?token=' + token);
+    }
+    
     getPayments(orderId: string) {
         return this.http.get(environment.endpoints.blockchaingate + '7star-payment/order/' + orderId + '/all');
     }
@@ -24,18 +32,18 @@ export class StarService {
         return this.http.post(url, body);
     }
     
-    upsertSetting(setting: any) {
-        const url = environment.endpoints.blockchaingate + '7star-setting/upsert';
+    upsertSetting(setting: any, token: string) {
+        const url = environment.endpoints.blockchaingate + '7star-setting/upsert?token=' + token;
         return this.http.post(url, setting);        
     }
 
-    getSetting(id: string) {
-        const url = environment.endpoints.blockchaingate + '7star-setting/' + id;
+    getSetting(id: string, token: string) {
+        const url = environment.endpoints.blockchaingate + '7star-setting/' + id + '?token=' + token;
         return this.http.get(url);
     }
 
-    getSettings() {
-        const url = environment.endpoints.blockchaingate + '7star-setting';
+    getSettings(token: string) {
+        const url = environment.endpoints.blockchaingate + '7star-setting?token=' + token;
         return this.http.get(url);        
     }
 }
