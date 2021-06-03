@@ -10,18 +10,18 @@ import { MyCoin } from '../../models/mycoin';
 import { environment } from 'src/environments/environment';
 import { FRC20 } from '../../config/frc20';
 import { ApiService } from 'src/app/services/api.service';
-import {IssueToken} from '../../interfaces/fab.interface';
+import { IssueToken } from '../../interfaces/fab.interface';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-    selector: 'app-issue-token',
-    templateUrl: './issue-token.component.html',
-    styleUrls: ['./issue-token.component.scss'],
-    providers: [ CoinService ]
-  })
+  selector: 'app-issue-token',
+  templateUrl: './issue-token.component.html',
+  styleUrls: ['./issue-token.component.scss'],
+  providers: [CoinService]
+})
 
-export class IssueTokenComponent  implements OnInit{
-  @ViewChild('pinModal', {static: true}) pinModal: PinNumberModal;
+export class IssueTokenComponent implements OnInit {
+  @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal;
 
   totalSupply: number;
   name: string;
@@ -36,13 +36,13 @@ export class IssueTokenComponent  implements OnInit{
   address: string;
 
   constructor(
-    private utilServ: UtilService, 
+    private utilServ: UtilService,
     private storageService: StorageService,
     private alertServ: AlertService,
     private apiServ: ApiService,
     private translateServ: TranslateService,
     private coinServ: CoinService,
-    private web3Serv: Web3Service) {}
+    private web3Serv: Web3Service) { }
 
   async ngOnInit() {
 
@@ -51,7 +51,7 @@ export class IssueTokenComponent  implements OnInit{
     if (!this.wallet) {
       this.alertServ.openSnackBar('no current wallet was found.', 'Ok');
       return;
-    }  
+    }
 
     for (let i = 0; i < this.wallet.mycoins.length; i++) {
       const coin: MyCoin = this.wallet.mycoins[i];
@@ -62,23 +62,23 @@ export class IssueTokenComponent  implements OnInit{
         this.address = this.mycoin.receiveAdds[0].address;
         break;
       }
-    }    
+    }
     this.txs = [];
     this.storageService.getIssueTokenTransactions().subscribe(
       async (res: IssueToken[]) => {
-        
-        if(res) {
+
+        if (res) {
           this.txs = res;
           let updated = false;
-          for(let i = 0; i < this.txs.length; i++) {
+          for (let i = 0; i < this.txs.length; i++) {
             const tx = this.txs[i];
-            if(tx.status == 'pending') {
+            if (tx.status == 'pending') {
               const txid = tx.txid;
               const receipts: any = await this.coinServ.getFabTransactionReceipt(txid);
               console.log('receipts==', receipts);
-              if(receipts && receipts.length > 0) {
+              if (receipts && receipts.length > 0) {
                 const receipt = receipts[0];
-                if(receipt.contractAddress) {
+                if (receipt.contractAddress) {
                   tx.status = 'confirmed';
                   tx.smartContractAddress = receipt.contractAddress;
                 } else {
@@ -88,24 +88,24 @@ export class IssueTokenComponent  implements OnInit{
               }
             }
 
-            if(updated) {
+            if (updated) {
               this.storageService.storeIssueTokenTransactions(this.txs);
             }
           }
         }
       }
     );
-  }  
+  }
 
   confirm() {
-    if(!this.totalSupply || !this.name || !this.symbol || !this.decimals) {
-      
+    if (!this.totalSupply || !this.name || !this.symbol || !this.decimals) {
+
       return;
     }
-    if(this.balance < 52) {
+    if (this.balance < 52) {
       this.alertServ.openSnackBar(this.translateServ.instant('Not enough balance'), this.translateServ.instant('Ok'));
     }
-    this.pinModal.show(); 
+    this.pinModal.show();
   }
 
   async onConfirmedPin(pin: string) {
@@ -127,14 +127,14 @@ export class IssueTokenComponent  implements OnInit{
     ];
     const keyPair = this.coinServ.getKeyPairs(this.mycoin, seed, 0, 0);
     console.log('keyPair====', keyPair);
-    const { txHex, errMsg, transFee } = await this.coinServ.getFabTransactionHexMultiTos (keyPair.privateKey, this.address, tos, totalFee, 
+    const { txHex, errMsg, transFee } = await this.coinServ.getFabTransactionHexMultiTos(keyPair.privateKey, this.address, tos, totalFee,
       satoshisPerBytes, bytesPerInput);
 
     console.log('transFee==', transFee);
-    if(txHex) {
+    if (txHex) {
       const res2 = await this.apiServ.postFabTx(txHex);
       this.txHash = res2.txHash;
-      this.errMsg = res2.errMsg;   
+      this.errMsg = res2.errMsg;
       const tx: IssueToken = {
         txid: this.txHash,
         status: 'pending',
@@ -149,10 +149,10 @@ export class IssueTokenComponent  implements OnInit{
       this.txs.push(tx);
       this.alertServ.openSnackBar(this.translateServ.instant('Your transaction was submitted.'), this.translateServ.instant('Ok'));
     } else
-    if(errMsg) {
-      this.alertServ.openSnackBar(errMsg, this.translateServ.instant('Ok'));
-      //this.errMsg = errMsg;
-    }
+      if (errMsg) {
+        this.alertServ.openSnackBar(errMsg, this.translateServ.instant('Ok'));
+        //this.errMsg = errMsg;
+      }
   }
 
   formCreateSmartContractABI() {
@@ -161,13 +161,13 @@ export class IssueTokenComponent  implements OnInit{
     let args = [this.totalSupply, this.name, this.symbol, this.decimals];
 
     return this.web3Serv.formCreateSmartContractABI(abi, fabBytecode.trim(), args);
- 
+
   }
 
   deployFabSmartContract() {
     let abiHex = this.formCreateSmartContractABI();
     let gasLimit = 4000000;
-    const gasPrice = 40;    
+    const gasPrice = 40;
 
 
     let value = 0;
@@ -186,14 +186,14 @@ export class IssueTokenComponent  implements OnInit{
       this.utilServ.number2Buffer(gasPrice),
       this.utilServ.hex2Buffer(this.utilServ.stripHexPrefix(abiHex)),
       193
-    ]); 
+    ]);
 
-  
+
     const contractSize = contract.toJSON.toString().length;
     totalFee += this.utilServ.convertLiuToFabcoin(contractSize * 10);
 
     console.log('totalFee==', totalFee);
-    return {contract, totalFee};
-  }  
+    return { contract, totalFee };
+  }
 
 }
