@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { StorageService } from '../../../../../services/storage.service';
 import { StarService } from '../../../service/star/star.service';
 import { ActivatedRoute, Params } from '@angular/router';
+import { UtilService } from 'src/app/services/util.service';
 
 @Component({
     selector: 'app-star-event',
@@ -16,6 +17,7 @@ import { ActivatedRoute, Params } from '@angular/router';
       constructor(
         private starServ: StarService,
         private route: ActivatedRoute,
+        private utilServ: UtilService,
         private _storageServ: StorageService
       ) { }  
           
@@ -39,5 +41,9 @@ import { ActivatedRoute, Params } from '@angular/router';
                 }
               }); 
             });         
-      }  
+      } 
+      
+      showAmount(amount:string) {
+        return Number(this.utilServ.showAmount(amount, 18));
+      }
   }

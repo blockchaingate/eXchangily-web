@@ -31,10 +31,7 @@
                 <td>
                     <div *ngFor="let coin of distribution.coins">
                         <div>
-                            Coin: {{coin.coin}}
-                        </div>
-                        <div>
-                            Proportion: {{coin.proportion}}
+                            {{coin.coin}} - {{showAmount(coin.amount)}}
                         </div>
                     </div>
                 </td>
