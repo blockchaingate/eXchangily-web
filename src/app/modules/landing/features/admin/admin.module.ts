@@ -44,6 +44,10 @@ import { AnnouncementAddComponent } from './announcement-add/announcement-add.co
 import { StarOrdersComponent } from './star-orders/star-orders.component';
 import { StarSettingsComponent } from './star-settings/star-settings.component';
 import { StarSettingAddComponent } from './star-setting-add/star-setting-add.component';
+import { CampaignAddComponent } from './campaign-add/campaign-add.component';
+import { CampaignsComponent } from './campaigns/campaigns.component';
+import { StarEventsComponent } from './star-events/star-events.component';
+import { StarEventComponent } from './star-event/star-event.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -90,7 +94,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     AnnouncementAddComponent,
     StarOrdersComponent,
     StarSettingsComponent,
-    StarSettingAddComponent
+    StarSettingAddComponent,
+    CampaignAddComponent,
+    CampaignsComponent,
+    StarEventsComponent,
+    StarEventComponent
   ]
 })
 export class AdminModule { }

@@ -19,6 +19,9 @@ import { AnnouncementAddComponent } from './announcement-add/announcement-add.co
 import { StarOrdersComponent } from './star-orders/star-orders.component';
 import { StarSettingsComponent } from './star-settings/star-settings.component';
 import { StarSettingAddComponent } from './star-setting-add/star-setting-add.component';
+import { StarEventsComponent } from './star-events/star-events.component';
+import { StarEventComponent } from './star-event/star-event.component';
+
 const routes: Routes = [
     {
         path: '',
@@ -58,6 +61,14 @@ const routes: Routes = [
             path: 'star-settings',
             component: StarSettingsComponent
         }, 
+        {
+            path: 'star-events',
+            component: StarEventsComponent
+        }, 
+        {
+            path: 'star-event/:id',
+            component: StarEventComponent
+        },                  
         {
             path: 'star-setting/add',
             component: StarSettingAddComponent

@@ -11,7 +11,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { AppIntroComponent } from '../app-intro/app-intro.component';
+
 import { SortByFieldPipe } from './pipes/sort.pipe';
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -20,7 +20,6 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
     declarations: [
         PinNumberModal,
-        AppIntroComponent,
         DisplayPinNumberModal,
         SortByFieldPipe
     ],
@@ -47,7 +46,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     exports: [
         PinNumberModal,
         DisplayPinNumberModal,
-        AppIntroComponent,
         SortByFieldPipe,
         TranslateModule
     ],

@@ -1,7 +1,7 @@
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { StarService } from '../../../service/star/star.service';
+import { StorageService } from '../../../../../services/storage.service';
 
 @Component({
     selector: 'app-star-setting-add',
@@ -30,45 +30,51 @@ import { StarService } from '../../../service/star/star.service';
     coin2: string;
     coin2Proportion: number;    
 
-
+    token: string;
     constructor(
       private starServ: StarService,
       private router: Router,
+      private _storageServ: StorageService,
       private route: ActivatedRoute) {}
 
     ngOnInit() {
-      this.route.params.subscribe((params: Params) => {
-        this.id = params['id'];
-        console.log('this.id=', this.id);
-        if(this.id) {
-          this.starServ.getSetting(this.id).subscribe(
-            (setting:any) => {
-              this.receivingContractAdd = setting.receivingContractAdd;
-              this.consumer = setting.consumer;
-              this.merchant = setting.merchant;
-              this.merchantReferral = setting.merchantReferral;
-              this.consumerLevel1 = setting.consumerLevel1;
-              this.consumerLevel2 = setting.consumerLevel2;
-              this.consumerLevel3 = setting.consumerLevel3;
-              this.consumerLevel4 = setting.consumerLevel4;
-              this.consumerLevel5 = setting.consumerLevel5;
-              this.consumerLevel6 = setting.consumerLevel6;
-              this.consumerLevel7 = setting.consumerLevel7;
-              this.consumerLevel8 = setting.consumerLevel8;
-              const rewards = setting.rewards;
-              if(rewards && rewards.length > 0) {
-                this.coin1 = rewards[0].coin;
-                this.coin1Proportion = rewards[0].proportion;
-                if(rewards.length > 1) {
-                  this.coin2 = rewards[1].coin;
-                  this.coin2Proportion = rewards[1].proportion;                  
+      this._storageServ.getToken().subscribe(
+        (token: string) => {
+          this.token = token;
+
+          this.route.params.subscribe((params: Params) => {
+            this.id = params['id'];
+            console.log('this.id=', this.id);
+            if(this.id) {
+              this.starServ.getSetting(this.id, this.token).subscribe(
+                (setting:any) => {
+                  this.receivingContractAdd = setting.receivingContractAdd;
+                  this.consumer = setting.consumer;
+                  this.merchant = setting.merchant;
+                  this.merchantReferral = setting.merchantReferral;
+                  this.consumerLevel1 = setting.consumerLevel1;
+                  this.consumerLevel2 = setting.consumerLevel2;
+                  this.consumerLevel3 = setting.consumerLevel3;
+                  this.consumerLevel4 = setting.consumerLevel4;
+                  this.consumerLevel5 = setting.consumerLevel5;
+                  this.consumerLevel6 = setting.consumerLevel6;
+                  this.consumerLevel7 = setting.consumerLevel7;
+                  this.consumerLevel8 = setting.consumerLevel8;
+                  const rewards = setting.rewards;
+                  if(rewards && rewards.length > 0) {
+                    this.coin1 = rewards[0].coin;
+                    this.coin1Proportion = rewards[0].proportion;
+                    if(rewards.length > 1) {
+                      this.coin2 = rewards[1].coin;
+                      this.coin2Proportion = rewards[1].proportion;                  
+                    }
+                  }
+                  //this.consumerLevel1 = setting.consumerLevel1;
                 }
-              }
-              //this.consumerLevel1 = setting.consumerLevel1;
+              );
             }
-          );
-        }
-      })
+          });
+        });
     }
 
     confirm() {
@@ -99,7 +105,7 @@ import { StarService } from '../../../service/star/star.service';
       }
 
       console.log('data==', data);
-      this.starServ.upsertSetting(data).subscribe(
+      this.starServ.upsertSetting(data, this.token).subscribe(
         (ret: any) => {
           this.router.navigate(['/admin/star-settings']);
         }
