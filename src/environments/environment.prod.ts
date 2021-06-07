@@ -5,7 +5,7 @@ export const environment = {
         CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', 
         USD: 'sq0idp-5W-PIrJbalW5u5KbeEA-Gw'
     },
-    IssueTokenReceipt: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
+    IssueTokenReceipt: '1FNEhT8uTmrEMvHGCGohnEFv6Q1z4qRhQu',
     EPAY_API: 'https://api.epay.com/paymentApi',
     STRIPE_PUBLIC_KEY: 'pk_test_xVAqsYMxwh3AZfJcYu1hruyE',
     PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',

@@ -22,8 +22,6 @@
                 <div>
                     {{'Learn more about ' | translate}}<a href="/issue/frc20" target="_blank">{{'FRC20 token' | translate}}</a>
                 </div>
-                 
-                
             </td>
         </tr>        
         <tr>
@@ -32,7 +30,7 @@
             </td>
             <td>
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="" [(ngModel)]="name">
+                    <input matInput placeholder="{{'Projectname$'|translate}}" [(ngModel)]="name">
                   </mat-form-field>
             </td>
         </tr>  
@@ -42,7 +40,7 @@
             </td>
             <td>
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="" [(ngModel)]="symbol">
+                    <input matInput placeholder="{{'TokenSymbolEmp' | translate}}" [(ngModel)]="symbol">
                   </mat-form-field>
             </td>
         </tr>    
@@ -52,7 +50,7 @@
             </td>
             <td>
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="" [(ngModel)]="totalSupply">
+                    <input matInput placeholder="{{'Totalsupply$'|translate}}" [(ngModel)]="totalSupply">
                   </mat-form-field>
             </td>
         </tr>   
@@ -63,7 +61,7 @@
             </td>
             <td>
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="" [(ngModel)]="decimals">
+                    <input matInput placeholder="{{'Tokendecimal$' | translate}}" [(ngModel)]="decimals">
                   </mat-form-field>
             </td>
         </tr>  
@@ -96,12 +94,11 @@
 
 </div>
 <div class="main-container text-center py-3">
-    <button class="btn btn-gradient text-white py-2 px-5 btn-lg-fixed-width" (click)="confirm()"> {{'Confirm' | translate }} </button>
+    <button class="btn btn-gradient text-white py-2 px-4 btn-lg-fixed-width" (click)="confirm()"> {{'Confirm' | translate }} </button>
 </div>
 <div class="main-container text-center py-3" *ngIf="txs && txs.length > 0">
     <app-issue-token-history [txs]="txs"></app-issue-token-history>
 </div>
-
 
 <pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>
 <!--
