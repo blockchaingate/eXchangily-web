@@ -1,6 +1,6 @@
 {
     "name": "dex",
-    "version": "0.0.2",
+    "version": "2.1.5",
     "scripts": {
         "ng": "ng",
         "start": "ng serve --host 0.0.0.0",
@@ -54,7 +54,7 @@
         "reflect": "^0.1.3",
         "rxjs": "^6.6.3",
         "s": "^1.0.0",
-        "solc": "^0.4.25",
+        "solc": "^0.8.4",
         "tronweb": "^3.2.3",
         "tslib": "^2.0.3",
         "web3": "^1.3.0",

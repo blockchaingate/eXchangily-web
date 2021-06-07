@@ -7,13 +7,13 @@
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
-    "module": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "target": "es2015",
+    "module": "es2020",
     "typeRoots": [
       "node_modules/@types"
     ],
