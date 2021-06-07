@@ -739,6 +739,8 @@
     "Law and compliance": "Law and compliance",
     "About Us": "About eXchangily",
     "JoinUs": "Join Us",
+    "Token symbol": "Token abbreviation",
+    "Token decimals": "Token decimals (0-18)",
     "Community announcement": "Community announcement",
     "Wallet security": "Wallet security",
     "Explore": "Explore",

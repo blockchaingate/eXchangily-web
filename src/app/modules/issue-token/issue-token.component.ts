@@ -28,6 +28,7 @@ export class IssueTokenComponent implements OnInit {
   symbol: string;
   decimals: number;
   wallet: any;
+  totalFee: number = 1000;
   txHash: string;
   errMsg: string;
   mycoin: MyCoin;
@@ -102,7 +103,7 @@ export class IssueTokenComponent implements OnInit {
 
       return;
     }
-    if (this.balance < 52) {
+    if (this.balance < this.totalFee) {
       this.alertServ.openSnackBar(this.translateServ.instant('Not enough balance'), this.translateServ.instant('Ok'));
     }
     this.pinModal.show();
@@ -118,7 +119,7 @@ export class IssueTokenComponent implements OnInit {
     const tos = [
       {
         address: environment.IssueTokenReceipt,
-        amount: 50
+        amount: this.totalFee - 2
       },
       {
         address: contract,

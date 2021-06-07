@@ -99,8 +99,11 @@ export class CoinService {
         return -1;
     }
 
-    initToken(type: string, name: string, decimals: number, address: string, baseCoin: MyCoin) {
+    initToken(type: string, name: string, decimals: number, address: string, baseCoin: MyCoin, symbol?: string) {
         const coin = new MyCoin(name);
+        if(symbol) {
+            coin.symbol = symbol;
+        }
         coin.tokenType = type;
         coin.decimals = decimals;
         coin.contractAddr = address;
