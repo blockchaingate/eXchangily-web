@@ -610,9 +610,15 @@ export class ApiService {
        if (name === 'USDT') {
         contractAddress = environment.addresses.smartContract.USDT.ETH;
        }
-       const url = environment.endpoints.ETH.exchangily + 'callcontract/' + contractAddress + '/' + address;
-       const response = await this.http.get(url).toPromise()  as KEthBalance;
-       const balance = response.balance;       
+       let balance = 0;
+       try {
+        const url = environment.endpoints.ETH.exchangily + 'callcontract/' + contractAddress + '/' + address;
+        const response = await this.http.get(url).toPromise()  as KEthBalance;
+        balance = response.balance; 
+       } catch(e) {
+           
+       }
+      
         const lockbalance = 0;
         return {balance, lockbalance}; 
     }
