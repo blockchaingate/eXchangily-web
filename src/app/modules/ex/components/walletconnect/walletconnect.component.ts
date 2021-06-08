@@ -1,6 +1,7 @@
 import { Component, TemplateRef, OnInit } from '@angular/core';
 import WalletConnect from "@walletconnect/client";
 import QRCodeModal from "@walletconnect/qrcode-modal";
+import BigNumber from 'bignumber.js';
 
 @Component({
     selector: 'app-walletconnect',
@@ -10,10 +11,14 @@ import QRCodeModal from "@walletconnect/qrcode-modal";
   export class WalletconnectComponent implements OnInit {
       chainId: number;
       account: string;
+      to: string;
+      amount: number;
       connector: WalletConnect;
       txid: string;
       ngOnInit() {
       // Create a connector
+      this.to = "0xe68b2d379d398fcc4f2e997e4d2d46de42b4ec70";
+      this.amount = 0.01;
         const connector = new WalletConnect({
           bridge: "https://bridge.walletconnect.org", // Required
           qrcodeModal: QRCodeModal,
@@ -51,10 +56,14 @@ import QRCodeModal from "@walletconnect/qrcode-modal";
         });
         
         connector.on("disconnect", (error, payload) => {
+          this.account = '';
+          this.chainId = 0;
+
           if (error) {
             throw error;
           }
-        
+          //this.connector.killSession();
+          this.connector.createSession();
           // Delete connector
         });
       }
@@ -63,11 +72,11 @@ import QRCodeModal from "@walletconnect/qrcode-modal";
  // Draft transaction
 const tx = {
   from: this.account, // Required
-  to: "0xe68b2d379d398fcc4f2e997e4d2d46de42b4ec70", // Required (for non contract deployments)
-  data: "0x1", // Required
+  to: this.to, // Required (for non contract deployments)
+  data: "0x0", // Required
   gasPrice: "0x02540be400", // Optional
   gas: "0x9c40", // Optional
-  value: "0x00", // Optional
+  value: new BigNumber(this.amount).multipliedBy(new BigNumber(1e18)).toFixed(), // Optional
 };
 
 // Send transaction
