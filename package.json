@@ -28,6 +28,8 @@
         "@ngx-pwa/local-storage": "^10.1.0",
         "@ngx-translate/core": "^13.0.0",
         "@ngx-translate/http-loader": "^6.0.0",
+        "@walletconnect/client": "^1.4.1",
+        "@walletconnect/qrcode-modal": "^1.4.1",
         "angular7-csv": "^0.2.12",
         "angularx-qrcode": "^10.0.11",
         "bchaddrjs": "^0.4.9",
