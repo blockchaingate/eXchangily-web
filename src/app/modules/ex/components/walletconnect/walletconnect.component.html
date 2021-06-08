@@ -1,0 +1,16 @@
+<div class="container" *ngIf="account">
+    <div>
+        Account:{{account}}
+    </div>
+    
+    <div *ngIf="chainId">
+        ChainId:{{chainId}}
+    </div>
+
+    <div>
+        <button (click)="send()">Send</button>
+    </div>
+    <div *ngIf="txid">
+        TxID: {{txid}}
+    </div>
+</div>
