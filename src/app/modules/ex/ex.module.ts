@@ -5,6 +5,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { ExRoutingModule } from './ex-routing.module';
 import { CodeComponent } from './components/code/code.component';
 import { HistoryComponent } from './components/history/history.component';
+import { WalletconnectComponent } from './components/walletconnect/walletconnect.component';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { UtilService } from '../../services/util.service';
@@ -40,7 +41,8 @@ import { SharedModule} from '../../modules/shared/shared.module';
     ],
     declarations: [
         CodeComponent,
-        HistoryComponent
+        HistoryComponent,
+        WalletconnectComponent
     ],
     exports: [
     ]
