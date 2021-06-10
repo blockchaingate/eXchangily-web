@@ -56,12 +56,13 @@
         <div>
             <div class="row">
                 <div class="col col-4">
+
                     <div>
-                        <button class="btn btn-gradient text-white py-2 px-5" type="button" (click)="payByACH2(achModalTemplate2)"> {{'Pay by ACH' | translate}} </button>
+                        <button class="btn btn-gradient text-white py-2 px-5" type="button" (click)="payByZelle(zelleModalTemplate)"> {{'Pay by Zelle' | translate}} </button>
                         <div class="notes color-warning">
-                            {{"ACHNote"|translate}}
+                            {{"ZelleNote"|translate}}
                         </div>
-                    </div>
+                    </div>                    
                 </div>
                 <div class="col col-4">
                     <div>
@@ -161,6 +162,57 @@
 
 </ng-template>
 
+
+<ng-template #zelleModalTemplate>
+    <div class="modal-bg-grey">
+        <div class="modal-header">
+            <h4 class="modal-title text-center">{{'Pay by Zelle' | translate}}</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+            <div class="form-group">
+                  <label for="exampleInputEmail1">{{'Amount' | translate}}: {{order.totalToPay}} {{order.currency | translate}}</label>
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">{{'Receiving Address' | translate}}: {{order.name}}</label>
+            </div>  
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">{{'Receiving Account' | translate}}: <span class="color-warning">216-233-4316</span></label>
+            </div>  
+
+            <div class="text-center">
+                <div>
+                    {{'Pay to 216-233-4316 directly with Zelle. Please click "Marked as paid" button after payment finished' | translate}}
+                </div>
+                <div class="pt-2 color-warning">
+                    {{"CashAppRequiredNote"|translate}}{{order._id}}
+                </div>                
+            </div>
+          </div>   
+          
+          <div class="modal-footer  justify-content-center">
+            <div>
+                <div class="text-center" *ngIf="goPayStep == 1 || goPayStep == 2">
+
+                    <button (click)="changePaymentStatus(1)" mat-raised-button color="primary">
+                        {{'Marked as paid' | translate}}
+                    </button>                       
+                </div>
+
+            </div>
+
+            <div *ngIf="goPayStep == 3">
+                {{'You finshed your payment' | translate}}
+            </div>         
+        </div>          
+    </div>
+
+</ng-template>
 
 <ng-template #achModalTemplate>
     <div class="modal-bg-grey">

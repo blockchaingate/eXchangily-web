@@ -239,6 +239,10 @@ export class OrderDetailComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  payByZelle(template) {
+    this.modalRef = this.modalService.show(template);
+  }
+
   payByACH2(template) {
     this.modalRef = this.modalService.show(template, {class: 'modal-lg'});
   }
