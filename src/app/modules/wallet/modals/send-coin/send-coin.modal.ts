@@ -145,7 +145,16 @@ export class SendCoinModal {
         this.sendAllCoinsFlag = event.checked;
         if (this.sendAllCoinsFlag) {
             await this.calCulateSendAllAmount();
+
+            if(this.coin.name == 'TRX') {
+                this.transFee = 0;
+            }            
+        } else {
+            if(this.coin.name == 'TRX') {
+                this.transFee = environment.chains.TRX.feeLimit / 1e6;
+            }            
         }
+        
     }
 
     getTransFeeUnit() {
@@ -206,11 +215,16 @@ export class SendCoinModal {
             }
         }
         const amount = Number(this.sendCoinForm.get('sendAmount').value);
-        if ((this.coin.name === 'BTC') || (this.coin.name === 'FAB' && !this.coin.coinType) || (this.coin.name === 'ETH') || this.coin.name === 'TRX') {
-            if ((this.transFee + amount) > this.coin.balance) {
+        if ((this.coin.name === 'BTC') 
+        || (this.coin.name === 'FAB' && !this.coin.coinType) 
+        || (this.coin.name === 'ETH') 
+        || this.coin.name === 'TRX') {
+            let transFee = this.transFee;
+            if ((transFee + amount) > this.coin.balance) {
                 this.alertServ.openSnackBar(
                     this.translateServ.instant('InsufficientForTransaction', {coin: this.coin.name}),
-                    this.translateServ.instant('Ok'));                return;
+                    this.translateServ.instant('Ok'));                
+                    return;
             }
         } else if (this.tranFeeUnit === 'FAB') {
             if (this.transFee > fabBalance) {
@@ -227,6 +241,7 @@ export class SendCoinModal {
                 return;
             }
         } else if (this.tranFeeUnit === 'TRX') {
+
             if (this.transFee > trxBalance) {
                 this.alertServ.openSnackBar(
                     this.translateServ.instant('InsufficientForTransaction', {coin: this.tranFeeUnit}),
