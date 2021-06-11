@@ -53,10 +53,22 @@ export class DepositAmountModal {
         console.log('event=', event);
         this.sendAllCoinsFlag = event.checked;
         console.log('this.sendAllCoinsFlag==', this.sendAllCoinsFlag);
+        
         const coinName = this.coin.name;
         const tokenType = this.coin.tokenType;
         const balance = this.coin.balance;
         const address = this.coin.receiveAdds[0].address;
+
+        if (this.sendAllCoinsFlag) {
+            if(this.coin.name == 'TRX') {
+                this.transFee = 0;
+            }            
+        } else {
+            if(this.coin.name == 'TRX') {
+                this.transFee = environment.chains.TRX.feeLimit / 1e6;
+            }            
+        }
+        
         if (coinName === 'BTC') {
             const utxos = await this.apiService.getBtcUtxos(address);
             if (!utxos) {
