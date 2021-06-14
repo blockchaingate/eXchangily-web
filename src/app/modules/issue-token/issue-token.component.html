@@ -50,7 +50,7 @@
             </td>
             <td>
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="{{'Totalsupply$'|translate}}" [(ngModel)]="totalSupply">
+                    <input matInput placeholder="{{'Totalsupply$'|translate}}" (ngModelChange)="onTotalSupplyChange($event)" [(ngModel)]="totalSupply">
                   </mat-form-field>
             </td>
         </tr>   
@@ -61,11 +61,18 @@
             </td>
             <td>
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="{{'Tokendecimal$' | translate}}" [(ngModel)]="decimals">
+                    <input matInput placeholder="{{'Tokendecimal$' | translate}}" (ngModelChange)="onDecimalsChange($event)" [(ngModel)]="decimals">
                   </mat-form-field>
             </td>
         </tr>  
-
+        <tr *ngIf="initialBalance" class="alert alert-danger">
+            <td class="text-right">
+                {{'Token Balance' | translate}}: 
+            </td>
+            <td>
+                {{initialBalance}} {{symbol}}
+            </td>
+        </tr>   
         <tr>
             <td class="text-right">
                 {{'Fee total' | translate}}: 

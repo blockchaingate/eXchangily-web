@@ -12,6 +12,7 @@ import { FRC20 } from '../../config/frc20';
 import { ApiService } from 'src/app/services/api.service';
 import { IssueToken } from '../../interfaces/fab.interface';
 import { TranslateService } from '@ngx-translate/core';
+import BigNumber from 'bignumber.js';
 
 @Component({
   selector: 'app-issue-token',
@@ -31,6 +32,7 @@ export class IssueTokenComponent implements OnInit {
   totalFee: number = 1000;
   txHash: string;
   errMsg: string;
+  initialBalance: number;
   mycoin: MyCoin;
   balance: number;
   txs: IssueToken[];
@@ -197,4 +199,23 @@ export class IssueTokenComponent implements OnInit {
     return { contract, totalFee };
   }
 
+  calculateInitialBalance() {
+    console.log('event==', event);
+    if(this.totalSupply > 0 && this.decimals >= 0) {
+      console.log('this.decimals==', this.decimals);
+      const decimalBig = new BigNumber(10).exponentiatedBy(new BigNumber(this.decimals));
+      console.log('decimalBig=', decimalBig.toString());
+      this.initialBalance = new BigNumber(this.totalSupply).dividedBy(decimalBig).toNumber();
+    }
+  }
+
+  onTotalSupplyChange(event) {
+    this.totalSupply = event;
+    this.calculateInitialBalance();
+  }
+
+  onDecimalsChange(event) {
+    this.decimals = event;
+    this.calculateInitialBalance();
+  }
 }
