@@ -1,11 +1,7 @@
 import { NgModule } from '@angular/core';
-<<<<<<< HEAD
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-=======
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
->>>>>>> master
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
