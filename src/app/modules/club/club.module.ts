@@ -4,8 +4,10 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ClubService } from './services/club.service';
 import { ClubRoutingModule } from './club-routing.module';
-
 import { ClubHomeComponent } from './components/home/club-home.component';
+import { ClubEventComponent } from './components/club-event/club-event.component';
+import { NoneMemberComponent } from './components/none-member/none-member.component';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -17,7 +19,9 @@ import { ClubHomeComponent } from './components/home/club-home.component';
         ClubService
     ],
     declarations: [
-        ClubHomeComponent
+        ClubHomeComponent,
+        ClubEventComponent,
+        NoneMemberComponent
     ],
     exports: [
         ClubHomeComponent

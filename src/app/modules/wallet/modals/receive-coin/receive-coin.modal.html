@@ -12,7 +12,7 @@
         <div class="pt-2 pb-3 w-25">
             <select class="form-control" (change)="onChange($event.target.value)">
                 <option [value]="i" *ngFor="let coin of wallet.mycoins;let i = index">
-                    {{coin.name}}
+                    {{coin.symbol}}
                     <span *ngIf="((coin.name == 'USDT') || (coin.name == 'FAB') || (coin.name == 'EXG') || (coin.name == 'DSC') || (coin.name == 'BST')) && coin.tokenType=='ETH'">
                         (ERC20)
                     </span>

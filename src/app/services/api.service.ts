@@ -610,9 +610,15 @@ export class ApiService {
        if (name === 'USDT') {
         contractAddress = environment.addresses.smartContract.USDT.ETH;
        }
-       const url = environment.endpoints.ETH.exchangily + 'callcontract/' + contractAddress + '/' + address;
-       const response = await this.http.get(url).toPromise()  as KEthBalance;
-       const balance = response.balance;       
+       let balance = 0;
+       try {
+        const url = environment.endpoints.ETH.exchangily + 'callcontract/' + contractAddress + '/' + address;
+        const response = await this.http.get(url).toPromise()  as KEthBalance;
+        balance = response.balance; 
+       } catch(e) {
+           
+       }
+      
         const lockbalance = 0;
         return {balance, lockbalance}; 
     }
@@ -625,6 +631,12 @@ export class ApiService {
     getTransactionHistoryEvents(data) {
         const url = environment.endpoints.kanban + 'getTransactionHistoryEvents';
         return this.http.post(url, data);
+    }
+
+    async getFabTransactionReceiptAsync(txid: string) {
+        const url = environment.endpoints.FAB.exchangily + 'gettransactionreceipt/' + txid;
+
+        return await this.http.get(url).toPromise();
     }
 
     async fabCallContract(contractAddress: string, fxnCallHex: string) {
@@ -641,8 +653,10 @@ export class ApiService {
         return response;
     }
 
-    async getFabTokenBalance(name: string, address: string) {
-        let contractAddress = environment.addresses.smartContract[name];
+    async getFabTokenBalance(name: string, address: string, contractAddress?: string) {
+        if(!contractAddress) {
+            contractAddress = environment.addresses.smartContract[name];
+        }
         if(typeof contractAddress != 'string') {
             contractAddress = contractAddress['FAB'];
         }

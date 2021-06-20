@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ɵRender3NgModuleRef } from '@angular/core';
 
 import { PinNumberModal } from '../../../shared/modals/pin-number/pin-number.modal';
 import { Wallet } from '../../../../models/wallet';
@@ -27,8 +27,10 @@ export class SmartContractComponent implements OnInit {
   action: string;
   abiName: string;
   txid: string;
+  customAbi: string;
   contractName: string;
   smartContractName: string;
+  currentTabIndex: number;
   result: string;
   error: string;
   newSmartContractAddress: string;
@@ -65,7 +67,8 @@ export class SmartContractComponent implements OnInit {
     'EXG',
     'DSC',
     'BST',
-    'Fab Lock For EXG Airdrop'
+    'Fab Lock For EXG Airdrop',
+    'Custom'
   ];
   ABI = [];
   constructor(
@@ -86,8 +89,8 @@ export class SmartContractComponent implements OnInit {
     if(name === 'Fab Lock For EXG Airdrop') {
       this.smartContractAddress =  environment.addresses.smartContract.FABLOCK;
     } else
-    if(name === 'Deploy') {
-      this.smartContractAddress = '0x0';
+    if(name === 'Custom') {
+      this.smartContractAddress = '';
     } else {
       this.smartContractAddress = environment.addresses.smartContract[name].FAB;
     }
@@ -172,24 +175,32 @@ export class SmartContractComponent implements OnInit {
     }
   }
 
+  formTypes(abi) {
+    for (let j = 0; j < abi.inputs.length; j ++) {
+      const input = abi.inputs[j];
+      const type = input.type;
+      if (this.types.includes(type)) {
+        continue;
+      }
+      this.types.push(type);
+    }
+  }
   getFunctionABI(ABI: any) {
     const retABI = ABI.filter((abi) => abi.type === 'function');
     for (let i = 0; i < retABI.length; i++) {
       const item = retABI[i];
-      for (let j = 0; j < item.inputs.length; j ++) {
-        const input = item.inputs[j];
-        const type = input.type;
-        if (this.types.includes(type)) {
-          continue;
-        }
-        this.types.push(type);
-      }
+      this.formTypes(item);
     }
     return retABI;
   }
 
-  async ngOnInit() {
+  tabChanged(event) {
+    console.log('event=', event);
+    this.currentTabIndex = event.index;
+  }
 
+  async ngOnInit() {
+    this.currentTabIndex = 0;
     this.action = '';
     this.lockerHashes = [];
     this.gasLimit = 1000000;
@@ -262,14 +273,7 @@ export class SmartContractComponent implements OnInit {
     this.renderMethod(val);
   }
 
-  
-  renderMethod(method: string) {
-
-    const def = this.getMethodDefinition(this.ABI, method);
-    console.log('def===', def);
-    if(!def) {
-      return;
-    }
+  renderAbi(def: any) {
     const inputs = def.inputs;
     if(inputs && inputs.length > 0) {
       for(let i=0;i<inputs.length;i++) {
@@ -283,9 +287,24 @@ export class SmartContractComponent implements OnInit {
         }      
       }
     }
-
-
     this.method = def;
+  }
+
+  inputCustomAbi(event) {
+    const def = JSON.parse(this.customAbi);
+    this.formTypes(def);
+    this.renderAbi(def);
+  }
+  
+  renderMethod(method: string) {
+
+    const def = this.getMethodDefinition(this.ABI, method);
+    console.log('def===', def);
+    if(!def) {
+      return;
+    }
+    this.renderAbi(def);
+
     /*
     console.log('def=', def);
     if (canRenderMethodParams(this.ABI, method)) {
@@ -358,7 +377,6 @@ export class SmartContractComponent implements OnInit {
 
     const keyPair = this.coinServ.getKeyPairs(this.ethCoin, seed, 0, 0);
     const nonce = await this.apiServ.getEthNonce(this.ethCoin.receiveAdds[0].address);
-    console.log('this.ethData = ', this.ethData);
 
     this.ethData = this.formCreateEthSmartContractABI();
     const txParams = {
@@ -635,6 +653,7 @@ export class SmartContractComponent implements OnInit {
     }
 
   
+    console.log('smartContractAddress123==', smartContractAddress);
     const contractSize = contract.toJSON.toString().length;
     totalFee += this.utilServ.convertLiuToFabcoin(contractSize * 10);
 

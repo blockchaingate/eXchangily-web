@@ -101,7 +101,7 @@
             </div>
             <div class="d-flex justify-content-between py-1 text-white">
                 <div>
-                    {{'Transaction fee' | translate}}: {{utilService.showAmount(buyGasPrice*buyGasLimit, 6)}} {{'Gas' | translate}}
+                    {{'Kanban Gas' | translate}}: {{utilService.showAmount(buyGasPrice*buyGasLimit, 6)}} {{'Gas' | translate}}
                 </div>
                 <div>
                     <mat-slide-toggle [(ngModel)]="buyTransFeeAdvance"></mat-slide-toggle>
@@ -164,7 +164,7 @@
 
             <div class="d-flex justify-content-between py-1 text-white">
                 <div>
-                    {{'Transaction fee' | translate}}: {{utilService.showAmount(sellGasPrice*sellGasLimit, 6)}} {{'Gas' | translate}}
+                    {{'Kanban Gas' | translate}}: {{utilService.showAmount(sellGasPrice*sellGasLimit, 6)}} {{'Gas' | translate}}
                 </div>
                 <div>
                     <mat-slide-toggle [(ngModel)]="sellTransFeeAdvance"></mat-slide-toggle>

@@ -32,7 +32,7 @@
             </table>
         </mat-card>
         <mat-card class="mat-elevation-z6" fxFlex='50'>
-            <h6>{{"Kanban Gas Balance"|translate}}</h6>
+            <h6>{{"Kanban Gas"|translate}}</h6>
             <div *ngIf="kanbanBalance" style="text-align: center; font-size: 0.9em;">
                 <div *ngFor="let kb of kanbanBalance.balance| keyvalue " style="line-height: 2em; padding: 10px;" class="grayback">
                     {{kb.key}}: {{kb.value * 1e-18 | number:'1.5-5'}}

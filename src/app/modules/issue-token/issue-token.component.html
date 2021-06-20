@@ -3,79 +3,111 @@
     <table>
         <tr>
             <td class="text-right">
-                token type: 
+                {{'Token type' | translate}}: 
             </td>
             <td>
-                固定总量FRC-20
+                {{'FRC20 token' | translate}}
+                
             </td>
         </tr>
+        <tr></tr>
         <tr>
             <td class="text-right">
-                description: 
+                {{'Description' | translate}}: 
             </td>
             <td>
-                在合约部署时创建总供应，使供应量固定不变，永不增发。了解更多固定总量
-                <a href="/issue/frc20" target="_blank">FRC20代币</a>
+                <div>
+                    {{'The total supply is created when the contract is deployed, so that the supply is fixed and will never be issued.' | translate}}
+                </div>
+                <div>
+                    {{'Learn more about ' | translate}}<a href="/issue/frc20" target="_blank">{{'FRC20 token' | translate}}</a>
+                </div>
             </td>
         </tr>        
- 
         <tr>
             <td class="text-right">
-                Total supply: 
+                {{'Project name' | translate}}: 
             </td>
             <td>
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="" value="Sushi">
+                    <input matInput placeholder="{{'Projectname$'|translate}}" [(ngModel)]="name">
                   </mat-form-field>
+            </td>
+        </tr>  
+        <tr>
+            <td class="text-right">
+                {{'Token symbol' | translate}}: 
+            </td>
+            <td>
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{'TokenSymbolEmp' | translate}}" [(ngModel)]="symbol">
+                  </mat-form-field>
+            </td>
+        </tr>    
+        <tr>
+            <td class="text-right">
+                {{'Total supply' | translate}}: 
+            </td>
+            <td>
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{'Totalsupply$'|translate}}" (ngModelChange)="onTotalSupplyChange($event)" [(ngModel)]="totalSupply">
+                  </mat-form-field>
+            </td>
+        </tr>   
+       
+        <tr>
+            <td class="text-right">
+                {{'Token decimals' | translate}}: 
+            </td>
+            <td>
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="{{'Tokendecimal$' | translate}}" (ngModelChange)="onDecimalsChange($event)" [(ngModel)]="decimals">
+                  </mat-form-field>
+            </td>
+        </tr>  
+        <tr *ngIf="initialBalance" class="alert alert-danger">
+            <td class="text-right">
+                {{'Token Balance' | translate}}: 
+            </td>
+            <td>
+                {{initialBalance}} {{symbol}}
             </td>
         </tr>   
         <tr>
             <td class="text-right">
-                Name: 
+                {{'Fee total' | translate}}: 
             </td>
             <td>
-                <mat-form-field class="example-full-width">
-                    <input matInput placeholder="" value="Sushi">
-                  </mat-form-field>
+                {{totalFee}}FAB
+            </td>
+        </tr>   
+        <tr>
+            <td class="text-right">
+                {{'Wallet balance' | translate}}: 
+            </td>
+            <td>
+                {{balance}}FAB
             </td>
         </tr>  
-        <tr>
+        <tr *ngIf="errMsg">
             <td class="text-right">
-                Symbol: 
+                {{'Error' | translate}}: 
             </td>
             <td>
-                <mat-form-field class="example-full-width">
-                    <input matInput placeholder="" value="Sushi">
-                  </mat-form-field>
-            </td>
-        </tr>          
-        <tr>
-            <td class="text-right">
-                Decimal: 
-            </td>
-            <td>
-                <mat-form-field class="example-full-width">
-                    <input matInput placeholder="" value="Sushi">
-                  </mat-form-field>
-            </td>
-        </tr>  
-
-        <tr>
-            <td class="text-right">
-                Fee total: 
-            </td>
-            <td>
-                50.4FAB
-            </td>
-        </tr>          
+                {{errMsg}}
+            </td>            
+        </tr>        
     </table>
 
 </div>
 <div class="main-container text-center py-3">
-    <button class="btn btn-gradient text-white py-2 px-5 btn-lg-fixed-width" type="submit"> {{'Confirm' | translate }} </button>
+    <button class="btn btn-gradient text-white py-2 px-4 btn-lg-fixed-width" (click)="confirm()"> {{'Confirm' | translate }} </button>
+</div>
+<div class="main-container text-center py-3" *ngIf="txs && txs.length > 0">
+    <app-issue-token-history [txs]="txs"></app-issue-token-history>
 </div>
 
-
+<pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>
 <!--
 <mat-horizontal-stepper linear #stepper>
     <mat-step [stepControl]="firstFormGroup" [editable]="isEditable">

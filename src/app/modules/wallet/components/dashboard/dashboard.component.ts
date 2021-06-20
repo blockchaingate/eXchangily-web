@@ -586,9 +586,12 @@ export class WalletDashboardComponent implements OnInit {
                 }
 
             }
+
             if(coin.new) {
                 try {
+                    console.log('coin custom=', coin);
                     const balance = await this.coinServ.getBalance(coin);
+                    console.log('balance=', balance);
                     coin.balance = balance.balance;
                     coin.lockedBalance = balance.lockbalance;
 
@@ -1332,6 +1335,7 @@ export class WalletDashboardComponent implements OnInit {
             const token = assets[i];
             const type = token.type;
             const name = token.name;
+            const symbol = token.symbol;
             const addr = token.address;
             const decimals = token.decimals;
             if(name == 'FAB') {
@@ -1346,13 +1350,15 @@ export class WalletDashboardComponent implements OnInit {
             for (let j = 0; j < this.wallet.mycoins.length; j++) {
                 if (this.wallet.mycoins[j].name === type) {
                     const baseCoin = this.wallet.mycoins[j];
-                    const mytoken = this.coinServ.initToken(type, name, decimals, addr, baseCoin);
+                    const mytoken = this.coinServ.initToken(type, name, decimals, addr, baseCoin, symbol);
+                    mytoken.new = true;
                     this.wallet.mycoins.push(mytoken);
                     break;
                 }
             }
         }
         this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
+        this.alertServ.openSnackBar(this.translateServ.instant('Your asset was added successfully.'), this.translateServ.instant('Ok'));
     }
 
     async depositFab(currentCoin) {
@@ -1468,7 +1474,7 @@ export class WalletDashboardComponent implements OnInit {
             const item = {
                 walletId: this.wallet.id,
                 type: 'Send',
-                coin: currentCoin.name,
+                coin: currentCoin.symbol,
                 tokenType: currentCoin.tokenType,
                 amount: amount,
                 txid: txHash,
