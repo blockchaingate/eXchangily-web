@@ -743,7 +743,7 @@
     "Token symbol": "Token symbol",
     "TokenSymbolEmp": "For example: 'BTC' is Bitcoin's symbol",
     "Token decimals": "Token decimals (0-18)",
-    "Tokendecimal$": " for example: 3, means the minimum amount is 0.001",
+    "Tokendecimal$": " For example: 3, means the minimum amount is 0.001",
     "Community announcement": "Community announcement",
     "Wallet security": "Wallet security",
     "Explore": "Explore",
@@ -901,7 +901,6 @@
         "UPDATE": "Update info",
         "TOOLTIPS": "Click the token name to see more details",
         "TOTAL_SUPPLY": "Total supply",
-        "Totalsupply$": "Total quantity of the token",
         "BALANCE_OF": "Balance of",
         "BALANCE_OF_LOCKED": "Balance of locked"
     },
@@ -1309,5 +1308,6 @@
     "EpayNote": "Make payment through Epay global payment.",
     "CashAppNote": "Make payment through Cash App.",
     "Kanban Gas": "Kanban Gas",
-    "User manual": "User manual"
+    "User manual": "User manual",
+    "Totalsupply$": "Total quantity of the token"
 }
