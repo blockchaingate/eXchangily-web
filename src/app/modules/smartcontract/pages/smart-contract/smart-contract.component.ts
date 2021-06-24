@@ -46,6 +46,44 @@ export class SmartContractComponent implements OnInit {
   kanbanBytecode: string;
   kanbanArguments: string;  
 
+
+  _kanbanCallABI: string;
+  _kanbanCallArgs: string;
+
+  get kanbanCallABI(): string {
+    return this._kanbanCallABI;
+  }
+
+  set kanbanCallABI(val: string) {
+    this._kanbanCallABI = val;
+    this.formAbiHex();
+  }
+
+  get kanbanCallArgs(): string {
+    return this._kanbanCallArgs;
+  }
+
+  set kanbanCallArgs(val: string) {
+    this._kanbanCallArgs = val;
+    this.formAbiHex();
+  }
+
+  formAbiHex() {
+    console.log('go form');
+    try {
+      console.log('1');
+      const abi = JSON.parse(this._kanbanCallABI);
+      console.log('2');
+      let args = [];
+      if(this._kanbanCallArgs) {
+        args = this._kanbanCallArgs.split(',');
+      }
+      console.log('args=', args);
+      this.kanbanData = this.web3Serv.getGeneralFunctionABI(abi, args);
+      console.log('this.kanbanData==', this.kanbanData);
+    } catch(e) {}
+  }
+  
   ethData: string;
   lockerHashes: any;
   kanbanTo: string;
