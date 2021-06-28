@@ -8,7 +8,8 @@ export const environment = {
     STRIPE_PUBLIC_KEY: 'pk_test_xVAqsYMxwh3AZfJcYu1hruyE',
     PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',
     baseUrl: 'https://exchangily.com',
-    url: 'https://kanbanprod.fabcoinapi.com/',
+    url: 'https://api.dscmap.com/',
+    normalUrl: 'https://kanbanprod.fabcoinapi.com/',
     tmpUrl: 'https://kanbanprod.fabcoinapi.com/', // replace this url once the temp api is deployed    
     version: '1.4.9',
     campaignId: 1,
@@ -98,7 +99,8 @@ export const environment = {
     endpoints: {
         blockchaingate: 'https://blockchaingate.com/v2/',
         coingecko: 'https://api.coingecko.com/',
-        kanban: 'https://kanbanprod.fabcoinapi.com/',
+        kanban:  'https://api.dscmap.com/',
+        normal_kanban: 'https://kanbanprod.fabcoinapi.com/',
         BTC: {
             exchangily: 'https://btcprod.fabcoinapi.com/'
         },
