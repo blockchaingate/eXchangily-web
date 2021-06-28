@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-app-intro',
@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app-intro.component.scss']
 })
 export class AppIntroComponent implements OnInit {
-
+  @Input() showHeadOnly: boolean;
   constructor() { }
 
   ngOnInit(): void {

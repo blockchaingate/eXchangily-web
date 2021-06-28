@@ -1,6 +1,3 @@
-BCH:bchtest:qqqzr50ll5wp9cqrxx4lypx3cvl6l3m9fqu6gcn854 
-BTC:mfXeovvWpfGfTuKb7cK2J4sHdcqgZpXrJB 
-DOGE:nUCrn9X6F2CR6mbmASyfGKQrtdMZznrLwQ 
-ETH:0x8bbf9ec9EF68B5f5e471104a1A2a00A8130a5645 
-FAB:mfXeovvWpfGfTuKb7cK2J4sHdcqgZpXrJB 
-LTC:mfXeovvWpfGfTuKb7cK2J4sHdcqgZpXrJB
+GET /tradesbetweentimestamps/:startingTimestamp/:endingTimestamp
+https://kanbantest.fabcoinapi.com/getdepositsbetween/1607110454/1607115809
+https://kanbantest.fabcoinapi.com/getwithdrawsbetween/1607110454/1607115809

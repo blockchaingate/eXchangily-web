@@ -6,7 +6,6 @@ import { ApiService } from './api.service';
 
 @Injectable()
 export class TimerService {
-
     private timerEnabled: boolean;
     private transactionStatusSubscribe: any;
     private orderStatusSubscribe: any;
@@ -18,7 +17,8 @@ export class TimerService {
     public openOrders: BehaviorSubject<any> = new BehaviorSubject([]);
     public closedOrders: BehaviorSubject<any> = new BehaviorSubject([]);
     public canceledOrders: BehaviorSubject<any> = new BehaviorSubject([]);
-    public tokens: BehaviorSubject<any> = new BehaviorSubject([]); 
+    public tokens: BehaviorSubject<any> = new BehaviorSubject([]);
+
     constructor(public kanbanServ: KanbanService, private apiServ: ApiService) { 
         this.transactionStatusSubscribe = [];
         this.orderStatusSubscribe = [];
@@ -75,11 +75,6 @@ export class TimerService {
         );
     }
 
-
-
-
-
-
     unCheckOrderStatus(address: string) {
         for (let i = 0; i < this.orderStatusSubscribe.length; i++) {
             const item = this.orderStatusSubscribe[i];
@@ -92,16 +87,12 @@ export class TimerService {
     }
 
     checkOrderStatus(address: string, maxTimes = 160) {
-
-        console.log('1');
         if (this.maxTimes > 0) {
             maxTimes = this.maxTimes;
-        }   
-        console.log('2');     
+        }      
         if (!this.timerEnabled) {
             return;
-        }     
-        console.log('3');   
+        }       
         // console.log('begin checkint');
         for (let i = 0; i < this.orderStatusSubscribe.length; i++) {
             const item = this.orderStatusSubscribe[i];
@@ -109,12 +100,8 @@ export class TimerService {
                 return;
             }
         }
-        console.log('4');
         const source = timer(1000, 1000);
-        console.log('5');
         const subscribeItem = source.subscribe(val => {
-            console.log('maxTimes===', maxTimes);
-            console.log('val==', val);
             if ((maxTimes > 0) && (val >= maxTimes - 1)) {
                 this.unCheckOrderStatus(address);
             }
@@ -157,8 +144,7 @@ export class TimerService {
             item.subscribeItem.unsubscribe();
         }
     }
-
-    
+   
     unCheckAllTransactionStatus() {
         for (let i = 0; i < this.transactionStatusSubscribe.length; i++) {
             const item = this.transactionStatusSubscribe[i];
@@ -178,7 +164,6 @@ export class TimerService {
     }
 
     checkTransactionStatus(item: TransactionItem, maxTimes = 160) {
-
         if (this.maxTimes > 0) {
             maxTimes = this.maxTimes;
         }        
@@ -201,7 +186,7 @@ export class TimerService {
         }    
 
         const source = timer(10000, 20000);
-        const subscribeItem = source.subscribe(val => {
+        const subscribeItem = source.subscribe(async val => {
             if ((maxTimes > 0) && (val >= maxTimes - 1)) {
                 this.unCheckTransactionStatus(txid);
             }
@@ -223,8 +208,7 @@ export class TimerService {
                         }                      
                     }
                 );
-            } else
-            if (type === 'Deposit') {
+            } else if (type === 'Deposit') {
                 console.log('check deposit status');
                 this.kanbanServ.getDepositStatusSync(txid).subscribe((res: any) => {
                     if (res && res.code !== undefined) {
@@ -253,8 +237,7 @@ export class TimerService {
                 }, (error) => {
                     // console.log('error', error);
                 });
-            } else
-            if (type === 'Send' || type === 'Add Gas') {
+            } else if (type === 'Send' || type === 'Add Gas') {
                 if (coin === 'BTC') {
                     this.apiServ.getBtcTransactionSync(txid).subscribe( (res: any) => {
                         if (res.confirmations && res.confirmations >= 1) {
@@ -267,8 +250,7 @@ export class TimerService {
                             this.unCheckTransactionStatus(txid);                        
                         }
                     });
-                } else
-                if (coin === 'ETH' || tokenType === 'ETH') {
+                } else if (coin === 'ETH' || tokenType === 'ETH') {
                     this.apiServ.getEthTransactionSync(txid).subscribe( (res: any) => {
                         if (res) {
                             let confirmations = 0;
@@ -294,8 +276,7 @@ export class TimerService {
                             }
                         }
                     });
-                } else
-                if (coin === 'FAB' || tokenType === 'FAB') {
+                } else if (coin === 'FAB' || tokenType === 'FAB') {
                     this.apiServ.getFabTransactionJsonSync(txid).subscribe(
                         (res2: any) => {
                             let confirmations = 0;
@@ -314,6 +295,18 @@ export class TimerService {
                             }
                         } 
                     );
+                } else 
+                if(coin == 'TRX' || tokenType == 'TRX') {
+                    const status = await this.apiServ.getTrxTransactionStatus(txid);
+                    this.transactionStatus.next(
+                        {
+                            txid: txid,
+                            status: status
+                        }
+                    );
+                    if(status == 'confirmed') {
+                        this.unCheckTransactionStatus(txid); 
+                    }
                 }
             }                
         }); 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import { TransactionItem } from '../models/transaction-item';
 import {Transaction} from '../interfaces/kanban.interface';
+import {IssueToken} from '../interfaces/fab.interface';
 import { Wallet } from '../models/wallet';
 
 @Injectable()
@@ -50,6 +51,28 @@ export class StorageService {
             return this.localSt.setItem('mytransactions', transactions).subscribe(() => {
             });
         });
+    }
+
+    getIssueTokenTransactions() {
+        return this.localSt.getItem('issue-tokens');
+    }
+    
+    addIssueTokenTransaction(tx: IssueToken) {
+        this.localSt.getItem('issue-tokens').subscribe((transactions: IssueToken[]) => {
+            if (!transactions) {
+                transactions = [];
+            }
+            transactions.push(tx);
+            // console.log('transactions before setItem');
+            // console.log(transactions);
+            return this.localSt.setItem('issue-tokens', transactions).subscribe(() => {
+            });
+        });
+    }
+
+    storeIssueTokenTransactions(txs: IssueToken[]) {
+        return this.localSt.setItem('issue-tokens', txs).subscribe(() => {
+        });        
     }
 
     storeFavoritePairs(favoritePairs: string[] ) {

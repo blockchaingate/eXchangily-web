@@ -12,9 +12,11 @@ export class TransactionDetailModal2 {
     @ViewChild('transactionDetailModal2', {static: true}) public transactionDetailModal2: ModalDirective;
     item: any;
     utilService: UtilService;
+    production: boolean;
 
     constructor (_utilServ: UtilService) {
         this.utilService = _utilServ;
+        this.production = environment.production;
     }
 
     getTo(item) {
@@ -30,13 +32,16 @@ export class TransactionDetailModal2 {
             return  environment.baseUrl + '/explorer/tx-detail/' + txid;
         } else
         if(chain == 'BTC') {
-            return 'https://live.blockcypher.com/btc/tx/' + txid + '/';
+            const baseUrl = this.production ? 'https://live.blockcypher.com/btc' : 'https://live.blockcypher.com/btc-testnet';
+            return baseUrl + '/tx/' + txid + '/';
         } else
         if(chain == 'ETH') {
-            return 'https://etherscan.io/tx/' + txid;
+            const baseUrl = this.production ? 'https://etherscan.io' : 'https://ropsten.etherscan.io';
+            return baseUrl + '/tx/' + txid;
         } else
         if(chain == 'FAB') {
-            return 'https://fabexplorer.info/#/transactions/' + txid;
+            const baseUrl = this.production ? 'https://fabexplorer.info' : 'https://fabtest.info'
+            return baseUrl + '/#/transactions/' + txid;
         } else
         if(chain == 'LTC') {
             return 'https://live.blockcypher.com/ltc/tx/' + txid + '/';
@@ -46,6 +51,9 @@ export class TransactionDetailModal2 {
         } else
         if(chain == 'BCH') {
             return 'https://explorer.bitcoin.com/bch/tx/' + txid;
+        } else
+        if(chain == 'TRX') {
+            return 'https://tronscan.org/#/transaction/' + txid;
         }
     }
 

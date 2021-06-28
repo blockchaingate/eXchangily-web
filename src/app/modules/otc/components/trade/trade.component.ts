@@ -3,6 +3,7 @@ import { OtcPlaceOrderModal } from '../../modals/otc-place-order/otc-place-order
 import { OtcPlaceOrderErrorModal } from '../../modals/otc-place-order-error/otc-place-order-error.component';
 import { ApplyForMerchantModal } from '../../modals/apply-for-merchant/apply-for-merchant';
 import { ConfirmPaymentModal } from '../../modals/confirm-payment/confirm-payment';
+import { OtcCoinAddressModal } from '../../modals/otc-coin-address/otc-coin-address.component';
 import { Router } from '@angular/router';
 import { StorageService } from '../../../../services/storage.service';
 import { OtcService } from '../../../../services/otc.service';
@@ -30,6 +31,7 @@ export class TradeComponent implements OnInit {
   currency: string;
   token: string;
   element: any;
+  orderId: string;
   txid: string;
   quantity: number;
   currentCoin: MyCoin;
@@ -40,15 +42,12 @@ export class TradeComponent implements OnInit {
   addressIncorrect: boolean;
 
   commissionRate = environment.OTC_COMMISSION_RATE;
-  currencies: string[] = [
-    'USD',
-    'CAD',
-    'CNY'
-  ];
+  currencies: string[] = ['USD', 'CAD', 'CNY', 'EURO'];
 
   dataSource: any;
   @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal;
   @ViewChild('otcPlaceOrderModal', { static: true }) otcPlaceOrderModal: OtcPlaceOrderModal;
+  @ViewChild('otcCoinAddressModal', { static: true }) otcCoinAddressModal: OtcCoinAddressModal;
   @ViewChild('otcPlaceOrderErrorModal', { static: true }) otcPlaceOrderErrorModal: OtcPlaceOrderErrorModal;
   @ViewChild('applyForMerchantModal', { static: true }) applyForMerchantModal: ApplyForMerchantModal;
   @ViewChild('confirmPaymentModal', { static: true }) confirmPaymentModal: ConfirmPaymentModal;
@@ -61,7 +60,7 @@ export class TradeComponent implements OnInit {
     private translateServ: TranslateService,
     public utilServ: UtilService,
     private _router: Router,
-    private storageService: StorageService, 
+    private storageService: StorageService,
     private _otcServ: OtcService) { }
 
   async ngOnInit() {
@@ -72,11 +71,14 @@ export class TradeComponent implements OnInit {
     this.wallet = await this.storageService.getCurrentWallet();
     // this.dataSource = ELEMENT_DATA;
     this.dataSource = [];
-    this._otcServ.getPublicListings().subscribe(
+    this._otcServ.getPublicListings().toPromise().then(
       (res: any) => {
         console.log('res from addListing=', res);
         if (res && res.ok) {
           this.dataSource = res._body;
+          if(this.dataSource && (this.dataSource.length > 0)) {
+            this.dataSource = this.dataSource.filter(item => item.qtyAvilable > 0);
+          }
           console.log('this.dataSource===', this.dataSource);
         }
       }
@@ -94,9 +96,9 @@ export class TradeComponent implements OnInit {
   changeCoinName(bOrA: boolean, coin: string) {
     this.bidOrAsk = bOrA;
     this.coinName = coin;
-    for(let i=0;i<this.wallet.mycoins.length;i++) {
+    for (let i = 0; i < this.wallet.mycoins.length; i++) {
       const mycoin = this.wallet.mycoins[i];
-      if(mycoin.name == coin) {
+      if (mycoin.name === coin) {
         this.balance = mycoin.balance;
         console.log('this.balance=', this.balance);
 
@@ -105,18 +107,21 @@ export class TradeComponent implements OnInit {
         const chainName = this.currentCoin.tokenType ? this.currentCoin.tokenType : this.currentCoin.name;
         this.gasPrice = environment.chains[chainName]['gasPrice'];
         this.gasLimit = environment.chains[chainName]['gasLimit'];
-        this.satoshisPerBytes = environment.chains[chainName]['satoshisPerBytes'];        
+        if (this.currentCoin.tokenType) {
+          this.gasLimit = environment.chains[chainName]['gasLimitToken'];
+        }
+        this.satoshisPerBytes = environment.chains[chainName]['satoshisPerBytes'];
       }
     }
   }
 
   placeOrder(element) {
-
     this.userServ.getMe(this.token).subscribe(
       (res: any) => {
         console.log('res===', res);
         if (res && res.ok) {
           const data = res._body;
+          /*
           const walletExgAddress = data.walletExgAddress;
           const walletBtcAddress = data.walletBtcAddress;
           const walletEthAddress = data.walletEthAddress;
@@ -124,22 +129,23 @@ export class TradeComponent implements OnInit {
           let walletBtc = '';
           let walletEth = '';
 
-          if(!this.wallet) {
+          
+          if (!this.wallet) {
             console.log('wallet not Existed');
             this.otcPlaceOrderErrorModal.show('WalletNotExisted');
             return;
           }
-          for(let i=0;i<this.wallet.mycoins.length;i++) {
+          for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const mycoin = this.wallet.mycoins[i];
-            if(mycoin.name == 'FAB') {
+            if (mycoin.name == 'FAB') {
               walletExg = mycoin.receiveAdds[0].address;
             }
-            if(mycoin.name == 'BTC') {
+            if (mycoin.name == 'BTC') {
               walletBtc = mycoin.receiveAdds[0].address;
-            }  
-            if(mycoin.name == 'ETH') {
+            }
+            if (mycoin.name == 'ETH') {
               walletEth = mycoin.receiveAdds[0].address;
-            }                       
+            }
           }
 
           if ((walletExgAddress != walletExg) || (walletBtcAddress != walletBtc) || (walletEthAddress != walletEth)) {
@@ -148,50 +154,60 @@ export class TradeComponent implements OnInit {
             this.otcPlaceOrderErrorModal.showEx('AddressesNotMatch', this.token, walletExg, walletBtc, walletEth);
             return;
           }
+          */
           this.element = element;
-          this.otcPlaceOrderModal.show(element);          
+          this.otcPlaceOrderModal.show(data, element);
         } else {
           this._router.navigate(['/login/signin', { 'retUrl': '/otc/trade' }]);
         }
-      });    
+      });
 
   }
 
-  onConfirmedPlaceOrder(event) {
-
-    console.log('event=', event);
-    this.order = event;
-    if(this.bidOrAsk) {
-      this.addOrderDo();
-    } else {
-      console.log('haha');
-      this.quantity = this.order.quantity;
-      this.pinModal.show();
-    }
-
-  }
-
-  addOrderDo() {
-    //txid;
-    this._otcServ.addOrder(this.token, this.element._id, this.order).subscribe(
+  onConfirmedCoinAddress(event) {
+    console.log('onConfirmedCoinAddress start');
+    const address = event.address;
+    this._otcServ.updateOrderAddress(this.token, this.orderId, address).toPromise().then(
       (res: any) => {
-        console.log('res for addOrder=', res);
-        if (res.ok) {
-          const data = res._body;
-          this.element = data;
-          if(data.charge_id) {
-            this.alertServ.openSnackBarSuccess(this.translateServ.instant('Your payment was confirmed'),this.translateServ.instant('Ok'));
-          }
-          for (let i = 0; i < this.dataSource.length; i++) {
-            if (this.dataSource[i]._id == this.element._id) {
-              this.dataSource[i].qtyAvilable = this.element.qtyAvilable;
-            }
-          }
+        if(res && res.ok) {
+          this._router.navigate(['/otc/order-detail/' + this.orderId]);
         }
       }
     );
   }
 
+  onConfirmedPlaceOrder(event) {
+
+    /*
+    console.log('event=', event);
+    
+    if (this.bidOrAsk) {
+      
+    } else {
+      console.log('haha');
+      this.quantity = this.order.quantity;
+      this.pinModal.show();
+    }
+    */
+   this.order = event;
+   this.addOrderDo();
+  }
+
+  addOrderDo() {
+    console.log('addOrderDo start');
+    this._otcServ.addOrder(this.token, this.element._id, this.order).toPromise().then(
+      (res: any) => {
+        console.log('res for addOrder=', res);
+        if (res.ok) {
+          const orderId = res._body;
+          this.orderId = orderId;
+          // this.element = data;
+          this.otcCoinAddressModal.show(this.element.coin, this.wallet);
+          // this._router.navigate(['/otc/order-detail/' + data]);
+        }
+      }
+    );
+  }
 
   async onConfirmedPin(pin: string) {
     const pinHash = this.utilServ.SHA256(pin).toString();
@@ -203,8 +219,8 @@ export class TradeComponent implements OnInit {
             this.alertServ.openSnackBar('Your password is invalid.', 'Ok');
         }
         */
-       this.alertServ.openSnackBar(this.translateServ.instant('Your password is invalid.'), 'Ok');
-        return;
+      this.alertServ.openSnackBar(this.translateServ.instant('Your password is invalid.'), 'Ok');
+      return;
     }
 
     const currentCoin = this.currentCoin;
@@ -213,20 +229,22 @@ export class TradeComponent implements OnInit {
 
     const amount = this.quantity * (1 + this.commissionRate);
 
+    console.log('amount=', amount);
     const doSubmit = true;
     const options = {
-        gasPrice: this.gasPrice,
-        gasLimit: this.gasLimit,
-        satoshisPerBytes: this.satoshisPerBytes
+      gasPrice: this.gasPrice,
+      gasLimit: this.gasLimit,
+      satoshisPerBytes: this.satoshisPerBytes
     };
 
+    console.log('currentCoin==', currentCoin);
     const { txHex, txHash, errMsg } = await this.coinService.sendTransaction(currentCoin, seed,
-        environment.addresses.otcOfficial[currentCoin.name], amount, options, doSubmit
+      environment.addresses.otcOfficial[currentCoin.name], amount, options, doSubmit
     );
 
     if (errMsg) {
-        this.alertServ.openSnackBar(errMsg, 'Ok');
-        return;
+      this.alertServ.openSnackBar(errMsg, 'Ok');
+      return;
     }
     if (txHex && txHash) {
       this.alertServ.openSnackBarSuccess(this.translateServ.instant('your transaction was submitted successfully.'), 'Ok');
@@ -237,35 +255,32 @@ export class TradeComponent implements OnInit {
             this.alertServ.openSnackBar('your transaction was submitted successfully.', 'Ok');
         }
       */
-        const item = {
-            walletId: this.wallet.id,
-            type: 'Send',
-            coin: currentCoin.name,
-            tokenType: currentCoin.tokenType,
-            amount: amount,
-            txid: txHash,
-            to: environment.addresses.otcOfficial[currentCoin.name],
-            time: new Date(),
-            confirmations: '0',
-            blockhash: '',
-            comment: '',
-            status: 'pending'
-        };
-        this.timerServ.transactionStatus.next(item);
-        this.timerServ.checkTransactionStatus(item);
-        this.storageService.storeToTransactionHistoryList(item);
+      const item = {
+        walletId: this.wallet.id,
+        type: 'Send',
+        coin: currentCoin.name,
+        tokenType: currentCoin.tokenType,
+        amount: amount,
+        txid: txHash,
+        to: environment.addresses.otcOfficial[currentCoin.name],
+        time: new Date(),
+        confirmations: '0',
+        blockhash: '',
+        comment: '',
+        status: 'pending'
+      };
+      this.timerServ.transactionStatus.next(item);
+      this.timerServ.checkTransactionStatus(item);
+      this.storageService.storeToTransactionHistoryList(item);
 
-        this.txid = txHash.trim();
-        this.order.txid = txHash.trim();
-        this.addOrderDo();
-        // this.addOrder(txHash, amount, this.quantity);
+      this.txid = txHash.trim();
+      this.order.txid = txHash.trim();
+      this.addOrderDo();
+      // this.addOrder(txHash, amount, this.quantity);
     }
-}
-
-
+  }
 
   placeAdv() {
-
   }
 
   onBecomeMerchant(event) {

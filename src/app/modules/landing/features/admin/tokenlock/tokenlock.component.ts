@@ -5,7 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TokenlockService } from '../../../service/tokenlock/tokenlock.service';
 import { UserService } from '../../../service/user/user.service';
 import { UserAuth } from '../../../service/user-auth/user-auth.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { User } from '../../../models/user';
 
 @Component({

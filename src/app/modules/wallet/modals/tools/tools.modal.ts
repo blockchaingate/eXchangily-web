@@ -3,6 +3,7 @@ import {  ModalDirective } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { UtilService } from '../../../../services/util.service';
+import * as exaddr from '../../../../lib/exaddr';
 
 @Component({
     selector: 'tools-modal',
@@ -12,6 +13,7 @@ import { UtilService } from '../../../../services/util.service';
 export class ToolsModal implements OnInit{
     _fabAddress: string;
     _exgAddress: string;
+    _kbAddress: string;
     to: string;
     satoshisPerBytes: number;
     @ViewChild('toolsModal', {static: true}) public toolsModal: ModalDirective;
@@ -26,6 +28,7 @@ export class ToolsModal implements OnInit{
     set fabAddress(address: string) {
         this._fabAddress = address;
         this._exgAddress = this.utilServ.fabToExgAddress(address);
+        this._kbAddress = exaddr.toKbpayAddress(this._fabAddress);
     }
     
     get fabAddress(): string { return this._fabAddress; }
@@ -33,9 +36,18 @@ export class ToolsModal implements OnInit{
     set exgAddress(address: string) {
         this._exgAddress = address;
         this._fabAddress = this.utilServ.exgToFabAddress(address);
+        this._kbAddress = exaddr.toKbpayAddress(this._fabAddress);
     }
     
     get exgAddress(): string { return this._exgAddress; }
+
+    set kbAddress(address: string) {
+        this._kbAddress = address;
+        this._fabAddress = exaddr.toLegacyAddress(address);
+        this._exgAddress = this.utilServ.fabToExgAddress(this._fabAddress);
+    }
+    
+    get kbAddress(): string { return this._kbAddress; }
 
     show() {
         this.toolsModal.show();
@@ -45,13 +57,21 @@ export class ToolsModal implements OnInit{
     }   
     
     BTCinFAB() {
-        console.log('to=', this.to);
+        
         const toolData = {
             action: 'BTCinFAB',
             data: this.to,
             satoshisPerBytes: this.satoshisPerBytes
         };
         this.confirmedTools.emit(toolData);
+    }
 
+    FABinBTC() {
+        const toolData = {
+            action: 'FABinBTC',
+            data: this.to,
+            satoshisPerBytes: this.satoshisPerBytes
+        };
+        this.confirmedTools.emit(toolData);
     }
 }

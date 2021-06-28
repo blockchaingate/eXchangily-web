@@ -27,7 +27,7 @@ export class WalletService {
     }
     generateMnemonic() {
         return BIP39.generateMnemonic();
-        //return 'dune stem onion cliff equip seek kiwi salute area elegant atom injury';
+        // return 'dune stem onion cliff equip seek kiwi salute area elegant atom injury';
     }
 
     // Format wallet from input data.
@@ -102,8 +102,6 @@ export class WalletService {
         const pwdValid = this.pwdStrength(pwd);
         if (pwdValid === 'strong' || pwdValid === 'medium') {
             this.wallet = this.formatWallet(pwd, name, mnemonic);
-            // console.log('this.wallet in generateWallet');
-            // console.log(this.wallet);
             return this.wallet;
         } else {
             return null;
@@ -185,7 +183,7 @@ export class WalletService {
             if (!wallets) {
                 wallets = [];
             }
-            //const index = wallets.indexOf(wallet);
+            // const index = wallets.indexOf(wallet);
             if (wallets.indexOf(wallet) < 0) {
                 wallets.push(wallet);
                 
@@ -201,14 +199,18 @@ export class WalletService {
                 wallets = [];
             }
             if (wallets && wallets.length > 0) {
+                /*
                 if (index < 0 || index >= wallets.length) {
                     for (let i = 0; i < wallets.length; i++) {
                         index = i;
+                        
                         if (wallets[i].name === wallet.name) {
                             break;
                         }
+                        
                     }
                 }
+                */
                 wallets[index] = wallet;
             }
 
@@ -243,10 +245,11 @@ export class WalletService {
         
     }
     
+    /*
     restoreWallet(mnemonic: string, pwd: string) {
         const theWallet = this.formatWallet(pwd, name, mnemonic);
     }
-
+    */
     pwdStrength(pwd: string): string {
         const strongRegex = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~`\(\)!@#\$%\^&\*])(?=.{8,})');
         const mediumRegex = new RegExp('^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})');

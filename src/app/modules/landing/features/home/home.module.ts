@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-
+import {MatIconModule} from '@angular/material/icon'
 import { HomeRoutingModule } from './home-routing.module';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent, ModalContentComponent } from './home/home.component';
 import { VersionComponent } from './version/version.component';
+import { PaymentSuccessComponent } from './payment/success.component';
+import { PaymentFailComponent } from './payment/fail.component';
 import { TeamComponent } from './team/team.component';
 import { RoadmapComponent } from './roadmap/roadmap.component';
 
@@ -23,6 +25,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 @NgModule({
   imports: [
     CommonModule,
+    MatIconModule,
     HomeRoutingModule, 
     TranslateModule,
     RouterModule,
@@ -36,8 +39,11 @@ import { ModalModule } from 'ngx-bootstrap/modal';
   ],
   declarations: [
     HomeComponent,
+    ModalContentComponent,
     VersionComponent,
     TeamComponent,
+    PaymentSuccessComponent,
+    PaymentFailComponent,
     RoadmapComponent
   ]
 })

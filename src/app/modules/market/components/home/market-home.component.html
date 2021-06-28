@@ -1,35 +1,30 @@
 <div *ngIf="maintainence" class="d-flex justify-content-center align-items-center pt-3 mt-3">
     <img src="/assets/maintainence.jpeg">
 </div>
-<div class="containerX market-page" *ngIf="!maintainence">
-    <div class="gradient-back-area" fxLayout="column" fxFlexAlign.lt-md="300px">
-        <div class="topslogan">
-            <div class="container">
-                <div class="slogan row">
-                    <div class="slogan-left">
-                        {{'TopSologan' | translate}}
-                        <div class="contentarea">
-                            {{'TopSloganContent' | translate}}
-                        </div>
-                    </div>
-                </div>
 
-                <div class="row advblocks" fxHide.lt-md>
-                    <div class="col-md-3 advContainer">
-                        <app-advblock class="advblock right1em" [bNum]="'block1'" [title]="'eXchangily is S.A.F.E' | translate" [desc1]="'Secure, Autonomous, Fast, Easy' | translate" [bgimgurl]="'images/adv/01.png'"></app-advblock>
+<div class="containerX market-page" *ngIf="!maintainence" >
+    <div *ngIf="isMobile">
+        <!-- <app-app-intro [showHeadOnly]="true"></app-app-intro> -->
+        <div></div>
+    </div>
+    <div class="gradient-back-area" fxLayout="column" fxFlex.lt-md="300px">
+        <div class="topslogan">
+            <div class="container carousel-container">
+
+                <carousel [isAnimated]="true" class="m-carousel">
+                    <div class="slider-wrap">
+                        <slide *ngFor="let banner of banners">
+                            <div class="text-center py-5 text-white pointer" (click)="onClick(banner.clickLink)">
+                                <h2 class="carousel-txt">{{banner.titleLan}}</h2>
+                                <div class="lead">
+                                    <h3 class="carousel-txt">{{banner.subtitleLan}}</h3>
+                                    <img src="{{banner.imageUrl}}" alt="{{banner.imageAlt}}">
+                                    <p class="carousel-txt-p">{{banner.descLan}}</p>
+                                </div>
+                            </div>
+                        </slide>
                     </div>
-                    <div class="col-md-3 advContainer">
-                        <app-advblock class="advblock right1em" [bNum]="'block2'" [title]="'Buy and sell' | translate" [desc1]="'Bitcoin, Etherium, USDT,' | translate" [desc2]="'FAB, EXG with eXchangily' | translate" [bgimgurl]="'images/adv/02.png'"></app-advblock>
-                    </div>
-                    <div class="col-md-3 advContainer">
-                        <app-advblock class="advblock right1em" [bNum]="'block3'" [title]="'Sleep well and trade' | translate" [desc1]="'confidently knowing your' | translate" [desc2]="'crypto assets are always' | translate" [desc3]="'in your wallet, and your' | translate" [desc4]="'wallet is always under your control' | translate"
-                            [bgimgurl]="'images/adv/03.png'"></app-advblock>
-                    </div>
-                    <div class="col-md-3 advContainer">
-                        <app-advblock class="advblock right1em" [bNum]="'block4'" [title]="'We believe transparency is key' | translate" [desc1]="'to developing trust, which is why' | translate" [desc2]="'eXchangily is an open source' | translate" [desc3]="'project, our code is' | translate"
-                            [desc4]="'available for everyone to see' | translate" [bgimgurl]="'images/adv/04.png'"></app-advblock>
-                    </div>
-                </div>
+                </carousel>
 
             </div>
         </div>

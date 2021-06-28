@@ -4,31 +4,31 @@
         <div class="row ">
             <div class="navbar navbar-expand-sm mktmenu col-md-9">
 
-                <div class="nav-item hand" [class.selected]="select === 100" (click)="selectCat(100);">
+                <div class="nav-item hand" [class.selected]="select === '100'" (click)="selectCat('100');">
                     <img src="/images/star-light.svg">{{'Favorites'|translate}}
                 </div>
 
-                <div class="nav-item hand" [class.selected]="select === 6" (click)="selectCat(6);">
+                <div class="nav-item hand" [class.selected]="select == 'DUSD'" (click)="selectCat('DUSD');">
                     <img class="coin-logo" src="/assets/coins/dusd.png"> &nbsp;<span class="align-middle">DUSD</span>
                 </div>
 
-                <div class="nav-item hand" [class.selected]="select === 1" (click)="selectCat(1);">
+                <div class="nav-item hand" [class.selected]="select == 'USDT'" (click)="selectCat('USDT');">
                     <img class="coin-logo" src="/assets/coins/usdt.png"> &nbsp;<span class="align-middle">USDT</span>
                 </div>
 
-                <div class="nav-item hand" [class.selected]="select === 2" (click)="selectCat(2);">
+                <div class="nav-item hand" [class.selected]="select == 'BTC'" (click)="selectCat('BTC');">
                     <img class="coin-logo" src="/assets/coins/btc.png"> &nbsp;<span class="align-middle">BTC </span>
                 </div>
 
-                <div class="nav-item hand" [class.selected]="select === 3" (click)="selectCat(3);">
+                <div class="nav-item hand" [class.selected]="select == 'ETH'" (click)="selectCat('ETH');">
                     <img class="coin-logo" src="/assets/coins/eth.png"> &nbsp;<span class="align-middle">ETH</span>
                 </div>
 
-                <div class="nav-item hand" [class.selected]="select === 5" (click)="selectCat(5);">
+                <div class="nav-item hand" [class.selected]="select == 'EXG'" (click)="selectCat('EXG');">
                     <img class="coin-logo" src="/assets/coins/exg.png"> &nbsp;<span class="align-middle">EXG</span>
                 </div>
 
-                <div class="nav-item hand" [class.selected]="select === 1000" *ngIf="select === 1000">
+                <div class="nav-item hand" [class.selected]="select == '1000'" *ngIf="select == '1000'">
                     <span>Search</span>
                 </div>
                 <!-- <div style="width: 100%;">
@@ -40,8 +40,7 @@
 
             </div>
             <div class="input-group-sm col-md-3">
-                <input type="text" class="form-control searchbox" [(ngModel)]="searchText"
-                    placeholder="{{'Search pair' | translate}}">
+                <input type="text" class="form-control searchbox" [(ngModel)]="searchText" placeholder="{{'Search pair' | translate}}">
                 <div class="input-group-append">
                     <button class="btn btn-secondary" (click)="search()" type="button">
                         <img src="/images/icons/searchicon.svg" width="20px" [hidden]="searchText">
@@ -52,23 +51,45 @@
         </div>
 
         <div class="apair header fxHide-sm">
-            <div class="col-2">{{'Pair'|translate}}</div>
-            <div class="col-2">{{'LatestPrice'|translate}}</div>
-            <div class="col-2">{{'H24Change'|translate}}</div>
-            <div class="col-2">{{'H24H'|translate}}</div>
-            <div class="col-2">{{'H24L'|translate}}</div>
-            <div class="col-2">{{'Vol24'|translate}}</div>
+            <div class="col-2 sortable" (click)="changeSort('coin_id', 'number')">
+                {{'Pair'|translate}}
+                <span *ngIf="sortAscPair == 1">&uarr;</span>
+                <span *ngIf="sortAscPair == -1">&darr;</span>                    
+            </div>
+            <div class="col-2 sortable" (click)="changeSort('price', 'number')">
+                {{'LatestPrice'|translate}}
+                <span *ngIf="sortAscPrice == 1">&uarr;</span>
+                <span *ngIf="sortAscPrice == -1">&darr;</span>                  
+            </div>
+            <div class="col-2 sortable" (click)="changeSort('change24h', 'number')">
+                {{'H24Change'|translate}}
+                <span *ngIf="sortAscChange == 1">&uarr;</span>
+                <span *ngIf="sortAscChange == -1">&darr;</span>                  
+            </div>
+            <div class="col-2 sortable" (click)="changeSort('price24hh', 'number')">
+                {{'H24H'|translate}}
+                <span *ngIf="sortAscHigh == 1">&uarr;</span>
+                <span *ngIf="sortAscHigh == -1">&darr;</span>                   
+            </div>
+            <div class="col-2 sortable" (click)="changeSort('price24hl', 'number')">
+                {{'H24L'|translate}}
+                <span *ngIf="sortAscLow == 1">&uarr;</span>
+                <span *ngIf="sortAscLow == -1">&darr;</span>                  
+            </div>
+            <div class="col-2 sortable" (click)="changeSort('vol24h', 'number')">
+                {{'Vol24'|translate}}
+                <span *ngIf="sortAscVolume == 1">&uarr;</span>
+                <span *ngIf="sortAscVolume == -1">&darr;</span>                    
+            </div>
         </div>
 
-        <div class="apair dataline fxHide-sm" *ngFor="let pr of tab_prices; let i=index">
+        <div class="apair dataline fxHide-sm" *ngFor="let pr of tab_prices | sortByField : sortField : sortFieldType : sortAsc; let i=index">
             <div class="col-md-2 hand align-self-center">
-                <button mat-icon-button (click)="toggleFavorite(pr)" aria-label="Example icon-button with a heart icon"
-                    class="text-right">
+                <button mat-icon-button (click)="toggleFavorite(pr)" aria-label="Example icon-button with a heart icon" class="text-right">
                     <img [src]="isFavorite(pr) ? '/images/star-light.svg' : '/images/star-grey.svg'">
                 </button>
                 <span (click)="gotoTrade(pr.id);">
-                    <span class="text-coin">{{COINS[pr.coin_id].name}}</span><span
-                        class="text-base-coin">/{{COINS[pr.base_id].name}}</span>
+                    <span class="text-coin">{{getCoinName(pr.coin_id)}}</span><span class="text-base-coin">/{{getCoinName(pr.base_id)}}</span>
                 </span>
 
             </div>
@@ -89,13 +110,11 @@
 
         <div class="row apair text-white fxHide-gt-sm" *ngFor="let pr of tab_prices; let i=index">
             <div class="col-5 hand align-self-center">
-                <button mat-icon-button color="warn" (click)="toggleFavorite(pr)"
-                    aria-label="Example icon-button with a heart icon" class="text-right">
+                <button mat-icon-button color="warn" (click)="toggleFavorite(pr)" aria-label="Example icon-button with a heart icon" class="text-right">
                     <img [src]="isFavorite(pr) ? '/images/star-light.svg' : '/images/star-grey.svg'">
                 </button>
                 <span (click)="gotoTrade(pr.id);">
-                    <span class="text-coin">{{COINS[pr.coin_id].name}}</span><span
-                        class="text-base-coin">/{{COINS[pr.base_id].name}}</span>
+                    <span class="text-coin">{{getCoinName(pr.coin_id)}}</span><span class="text-base-coin">/{{getCoinName(pr.base_id)}}</span>
                 </span>
             </div>
             <div class="col-4 align-self-center">{{toDecimal(pr.price, 6)}}</div>

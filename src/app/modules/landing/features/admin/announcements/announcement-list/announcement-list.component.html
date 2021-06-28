@@ -5,8 +5,7 @@
                 <!-- btn-info -->
                 <div class="media-body">
                     <h5 class="mt-0 mb-1">{{announce.title}}</h5>
-                    <div class="articalSub my-2"><button type="button"
-                            class="btn btn-sm mr-2 btn-primary">{{announce.category}}</button>{{announce.postedDate}}</div>
+                    <div class="articalSub my-2"><button type="button" class="btn btn-sm mr-2 btn-primary">{{announce.category}}</button>{{announce.postedDate}}</div>
                     <p class="articalBody">
                         {{announce.contentSummary}}
                     </p>
@@ -16,7 +15,7 @@
         <div *ngIf="busy">
             Loading...
         </div>
-        <div *ngif="!busy && !success"> 
+        <div *ngIf="!busy && !success">
 
         </div>
     </div>

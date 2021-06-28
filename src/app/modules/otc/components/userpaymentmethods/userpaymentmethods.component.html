@@ -32,8 +32,8 @@
           <mat-form-field>
             <mat-label>Payment methods</mat-label>
             <mat-select [(ngModel)]="paymethod">
-              <mat-option *ngFor="let p of paymentmethods" [value]="p._id">
-                {{p.name}}
+              <mat-option *ngFor="let p of paymentmethods" [value]="p">
+                {{p}}
               </mat-option>
             </mat-select>
           </mat-form-field>

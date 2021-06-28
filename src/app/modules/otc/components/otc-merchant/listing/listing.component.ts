@@ -80,6 +80,7 @@ export class ListingComponent implements OnInit {
     }
 
     addListing() {
+        /*
         if (!this.buy) { // sell coins
             const payableQuantity = this.quantity * (1 + this.commissionRate);
             if (payableQuantity > this.available) {
@@ -95,6 +96,8 @@ export class ListingComponent implements OnInit {
         } else {
             this.addListingDo();
         }
+        */
+        this.addListingDo();
     }
 
     addListingDo() {

@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
@@ -28,8 +29,10 @@ import { HeaderComponent } from './components/navigation/header/header.component
 import { FooterComponent } from './components/navigation/footer/footer.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FaqComponent } from './components/help/faq.component';
+import { FeeComponent } from './components/help/fee.component';
 import { SubscriptionComponent } from './modules/landing/features/subscription/subscription.component';
 import { HelpComponent } from './components/help/help.component';
+import { ManualComponent } from './components/manual/manual.component';
 
 import { HttpService } from './services/http.service';
 import { AlertService } from './services/alert.service';
@@ -42,8 +45,6 @@ import { SupportComponent } from './modules/support/support.component';
 import { TicketComponent } from './modules/support/ticket/ticket.component';
 import { TicketAddComponent } from './modules/support/ticket-add/ticket-add.component';
 import { NewsComponent } from './modules/news/news.component';
-import { AppIntroComponent } from './modules/app-intro/app-intro.component';
-// import { AnnouncementComponent } from './components/help/announcement.component';
 import { LanService } from './services/lan.service';
 import { LoginInfoService } from './services/loginInfo.service';
 import { CampaignOrderService } from './services/campaignorder.service';
@@ -51,7 +52,7 @@ import { LoginQualifyService } from './services/lgoin-quality.service';
 import { AnnouncementsService } from './services/announcements.service';
 import { AnnouncementListComponent } from './components/help/announcement/announcement-list/announcement-list.component';
 import { AnnouncementComponent } from './components/help/announcement/announcement/announcement.component';
-
+import { AppIntroComponent } from './modules/app-intro/app-intro.component';
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -64,16 +65,18 @@ export function HttpLoaderFactory(http: HttpClient) {
     // TvChartContainerComponent,
     HeaderComponent,
     HelpComponent,
+    ManualComponent,
     FaqComponent,
+    FeeComponent,
     FooterComponent,
     SubscriptionComponent,
     SupportComponent,
     TicketComponent,
     TicketAddComponent,
     NewsComponent,
-    AppIntroComponent,
     AnnouncementComponent,
     AnnouncementListComponent,
+    AppIntroComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -81,6 +84,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatSidenavModule,
     MatToolbarModule,
     FormsModule,
+    MatCardModule,
     MatIconModule,
     MatFormFieldModule,
     MatSelectModule,

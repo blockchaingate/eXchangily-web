@@ -5,6 +5,21 @@ a:focus {
     color: lightgray;
 }
 
+.mobile-items {
+    display: none;
+}
+
+.align-right {
+    position: absolute;
+    right: 0px;
+}
+
+@media (max-width:767px) {
+    .mobile-items {
+        display: block;
+    }
+}
+
 .nav-link {
     -webkit-transition: all 450ms ease-in-out;
     -moz-transition: all 450ms ease-in-out;
@@ -99,16 +114,13 @@ a.nav-link {
         vertical-align: middle;
         padding-right: 3px;
     }
-
     .exSubMenu {
         border-top: 3px solid #7368ff; // #cd45ff;
         z-index: 1201;
-
         ul {
             margin: 0 auto;
             padding: 0 0px;
         }
-
         li {
             list-style: none;
             padding: 0 10px;
@@ -121,15 +133,12 @@ a.nav-link {
         .mat-icon {
             height: 38px !important;
         }
-
         &:hover mat-icon {
             color: white;
         }
-
         .camMenu {
             right: 10px;
         }
-
         .exSubMenu {
             border-radius: 10px;
             position: absolute;
@@ -139,18 +148,14 @@ a.nav-link {
             .nav-item:not(:last-child) {
                 border-bottom: 1px #999 solid;
             }
-
             .nav-item:hover {
                 background-color: #666;
             }
-
             a.nav-link {
                 line-height: 30px;
             }
-
             .exMenuContainer {
                 display: flex;
-
                 .exMenuTextBox {
                     display: inline-block;
                     min-width: 600px;
@@ -161,13 +166,11 @@ a.nav-link {
                     color: lightgray;
                     padding: 10px;
                 }
-
                 .exMenuItemBox {
                     display: inline-block;
                 }
             }
         }
-
         &:hover .exSubMenu {
             display: block;
         }
@@ -178,32 +181,26 @@ a.nav-link {
     .navbar-collapse.show {
         background-color: #181439;
     }
-
     .nav-item {
         mat-icon {
             position: relative;
             top: auto;
             height: 34px;
         }
-
         a.nav-link {
             line-height: 30px;
             border-bottom: 1px rgba(255, 255, 255, 0.1) solid;
         }
-
         .exSubMenu {
             background: #404086;
             border-radius: 10px;
-
             .exMenuTextBox {
                 color: #fff;
                 padding: 10px 20px;
             }
         }
     }
-
     // .nav-item {
-
     // }
 }
 
@@ -254,6 +251,7 @@ a.nav-link {
 }
 
 .upperNav {
+    height: 46px;
     z-index: 1500;
     .nav-link {
         font-size: 12px;

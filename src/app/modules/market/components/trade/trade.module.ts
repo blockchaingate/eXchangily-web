@@ -8,6 +8,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { BindpayModule } from '../../../bindpay/bindpay.module';
 import { TradeRoutingModule } from './trade-routing.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { TradeComponent } from './trade.component';
@@ -22,6 +23,7 @@ import { WalletService } from '../../../../services/wallet.service';
 import { CoinService } from '../../../../services/coin.service';
 import { ApiService } from '../../../../services/api.service';
 import { MatTabsModule } from '@angular/material/tabs';
+import {MatRadioModule} from '@angular/material/radio';
 import { MatListModule } from '@angular/material/list';
 import { MockService } from '../../../../services/mock.service';
 import { CallbackPipe } from '../../../shared/pipes/callback.pipe';
@@ -31,7 +33,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { WithdrawHistoryComponent } from './withdraw-history/withdraw-history.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { PanelComponent } from './panel/panel.component';
-import { ReceiveCoinModal } from './modals/receive-coin/receive-coin.component';
 
 @NgModule({
     imports: [
@@ -43,12 +44,14 @@ import { ReceiveCoinModal } from './modals/receive-coin/receive-coin.component';
         RouterModule,
         MatSnackBarModule,
         MatTabsModule,
+        BindpayModule,
         MatListModule,
         MatIconModule,
         MatButtonModule,
         TradeRoutingModule,
         TranslateModule,
         MatTableModule,
+        MatRadioModule,
         MatSlideToggleModule,
         QRCodeModule,
         ModalModule,
@@ -70,7 +73,6 @@ import { ReceiveCoinModal } from './modals/receive-coin/receive-coin.component';
         MyordersComponent,
         OrderPadComponent,
         CallbackPipe,
-        ReceiveCoinModal,
         OrderFilterPipe,
         WithdrawHistoryComponent
     ],

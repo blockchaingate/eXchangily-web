@@ -39,6 +39,23 @@ export class KanbanService {
         return this.post('getTransferHistoryEvents', data);
     }
 
+    getTransactionHistoryOnProduction(address: string) {
+        const data = {
+            fabAddress: address,
+            timestamp: 0
+        };
+        const httpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache'
+        });
+        const options = {
+            headers: httpHeaders
+        };
+        const path = 'https://kanbanprod.fabcoinapi.com/getTransferHistoryEvents';
+        // console.log('path=' + path);
+        // console.log(data);
+        return this.http.post(path, data, options);
+    }    
     getAccounts() {
         const path = 'kanban/getAccounts';
         const res = this.get(path);
@@ -101,6 +118,16 @@ export class KanbanService {
         const path = 'kanban/explorer/getnonce/' + address + '/pending';
         const res = await this.get(path).toPromise() as KanbanNonceResponse;
         return res.nonce;
+    }
+
+    async kanbanCall(to: string, abiData: string) {
+        const data = {
+            to: to,
+            data: abiData
+        };
+        const path = 'kanban/call';
+        const res = await this.post(path, data).toPromise();
+        return res;
     }
 
     async getLatestNonce(address: string) {
@@ -275,6 +302,10 @@ export class KanbanService {
         return status;
     }
 
+    getTransactionReceipt(txid: string) {
+        return this.get('kanban/getTransactionReceipt/' + txid);
+    }
+    
     async getTransactionStatus(txid: string) {
         let response = null;
         let status = 'failed';

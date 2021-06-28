@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AccountComponent } from './account/account.component';
 import { InfoComponent } from './info/info.component';
+import { OtcModule } from '../../../otc/otc.module';
 import { AccountRoutingModule } from './account-routing.module';
 import { DetailsComponent } from './details/details.component';
 import { SecurityComponent } from './security/security.component';
@@ -17,6 +18,9 @@ import { PlaceOrderComponent } from './place-order/order-page/place-order.compon
 import { ConfirmPageComponent } from './place-order/confirm-page/confirm-page.component';
 import { KycComponent } from './kyc/kyc.component';
 import { MerchantComponent } from './merchant/merchant.component';
+import { OtcListingComponent } from './otc-listing/otc-listing.component';
+import { OtcOrderComponent } from './otc-order/otc-order.component';
+import { MyOtcOrderComponent } from './my-otc-order/my-otc-order.component';
 
 import { AppService } from '../../service/app-service/app.service';
 import { UserService } from '../../service/user/user.service';
@@ -36,7 +40,15 @@ import { CreateOrderSubmissionComponent } from './components/create-order-submis
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { SharedModule } from '../../../shared/shared.module';
+import { CoinService } from '../../../../services/coin.service';
+import { AlertService } from '../../../../services/alert.service';
+import { UtilService } from '../../../../services/util.service';
+import { WalletService } from '../../../../services/wallet.service';
+import { StorageService } from '../../../../services/storage.service';
+import { OtcService } from '../../../../services/otc.service';
+import { TimerService } from '../../../../services/timer.service';
 
+import {MatSelectModule} from '@angular/material/select';
 @NgModule({
   imports: [
     CommonModule,
@@ -48,9 +60,11 @@ import { SharedModule } from '../../../shared/shared.module';
     MatCardModule,
     MatInputModule,
     MatButtonModule,
+    OtcModule,
     ReactiveFormsModule,
     ComponentsModule,
     ReferralModule,
+    MatSelectModule
   ],
   providers: [
     AuthGuard,
@@ -65,6 +79,13 @@ import { SharedModule } from '../../../shared/shared.module';
     AppUsersResolver,
     IcotxParentResolver,
     KycService,
+    CoinService,
+    AlertService,
+    UtilService,
+    WalletService,
+    StorageService,
+    OtcService,
+    TimerService,
     ChildReferralsResolver
   ],
   declarations: [
@@ -75,8 +96,10 @@ import { SharedModule } from '../../../shared/shared.module';
     PlaceOrderComponent,
     SecurityComponent,
     MerchantComponent,
-    // IcotxComponent,
+    OtcListingComponent,
     ConfirmPageComponent,
+    OtcOrderComponent,
+    MyOtcOrderComponent,
     // OrderComponent,
     PlaceOrderFormComponent,
     KycComponent,

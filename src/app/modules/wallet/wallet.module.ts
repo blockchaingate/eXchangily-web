@@ -42,6 +42,7 @@ import { GetFreeFabModal } from './modals/get-free-fab/get-free-fab.modal';
 import { LoginSettingModal } from './modals/login-setting/login-setting.modal';
 import { LockedInfoModal } from './modals/locked-info/locked-info.modal';
 import { DisplaySettingModal } from './modals/display-setting/display-setting.modal';
+import { WalletUpdateModal } from './modals/wallet-update/wallet-update.modal';
 import { KanbanService } from '../../services/kanban.service';
 import { AirdropService } from '../../services/airdrop.service';
 import { CampaignOrderService } from '../../services/campaignorder.service';
@@ -88,6 +89,7 @@ import { TransactionTypePipe } from './pipes/transaction-type.pipe';
         VerifySeedPhraseModal,
         AddGasModal,
         ToolsModal,
+        WalletUpdateModal,
         GetFreeFabModal,
         BackupPrivateKeyModal,
         DeleteWalletModal,

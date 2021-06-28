@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TicketComponent implements OnInit {
 
-  tabTitles:string[] = [
+  tabTitles: string[] = [
     'ALL',
     'OPEN',
     'PROGRESSING',

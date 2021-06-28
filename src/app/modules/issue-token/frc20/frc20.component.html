@@ -1,0 +1,53 @@
+<div class="main-container">
+    <h1 class="section-title">{{'FRC20 token' | translate}}</h1>
+
+    <h2>{{'Introduction of FRC20 token' | translate}}</h2>
+    <p>
+        {{"FRC20 is a widely adopted standard for the proposal to create tokens on the FAB network, which is compatible with Ethereum's ERC20. It is a set of rules implemented in smart contracts deployed on the FAB network. After deployment, anyone with a FAB wallet can interact with the token's smart contract to send and receive tokens. Each FRC20 token has its own smart contract, which can track all transactions of that specific token." | translate}}
+    </p>
+    <h2>
+        {{'Send and receive FRC20 token' | translate}}
+    </h2>
+    <p>
+        {{"All FRC20 tokens are deployed on the FAB network, so you need a FAB wallet to send and receive FRC20 tokens. To receive FRC20 tokens, you need a FAB address, which can store FAB and any number of FRC20 tokens. To receive tokens, you only need to provide your address to the payer. Sending them is as easy as sending a FAB-just paste the receiving address and the number of tokens to be sent, and then click the send button." | translate}}
+    </p>
+    
+    <h2>
+        {{"FRC20 standard specification" | translate}}
+    </h2>
+    <P>
+        {{"The standard specifies an interface with 6 functions and 2 events, but the implementation of the functions is omitted from the specification." | translate}}
+    </P>
+    
+    <h2>
+        {{'Functional specification' | translate}}
+        
+    </h2>
+    
+    <div>
+    {{'The functional interfaces of FRC20 are listed below' | translate}}:
+    <ol>
+        <li>totalSupply() public view returns (uint256 totalSupply) - {{'Get the total supply of token' | translate}}</li>
+        <li>balanceOf(address _owner) public view returns (uint256 balance) - {{'Get the balance of the account owner' | translate}}</li>
+        <li>transfer(address _to, uint256 _value) public returns (bool success) - {{'Send the specified number of tokens to the specified address' | translate}}</li>
+        <li>transferFrom(address _from, address _to, uint256 _value) public returns (bool success) - {{'Send the specified amount of tokens from the specified address to the specified receiving address' | translate}}</li>
+        <li>approve(address _spender, uint256 _value) public returns (bool success) - {{'Authorize the designated address to transfer your designated amount of tokens' | translate}}</li>
+        <li>allowance(address _owner, address _spender) public view returns (uint256 remaining) - {{'Return the remaining authorized amount' | translate}}</li>
+    </ol>
+    </div>
+    
+    <h2>
+        {{'Event specification' | translate}}
+    </h2>
+    <div>
+    {{'Defined events' | translate}}:
+    <ol>
+        <li>Transfer(address indexed _from, address indexed _to, uint256 _value) - {{'Triggered when tokens are transferred' | translate}}</li>
+        <li>Approval(address indexed _owner, address indexed _spender, uint256 _value) - {{'Triggered when the approval function is called' | translate}}</li>
+    </ol>
+
+    </div>
+    
+</div>
+
+

@@ -1,34 +1,50 @@
 @import "sizing";
-
 .containerX {
-    min-height: 860px;
-    background-color: #1f2233;
+    background-color: #070829;
 }
 
 .market-page {
+    .carousel-container {
+        height: 500px;
+        position: relative;
+        #canvas-club {
+            overflow: hidden;
+            background: black;
+            // height: calc(100vh - 154px);
+            // width: 100%;
+        }
+        .m-carousel {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+        }
+        .carousel-inner {
+            position: relative;
+            top: 50%;
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+    }
     .topslogan {
         padding: 0.6em;
         text-align: center;
         min-height: 340px;
     }
-
-   
     @media only screen and (max-width: 960px) {
         .topslogan {
             min-height: 300px;
         }
     }
-
     .slogan {
         display: flex;
         margin-top: 1em;
     }
-
     .contentarea {
         font-size: 14px;
         margin-top: 1em;
     }
-
     .slogan-left {
         text-align: left;
         vertical-align: middle;
@@ -38,73 +54,49 @@
         padding-right: 1em;
         padding-top: 1em;
     }
-
     @media only screen and (max-width: 960px) {
         .slogan-left {
             width: 100%;
         }
     }
-
     /*
     .slogan-right {
         width: 50%;
         padding-left: 1em;
     }
     */
-
     .topslogan .container {
         background-repeat: no-repeat;
         background-size: auto 380px;
         background-position: right 120px center;
         font-family: Verdana, sans-serif, SimHei, "Microsoft YaHei";
     }
-
-    .containerX {
-        margin-top: -20px;
-    }
-
     .topslogan {
         background-image: url("/images/waves.svg");
         background-repeat: no-repeat;
         background-size: 100% auto;
         background-position: left bottom;
     }
-
-    .announcement {
-        padding: 0.2em;
-        text-align: center;
-        color: white;
-        font-size: 0.6em;
-        background-color: #333333;
-    }
-
     .advblocks {
         display: flex;
         margin-top: 2em;
         background-repeat: no-repeat;
-
         .advContainer {
             margin-bottom: 3px;
         }
-
         .advblock {
             text-align: left;
             color: white;
         }
-
-
         // .advContainer:last-child {
         //     padding-right: 0;
         // }
-
         // .block1 .advblock-detail{
         //     background-color: #000;
         // }
-
         // .advContainer:nth-child(1) .advblock{
         //     background-color: #000;
         // }
-
         // .advblock {
         //     width: calc(25% - 1em);
         //     height: 72px;
@@ -112,34 +104,59 @@
         //     color: white;
         //     height: 100%;
         // }
-
         // @media (max-width: $p1024) {
         //     .advblock {
         //         border-radius: 5px;
         //     }
         // }
-
         .right1em {
             margin-right: 1em;
         }
     }
-
     @media (min-width: $p1024) {
         .advblocks {
             border-radius: 5px;
             margin-right: -30px;
         }
-
         .advContainer {
             padding-left: 0;
         }
     }
-
     @media (max-width: $p1023) {
-        .slogan{
+        .slogan {
             margin: -15px 0;
         }
     }
+}
 
-    
+::ng-deep {
+    .carousel {
+        position: relative;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+    h2.carousel-txt {
+        font-weight: 600;
+        font-size: 40px;
+        text-transform: uppercase;
+    }
+    h3.carousel-txt {
+        font-weight: 600;
+        font-size: 28px;
+        text-transform: uppercase;
+    }
+    .carousel-txt-p {
+        margin: 0 auto;
+    }
+    @media screen and (max-width: 1200px) {
+        .m-carousel {
+            transform: scale(0.8);
+        }
+        .carousel {
+            .lead img {
+                width: 100%;
+            }
+        }
+    }
 }

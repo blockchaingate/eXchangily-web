@@ -1,3 +1,50 @@
+4e9c689a2f536a5c01ac7dee2d5c5f0cdd5125054034b320d0ee63c412d6135f
+
+
+DSC FAB:
+2868304.45884
+BST:
+7352239.91768
+
+
+
+1859322.9999999
+
+abiHex for withdraw= 
+3295d51e
+0000000000000000000000000000000000000000000000000000000200020005
+000000000000000000000000000000000000000000000042d74ff74938a40000
+000000000000006fdcd0f23125f74ef621dfa3310625f8af0dcd971be0395cda
+49950234
+
+BST
+7351553.91768
+
+
+
+DSC
+99999999000
+
+BST
+99999999000
+
+
+FAB: 1075.8616
+
+EXG: 1100
+https://composer.alchemyapi.io/
+
+raven cabin cute bachelor mail broken diet night hurry alley bus gauge //Rinkeby
+dune stem onion cliff equip seek kiwi salute area elegant atom injury
+tortoise cry hello tail taste goose rural fringe destroy next age tray
+
+uint8Array not defined
+btoa not defined
+
+NVZN TOKEN CONTRACT ADDRESS:
+
+0x99963EE76C886fc43D5063428fF8F926E8A50985
+
 if the barcode started with n., that means it's a ready to pay order.
 (1)
 get order information by get request 
@@ -28,6 +75,7 @@ environment.endpoints.blockchaingate + 'orders/' + orderID + '/charge'
 get order information by get request 
 
 environment.endpoints.blockchaingate + 'orders/code/' + code;
+_body.paymentStatus
 
 
 

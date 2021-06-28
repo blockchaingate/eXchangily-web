@@ -39,82 +39,93 @@ export class DepositAmountModal {
     });
 
     constructor(
-    private tranServ: TranslateService, private apiService: ApiService, 
-    private fb: FormBuilder, private alertServ: AlertService, private coinServ: CoinService
+        private tranServ: TranslateService, private apiService: ApiService,
+        private fb: FormBuilder, private alertServ: AlertService, private coinServ: CoinService
     ) {
         this.transFee = 0;
         this.kanbanTransFee = 0;
         this.firstTime = true;
         this.disabled = false;
         this.sendAllCoinsFlag = false;
-        console.log('this.lan===', this.lan);
     }
 
     async sendAllAmount(event) {
         console.log('event=', event);
         this.sendAllCoinsFlag = event.checked;
         console.log('this.sendAllCoinsFlag==', this.sendAllCoinsFlag);
+        
         const coinName = this.coin.name;
         const tokenType = this.coin.tokenType;
         const balance = this.coin.balance;
         const address = this.coin.receiveAdds[0].address;
-        if(coinName == 'BTC') {
+
+        if (this.sendAllCoinsFlag) {
+            if(this.coin.name == 'TRX') {
+                this.transFee = 0;
+            }            
+        } else {
+            if(this.coin.name == 'TRX') {
+                this.transFee = environment.chains.TRX.feeLimit / 1e6;
+            }            
+        }
+        
+        if (coinName === 'BTC') {
             const utxos = await this.apiService.getBtcUtxos(address);
-            if(!utxos) {
+            if (!utxos) {
                 return;
             }
             const utxoNum = utxos.length;
             const bytesPerInput = environment.chains.BTC.bytesPerInput;
-            //const satoshisPerBytes = environment.chains.BTC.satoshisPerBytes;
+            // const satoshisPerBytes = environment.chains.BTC.satoshisPerBytes;
             const satoshisPerBytes = this.depositAmountForm.get('satoshisPerBytes').value ? Number(this.depositAmountForm.get('satoshisPerBytes').value) : environment.chains.BTC.satoshisPerBytes;
             const transFee = (utxoNum * bytesPerInput + 2 * 34 + 10) * satoshisPerBytes;
             const transFeeDouble = transFee / 1e8;
             let transOut = balance - transFeeDouble;
-            if(transOut <= 0) {
+            if (transOut <= 0) {
                 return;
             }
             transOut = Number(transOut.toFixed(8));
-            this.depositAmountForm.patchValue({'depositAmount': transOut});
-            this.onTextChange(transOut);    
+            this.depositAmountForm.patchValue({ 'depositAmount': transOut });
+            this.onTextChange(transOut);
         } else
-        if(coinName == 'FAB') {
-            const utxos = await this.apiService.getFabUtxos(address);
-            if(!utxos) {
-                return;
-            }
-            const utxoNum = utxos.length;
-            const bytesPerInput = environment.chains.FAB.bytesPerInput;
-            //const satoshisPerBytes = environment.chains.FAB.satoshisPerBytes;
-            const satoshisPerBytes = this.depositAmountForm.get('satoshisPerBytes').value ? Number(this.depositAmountForm.get('satoshisPerBytes').value) : environment.chains.FAB.satoshisPerBytes;
-            const transFee = (utxoNum * bytesPerInput + 2 * 34 + 10) * satoshisPerBytes;
-            const transFeeDouble = transFee / 1e8;
-            let transOut = balance - transFeeDouble;
-            if(transOut <= 0) {
-                return;
-            }
-            transOut = Number(transOut.toFixed(8));
-            this.depositAmountForm.patchValue({'depositAmount': transOut});  
-            this.onTextChange(transOut);             
-        } else
-        if(coinName == 'ETH') {
-            //const gasPrice = environment.chains.ETH.gasPrice;
-            //const gasLimit = environment.chains.ETH.gasLimit;
-            const gasPrice = this.depositAmountForm.get('gasPrice').value ? Number(this.depositAmountForm.get('gasPrice').value) : environment.chains.ETH.gasPrice;
-            const gasLimit = this.depositAmountForm.get('gasLimit').value ? Number(this.depositAmountForm.get('gasLimit').value) : environment.chains.ETH.gasLimit;            
-            const transFeeDouble = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
-            let transOut = balance - transFeeDouble;
-            if(transOut <= 0) {
-                return;
-            }
-            transOut = Number(transOut.toFixed(8));
-            this.depositAmountForm.patchValue({'depositAmount': transOut});   
-            this.onTextChange(transOut);               
-        } else
-        if(tokenType == 'FAB' || tokenType == 'ETH') {
-            this.depositAmountForm.patchValue({'depositAmount': balance});   
-            this.onTextChange(balance);    
-        }
-    }    
+            if (coinName === 'FAB') {
+                const utxos = await this.apiService.getFabUtxos(address);
+                if (!utxos) {
+                    return;
+                }
+                const utxoNum = utxos.length;
+                const bytesPerInput = environment.chains.FAB.bytesPerInput;
+                // const satoshisPerBytes = environment.chains.FAB.satoshisPerBytes;
+                const satoshisPerBytes = this.depositAmountForm.get('satoshisPerBytes').value ? Number(this.depositAmountForm.get('satoshisPerBytes').value) : environment.chains.FAB.satoshisPerBytes;
+                const transFee = (utxoNum * bytesPerInput + 2 * 34 + 10) * satoshisPerBytes;
+                const transFeeDouble = transFee / 1e8;
+                let transOut = balance - transFeeDouble;
+                if (transOut <= 0) {
+                    return;
+                }
+                transOut = Number(transOut.toFixed(8));
+                this.depositAmountForm.patchValue({ 'depositAmount': transOut });
+                this.onTextChange(transOut);
+            } else
+                if (coinName === 'ETH') {
+                    // const gasPrice = environment.chains.ETH.gasPrice;
+                    // const gasLimit = environment.chains.ETH.gasLimit;
+                    const gasPrice = this.depositAmountForm.get('gasPrice').value ? Number(this.depositAmountForm.get('gasPrice').value) : environment.chains.ETH.gasPrice;
+                    const gasLimit = this.depositAmountForm.get('gasLimit').value ? Number(this.depositAmountForm.get('gasLimit').value) : environment.chains.ETH.gasLimit;
+                    const transFeeDouble = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
+                    let transOut = balance - transFeeDouble;
+                    if (transOut <= 0) {
+                        return;
+                    }
+                    transOut = Number(transOut.toFixed(8));
+                    this.depositAmountForm.patchValue({ 'depositAmount': transOut });
+                    this.onTextChange(transOut);
+                } else
+                    if (tokenType === 'FAB' || tokenType === 'ETH') {
+                        this.depositAmountForm.patchValue({ 'depositAmount': balance });
+                        this.onTextChange(balance);
+                    }
+    }
     getTransFeeUnit() {
         if (!this.coin) {
             return '';
@@ -122,15 +133,15 @@ export class DepositAmountModal {
         const name = this.coin.name;
         const tokenType = this.coin.tokenType;
         let unit = '';
-        if (name === 'EXG' || name === 'FAB' || name === 'DUSD') {
+        if (name === 'EXG' || (name === 'FAB' && !tokenType) || name === 'DUSD') {
             unit = 'FAB';
-        } else
-            if (name === 'ETH' || tokenType === 'ETH') {
-                unit = 'ETH';
-            } else
-                if (name === 'BTC') {
-                    unit = 'BTC';
-                }
+        } else if (name === 'ETH' || tokenType === 'ETH') {
+            unit = 'ETH';
+        } else if (name === 'BTC') {
+            unit = 'BTC';
+        } else {
+            unit = tokenType;
+        }
         this.tranFeeUnit = unit;
         return unit;
     }
@@ -139,42 +150,36 @@ export class DepositAmountModal {
         if (this.firstTime && this.coin) {
             if ((this.coin.name === 'ETH') || (this.coin.tokenType === 'ETH')) {
                 let gasPrice = await this.coinServ.getEthGasprice();
-                if(!gasPrice || (gasPrice < environment.chains.ETH.gasPrice)) {
+                if (!gasPrice || (gasPrice < environment.chains.ETH.gasPrice)) {
                     gasPrice = environment.chains.ETH.gasPrice;
                 }
-                if(gasPrice > environment.chains.ETH.gasPriceMax) {
-                    gasPrice = environment.chains.ETH.gasPriceMax
+                if (gasPrice > environment.chains.ETH.gasPriceMax) {
+                    gasPrice = environment.chains.ETH.gasPriceMax;
                 }
                 this.depositAmountForm.get('gasPrice').setValue(gasPrice);
                 this.depositAmountForm.get('gasLimit').setValue(environment.chains.ETH.gasLimit);
-                if(this.coin.tokenType === 'ETH') {
+                if (this.coin.tokenType === 'ETH') {
                     this.depositAmountForm.get('gasLimit').setValue(environment.chains.ETH.gasLimitToken);
-                }                
-            } else
-                if (this.coin.name === 'FAB') {
-                    this.depositAmountForm.get('satoshisPerBytes').setValue(environment.chains.FAB.satoshisPerBytes);
-                } else
-                if (this.coin.name === 'BCH') {
-                    this.depositAmountForm.get('satoshisPerBytes').setValue(environment.chains.BCH.satoshisPerBytes);
-                } else   
-                if (this.coin.name === 'LTC') {
-                    this.depositAmountForm.get('satoshisPerBytes').setValue(environment.chains.LTC.satoshisPerBytes);
-                } else      
-                if (this.coin.name === 'DOGE') {
-                    this.depositAmountForm.get('satoshisPerBytes').setValue(environment.chains.DOGE.satoshisPerBytes);
-                } else                       
-                    if (this.coin.name === 'BTC') {
-                        this.depositAmountForm.get('satoshisPerBytes').setValue(environment.chains.BTC.satoshisPerBytes);
-                    } else
-                        if (this.coin.tokenType === 'FAB') {
-                            this.depositAmountForm.get('satoshisPerBytes').setValue(environment.chains.FAB.satoshisPerBytes);
-                            this.depositAmountForm.get('gasPrice').setValue(environment.chains.FAB.gasPrice);
-                            this.depositAmountForm.get('gasLimit').setValue(environment.chains.FAB.gasLimit);
-                        }
+                }
+            } else if (this.coin.name === 'FAB') {
+                this.depositAmountForm.get('satoshisPerBytes').setValue(environment.chains.FAB.satoshisPerBytes);
+            } else if (this.coin.name === 'BCH') {
+                this.depositAmountForm.get('satoshisPerBytes').setValue(environment.chains.BCH.satoshisPerBytes);
+            } else if (this.coin.name === 'LTC') {
+                this.depositAmountForm.get('satoshisPerBytes').setValue(environment.chains.LTC.satoshisPerBytes);
+            } else if (this.coin.name === 'DOGE') {
+                this.depositAmountForm.get('satoshisPerBytes').setValue(environment.chains.DOGE.satoshisPerBytes);
+            } else if (this.coin.name === 'BTC') {
+                this.depositAmountForm.get('satoshisPerBytes').setValue(environment.chains.BTC.satoshisPerBytes);
+            } else if (this.coin.tokenType === 'FAB') {
+                this.depositAmountForm.get('satoshisPerBytes').setValue(environment.chains.FAB.satoshisPerBytes);
+                this.depositAmountForm.get('gasPrice').setValue(environment.chains.FAB.gasPrice);
+                this.depositAmountForm.get('gasLimit').setValue(environment.chains.FAB.gasLimit);
+            }
             this.firstTime = false;
         }
         this.checkTransFee();
-       
+
     }
 
     initForm(coin) {
@@ -220,11 +225,11 @@ export class DepositAmountModal {
             getTransFeeOnly: true
         };
 
-        //console.log('this.coin=', this.coin);
-        //console.log('amount=', amount);
-        //console.log('options=', options);
+        // console.log('this.coin=', this.coin);
+        // console.log('amount=', amount);
+        // console.log('options=', options);
         const ret = await this.coinServ.sendTransaction(this.coin, null, to, amount, options, false);
-        //console.log('ret=', ret);
+        // console.log('ret=', ret);
         this.transFee = ret.transFee;
         this.getTransFeeUnit();
 
@@ -236,7 +241,7 @@ export class DepositAmountModal {
         return ret;
     }
 
-    onSubmit() {
+    async onSubmit() {
         const gasPrice = this.depositAmountForm.get('gasPrice').value ? Number(this.depositAmountForm.get('gasPrice').value) : 0;
         const gasLimit = this.depositAmountForm.get('gasLimit').value ? Number(this.depositAmountForm.get('gasLimit').value) : 0;
         const satoshisPerBytes = this.depositAmountForm.get('satoshisPerBytes').value ?
@@ -250,39 +255,47 @@ export class DepositAmountModal {
         const amount = Number(depositAmount);
         // console.log('amount=', amount);
         if ((amount <= 0) || Number.isNaN(amount)) {
-            this.alertServ.openSnackBar('Please enter valid deposit amount.', 'Ok');
+            this.alertServ.openSnackBar(
+                this.tranServ.instant('Please enter valid deposit amount.'), 
+                this.tranServ.instant('Ok'));
             return;
         }
         if (amount > this.coin.balance) {
-            this.alertServ.openSnackBar('No enough balance for deposit.', 'Ok');
+            this.alertServ.openSnackBar(
+                this.tranServ.instant('No enough balance for deposit.'), 
+                this.tranServ.instant('Ok'));
             return;
         }
 
+        /*
         const coinName = this.coin.name;
         const tokenType = this.coin.tokenType;
-        if(
+        
+        if (
             (coinName === 'BTC')
             || (coinName === 'ETH')
-            || (coinName === 'FAB')
+            || (coinName === 'FAB' && !tokenType)
             || (coinName === 'DOGE')
             || (coinName === 'BCH')
+            || (coinName === 'TRX')
             || (coinName === 'LTC')
         ) {
-            if(this.coin.balance < (this.transFee + amount)) {
+            if (this.coin.balance < (this.transFee + amount)) {
                 this.alertServ.openSnackBar('No enough balance for deposit.', 'Ok');
-                return;                
+                return;
             }
         } else
-        if (
-            (tokenType === 'ETH')
-            || (tokenType === 'FAB')
-        ) {
-            if(this.coin.balance < (this.transFee)) {
-                this.alertServ.openSnackBar('No enough balance' + tokenType + ' for deposit.', 'Ok');
-                return;                
-            }            
-        }
-
+            if (
+                (tokenType === 'ETH')
+                || (tokenType === 'FAB')
+                || (tokenType === 'TRX')
+            ) {
+                if (this.coin.balance < (this.transFee)) {
+                    this.alertServ.openSnackBar('No enough balance ' + tokenType + ' for deposit.', 'Ok');
+                    return;
+                }
+            }
+        */
         this.depositAmountForm.patchValue(
             { depositAmount: '' }
         );
@@ -306,7 +319,7 @@ export class DepositAmountModal {
         this.confirmations = environment.depositMinimumConfirmations[this.coin.name];
         this.depositModal.show();
     }
-    
+
     hide() {
         this.depositModal.hide();
     }

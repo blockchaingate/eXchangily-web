@@ -7,6 +7,7 @@ import { ApiService } from '../../../../services/api.service';
 import { KanbanService } from '../../../../services/kanban.service';
 import { TransactionDetailModal } from '../../modals/transaction-detail/transaction-detail.modal';
 import { TransactionDetailModal2 } from '../../modals/transaction-detail2/transaction-detail2.modal';
+import { CoinService } from '../../../../services/coin.service';
 
 @Component({
     selector: 'app-transaction-history',
@@ -16,15 +17,16 @@ import { TransactionDetailModal2 } from '../../modals/transaction-detail2/transa
 export class TransactionHistoryComponent implements OnInit {
     @ViewChild('transactionDetailModal', { static: true }) transactionDetailModal: TransactionDetailModal;
     @ViewChild('transactionDetailModal2', { static: true }) transactionDetailModal2: TransactionDetailModal2;
-    transactionHistory: TransactionItem[];
+
     @Input() coinsPrice: CoinsPrice;
     @Input() walletId: string;
-    @Input() transactions: any;
+    @Input() transactions: TransactionItem[];
 
     currentType: string;
     utilServ: UtilService;
 
     constructor(
+        private coinServ: CoinService,
         private storageService: StorageService,
         private apiServ: ApiService,
         utilServ: UtilService,
@@ -37,6 +39,30 @@ export class TransactionHistoryComponent implements OnInit {
         this.currentType = type;
     }
 
+    showCoinName(name: string, tokenType: string) {
+        console.log('tokenType for showCoinName=', tokenType);
+
+
+        if ((name == 'TRON_USDT') || ((name == 'USDT') && (tokenType == 'TRX'))) {
+            return 'USDT(TRC20)';
+        } else 
+        if (name == 'USDT') {
+            return 'USDT(ERC20)';
+        } else         
+        if ((name == 'ETH_FAB') || ((name == 'FAB') && (tokenType == 'ETH'))) {
+            return 'FAB(ERC20)'
+        } else
+        if ((name == 'ETH_EXG') || ((name == 'EXG') && (tokenType == 'ETH'))) {
+            return 'EXG(ERC20)'
+        } else 
+        if ((name == 'ETH_DSC') || ((name == 'DSC') && (tokenType == 'ETH'))) {
+            return 'DSC(ERC20)'
+        } else
+        if ((name == 'ETH_BST') || ((name == 'BST') && (tokenType == 'ETH'))) {
+            return 'BST(ERC20)'
+        }
+        return name;
+    }
     mergeSortedArray(a,b){
 
         var tempArray = [];
@@ -86,6 +112,7 @@ export class TransactionHistoryComponent implements OnInit {
                         const newTransaction = {
                             action: transactionItem.type,
                             coin: transactionItem.coin,
+                            tokenType: transactionItem.tokenType,
                             quantity: transactionItem.amount,
                             to: transactionItem.to,
                             timestamp: timestamp,
@@ -111,41 +138,48 @@ export class TransactionHistoryComponent implements OnInit {
     }
 
     async showTransactionDetail2(item: any) {
+
         this.transactionDetailModal2.show(item);
     }
 
     async showTransactionDetail(item: TransactionItem) {
+        /*
         console.log('item is:', item);
         if (item.type === 'Withdraw') {
             const status = await this.kanbanServ.getTransactionStatus(item.txid);
             item.confirmations = status;
         } else
-            if (item.type === 'Deposit') {
-                const status = await this.kanbanServ.getDepositStatus(item.txid);
-                item.confirmations = status;
-            } else
-                if (item.coin === 'BTC') {
-                    const tx = await this.apiServ.getBtcTransaction(item.txid);
-                    item.confirmations = tx.confirmations;
-                    item.blockhash = tx.blockhash;
-                } else
-                    if (item.coin === 'ETH' || item.tokenType === 'ETH') {
-                        const tx = await this.apiServ.getEthTransaction(item.txid);
-                        item.confirmations = '0';
-                        if (tx.blockNumber) {
-                            item.confirmations = tx.confirmations;
-                        }
-                        item.blockhash = tx.blockHash;
-                    } else
-                        if (item.coin === 'FAB' || item.tokenType === 'FAB') {
-                            const tx = await this.apiServ.getFabTransactionJson(item.txid);
-                            console.log('tx in fab token:', tx);
-                            item.confirmations = '0';
-                            if (tx.confirmations) {
-                                item.confirmations = tx.confirmations.toString();
-                            }
-                            item.blockhash = tx.blockhash;
-                        }
+        if (item.type === 'Deposit') {
+            const status = await this.kanbanServ.getDepositStatus(item.txid);
+            item.confirmations = status;
+        } else
+        if (item.coin === 'BTC') {
+            const tx = await this.apiServ.getBtcTransaction(item.txid);
+            item.confirmations = tx.confirmations;
+            item.blockhash = tx.blockhash;
+        } else
+        if (item.coin === 'ETH' || item.tokenType === 'ETH') {
+            const tx = await this.apiServ.getEthTransaction(item.txid);
+            item.confirmations = '0';
+            if (tx.blockNumber) {
+                item.confirmations = tx.confirmations;
+            }
+            item.blockhash = tx.blockHash;
+        } else
+        if (item.coin === 'FAB' || item.tokenType === 'FAB') {
+            const tx = await this.apiServ.getFabTransactionJson(item.txid);
+            item.confirmations = '0';
+            if (tx.confirmations) {
+                item.confirmations = tx.confirmations.toString();
+            }
+            item.blockhash = tx.blockhash;
+        } else
+        if (item.coin === 'TRX' || item.tokenType === 'TRX') {
+            const status = await this.coinServ.getTrxTransactionStatus(item.txid);
+            //console.log('status for tron ===', status);
+            item.status = status;
+        }
+        */
         this.transactionDetailModal.show(item);
     }
 }

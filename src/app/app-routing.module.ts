@@ -4,7 +4,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found.component';
 import { AppResolver } from './modules/landing/resolvers/app/app.resolve';
 import { FaqComponent } from './components/help/faq.component';
+import { FeeComponent } from './components/help/fee.component';
 import { HelpComponent } from './components/help/help.component';
+import { ManualComponent } from './components/manual/manual.component';
 import { SubscriptionComponent } from './modules/landing/features/subscription/subscription.component';
 import { SupportComponent } from './modules/support/support.component';
 import { TicketComponent } from './modules/support/ticket/ticket.component';
@@ -13,13 +15,18 @@ import { NewsComponent } from './modules/news/news.component';
 import { from } from 'rxjs';
 import { AppIntroComponent } from './modules/app-intro/app-intro.component';
 import { AnnouncementComponent } from './components/help/announcement/announcement/announcement.component';
-// import { AnnouncementComponent } from './components/help/announcement.component';
+import { AnnouncementListComponent } from './components/help/announcement/announcement-list/announcement-list.component';
+import { BindpayComponent } from './modules/bindpay/bindpay.component';
+// import { CoininfoComponent } from './components/coin/coin-info.component';
 
 const routes: Routes = [
-
   {
     path: 'explorer',
     loadChildren: () => import('./modules/kanbanexplorer/kanbanexplorer.module').then(m => m.KanbanExplorerModule)
+  },
+  {
+    path: 'assets',
+    loadChildren: () => import('./components/coin/coin.module').then(c => c.CoinModule)
   },
   {
     path: 'wallet',
@@ -30,12 +37,28 @@ const routes: Routes = [
     loadChildren: () => import('./modules/otc/otc.module').then(m => m.OtcModule)
   },
   {
+    path: 'bulk',
+    loadChildren: () => import('./modules/bulk-transfer/bulk-transfer.module').then(m => m.BulkTransferModule)
+  },  
+  {
     path: 'ex',
     loadChildren: () => import('./modules/ex/ex.module').then(m => m.ExModule)
   },
   {
+    path: 'amm',
+    loadChildren: () => import('./modules/amm/amm.module').then(m => m.AmmModule)
+  },  
+  {
     path: 'reward',
     loadChildren: () => import('./modules/reward/reward.module').then(m => m.RewardModule)
+  },
+  {
+    path: 'issue',
+    loadChildren: () => import('./modules/issue-token/issue-token.module').then(m => m.IssueTokenModule)
+  },  
+  {
+    path: 'bindpay',
+    loadChildren: () => import('./modules/bindpay/bindpay.module').then(m => m.BindpayModule)
   },
   {
     path: 'market',
@@ -113,18 +136,24 @@ const routes: Routes = [
     }
     */
   },
+  {
+    path: 'chat', loadChildren: () => import('./modules/chat/chat.module').then(m => m.ChatModule)
+  },
+  {
+    path: 'club', loadChildren: () => import('./modules/club/club.module').then(m => m.ClubModule)
+  },
   { path: 'help', component: HelpComponent },
+  { path: 'manual', component: ManualComponent },
   { path: 'faq', component: FaqComponent },
+  { path: 'fee', component: FeeComponent },
   { path: 'subscription', component: SubscriptionComponent },
   { path: 'app', component: AppIntroComponent },
   { path: 'support', component: SupportComponent },
   { path: 'tickets', component: TicketComponent },
   { path: 'ticket-add', component: TicketAddComponent },
   { path: 'news', component: NewsComponent },
-  { path: 'announcements', component: AnnouncementComponent },
-  {
-    path: '', redirectTo: '/market/home', pathMatch: 'full'
-  },
+//  { path: 'coin/:symbol', component: CoininfoComponent },
+  { path: 'announcements', component: AnnouncementListComponent },
   { path: '', redirectTo: '/market/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

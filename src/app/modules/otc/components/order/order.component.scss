@@ -2,11 +2,6 @@
     color: #f3f3f3;
 }
 
-.order-manage .el-tabs_item.is-active {
-    /* color: rgb(59, 123, 253); */
-    /* border-bottom: 2px solid rgb(59, 123, 253); */
-}
-
 .tab-status .el-tabs_item {
     height: 32px;
     margin-right: 20px;
@@ -38,11 +33,11 @@ a.view-detail:hover {
 }
 
 .order-top {
-    background-color: #0f0d65;
+    background-color: #3c3c5e;
 }
 
 .order-status {
-    background-color: #0f0d65;
+    background-color: #3c3c5e;
 }
 
 .order-table {
@@ -61,60 +56,46 @@ table td {
 }
 
 .odd {
-    background-color: #2c2cb5;
+    background-color: #5c5c6e;
 }
 
 .even {
-    background-color: #3a3abf !important;
+    background-color: #7c7c8e !important;
 }
 
-.order-manage .el-tabs_item{
-padding: 10px;
+.order-manage .el-tabs_item {
+    padding: 10px;
 }
 
-.order-manage .el-tabs_item.is-active{
+.order-manage .el-tabs_item.is-active {
     color: #fff;
     background-color: rgb(59, 123, 253);
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-
 }
 
-
-.order-bottom{
+.order-bottom {
     @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
         /* Force table to not be like tables anymore */
-        table,
-        thead,
-        tbody,
-        th,
-        td,
-        tr {
+        table, thead, tbody, th, td, tr {
             display: block;
         }
-
-
         /* Hide table headers (but not display: none;, for accessibility) */
         thead tr {
             position: absolute;
             top: -9999px;
             left: -9999px;
         }
-
         tr {
             margin: 0 0 5px 0;
         }
-
         td:nth-child(odd) {
             background-color: #2c2cb5;
         }
-    
         thead td,
         td {
             background-color: #3a3abf;
         }
-        
-
         td {
             /* Behave  like a "row" */
             border: none;
@@ -122,7 +103,6 @@ padding: 10px;
             position: relative;
             padding-left: 35%;
         }
-
         td:before {
             /* Now like a table header */
             position: absolute;
@@ -133,7 +113,6 @@ padding: 10px;
             padding-right: 10px;
             white-space: nowrap;
         }
-
         /* Label the data*/
         td:nth-of-type(1):before {
             content: "Order number";
@@ -169,14 +148,12 @@ padding: 10px;
     .order-top-exportL {
         display: none;
     }
-
     .order-top-exportS {
         padding-bottom: 20px;
     }
-
-    .order-status .el-tabs_item{
+    .order-status .el-tabs_item {
         margin-top: 10px;
-        width:100%;
+        width: 100%;
         text-align: center;
     }
 }

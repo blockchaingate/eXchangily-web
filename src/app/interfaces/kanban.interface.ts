@@ -77,6 +77,7 @@ export interface KanbanTransaction {
 export interface OrderItem {
     p: number;
     q: number;
+    my: boolean;
 }
 
 export interface Order {
@@ -215,6 +216,7 @@ export interface Token {
     name: string;
     symbol: string;
     decimals: number;
+    privateKey: string;
 }
 
 export interface EthTransactionObj {
@@ -230,6 +232,8 @@ export interface SendCoinForm {
     to: string;
     coinIndex: number;
     amount: number;
+    transFee: number;
+    transFeeUnit: string;
     comment: string;
     gasPrice: number;
     gasLimit: number;

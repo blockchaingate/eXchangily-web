@@ -3,9 +3,53 @@
         <div class="w-75">
             <div class="exg-bg content">
                 <div class="container py-2">
+
+                    <div class="row">
+                        <div class="col col-8 col-md-6">
+                            {{"My Wallet" | translate}}
+                        </div>
+
+                        <div class="col col-4 w-100 col-md-6 small text-right fxHide-gt-sm">
+                            <mat-menu #walletMenu="matMenu">
+                                <button (click)="onmanageWallet('BACKUP_PRIVATE_KEY')" mat-menu-item>{{"Backup private key" | translate}}</button>
+                                <button mat-menu-item (click)="navigate('/wallet/restore')">{{"Import Wallet" | translate}}</button>
+                                <button (click)="navigate('/wallet/create')" mat-menu-item>{{"Create Wallet" | translate}}</button>
+                                <button (click)="onmanageWallet('LOGIN_SETTING')" mat-menu-item>{{"Login Setting" | translate}}</button>
+                                <button (click)="onmanageWallet('DISPLAY_SETTING')" mat-menu-item>{{"Display Setting" | translate}}</button>
+                                <button (click)="onmanageWallet('SHOW_SEED_PHRASE')" mat-menu-item>{{"Show seed phrase" | translate}}</button>
+
+                                <button (click)="onmanageWallet('VERIFY_SEED_PHRASE')" mat-menu-item>{{"Verify seed phrase" | translate}}</button>
+
+                                <button (click)="onmanageWallet('DELETE_WALLET')" mat-menu-item>{{"Delete wallet" | translate}}</button>
+                                <button (click)="onmanageWallet('SMART_CONTRACT')" mat-menu-item>{{"Smart contract" | translate}}</button>
+                                <button (click)="onmanageWallet('HIDE_SHOW_WALLET')" mat-menu-item>{{ (hideWallet ? 'Show wallet' : 'Hide wallet') | translate}}  </button>
+                                <button (click)="onmanageWallet('TOOLS')" mat-menu-item>{{"Tools" | translate}}</button>
+
+                            </mat-menu>
+
+                            <button mat-icon-button [matMenuTriggerFor]="walletMenu">
+                                <mat-icon svgIcon="more-vert"></mat-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!--
+                <li class="nav-item">
+                    <a (click)="hideShowWallet()" class="nav-link text-silver">
+                        {{ (hideWallet ? 'Show wallet' : 'Hide wallet') | translate}}  
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a (click)="manageWal('TOOLS')" class="nav-link text-silver">
+                        {{'Tools' | translate}}  
+                    </a>
+                </li>   
+-->
+
                     <div class="row">
                         <div class="col col-md-8">
-                            <div class="header pt-3">{{"My Wallet" | translate}}</div>
+
                             <div *ngIf="wallets">
                                 <mat-form-field>
                                     <mat-select panelClass="example-panel" [value]="currentWalletIndex" (selectionChange)="changeWallet($event.value)">
@@ -26,7 +70,7 @@
                                     <mat-icon svgIcon="copy"></mat-icon>
                                 </button>
                             </div>
-                            <div class="small text-white" *ngIf="wallet && !wallet.hide">{{"Gas" | translate }}: {{gas}}
+                            <div class="small text-white" *ngIf="wallet && !wallet.hide">{{"Kanban Gas" | translate }}: {{gas}}
                                 <span class="warningMsg pr-2" *ngIf="gas<0.1">{{"No enough gas in exchange, please add gas to trade"|translate}}.</span>
                                 <button class="btn button btn-outline btn-basic-outline btn-fixed-width" *ngIf="(gas<=0) && (fabBalance <= 0)" (click)="getFreeFab()">{{"Get free FAB" | translate }}</button>
                             </div>
@@ -36,7 +80,7 @@
                             {{"EXG" | translate}} {{utilServ.toPrecision(exgBalance)}}
                             <div class="small">
                                 <span>
-                                    {{utilServ.toPrecision(exgValue * currencyRate)}}
+                                    {{utilServ.toPrecision(exgBalance * exgValue * currencyRate)}}
                                 </span> {{currentCurrency | translate}}
                             </div>
                         </div>
@@ -77,6 +121,10 @@
                             </div>
                             <div class="d-inline-block pr-3 walletBtn">
                                 <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="exchangeMoney()">{{"Exchange" | translate }}</button>
+                            </div>
+
+                            <div class="d-inline-block pr-3 walletBtn" *ngIf="!walletUpdateToDate">
+                                <button class="btn button btn-outline btn-basic-outline btn-fixed-width text-danger font-weight-bold" (click)="updateWallet()">{{"Update" | translate }}</button>
                             </div>
                         </div>
                     </div>
@@ -128,16 +176,22 @@
                         <div class="container fxHide-sm" *ngIf="wallet">
                             <div class="row apair header">
                                 <div class="col-custom-1">
-                                    {{"Symbol" | translate}}
+                                    {{"Logo" | translate}}
                                 </div>
-                                <div class="col-custom-1">
+                                <div class="col-custom-1 sortable" (click)="changeSort('name', 'string')">
                                     {{"Asset" | translate}}
+                                    <span *ngIf="sortAscName == 1">&uarr;</span>
+                                    <span *ngIf="sortAscName == -1 ">&darr;</span>
                                 </div>
-                                <div class="col-2">
+                                <div class="col-2 sortable" (click)="changeSort('balance', 'number')">
                                     {{"Available" | translate}}
+                                    <span *ngIf="sortAscBalance == 1">&uarr;</span>
+                                    <span *ngIf="sortAscBalance == -1">&darr;</span>
                                 </div>
-                                <div class="col-2">
+                                <div class="col-2 sortable" (click)="changeSort('lockedBalance', 'number')">
                                     {{"Locked" | translate}}
+                                    <span *ngIf="sortAscLockedBalance == 1">&uarr;</span>
+                                    <span *ngIf="sortAscLockedBalance == -1">&darr;</span>
                                 </div>
                                 <div class="col-2">
                                     {{"Value(USD)" | translate}}
@@ -150,15 +204,21 @@
                                 </div>
                             </div>
                             <div class="container-wallet-main scroll-bar" *ngIf="wallet">
-                                <ng-container *ngFor="let mycoin of wallet.mycoins; index as i">
+                                <ng-container *ngFor="let mycoin of wallet.mycoins | sortByField : sortField : sortFieldType : sortAsc; index as i">
                                     <div class="row apair dataline small" *ngIf="(mycoin.name!='BNB') && (!hideSmall || ((mycoin.usdPrice > 0) && ((mycoin.balance + (mycoin.lockedBalance ? mycoin.lockedBalance : 0)) * mycoin.usdPrice >= 1)))">
-                                        <div class="col-custom-1">
+                                        <div class="col-custom-1 pointer" (click)="selectCoin(mycoin.symbol)">
                                             <img src="{{getCoinLogo(mycoin)}}" class="icon" />
                                         </div>
                                         <div class="col-custom-1">
-                                            {{mycoin.name}}
-                                            <div *ngIf="(mycoin.name=='BNB') || (mycoin.name == 'USDT')">
-                                                (ERC20)
+                                            {{mycoin.symbol}}
+                                            <div *ngIf="(mycoin.name == 'USDT') || (mycoin.name == 'FAB') || (mycoin.name == 'EXG')
+                                            || (mycoin.name == 'DSC')  || (mycoin.name == 'BST')">
+                                                <div *ngIf="(mycoin.tokenType=='ETH')">
+                                                    (ERC20)
+                                                </div>
+                                                <div *ngIf="(mycoin.tokenType=='TRX')">
+                                                    (TRC20)
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-2">
@@ -167,24 +227,24 @@
                                             </span>
                                         </div>
                                         <div class="col-2">
-                                            <span class="link-span" *ngIf="mycoin.lockedBalance && (mycoin.lockedBalance >= 0)" (click)="showLockedDetails(mycoin)">
+                                            <span class="link-span" *ngIf="mycoin.lockedBalance && (mycoin.lockedBalance > 0)" (click)="showLockedDetails(mycoin)">
                                             
                                                 {{utilServ.toPrecision(mycoin.lockedBalance)}}
                                             </span>
                                         </div>
                                         <div class="col-2">
                                             <span *ngIf="(mycoin.balance >= 0) && mycoin.usdPrice > 0">
-                                                {{utilServ.toPrecision((mycoin.balance + (mycoin.lockedBalance ? mycoin.lockedBalance : 0)) * mycoin.usdPrice)}}
+                                                {{utilServ.toPrecisionMul(mycoin.balance, mycoin.lockedBalance, mycoin.usdPrice)}}
                                             </span>
                                         </div>
                                         <div class="col-2">
 
                                         </div>
                                         <div class="col-custom-2" *ngIf="(gas > 0) && !maintainence">
-                                            <button mat-icon-button matTooltip="{{'Move fund to DEX'|translate}}" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                            <button mat-icon-button matTooltip="{{'Move fund to DEX'|translate}}" *ngIf="!mycoin.new" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                                 <mat-icon svgIcon="arrow-downward"></mat-icon>
                                             </button>
-                                            <button mat-icon-button matTooltip="{{'Confirm move fund to DEX'|translate}}" *ngIf="(mycoin.redeposit && mycoin.redeposit.length > 0) || (mycoin.depositErr && mycoin.depositErr.length > 0)" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                            <button mat-icon-button matTooltip="{{'Confirm move fund to DEX'|translate}}" *ngIf="!mycoin.new && (mycoin.redeposit && mycoin.redeposit.length > 0) || (mycoin.depositErr && mycoin.depositErr.length > 0)" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                                 <mat-icon svgIcon="vertical_align_bottom"></mat-icon>
                                             </button>
                                         </div>
@@ -198,6 +258,7 @@
                             <div class="row apair header">
                                 <div class="col-2">
                                     {{"Symbol" | translate}}
+
                                 </div>
                                 <div class="col-2">
                                     {{"Asset" | translate}}
@@ -214,35 +275,45 @@
                             <div class="row apair dataline" *ngFor="let mycoin of wallet.mycoins; index as i">
                                 <div *ngIf="(mycoin.name != 'BNB') && 
                                 (!hideSmall || ((mycoin.usdPrice > 0) && ((mycoin.balance + (mycoin.lockedBalance ? mycoin.lockedBalance : 0)) * mycoin.usdPrice >= 1)))">
-                                <div class="col-2">
-                                    <img src="{{getCoinLogo(mycoin)}}" class="icon" />
-                                </div>
-                                <div class="col-2">
-                                    {{mycoin.name}}
-                                </div>
-                                <div class="col-4" *ngIf="mycoin.balance >= 0">
-                                    {{mycoin.balance}}
-                                </div>
+                                    <div class="col-2">
+                                        <img src="{{getCoinLogo(mycoin)}}" class="icon" />
+                                    </div>
+                                    <div class="col-2">
+                                        {{mycoin.symbol}}
 
-                                <div class="col-4">
-                                    <button mat-icon-button matTooltip="Deposit" [disabled]="gas <= 0 || maintainence" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                        <div *ngIf="(mycoin.name == 'USDT') || (mycoin.name == 'FAB') || (mycoin.name == 'EXG')
+                                        || (mycoin.name == 'DSC')  || (mycoin.name == 'BST')">
+                                            <div *ngIf="(mycoin.tokenType=='ETH')">
+                                                (ERC20)
+                                            </div>
+                                            <div *ngIf="(mycoin.tokenType=='TRX')">
+                                                (TRC20)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4" *ngIf="mycoin.balance >= 0">
+                                        {{mycoin.balance}}
+                                    </div>
+
+                                    <div class="col-4">
+                                        <button mat-icon-button matTooltip="Deposit" [disabled]="gas <= 0 || maintainence" *ngIf="!mycoin.new" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon svgIcon="arrow-downward"></mat-icon>
                                     </button>
-                                    <button mat-icon-button matTooltip="Redeposit" *ngIf="(mycoin.redeposit && mycoin.redeposit.length > 0) || (mycoin.depositErr && mycoin.depositErr.length > 0)" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                        <button mat-icon-button matTooltip="Redeposit" *ngIf="!mycoin.new && (mycoin.redeposit && mycoin.redeposit.length > 0) || (mycoin.depositErr && mycoin.depositErr.length > 0)" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon svgIcon="vertical_align_bottom"></mat-icon>
                                     </button>
-                                </div>
-                                <div class="col-12 text-muted">
-                                    <p *ngIf="mycoin.lockedBalance && (mycoin.lockedBalance >= 0)">
-                                        {{"Locked" | translate}}:{{mycoin.lockedBalance}}
-                                    </p>
-                                </div>
-                                <div class="col-12 text-muted">
-                                    {{"Value(USD)" | translate}}:
-                                    <span *ngIf="(mycoin.balance >= 0) && (mycoin.usdPrice > 0)">
-                                        {{utilServ.toPrecision((mycoin.balance + (mycoin.lockedBalance ? mycoin.lockedBalance : 0)) * mycoin.usdPrice)}}
+                                    </div>
+                                    <div class="col-12 text-muted">
+                                        <p *ngIf="mycoin.lockedBalance && (mycoin.lockedBalance >= 0)">
+                                            {{"Locked" | translate}}:{{mycoin.lockedBalance}}
+                                        </p>
+                                    </div>
+                                    <div class="col-12 text-muted">
+                                        {{"Value(USD)" | translate}}:
+                                        <span *ngIf="(mycoin.balance >= 0) && (mycoin.usdPrice > 0)">
+                                            {{utilServ.toPrecisionMul(mycoin.balance, mycoin.lockedBalance, mycoin.usdPrice)}}
                                     </span>
-                                    <!--
+                                        <!--
                                     <span *ngIf="mycoin.name == 'EXG' && coinsPrice && coinsPrice.exgcoin">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.exgcoin.usd)}}</span>
                                     <span *ngIf="mycoin.name == 'BTC' && coinsPrice && coinsPrice.bitcoin">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.bitcoin.usd)}}</span>
                                     <span *ngIf="mycoin.name == 'FAB' && coinsPrice && coinsPrice.fabcoin">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.fabcoin.usd)}}</span>
@@ -250,11 +321,11 @@
                                     <span *ngIf="mycoin.name == 'USDT' && coinsPrice && coinsPrice.tether">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.tether.usd)}}</span>
                                     <span *ngIf="mycoin.name == 'DUSD' ">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * 1)}}</span>
                                     -->
+                                    </div>
+                                    <div class="col-12 text-muted">{{"Profit sharing" | translate}}:</div>
+
                                 </div>
-                                <div class="col-12 text-muted">{{"Profit sharing" | translate}}:</div>
-                            
                             </div>
-                        </div>
                         </div>
 
                     </div>
@@ -265,7 +336,6 @@
             <div class="ml-2 content">
                 <app-manage-wallet #manageWallet (manageWallet)=onmanageWallet($event) [hideWallet]="wallet && wallet.hide"></app-manage-wallet>
                 <app-faq></app-faq>
-
             </div>
         </div>
     </div>
@@ -291,3 +361,4 @@
     </display-setting-modal>
     <get-free-fab-modal #getFreeFabModal [address]="fabAddress"></get-free-fab-modal>
     <locked-info-modal #lockedInfoModal></locked-info-modal>
+    <wallet-update-modal (confirmWalletUpdate)="updateWallet()" #walletUpdateModal></wallet-update-modal>

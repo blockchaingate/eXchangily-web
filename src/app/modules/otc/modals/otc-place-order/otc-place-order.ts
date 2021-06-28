@@ -1,7 +1,8 @@
 import { Component, ViewChild, EventEmitter, Output, Input, OnInit, AfterViewInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { StripeToken, StripeSource, StripeCard } from 'stripe-angular'
-import { environment } from 'src/environments/environment';
+
+// import { StripeToken, StripeSource, StripeCard } from 'stripe-angular'
+import { environment } from '../../../../../environments/environment';
 // import { StripeScriptTag } from 'stripe-angular'
 /*
 import {
@@ -19,14 +20,16 @@ declare var SqPaymentForm: any; // magic to allow us to access the SquarePayment
 export class OtcPlaceOrderModal implements OnInit, AfterViewInit {
   public payPalConfig: any;
   @Input() balance: number;
-  token: string;
   @Output() confirmed = new EventEmitter<any>();
-  @ViewChild('stripeCard', { static: true }) stripeCard: StripeCard;
+  @ViewChild('stripeCard', { static: true }) stripeCard;
   element: any;
+  user_id: string;
   amount: number;
+  user: any;
   quantity: number;
+  coinAddress: string;
   invalidError = { message: '' };
-  // selectedMethod: string;
+  selectedMethod: string;
   paymentForm; // this is our payment form object
 
   extraData = {
@@ -38,6 +41,7 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit {
     'address_zip': ''
   };
 
+  /*
   _selectedMethod: string;
   get selectedMethod(): string {
     return this._selectedMethod;
@@ -48,7 +52,7 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit {
       this.enablePaypal();
     }
   }
-
+  */
   options: any;
 
   @ViewChild('otcPlaceOrderModal', { static: true }) public otcPlaceOrderModal: ModalDirective;
@@ -59,18 +63,19 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit {
     this.options = {
       hidePostalCode: true
     };
-    this.selectedMethod = 'CreditCard';
+    //this.selectedMethod = 'CreditCard';
   }
 
-  show(element) {
+  show(user, element) {
     this.element = element;
+    this.user_id = user._id;
+    this.user = user;
     this.otcPlaceOrderModal.show();
 
-    console.log('environment.SQUARE_APP_ID=', environment.SQUARE_APP_ID);
-    console.log('this.element.fiat=', this.element.fiat);
     const applicationId = environment.SQUARE_APP_ID[this.element.fiat];
 
     const that = this;
+    /*
     this.paymentForm = new SqPaymentForm({
       // postalCode: false,
       applicationId: applicationId,
@@ -99,7 +104,6 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit {
             amount: that.amount,
             quantity: that.quantity,
             method: that.selectedMethod,
-            token: that.token,
             charge_id: nonce
           };
           that.confirmed.emit(data);
@@ -109,6 +113,7 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit {
 
     this.paymentForm.build();
     console.log('this.paymentForm===', this.paymentForm);
+    */
   }
 
   hide() {
@@ -212,7 +217,22 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit {
   onSubmit() {
     // this.stripeCard.createToken(this.extraData);
     this.hide();
-    this.paymentForm.requestCardNonce();
+
+
+    const data = {
+        amount: this.amount,
+        quantity: this.quantity
+    };
+    this.confirmed.emit(data);  
+
+    
+    return;
+      
+
+
+
+
+    //this.paymentForm.requestCardNonce();
     /*
     console.log('token=', this.token);
     const data = {
@@ -226,11 +246,12 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit {
     */
   }
 
+  /*
   onStripeInvalid(error: Error) {
     console.log('Validation Erroree', error);
   }
 
-  setStripeToken(token: StripeToken) {
+  setStripeToken(token) {
     this.hide();
     this.token = token.id;
     const data = {
@@ -242,14 +263,14 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit {
     this.confirmed.emit(data);
   }
 
-  setStripeSource(source: StripeSource) {
+  setStripeSource(source) {
     console.log('Stripe sourceee', source);
   }
 
   onStripeError(error: Error) {
     console.error('Stripe erroree', error);
   }
-
+  */
   ngOnInit() {
     // Set the application ID
 

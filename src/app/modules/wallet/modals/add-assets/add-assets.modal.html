@@ -9,8 +9,16 @@
               </button>
                 </div>
                 <div class="modal-body">
-                    <mat-tab-group>
+                    <mat-tab-group [(selectedIndex)]="selectedIndex">
                         <mat-tab label="{{'FAB'|translate}}">
+                            <div class="form-group pt-2">
+                                <label for="inputSendTo" class="text-muted">{{"Private Key"|translate}}</label>
+                                <input type="text" class="form-control" id="fabPrivateKey" formControlName="fabPrivateKey" aria-describedby="fabContractAddress" placeholder="">
+                            </div>
+                        </mat-tab>
+                        
+                        <mat-tab label="{{'FAB tokens'|translate}}">
+                            <!--
                             <mat-selection-list #fabtokens (selectionChange)="onFabSelection($event, fabtokens.selectedOptions.selected)">
                                 <mat-list-option *ngFor="let token of fabTokens; let i = index" [value]="i+1">
 
@@ -21,28 +29,29 @@
                                     {{"Custom"| translate}}
                                 </mat-list-option>
                             </mat-selection-list>
-
+-->
                             <div *ngIf="showFabCustom">
                                 <div class="form-group">
-                                    <label for="inputSendTo" class="text-muted">{{"Contract Address"|translate}}</label>
+                                    <label for="inputSendTo" class="text-muted">{{"Smart Contract Address"|translate}}</label>
                                     <input type="text" class="form-control" id="inputFabContractAddress" formControlName="fabContractAddress" aria-describedby="fabContractAddress" placeholder="">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputSendTo" class="text-muted">{{"Token Name"|translate}}</label>
-                                    <input type="text" class="form-control" id="inputEthContractAddress" formControlName="ethContractAddress" aria-describedby="ethContractAddress" placeholder="">
+                                    <label for="inputSendTo" class="text-muted">{{"Project name"|translate}}</label>
+                                    <input type="text" class="form-control" id="inputfabTokenName" formControlName="fabTokenName" aria-describedby="ethContractAddress" placeholder="">
                                 </div>
                                 <div class="form-group">
                                     <label for="inputSendTo" class="text-muted">{{"Token Symbol"|translate}}</label>
-                                    <input type="text" class="form-control" id="inputEthContractAddress" formControlName="ethContractAddress" aria-describedby="ethContractAddress" placeholder="">
+                                    <input type="text" class="form-control" id="inputfabTokenSymbol" formControlName="fabTokenSymbol" aria-describedby="ethContractAddress" placeholder="">
                                 </div>
                                 <div class="form-group">
                                     <label for="inputSendTo" class="text-muted">{{"Token Decimals"|translate}}</label>
-                                    <input type="text" class="form-control" id="inputEthContractAddress" formControlName="ethContractAddress" aria-describedby="ethContractAddress" placeholder="">
+                                    <input type="text" class="form-control" id="inputfabTokenDecimals" formControlName="fabTokenDecimals" aria-describedby="ethContractAddress" placeholder="">
                                 </div>
                             </div>
                         </mat-tab>
-                        <mat-tab label="{{'Etherrum'|translate}}">
-
+                   
+                        <mat-tab label="{{'Ethereum tokens'|translate}}">
+                            <!--
                             <mat-selection-list #ethtokens (selectionChange)="onEthSelection($event, ethtokens.selectedOptions.selected)">
                                 <mat-list-option *ngFor="let token of ethTokens; let i = index" [value]="i+1">
 
@@ -52,7 +61,7 @@
                                     {{"Custom"| translate}}
                                 </mat-list-option>
                             </mat-selection-list>
-
+-->
                             <div *ngIf="showEthCustom">
                                 <div class="form-group">
                                     <label for="inputSendTo" class="text-muted">{{"Contract Address"|translate}}</label>
@@ -60,15 +69,15 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="inputSendTo" class="text-muted">{{"Token Name"|translate}}</label>
-                                    <input type="text" class="form-control" id="inputEthContractAddress" formControlName="ethContractAddress" aria-describedby="ethContractAddress" placeholder="">
+                                    <input type="text" class="form-control" id="inputEthTokenName" formControlName="ethTokenName" aria-describedby="ethContractAddress" placeholder="">
                                 </div>
                                 <div class="form-group">
                                     <label for="inputSendTo" class="text-muted">{{"Token Symbol"|translate}}</label>
-                                    <input type="text" class="form-control" id="inputEthContractAddress" formControlName="ethContractAddress" aria-describedby="ethContractAddress" placeholder="">
+                                    <input type="text" class="form-control" id="inputEthTokenSymbol" formControlName="ethTokenSymbol" aria-describedby="ethContractAddress" placeholder="">
                                 </div>
                                 <div class="form-group">
                                     <label for="inputSendTo" class="text-muted">{{"Token Decimals"|translate}}</label>
-                                    <input type="text" class="form-control" id="inputEthContractAddress" formControlName="ethContractAddress" aria-describedby="ethContractAddress" placeholder="">
+                                    <input type="text" class="form-control" id="inputEthDecimals" formControlName="ethTokenDecimals" aria-describedby="ethContractAddress" placeholder="">
                                 </div>
                             </div>
                         </mat-tab>

@@ -10,6 +10,19 @@ import {UtilService} from './util.service';
 import {AlertService} from './alert.service';
 
 import { environment } from '../../environments/environment';
+import TronWeb from 'tronweb';
+
+const HttpProvider = TronWeb.providers.HttpProvider;
+const fullNode = new HttpProvider(environment.chains.TRX.fullNode);
+const solidityNode = new HttpProvider(environment.chains.TRX.solidityNode);
+const eventServer = new HttpProvider(environment.chains.TRX.eventServer);
+const ADDRESS_PREFIX_REGEX = /^(41)/;
+
+const tronWeb = new TronWeb(
+    fullNode,
+    solidityNode,
+    eventServer
+);
 
 @Injectable() 
 export class ApiService {
@@ -21,12 +34,43 @@ export class ApiService {
         return this.http.get(url);
     }
 
+    async getTrxTransactionStatus(txid: string) {
+        const transactionInfo = await tronWeb.trx.getTransactionInfo(txid);
+        if(transactionInfo && transactionInfo.receipt) {
+            if(transactionInfo.receipt.result == 'SUCCESS') {
+                return 'confirmed';
+            } 
+            return 'failed';
+        }
+        return 'pending';
+    }
+
     getOrderByCode(code: string) {
 
         const url = environment.endpoints.blockchaingate + 'orders/code/' + code;
         return this.http.get(url);
     }
     
+    getEXGLockerDetail(fabAddress: string) {
+        const url = environment.endpoints.kanban + 'getLockerHashesByAccount/' + fabAddress;
+        return this.http.get(url);
+    }
+
+    getCoin(symbol: string) {
+        const url = environment.endpoints.kanban + 'coins/' + symbol;
+        return this.http.get(url);
+    }
+
+    getAllCoins() {
+        const url = environment.endpoints.kanban + 'coins/';
+        return this.http.get(url).toPromise();
+    }
+
+    getEpayHash(paymentAmount: number, paymentUnit: string) {
+        const url = environment.endpoints.blockchaingate + 'epay/hash/' + paymentAmount + '/' + paymentUnit;
+        return this.http.get(url);       
+    }
+    /// hash/:payeeAccount/:paymentAmount/:paymentUnit
     chargeOrder(orderID, txhex: string) {
         const url = environment.endpoints.blockchaingate + 'orders/' + orderID + '/charge' ;
 
@@ -46,9 +90,17 @@ export class ApiService {
         return this.http.post(url, data);
     }
 
+    
+
     getSmartContractABI(address: string) {
         if (!address.startsWith('0x')) {
             address = '0x' + address;
+        }
+        if(
+            (address == environment.addresses.smartContract.DSC.FAB)
+            || (address == environment.addresses.smartContract.BST.FAB)
+        ) {
+            address = environment.addresses.smartContract.EXG.FAB;
         }
         const url = environment.endpoints.FAB.exchangily + 'getabiforcontract/' + address; 
         return this.http.get(url);
@@ -556,11 +608,17 @@ export class ApiService {
         const balance = response.result;
         */
        if (name === 'USDT') {
-        contractAddress = environment.addresses.smartContract.USDT;
+        contractAddress = environment.addresses.smartContract.USDT.ETH;
        }
-       const url = environment.endpoints.ETH.exchangily + 'callcontract/' + contractAddress + '/' + address;
-       const response = await this.http.get(url).toPromise()  as KEthBalance;
-       const balance = response.balance;       
+       let balance = 0;
+       try {
+        const url = environment.endpoints.ETH.exchangily + 'callcontract/' + contractAddress + '/' + address;
+        const response = await this.http.get(url).toPromise()  as KEthBalance;
+        balance = response.balance; 
+       } catch(e) {
+           
+       }
+      
         const lockbalance = 0;
         return {balance, lockbalance}; 
     }
@@ -573,6 +631,12 @@ export class ApiService {
     getTransactionHistoryEvents(data) {
         const url = environment.endpoints.kanban + 'getTransactionHistoryEvents';
         return this.http.post(url, data);
+    }
+
+    async getFabTransactionReceiptAsync(txid: string) {
+        const url = environment.endpoints.FAB.exchangily + 'gettransactionreceipt/' + txid;
+
+        return await this.http.get(url).toPromise();
     }
 
     async fabCallContract(contractAddress: string, fxnCallHex: string) {
@@ -589,8 +653,13 @@ export class ApiService {
         return response;
     }
 
-    async getFabTokenBalance(name: string, address: string) { 
-        const contractAddress = environment.addresses.smartContract[name];
+    async getFabTokenBalance(name: string, address: string, contractAddress?: string) {
+        if(!contractAddress) {
+            contractAddress = environment.addresses.smartContract[name];
+        }
+        if(typeof contractAddress != 'string') {
+            contractAddress = contractAddress['FAB'];
+        }
         let fxnCallHex = this.web3Serv.getFabTokenBalanceOfABI([address]);
         console.log('name=', name);
         console.log('fxnCallHex there we go=', fxnCallHex);
@@ -605,7 +674,7 @@ export class ApiService {
         return {balance, lockbalance};    
     }
     async getExgBalance(address: string) {
-        const contractAddress = environment.addresses.smartContract.EXG;
+        const contractAddress = environment.addresses.smartContract.EXG.FAB;
         // console.log('contractAddress=' + contractAddress + ',address=' + address);
         let fxnCallHex = this.web3Serv.getFabBalanceOfABI([address]);
         fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex); 
@@ -637,5 +706,11 @@ export class ApiService {
             }
         }
         return {balance, lockbalance};
+    }
+
+    postCampaignSingleDetail(id: string) {
+        const url = environment.endpoints.kanban + 'kanban/getCampaignSingle';
+        const data = {"id":id};
+        return this.http.post(url, data);
     }
 }

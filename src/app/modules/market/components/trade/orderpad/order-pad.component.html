@@ -9,15 +9,13 @@
             </div>
             <div class="selllist w-100 pt-2">
                 <div class="selllist-wrapper">
-                    <div class="orderbookitem mt-1" *ngFor="let sell of sells; let i=index" (click)="setPrice(sell.p)">
+                    <div class="orderbookitem mt-1" *ngFor="let sell of sells; let i=index" (click)="setPrice(sell.p)" [ngStyle]="{'background-color': sell.my ? '#3e3e5f' : ''}">
                         <div [style.width.%]="sell.percentage" [style.height.%]="100" class="percentage-bar percentage-bar-red">&nbsp;</div>
                         <div class="price smallfont text-danger">
                             {{toDecimal(sell.p,pairConfig.priceDecimal)}}</div>
                         <div class="quantity smallfont text-muted">
                             {{toDecimal(sell.q,pairConfig.qtyDecimal)}}</div>
-                        
                         <div class="total smallfont text-muted">{{showSellsAmount(sells, i)}}</div>
-                        
                     </div>
                 </div>
             </div>
@@ -33,15 +31,11 @@
             </div>
 
             <div class="buylist w-100">
-                <div class="orderbookitem mt-1" *ngFor="let buy of buys; let i=index" (click)="setPrice(buy.p)">
+                <div class="orderbookitem mt-1" *ngFor="let buy of buys; let i=index" (click)="setPrice(buy.p)" [ngStyle]="{'background-color': buy.my ? '#3e3e5f' : ''}">
                     <div [style.width.%]="buy.percentage" [style.height.%]="100" class="percentage-bar percentage-bar-green">&nbsp;</div>
-                    <div class="price smallfont text-success">
-                        {{toDecimal(buy.p,pairConfig.priceDecimal)}}</div>
-                    <div class="quantity smallfont text-muted">
-                        {{toDecimal(buy.q,pairConfig.qtyDecimal)}}</div>
-                        
+                    <div class="price smallfont text-success">{{toDecimal(buy.p,pairConfig.priceDecimal)}}</div>
+                    <div class="quantity smallfont text-muted">{{toDecimal(buy.q,pairConfig.qtyDecimal)}}</div>
                     <div class="total smallfont text-muted">{{showBuysAmount(buys, i)}}</div>
-                    
                 </div>
             </div>
         </div>
@@ -107,7 +101,7 @@
             </div>
             <div class="d-flex justify-content-between py-1 text-white">
                 <div>
-                    {{'Transaction fee' | translate}}: {{utilService.showAmount(buyGasPrice*buyGasLimit, 6)}} {{'Gas' | translate}}
+                    {{'Kanban Gas' | translate}}: {{utilService.showAmount(buyGasPrice*buyGasLimit, 6)}} {{'Gas' | translate}}
                 </div>
                 <div>
                     <mat-slide-toggle [(ngModel)]="buyTransFeeAdvance"></mat-slide-toggle>
@@ -170,7 +164,7 @@
 
             <div class="d-flex justify-content-between py-1 text-white">
                 <div>
-                    {{'Transaction fee' | translate}}: {{utilService.showAmount(sellGasPrice*sellGasLimit, 6)}} {{'Gas' | translate}}
+                    {{'Kanban Gas' | translate}}: {{utilService.showAmount(sellGasPrice*sellGasLimit, 6)}} {{'Gas' | translate}}
                 </div>
                 <div>
                     <mat-slide-toggle [(ngModel)]="sellTransFeeAdvance"></mat-slide-toggle>
@@ -214,8 +208,6 @@
         <div class="pb-4">
             <input type="password" autocomplete="off" class="form-control" id="inputPin" [(ngModel)]="pin" aria-describedby="emailHelp" placeholder="Please provide your password to confirm the transaction">
         </div>
-
         <button class="btn btn1 btn-gradient text-white" (click)="confirmPin()">{{"Confirm" | translate }}</button>
-
     </div>
 </ng-template>

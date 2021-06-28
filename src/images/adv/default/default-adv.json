@@ -1,0 +1,73 @@
+[{
+        "title": [
+            { "lan": "en", "text": "Exchangily Decentralized Exchange" },
+            { "lan": "sc", "text": "亿币高性能去中心化交易所" }
+        ],
+        "subtitle": [
+            { "lan": "en", "text": "Never lose control of your crypto assets !" },
+            { "lan": "sc", "text": "您的资产永远在您的绝对控制之中" }
+        ],
+        "desc": [
+            { "lan": "en", "text": "At exchangily, your assets are completely under your control. It's S.A.F.E - Secure, Autonomous, Fast and Easy !" },
+            { "lan": "sc", "text": "亿币交易所是S.A.F.E. - 安全(Secure)、自主(Autonomous)、快捷(Fast)、简易(Easy)" }
+        ],
+        "imageUrl": "./images/adv/default/btc-eth-fab.png",
+        "imageAlt": "trading bitcoin, ether, fabcoin",
+        "clickLink": "",
+        "sequence": 0
+    },
+    {
+        "title": [
+            { "lan": "en", "text": "Exchangily Mobile App for Android / iOs" },
+            { "lan": "sc", "text": "下载亿币手机APP安卓版或苹果版" }
+        ],
+        "subtitle": [
+            { "lan": "en", "text": "Wallet, Exchange and Market all in one" },
+            { "lan": "sc", "text": "集加密货币钱包、交易所及市场于一体" }
+        ],
+        "desc": [
+            { "lan": "en", "text": "The eXchangily mobile app is an all in one wallet, exchange, and market for storing, trading and using crypto assets" },
+            { "lan": "sc", "text": "亿币钱包是去中心化的综合应用，作为钱包可以保存加密货币、交易所可以进行加密货币交易或在市场购物及支付。" }
+        ],
+        "imageUrl": "./images/adv/default/exchangily-mobile-app.png",
+        "imageAlt": "Exchangily mobile app",
+        "clickLink": "/app",
+        "sequence": 1
+    },
+    {
+        "title": [
+            { "lan": "en", "text": "Exchangily will launch new campaign" },
+            { "lan": "sc", "text": "亿币即将推出新奖励活动" }
+        ],
+        "subtitle": [
+            { "lan": "en", "text": "Hold exchangily token to earn additional coins" },
+            { "lan": "sc", "text": "持有亿币平台币EXG将自动获得收益增值" }
+        ],
+        "desc": [
+            { "lan": "en", "text": "Own more EXG tokens to get more benefit from the platform." },
+            { "lan": "sc", "text": "拥有更多的平台币就拥有更多的收益, 亿币根植未来经济生态，拥有亿币将获长久收益" }
+        ],
+        "imageUrl": "./images/adv/default/exchangily-campaign.png",
+        "imageAlt": "Hold EXG to earn tokens",
+        "clickLink": "",
+        "sequence": 2
+    },
+    {
+        "title": [
+            { "lan": "en", "text": "Liquidity providing rewards" },
+            { "lan": "sc", "text": "提供流动性将获高额奖励" }
+        ],
+        "subtitle": [
+            { "lan": "en", "text": "Market maker pays 0 fee and get 0.2% of trading volume reward" },
+            { "lan": "sc", "text": "挂单方不支付交易手续费且可获得交易额0.2%的回报" }
+        ],
+        "desc": [
+            { "lan": "en", "text": "Liquidity providing to become a market maker, no trading fee and get 0.2% of transaction volume as rewards" },
+            { "lan": "sc", "text": "挂单成交即赚，挂单方即使以买入价卖出，也可以赚取交易额0.2%的流动性奖励" }
+        ],
+        "imageUrl": "./images/adv/default/liquidity-provider.png",
+        "imageAlt": "Liquidity providing",
+        "clickLink": "/fee",
+        "sequence": 3
+    }
+]

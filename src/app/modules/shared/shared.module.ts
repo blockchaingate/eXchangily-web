@@ -12,13 +12,16 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
+import { SortByFieldPipe } from './pipes/sort.pipe';
+
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http);
 }
 @NgModule({
     declarations: [
         PinNumberModal,
-        DisplayPinNumberModal
+        DisplayPinNumberModal,
+        SortByFieldPipe
     ],
     imports: [
         ModalModule.forRoot(),
@@ -43,6 +46,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     exports: [
         PinNumberModal,
         DisplayPinNumberModal,
+        SortByFieldPipe,
         TranslateModule
     ],
     providers: [

@@ -5,6 +5,7 @@ import * as createHash from 'create-hash';
 import BigNumber from 'bignumber.js/bignumber';
 import * as Btc from 'bitcoinjs-lib';
 import * as bs58 from 'bs58';
+import * as ecies from 'eth-ecies';
 import { environment } from 'src/environments/environment';
 @Injectable()
 export class UtilService {
@@ -26,6 +27,26 @@ export class UtilService {
             return encryptedRawData.slice(this.auth_code.length);
         } catch (e) { }
         return '';
+    }
+
+    encrypt(publicKey, data) {
+        console.log('publicKey==', publicKey);
+        console.log('data==', data);
+        const userPublicKey = Buffer.from(publicKey, 'hex');
+        const bufferData = Buffer.from(data);
+
+        const encryptedData = ecies.encrypt(userPublicKey, bufferData);
+
+        return encryptedData.toString('base64')
+    }
+
+    decrypt(privateKey, encryptedData) {
+        const userPrivateKey = Buffer.from(privateKey, 'hex');
+        const bufferEncryptedData = Buffer.from(encryptedData, 'base64');
+
+        const decryptedData = ecies.decrypt(userPrivateKey, bufferEncryptedData);
+
+        return decryptedData.toString('utf8');
     }
 
     aesEncryptSeed(seed: Buffer, pwd: string) {
@@ -55,10 +76,12 @@ export class UtilService {
         // console.log('rightHex=' + rightHex);
         return this.hexToDec(leftHex) * 16 + this.hexCharToDec(rightHex);
     }
+
     showTime(time: string) {
         const timeArray = time.split('.');
         return timeArray[0].replace('T', ' ');
     }
+
     copy(str: string) {
         const selBox = document.createElement('textarea');
         selBox.style.position = 'fixed';
@@ -88,17 +111,50 @@ export class UtilService {
         return 8;
     }
 
+    toPrecisionMul(unlockBal: any, lockBal: any, val: any) {
+        const unlockNum = unlockBal ? Number(unlockBal) : 0;
+        const lockNum = lockBal ? Number(lockBal) : 0;
+        return this.toPrecision((unlockNum + lockNum) * Number(val));
+    }
+
     toPrecision(num: number) {
+        if (!num) {
+            return 0;
+        }
+
+        let decimal = 5;
+        if (num < 0.001) {
+            decimal = 7;
+        }
+
+        const numString = num.toString();
+        if (numString.indexOf('e') >= 0) {
+            return num;
+        }
+
+        const numArr = numString.split('.');
+        if (numArr.length === 1) {
+            return num;
+        }
+
+        // console.log('numArr==', numArr);
+        return Number(numArr[0] + '.' + numArr[1].substring(0, decimal));
+        /*
+        if(num >= 0.1) {
+            return Number(num.toFixed(5));
+        }
         return Math.round(num * 10000) / 10000;
+        */
     }
 
     getFormattedDate(date: any) {
-        //console.log('origin date=', date);
-        //if(Number.is)
-        if(!Number.isNaN(date)) {
+        // console.log('origin date=', date);
+        // if(Number.is)
+        if (!Number.isNaN(date) && !(date instanceof Date)) {
             date = new Date(date * 1000);
-        } 
-        //console.log('date=', date);
+        }
+
+        //console.log('date2=', date);
         const month = date.getMonth() + 1;
         const day = date.getDate();
         const hour = date.getHours();
@@ -135,6 +191,9 @@ export class UtilService {
     }
 
     stripHexPrefix(str) {
+        if(!str) {
+            return '';
+        }
         if (str && (str.length > 2) && (str[0] === '0') && (str[1] === 'x')) {
             return str.slice(2);
         }
@@ -172,27 +231,47 @@ export class UtilService {
     }
 
     toBigNumber(amount, decimal: number) {
-        if(amount == 0 || amount == '0') {
+        console.log('amount=', amount);
+        console.log('decimal=', decimal);
+        if (amount === 0 || amount === '0') {
             return '0';
+        }
+
+        if (amount.toString().indexOf('e-') > 0) {
+            const amountArrr = amount.toString().split('e');
+            /*
+            if(decimal >= amountArr[1]) {
+                const 
+                let amountStrFull = amountArr[0];
+                for(let i=0;i<decimal-amountArr[1];i++) {
+                    amountStrFull += '0';
+                }
+                return amountStrFull;
+            } else {
+                return (amountArr[0] + 'e-' + (amountArr[1] - decimal));
+            }
+            */
+            return new BigNumber(amountArrr[0] + 'e' + (Number(amountArrr[1]) + decimal)).toFixed();
         }
         const amountStr = amount.toString();
         const amountArr = amountStr.split('.');
         const amountPart1 = amountArr[0];
         const numPart1 = Number(amountPart1);
         let amountPart2 = '';
-        if(amountArr[1]) {
+        if (amountArr[1]) {
             amountPart2 = amountArr[1].substring(0, decimal);
         }
-        
+
         const amountPart2Length = amountPart2.length;
-        if(decimal > amountPart2Length) {
-            for(let i=0;i<decimal - amountPart2Length;i++) {
+        if (decimal > amountPart2Length) {
+            for (let i = 0; i < decimal - amountPart2Length; i++) {
                 amountPart2 += '0';
-              }
+            }
         }
 
         let amountStrFull = (numPart1 ? amountPart1 : '') + amountPart2;
         amountStrFull = amountStrFull.replace(/^0+/, '');
+        console.log('amountStrFull=', amountStrFull);
         return amountStrFull;
     }
 
@@ -235,9 +314,8 @@ export class UtilService {
             return fixedString;
         }
         */
-        const fixN = fixedString.slice(0, (fixedString.indexOf("."))+decimal + 1);
+        const fixN = fixedString.slice(0, (fixedString.indexOf('.')) + decimal + 1);
         return fixN;
-
     }
 
     convertLiuToFabcoin(amount) {
@@ -254,56 +332,66 @@ export class UtilService {
             num = num >> 8;
         }
 
-        var top = buffer[buffer.length - 1];
+        const top = buffer[buffer.length - 1];
         if (top & 0x80) {
             buffer[buffer.length] = neg ? 0x80 : 0x00;
-        }
-        else if (neg) {
+        } else if (neg) {
             buffer[buffer.length - 1] = top | 0x80;
         }
         return Buffer.from(buffer);
     }
 
     toNumber(num) {
-        return Number(num);
+        const arr = num.split('.');
+        if (arr.length <= 1) {
+            return Number(arr);
+        }
+        return Number(arr[0] + '.' + arr[1].substring(0, 7));
     }
+
     hex2Buffer(hexString) {
-        var buffer = [];
-        for (var i = 0; i < hexString.length; i += 2) {
+        const buffer = [];
+        for (let i = 0; i < hexString.length; i += 2) {
             buffer[buffer.length] = (parseInt(hexString[i], 16) << 4) | parseInt(hexString[i + 1], 16);
         }
         return Buffer.from(buffer);
     }
 
     fabToExgAddress(address: string) {
-        const bytes = bs58.decode(address);
-        const addressInWallet = bytes.toString('hex');
-        console.log('addressInWallet==', addressInWallet);
-        return '0x' + addressInWallet.substring(2, 42);
+        try {
+            const bytes = bs58.decode(address);
+            const addressInWallet = bytes.toString('hex');
+            if (!addressInWallet || (addressInWallet.length !== 50)) {
+                return '';
+            }
+            return '0x' + addressInWallet.substring(2, 42);
+        } catch (e) {
+
+        }
+        return '';
     }
-    
+
     exgToFabAddress(address: string) {
 
+        try {
+            let prefix = '6f';
+            if (environment.production) {
+                prefix = '00';
+            }
+            address = prefix + this.stripHexPrefix(address);
+
+            let buf = Buffer.from(address, 'hex');
+
+            const hash1 = createHash('sha256').update(buf).digest().toString('hex');
+            const hash2 = createHash('sha256').update(Buffer.from(hash1, 'hex')).digest().toString('hex');
+
+            buf = Buffer.from(address + hash2.substring(0, 8), 'hex');
+            address = bs58.encode(buf);
+            return address;
+        } catch (e) { }
 
 
-        var prefix = '6f';
-        if (environment.production) {
-          prefix = '00';
-        }
-        address = prefix + this.stripHexPrefix(address);
-
-        var buf = Buffer.from(address, 'hex');
-
-        const hash1 = createHash('sha256').update(buf).digest().toString('hex');
-        const hash2 = createHash('sha256').update(Buffer.from(hash1, 'hex')).digest().toString('hex');
-
-        buf = Buffer.from(address + hash2.substring(0,8), 'hex');
-        address = bs58.encode(buf);
-
-        return address;
-
-
-
+        return '';
     }
 
     toKanbanAddress(publicKey: Buffer) {
@@ -315,8 +403,8 @@ export class UtilService {
   
          return '0x' + hash2;
          */
-        console.log("publicKey: "+ publicKey);
-        
+        console.log('publicKey: ' + publicKey);
+
         const hash01 = Btc.crypto.sha256(publicKey);
         const hash02 = Btc.crypto.ripemd160(hash01).toString('hex');
         const address = '0x' + hash02;

@@ -4,6 +4,8 @@ import { OtcService } from '../../../../services/otc.service';
 import { UserService } from '../../../../services/user.service';
 import { Router } from '@angular/router';
 import { MemberDetailModal } from '../../modals/member-detail/member-detail.component';
+import { AlertService } from '../../../../services/alert.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-otc-order',
@@ -11,27 +13,30 @@ import { MemberDetailModal } from '../../modals/member-detail/member-detail.comp
   styleUrls: ['./order.component.scss']
 })
 export class OrderComponent implements OnInit {
+  @Input() isMerchant: boolean = false;
   bidOrAsk: boolean;
   statuses = [0,1,2,3];
   @Input() orders: any;
   @Input() type: string;
   token: string;
-  buyOrderStatuses = ['Waiting for pay', 'Paid already', 'Finished', 'Cancelled', 'Frozened', 'All orders'];
-  buyOrderButtonStatuses = ['I have paid', 'Finish'];
+  buyOrderStatuses = ['Waiting for payment', 'Marked as paid', 'Finished', 'Cancelled', 'Held', 'All orders'];
+  buyOrderButtonStatuses = ['Mark as paid', 'Finish'];
 
-  sellOrderStatuses = ['Waiting for collect', 'Waiting for confirm', 'Finished', 'Cancelled', 'Frozened', 'All orders'];
-  sellOrderButtonStatuses = ['I have collected', 'Finish'];
+  sellOrderStatuses = ['Waiting to pay', 'Waiting for confirm', 'Finished', 'Cancelled', 'Held', 'All orders'];
+  sellOrderButtonStatuses = ['I received', 'Finish'];
 
   @ViewChild('memberDetailModal', { static: true }) memberDetailModal: MemberDetailModal;
   currentStatus: number;
   constructor(
+    private alertServ: AlertService,
     private router: Router,
+    private translateServ: TranslateService,
     private storageService: StorageService,
     private _otcServ: OtcService,
     private _userServ: UserService
   ) {
-    console.log('type==', this.type);
   }
+
   getButtonText(buy: boolean, status: number) {
     buy = !buy;
     let text = '';
@@ -55,11 +60,18 @@ export class OrderComponent implements OnInit {
     return text;
   }
 
+  makePayment(ord) {
+    this.router.navigate(['/otc/order-detail/' + ord._id]);
+  }
+
   changePaymentStatus(element, paymentStatus) {
     this._otcServ.changePaymentStatus(this.token, element._id, paymentStatus).subscribe(
       (res: any) => {
         if (res && res.ok) {
           element.paymentStatus = paymentStatus;
+          this.alertServ.openSnackBarSuccess(
+            this.translateServ.instant('Good job'), 
+            this.translateServ.instant('Ok'));
         }
       }
     );

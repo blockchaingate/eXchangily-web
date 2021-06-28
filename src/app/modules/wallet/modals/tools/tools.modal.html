@@ -10,6 +10,27 @@
                 </div>
                 <div class="modal-body">
                     <mat-accordion>
+
+                      <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                              {{'FAB in BTC address' | translate }}
+                          </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        
+                        <mat-form-field class="example-full-width">
+                          <mat-label>{{'Send to' | translate}}</mat-label>
+                          <input name="to" [(ngModel)]="to" matInput>
+                        </mat-form-field>
+
+                        <mat-form-field class="example-full-width">
+                          <mat-label>{{'Satoshis/byte' | translate}}</mat-label>
+                          <input name="satoshisPerBytes1" [(ngModel)]="satoshisPerBytes" matInput>
+                        </mat-form-field>   
+
+                        <button mat-raised-button color="primary" (click)="FABinBTC()">{{'Send' | translate}}</button>
+                      </mat-expansion-panel>
+
                         <mat-expansion-panel>
                           <mat-expansion-panel-header>
                             <mat-panel-title>
@@ -24,7 +45,7 @@
 
                           <mat-form-field class="example-full-width">
                             <mat-label>{{'Satoshis/byte' | translate}}</mat-label>
-                            <input name="satoshisPerBytes" [(ngModel)]="satoshisPerBytes" matInput>
+                            <input name="satoshisPerBytes2" [(ngModel)]="satoshisPerBytes" matInput>
                           </mat-form-field>   
 
                           <button mat-raised-button color="primary" (click)="BTCinFAB()">{{'Send' | translate}}</button>
@@ -40,12 +61,17 @@
                           
                           <mat-form-field class="example-full-width">
                             <mat-label>{{'FAB address' | translate}}</mat-label>
-                            <input name="to" [(ngModel)]="fabAddress" matInput>
+                            <input name="fabAddress" [(ngModel)]="fabAddress" matInput>
                           </mat-form-field>
 
                           <mat-form-field class="example-full-width">
                             <mat-label>{{'EXG address' | translate}}</mat-label>
-                            <input name="satoshisPerBytes" [(ngModel)]="exgAddress" matInput>
+                            <input name="exgAddress" [(ngModel)]="exgAddress" matInput>
+                          </mat-form-field>   
+
+                          <mat-form-field class="example-full-width">
+                            <mat-label>{{'KB address' | translate}}</mat-label>
+                            <input name="kbAddress" [(ngModel)]="kbAddress" matInput>
                           </mat-form-field>   
 
                         </mat-expansion-panel>                        

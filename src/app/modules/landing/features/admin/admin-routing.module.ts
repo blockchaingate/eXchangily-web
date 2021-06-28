@@ -16,6 +16,11 @@ import { MerchantComponent } from './merchant/merchant.component';
 import { OtcListingComponent } from './otc/otc-listing/otc-listing.component';
 import { AnnouncementsComponent } from './announcements/announcements.component';
 import { AnnouncementAddComponent } from './announcement-add/announcement-add.component';
+import { StarOrdersComponent } from './star-orders/star-orders.component';
+import { StarSettingsComponent } from './star-settings/star-settings.component';
+import { StarSettingAddComponent } from './star-setting-add/star-setting-add.component';
+import { StarEventsComponent } from './star-events/star-events.component';
+import { StarEventComponent } from './star-event/star-event.component';
 
 const routes: Routes = [
     {
@@ -47,7 +52,31 @@ const routes: Routes = [
         {
             path: 'campaign-orders',
             component: CampaignOrdersComponent
-        },        
+        }, 
+        {
+            path: 'star-orders',
+            component: StarOrdersComponent
+        },  
+        {
+            path: 'star-settings',
+            component: StarSettingsComponent
+        }, 
+        {
+            path: 'star-events',
+            component: StarEventsComponent
+        }, 
+        {
+            path: 'star-event/:id',
+            component: StarEventComponent
+        },                  
+        {
+            path: 'star-setting/add',
+            component: StarSettingAddComponent
+        },         
+        {
+            path: 'star-setting/:id/edit',
+            component: StarSettingAddComponent
+        },         
         {
             path: 'order-mngmt',
             component: OrderManagementComponent

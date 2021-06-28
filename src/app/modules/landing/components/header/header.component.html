@@ -22,7 +22,7 @@
             <ul class="app__header__list" fxLayout="row" fxLayoutGap="2em" fxLayoutAlign="start center">
 
                 <li class="app__header__lang">
-                    <app-dropdown [items]="languages" [title]="currentLang" (Select)="langToggle($event)"></app-dropdown>
+                    <app-dropdown [items]="languages" [title]="currentLang" (select)="langToggle($event)"></app-dropdown>
                 </li>
 
                 <ng-container *ngIf="!loggedIn">

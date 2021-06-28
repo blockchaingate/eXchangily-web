@@ -9,6 +9,6 @@ export class SubscriptionService {
         const url = environment.endpoints.blockchaingate + 'subscription/create/';
         const data = { email: email, name: name };
 
-        return this.http.post(url, data);
+        return this.http.post(url, data).toPromise();
     }
 }

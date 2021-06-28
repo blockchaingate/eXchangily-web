@@ -21,8 +21,6 @@ export class AppComponent {
     this.darkBgEnable = false;
     // const url = window.location.href;
 
-
-
     router.events.subscribe((e) => {
       if (e instanceof NavigationEnd) {
         const url = e.url;

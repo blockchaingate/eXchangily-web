@@ -45,8 +45,7 @@ export class ChangePasswordComponent implements OnInit {
       return;
     }
     this.errorMessage = '';
-    this._userService.executePwdReset(this.id, this.code, this.password.value)
-    .subscribe(
+    this._userService.executePwdReset(this.id, this.code, this.password.value).then(
       ret => this.processSuccess(ret),
       error => this.errorMessage = error
     );

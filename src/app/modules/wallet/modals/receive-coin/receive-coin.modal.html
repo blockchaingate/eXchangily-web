@@ -12,15 +12,31 @@
         <div class="pt-2 pb-3 w-25">
             <select class="form-control" (change)="onChange($event.target.value)">
                 <option [value]="i" *ngFor="let coin of wallet.mycoins;let i = index">
-                    {{coin.name}}
-                    <span *ngIf="(coin.name=='BNB') || (coin.name == 'USDT')">
+                    {{coin.symbol}}
+                    <span *ngIf="((coin.name == 'USDT') || (coin.name == 'FAB') || (coin.name == 'EXG') || (coin.name == 'DSC') || (coin.name == 'BST')) && coin.tokenType=='ETH'">
                         (ERC20)
                     </span>
+                    <span *ngIf="((coin.name == 'USDT') || (coin.name == 'FAB') || (coin.name == 'EXG')) && coin.tokenType=='TRX'">
+                        (TRC20)
+                    </span>                    
                 </option>
             </select>
         </div>
 
-        <div class="text-dark">{{"Wallet address" | translate }}</div>
+        <div class="text-dark">
+            <div class="d-flex justify-content-between">
+                <div>
+                    {{"Wallet address" | translate }}
+                </div>
+                <div *ngIf="currentAddress.indexOf('bch') == 0">
+                    <button mat-button color="primary" (click)="changeToLegacyAddress()">
+                        {{'Legacy Address' | translate }} 
+                    </button>
+                    
+                </div>
+            </div>
+            
+        </div>
         <div>
             {{currentAddress}}
             <button mat-icon-button (click)="copyAddress()">

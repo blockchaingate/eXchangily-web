@@ -146,8 +146,12 @@ mat-list {
 }
 
 .pairname {
-    width: 88px;
-    padding-top: 10px;
+    width: 84px;
+    padding: 10px 0 10px 0;
+}
+
+.pairvalue {
+    width: 100px;
 }
 
 .vertical-center {

@@ -3,9 +3,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService} from '@ngx-translate/core';
 import { JsonFileService } from '../../../service/jsondata/jsondata.service';
 
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
+import { stringify } from '@angular/compiler/src/util';
 
 
 @Component({
@@ -43,7 +44,7 @@ export class TeamComponent implements OnInit, OnDestroy {
   }
 
   private getTeam(language = ''): Observable<any> {
-    const lang = language || this._translate.currentLang || window.localStorage.getItem('fabLanguagei18n');
+    const lang = language || this._translate.currentLang || window.localStorage.getItem('Lan');
     console.log('lang=' + lang);
     return this._jsonData.getJsonFile('./assets/i18n/' + lang + '.json')
     .map((res: any) => {

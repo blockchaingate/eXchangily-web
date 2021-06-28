@@ -1,0 +1,32 @@
+环境说明：
+测试环境：http://29597375fx.zicp.vip
+生产环境：https://api.epay.com
+接口文档
+Epay账户间转账：
+功能：支持epay账户与epay账户间账户余额的转账功能，仅支持USD,EUR,HKD,GBP,JPY,BTC,ETH,EOS,BCH,LTC,XRP,USDT交易；
+要求：交易双方都有epay账户（收款人不要求实名认证）；
+文档地址：
+中文：https://docs.qq.com/doc/DTkZIeEFLbWJudE12
+英文：https://docs.qq.com/doc/DTnNwT3JEa2ZaaWZ1
+普通收款：
+功能：支持电子钱包、Epay账户余额、国际电汇、加密货币、部分当地货币收款功能；
+要求：除电子钱包外，其余功能需用户（指与商家交易的客户）拥有Epay账户+完成实名认证；
+文档地址：
+中文：https://docs.qq.com/doc/DTllraW5DaUFOdlRu；
+英文：https://docs.qq.com/doc/DTnNiQ0ZsRk1tc0hq；
+
+
+
+商家账户：test2020@epay.com
+api_key：3b660b341966bd753d7d2d3b2dc82368
+
+otc merchant account for exchange:
+email:kenin.qiu+111000@gmail.com      
+password:98523020
+
+
+epay test account:
+用户账户：qin5@163.com
+登录密码：123456a
+支付密码：111222
+邮箱/谷歌验证码：任意6位数字

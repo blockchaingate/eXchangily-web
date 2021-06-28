@@ -86,7 +86,7 @@
                 </div>
             </div>
         </div>
-        <div class="container app-feature">
+        <div *ngIf="!showHeadOnly" class="container app-feature">
             <div class="section-heading section-heading--center">
                 <h2 class="title h1">{{'Features' | translate}}</h2>
                 <p>{{'app feature intro' | translate}}</p>
@@ -165,7 +165,7 @@
                 </div>
             </div>
         </div>
-        <div class="container-fluid">
+        <div *ngIf="!showHeadOnly" class="container-fluid">
             <div class="gallery">
                 <div class="row matchHeight-container">
                     <div class="col-xs-12 col-sm-6 col-sm-push-6">

@@ -9,11 +9,12 @@ import { MemberDetailModal } from './modals/member-detail/member-detail.componen
 import { OtcPlaceOrderErrorModal } from './modals/otc-place-order-error/otc-place-order-error.component';
 import { ApplyForMerchantModal } from './modals/apply-for-merchant/apply-for-merchant';
 import { ConfirmPaymentModal } from './modals/confirm-payment/confirm-payment';
+import { OtcCoinAddressModal } from './modals/otc-coin-address/otc-coin-address.component';
 import { MerchantPipe } from './pipes/merchant.pipe';
 import { OrderPipe } from './pipes/order.pipe';
-import { PaymentmethodComponent } from './components/paymentmethod/paymentmethod.component';
 import { MerchantOrdersComponent } from './components/merchant-orders/merchant-orders';
 import { MemberOrdersComponent } from './components/member-orders/member-orders';
+import { OrderDetailComponent } from './components/order-detail/order-detail.component';
 import { UserPaymentMethodsComponent } from './components/userpaymentmethods/userpaymentmethods.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -38,15 +39,16 @@ import { CoinService } from '../../services/coin.service';
     TradeComponent,
     MerchantPipe,
     OrderPipe,
-    PaymentmethodComponent,
     ConfirmPaymentModal,
     OtcPlaceOrderModal,
     MemberDetailModal,
     OtcPlaceOrderErrorModal,
     ApplyForMerchantModal,
+    OtcCoinAddressModal,
     OrderComponent,
     MerchantOrdersComponent,
     MemberOrdersComponent,
+    OrderDetailComponent,
     UserPaymentMethodsComponent
   ],
   imports: [

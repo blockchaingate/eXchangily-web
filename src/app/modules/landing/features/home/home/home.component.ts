@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        let script = this._renderer2.createElement('script');
+        const script = this._renderer2.createElement('script');
         script.type = `text/javascript`;
         script.text = `
         var w = c.width = window.innerWidth,
@@ -394,7 +394,7 @@ export class HomeComponent implements OnInit {
     }
 
     private getLang(language = ''): string {
-        const lang = language || this._translate.currentLang || window.localStorage.getItem('fabLanguagei18n');
+        const lang = language || this._translate.currentLang || window.localStorage.getItem('Lan');
         this.lang = lang;
         this.whitepaper = `${whitepaperPath}-${lang}.pdf`;
         return lang;

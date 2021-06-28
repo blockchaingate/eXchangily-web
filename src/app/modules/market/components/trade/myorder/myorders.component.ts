@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
-import { TradeService } from '../../../services/trade.service';
+import { ApiService } from '../../../../../services/api.service';
 import { CoinService } from '../../../../../services/coin.service';
 import { UtilService } from '../../../../../services/util.service';
 import { KanbanService } from '../../../../../services/kanban.service';
@@ -32,13 +32,22 @@ export class MyordersComponent implements OnInit, OnDestroy {
     // @Input() wallet: Wallet;
     private wallet: any;
     exAddress: string;
+    isProduction: boolean;
     transactionHistory: boolean;
     transactionHistories: any;
     screenheight = screen.height;
     select = 100;
+    showAll = false;
+    currentPair = '';
+    baseCoin: number;
+    targetCoin: number;
     openorders: Transaction[] = [];
     closedorders: Transaction[] = [];
     canceledorders: Transaction[] = [];
+    allOpenorders: Transaction[] = [];
+    allClosedorders: Transaction[] = [];
+    allCanceledorders: Transaction[] = [];
+
     pin: string;
     orderHash: string;
     modalWithdrawRef: BsModalRef;
@@ -46,6 +55,25 @@ export class MyordersComponent implements OnInit, OnDestroy {
     mytokens: any;
     opType: string;
     token: any;
+    _chain: string;
+    set  chain(val: string) {
+        this._chain = val;
+        if(val && this.coinName == 'USDT') {
+            this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+        }
+        
+    }
+    get chain() {
+        return this._chain;
+    }
+
+    trxUSDTTSBalance: number;
+    ethUSDTTSBalance: number;
+    fabTSBalance: number;
+    ethFABTSBalance: number;
+    exgTSBalance: number;
+    ethEXGTSBalance: number;
+
     minimumWithdrawAmount: number;
     coinType: number;
     coinName: string;
@@ -64,7 +92,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     coinServ: CoinService;
     lan = 'en';
 
-    constructor(private _router: Router, private tradeService: TradeService,
+    constructor(private _router: Router, private apiServ: ApiService, private _route: ActivatedRoute,
         public utilServ: UtilService, private kanbanServ: KanbanService, private _coinServ: CoinService,
         private modalService: BsModalService, private web3Serv: Web3Service, private alertServ: AlertService,
         private timerServ: TimerService, private walletServ: WalletService, private storageServ: StorageService) {
@@ -85,11 +113,11 @@ export class MyordersComponent implements OnInit, OnDestroy {
     getOrders() {
         let orders = [];
         if (this.select === 0) {
-            orders = this.openorders;
+            orders = this.showAll? this.allOpenorders : this.openorders;
         } else if (this.select === 1) {
-            orders = this.closedorders;
+            orders = this.showAll? this.allClosedorders : this.closedorders;
         } else if (this.select === 2) {
-            orders = this.canceledorders;
+            orders = this.showAll? this.allCanceledorders : this.canceledorders;
         }
         return orders;
     }
@@ -101,6 +129,18 @@ export class MyordersComponent implements OnInit, OnDestroy {
     }
 
     async ngOnInit() {
+        this.isProduction = environment.production;
+        this.currentPair = this._route.snapshot.paramMap.get('pair');
+        const pairCoins = this.currentPair.split('_');
+        this.baseCoin = this._coinServ.getCoinTypeIdByName(pairCoins[1]);
+        this.targetCoin = this._coinServ.getCoinTypeIdByName(pairCoins[0]);
+        this.currentPair = this.currentPair.replace('_', '');
+
+        // localStorage.removeItem("_myOrders");
+
+        
+        this.chain = '';
+
         this.transactionHistory = false;
         this.lan = localStorage.getItem('Lan');
 
@@ -111,26 +151,13 @@ export class MyordersComponent implements OnInit, OnDestroy {
         if (this.wallet) {
             const address = this.wallet.excoin.receiveAdds[0].address;
             const fabAddress = this.utilServ.exgToFabAddress(address);
-            console.log('fabAddress=', fabAddress);
             this.exAddress = exaddr.toKbpayAddress(fabAddress);
             this.timerServ.checkOrderStatus(address, 1);
             this.timerServ.checkTokens(address, 1);
         }
-        this.timerServ.openOrders.subscribe(
-            (orders: any) => {
-                this.openorders = orders;
-            }
-        );
-        this.timerServ.closedOrders.subscribe(
-            (orders: any) => {
-                this.closedorders = orders;
-            }
-        );
-        this.timerServ.canceledOrders.subscribe(
-            (orders: any) => {
-                this.canceledorders = orders;
-            }
-        );
+
+        this.prepareOrders();
+
         this.timerServ.tokens.subscribe(
             (tokens: any) => {
                 if(this.mytokens && (this.mytokens.length > 0)) {
@@ -152,19 +179,31 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
     }
 
-    showTransactionHisotry() {
-        this.transactionHistory = true;
-        const address = this.wallet.excoin.receiveAdds[0].address;
-        const fabAddress = this.utilServ.exgToFabAddress(address);
-        this.kanbanServ.getTransactionHistory(fabAddress).subscribe(
-            (res: any) => {
-                console.log('resss=', res);
-                if(res && res.success) {
-                    this.transactionHistories = res.data.reverse();
-                }
+    prepareOrders() {
+        this.timerServ.openOrders.subscribe(
+            (orders: any) => {
+                this.openorders = orders.filter(oo=>oo.pairName === this.currentPair);
+                this.allOpenorders = orders;
+                // localStorage.setItem("_myOrders", orders);
+            }
+        );
+        this.timerServ.closedOrders.subscribe(
+            (orders: any) => {
+                this.closedorders = orders.filter(oo=>oo.pairName === this.currentPair);
+                this.allClosedorders = orders;
+            }
+        );
+        this.timerServ.canceledOrders.subscribe(
+            (orders: any) => {
+                this.canceledorders = orders.filter(oo=>oo.pairName === this.currentPair);
+                this.allCanceledorders = orders;
             }
         );
     }
+
+
+
+
     async withdrawDo() {
         const amount = this.withdrawAmount;
         const pin = this.pin;
@@ -172,7 +211,17 @@ export class MyordersComponent implements OnInit, OnDestroy {
         let currentCoin;
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             currentCoin = this.wallet.mycoins[i];
-            if (currentCoin.name === this.coinName) {
+            if (
+                ((this.coinName != 'USDT') && (this.coinName != 'FAB') && (['EXG', 'DSC', 'BST'].indexOf(this.coinName) < 0) && (currentCoin.name === this.coinName))
+                ||
+                (this.coinName == 'USDT' && (currentCoin.name === this.coinName) && currentCoin.tokenType == this.chain)
+                ||
+                (this.coinName == 'FAB' && (currentCoin.name === this.coinName) && !currentCoin.tokenType && (this.chain == 'FAB'))
+                ||
+                (this.coinName == 'FAB'  && (currentCoin.name === this.coinName) && currentCoin.tokenType == this.chain)
+                ||
+                ((['EXG', 'DSC', 'BST'].indexOf(this.coinName) >= 0)  && (currentCoin.name === this.coinName) && currentCoin.tokenType == this.chain)                
+                ) {
                 break;
             }
         }
@@ -191,12 +240,14 @@ export class MyordersComponent implements OnInit, OnDestroy {
         const amountInLink = new BigNumber(amount).multipliedBy(new BigNumber(1e18)); // it's for all coins.
         let addressInWallet = currentCoin.receiveAdds[0].address;
 
-        if (currentCoin.name === 'BTC' || currentCoin.name === 'FAB' || currentCoin.name === 'DOGE' || currentCoin.name === 'LTC') {
+        if (
+            currentCoin.name === 'BTC' || ((currentCoin.name === 'FAB') && !currentCoin.tokenType) || 
+            currentCoin.name === 'DOGE' || currentCoin.name === 'LTC' ||
+            currentCoin.name == 'TRX' || currentCoin.tokenType == 'TRX') {
             const bytes = bs58.decode(addressInWallet);
-            console.log('bytes=', bytes);
             addressInWallet = bytes.toString('hex');
+            console.log('addressInWallet there we go:', addressInWallet);
 
-            console.log('addressInWallet=', addressInWallet);
         } else if (currentCoin.name === 'BCH') {
             const keyPairsCurrentCoin = this._coinServ.getKeyPairs(currentCoin, seed, 0, 0);
             let prefix = '6f';
@@ -217,6 +268,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 const coin = this.wallet.mycoins[i];
                 if (coin.name === 'FAB') {
                     fabAddress = coin.receiveAdds[0].address;
+                    break;
                 }
             }
             if (fabAddress === '') {
@@ -229,11 +281,21 @@ export class MyordersComponent implements OnInit, OnDestroy {
             }
             const bytes = bs58.decode(fabAddress);
             addressInWallet = bytes.toString('hex');
-            console.log('addressInWallet for exg', addressInWallet);
         }
 
-        const abiHex = this.web3Serv.getWithdrawFuncABI(this.coinType, amountInLink, addressInWallet);
-        console.log('abiHex=====', abiHex);
+        /*
+         else if () {
+            const address = currentCoin.receiveAdds[0].address;
+            addressInWallet = this.coinServ.trxToHex(address);
+        }
+        */
+
+        console.log('currentCoin==', currentCoin);
+        let coinTypePrefix = this.coinServ.getCoinTypePrefix(currentCoin);
+        console.log('coinTypePrefix=',coinTypePrefix);
+        const abiHex = this.web3Serv.getWithdrawFuncABI(this.coinType, amountInLink, addressInWallet, coinTypePrefix);
+
+        console.log('abiHex for withdraw=', abiHex);
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
         const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 
@@ -294,12 +356,69 @@ export class MyordersComponent implements OnInit, OnDestroy {
         });
     }
 
-    openWithdrawModal(template: TemplateRef<any>) {
-        this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName];
+    async openWithdrawModal(template: TemplateRef<any>) {
         this.modalWithdrawRef = this.modalService.show(template, { class: 'second' });
+
+        console.log('this.coinName==', this.coinName);
+        if(this.coinName == 'USDT') {
+            this.chain = 'TRX';
+            try {
+                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+
+                if(!this.trxUSDTTSBalance) {
+                    this.trxUSDTTSBalance = await this.coinServ.getTrxTokenBalance(environment.addresses.smartContract.USDT.TRX, environment.addresses.exchangilyOfficial.TRX);
+                    this.trxUSDTTSBalance = this.trxUSDTTSBalance / 1e6;
+                }
+
+                if(!this.ethUSDTTSBalance) {
+                    const balance = await this.apiServ.getEthTokenBalance('USDT', environment.addresses.smartContract.USDT.ETH, environment.addresses.exchangilyOfficial.ETH);                    
+                    this.ethUSDTTSBalance = balance.balance / 1e6;
+                }
+            }catch(e) {
+
+            }           
+        } else if(this.coinName == 'FAB') {
+            this.chain = 'FAB';
+            try {
+                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+
+                let balance = await this.apiServ.getEthTokenBalance('FAB', environment.addresses.smartContract.FAB.ETH, environment.addresses.exchangilyOfficial.ETH);                    
+                this.ethFABTSBalance = balance.balance / 1e8;
+                    
+
+                balance = await this.apiServ.getFabBalance(environment.addresses.exchangilyOfficial.FAB);
+                this.fabTSBalance = balance.balance / 1e8;
+
+            }catch(e) {
+
+            }                
+        }else if(['EXG', 'DSC', 'BST'].indexOf(this.coinName) >= 0) {
+            this.chain = 'FAB';
+            try {
+                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+
+                let balance = await this.apiServ.getEthTokenBalance(this.coinName, environment.addresses.smartContract[this.coinName]['ETH'], environment.addresses.exchangilyOfficial.ETH);                    
+                this.ethEXGTSBalance = balance.balance / 1e18;
+
+                balance = await this.apiServ.getFabTokenBalance(this.coinName, this.utilServ.fabToExgAddress(environment.addresses.exchangilyOfficial.FAB));
+                this.exgTSBalance = balance.balance / 1e18;
+
+            }catch(e) {
+
+            }  
+        } else
+        {
+            this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName];
+        }
+        
+
+        
     }
 
     selectOrder(ord: number) {
+        this.currentPair = this._route.snapshot.paramMap.get('pair').replace('_', '');
+        this.prepareOrders();
+
         this.select = ord;
         if (ord === 0) {
             this.orderStatus = 'open';
@@ -349,13 +468,73 @@ export class MyordersComponent implements OnInit, OnDestroy {
             return;
         }
 
-        if (amount > Number(this.utilServ.showAmount(this.token.unlockedAmount, 6))) {
+        if (amount > Number(this.utilServ.showAmount(this.token.unlockedAmount, 18))) {
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar('提币数量超过可用余额。', 'Ok');
             } else {
                 this.alertServ.openSnackBar('Withdraw amount is over your balance.', 'Ok');
             }
             return;
+        }
+
+        if(this.coinName == 'USDT') {
+            if(this.chain == 'TRX' && (!this.trxUSDTTSBalance || (amount > this.trxUSDTTSBalance))) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;                
+            }
+
+            if(this.chain == 'ETH' && (!this.ethUSDTTSBalance || (amount > this.ethUSDTTSBalance))) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;                
+            }            
+        }
+
+        if(this.coinName == 'FAB') {
+            if(this.chain == 'FAB' && (!this.fabTSBalance || (amount > this.fabTSBalance))) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;                
+            }
+
+            if(this.chain == 'ETH' && (!this.ethFABTSBalance || (amount > this.ethFABTSBalance))) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;                
+            }            
+        }
+
+        if(['EXG', 'DSC', 'BST'].indexOf(this.coinName) >= 0) {
+            if(this.chain == 'FAB' && (!this.exgTSBalance || (amount > this.exgTSBalance))) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;                
+            }
+
+            if(this.chain == 'ETH' && (!this.ethEXGTSBalance || (amount > this.ethEXGTSBalance))) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;                
+            }            
         }
 
         this.modalWithdrawRef.hide();
@@ -378,94 +557,12 @@ export class MyordersComponent implements OnInit, OnDestroy {
             this.withdrawDo();
         } else if (this.opType === 'deleteOrder') {
             this.deleteOrderDo();
-        } else if (this.opType === 'transfer') {
-            this.transferDo();
         }
 
     }
 
-    async transferDo() {
-        const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
-        const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
-        let toAddressLegacy = '';
-        try {
-            toAddressLegacy = exaddr.toLegacyAddress(this.address);
-            console.log('toAddressLegacy===', toAddressLegacy);
-        } catch(e) {
-
-        }
-        
-        
-        if(!toAddressLegacy) {
-            if (this.lan === 'zh') {
-                this.alertServ.openSnackBar('收款地址格式不对。', 'Ok');
-            } else {
-                this.alertServ.openSnackBar('The format of the payment address is incorrect.', 'Ok');
-            }
-
-            return;            
-        }
-
-        console.log('toAddressLegacy===', toAddressLegacy);
-        const abiHex = this.web3Serv.getTransferFuncABI(this.coin, this.utilServ.fabToExgAddress(toAddressLegacy), this.amount);
-        console.log('abiHex for getTransferFuncABI=', abiHex);
-        const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
-
-        const address = await this.kanbanServ.getCoinPoolAddress();
-        const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce);
-        console.log('txhex=', txhex);
-        this.kanbanServ.sendRawSignedTransaction(txhex).subscribe((resp: any) => {
-            console.log('resp=', resp);
-            if (resp && resp.transactionHash) {
-
-                this.timerServ.checkTokens(keyPairsKanban.address, 10);
-
-                // this.tradeService.saveTransactions(this.openorders);
-                // this.kanbanServ.incNonce();
-                if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('转账请求提交成功，等待区块链处理。', 'Ok');
-                } else {
-                    this.alertServ.openSnackBar('Transfer request is pending.', 'Ok');
-                }
-            }
-        },
-            (error) => {
-                if (error.error) {
-                    this.alertServ.openSnackBar(error.error, 'Ok');
-                }
-
-            });
-    }
 
 
-    confirmTransfer() {
-        this.transactionHistory = false;
-        if(!this.coin && (this.mytokens.length > 0)) {
-            this.coin = this.mytokens[0];
-        }
-        for (let i = 0; i < this.mytokens.length; i++) {
-            if (this.mytokens[i].coinType === this.coin) {
-                this.token = this.mytokens[i];
-                break;
-            }
-        }
-        if (!this.token) {
-            return;
-        }
-        console.log(this.utilServ.toNumber(this.utilServ.showAmount(this.token.unlockedAmount, 18)));
-        if (this.amount > this.utilServ.toNumber(this.utilServ.showAmount(this.token.unlockedAmount, 18))) {
-            if (this.lan === 'zh') {
-                this.alertServ.openSnackBar('余额不足。', 'Ok');
-            } else {
-                this.alertServ.openSnackBar('Not enough balance.', 'Ok');
-            }
-
-            return;
-        }
-        this.opType = 'transfer';
-
-        this.pinModal.show();
-    }
 
     async deleteOrderDo() {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
@@ -500,5 +597,11 @@ export class MyordersComponent implements OnInit, OnDestroy {
         const orderQtyFilledNum = new BigNumber(this.utilServ.showAddAmount(orderQty, orderFilledQty, 2));
         const ret = orderQtyNum.dividedBy(orderQtyFilledNum);
         return ret.toNumber() * 100;
+    }
+
+    eventCheck(event) {
+        this.showAll = event.target.checked;
+        this.currentPair = this._route.snapshot.paramMap.get('pair').replace('_', '');
+        this.prepareOrders();
     }
 }

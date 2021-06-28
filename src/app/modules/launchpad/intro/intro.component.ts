@@ -10,4 +10,10 @@ export class IntroComponent implements OnInit {
     }
     ngOnInit() {
     }
+
+    goto(tabName: string) {
+      window.location.hash = ''; 
+      window.location.hash = tabName;
+   
+    }
 }

@@ -9,6 +9,7 @@
 @import "./styles/padding.css";
 @import "./styles/size.css";
 @import "./styles/color.css";
+@import "./styles/style.css";
 html,
 body {
     color: $secondary-light;
@@ -253,6 +254,10 @@ fieldset {
     border-radius: 0;
 }
 
+.text-muted {
+    color: white;
+}
+
 .row-flex {
     display: flex;
     flex-wrap: wrap;
@@ -379,13 +384,7 @@ body {
 .exbtn {
     // background: linear-gradient(to right, #cd45ff 0%, #7368ff 50%, #cd45ff 100%);
     background: rgba(59, 173, 227, 1);
-    background: linear-gradient(
-        45deg,
-        rgba(255, 53, 127, 1) 0%,
-        rgba(87, 111, 230, 1) 25%,
-        rgba(152, 68, 183, 1) 51%,
-        rgba(255, 53, 127, 1) 100%
-    );
+    background: linear-gradient( 45deg, rgba(255, 53, 127, 1) 0%, rgba(87, 111, 230, 1) 25%, rgba(152, 68, 183, 1) 51%, rgba(255, 53, 127, 1) 100%);
     border: 0 !important;
     border-radius: 50px;
     color: #fff;
@@ -394,11 +393,9 @@ body {
     transition: all 450ms ease-in-out;
     background-size: 200%;
     background-position: -100%;
-
     &:hover {
         background-position: 100%;
     }
-
     &:disabled {
         background-color: #777;
         background-image: none;
@@ -410,7 +407,6 @@ body {
     .mat-form-field-appearance-legacy .mat-form-field-label {
         color: rgba(255, 252, 252, 0.54) !important;
     }
-
     .example-radio-group {
         display: flex;
         flex-direction: column;
@@ -418,18 +414,27 @@ body {
         /* display: grid; */
         margin: 15px 0;
     }
-    
-    .mat-radio-outer-circle{
-        border-color: rgba(255,255,255,.84)
+    .mat-radio-outer-circle {
+        border-color: rgba(255, 255, 255, .84)
     }
-
-    .exdisabled .mat-form-field-underline{
+    .exdisabled .mat-form-field-underline {
         background-color: #999;
     }
-
     .step2 #currency-radio-group-label,
-    .step2 #method-radio-group-label
-    {
+    .step2 #method-radio-group-label {
         margin-left: 20px;
     }
+}
+
+.modal {
+    z-index: 9999;
+}
+
+.sortable {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-label {
+    color: grey;
 }

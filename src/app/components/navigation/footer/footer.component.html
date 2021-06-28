@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-3 about">
                 <div class="logo-font"><img src="./images/logo/pureExLogo.svg"> eXchangily</div>
-                <div class="txt">eXchangily is the 1st fully licensed decentralized crypto exchange, offering fast, autonomous transactions, cross-chain capability and 100% profit sharing to EXG token holders. </div>
+                <div class="txt">{{"exgshortintroduce" | translate}} </div>
             </div>
             <div class="col-md-3 colMenu">
                 <div class="colTitle">
@@ -25,6 +25,14 @@
                     <div class="text-links">
                         <img src="./images/logo/next.svg">
                         <a routerLink="/explorer">{{'Explore' | translate}}</a>
+                    </div>
+                    <div class="text-links">
+                        <img src="./images/logo/next.svg">
+                        <a routerLink="/assets/BTC">{{'Assets' | translate}}</a>
+                    </div>
+                    <div class="text-links">
+                        <img src="./images/logo/next.svg">
+                        <a routerLink="/home/team">{{'Team' | translate}}</a>
                     </div>
                 </div>
             </div>
@@ -51,7 +59,7 @@
                     </div>
                     <div class="text-links">
                         <img src="./images/logo/next.svg">
-                        <a>{{'API term' | translate}}</a>
+                        <a href="https://api.exchangily.com">{{'API term' | translate}}</a>
                     </div>
                     <!-- <div class="text-links">
                         <img src="./images/logo/next.svg">
@@ -158,7 +166,7 @@
         <div class="footerBottom">
             <!-- <div class="colTitle">{{'JoinUs' | translate}} </div> -->
             <div class="d-inline-block social-media" id="img-social">
-                <a href="https://twitter.com/Exchangily" target="_blank" title="Twitter"><img src="./images/social/twitter.png" /></a>
+                <a href="https://twitter.com/ExchangilyC" target="_blank" title="Twitter"><img src="./images/social/twitter.png" /></a>
                 <a href="https://www.facebook.com/Exchangily-439040053240813" target="_blank" title="Facebook"><img src="./images/social/facebook.png" /></a>
                 <a href="https://medium.com/exchangily-blog" target="_blank" title="Medium"><img src="./images/social/medium.png" /></a>
                 <a href="https://www.youtube.com/blockchaingateofficial" target="_blank" title="YouTube"><img src="./images/social/youtube.png" /></a>
@@ -167,14 +175,18 @@
                 <a href="https://github.com/blockchaingate/eXchangily-web" target="_blank" title="Github"><img src="./images/social/github.png" /></a>
             </div>
             <!-- <div class="colTitle">{{'Email' | translate}} </div> -->
-            <div><a class="text-muted small" href="mailto: info@exchangily.com">
-                <!-- <mat-icon svgIcon="email"></mat-icon>  -->
-                General Infomation: info@exchangily.com
-            </a></div>
-            <div><a class="text-muted small" href="mailto: Service@exchangily.com">
-                <!-- <mat-icon svgIcon="email"></mat-icon>  -->
-                Customer Support: service@exchangily.com
-            </a></div>
+            <div>
+                <a class="text-muted small" href="mailto: info@exchangily.com">
+                    <!-- <mat-icon svgIcon="email"></mat-icon>  -->
+                    {{"General Infomation" | translate}}: info@exchangily.com
+                </a>
+            </div>
+            <div>
+                <a class="text-muted small" href="mailto: Service@exchangily.com">
+                    <!-- <mat-icon svgIcon="email"></mat-icon>  -->
+                    {{"Customer Support"|translate}}: service@exchangily.com
+                </a>
+            </div>
             <div class="text-center small pb-3">© {{year}} {{"Copyright" | translate}}:
                 <a href="https://exchangily.com"> eXchangily.com</a> v{{version}}
             </div>

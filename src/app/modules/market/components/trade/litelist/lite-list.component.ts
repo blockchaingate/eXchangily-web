@@ -28,16 +28,64 @@ export class LiteListComponent implements OnInit {
 
     prices: Price[] = [];
     searchText = '';
-    socket: WebSocketSubject<[Ticker]>;
+
+    sortField: string;
+    sortFieldType: string;
+    sortAsc: boolean;
+    sortAscPair: number;
+    sortAscPrice: number;
+    sortAscChange: number;
+
+    // socket: WebSocketSubject<[Ticker]>;
     constructor(private prServ: PriceService,
         public utilServ: UtilService,
         private _route: ActivatedRoute,
         private _router: Router, private _wsServ: WsService) {
     }
 
+    changeSort(field: string, fieldType: string) {
+        this.sortField = field;
+        this.sortFieldType = fieldType;
+        if (field === 'symbol') {
+            if (!this.sortAscPair) {
+                this.sortAscPair = 1;
+            } else {
+                this.sortAscPair = -this.sortAscPair;
+            }
+            if (this.sortAscPair === 1) {
+                this.sortAsc = true;
+            } else {
+                this.sortAsc = false;
+            }
+        } else if (field === 'price') {
+            if (!this.sortAscPrice) {
+                this.sortAscPrice = 1;
+            } else {
+                this.sortAscPrice = -this.sortAscPrice;
+            }
+            if (this.sortAscPrice === 1) {
+                this.sortAsc = true;
+            } else {
+                this.sortAsc = false;
+            }
+        } else if (field === 'change24h') {
+            if (!this.sortAscChange) {
+                this.sortAscChange = 1;
+            } else {
+                this.sortAscChange = -this.sortAscChange;
+            }
+            if (this.sortAscChange === 1) {
+                this.sortAsc = true;
+            } else {
+                this.sortAsc = false;
+            }
+        }
+
+    }
+
     filterPrice(price: Price, selectedcat: string, searchText: string) {
         // console.log('this.select=', select);
-        if(searchText && searchText.trim() != '') {
+        if (searchText && searchText.trim() !== '') {
             return price.symbol.indexOf(searchText.toUpperCase()) >= 0;
         }
         return price.symbol.indexOf(selectedcat) >= 0;
@@ -46,7 +94,16 @@ export class LiteListComponent implements OnInit {
     toDecimal(amount: number, decimal: number) {
         return amount.toFixed(decimal);
     }
+
     ngOnInit() {
+
+        this.sortField = '';
+        this.sortFieldType = '';
+        this.sortAsc = true;
+        this.sortAscPair = 0;
+        this.sortAscPrice = 0;
+        this.sortAscChange = 0;
+
         this.selectedcat = sessionStorage.getItem('tradeCat');
         if (!this.selectedcat) {
             this.selectedcat = 'USDT';
@@ -82,9 +139,9 @@ export class LiteListComponent implements OnInit {
                         change24h = Math.floor(change24h * 100) / 100;
                     }
                     */
-                   if(open > 0) {
-                    change24h = (close - open) / open * 100;
-                   }
+                    if (open > 0) {
+                        change24h = (close - open) / open * 100;
+                    }
 
                     const vol24h = Number(ticker['v']);
 

@@ -36,8 +36,7 @@ export class ActivateComponent implements OnInit {
   }
 
   onSubmit() {
-    this._userService.activation(this.email.value, this.code.value)
-    .subscribe(
+    this._userService.activation(this.email.value, this.code.value).then(
       ret => this.proccessSuccess(ret),
       err => { this.errorMessage = err || 'Activation failure. '; }
     );
