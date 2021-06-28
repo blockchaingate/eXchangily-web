@@ -110,12 +110,8 @@ export const environment = {
     endpoints: {
         blockchaingate: 'https://api.blockchaingate.com/v2/',
         coingecko: 'https://api.coingecko.com/',
-<<<<<<< HEAD
-        kanban:  'https://api.dscmap.com/',
-        normal_kanban: 'https://kanbanprod.fabcoinapi.com/',
-=======
         kanban: 'https://api.exchangily.com/',
->>>>>>> 99cbadd4520875db2d3aa4b81b9e7fa788292072
+        normal_kanban: 'https://kanbanprod.fabcoinapi.com/',
         BTC: {
             exchangily: 'https://btcprod.fabcoinapi.com/'
         },
