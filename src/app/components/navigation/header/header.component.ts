@@ -46,7 +46,6 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private translate: TranslateService, private router: Router,
-    private storageService: StorageService,
     private alertServ: AlertService,
     public utilServ: UtilService,
     private kanbanServ: KanbanService, private timerServ: TimerService,
@@ -94,14 +93,14 @@ export class HeaderComponent implements OnInit {
 
     // check user login token.
     this.readyGo = true;
-    this.storageService.getToken().subscribe(
+    this.storageServ.getToken().subscribe(
       (token: string) => {
         if (!token) {
           this.readyGo = false;
         } else {
           this.LoginInfodata.changeMessage(true);
           // check if user qualify for compaign
-          this.storageService.getCampaignQualify().subscribe(
+          this.storageServ.getCampaignQualify().subscribe(
             (Qualify: boolean) => {
               // console.log('Qualify=', Qualify);
               // set event menu items status.
@@ -245,8 +244,8 @@ export class HeaderComponent implements OnInit {
     this._userAuth.email = '';
     this._userAuth.token = '';
     this._userAuth.logout();
-    this.storageService.removeToken();
-    this.storageService.removeCampaignQualify();
+    this.storageServ.removeToken();
+    this.storageServ.removeCampaignQualify();
     this.LoginInfodata.changeMessage(false);
     this.LoginQualifydata.changeMessage(false);
     // console.log("LoginInfodata: " + this.LoginInfo.toString());
