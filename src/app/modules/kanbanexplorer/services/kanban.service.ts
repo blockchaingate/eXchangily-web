@@ -99,6 +99,27 @@ export class KanbanService {
     return this.http.get<Balance[]>(`${this.url}exchangily/getbalances/` + address);
   }
 
+  async getTransactionStatus(txid: string) {
+    let response = null;
+    let status = '';
+    try {
+        response = await this.http.get(`${this.url}kanban/getTransactionReceipt/` + txid).toPromise();
+        // console.log('response.transactionReceipt=', response.transactionReceipt);
+        // console.log('response.transactionReceipt.status=', response.transactionReceipt.status);
+        if (response && response.transactionReceipt) {
+          status = response.transactionReceipt.status;
+          if(status === '0x1') {
+            status = 'confirmed';
+          } else {
+            status = 'failed';
+          }
+            
+        }
+    } catch (e) { console.log(e); }
+
+    return status;
+}
+
   getAddressKanbanBalance(address: string): Observable<KanbanBalance> {
     return this.http.get<KanbanBalance>(`${this.url}kanban/getBalance/${address}`);
   }
