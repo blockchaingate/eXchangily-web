@@ -207,7 +207,7 @@
                 <mat-form-field class="example-full-width">
                     <input matInput placeholder="Arguments" [(ngModel)]="kanbanArguments">
                 </mat-form-field>
-    
+                <div>arguments example: [["0x15a5792f3481bbaaac0626791abaf94c1af7cca5","0x15a5792f3481bbaaac0626791abaf94c1af7cca6","0x15a5792f3481bbaaac0626791abaf94c1af7cca7"],[10,10,10,5,5,5,5,5,5,5,5]]</div>
                 <button mat-raised-button color="primary" (click)="deployKanban()"> {{'Deploy' | translate}} </button>
     
                 <div *ngIf="result" class="py-2 text-white">
