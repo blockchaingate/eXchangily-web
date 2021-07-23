@@ -635,10 +635,13 @@ export class SmartContractComponent implements OnInit {
 
   formCreateKanbanSmartContractABI() {
     const abi = JSON.parse(this.kanbanABI);
-    let args = [];
+    const args = JSON.parse(this.kanbanArguments);
+    /*
+    [];
     if(this.kanbanArguments) {
       args = this.kanbanArguments.split(',').map(item => {return item.trim()});
     }
+    */
     return this.web3Serv.formCreateSmartContractABI(abi, this.kanbanBytecode.trim(), args);
  
   }
