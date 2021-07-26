@@ -656,8 +656,16 @@ export class WalletDashboardComponent implements OnInit {
                         if(coin.name === 'EXG' && coin.tokenType == 'FAB' && !coin.encryptedPrivateKey) {
                             //console.log('coin=', coin);
                             //console.log('this.exgBalance=', this.exgBalance);
+                            let exgBalance =  Number(coin.balance);
+                            let exgLockedBalance = Number(coin.lockedBalance);
+                            if(exgBalance < 0) {
+                                exgBalance = 0;
+                            }
+                            if(exgLockedBalance < 0) {
+                                exgLockedBalance = 0;
+                            }
                             if(!this.exgBalance) {
-                                this.exgBalance = Number(coin.balance) + Number(coin.lockedBalance);
+                                this.exgBalance = exgBalance + exgLockedBalance;
                                 this.exgValue = coin.usdPrice;
                             }
 
@@ -1417,7 +1425,9 @@ export class WalletDashboardComponent implements OnInit {
         const pin = this.pin;
         const currentCoin = this.wallet.mycoins[this.sendCoinForm.coinIndex];
 
-        
+        if(currentCoin.name == 'FAB' && currentCoin.tokenType == 'FAB') {
+            currentCoin.tokenType = '';
+        }        
         const amount = this.sendCoinForm.amount;
 
         await this.loadBalance();
@@ -1672,7 +1682,9 @@ export class WalletDashboardComponent implements OnInit {
         }
 
         const currentCoin = this.currentCoin;
-
+        if(currentCoin.name == 'FAB' && currentCoin.tokenType == 'FAB') {
+            currentCoin.tokenType = '';
+        }
         const amount = this.amountForm.amount;
         const pin = this.pin;
 

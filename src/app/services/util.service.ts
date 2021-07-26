@@ -112,8 +112,14 @@ export class UtilService {
     }
 
     toPrecisionMul(unlockBal: any, lockBal: any, val: any) {
-        const unlockNum = unlockBal ? Number(unlockBal) : 0;
-        const lockNum = lockBal ? Number(lockBal) : 0;
+        let unlockNum = unlockBal ? Number(unlockBal) : 0;
+        let lockNum = lockBal ? Number(lockBal) : 0;
+        if (unlockNum < 0) {
+            unlockNum = 0;
+        }
+        if (lockNum < 0) {
+            lockNum = 0;
+        }
         return this.toPrecision((unlockNum + lockNum) * Number(val));
     }
 
