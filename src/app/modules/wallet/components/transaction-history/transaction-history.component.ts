@@ -64,7 +64,12 @@ export class TransactionHistoryComponent implements OnInit {
         return name;
     }
     mergeSortedArray(a,b){
-
+        if(!a) {
+            return b;
+        } else
+        if(!b) {
+            return a;
+        }
         var tempArray = [];
         var currentPos = {
             a: 0,
@@ -130,6 +135,8 @@ export class TransactionHistoryComponent implements OnInit {
                         newTransactions.push(newTransaction);
                     }
 
+                    console.log('this.transactions==', this.transactions);
+                    console.log('newTransactions==', newTransactions);
                     this.transactions = this.mergeSortedArray(this.transactions, newTransactions);
 
                 }

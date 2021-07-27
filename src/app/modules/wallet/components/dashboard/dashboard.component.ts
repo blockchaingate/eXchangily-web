@@ -558,7 +558,7 @@ export class WalletDashboardComponent implements OnInit {
                 ethAddress = coin.receiveAdds[0].address;
             }
             
-            if (coin.name == 'FAB' && !coin.tokenType && !coin.encryptedPrivateKey && !fabAddress) {
+            if (coin.name == 'FAB' && (!coin.tokenType || coin.tokenType == 'FAB') && !coin.encryptedPrivateKey && !fabAddress) {
                 fabAddress = coin.receiveAdds[0].address;
                 //this.fabBalance = coin.balance;
                 //console.log('this.fabBalance==', this.fabBalance);
