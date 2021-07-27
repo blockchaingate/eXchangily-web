@@ -928,9 +928,7 @@ export class CoinService {
                 // console.log('totalInput here=', totalInput);
                 amountNum -= utxo.value;
                 amountNum += feePerInput;
-                console.log('amountNum=', amountNum);
                 if (amountNum <= 0) {
-                    console.log('finished');
                     finished = true;
                     break;
                 }                 
@@ -1019,7 +1017,7 @@ export class CoinService {
             // console.log('address in getFabTransactionHex=' + address);
             let fabUtxos = await this.apiService.getFabUtxos(address);
             fabUtxos = fabUtxos.sort ((a, b) => b.value - a.value);
-            console.log('fabUtxos after ssorted =', fabUtxos);
+            //console.log('fabUtxos after ssorted =', fabUtxos);
             if (fabUtxos && fabUtxos.length) {
                 // console.log('fabUtxos=', fabUtxos);
                 // console.log('fabUtxos.length=', fabUtxos.length);
@@ -1063,7 +1061,6 @@ export class CoinService {
                     amountNum -= utxo.value;
                     amountNum += feePerInput;
                     if (((amount > 0) || (mycoin.tokenType === 'FAB')) && (amountNum <= 0)) {
-                        console.log('finished');
                         finished = true;
                         break;
                     }
@@ -1281,7 +1278,6 @@ export class CoinService {
                     amountNum -= utxo.value;
                     amountNum += feePerInput;
                     if (((amount > 0) || (mycoin.tokenType === 'FAB')) && (amountNum <= 0)) {
-                        console.log('finished');
                         finished = true;
                         break;
                     }

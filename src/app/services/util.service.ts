@@ -237,8 +237,6 @@ export class UtilService {
     }
 
     toBigNumber(amount, decimal: number) {
-        console.log('amount=', amount);
-        console.log('decimal=', decimal);
         if (amount === 0 || amount === '0') {
             return '0';
         }
@@ -277,7 +275,6 @@ export class UtilService {
 
         let amountStrFull = (numPart1 ? amountPart1 : '') + amountPart2;
         amountStrFull = amountStrFull.replace(/^0+/, '');
-        console.log('amountStrFull=', amountStrFull);
         return amountStrFull;
     }
 
