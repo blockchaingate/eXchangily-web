@@ -228,13 +228,10 @@ export class DepositAmountModal {
 
         // console.log('this.coin=', this.coin);
         // console.log('amount=', amount);
-        console.log('options=', options);
-        console.log('this.coin=', this.coin);
-        console.log('to=', to);
-        console.log('amount=', amount);
+
 
         const ret = await this.coinServ.sendTransaction(this.coin, null, to, amount, options, false);
-        console.log('ret from sendTransaction1=', ret);
+
         this.transFee = ret.transFee;
         this.getTransFeeUnit();
 
