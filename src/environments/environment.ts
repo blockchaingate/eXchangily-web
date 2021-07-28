@@ -5,7 +5,7 @@ import * as Btc from 'bitcoinjs-lib';
 
 export const environment = {
     production: false,
-    version: '2.2.4',
+    version: '2.2.5',
     IssueTokenReceipt: 'mxU2i997YxYv75E6YNVNwkN5qJ68WC5sZN',
     SQUARE_APP_ID: {
         CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', // ccount kenin
@@ -91,8 +91,7 @@ export const environment = {
             satoshisPerBytes: 100,
             bytesPerInput: 148,
             gasPrice: 40,
-            gasLimit: 800000,
-            gasLimitToken: 1000000
+            gasLimit: 100000
         },
         KANBAN: {
             chain: {

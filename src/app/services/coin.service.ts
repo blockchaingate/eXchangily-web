@@ -19,6 +19,7 @@ import { UtilService } from './util.service';
 import { environment } from '../../environments/environment';
 import BigNumber from 'bignumber.js/bignumber';
 import TronWeb from 'tronweb';
+import { FabUtxo } from '../interfaces/balance.interface';
 
 const HttpProvider = TronWeb.providers.HttpProvider;
 const fullNode = new HttpProvider(environment.chains.TRX.fullNode);
@@ -927,9 +928,7 @@ export class CoinService {
                 // console.log('totalInput here=', totalInput);
                 amountNum -= utxo.value;
                 amountNum += feePerInput;
-                console.log('amountNum=', amountNum);
                 if (amountNum <= 0) {
-                    console.log('finished');
                     finished = true;
                     break;
                 }                 
@@ -1016,9 +1015,9 @@ export class CoinService {
 
             address = mycoin.receiveAdds[index].address;
             // console.log('address in getFabTransactionHex=' + address);
-            const fabUtxos = await this.apiService.getFabUtxos(address);
-
-            //console.log('fabUtxos=', fabUtxos);
+            let fabUtxos = await this.apiService.getFabUtxos(address);
+            fabUtxos = fabUtxos.sort ((a, b) => b.value - a.value);
+            //console.log('fabUtxos after ssorted =', fabUtxos);
             if (fabUtxos && fabUtxos.length) {
                 // console.log('fabUtxos=', fabUtxos);
                 // console.log('fabUtxos.length=', fabUtxos.length);
@@ -1062,7 +1061,6 @@ export class CoinService {
                     amountNum -= utxo.value;
                     amountNum += feePerInput;
                     if (((amount > 0) || (mycoin.tokenType === 'FAB')) && (amountNum <= 0)) {
-                        console.log('finished');
                         finished = true;
                         break;
                     }
@@ -1280,7 +1278,6 @@ export class CoinService {
                     amountNum -= utxo.value;
                     amountNum += feePerInput;
                     if (((amount > 0) || (mycoin.tokenType === 'FAB')) && (amountNum <= 0)) {
-                        console.log('finished');
                         finished = true;
                         break;
                     }
@@ -2128,7 +2125,6 @@ export class CoinService {
 
                 const res1 = await this.getFabTransactionHex(seed, mycoin, toAddress, amount, 0,
                     satoshisPerBytes, bytesPerInput, getTransFeeOnly);
-                console.log('res1=', res1);
                 txHex = res1.txHex;
                 errMsg = res1.errMsg;
                 transFee = res1.transFee;

@@ -112,8 +112,14 @@ export class UtilService {
     }
 
     toPrecisionMul(unlockBal: any, lockBal: any, val: any) {
-        const unlockNum = unlockBal ? Number(unlockBal) : 0;
-        const lockNum = lockBal ? Number(lockBal) : 0;
+        let unlockNum = unlockBal ? Number(unlockBal) : 0;
+        let lockNum = lockBal ? Number(lockBal) : 0;
+        if (unlockNum < 0) {
+            unlockNum = 0;
+        }
+        if (lockNum < 0) {
+            lockNum = 0;
+        }
         return this.toPrecision((unlockNum + lockNum) * Number(val));
     }
 
@@ -231,8 +237,6 @@ export class UtilService {
     }
 
     toBigNumber(amount, decimal: number) {
-        console.log('amount=', amount);
-        console.log('decimal=', decimal);
         if (amount === 0 || amount === '0') {
             return '0';
         }
@@ -271,7 +275,6 @@ export class UtilService {
 
         let amountStrFull = (numPart1 ? amountPart1 : '') + amountPart2;
         amountStrFull = amountStrFull.replace(/^0+/, '');
-        console.log('amountStrFull=', amountStrFull);
         return amountStrFull;
     }
 

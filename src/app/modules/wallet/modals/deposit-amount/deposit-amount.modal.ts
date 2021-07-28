@@ -147,6 +147,7 @@ export class DepositAmountModal {
     }
 
     async onTextChange(val) {
+        this.transFee = 0;
         if (this.firstTime && this.coin) {
             if ((this.coin.name === 'ETH') || (this.coin.tokenType === 'ETH')) {
                 let gasPrice = await this.coinServ.getEthGasprice();
@@ -227,9 +228,10 @@ export class DepositAmountModal {
 
         // console.log('this.coin=', this.coin);
         // console.log('amount=', amount);
-        // console.log('options=', options);
+
+
         const ret = await this.coinServ.sendTransaction(this.coin, null, to, amount, options, false);
-        // console.log('ret=', ret);
+
         this.transFee = ret.transFee;
         this.getTransFeeUnit();
 

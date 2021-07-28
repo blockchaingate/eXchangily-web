@@ -1257,6 +1257,8 @@
     "Home Page": "首页",
     "Fiat": "法币",
     "Your payment was confirmed!": "支付成功！",
+    "confirmed": "成功",
+    "failed": "失败",
     "Your payment failed.": "支付失败",
     "Please copy hashes below to the above textbox": "请复制下面的每个哈希值到上面的文本框",
     "Registration time": "注册时间",
