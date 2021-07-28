@@ -34,6 +34,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
   private currentGranularity: any;
   private _symbol: ChartingLibraryWidgetOptions['symbol'] = ' ';
   private _interval: ChartingLibraryWidgetOptions['interval'] = '30';
+  //private _interval: ChartingLibraryWidgetOptions['interval'] = '24h';
   // BEWARE: no trailing slash is expected in feed URL
   private _datafeedUrl = 'https://demo_feed.tradingview.com';
   private _libraryPath: ChartingLibraryWidgetOptions['library_path'] = '/assets/charting_library/';
@@ -214,30 +215,33 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
         that.mockService.getHistoryListSync(param).subscribe(
           (res: any) => {
             if (res && res.length > 0) {
-              let newRes = [];
+              const newRes:TradingView.Bar[] = [];
               
+              let currentTime = 0;
               for (let i = 0; i < res.length; i++) {
                 const item = res[i];
-                const newitem = {
+                const newtime = Number((item.t - 1).toString() + '000');
+                if(newtime == currentTime) {
+                  continue;
+                }
+                currentTime = newtime;
+                const newitem: TradingView.Bar = {
+                  time: newtime,
                   open: item.o,
                   close: item.c,
                   volume: item.v,
                   high: item.h,
-                  low: item.l,
-                  time: item.t * 1000
+                  low: item.l
                 };
+                //console.log('newtime=', newtime);
+                //console.log('newItem=', newitem);
                 newRes.push(newitem);
-                /*
-                res[i].open = res[i].o;
-                res[i].close = res[i].c;
-                res[i].volume = res[i].v;
-                res[i].high = res[i].h;
-                res[i].low = res[i].l;
-                res[i].time = res[i].t * 1000;
-                */
+
               }
-              newRes = newRes.sort((a,b) => a.time - b.time);
+              console.log('newRes==', newRes);
+              //const copied = JSON.parse(JSON.stringify(newRes));
               onResult(newRes, { noData: false });
+              //console.log('copied=', copied);
             }
           }
         );
