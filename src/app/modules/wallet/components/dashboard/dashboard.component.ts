@@ -714,6 +714,10 @@ export class WalletDashboardComponent implements OnInit {
                                     coin.usdPrice = item.usdValue.USD;
                                     updated = true;
                                 }
+                                if(coin.unconfirmedBalance !== item.unconfirmedBalance) {
+                                    coin.unconfirmedBalance = item.unconfirmedBalance;
+                                    updated = true;
+                                }
                             }
 
 
@@ -1666,14 +1670,22 @@ export class WalletDashboardComponent implements OnInit {
             });
     }
 
-    /*
-                amount: amount,resp
-                gasPrice: gasPrresp
-                gasLimit: gasLiresp
-                satoshisPerByteresposhisPerBytes,
-                kanbanGasPrice:respnGasPrice,
-                kanbanGasLimit:respnGasLimit
-    */
+    getCombineBal(bal1, bal2) {
+        console.log('bal1=', bal1);
+        console.log('bal2=', bal2);
+        let total = Number(bal1);
+        if(total < 0) {
+            total = 0;
+        }
+        if(!bal2) {
+            return total;
+        }
+        if(Number(bal2)>0) {
+            total += Number(bal2);
+        }
+        console.log('total=', total);
+        return total;
+    }
 
     async depositdo() {
         await this.loadBalance();

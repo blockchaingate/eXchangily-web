@@ -6,6 +6,7 @@ export class MyCoin extends Coin {
     encryptedPrivateKey: any;
     balance: number;
     lockedBalance: number;
+    unconfirmedBalance: number;
     lockers: any;
     receiveAdds: Address[];
     changeAdds: Address[];
