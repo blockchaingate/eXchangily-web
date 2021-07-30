@@ -1762,7 +1762,7 @@ export class WalletDashboardComponent implements OnInit {
 
         console.log('amountInLinkString=', amountInLinkString);
         console.log('amountInTxString=', amountInTxString);
-        if (amountInLinkString.indexOf(amountInTxString) === -1) {
+        if (amountInLinkString.indexOf(amountInTxString) !== 0) {
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar('转账数量不相等', 'Ok');
             } else {
@@ -1771,6 +1771,18 @@ export class WalletDashboardComponent implements OnInit {
             return;
         }
 
+        const sub = amountInLinkString.substring(amountInTxString.length);
+        if(sub) {
+            if(Number(sub) != 0) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('转账数量不相等', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Inequal amount for deposit', 'Ok');
+                }
+                return;                
+            }
+        }
+        
         const subString = amountInLinkString.substr(amountInTxString.length);
 
         console.log('subString==', subString);
