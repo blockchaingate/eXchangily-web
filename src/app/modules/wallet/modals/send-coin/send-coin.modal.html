@@ -24,10 +24,10 @@
                                 <select class="custom-select" (change)="onChange($event.target.value)" formControlName="selectedCoinIndex" *ngIf="wallet">
                                     <option [value]="i" *ngFor="let coin of wallet.mycoins;let i = index">
                                         {{coin.symbol}}
-                                        <span *ngIf="((coin.name == 'USDT') || (coin.name == 'FAB') || (coin.name == 'EXG') || (coin.name == 'DSC') || (coin.name == 'BST')) && (coin.tokenType == 'ETH')">
+                                        <span *ngIf="((coin.name == 'USDT') || (coin.name == 'USDC') || (coin.name == 'FAB') || (coin.name == 'EXG') || (coin.name == 'DSC') || (coin.name == 'BST')) && (coin.tokenType == 'ETH')">
                                             (ERC20)
                                         </span>
-                                        <span *ngIf="((coin.name == 'USDT') || (coin.name == 'FAB') || (coin.name == 'EXG')) && (coin.tokenType == 'TRX')">
+                                        <span *ngIf="((coin.name == 'USDT') || (coin.name == 'USDC') ||  (coin.name == 'FAB') || (coin.name == 'EXG')) && (coin.tokenType == 'TRX')">
                                             (TRC20)
                                         </span>                                        
                                     </option>
@@ -107,7 +107,7 @@
                                     1 GWEI = 10^(-9) FAB
                                 </small>     
                                 
-                                <small class="text-muted" *ngIf="gasUnit == 'WEI' && coin && (coin.name == 'USDT' || coin.name == 'ETH')">
+                                <small class="text-muted" *ngIf="gasUnit == 'WEI' && coin && (coin.name == 'USDT' || coin.name == 'USDC' || coin.name == 'ETH')">
                                     1 GWEI = 10^(-9) ETH
                                 </small>                                  
                             </div>

@@ -161,6 +161,10 @@ export const environment = {
                 ETH: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',
                 TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t'
             },
+            USDC: {
+                ETH: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',
+                TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t'
+            },
             FAB: {
                 ETH: '0xd8b836a7276b3D28FE98CE9d5C8D3041051b792C'
             },
@@ -191,8 +195,7 @@ export const environment = {
             GVT: '0x3e610d9fb322063e50d185e2cc1b45f007e7180c',
             DRGN: '0xbbdd7a557a0d8a9bf166dcc2730ae3ccec7df05c',
             NVZN: '0xf18e828a19c00764522e50a511fffd521de4b119',
-            CNB: '0x466bc642fdd001b49aa8fa76c8058934bd428526',
-            USDC: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c'
+            CNB: '0x466bc642fdd001b49aa8fa76c8058934bd428526'
         },
        exchangilyOfficial: {
         FAB: 'n3AYguoFtN7SqsfAJPx6Ky8FTTZUkeKbvc',

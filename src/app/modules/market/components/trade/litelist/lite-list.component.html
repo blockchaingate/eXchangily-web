@@ -1,12 +1,14 @@
 <div class="h-100">
     <div class="menu w-100">
         <div class="menuitem hand smallfont text-white" [class.selected]="selectedcat === 'USDT'" (click)="selectCat('USDT');">USDT</div>
+        <div class="menuitem hand smallfont text-white" [class.selected]="selectedcat === 'USDC'" (click)="selectCat('USDC');">USDC</div>
         <div class="menuitem hand smallfont text-white" [class.selected]="selectedcat === 'DUSD'" (click)="selectCat('DUSD');">DUSD</div>
+    </div>
+    <div class="menu w-100">
         <div class="menuitem hand smallfont text-white" [class.selected]="selectedcat === 'BTC'" (click)="selectCat('BTC');">BTC</div>
         <span class="menuitem hand smallfont text-white" [class.selected]="selectedcat === 'ETH'" (click)="selectCat('ETH');">ETH</span>
         <div class="menuitem hand smallfont text-white" [class.selected]="selectedcat === 'EXG'" (click)="selectCat('EXG');">EXG</div>
     </div>
-
     <div class="input-group sarcharea px-2">
         <input type="text" class="form-control searchbox" (keydown.enter)="setSelect();false" [(ngModel)]="searchText" placeholder="{{'Search pair' | translate}}">
     </div>

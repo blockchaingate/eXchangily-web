@@ -543,14 +543,13 @@ export class WalletDashboardComponent implements OnInit {
         let ltcAddress = '';
         let trxAddress = '';
 
-        if(this.wallet.mycoins[4].name == 'TRX') {
-            this.walletUpdateToDate = true;
-        } else {
-            this.walletUpdateModal.show();
-        }
+        
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];       
 
+            if(coin.name == 'USDC') {
+                this.walletUpdateToDate = true;
+            }
             if (coin.name == 'BTC' && !btcAddress) {
                 btcAddress = coin.receiveAdds[0].address;
             }
@@ -610,6 +609,9 @@ export class WalletDashboardComponent implements OnInit {
 
         }
 
+        if(!this.walletUpdateToDate){
+            this.walletUpdateModal.show();
+        }
         const data = {
             btcAddress: btcAddress,
             ethAddress: ethAddress,

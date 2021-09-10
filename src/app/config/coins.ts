@@ -2,6 +2,7 @@ import {Price, Coin } from '../interfaces/kanban.interface';
 
 export const coin_list: Coin[] = [
     { id: 196609, name: 'USDT', icon: '' },
+    { id: 196632, name: 'USDC', icon: ''},
     { id: 65536, name: 'BTC', icon: '' },
     { id: 196608, name: 'ETH', icon: '' },
     { id: 131072, name: 'FAB', icon: '' },
@@ -33,6 +34,7 @@ export const coin_list: Coin[] = [
     { id: 196627, name: 'NVZN', icon: ''},
     { id: 458752, name: 'TRX', icon: ''},
     { id: 458753, name: 'USDTX', icon: ''},
+    { id: 458754, name: 'USDCX', icon: ''},
     { id: 196628, name: 'FABE', icon: ''},
     { id: 196629, name: 'EXGE', icon: ''},
     { id: 196630, name: 'DSCE', icon: ''},
@@ -181,5 +183,9 @@ export const price_list: Price[] = [
     { id: 87, coin_id: 196623, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'GVT/DUSD' },
     { id: 88, coin_id: 196624, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'REP/DUSD' },
     { id: 89, coin_id: 196625, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'FUN/DUSD' },
-    { id: 90, coin_id: 196626, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'DRGN/DUSD' },    
+    { id: 90, coin_id: 196626, base_id: 131074, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'DRGN/DUSD' }, 
+    
+    { id: 91, coin_id: 65536, base_id: 196632, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'BTC/USDC' },
+    { id: 92, coin_id: 196608, base_id: 196632, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'ETH/USDC' },
+    { id: 93, coin_id: 131072, base_id: 196632, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'FAB/USDC' },     
 ];

@@ -16,6 +16,10 @@
                     <img class="coin-logo" src="/assets/coins/usdt.png"> &nbsp;<span class="align-middle">USDT</span>
                 </div>
 
+                <div class="nav-item hand" [class.selected]="select == 'USDC'" (click)="selectCat('USDC');">
+                    <img class="coin-logo" src="/assets/coins/usdc.png"> &nbsp;<span class="align-middle">USDC</span>
+                </div>
+
                 <div class="nav-item hand" [class.selected]="select == 'BTC'" (click)="selectCat('BTC');">
                     <img class="coin-logo" src="/assets/coins/btc.png"> &nbsp;<span class="align-middle">BTC </span>
                 </div>

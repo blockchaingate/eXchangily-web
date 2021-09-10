@@ -149,10 +149,16 @@ export class CoinService {
         myCoins.push(usdtTRXCoin);        
 
         const usdtCoin = this.initToken('ETH', 'USDT', 6, environment.addresses.smartContract.USDT.ETH, ethCoin);
-
         this.fillUpAddress(usdtCoin, seed, 1, 0);
-
         myCoins.push(usdtCoin);
+
+        const usdcTRXCoin = this.initToken('TRX', 'USDC', 6, environment.addresses.smartContract.USDC.TRX, trxCoin);
+        this.fillUpAddress(usdcTRXCoin, seed, 1, 0);
+        myCoins.push(usdcTRXCoin);        
+
+        const usdcCoin = this.initToken('ETH', 'USDC', 6, environment.addresses.smartContract.USDC.ETH, ethCoin);
+        this.fillUpAddress(usdcCoin, seed, 1, 0);
+        myCoins.push(usdcCoin);        
 
         const dusdCoin = this.initToken('FAB', 'DUSD', 6, environment.addresses.smartContract.DUSD, fabCoin);
 

@@ -1,0 +1,50 @@
+{
+    "height": 11650000,
+    "effective": true,
+    "config":
+    [
+        {
+            "name": "USDC",
+            "type": "0x00030018",
+            "decimal": 6,
+            "apiserver": "ethprod.fabcoinapi.com",
+            "confirm": 10,
+            "contract": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+            "gaslimit": 100000,
+            "gasprice": "90000000000",
+            "mindeposit": "0",
+            "minwithdraw": "30000000",
+            "feewithdraw": "15000000"
+        },
+        {
+            "name": "USDC",
+            "type": "0x00070002",
+            "decimal": 6,
+            "apiserver": "api.trongrid.io",
+            "confirm": 2,
+            "contract": "TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8",
+            "gaslimit": 20000000,
+            "gasprice": "1",
+            "mindeposit": "0",
+            "minwithdraw": "400000",
+            "feewithdraw": "200000"
+        }
+    ]
+}
+
+
+
+
+
+11:52
+{
+    "height": 11650000,
+    "effective": true,
+    "config":
+    [
+        {
+            "base":     "USDC",
+            "target":   ["BTC", "ETH", "FAB"]
+        }
+    ]
+}
