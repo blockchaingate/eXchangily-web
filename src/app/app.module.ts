@@ -32,7 +32,6 @@ import { FaqComponent } from './components/help/faq.component';
 import { FeeComponent } from './components/help/fee.component';
 import { SubscriptionComponent } from './modules/landing/features/subscription/subscription.component';
 import { HelpComponent } from './components/help/help.component';
-import { ManualComponent } from './components/manual/manual.component';
 
 import { HttpService } from './services/http.service';
 import { AlertService } from './services/alert.service';
@@ -65,7 +64,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     // TvChartContainerComponent,
     HeaderComponent,
     HelpComponent,
-    ManualComponent,
     FaqComponent,
     FeeComponent,
     FooterComponent,

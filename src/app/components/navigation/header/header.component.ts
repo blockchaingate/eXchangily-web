@@ -173,6 +173,11 @@ export class HeaderComponent implements OnInit {
 
   linkTo(url: string) {
     this.showCollapse = false;
+    if(url == '/manual') {
+      if(this.currentLang != 'English') {
+        url = '/manual/sc'
+      }
+    }
     this.router.navigate([url]);
 
   }

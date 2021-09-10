@@ -6,7 +6,6 @@ import { AppResolver } from './modules/landing/resolvers/app/app.resolve';
 import { FaqComponent } from './components/help/faq.component';
 import { FeeComponent } from './components/help/fee.component';
 import { HelpComponent } from './components/help/help.component';
-import { ManualComponent } from './components/manual/manual.component';
 import { SubscriptionComponent } from './modules/landing/features/subscription/subscription.component';
 import { SupportComponent } from './modules/support/support.component';
 import { TicketComponent } from './modules/support/ticket/ticket.component';
@@ -143,7 +142,7 @@ const routes: Routes = [
     path: 'club', loadChildren: () => import('./modules/club/club.module').then(m => m.ClubModule)
   },
   { path: 'help', component: HelpComponent },
-  { path: 'manual', component: ManualComponent },
+  { path: 'manual', loadChildren: () => import('./modules/manual/manual.module').then(m => m.ManualModule) },
   { path: 'faq', component: FaqComponent },
   { path: 'fee', component: FeeComponent },
   { path: 'subscription', component: SubscriptionComponent },
