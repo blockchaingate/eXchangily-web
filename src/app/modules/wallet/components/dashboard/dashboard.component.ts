@@ -899,6 +899,7 @@ export class WalletDashboardComponent implements OnInit {
         console.log('transFee=', transFee);
         const currentCoinBalance = this.currentCoin.balance;
         const coinName = this.currentCoin.name;
+        const tokenType = this.currentCoin.tokenType;
         if (currentCoinBalance < amount) {
             this.alertServ.openSnackBar(
                 this.translateServ.instant('InsufficientForTransaction', {coin: coinName}),
@@ -936,7 +937,7 @@ export class WalletDashboardComponent implements OnInit {
             }
         }
 
-        if ((coinName === 'BTC') || (coinName === 'ETH') || (coinName === 'FAB') || (coinName === 'TRX')) {
+        if ((coinName === 'BTC') || (coinName === 'ETH') || (coinName === 'FAB' && !tokenType) || (coinName === 'TRX')) {
             if (currentCoinBalance < amount + transFee) {
                 this.alertServ.openSnackBar(
                     this.translateServ.instant('InsufficientForTransaction', {coin: coinName}),
