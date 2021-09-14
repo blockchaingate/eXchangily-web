@@ -815,6 +815,7 @@ export class WalletDashboardComponent implements OnInit {
     async loadWallet(wallet: Wallet) {
         this.wallet = wallet;
 
+        console.log('wallet=', wallet);
         this.exgBalance = 0;
 
         this.campaignorderServ.getCheck(this.exgAddress).subscribe(
@@ -1052,6 +1053,8 @@ export class WalletDashboardComponent implements OnInit {
             alert('Error occured, please try again.');
           }
         } else {
+            const newCoins = this.wallet.mycoins.filter(item => item.new);
+            wallet.mycoins = wallet.mycoins.concat(newCoins);
             this.walletServ.updateToWalletList(wallet, this.currentWalletIndex);
             this.walletUpdateToDate = true;
             this.wallet = wallet;
