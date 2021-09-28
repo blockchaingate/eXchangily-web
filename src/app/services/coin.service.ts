@@ -180,6 +180,18 @@ export class CoinService {
         myCoins.push(bstCoin);      
 
 
+        const stableCoins = ['DCAD', 'DCNY', 'DJPY', 'DGBP', 'DEURO', 'DAUD', 'DMYR', 'DKRW', 'DPHP', 'DTHB', 'DTWD', 'DSGD', 'DHKD', 'DINR', 'DMXN', 'DBRL', 'DNGN'];
+        for(let i = 0; i < stableCoins.length; i++) {
+            const item = stableCoins[i];
+            const stableCoin = this.initToken('FAB', item, 6, environment.addresses.smartContract[item], fabCoin);
+            this.fillUpAddress(stableCoin, seed, 1, 0);
+            myCoins.push(stableCoin);
+        }
+
+
+
+
+
         const bchCoin = new MyCoin('BCH');
 
         this.fillUpAddress(bchCoin, seed, 1, 0);
