@@ -29,7 +29,7 @@ export class IssueTokenComponent implements OnInit {
   symbol: string;
   decimals: number;
   wallet: any;
-  totalFee: number = 1000;
+  totalFee: number = 200;
   txHash: string;
   errMsg: string;
   initialBalance: number;
