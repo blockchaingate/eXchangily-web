@@ -189,7 +189,11 @@ export class CoinService {
         }
 
 
+        const csuCoin = this.initToken('FAB', 'CSU', 8, environment.addresses.smartContract.BST.FAB, fabCoin);
 
+        this.fillUpAddress(csuCoin, seed, 1, 0);
+
+        myCoins.push(csuCoin);  
 
 
         const bchCoin = new MyCoin('BCH');

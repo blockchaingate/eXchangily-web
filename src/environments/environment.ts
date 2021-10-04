@@ -212,7 +212,8 @@ export const environment = {
             GVT: '0x3e610d9fb322063e50d185e2cc1b45f007e7180c',
             DRGN: '0xbbdd7a557a0d8a9bf166dcc2730ae3ccec7df05c',
             NVZN: '0xf18e828a19c00764522e50a511fffd521de4b119',
-            CNB: '0x466bc642fdd001b49aa8fa76c8058934bd428526'
+            CNB: '0x466bc642fdd001b49aa8fa76c8058934bd428526',
+            CSU: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed'
         },
        exchangilyOfficial: {
         FAB: 'n3AYguoFtN7SqsfAJPx6Ky8FTTZUkeKbvc',
