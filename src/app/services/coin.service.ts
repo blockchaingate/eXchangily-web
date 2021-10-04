@@ -233,15 +233,147 @@ export class CoinService {
         this.fillUpAddress(token, seed, 1, 0);
         myCoins.push(token);        
 
-        const erc20Tokens = ['INB', 'REP', 'HOT', 'MATIC', 'IOST', 'MANA', 'ELF', 'GNO', 'WINGS', 'KNC', 'GVT', 'DRGN'];
+
+        const erc20Tokens = [
+            {
+                name: 'LINK',
+                decimals: 18
+            },
+            {
+                name: 'UNI',
+                decimals: 18
+            },
+            {
+                name: 'SHIB',
+                decimals: 18
+            },
+            {
+                name: 'CRO',
+                decimals: 8
+            },
+            {
+                name: 'GALA',
+                decimals: 8
+            },
+            {
+                name: 'POLY',
+                decimals: 18
+            },
+            {
+                name: 'CRV',
+                decimals: 18
+            },
+            {
+                name: 'SAND',
+                decimals: 18
+            },
+            {
+                name: 'COMP',
+                decimals: 18
+            },
+            {
+                name: 'BAT',
+                decimals: 18
+            },
+            {
+                name: 'SUSHI',
+                decimals: 18
+            },
+            {
+                name: 'CVC',
+                decimals: 8
+            },
+            {
+                name: 'CELR',
+                decimals: 18
+            },
+            {
+                name: 'YFI',
+                decimals: 18
+            },
+            {
+                name: 'SLP',
+                decimals: 0
+            },
+            { 
+                name: 'INB', 
+                decimals: 18
+            },
+            {
+                name: 'REP',
+                decimals: 18
+            },
+            {  
+                name: 'HOT',
+                decimals: 18
+            },
+            {   
+                name: 'MATIC', 
+                decimals: 18
+            },
+            {   
+                name:'IOST', 
+                decimals: 18
+            },
+            {   
+                name: 'MANA', 
+                decimals: 18
+            },
+            {   
+                name: 'ELF', 
+                decimals: 18
+            },
+            {   
+                name: 'GNO', 
+                decimals: 18
+            },
+            {
+                name: 'WINGS', 
+                decimals: 18
+            },
+            {   
+                name: 'KNC', 
+                decimals: 18
+            },
+            {   
+                name: 'GVT', 
+                decimals: 18
+            },
+            {
+                name: 'DRGN',
+                decimals: 18
+            },
+            {
+                name: 'FUN', 
+                decimals: 8
+            },
+            {
+                name: 'WAX', 
+                decimals: 8
+            },
+            {
+                name: 'MTL',
+                decimals: 8
+            },
+            {
+                name: 'POWR',
+                decimals: 6
+            },
+            {
+                name: 'CEL',
+                decimals: 4
+            },
+
+        ];
+
 
         for (let i = 0; i < erc20Tokens.length; i++) {
-            const token_Name = erc20Tokens[i];
-            const tokener = this.initToken('ETH', token_Name, 18, environment.addresses.smartContract[token_Name], ethCoin);
+            const token = erc20Tokens[i];
+            const tokener = this.initToken('ETH', token.name, token.decimals, environment.addresses.smartContract[token.name], ethCoin);
             this.fillUpAddress(tokener, seed, 1, 0);
             myCoins.push(tokener);
         }
-
+        /*
         const erc20Tokens2 = ['FUN', 'WAX', 'MTL'];
 
         for (let i = 0; i < erc20Tokens2.length; i++) {
@@ -250,7 +382,7 @@ export class CoinService {
             this.fillUpAddress(tokener, seed, 1, 0);
             myCoins.push(tokener);
         }
-
+        
         tokenName = 'POWR';
         token = this.initToken('ETH', tokenName, 6, environment.addresses.smartContract[tokenName], ethCoin);
         this.fillUpAddress(token, seed, 1, 0);
@@ -260,7 +392,7 @@ export class CoinService {
         token = this.initToken('ETH', tokenName, 4, environment.addresses.smartContract[tokenName], ethCoin);
         this.fillUpAddress(token, seed, 1, 0);
         myCoins.push(token);
-
+*/
 
         const cnbCoin = this.initToken('FAB', 'CNB', 18, environment.addresses.smartContract.CNB, fabCoin);
         this.fillUpAddress(cnbCoin, seed, 1, 0);

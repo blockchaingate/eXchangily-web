@@ -213,7 +213,23 @@ export const environment = {
             DRGN: '0xbbdd7a557a0d8a9bf166dcc2730ae3ccec7df05c',
             NVZN: '0xf18e828a19c00764522e50a511fffd521de4b119',
             CNB: '0x466bc642fdd001b49aa8fa76c8058934bd428526',
-            CSU: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed'
+            CSU: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
+
+            LINK: '0x514910771af9ca656af840dff83e8264ecf986ca',
+            UNI: '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984',
+            SHIB: '0x95ad61b0a150d79219dcf64e1e6cc01f0b64c4ce',
+            CRO: '0xa0b73e1ff0b80914ab6fe0444e65848c4c34450b',
+            GALA: '0x15D4c048F83bd7e37d49eA4C83a07267Ec4203dA',
+            POLY: '0x9992ec3cf6a55b00978cddf2b27bc6882d88d1ec',
+            CRV: '0xD533a949740bb3306d119CC777fa900bA034cd52',
+            SAND: '0x3845badAde8e6dFF049820680d1F14bD3903a5d0',
+            COMP: '0xc00e94cb662c3520282e6f5717214004a7f26888',
+            BAT: '0x0d8775f648430679a709e98d2b0cb6250d2887ef',
+            SUSHI: '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2',
+            CVC: '0x41e5560054824ea6b0732e656e3ad64e20e94e45',
+            CELR: '0x4f9254c83eb525f9fcf346490bbb3ed28a81c667',
+            YFI: '0x0bc529c00c6401aef6d220be8c6ea1667f6ad93e',
+            SLP: '0x37236cd05b34cc79d3715af2383e96dd7443dcf1'
         },
        exchangilyOfficial: {
         FAB: 'n3AYguoFtN7SqsfAJPx6Ky8FTTZUkeKbvc',
@@ -340,7 +356,22 @@ export const environment = {
         GVT: 10,
         DRGN: 100,
         NVZN: 100,
-        CNB: 100 * 2
+        CNB: 100 * 2,
+        LINK: 1, 
+        UNI: 1, 
+        SHIB: 2000000, 
+        CRO: 120, 
+        GALA: 200, 
+        POLY: 20, 
+        CRV: 10, 
+        SAND: 20, 
+        COMP: 0.1, 
+        BAT: 30, 
+        SUSHI: 2, 
+        CVC: 40, 
+        CELR: 140, 
+        YFI: 0.001, 
+        SLP: 240
     },
     depositMinimumConfirmations: {
         EXG: 12,
@@ -390,7 +421,23 @@ export const environment = {
         GVT: 20,
         DRGN: 20,
         NVZN: 20,
-        CNB: 20
+        CNB: 20,
+
+        LINK: 10, 
+        UNI: 10, 
+        SHIB: 10, 
+        CRO: 10, 
+        GALA: 10, 
+        POLY: 10, 
+        CRV: 10, 
+        SAND: 10, 
+        COMP: 10, 
+        BAT: 10, 
+        SUSHI: 10, 
+        CVC: 10, 
+        CELR: 10, 
+        YFI: 10, 
+        SLP: 10
     },
     PaymentMethod: {
         ETransfer: {
