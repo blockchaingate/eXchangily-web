@@ -707,6 +707,9 @@ export class WalletDashboardComponent implements OnInit {
                                     coin.balance = this.utilServ.toPrecision(item.balance);
                                     updated = true;
                                 }
+                                if (coin.unconfirmedBalance !== this.utilServ.toPrecision(item.unconfirmedBalance)) {
+                                    coin.unconfirmedBalance = this.utilServ.toPrecision(item.unconfirmedBalance);
+                                }
                                 if (coin.lockedBalance !== this.utilServ.toPrecision(item.lockBalance)) {
                                     coin.lockedBalance = this.utilServ.toPrecision(item.lockBalance);
                                     updated = true;
