@@ -56,8 +56,25 @@ export const coin_list: Coin[] = [
     { id: 196628, name: 'FABE', icon: ''},
     { id: 196629, name: 'EXGE', icon: ''},
     { id: 196630, name: 'DSCE', icon: ''},
-    { id: 196631, name: 'BSTE', icon: ''}
+    { id: 196631, name: 'BSTE', icon: ''},
+
+    {id: 196633, name: 'LINK', icon: ''},
+    {id: 196634, name: 'UNI', icon: ''},
+    {id: 196635, name: 'SHIB', icon: ''},
+    {id: 196636, name: 'CRO', icon: ''},
+    {id: 196637, name: 'GALA', icon: ''},
+    {id: 196638, name: 'POLY', icon: ''},
+    {id: 196639, name: 'CRV', icon: ''},
+    {id: 196640, name: 'SAND', icon: ''},
+    {id: 196641, name: 'COMP', icon: ''},
+    {id: 196642, name: 'BAT', icon: ''},
+    {id: 196643, name: 'SUSHI', icon: ''},
+    {id: 196644, name: 'CVC', icon: ''},
+    {id: 196645, name: 'CELR', icon: ''},
+    {id: 196646, name: 'YFI', icon: ''},
+    {id: 196647, name: 'SLP', icon: ''},
 ];
+
 
 export const price_list: Price[] = [
     
@@ -206,5 +223,21 @@ export const price_list: Price[] = [
     
     { id: 90, coin_id: 65536, base_id: 196632, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'BTC/USDC' },
     { id: 91, coin_id: 196608, base_id: 196632, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'ETH/USDC' },
-    { id: 92, coin_id: 131072, base_id: 196632, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'FAB/USDC' },     
+    { id: 92, coin_id: 131072, base_id: 196632, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'FAB/USDC' },  
+    
+    { id: 93, coin_id: 196633, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'LINK/USDT' },
+    { id: 94, coin_id: 196634, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'UNI/USDT' },
+    { id: 95, coin_id: 196635, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'SHIB/USDT' },
+    { id: 96, coin_id: 196636, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'CRO/USDT' },
+    { id: 97, coin_id: 196637, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'GALA/USDT' },
+    { id: 98, coin_id: 196638, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'POLY/USDT' },
+    { id: 99, coin_id: 196639, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'CRV/USDT' },
+    { id: 100, coin_id: 196640, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'SAND/USDT' },
+    { id: 101, coin_id: 196641, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'COMP/USDT' },
+    { id: 102, coin_id: 196642, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'BAT/USDT' },
+    { id: 103, coin_id: 196643, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'SUSHI/USDT' },
+    { id: 104, coin_id: 196644, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'CVC/USDT' },
+    { id: 105, coin_id: 196645, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'CELR/USDT' },
+    { id: 106, coin_id: 196646, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'YFI/USDT' },
+    { id: 107, coin_id: 196647, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'SLP/USDT' }
 ];
