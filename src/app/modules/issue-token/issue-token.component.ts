@@ -108,6 +108,10 @@ export class IssueTokenComponent implements OnInit {
     if (this.balance < this.totalFee) {
       this.alertServ.openSnackBar(this.translateServ.instant('Not enough balance'), this.translateServ.instant('Ok'));
     }
+    if(this.initialBalance < 1) {
+      this.alertServ.openSnackBar(this.translateServ.instant('Initial balance < 1'), this.translateServ.instant('Ok'));
+      return;
+    }
     this.pinModal.show();
   }
 

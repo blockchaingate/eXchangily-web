@@ -1,3 +1,48 @@
+const bip32 = require('bip32');
+const bitcoin = require('bitcoinjs-lib')
+const wif = require('wif')
+const TronWeb = require('tronweb')
+
+
+
+
+
+tron:
+
+                const root = bip32.fromSeed(seed);
+                const path = "m/44'/195'/0'/0/0";
+                const childNode = root.derivePath(path);
+
+                priKey = childNode.privateKey;
+
+                buffer = wif.decode(childNode.toWIF());
+                addr = 
+                TronWeb.utils.crypto.getBase58CheckAddress(TronWeb.utils.crypto.getAddressFromPriKey(priKey));
+
+
+
+     
+            
+
+fab:
+
+            const root = bip32.fromSeed(seed);
+            const path = "m/44'/1150'/0'/0/0";
+            const childNode = root.derivePath(path);
+            const { address } = bitcoin.payments.p2pkh({
+                pubkey: childNode.publicKey,
+                network: bitcoin.networks.bitcoin
+            });
+            addr = address;
+            priKey = childNode.toWIF();
+
+
+
+
+
+
+
+
 4e9c689a2f536a5c01ac7dee2d5c5f0cdd5125054034b320d0ee63c412d6135f
 
 
