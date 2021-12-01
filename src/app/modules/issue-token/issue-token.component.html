@@ -43,7 +43,15 @@
                     <input matInput placeholder="{{'TokenSymbolEmp' | translate}}" [(ngModel)]="symbol">
                   </mat-form-field>
             </td>
-        </tr>    
+        </tr> 
+        <tr>
+            <td class="text-right">
+                {{'Logo' | translate}}: 
+            </td>
+            <td>
+                <app-file-upload [(ngModel)]="file"></app-file-upload>
+            </td>            
+        </tr>
         <tr>
             <td class="text-right">
                 {{'Total supply' | translate}}: 
@@ -65,12 +73,12 @@
                   </mat-form-field>
             </td>
         </tr>  
-        <tr *ngIf="initialBalance" class="alert alert-danger">
+        <tr *ngIf="totalSupply" class="alert alert-danger">
             <td class="text-right">
                 {{'Token Balance' | translate}}: 
             </td>
             <td>
-                {{initialBalance}} {{symbol}}
+                {{totalSupply}} {{symbol}}
             </td>
         </tr>   
         <tr>
