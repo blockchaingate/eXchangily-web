@@ -355,6 +355,23 @@
                     <a class="nav-link" (click)="linkTo('/home');selectedItem=4" [class.selected]="selectedItem===4" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Header.Navigation.Home' | translate}}</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" target="_blank">{{'Blog' | translate}}</a>
+                    <div class="exSubMenu">
+                        <div class="exMenuContainer">
+                            <div class="exMenuItemBox ">
+                                <ul>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="https://blog.exchangily.com/">{{'Blog' | translate}}</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="https://medium.com/exchangily-blog" target="_blank">{{'Medium Blog' | translate}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" target="_blank">{{'News' | translate}}</a>
                     <div class="exSubMenu">
                         <div class="exMenuContainer">
@@ -362,9 +379,6 @@
                                 <ul>
                                     <li class="nav-item">
                                         <a class="nav-link" (click)="linkTo('/announcements');">{{'AnnouncementTxt' | translate}}</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="https://medium.com/exchangily-blog" target="_blank">{{'Blog' | translate}}</a>
                                     </li>
                                 </ul>
                             </div>
