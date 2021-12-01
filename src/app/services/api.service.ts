@@ -56,7 +56,12 @@ export class ApiService {
         return this.http.get(url);
     }
 
-    getCoin(symbol: string) {
+    issueToken(data) {
+        const url = environment.endpoints.blockchaingate + 'issuetoken/Create' ;
+        return this.http.post(url, data);
+    }
+    
+    oin(symbol: string) {
         const url = environment.endpoints.kanban + 'coins/' + symbol;
         return this.http.get(url);
     }

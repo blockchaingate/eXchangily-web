@@ -1,0 +1,19 @@
+<div class="main-container d-flex justify-content-center align-items-center" (click)="uploader.click()">
+
+    <div class="svg-container d-flex justify-content-center align-items-center" *ngIf="!fileToUpload">
+        <svg width="19" height="14" viewBox="0 0 19 14"><path fill="#FFF" fill-rule="evenodd" d="M.558 1.007C.558.45 1.012 0 1.558 0h15.656c.552 0 1 .45 1 1.007v11.986c0 .556-.454 1.007-1 1.007H1.558c-.552 0-1-.45-1-1.007V1.007zm2 1.993v8h6.2V3h-6.2zM9.79 3v2h6.2V3h-6.2zm0 3v2h6.2V6h-6.2zm0 3v2h6.2V9h-6.2z"></path></svg>
+    </div>
+    <span class="ImageUpload__GuideMessage" *ngIf="!fileToUpload">{{'Drag & drop or click to upload' | translate}}</span>
+
+    <div *ngIf="fileToUpload" class="w-100 h-100">
+        <img [src]="fileToUpload" class="w-100 h-100">
+    </div>
+
+</div>
+<div class="text-center pb-3" *ngIf="title">{{title}}</div>
+
+<input type="file"
+id="file"
+#uploader
+style="display: none;"
+(change)="handleFileInput($event.target.files)">

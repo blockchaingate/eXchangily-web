@@ -25,6 +25,7 @@ export class IssueTokenComponent implements OnInit {
   @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal;
 
   totalSupply: number;
+  file: any;
   name: string;
   symbol: string;
   decimals: number;
@@ -32,7 +33,6 @@ export class IssueTokenComponent implements OnInit {
   totalFee: number = 200;
   txHash: string;
   errMsg: string;
-  initialBalance: number;
   mycoin: MyCoin;
   balance: number;
   txs: IssueToken[];
@@ -108,10 +108,7 @@ export class IssueTokenComponent implements OnInit {
     if (this.balance < this.totalFee) {
       this.alertServ.openSnackBar(this.translateServ.instant('Not enough balance'), this.translateServ.instant('Ok'));
     }
-    if(this.initialBalance < 1) {
-      this.alertServ.openSnackBar(this.translateServ.instant('Initial balance < 1'), this.translateServ.instant('Ok'));
-      return;
-    }
+
     this.pinModal.show();
   }
 
@@ -139,22 +136,45 @@ export class IssueTokenComponent implements OnInit {
 
     console.log('transFee==', transFee);
     if (txHex) {
-      const res2 = await this.apiServ.postFabTx(txHex);
-      this.txHash = res2.txHash;
-      this.errMsg = res2.errMsg;
-      const tx: IssueToken = {
-        txid: this.txHash,
-        status: 'pending',
-        address: this.address,
-        smartContractAddress: '',
+      const data = {
+        owner: this.address,
+        totalSupply: this.totalSupply,
+        logo: this.file,
         name: this.name,
         symbol: this.symbol,
-        totalSupply: this.totalSupply,
-        decimals: this.decimals
-      };
-      this.storageService.addIssueTokenTransaction(tx);
-      this.txs.push(tx);
-      this.alertServ.openSnackBar(this.translateServ.instant('Your transaction was submitted.'), this.translateServ.instant('Ok'));
+        decimals: this.decimals,
+        txhex: txHex
+      }
+      this.apiServ.issueToken(data).subscribe(
+        (ret: any) => {
+          console.log('ret===', ret);
+          if(ret && ret.txid) {
+            const tx: IssueToken = {
+              txid: ret.txid,
+              status: 'pending',
+              address: this.address,
+              smartContractAddress: '',
+              name: this.name,
+              symbol: this.symbol,
+              totalSupply: this.totalSupply,
+              decimals: this.decimals
+            };
+            this.storageService.addIssueTokenTransaction(tx);
+            this.txs.push(tx);
+            this.alertServ.openSnackBar(this.translateServ.instant('Your transaction was submitted.'), this.translateServ.instant('Ok'));
+          }
+          else {
+            this.alertServ.openSnackBar(this.translateServ.instant('Failed to issue new token.'), this.translateServ.instant('Ok'));
+          }
+        }
+      );
+
+      /*
+      const res2 = await this.apiServ.postFabTx(txHex);
+
+      this.txHash = res2.txHash;
+      this.errMsg = res2.errMsg;
+     */
     } else
       if (errMsg) {
         this.alertServ.openSnackBar(errMsg, this.translateServ.instant('Ok'));
@@ -165,7 +185,7 @@ export class IssueTokenComponent implements OnInit {
   formCreateSmartContractABI() {
     let abi = FRC20.ABI;
     const fabBytecode = FRC20.bytecode;
-    let args = [this.totalSupply, this.name, this.symbol, this.decimals];
+    let args = ['0x' + new BigNumber(this.totalSupply).shiftedBy(Number(this.decimals)).toString(16), this.name, this.symbol, this.decimals];
 
     return this.web3Serv.formCreateSmartContractABI(abi, fabBytecode.trim(), args);
 
@@ -203,23 +223,12 @@ export class IssueTokenComponent implements OnInit {
     return { contract, totalFee };
   }
 
-  calculateInitialBalance() {
-    console.log('event==', event);
-    if(this.totalSupply > 0 && this.decimals >= 0) {
-      console.log('this.decimals==', this.decimals);
-      const decimalBig = new BigNumber(10).exponentiatedBy(new BigNumber(this.decimals));
-      console.log('decimalBig=', decimalBig.toString());
-      this.initialBalance = new BigNumber(this.totalSupply).dividedBy(decimalBig).toNumber();
-    }
-  }
 
   onTotalSupplyChange(event) {
     this.totalSupply = event;
-    this.calculateInitialBalance();
   }
 
   onDecimalsChange(event) {
     this.decimals = event;
-    this.calculateInitialBalance();
   }
 }
