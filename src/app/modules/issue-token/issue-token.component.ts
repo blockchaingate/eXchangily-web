@@ -58,7 +58,8 @@ export class IssueTokenComponent implements OnInit {
 
     for (let i = 0; i < this.wallet.mycoins.length; i++) {
       const coin: MyCoin = this.wallet.mycoins[i];
-      if ((coin.name === 'FAB') && !coin.tokenType) {
+      console.log('coin===', coin);
+      if ((coin.name === 'FAB') && (coin.tokenType != 'ETH') && !coin.new) {
         this.mycoin = coin;
         //const { balance, lockbalance } = await this.coinServ.getBalance(coin);
         this.balance = coin.balance;
