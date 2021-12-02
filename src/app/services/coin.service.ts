@@ -604,8 +604,14 @@ export class CoinService {
                 balanceObj = await this.apiService.getFabTokenBalance(name, addr, contractAddr);
             }
             console.log('balanceObj=', balanceObj);
-            balance = balanceObj.balance / Math.pow(10, decimals);
-            lockbalance = balanceObj.lockbalance / Math.pow(10, decimals);
+            if(decimals && Number(decimals) >= 0) {
+                balance = balanceObj.balance / Math.pow(10, decimals);
+                lockbalance = balanceObj.lockbalance / Math.pow(10, decimals);
+            } else {
+                balance = 0;
+                lockbalance = 0;
+            }
+
         }
         return { balance, lockbalance };
     }
@@ -651,7 +657,7 @@ export class CoinService {
             const decimals = myCoin.decimals;
             console.log('go get it');
             balance = await this.getBlanceByAddress(tokenType, contractAddr, coinName, addr, decimals);
-
+            console.log('balancesssss=', balance);
             myCoin.receiveAdds[i].balance = balance.balance;
             totalBalance += balance.balance;
             myCoin.receiveAdds[i].lockedBalance = balance.lockbalance;

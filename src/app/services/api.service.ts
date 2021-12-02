@@ -66,6 +66,16 @@ export class ApiService {
         return this.http.get(url);
     }
 
+    getIssueTokens() {
+        const url = environment.endpoints.blockchaingate + 'issuetoken' ;
+        return this.http.get(url);
+    }
+
+    async getIssueToken(tokenId: string) {
+        const url = environment.endpoints.blockchaingate + 'issuetoken/' +  tokenId;
+        console.log('url===', url);
+        return await this.http.get(url).toPromise();
+    }
     getAllCoins() {
         const url = environment.endpoints.kanban + 'coins/';
         return this.http.get(url).toPromise();

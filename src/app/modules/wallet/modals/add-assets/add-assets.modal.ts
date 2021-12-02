@@ -1,22 +1,23 @@
-import { Component, ViewChild, EventEmitter, Output } from '@angular/core';
+import { Component, ViewChild, EventEmitter, Output, OnInit } from '@angular/core';
 import {  ModalDirective } from 'ngx-bootstrap/modal';
 import { FormBuilder } from '@angular/forms';
 import {Token} from '../../../../interfaces/kanban.interface';
 import { environment } from '../../../../../environments/environment';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
     selector: 'add-assets-modal',
     templateUrl: './add-assets.modal.html',
     styleUrls: ['./add-assets.modal.css']
 })
-export class AddAssetsModal {
+export class AddAssetsModal implements OnInit{
     @ViewChild('addAssetsModal', {static: true}) public addAssetsModal: ModalDirective;
     @Output() confirmedAssets = new EventEmitter<[Token]>();
     selectedIndex: number;
     fabCoinsSelected = [];
     ethCoinsSelected = [];
     otherCoinsSelected = [];
-    showFabCustom = true;
+    showFabCustom = false;
     showEthCustom = true;
 
     /*
@@ -43,6 +44,7 @@ export class AddAssetsModal {
 
     ]; 
 
+
     addAssetsForm = this.fb.group({
         fabPrivateKey: [''],
         fabContractAddress: [''],
@@ -55,10 +57,19 @@ export class AddAssetsModal {
         ethTokenDecimals: [18]        
     });    
 
-    constructor(private fb: FormBuilder) {
+    constructor(private fb: FormBuilder, private apiServ: ApiService) {
         this.selectedIndex = 0;
     }
     
+    ngOnInit() {
+        this.apiServ.getIssueTokens().subscribe(
+            (ret: any) => {
+                console.log('ret for issue tokens===', ret);
+                this.fabTokens = ret;
+            }
+        );
+    }
+
     onFabSelection(e, v) {
         console.log(e.option.selected, v); 
         this.fabCoinsSelected = [];
@@ -174,14 +185,16 @@ export class AddAssetsModal {
         if(this.fabCoinsSelected && this.fabCoinsSelected.length > 0) {
             for (let i = 0; i < this.fabCoinsSelected.length; i++) {
                 const fabToken = this.fabTokens[this.fabCoinsSelected[i] - 1];
+                console.log('fabToken===', fabToken);
                 if(fabToken) {
                     const token = {
                         type: 'FAB',
-                        address: fabToken.contractAddress,
+                        address: fabToken.tokenId,
                         name: fabToken.name,
                         symbol: fabToken.symbol,
                         decimals: fabToken.decimals
                     };
+                    console.log('tokens===', tokens);
                     tokens.push(token);
                 }
 

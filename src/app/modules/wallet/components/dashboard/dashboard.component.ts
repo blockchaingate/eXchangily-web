@@ -208,6 +208,10 @@ export class WalletDashboardComponent implements OnInit {
     }
 
     getCoinLogo(coin) {
+        
+        if(coin.logo) {
+            return coin.logo;
+        }
         return '/assets/coins/' + coin.name.toLowerCase() + '.png';
     }
 
@@ -594,14 +598,15 @@ export class WalletDashboardComponent implements OnInit {
                     coin.balance = balance.balance;
                     coin.lockedBalance = balance.lockbalance;
 
-                    /*
-                    if(coin.name === 'EXG') {
-                        if(!this.exgBalance) {
-                            this.exgBalance = Number(coin.balance) + Number(coin.lockedBalance);
-                            console.log('this.exgBalance=', this.exgBalance);
-                        }      
-                    }   
-                    */                
+
+                    
+                    if(!coin.logo && (coin.tokenType == 'FAB') && (['EXG', 'DUSD', 'DSC', 'BST'].indexOf(coin.symbol) < 0)) {
+                        console.log('gogogo');
+                        const token: any = await this.apiServ.getIssueToken(coin.contractAddr);
+                        console.log('token there we go=', token);
+                        coin.logo = token.logo;
+                    }
+              
                 } catch(e) {
 
                 }          

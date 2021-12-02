@@ -28,9 +28,11 @@ export class CoininfoComponent implements OnInit {
     }
 
     getCoin(symbol: string) {
+        /*
         this.api.getCoin(symbol.toLocaleUpperCase()).subscribe(ret => {
             this.coin = ret as Coin;
         });
+        */
     }
 
 }
