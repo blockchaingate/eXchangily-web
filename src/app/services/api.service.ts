@@ -326,28 +326,7 @@ export class ApiService {
     }
 
     async postEthTx(txHex: string) {
-        // console.log('postEthTx here we go');
-        // account for https://etherscan.io  keninqiu   82239^
-        // token: M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB
 
-        /*
-        const url = environment.endpoints.ETH.etherscan + 'api?module=proxy&action=eth_sendRawTransaction&hex='
-        + txHex + '&apikey=M5TN678RMY96HIZVKIAIK22WKQ6CN7R7JB';
-        let response = null;
-        if (txHex) {
-            response = await this.http.get(url).toPromise() as EthTransaction;
-        }
-        console.log('response for postEthTx=');
-        console.log(response);
-        if (response) {
-            if (response.result) {
-                return response.result;
-            }
-            if (response.error && response.error.message) {
-                this.alertServ.openSnackBar(response.error.message, 'Ok');
-            }
-        }
-        */
         let txHash = '';
         let errMsg = '';
         const url = environment.endpoints.ETH.exchangily + 'sendsignedtransaction';
