@@ -481,8 +481,12 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     this.buyQty = Number((new BigNumber(this.utilService.showAmount(this.bigdiv(this.baseCoinAvail, this.buyPrice), this.pairConfig.qtyDecimal)).multipliedBy(new BigNumber(percent))).toFixed(this.pairConfig.qtyDecimal));
     const avail = this.utilService.toNumber(this.utilService.showAmount(this.baseCoinAvail, 18));
 
+    console.log('this.buyQty===', this.buyQty);
+    console.log('avail===', avail);
+    console.log('new BigNumber(this.buyQty).multipliedBy(new BigNumber(this.buyPrice))).toNumber()==', new BigNumber(this.buyQty).multipliedBy(new BigNumber(this.buyPrice)).toNumber());
     while ((new BigNumber(this.buyQty).multipliedBy(new BigNumber(this.buyPrice))).toNumber() > avail) {
       const exp = Number(-this.pairConfig.qtyDecimal);
+      console.log('exp===', exp);
       this.buyQty = Number(new BigNumber(this.buyQty).minus(new BigNumber(Math.pow(10, exp))).toFixed(this.pairConfig.qtyDecimal));
     }
   }
@@ -731,8 +735,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     if (!this.baseCoinAvail) {
       return false;
     }
-    const avail = Number(this.utilService.showAmount(this.baseCoinAvail.toString(), this.pairConfig.qtyDecimal));
-    const consume = this.buyPrice * this.buyQty;
+    const avail = this.baseCoinAvail;
+    const consume = new BigNumber(this.buyPrice).multipliedBy(new BigNumber(this.buyQty)).toNumber();
     if (avail >= consume) {
       return true;
     }
@@ -993,7 +997,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     //console.log('priceString=', priceString);
     const abiHex = this.web3Serv.getCreateOrderFuncABI([false, bidOrAsk,
       baseCoin, targetCoin, qtyString, priceString, orderHash]);
-    console.log('abiHex=', abiHex);
     const nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
 
     if ((this.gasPrice <= 0) || (this.gasLimit <= 0)) {
