@@ -22,42 +22,42 @@
     </div>
     <div class="orders container fxHide-sm" *ngIf="(select != 100) && (select != 101)">
         <div class="row px-4 header py-3">
-            <div class="orditem" style="width: 20%; margin-left: -1.2em;">{{'Time' | translate }}</div>
+            <div class="orditem" style="width: 15%; margin-left: -1.2em;">{{'Time' | translate }}</div>
             <div class="orditem" style="width: 15%;">{{'Symbol' | translate }}</div>
-            <div class="orditem" style="width: 5%;">{{'Type' | translate }}</div>
-            <div class="orditem" style="width: 11%;">{{'Price' | translate }}</div>
-            <div class="orditem" style="width: 11%;">{{'Order Qty' | translate }}</div>
-            <div class="orditem" style="width: 11%;">{{'Filled Qty' | translate }}</div>
+            <div class="orditem" style="width: 12%;">{{'Price' | translate }}</div>
+            <div class="orditem" style="width: 15%;">{{'Order Qty' | translate }}</div>
+            <div class="orditem" style="width: 15%;">{{'Filled Qty' | translate }}</div>
             <div class="orditem" style="width: 15%;">{{'Filled%' | translate }}</div>
             <div class="orditem" style="width: 5%;">{{'Action' | translate }}</div>
         </div>
 
         <div class="myorderlist scroll-bar w-100 pt-2">
             <div class="row orderline w-100" *ngFor="let order of getOrders(); let i=index">
-                <div class="orditem text-white d-flex align-items-center" style="width: 20%;">
+                <div class="orditem text-white d-flex align-items-center" style="width: 15%;">
                     <div>
                         {{order.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}
                     </div>
                 </div>
                 <div class="orditem text-info d-flex align-items-center" style="width: 15%;">
                     <div>
-                        <!--
-                        {{coinServ.getCoinNameByTypeId(order.pairLeft)}}/{{coinServ.getCoinNameByTypeId(order.pairRight)}}
-                        -->
-                        {{order.pairName}}
+                        <div>
+                            <div *ngIf="order.bidOrAsk" class="text-success">{{'Buy' | translate }}</div>
+                            <div *ngIf="!order.bidOrAsk" class="text-danger">{{'Sell' | translate }}</div>
+                        </div>
+                        <div>
+
+                            {{order.pairName}}
+                        </div>
                     </div>
                 </div>
-                <div class="orditem text-white d-flex align-items-center" style="width: 5%;">
-                    <div *ngIf="order.bidOrAsk" class="text-success">{{'Buy' | translate }}</div>
-                    <div *ngIf="!order.bidOrAsk" class="text-danger">{{'Sell' | translate }}</div>
-                </div>
-                <div class="orditem text-white d-flex align-items-center" style="width: 11%;">
+
+                <div class="orditem text-white d-flex align-items-center" style="width: 12%;">
                     <div>{{utilServ.showAmount(order.price, 6)}}</div>
                 </div>
-                <div class="orditem text-white d-flex align-items-center" style="width: 11%;">
+                <div class="orditem text-white d-flex align-items-center" style="width: 15%;">
                     <div>{{utilServ.showAddAmount(order.orderQuantity, order.filledQuantity, 6)}}</div>
                 </div>
-                <div class="orditem text-white d-flex align-items-center" style="width: 11%;">
+                <div class="orditem text-white d-flex align-items-center" style="width: 15%;">
                     <div>{{utilServ.showAmount(order.filledQuantity, 6)}}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 15%;">
