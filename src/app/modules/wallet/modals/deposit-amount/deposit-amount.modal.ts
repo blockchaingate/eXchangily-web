@@ -112,12 +112,11 @@ export class DepositAmountModal {
                     // const gasLimit = environment.chains.ETH.gasLimit;
                     const gasPrice = this.depositAmountForm.get('gasPrice').value ? Number(this.depositAmountForm.get('gasPrice').value) : environment.chains.ETH.gasPrice;
                     const gasLimit = this.depositAmountForm.get('gasLimit').value ? Number(this.depositAmountForm.get('gasLimit').value) : environment.chains.ETH.gasLimit;
-                    const transFeeDouble = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
-                    let transOut = balance - transFeeDouble;
+                    const transFeeDouble = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).shiftedBy(-9).toNumber();
+                    let transOut = new BigNumber(balance).minus(new BigNumber(transFeeDouble)).toNumber();
                     if (transOut <= 0) {
                         return;
                     }
-                    transOut = Number(transOut.toFixed(8));
                     this.depositAmountForm.patchValue({ 'depositAmount': transOut });
                     this.onTextChange(transOut);
                 } else

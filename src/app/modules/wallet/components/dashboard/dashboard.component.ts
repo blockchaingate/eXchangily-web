@@ -947,6 +947,10 @@ export class WalletDashboardComponent implements OnInit {
 
         if ((coinName === 'BTC') || (coinName === 'ETH') || (coinName === 'FAB' && !tokenType) || (coinName === 'TRX')) {
             if (currentCoinBalance < amount + transFee) {
+                console.log('currentCoinBalance===', currentCoinBalance);
+                console.log('amount===', amount);
+                console.log('transFee===', transFee);
+                console.log('checker on here');
                 this.alertServ.openSnackBar(
                     this.translateServ.instant('InsufficientForTransaction', {coin: coinName}),
                     this.translateServ.instant('Ok'));

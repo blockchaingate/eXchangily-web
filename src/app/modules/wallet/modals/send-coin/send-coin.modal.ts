@@ -115,12 +115,11 @@ export class SendCoinModal {
         } else if (coinName === 'ETH') {
             const gasPrice = this.sendCoinForm.get('gasPrice').value ? Number(this.sendCoinForm.get('gasPrice').value) : environment.chains.ETH.gasPrice;
             const gasLimit = this.sendCoinForm.get('gasLimit').value ? Number(this.sendCoinForm.get('gasLimit').value) : environment.chains.ETH.gasLimit;
-            const transFeeDouble = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
-            let transOut = balance - transFeeDouble;
+            const transFeeDouble = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).shiftedBy(-9).toNumber();
+            let transOut = new BigNumber(balance).minus(new BigNumber(transFeeDouble)).toNumber();
             if (transOut <= 0) {
                 return;
             }
-            transOut = Number(transOut.toFixed(8));
             this.sendCoinForm.patchValue({ 'sendAmount': transOut });
             this.onTextChange(transOut);
         } else if (tokenType === 'FAB' || tokenType === 'ETH' || tokenType === 'TRX') {
@@ -217,10 +216,11 @@ export class SendCoinModal {
         const amount = Number(this.sendCoinForm.get('sendAmount').value);
         if ((this.coin.name === 'BTC') 
         || (this.coin.name === 'FAB' && !this.coin.coinType) 
-        || (this.coin.name === 'ETH') 
+        || (this.coin.name === 'ETH' && !this.coin.coinType) 
         || this.coin.name === 'TRX') {
             let transFee = this.transFee;
-            if ((transFee + amount) > this.coin.balance) {
+            if (new BigNumber(transFee).plus(new BigNumber(amount)).toNumber() > this.coin.balance) {
+                console.log('o, no');
                 this.alertServ.openSnackBar(
                     this.translateServ.instant('InsufficientForTransaction', {coin: this.coin.name}),
                     this.translateServ.instant('Ok'));                
