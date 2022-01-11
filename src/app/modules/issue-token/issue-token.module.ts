@@ -13,13 +13,15 @@ import { IssueTokenFrc20Component } from './frc20/frc20.component';
 import { IssueTokenHistoryComponent } from './history/history.component';
 import { SharedModule } from '../shared/shared.module';
 import { FileUploadComponent } from './file-upload/file-upload.component';
+import { UpdateComponent } from './update/update.component';
 
 @NgModule({
     declarations: [
         IssueTokenComponent,
         IssueTokenFrc20Component,
         IssueTokenHistoryComponent,
-        FileUploadComponent
+        FileUploadComponent,
+        UpdateComponent
     ],
     imports: [
         MatStepperModule,

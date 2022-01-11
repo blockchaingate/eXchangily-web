@@ -730,6 +730,13 @@ export class CoinService {
         return keyPairs;        
     }
 
+    getFabPrivateKey(seed) {
+        const path = 'm/44\'/' + 1150 + '\'/0\'/' + 0 + '/' + 0;
+        const root2 = BIP32.fromSeed(seed, environment.chains['FAB']['network']);
+        const childNode = root2.derivePath(path);
+        return childNode.privateKey;
+    }
+
     getKeyPairs(coin: MyCoin, seed: Buffer, chain: number, index: number) {
         const name = coin.name;
 

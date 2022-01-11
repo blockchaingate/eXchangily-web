@@ -68,37 +68,66 @@ export class IssueTokenComponent implements OnInit {
       }
     }
     this.txs = [];
-    this.storageService.getIssueTokenTransactions().subscribe(
-      async (res: IssueToken[]) => {
+    this.apiServ.getIssueTokensOwnedBy(this.address).subscribe(
+      (ret: any) => {
+        for(let i = 0; i < ret.length; i++) {
+          const item = ret[i];
+          item.smartContractAddress = item.tokenId;
+          this.txs.push(item);
+        }
 
-        if (res) {
-          this.txs = res;
-          let updated = false;
-          for (let i = 0; i < this.txs.length; i++) {
-            const tx = this.txs[i];
-            if (tx.status == 'pending') {
-              const txid = tx.txid;
-              const receipts: any = await this.coinServ.getFabTransactionReceipt(txid);
-              console.log('receipts==', receipts);
-              if (receipts && receipts.length > 0) {
-                const receipt = receipts[0];
-                if (receipt.contractAddress) {
-                  tx.status = 'confirmed';
-                  tx.smartContractAddress = receipt.contractAddress;
-                } else {
-                  tx.status = 'failed';
+
+
+        this.storageService.getIssueTokenTransactions().subscribe(
+          async (res: IssueToken[]) => {
+    
+            if (res) {
+              for(let j = 0; j < res.length; j++) {
+                const itemInStorage = res[j];
+                let existed = false;
+                for(let i = 0; i < this.txs.length; i++) {
+                  if(this.txs[i].smartContractAddress ==  itemInStorage.smartContractAddress) {
+                    existed = true;
+                    break;
+                  }
                 }
-                updated = true;
+                if(!existed) {
+                  this.txs.push(itemInStorage);
+                }
+              }             
+              /*
+              this.txs = res;
+              let updated = false;
+              for (let i = 0; i < this.txs.length; i++) {
+                const tx = this.txs[i];
+                if (tx.status == 'pending') {
+                  const txid = tx.txid;
+                  const receipts: any = await this.coinServ.getFabTransactionReceipt(txid);
+                  console.log('receipts==', receipts);
+                  if (receipts && receipts.length > 0) {
+                    const receipt = receipts[0];
+                    if (receipt.contractAddress) {
+                      tx.status = 'confirmed';
+                      tx.smartContractAddress = receipt.contractAddress;
+                    } else {
+                      tx.status = 'failed';
+                    }
+                    updated = true;
+                  }
+                }
+    
+                if (updated) {
+                  this.storageService.storeIssueTokenTransactions(this.txs);
+                }
               }
-            }
-
-            if (updated) {
-              this.storageService.storeIssueTokenTransactions(this.txs);
+              */
             }
           }
-        }
+        );
+
       }
     );
+
   }
 
   confirm() {
@@ -170,12 +199,6 @@ export class IssueTokenComponent implements OnInit {
         }
       );
 
-      /*
-      const res2 = await this.apiServ.postFabTx(txHex);
-
-      this.txHash = res2.txHash;
-      this.errMsg = res2.errMsg;
-     */
     } else
       if (errMsg) {
         this.alertServ.openSnackBar(errMsg, this.translateServ.instant('Ok'));

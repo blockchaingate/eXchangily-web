@@ -11,6 +11,9 @@ import { environment } from '../../environments/environment';
 import BigNumber from 'bignumber.js';
 import * as createHash from 'create-hash';
 import base58 from 'bs58';
+import * as Account from 'eth-lib/lib/account';
+import * as  Hash from 'eth-lib/lib/hash';
+
 //import * as ethLib from 'eth-lib';
 @Injectable({
   providedIn: 'root'
@@ -333,6 +336,43 @@ export class Web3Service {
     console.log('abiHex for transfer=', abiHex);
     return abiHex;    
   }
+
+  hashKanbanMessage(data) {
+    const web3 = this.getWeb3Provider();
+    var messageHex = web3.utils.isHexStrict(data) ? data : web3.utils.utf8ToHex(data);
+    var messageBytes = web3.utils.hexToBytes(messageHex);
+    var messageBuffer = Buffer.from(messageBytes);
+    var preamble = '\x17Kanban Signed Message:\n' + messageBytes.length;
+    var preambleBuffer = Buffer.from(preamble);
+    var ethMessage = Buffer.concat([preambleBuffer, messageBuffer]);
+    var hash = Hash.keccak256s(ethMessage);    
+    console.log('hash1=', hash);
+    return hash;
+  }
+  
+  signKanbanMessageWithPrivateKey(message: string, privateKey: any) {
+    var hash = this.hashKanbanMessage(message);
+    return this.signKanbanMessageHashWithPrivateKey(hash, privateKey);
+  }
+
+  signKanbanMessageHashWithPrivateKey(hash: string, privateKey: any) {
+
+    const privateKeyHex = `0x${privateKey.toString('hex')}`;
+    // 64 hex characters + hex-prefix
+    if (privateKeyHex.length !== 66) {
+        throw new Error("Private key must be 32 bytes long");
+    }    
+    var signature = Account.sign(hash, privateKeyHex);
+    var vrs = Account.decodeSignature(signature);
+    return {
+        messageHash: hash,
+        v: vrs[0],
+        r: vrs[1],
+        s: vrs[2],
+        signature: signature
+    };
+  }
+  
   getTransferFuncABI(coin: number, address: string, amount: number) {
     const web3 = this.getWeb3Provider();
     let value = new BigNumber(amount).multipliedBy(new BigNumber(1e18)).toFixed();

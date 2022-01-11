@@ -109,7 +109,8 @@
 
 </div>
 <div class="main-container text-center py-3">
-    <button class="btn btn-gradient text-white py-2 px-4 btn-lg-fixed-width" (click)="confirm()"> {{'Confirm' | translate }} </button>
+    <button class="btn btn-gradient text-white py-2 px-4 mx-3 btn-lg-fixed-width" (click)="confirm()"> {{'Confirm' | translate }} </button>
+    <a href="/issue/update"> {{'Update Token' | translate }} </a>
 </div>
 <div class="main-container text-center py-3" *ngIf="txs && txs.length > 0">
     <app-issue-token-history [txs]="txs"></app-issue-token-history>

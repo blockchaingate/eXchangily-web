@@ -61,6 +61,11 @@ export class ApiService {
         return this.http.post(url, data);
     }
     
+    updateIssueToken(data) {
+        const url = environment.endpoints.blockchaingate + 'issuetoken/Update' ;
+        return this.http.post(url, data);
+    }
+
     oin(symbol: string) {
         const url = environment.endpoints.kanban + 'coins/' + symbol;
         return this.http.get(url);
@@ -70,7 +75,10 @@ export class ApiService {
         const url = environment.endpoints.blockchaingate + 'issuetoken' ;
         return this.http.get(url);
     }
-
+    getIssueTokensOwnedBy(address: string) {
+        const url = environment.endpoints.blockchaingate + 'issuetoken/ownedBy/' + address ;
+        return this.http.get(url);
+    }
     async getIssueToken(tokenId: string) {
         const url = environment.endpoints.blockchaingate + 'issuetoken/' +  tokenId;
         console.log('url===', url);
