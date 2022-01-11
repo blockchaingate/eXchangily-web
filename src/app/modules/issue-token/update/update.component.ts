@@ -60,7 +60,12 @@ export class UpdateComponent implements OnInit {
         if(ret && ret.ok) {
           this.alertServ.openSnackBar(this.translateServ.instant('Update successfully.'), this.translateServ.instant('Ok'));
         } else {
-          this.alertServ.openSnackBar(this.translateServ.instant('Update failed.'), this.translateServ.instant('Ok'));
+          if(ret._body) {
+            this.alertServ.openSnackBar(ret._body, this.translateServ.instant('Ok'));
+          } else {
+            this.alertServ.openSnackBar('Update failed.', this.translateServ.instant('Ok'));
+          }
+          
         }
       }
     );
