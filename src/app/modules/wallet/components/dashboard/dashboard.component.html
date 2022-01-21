@@ -205,7 +205,7 @@
                             </div>
                             <div class="container-wallet-main scroll-bar" *ngIf="wallet">
                                 <ng-container *ngFor="let mycoin of wallet.mycoins | sortByField : sortField : sortFieldType : sortAsc; index as i">
-                                    <div class="row apair dataline small" *ngIf="(mycoin.name!='BNB') && (!hideSmall || ((mycoin.usdPrice > 0) && ((mycoin.balance + (mycoin.lockedBalance ? mycoin.lockedBalance : 0)) * mycoin.usdPrice >= 1)))">
+                                    <div class="row apair dataline small" *ngIf="(!hideSmall || ((mycoin.usdPrice > 0) && ((mycoin.balance + (mycoin.lockedBalance ? mycoin.lockedBalance : 0)) * mycoin.usdPrice >= 1)))">
                                         <div class="col-custom-1 pointer" (click)="selectCoin(mycoin.symbol)">
                                             <img src="{{getCoinLogo(mycoin)}}" name="icon" class="icon" />
                                         </div>
@@ -277,8 +277,7 @@
                                 </div>
                             </div>
                             <div class="row apair dataline" *ngFor="let mycoin of wallet.mycoins; index as i">
-                                <div *ngIf="(mycoin.name != 'BNB') && 
-                                (!hideSmall || ((mycoin.usdPrice > 0) && ((mycoin.balance + (mycoin.lockedBalance ? mycoin.lockedBalance : 0)) * mycoin.usdPrice >= 1)))">
+                                <div *ngIf="(!hideSmall || ((mycoin.usdPrice > 0) && ((mycoin.balance + (mycoin.lockedBalance ? mycoin.lockedBalance : 0)) * mycoin.usdPrice >= 1)))">
                                     <div class="col-2">
                                         <img src="{{getCoinLogo(mycoin)}}" name="icon2" class="icon" />
                                     </div>

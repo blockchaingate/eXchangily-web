@@ -144,6 +144,10 @@ export class CoinService {
         this.fillUpAddress(trxCoin, seed, 1, 0);
         myCoins.push(trxCoin);
 
+        const bnbCoin = new MyCoin('BNB');
+        this.fillUpAddress(bnbCoin, seed, 1, 0);
+        myCoins.push(bnbCoin);
+
         const usdtTRXCoin = this.initToken('TRX', 'USDT', 6, environment.addresses.smartContract.USDT.TRX, trxCoin);
         this.fillUpAddress(usdtTRXCoin, seed, 1, 0);
         myCoins.push(usdtTRXCoin);        
@@ -588,22 +592,18 @@ export class CoinService {
                 decimals = 18;
             }
             const balanceObj = await this.apiService.getEthTokenBalance(name, contractAddr, addr);
-            // console.log('balanceObj=', balanceObj);
             balance = balanceObj.balance / Math.pow(10, decimals);
             lockbalance = balanceObj.lockbalance / Math.pow(10, decimals);
         } else if (tokenType === 'FAB') {
-            console.log('haha');
             if (addr.indexOf('0x') < 0) {
                 addr = this.utilServ.fabToExgAddress(addr);
             }
             let balanceObj;
-            console.log('name=', name);
             if (name === 'EXG') {
                 balanceObj = await this.apiService.getExgBalance(addr);
             } else {
                 balanceObj = await this.apiService.getFabTokenBalance(name, addr, contractAddr);
             }
-            console.log('balanceObj=', balanceObj);
             if(decimals && Number(decimals) >= 0) {
                 balance = balanceObj.balance / Math.pow(10, decimals);
                 lockbalance = balanceObj.lockbalance / Math.pow(10, decimals);
@@ -655,9 +655,7 @@ export class CoinService {
             const addr = myCoin.receiveAdds[i].address;
 
             const decimals = myCoin.decimals;
-            console.log('go get it');
             balance = await this.getBlanceByAddress(tokenType, contractAddr, coinName, addr, decimals);
-            console.log('balancesssss=', balance);
             myCoin.receiveAdds[i].balance = balance.balance;
             totalBalance += balance.balance;
             myCoin.receiveAdds[i].lockedBalance = balance.lockbalance;
@@ -818,7 +816,7 @@ export class CoinService {
                  addrHash = json.hash;                
             }
         } else
-        if (name === 'ETH' || tokenType === 'ETH') {
+        if ((name === 'ETH') || (tokenType === 'ETH') || (name == 'BNB')) {
 
                 const root = hdkey.fromMasterSeed(seed);
                 const childNode = root.derivePath(path);
@@ -1962,7 +1960,6 @@ export class CoinService {
                 getTransFeeOnly = options.getTransFeeOnly;
             }
         }
-        console.log('satoshisPerBytes=', satoshisPerBytes);
         const receiveAddsIndexArr = [];
         const changeAddsIndexArr = [];
 
@@ -1973,16 +1970,11 @@ export class CoinService {
         let amountNum = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, this.utilServ.getDecimal(mycoin))));
         // it's for all coins.
         amountNum = amountNum.plus((2 * 34) * satoshisPerBytes);
-        console.log('amountNum=', amountNum.toString());
         // 2 output
         // console.log('toAddress=' + toAddress + ',amount=' + amount + ',amountNum=' + amountNum);
 
         if (mycoin.name === 'BTC' || mycoin.name === 'LTC' || mycoin.name === 'DOGE') { // btc address format
-            /*
-            if (mycoin.name === 'BCH') {
-                toAddress = bchaddr.toLegacyAddress(toAddress);
-            }
-            */
+
             if (!satoshisPerBytes) {
                 satoshisPerBytes = environment.chains[mycoin.name].satoshisPerBytes;
             }
@@ -1993,18 +1985,11 @@ export class CoinService {
             const txb = new Btc.TransactionBuilder(BtcNetwork);
 
             for (index = 0; index < mycoin.receiveAdds.length; index++) {
-                /*
-                balance = mycoin.receiveAdds[index].balance;
-                if (balance <= 0) {
-                    continue;
-                }
-                */
+
                 address = mycoin.receiveAdds[index].address;
                 const balanceFull = await this.apiService.getUtxos(mycoin.name, address);
                 for (let i = 0; i < balanceFull.length; i++) {
                     const tx = balanceFull[i];
-                    // console.log('i=' + i);
-                    // console.log(tx);
                     if (tx.idx < 0) {
                         continue;
                     }
@@ -2463,7 +2448,6 @@ export class CoinService {
                 if (getTransFeeOnly) {
                     return { txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids };
                 }
-                // amountNum = amount * 1e18;
                 amountNum = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, 18)));
                 const address1 = mycoin.receiveAdds[0];
                 const currentIndex = address1.index;
@@ -2474,7 +2458,6 @@ export class CoinService {
 
                 amountInTx = amountNum;
 
-                console.log('amountNum.toString(16)==', amountNum.toString(16));
                 const txParams = {
                     nonce: nonce,
                     gasPrice: gasPriceFinal,
@@ -2483,10 +2466,8 @@ export class CoinService {
                     value: '0x' + amountNum.toString(16)
                 };
 
-                // console.log('txParams=', txParams);
                 txHex = await this.web3Serv.signTxWithPrivateKey(txParams, keyPair);
 
-                // console.log('txhex for etheruem:', txHex);
                 if (doSubmit) {
                     const retEth = await this.apiService.postEthTx(txHex);
                     txHash = retEth.txHash;

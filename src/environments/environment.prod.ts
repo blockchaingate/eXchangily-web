@@ -135,6 +135,7 @@ export const environment = {
     CoinType: {
         BTC: 0,
         ETH: 60,
+        BNB: 60,
         FAB: 1150,
         BCH: 145,
         LTC: 2,

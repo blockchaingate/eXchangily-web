@@ -81,7 +81,6 @@ export class ApiService {
     }
     async getIssueToken(tokenId: string) {
         const url = environment.endpoints.blockchaingate + 'issuetoken/' +  tokenId;
-        console.log('url===', url);
         return await this.http.get(url).toPromise();
     }
     getAllCoins() {
@@ -663,8 +662,7 @@ export class ApiService {
             contractAddress = contractAddress['FAB'];
         }
         let fxnCallHex = this.web3Serv.getFabTokenBalanceOfABI([address]);
-        console.log('name=', name);
-        console.log('fxnCallHex there we go=', fxnCallHex);
+
         fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex); 
         const response = await this.fabCallContract(contractAddress, fxnCallHex);    
         let balance = 0;

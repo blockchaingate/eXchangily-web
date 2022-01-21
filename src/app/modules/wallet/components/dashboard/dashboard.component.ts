@@ -546,12 +546,14 @@ export class WalletDashboardComponent implements OnInit {
         let dogeAddress = '';
         let ltcAddress = '';
         let trxAddress = '';
+        let bnbAddress = '';
 
         
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];       
 
-            if(coin.name == 'SUSHI') {
+            console.log('coin===', coin);
+            if(coin.name == 'BNB') {
                 this.walletUpdateToDate = true;
             }
             if (coin.name == 'BTC' && !btcAddress) {
@@ -560,7 +562,9 @@ export class WalletDashboardComponent implements OnInit {
             if (coin.name == 'ETH' && !ethAddress) {
                 ethAddress = coin.receiveAdds[0].address;
             }
-            
+            if(coin.name == 'BNB' && !bnbAddress) {
+                bnbAddress = coin.receiveAdds[0].address;
+            }
             if (coin.name == 'FAB' && (!coin.tokenType || coin.tokenType == 'FAB') && !coin.encryptedPrivateKey && !fabAddress) {
                 fabAddress = coin.receiveAdds[0].address;
                 //this.fabBalance = coin.balance;
@@ -592,18 +596,14 @@ export class WalletDashboardComponent implements OnInit {
 
             if(coin.new) {
                 try {
-                    console.log('coin custom=', coin);
                     const balance = await this.coinServ.getBalance(coin);
-                    console.log('balance=', balance);
                     coin.balance = balance.balance;
                     coin.lockedBalance = balance.lockbalance;
 
 
                     
                     if(!coin.logo && (coin.tokenType == 'FAB') && (['EXG', 'DUSD', 'DSC', 'BST'].indexOf(coin.symbol) < 0)) {
-                        console.log('gogogo');
                         const token: any = await this.apiServ.getIssueToken(coin.contractAddr);
-                        console.log('token there we go=', token);
                         coin.logo = token.logo;
                     }
               
@@ -625,6 +625,7 @@ export class WalletDashboardComponent implements OnInit {
             dogeAddress: dogeAddress,
             ltcAddress: ltcAddress,
             trxAddress: trxAddress,
+            bnbAddress: bnbAddress,
             timestamp: 0
         };
 
@@ -648,6 +649,7 @@ export class WalletDashboardComponent implements OnInit {
                     for (let j = 0; j < this.wallet.mycoins.length; j++) {
                         const coin = this.wallet.mycoins[j];   
                         
+
                         if(coin.new) {
                             continue;
                         }
@@ -687,8 +689,10 @@ export class WalletDashboardComponent implements OnInit {
                             hasCNB = true;
                         }                        
 
-                        for (let i = 0; i < res.data.length; i++) {
-                            const item = res.data[i];
+                        const resBody = res.data;
+
+                        for (let i = 0; i < resBody.length; i++) {
+                            const item = resBody[i];
 
                             if(item.coin == 'FAB') {
                                 this.fabBalance = item.balance;
@@ -1683,15 +1687,6 @@ export class WalletDashboardComponent implements OnInit {
             });
     }
 
-    /*
-                amount: amount,resp
-                gasPrice: gasPrresp
-                gasLimit: gasLiresp
-                satoshisPerByteresposhisPerBytes,
-                kanbanGasPrice:respnGasPrice,
-                kanbanGasLimit:respnGasLimit
-    */
-
     async depositdo() {
         await this.loadBalance();
         if(!this.checkAmount(this.amountForm.amount, this.amountForm.transFee, this.amountForm.tranFeeUnit)) {
@@ -1707,7 +1702,6 @@ export class WalletDashboardComponent implements OnInit {
 
         const coinType = this.coinServ.getCoinTypeIdByName(currentCoin.name);
 
-        console.log('coinType is', coinType);
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         if (!seed) {
             this.warnPwdErr();
@@ -1842,25 +1836,6 @@ export class WalletDashboardComponent implements OnInit {
         this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp: any) => {
             // console.log('resp=', resp);
             if (resp && resp.data && resp.data.transactionID) {
-                /*
-                const item = {
-                    walletId: this.wallet.id,
-                    type: 'Deposit',
-                    coin: currentCoin.name,
-                    tokenType: currentCoin.tokenType,
-                    amount: amount,
-                    txid: resp.data.transactionID,
-                    to: officalAddress,
-                    time: new Date(),
-                    confirmations: '0',
-                    blockhash: '',
-                    comment: '',
-                    status: 'pending'
-                };
-                this.storageService.storeToTransactionHistoryList(item);
-                this.timerServ.transactionStatus.next(item);
-                this.timerServ.checkTransactionStatus(item);
-                */
                 this.kanbanServ.incNonce();
                 this.coinServ.addTxids(txids);
                 if (this.lan === 'zh') {

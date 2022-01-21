@@ -64,7 +64,6 @@ export class AddAssetsModal implements OnInit{
     ngOnInit() {
         this.apiServ.getIssueTokens().subscribe(
             (ret: any) => {
-                console.log('ret for issue tokens===', ret);
                 this.fabTokens = ret;
             }
         );
@@ -81,7 +80,6 @@ export class AddAssetsModal implements OnInit{
         } else {
             this.showFabCustom = false;
         }
-        console.log('this.showFabCustom=' + this.showFabCustom);
     }
 
     /*
