@@ -552,7 +552,6 @@ export class WalletDashboardComponent implements OnInit {
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];       
 
-            console.log('coin===', coin);
             if(coin.name == 'BNB') {
                 this.walletUpdateToDate = true;
             }
@@ -879,7 +878,6 @@ export class WalletDashboardComponent implements OnInit {
 
      redeposit(currentCoin: MyCoin) {
         this.currentCoin = currentCoin;
-        console.log('this.currentCoin===', this.currentCoin);
         // this.opType = 'redeposit';
         // this.pinModal.show();
         if (this.currentCoin && this.currentCoin.redeposit && this.currentCoin.redeposit.length > 0) {
@@ -907,8 +905,6 @@ export class WalletDashboardComponent implements OnInit {
             }
         }
 
-        console.log('ethBalance=', ethBalance);
-        console.log('transFee=', transFee);
         const currentCoinBalance = this.currentCoin.balance;
         const coinName = this.currentCoin.name;
         const tokenType = this.currentCoin.tokenType;
@@ -1451,12 +1447,13 @@ export class WalletDashboardComponent implements OnInit {
         }        
         const amount = this.sendCoinForm.amount;
 
-        await this.loadBalance();
-        if(!this.checkAmount(this.sendCoinForm.amount, this.sendCoinForm.transFee, this.sendCoinForm.transFeeUnit)) {
-
-
-            return;
+        if(environment.production) {
+            await this.loadBalance();
+            if(!this.checkAmount(this.sendCoinForm.amount, this.sendCoinForm.transFee, this.sendCoinForm.transFeeUnit)) {
+                return;
+            }
         }
+
 
         const doSubmit = true;
         const options = {

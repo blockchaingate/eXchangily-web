@@ -75,6 +75,19 @@ export const environment = {
             gasLimit: 21000,
             gasLimitToken: 70000
         },
+        BNB: {
+            chain: {
+                name: 'mainnet',
+                networkId: 56,
+                chainId: 56
+            },
+            rpcEndpoint: 'https://bsc-dataseed.binance.org',
+            hardfork: 'petersburg',
+            gasPrice: 90,
+            gasPriceMax: 200,
+            gasLimit: 21000,
+            gasLimitToken: 70000
+        },
         FAB: {
             network: Btc.networks.bitcoin,
             chain: {

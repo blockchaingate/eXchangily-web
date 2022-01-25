@@ -343,7 +343,10 @@
                 
                 <li class="nav-item">
                     <a class="nav-link" (click)="linkTo('/bindpay');selectedItem=7" [class.selected]="selectedItem==7" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'BindPay' | translate}}</a>
-                </li>                 
+                </li>         
+                <li class="nav-item">
+                    <a class="nav-link" (click)="linkTo('/listing');selectedItem=8" [class.selected]="selectedItem==8" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Listing on Exchangily' | translate}}</a>
+                </li>          
                 <!-- Don't remove, may need it later
                 <li class="nav-item">
                     <a class="nav-link" (click)="linkTo('/reward');selectedItem=40" [class.selected]="selectedItem===40" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Reward' | translate}}</a>

@@ -9,6 +9,12 @@ export interface TxRef {
     confirmations: number;
 }
 
+export interface JsonResult {
+    jsonrpc: string,
+    id: number,
+    result: string
+}
+
 export interface GasPrice {
     gasprice: number;
 }

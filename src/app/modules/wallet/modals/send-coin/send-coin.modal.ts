@@ -370,7 +370,6 @@ export class SendCoinModal {
             // }
         }
 
-        console.log('to===', to);
         const selectedCoinIndex = Number(this.sendCoinForm.get('selectedCoinIndex').value);
         const amount = Number(this.sendCoinForm.get('sendAmount').value);
         const comment = this.sendCoinForm.get('comment').value;

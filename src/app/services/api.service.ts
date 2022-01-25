@@ -3,7 +3,7 @@ import { HttpClient} from '@angular/common/http';
 
 import {Balance,  EthTransactionRes
     , FabTransactionResponse, CoinsPrice, BtcUtxo, KEthBalance, FabUtxo, EthTransactionStatusRes, GasPrice,
-    FabTokenBalance, FabTransactionJson, BtcTransactionResponse, BtcTransaction} from '../interfaces/balance.interface';
+    FabTokenBalance, FabTransactionJson, BtcTransactionResponse, BtcTransaction, JsonResult} from '../interfaces/balance.interface';
 
 import {Web3Service} from './web3.service';
 import {UtilService} from './util.service';
@@ -332,6 +332,20 @@ export class ApiService {
         return Number (response);
     }
 
+    async getBnbNonce (address: string) {
+        const url = environment.chains.BNB.rpcEndpoint;
+        const data = {
+            "method":
+            "eth_getTransactionCount",
+            "params":[address, "latest"],
+            "id":1,
+            "jsonrpc":"2.0"
+        };
+        const response = await this.http.post(url, data).toPromise() as JsonResult;
+        const result = response.result;
+        return parseInt (result, 16);
+    }
+
     async postEthTx(txHex: string) {
 
         let txHash = '';
@@ -349,6 +363,33 @@ export class ApiService {
                  errMsg = err.error;
                 }
  
+            }          
+        }    
+
+        return {txHash, errMsg};
+    }
+
+    async postBnbTx(txHex: string) {
+
+        let txHash = '';
+        let errMsg = '';
+        const url = environment.chains.BNB.rpcEndpoint;
+        const data = {
+            "jsonrpc":"2.0",
+            "method":"eth_sendRawTransaction",
+            "params":[txHex],
+            "id":1
+        };
+        if (txHex) {
+            try {
+                const result = await this.http.post(url, data).toPromise() as JsonResult;
+                if(result) {
+                    txHash = result.result;
+                }
+            } catch (err) {
+                if (err.error) {
+                 errMsg = err.error;
+                }
             }          
         }    
 

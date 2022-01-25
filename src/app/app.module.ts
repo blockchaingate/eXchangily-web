@@ -52,6 +52,7 @@ import { AnnouncementsService } from './services/announcements.service';
 import { AnnouncementListComponent } from './components/help/announcement/announcement-list/announcement-list.component';
 import { AnnouncementComponent } from './components/help/announcement/announcement/announcement.component';
 import { AppIntroComponent } from './modules/app-intro/app-intro.component';
+import { ListingComponent } from './modules/listing/listing.component';
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -74,7 +75,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     NewsComponent,
     AnnouncementComponent,
     AnnouncementListComponent,
-    AppIntroComponent
+    AppIntroComponent,
+    ListingComponent
   ],
   imports: [
     BrowserAnimationsModule,

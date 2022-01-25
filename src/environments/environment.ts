@@ -81,6 +81,19 @@ export const environment = {
             gasLimit: 21000,
             gasLimitToken: 70000
         },
+        BNB: {
+            chain: {
+                name: 'testnet',
+                networkId: 97,
+                chainId: 97
+            },
+            rpcEndpoint: 'https://data-seed-prebsc-1-s1.binance.org:8545',
+            hardfork: 'byzantium',
+            gasPrice: 90,
+            gasPriceMax: 200,
+            gasLimit: 21000,
+            gasLimitToken: 70000
+        },
         FAB: {
             network: Btc.networks.testnet,
             chain: {

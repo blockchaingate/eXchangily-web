@@ -2480,6 +2480,7 @@ export class CoinService {
                     txHash = this.web3Serv.getTransactionHash(txHex);
                 }
         } else if (mycoin.tokenType === 'ETH') { // etheruem tokens
+
             console.log('mycoin.tokenType === ETH');
                 const address1 = mycoin.receiveAdds[0];
                 if (!gasPrice) {
@@ -2581,7 +2582,52 @@ export class CoinService {
                     txHash = this.web3Serv.getTransactionHash(txHex);
                     // console.log('444');
                 }
-        } else if (mycoin.tokenType === 'FAB') { // fab tokens
+        
+            } else if(mycoin.name == 'BNB') {
+                if (!gasPrice) {
+                    gasPrice = environment.chains.BNB.gasPrice;
+                }
+                if (!gasLimit) {
+                    gasLimit = environment.chains.BNB.gasLimit;
+                }
+                transFee = Number(new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber());
+                if (getTransFeeOnly) {
+                    return { txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids };
+                }
+                amountNum = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, 18)));
+                const address1 = mycoin.receiveAdds[0];
+                const currentIndex = address1.index;
+
+                const keyPair = this.getKeyPairs(mycoin, seed, 0, currentIndex);
+                const nonce = await this.apiService.getBnbNonce(address1.address);
+                const gasPriceFinal = new BigNumber(gasPrice).multipliedBy(new BigNumber(1e9)).toNumber();
+
+                amountInTx = amountNum;
+
+                const txParams = {
+                    nonce: nonce,
+                    gasPrice: gasPriceFinal,
+                    gasLimit: gasLimit,
+                    to: toAddress,
+                    value: '0x' + amountNum.toString(16)
+                };
+
+                txHex = await this.web3Serv.signBnbTxWithPrivateKey(txParams, keyPair);
+
+                if (doSubmit) {
+                    const retBnb = await this.apiService.postBnbTx(txHex);
+                    console.log('retBnb===', retBnb);
+                    txHash = retBnb.txHash;
+                    errMsg = retBnb.errMsg;
+                    if (txHash.indexOf('txerError') >= 0) {
+                        errMsg = txHash;
+                        txHash = '';
+                    }
+                } else {
+                    txHash = this.web3Serv.getTransactionHash(txHex);
+                }
+            }
+            else if (mycoin.tokenType === 'FAB') { // fab tokens
                 console.log('satoshisPerBytesgggg=', satoshisPerBytes);
                 if (!gasPrice) {
                     gasPrice = environment.chains.FAB.gasPrice;
