@@ -85,7 +85,7 @@ export class IssueTokenComponent implements OnInit {
                 const itemInStorage = res[j];
                 let existed = false;
                 for(let i = 0; i < this.txs.length; i++) {
-                  if(this.txs[i].smartContractAddress ==  itemInStorage.smartContractAddress) {
+                  if(this.txs[i].txid ==  itemInStorage.txid) {
                     existed = true;
                     break;
                   }
