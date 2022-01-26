@@ -8,7 +8,7 @@ import {Balance,  EthTransactionRes
 import {Web3Service} from './web3.service';
 import {UtilService} from './util.service';
 import {AlertService} from './alert.service';
-
+import BigNumber from 'bignumber.js';
 import { environment } from '../../environments/environment';
 import TronWeb from 'tronweb';
 
@@ -180,6 +180,19 @@ export class ApiService {
         try {
             const response = await this.http.get(url).toPromise() as GasPrice;
             gasPrice = response.gasprice;
+        } catch (e) {console.log (e); }
+        return gasPrice;
+    }
+
+    async getBnbGasPrice() : Promise<number> {
+        const url = environment.chains.BNB.rpcEndpoint;
+        let gasPrice = 0;
+        try {
+
+            const data = {"jsonrpc":"2.0","method":"eth_gasPrice","params": [],"id":1};
+            const response = await this.http.post(url, data).toPromise() as JsonResult;
+            
+            gasPrice = new BigNumber(response.result, 16).toNumber();
         } catch (e) {console.log (e); }
         return gasPrice;
     }

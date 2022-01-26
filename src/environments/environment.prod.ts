@@ -83,8 +83,8 @@ export const environment = {
             },
             rpcEndpoint: 'https://bsc-dataseed.binance.org',
             hardfork: 'petersburg',
-            gasPrice: 90,
-            gasPriceMax: 200,
+            gasPrice: 5,
+            gasPriceMax: 20,
             gasLimit: 21000,
             gasLimitToken: 70000
         },

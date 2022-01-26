@@ -89,8 +89,8 @@ export const environment = {
             },
             rpcEndpoint: 'https://data-seed-prebsc-1-s1.binance.org:8545',
             hardfork: 'byzantium',
-            gasPrice: 90,
-            gasPriceMax: 200,
+            gasPrice: 5,
+            gasPriceMax: 20,
             gasLimit: 21000,
             gasLimitToken: 70000
         },

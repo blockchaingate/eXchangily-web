@@ -13,7 +13,6 @@ import * as createHash from 'create-hash';
 import base58 from 'bs58';
 import * as Account from 'eth-lib/lib/account';
 import * as  Hash from 'eth-lib/lib/hash';
-
 //import * as ethLib from 'eth-lib';
 @Injectable({
   providedIn: 'root'
@@ -57,6 +56,23 @@ export class Web3Service {
     const signMess = web3.eth.accounts.sign(message, privateKey);
     //const signMess = this.sign(message, privateKey);
     return signMess;
+  }
+
+  signBnbMessageWithPrivateKey(message: string, keyPair: any) {
+    const privateKey = `0x${keyPair.privateKey.toString('hex')}`;
+
+    const messageHash = this.hashEtherumMessage(message);
+    console.log('messageHash before signature=', messageHash);
+    var signature = Account.sign(messageHash, privateKey);
+    var vrs = Account.decodeSignature(signature);
+    return {
+        message: message,
+        messageHash: messageHash,
+        v: vrs[0],
+        r: vrs[1],
+        s: vrs[2],
+        signature: signature
+    };
   }
 
   getTransactionHash(txhex: string) {
@@ -355,6 +371,19 @@ export class Web3Service {
     return hash;
   }
   
+  hashEtherumMessage(data) {
+    const web3 = this.getWeb3Provider();
+    var messageHex = web3.utils.isHexStrict(data) ? data : web3.utils.utf8ToHex(data);
+    var messageBytes = web3.utils.hexToBytes(messageHex);
+    var messageBuffer = Buffer.from(messageBytes);
+    var preamble = '\x19Ethereum Signed Message:\n' + messageBytes.length;
+    var preambleBuffer = Buffer.from(preamble);
+    var ethMessage = Buffer.concat([preambleBuffer, messageBuffer]);
+    var hash = Hash.keccak256s(ethMessage);    
+    console.log('hash1=', hash);
+    return hash;
+  }
+
   signKanbanMessageWithPrivateKey(message: string, privateKey: any) {
     var hash = this.hashKanbanMessage(message);
     return this.signKanbanMessageHashWithPrivateKey(hash, privateKey);
@@ -575,6 +604,7 @@ export class Web3Service {
   }
 
   getDepositFuncABI(coinType: number, txHash: string, amount: BigNumber, addressInKanban: string, signedMessage: Signature, coinTypePrefix = null) {
+    console.log('signedMessage==', signedMessage);
     let abiHex = '379eb862';
     abiHex += this.utilServ.stripHexPrefix(signedMessage.v);
     if(!coinTypePrefix) {

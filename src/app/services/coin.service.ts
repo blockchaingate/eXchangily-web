@@ -74,6 +74,11 @@ export class CoinService {
         return new BigNumber(gasPrice).dividedBy(new BigNumber(1e9)).toNumber();
     }
 
+    async getBnbGasprice() {
+        const gasPrice = await this.apiService.getBnbGasPrice();
+        return new BigNumber(gasPrice).dividedBy(new BigNumber(1e9)).toNumber();
+    }
+
     async getTrxTokenBalance(smartContractAddress: string, address: string) {
         
 
@@ -925,11 +930,14 @@ export class CoinService {
         console.log('in signedMessage');
         console.log('name==', name);
         console.log('tokenType==', tokenType);
-        if (name === 'ETH' || tokenType === 'ETH' || name === 'BNB') {
+        if (name === 'ETH' || tokenType === 'ETH') {
             signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
             // console.log('signature in signed is ');
             // console.log(signature);
         } else 
+        if(name == 'BNB') {
+            signature = this.web3Serv.signBnbMessageWithPrivateKey(originalMessage, keyPair) as Signature;
+        } else
         if (name === 'TRX' || tokenType === 'TRX') {
             const priKeyDisp = keyPair.privateKey.toString('hex'); 
             signature = this.signStringTron(originalMessage, priKeyDisp);

@@ -1808,6 +1808,7 @@ export class WalletDashboardComponent implements OnInit {
 
 
         const updatedCoinType = this.coinServ.getUpdatedCoinType(currentCoin);
+        console.log('updatedCoinType===', updatedCoinType);
         const originalMessage = this.coinServ.getOriginalMessage(updatedCoinType, this.utilServ.stripHexPrefix(txHash)
             , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
 
@@ -1815,6 +1816,7 @@ export class WalletDashboardComponent implements OnInit {
 
 
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
+        console.log('coinTypePrefix===', coinTypePrefix);
         const abiHex = this.web3Serv.getDepositFuncABI(coinType, txHash, amountInLink, addressInKanban, signedMessage, coinTypePrefix);
 
         console.log('abiHex=', abiHex);

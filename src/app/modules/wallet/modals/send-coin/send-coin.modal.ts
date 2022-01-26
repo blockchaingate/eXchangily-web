@@ -72,7 +72,6 @@ export class SendCoinModal {
 
         if (this.wallet) {
             this.coin = this.wallet.mycoins[this.currentCoinIndex];
-            console.log('this.coin111==', this.coin);
         }
         const coinName = this.coin.name;
         const tokenType = this.coin.tokenType;
@@ -321,7 +320,7 @@ export class SendCoinModal {
         this.currentCoinIndex = index;
         if ((this.coin.name === 'ETH') || (this.coin.tokenType === 'ETH')) {
             let gasPrice = await this.coinServ.getEthGasprice();
-            if (!gasPrice || (gasPrice < environment.chains.ETH.gasPrice)) {
+            if (!gasPrice) {
                 gasPrice = environment.chains.ETH.gasPrice;
             }
             if (gasPrice > environment.chains.ETH.gasPriceMax) {
@@ -332,7 +331,21 @@ export class SendCoinModal {
             if (this.coin.tokenType === 'ETH') {
                 this.sendCoinForm.get('gasLimit').setValue(environment.chains.ETH.gasLimitToken);
             }
-        } else if (this.coin.name === 'FAB') {
+        } else if ((this.coin.name === 'BNB') || (this.coin.tokenType === 'BNB')) {
+            let gasPrice = await this.coinServ.getBnbGasprice();
+            if (!gasPrice) {
+                gasPrice = environment.chains.BNB.gasPrice;
+            }
+            if (gasPrice > environment.chains.BNB.gasPriceMax) {
+                gasPrice = environment.chains.BNB.gasPriceMax;
+            }
+            this.sendCoinForm.get('gasPrice').setValue(gasPrice);
+            this.sendCoinForm.get('gasLimit').setValue(environment.chains.BNB.gasLimit);
+            if (this.coin.tokenType === 'BNB') {
+                this.sendCoinForm.get('gasLimit').setValue(environment.chains.BNB.gasLimitToken);
+            }
+        } 
+        else if (this.coin.name === 'FAB') {
             this.sendCoinForm.get('satoshisPerBytes').setValue(environment.chains.FAB.satoshisPerBytes);
         } else if (this.coin.name === 'DOGE') {
             this.sendCoinForm.get('satoshisPerBytes').setValue(environment.chains.DOGE.satoshisPerBytes);
