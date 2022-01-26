@@ -925,7 +925,7 @@ export class CoinService {
         console.log('in signedMessage');
         console.log('name==', name);
         console.log('tokenType==', tokenType);
-        if (name === 'ETH' || tokenType === 'ETH') {
+        if (name === 'ETH' || tokenType === 'ETH' || name === 'BNB') {
             signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
             // console.log('signature in signed is ');
             // console.log(signature);

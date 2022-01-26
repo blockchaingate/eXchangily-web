@@ -1791,7 +1791,7 @@ export class WalletDashboardComponent implements OnInit {
             }
         }
         
-        const subString = amountInLinkString.substr(amountInTxString.length);
+        const subString = amountInLinkString.substring(amountInTxString.length);
 
         console.log('subString==', subString);
         if (subString && Number(subString) !== 0) {

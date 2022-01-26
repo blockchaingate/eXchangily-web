@@ -173,6 +173,7 @@ export class Web3Service {
       },
       environment.chains.ETH.hardfork,
     );
+    console.log('txObject===', txObject);
     const tx = new KanbanTxService(txObject, { common: customCommon });
 
     tx.sign(privKey);
@@ -574,52 +575,6 @@ export class Web3Service {
   }
 
   getDepositFuncABI(coinType: number, txHash: string, amount: BigNumber, addressInKanban: string, signedMessage: Signature, coinTypePrefix = null) {
-
-    // console.log('params for getDepositFuncABI:');
-    // console.log('coinType=' + coinType + ',txHash=' + txHash + ',amount=' + amount + ',addressInKanban=' + addressInKanban);
-    // console.log('signedMessage=', signedMessage);
-    const web3 = this.getWeb3Provider();
-    const func: any = {
-      'constant': false,
-      'inputs': [
-        {
-          'name': '_coinType',
-          'type': 'uint32'
-        },
-        {
-          'name': '',
-          'type': 'bytes32'
-        },
-        {
-          'name': '_value',
-          'type': 'uint256'
-        },
-        {
-          'name': '_addressInKanban',
-          'type': 'address'
-        },
-        {
-          'name': '',
-          'type': 'bytes32'
-        },
-        {
-          'name': '',
-          'type': 'bytes32'
-        }
-      ],
-      'name': 'deposit',
-      'outputs': [
-        {
-          'name': 'success',
-          'type': 'bool'
-        }
-      ],
-      'payable': false,
-      'stateMutability': 'nonpayable',
-      'type': 'function'
-    };
-    //let abiHex = this.utilServ.stripHexPrefix(web3.eth.abi.encodeFunctionSignature(func));
-    // console.log('abiHex for addDeposit=', abiHex);
     let abiHex = '379eb862';
     abiHex += this.utilServ.stripHexPrefix(signedMessage.v);
     if(!coinTypePrefix) {
