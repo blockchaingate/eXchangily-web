@@ -88,6 +88,19 @@ export const environment = {
             gasLimit: 21000,
             gasLimitToken: 70000
         },
+        MATIC: {
+            chain: {
+                name: 'mainnet',
+                networkId: 137,
+                chainId: 137
+            },
+            rpcEndpoint: 'https://polygon-rpc.com',
+            hardfork: 'petersburg',
+            gasPrice: 5,
+            gasPriceMax: 20,
+            gasLimit: 21000,
+            gasLimitToken: 70000
+        },
         FAB: {
             network: Btc.networks.bitcoin,
             chain: {
@@ -149,6 +162,7 @@ export const environment = {
         BTC: 0,
         ETH: 60,
         BNB: 60,
+        MATIC: 60,
         FAB: 1150,
         BCH: 145,
         LTC: 2,
@@ -164,14 +178,19 @@ export const environment = {
             },
             USDT: {
                 ETH: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-                TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t'
+                TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t',
+                BNB: '0x55d398326f99059ff775485246999027b3197955'
+            },
+            IXT: {
+                MATIC: '0xe06bd4f5aac8d0aa337d13ec88db6defc6eaeefe'
             },
             USDC: {
                 ETH: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
                 TRX: 'TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8'
             },
             FAB: {
-                ETH: '0xf2260ed15c59c9437848afed04645044a8d5e270'
+                ETH: '0xf2260ed15c59c9437848afed04645044a8d5e270',
+                BNB: ''
             },
             DSC: {
                 FAB: '0x64f1f72543c9d517a4e0bee32a3d11a21dc87de4',

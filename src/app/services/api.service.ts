@@ -345,8 +345,8 @@ export class ApiService {
         return Number (response);
     }
 
-    async getBnbNonce (address: string) {
-        const url = environment.chains.BNB.rpcEndpoint;
+    async getEtheruemCampatibleNonce (coinName: string, address: string) {
+        const url = environment.chains[coinName].rpcEndpoint;
         const data = {
             "method":
             "eth_getTransactionCount",
@@ -382,11 +382,11 @@ export class ApiService {
         return {txHash, errMsg};
     }
 
-    async postBnbTx(txHex: string) {
+    async postEtheruemCompatibleTx(coinName: string, txHex: string) {
 
         let txHash = '';
         let errMsg = '';
-        const url = environment.chains.BNB.rpcEndpoint;
+        const url = environment.chains[coinName].rpcEndpoint;
         const data = {
             "jsonrpc":"2.0",
             "method":"eth_sendRawTransaction",

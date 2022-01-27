@@ -94,6 +94,19 @@ export const environment = {
             gasLimit: 21000,
             gasLimitToken: 70000
         },
+        MATIC: {
+            chain: {
+                name: 'testnet',
+                networkId: 80001,
+                chainId: 80001
+            },
+            rpcEndpoint: 'https://rpc-mumbai.matic.today',
+            hardfork: 'byzantium',
+            gasPrice: 5,
+            gasPriceMax: 20,
+            gasLimit: 21000,
+            gasLimitToken: 70000
+        },
         FAB: {
             network: Btc.networks.testnet,
             chain: {
@@ -158,6 +171,7 @@ export const environment = {
         BTC: 1,
         ETH: 60,
         BNB: 60,
+        MATIC: 60,
         FAB: 1150,
         BCH: 1,
         LTC: 1,
@@ -173,14 +187,19 @@ export const environment = {
             },
             USDT: { 
                 ETH: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',
-                TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t'
+                TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t',
+                BNB: '0x4850754EA867654339F38d4e6DF7cd80CFee141f'
             },
             USDC: {
                 ETH: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',
                 TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t'
             },
             FAB: {
-                ETH: '0xd8b836a7276b3D28FE98CE9d5C8D3041051b792C'
+                ETH: '0xd8b836a7276b3D28FE98CE9d5C8D3041051b792C',
+                BNB: '0x7afea792b7fe7a686FA5fC0Ef6D3785c3dC92178'
+            },
+            IXT: {
+                MATIC: '0x65f8C5d105c61dfEe73C402593CD90ABb5bcB48e'
             },
             DSC: {
                 FAB: '0xc65624b3bbdf3e786705045405b5f09ab811b9dd',

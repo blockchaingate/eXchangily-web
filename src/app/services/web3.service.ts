@@ -90,16 +90,17 @@ export class Web3Service {
     return txhex;
   }
 
-  async signBnbTxWithPrivateKey(txParams: any, keyPair: any) {
+  async signEtheruemCompatibleTxWithPrivateKey(coinName: string, txParams: any, keyPair: any) {
+    console.log('coinName');
     const privKey = keyPair.privateKeyBuffer;
     const EthereumTx = Eth.Transaction;
     const customCommon = Common.forCustomChain(
       environment.chains.ETH.chain, {
-           name: environment.chains.BNB.chain.name,
-           networkId: environment.chains.BNB.chain.networkId,
-           chainId: environment.chains.BNB.chain.chainId
+           name: environment.chains[coinName].chain.name,
+           networkId: environment.chains[coinName].chain.networkId,
+           chainId: environment.chains[coinName].chain.chainId
        },
-       environment.chains.ETH.hardfork,
+       environment.chains[coinName].hardfork,
    );
     const tx = new EthereumTx(txParams, { common: customCommon });
     tx.sign(privKey);

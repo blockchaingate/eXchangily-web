@@ -552,7 +552,7 @@ export class WalletDashboardComponent implements OnInit {
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];       
 
-            if(coin.name == 'BNB') {
+            if(coin.name == 'IXT') {
                 this.walletUpdateToDate = true;
             }
             if (coin.name == 'BTC' && !btcAddress) {
@@ -1793,9 +1793,7 @@ export class WalletDashboardComponent implements OnInit {
         
         const subString = amountInLinkString.substring(amountInTxString.length);
 
-        console.log('subString==', subString);
         if (subString && Number(subString) !== 0) {
-            console.log('not equal 2');
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar('转账数量不符合', 'Ok');
             } else {
@@ -1808,7 +1806,6 @@ export class WalletDashboardComponent implements OnInit {
 
 
         const updatedCoinType = this.coinServ.getUpdatedCoinType(currentCoin);
-        console.log('updatedCoinType===', updatedCoinType);
         const originalMessage = this.coinServ.getOriginalMessage(updatedCoinType, this.utilServ.stripHexPrefix(txHash)
             , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
 

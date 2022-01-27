@@ -153,6 +153,22 @@ export class CoinService {
         this.fillUpAddress(bnbCoin, seed, 1, 0);
         myCoins.push(bnbCoin);
 
+        const usdtBNBCoin = this.initToken('BNB', 'USDT', 18, environment.addresses.smartContract.USDT.BNB, bnbCoin);
+        this.fillUpAddress(usdtBNBCoin, seed, 1, 0);
+        myCoins.push(usdtBNBCoin);  
+
+        const fabBNBCoin = this.initToken('BNB', 'FAB', 18, environment.addresses.smartContract.FAB.BNB, bnbCoin);
+        this.fillUpAddress(fabBNBCoin, seed, 1, 0);
+        myCoins.push(fabBNBCoin);  
+
+        const maticCoin = new MyCoin('MATIC');
+        this.fillUpAddress(maticCoin, seed, 1, 0);
+        myCoins.push(maticCoin);
+
+        const ixtMATICCoin = this.initToken('MATIC', 'IXT', 18, environment.addresses.smartContract.IXT.MATIC, maticCoin);
+        this.fillUpAddress(ixtMATICCoin, seed, 1, 0);
+        myCoins.push(ixtMATICCoin);  
+
         const usdtTRXCoin = this.initToken('TRX', 'USDT', 6, environment.addresses.smartContract.USDT.TRX, trxCoin);
         this.fillUpAddress(usdtTRXCoin, seed, 1, 0);
         myCoins.push(usdtTRXCoin);        
@@ -821,7 +837,9 @@ export class CoinService {
                  addrHash = json.hash;                
             }
         } else
-        if ((name === 'ETH') || (tokenType === 'ETH') || (name == 'BNB')) {
+        if ((name === 'ETH') || (tokenType === 'ETH') 
+        || (name == 'BNB') || (tokenType == 'BNB') 
+        || (name == 'MATIC') || (tokenType == 'MATIC')) {
 
                 const root = hdkey.fromMasterSeed(seed);
                 const childNode = root.derivePath(path);
@@ -2445,7 +2463,8 @@ export class CoinService {
             } catch (error) {
                 console.error('trigger smart contract error', error);
             }            
-        } else if (mycoin.name === 'ETH') {
+        } 
+        else if (mycoin.name === 'ETH') {
                 if (!gasPrice) {
                     gasPrice = environment.chains.ETH.gasPrice;
                 }
@@ -2487,9 +2506,9 @@ export class CoinService {
                 } else {
                     txHash = this.web3Serv.getTransactionHash(txHex);
                 }
-        } else if (mycoin.tokenType === 'ETH') { // etheruem tokens
+        } 
+        else if (mycoin.tokenType === 'ETH') { // etheruem tokens
 
-            console.log('mycoin.tokenType === ETH');
                 const address1 = mycoin.receiveAdds[0];
                 if (!gasPrice) {
                     gasPrice = environment.chains.ETH.gasPrice;
@@ -2591,12 +2610,12 @@ export class CoinService {
                     // console.log('444');
                 }
         
-            } else if(mycoin.name == 'BNB') {
+            } else if(mycoin.name == 'BNB' || mycoin.name == 'MATIC') {
                 if (!gasPrice) {
-                    gasPrice = environment.chains.BNB.gasPrice;
+                    gasPrice = environment.chains[mycoin.name].gasPrice;
                 }
                 if (!gasLimit) {
-                    gasLimit = environment.chains.BNB.gasLimit;
+                    gasLimit = environment.chains[mycoin.name].gasLimit;
                 }
                 transFee = Number(new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber());
                 if (getTransFeeOnly) {
@@ -2607,7 +2626,7 @@ export class CoinService {
                 const currentIndex = address1.index;
 
                 const keyPair = this.getKeyPairs(mycoin, seed, 0, currentIndex);
-                const nonce = await this.apiService.getBnbNonce(address1.address);
+                const nonce = await this.apiService.getEtheruemCampatibleNonce(mycoin.name, address1.address);
                 const gasPriceFinal = new BigNumber(gasPrice).multipliedBy(new BigNumber(1e9)).toNumber();
 
                 amountInTx = amountNum;
@@ -2620,10 +2639,10 @@ export class CoinService {
                     value: '0x' + amountNum.toString(16)
                 };
 
-                txHex = await this.web3Serv.signBnbTxWithPrivateKey(txParams, keyPair);
+                txHex = await this.web3Serv.signEtheruemCompatibleTxWithPrivateKey(mycoin.name,txParams, keyPair);
 
                 if (doSubmit) {
-                    const retBnb = await this.apiService.postBnbTx(txHex);
+                    const retBnb = await this.apiService.postEtheruemCompatibleTx(mycoin.name,txHex);
                     console.log('retBnb===', retBnb);
                     txHash = retBnb.txHash;
                     errMsg = retBnb.errMsg;
@@ -2635,6 +2654,102 @@ export class CoinService {
                     txHash = this.web3Serv.getTransactionHash(txHex);
                 }
             }
+            else if (mycoin.tokenType === 'BNB' || mycoin.tokenType == 'MATIC') { // etheruem tokens
+
+                const address1 = mycoin.receiveAdds[0];
+                if (!gasPrice) {
+                    gasPrice = environment.chains[mycoin.tokenType].gasPrice;
+                }
+                if (!gasLimit) {
+                    gasLimit = environment.chains[mycoin.tokenType].gasLimitToken;
+                }
+                transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
+                if (getTransFeeOnly) {
+                    return { txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids };
+                }
+                const currentIndex = address1.index;
+                // console.log('currentIndex=' + currentIndex);
+                const keyPair = this.getKeyPairs(mycoin, seed, 0, currentIndex);
+                const nonce = await this.apiService.getEtheruemCampatibleNonce(mycoin.tokenType, address1.address);
+
+                let decimals = mycoin.decimals;
+
+                if (!decimals) {
+                    decimals = 18;
+                }
+                console.log('decimals112===', decimals);
+                // const amountSent = amount * Math.pow(10, decimals);
+                const amountSent = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, decimals)));
+                const toAccount = toAddress;
+
+                let contractAddress = environment.addresses.smartContract[mycoin.name][mycoin.tokenType];
+                if (!contractAddress) {
+                    contractAddress = mycoin.contractAddr;
+                }
+
+               console.log('contractAddresscontractAddresscontractAddress=', contractAddress);
+                // console.log('nonce = ' + nonce);
+                const func = {
+                    'constant': false,
+                    'inputs': [
+                        {
+                            'name': 'recipient',
+                            'type': 'address'
+                        },
+                        {
+                            'name': 'amount',
+                            'type': 'uint256'
+                        }
+                    ],
+                    'name': 'transfer',
+                    'outputs': [
+                        {
+                            'name': '',
+                            'type': 'bool'
+                        }
+                    ],
+                    'payable': false,
+                    'stateMutability': 'nonpayable',
+                    'type': 'function'
+                };
+
+                const abiHex = this.web3Serv.getFuncABI(func);
+                // a9059cbb
+                // console.log('abiHexxx=' + abiHex);
+                const gasPriceFinal = new BigNumber(gasPrice).multipliedBy(new BigNumber(1e9)).toNumber();
+
+                amountInTx = amountSent;
+                const txData = {
+                    nonce: nonce,
+                    gasPrice: gasPriceFinal,
+                    gasLimit: gasLimit,
+                    // to: contractAddress,
+                    from: keyPair.address,
+                    value: Number(0),
+                    to: contractAddress,
+                    data: '0x' + abiHex + this.utilServ.fixedLengh(toAccount.slice(2), 64) +
+                        this.utilServ.fixedLengh(amountSent.toString(16), 64)
+                };
+                console.log('txData==', txData);
+                txHex = await this.web3Serv.signEtheruemCompatibleTxWithPrivateKey(mycoin.tokenType, txData, keyPair);
+                // console.log('after sign');
+                if (doSubmit) {
+                    // console.log('111');
+                    const retEth = await this.apiService.postEtheruemCompatibleTx(mycoin.tokenType,txHex);
+                    txHash = retEth.txHash;
+                    errMsg = retEth.errMsg;
+
+                    if (txHash.indexOf('txerError') >= 0) {
+                        errMsg = txHash;
+                        txHash = '';
+                    }
+                } else {
+                    // console.log('333');
+                    txHash = this.web3Serv.getTransactionHash(txHex);
+                    // console.log('444');
+                }
+        
+            } 
             else if (mycoin.tokenType === 'FAB') { // fab tokens
                 console.log('satoshisPerBytesgggg=', satoshisPerBytes);
                 if (!gasPrice) {

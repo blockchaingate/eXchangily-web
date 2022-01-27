@@ -211,13 +211,15 @@
                                         </div>
                                         <div class="col-custom-1">
                                             {{mycoin.symbol}}
-                                            <div *ngIf="(mycoin.name == 'USDT') || (mycoin.name == 'FAB') || (mycoin.name == 'EXG')
-                                            || (mycoin.name == 'DSC')  || (mycoin.name == 'BST')  || (mycoin.name == 'USDC')">
+                                            <div>
                                                 <div *ngIf="(mycoin.tokenType=='ETH')">
                                                     (ERC20)
                                                 </div>
                                                 <div *ngIf="(mycoin.tokenType=='TRX')">
                                                     (TRC20)
+                                                </div>
+                                                <div *ngIf="(mycoin.tokenType=='BNB')">
+                                                    (BEP20)
                                                 </div>
                                             </div>
                                         </div>
@@ -284,13 +286,15 @@
                                     <div class="col-2">
                                         {{mycoin.symbol}}
 
-                                        <div *ngIf="(mycoin.name == 'USDT') || (mycoin.name == 'FAB') || (mycoin.name == 'EXG')
-                                        || (mycoin.name == 'DSC')  || (mycoin.name == 'BST')  || (mycoin.name == 'USDC')">
+                                        <div>
                                             <div *ngIf="(mycoin.tokenType=='ETH')">
                                                 (ERC20)
                                             </div>
                                             <div *ngIf="(mycoin.tokenType=='TRX')">
                                                 (TRC20)
+                                            </div>
+                                            <div *ngIf="(mycoin.tokenType=='BNB')">
+                                                (BEP20)
                                             </div>
                                         </div>
                                     </div>
