@@ -1763,7 +1763,7 @@ export class WalletDashboardComponent implements OnInit {
             return;
         }
         
-        const amountInLink = new BigNumber(amount).multipliedBy(new BigNumber(1e18)); // it's for all coins.
+        const amountInLink = new BigNumber(amount).shiftedBy(18); // it's for all coins.
 
         const amountInLinkString = amountInLink.toFixed();
         const amountInTxString = amountInTx.toFixed();

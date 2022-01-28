@@ -184,8 +184,8 @@ export class ApiService {
         return gasPrice;
     }
 
-    async getBnbGasPrice() : Promise<number> {
-        const url = environment.chains.BNB.rpcEndpoint;
+    async getEtheruemCompatibleGasPrice(coinName: string) : Promise<number> {
+        const url = environment.chains[coinName].rpcEndpoint;
         let gasPrice = 0;
         try {
 
