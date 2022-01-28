@@ -74,6 +74,9 @@ export class MyordersComponent implements OnInit, OnDestroy {
     exgTSBalance: number;
     ethEXGTSBalance: number;
 
+    bnbUSDTTSBalance: number;
+    bnbFABTSBalance: number;
+
     minimumWithdrawAmount: number;
     coinType: number;
     coinName: string;
@@ -99,13 +102,6 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this.coinServ = _coinServ;
     }
 
-    /*
-    onRefreshToken(tokens) {
-        
-        this.mytokens = tokens;
-        console.log('mytokens in myorders', this.mytokens);
-    }
-    */
     ngOnDestroy() {
         this.timerServ.unCheckAllOrderStatus();
     }
@@ -367,13 +363,18 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
                 if(!this.trxUSDTTSBalance) {
                     this.trxUSDTTSBalance = await this.coinServ.getTrxTokenBalance(environment.addresses.smartContract.USDT.TRX, environment.addresses.exchangilyOfficial.TRX);
-                    this.trxUSDTTSBalance = this.trxUSDTTSBalance / 1e6;
+                    this.trxUSDTTSBalance = new BigNumber(this.trxUSDTTSBalance).shiftedBy(-6).toNumber();
                 }
 
                 if(!this.ethUSDTTSBalance) {
                     const balance = await this.apiServ.getEthTokenBalance('USDT', environment.addresses.smartContract.USDT.ETH, environment.addresses.exchangilyOfficial.ETH);                    
-                    this.ethUSDTTSBalance = balance.balance / 1e6;
+                    this.ethUSDTTSBalance = new BigNumber(balance.balance).shiftedBy(-6).toNumber();
                 }
+
+                if(!this.bnbUSDTTSBalance) {
+                    const balance = await this.coinServ.getEtherumCompatibleTokenBalance('BNB', environment.addresses.smartContract.USDT.BNB, environment.addresses.exchangilyOfficial.BNB);
+                    this.bnbUSDTTSBalance = new BigNumber(balance, 16).shiftedBy(-18).toNumber();
+                }               
             }catch(e) {
 
             }           
@@ -382,12 +383,20 @@ export class MyordersComponent implements OnInit, OnDestroy {
             try {
                 this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
 
-                let balance = await this.apiServ.getEthTokenBalance('FAB', environment.addresses.smartContract.FAB.ETH, environment.addresses.exchangilyOfficial.ETH);                    
-                this.ethFABTSBalance = balance.balance / 1e8;
-                    
+                if(!this.ethFABTSBalance) {
+                    let balance = await this.apiServ.getEthTokenBalance('FAB', environment.addresses.smartContract.FAB.ETH, environment.addresses.exchangilyOfficial.ETH);                    
+                    this.ethFABTSBalance = new BigNumber(balance.balance).shiftedBy(-8).toNumber();    
+                }
+         
+                if(!this.fabTSBalance) {
+                    const balance = await this.apiServ.getFabBalance(environment.addresses.exchangilyOfficial.FAB);
+                    this.fabTSBalance = new BigNumber(balance.balance).shiftedBy(-8).toNumber();
+                }
 
-                balance = await this.apiServ.getFabBalance(environment.addresses.exchangilyOfficial.FAB);
-                this.fabTSBalance = balance.balance / 1e8;
+                if(!this.bnbFABTSBalance) {
+                    const balance = await this.coinServ.getEtherumCompatibleTokenBalance('BNB', environment.addresses.smartContract.FAB.BNB, environment.addresses.exchangilyOfficial.BNB);
+                    this.bnbFABTSBalance = new BigNumber(balance, 16).shiftedBy(-18).toNumber();
+                }
 
             }catch(e) {
 

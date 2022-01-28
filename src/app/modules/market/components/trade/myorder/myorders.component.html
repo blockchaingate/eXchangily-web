@@ -198,12 +198,15 @@
                     <mat-radio-button value="ETH">ERC20</mat-radio-button>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <mat-radio-button value="TRX">TRC20</mat-radio-button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <mat-radio-button value="BNB">BEP20</mat-radio-button>
                   </mat-radio-group>
             </div>
             <div>
                 {{'TS Wallet Balance' | translate}}: 
                 <span *ngIf="chain == 'TRX'">{{trxUSDTTSBalance?trxUSDTTSBalance:'NA'}}</span>
                 <span *ngIf="chain == 'ETH'">{{ethUSDTTSBalance?ethUSDTTSBalance:'NA'}}</span>
+                <span *ngIf="chain == 'BNB'">{{bnbUSDTTSBalance?bnbUSDTTSBalance:'NA'}}</span>
             </div>
 
         </div>
@@ -215,12 +218,15 @@
                         <mat-radio-button value="FAB">{{'FAB Chain' | translate}}</mat-radio-button>
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <mat-radio-button value="ETH">ERC20</mat-radio-button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <mat-radio-button value="BNB">BEP20</mat-radio-button>
                       </mat-radio-group>
                 </div>
                 <div>
                     {{'TS Wallet Balance' | translate}}: 
                     <span *ngIf="chain == 'FAB'">{{fabTSBalance?fabTSBalance:'NA'}}</span>
                     <span *ngIf="chain == 'ETH'">{{ethFABTSBalance?ethFABTSBalance:'NA'}}</span>
+                    <span *ngIf="chain == 'BNB'">{{bnbFABTSBalance?bnbFABTSBalance:'NA'}}</span>
                 </div>
         </div>
             

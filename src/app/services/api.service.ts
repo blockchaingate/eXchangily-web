@@ -174,6 +174,31 @@ export class ApiService {
         return response;
     }
 
+    async getEtherumCompatibleTokenBalance(chainName: string, smartContractAddress: string, address: string) {
+        const url = environment.chains[chainName].rpcEndpoint;
+        let balance = '';
+        try {
+
+            const data = {
+                "jsonrpc":"2.0",
+                "method":"eth_call",
+                "params":[
+                    {
+                        "to": smartContractAddress, 
+                        "data": "0x6740d36c0000000000000000000000000000000000000000000000000000000000000005"
+                    }, 
+                    "latest"
+                ],
+                "id":1
+            };
+            const response = await this.http.post(url, data).toPromise() as JsonResult;
+            
+            balance = response.result;
+        } catch (e) {console.log (e); }
+        return balance;
+
+    }
+
     async getEthGasPrice(): Promise<number> {
         const url = 'https://ethprod.fabcoinapi.com/getgasprice';
         let gasPrice = 0;

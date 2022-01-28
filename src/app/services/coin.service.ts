@@ -105,6 +105,11 @@ export class CoinService {
         return -1;
     }
 
+    async getEtherumCompatibleTokenBalance(chainName: string, smartContractAddress: string, address: string) {
+        return await this.apiService.getEtherumCompatibleTokenBalance(chainName, smartContractAddress, address);
+
+    }
+
     initToken(type: string, name: string, decimals: number, address: string, baseCoin: MyCoin, symbol?: string) {
         const coin = new MyCoin(name);
         if(symbol) {
