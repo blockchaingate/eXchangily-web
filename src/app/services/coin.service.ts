@@ -162,7 +162,7 @@ export class CoinService {
         this.fillUpAddress(usdtBNBCoin, seed, 1, 0);
         myCoins.push(usdtBNBCoin);  
 
-        const fabBNBCoin = this.initToken('BNB', 'FAB', 18, environment.addresses.smartContract.FAB.BNB, bnbCoin);
+        const fabBNBCoin = this.initToken('BNB', 'FAB', 8, environment.addresses.smartContract.FAB.BNB, bnbCoin);
         this.fillUpAddress(fabBNBCoin, seed, 1, 0);
         myCoins.push(fabBNBCoin);  
 

@@ -395,7 +395,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
                 if(!this.bnbFABTSBalance) {
                     const balance = await this.coinServ.getEtherumCompatibleTokenBalance('BNB', environment.addresses.smartContract.FAB.BNB, environment.addresses.exchangilyOfficial.BNB);
-                    this.bnbFABTSBalance = new BigNumber(balance, 16).shiftedBy(-18).toNumber();
+                    this.bnbFABTSBalance = new BigNumber(balance, 16).shiftedBy(-8).toNumber();
                 }
 
             }catch(e) {

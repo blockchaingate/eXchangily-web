@@ -196,7 +196,7 @@ export const environment = {
             },
             FAB: {
                 ETH: '0xd8b836a7276b3D28FE98CE9d5C8D3041051b792C',
-                BNB: '0x7afea792b7fe7a686FA5fC0Ef6D3785c3dC92178'
+                BNB: '0xb3Dcd26FBFCC3aeA2aa0ac833c2B38421d4b1905'
             },
             IXT: {
                 MATIC: '0x65f8C5d105c61dfEe73C402593CD90ABb5bcB48e'

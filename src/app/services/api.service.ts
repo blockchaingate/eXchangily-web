@@ -178,14 +178,16 @@ export class ApiService {
         const url = environment.chains[chainName].rpcEndpoint;
         let balance = '';
         try {
-
+            const dataParam = '0x70a08231'
+            + '000000000000000000000000'
+            + address;
             const data = {
                 "jsonrpc":"2.0",
                 "method":"eth_call",
                 "params":[
                     {
                         "to": smartContractAddress, 
-                        "data": "0x6740d36c0000000000000000000000000000000000000000000000000000000000000005"
+                        "data": dataParam
                     }, 
                     "latest"
                 ],
