@@ -953,8 +953,8 @@ export class CoinService {
             // console.log('signature in signed is ');
             // console.log(signature);
         } else 
-        if(name == 'BNB') {
-            signature = this.web3Serv.signBnbMessageWithPrivateKey(originalMessage, keyPair) as Signature;
+        if(name == 'BNB' || tokenType === 'BNB' || name == 'MATIC' || tokenType === 'MATIC' ) {
+            signature = this.web3Serv.signEtheruemCompatibleMessageWithPrivateKey(originalMessage, keyPair) as Signature;
         } else
         if (name === 'TRX' || tokenType === 'TRX') {
             const priKeyDisp = keyPair.privateKey.toString('hex'); 

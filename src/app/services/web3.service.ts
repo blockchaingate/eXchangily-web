@@ -58,11 +58,10 @@ export class Web3Service {
     return signMess;
   }
 
-  signBnbMessageWithPrivateKey(message: string, keyPair: any) {
+  signEtheruemCompatibleMessageWithPrivateKey(message: string, keyPair: any) {
     const privateKey = `0x${keyPair.privateKey.toString('hex')}`;
 
     const messageHash = this.hashEtherumMessage(message);
-    console.log('messageHash before signature=', messageHash);
     var signature = Account.sign(messageHash, privateKey);
     var vrs = Account.decodeSignature(signature);
     return {
