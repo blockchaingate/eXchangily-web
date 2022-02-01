@@ -1,5 +1,6 @@
 {
     "Security": "安全",
+    "Transfer": "转账",
     "Header": {
         "Title": "eXchangily",
         "Navigation": {
@@ -1347,7 +1348,6 @@
     "Receive address": "收款地址",
     "Kanban Gas": "看板燃料",
     "OrdersCount": "个订单",
-    "Transfer": "转账",
     "Scan to pay with Cash App, or pay to $exchangily directly with Cash App. Please click \"Marked as paid\" button after payment finished": "用Cash App扫描并支付，或者直接用Cash App给$exchangily转账。支付或转账完成后，请点击“确认付款”按钮",
     "startBlock": "开始区块",
     "endBlock": "结束区块",

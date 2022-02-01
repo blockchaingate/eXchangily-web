@@ -283,11 +283,12 @@ export const environment = {
        exchangilyOfficial: {
         FAB: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
         BTC: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
-        ETH: '0x4983f8634255762A18D854790E6d35A522E2633a',      
+        ETH: '0x4983f8634255762A18D854790E6d35A522E2633a', 
+        BNB: '', 
         BCH: 'bitcoincash:qznusftmq4cac0fuj6eyke5vv45njxe6eyafcld37l',
         LTC: 'LaX6sfX8RoHbQHNDEBmdzyBMN9vFa95FXL',
         DOGE: 'DLSF9i9weYwpgUrendmuGiHC35HGoHuvR9',   
-        TRX: 'TGfvRWxddNoWrghwE5zC1JEcbXyMdPATdo'          
+        TRX: 'TGfvRWxddNoWrghwE5zC1JEcbXyMdPATdo' 
            /*
         EXG: '0xa7c8257b0571dc3d3c96b24b668c6569391b3ac9',
         FAB: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
