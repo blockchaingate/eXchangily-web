@@ -893,6 +893,9 @@ export class WalletDashboardComponent implements OnInit {
         let ethBalance = 0;
         let btcBalance = 0;
         let trxBalance = 0;
+        let htBalance = 0;
+        let maticBalance = 0;
+        let bnbBalance = 0;
 
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             if (this.wallet.mycoins[i].name === 'FAB' && !fabBalance) {
@@ -903,6 +906,12 @@ export class WalletDashboardComponent implements OnInit {
                 btcBalance = this.wallet.mycoins[i].balance;
             } else if (this.wallet.mycoins[i].name === 'TRX' && !trxBalance) {
                 trxBalance = this.wallet.mycoins[i].balance;
+            } else if (this.wallet.mycoins[i].name === 'BNB' && !bnbBalance) {
+                bnbBalance = this.wallet.mycoins[i].balance;
+            } else if (this.wallet.mycoins[i].name === 'MATIC' && !maticBalance) {
+                maticBalance = this.wallet.mycoins[i].balance;
+            } else if (this.wallet.mycoins[i].name === 'HT' && !htBalance) {
+                htBalance = this.wallet.mycoins[i].balance;
             }
         }
 
@@ -932,6 +941,28 @@ export class WalletDashboardComponent implements OnInit {
             }
         } else if (tranFeeUnit === 'ETH') {
             if (transFee > ethBalance) {
+                this.alertServ.openSnackBar(
+                    this.translateServ.instant('InsufficientForTransaction', {coin: tranFeeUnit}),
+                    this.translateServ.instant('Ok'));
+                return false;
+            }
+
+        } else if (tranFeeUnit === 'HT') {
+            if (transFee > htBalance) {
+                this.alertServ.openSnackBar(
+                    this.translateServ.instant('InsufficientForTransaction', {coin: tranFeeUnit}),
+                    this.translateServ.instant('Ok'));
+                return false;
+            }
+        } else if (tranFeeUnit === 'MATIC') {
+            if (transFee > maticBalance) {
+                this.alertServ.openSnackBar(
+                    this.translateServ.instant('InsufficientForTransaction', {coin: tranFeeUnit}),
+                    this.translateServ.instant('Ok'));
+                return false;
+            }
+        } else if (tranFeeUnit === 'BNB') {
+            if (transFee > bnbBalance) {
                 this.alertServ.openSnackBar(
                     this.translateServ.instant('InsufficientForTransaction', {coin: tranFeeUnit}),
                     this.translateServ.instant('Ok'));

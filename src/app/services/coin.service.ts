@@ -2538,7 +2538,7 @@ export class CoinService {
                     const retEth = await this.apiService.postEthTx(txHex);
                     txHash = retEth.txHash;
                     errMsg = retEth.errMsg;
-                    if (txHash.indexOf('txerError') >= 0) {
+                    if (txHash && txHash.indexOf('txerError') >= 0) {
                         errMsg = txHash;
                         txHash = '';
                     }
@@ -2645,7 +2645,7 @@ export class CoinService {
                     txHash = retEth.txHash;
                     errMsg = retEth.errMsg;
 
-                    if (txHash.indexOf('txerError') >= 0) {
+                    if (txHash && txHash.indexOf('txerError') >= 0) {
                         errMsg = txHash;
                         txHash = '';
                     }
@@ -2697,7 +2697,7 @@ export class CoinService {
                     console.log('retBnb===', retBnb);
                     txHash = retBnb.txHash;
                     errMsg = retBnb.errMsg;
-                    if (txHash.indexOf('txerError') >= 0) {
+                    if (txHash && txHash.indexOf('txerError') >= 0) {
                         errMsg = txHash;
                         txHash = '';
                     }
@@ -2794,7 +2794,7 @@ export class CoinService {
                     txHash = retEth.txHash;
                     errMsg = retEth.errMsg;
 
-                    if (txHash.indexOf('txerError') >= 0) {
+                    if (txHash && txHash.indexOf('txerError') >= 0) {
                         errMsg = txHash;
                         txHash = '';
                     }
