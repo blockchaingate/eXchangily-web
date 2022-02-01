@@ -174,8 +174,14 @@ export class ApiService {
         return response;
     }
 
-    async getEtherumCompatibleTokenBalance(chainName: string, smartContractAddress: string, address: string) {
+    async getEthereumCompatibleTokenBalance(chainName: string, smartContractAddress: string, address: string) {
         const url = environment.chains[chainName].rpcEndpoint;
+        console.log('url===', url);
+        console.log('smartContractAddress===', smartContractAddress);
+        console.log('address===', address);
+        if(address.indexOf('0x') == 0) {
+            address = address.substring(2);
+        }
         let balance = '';
         try {
             const dataParam = '0x70a08231'
@@ -193,9 +199,11 @@ export class ApiService {
                 ],
                 "id":1
             };
+            console.log('data===', data);
             const response = await this.http.post(url, data).toPromise() as JsonResult;
             
             balance = response.result;
+            console.log('balance====', balance);
         } catch (e) {console.log (e); }
         return balance;
 
@@ -671,6 +679,28 @@ export class ApiService {
        const balance = response.balance;
        const lockbalance = 0;
        return {balance, lockbalance};  
+    }
+
+    async getEthereumCompatibleBalance(chain: string, address: string): Promise<any> {
+        const url = environment.chains[chain].rpcEndpoint;
+        console.log('url==', url);
+        console.log('address==', address);
+        const data = {
+            "jsonrpc":"2.0",
+            "method":"eth_getBalance",
+            "params":[address, "latest"],
+            "id":1
+        };
+        const response = await this.http.post(url, data).toPromise() as JsonResult;
+        const result = response.result;
+        return result;
+        /*
+        const url = environment.endpoints.ETH.exchangily + 'getbalance/' + address;
+        const response = await this.http.get(url).toPromise()  as KEthBalance;
+        const balance = response.balance;
+        const lockbalance = 0;
+        return {balance, lockbalance};  
+        */
     }
 
     async getBchBalance(address: string): Promise<Balance> {

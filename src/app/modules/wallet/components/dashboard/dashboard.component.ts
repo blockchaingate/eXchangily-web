@@ -73,6 +73,7 @@ export class WalletDashboardComponent implements OnInit {
     privateKey: string;
     coinName: string;
     amountForm: any;
+    assets: any;
     maintainence: boolean;
     wallets: Wallet[];
     modalRef: BsModalRef;
@@ -1044,6 +1045,9 @@ export class WalletDashboardComponent implements OnInit {
             this.addNewAssetDo();
         } else if(this.opType == 'updateWallet') {
             this.updateWalletDo();
+        } else
+        if(this.opType == 'addAssets') {
+            this.addAssetsDo();
         }
     }
 
@@ -1219,14 +1223,6 @@ export class WalletDashboardComponent implements OnInit {
         let seedPhrase = '';
         if (this.wallet.encryptedMnemonic) {
             seedPhrase = this.utilServ.aesDecrypt(this.wallet.encryptedMnemonic, this.pin);
-
-            /*
-            const seed = this.utilServ.aesDecrypt(this.wallet.encryptedSeed, this.pin);
-            const id = this.wallet.id;
-            console.log('id=', id);
-            console.log('seedPhrase=', seedPhrase);
-            console.log('seed=', seed);
-            */
         }
         if (seedPhrase) {
             this.showSeedPhraseModal.show(seedPhrase);
@@ -1354,10 +1350,12 @@ export class WalletDashboardComponent implements OnInit {
         }
     }
 
-    onConfirmedAssets(assets: [Token]) {
-        console.log('assets to be added=', assets);
-        for (let i = 0; i < assets.length; i++) {
-            const token = assets[i];
+    addAssetsDo() {
+        console.log('assets to be added=', this.assets);
+        const pin = this.pin;
+        const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
+        for (let i = 0; i < this.assets.length; i++) {
+            const token = this.assets[i];
             const type = token.type;
             const name = token.name;
             const symbol = token.symbol;
@@ -1372,18 +1370,37 @@ export class WalletDashboardComponent implements OnInit {
                 return;
             }
 
+            let baseCoin;
             for (let j = 0; j < this.wallet.mycoins.length; j++) {
                 if (this.wallet.mycoins[j].name === type) {
-                    const baseCoin = this.wallet.mycoins[j];
-                    const mytoken = this.coinServ.initToken(type, name, decimals, addr, baseCoin, symbol);
-                    mytoken.new = true;
-                    this.wallet.mycoins.push(mytoken);
+                    baseCoin = this.wallet.mycoins[j];
                     break;
                 }
             }
+
+            if(!baseCoin) {
+                baseCoin = this.coinServ.initCoin(seed, type);
+                console.log('baseCoin there we go=', baseCoin);
+                baseCoin.new = true;
+                this.wallet.mycoins.push(baseCoin);
+            }
+            const mytoken = this.coinServ.initToken(type, name, decimals, addr, baseCoin, symbol);
+            mytoken.new = true;
+            this.wallet.mycoins.push(mytoken);
         }
         this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
         this.alertServ.openSnackBar(this.translateServ.instant('Your asset was added successfully.'), this.translateServ.instant('Ok'));
+ 
+    }
+
+    onConfirmedAssets(assets: [Token]) {
+
+        this.assets = assets;
+
+        this.opType = 'addAssets';
+        this.pinModal.show();
+        /*
+       */
     }
 
     async depositFab(currentCoin) {
@@ -1447,12 +1464,12 @@ export class WalletDashboardComponent implements OnInit {
         }        
         const amount = this.sendCoinForm.amount;
 
-        if(environment.production) {
-            await this.loadBalance();
-            if(!this.checkAmount(this.sendCoinForm.amount, this.sendCoinForm.transFee, this.sendCoinForm.transFeeUnit)) {
-                return;
-            }
+        //if(environment.production) {
+        await this.loadBalance();
+        if(!this.checkAmount(this.sendCoinForm.amount, this.sendCoinForm.transFee, this.sendCoinForm.transFeeUnit)) {
+            return;
         }
+        //}
 
 
         const doSubmit = true;

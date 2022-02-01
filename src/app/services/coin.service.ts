@@ -106,7 +106,7 @@ export class CoinService {
     }
 
     async getEtherumCompatibleTokenBalance(chainName: string, smartContractAddress: string, address: string) {
-        return await this.apiService.getEtherumCompatibleTokenBalance(chainName, smartContractAddress, address);
+        return await this.apiService.getEthereumCompatibleTokenBalance(chainName, smartContractAddress, address);
 
     }
 
@@ -128,6 +128,12 @@ export class CoinService {
 
     addTxids(txids) {
         this.txids = this.txids.concat(txids);
+    }
+
+    initCoin(seed: Buffer, type: string) {
+        const coin = new MyCoin(type);
+        this.fillUpAddress(coin, seed, 1, 0);
+        return coin;
     }
 
     initMyCoins(seed: Buffer): MyCoin[] {
@@ -605,6 +611,15 @@ export class CoinService {
             const balanceObj = await this.apiService.getEthBalance(addr);
             balance = balanceObj.balance / 1e18;
             lockbalance = balanceObj.lockbalance / 1e18;
+        } else if(['MATIC', 'HT', 'BNB'].indexOf(name) >= 0) {  
+            const balanceObj = await this.apiService.getEthereumCompatibleBalance(name, addr);
+            console.log('balanceObj====', balanceObj);
+            balance = new BigNumber(balanceObj, 16).shiftedBy(-18).toNumber();
+            lockbalance = 0;     
+        } else if(['MATIC', 'HT', 'BNB'].indexOf(tokenType) >= 0) {  
+            const balanceObj = await this.apiService.getEthereumCompatibleTokenBalance(tokenType, contractAddr, addr);
+            balance = new BigNumber(balanceObj, 16).shiftedBy(-18).toNumber();
+            lockbalance = 0;                  
         } else if (name === 'BCH') {
             const balanceObj = await this.apiService.getBchBalance(addr);
             balance = balanceObj.balance / 1e18;
@@ -654,7 +669,7 @@ export class CoinService {
         return await this.apiService.getFabTransactionReceiptAsync(txid);
     }
     async getBalance(myCoin: MyCoin) {
-        // console.log('myCoin.name for getBalance=', myCoin);
+        console.log('myCoin.name for getBalance=', myCoin);
         let balance;
         let totalBalance = 0;
         let totalLockBalance = 0;
@@ -844,6 +859,7 @@ export class CoinService {
         } else
         if ((name === 'ETH') || (tokenType === 'ETH') 
         || (name == 'BNB') || (tokenType == 'BNB') 
+        || (name == 'HT') || (tokenType == 'HT') 
         || (name == 'MATIC') || (tokenType == 'MATIC')) {
 
                 const root = hdkey.fromMasterSeed(seed);
@@ -1964,7 +1980,6 @@ export class CoinService {
     async sendTransaction(mycoin: MyCoin, seed: Buffer, toAddress: string, amount: number,
         options: any, doSubmit: boolean) {
 
-        console.log('mycoin for sendTransaction=', mycoin);
         let index = 0;
         let finished = false;
         let address = '';
@@ -2640,7 +2655,7 @@ export class CoinService {
                     // console.log('444');
                 }
         
-            } else if(mycoin.name == 'BNB' || mycoin.name == 'MATIC') {
+            } else if(mycoin.name == 'BNB' || mycoin.name == 'MATIC' || mycoin.name == 'HT') {
                 if (!gasPrice) {
                     try {
                         gasPrice = await this.getEtheruemCompatibleGasprice(mycoin.name);
@@ -2690,7 +2705,7 @@ export class CoinService {
                     txHash = this.web3Serv.getTransactionHash(txHex);
                 }
             }
-            else if (mycoin.tokenType === 'BNB' || mycoin.tokenType == 'MATIC') { // etheruem tokens
+            else if (mycoin.tokenType === 'BNB' || mycoin.tokenType == 'MATIC' || mycoin.tokenType == 'HT') { // etheruem tokens
                 console.log('must go here');
                 const address1 = mycoin.receiveAdds[0];
                 if (!gasPrice) {
@@ -2723,7 +2738,7 @@ export class CoinService {
                 const amountSent = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, decimals)));
                 const toAccount = toAddress;
 
-                let contractAddress = environment.addresses.smartContract[mycoin.name][mycoin.tokenType];
+                let contractAddress = environment.addresses.smartContract[mycoin.name] ? environment.addresses.smartContract[mycoin.name][mycoin.tokenType] : '';
                 if (!contractAddress) {
                     contractAddress = mycoin.contractAddr;
                 }
@@ -2930,8 +2945,7 @@ export class CoinService {
     }
 
     fillUpAddress(mycoin: MyCoin, seed: Buffer, numReceiveAdds: number, numberChangeAdds: number) {
-        // console.log('fillUpAddress for MyCoin');
-        // console.log(mycoin);
+        console.log(mycoin);
         for (let i = 0; i < numReceiveAdds; i++) {
             const keyPair = this.getKeyPairs(mycoin, seed, 0, i);
             const addr = new Address(mycoin.coinType, keyPair.address, i);

@@ -107,6 +107,19 @@ export const environment = {
             gasLimit: 21000,
             gasLimitToken: 70000
         },
+        HT: {
+            chain: {
+                name: 'testnet',
+                networkId: 256,
+                chainId: 256
+            },
+            rpcEndpoint: 'https://http-testnet.hecochain.com',
+            hardfork: 'byzantium',
+            gasPrice: 5,
+            gasPriceMax: 20,
+            gasLimit: 21000,
+            gasLimitToken: 70000
+        },
         FAB: {
             network: Btc.networks.testnet,
             chain: {
@@ -171,6 +184,7 @@ export const environment = {
         BTC: 1,
         ETH: 60,
         BNB: 60,
+        HT: 60,
         MATIC: 60,
         FAB: 1150,
         BCH: 1,

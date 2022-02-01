@@ -52,18 +52,17 @@
                         </mat-tab>
                    
                         <mat-tab label="{{'Ethereum tokens'|translate}}">
-                            <!--
-                            <mat-selection-list #ethtokens (selectionChange)="onEthSelection($event, ethtokens.selectedOptions.selected)">
-                                <mat-list-option *ngFor="let token of ethTokens; let i = index" [value]="i+1">
 
-                                    {{token.name}}
-                                </mat-list-option>
-                                <mat-list-option value="0">
-                                    {{"Custom"| translate}}
-                                </mat-list-option>
-                            </mat-selection-list>
--->
                             <div *ngIf="showEthCustom">
+                                <mat-form-field appearance="fill" class="mt-3">
+                                  <mat-label>Chain</mat-label>
+                                  <select matNativeControl required formControlName="ethChain">
+                                    <option value="ETH">Ethereum</option>
+                                    <option value="BNB">Binance Smart Chain</option>
+                                    <option value="MATIC">Polygon</option>
+                                    <option value="HT">Heco Chain</option>
+                                  </select>
+                                </mat-form-field>
                                 <div class="form-group">
                                     <label for="inputSendTo" class="text-muted">{{"Contract Address"|translate}}</label>
                                     <input type="text" class="form-control" id="inputEthContractAddress" formControlName="ethContractAddress" aria-describedby="ethContractAddress" placeholder="">
@@ -82,15 +81,6 @@
                                 </div>
                             </div>
                         </mat-tab>
-                        <!--
-                        <mat-tab label="{{'Others'|translate}}">
-                            <mat-selection-list #others (selectionChange)="onOthersSelection($event, others.selectedOptions.selected)">
-                                <mat-list-option *ngFor="let other of otherCoins; let i = index" [value]="i+1">
-                                    {{other.name}}
-                                </mat-list-option>
-                            </mat-selection-list>
-                        </mat-tab>
-                        -->
                     </mat-tab-group>
                 </div>
 
@@ -103,58 +93,3 @@
         </form>
     </div>
 </div>
-<!--
-<a (click)="openModal(templateAddAssets)">Add Assets</a>
-<ng-template #templateAddAssets>
-        <div class="modal-header text-center">
-            <h4 class="modal-title w-100">Add Assets</h4>
-            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-        </div>
-        <div class="modal-body">
-            <form>
-                <div class="form-group">
-                    <label for="inputSendTo">Coin</label>
-                    <div class="row">
-                        <div class="col">
-                            <select class="form-control">
-                                <option>EXG</option>
-                                <option>BTC</option>
-                                <option>ETH</option>
-                                <option>USDT</option>
-                                <option>FAB</option>
-                            </select>
-                        </div>
-                        <div class="col">
-                            <select class="form-control">
-                                        <option>EXG</option>
-                                        <option>BTC</option>
-                                        <option>ETH</option>
-                                        <option>USDT</option>
-                                        <option>FAB</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputSendTo">Available</label>
-                    <input type="text" class="form-control" id="inputAvailable" aria-describedby="emailHelp" placeholder="0.0000">
-                </div>   
-                <div class="form-group">
-                        <label for="inputSendTo">Locked</label>
-                        <input type="text" class="form-control" id="inputFrozen" aria-describedby="emailHelp" placeholder="0.0000">
-                </div>     
-                <div class="form-group">
-                        <label for="inputSendTo">Value(USD)</label>
-                        <input type="text" class="form-control" id="inputValue" aria-describedby="emailHelp" placeholder="0.0000">
-                </div>   
-                <div class="form-group">
-                        <label for="inputSendTo">Profit sharing</label>
-                        <input type="text" class="form-control" id="inputProfitSharing" aria-describedby="emailHelp" placeholder="0.0000">
-                </div>                                                              
-                <button class="btn btn1 btn-gradient text-white" (click)="addAsset()">{{"Add" | translate }}</button>
-              </form>
-        </div>
-    </ng-template> 
--->

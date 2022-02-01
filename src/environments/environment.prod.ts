@@ -101,6 +101,19 @@ export const environment = {
             gasLimit: 21000,
             gasLimitToken: 70000
         },
+        HT: {
+            chain: {
+                name: 'mainnet',
+                networkId: 128,
+                chainId: 128
+            },
+            rpcEndpoint: 'https://http-mainnet.hecochain.com/',
+            hardfork: 'petersburg',
+            gasPrice: 5,
+            gasPriceMax: 20,
+            gasLimit: 21000,
+            gasLimitToken: 70000
+        },
         FAB: {
             network: Btc.networks.bitcoin,
             chain: {
@@ -162,6 +175,7 @@ export const environment = {
         BTC: 0,
         ETH: 60,
         BNB: 60,
+        HT: 60,
         MATIC: 60,
         FAB: 1150,
         BCH: 145,
