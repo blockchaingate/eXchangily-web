@@ -699,8 +699,10 @@ export class WalletDashboardComponent implements OnInit {
                             }
                             if (
                                 (item.coin === coin.name) || 
+                                ((item.coin === 'USDTB') && (coin.name ==='USDT') && (coin.tokenType === 'BNB')) ||
                                 ((item.coin === 'USDTX') && (coin.name ==='USDT') && (coin.tokenType === 'TRX')) ||
                                 ((item.coin === 'FABE') && (coin.name ==='FAB') && (coin.tokenType === 'ETH')) ||
+                                ((item.coin === 'FABB') && (coin.name ==='FAB') && (coin.tokenType === 'BNB')) ||
                                 ((item.coin === 'EXGE') && (coin.name ==='EXG') && (coin.tokenType === 'ETH')) ||
                                 ((item.coin === 'DSCE') && (coin.name ==='DSC') && (coin.tokenType === 'ETH')) ||
                                 ((item.coin === 'BSTE') && (coin.name ==='BST') && (coin.tokenType === 'ETH'))
@@ -1639,6 +1641,12 @@ export class WalletDashboardComponent implements OnInit {
         if(coinName == 'USDTX') {
             coinType = this.coinServ.getCoinTypeIdByName('USDT');
         } else
+        if(coinName == 'USDTB') {
+            coinType = this.coinServ.getCoinTypeIdByName('USDT');
+        } else
+        if(coinName == 'FABB') {
+            coinType = this.coinServ.getCoinTypeIdByName('FAB');
+        } else
         if(coinName == 'FABE') {
             coinType = this.coinServ.getCoinTypeIdByName('FAB');
         } else 
@@ -1857,6 +1865,7 @@ export class WalletDashboardComponent implements OnInit {
         const originalMessage = this.coinServ.getOriginalMessage(updatedCoinType, this.utilServ.stripHexPrefix(txHash)
             , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
 
+        console.log('originalMessage===', originalMessage);
         const signedMessage: Signature = await this.coinServ.signedMessage(originalMessage, keyPairs);
 
 
