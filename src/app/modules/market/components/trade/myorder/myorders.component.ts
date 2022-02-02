@@ -58,8 +58,10 @@ export class MyordersComponent implements OnInit, OnDestroy {
     _chain: string;
     set  chain(val: string) {
         this._chain = val;
-        if(val && this.coinName == 'USDT') {
-            this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+        if(val) {
+            if(['USDT', 'FAB'].indexOf(this.coinName) >= 0) {
+                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+            }
         }
         
     }

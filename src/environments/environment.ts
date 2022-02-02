@@ -356,12 +356,14 @@ export const environment = {
         BTC: 0.002,
         FAB: {
             FAB: 50,
-            ETH: 100
+            ETH: 100,
+            BNB: 2
         },
         ETH: 0.01,
         USDT: {
             ETH: 10,
-            TRX: 0.2
+            TRX: 0.2,
+            BNB: 2
         },
         TRX: 0.2,
         DUSD: 10,
