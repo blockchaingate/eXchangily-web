@@ -532,7 +532,7 @@ export class WalletDashboardComponent implements OnInit {
 
     }
 
-    async loadBalance() {
+    async loadBalance(includeNew: boolean = true) {
         this.walletUpdateToDate = false;
         // console.log('this.coinsPrice=');
         // console.log(this.coinsPrice);
@@ -594,7 +594,7 @@ export class WalletDashboardComponent implements OnInit {
 
             }
 
-            if(coin.new) {
+            if(coin.new && !includeNew) {
                 try {
                     const balance = await this.coinServ.getBalance(coin);
                     coin.balance = balance.balance;
@@ -1498,7 +1498,7 @@ export class WalletDashboardComponent implements OnInit {
         const amount = this.sendCoinForm.amount;
 
         //if(environment.production) {
-        await this.loadBalance();
+        await this.loadBalance(false);
         if(!this.checkAmount(this.sendCoinForm.amount, this.sendCoinForm.transFee, this.sendCoinForm.transFeeUnit)) {
             return;
         }
@@ -1741,7 +1741,7 @@ export class WalletDashboardComponent implements OnInit {
     }
 
     async depositdo() {
-        await this.loadBalance();
+        await this.loadBalance(false);
         if(!this.checkAmount(this.amountForm.amount, this.amountForm.transFee, this.amountForm.tranFeeUnit)) {
             return;
         }
