@@ -594,7 +594,7 @@ export class WalletDashboardComponent implements OnInit {
 
             }
 
-            if(coin.new && !includeNew) {
+            if((coin.new && includeNew) || (coin.name == 'MATIC') || (coin.tokenType == 'MATIC')) {
                 try {
                     const balance = await this.coinServ.getBalance(coin);
                     coin.balance = balance.balance;
@@ -650,9 +650,10 @@ export class WalletDashboardComponent implements OnInit {
                         const coin = this.wallet.mycoins[j];   
                         
 
-                        if(coin.new) {
+                        if(coin.new || (coin.name == 'MATIC') || (coin.tokenType == 'MATIC')) {
                             continue;
                         }
+
                         if (coin.name === 'DRGN') {
                             hasDRGN = true;
                         }
@@ -693,7 +694,6 @@ export class WalletDashboardComponent implements OnInit {
 
                         for (let i = 0; i < resBody.length; i++) {
                             const item = resBody[i];
-
                             if(item.coin == 'FAB') {
                                 this.fabBalance = item.balance;
                             }
