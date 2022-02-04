@@ -1389,7 +1389,7 @@ export class WalletDashboardComponent implements OnInit {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         for (let i = 0; i < this.assets.length; i++) {
             const token = this.assets[i];
-            const type = token.type;
+            const type = token.type || 'ETH';
             const name = token.name;
             const symbol = token.symbol;
             const addr = token.address;
