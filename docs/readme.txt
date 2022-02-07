@@ -1,4 +1,13 @@
-379eb8621b0000000000000000000000000000000000000000000000000000030002000063968ab0b5f84ada4a76013bec3f08a244fab2a4c504dd37409da99f8c174e1400000000000000000000000000000000000000000000003635c9adc5dea00000000000000000000000000000dcd0f23125f74ef621dfa3310625f8af0dcd971b86c2b0528c4e869492a6d52ee0362c4ed01d830b318cccabb5d78dd503c62782070fc1151ba412f606e9c54011992c1ce631548cad82d59f91ded689443046d4
+
+USDT
+(BEP20)
+19995560
+19995560
+
+FAB
+(BEP20)
+299999999999983763
+212699999999988450
 
 
 
@@ -79,6 +88,7 @@ raven cabin cute bachelor mail broken diet night hurry alley bus gauge //Rinkeby
 dune stem onion cliff equip seek kiwi salute area elegant atom injury
 tortoise cry hello tail taste goose rural fringe destroy next age tray
 
+new: dignity swing wine hub ankle broom cloud fiction side thank pony grass
 
 polygon: layer shoe duck kind bachelor chimney lazy rug exchange rose imitate health
 uint8Array not defined

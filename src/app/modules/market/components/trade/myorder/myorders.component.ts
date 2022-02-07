@@ -505,7 +505,15 @@ export class MyordersComponent implements OnInit, OnDestroy {
                     this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
                 }
                 return;                
-            }            
+            }    
+            if(this.chain == 'BNB' && (!this.bnbUSDTTSBalance || (amount > this.bnbUSDTTSBalance))) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;                
+            }           
         }
 
         if(this.coinName == 'FAB') {
@@ -519,6 +527,14 @@ export class MyordersComponent implements OnInit, OnDestroy {
             }
 
             if(this.chain == 'ETH' && (!this.ethFABTSBalance || (amount > this.ethFABTSBalance))) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;                
+            }    
+            if(this.chain == 'BNB' && (!this.bnbFABTSBalance || (amount > this.bnbFABTSBalance))) {
                 if (this.lan === 'zh') {
                     this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
                 } else {
