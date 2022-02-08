@@ -594,7 +594,7 @@ export class WalletDashboardComponent implements OnInit {
 
             }
 
-            if((coin.new && includeNew) || (coin.name == 'MATIC') || (coin.tokenType == 'MATIC')) {
+            if(coin.new && includeNew) {
                 try {
                     const balance = await this.coinServ.getBalance(coin);
                     coin.balance = balance.balance;
@@ -650,7 +650,7 @@ export class WalletDashboardComponent implements OnInit {
                         const coin = this.wallet.mycoins[j];   
                         
 
-                        if(coin.new || (coin.name == 'MATIC') || (coin.tokenType == 'MATIC')) {
+                        if(coin.new) {
                             continue;
                         }
 
@@ -699,6 +699,7 @@ export class WalletDashboardComponent implements OnInit {
                             }
                             if (
                                 (item.coin === coin.name) || 
+                                ((item.coin === 'MATICM') && (coin.name ==='MATIC') && !coin.tokenType)||
                                 ((item.coin === 'USDTB') && (coin.name ==='USDT') && (coin.tokenType === 'BNB')) ||
                                 ((item.coin === 'USDTX') && (coin.name ==='USDT') && (coin.tokenType === 'TRX')) ||
                                 ((item.coin === 'FABE') && (coin.name ==='FAB') && (coin.tokenType === 'ETH')) ||
@@ -1658,7 +1659,12 @@ export class WalletDashboardComponent implements OnInit {
         } else 
         if(coinName == 'BSTE') {
             coinType = this.coinServ.getCoinTypeIdByName('BST');
+        } 
+        else
+        if(coinName == 'MATICM') {
+            coinType = this.coinServ.getCoinTypeIdByName('MATIC');
         }
+
 
         let currentCoin = this.currentCoin;
         /*
@@ -1753,8 +1759,9 @@ export class WalletDashboardComponent implements OnInit {
         const amount = this.amountForm.amount;
         const pin = this.pin;
 
-        const coinType = this.coinServ.getCoinTypeIdByName(currentCoin.name);
-
+        let coinName = currentCoin.name;
+        const coinType = this.coinServ.getCoinTypeIdByName(coinName);
+        
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         if (!seed) {
             this.warnPwdErr();

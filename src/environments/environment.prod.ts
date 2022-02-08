@@ -285,6 +285,7 @@ export const environment = {
         BTC: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
         ETH: '0x4983f8634255762A18D854790E6d35A522E2633a', 
         BNB: '0x4983f8634255762A18D854790E6d35A522E2633a', 
+        MATIC: '0x4983f8634255762A18D854790E6d35A522E2633a', 
         BCH: 'bitcoincash:qznusftmq4cac0fuj6eyke5vv45njxe6eyafcld37l',
         LTC: 'LaX6sfX8RoHbQHNDEBmdzyBMN9vFa95FXL',
         DOGE: 'DLSF9i9weYwpgUrendmuGiHC35HGoHuvR9',   

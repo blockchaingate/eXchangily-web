@@ -1605,6 +1605,11 @@ export class CoinService {
             if (coin.tokenType === 'FAB') {
                 prefix = 2;
             }          
+        } else 
+        if(coin.name == 'MATIC') {
+            if(!coin.tokenType) {
+                prefix = 9;
+            }
         }
         
         return prefix;
@@ -1633,6 +1638,9 @@ export class CoinService {
         } else 
         if (name === 'BST' && tokenType === 'ETH') {
             name = 'BSTE';
+        } else
+        if (name === 'MATIC' && !tokenType) {
+            name = 'MATICM'
         }
         for (let i = 0; i < coin_list.length; i++) {
             const coin2 = coin_list[i];
