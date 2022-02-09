@@ -398,7 +398,10 @@ export const environment = {
         REP: 0.8 * 2,
         HOT: 16000 * 2,
         CEL: 40 * 2,
-        MATIC: 500 * 2,
+        MATIC: {
+            ETH:500 * 2,
+            MATIC: 0.004
+        },
         IOST: 2000 * 2,
         MANA: 240 * 2,
         FUN: 3000 * 2,
