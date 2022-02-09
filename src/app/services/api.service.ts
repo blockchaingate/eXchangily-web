@@ -693,6 +693,7 @@ export class ApiService {
         };
         const response = await this.http.post(url, data).toPromise() as JsonResult;
         const result = response.result;
+        console.log('result===', result);
         return result;
         /*
         const url = environment.endpoints.ETH.exchangily + 'getbalance/' + address;

@@ -208,7 +208,6 @@
                 <span *ngIf="chain == 'ETH'">{{ethUSDTTSBalance?ethUSDTTSBalance:'NA'}}</span>
                 <span *ngIf="chain == 'BNB'">{{bnbUSDTTSBalance?bnbUSDTTSBalance:'NA'}}</span>
             </div>
-
         </div>
 
         
@@ -229,7 +228,22 @@
                     <span *ngIf="chain == 'BNB'">{{bnbFABTSBalance?bnbFABTSBalance:'NA'}}</span>
                 </div>
         </div>
-            
+         
+        <div *ngIf="coinName == 'MATIC'">
+            <div>
+                <mat-radio-group aria-label="Select an option" [(ngModel)]="chain">
+                    <mat-radio-button value="MATIC">{{'Polygon Chain' | translate}}</mat-radio-button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <mat-radio-button value="ETH">ERC20</mat-radio-button>
+                  </mat-radio-group>
+            </div>
+            <div>
+                {{'TS Wallet Balance' | translate}}: 
+                <span *ngIf="chain == 'MATIC'">{{maticTSBalance?maticTSBalance:'NA'}}</span>
+                <span *ngIf="chain == 'ETH'">{{ethMATICTSBalance?ethMATICTSBalance:'NA'}}</span>
+            </div>
+    </div>        
+
         <div *ngIf="(coinName == 'EXG') || (coinName == 'DSC') || (coinName == 'BST')">
                 <div>
                     <mat-radio-group aria-label="Select an option" [(ngModel)]="chain">
