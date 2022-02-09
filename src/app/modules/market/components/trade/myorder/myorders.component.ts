@@ -213,11 +213,13 @@ export class MyordersComponent implements OnInit, OnDestroy {
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             currentCoin = this.wallet.mycoins[i];
             if (
-                ((this.coinName != 'USDT') && (this.coinName != 'FAB') && (['EXG', 'DSC', 'BST'].indexOf(this.coinName) < 0) && (currentCoin.name === this.coinName))
+                ((this.coinName != 'USDT') && (this.coinName != 'FAB') && (['EXG', 'DSC', 'BST', 'MATIC'].indexOf(this.coinName) < 0) && (currentCoin.name === this.coinName))
                 ||
                 (this.coinName == 'USDT' && (currentCoin.name === this.coinName) && currentCoin.tokenType == this.chain)
                 ||
                 (this.coinName == 'MATIC' && (currentCoin.name === this.coinName) && !currentCoin.tokenType && this.chain == 'MATIC')
+                ||
+                (this.coinName == 'MATIC' && (currentCoin.name === this.coinName) && currentCoin.tokenType == 'ETH' && this.chain == 'ETH')
                 ||
                 (this.coinName == 'FAB' && (currentCoin.name === this.coinName) && !currentCoin.tokenType && (this.chain == 'FAB'))
                 ||
