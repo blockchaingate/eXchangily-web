@@ -93,7 +93,6 @@ export class BindpayComponent  implements OnInit{
         console.log('this.token not found');
         return;
     }
-    console.log(this.utilServ.toNumber(this.utilServ.showAmount(this.token.unlockedAmount, 18)));
     if (this.amount > this.utilServ.toNumber(this.utilServ.showAmount(this.token.unlockedAmount, 18))) {
         this.alertServ.openSnackBar(this.translateServ.instant('Not enough balance'), this.translateServ.instant('Ok'));
 

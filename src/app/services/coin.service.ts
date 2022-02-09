@@ -74,6 +74,11 @@ export class CoinService {
         return new BigNumber(gasPrice).dividedBy(new BigNumber(1e9)).toNumber();
     }
 
+    async getEtheruemCompatibleGasprice(coinName: string) {
+        const gasPrice = await this.apiService.getEtheruemCompatibleGasPrice(coinName);
+        return new BigNumber(gasPrice).dividedBy(new BigNumber(1e9)).toNumber();
+    }
+
     async getTrxTokenBalance(smartContractAddress: string, address: string) {
         
 
@@ -100,6 +105,11 @@ export class CoinService {
         return -1;
     }
 
+    async getEtherumCompatibleTokenBalance(chainName: string, smartContractAddress: string, address: string) {
+        return await this.apiService.getEthereumCompatibleTokenBalance(chainName, smartContractAddress, address);
+
+    }
+
     initToken(type: string, name: string, decimals: number, address: string, baseCoin: MyCoin, symbol?: string) {
         const coin = new MyCoin(name);
         if(symbol) {
@@ -118,6 +128,12 @@ export class CoinService {
 
     addTxids(txids) {
         this.txids = this.txids.concat(txids);
+    }
+
+    initCoin(seed: Buffer, type: string) {
+        const coin = new MyCoin(type);
+        this.fillUpAddress(coin, seed, 1, 0);
+        return coin;
     }
 
     initMyCoins(seed: Buffer): MyCoin[] {
@@ -143,6 +159,26 @@ export class CoinService {
         const trxCoin = new MyCoin('TRX');
         this.fillUpAddress(trxCoin, seed, 1, 0);
         myCoins.push(trxCoin);
+
+        const bnbCoin = new MyCoin('BNB');
+        this.fillUpAddress(bnbCoin, seed, 1, 0);
+        myCoins.push(bnbCoin);
+
+        const usdtBNBCoin = this.initToken('BNB', 'USDT', 18, environment.addresses.smartContract.USDT.BNB, bnbCoin);
+        this.fillUpAddress(usdtBNBCoin, seed, 1, 0);
+        myCoins.push(usdtBNBCoin);  
+
+        const fabBNBCoin = this.initToken('BNB', 'FAB', 8, environment.addresses.smartContract.FAB.BNB, bnbCoin);
+        this.fillUpAddress(fabBNBCoin, seed, 1, 0);
+        myCoins.push(fabBNBCoin);  
+
+        const maticCoin = new MyCoin('MATIC');
+        this.fillUpAddress(maticCoin, seed, 1, 0);
+        myCoins.push(maticCoin);
+
+        const ixtMATICCoin = this.initToken('MATIC', 'IXT', 18, environment.addresses.smartContract.IXT.MATIC, maticCoin);
+        this.fillUpAddress(ixtMATICCoin, seed, 1, 0);
+        myCoins.push(ixtMATICCoin);  
 
         const usdtTRXCoin = this.initToken('TRX', 'USDT', 6, environment.addresses.smartContract.USDT.TRX, trxCoin);
         this.fillUpAddress(usdtTRXCoin, seed, 1, 0);
@@ -575,6 +611,15 @@ export class CoinService {
             const balanceObj = await this.apiService.getEthBalance(addr);
             balance = balanceObj.balance / 1e18;
             lockbalance = balanceObj.lockbalance / 1e18;
+        } else if(['MATIC', 'HT', 'BNB'].indexOf(name) >= 0) {  
+            const balanceObj = await this.apiService.getEthereumCompatibleBalance(name, addr);
+            console.log('balanceObj====', balanceObj);
+            balance = new BigNumber(balanceObj, 16).shiftedBy(-18).toNumber();
+            lockbalance = 0;     
+        } else if(['MATIC', 'HT', 'BNB'].indexOf(tokenType) >= 0) {  
+            const balanceObj = await this.apiService.getEthereumCompatibleTokenBalance(tokenType, contractAddr, addr);
+            balance = new BigNumber(balanceObj, 16).shiftedBy(-18).toNumber();
+            lockbalance = 0;                  
         } else if (name === 'BCH') {
             const balanceObj = await this.apiService.getBchBalance(addr);
             balance = balanceObj.balance / 1e18;
@@ -588,22 +633,18 @@ export class CoinService {
                 decimals = 18;
             }
             const balanceObj = await this.apiService.getEthTokenBalance(name, contractAddr, addr);
-            // console.log('balanceObj=', balanceObj);
             balance = balanceObj.balance / Math.pow(10, decimals);
             lockbalance = balanceObj.lockbalance / Math.pow(10, decimals);
         } else if (tokenType === 'FAB') {
-            console.log('haha');
             if (addr.indexOf('0x') < 0) {
                 addr = this.utilServ.fabToExgAddress(addr);
             }
             let balanceObj;
-            console.log('name=', name);
             if (name === 'EXG') {
                 balanceObj = await this.apiService.getExgBalance(addr);
             } else {
                 balanceObj = await this.apiService.getFabTokenBalance(name, addr, contractAddr);
             }
-            console.log('balanceObj=', balanceObj);
             if(decimals && Number(decimals) >= 0) {
                 balance = balanceObj.balance / Math.pow(10, decimals);
                 lockbalance = balanceObj.lockbalance / Math.pow(10, decimals);
@@ -628,7 +669,7 @@ export class CoinService {
         return await this.apiService.getFabTransactionReceiptAsync(txid);
     }
     async getBalance(myCoin: MyCoin) {
-        // console.log('myCoin.name for getBalance=', myCoin);
+        console.log('myCoin.name for getBalance=', myCoin);
         let balance;
         let totalBalance = 0;
         let totalLockBalance = 0;
@@ -655,9 +696,7 @@ export class CoinService {
             const addr = myCoin.receiveAdds[i].address;
 
             const decimals = myCoin.decimals;
-            console.log('go get it');
             balance = await this.getBlanceByAddress(tokenType, contractAddr, coinName, addr, decimals);
-            console.log('balancesssss=', balance);
             myCoin.receiveAdds[i].balance = balance.balance;
             totalBalance += balance.balance;
             myCoin.receiveAdds[i].lockedBalance = balance.lockbalance;
@@ -728,6 +767,13 @@ export class CoinService {
         };
 
         return keyPairs;        
+    }
+
+    getFabPrivateKey(seed) {
+        const path = 'm/44\'/' + 1150 + '\'/0\'/' + 0 + '/' + 0;
+        const root2 = BIP32.fromSeed(seed, environment.chains['FAB']['network']);
+        const childNode = root2.derivePath(path);
+        return childNode.privateKey;
     }
 
     getKeyPairs(coin: MyCoin, seed: Buffer, chain: number, index: number) {
@@ -811,7 +857,10 @@ export class CoinService {
                  addrHash = json.hash;                
             }
         } else
-        if (name === 'ETH' || tokenType === 'ETH') {
+        if ((name === 'ETH') || (tokenType === 'ETH') 
+        || (name == 'BNB') || (tokenType == 'BNB') 
+        || (name == 'HT') || (tokenType == 'HT') 
+        || (name == 'MATIC') || (tokenType == 'MATIC')) {
 
                 const root = hdkey.fromMasterSeed(seed);
                 const childNode = root.derivePath(path);
@@ -925,6 +974,9 @@ export class CoinService {
             // console.log('signature in signed is ');
             // console.log(signature);
         } else 
+        if(name == 'BNB' || tokenType === 'BNB' || name == 'MATIC' || tokenType === 'MATIC' ) {
+            signature = this.web3Serv.signEtheruemCompatibleMessageWithPrivateKey(originalMessage, keyPair) as Signature;
+        } else
         if (name === 'TRX' || tokenType === 'TRX') {
             const priKeyDisp = keyPair.privateKey.toString('hex'); 
             signature = this.signStringTron(originalMessage, priKeyDisp);
@@ -1534,11 +1586,17 @@ export class CoinService {
             if (coin.tokenType === 'TRX') {
                 prefix = 7;
             }
+            if (coin.tokenType === 'BNB') {
+                prefix = 8;
+            }            
         } else 
         if (coin.name === 'FAB') {
             if (coin.tokenType === 'ETH') {
                 prefix = 3;
-            }             
+            }    
+            if (coin.tokenType === 'BNB') {
+                prefix = 8;
+            }          
         } else
         if (['EXG', 'DSC', 'BST'].indexOf(coin.name) >= 0) {
             if (coin.tokenType === 'ETH') {
@@ -1547,6 +1605,11 @@ export class CoinService {
             if (coin.tokenType === 'FAB') {
                 prefix = 2;
             }          
+        } else 
+        if(coin.name == 'MATIC') {
+            if(!coin.tokenType) {
+                prefix = 9;
+            }
         }
         
         return prefix;
@@ -1558,8 +1621,14 @@ export class CoinService {
         if (name === 'USDT' && tokenType === 'TRX') {
             name = 'USDTX';
         } else 
+        if (name === 'USDT' && tokenType === 'BNB') {
+            name = 'USDTB';
+        } else 
         if (name === 'FAB' && tokenType === 'ETH') {
             name = 'FABE';
+        } else 
+        if (name === 'FAB' && tokenType === 'BNB') {
+            name = 'FABB';
         } else 
         if (name === 'EXG' && tokenType === 'ETH') {
             name = 'EXGE';
@@ -1569,6 +1638,9 @@ export class CoinService {
         } else 
         if (name === 'BST' && tokenType === 'ETH') {
             name = 'BSTE';
+        } else
+        if (name === 'MATIC' && !tokenType) {
+            name = 'MATICM'
         }
         for (let i = 0; i < coin_list.length; i++) {
             const coin2 = coin_list[i];
@@ -1955,7 +2027,6 @@ export class CoinService {
                 getTransFeeOnly = options.getTransFeeOnly;
             }
         }
-        console.log('satoshisPerBytes=', satoshisPerBytes);
         const receiveAddsIndexArr = [];
         const changeAddsIndexArr = [];
 
@@ -1966,16 +2037,11 @@ export class CoinService {
         let amountNum = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, this.utilServ.getDecimal(mycoin))));
         // it's for all coins.
         amountNum = amountNum.plus((2 * 34) * satoshisPerBytes);
-        console.log('amountNum=', amountNum.toString());
         // 2 output
         // console.log('toAddress=' + toAddress + ',amount=' + amount + ',amountNum=' + amountNum);
 
         if (mycoin.name === 'BTC' || mycoin.name === 'LTC' || mycoin.name === 'DOGE') { // btc address format
-            /*
-            if (mycoin.name === 'BCH') {
-                toAddress = bchaddr.toLegacyAddress(toAddress);
-            }
-            */
+
             if (!satoshisPerBytes) {
                 satoshisPerBytes = environment.chains[mycoin.name].satoshisPerBytes;
             }
@@ -1986,18 +2052,11 @@ export class CoinService {
             const txb = new Btc.TransactionBuilder(BtcNetwork);
 
             for (index = 0; index < mycoin.receiveAdds.length; index++) {
-                /*
-                balance = mycoin.receiveAdds[index].balance;
-                if (balance <= 0) {
-                    continue;
-                }
-                */
+
                 address = mycoin.receiveAdds[index].address;
                 const balanceFull = await this.apiService.getUtxos(mycoin.name, address);
                 for (let i = 0; i < balanceFull.length; i++) {
                     const tx = balanceFull[i];
-                    // console.log('i=' + i);
-                    // console.log(tx);
                     if (tx.idx < 0) {
                         continue;
                     }
@@ -2445,18 +2504,24 @@ export class CoinService {
             } catch (error) {
                 console.error('trigger smart contract error', error);
             }            
-        } else if (mycoin.name === 'ETH') {
+        } 
+        else if (mycoin.name === 'ETH') {
                 if (!gasPrice) {
-                    gasPrice = environment.chains.ETH.gasPrice;
+                    try {
+                        gasPrice = await this.getEthGasprice();
+                    } catch(e) {}
+                    if(!gasPrice) {
+                        gasPrice = environment.chains.ETH.gasPrice;;
+                    }
+
                 }
                 if (!gasLimit) {
                     gasLimit = environment.chains.ETH.gasLimit;
                 }
-                transFee = Number(new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toFixed(6));
+                transFee = Number(new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber());
                 if (getTransFeeOnly) {
                     return { txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids };
                 }
-                // amountNum = amount * 1e18;
                 amountNum = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, 18)));
                 const address1 = mycoin.receiveAdds[0];
                 const currentIndex = address1.index;
@@ -2467,7 +2532,6 @@ export class CoinService {
 
                 amountInTx = amountNum;
 
-                console.log('amountNum.toString(16)==', amountNum.toString(16));
                 const txParams = {
                     nonce: nonce,
                     gasPrice: gasPriceFinal,
@@ -2476,26 +2540,31 @@ export class CoinService {
                     value: '0x' + amountNum.toString(16)
                 };
 
-                // console.log('txParams=', txParams);
                 txHex = await this.web3Serv.signTxWithPrivateKey(txParams, keyPair);
 
-                // console.log('txhex for etheruem:', txHex);
                 if (doSubmit) {
                     const retEth = await this.apiService.postEthTx(txHex);
                     txHash = retEth.txHash;
                     errMsg = retEth.errMsg;
-                    if (txHash.indexOf('txerError') >= 0) {
+                    if (txHash && txHash.indexOf('txerError') >= 0) {
                         errMsg = txHash;
                         txHash = '';
                     }
                 } else {
                     txHash = this.web3Serv.getTransactionHash(txHex);
                 }
-        } else if (mycoin.tokenType === 'ETH') { // etheruem tokens
-            console.log('mycoin.tokenType === ETH');
+        } 
+        else if (mycoin.tokenType === 'ETH') { // etheruem tokens
+
                 const address1 = mycoin.receiveAdds[0];
                 if (!gasPrice) {
-                    gasPrice = environment.chains.ETH.gasPrice;
+                    try {
+                        gasPrice = await this.getEthGasprice();
+                    } catch(e) {}
+                    if(!gasPrice) {
+                        gasPrice = environment.chains.ETH.gasPrice;;
+                    }
+
                 }
                 if (!gasLimit) {
                     gasLimit = environment.chains.ETH.gasLimitToken;
@@ -2584,7 +2653,7 @@ export class CoinService {
                     txHash = retEth.txHash;
                     errMsg = retEth.errMsg;
 
-                    if (txHash.indexOf('txerError') >= 0) {
+                    if (txHash && txHash.indexOf('txerError') >= 0) {
                         errMsg = txHash;
                         txHash = '';
                     }
@@ -2593,7 +2662,158 @@ export class CoinService {
                     txHash = this.web3Serv.getTransactionHash(txHex);
                     // console.log('444');
                 }
-        } else if (mycoin.tokenType === 'FAB') { // fab tokens
+        
+            } else if(mycoin.name == 'BNB' || mycoin.name == 'MATIC' || mycoin.name == 'HT') {
+                if (!gasPrice) {
+                    try {
+                        gasPrice = await this.getEtheruemCompatibleGasprice(mycoin.name);
+                    } catch(e) {}
+                    if(!gasPrice) {
+                        gasPrice = environment.chains[mycoin.name].gasPrice;
+                    }
+                }
+                if (!gasLimit) {
+                    gasLimit = environment.chains[mycoin.name].gasLimit;
+                }
+                transFee = Number(new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber());
+                if (getTransFeeOnly) {
+                    return { txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids };
+                }
+                amountNum = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, 18)));
+                const address1 = mycoin.receiveAdds[0];
+                const currentIndex = address1.index;
+
+                const keyPair = this.getKeyPairs(mycoin, seed, 0, currentIndex);
+                const nonce = await this.apiService.getEtheruemCampatibleNonce(mycoin.name, address1.address);
+                const gasPriceFinal = new BigNumber(gasPrice).multipliedBy(new BigNumber(1e9)).toNumber();
+
+                amountInTx = amountNum;
+
+                const txParams = {
+                    nonce: nonce,
+                    gasPrice: gasPriceFinal,
+                    gasLimit: gasLimit,
+                    to: toAddress,
+                    value: '0x' + amountNum.toString(16)
+                };
+
+                txHex = await this.web3Serv.signEtheruemCompatibleTxWithPrivateKey(mycoin.name,txParams, keyPair);
+
+                console.log('txHex for BNB tokens:', txHex);
+                if (doSubmit) {
+                    const retBnb = await this.apiService.postEtheruemCompatibleTx(mycoin.name,txHex);
+                    console.log('retBnb===', retBnb);
+                    txHash = retBnb.txHash;
+                    errMsg = retBnb.errMsg;
+                    if (txHash && txHash.indexOf('txerError') >= 0) {
+                        errMsg = txHash;
+                        txHash = '';
+                    }
+                } else {
+                    txHash = this.web3Serv.getTransactionHash(txHex);
+                }
+            }
+            else if (mycoin.tokenType === 'BNB' || mycoin.tokenType == 'MATIC' || mycoin.tokenType == 'HT') { // etheruem tokens
+                console.log('must go here');
+                const address1 = mycoin.receiveAdds[0];
+                if (!gasPrice) {
+                    try {
+                        gasPrice = await this.getEtheruemCompatibleGasprice(mycoin.tokenType);
+                    } catch(e) {}
+                    if(!gasPrice) {
+                        gasPrice = environment.chains[mycoin.tokenType].gasPrice;
+                    }
+                }
+                if (!gasLimit) {
+                    gasLimit = environment.chains[mycoin.tokenType].gasLimitToken;
+                }
+                transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
+                if (getTransFeeOnly) {
+                    return { txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids };
+                }
+                const currentIndex = address1.index;
+                // console.log('currentIndex=' + currentIndex);
+                const keyPair = this.getKeyPairs(mycoin, seed, 0, currentIndex);
+                const nonce = await this.apiService.getEtheruemCampatibleNonce(mycoin.tokenType, address1.address);
+
+                let decimals = mycoin.decimals;
+
+                if (!decimals) {
+                    decimals = 18;
+                }
+                console.log('decimals112===', decimals);
+                // const amountSent = amount * Math.pow(10, decimals);
+                const amountSent = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, decimals)));
+                const toAccount = toAddress;
+
+                let contractAddress = environment.addresses.smartContract[mycoin.name] ? environment.addresses.smartContract[mycoin.name][mycoin.tokenType] : '';
+                if (!contractAddress) {
+                    contractAddress = mycoin.contractAddr;
+                }
+
+               console.log('contractAddresscontractAddresscontractAddress=', contractAddress);
+                // console.log('nonce = ' + nonce);
+                const func = {
+                    'constant': false,
+                    'inputs': [
+                        {
+                            'name': 'recipient',
+                            'type': 'address'
+                        },
+                        {
+                            'name': 'amount',
+                            'type': 'uint256'
+                        }
+                    ],
+                    'name': 'transfer',
+                    'outputs': [
+                        {
+                            'name': '',
+                            'type': 'bool'
+                        }
+                    ],
+                    'payable': false,
+                    'stateMutability': 'nonpayable',
+                    'type': 'function'
+                };
+
+                const abiHex = this.web3Serv.getFuncABI(func);
+                // a9059cbb
+                // console.log('abiHexxx=' + abiHex);
+                const gasPriceFinal = new BigNumber(gasPrice).multipliedBy(new BigNumber(1e9)).toNumber();
+
+                amountInTx = amountSent;
+                const txData = {
+                    nonce: nonce,
+                    gasPrice: gasPriceFinal,
+                    gasLimit: gasLimit,
+                    // to: contractAddress,
+                    from: keyPair.address,
+                    value: Number(0),
+                    to: contractAddress,
+                    data: '0x' + abiHex + this.utilServ.fixedLengh(toAccount.slice(2), 64) +
+                        this.utilServ.fixedLengh(amountSent.toString(16), 64)
+                };
+                txHex = await this.web3Serv.signEtheruemCompatibleTxWithPrivateKey(mycoin.tokenType, txData, keyPair);
+                // console.log('after sign');
+                if (doSubmit) {
+                    // console.log('111');
+                    const retEth = await this.apiService.postEtheruemCompatibleTx(mycoin.tokenType,txHex);
+                    txHash = retEth.txHash;
+                    errMsg = retEth.errMsg;
+
+                    if (txHash && txHash.indexOf('txerError') >= 0) {
+                        errMsg = txHash;
+                        txHash = '';
+                    }
+                } else {
+                    // console.log('333');
+                    txHash = this.web3Serv.getTransactionHash(txHex);
+                    // console.log('444');
+                }
+        
+            } 
+            else if (mycoin.tokenType === 'FAB') { // fab tokens
                 console.log('satoshisPerBytesgggg=', satoshisPerBytes);
                 if (!gasPrice) {
                     gasPrice = environment.chains.FAB.gasPrice;
@@ -2733,8 +2953,7 @@ export class CoinService {
     }
 
     fillUpAddress(mycoin: MyCoin, seed: Buffer, numReceiveAdds: number, numberChangeAdds: number) {
-        // console.log('fillUpAddress for MyCoin');
-        // console.log(mycoin);
+        console.log(mycoin);
         for (let i = 0; i < numReceiveAdds; i++) {
             const keyPair = this.getKeyPairs(mycoin, seed, 0, i);
             const addr = new Address(mycoin.coinType, keyPair.address, i);

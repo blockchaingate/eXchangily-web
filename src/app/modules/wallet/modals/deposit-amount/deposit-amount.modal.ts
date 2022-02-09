@@ -112,12 +112,11 @@ export class DepositAmountModal {
                     // const gasLimit = environment.chains.ETH.gasLimit;
                     const gasPrice = this.depositAmountForm.get('gasPrice').value ? Number(this.depositAmountForm.get('gasPrice').value) : environment.chains.ETH.gasPrice;
                     const gasLimit = this.depositAmountForm.get('gasLimit').value ? Number(this.depositAmountForm.get('gasLimit').value) : environment.chains.ETH.gasLimit;
-                    const transFeeDouble = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
-                    let transOut = balance - transFeeDouble;
+                    const transFeeDouble = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).shiftedBy(-9).toNumber();
+                    let transOut = new BigNumber(balance).minus(new BigNumber(transFeeDouble)).toNumber();
                     if (transOut <= 0) {
                         return;
                     }
-                    transOut = Number(transOut.toFixed(8));
                     this.depositAmountForm.patchValue({ 'depositAmount': transOut });
                     this.onTextChange(transOut);
                 } else
@@ -151,7 +150,7 @@ export class DepositAmountModal {
         if (this.firstTime && this.coin) {
             if ((this.coin.name === 'ETH') || (this.coin.tokenType === 'ETH')) {
                 let gasPrice = await this.coinServ.getEthGasprice();
-                if (!gasPrice || (gasPrice < environment.chains.ETH.gasPrice)) {
+                if (!gasPrice) {
                     gasPrice = environment.chains.ETH.gasPrice;
                 }
                 if (gasPrice > environment.chains.ETH.gasPriceMax) {
@@ -162,7 +161,24 @@ export class DepositAmountModal {
                 if (this.coin.tokenType === 'ETH') {
                     this.depositAmountForm.get('gasLimit').setValue(environment.chains.ETH.gasLimitToken);
                 }
-            } else if (this.coin.name === 'FAB') {
+            } else 
+            if((this.coin.name === 'BNB') || (this.coin.tokenType === 'BNB')
+            || (this.coin.name === 'MATIC') || (this.coin.tokenType === 'MATIC')) {
+                const chainName = this.coin.tokenType ? this.coin.tokenType : this.coin.name;
+                let gasPrice = await this.coinServ.getEtheruemCompatibleGasprice(chainName);
+                if (!gasPrice) {
+                    gasPrice = environment.chains[chainName].gasPrice;
+                }
+                if (gasPrice > environment.chains[chainName].gasPriceMax) {
+                    gasPrice = environment.chains[chainName].gasPriceMax;
+                }
+                this.depositAmountForm.get('gasPrice').setValue(gasPrice);
+                this.depositAmountForm.get('gasLimit').setValue(environment.chains[chainName].gasLimit);
+                if (this.coin.tokenType === 'BNB' || this.coin.tokenType === 'MATIC') {
+                    this.depositAmountForm.get('gasLimit').setValue(environment.chains[chainName].gasLimitToken);
+                }                
+            }
+            else if (this.coin.name === 'FAB') {
                 this.depositAmountForm.get('satoshisPerBytes').setValue(environment.chains.FAB.satoshisPerBytes);
             } else if (this.coin.name === 'BCH') {
                 this.depositAmountForm.get('satoshisPerBytes').setValue(environment.chains.BCH.satoshisPerBytes);

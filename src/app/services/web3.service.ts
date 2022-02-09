@@ -11,6 +11,8 @@ import { environment } from '../../environments/environment';
 import BigNumber from 'bignumber.js';
 import * as createHash from 'create-hash';
 import base58 from 'bs58';
+import * as Account from 'eth-lib/lib/account';
+import * as  Hash from 'eth-lib/lib/hash';
 //import * as ethLib from 'eth-lib';
 @Injectable({
   providedIn: 'root'
@@ -56,29 +58,50 @@ export class Web3Service {
     return signMess;
   }
 
+  signEtheruemCompatibleMessageWithPrivateKey(message: string, keyPair: any) {
+    const privateKey = `0x${keyPair.privateKey.toString('hex')}`;
+
+    const messageHash = this.hashEtherumMessage(message);
+    var signature = Account.sign(messageHash, privateKey);
+    var vrs = Account.decodeSignature(signature);
+    return {
+        message: message,
+        messageHash: messageHash,
+        v: vrs[0],
+        r: vrs[1],
+        s: vrs[2],
+        signature: signature
+    };
+  }
+
   getTransactionHash(txhex: string) {
     const hash = ethUtil.keccak(txhex).toString('hex');
     return '0x' + hash;
   }
 
   async signTxWithPrivateKey(txParams: any, keyPair: any) {
-    /*
-    const privateKey = `0x${keyPair.privateKey.toString('hex')}`;
-
-    console.log('in signTxWithPrivateKey');
-    const web3 = this.getWeb3Provider();
-    console.log('in111');
-    console.log(txParams);
-    console.log(privateKey);
-    const signMess = await web3.eth.accounts.signTransaction(txParams, privateKey) as EthTransactionObj;
-    console.log('in222');
-    console.log(signMess);
-    return signMess.rawTransaction;
-    */
-   console.log('txParams==', txParams);
     const privKey = keyPair.privateKeyBuffer;
     const EthereumTx = Eth.Transaction;
     const tx = new EthereumTx(txParams, { chain: environment.chains.ETH.chain, hardfork: environment.chains.ETH.hardfork });
+    tx.sign(privKey);
+    const serializedTx = tx.serialize();
+    const txhex = '0x' + serializedTx.toString('hex');
+    return txhex;
+  }
+
+  async signEtheruemCompatibleTxWithPrivateKey(coinName: string, txParams: any, keyPair: any) {
+    console.log('coinName');
+    const privKey = keyPair.privateKeyBuffer;
+    const EthereumTx = Eth.Transaction;
+    const customCommon = Common.forCustomChain(
+      environment.chains.ETH.chain, {
+           name: environment.chains[coinName].chain.name,
+           networkId: environment.chains[coinName].chain.networkId,
+           chainId: environment.chains[coinName].chain.chainId
+       },
+       environment.chains[coinName].hardfork,
+   );
+    const tx = new EthereumTx(txParams, { common: customCommon });
     tx.sign(privKey);
     const serializedTx = tx.serialize();
     const txhex = '0x' + serializedTx.toString('hex');
@@ -166,6 +189,7 @@ export class Web3Service {
       },
       environment.chains.ETH.hardfork,
     );
+    console.log('txObject===', txObject);
     const tx = new KanbanTxService(txObject, { common: customCommon });
 
     tx.sign(privKey);
@@ -333,6 +357,56 @@ export class Web3Service {
     console.log('abiHex for transfer=', abiHex);
     return abiHex;    
   }
+
+  hashKanbanMessage(data) {
+    const web3 = this.getWeb3Provider();
+    var messageHex = web3.utils.isHexStrict(data) ? data : web3.utils.utf8ToHex(data);
+    var messageBytes = web3.utils.hexToBytes(messageHex);
+    var messageBuffer = Buffer.from(messageBytes);
+    var preamble = '\x17Kanban Signed Message:\n' + messageBytes.length;
+    var preambleBuffer = Buffer.from(preamble);
+    var ethMessage = Buffer.concat([preambleBuffer, messageBuffer]);
+    var hash = Hash.keccak256s(ethMessage);    
+    console.log('hash1=', hash);
+    return hash;
+  }
+  
+  hashEtherumMessage(data) {
+    const web3 = this.getWeb3Provider();
+    var messageHex = web3.utils.isHexStrict(data) ? data : web3.utils.utf8ToHex(data);
+    var messageBytes = web3.utils.hexToBytes(messageHex);
+    var messageBuffer = Buffer.from(messageBytes);
+    var preamble = '\x19Ethereum Signed Message:\n' + messageBytes.length;
+    var preambleBuffer = Buffer.from(preamble);
+    var ethMessage = Buffer.concat([preambleBuffer, messageBuffer]);
+    var hash = Hash.keccak256s(ethMessage);    
+    console.log('hash1=', hash);
+    return hash;
+  }
+
+  signKanbanMessageWithPrivateKey(message: string, privateKey: any) {
+    var hash = this.hashKanbanMessage(message);
+    return this.signKanbanMessageHashWithPrivateKey(hash, privateKey);
+  }
+
+  signKanbanMessageHashWithPrivateKey(hash: string, privateKey: any) {
+
+    const privateKeyHex = `0x${privateKey.toString('hex')}`;
+    // 64 hex characters + hex-prefix
+    if (privateKeyHex.length !== 66) {
+        throw new Error("Private key must be 32 bytes long");
+    }    
+    var signature = Account.sign(hash, privateKeyHex);
+    var vrs = Account.decodeSignature(signature);
+    return {
+        messageHash: hash,
+        v: vrs[0],
+        r: vrs[1],
+        s: vrs[2],
+        signature: signature
+    };
+  }
+  
   getTransferFuncABI(coin: number, address: string, amount: number) {
     const web3 = this.getWeb3Provider();
     let value = new BigNumber(amount).multipliedBy(new BigNumber(1e18)).toFixed();
@@ -530,52 +604,7 @@ export class Web3Service {
   }
 
   getDepositFuncABI(coinType: number, txHash: string, amount: BigNumber, addressInKanban: string, signedMessage: Signature, coinTypePrefix = null) {
-
-    // console.log('params for getDepositFuncABI:');
-    // console.log('coinType=' + coinType + ',txHash=' + txHash + ',amount=' + amount + ',addressInKanban=' + addressInKanban);
-    // console.log('signedMessage=', signedMessage);
-    const web3 = this.getWeb3Provider();
-    const func: any = {
-      'constant': false,
-      'inputs': [
-        {
-          'name': '_coinType',
-          'type': 'uint32'
-        },
-        {
-          'name': '',
-          'type': 'bytes32'
-        },
-        {
-          'name': '_value',
-          'type': 'uint256'
-        },
-        {
-          'name': '_addressInKanban',
-          'type': 'address'
-        },
-        {
-          'name': '',
-          'type': 'bytes32'
-        },
-        {
-          'name': '',
-          'type': 'bytes32'
-        }
-      ],
-      'name': 'deposit',
-      'outputs': [
-        {
-          'name': 'success',
-          'type': 'bool'
-        }
-      ],
-      'payable': false,
-      'stateMutability': 'nonpayable',
-      'type': 'function'
-    };
-    //let abiHex = this.utilServ.stripHexPrefix(web3.eth.abi.encodeFunctionSignature(func));
-    // console.log('abiHex for addDeposit=', abiHex);
+    console.log('signedMessage==', signedMessage);
     let abiHex = '379eb862';
     abiHex += this.utilServ.stripHexPrefix(signedMessage.v);
     if(!coinTypePrefix) {

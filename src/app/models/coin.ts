@@ -59,6 +59,18 @@ export class Coin {
         this.coinType = environment.CoinType.ETH; 
         this.decimals = 18;
     } else
+    if (name === 'BNB') {
+        this.coinType = environment.CoinType.BNB; 
+        this.decimals = 18;
+    }  else
+    if (name === 'HT') {
+        this.coinType = environment.CoinType.HT; 
+        this.decimals = 18;
+    }  else
+    if (name === 'MATIC') {
+        this.coinType = environment.CoinType.MATIC; 
+        this.decimals = 18;
+    } else
     if (name === 'USDT') {
         this.coinType = environment.CoinType.ETH;
         this.decimals = 6;

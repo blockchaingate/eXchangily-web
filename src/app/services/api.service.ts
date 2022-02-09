@@ -3,12 +3,12 @@ import { HttpClient} from '@angular/common/http';
 
 import {Balance,  EthTransactionRes
     , FabTransactionResponse, CoinsPrice, BtcUtxo, KEthBalance, FabUtxo, EthTransactionStatusRes, GasPrice,
-    FabTokenBalance, FabTransactionJson, BtcTransactionResponse, BtcTransaction} from '../interfaces/balance.interface';
+    FabTokenBalance, FabTransactionJson, BtcTransactionResponse, BtcTransaction, JsonResult} from '../interfaces/balance.interface';
 
 import {Web3Service} from './web3.service';
 import {UtilService} from './util.service';
 import {AlertService} from './alert.service';
-
+import BigNumber from 'bignumber.js';
 import { environment } from '../../environments/environment';
 import TronWeb from 'tronweb';
 
@@ -61,6 +61,11 @@ export class ApiService {
         return this.http.post(url, data);
     }
     
+    updateIssueToken(data) {
+        const url = environment.endpoints.blockchaingate + 'issuetoken/Update' ;
+        return this.http.post(url, data);
+    }
+
     oin(symbol: string) {
         const url = environment.endpoints.kanban + 'coins/' + symbol;
         return this.http.get(url);
@@ -70,10 +75,12 @@ export class ApiService {
         const url = environment.endpoints.blockchaingate + 'issuetoken' ;
         return this.http.get(url);
     }
-
+    getIssueTokensOwnedBy(address: string) {
+        const url = environment.endpoints.blockchaingate + 'issuetoken/ownedBy/' + address ;
+        return this.http.get(url);
+    }
     async getIssueToken(tokenId: string) {
         const url = environment.endpoints.blockchaingate + 'issuetoken/' +  tokenId;
-        console.log('url===', url);
         return await this.http.get(url).toPromise();
     }
     getAllCoins() {
@@ -167,12 +174,60 @@ export class ApiService {
         return response;
     }
 
+    async getEthereumCompatibleTokenBalance(chainName: string, smartContractAddress: string, address: string) {
+        const url = environment.chains[chainName].rpcEndpoint;
+        console.log('url===', url);
+        console.log('smartContractAddress===', smartContractAddress);
+        console.log('address===', address);
+        if(address.indexOf('0x') == 0) {
+            address = address.substring(2);
+        }
+        let balance = '';
+        try {
+            const dataParam = '0x70a08231'
+            + '000000000000000000000000'
+            + address;
+            const data = {
+                "jsonrpc":"2.0",
+                "method":"eth_call",
+                "params":[
+                    {
+                        "to": smartContractAddress, 
+                        "data": dataParam
+                    }, 
+                    "latest"
+                ],
+                "id":1
+            };
+            console.log('data===', data);
+            const response = await this.http.post(url, data).toPromise() as JsonResult;
+            
+            balance = response.result;
+            console.log('balance====', balance);
+        } catch (e) {console.log (e); }
+        return balance;
+
+    }
+
     async getEthGasPrice(): Promise<number> {
         const url = 'https://ethprod.fabcoinapi.com/getgasprice';
         let gasPrice = 0;
         try {
             const response = await this.http.get(url).toPromise() as GasPrice;
             gasPrice = response.gasprice;
+        } catch (e) {console.log (e); }
+        return gasPrice;
+    }
+
+    async getEtheruemCompatibleGasPrice(coinName: string) : Promise<number> {
+        const url = environment.chains[coinName].rpcEndpoint;
+        let gasPrice = 0;
+        try {
+
+            const data = {"jsonrpc":"2.0","method":"eth_gasPrice","params": [],"id":1};
+            const response = await this.http.post(url, data).toPromise() as JsonResult;
+            
+            gasPrice = new BigNumber(response.result, 16).toNumber();
         } catch (e) {console.log (e); }
         return gasPrice;
     }
@@ -325,6 +380,20 @@ export class ApiService {
         return Number (response);
     }
 
+    async getEtheruemCampatibleNonce (coinName: string, address: string) {
+        const url = environment.chains[coinName].rpcEndpoint;
+        const data = {
+            "method":
+            "eth_getTransactionCount",
+            "params":[address, "latest"],
+            "id":1,
+            "jsonrpc":"2.0"
+        };
+        const response = await this.http.post(url, data).toPromise() as JsonResult;
+        const result = response.result;
+        return parseInt (result, 16);
+    }
+
     async postEthTx(txHex: string) {
 
         let txHash = '';
@@ -342,6 +411,33 @@ export class ApiService {
                  errMsg = err.error;
                 }
  
+            }          
+        }    
+
+        return {txHash, errMsg};
+    }
+
+    async postEtheruemCompatibleTx(coinName: string, txHex: string) {
+
+        let txHash = '';
+        let errMsg = '';
+        const url = environment.chains[coinName].rpcEndpoint;
+        const data = {
+            "jsonrpc":"2.0",
+            "method":"eth_sendRawTransaction",
+            "params":[txHex],
+            "id":1
+        };
+        if (txHex) {
+            try {
+                const result = await this.http.post(url, data).toPromise() as JsonResult;
+                if(result) {
+                    txHash = result.result;
+                }
+            } catch (err) {
+                if (err.error) {
+                 errMsg = err.error;
+                }
             }          
         }    
 
@@ -585,6 +681,29 @@ export class ApiService {
        return {balance, lockbalance};  
     }
 
+    async getEthereumCompatibleBalance(chain: string, address: string): Promise<any> {
+        const url = environment.chains[chain].rpcEndpoint;
+        console.log('url==', url);
+        console.log('address==', address);
+        const data = {
+            "jsonrpc":"2.0",
+            "method":"eth_getBalance",
+            "params":[address, "latest"],
+            "id":1
+        };
+        const response = await this.http.post(url, data).toPromise() as JsonResult;
+        const result = response.result;
+        console.log('result===', result);
+        return result;
+        /*
+        const url = environment.endpoints.ETH.exchangily + 'getbalance/' + address;
+        const response = await this.http.get(url).toPromise()  as KEthBalance;
+        const balance = response.balance;
+        const lockbalance = 0;
+        return {balance, lockbalance};  
+        */
+    }
+
     async getBchBalance(address: string): Promise<Balance> {
         const url = environment.endpoints.BCH.exchangily + 'getbalance/' + address;
         const response = await this.http.get(url).toPromise()  as number;
@@ -655,8 +774,7 @@ export class ApiService {
             contractAddress = contractAddress['FAB'];
         }
         let fxnCallHex = this.web3Serv.getFabTokenBalanceOfABI([address]);
-        console.log('name=', name);
-        console.log('fxnCallHex there we go=', fxnCallHex);
+
         fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex); 
         const response = await this.fabCallContract(contractAddress, fxnCallHex);    
         let balance = 0;

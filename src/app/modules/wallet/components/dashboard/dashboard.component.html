@@ -71,7 +71,7 @@
                                 </button>
                             </div>
                             <div class="small text-white" *ngIf="wallet && !wallet.hide">{{"Kanban Gas" | translate }}: {{gas}}
-                                <span class="warningMsg pr-2" *ngIf="gas<0.1">{{"No enough gas in exchange, please add gas to trade"|translate}}.</span>
+                                <span class="warningMsg pr-2" *ngIf="gas<0.0001">{{"No enough gas in exchange, please add gas to trade"|translate}}.</span>
                                 <button class="btn button btn-outline btn-basic-outline btn-fixed-width" *ngIf="(gas<=0) && (fabBalance <= 0)" (click)="getFreeFab()">{{"Get free FAB" | translate }}</button>
                             </div>
 
@@ -205,19 +205,27 @@
                             </div>
                             <div class="container-wallet-main scroll-bar" *ngIf="wallet">
                                 <ng-container *ngFor="let mycoin of wallet.mycoins | sortByField : sortField : sortFieldType : sortAsc; index as i">
-                                    <div class="row apair dataline small" *ngIf="(mycoin.name!='BNB') && (!hideSmall || ((mycoin.usdPrice > 0) && ((mycoin.balance + (mycoin.lockedBalance ? mycoin.lockedBalance : 0)) * mycoin.usdPrice >= 1)))">
+                                    <div class="row apair dataline small" *ngIf="(!hideSmall || ((mycoin.usdPrice > 0) && ((mycoin.balance + (mycoin.lockedBalance ? mycoin.lockedBalance : 0)) * mycoin.usdPrice >= 1)))">
                                         <div class="col-custom-1 pointer" (click)="selectCoin(mycoin.symbol)">
-                                            <img src="{{getCoinLogo(mycoin)}}" name="icon" class="icon" />
+                                            <img *ngIf="!mycoin.new"  src="{{getCoinLogo(mycoin)}}" name="icon" class="icon" />
                                         </div>
                                         <div class="col-custom-1">
                                             {{mycoin.symbol}}
-                                            <div *ngIf="(mycoin.name == 'USDT') || (mycoin.name == 'FAB') || (mycoin.name == 'EXG')
-                                            || (mycoin.name == 'DSC')  || (mycoin.name == 'BST')  || (mycoin.name == 'USDC')">
+                                            <div>
                                                 <div *ngIf="(mycoin.tokenType=='ETH')">
                                                     (ERC20)
                                                 </div>
                                                 <div *ngIf="(mycoin.tokenType=='TRX')">
                                                     (TRC20)
+                                                </div>
+                                                <div *ngIf="(mycoin.tokenType=='BNB')">
+                                                    (BEP20)
+                                                </div>
+                                                <div *ngIf="(mycoin.tokenType=='MATIC')">
+                                                    (MATIC)
+                                                </div>
+                                                <div *ngIf="(mycoin.tokenType=='HT')">
+                                                    (HT)
                                                 </div>
                                             </div>
                                         </div>
@@ -277,21 +285,28 @@
                                 </div>
                             </div>
                             <div class="row apair dataline" *ngFor="let mycoin of wallet.mycoins; index as i">
-                                <div *ngIf="(mycoin.name != 'BNB') && 
-                                (!hideSmall || ((mycoin.usdPrice > 0) && ((mycoin.balance + (mycoin.lockedBalance ? mycoin.lockedBalance : 0)) * mycoin.usdPrice >= 1)))">
+                                <div *ngIf="(!hideSmall || ((mycoin.usdPrice > 0) && ((mycoin.balance + (mycoin.lockedBalance ? mycoin.lockedBalance : 0)) * mycoin.usdPrice >= 1)))">
                                     <div class="col-2">
-                                        <img src="{{getCoinLogo(mycoin)}}" name="icon2" class="icon" />
+                                        <img *ngIf="!mycoin.new" src="{{getCoinLogo(mycoin)}}" name="icon2" class="icon" />
                                     </div>
                                     <div class="col-2">
                                         {{mycoin.symbol}}
 
-                                        <div *ngIf="(mycoin.name == 'USDT') || (mycoin.name == 'FAB') || (mycoin.name == 'EXG')
-                                        || (mycoin.name == 'DSC')  || (mycoin.name == 'BST')  || (mycoin.name == 'USDC')">
+                                        <div>
                                             <div *ngIf="(mycoin.tokenType=='ETH')">
                                                 (ERC20)
                                             </div>
                                             <div *ngIf="(mycoin.tokenType=='TRX')">
                                                 (TRC20)
+                                            </div>
+                                            <div *ngIf="(mycoin.tokenType=='BNB')">
+                                                (BEP20)
+                                            </div>
+                                            <div *ngIf="(mycoin.tokenType=='MATIC')">
+                                                (MATIC)
+                                            </div>
+                                            <div *ngIf="(mycoin.tokenType=='HT')">
+                                                (HT)
                                             </div>
                                         </div>
                                     </div>

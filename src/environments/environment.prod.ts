@@ -11,7 +11,7 @@ export const environment = {
     PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',
     baseUrl: 'https://exchangily.com',
     url: 'https://api.exchangily.com/',
-    version: '2.2.8',
+    version: '2.2.9',
     campaignId: 1,
     PUBLIC_KEY: '8aff99f9727143fccd28e62df14e4e67305faa70d19b4cb0b9d4cde18ea3cd23c8e58bda3c26e10813aaa6020f3d07a3d9f83a9062cfe662a600949325378b99',
     OTC_COMMISSION_RATE: 0,
@@ -75,6 +75,45 @@ export const environment = {
             gasLimit: 21000,
             gasLimitToken: 70000
         },
+        BNB: {
+            chain: {
+                name: 'mainnet',
+                networkId: 56,
+                chainId: 56
+            },
+            rpcEndpoint: 'https://bsc-dataseed.binance.org',
+            hardfork: 'petersburg',
+            gasPrice: 5,
+            gasPriceMax: 20,
+            gasLimit: 21000,
+            gasLimitToken: 70000
+        },
+        MATIC: {
+            chain: {
+                name: 'mainnet',
+                networkId: 137,
+                chainId: 137
+            },
+            rpcEndpoint: 'https://polygon-rpc.com',
+            hardfork: 'petersburg',
+            gasPrice: 5,
+            gasPriceMax: 20,
+            gasLimit: 21000,
+            gasLimitToken: 70000
+        },
+        HT: {
+            chain: {
+                name: 'mainnet',
+                networkId: 128,
+                chainId: 128
+            },
+            rpcEndpoint: 'https://http-mainnet.hecochain.com/',
+            hardfork: 'petersburg',
+            gasPrice: 5,
+            gasPriceMax: 20,
+            gasLimit: 21000,
+            gasLimitToken: 70000
+        },
         FAB: {
             network: Btc.networks.bitcoin,
             chain: {
@@ -135,6 +174,9 @@ export const environment = {
     CoinType: {
         BTC: 0,
         ETH: 60,
+        BNB: 60,
+        HT: 60,
+        MATIC: 60,
         FAB: 1150,
         BCH: 145,
         LTC: 2,
@@ -150,14 +192,19 @@ export const environment = {
             },
             USDT: {
                 ETH: '0xdac17f958d2ee523a2206206994597c13d831ec7',
-                TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t'
+                TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t',
+                BNB: '0x55d398326f99059ff775485246999027b3197955'
+            },
+            IXT: {
+                MATIC: '0xe06bd4f5aac8d0aa337d13ec88db6defc6eaeefe'
             },
             USDC: {
                 ETH: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
                 TRX: 'TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8'
             },
             FAB: {
-                ETH: '0xf2260ed15c59c9437848afed04645044a8d5e270'
+                ETH: '0xf2260ed15c59c9437848afed04645044a8d5e270',
+                BNB: '0x8ddae5f3e5a5d9eb0509e23259e1948362eb5ca8'
             },
             DSC: {
                 FAB: '0x64f1f72543c9d517a4e0bee32a3d11a21dc87de4',
@@ -236,11 +283,13 @@ export const environment = {
        exchangilyOfficial: {
         FAB: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
         BTC: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
-        ETH: '0x4983f8634255762A18D854790E6d35A522E2633a',      
+        ETH: '0x4983f8634255762A18D854790E6d35A522E2633a', 
+        BNB: '0x4983f8634255762A18D854790E6d35A522E2633a', 
+        MATIC: '0x4983f8634255762A18D854790E6d35A522E2633a', 
         BCH: 'bitcoincash:qznusftmq4cac0fuj6eyke5vv45njxe6eyafcld37l',
         LTC: 'LaX6sfX8RoHbQHNDEBmdzyBMN9vFa95FXL',
         DOGE: 'DLSF9i9weYwpgUrendmuGiHC35HGoHuvR9',   
-        TRX: 'TGfvRWxddNoWrghwE5zC1JEcbXyMdPATdo'          
+        TRX: 'TGfvRWxddNoWrghwE5zC1JEcbXyMdPATdo' 
            /*
         EXG: '0xa7c8257b0571dc3d3c96b24b668c6569391b3ac9',
         FAB: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
@@ -311,12 +360,14 @@ export const environment = {
         BTC: 0.01,
         FAB: {
             FAB:50,
-            ETH: 100
+            ETH: 100,
+            BNB: 2
         },
         ETH: 0.1 * 2,
         USDT: {
             ETH: 20 * 2,
-            TRX: 0.2
+            TRX: 0.2,
+            BNB: 2
         },    
         TRX: 0.2,    
         DUSD: 20,

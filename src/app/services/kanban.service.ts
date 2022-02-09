@@ -4,6 +4,7 @@ import { KanbanGetBanalceResponse, KanbanNonceResponse, DepositStatusResp, Trans
 import { environment } from '../../environments/environment';
 import { UtilService } from './util.service';
 import { TransactionReceiptResp } from '../interfaces/kanban.interface';
+import { Web3Service } from './web3.service';
 
 @Injectable()
 export class KanbanService {
@@ -12,7 +13,10 @@ export class KanbanService {
     nonce: number;
     endpoint = environment.endpoints.kanban;
 
-    constructor(private http: HttpClient, private utilServ: UtilService) { this.nonce = 0; }
+    constructor(
+        private web3Serv: Web3Service,
+        private http: HttpClient, 
+        private utilServ: UtilService) { this.nonce = 0; }
 
     async getCoinPoolAddress() {
         const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
@@ -187,6 +191,18 @@ export class KanbanService {
             signedTransactionData: txhex
         };
         return this.post('kanban/sendRawTransaction', data);
+    }
+
+    signJsonData(privateKey: any, data: any) {
+
+        var queryString = Object.keys(data).filter((k) => (data[k] != null) && (data[k] != undefined))
+        .map(key => key + '=' + (typeof data[key] === 'string' ? data[key] : JSON.stringify(data[key]))).sort().join('&');
+
+        console.log('queryString===', queryString);
+        //const test = this.web3Serv.signMessageTest(queryString, privateKey);
+        const signature = this.web3Serv.signKanbanMessageWithPrivateKey(queryString, privateKey);
+        //console.log('signature here=', signature);
+        return signature;  
     }
 
     submitReDeposit(rawKanbanTransaction: string) {

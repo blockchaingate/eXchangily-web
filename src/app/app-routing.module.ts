@@ -16,12 +16,17 @@ import { AppIntroComponent } from './modules/app-intro/app-intro.component';
 import { AnnouncementComponent } from './components/help/announcement/announcement/announcement.component';
 import { AnnouncementListComponent } from './components/help/announcement/announcement-list/announcement-list.component';
 import { BindpayComponent } from './modules/bindpay/bindpay.component';
+import { ListingComponent } from './modules/listing/listing.component';
 // import { CoininfoComponent } from './components/coin/coin-info.component';
 
 const routes: Routes = [
   {
     path: 'explorer',
     loadChildren: () => import('./modules/kanbanexplorer/kanbanexplorer.module').then(m => m.KanbanExplorerModule)
+  },
+  {
+    path: 'listing',
+    component: ListingComponent
   },
   {
     path: 'assets',

@@ -73,6 +73,10 @@ export const coin_list: Coin[] = [
     {id: 196645, name: 'CELR', icon: ''},
     {id: 196646, name: 'YFI', icon: ''},
     {id: 196647, name: 'SLP', icon: ''},
+    {id: 524288, name: 'BNB', icon: ''},
+    {id: 524289, name: 'USDTB', icon: ''},
+    {id: 524290, name: 'FABB', icon: ''},
+    {id: 589824, name: 'MATICM', icon: ''}
 ];
 
 
@@ -239,5 +243,18 @@ export const price_list: Price[] = [
     { id: 104, coin_id: 196644, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'CVC/USDT' },
     { id: 105, coin_id: 196645, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'CELR/USDT' },
     { id: 106, coin_id: 196646, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'YFI/USDT' },
-    { id: 107, coin_id: 196647, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'SLP/USDT' }
+    { id: 107, coin_id: 196647, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'SLP/USDT' },
+
+
+    { id: 108, coin_id: 196609, base_id: 196632, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'USDT/USDC' },
+    { id: 109, coin_id: 131078, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'DCAD/USDT' },
+    { id: 110, coin_id: 131078, base_id: 196632, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'DCAD/USDC' },
+
+    { id: 111, coin_id: 131088, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'DTWD/USDT' },
+    { id: 112, coin_id: 131088, base_id: 196632, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'DTWD/USDC' },
+
+    { id: 113, coin_id: 131072, base_id: 131078, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'FAB/DCAD' },
+    { id: 114, coin_id: 131072, base_id: 131088, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'FAB/DTWD' },
+    { id: 115, coin_id: 524288, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'BNB/USDT' },
+    { id: 116, coin_id: 524288, base_id: 196632, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'BNB/USDC' },
 ];

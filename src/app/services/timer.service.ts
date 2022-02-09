@@ -293,6 +293,17 @@ export class TimerService {
                                 );
                                 this.unCheckTransactionStatus(txid);                                 
                             }
+                        },
+                        (error: any) => {
+                            console.log('error===', error);
+                            const status = 'failed';
+                            this.transactionStatus.next(
+                                {
+                                    txid: txid,
+                                    status: status
+                                }
+                            );
+                            this.unCheckTransactionStatus(txid);   
                         } 
                     );
                 } else 

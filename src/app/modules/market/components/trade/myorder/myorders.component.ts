@@ -58,8 +58,10 @@ export class MyordersComponent implements OnInit, OnDestroy {
     _chain: string;
     set  chain(val: string) {
         this._chain = val;
-        if(val && this.coinName == 'USDT') {
-            this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+        if(val) {
+            if(['USDT', 'FAB'].indexOf(this.coinName) >= 0) {
+                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+            }
         }
         
     }
@@ -73,6 +75,12 @@ export class MyordersComponent implements OnInit, OnDestroy {
     ethFABTSBalance: number;
     exgTSBalance: number;
     ethEXGTSBalance: number;
+
+    bnbUSDTTSBalance: number;
+    bnbFABTSBalance: number;
+
+    maticTSBalance: number;
+    ethMATICTSBalance: number;
 
     minimumWithdrawAmount: number;
     coinType: number;
@@ -99,13 +107,6 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this.coinServ = _coinServ;
     }
 
-    /*
-    onRefreshToken(tokens) {
-        
-        this.mytokens = tokens;
-        console.log('mytokens in myorders', this.mytokens);
-    }
-    */
     ngOnDestroy() {
         this.timerServ.unCheckAllOrderStatus();
     }
@@ -212,9 +213,13 @@ export class MyordersComponent implements OnInit, OnDestroy {
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             currentCoin = this.wallet.mycoins[i];
             if (
-                ((this.coinName != 'USDT') && (this.coinName != 'FAB') && (['EXG', 'DSC', 'BST'].indexOf(this.coinName) < 0) && (currentCoin.name === this.coinName))
+                ((this.coinName != 'USDT') && (this.coinName != 'FAB') && (['EXG', 'DSC', 'BST', 'MATIC'].indexOf(this.coinName) < 0) && (currentCoin.name === this.coinName))
                 ||
                 (this.coinName == 'USDT' && (currentCoin.name === this.coinName) && currentCoin.tokenType == this.chain)
+                ||
+                (this.coinName == 'MATIC' && (currentCoin.name === this.coinName) && !currentCoin.tokenType && this.chain == 'MATIC')
+                ||
+                (this.coinName == 'MATIC' && (currentCoin.name === this.coinName) && currentCoin.tokenType == 'ETH' && this.chain == 'ETH')
                 ||
                 (this.coinName == 'FAB' && (currentCoin.name === this.coinName) && !currentCoin.tokenType && (this.chain == 'FAB'))
                 ||
@@ -292,10 +297,8 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
         console.log('currentCoin==', currentCoin);
         let coinTypePrefix = this.coinServ.getCoinTypePrefix(currentCoin);
-        console.log('coinTypePrefix=',coinTypePrefix);
         const abiHex = this.web3Serv.getWithdrawFuncABI(this.coinType, amountInLink, addressInWallet, coinTypePrefix);
 
-        console.log('abiHex for withdraw=', abiHex);
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
         const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 
@@ -367,13 +370,18 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
                 if(!this.trxUSDTTSBalance) {
                     this.trxUSDTTSBalance = await this.coinServ.getTrxTokenBalance(environment.addresses.smartContract.USDT.TRX, environment.addresses.exchangilyOfficial.TRX);
-                    this.trxUSDTTSBalance = this.trxUSDTTSBalance / 1e6;
+                    this.trxUSDTTSBalance = new BigNumber(this.trxUSDTTSBalance).shiftedBy(-6).toNumber();
                 }
 
                 if(!this.ethUSDTTSBalance) {
                     const balance = await this.apiServ.getEthTokenBalance('USDT', environment.addresses.smartContract.USDT.ETH, environment.addresses.exchangilyOfficial.ETH);                    
-                    this.ethUSDTTSBalance = balance.balance / 1e6;
+                    this.ethUSDTTSBalance = new BigNumber(balance.balance).shiftedBy(-6).toNumber();
                 }
+
+                if(!this.bnbUSDTTSBalance) {
+                    const balance = await this.coinServ.getEtherumCompatibleTokenBalance('BNB', environment.addresses.smartContract.USDT.BNB, environment.addresses.exchangilyOfficial.BNB);
+                    this.bnbUSDTTSBalance = new BigNumber(balance, 16).shiftedBy(-18).toNumber();
+                }               
             }catch(e) {
 
             }           
@@ -382,16 +390,42 @@ export class MyordersComponent implements OnInit, OnDestroy {
             try {
                 this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
 
-                let balance = await this.apiServ.getEthTokenBalance('FAB', environment.addresses.smartContract.FAB.ETH, environment.addresses.exchangilyOfficial.ETH);                    
-                this.ethFABTSBalance = balance.balance / 1e8;
-                    
+                if(!this.ethFABTSBalance) {
+                    let balance = await this.apiServ.getEthTokenBalance('FAB', environment.addresses.smartContract.FAB.ETH, environment.addresses.exchangilyOfficial.ETH);                    
+                    this.ethFABTSBalance = new BigNumber(balance.balance).shiftedBy(-8).toNumber();    
+                }
+         
+                if(!this.fabTSBalance) {
+                    const balance = await this.apiServ.getFabBalance(environment.addresses.exchangilyOfficial.FAB);
+                    this.fabTSBalance = new BigNumber(balance.balance).shiftedBy(-8).toNumber();
+                }
 
-                balance = await this.apiServ.getFabBalance(environment.addresses.exchangilyOfficial.FAB);
-                this.fabTSBalance = balance.balance / 1e8;
+                if(!this.bnbFABTSBalance) {
+                    const balance = await this.coinServ.getEtherumCompatibleTokenBalance('BNB', environment.addresses.smartContract.FAB.BNB, environment.addresses.exchangilyOfficial.BNB);
+                    this.bnbFABTSBalance = new BigNumber(balance, 16).shiftedBy(-8).toNumber();
+                }
 
             }catch(e) {
 
-            }                
+            }      
+        } else if(this.coinName == 'MATIC') {
+            this.chain = 'MATIC';
+            try {
+                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+
+                if(!this.ethMATICTSBalance) {
+                    let balance = await this.apiServ.getEthTokenBalance('MATIC', environment.addresses.smartContract.MATIC, environment.addresses.exchangilyOfficial.ETH);                    
+                    this.ethMATICTSBalance = new BigNumber(balance.balance).shiftedBy(-18).toNumber();    
+                }
+         
+                if(!this.maticTSBalance) {
+                    const balance = await this.apiServ.getEthereumCompatibleBalance('MATIC',environment.addresses.exchangilyOfficial.MATIC);
+                    this.maticTSBalance = new BigNumber(balance, 16).shiftedBy(-18).toNumber();
+                }
+
+            }catch(e) {
+
+            }             
         }else if(['EXG', 'DSC', 'BST'].indexOf(this.coinName) >= 0) {
             this.chain = 'FAB';
             try {
@@ -494,7 +528,15 @@ export class MyordersComponent implements OnInit, OnDestroy {
                     this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
                 }
                 return;                
-            }            
+            }    
+            if(this.chain == 'BNB' && (!this.bnbUSDTTSBalance || (amount > this.bnbUSDTTSBalance))) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;                
+            }           
         }
 
         if(this.coinName == 'FAB') {
@@ -514,9 +556,35 @@ export class MyordersComponent implements OnInit, OnDestroy {
                     this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
                 }
                 return;                
+            }    
+            if(this.chain == 'BNB' && (!this.bnbFABTSBalance || (amount > this.bnbFABTSBalance))) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;                
             }            
         }
 
+        if(this.coinName == 'MATIC') {
+            if(this.chain == 'MATIC' && (!this.maticTSBalance || (amount >= this.maticTSBalance))) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;   
+            }
+            if(this.chain == 'ETH' && (!this.ethMATICTSBalance || (amount > this.ethMATICTSBalance))) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;                
+            }  
+        }
         if(['EXG', 'DSC', 'BST'].indexOf(this.coinName) >= 0) {
             if(this.chain == 'FAB' && (!this.exgTSBalance || (amount > this.exgTSBalance))) {
                 if (this.lan === 'zh') {

@@ -5,7 +5,7 @@ import * as Btc from 'bitcoinjs-lib';
 
 export const environment = {
     production: false,
-    version: '2.2.8',
+    version: '2.2.9',
     IssueTokenReceipt: 'mxU2i997YxYv75E6YNVNwkN5qJ68WC5sZN',
     SQUARE_APP_ID: {
         CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', // ccount kenin
@@ -81,6 +81,45 @@ export const environment = {
             gasLimit: 21000,
             gasLimitToken: 70000
         },
+        BNB: {
+            chain: {
+                name: 'testnet',
+                networkId: 97,
+                chainId: 97
+            },
+            rpcEndpoint: 'https://data-seed-prebsc-1-s1.binance.org:8545',
+            hardfork: 'byzantium',
+            gasPrice: 5,
+            gasPriceMax: 20,
+            gasLimit: 21000,
+            gasLimitToken: 70000
+        },
+        MATIC: {
+            chain: {
+                name: 'testnet',
+                networkId: 80001,
+                chainId: 80001
+            },
+            rpcEndpoint: 'https://rpc-mumbai.matic.today',
+            hardfork: 'byzantium',
+            gasPrice: 5,
+            gasPriceMax: 20,
+            gasLimit: 21000,
+            gasLimitToken: 70000
+        },
+        HT: {
+            chain: {
+                name: 'testnet',
+                networkId: 256,
+                chainId: 256
+            },
+            rpcEndpoint: 'https://http-testnet.hecochain.com',
+            hardfork: 'byzantium',
+            gasPrice: 5,
+            gasPriceMax: 20,
+            gasLimit: 21000,
+            gasLimitToken: 70000
+        },
         FAB: {
             network: Btc.networks.testnet,
             chain: {
@@ -144,6 +183,9 @@ export const environment = {
     CoinType: {
         BTC: 1,
         ETH: 60,
+        BNB: 60,
+        HT: 60,
+        MATIC: 60,
         FAB: 1150,
         BCH: 1,
         LTC: 1,
@@ -159,14 +201,19 @@ export const environment = {
             },
             USDT: { 
                 ETH: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',
-                TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t'
+                TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t',
+                BNB: '0x4850754EA867654339F38d4e6DF7cd80CFee141f'
             },
             USDC: {
                 ETH: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',
                 TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t'
             },
             FAB: {
-                ETH: '0xd8b836a7276b3D28FE98CE9d5C8D3041051b792C'
+                ETH: '0xd8b836a7276b3D28FE98CE9d5C8D3041051b792C',
+                BNB: '0xb3Dcd26FBFCC3aeA2aa0ac833c2B38421d4b1905'
+            },
+            IXT: {
+                MATIC: '0x65f8C5d105c61dfEe73C402593CD90ABb5bcB48e'
             },
             DSC: {
                 FAB: '0xc65624b3bbdf3e786705045405b5f09ab811b9dd',
@@ -235,6 +282,8 @@ export const environment = {
         FAB: 'n3AYguoFtN7SqsfAJPx6Ky8FTTZUkeKbvc',
         BTC: 'n3AYguoFtN7SqsfAJPx6Ky8FTTZUkeKbvc',
         ETH: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
+        BNB: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
+        MATIC: '0x450C53c50F8c0413a5829B0A9ab9Fa7e38f3eD2E',
         BCH: 'bchtest:qrkhd038rw685m0s2kauyquhx0pxlhkvsg6dydtwn9',
         LTC: 'n3AYguoFtN7SqsfAJPx6Ky8FTTZUkeKbvc',
         DOGE: 'nqqkf8PqJj3CUjwLMEcjJDfpiU5NDcMUrB',        
@@ -308,12 +357,14 @@ export const environment = {
         BTC: 0.002,
         FAB: {
             FAB: 50,
-            ETH: 100
+            ETH: 100,
+            BNB: 2
         },
         ETH: 0.01,
         USDT: {
             ETH: 10,
-            TRX: 0.2
+            TRX: 0.2,
+            BNB: 2
         },
         TRX: 0.2,
         DUSD: 10,
@@ -337,7 +388,7 @@ export const environment = {
         BCH: 0.002,
         LTC: 0.02,
         DOGE: 20,
-        BNB: 0.6,
+        BNB: 0.001,
         INB: 20,
         REP: 0.8,
         HOT: 16000,
@@ -377,6 +428,7 @@ export const environment = {
         EXG: 12,
         BTC: 2,
         FAB: 12,
+
         ETH: 20,
         USDT: 20,
         DUSD: 12,
@@ -402,7 +454,7 @@ export const environment = {
         BCH: 2,
         LTC: 8,
         DOGE: 20,
-        BNB: 20,
+        BNB: 12,
         INB: 20,
         REP: 20,
         HOT: 20,

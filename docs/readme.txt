@@ -1,8 +1,13 @@
-const bip32 = require('bip32');
-const bitcoin = require('bitcoinjs-lib')
-const wif = require('wif')
-const TronWeb = require('tronweb')
 
+USDT
+(BEP20)
+19995560
+19995560
+
+FAB
+(BEP20)
+299999999999983763
+212699999999988450
 
 
 
@@ -83,6 +88,9 @@ raven cabin cute bachelor mail broken diet night hurry alley bus gauge //Rinkeby
 dune stem onion cliff equip seek kiwi salute area elegant atom injury
 tortoise cry hello tail taste goose rural fringe destroy next age tray
 
+new: dignity swing wine hub ankle broom cloud fiction side thank pony grass
+
+polygon: layer shoe duck kind bachelor chimney lazy rug exchange rose imitate health
 uint8Array not defined
 btoa not defined
 

@@ -51,6 +51,7 @@ export class AddAssetsModal implements OnInit{
         fabTokenName: [''],
         fabTokenSymbol: [''],
         fabTokenDecimals: [18],
+        ethChain: [''],
         ethContractAddress: [''],
         ethTokenName: [''],
         ethTokenSymbol: [''],
@@ -64,7 +65,6 @@ export class AddAssetsModal implements OnInit{
     ngOnInit() {
         this.apiServ.getIssueTokens().subscribe(
             (ret: any) => {
-                console.log('ret for issue tokens===', ret);
                 this.fabTokens = ret;
             }
         );
@@ -81,7 +81,6 @@ export class AddAssetsModal implements OnInit{
         } else {
             this.showFabCustom = false;
         }
-        console.log('this.showFabCustom=' + this.showFabCustom);
     }
 
     /*
@@ -158,13 +157,14 @@ export class AddAssetsModal implements OnInit{
             }
         } else 
         if(this.selectedIndex == 2) { //ETH token
+            const chain = this.addAssetsForm.get('ethChain').value;
             const smartContractAddress = this.addAssetsForm.get('ethContractAddress').value;
             const name = this.addAssetsForm.get('ethTokenName').value;
             const symbol = this.addAssetsForm.get('ethTokenSymbol').value;
             const decimals = this.addAssetsForm.get('ethTokenDecimals').value;
             if(smartContractAddress && name && symbol && decimals) {
                 const token = {
-                    type: 'ETH',
+                    type: chain,
                     address: smartContractAddress,
                     name: name,
                     symbol: symbol,
