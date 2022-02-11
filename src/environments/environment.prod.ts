@@ -193,7 +193,8 @@ export const environment = {
             USDT: {
                 ETH: '0xdac17f958d2ee523a2206206994597c13d831ec7',
                 TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t',
-                BNB: '0x55d398326f99059ff775485246999027b3197955'
+                BNB: '0x55d398326f99059ff775485246999027b3197955',
+                MATIC: ''
             },
             IXT: {
                 MATIC: '0xe06bd4f5aac8d0aa337d13ec88db6defc6eaeefe'

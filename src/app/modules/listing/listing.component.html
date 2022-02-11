@@ -17,9 +17,13 @@
         </li>
     </ul>
     <h4>{{'To get started' | translate}}:</h4>
+    {{lang}}
     <p>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLScgvCFVw27YqZdUSLKhyHDjyI4HsJpZ1-x4a1lUloQNoUgvHA/viewform" target="_blank">
+        <a *ngIf="lang=='en'" href="https://docs.google.com/forms/d/e/1FAIpQLScgvCFVw27YqZdUSLKhyHDjyI4HsJpZ1-x4a1lUloQNoUgvHA/viewform" target="_blank">
             https://docs.google.com/forms/d/e/1FAIpQLScgvCFVw27YqZdUSLKhyHDjyI4HsJpZ1-x4a1lUloQNoUgvHA/viewform
+        </a>
+        <a *ngIf="lang!='en'" href="https://docs.google.com/forms/d/e/1FAIpQLSfsWzu5e7L9gfq1ulzh58Izg5y6obMYqXSYGXI33L6p1VA63w/viewform" target="_blank">
+            https://docs.google.com/forms/d/e/1FAIpQLSfsWzu5e7L9gfq1ulzh58Izg5y6obMYqXSYGXI33L6p1VA63w/viewform
         </a>
     </p>
 </div>
