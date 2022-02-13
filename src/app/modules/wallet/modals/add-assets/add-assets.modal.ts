@@ -4,6 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import {Token} from '../../../../interfaces/kanban.interface';
 import { environment } from '../../../../../environments/environment';
 import { ApiService } from 'src/app/services/api.service';
+import { UtilService } from 'src/app/services/util.service';
 
 @Component({
     selector: 'add-assets-modal',
@@ -51,14 +52,16 @@ export class AddAssetsModal implements OnInit{
         fabTokenName: [''],
         fabTokenSymbol: [''],
         fabTokenDecimals: [18],
-        ethChain: [''],
+        ethChain: ['ETH'],
         ethContractAddress: [''],
         ethTokenName: [''],
         ethTokenSymbol: [''],
         ethTokenDecimals: [18]        
     });    
 
-    constructor(private fb: FormBuilder, private apiServ: ApiService) {
+    constructor(
+        private utilServ: UtilService,
+        private fb: FormBuilder, private apiServ: ApiService) {
         this.selectedIndex = 0;
     }
     
@@ -68,6 +71,27 @@ export class AddAssetsModal implements OnInit{
                 this.fabTokens = ret;
             }
         );
+
+        this.addAssetsForm.get("ethContractAddress").valueChanges.subscribe(x => {
+            this.loadSmartContractInfo();
+        });
+
+
+        this.addAssetsForm.get("ethChain").valueChanges.subscribe(x => {
+            this.loadSmartContractInfo();
+        });
+    }
+
+
+    async loadSmartContractInfo() {
+        const chain = this.addAssetsForm.get('ethChain').value;
+        const smartContractAddress = this.addAssetsForm.get('ethContractAddress').value;
+        if(smartContractAddress && this.utilServ.stripHexPrefix(smartContractAddress).length == 40) {
+            console.log('firstname value changed')
+            console.log(smartContractAddress);
+            const decimals = await this.apiServ.getEtheruemCompatibleDecimals(chain, smartContractAddress);
+            console.log('decimals=', decimals);
+        }
     }
 
     onFabSelection(e, v) {
@@ -159,6 +183,10 @@ export class AddAssetsModal implements OnInit{
         if(this.selectedIndex == 2) { //ETH token
             const chain = this.addAssetsForm.get('ethChain').value;
             const smartContractAddress = this.addAssetsForm.get('ethContractAddress').value;
+
+
+
+
             const name = this.addAssetsForm.get('ethTokenName').value;
             const symbol = this.addAssetsForm.get('ethTokenSymbol').value;
             const decimals = this.addAssetsForm.get('ethTokenDecimals').value;
