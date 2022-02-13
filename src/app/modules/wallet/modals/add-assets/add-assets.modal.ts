@@ -84,6 +84,7 @@ export class AddAssetsModal implements OnInit{
 
 
     async loadSmartContractInfo() {
+        /*
         const chain = this.addAssetsForm.get('ethChain').value;
         const smartContractAddress = this.addAssetsForm.get('ethContractAddress').value;
         if(smartContractAddress && this.utilServ.stripHexPrefix(smartContractAddress).length == 40) {
@@ -92,6 +93,7 @@ export class AddAssetsModal implements OnInit{
             const decimals = await this.apiServ.getEtheruemCompatibleDecimals(chain, smartContractAddress);
             console.log('decimals=', decimals);
         }
+        */
     }
 
     onFabSelection(e, v) {
