@@ -176,9 +176,7 @@ export class ApiService {
 
     async getEthereumCompatibleTokenBalance(chainName: string, smartContractAddress: string, address: string) {
         const url = environment.chains[chainName].rpcEndpoint;
-        console.log('url===', url);
-        console.log('smartContractAddress===', smartContractAddress);
-        console.log('address===', address);
+
         if(address.indexOf('0x') == 0) {
             address = address.substring(2);
         }
@@ -199,11 +197,9 @@ export class ApiService {
                 ],
                 "id":1
             };
-            console.log('data===', data);
             const response = await this.http.post(url, data).toPromise() as JsonResult;
             
             balance = response.result;
-            console.log('balance====', balance);
         } catch (e) {console.log (e); }
         return balance;
 
@@ -231,6 +227,53 @@ export class ApiService {
         } catch (e) {console.log (e); }
         return gasPrice;
     }
+
+    async getEtheruemCompatibleDecimals(chain: string, smartContractAddress: string) : Promise<number> {
+        const abi = {
+            "constant": true,
+            "inputs": [],
+            "name": "decimals",
+            "outputs": [
+              {
+                "name": "",
+                "type": "uint8"
+              }
+            ],
+            "payable": false,
+            "type": "function"
+        };
+        const args = [];
+        const abiHex = this.web3Serv.getGeneralFunctionABI(abi, args);
+    
+        const result = await this.getEtheruemCompatibleEthCall(chain, smartContractAddress, abiHex);
+        const decimals = parseInt(result, 16);
+        console.log('decimals===', decimals);
+        return decimals;
+      }
+
+    async getEtheruemCompatibleEthCall(chain: string, smartContractAddress: string, dataParam: string) : Promise<string> {
+        const url = environment.chains[chain].rpcEndpoint;
+        let result = '';
+
+        try {
+            const data = {
+                "jsonrpc":"2.0",
+                "method":"eth_call",
+                "params":[
+                    {
+                        "to": smartContractAddress, 
+                        "data": dataParam
+                    }, 
+                    "latest"
+                ],
+                "id":1
+            };
+            const response = await this.http.post(url, data).toPromise() as JsonResult;
+            
+            result = response.result;
+        } catch (e) {console.log (e); }
+        return result;
+    }    
 
     async getDogeUtxos(address: string): Promise<[BtcUtxo]> {
         const url = environment.endpoints.DOGE.exchangily + 'getutxos/' + address;

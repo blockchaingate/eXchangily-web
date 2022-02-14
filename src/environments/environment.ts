@@ -202,7 +202,8 @@ export const environment = {
             USDT: { 
                 ETH: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',
                 TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t',
-                BNB: '0x4850754EA867654339F38d4e6DF7cd80CFee141f'
+                BNB: '0x4850754EA867654339F38d4e6DF7cd80CFee141f',
+                MATIC: ''
             },
             USDC: {
                 ETH: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',
@@ -393,7 +394,10 @@ export const environment = {
         REP: 0.8,
         HOT: 16000,
         CEL: 40,
-        MATIC: 500,
+        MATIC: {
+            ETH:500,
+            MATIC: 0.004
+        },
         IOST: 2000,
         MANA: 240,
         FUN: 3000,

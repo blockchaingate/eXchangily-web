@@ -55,7 +55,7 @@
 
                             <div *ngIf="showEthCustom">
                                 <mat-form-field appearance="fill" class="mt-3">
-                                  <mat-label>Chain</mat-label>
+                                  <mat-label>{{'Chain' | translate}}</mat-label>
                                   <select matNativeControl required formControlName="ethChain">
                                     <option value="ETH">Ethereum</option>
                                     <option value="BNB">Binance Smart Chain</option>
