@@ -384,6 +384,7 @@ export class ApiService {
 
     async getFabUtxos(address: string): Promise<[FabUtxo]> {
         const url = environment.endpoints.FAB.exchangily + 'getutxos/' + address;
+        console.log('url===', url);
         const response = await this.http.get(url).toPromise() as [FabUtxo];
         return response;
     }

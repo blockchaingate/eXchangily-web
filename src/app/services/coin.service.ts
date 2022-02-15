@@ -1099,7 +1099,6 @@ export class CoinService {
     
         const fabUtxos = await this.apiService.getFabUtxos(fromAddress);
     
-        console.log('fabUtxos==', fabUtxos);
         if (fabUtxos && fabUtxos.length) {
             // console.log('fabUtxos=', fabUtxos);
             // console.log('fabUtxos.length=', fabUtxos.length);
@@ -1228,7 +1227,8 @@ export class CoinService {
             address = mycoin.receiveAdds[index].address;
             // console.log('address in getFabTransactionHex=' + address);
             let fabUtxos = await this.apiService.getFabUtxos(address);
-            fabUtxos = fabUtxos.sort ((a, b) => b.value - a.value);
+            //fabUtxos = fabUtxos.sort ((a, b) => b.value - a.value);
+            this.utilServ.shuffleArray(fabUtxos);
             //console.log('fabUtxos after ssorted =', fabUtxos);
             if (fabUtxos && fabUtxos.length) {
                 // console.log('fabUtxos=', fabUtxos);
@@ -2054,7 +2054,8 @@ export class CoinService {
             for (index = 0; index < mycoin.receiveAdds.length; index++) {
 
                 address = mycoin.receiveAdds[index].address;
-                const balanceFull = await this.apiService.getUtxos(mycoin.name, address);
+                let balanceFull = await this.apiService.getUtxos(mycoin.name, address);
+                this.utilServ.shuffleArray(balanceFull);
                 for (let i = 0; i < balanceFull.length; i++) {
                     const tx = balanceFull[i];
                     if (tx.idx < 0) {
