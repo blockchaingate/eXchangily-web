@@ -111,7 +111,7 @@ export class SendCoinModal {
             transOut = Number(transOut.toFixed(8));
             this.sendCoinForm.patchValue({ 'sendAmount': transOut });
             this.onTextChange(transOut);
-        } else if (coinName === 'ETH') {
+        } else if (['ETH','BNB','MATIC','HT'].indexOf(coinName)  >= 0) {
             const gasPrice = this.sendCoinForm.get('gasPrice').value ? Number(this.sendCoinForm.get('gasPrice').value) : environment.chains.ETH.gasPrice;
             const gasLimit = this.sendCoinForm.get('gasLimit').value ? Number(this.sendCoinForm.get('gasLimit').value) : environment.chains.ETH.gasLimit;
             const transFeeDouble = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).shiftedBy(-9).toNumber();
@@ -121,7 +121,7 @@ export class SendCoinModal {
             }
             this.sendCoinForm.patchValue({ 'sendAmount': transOut });
             this.onTextChange(transOut);
-        } else if (tokenType === 'FAB' || tokenType === 'ETH' || tokenType === 'TRX') {
+        } else if (['ETH','BNB','MATIC','HT','FAB','TRX'].indexOf(tokenType) >= 0) {
             this.sendCoinForm.patchValue({ 'sendAmount': balance });
             this.onTextChange(balance);
         } else if (coinName === 'TRX') {
@@ -187,7 +187,7 @@ export class SendCoinModal {
         let unit = '';
         if (name === 'EXG' || name === 'FAB' || name === 'DUSD') {
             unit = 'LIU';
-        } else if (name === 'ETH' || tokenType === 'ETH') {
+        } else {
             unit = 'GWEI';
         }
         this.gasUnit = unit;
@@ -318,6 +318,7 @@ export class SendCoinModal {
     async onChange(index: number) {
         this.coin = this.wallet.mycoins[index];
         this.currentCoinIndex = index;
+        console.log('this.coin===', this.coin);
         if ((this.coin.name === 'ETH') || (this.coin.tokenType === 'ETH')) {
             let gasPrice = await this.coinServ.getEthGasprice();
             if (!gasPrice) {
@@ -332,11 +333,12 @@ export class SendCoinModal {
                 this.sendCoinForm.get('gasLimit').setValue(environment.chains.ETH.gasLimitToken);
             }
         } else if (
-            (this.coin.name === 'BNB') || (this.coin.tokenType === 'BNB') ||
-            (this.coin.name === 'MATIC') || (this.coin.tokenType === 'MATIC')
+            (['BNB', 'MATIC', 'HT'].indexOf(this.coin.name) >= 0) 
+            || (['BNB', 'MATIC', 'HT'].indexOf(this.coin.tokenType) >= 0)
             ) {
                 const chainName = this.coin.tokenType ? this.coin.tokenType : this.coin.name;
             let gasPrice = await this.coinServ.getEtheruemCompatibleGasprice(chainName);
+            console.log('gasPrice for getEtheruemCompatibleGasprice=', gasPrice);
             if (!gasPrice) {
                 gasPrice = environment.chains[chainName].gasPrice;
             }
@@ -345,7 +347,7 @@ export class SendCoinModal {
             }
             this.sendCoinForm.get('gasPrice').setValue(gasPrice);
             this.sendCoinForm.get('gasLimit').setValue(environment.chains[chainName].gasLimit);
-            if (this.coin.tokenType === 'BNB' || this.coin.tokenType === 'MATIC') {
+            if (['BNB','MATIC','HT'].indexOf(this.coin.tokenType) >= 0) {
                 this.sendCoinForm.get('gasLimit').setValue(environment.chains[chainName].gasLimitToken);
             }
         } 

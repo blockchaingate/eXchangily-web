@@ -71,12 +71,15 @@ export class CoinService {
 
     async getEthGasprice() {
         const gasPrice = await this.apiService.getEthGasPrice();
-        return new BigNumber(gasPrice).dividedBy(new BigNumber(1e9)).toNumber();
+        return new BigNumber(gasPrice).shiftedBy(-9).toNumber();
     }
 
     async getEtheruemCompatibleGasprice(coinName: string) {
         const gasPrice = await this.apiService.getEtheruemCompatibleGasPrice(coinName);
-        return new BigNumber(gasPrice).dividedBy(new BigNumber(1e9)).toNumber();
+        console.log('gasPrice origin=', gasPrice);
+        let gasPriceInGWei = new BigNumber(gasPrice).shiftedBy(-9).toNumber();
+        //gasPriceInGWei += 20;
+        return gasPriceInGWei;
     }
 
     async getTrxTokenBalance(smartContractAddress: string, address: string) {
@@ -2676,6 +2679,7 @@ export class CoinService {
                 if (!gasLimit) {
                     gasLimit = environment.chains[mycoin.name].gasLimit;
                 }
+
                 transFee = Number(new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber());
                 if (getTransFeeOnly) {
                     return { txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids };
@@ -2728,7 +2732,9 @@ export class CoinService {
                 if (!gasLimit) {
                     gasLimit = environment.chains[mycoin.tokenType].gasLimitToken;
                 }
-                transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).dividedBy(new BigNumber(1e9)).toNumber();
+                //gasPrice += 20;
+                console.log('gasPrice==', gasPrice);
+                transFee = new BigNumber(gasPrice).multipliedBy(new BigNumber(gasLimit)).shiftedBy(-9).toNumber();
                 if (getTransFeeOnly) {
                     return { txHex: '', txHash: '', errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids };
                 }
@@ -2784,6 +2790,8 @@ export class CoinService {
                 const gasPriceFinal = new BigNumber(gasPrice).multipliedBy(new BigNumber(1e9)).toNumber();
 
                 amountInTx = amountSent;
+                console.log('nonce===', nonce);
+                console.log('gasPriceFinal===', gasPriceFinal);
                 const txData = {
                     nonce: nonce,
                     gasPrice: gasPriceFinal,

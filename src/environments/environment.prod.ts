@@ -84,7 +84,7 @@ export const environment = {
             rpcEndpoint: 'https://bsc-dataseed.binance.org',
             hardfork: 'petersburg',
             gasPrice: 5,
-            gasPriceMax: 20,
+            gasPriceMax: 200,
             gasLimit: 21000,
             gasLimitToken: 70000
         },
@@ -97,7 +97,7 @@ export const environment = {
             rpcEndpoint: 'https://polygon-rpc.com',
             hardfork: 'petersburg',
             gasPrice: 5,
-            gasPriceMax: 20,
+            gasPriceMax: 200,
             gasLimit: 21000,
             gasLimitToken: 70000
         },
@@ -110,7 +110,7 @@ export const environment = {
             rpcEndpoint: 'https://http-mainnet.hecochain.com/',
             hardfork: 'petersburg',
             gasPrice: 5,
-            gasPriceMax: 20,
+            gasPriceMax: 200,
             gasLimit: 21000,
             gasLimitToken: 70000
         },

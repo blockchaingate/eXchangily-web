@@ -21,12 +21,7 @@
                         <div>
                             <label for="inputSendTo" class="text-dark">{{'Deposit amount' | translate }}</label>
                         </div>
-                        <div *ngIf="
-                        coin.name === 'BTC' || 
-                        coin.name === 'FAB' || 
-                        coin.name === 'ETH' || 
-                        coin.tokenType === 'ETH' ||
-                        coin.tokenType === 'FAB'">
+                        <div>
                             <mat-slide-toggle (change)="sendAllAmount($event)" class="text-muted">
                                 {{'All' | translate}}
                             </mat-slide-toggle>
@@ -75,11 +70,13 @@
                         </div>
                     </div>
                     <div *ngIf="depositAmountForm.get('gasFeeCustomChecked').value">
-                        <div *ngIf="coin.name === 'ETH' || coin.tokenType === 'ETH' || coin.tokenType === 'FAB'">
+                        <div *ngIf="(['ETH','HT','MATIC','BNB'].indexOf(coin.name) >= 0) || (['ETH','HT','MATIC','BNB','FAB'].indexOf(coin.tokenType) >= 0)">
                             <div class="form-group">
                                 <label for="gasPrice" class="text-dark">
-                                    <p *ngIf="coin.tokenType === 'FAB'">{{'Gas Price(LIU)' | translate }}</p>
-                                    <p *ngIf="coin.name === 'ETH' || coin.tokenType === 'ETH'">{{'Gas Price(GWEI)' | translate }}</p>
+                                    <p>{{'Gas Price(
+                                        <span *ngIf="coin.tokenType === 'FAB'">LIU</span>
+                                        <span *ngIf="coin.tokenType !== 'FAB'">GWEI</span>
+                                        )' | translate }}</p>
                                 </label>
                                 <input type="text" class="form-control" id="inputGasPrice" (input)="onTextChange($event.target.value)" formControlName="gasPrice" placeholder="0">
                                 <small class="text-muted">

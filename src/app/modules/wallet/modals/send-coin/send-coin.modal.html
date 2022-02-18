@@ -101,9 +101,8 @@
                     </div>
                     <div *ngIf="sendCoinForm.get('gasFeeCustomChecked').value">
                         <div *ngIf="
-                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'ETH' || 
-                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].tokenType === 'ETH' ||
-                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].tokenType === 'FAB'
+                        ['ETH','HT','MATIC','BNB'].indexOf(wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name) >= 0 || 
+                        ['ETH','HT','MATIC','BNB','FAB'].indexOf(wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].tokenType) >= 0
                         ">
                             <div class="form-group">
                                 <label for="gasPrice" class="text-dark">{{'Gas price' | translate }}({{getGasPriceUnit()}})</label>

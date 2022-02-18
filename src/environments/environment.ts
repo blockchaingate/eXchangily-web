@@ -90,7 +90,7 @@ export const environment = {
             rpcEndpoint: 'https://data-seed-prebsc-1-s1.binance.org:8545',
             hardfork: 'byzantium',
             gasPrice: 5,
-            gasPriceMax: 20,
+            gasPriceMax: 100,
             gasLimit: 21000,
             gasLimitToken: 70000
         },
@@ -103,7 +103,7 @@ export const environment = {
             rpcEndpoint: 'https://rpc-mumbai.matic.today',
             hardfork: 'byzantium',
             gasPrice: 5,
-            gasPriceMax: 20,
+            gasPriceMax: 100,
             gasLimit: 21000,
             gasLimitToken: 70000
         },
@@ -116,7 +116,7 @@ export const environment = {
             rpcEndpoint: 'https://http-testnet.hecochain.com',
             hardfork: 'byzantium',
             gasPrice: 5,
-            gasPriceMax: 20,
+            gasPriceMax: 100,
             gasLimit: 21000,
             gasLimitToken: 70000
         },
