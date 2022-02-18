@@ -594,7 +594,7 @@ export class WalletDashboardComponent implements OnInit {
 
             }
 
-            if(coin.new && includeNew || coin.name == 'IXT') {
+            if(coin.new && includeNew) {
                 try {
                     const balance = await this.coinServ.getBalance(coin);
                     coin.balance = balance.balance;
