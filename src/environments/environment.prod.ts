@@ -390,7 +390,7 @@ export const environment = {
         DMXN: 200,
         DBRL: 60,
         DNGN: 4000,
-
+        IXT: 0.006,
         BCH: 0.002,
         LTC: 0.02,
         DOGE: 20,

@@ -76,7 +76,8 @@ export const coin_list: Coin[] = [
     {id: 524288, name: 'BNB', icon: ''},
     {id: 524289, name: 'USDTB', icon: ''},
     {id: 524290, name: 'FABB', icon: ''},
-    {id: 589824, name: 'MATICM', icon: ''}
+    {id: 589824, name: 'MATICM', icon: ''},
+    {id: 589825, name: 'IXT', icon: ''}
 ];
 
 

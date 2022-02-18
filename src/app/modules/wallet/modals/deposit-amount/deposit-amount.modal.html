@@ -73,10 +73,10 @@
                         <div *ngIf="(['ETH','HT','MATIC','BNB'].indexOf(coin.name) >= 0) || (['ETH','HT','MATIC','BNB','FAB'].indexOf(coin.tokenType) >= 0)">
                             <div class="form-group">
                                 <label for="gasPrice" class="text-dark">
-                                    <p>{{'Gas Price(
+                                    <p>{{'Gas Price' | translate }}(
                                         <span *ngIf="coin.tokenType === 'FAB'">LIU</span>
                                         <span *ngIf="coin.tokenType !== 'FAB'">GWEI</span>
-                                        )' | translate }}</p>
+                                        )</p> 
                                 </label>
                                 <input type="text" class="form-control" id="inputGasPrice" (input)="onTextChange($event.target.value)" formControlName="gasPrice" placeholder="0">
                                 <small class="text-muted">

@@ -368,6 +368,7 @@ export const environment = {
             BNB: 2
         },
         TRX: 0.2,
+        IXT: 0.006,
         DUSD: 10,
         DCAD: 12.68,
         DCNY: 64,
