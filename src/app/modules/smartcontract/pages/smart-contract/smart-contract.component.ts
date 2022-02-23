@@ -615,8 +615,16 @@ export class SmartContractComponent implements OnInit {
     let abi = JSON.parse(this.fabABI);
 
     let args = [];
-    if(this.fabArguments) {
+    let argsParsed;
+    try {
+      argsParsed = JSON.parse(this.fabArguments);
+    } catch(e) {}
+    if(!Array.isArray(argsParsed)) {
+      console.log('11111');
       args = this.fabArguments.split(',').map(item => {return item.trim()});
+      console.log('final args=', args);
+    } else {
+      args = argsParsed;
     }
 
     return this.web3Serv.formCreateSmartContractABI(abi, this.fabBytecode.trim(), args);
@@ -633,6 +641,9 @@ export class SmartContractComponent implements OnInit {
  
   }
 
+  getReceipt(txid: string) {
+    return 'https://fab' + (environment.production ? 'prod' : 'test') + '.fabcoinapi.com/gettransactionreceipt/' + txid;
+  }
   formCreateKanbanSmartContractABI() {
     const abi = JSON.parse(this.kanbanABI);
     const args = JSON.parse(this.kanbanArguments);
@@ -662,7 +673,7 @@ export class SmartContractComponent implements OnInit {
     
 
     let value = 0;
-    if (this.method.stateMutability === 'payable') {
+    if (this.method && this.method.stateMutability === 'payable') {
       value = Number(this.payableValue);
     }
     console.log('value=', value);
