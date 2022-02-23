@@ -131,6 +131,7 @@
                 <mat-form-field class="example-full-width">
                     <input matInput placeholder="Arguments" [(ngModel)]="fabArguments">
                 </mat-form-field>
+                <p>for example: [1000000000000,"FAB","FAB"]</p>
                 <button mat-raised-button color="primary" (click)="deployFab()"> {{'Deploy' | translate}} </button>
 
                 <div class="row py-2" *ngIf="result">
