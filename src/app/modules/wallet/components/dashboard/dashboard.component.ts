@@ -115,7 +115,50 @@ export class WalletDashboardComponent implements OnInit {
     sortAscName: number;
     sortAscBalance: number;
     sortAscLockedBalance: number;
+    currentChain: string = 'All';
 
+    chains = [
+        {
+            text:'All',
+            value: 'All'
+        },
+        {
+            text:'Ethereum',
+            value: 'ETH'
+        },
+        {
+            text:'Fast Access Blockchain',
+            value: 'FAB'
+        },
+        {
+            text:'Bitcoin',
+            value: 'BTC'
+        },
+        {
+            text:'Tron',
+            value: 'TRX'
+        },
+        {
+            text:'Binance smart chain',
+            value: 'BNB'
+        },
+        {
+            text:'Polygon',
+            value: 'MATIC'
+        },
+        {
+            text:'Heco chain',
+            value: 'HT'
+        },
+        {
+            text:'Litecoin',
+            value: 'LTC'
+        },
+        {
+            text:'Dogecoin',
+            value: 'DOGE'
+        },
+    ];
     constructor(
         private campaignorderServ: CampaignOrderService,
         private route: Router, private walletServ: WalletService, private modalServ: BsModalService,
@@ -159,6 +202,10 @@ export class WalletDashboardComponent implements OnInit {
 
         this.showTransactionHistory = false;
 
+    }
+
+    changeChain(chain: string) {
+        this.currentChain = chain;
     }
 
     getFreeFab() {
@@ -880,7 +927,7 @@ export class WalletDashboardComponent implements OnInit {
         this.depositModal.show();
     }
 
-     redeposit(currentCoin: MyCoin) {
+    redeposit(currentCoin: MyCoin) {
         this.currentCoin = currentCoin;
         // this.opType = 'redeposit';
         // this.pinModal.show();
@@ -1388,6 +1435,7 @@ export class WalletDashboardComponent implements OnInit {
         console.log('assets to be added=', this.assets);
         const pin = this.pin;
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
+        let newAdded = false;
         for (let i = 0; i < this.assets.length; i++) {
             const token = this.assets[i];
             const type = token.type || 'ETH';
@@ -1395,6 +1443,21 @@ export class WalletDashboardComponent implements OnInit {
             const symbol = token.symbol;
             const addr = token.address;
             const decimals = token.decimals;
+
+            let existed = false;
+            for(let j = 0; j < this.wallet.mycoins.length; j++) {
+                const coin = this.wallet.mycoins[j];
+                if(coin.contractAddr && coin.contractAddr == addr) {
+                    existed = true;
+                    break;
+                }
+            }
+            if(existed) {
+                this.alertServ.openSnackBar('Token ' + name + ' existed', 'Ok');
+                continue;
+            }
+
+            newAdded = true;
             if(name == 'FAB') {
 
                 this.opType = 'addNewAsset';
@@ -1422,11 +1485,20 @@ export class WalletDashboardComponent implements OnInit {
             mytoken.new = true;
             this.wallet.mycoins.push(mytoken);
         }
-        this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
-        this.alertServ.openSnackBar(this.translateServ.instant('Your asset was added successfully.'), this.translateServ.instant('Ok'));
+
+        if(newAdded) {
+            this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
+            this.alertServ.openSnackBar(this.translateServ.instant('Your asset was added successfully.'), this.translateServ.instant('Ok'));
+        }
  
     }
 
+    delete(coin: MyCoin) {
+        this.wallet.mycoins = this.wallet.mycoins.filter(item => item != coin);
+        this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
+        this.alertServ.openSnackBar(this.translateServ.instant('Your asset was deleted successfully.'), this.translateServ.instant('Ok'));
+
+    }
     onConfirmedAssets(assets: [Token]) {
 
         this.assets = assets;

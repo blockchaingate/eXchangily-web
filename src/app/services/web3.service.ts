@@ -407,6 +407,11 @@ export class Web3Service {
     };
   }
   
+  toAscii(hex: string) {
+    const web3 = this.getWeb3Provider();
+    return web3.utils.toAscii(hex);
+  }
+  
   getTransferFuncABI(coin: number, address: string, amount: number) {
     const web3 = this.getWeb3Provider();
     let value = new BigNumber(amount).multipliedBy(new BigNumber(1e18)).toFixed();

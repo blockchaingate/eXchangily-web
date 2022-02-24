@@ -247,31 +247,97 @@ export class ApiService {
     
         const result = await this.getEtheruemCompatibleEthCall(chain, smartContractAddress, abiHex);
         const decimals = parseInt(result, 16);
-        console.log('decimals===', decimals);
         return decimals;
-      }
+    }
+
+
+    async getEtheruemCompatibleName(chain: string, smartContractAddress: string) : Promise<string> {
+        const abi = {
+            "constant": true,
+            "inputs": [],
+            "name": "name",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        };
+        const args = [];
+        const abiHex = this.web3Serv.getGeneralFunctionABI(abi, args);
+    
+        const result = await this.getEtheruemCompatibleEthCall(chain, smartContractAddress, abiHex);
+        const name =this.web3Serv.toAscii(result);
+        console.log('result for name=====', name);
+        return name;
+    }
+  
+    async getEtheruemCompatibleSymbol(chain: string, smartContractAddress: string) : Promise<string> {
+        const abi = {
+            "constant": true,
+            "inputs": [],
+            "name": "symbol",
+            "outputs": [
+              {
+                "name": "",
+                "type": "string"
+              }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+          };
+        const args = [];
+        const abiHex = this.web3Serv.getGeneralFunctionABI(abi, args);
+    
+        const result = await this.getEtheruemCompatibleEthCall(chain, smartContractAddress, abiHex);
+
+        const symbol =this.web3Serv.toAscii(result);
+        console.log('result for symbol=====', symbol);
+
+        return symbol;
+    }    
 
     async getEtheruemCompatibleEthCall(chain: string, smartContractAddress: string, dataParam: string) : Promise<string> {
-        const url = environment.chains[chain].rpcEndpoint;
         let result = '';
 
-        try {
+        if(chain == 'ETH') {
+            const url = 'https://eth' + (environment.production ? 'prod' : 'test') + '.fabcoinapi.com/call';
             const data = {
-                "jsonrpc":"2.0",
-                "method":"eth_call",
-                "params":[
-                    {
-                        "to": smartContractAddress, 
-                        "data": dataParam
-                    }, 
-                    "latest"
-                ],
-                "id":1
+                transactionOptions: {
+                    to: smartContractAddress,
+                    data: dataParam
+                }
             };
             const response = await this.http.post(url, data).toPromise() as JsonResult;
-            
+            console.log('response from ETH ====', response);
             result = response.result;
-        } catch (e) {console.log (e); }
+
+        } else {
+            const url = environment.chains[chain].rpcEndpoint;
+
+            try {
+                const data = {
+                    "jsonrpc":"2.0",
+                    "method":"eth_call",
+                    "params":[
+                        {
+                            "to": smartContractAddress, 
+                            "data": dataParam
+                        }, 
+                        "latest"
+                    ],
+                    "id":1
+                };
+                const response = await this.http.post(url, data).toPromise() as JsonResult;
+                
+                result = response.result;
+            } catch (e) {console.log (e); }
+        }
+
         return result;
     }    
 
