@@ -1,41 +1,5 @@
-https://polygonscan.com/address/0xc2132D05D31c914a87C6611C10748AEb04B58e8F#code
-
-txid:
-0x1e8aaac24ffde875c16d96ba3e191b5bcd539803b956d98195083a1398e7ffd2
-
-
-tron:
-
-                const root = bip32.fromSeed(seed);
-                const path = "m/44'/195'/0'/0/0";
-                const childNode = root.derivePath(path);
-
-                priKey = childNode.privateKey;
-
-                buffer = wif.decode(childNode.toWIF());
-                addr = 
-                TronWeb.utils.crypto.getBase58CheckAddress(TronWeb.utils.crypto.getAddressFromPriKey(priKey));
-
-
-
-     
-            
-
-fab:
-
-            const root = bip32.fromSeed(seed);
-            const path = "m/44'/1150'/0'/0/0";
-            const childNode = root.derivePath(path);
-            const { address } = bitcoin.payments.p2pkh({
-                pubkey: childNode.publicKey,
-                network: bitcoin.networks.bitcoin
-            });
-            addr = address;
-            priKey = childNode.toWIF();
-
-
-
-
+https://kanbanprod.fabcoinapi.com/publicapi/orderbook/EXGUSDT
+"0.04","104285.912749"
 
 
 

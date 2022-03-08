@@ -19,8 +19,8 @@ export interface Section {
 })
 
 export class LiteListComponent implements OnInit {
-    selectedcat = 'USDT';
-    selectedpair = 'BTC/USDT';
+    selectedcat = 'DUSD';
+    selectedpair = 'FAB/DUSD';
     pdecimal = '1.2-2';
     vdecimal = '1.6-6';
     // pairConfig: Pair = { name: 'BTCUSDT', priceDecimal: 2, qtyDecimal: 6 };
