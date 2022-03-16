@@ -219,7 +219,12 @@ export class CoinService {
         myCoins.push(bstCoin);      
 
 
-        const stableCoins = ['DCAD', 'DCNY', 'DJPY', 'DGBP', 'DEURO', 'DAUD', 'DMYR', 'DKRW', 'DPHP', 'DTHB', 'DTWD', 'DSGD', 'DHKD', 'DINR', 'DMXN', 'DBRL', 'DNGN'];
+        const stableCoins = [
+            'DCAD', 'DCNY', 'DJPY', 'DGBP', 'DEURO', 'DAUD', 'DMYR', 
+            'DKRW', 'DPHP', 'DTHB', 'DTWD', 'DSGD', 'DHKD', 'DINR', 
+            'DMXN', 'DBRL', 'DNGN', 'TWBTC'
+        ];
+        
         for(let i = 0; i < stableCoins.length; i++) {
             const item = stableCoins[i];
             const stableCoin = this.initToken('FAB', item, 6, environment.addresses.smartContract[item], fabCoin);

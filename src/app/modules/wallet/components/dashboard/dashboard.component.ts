@@ -600,7 +600,7 @@ export class WalletDashboardComponent implements OnInit {
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];       
 
-            if(coin.name == 'FAB' && coin.tokenType == 'BNB' && coin.decimals == 8) {
+            if(coin.name == 'TWBTC' && !coin.new) {
                 this.walletUpdateToDate = true;
             }
             if (coin.name == 'BTC' && !btcAddress) {

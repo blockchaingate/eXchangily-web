@@ -216,6 +216,7 @@ export const environment = {
                 ETH: '0x4fe1819daf783a3f3151ea0937090063b85d6122'
             },              
             DUSD: '0x46e0021c17d30a2db972ee5719cdc7e829ed9930',
+            TWBTC: '0xc50389694f222bf95f014e0bdae3f5e3676999fb',
             DCAD: '0x39296a9d1c5019fd64c9ef4cd0e657403bf10405',
             DCNY: '0xcb856b9d1184232a3ec1ae735b39778c6e65a33a',
             DJPY: '0xec794fc70b9db714a4dec2581bce6764b3731a84',

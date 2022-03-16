@@ -225,6 +225,7 @@ export const environment = {
                 ETH: '0x3732abecb2b660334ea71c029b10494ce9972cfe'
             },           
             DUSD: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
+            TWBTC: '0x569e4c00dbae584eb3e2189739eae951886ac2a3',
             DCAD: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
             DCNY: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
             DJPY: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
@@ -384,6 +385,7 @@ export const environment = {
         DSGD: 14,
         DHKD: 80,
         DINR: 800,
+        TWBTC: 1,
         DMXN: 200,
         DBRL: 60,
         DNGN: 4000,
@@ -451,6 +453,7 @@ export const environment = {
         DTWD: 12,
         DSGD: 12,
         DHKD: 12,
+        TWBTC: 12,
         DINR: 12,
         DMXN: 12,
         DBRL: 12,

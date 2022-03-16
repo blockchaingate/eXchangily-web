@@ -28,7 +28,8 @@ export const coin_list: Coin[] = [
     { id: 131092, name: 'DMXN', icon: ''},
     { id: 131093, name: 'DBRL', icon: ''},
     { id: 131094, name: 'DNGN', icon: ''},
-
+    { id: 131096, name: 'TWBTC', icon: ''},
+    
     { id: 262144, name: 'BCH', icon: ''},
     { id: 327680, name: 'LTC', icon: ''},
     { id: 393216, name: 'DOGE', icon: ''},
@@ -264,4 +265,10 @@ export const price_list: Price[] = [
     { id: 118, coin_id: 524288, base_id: 196632, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'BNB/USDC' },
 
     { id: 119, coin_id: 589825, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'IXT/USDT' },
+
+
+    { id: 120, coin_id: 131096, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'TWBTC/USDT' },
+    { id: 121, coin_id: 131096, base_id: 196632, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'TWBTC/DUSD' },
+    { id: 122, coin_id: 131096, base_id: 131088, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'TWBTC/DTWD' },
+    { id: 123, coin_id: 131096, base_id: 131072, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'TWBTC/FAB' },
 ];
