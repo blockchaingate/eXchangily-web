@@ -91,6 +91,7 @@ export class PreviewComponent implements OnInit {
             for(let i = 0; i < this.assets.length; i++) {
                 const item = this.assets[i];
                 await this.sendAssetsDoItem(item);
+                await new Promise(resolve => setTimeout(resolve, 3000));
             };
         }
 
@@ -120,7 +121,8 @@ export class PreviewComponent implements OnInit {
             } else {
                 this.sendAsset(keyPairsKanban, address, name, value, this.nonce);
             }  
-            this.nonce ++;          
+            this.nonce ++;       
+            await new Promise(resolve => setTimeout(resolve, 1000));   
         }
         console.log('this.nonce before exit =', this.nonce);
     }

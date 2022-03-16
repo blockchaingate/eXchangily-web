@@ -73,7 +73,8 @@ export class BulkTransferComponent implements OnInit {
                     this.alertServ.openSnackBar('Amount ' + data[1].trim() + ' is invalid', 'Ok');
                     return;                    
                 }
-                const address = data[0];
+                const address = data[0].replace(/\"/g, '');
+                console.log('address====', address);
                 let exgAddress = '';
                 try {
                     exgAddress = this.utilServ.fabToExgAddress(address);
