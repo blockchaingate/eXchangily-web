@@ -3,12 +3,12 @@
     <div class="paragraph mt-8" *ngIf="message==='en'">
         <h3>Fee Structure</h3>
         <div class="mt-8">
-            <p>Effective at 00:00 Dec. 8, 2020 UTC, eXchangily will be modifying the eXchangily Transaction Fee to a new model which has been very successfully in developing liquidity in the US equities markets – the Maker/Taker Model.</p>
+            <p>Effective on 00:00 Dec. 8, 2020 UTC, eXchangily’s Transaction Fee pivoted to a new model that is successful at developing liquidity in US equities markets – the Maker-Taker Model.</p>
             <br>
             <H4>CURRENT TRANSACTION FEE SCHEDULE</H4>
 
             <p>
-                Since its inception, eXchangily has charged each side of a trade a Transaction Fee which is calculated as 0.15% (15 basis points or bps) of the Notional Value of the transaction.
+                Since its inception, eXchangily has charged each side of a trade a Transaction Fee, calculated as 0.15% (15 basis points or bps) of the Notional Value of the transaction.
             </p>
 
             <p>
@@ -26,34 +26,31 @@
             <H4>NEW TRANSACTION FEE SCHEDULE</H4>
 
             <p>
-                Each trade on eXchangily matches a displayed limit order which makes liquidity with an inbound order which takes liquidity. To incentivize traders to place orders on eXchangily to make liquidity tighten the displayed market, the new Maker Taker Model
-                will charge a Transaction Fee (30 bps) to the order which takes liquidity and pays a portion of that Transaction Fee (20 bps) as a Transaction Rebate to the order which makes liquidity.
+                Each trade on eXchangily is comprised of a limit sell order that creates liquidity with an inbound buy order that takes liquidity. To incentivize traders to place orders on eXchangily to create a market, the Maker-Taker Model charges a Transaction Fee (30 bps) to the order which takes the liquidity and pays a portion of that Transaction Fee (20 bps) as a Transaction Rebate to the order that made the liquidity.
             </p>
             <p>
-                For example, consider a transaction of 1900 USDT is swapped for 0.1 BTC in BTC/USDT pair where the order of BTC at price 19000 USDT is active, the buyer uses USDT to swap it:
+                For example, consider a transaction where 1900 USDT is traded for 0.1 BTC in a BTC/USDT pair. The limit order of 0.1 BTC is matched with an inbound buy order of 1900 of USDT, so the buyer trades their USDT.
             </p>
             <p>
-                In the example above, assume that there was a resting, displayed order to swap 1900 USDT in return for 0.1 BTC. This order makes liquidity. Now, a new inbound order offers to swap 0.1 BTC for 1900 USDT. This order can be matched against the resting order
-                and take liquidity provided by that order. In this case:
+                The seller created liquidity by offering 0.1 BTC and the buyer took the liquidity by purchasing the BTC with USDT. In this case:
             </p>
 
             <p>
-                <li>The Taker – who is swapping 0.1 BTC for 1900 USDT – will be charged a Transaction Fee of 5.70 USDT (30 bpt of 1900 USDT).</li>
-                <li>The Maker – who is swapping 1900 USDT for 0.1 BTC – will be paid a Transaction Rebate of 3.8 USDT (20 bpt of 1900 USDT).</li>
+                <li>The Taker, who is buying 0.1 BTC for 1900 USDT, will be charged a Transaction Fee of 5.70 USDT (30 bpt of 1900 USDT).</li>
+                <li>The Maker, who is selling 0.1 BTC for 1900 UDST,will be paid a Transaction Rebate of 3.8 USDT (20 bpt of 1900 USDT).</li>
             </p>
 
             <p>
-                However, if there was a resting, displayed order to swap 0.1 BTC in return for 1900 USDT. This order makes liquidity. Now, a new inbound order offers to swap 1900 USDT in return for 0.1 BTC. (Note: this results in the same trade, but the Maker and Taker
-                roles are reversed.) This order can be matched against the resting order and take liquidity provided by that order. In this case:
+                In the reverse scenario where someone paid 0.1 BTC to buy 1900 USDT, the maker and taker have swapped roles. In this case, the maker is the party that is selling 1900 USDT and the taker is paying 0.1 BTC for that trade. In this scenario, transaction fees are as follows:
             </p>
 
             <p>
-                <li>The Taker – who is swapping 1900 USDT for 0.1 BTC – will be charged a Transaction Fee of 0.0003 BTC (30 bpt of 0.1 BTC).</li>
-                <li>The Maker – who is swapping 0.1 BTC for 1900 USDT – will be paid a Transaction Rebate of 0.0002 BTC (20 bpt of 0.1 BTC).</li>
+                <li>The Taker, who is buying 1900 USDT for 0.1 BTC, will be charged a Transaction Fee of 0.0003 BTC (30 bpt of 0.1 BTC).</li>
+                <li>The Maker, who is selling 1900 USDT for 0.1 BTC, will be paid a Transaction Rebate of 0.0002 BTC (20 bpt of 0.1 BTC).</li>
             </p>
             <br>
             <b>
-                The Transaction Fee and Transaction Rebate are charged and paid in the cryptocurrency which the Taker is receiving in the trade.
+                The Transaction Fee and Transaction Rebate will be charged and paid in the cryptocurrency that the Maker is receiving from the Taker. 
             </b>
         </div>
     </div>

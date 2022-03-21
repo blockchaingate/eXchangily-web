@@ -1047,7 +1047,7 @@
     "Confirm Wallet Password": "确认钱包密码",
     "Seed phrase, seperated by space": "助记词，用空格分开",
     "Seed Phrase is invalid": "助记词无效",
-    "Already have mnemonics? Restore": "已有助记词？恢复",
+    "Already have mnemonics? Restore": "已有助记词？恢复钱包",
     "Export": "导出",
     "Delete": "删除",
     "Once you delete your wallet, you can only recover it if you keep your seed phrase.": "删除钱包后，只有保留助记词才能恢复它。",
