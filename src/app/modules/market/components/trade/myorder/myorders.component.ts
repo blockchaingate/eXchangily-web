@@ -71,6 +71,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
     trxUSDTTSBalance: number;
     ethUSDTTSBalance: number;
+    maticUSDTTSBalance: number;
     fabTSBalance: number;
     ethFABTSBalance: number;
     exgTSBalance: number;
@@ -381,7 +382,11 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 if(!this.bnbUSDTTSBalance) {
                     const balance = await this.coinServ.getEtherumCompatibleTokenBalance('BNB', environment.addresses.smartContract.USDT.BNB, environment.addresses.exchangilyOfficial.BNB);
                     this.bnbUSDTTSBalance = new BigNumber(balance, 16).shiftedBy(-18).toNumber();
-                }               
+                }   
+                if(!this.maticUSDTTSBalance) {
+                    const balance = await this.coinServ.getEtherumCompatibleTokenBalance('MATIC', environment.addresses.smartContract.USDT.MATIC, environment.addresses.exchangilyOfficial.MATIC);
+                    this.maticUSDTTSBalance = new BigNumber(balance, 16).shiftedBy(-6).toNumber();
+                }              
             }catch(e) {
 
             }           
@@ -536,7 +541,15 @@ export class MyordersComponent implements OnInit, OnDestroy {
                     this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
                 }
                 return;                
-            }           
+            }    
+            if(this.chain == 'MATIC' && (!this.maticUSDTTSBalance || (amount > this.maticUSDTTSBalance))) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;                
+            }         
         }
 
         if(this.coinName == 'FAB') {

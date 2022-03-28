@@ -1590,6 +1590,7 @@ export class CoinService {
     }
 
     getCoinTypePrefix(coin: MyCoin): number {
+        console.log('coin===', coin);
         let prefix = 0;
         if (coin.name === 'USDT') {
             if (coin.tokenType === 'ETH') {
@@ -1601,7 +1602,7 @@ export class CoinService {
             if (coin.tokenType === 'BNB') {
                 prefix = 8;
             } else
-            if (coin.tokenType === 'USDT') {
+            if (coin.tokenType === 'MATIC') {
                 prefix = 9;
             }           
         } else 
