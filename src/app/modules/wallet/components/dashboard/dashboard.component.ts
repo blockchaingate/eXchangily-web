@@ -91,6 +91,8 @@ export class WalletDashboardComponent implements OnInit {
     amount: number;
     fabBalance: number;
     ethBalance: number;
+    maticBalance: number;
+    bnbBalance: number;
     coinsPrice: CoinsPrice;
     pin: string;
     baseCoinBalance: number;
@@ -600,7 +602,7 @@ export class WalletDashboardComponent implements OnInit {
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];       
 
-            if(coin.name == 'TWBTC' && !coin.new) {
+            if(coin.name == 'USDT' && coin.tokenType == 'MATIC') {
                 this.walletUpdateToDate = true;
             }
             if (coin.name == 'BTC' && !btcAddress) {
@@ -749,6 +751,7 @@ export class WalletDashboardComponent implements OnInit {
                                 ((item.coin === 'MATICM') && (coin.name ==='MATIC') && !coin.tokenType)||
                                 ((item.coin === 'USDTB') && (coin.name ==='USDT') && (coin.tokenType === 'BNB')) ||
                                 ((item.coin === 'USDTX') && (coin.name ==='USDT') && (coin.tokenType === 'TRX')) ||
+                                ((item.coin === 'USDTM') && (coin.name ==='USDT') && (coin.tokenType === 'MATIC')) ||
                                 ((item.coin === 'FABE') && (coin.name ==='FAB') && (coin.tokenType === 'ETH')) ||
                                 ((item.coin === 'FABB') && (coin.name ==='FAB') && (coin.tokenType === 'BNB')) ||
                                 ((item.coin === 'EXGE') && (coin.name ==='EXG') && (coin.tokenType === 'ETH')) ||
@@ -810,8 +813,12 @@ export class WalletDashboardComponent implements OnInit {
                         this.fabBalance = balance.balance;
                     } else if (coin.name === 'ETH') {
                         this.ethBalance = balance.balance;
-                    } else
-                        if (coin.name === 'BCH') {
+                    } else if (coin.name === 'MATIC') {
+                        this.maticBalance = balance.balance;
+                    } else if (coin.name === 'BNB') {
+                        this.bnbBalance = balance.balance;
+                    }
+                    else if (coin.name === 'BCH') {
                             hasBCH = true;
                         }
 
@@ -920,9 +927,15 @@ export class WalletDashboardComponent implements OnInit {
         if (currentCoin.tokenType === 'ETH') {
             this.baseCoinBalance = this.ethBalance;
         } else
-            if (currentCoin.tokenType === 'FAB') {
-                this.baseCoinBalance = this.fabBalance;
-            }
+        if (currentCoin.tokenType === 'FAB') {
+            this.baseCoinBalance = this.fabBalance;
+        } else
+        if(currentCoin.tokenType == 'MATIC') {
+            this.baseCoinBalance = this.maticBalance;
+        } else
+        if(currentCoin.tokenType == 'BNB') {
+            this.baseCoinBalance = this.bnbBalance;
+        }
         this.depositModal.initForm(currentCoin);
         this.depositModal.show();
     }
@@ -1714,6 +1727,9 @@ export class WalletDashboardComponent implements OnInit {
         if(coinName == 'USDTX') {
             coinType = this.coinServ.getCoinTypeIdByName('USDT');
         } else
+        if(coinName == 'USDTM') {
+            coinType = this.coinServ.getCoinTypeIdByName('USDT');
+        } else
         if(coinName == 'USDTB') {
             coinType = this.coinServ.getCoinTypeIdByName('USDT');
         } else
@@ -1870,7 +1886,6 @@ export class WalletDashboardComponent implements OnInit {
             satoshisPerBytes: this.amountForm.satoshisPerBytes
         };
 
-        console.log('currentCoin for deposit=', currentCoin);
         const { txHex, txHash, errMsg, amountInTx, txids } = await this.coinServ.sendTransaction(
             currentCoin, seed, officalAddress, amount, options, doSubmit
         );
@@ -1903,8 +1918,6 @@ export class WalletDashboardComponent implements OnInit {
         const amountInLinkString = amountInLink.toFixed();
         const amountInTxString = amountInTx.toFixed();
 
-        console.log('amountInLinkString=', amountInLinkString);
-        console.log('amountInTxString=', amountInTxString);
         if (amountInLinkString.indexOf(amountInTxString) !== 0) {
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar('转账数量不相等', 'Ok');

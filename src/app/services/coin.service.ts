@@ -179,6 +179,10 @@ export class CoinService {
         this.fillUpAddress(maticCoin, seed, 1, 0);
         myCoins.push(maticCoin);
 
+        const usdtMATICCoin = this.initToken('MATIC', 'USDT', 6, environment.addresses.smartContract.USDT.MATIC, maticCoin);
+        this.fillUpAddress(usdtMATICCoin, seed, 1, 0);
+        myCoins.push(usdtMATICCoin); 
+
         const ixtMATICCoin = this.initToken('MATIC', 'IXT', 18, environment.addresses.smartContract.IXT.MATIC, maticCoin);
         this.fillUpAddress(ixtMATICCoin, seed, 1, 0);
         myCoins.push(ixtMATICCoin);  
@@ -1596,7 +1600,10 @@ export class CoinService {
             }
             if (coin.tokenType === 'BNB') {
                 prefix = 8;
-            }            
+            } else
+            if (coin.tokenType === 'USDT') {
+                prefix = 9;
+            }           
         } else 
         if (coin.name === 'FAB') {
             if (coin.tokenType === 'ETH') {
@@ -1632,6 +1639,9 @@ export class CoinService {
         if (name === 'USDT' && tokenType === 'BNB') {
             name = 'USDTB';
         } else 
+        if (name === 'USDT' && tokenType === 'MATIC') {
+            name = 'USDTM';
+        } else
         if (name === 'FAB' && tokenType === 'ETH') {
             name = 'FABE';
         } else 
