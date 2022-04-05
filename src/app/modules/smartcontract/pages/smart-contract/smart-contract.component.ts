@@ -59,10 +59,15 @@ export class SmartContractComponent implements OnInit {
   }
 
   formAbiHex() {
-    console.log('check', this._kanbanCallArgs);
     try {
-      const abi = JSON.parse(this._kanbanCallABI);
+      const abiDoubleQuote = this._kanbanCallABI.replace(/'/g, '"');
+      const abi = JSON.parse(abiDoubleQuote);
       let args = [];
+      if (this._kanbanCallArgs.length > 0) {
+        this._kanbanCallArgs.forEach(input => {
+          args.push(input.value);
+        });
+      }
       this.kanbanData = this.web3Serv.getGeneralFunctionABI(abi, args);
     } catch(e) {}
   }
@@ -528,26 +533,19 @@ export class SmartContractComponent implements OnInit {
   }
 
   async callKanbanDo(seed) {
-    // Assign args value to kanbanData
     this.formAbiHex();
-
+    
     const keyPairsKanban = this.coinServ.getKeyPairs(this.exgCoin, seed, 0, 0);
     let gasPrice = environment.chains.KANBAN.gasPrice;
     let gasLimit = environment.chains.KANBAN.gasLimit;
     const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
-
+    
     let kanbanTo = null;
+    let kanbanValue = 0;
     if(this.kanbanTo) {
       kanbanTo = this.kanbanTo;
     }
-
-    // Ask Ken since we remove this, what we should we do with kanbanValue
-    let kanbanValue = 0;
-    if(this.kanbanValue) {
-      kanbanValue = this.kanbanValue;
-    }
     
-    console.log('kanbanValue.toString(16)=', kanbanValue.toString(16));
     const txObject = {
         nonce: nonce,
         gasPrice: gasPrice,
@@ -770,7 +768,8 @@ export class SmartContractComponent implements OnInit {
     if (this._kanbanCallABI) {
       this._kanbanCallArgs = [];
       try {
-        const abi = JSON.parse(this._kanbanCallABI);
+        const doubleQuoteABI = this._kanbanCallABI.replace(/'/g, '"');
+        const abi = JSON.parse(doubleQuoteABI);
         for (let j = 0; j < abi.inputs.length; j ++) {
           const input = abi.inputs[j];
           const type = input.type;
