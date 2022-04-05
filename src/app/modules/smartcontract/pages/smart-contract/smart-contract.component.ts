@@ -44,11 +44,10 @@ export class SmartContractComponent implements OnInit {
 
   kanbanABI: string;
   kanbanBytecode: string;
-  kanbanArguments: string;  
-
+  kanbanArguments: string;
 
   _kanbanCallABI: string;
-  _kanbanCallArgs: string;
+  _kanbanCallArgs: any;
 
   get kanbanCallABI(): string {
     return this._kanbanCallABI;
@@ -59,28 +58,12 @@ export class SmartContractComponent implements OnInit {
     this.formAbiHex();
   }
 
-  get kanbanCallArgs(): string {
-    return this._kanbanCallArgs;
-  }
-
-  set kanbanCallArgs(val: string) {
-    this._kanbanCallArgs = val;
-    this.formAbiHex();
-  }
-
   formAbiHex() {
-    console.log('go form');
+    console.log('check', this._kanbanCallArgs);
     try {
-      console.log('1');
       const abi = JSON.parse(this._kanbanCallABI);
-      console.log('2');
       let args = [];
-      if(this._kanbanCallArgs) {
-        args = this._kanbanCallArgs.split(',');
-      }
-      console.log('args=', args);
       this.kanbanData = this.web3Serv.getGeneralFunctionABI(abi, args);
-      console.log('this.kanbanData==', this.kanbanData);
     } catch(e) {}
   }
   
@@ -407,7 +390,6 @@ export class SmartContractComponent implements OnInit {
     } 
 
     const abi = this.web3Serv.getGeneralFunctionABI(this.method, vals);
-
     return abi;
   }
 
@@ -544,9 +526,10 @@ export class SmartContractComponent implements OnInit {
   }
 
   async callKanbanDo(seed) {
+    // Assign args value to kanbanData
+    this.formAbiHex();
 
     const keyPairsKanban = this.coinServ.getKeyPairs(this.exgCoin, seed, 0, 0);
-    // const nonce = await this.apiServ.getEthNonce(this.ethCoin.receiveAdds[0].address);
     let gasPrice = environment.chains.KANBAN.gasPrice;
     let gasLimit = environment.chains.KANBAN.gasLimit;
     const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
@@ -556,6 +539,7 @@ export class SmartContractComponent implements OnInit {
       kanbanTo = this.kanbanTo;
     }
 
+    // Ask Ken since we remove this, what we should we do with kanbanValue
     let kanbanValue = 0;
     if(this.kanbanValue) {
       kanbanValue = this.kanbanValue;
@@ -777,5 +761,28 @@ export class SmartContractComponent implements OnInit {
   callKanban() {
     this.action = 'callKanban';
     this.pinModal.show(); 
+  }
+
+  decodeABI() {
+    if (this._kanbanCallABI) {
+      this._kanbanCallArgs = [];
+      try {
+        const abi = JSON.parse(this._kanbanCallABI);
+        for (let j = 0; j < abi.inputs.length; j ++) {
+          const input = abi.inputs[j];
+          const type = input.type;
+          const name = input.name;
+          this._kanbanCallArgs.push(
+            {
+              name: name,
+              type: type,
+              value: '' // Set 0 as initial value to replace with input value after
+            }
+          );
+        }
+      } catch(e) {
+        console.log('error when decoding ABI', e);
+      }
+    }
   }
 }
