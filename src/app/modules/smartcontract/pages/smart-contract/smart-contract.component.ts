@@ -118,6 +118,7 @@ export class SmartContractComponent implements OnInit {
 
     this.changeSmartContractAddress();
   }
+
   changeSmartContractAddress() {
     /*
     if (this.smartContractAddress == environment.addresses.smartContract.FABLOCK) {
@@ -206,6 +207,7 @@ export class SmartContractComponent implements OnInit {
       this.types.push(type);
     }
   }
+
   getFunctionABI(ABI: any) {
     const retABI = ABI.filter((abi) => abi.type === 'function');
     for (let i = 0; i < retABI.length; i++) {
@@ -387,7 +389,7 @@ export class SmartContractComponent implements OnInit {
         val = '0x0000000000000000000000000000000000000000000000000000000000000000';
       }
       vals.push(val);
-    } 
+    }
 
     const abi = this.web3Serv.getGeneralFunctionABI(this.method, vals);
     return abi;
@@ -628,6 +630,7 @@ export class SmartContractComponent implements OnInit {
   getReceipt(txid: string) {
     return 'https://fab' + (environment.production ? 'prod' : 'test') + '.fabcoinapi.com/gettransactionreceipt/' + txid;
   }
+
   formCreateKanbanSmartContractABI() {
     const abi = JSON.parse(this.kanbanABI);
     const args = JSON.parse(this.kanbanArguments);
