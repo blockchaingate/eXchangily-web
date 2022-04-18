@@ -15,6 +15,7 @@ import {environment} from '../../../../../environments/environment';
 import { TransactionResp } from '../../../../interfaces/kanban.interface';
 import Common from 'ethereumjs-common';
 import KanbanTxService from '../../../../services/kanban.tx.service';
+import * as Eth from 'ethereumjs-tx';
 
 @Component({
   selector: 'app-smart-contract',
@@ -482,7 +483,12 @@ export class SmartContractComponent implements OnInit {
       },
       environment.chains.ETH.hardfork,
     );
-    const tx = new KanbanTxService(txObject, { common: customCommon });
+    let tx;
+    if(environment.production) {
+      tx = new KanbanTxService(txObject, { common: customCommon });
+    } else {
+      tx = new Eth.Transaction(txObject, { common: customCommon });
+    }
 
     tx.sign(privKey);
     const serializedTx = tx.serialize();
@@ -585,7 +591,7 @@ export class SmartContractComponent implements OnInit {
       },
       environment.chains.ETH.hardfork,
     );
-    const tx = new KanbanTxService(txObject, { common: customCommon });
+    const tx = new Eth.Transaction(txObject, { common: customCommon });
 
     tx.sign(privKey);
     const serializedTx = tx.serialize();

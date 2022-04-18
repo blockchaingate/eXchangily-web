@@ -134,8 +134,13 @@ export class Web3Service {
         environment.chains.ETH.hardfork,
     );
  
-    const tx = new KanbanTxService(txObject, { common: customCommon });
- 
+    let tx;
+    if(environment.production) {
+      tx = new KanbanTxService(txObject, { common: customCommon });
+    } else {
+      tx = new Eth.Transaction(txObject, { common: customCommon });
+    }
+
     tx.sign(privateKey);
  
     const serializedTx = tx.serialize();
@@ -190,8 +195,13 @@ export class Web3Service {
       environment.chains.ETH.hardfork,
     );
     console.log('txObject===', txObject);
-    const tx = new KanbanTxService(txObject, { common: customCommon });
-
+    let tx;
+    if(environment.production) {
+      tx = new KanbanTxService(txObject, { common: customCommon });
+    } else {
+      tx = new Eth.Transaction(txObject, { common: customCommon });
+    }
+    
     tx.sign(privKey);
     const serializedTx = tx.serialize();
     txhex = '0x' + serializedTx.toString('hex');
