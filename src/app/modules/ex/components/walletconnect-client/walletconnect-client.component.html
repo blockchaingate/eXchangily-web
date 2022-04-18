@@ -1,0 +1,22 @@
+<div class="container" *ngIf="account">
+    <div>
+        Account:{{account}}
+    </div>
+    
+    <div *ngIf="chainId">
+        ChainId:{{chainId}}
+    </div>
+
+    <div>
+        To:<input [(ngModel)]="to">
+    </div>
+    <div>
+        Amount:<input [(ngModel)]="amount">
+    </div>    
+    <div>
+        <button (click)="send()">Send</button>
+    </div>
+    <div *ngIf="txid">
+        TxID: {{txid}}
+    </div>
+</div>
