@@ -1,12 +1,9 @@
+
 <div class="container" *ngIf="account">
     <div>
         Account:{{account}}
     </div>
     
-    <div *ngIf="chainId">
-        ChainId:{{chainId}}
-    </div>
-
     <div>
         To:<input [(ngModel)]="to">
     </div>
@@ -20,3 +17,6 @@
         TxID: {{txid}}
     </div>
 </div>
+
+
+<button (click)="showQrCode()" *ngIf="!account">Show QRCode</button>

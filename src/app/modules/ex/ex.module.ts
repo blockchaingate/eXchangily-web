@@ -18,6 +18,7 @@ import { AlertService } from '../../services/alert.service';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import { SharedModule} from '../../modules/shared/shared.module';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
     imports: [
@@ -29,6 +30,7 @@ import { SharedModule} from '../../modules/shared/shared.module';
         CommonModule,
         MatFormFieldModule,
         SharedModule,
+        MatInputModule,
         ModalModule.forRoot()
     ],
     providers: [

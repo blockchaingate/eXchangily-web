@@ -1,1 +1,9 @@
-<p>walletconnect works!</p>
+<div class="container py-3">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" [(ngModel)]="uri" placeholder="walletconnect uri (e.g. wc:a28543563...)" aria-label="walletconnect uri" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" (click)="connect()">Connect</button>
+        </div>
+      </div>
+      
+</div>
