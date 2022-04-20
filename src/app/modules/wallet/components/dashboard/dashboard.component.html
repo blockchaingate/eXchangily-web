@@ -23,8 +23,8 @@
                                 <button (click)="onmanageWallet('DELETE_WALLET')" mat-menu-item>{{"Delete wallet" | translate}}</button>
                                 <button (click)="onmanageWallet('SMART_CONTRACT')" mat-menu-item>{{"Smart contract" | translate}}</button>
                                 <button (click)="onmanageWallet('HIDE_SHOW_WALLET')" mat-menu-item>{{ (hideWallet ? 'Show wallet' : 'Hide wallet') | translate}}  </button>
+                                <button (click)="navigate('/ex/walletconnect')" mat-menu-item>{{"Wallet connect" | translate}}</button>
                                 <button (click)="onmanageWallet('TOOLS')" mat-menu-item>{{"Tools" | translate}}</button>
-
                             </mat-menu>
 
                             <button mat-icon-button [matMenuTriggerFor]="walletMenu">

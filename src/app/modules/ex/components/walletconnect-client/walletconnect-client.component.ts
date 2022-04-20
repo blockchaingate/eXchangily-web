@@ -4,6 +4,9 @@ import BigNumber from 'bignumber.js';
 import { CLIENT_EVENTS } from "@walletconnect/client";
 import { PairingTypes } from "@walletconnect/types";
 import QRCodeModal from "@walletconnect/qrcode-modal";
+import { Web3Service } from 'src/app/services/web3.service';
+import { KanbanService } from 'src/app/services/kanban.service';
+import { UtilService } from 'src/app/services/util.service';
 
 @Component({
     selector: 'app-walletconnect-client',
@@ -14,24 +17,41 @@ import QRCodeModal from "@walletconnect/qrcode-modal";
       chainId: number;
       account: string;
       to: string;
-      amount: number;
+      toExample: string;
+      dataExample: string;
+      value: number;
+      data: string;
       session: any;
       txid: string;
       client: any;
       uri: string;
-      async ngOnInit() {
-        this.client = await WalletConnectClient.init({
-          logger: 'debug',
-          projectId: "3acbabd1deb4672edfd4ca48226cfc0f",
-          relayUrl: "wss://relay.walletconnect.com",
-          metadata: {
-            name: "Example Dapp",
-            description: "Example Dapp",
-            url: "http://localhost:4200",
-            icons: ["https://walletconnect.com/walletconnect-logo.png"],
-          },
-        });
 
+      constructor(
+        private web3Serv: Web3Service, 
+        private utilServ: UtilService,
+        private kanbanServ: KanbanService) {
+
+      }
+      async ngOnInit() { 
+        this.value = 0;
+
+        this.data = this.dataExample = this.web3Serv.getTransferFuncABI(196609, this.utilServ.fabToExgAddress('mjHedtvkkkNxhxB4eKLHxwVinR3Tt7WzHf'), 0.1);
+
+        this.to = this.toExample = await this.kanbanServ.getCoinPoolAddress();
+
+        if(!this.client) {
+          this.client = await WalletConnectClient.init({
+            logger: 'debug',
+            projectId: "3acbabd1deb4672edfd4ca48226cfc0f",
+            relayUrl: "wss://relay.walletconnect.com",
+            metadata: {
+              name: "Example Dapp",
+              description: "Example Dapp",
+              url: "http://localhost:4200",
+              icons: ["https://walletconnect.com/walletconnect-logo.png"],
+            },
+          });
+        }
 
       }
 
@@ -56,7 +76,7 @@ import QRCodeModal from "@walletconnect/qrcode-modal";
           permissions: {
             
             blockchain: {
-              chains: ["eip155:kanban"],
+              chains: ["eip155:fab"],
             },
             jsonrpc: {
               methods: ["kanban_sendTransaction"],
@@ -80,14 +100,18 @@ import QRCodeModal from "@walletconnect/qrcode-modal";
       }
 
       async send() {
+
+        const tx = {
+          to: this.to,
+          value: this.value,
+          data: this.data
+        };
         const requestBody = {
           topic: this.session.topic,
           chainId: this.session.permissions.blockchain.chains[0],
           request: {
-            method: "personal_sign",
-            params: [
-              "0x4d7920656d61696c206973206a6f686e40646f652e636f6d202d2031363530333832303833363939",
-              "0xA5488e4319DF76377e2aD454CcBcaE37a93c7B48"            ],
+            method: "kanban_sendTransaction",
+            params: [tx],
           },
         };
 

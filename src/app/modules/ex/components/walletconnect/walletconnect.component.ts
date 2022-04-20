@@ -3,6 +3,9 @@ import WalletConnectClient from '@walletconnect/client'
 import WalletConnect from "@walletconnect/client";
 import { CLIENT_EVENTS } from "@walletconnect/client";
 import { SessionTypes } from "@walletconnect/types";
+import { UtilService } from 'src/app/services/util.service';
+import { WalletService } from 'src/app/services/wallet.service';
+import { ERROR, getAppMetadata } from "@walletconnect/utils";
 
 @Component({
   selector: 'app-walletconnect',
@@ -12,13 +15,35 @@ import { SessionTypes } from "@walletconnect/types";
 export class WalletconnectComponent implements OnInit {
   client: any;
   uri: string;
-  constructor() { }
+  session: any;
+  sessionCreated: boolean;
+  walletAddress: string;
 
-  ngOnInit(): void {
+  constructor(
+    private utilServ: UtilService,
+    private walletServ: WalletService) { }
+
+  async ngOnInit() {
+    this.sessionCreated = false;
+    const wallet = await this.walletServ.getCurrentWallet();
+    if (wallet) {
+        const address = wallet.excoin.receiveAdds[0].address;
+        this.walletAddress = this.utilServ.exgToFabAddress(address);
+    }
+  }
+
+  async disconnect() {
+    if(this.client) {
+      this.sessionCreated = false;
+      await this.client.disconnect({
+        topic: this.session.topic,
+        reason: ERROR.USER_DISCONNECTED.format(),
+      })
+    }
+
   }
 
   async connect() {
-
     const client = await WalletConnectClient.init({
       controller: true,
       //logger: 'debug',
@@ -52,6 +77,47 @@ export class WalletconnectComponent implements OnInit {
       async (session: SessionTypes.Created) => {
         // session created succesfully
         console.log('session created');
+        this.session = session;
+        this.sessionCreated = true;
+        console.log('this.session=', this.session);
+      }
+    );
+
+    client.on(
+      CLIENT_EVENTS.session.request,
+      async (requestEvent: SessionTypes.RequestEvent) => {
+        // WalletConnect client can track multiple sessions
+        // assert the topic from which application requested
+        const { topic, request } = requestEvent;
+        console.log('request===', request);
+        const session = await client.session.get(requestEvent.topic);
+        // now you can display to the user for approval using the stored metadata
+        const { metadata } = session.peer;
+        // after user has either approved or not the request it should be formatted
+        // as response with either the result or the error message
+        let result: any;
+        const approved = true;
+        const response = approved
+          ? {
+              topic,
+              response: {
+                id: request.id,
+                jsonrpc: "2.0",
+                result,
+              },
+            }
+          : {
+              topic,
+              response: {
+                id: request.id,
+                jsonrpc: "2.0",
+                error: {
+                  code: -32000,
+                  message: "User rejected JSON-RPC request",
+                },
+              },
+            };
+        await client.respond(response);
       }
     );
     const pairBody = { uri: this.uri };
@@ -71,7 +137,7 @@ export class WalletconnectComponent implements OnInit {
       // if user approved then include response with accounts matching the chains and wallet metadata
       const response = {
         state: {
-          accounts: ["eip155:kanban:0x1d85568eEAbad713fBB5293B45ea066e552A90De"],
+          accounts: ["eip155:fab:" + this.walletAddress],
         },
       };
       await this.client.approve({ proposal, response });

@@ -8,8 +8,18 @@
         To:<input [(ngModel)]="to">
     </div>
     <div>
-        Amount:<input [(ngModel)]="amount">
-    </div>    
+        For example: {{toExample}}
+    </div>
+    <div>
+        Value:<input [(ngModel)]="value">
+    </div>  
+
+    <div>
+        Data:<input [(ngModel)]="data">
+    </div>  
+    <div>
+        For example: {{dataExample}}
+    </div>
     <div>
         <button (click)="send()">Send</button>
     </div>

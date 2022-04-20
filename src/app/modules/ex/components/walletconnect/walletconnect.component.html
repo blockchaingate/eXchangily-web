@@ -1,9 +1,23 @@
-<div class="container py-3">
-    <div class="input-group mb-3">
+{{sessionCreated}}
+<div class="container py-3" *ngIf="!sessionCreated">
+  no session
+    <div *ngIf="!walletAddress" class="text-white">
+      No wallet, please <a href="/wallet/create">Create</a> or <a href="/wallet/restore">Import</a> a wallet.
+    </div>
+    <div class="input-group mb-3" *ngIf="walletAddress">
         <input type="text" class="form-control" [(ngModel)]="uri" placeholder="walletconnect uri (e.g. wc:a28543563...)" aria-label="walletconnect uri" aria-describedby="basic-addon2">
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button" (click)="connect()">Connect</button>
+          <button class="btn btn-outline-secondary text-white" type="button" (click)="connect()">Connect</button>
         </div>
-      </div>
-      
+    </div>
+</div>
+
+<div class="container py-3 d-flex" *ngIf="sessionCreated">
+  has session
+  <div>
+    Session created
+  </div>
+  <div (click)="disconnect()">
+    Disconnect
+  </div>
 </div>
