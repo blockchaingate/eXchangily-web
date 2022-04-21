@@ -1,6 +1,4 @@
-{{sessionCreated}}
-<div class="container py-3" *ngIf="!sessionCreated">
-  no session
+<div class="container py-3" *ngIf="state == 'noSession'">
     <div *ngIf="!walletAddress" class="text-white">
       No wallet, please <a href="/wallet/create">Create</a> or <a href="/wallet/restore">Import</a> a wallet.
     </div>
@@ -12,8 +10,32 @@
     </div>
 </div>
 
-<div class="container py-3 d-flex" *ngIf="sessionCreated">
-  has session
+<div class="container py-3 d-flex" *ngIf="state == 'sessionProposal'">
+  <div>
+    Session proposal
+  </div>
+  <div (click)="approveSession(true)">
+    Approve
+  </div>
+  <div (click)="approveSession(false)">
+    Approve
+  </div>
+</div>
+
+<div class="container py-3 d-flex" *ngIf="state == 'sessionRequest'">
+  <div>
+    Session request
+  </div>
+  <div (click)="approveRequest(true)">
+    Approve
+  </div>
+  <div (click)="approveRequest(false)">
+    Approve
+  </div>
+</div>
+
+
+<div class="container py-3 d-flex" *ngIf="state == 'sessionCreated'">
   <div>
     Session created
   </div>

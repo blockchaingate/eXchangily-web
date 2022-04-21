@@ -16,7 +16,10 @@ export class WalletconnectComponent implements OnInit {
   client: any;
   uri: string;
   session: any;
-  sessionCreated: boolean;
+  state: string;
+  proposal: any;
+  topic: any;
+  request: any;
   walletAddress: string;
 
   constructor(
@@ -24,7 +27,7 @@ export class WalletconnectComponent implements OnInit {
     private walletServ: WalletService) { }
 
   async ngOnInit() {
-    this.sessionCreated = false;
+    this.state = 'noSession';
     const wallet = await this.walletServ.getCurrentWallet();
     if (wallet) {
         const address = wallet.excoin.receiveAdds[0].address;
@@ -34,7 +37,7 @@ export class WalletconnectComponent implements OnInit {
 
   async disconnect() {
     if(this.client) {
-      this.sessionCreated = false;
+      this.state = 'noSession';
       await this.client.disconnect({
         topic: this.session.topic,
         reason: ERROR.USER_DISCONNECTED.format(),
@@ -43,6 +46,36 @@ export class WalletconnectComponent implements OnInit {
 
   }
 
+  approveSession(approved) {
+    this.handleSessionUserApproval(approved, this.proposal); // described in the step 4
+  }
+
+  async approveRequest(approved) {
+    let result: any;
+    const topic = this.topic;
+    const request = this.request;
+    const response = approved
+      ? {
+          topic,
+          response: {
+            id: request.id,
+            jsonrpc: "2.0",
+            result,
+          },
+        }
+      : {
+          topic,
+          response: {
+            id: request.id,
+            jsonrpc: "2.0",
+            error: {
+              code: -32000,
+              message: "User rejected JSON-RPC request",
+            },
+          },
+        };
+    await this.client.respond(response);
+  }
   async connect() {
     const client = await WalletConnectClient.init({
       controller: true,
@@ -64,11 +97,16 @@ export class WalletconnectComponent implements OnInit {
         console.log('proposalllll=', proposal);
         // user should be prompted to approve the proposed session permissions displaying also dapp metadata
         const { proposer, permissions } = proposal;
+        this.proposal = proposal;
         console.log('proposer=', proposer);
         console.log('permissions=', permissions);
         const { metadata } = proposer;
+        console.log('metadata===', metadata);
+        this.state = 'sessionProposal';
+        /*
         let approved: boolean;
-        this.handleSessionUserApproval(approved, proposal); // described in the step 4
+        
+        */
       }
     );
 
@@ -78,7 +116,7 @@ export class WalletconnectComponent implements OnInit {
         // session created succesfully
         console.log('session created');
         this.session = session;
-        this.sessionCreated = true;
+        this.state = 'sessionCreated';
         console.log('this.session=', this.session);
       }
     );
@@ -95,29 +133,10 @@ export class WalletconnectComponent implements OnInit {
         const { metadata } = session.peer;
         // after user has either approved or not the request it should be formatted
         // as response with either the result or the error message
-        let result: any;
-        const approved = true;
-        const response = approved
-          ? {
-              topic,
-              response: {
-                id: request.id,
-                jsonrpc: "2.0",
-                result,
-              },
-            }
-          : {
-              topic,
-              response: {
-                id: request.id,
-                jsonrpc: "2.0",
-                error: {
-                  code: -32000,
-                  message: "User rejected JSON-RPC request",
-                },
-              },
-            };
-        await client.respond(response);
+        this.state = 'sessionRequest';
+        this.topic = topic;
+        this.request = request;
+
       }
     );
     const pairBody = { uri: this.uri };
@@ -131,8 +150,7 @@ export class WalletconnectComponent implements OnInit {
     proposal: SessionTypes.Proposal
   ) {
     console.log('handleSessionUserApproval');
-    const userApproved = true;
-    if (userApproved) {
+    if (approved) {
       console.log('apprrrrrroved');
       // if user approved then include response with accounts matching the chains and wallet metadata
       const response = {
