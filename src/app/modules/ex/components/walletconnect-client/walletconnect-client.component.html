@@ -1,32 +1,33 @@
 
 <div class="container" *ngIf="account">
-    <div>
-        Account:{{account}}
+    <div class="row my-2">
+        <div class="col-sm-2 text-muted">Account</div>
+        <div class="col-sm-10 text-white">{{account}}</div>
     </div>
     
-    <div>
-        To:<input [(ngModel)]="to">
+    <div class="row my-2">
+        <div class="col-sm-2 text-muted">To</div>
+        <div class="col-sm-10"><input class="form-control" [(ngModel)]="to"></div>
     </div>
-    <div>
-        For example: {{toExample}}
-    </div>
-    <div>
-        Value:<input [(ngModel)]="value">
-    </div>  
 
-    <div>
-        Data:<input [(ngModel)]="data">
-    </div>  
-    <div>
-        For example: {{dataExample}}
+    <div class="row my-2">
+        <div class="col-sm-2 text-muted">Value</div>
+        <div class="col-sm-10"><input class="form-control" [(ngModel)]="value"></div>
     </div>
-    <div>
-        <button (click)="send()">Send</button>
+
+    <div class="row my-2">
+        <div class="col-sm-2 text-muted">Data</div>
+        <div class="col-sm-10"><textarea class="form-control" rows="3" [(ngModel)]="data"></textarea></div>
     </div>
-    <div *ngIf="txid">
-        TxID: {{txid}}
+    <div class="row my-2">
+        <button type="button" class="btn btn-primary" (click)="send()">Send request</button>
+    </div>
+    <div class="row my-2 text-white" *ngIf="result">
+        <div *ngFor="let item of result">
+            txid:{{item}}
+        </div>
     </div>
 </div>
-
-
-<button (click)="showQrCode()" *ngIf="!account">Show QRCode</button>
+<div class="container my-3 d-flex justify-content-center" *ngIf="!account">
+    <button type="button" class="btn btn-primary" (click)="showQrCode()">Show QRCode</button>
+</div>

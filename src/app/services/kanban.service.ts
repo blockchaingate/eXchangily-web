@@ -193,6 +193,14 @@ export class KanbanService {
         return this.post('kanban/sendRawTransaction', data);
     }
 
+    async sendRawSignedTransactionPromise(txhex: string): Promise<any> {
+        const data = {
+            signedTransactionData: txhex
+        };
+        const res = await this.post('kanban/sendRawTransaction', data).toPromise();
+        return res;
+    }
+
     signJsonData(privateKey: any, data: any) {
 
         var queryString = Object.keys(data).filter((k) => (data[k] != null) && (data[k] != undefined))

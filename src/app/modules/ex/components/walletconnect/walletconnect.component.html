@@ -1,3 +1,5 @@
+<pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>
+
 <div class="container py-3" *ngIf="state == 'noSession'">
     <div *ngIf="!walletAddress" class="text-white">
       No wallet, please <a href="/wallet/create">Create</a> or <a href="/wallet/restore">Import</a> a wallet.
@@ -10,36 +12,112 @@
     </div>
 </div>
 
-<div class="container py-3 d-flex" *ngIf="state == 'sessionProposal'">
-  <div>
-    Session proposal
+<div class="container py-3 text-white" *ngIf="state == 'sessionProposal'">
+  <form>
+    <div class="form-group row">
+      <div class="col-sm-2 text-muted">Name</div>
+      <div class="col-sm-10">
+        {{metadata.name}}
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-2  text-muted">Description</div>
+      <div class="col-sm-10">
+        {{metadata.description}}
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-sm-2  text-muted">Blockchains</div>
+      <div class="col-sm-10">
+        {{permissions.blockchain.chains.toString()}}
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-sm-2  text-muted">Methods</div>
+      <div class="col-sm-10">
+        {{permissions.jsonrpc.methods.toString()}}
+      </div>
+    </div>
+  </form>
+  <div class=" d-flex justify-content-between">
+    <div>
+      Session proposal
+    </div>
+    <div class="d-flex">
+      <div class="px-2">
+        <button type="button" class="btn btn-primary" (click)="approveSession(true)">Approve</button>
+      </div>
+      
+  
+      <div (click)="approveSession(false)">
+        <button type="button" class="btn btn-outline-info" (click)="approveSession(false)">Reject</button>
+      </div>
+    </div>
   </div>
-  <div (click)="approveSession(true)">
-    Approve
-  </div>
-  <div (click)="approveSession(false)">
-    Approve
+
+
+</div>
+
+<div class="container py-3  text-white" *ngIf="state == 'sessionRequest'">
+  <form>
+
+    <div class="form-group row">
+      <div class="col-sm-2 text-muted">Method</div>
+      <div class="col-sm-10">
+       {{request.method}}
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-2  text-muted">Params</div>
+      <div class="col-sm-10">
+        <div *ngIf="request.method == 'kanban_sendTransaction'">
+          <div class="border-bottom" *ngFor="let item of request.params">
+            <div class="row">
+              <div class="col-sm-2  text-muted">To</div>
+              <div class="col-sm-10">{{item.to}}</div>
+            </div>
+            <div class="row">
+              <div class="col-sm-2  text-muted">Value</div>
+              <div class="col-sm-10">{{item.value}}</div>
+            </div>
+            <div class="row">
+              <div class="col-sm-2  text-muted">Data</div>
+              <div class="col-sm-10">{{item.data}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+  </form>
+  <div class="d-flex justify-content-between">
+    <div>
+      Session request
+    </div>
+    <div class="d-flex">
+      <div class="px-2">
+        <button type="button" class="btn btn-primary" (click)="approveRequest()">Approve</button>
+      </div>
+      
+  
+      <div (click)="approveSession(false)">
+        <button type="button" class="btn btn-outline-info" (click)="rejectRequest()">Reject</button>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="container py-3 d-flex" *ngIf="state == 'sessionRequest'">
-  <div>
-    Session request
-  </div>
-  <div (click)="approveRequest(true)">
-    Approve
-  </div>
-  <div (click)="approveRequest(false)">
-    Approve
-  </div>
-</div>
 
-
-<div class="container py-3 d-flex" *ngIf="state == 'sessionCreated'">
+<div class="container py-3 d-flex justify-content-between text-white" *ngIf="state == 'sessionCreated'">
   <div>
     Session created
   </div>
-  <div (click)="disconnect()">
-    Disconnect
+  <div>
+    <button (click)="disconnect()" type="button" class="btn btn-outline-danger">Disconnect</button>
   </div>
 </div>
+

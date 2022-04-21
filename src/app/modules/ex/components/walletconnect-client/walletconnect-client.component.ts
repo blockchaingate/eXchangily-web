@@ -23,6 +23,7 @@ import { UtilService } from 'src/app/services/util.service';
       data: string;
       session: any;
       txid: string;
+      result: any;
       client: any;
       uri: string;
 
@@ -117,7 +118,7 @@ import { UtilService } from 'src/app/services/util.service';
 
         console.log('requestBody===', requestBody);
         const result = await this.client.request(requestBody);
-
+        this.result = result;
         console.log('result===', result);
       }
   }
