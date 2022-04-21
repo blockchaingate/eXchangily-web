@@ -24,7 +24,10 @@
     </div>
     <div class="row my-2 text-white" *ngIf="result">
         <div *ngFor="let item of result">
-            txid:{{item}}
+            txid:
+            <a target="_blank" href="{{getLink(item)}}">
+                {{item}}
+            </a>
         </div>
     </div>
 </div>

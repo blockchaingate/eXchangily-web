@@ -1,6 +1,19 @@
 <pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>
 
+<div class="container py-3 d-flex justify-content-between text-white" 
+*ngIf="state != 'noSession' && state != 'sessionProposal'">
+  <div>
+    Session created
+  </div>
+  <div>
+    <button (click)="disconnect()" type="button" class="btn btn-outline-danger">Disconnect</button>
+  </div>
+</div>
+
 <div class="container py-3" *ngIf="state == 'noSession'">
+
+
+
     <div *ngIf="!walletAddress" class="text-white">
       No wallet, please <a href="/wallet/create">Create</a> or <a href="/wallet/restore">Import</a> a wallet.
     </div>
@@ -52,7 +65,7 @@
       
   
       <div (click)="approveSession(false)">
-        <button type="button" class="btn btn-outline-info" (click)="approveSession(false)">Reject</button>
+        <button type="button" class="btn btn-outline-danger" (click)="approveSession(false)">Reject</button>
       </div>
     </div>
   </div>
@@ -105,19 +118,24 @@
       
   
       <div (click)="approveSession(false)">
-        <button type="button" class="btn btn-outline-info" (click)="rejectRequest()">Reject</button>
+        <button type="button" class="btn btn-outline-danger" (click)="rejectRequest()">Reject</button>
       </div>
     </div>
   </div>
 </div>
 
 
-<div class="container py-3 d-flex justify-content-between text-white" *ngIf="state == 'sessionCreated'">
+
+
+<div class="container py-3 d-flex justify-content-between text-white" *ngIf="state == 'sessionRequestApproved'">
   <div>
-    Session created
+    Session request approved
   </div>
+</div>
+
+<div class="container py-3 d-flex justify-content-between text-white" *ngIf="state == 'sessionRequestRejected'">
   <div>
-    <button (click)="disconnect()" type="button" class="btn btn-outline-danger">Disconnect</button>
+    Session request rejected
   </div>
 </div>
 

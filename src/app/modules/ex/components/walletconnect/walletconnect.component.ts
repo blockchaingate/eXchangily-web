@@ -43,7 +43,6 @@ export class WalletconnectComponent implements OnInit {
     private walletServ: WalletService) { }
 
   changeState(newState: string) {
-    console.log('changeState=', newState);
     this.state = newState;
     this.cd.detectChanges();
   }
@@ -73,16 +72,12 @@ export class WalletconnectComponent implements OnInit {
     this.client.on(
       CLIENT_EVENTS.session.proposal,
       async (proposal: SessionTypes.Proposal) => {
-        console.log('proposalllll=', proposal);
         // user should be prompted to approve the proposed session permissions displaying also dapp metadata
         const { proposer, permissions } = proposal;
         this.proposal = proposal;
-        console.log('proposer=', proposer);
-        console.log('permissions=', permissions);
         const { metadata } = proposer;
         this.metadata = metadata;
         this.permissions = permissions;
-        console.log('metadata===', metadata);
         this.changeState('sessionProposal');
 
       }
@@ -106,13 +101,10 @@ export class WalletconnectComponent implements OnInit {
         const session = await client.session.get(requestEvent.topic);
         // now you can display to the user for approval using the stored metadata
         const { metadata } = session.peer;
-        console.log('metadata for sessionRequest', metadata);
         // after user has either approved or not the request it should be formatted
         // as response with either the result or the error message
         this.topic = topic;
-        console.log('topic===', topic);
         this.request = request;
-        console.log('request===', request);
         this.changeState('sessionRequest');
 
 
@@ -182,10 +174,10 @@ export class WalletconnectComponent implements OnInit {
       },
     };
 
+    this.changeState('sessionRequestApproved');
     return await this.client.respond(response);
   }
   approveRequest() {
-    console.log('handleRequest go');
     this.cd.detectChanges();
     this.pinModal.show();
   }
@@ -204,13 +196,13 @@ export class WalletconnectComponent implements OnInit {
           },
         },
     };
+    this.changeState('sessionRequestRejected');
     return await this.client.respond(response);
 
   }
   connect() {
 
     const pairBody = { uri: this.uri };
-    console.log('pairBody=', pairBody);
     this.client.pair(pairBody);
 
   }
@@ -219,9 +211,7 @@ export class WalletconnectComponent implements OnInit {
     approved: boolean,
     proposal: SessionTypes.Proposal
   ) {
-    console.log('handleSessionUserApproval');
     if (approved) {
-      console.log('apprrrrrroved');
       // if user approved then include response with accounts matching the chains and wallet metadata
       const response = {
         state: {

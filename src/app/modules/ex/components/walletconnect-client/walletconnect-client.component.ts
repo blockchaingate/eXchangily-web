@@ -7,6 +7,7 @@ import QRCodeModal from "@walletconnect/qrcode-modal";
 import { Web3Service } from 'src/app/services/web3.service';
 import { KanbanService } from 'src/app/services/kanban.service';
 import { UtilService } from 'src/app/services/util.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-walletconnect-client',
@@ -56,17 +57,19 @@ import { UtilService } from 'src/app/services/util.service';
 
       }
 
+      getLink(txid: string) {
+        const url = 'https://' + (environment.production ? '' : 'test.') + 'exchangily.com/explorer/tx-detail/' + txid;
+        console.log('url===', url);
+        return url;
+      }
       async showQrCode() {
 
         this.client.on(
           CLIENT_EVENTS.pairing.proposal,
           async (proposal: PairingTypes.Proposal) => {
-            // uri should be shared with the Wallet either through QR Code scanning or mobile deep linking
-            console.log('hahha');
+
             const { uri } = proposal.signal.params;
-            console.log('uri====', uri);
             this.uri= uri;
-            console.log("EVENT", "QR Code Modal opened");
             QRCodeModal.open(uri, () => {
               console.log("EVENT", "QR Code Modal closed");
             });
@@ -90,13 +93,10 @@ import { UtilService } from 'src/app/services/util.service';
 
       onSessionConnected(session) {
         this.session = session;
-        console.log('sessionnnn=', session);
         QRCodeModal.close();
         const accounts = session.state.accounts;
-        console.log('accounts===', accounts);
         if(accounts && (accounts.length > 0)) {
           this.account = accounts[0];
-          console.log('this.account=', this.account);
         }
       }
 
@@ -116,18 +116,7 @@ import { UtilService } from 'src/app/services/util.service';
           },
         };
 
-        console.log('requestBody===', requestBody);
         const result = await this.client.request(requestBody);
         this.result = result;
-        console.log('result===', result);
       }
   }
-
-  /*
-  body= 
-Object
-chainId: "eip155:1"
-request: {method: 'personal_sign', params: Array(2)}
-topic: "0c2cca65d1a286e32b1b7e893ca5b789fecf2a3a9cbb339269b21448f6cca76e"
-[[Prototype]]: Object
-  */
