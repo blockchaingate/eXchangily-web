@@ -225,9 +225,11 @@
                                             utilServ.toPrecisionMul(mycoin.balance, mycoin.lockedBalance, mycoin.usdPrice) >= 1
                                         )">
                                         <div class="col-custom-1 pointer" (click)="selectCoin(mycoin.symbol)">
+                                            
                                             <img *ngIf="!mycoin.new"  src="{{getCoinLogo(mycoin)}}" name="icon" class="icon" />
                                         </div>
                                         <div class="col-custom-1">
+                                            
                                             {{mycoin.symbol}}
                                             <div>
                                                 <div *ngIf="(mycoin.tokenType=='ETH')">
@@ -248,6 +250,7 @@
                                             </div>
                                         </div>
                                         <div class="col-2">
+                                            
                                             <span *ngIf="mycoin.balance >= 0">
                                                 {{utilServ.toPrecision(mycoin.balance)}}
                                             </span>

@@ -1104,6 +1104,7 @@ export class WalletDashboardComponent implements OnInit {
 
     onConfirmedPin(pin: string) {
         this.pin = pin;
+        console.log('this.opType====', this.opType);
         const pinHash = this.utilServ.SHA256(pin).toString();
         if (pinHash !== this.wallet.pwdHash) {
             this.warnPwdErr();
@@ -1172,7 +1173,7 @@ export class WalletDashboardComponent implements OnInit {
     }
 
     addNewAssetDo() {
-
+        console.log('addNewAssetDo for=', this.coinName);
         const coin = new MyCoin(this.coinName);
         coin.new = true;
         coin.encryptedPrivateKey = this.utilServ.aesEncrypt(this.privateKey, this.pin);
@@ -1193,7 +1194,7 @@ export class WalletDashboardComponent implements OnInit {
             exgCoin.encryptedPrivateKey = coin.encryptedPrivateKey;
             this.coinServ.updateCoinBalance(exgCoin);
 
-            const dusdCoin = this.coinServ.initToken('FAB', 'DUSD', 18, environment.addresses.smartContract.DUSD, coin);
+            const dusdCoin = this.coinServ.initToken('FAB', 'DUSD', 6, environment.addresses.smartContract.DUSD, coin);
             dusdCoin.new = true;
             dusdCoin.encryptedPrivateKey = coin.encryptedPrivateKey;    
             this.coinServ.updateCoinBalance(dusdCoin);
@@ -1429,6 +1430,9 @@ export class WalletDashboardComponent implements OnInit {
     }
 
     showLockedDetails(coin) {
+        if(coin.new) {
+            return;
+        }
         this.lockedInfoModal.show(coin);
     }
     verifySeedPhrase() {
@@ -1451,7 +1455,7 @@ export class WalletDashboardComponent implements OnInit {
         let newAdded = false;
         for (let i = 0; i < this.assets.length; i++) {
             const token = this.assets[i];
-            const type = token.type || 'ETH';
+            const type = token.type;
             const name = token.name;
             const symbol = token.symbol;
             const addr = token.address;
@@ -1471,12 +1475,12 @@ export class WalletDashboardComponent implements OnInit {
             }
 
             newAdded = true;
-            if(name == 'FAB') {
-
+            if(name == 'FAB' && !type) {
+                console.log('name===FAB');
                 this.opType = 'addNewAsset';
                 this.privateKey = token.privateKey;
                 this.coinName = 'FAB';
-                this.pinModal.show();   
+                this.addNewAssetDo();   
                 return;
             }
 
