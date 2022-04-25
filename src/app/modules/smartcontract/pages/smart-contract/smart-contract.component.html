@@ -150,6 +150,7 @@
                 </div>  
             </div>                  
         </mat-tab>
+
         <mat-tab label="Eth Deploy">
             <div *ngIf="2 == currentTabIndex">
                 <mat-form-field class="example-full-width">
@@ -171,34 +172,28 @@
                     <mat-label class="text-muted">To</mat-label>
                     <input matInput [(ngModel)]="kanbanTo">
                 </mat-form-field>
-    
-                <mat-form-field class="example-full-width">
-                    <mat-label class="text-muted">Value</mat-label>
-                    <input matInput [(ngModel)]="kanbanValue">
-                </mat-form-field>
 
                 <mat-form-field class="example-full-width">
                     <mat-label class="text-muted">ABI</mat-label>
                     <textarea [(ngModel)]="kanbanCallABI" matInput></textarea>
-                </mat-form-field>                
-
-                <mat-form-field class="example-full-width">
-                    <mat-label class="text-muted">Args</mat-label>
-                    <input matInput [(ngModel)]="kanbanCallArgs">
                 </mat-form-field>
 
-                <mat-form-field class="example-full-width">
-                    <mat-label class="text-muted">Data</mat-label>
-                    <textarea [(ngModel)]="kanbanData" matInput></textarea>
-                </mat-form-field>
-                <button mat-raised-button color="primary" (click)="callKanban()"> {{'Submit' | translate}} </button>
+                <div *ngFor="let param of this._kanbanCallArgs">
+                    <mat-form-field class="example-full-width">
+                        <mat-label class="text-muted">{{param.name}}</mat-label>
+                        <textarea [(ngModel)]="param.value" placeholder="{{param.type}}" matInput></textarea>
+                    </mat-form-field>
+                </div>
+
+                <button class="button" mat-raised-button color="primary" (click)="decodeABI()"> {{'Decode ABI' | translate}}</button>
+                <button class="button" mat-raised-button color="primary" (click)="callKanban()"> {{'Submit' | translate}} </button>
+
                 <div *ngIf="txid">
                     txid: <a target="_blank" class="link" href="{{getReceiptLink(txid)}}">{{txid}}</a>
                 </div>
             </div>
 
         </mat-tab>
-
 
         <mat-tab label="Kanban Deploy">
             <div *ngIf="4 == currentTabIndex">

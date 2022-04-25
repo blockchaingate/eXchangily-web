@@ -45,11 +45,10 @@ export class SmartContractComponent implements OnInit {
 
   kanbanABI: string;
   kanbanBytecode: string;
-  kanbanArguments: string;  
-
+  kanbanArguments: string;
 
   _kanbanCallABI: string;
-  _kanbanCallArgs: string;
+  _kanbanCallArgs: any;
 
   get kanbanCallABI(): string {
     return this._kanbanCallABI;
@@ -60,28 +59,17 @@ export class SmartContractComponent implements OnInit {
     this.formAbiHex();
   }
 
-  get kanbanCallArgs(): string {
-    return this._kanbanCallArgs;
-  }
-
-  set kanbanCallArgs(val: string) {
-    this._kanbanCallArgs = val;
-    this.formAbiHex();
-  }
-
   formAbiHex() {
-    console.log('go form');
     try {
-      console.log('1');
-      const abi = JSON.parse(this._kanbanCallABI);
-      console.log('2');
+      const abiDoubleQuote = this._kanbanCallABI.replace(/'/g, '"');
+      const abi = JSON.parse(abiDoubleQuote);
       let args = [];
-      if(this._kanbanCallArgs) {
-        args = this._kanbanCallArgs.split(',');
+      if (this._kanbanCallArgs.length > 0) {
+        this._kanbanCallArgs.forEach(input => {
+          args.push(input.value);
+        });
       }
-      console.log('args=', args);
       this.kanbanData = this.web3Serv.getGeneralFunctionABI(abi, args);
-      console.log('this.kanbanData==', this.kanbanData);
     } catch(e) {}
   }
   
@@ -136,6 +124,7 @@ export class SmartContractComponent implements OnInit {
 
     this.changeSmartContractAddress();
   }
+
   changeSmartContractAddress() {
     /*
     if (this.smartContractAddress == environment.addresses.smartContract.FABLOCK) {
@@ -224,6 +213,7 @@ export class SmartContractComponent implements OnInit {
       this.types.push(type);
     }
   }
+
   getFunctionABI(ABI: any) {
     const retABI = ABI.filter((abi) => abi.type === 'function');
     for (let i = 0; i < retABI.length; i++) {
@@ -405,10 +395,9 @@ export class SmartContractComponent implements OnInit {
         val = '0x0000000000000000000000000000000000000000000000000000000000000000';
       }
       vals.push(val);
-    } 
+    }
 
     const abi = this.web3Serv.getGeneralFunctionABI(this.method, vals);
-
     return abi;
   }
 
@@ -550,24 +539,19 @@ export class SmartContractComponent implements OnInit {
   }
 
   async callKanbanDo(seed) {
-
+    this.formAbiHex();
+    
     const keyPairsKanban = this.coinServ.getKeyPairs(this.exgCoin, seed, 0, 0);
-    // const nonce = await this.apiServ.getEthNonce(this.ethCoin.receiveAdds[0].address);
     let gasPrice = environment.chains.KANBAN.gasPrice;
     let gasLimit = environment.chains.KANBAN.gasLimit;
     const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
-
+    
     let kanbanTo = null;
+    let kanbanValue = 0;
     if(this.kanbanTo) {
       kanbanTo = this.kanbanTo;
     }
-
-    let kanbanValue = 0;
-    if(this.kanbanValue) {
-      kanbanValue = this.kanbanValue;
-    }
     
-    console.log('kanbanValue.toString(16)=', kanbanValue.toString(16));
     const txObject = {
         nonce: nonce,
         gasPrice: gasPrice,
@@ -650,6 +634,7 @@ export class SmartContractComponent implements OnInit {
   getReceipt(txid: string) {
     return 'https://fab' + (environment.production ? 'prod' : 'test') + '.fabcoinapi.com/gettransactionreceipt/' + txid;
   }
+
   formCreateKanbanSmartContractABI() {
     const abi = JSON.parse(this.kanbanABI);
     const args = JSON.parse(this.kanbanArguments);
@@ -783,5 +768,29 @@ export class SmartContractComponent implements OnInit {
   callKanban() {
     this.action = 'callKanban';
     this.pinModal.show(); 
+  }
+
+  decodeABI() {
+    if (this._kanbanCallABI) {
+      this._kanbanCallArgs = [];
+      try {
+        const doubleQuoteABI = this._kanbanCallABI.replace(/'/g, '"');
+        const abi = JSON.parse(doubleQuoteABI);
+        for (let j = 0; j < abi.inputs.length; j ++) {
+          const input = abi.inputs[j];
+          const type = input.type;
+          const name = input.name;
+          this._kanbanCallArgs.push(
+            {
+              name: name,
+              type: type,
+              value: '' // Set 0 as initial value to replace with input value after
+            }
+          );
+        }
+      } catch(e) {
+        console.log('error when decoding ABI', e);
+      }
+    }
   }
 }
