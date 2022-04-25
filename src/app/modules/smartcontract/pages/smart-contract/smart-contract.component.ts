@@ -598,7 +598,8 @@ export class SmartContractComponent implements OnInit {
   }
 
   getReceiptLink(txid) {
-    return environment.endpoints.kanban + 'kanban/getTransactionReceipt/' + txid;
+    return 'https://' + (environment.endpoints.kanban?'':'test.') + 'exchangily.com/explorer/tx-detail/' + txid;
+    //return environment.endpoints.kanban + 'kanban/getTransactionReceipt/' + txid;
   }
 
   formCreateSmartContractABI() {
