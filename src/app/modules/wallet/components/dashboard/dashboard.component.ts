@@ -960,21 +960,26 @@ export class WalletDashboardComponent implements OnInit {
         let maticBalance = 0;
         let bnbBalance = 0;
 
+        const currentAddress = this.currentCoin.receiveAdds[0].address;
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
-            if (this.wallet.mycoins[i].name === 'FAB' && !fabBalance) {
-                fabBalance = this.wallet.mycoins[i].balance;
-            } else if (this.wallet.mycoins[i].name === 'ETH' && !ethBalance) {
-                ethBalance = this.wallet.mycoins[i].balance;
-            } else if (this.wallet.mycoins[i].name === 'BTC' && !btcBalance) {
-                btcBalance = this.wallet.mycoins[i].balance;
-            } else if (this.wallet.mycoins[i].name === 'TRX' && !trxBalance) {
-                trxBalance = this.wallet.mycoins[i].balance;
-            } else if (this.wallet.mycoins[i].name === 'BNB' && !bnbBalance) {
-                bnbBalance = this.wallet.mycoins[i].balance;
-            } else if (this.wallet.mycoins[i].name === 'MATIC' && !maticBalance) {
-                maticBalance = this.wallet.mycoins[i].balance;
-            } else if (this.wallet.mycoins[i].name === 'HT' && !htBalance) {
-                htBalance = this.wallet.mycoins[i].balance;
+            const coin = this.wallet.mycoins[i];
+            if(coin.receiveAdds[0].address != currentAddress) {
+                continue;
+            }
+            if (coin.name === 'FAB' && !fabBalance) {
+                fabBalance = coin.balance;
+            } else if (coin.name === 'ETH' && !ethBalance) {
+                ethBalance = coin.balance;
+            } else if (coin.name === 'BTC' && !btcBalance) {
+                btcBalance = coin.balance;
+            } else if (coin.name === 'TRX' && !trxBalance) {
+                trxBalance = coin.balance;
+            } else if (coin.name === 'BNB' && !bnbBalance) {
+                bnbBalance = coin.balance;
+            } else if (coin.name === 'MATIC' && !maticBalance) {
+                maticBalance = coin.balance;
+            } else if (coin.name === 'HT' && !htBalance) {
+                htBalance = coin.balance;
             }
         }
 

@@ -204,12 +204,16 @@ export class SendCoinModal {
         let trxBalance = 0;
 
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
-            if (this.wallet.mycoins[i].name === 'FAB' && !this.wallet.mycoins[i].tokenType) {
-                fabBalance = this.wallet.mycoins[i].balance;
-            } else if (this.wallet.mycoins[i].name === 'ETH') {
-                ethBalance = this.wallet.mycoins[i].balance;
-            } else if (this.wallet.mycoins[i].name === 'TRX') {
-                trxBalance = this.wallet.mycoins[i].balance;
+            const coin = this.wallet.mycoins[i];
+            if(coin.receiveAdds[0].address != this.coin.receiveAdds[0].address) {
+                continue;
+            }
+            if (coin.name === 'FAB' && !coin.tokenType) {
+                fabBalance = coin.balance;
+            } else if (coin.name === 'ETH') {
+                ethBalance = coin.balance;
+            } else if (coin.name === 'TRX') {
+                trxBalance = coin.balance;
             }
         }
         const amount = Number(this.sendCoinForm.get('sendAmount').value);
