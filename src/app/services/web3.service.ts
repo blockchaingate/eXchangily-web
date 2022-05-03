@@ -6,7 +6,6 @@ import { Signature, EthTransactionObj } from '../interfaces/kanban.interface';
 import { UtilService } from './util.service';
 import * as ethUtil from 'ethereumjs-util';
 import Common from 'ethereumjs-common';
-import KanbanTxService from './kanban.tx.service';
 import { environment } from '../../environments/environment';
 import BigNumber from 'bignumber.js';
 import * as createHash from 'create-hash';
@@ -134,12 +133,7 @@ export class Web3Service {
         environment.chains.ETH.hardfork,
     );
  
-    let tx;
-    if(environment.production) {
-      tx = new KanbanTxService(txObject, { common: customCommon });
-    } else {
-      tx = new Eth.Transaction(txObject, { common: customCommon });
-    }
+    let tx = new Eth.Transaction(txObject, { common: customCommon });
 
     tx.sign(privateKey);
  
@@ -194,13 +188,8 @@ export class Web3Service {
       },
       environment.chains.ETH.hardfork,
     );
-    console.log('txObject===', txObject);
-    let tx;
-    if(environment.production) {
-      tx = new KanbanTxService(txObject, { common: customCommon });
-    } else {
-      tx = new Eth.Transaction(txObject, { common: customCommon });
-    }
+    
+    let tx = new Eth.Transaction(txObject, { common: customCommon });
     
     tx.sign(privKey);
     const serializedTx = tx.serialize();
