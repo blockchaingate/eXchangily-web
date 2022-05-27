@@ -6,7 +6,7 @@ import { ExRoutingModule } from './ex-routing.module';
 import { CodeComponent } from './components/code/code.component';
 import { HistoryComponent } from './components/history/history.component';
 import { WalletconnectComponent } from './components/walletconnect/walletconnect.component';
-import { WalletconnectClientComponent } from './components/walletconnect-client/walletconnect-client.component';
+//import { WalletconnectClientComponent } from './components/walletconnect-client/walletconnect-client.component';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { UtilService } from '../../services/util.service';
@@ -46,7 +46,7 @@ import {MatInputModule} from '@angular/material/input';
         CodeComponent,
         HistoryComponent,
         WalletconnectComponent,
-        WalletconnectClientComponent
+        //alletconnectClientComponent
     ],
     exports: [
     ]

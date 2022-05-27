@@ -125,64 +125,7 @@ export class SmartContractComponent implements OnInit {
   }
 
   changeSmartContractAddress() {
-    /*
-    if (this.smartContractAddress == environment.addresses.smartContract.FABLOCK) {
-      this.apiServ.getSmartContractABI(this.smartContractAddress).subscribe((res: any) => {
-        console.log('res=', res);
-        if (res && res.abi) {
-          this.ABI = this.getFunctionABI(res.abi);
-          if(this.ABI && this.ABI.length > 0) {
-            this.changeMethod(this.ABI[0].name);
-          }
-          
-        }
-      });
-      
-    } else 
-    if(this.smartContractAddress == environment.addresses.smartContract.EXG.FAB) {
-      this.ABI = [
-        {
-          "constant": false,
-          "inputs": [
-              {
-                  "name": "_lockerHash",
-                  "type": "bytes32"
-              }
-          ],
-          "name": "unlockByLockerHash",
-          "outputs": [
-              {
-                  "name": "",
-                  "type": "bool"
-              }
-          ],
-          "payable": false,
-          "stateMutability": "nonpayable",
-          "type": "function"
-      },
-        {
-          "constant": false,
-          "inputs": [
-              {
-                  "name": "_account",
-                  "type": "address"
-              }
-          ],
-          "name": "unlockByAccount",
-          "outputs": [
-              {
-                  "name": "",
-                  "type": "bool"
-              }
-          ],
-          "payable": false,
-          "stateMutability": "nonpayable",
-          "type": "function"
-        }         
-      ];
-      this.changeMethod('unlockByLockerHash');
-    } else 
-    */
+
     if(this.smartContractAddress === '0x0') {
       this.changeMethod('');
     } else {
@@ -198,6 +141,7 @@ export class SmartContractComponent implements OnInit {
             
           }
         }
+
       });      
     }
   }
@@ -332,27 +276,6 @@ export class SmartContractComponent implements OnInit {
       return;
     }
     this.renderAbi(def);
-
-    /*
-    console.log('def=', def);
-    if (canRenderMethodParams(this.ABI, method)) {
-      renderMethodParams(this.ABI, method, (name, instance) => {
-        console.log('name=', name);
-        console.log('instance=', instance);
-        switch (instance.fieldType()) {
-          case FIELD_TYPES.NUMBER: {
-            console.log('FIELD_TYPEcoinServ
-            break;
-          }
-          case FIELD_TYPES.ADDRESS:coinServ
-            // ...
-            console.log('FIELD_TYPES.ADDRESS');
-            break;
-          // ...
-        }
-      });
-    }
-    */
   }
 
   callContract() {
@@ -366,6 +289,11 @@ export class SmartContractComponent implements OnInit {
       this.alertServ.openSnackBar('address was not found.', 'Ok');
       return;
     }
+
+    console.log('address===', address);
+    console.log('abiHex===', abiHex);
+    console.log('sender===', sender);
+
     this.apiServ.callFabSmartContract(address, abiHex, sender).subscribe((res: any) => {
       console.log('res=', res);
       this.payableValue = 0;
@@ -647,6 +575,7 @@ export class SmartContractComponent implements OnInit {
   async callFabSmartContract(seed) {
     let abiHex = '';
     let gasLimit = this.gasLimit;
+    //gasLimit = 8000000;
     const gasPrice = this.gasPrice;    
     let smartContractAddress = this.smartContractAddress;
     if(smartContractAddress == '0x0') {
@@ -764,6 +693,15 @@ export class SmartContractComponent implements OnInit {
   callKanban() {
     this.action = 'callKanban';
     this.pinModal.show(); 
+  }
+
+  async viewKanban() {
+    const to = this.kanbanTo;
+    const data = '0x' + this.utilServ.stripHexPrefix(this.kanbanData);
+    const res = await this.kanbanServ.kanbanCall(to, data);  
+    console.log('res===', res); 
+    this.result = JSON.stringify(res);
+    
   }
 
   decodeABI() {

@@ -186,10 +186,14 @@
                 </div>
 
                 <button class="button" mat-raised-button color="primary" (click)="decodeABI()"> {{'Decode ABI' | translate}}</button>
+                <button class="button" mat-raised-button color="primary" (click)="viewKanban()"> {{'View' | translate}} </button>
                 <button class="button" mat-raised-button color="primary" (click)="callKanban()"> {{'Submit' | translate}} </button>
 
                 <div *ngIf="txid">
                     txid: <a target="_blank" class="link" href="{{getReceiptLink(txid)}}">{{txid}}</a>
+                </div>
+                <div *ngIf="result">
+                    result: {{result}}
                 </div>
             </div>
 

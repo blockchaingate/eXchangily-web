@@ -124,7 +124,12 @@ export class ApiService {
         ) {
             address = environment.addresses.smartContract.EXG.FAB;
         }
-        const url = environment.endpoints.FAB.exchangily + 'getabiforcontract/' + address; 
+        let url = environment.endpoints.FAB.exchangily + 'getabiforcontract/' + address; 
+        /*
+        if(address == environment.addresses.smartContract.EXG.FAB) {
+            url = 'https://fabprod.fabcoinapi.com/' + 'getabiforcontract/' + '0xa3e26671a38978e8204b8a37f1c2897042783b00'; 
+        }
+        */
         return this.http.get(url);
     }
     async getCoinsPrice() {
