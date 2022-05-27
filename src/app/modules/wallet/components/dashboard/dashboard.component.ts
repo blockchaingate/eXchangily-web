@@ -751,6 +751,7 @@ export class WalletDashboardComponent implements OnInit {
                                 ((item.coin === 'MATICM') && (coin.name ==='MATIC') && !coin.tokenType)||
                                 ((item.coin === 'USDTB') && (coin.name ==='USDT') && (coin.tokenType === 'BNB')) ||
                                 ((item.coin === 'USDTX') && (coin.name ==='USDT') && (coin.tokenType === 'TRX')) ||
+                                ((item.coin === 'USDCX') && (coin.name ==='USDC') && (coin.tokenType === 'TRX')) ||
                                 ((item.coin === 'USDTM') && (coin.name ==='USDT') && (coin.tokenType === 'MATIC')) ||
                                 ((item.coin === 'FABE') && (coin.name ==='FAB') && (coin.tokenType === 'ETH')) ||
                                 ((item.coin === 'FABB') && (coin.name ==='FAB') && (coin.tokenType === 'BNB')) ||
