@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core'; 
-import WalletConnectClient from '@walletconnect/client';
-import { CLIENT_EVENTS } from "@walletconnect/client";
+import SignClient from "@walletconnect/sign-client";
 import { SessionTypes } from "@walletconnect/types";
 import { UtilService } from 'src/app/services/util.service';
 import { WalletService } from 'src/app/services/wallet.service';
@@ -25,10 +24,13 @@ export class WalletconnectComponent implements OnInit {
   proposal: any;
   topic: any;
   pin: string;
+  id: string;
   wallet: any;
   permissions: any;
   metadata: any;
+  relays: any;
   request: any;
+  requiredNamespaces: any;
   walletAddress: string;
   @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal;
 
@@ -55,50 +57,35 @@ export class WalletconnectComponent implements OnInit {
         this.walletAddress = this.utilServ.exgToFabAddress(address);
     }
 
-    const client = await WalletConnectClient.init({
-      controller: true,
-      //logger: 'debug',
-      projectId: "3acbabd1deb4672edfd4ca48226cfc0f",
-      relayUrl: "wss://relay.walletconnect.com",
+    const client = await SignClient.init({
+      projectId: "3acbabd1deb4672edfd4ca48226cfc0f",    
+      relayUrl: 'wss://relay.walletconnect.com',
       metadata: {
-        name: "Example Dapp in wallet connect",
-        description: "Example Dapp in wallet connect",
-        url: "http://localhost:4200",
-        icons: ["https://walletconnect.com/walletconnect-logo.png"],
-      },
+        name: 'Angular Wallet',
+        description: 'Angular Wallet for WalletConnect',
+        url: 'https://walletconnect.com/',
+        icons: ['https://avatars.githubusercontent.com/u/37784886']
+      }
     });
 
     this.client = client;
-    this.client.on(
-      CLIENT_EVENTS.session.proposal,
-      async (proposal: SessionTypes.Proposal) => {
-        // user should be prompted to approve the proposed session permissions displaying also dapp metadata
-        const { proposer, permissions } = proposal;
-        this.proposal = proposal;
-        const { metadata } = proposer;
-        this.metadata = metadata;
-        this.permissions = permissions;
-        this.changeState('sessionProposal');
 
-      }
-    );
+    client.on('session_proposal', proposal => this.onSessionProposal(proposal))
+    client.on('session_request', request => this.onSessionRequest(request))
+    // TODOs
+    client.on('session_ping', data => console.log('ping', data))
+    client.on('session_event', data => console.log('event', data))
+    client.on('session_update', data => console.log('update', data))
+    client.on('session_delete', data => console.log('delete', data))
+  }
 
-    this.client.on(
-      CLIENT_EVENTS.session.created,
-      async (session: SessionTypes.Created) => {
-        this.session = session;
-        this.changeState('sessionCreated');
-      }
-    );
-
-    this.client.on(
-      CLIENT_EVENTS.session.request,
-      async (requestEvent: SessionTypes.RequestEvent) => {
-        // WalletConnect client can track multiple sessions
-        // assert the topic from which application requested
-        const { topic, request } = requestEvent;
-        console.log('request===', request);
-        const session = await client.session.get(requestEvent.topic);
+  async onSessionRequest(requestEvent) {
+        console.log('requestEvent===', requestEvent);
+        const {id, params, topic} = requestEvent;
+        this.id = id;
+        const { request } = params;
+        
+        const session = await this.client.session.get(topic);
         // now you can display to the user for approval using the stored metadata
         const { metadata } = session.peer;
         // after user has either approved or not the request it should be formatted
@@ -106,10 +93,18 @@ export class WalletconnectComponent implements OnInit {
         this.topic = topic;
         this.request = request;
         this.changeState('sessionRequest');
-
-
-      }
-    );
+    
+  }
+  onSessionProposal(proposal) {
+    const {id, params} = proposal;
+    this.id = id;
+    const { proposer, requiredNamespaces, relays } = params;
+    this.proposal = proposal;
+    this.relays = relays;
+    this.requiredNamespaces = requiredNamespaces;
+    const { metadata } = proposer;
+    this.metadata = metadata;
+    this.changeState('sessionProposal');
   }
 
   async disconnect() {
@@ -123,8 +118,8 @@ export class WalletconnectComponent implements OnInit {
 
   }
 
-  approveSession(approved) {
-    this.handleSessionUserApproval(approved, this.proposal); // described in the step 4
+  async approveSession(approved) {
+    await this.handleSessionUserApproval(approved, this.proposal); // described in the step 4
   }
 
   onConfirmedPin(pin: string) {
@@ -164,16 +159,16 @@ export class WalletconnectComponent implements OnInit {
     }
 
     const topic = this.topic;
-    const request = this.request;
     const response = {
       topic,
       response: {
-        id: request.id,
+        id: this.id,
         jsonrpc: "2.0",
         result,
       },
     };
 
+    console.log('response for =', response);
     this.changeState('sessionRequestApproved');
     return await this.client.respond(response);
   }
@@ -203,22 +198,43 @@ export class WalletconnectComponent implements OnInit {
   connect() {
 
     const pairBody = { uri: this.uri };
+    console.log('pairBody===', pairBody);
     this.client.pair(pairBody);
 
   }
 
   async handleSessionUserApproval(
     approved: boolean,
-    proposal: SessionTypes.Proposal
+    proposal: any
   ) {
     if (approved) {
       // if user approved then include response with accounts matching the chains and wallet metadata
+      /*
       const response = {
         state: {
           accounts: ["eip155:fab:" + this.walletAddress],
         },
       };
       await this.client.approve({ proposal, response });
+      */
+
+      const namespaces: SessionTypes.Namespaces = {}
+      Object.keys(this.requiredNamespaces).forEach(key => {
+        const accounts: string[] = ["eip155:fab:" + this.walletAddress];
+        namespaces[key] = {
+          accounts,
+          methods: this.requiredNamespaces[key].methods,
+          events: this.requiredNamespaces[key].events
+        }
+      })
+
+      const apprvedResult = await this.client.approve({
+        id: this.id,
+        relayProtocol: this.relays[0].protocol,
+        namespaces
+      })
+      console.log('apprvedResult===', apprvedResult);
+      this.changeState('sessionCreated');
     } else {
       // if user didn't approve then reject with no response
       await this.client.reject({ proposal });
