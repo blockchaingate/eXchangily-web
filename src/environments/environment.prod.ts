@@ -214,7 +214,9 @@ export const environment = {
             BST: {
                 FAB: '0x3e6f8813ab824ac2fea001091fb2ce0365297164',
                 ETH: '0x4fe1819daf783a3f3151ea0937090063b85d6122'
-            },              
+            },    
+            CTG: '0x05c1a1dff47874f49230f31774b1ebe4b8899f68',  
+            CABTC: '0x4eeda2159e1a66de4ec1d711d53123eb2ba15e92',        
             DUSD: '0x46e0021c17d30a2db972ee5719cdc7e829ed9930',
             TWBTC: '0xc50389694f222bf95f014e0bdae3f5e3676999fb',
             DCAD: '0x39296a9d1c5019fd64c9ef4cd0e657403bf10405',

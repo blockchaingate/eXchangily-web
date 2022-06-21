@@ -223,7 +223,9 @@ export const environment = {
             BST: {
                 FAB: '0x3407424d43886a93434e7ff220c1c5a3bf75327b',
                 ETH: '0x3732abecb2b660334ea71c029b10494ce9972cfe'
-            },           
+            }, 
+            CTG: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
+            CABTC: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
             DUSD: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
             TWBTC: '0x569e4c00dbae584eb3e2189739eae951886ac2a3',
             DCAD: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
@@ -369,6 +371,8 @@ export const environment = {
             BNB: 2,
             MATIC: 0.1
         },
+        CTG: 10,
+        CABTC: 12.68,
         TRX: 0.2,
         IXT: 0.006,
         DUSD: 10,
@@ -459,7 +463,8 @@ export const environment = {
         DMXN: 12,
         DBRL: 12,
         DNGN: 12,        
-
+        CTG: 12,
+        CABTC: 12,
         BCH: 2,
         LTC: 8,
         DOGE: 20,
