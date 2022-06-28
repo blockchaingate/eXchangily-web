@@ -11,6 +11,11 @@
         "dev": "lite-server",
         "postinstall": "node patch.js"
     },
+    "engines": {
+        "node": ">= 16.15.1",
+        "npm": ">= 8.11.0",
+        "yarn": ">= 1.22.10"
+    },
     "private": true,
     "dependencies": {
         "@angular/animations": "~10.2.3",
@@ -24,6 +29,7 @@
         "@angular/platform-browser-dynamic": "~10.2.3",
         "@angular/router": "~10.2.3",
         "@auth0/angular-jwt": "^5.0.1",
+        "@coinbase/cbpay-js": "^1.0.1",
         "@ngx-pwa/local-storage": "^10.1.0",
         "@ngx-translate/core": "^13.0.0",
         "@ngx-translate/http-loader": "^6.0.0",

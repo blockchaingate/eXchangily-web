@@ -20,6 +20,7 @@ import { AddGasModal } from '../../modals/add-gas/add-gas.modal';
 import { ShowSeedPhraseModal } from '../../modals/show-seed-phrase/show-seed-phrase.modal';
 import { VerifySeedPhraseModal } from '../../modals/verify-seed-phrase/verify-seed-phrase.modal';
 import { SendCoinModal } from '../../modals/send-coin/send-coin.modal';
+import { BuyCoinModal } from '../../modals/buy-coin/buy-coin.modal';
 import { BackupPrivateKeyModal } from '../../modals/backup-private-key/backup-private-key.modal';
 import { DeleteWalletModal } from '../../modals/delete-wallet/delete-wallet.modal';
 import { LoginSettingModal } from '../../modals/login-setting/login-setting.modal';

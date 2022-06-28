@@ -19,6 +19,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import { SharedModule} from '../../modules/shared/shared.module';
 import {MatInputModule} from '@angular/material/input';
+import { CoinbaseComponent } from './components/coinbase/coinbase.component';
 
 @NgModule({
     imports: [
@@ -46,6 +47,7 @@ import {MatInputModule} from '@angular/material/input';
         CodeComponent,
         HistoryComponent,
         WalletconnectComponent,
+        CoinbaseComponent,
         //alletconnectClientComponent
     ],
     exports: [

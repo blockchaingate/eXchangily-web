@@ -106,6 +106,8 @@
                                 </div>
                             </div>
                         </div>
+
+                        
                     </div>
 
                     <div class="row py-3" *ngIf="wallet && !wallet.hide">
@@ -127,6 +129,13 @@
                                 <button class="btn button btn-outline btn-basic-outline btn-fixed-width text-danger font-weight-bold" (click)="updateWallet()">{{"Update" | translate }}</button>
                             </div>
                         </div>
+                    </div>
+                    <div class="row py-3" *ngIf="wallet && !wallet.hide">
+                        <div class="col col-12">
+                            <div class="d-inline-block pr-3 walletBtn">
+                                <buy-coin-modal [wallet]="wallet"></buy-coin-modal>
+                            </div> 
+                        </div>    
                     </div>
                 </div>
             </div>
