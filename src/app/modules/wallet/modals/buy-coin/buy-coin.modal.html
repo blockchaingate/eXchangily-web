@@ -14,7 +14,7 @@
                 <option [value]="i" *ngFor="let coin of buyableCoins;let i = index">
                     {{coin.symbol}}
                     <span *ngIf="coin.tokenType=='ETH'">
-                        (ERC20)
+                        (ERC20)(U.S. User only)
                     </span>
                     <span *ngIf="coin.tokenType=='TRX'">
                         (TRC20)

@@ -20,6 +20,9 @@ export const createEmbeddedContent = ({
   iframe.style.height = height.toString();
   iframe.style.position = position;
   iframe.style.top = top;
+  iframe.style.left = '50%';
+  iframe.style.transform = 'translateX(-50%)';
+  iframe.style.zIndex = "9999";
   iframe.id = EMBEDDED_IFRAME_ID;
   iframe.src = url;
 

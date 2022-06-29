@@ -1,16 +1,7 @@
-import { Component, ViewChild, TemplateRef, Input, OnInit } from '@angular/core';
+import { Component, ViewChild, TemplateRef, Input, OnInit, OnDestroy } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { SendCoinForm } from '../../../../interfaces/kanban.interface';
 import { Wallet } from '../../../../models/wallet';
-import { FormBuilder } from '@angular/forms';
 import { MyCoin } from '../../../../models/mycoin';
-import { environment } from '../../../../../environments/environment';
-import { CoinService } from '../../../../services/coin.service';
-import { AlertService } from '../../../../services/alert.service';
-import { UtilService } from '../../../../services/util.service';
-import { ApiService } from '../../../../services/api.service';
-import BigNumber from 'bignumber.js';
-import { TranslateService } from '@ngx-translate/core';
 import { initOnRamp } from '../../../../cbpay-js';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
@@ -19,9 +10,10 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
     templateUrl: './buy-coin.modal.html',
     styleUrls: ['./buy-coin.modal.css']
 })
-export class BuyCoinModal implements OnInit{
+export class BuyCoinModal implements OnInit, OnDestroy{
+    instance: any;
     currentAddress: string;
-    //blockchainName: string;
+    blockchainName: string;
     assetName: string;
     modalRef: BsModalRef;
     @Input() wallet: Wallet;
@@ -38,23 +30,18 @@ export class BuyCoinModal implements OnInit{
 
     }
 
-    /*
+    
     getBlockChainName(coin: MyCoin) {
-        const coinName = coin.name;
         const tokenType = coin.tokenType;
-        const chainShortName = tokenType ? tokenType : coinName;
         let chainName = '';
-        switch(chainShortName) {
-            case 'BTC': 
-                chainName = 'bitcoin';
-                break;
+        switch(tokenType) {
             case 'ETH':
                 chainName = 'ethereum';
                 break;                
         }
         return chainName;
     }
-    */
+    
     openModal(template: TemplateRef<any>) {
         if (this.wallet) {
             
@@ -82,20 +69,48 @@ export class BuyCoinModal implements OnInit{
             this.currentAddress = this.coin.receiveAdds[0].address;
         }   
     }
+
+    ngOnDestroy(): void {
+        this.instance.destroy();
+    }
+
     onSubmit() {
         if (!this.coin) {
             this.coin = this.wallet.mycoins[this.currentCoinIndex];
         }
 
-        const destinationWallets: any = [
+        let destinationWallets: any;
+
+        /*
+        if(this.blockchainName) {
+            destinationWallets = [
+                {
+                  address: this.currentAddress,
+                  blockchains: [this.blockchainName],
+                  assets: [this.assetName]
+                },
+            ];
+        } else {
+          
+        }
+        */
+
+        /*
+        destinationWallets = [
             {
               address: this.currentAddress,
-              //blockchains: this.blockchainName == 'ethereum' ? [this.blockchainName] : null,
               assets: [this.assetName]
             },
-          ];
-          
-          const instance = initOnRamp({
+        ]; 
+        */
+        destinationWallets = [
+            {
+              "address": this.currentAddress,
+              "assets": [this.assetName]
+            },
+        ];         
+        console.log('destinationWallets===', destinationWallets);
+        this.instance = initOnRamp({
             target: '#button-container',
             appId: '6a6b1793-0892-4889-b6ae-a193fe650321',
             widgetParameters: {
@@ -113,17 +128,20 @@ export class BuyCoinModal implements OnInit{
             closeOnExit: true,
             closeOnSuccess: true,
             embeddedContentStyles: {
-              top: '100px',
+              top: '10px',
               width: '50%',
+              height: '90%',
             },
         });
       
-        instance.open();
+        this.instance.open();
+        this.modalRef.hide();
+        
     }
 
     onChange(index: number) {
         const coin = this.buyableCoins[index];
-        //this.blockchainName = this.getBlockChainName(coin);
+        this.blockchainName = this.getBlockChainName(coin);
         this.currentAddress = coin.receiveAdds[0].address;
         this.assetName = coin.name;
     }
