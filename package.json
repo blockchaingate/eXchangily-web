@@ -29,7 +29,6 @@
         "@angular/platform-browser-dynamic": "~10.2.3",
         "@angular/router": "~10.2.3",
         "@auth0/angular-jwt": "^5.0.1",
-        "@coinbase/cbpay-js": "^1.0.1",
         "@ngx-pwa/local-storage": "^10.1.0",
         "@ngx-translate/core": "^13.0.0",
         "@ngx-translate/http-loader": "^6.0.0",

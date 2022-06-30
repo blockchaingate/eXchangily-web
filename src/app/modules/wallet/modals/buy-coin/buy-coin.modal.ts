@@ -75,9 +75,6 @@ export class BuyCoinModal implements OnInit, OnDestroy{
     }
 
     onSubmit() {
-        if (!this.coin) {
-            this.coin = this.wallet.mycoins[this.currentCoinIndex];
-        }
 
         let destinationWallets: any;
 
