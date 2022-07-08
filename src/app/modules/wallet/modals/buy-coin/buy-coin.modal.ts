@@ -2,8 +2,9 @@ import { Component, ViewChild, TemplateRef, Input, OnInit, OnDestroy } from '@an
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Wallet } from '../../../../models/wallet';
 import { MyCoin } from '../../../../models/mycoin';
-import { initOnRamp } from '../../../../cbpay-js';
+import { initOnRamp, generateOnRampURL } from '../../../../cbpay-js';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+declare var window: any;
 
 @Component({
     selector: 'buy-coin-modal',
@@ -15,6 +16,7 @@ export class BuyCoinModal implements OnInit, OnDestroy{
     currentAddress: string;
     blockchainName: string;
     assetName: string;
+    appId = '6a6b1793-0892-4889-b6ae-a193fe650321';
     modalRef: BsModalRef;
     @Input() wallet: Wallet;
     @Input() alertMsg: string;
@@ -71,35 +73,16 @@ export class BuyCoinModal implements OnInit, OnDestroy{
     }
 
     ngOnDestroy(): void {
-        this.instance.destroy();
+        if(this.instance) {
+            this.instance.destroy();
+        }
+        
     }
 
     onSubmit() {
 
         let destinationWallets: any;
 
-        /*
-        if(this.blockchainName) {
-            destinationWallets = [
-                {
-                  address: this.currentAddress,
-                  blockchains: [this.blockchainName],
-                  assets: [this.assetName]
-                },
-            ];
-        } else {
-          
-        }
-        */
-
-        /*
-        destinationWallets = [
-            {
-              address: this.currentAddress,
-              assets: [this.assetName]
-            },
-        ]; 
-        */
         destinationWallets = [
             {
               "address": this.currentAddress,
@@ -107,31 +90,42 @@ export class BuyCoinModal implements OnInit, OnDestroy{
             },
         ];         
         console.log('destinationWallets===', destinationWallets);
-        this.instance = initOnRamp({
-            target: '#button-container',
-            appId: '6a6b1793-0892-4889-b6ae-a193fe650321',
-            widgetParameters: {
-              destinationWallets,
-            },
-            onExit: () => {
-              alert('On Exit');
-            },
-            onSuccess: () => {
-              alert('On Success');
-            },
-            onEvent: (metadata) => {
-              console.log(metadata);
-            },
-            closeOnExit: true,
-            closeOnSuccess: true,
-            embeddedContentStyles: {
-              top: '10px',
-              width: '50%',
-              height: '90%',
-            },
-        });
-      
-        this.instance.open();
+        let isChromium = window.chrome;
+        isChromium = false;
+        if(isChromium) {
+            this.instance = initOnRamp({
+                target: '#button-container',
+                appId: this.appId,
+                widgetParameters: {
+                  destinationWallets,
+                },
+                onExit: () => {
+                  alert('On Exit');
+                },
+                onSuccess: () => {
+                  alert('On Success');
+                },
+                onEvent: (metadata) => {
+                  console.log(metadata);
+                },
+                closeOnExit: true,
+                closeOnSuccess: true,
+                embeddedContentStyles: {
+                  top: '10px',
+                  width: '50%',
+                  height: '90%',
+                },
+            });
+          
+            this.instance.open();
+        } else {
+            const url = generateOnRampURL({
+                appId: this.appId,
+                destinationWallets
+            });
+            window.open(url, "_blank");
+        }
+
         this.modalRef.hide();
         
     }

@@ -1140,11 +1140,6 @@
     "@babel/helper-validator-identifier" "^7.14.0"
     "to-fast-properties" "^2.0.0"
 
-"@coinbase/cbpay-js@^1.0.1":
-  "integrity" "sha512-6cbBES1XSmhtmYaBHhYK/oTOWrA9A0Dje1uMauVC4hKrJ95BF/j0reYsipLKC5ApoVE/8fYXGFfKfK0rZnbIQA=="
-  "resolved" "https://registry.npmjs.org/@coinbase/cbpay-js/-/cbpay-js-1.0.1.tgz"
-  "version" "1.0.1"
-
 "@colors/colors@1.5.0":
   "integrity" "sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ=="
   "resolved" "https://registry.npmjs.org/@colors/colors/-/colors-1.5.0.tgz"

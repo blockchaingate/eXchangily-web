@@ -60,9 +60,6 @@ export class CoinService {
             }
         }
         return '';
-        /*
-        return coin_list[id].name;
-        */
     }
 
     trxToHex(address: string) {
