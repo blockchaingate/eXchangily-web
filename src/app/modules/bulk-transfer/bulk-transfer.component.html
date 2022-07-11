@@ -25,6 +25,7 @@
     <div class="d-flex justify-content-around">
         <input type="file" class="upload" #file style="display:none" (change)="changeListener($event.target.files)">
         <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="file.click()">{{'Import CSV' | translate}}</button>
+        <a href="/assets/rewards.csv" target="_blank" class="text-white">CSV example file</a>
         <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="previewDo()">{{'Preview' | translate}}</button>
     </div>
         
