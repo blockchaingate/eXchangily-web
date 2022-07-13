@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core'; 
 import SignClient from "@walletconnect/sign-client";
-import { SessionTypes } from "@walletconnect/types";
+//import { SessionTypes } from "@walletconnect/types";
 import { UtilService } from 'src/app/services/util.service';
 import { WalletService } from 'src/app/services/wallet.service';
-import { ERROR, getAppMetadata } from "@walletconnect/utils";
+//import { ERROR, getAppMetadata } from "@walletconnect/utils";
 import { Web3Service } from 'src/app/services/web3.service';
 import { KanbanService } from 'src/app/services/kanban.service';
 import { PinNumberModal } from '../../../shared/modals/pin-number/pin-number.modal';
@@ -112,7 +112,7 @@ export class WalletconnectComponent implements OnInit {
       this.changeState('noSession');
       await this.client.disconnect({
         topic: this.session.topic,
-        reason: ERROR.USER_DISCONNECTED.format(),
+        reason: 'User disconnect',
       })
     }
 
@@ -218,7 +218,7 @@ export class WalletconnectComponent implements OnInit {
       await this.client.approve({ proposal, response });
       */
 
-      const namespaces: SessionTypes.Namespaces = {}
+      const namespaces: any = {}
       Object.keys(this.requiredNamespaces).forEach(key => {
         const accounts: string[] = ["eip155:fab:" + this.walletAddress];
         namespaces[key] = {
