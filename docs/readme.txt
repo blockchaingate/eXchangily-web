@@ -1,3 +1,12 @@
+c5c72534ed846b021fd8a993f1d1d4c6aa59df5d86cc6e7285e24d5ded8ba9b5
+
+
+
+1017.8894742085257
+
+
+
+
 wc:ed88934efe1cdb5ba6ebd28488d0ca969cc7a65b5e7513792165d53a296dfa1b@2?controller=false&publicKey=fa6b0d538d0d370a84547bcf7030c5afb66b050cbd299b05324c5f30b4eaa57f&relay=%7B%22protocol%22%3A%22waku%22%7D
 wc:1b4772a2-cba4-4cbe-a5f4-7d60058b0589@1?bridge=https%3A%2F%2Fx.bridge.walletconnect.org&key=a253fad178268a5ee267446332d810921066a0a4fbb83a207bafafe4dac141a3
 

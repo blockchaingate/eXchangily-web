@@ -134,7 +134,7 @@ export class SmartContractComponent implements OnInit {
 
   changeSmartContractAddress() {
 
-    if(this.smartContractAddress === '0x0') {
+    if(this.smartContractAddress === '0x0' || this.smartContractAddress === '0x' || !this.smartContractAddress) {
       this.changeMethod('');
     } else {
       this.apiServ.getSmartContractABI(this.smartContractAddress).subscribe((res: any) => {
@@ -194,7 +194,7 @@ export class SmartContractComponent implements OnInit {
       this.alertServ.openSnackBar('no current wallet was found.', 'Ok');
       return;
     }  
-    
+    this.changeContractName('EXG');
     for (let i = 0; i < this.wallet.mycoins.length; i++) {
       const coin = this.wallet.mycoins[i];
       if ((coin.name === 'FAB') && !coin.tokenType && !this.balance) {
@@ -238,7 +238,7 @@ export class SmartContractComponent implements OnInit {
         }
       }
     );
-    this.changeContractName('EXG');
+    
   }
 
   getMethodDefinition = (json, method) => {
@@ -268,10 +268,13 @@ export class SmartContractComponent implements OnInit {
       }
     }
     this.method = def;
+    console.log('this.method===', this.method);
   }
 
   inputCustomAbi(event) {
+    this.customAbi = this.customAbi.replace(/'/g, '"');
     const def = JSON.parse(this.customAbi);
+    console.log('def=====', def);
     this.formTypes(def);
     this.renderAbi(def);
   }
