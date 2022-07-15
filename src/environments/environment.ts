@@ -224,6 +224,15 @@ export const environment = {
                 FAB: '0x3407424d43886a93434e7ff220c1c5a3bf75327b',
                 ETH: '0x3732abecb2b660334ea71c029b10494ce9972cfe'
             }, 
+            SEED: {
+                FAB: '0xdcc3abba31890d81f450662f9c99de4979073a60'
+            },
+            FET: {
+                FAB: '0xb1c5a4648c9be7f0ca00b559a3325133c2dfdc37'
+            },
+            GET: {
+                FAB: '0xda0f76ec006246654fd2eed060f9f9025c6b3d58'
+            },
             CTG: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
             CABTC: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
             DUSD: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
@@ -372,6 +381,9 @@ export const environment = {
             MATIC: 0.1
         },
         CTG: 10,
+        SEED: 1,
+        FET: 100,
+        GET: 0.0000001,
         CABTC: 12.68,
         TRX: 0.2,
         IXT: 0.006,
@@ -464,6 +476,9 @@ export const environment = {
         DBRL: 12,
         DNGN: 12,        
         CTG: 12,
+        SEED: 12,
+        FET: 12,
+        GET: 12,
         CABTC: 12,
         BCH: 2,
         LTC: 8,

@@ -211,13 +211,36 @@ export class CoinService {
         this.fillUpAddress(dscCoin, seed, 1, 0);
 
         myCoins.push(dscCoin);    
-        
-        
+
+
         const bstCoin = this.initToken('FAB', 'BST', 18, environment.addresses.smartContract.BST.FAB, fabCoin);
 
         this.fillUpAddress(bstCoin, seed, 1, 0);
 
-        myCoins.push(bstCoin);      
+        myCoins.push(bstCoin);  
+
+
+        
+        const seedCoin = this.initToken('FAB', 'SEED', 18, environment.addresses.smartContract.SEED.FAB, fabCoin);
+
+        this.fillUpAddress(seedCoin, seed, 1, 0);
+
+        myCoins.push(seedCoin);     
+
+
+        const fetCoin = this.initToken('FAB', 'FET', 18, environment.addresses.smartContract.FET.FAB, fabCoin);
+
+        this.fillUpAddress(fetCoin, seed, 1, 0);
+
+        myCoins.push(fetCoin);   
+        
+        const getCoin = this.initToken('FAB', 'GET', 6, environment.addresses.smartContract.GET.FAB, fabCoin);
+
+        this.fillUpAddress(getCoin, seed, 1, 0);
+
+        myCoins.push(getCoin);           
+
+
 
 
         const stableCoins = [

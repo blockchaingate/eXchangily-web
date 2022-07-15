@@ -603,7 +603,7 @@ export class WalletDashboardComponent implements OnInit {
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];       
 
-            if(coin.name == 'CABTC' && coin.tokenType == 'FAB') {
+            if(coin.name == 'SEED' && coin.tokenType == 'FAB') {
                 this.walletUpdateToDate = true;
             }
             if (coin.name == 'BTC' && !btcAddress) {

@@ -214,7 +214,16 @@ export const environment = {
             BST: {
                 FAB: '0x3e6f8813ab824ac2fea001091fb2ce0365297164',
                 ETH: '0x4fe1819daf783a3f3151ea0937090063b85d6122'
-            },    
+            },  
+            SEED: {
+                FAB: '0xdcc3abba31890d81f450662f9c99de4979073a60'
+            },
+            FET: {
+                FAB: '0xb1c5a4648c9be7f0ca00b559a3325133c2dfdc37'
+            },
+            GET: {
+                FAB: '0xda0f76ec006246654fd2eed060f9f9025c6b3d58'
+            },  
             CTG: '0x05c1a1dff47874f49230f31774b1ebe4b8899f68',  
             CABTC: '0x4eeda2159e1a66de4ec1d711d53123eb2ba15e92',        
             DUSD: '0x46e0021c17d30a2db972ee5719cdc7e829ed9930',
@@ -376,7 +385,9 @@ export const environment = {
         },    
         TRX: 0.2,    
         DUSD: 20,
-
+        SEED: 1,
+        FET: 100,
+        GET: 0.0000001,
         DCAD: 12.68,
         DCNY: 64,
         DJPY: 1100,
@@ -460,6 +471,9 @@ export const environment = {
         DHKD: 12,
         DINR: 12,
         DMXN: 12,
+        SEED: 12,
+        FET: 12,
+        GET: 12,
         DBRL: 12,
         DNGN: 12,  
         TWBTC: 12,     
