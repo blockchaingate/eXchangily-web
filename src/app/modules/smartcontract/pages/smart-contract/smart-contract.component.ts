@@ -15,6 +15,7 @@ import {environment} from '../../../../../environments/environment';
 import { TransactionResp } from '../../../../interfaces/kanban.interface';
 import Common from 'ethereumjs-common';
 import * as Eth from 'ethereumjs-tx';
+import BigNumber from 'bignumber.js';
 
 @Component({
   selector: 'app-smart-contract',
@@ -65,7 +66,14 @@ export class SmartContractComponent implements OnInit {
       let args = [];
       if (this._kanbanCallArgs.length > 0) {
         this._kanbanCallArgs.forEach(input => {
-          args.push(input.value);
+          let jsonObj = input.value;
+          try {
+            jsonObj = JSON.parse(jsonObj);
+          } catch (e) {}
+          if(typeof jsonObj === 'number') {
+            jsonObj = '0x' + new BigNumber(jsonObj).toString(16)
+          }
+          args.push(jsonObj);
         });
       }
       this.kanbanData = this.web3Serv.getGeneralFunctionABI(abi, args);
@@ -697,6 +705,7 @@ export class SmartContractComponent implements OnInit {
 
   async viewKanban() {
     const to = this.kanbanTo;
+    this.formAbiHex();
     const data = '0x' + this.utilServ.stripHexPrefix(this.kanbanData);
     const res = await this.kanbanServ.kanbanCall(to, data);  
     console.log('res===', res); 

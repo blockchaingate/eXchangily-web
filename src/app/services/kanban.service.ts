@@ -126,8 +126,10 @@ export class KanbanService {
 
     async kanbanCall(to: string, abiData: string) {
         const data = {
-            to: to,
-            data: abiData
+            transactionOptions: { 
+                to: to,
+                data: abiData
+            }
         };
         const path = 'kanban/call';
         const res = await this.post(path, data).toPromise();
