@@ -1,7 +1,6 @@
 import { Component, OnInit, Renderer2, Inject } from '@angular/core';
 import { HttpService } from '../../services/http.service';
-import { environment } from '../../../environments/environment';
-import { Observable, forkJoin } from 'rxjs';
+import * as exaddr from '../../lib/exaddr';
 import { UtilService } from '../../services/util.service';
 import { AlertService } from '../../services/alert.service';
 @Component({
@@ -69,22 +68,31 @@ export class BulkTransferComponent implements OnInit {
                 } catch(e) {
 
                 }
-                if(!coinsMap[coinName] || coinsMap[coinName] <= 0) {
+                if(coinsMap[coinName] < 0) {
                     this.alertServ.openSnackBar('Amount ' + data[1].trim() + ' is invalid', 'Ok');
                     return;                    
                 }
-                const address = data[0].replace(/\"/g, '');
+                let address = data[0].replace(/\"/g, '');
+                address = address.trim();
+
                 console.log('address====', address);
+                if(!address) {
+                    continue;
+                }
+
                 let exgAddress = '';
+                let newAddress = address;
+                if(newAddress.indexOf('o') === 0 || newAddress.indexOf('K') === 0) {
+                    newAddress = exaddr.toLegacyAddress(newAddress);
+                } 
                 try {
-                    exgAddress = this.utilServ.fabToExgAddress(address);
+                    exgAddress = this.utilServ.fabToExgAddress(newAddress);
                 } catch(e) {
 
                 }
-                if(address.indexOf('19Txgh32N16g4sWiZ9JnzoVXQxxqAk4wC') == 0) {
-                    console.log('address=====', address);
-                    console.log('exgAddress=====', exgAddress);
-                }
+                
+
+
                 if(!exgAddress || (exgAddress.indexOf('0x') != 0) || (exgAddress.length != 42)) {
                     this.alertServ.openSnackBar('Address ' + address + ' is invalid', 'Ok');
                     return;

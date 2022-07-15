@@ -106,16 +106,18 @@ export class PreviewComponent implements OnInit {
         const gas = item.assets.gas;
         let address = item.address;
 
-        console.log('this.nonce before =', this.nonce);
         if(!this.nonce) {
             this.nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
         }
-        console.log('this.nonce after =', this.nonce);
 
         var keyNames = Object.keys(item.assets);
         for(let i = 0; i<keyNames.length;i++) {
             const name = keyNames[i];
-            const value = item.assets[name];
+            let value = item.assets[name];
+
+            if(!value) {
+                continue;
+            }
             if(name == 'gas') {
                 this.sendGas(keyPairsKanban, address, gas, this.nonce);
             } else {
