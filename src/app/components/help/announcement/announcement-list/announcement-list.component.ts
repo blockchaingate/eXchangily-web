@@ -47,10 +47,12 @@ export class AnnouncementListComponent implements OnInit {
     this.busy = true;
     this.success = true;
     console.log("currentLan: ", currentLan);
-    if(currentLan === 'zh') currentLan = 'sc';
+    //if(currentLan === 'zh') currentLan = 'sc';
     this.translateServ.setDefaultLang(currentLan);
     this.translateServ.use(currentLan);
-    this._announcementsService.getManyByLan(currentLan).subscribe(ret => {
+    let changedLang = currentLan;
+    if(changedLang === 'zh') changedLang = 'sc';
+    this._announcementsService.getManyByLan(changedLang).subscribe(ret => {
       // console.log("return: ");
       // console.log(ret);
 
