@@ -102,6 +102,7 @@ export class SmartContractComponent implements OnInit {
     'DSC',
     'BST',
     'Fab Lock For EXG Airdrop',
+    'Staking FAB EXG',
     'Custom'
   ];
   ABI = [];
@@ -122,6 +123,9 @@ export class SmartContractComponent implements OnInit {
     this.contractName=name;
     if(name === 'Fab Lock For EXG Airdrop') {
       this.smartContractAddress =  environment.addresses.smartContract.FABLOCK;
+    } else
+    if(name === 'Staking FAB EXG') {
+      this.smartContractAddress =  environment.addresses.smartContract.StakingFABEXG;
     } else
     if(name === 'Custom') {
       this.smartContractAddress = '';

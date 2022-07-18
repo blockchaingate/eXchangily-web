@@ -158,6 +158,7 @@ const routes: Routes = [
   { path: 'news', component: NewsComponent },
 //  { path: 'coin/:symbol', component: CoininfoComponent },
   { path: 'announcements', component: AnnouncementListComponent },
+  { path: 'announcements/:lang', component: AnnouncementListComponent },
   { path: '', redirectTo: '/market/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
