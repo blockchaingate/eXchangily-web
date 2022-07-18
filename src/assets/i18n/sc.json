@@ -743,6 +743,7 @@
     "Pwdvalid": "密码最少8个字符，其中至少1个大写字母，一个小写字母，一个数字和一个特殊字符(!@#$%^&*~`)",
     "Password doesn't match": "密码不匹配",
     "Password": "密码",
+    "Wallet connect": "钱包连接",
     "Wallet Password": "钱包密码",
     "Confirm Password": "确认密码",
     "Back": "上一步",

@@ -1,6 +1,10 @@
 {
     "Security": "Security",
     "Transfer": "Transfer",
+    "Issue Token": "Issue Token",
+    "Blog": "Blog",
+    "Wallet": "Wallet",
+    "My Wallet": "My Wallet",
     "Header": {
         "Title": "eXchangily",
         "Navigation": {

@@ -46,7 +46,7 @@ export class AnnouncementListComponent implements OnInit {
   getAnnouncements(currentLan: string) {
     this.busy = true;
     this.success = true;
-    // console.log("currentLan: ", currentLan);
+    console.log("currentLan: ", currentLan);
     if(currentLan === 'zh') currentLan = 'sc';
     this.translateServ.setDefaultLang(currentLan);
     this.translateServ.use(currentLan);
