@@ -185,7 +185,7 @@ export const environment = {
     }, 
     addresses: {
         smartContract: {
-            StakingFABEXG: '',
+            StakingFABEXG: '0x5d45c4cd19321d028abfc9217407ba0ba0212125',
             FABLOCK: '0x04baa04d9550c49831427c6abe16def2c579af4a',
             EXG: {
                 FAB: '0xa3e26671a38978e8204b8a37f1c2897042783b00',

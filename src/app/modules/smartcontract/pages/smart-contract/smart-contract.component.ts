@@ -98,11 +98,11 @@ export class SmartContractComponent implements OnInit {
   balance: any;
   ethBalance: any;
   contractNames = [
+    'Lock FAB or EXG for SEED airdrop',
     'EXG',
     'DSC',
     'BST',
     'Fab Lock For EXG Airdrop',
-    'Staking FAB EXG',
     'Custom'
   ];
   ABI = [];
@@ -124,7 +124,7 @@ export class SmartContractComponent implements OnInit {
     if(name === 'Fab Lock For EXG Airdrop') {
       this.smartContractAddress =  environment.addresses.smartContract.FABLOCK;
     } else
-    if(name === 'Staking FAB EXG') {
+    if(name === 'Lock FAB or EXG for SEED airdrop') {
       this.smartContractAddress =  environment.addresses.smartContract.StakingFABEXG;
     } else
     if(name === 'Custom') {
@@ -198,7 +198,7 @@ export class SmartContractComponent implements OnInit {
       this.alertServ.openSnackBar('no current wallet was found.', 'Ok');
       return;
     }  
-    this.changeContractName('EXG');
+    this.changeContractName('Lock FAB or EXG for SEED airdrop');
     for (let i = 0; i < this.wallet.mycoins.length; i++) {
       const coin = this.wallet.mycoins[i];
       if ((coin.name === 'FAB') && !coin.tokenType && !this.balance) {
