@@ -12,7 +12,7 @@
                         <h5 class="mt-0 mb-1">{{announce.title}}</h5>
                         <div *ngIf="announce.subtitle">{{announce.subtitle}}</div>
                         <div class="articalSub">
-                            {{announce.dateCreated | date: 'dd/MM/yyyy'}}
+                            {{announce.dateCreated | date: 'yyyy-MM-dd'}}
                         </div>
                         <div *ngIf="announce.contentSummary" class="my-2" [innerHTML]="announce.contentSummary">
                         </div>
