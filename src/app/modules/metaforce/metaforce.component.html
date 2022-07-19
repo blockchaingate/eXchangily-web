@@ -1,7 +1,12 @@
-<div class="bg-secondary text-white">
+<div class="bg-secondary text-white dd">
     <div class="container py-3 d-flex justify-content-center w-100">
-        <div class="w-100">
-            <div>
+        <div class="w-100 workspc">
+          <div>
+            <br>
+            <h3>{{'stakeFabExg'| translate}}</h3>
+            <br>
+          </div>
+                <div>
                 <mat-form-field appearance="fill" class="w-100">
                     <mat-label>{{'Coin' | translate}}</mat-label>
                     <mat-select [(ngModel)]="coin" (selectionChange)="changeCoin($event.value)">
