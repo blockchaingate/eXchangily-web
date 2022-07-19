@@ -11,3 +11,7 @@ button.button:hover {
 box-shadow: none;
 color: white;
 }
+
+.dd {
+    background-color: rgb(231, 227, 227);
+}
