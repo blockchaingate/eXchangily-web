@@ -61,8 +61,13 @@ export class MetaforceComponent implements OnInit {
         this.mycoin = coin;
         this.exgCoin = coin;
       }
+
     }  
 
+
+    const balanceObj = await this.coinServ.getBalance(this.fabCoin);
+    this.balance = balanceObj.balance;
+    
     this.getStakeInfo();
 
     this.apiServ.getFabBlockHeight().subscribe(
@@ -400,7 +405,7 @@ export class MetaforceComponent implements OnInit {
     //await this.callFabContract(seed, environment.addresses.smartContract.StakingFABEXG, abiHex, 0);
   } 
 
-  changeCoin(coin) {
+  async changeCoin(coin) {
     this.coin = coin;
     if(coin == 'FAB') {
       this.mycoin = this.fabCoin;
@@ -408,6 +413,9 @@ export class MetaforceComponent implements OnInit {
     if(coin == 'EXG'){
       this.mycoin = this.exgCoin;
     }
+
+    const balanceObj = await this.coinServ.getBalance(this.mycoin);
+    this.balance = balanceObj.balance;
   }
 
   withdraw(hash: string) {
