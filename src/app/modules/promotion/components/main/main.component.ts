@@ -313,7 +313,6 @@ export class MainComponent implements OnInit {
     );
 
     if (!this.wallet) {
-      // this.alertServ.openSnackBar('no current wallet was found.', 'Ok');
       if (!this.readyGoReasons) {
         this.readyGoReasons = [];
       }

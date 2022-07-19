@@ -195,7 +195,7 @@ export class SmartContractComponent implements OnInit {
     this.wallet = await this.storageService.getCurrentWallet();
 
     if (!this.wallet) {
-      this.alertServ.openSnackBar('no current wallet was found.', 'Ok');
+      this.alertServ.openSnackBar('No current wallet was found.', 'Ok');
       return;
     }  
     this.changeContractName('Lock FAB or EXG for SEED airdrop');

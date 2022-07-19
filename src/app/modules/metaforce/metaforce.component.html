@@ -22,8 +22,12 @@
             <div class="my-3">
                 <button class="btn button btn-outline btn-basic-outline w-100" (click)="stake()">{{"Deposit Stake" | translate }}</button>
             </div>
-            <div *ngIf="result">{{result}}</div>
-            <div *ngIf="error">{{error}}</div>
+            <div *ngIf="result">
+              <a target="_blank" href="{{gettxid(result)}}">
+                {{result}}
+              </a>
+            </div>
+            <div *ngIf="error">{{error | translate}}</div>
 
             <table class="table">
                 <thead>

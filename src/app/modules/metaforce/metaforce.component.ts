@@ -9,6 +9,7 @@ import { PinNumberModal } from '../shared/modals/pin-number/pin-number.modal';
 import { CoinService } from 'src/app/services/coin.service';
 import { ApiService } from 'src/app/services/api.service';
 import BigNumber from 'bignumber.js';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-metaforce',
@@ -40,13 +41,16 @@ export class MetaforceComponent implements OnInit {
     private storageService: StorageService, 
     private coinServ: CoinService,
     private apiServ: ApiService,
+    private translateServ: TranslateService,
     private alertServ: AlertService) { }
 
   async ngOnInit() {
     this.wallet = await this.storageService.getCurrentWallet();
 
     if (!this.wallet) {
-      this.alertServ.openSnackBar('no current wallet was found.', 'Ok');
+      this.alertServ.openSnackBar(
+        this.translateServ.instant('No current wallet was found.'), 
+        this.translateServ.instant('Ok'));
       return;
     }  
 
@@ -67,12 +71,11 @@ export class MetaforceComponent implements OnInit {
 
     const balanceObj = await this.coinServ.getBalance(this.fabCoin);
     this.balance = balanceObj.balance;
-    
+
     this.getStakeInfo();
 
     this.apiServ.getFabBlockHeight().subscribe(
       (ret: any) => {
-        console.log('height===', ret);
         this.blockheight = ret;
       }
     );
@@ -147,8 +150,6 @@ export class MetaforceComponent implements OnInit {
           const output = res.executionResult.output;
           if(output) {
             const hashes = this.web3Serv.decodeParameters(['bytes32[]'], output)[0];
-            console.log('hashes[0]===', hashes[0]);
-            console.log('hashes.length===', hashes.length);
             if(hashes && (hashes.length > 0)) {
               for(let i = 0; i < hashes.length; i++) {
                 const hash = hashes[i];
@@ -158,14 +159,12 @@ export class MetaforceComponent implements OnInit {
 
                   this.apiServ.callFabSmartContract(address, abiHex2, owner)
                   .subscribe((res2: any) => {
-                      console.log('res2=', res2);
                       if(res2 && res2.executionResult) {
                         const output2 = res2.executionResult.output;
                         if(output2) {
                           const info = this.web3Serv.decodeParameters(
                             ['uint256', 'uint256', 'uint256', 'uint8'], 
                             output2);
-                          console.log('info===', info);
                           const item = {
                             hash,
                             amount: info[0],
@@ -186,17 +185,25 @@ export class MetaforceComponent implements OnInit {
 
   stake() {
     this.method = 'deposit';
-    console.log('this.mycoin===', this.mycoin);
 
     if(!this.mycoin) {
-      this.alertServ.openSnackBar('Coin not available.', 'Ok');
+      this.alertServ.openSnackBar(
+        this.translateServ.instant('Coin not available.'), 
+        this.translateServ.instant('Ok'));
       return;     
     }
-    console.log('this.amount===', this.amount);
-    console.log('this.mycoin.balance===', this.mycoin.balance);
+    
     if(this.amount > Number(this.mycoin.balance)) {
-      this.alertServ.openSnackBar('Not enough balance.', 'Ok');
+      this.alertServ.openSnackBar(
+        this.translateServ.instant('Not enough balance.'), 
+        this.translateServ.instant('Ok'));
       return;     
+    }
+    if((this.coin == 'FAB' && this.amount < 100) || (this.coin == 'EXG' && this.amount < 2000)) {
+      this.alertServ.openSnackBar(
+        this.translateServ.instant('Mininum amount required.'), 
+        this.translateServ.instant('Ok'));
+      return;          
     }
     this.pinModal.show();
 
@@ -205,7 +212,9 @@ export class MetaforceComponent implements OnInit {
   onConfirmedPin(pin: string) {
     const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
     if (!seed) {
-      this.alertServ.openSnackBar('Your password is wrong.', 'Ok');
+      this.alertServ.openSnackBar(
+        this.translateServ.instant('Your password is wrong.'), 
+        this.translateServ.instant('Ok'));
     }
     if(this.method == 'deposit') {
       if(this.coin == 'FAB') {
@@ -242,7 +251,6 @@ export class MetaforceComponent implements OnInit {
     const contractSize = contract.toJSON.toString().length;
     totalFee += this.utilServ.convertLiuToFabcoin(contractSize * 10);
 
-    console.log('this.mycoin==', this.mycoin);
     this.mycoin.tokenType = 'FAB';
     const res = await this.coinServ.getFabTransactionHex(seed, this.mycoin, contract, value, 
       totalFee, environment.chains.FAB.satoshisPerBytes, environment.chains.FAB.bytesPerInput, false);
@@ -253,7 +261,6 @@ export class MetaforceComponent implements OnInit {
     if (!errMsg) {
         const res2 = await this.apiServ.postFabTx(txHex);
         txHash = res2.txHash;
-        console.log('txHashtxHash=', txHash);
         errMsg = res2.errMsg;
         if (txHash) {
           this.result = txHash;
@@ -262,7 +269,6 @@ export class MetaforceComponent implements OnInit {
           this.error = errMsg;
         }
     } else {
-      console.log('error msg=', errMsg);
       this.error = errMsg;
     }
   }
@@ -390,7 +396,7 @@ export class MetaforceComponent implements OnInit {
       if (!errMsg) {
           const res2 = await this.apiServ.postFabTx(txHex);
           txHash = res2.txHash;
-          console.log('txHashtxHash=', txHash);
+          
           errMsg = res2.errMsg;
           if (txHash) {
             this.result = txHash;
@@ -399,7 +405,6 @@ export class MetaforceComponent implements OnInit {
             this.error = errMsg;
           }
       } else {
-        console.log('error msg=', errMsg);
         this.error = errMsg;
       }      
     //await this.callFabContract(seed, environment.addresses.smartContract.StakingFABEXG, abiHex, 0);
@@ -457,6 +462,11 @@ export class MetaforceComponent implements OnInit {
       return 'FAB';
     }
     return 'EXG';
+  }
+
+  gettxid(txid: string) {
+    const baseUrl = environment.production ? 'https://fabexplorer.com/' : 'https://fabtest.info/';
+    return baseUrl + '#/search/' + txid;
   }
 
   withdrawable(blocknumber2) {
