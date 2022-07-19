@@ -412,11 +412,13 @@ export class MetaforceComponent implements OnInit {
     }
     return new BigNumber(item.amount).shiftedBy(-decimals).toNumber();
   }
-  
+
   getCoin(coinType) {
     if(coinType == 1) {
       return 'FAB';
     }
     return 'EXG';
   }
+
+  
 }
