@@ -34,6 +34,10 @@ export class ApiService {
         return this.http.get(url);
     }
 
+    getFabBlockHeight() {
+        const url = environment.endpoints.FAB.exchangily + 'getblockcount';
+        return this.http.get(url);
+    }
     async getTrxTransactionStatus(txid: string) {
         const transactionInfo = await tronWeb.trx.getTransactionInfo(txid);
         if(transactionInfo && transactionInfo.receipt) {

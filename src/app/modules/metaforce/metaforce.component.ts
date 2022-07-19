@@ -28,6 +28,9 @@ export class MetaforceComponent implements OnInit {
   result: string;
   error: any;
   stakeInfo = [];
+  hash: string;
+  method: string;
+  blockheight: number;
   //abiHex: string;
   //value: number;
 
@@ -61,6 +64,13 @@ export class MetaforceComponent implements OnInit {
     }  
 
     this.getStakeInfo();
+
+    this.apiServ.getFabBlockHeight().subscribe(
+      (ret: any) => {
+        console.log('height===', ret);
+        this.blockheight = ret;
+      }
+    );
   }
 
 
@@ -152,6 +162,7 @@ export class MetaforceComponent implements OnInit {
                             output2);
                           console.log('info===', info);
                           const item = {
+                            hash,
                             amount: info[0],
                             blocknumber1: info[1],
                             blocknumber2: info[2],
@@ -169,11 +180,16 @@ export class MetaforceComponent implements OnInit {
   }
 
   stake() {
+    this.method = 'deposit';
+    console.log('this.mycoin===', this.mycoin);
+
     if(!this.mycoin) {
       this.alertServ.openSnackBar('Coin not available.', 'Ok');
       return;     
     }
-    if(this.amount > this.mycoin.balance) {
+    console.log('this.amount===', this.amount);
+    console.log('this.mycoin.balance===', this.mycoin.balance);
+    if(this.amount > Number(this.mycoin.balance)) {
       this.alertServ.openSnackBar('Not enough balance.', 'Ok');
       return;     
     }
@@ -186,12 +202,18 @@ export class MetaforceComponent implements OnInit {
     if (!seed) {
       this.alertServ.openSnackBar('Your password is wrong.', 'Ok');
     }
-    if(this.coin == 'FAB') {
-      this.stakeFab(seed);
+    if(this.method == 'deposit') {
+      if(this.coin == 'FAB') {
+        this.stakeFab(seed);
+      } else 
+      if(this.coin == 'EXG') {
+        this.stakeExg(seed);
+      }
     } else 
-    if(this.coin == 'EXG') {
-      this.stakeExg(seed);
+    if(this.method == 'withdraw') {
+      this.withdrawDo(seed);
     }
+
   }
 
   async callFabContract(seed: Buffer, to: string, abiHex: string, value: number) {
@@ -378,23 +400,6 @@ export class MetaforceComponent implements OnInit {
     //await this.callFabContract(seed, environment.addresses.smartContract.StakingFABEXG, abiHex, 0);
   } 
 
-  
-  /*    const tos = [
-    {
-      address: environment.IssueTokenReceipt,
-      amount: this.totalFee - 2
-    },
-    {
-      address: contract,
-      amount: 0
-    }
-  ];
-  const keyPair = this.coinServ.getKeyPairs(this.mycoin, seed, 0, 0);
-  console.log('keyPair====', keyPair);
-  const { txHex, errMsg, transFee } = await this.coinServ.getFabTransactionHexMultiTos(keyPair.privateKey, this.address, tos, totalFee,
-    satoshisPerBytes, bytesPerInput);
-  */
-
   changeCoin(coin) {
     this.coin = coin;
     if(coin == 'FAB') {
@@ -403,6 +408,32 @@ export class MetaforceComponent implements OnInit {
     if(coin == 'EXG'){
       this.mycoin = this.exgCoin;
     }
+  }
+
+  withdraw(hash: string) {
+    this.method = 'withdraw';
+    this.hash = hash;
+    this.pinModal.show();
+    
+  }
+
+  async withdrawDo(seed) {
+    const abi = {
+      "constant": false,
+      "name": "withdraw",
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "inputs": [
+        {
+          "name": "_stakeHash",
+          "type": "bytes32"
+        }
+      ],
+      "outputs": []
+    };
+    let abiHex = this.web3Serv.getGeneralFunctionABI(abi, [this.hash]);
+    await this.callFabContract(seed, environment.addresses.smartContract.StakingFABEXG, abiHex, 0);
   }
 
   getAmount(item) {
@@ -420,5 +451,12 @@ export class MetaforceComponent implements OnInit {
     return 'EXG';
   }
 
+  withdrawable(blocknumber2) {
+
+    if(Number(blocknumber2) <= Number(this.blockheight)) {
+      return true;
+    }
+    return false;
+  }
   
 }
