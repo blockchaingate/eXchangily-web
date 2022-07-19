@@ -1,0 +1,52 @@
+<div class="bg-secondary text-white">
+    <div class="container py-3 d-flex justify-content-center w-100">
+        <div class="w-100">
+            <div>
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Choose a coin</mat-label>
+                    <mat-select [(ngModel)]="coin" (selectionChange)="changeCoin($event.value)">
+                      <mat-option value="FAB" class="text-muted">FAB</mat-option>
+                      <mat-option value="EXG" class="text-muted">EXG</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Amount</mat-label>
+                    <input matInput [(ngModel)]="amount">
+                </mat-form-field>
+            </div>
+            <div>
+                Balance: {{mycoin ? mycoin.balance : 0}}
+            </div>
+            <div class="my-3">
+                <button class="btn button btn-outline btn-basic-outline w-100" (click)="stake()">{{"Stake" | translate }}</button>
+            </div>
+            <div *ngIf="result">{{result}}</div>
+            <div *ngIf="error">{{error}}</div>
+
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Blocknumber1</th>
+                    <th scope="col">Blocknumber2</th>
+                    <th scope="col">Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of stakeInfo">
+                    <td>{{item.amount}}</td>
+                    <td>{{item.blocknumber1}}</td>
+                    <td>{{item.blocknumber2}}</td>
+                    <td>{{item.type}}</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+
+
+<pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>
+
