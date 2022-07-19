@@ -287,8 +287,35 @@ export class MetaforceComponent implements OnInit {
       ]
     }
     const amountHex = '0x' + new BigNumber(this.amount).shiftedBy(18).toString(16);
+    const tos = [];
     let abiHex = this.web3Serv.getGeneralFunctionABI(abi, [environment.addresses.smartContract.StakingFABEXG, amountHex]);
-    await this.callFabContract(seed, environment.addresses.smartContract.EXG.FAB, abiHex, 0);
+    
+    const gasLimit = 1000000;
+    const gasPrice = 50;   
+
+    const totalAmount = gasLimit * gasPrice / 1e8 * 2;
+    // let cFee = 3000 / 1e8 // fee for the transaction
+
+    let totalFee = totalAmount;
+
+    let contract = Btc.script.compile([
+      84,
+      this.utilServ.number2Buffer(gasLimit),
+      this.utilServ.number2Buffer(gasPrice),
+      this.utilServ.hex2Buffer(this.utilServ.stripHexPrefix(abiHex)),
+      this.utilServ.hex2Buffer(this.utilServ.stripHexPrefix(environment.addresses.smartContract.EXG.FAB)),
+      194
+    ]);  
+
+    let contractSize = contract.toJSON.toString().length;
+    totalFee += this.utilServ.convertLiuToFabcoin(contractSize * 10);
+
+    tos.push( {
+      address: contract,
+      amount: 0
+    });
+
+    //await this.callFabContract(seed, environment.addresses.smartContract.EXG.FAB, abiHex, 0);
 
     abi = {
       "constant": false,
@@ -305,8 +332,68 @@ export class MetaforceComponent implements OnInit {
       "outputs": []
     };
     abiHex = this.web3Serv.getGeneralFunctionABI(abi, [amountHex]);
-    await this.callFabContract(seed, environment.addresses.smartContract.StakingFABEXG, abiHex, 0);
+
+    contract = Btc.script.compile([
+      84,
+      this.utilServ.number2Buffer(gasLimit),
+      this.utilServ.number2Buffer(gasPrice),
+      this.utilServ.hex2Buffer(this.utilServ.stripHexPrefix(abiHex)),
+      this.utilServ.hex2Buffer(this.utilServ.stripHexPrefix(environment.addresses.smartContract.StakingFABEXG)),
+      194
+    ]);  
+
+    contractSize = contract.toJSON.toString().length;
+    totalFee += this.utilServ.convertLiuToFabcoin(contractSize * 10);
+
+    tos.push( {
+      address: contract,
+      amount: 0
+    });
+
+    const keyPair = this.coinServ.getKeyPairs(this.mycoin, seed, 0, 0);
+    const address = this.mycoin.receiveAdds[0].address;
+
+    const satoshisPerBytes = 100;
+    const bytesPerInput = 150;
+
+    let { txHex, errMsg, transFee } = await this.coinServ.getFabTransactionHexMultiTos(keyPair.privateKey, address, tos, totalFee,
+      satoshisPerBytes, bytesPerInput);
+
+      let txHash = '';
+      if (!errMsg) {
+          const res2 = await this.apiServ.postFabTx(txHex);
+          txHash = res2.txHash;
+          console.log('txHashtxHash=', txHash);
+          errMsg = res2.errMsg;
+          if (txHash) {
+            this.result = txHash;
+          } else 
+          if (errMsg) {
+            this.error = errMsg;
+          }
+      } else {
+        console.log('error msg=', errMsg);
+        this.error = errMsg;
+      }      
+    //await this.callFabContract(seed, environment.addresses.smartContract.StakingFABEXG, abiHex, 0);
   } 
+
+  
+  /*    const tos = [
+    {
+      address: environment.IssueTokenReceipt,
+      amount: this.totalFee - 2
+    },
+    {
+      address: contract,
+      amount: 0
+    }
+  ];
+  const keyPair = this.coinServ.getKeyPairs(this.mycoin, seed, 0, 0);
+  console.log('keyPair====', keyPair);
+  const { txHex, errMsg, transFee } = await this.coinServ.getFabTransactionHexMultiTos(keyPair.privateKey, this.address, tos, totalFee,
+    satoshisPerBytes, bytesPerInput);
+  */
 
   changeCoin(coin) {
     this.coin = coin;
@@ -316,5 +403,20 @@ export class MetaforceComponent implements OnInit {
     if(coin == 'EXG'){
       this.mycoin = this.exgCoin;
     }
+  }
+
+  getAmount(item) {
+    let decimals = 8;
+    if(item.type == 2) {
+      decimals = 18;
+    }
+    return new BigNumber(item.amount).shiftedBy(-decimals).toNumber();
+  }
+  
+  getCoin(coinType) {
+    if(coinType == 1) {
+      return 'FAB';
+    }
+    return 'EXG';
   }
 }

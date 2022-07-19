@@ -29,17 +29,17 @@
                 <thead>
                   <tr>
                     <th scope="col">Amount</th>
-                    <th scope="col">Blocknumber1</th>
-                    <th scope="col">Blocknumber2</th>
-                    <th scope="col">Type</th>
+                    <th scope="col">Stake Block</th>
+                    <th scope="col">Release Block</th>
+                    <th scope="col">Coin</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of stakeInfo">
-                    <td>{{item.amount}}</td>
+                    <td>{{getAmount(item)}}</td>
                     <td>{{item.blocknumber1}}</td>
                     <td>{{item.blocknumber2}}</td>
-                    <td>{{item.type}}</td>
+                    <td>{{getCoin(item.type)}}</td>
                   </tr>
                 </tbody>
               </table>
