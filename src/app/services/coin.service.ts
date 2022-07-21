@@ -51,6 +51,54 @@ export class CoinService {
         return -1;
     }
 
+    convertTrxAddressToHex(trxAddress: string) {
+        const address = tronWeb.address.toHex(trxAddress).replace(ADDRESS_PREFIX_REGEX, '0x');
+        return address;
+    }
+
+    async getTrxTokenName(smartContractAddress) {
+        try {
+            let contract = await tronWeb.contract().at(smartContractAddress);
+            //Use call to execute a pure or view smart contract method.
+            // These methods do not modify the blockchain, do not cost anything to execute and are also not broadcasted to the network.
+            let result = await contract.name().call({from: environment.addresses.exchangilyOfficial.TRX});
+            console.log('result: ', result);
+            return result;
+        } catch(error) {
+            console.error("trigger smart contract error",error)
+        }
+        return '';
+    }
+
+    async getTrxTokenDecimals(smartContractAddress) {
+        try {
+            let contract = await tronWeb.contract().at(smartContractAddress);
+            //Use call to execute a pure or view smart contract method.
+            // These methods do not modify the blockchain, do not cost anything to execute and are also not broadcasted to the network.
+            let result = await contract.decimals().call({from: environment.addresses.exchangilyOfficial.TRX});
+            console.log('result: ', result);
+            return result;
+        } catch(error) {
+            console.error("trigger smart contract error",error)
+        }
+        return '';
+    }
+
+    async getTrxTokenSymbol(smartContractAddress) {
+        try {
+            let contract = await tronWeb.contract().at(smartContractAddress);
+            //Use call to execute a pure or view smart contract method.
+            // These methods do not modify the blockchain, do not cost anything to execute and are also not broadcasted to the network.
+            let result = await contract.symbol().call({from: environment.addresses.exchangilyOfficial.TRX});
+            console.log('result: ', result);
+            return result;
+        } catch(error) {
+            console.error("trigger smart contract error",error)
+        }
+        return '';
+    }
+
+    
     getCoinNameByTypeId(id: number) {
 
         for (let i = 0; i < coin_list.length; i++) {
@@ -62,9 +110,6 @@ export class CoinService {
         return '';
     }
 
-    trxToHex(address: string) {
-        return tronWeb.address.toHex(address);
-    }
 
     async getEthGasprice() {
         const gasPrice = await this.apiService.getEthGasPrice();
@@ -94,7 +139,8 @@ export class CoinService {
 
             if (contract.balanceOf(address)) {
                 const result = await contract.balanceOf(address).call({from: address});
-                return result.toNumber();
+                console.log('result===', result);
+                return result.toString();
             }
             return -1;
             // console.log('result: ', result);
@@ -648,9 +694,14 @@ export class CoinService {
             console.log('balanceObj====', balanceObj);
             balance = new BigNumber(balanceObj, 16).shiftedBy(-18).toNumber();
             lockbalance = 0;     
+        } else if(tokenType == 'TRX') {
+            const balanceObj = await this.getTrxTokenBalance(contractAddr, addr);
+            console.log('balanceObj for trxxxx=', balanceObj);
+            balance = new BigNumber(balanceObj).shiftedBy(-decimals).toNumber();
+            lockbalance = 0;   
         } else if(['MATIC', 'HT', 'BNB'].indexOf(tokenType) >= 0) {  
             const balanceObj = await this.apiService.getEthereumCompatibleTokenBalance(tokenType, contractAddr, addr);
-            balance = new BigNumber(balanceObj, 16).shiftedBy(-18).toNumber();
+            balance = new BigNumber(balanceObj, 16).shiftedBy(-decimals).toNumber();
             lockbalance = 0;                  
         } else if (name === 'BCH') {
             const balanceObj = await this.apiService.getBchBalance(addr);

@@ -5,6 +5,7 @@ import {Token} from '../../../../interfaces/kanban.interface';
 import { environment } from '../../../../../environments/environment';
 import { ApiService } from 'src/app/services/api.service';
 import { UtilService } from 'src/app/services/util.service';
+import { CoinService } from 'src/app/services/coin.service';
 
 @Component({
     selector: 'add-assets-modal',
@@ -61,6 +62,7 @@ export class AddAssetsModal implements OnInit{
 
     constructor(
         private utilServ: UtilService,
+        private coinServ: CoinService,
         private fb: FormBuilder, private apiServ: ApiService) {
         this.selectedIndex = 0;
     }
@@ -86,18 +88,31 @@ export class AddAssetsModal implements OnInit{
     async loadSmartContractInfo() {
         
         const chain = this.addAssetsForm.get('ethChain').value;
-        const smartContractAddress = this.addAssetsForm.get('ethContractAddress').value;
-        if(smartContractAddress && this.utilServ.stripHexPrefix(smartContractAddress).length == 40) {
-            const decimals = await this.apiServ.getEtheruemCompatibleDecimals(chain, smartContractAddress);
-            this.addAssetsForm.get('ethTokenDecimals').setValue(decimals);
-
-            const name = await this.apiServ.getEtheruemCompatibleName(chain, smartContractAddress);
-            this.addAssetsForm.get('ethTokenName').setValue(name);
-
-            const symbol = await this.apiServ.getEtheruemCompatibleSymbol(chain, smartContractAddress);
-            this.addAssetsForm.get('ethTokenSymbol').setValue(symbol);
-
+        let smartContractAddress = this.addAssetsForm.get('ethContractAddress').value;
+        console.log('chain===', chain);
+        console.log('smartContractAddress===', smartContractAddress);
+        if(smartContractAddress) {
+            if(chain == 'TRX') {
+                const name = await this.coinServ.getTrxTokenName(smartContractAddress);
+                this.addAssetsForm.get('ethTokenName').setValue(name);
+                const decimals = await this.coinServ.getTrxTokenDecimals(smartContractAddress);
+                this.addAssetsForm.get('ethTokenDecimals').setValue(decimals);
+                const symbol = await this.coinServ.getTrxTokenSymbol(smartContractAddress);
+                this.addAssetsForm.get('ethTokenSymbol').setValue(symbol);
+            } else
+            if(this.utilServ.stripHexPrefix(smartContractAddress).length == 40) {
+                const decimals = await this.apiServ.getEtheruemCompatibleDecimals(chain, smartContractAddress);
+                this.addAssetsForm.get('ethTokenDecimals').setValue(decimals);
+    
+                const name = await this.apiServ.getEtheruemCompatibleName(chain, smartContractAddress);
+                this.addAssetsForm.get('ethTokenName').setValue(name);
+    
+                const symbol = await this.apiServ.getEtheruemCompatibleSymbol(chain, smartContractAddress);
+                this.addAssetsForm.get('ethTokenSymbol').setValue(symbol);
+    
+            }
         }
+
         
     }
 

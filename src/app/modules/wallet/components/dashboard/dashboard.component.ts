@@ -643,7 +643,7 @@ export class WalletDashboardComponent implements OnInit {
                 }
 
             }
-
+            
             if(coin.new && includeNew) {
                 try {
                     const balance = await this.coinServ.getBalance(coin);

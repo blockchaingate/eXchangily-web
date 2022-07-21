@@ -23,6 +23,8 @@ export class MetaforceComponent implements OnInit {
   mycoin: any;
   fabCoin: any;
   exgCoin: any;
+  
+  address: string;
   balance: number;
 
   wallet: any;
@@ -71,7 +73,7 @@ export class MetaforceComponent implements OnInit {
 
     const balanceObj = await this.coinServ.getBalance(this.fabCoin);
     this.balance = balanceObj.balance;
-
+    this.address = this.fabCoin.receiveAdds[0].address;
     this.getStakeInfo();
 
     this.apiServ.getFabBlockHeight().subscribe(
