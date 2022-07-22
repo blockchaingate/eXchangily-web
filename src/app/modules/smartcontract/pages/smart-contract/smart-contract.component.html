@@ -59,9 +59,14 @@
                                             <mat-form-field class="example-full-width">
                                                 <mat-label class="text-muted">{{input.name}}</mat-label>
                                                 <mat-select [(value)]="input.type">
+                                                    <mat-option [value]="input.type">
+                                                        {{input.type}}
+                                                    </mat-option>
+                                                    <!--
                                                     <mat-option *ngFor="let type of types" [value]="type">
                                                         {{type}}
                                                     </mat-option>
+                                                    -->
                                                 </mat-select>
                                             </mat-form-field>
     
