@@ -116,6 +116,9 @@
                                 <div class="row py-2" *ngIf="error">
                                     {{error}}
                                 </div>
+                                <div class="row py-2" *ngIf="txHex">
+                                    {{txHex}}
+                                </div>
                             </div>
                         </div>
 
@@ -153,6 +156,9 @@
                 <div class="row py-2" *ngIf="error">
                     {{error}}
                 </div>  
+                <div class="row py-2" *ngIf="txHex">
+                    {{txHex}}
+                </div>
             </div>                  
         </mat-tab>
 

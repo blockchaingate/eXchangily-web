@@ -28,6 +28,7 @@ export class SmartContractComponent implements OnInit {
   action: string;
   abiName: string;
   txid: string;
+  txHex: string;
   customAbi: string;
   contractName: string;
   smartContractName: string;
@@ -305,9 +306,6 @@ export class SmartContractComponent implements OnInit {
       return;
     }
 
-    console.log('address===', address);
-    console.log('abiHex===', abiHex);
-    console.log('sender===', sender);
 
     this.apiServ.callFabSmartContract(address, abiHex, sender).subscribe((res: any) => {
       console.log('res=', res);
@@ -658,10 +656,12 @@ export class SmartContractComponent implements OnInit {
         } else 
         if (errMsg) {
           this.error = errMsg;
+          this.txHex = txHex;
         }
     } else {
       console.log('error msg=', errMsg);
       this.error = errMsg;
+      this.txHex = txHex;
     } 
   }
 
