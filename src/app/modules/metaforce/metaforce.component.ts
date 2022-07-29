@@ -195,9 +195,9 @@ export class MetaforceComponent implements OnInit {
       return;     
     }
     
-    if(this.amount > Number(this.mycoin.balance)) {
+    if(Number(this.amount) > Number(this.balance)) {
       this.alertServ.openSnackBar(
-        this.translateServ.instant('Not enough balance.'), 
+        this.translateServ.instant('Not enough balance' + '.' + "Your balance is " + Number(this.mycoin.balance) + ' but the amount is ' + Number(this.amount)), 
         this.translateServ.instant('Ok'));
       return;     
     }
