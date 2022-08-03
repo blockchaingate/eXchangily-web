@@ -218,6 +218,10 @@ export class CoinService {
         this.fillUpAddress(fabBNBCoin, seed, 1, 0);
         myCoins.push(fabBNBCoin);  
 
+        const busdBNBCoin = this.initToken('BNB', 'BUSD', 18, environment.addresses.smartContract.BUSD, bnbCoin);
+        this.fillUpAddress(busdBNBCoin, seed, 1, 0);
+        myCoins.push(busdBNBCoin);  
+
         const maticCoin = new MyCoin('MATIC');
         this.fillUpAddress(maticCoin, seed, 1, 0);
         myCoins.push(maticCoin);
@@ -349,6 +353,10 @@ export class CoinService {
 
 
         const erc20Tokens = [
+            {
+                name: 'HNC',
+                decimals: 18
+            },
             {
                 name: 'LINK',
                 decimals: 18

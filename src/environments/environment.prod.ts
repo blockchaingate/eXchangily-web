@@ -225,6 +225,8 @@ export const environment = {
             GET: {
                 FAB: '0xda0f76ec006246654fd2eed060f9f9025c6b3d58'
             },  
+            BUSD: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
+            HNC: '0x122fd42c61bc66b0cd6cdbf302a0ca297497e240',
             CTG: '0x05c1a1dff47874f49230f31774b1ebe4b8899f68',  
             CABTC: '0x4eeda2159e1a66de4ec1d711d53123eb2ba15e92',        
             DUSD: '0x46e0021c17d30a2db972ee5719cdc7e829ed9930',
@@ -402,6 +404,8 @@ export const environment = {
         DTWD: 280,
         DSGD: 14,
         DHKD: 80,
+        BUSD: 2,
+        HNC: 2000,
         DINR: 800,
         DMXN: 200,
         DBRL: 60,
@@ -482,6 +486,8 @@ export const environment = {
         LTC: 8,
         DOGE: 20,
         BNB: 20,
+        BUSD: 15,
+        HNC: 10,
         INB: 20,
         REP: 20,
         HOT: 20,

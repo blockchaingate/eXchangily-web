@@ -80,9 +80,13 @@ export const coin_list: Coin[] = [
     {id: 196645, name: 'CELR', icon: ''},
     {id: 196646, name: 'YFI', icon: ''},
     {id: 196647, name: 'SLP', icon: ''},
+    {id: 196648, name: 'HNC', icon: ''},
+
     {id: 524288, name: 'BNB', icon: ''},
     {id: 524289, name: 'USDTB', icon: ''},
     {id: 524290, name: 'FABB', icon: ''},
+    {id: 524291, name: 'BUSD', icon: ''},
+
     {id: 589824, name: 'MATICM', icon: ''},
     {id: 589826, name: 'USDTM', icon: ''},
     {id: 589825, name: 'IXT', icon: ''}
@@ -288,4 +292,8 @@ export const price_list: Price[] = [
 
     { id: 129, coin_id: 65536, base_id: 131078, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'BTC/DCAD' },
     { id: 130, coin_id: 196608, base_id: 131078, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'ETH/DCAD' },
+
+
+    { id: 131, coin_id: 196648, base_id: 196608, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'HNC/ETH' },
+    { id: 132, coin_id: 196648, base_id: 196632, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'HNC/USDC' },
 ];
