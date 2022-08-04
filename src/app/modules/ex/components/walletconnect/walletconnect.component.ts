@@ -10,6 +10,8 @@ import { PinNumberModal } from '../../../shared/modals/pin-number/pin-number.mod
 import { AlertService } from 'src/app/services/alert.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CoinService } from 'src/app/services/coin.service';
+import { environment } from 'src/environments/environment';
+import BigNumber from 'bignumber.js';
 
 @Component({
   selector: 'app-walletconnect',
@@ -116,6 +118,104 @@ export class WalletconnectComponent implements OnInit {
       })
     }
 
+  }
+
+  showContractName(to: string) {
+    if(environment.production && to == '0xd99bfcbfad77f57b5ed20286c24ad71785d73993' 
+    || !environment.production && to == '0xa2370c422e2074ae2fc3d9d24f1e654c7fa3c181') {
+      return 'Biswap Router'
+    }
+    return to;
+  }
+
+  timeConverter(UNIX_timestamp){
+    var a = new Date(Math.floor(UNIX_timestamp / 1000) * 1000);
+    //var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var year = a.getFullYear();
+    var month = a.getMonth() + 1;
+    var date = a.getDate();
+    var hour = a.getHours();
+    var min = a.getMinutes();
+    var sec = a.getSeconds();
+    var time = year + '-' + month + '-' + date + ' ' + hour + ':' + min + ':' + sec ;
+    return time;
+  }
+
+  showAddLiquidityData(body) {
+    const decoded = this.web3Serv.decodeParameters(
+      ['uint32', 'uint32', 'uint256', 'uint256', 'uint256', 'uint256', 'address', 'uint256'], 
+      body);
+    const tokenA =  this.coinServ.getCoinNameByTypeId(decoded[0]);
+    const tokenB = this.coinServ.getCoinNameByTypeId(decoded[1]);
+    const amountADesired =  new BigNumber(decoded[2]).shiftedBy(-18).toNumber();
+    const amountBDesired = new BigNumber(decoded[3]).shiftedBy(-18).toNumber();
+    const amountAMin = new BigNumber(decoded[4]).shiftedBy(-18).toNumber();
+    const amountBMin = new BigNumber(decoded[5]).shiftedBy(-18).toNumber();
+    const to = this.utilServ.exgToFabAddress(decoded[6]);
+    const deadline = this.timeConverter(decoded[7]);
+    return '<div>' 
+    + '<div class="row"><div class="col col-md-4">Method</div><div class="col col-md-8">Add Liquidity</div></div>'
+    + '<div class="row"><div class="col col-md-4">TokenA</div><div class="col col-md-8">' + tokenA + '</div></div>'
+    + '<div class="row"><div class="col col-md-4">TokenB</div><div class="col col-md-8">' + tokenB + '</div></div>'
+    + '<div class="row"><div class="col col-md-4">AmountADesired</div><div class="col col-md-8">' + amountADesired + '</div></div>'
+    + '<div class="row"><div class="col col-md-4">AmountBDesired</div><div class="col col-md-8">' + amountBDesired + '</div></div>'
+    + '<div class="row"><div class="col col-md-4">AmountAMin</div><div class="col col-md-8">' + amountAMin + '</div></div>'
+    + '<div class="row"><div class="col col-md-4">AmountBMin</div><div class="col col-md-8">' + amountBMin + '</div></div>'
+    + '<div class="row"><div class="col col-md-4">To</div><div class="col col-md-8">' + to + '</div></div>'
+    + '<div class="row"><div class="col col-md-4">Deadline</div><div class="col col-md-8">' + deadline + '</div></div>'
+    + '</div>';
+  }
+
+  showSwapExactTokensForTokensData(body) {
+    const decoded = this.web3Serv.decodeParameters(
+      ['uint256', 'uint256', 'uint32[]', 'address', 'uint256'], 
+      body);
+    const amountIn =  new BigNumber(decoded[0]).shiftedBy(-18).toNumber();
+    const amountOutMin = new BigNumber(decoded[1]).shiftedBy(-18).toNumber();
+    let path =  decoded[2].map(item => this.coinServ.getCoinNameByTypeId(item)).toString();
+    const to = this.utilServ.exgToFabAddress(decoded[3]);
+    const deadline = this.timeConverter(decoded[4]);
+    return '<div>' 
+    + '<div class="row"><div class="col col-md-4">Method</div><div class="col col-md-8">SwapExactTokensForTokens</div></div>'
+    + '<div class="row"><div class="col col-md-4">AmountIn</div><div class="col col-md-8">' + amountIn + '</div></div>'
+    + '<div class="row"><div class="col col-md-4">AmountOutMin</div><div class="col col-md-8">' + amountOutMin + '</div></div>'
+    + '<div class="row"><div class="col col-md-4">Path</div><div class="col col-md-8">' + path + '</div></div>'
+    + '<div class="row"><div class="col col-md-4">To</div><div class="col col-md-8">' + to + '</div></div>'
+    + '<div class="row"><div class="col col-md-4">Deadline</div><div class="col col-md-8">' + deadline + '</div></div>'
+    + '</div>';
+  }
+
+  showSwapTokensForExactTokensData(body) {
+    const decoded = this.web3Serv.decodeParameters(
+      ['uint256', 'uint256', 'uint32[]', 'address', 'uint256'], 
+      body);
+    const amountOut =  new BigNumber(decoded[0]).shiftedBy(-18).toNumber();
+    const amountInMax = new BigNumber(decoded[1]).shiftedBy(-18).toNumber();
+    let path =  decoded[2].map(item => this.coinServ.getCoinNameByTypeId(item)).toString();
+    const to = this.utilServ.exgToFabAddress(decoded[3]);
+    const deadline = this.timeConverter(decoded[4]);
+    return '<div>' 
+    + '<div class="row"><div class="col col-md-4">Method</div><div class="col col-md-8">SwapTokensForExactTokens</div></div>'
+    + '<div class="row"><div class="col col-md-4">amountOut</div><div class="col col-md-8">' + amountOut + '</div></div>'
+    + '<div class="row"><div class="col col-md-4">AmountInMax</div><div class="col col-md-8">' + amountInMax + '</div></div>'
+    + '<div class="row"><div class="col col-md-4">Path</div><div class="col col-md-8">' + path + '</div></div>'
+    + '<div class="row"><div class="col col-md-4">To</div><div class="col col-md-8">' + to + '</div></div>'
+    + '<div class="row"><div class="col col-md-4">Deadline</div><div class="col col-md-8">' + deadline + '</div></div>'
+    + '</div>';
+  }
+
+  showData(data:string) {
+    const method = data.substring(0, 10);
+    const body = data.substring(10);
+    switch(method) {
+      case '0xbbf5eda1':
+        return this.showAddLiquidityData(body);
+      case '0x5330901b':
+        return this.showSwapExactTokensForTokensData(body);
+      case '0xaf91aa50':
+        return this.showSwapTokensForExactTokensData(body);
+    }
+    return data;
   }
 
   async approveSession(approved) {

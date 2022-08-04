@@ -89,15 +89,15 @@
           <div class="border-bottom" *ngFor="let item of request.params">
             <div class="row">
               <div class="col-sm-2  text-muted">To</div>
-              <div class="col-sm-10">{{item.to}}</div>
+              <div class="col-sm-10">{{showContractName(item.to)}}</div>
             </div>
-            <div class="row">
+            <div class="row d-none">
               <div class="col-sm-2  text-muted">Value</div>
               <div class="col-sm-10">{{item.value}}</div>
             </div>
-            <div class="row">
+            <div class="row pt-3">
               <div class="col-sm-2  text-muted">Data</div>
-              <div class="col-sm-10">{{item.data}}</div>
+              <div class="col-sm-10" [innerHTML]="showData(item.data)"></div>
             </div>
           </div>
         </div>
