@@ -415,7 +415,7 @@ export const environment = {
         BCH: 0.002,
         LTC: 0.02,
         DOGE: 20,
-        BNB: 0.6 * 2,
+        BNB: 0.001,
         INB: 20 * 2,
         REP: 0.8 * 2,
         HOT: 16000 * 2,
