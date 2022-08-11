@@ -81,7 +81,8 @@ export const environment = {
                 networkId: 56,
                 chainId: 56
             },
-            rpcEndpoint: 'https://bsc-dataseed.binance.org',
+            //rpcEndpoint: 'https://bsc-dataseed.binance.org',
+            rpcEndpoint: 'https://kanbanprod.fabcoinapi.com/redirect/binance',
             hardfork: 'petersburg',
             gasPrice: 5,
             gasPriceMax: 200,
@@ -94,7 +95,8 @@ export const environment = {
                 networkId: 137,
                 chainId: 137
             },
-            rpcEndpoint: 'https://polygon-rpc.com',
+            //rpcEndpoint: 'https://polygon-rpc.com',
+            rpcEndpoint: 'https://kanbanprod.fabcoinapi.com/redirect/polygon',
             hardfork: 'petersburg',
             gasPrice: 5,
             gasPriceMax: 200,

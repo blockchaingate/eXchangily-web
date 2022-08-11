@@ -87,7 +87,8 @@ export const environment = {
                 networkId: 97,
                 chainId: 97
             },
-            rpcEndpoint: 'https://data-seed-prebsc-1-s1.binance.org:8545',
+            //rpcEndpoint: 'https://data-seed-prebsc-1-s1.binance.org:8545',
+            rpcEndpoint: 'https://kanbantest.fabcoinapi.com/redirect/binance',
             hardfork: 'byzantium',
             gasPrice: 5,
             gasPriceMax: 100,
@@ -100,7 +101,8 @@ export const environment = {
                 networkId: 80001,
                 chainId: 80001
             },
-            rpcEndpoint: 'https://rpc-mumbai.matic.today',
+            //rpcEndpoint: 'https://rpc-mumbai.matic.today',
+            rpcEndpoint: 'https://kanbantest.fabcoinapi.com/redirect/polygon',
             hardfork: 'byzantium',
             gasPrice: 5,
             gasPriceMax: 100,
