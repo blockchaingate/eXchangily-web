@@ -64,7 +64,7 @@ export class SmartContractComponent implements OnInit {
     try {
       const abiDoubleQuote = this._kanbanCallABI.replace(/'/g, '"');
       const abi = JSON.parse(abiDoubleQuote);
-      let args = [];
+      let args: any = [];
       if (this._kanbanCallArgs.length > 0) {
         this._kanbanCallArgs.forEach(input => {
           let jsonObj = input.value;
@@ -90,8 +90,8 @@ export class SmartContractComponent implements OnInit {
   kanbanData: string;
   payableValue: number;
   selectedMethod: string;
-  types = [];
-  wallet: Wallet;
+  types: any = [];
+  wallet: Wallet | null;
   smartContractAddress: string;
   mycoin: MyCoin;
   ethCoin: MyCoin;
@@ -106,7 +106,7 @@ export class SmartContractComponent implements OnInit {
     'Fab Lock For EXG Airdrop',
     'Custom'
   ];
-  ABI = [];
+  ABI: any = [];
   constructor(
     private storageService: StorageService, 
     private apiServ: ApiService, 
@@ -162,7 +162,7 @@ export class SmartContractComponent implements OnInit {
   formTypes(abi) {
     for (let j = 0; j < abi.inputs.length; j ++) {
       const input = abi.inputs[j];
-      const type = input.type;
+      const type: any = input.type;
       if (this.types.includes(type)) {
         continue;
       }
@@ -327,10 +327,10 @@ export class SmartContractComponent implements OnInit {
   }
 
   formABI() {
-    const vals = [];
+    const vals: any = [];
     for (let i = 0; i < this.method.inputs.length; i++) {
       const input = this.method.inputs[i];
-      let val = input.val;
+      let val: any = input.val;
       if(!val) {
         val = '0x0000000000000000000000000000000000000000000000000000000000000000';
       }
@@ -420,7 +420,7 @@ export class SmartContractComponent implements OnInit {
     txhex = '0x' + serializedTx.toString('hex');
 
     this.kanbanServ.sendRawSignedTransaction(txhex).subscribe(
-      (resp: TransactionResp) => {
+      (resp: any) => {
         console.log('resp for deploy kanban==', resp);
       if (resp && resp.transactionHash) {
         this.result = 'txid:' + resp.transactionHash;
@@ -482,7 +482,7 @@ export class SmartContractComponent implements OnInit {
     let gasLimit = environment.chains.KANBAN.gasLimit;
     const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
     
-    let kanbanTo = null;
+    let kanbanTo: any = null;
     let kanbanValue = 0;
     if(this.kanbanTo) {
       kanbanTo = this.kanbanTo;
@@ -518,7 +518,7 @@ export class SmartContractComponent implements OnInit {
     txhex = '0x' + serializedTx.toString('hex');
 
     this.kanbanServ.sendRawSignedTransaction(txhex).subscribe(
-      (resp: TransactionResp) => {
+      (resp: any) => {
       if (resp && resp.transactionHash) {
         this.txid = resp.transactionHash;
         this.alertServ.openSnackBarSuccess('Smart contract was called successfully.', 'Ok');
@@ -541,7 +541,7 @@ export class SmartContractComponent implements OnInit {
   formCreateSmartContractABI() {
     let abi = JSON.parse(this.fabABI);
 
-    let args = [];
+    let args: any = [];
     let argsParsed;
     try {
       argsParsed = JSON.parse(this.fabArguments);
@@ -560,7 +560,7 @@ export class SmartContractComponent implements OnInit {
 
   formCreateEthSmartContractABI() {
     const abi = JSON.parse(this.ethABI);
-    let args = [];
+    let args: any = [];
     if(this.ethArguments) {
       args = this.ethArguments.split(',').map(item => {return item.trim()});
     }
@@ -673,7 +673,7 @@ export class SmartContractComponent implements OnInit {
   async onConfirmedPin(pin: string) {
 
     
-    const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
+    const seed = this.utilServ.aesDecryptSeed(this.wallet?.encryptedSeed, pin);
     if (!seed) {
       this.alertServ.openSnackBar('Your password is wrong.', 'Ok');
     }

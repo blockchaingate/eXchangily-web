@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { MyCoin } from '../models/mycoin';
 import * as createHash from 'create-hash';
-import BigNumber from 'bignumber.js/bignumber';
+import BigNumber from "bignumber.js";
 import * as Btc from 'bitcoinjs-lib';
 import * as bs58 from 'bs58';
 import * as ecies from 'eth-ecies';
@@ -337,7 +337,7 @@ export class UtilService {
     }
 
     number2Buffer(num) {
-        const buffer = [];
+        const buffer: any = [];
         const neg = (num < 0);
         num = Math.abs(num);
         while (num) {
@@ -363,7 +363,7 @@ export class UtilService {
     }
 
     hex2Buffer(hexString) {
-        const buffer = [];
+        const buffer: any = [];
         for (let i = 0; i < hexString.length; i += 2) {
             buffer[buffer.length] = (parseInt(hexString[i], 16) << 4) | parseInt(hexString[i + 1], 16);
         }
@@ -372,8 +372,10 @@ export class UtilService {
 
     fabToExgAddress(address: string) {
         try {
-            const bytes = bs58.decode(address);
+            const bytes: any = Buffer.from(bs58.decode(address));
+            //console.log('bytes===', bytes);
             const addressInWallet = bytes.toString('hex');
+            //console.log('addressInWallet===', addressInWallet);
             if (!addressInWallet || (addressInWallet.length !== 50)) {
                 return '';
             }

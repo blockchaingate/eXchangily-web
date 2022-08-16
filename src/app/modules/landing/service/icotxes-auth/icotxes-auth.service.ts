@@ -8,11 +8,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class IcotxesAuthService {
-  private icotxes: {
-    pending: BehaviorSubject<Array<Icotx>>,
-    completed: BehaviorSubject<Array<Icotx>>,
-    deleted: BehaviorSubject<Array<Icotx>>
-  };
+  private icotxes: any;
 
   constructor() { this.initIcotxes(); }
 
@@ -52,7 +48,6 @@ export class IcotxesAuthService {
   }
 
   clear() {
-    delete this.icotxes;
     this.initIcotxes();
   }
 

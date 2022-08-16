@@ -1,30 +1,53 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "paths": {
+      "crypto": [
+        "./node_modules/crypto-browserify"
+      ],
+      "https": [
+        "./node_modules/https-browserify"
+      ],
+      "http": [
+        "./node_modules/stream-http"
+      ],
+      "stream": [
+        "./node_modules/stream-browserify"
+      ]
+    },
+    "forceConsistentCasingInFileNames": true,
+    "strict": false,
+    "strictNullChecks": false,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "declaration": false,
+    "strictPropertyInitialization": false,
+    "noImplicitAny": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "target": "es2015",
+    "target": "es2020",
+
+
     "module": "es2020",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
     "lib": [
-      "es2018",
+      "es2020",
       "dom"
     ]
   },
   "angularCompilerOptions": {
-    "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true, 
-    "enableIvy": false
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
   }
 }

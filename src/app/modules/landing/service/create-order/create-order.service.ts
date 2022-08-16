@@ -5,7 +5,7 @@ import { Icotx } from '../../models/icotx';
   providedIn: 'root'
 })
 export class CreateOrderService {
-  icotx: Icotx;
+  icotx: any;
   appCoinSymbol: string; // to this transaction, app receipient coin symbol
   appCoinAddress: string; // to this transaction, app receipient coin address.
 
@@ -28,7 +28,7 @@ export class CreateOrderService {
 
   getPayMethod(index?: number) {
     let method = 'usd';
-    if (!index) {
+    if (index !== undefined && index !== null) {
       method = this.icotx.payment[index].payMethod;
     }
     return method;

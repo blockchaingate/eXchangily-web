@@ -70,8 +70,8 @@ export class TransactionHistoryComponent implements OnInit {
         if(!b) {
             return a;
         }
-        var tempArray = [];
-        var currentPos = {
+        var tempArray: any = [];
+        var currentPos: any = {
             a: 0,
             b: 0
         }
@@ -100,11 +100,11 @@ export class TransactionHistoryComponent implements OnInit {
     ngOnInit() {
         this.currentType = 'All';
         this.storageService.getTransactionHistoryList().subscribe(
-            (transactionHistory: TransactionItem[]) => {
+            (transactionHistory: any) => {
                 //console.log('transactionHistory=', transactionHistory);
                 if (transactionHistory && (transactionHistory.length > 0)) {
                     //this.transactionHistory = transactionHistory.reverse().filter(s => s.walletId === this.walletId);
-                    let newTransactions = [];
+                    let newTransactions: any = [];
                     for(let i=transactionHistory.length - 1;i >= 0; i--) {
                         const transactionItem = transactionHistory[i];
                         const time = transactionItem.time;

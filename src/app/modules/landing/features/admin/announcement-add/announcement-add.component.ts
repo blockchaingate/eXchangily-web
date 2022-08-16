@@ -90,7 +90,7 @@ export class AnnouncementAddComponent implements OnInit {
       this.toShort = false;
 
       this.storageService.getToken().subscribe(
-        (token: string) => {
+        (token: any) => {
           this.token = token;
           console.log('token==', token);
           if (!token) {

@@ -27,6 +27,11 @@ export class BulkTransferComponent implements OnInit {
 
     }
 
+    changeListenerEvent(event: any) {
+        const files = event.target.files;
+        this.changeListener(files);
+    }
+    
     changeListener(files: FileList){
     console.log(files);
     if(files && files.length > 0) {

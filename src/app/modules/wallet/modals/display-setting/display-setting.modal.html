@@ -18,7 +18,7 @@
                     <div class="form-group">
                         <label for="exampleInputPassword2" class="text-dark">{{'Confirm Wallet Password' | translate }}</label>
                         <input type="password" autocomplete="off" class="form-control" formControlName="pwdconfirm" id="displayPwdconfirm" placeholder="{{'Type wallet display password' | translate }}">
-                        <div class="error text-danger smallfont" *ngIf="displaySettingForm.get('pwdconfirm').touched && displaySettingForm.hasError('notSame')">
+                        <div class="error text-danger smallfont" *ngIf="displaySettingForm.get('pwdconfirm')?.touched && displaySettingForm.hasError('notSame')">
                             {{"Password doesn't match" | translate }}!
                         </div>
                     </div>

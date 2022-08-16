@@ -21,7 +21,7 @@
                         <label for="inputSendTo" class="text-dark">{{'Currency' | translate }}</label>
                         <div class="row">
                             <div class="col">
-                                <select class="custom-select" (change)="onChange($event.target.value)" formControlName="selectedCoinIndex" *ngIf="wallet">
+                                <select class="custom-select" (change)="onChange($event)" formControlName="selectedCoinIndex" *ngIf="wallet">
                                     <option [value]="i" *ngFor="let coin of wallet.mycoins;let i = index">
                                         {{coin.symbol}}
                                         <span *ngIf="coin.tokenType == 'ETH'">
@@ -44,8 +44,8 @@
 
                             </div>
                             <div class="col">
-                                <div class="pull-right text-muted" *ngIf="wallet && wallet.mycoins && wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value]">
-                                    {{'Balance' | translate }}:{{wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].balance}}
+                                <div class="pull-right text-muted" *ngIf="wallet && wallet.mycoins && wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value||0]">
+                                    {{'Balance' | translate }}:{{wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value||0].balance}}
                                 </div>
                             </div>
                         </div>
@@ -62,7 +62,7 @@
                     </div>
                     <div class="form-group">
                         
-                        <input type="text" class="form-control" [attr.disabled]="sendAllCoinsFlag?'':null" (input)="onTextChange($event.target.value)" id="inputSendAmount" formControlName="sendAmount" aria-describedby="emailHelp" placeholder="0.0000">
+                        <input type="text" class="form-control" [attr.disabled]="sendAllCoinsFlag?'':null" (input)="onTextChange()" id="inputSendAmount" formControlName="sendAmount" aria-describedby="emailHelp" placeholder="0.0000">
                     </div>
 
                     <div class="form-group">
@@ -99,15 +99,15 @@
                             </div>
                         </div>
                     </div>
-                    <div *ngIf="sendCoinForm.get('gasFeeCustomChecked').value">
+                    <div *ngIf="sendCoinForm.get('gasFeeCustomChecked')?.value">
                         <div *ngIf="
-                        ['ETH','HT','MATIC','BNB'].indexOf(wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name) >= 0 || 
-                        ['ETH','HT','MATIC','BNB','FAB'].indexOf(wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].tokenType) >= 0
+                        ['ETH','HT','MATIC','BNB'].indexOf(wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value||0].name) >= 0 || 
+                        ['ETH','HT','MATIC','BNB','FAB'].indexOf(wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value||0].tokenType) >= 0
                         ">
                             <div class="form-group">
                                 <label for="gasPrice" class="text-dark">{{'Gas price' | translate }}({{getGasPriceUnit()}})</label>
                                 
-                                <input type="text" class="form-control" id="inputGasPrice" (input)="onTextChange($event.target.value)" formControlName="gasPrice" placeholder="0">
+                                <input type="text" class="form-control" id="inputGasPrice" (input)="onTextChange()" formControlName="gasPrice" placeholder="0">
                                 <small class="text-muted" *ngIf="gasUnit == 'LIU'">
                                     1 LIU = 10^(-8) FAB
                                 </small>
@@ -121,20 +121,20 @@
                             </div>
                             <div class="form-group">
                                 <label for="gasPrice" class="text-dark">{{'Gas limit' | translate }}</label>
-                                <input type="text" class="form-control" id="inputGasLimit" (input)="onTextChange($event.target.value)" formControlName="gasLimit" placeholder="0">
+                                <input type="text" class="form-control" id="inputGasLimit" (input)="onTextChange()" formControlName="gasLimit" placeholder="0">
                             </div>
                         </div>
                         <div *ngIf="
-                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'BTC' 
-                        || wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'FAB' 
-                        || wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'LTC' 
-                        || wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'BCH' 
-                        || wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].name === 'DOGE' 
-                        || wallet.mycoins[sendCoinForm.get('selectedCoinIndex').value].tokenType === 'FAB'
+                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value || 0].name === 'BTC' 
+                        || wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value || 0].name === 'FAB' 
+                        || wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value || 0].name === 'LTC' 
+                        || wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value || 0].name === 'BCH' 
+                        || wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value || 0].name === 'DOGE' 
+                        || wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value || 0].tokenType === 'FAB'
                         ">
                             <div class="form-group">
                                 <label for="gasPrice" class="text-dark">{{'Satoshis/byte' | translate }}</label>
-                                <input type="text" class="form-control" id="inputSatoshisPerByte" (input)="onTextChange($event.target.value)" formControlName="satoshisPerBytes" placeholder="0">
+                                <input type="text" class="form-control" id="inputSatoshisPerByte" (input)="onTextChange()" formControlName="satoshisPerBytes" placeholder="0">
                             </div>
                         </div>
 

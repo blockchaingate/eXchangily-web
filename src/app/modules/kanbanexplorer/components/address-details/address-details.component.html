@@ -18,13 +18,13 @@
                 <ng-container matColumnDef="unlockedAmount">
                     <th mat-header-cell *matHeaderCellDef style="text-align: left;"> {{"Quantity"|translate}} </th>
                     <td style="text-align: left;" mat-cell *matCellDef="let element">
-                        {{element.unlockedAmount * 1e-18 | number:'1.5-5' }}</td>
+                        {{getValue(element.unlockedAmount) | number:'1.5-5' }}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="lockedAmount">
                     <th mat-header-cell *matHeaderCellDef style="text-align: left;"> {{"Locked Amount"|translate}} </th>
                     <td style="text-align: left;" mat-cell *matCellDef="let element">
-                        {{element.lockedAmount * 1e-18 | number:'1.5-5'}}</td>
+                        {{getValue(element.lockedAmount) | number:'1.5-5'}}</td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="balancesDisplayedColumns;sticky:true"></tr>
@@ -35,7 +35,7 @@
             <h6>{{"Kanban Gas"|translate}}</h6>
             <div *ngIf="kanbanBalance" style="text-align: center; font-size: 0.9em;">
                 <div *ngFor="let kb of kanbanBalance.balance| keyvalue " style="line-height: 2em; padding: 10px;" class="grayback">
-                    {{kb.key}}: {{kb.value * 1e-18 | number:'1.5-5'}}
+                    {{kb.key}}: {{getValue(kb.value) | number:'1.5-5'}}
                     <mat-divider style="width: 90%; margin-left: 5%;"></mat-divider>
                 </div>
             </div>

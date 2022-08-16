@@ -36,7 +36,7 @@ export class KycComponent implements OnInit {
 
   loadUser(id: string) {
     this._userServ.getUserById(id).subscribe (
-      (ret: User) => {
+      (ret: any) => {
         this.user = ret;
       },
       err => this.msg = err

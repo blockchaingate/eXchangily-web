@@ -11,7 +11,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="inputSendTo" class="text-muted">{{"Asset" | translate }}</label>
-                        <select class="form-control my-2" (change)="onChange($event.target.value)">
+                        <select class="form-control my-2" (change)="onChangeEvent($event)">
                             <option [value]="i" *ngFor="let coin of mycoins;let i = index">{{coin.name}}</option>
                         </select>
                         <app-address-key #addressKey [chain]="0" [seed]="seed" [currentCoin]="currentCoin"></app-address-key>

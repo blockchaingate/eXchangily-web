@@ -20,7 +20,7 @@ export class FlyerComponent implements OnInit {
   async ngOnInit() {
     this.baseUrl = environment.baseUrl;
     this.storageService.getToken().subscribe(
-      (token: string) => {
+      (token: any) => {
 
         this.campaignorderServ.getProfile(token).subscribe(
           (res2: any) => {
@@ -48,12 +48,16 @@ export class FlyerComponent implements OnInit {
   }
 
   dlDataUrlBin() {
-    const y = document.getElementById('promotionLink_qr_code').getElementsByTagName('canvas')[0];
-    // console.log('y.src=' + y.src);
-    if (y) {
-      const link = y.toDataURL('image/png');
-      this.link = link;
+    const obj: any = document.getElementById('promotionLink_qr_code');
+    if(obj) {
+      const y = obj.getElementsByTagName('canvas')[0];
+      // console.log('y.src=' + y.src);
+      if (y) {
+        const link = y.toDataURL('image/png');
+        this.link = link;
+      }
     }
+
 
   }
 }

@@ -15,7 +15,7 @@ export class PaymentMethodsComponent implements OnInit {
 
   ngOnInit() {
     this._storageServ.getToken().subscribe(
-      (token: string) => {
+      (token: any) => {
         this.token = token;  
     });
     this.paymentmethodServ.getPaymentMethods().subscribe(
@@ -26,10 +26,16 @@ export class PaymentMethodsComponent implements OnInit {
         }
     });
   }
-  onSearchChange(event) {
-    console.log('change', event);
-    this.name = event;
+  onSearchChange(name: string) {
+    console.log('name', name);
+    this.name = name;
   }
+
+  onSearchChangeEvent(event: any) {
+    const name = event?.target?.value;
+    this.onSearchChange(name);
+  }
+
   delete(paymentmethodid: string) {
     this.paymentmethodServ.deletePaymentmethod(this.token, paymentmethodid).subscribe(
       

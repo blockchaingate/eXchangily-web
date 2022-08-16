@@ -20,7 +20,7 @@ export class PinNumberModal {
     }
 
     onSubmit() {
-        const pin = this.pinForm.get('pin').value;
+        const pin: any = this.pinForm.get('pin')?.value;
 
         this.pinForm.patchValue({
             pin: ''

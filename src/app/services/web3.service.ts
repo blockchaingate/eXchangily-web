@@ -74,7 +74,7 @@ export class Web3Service {
   }
 
   getTransactionHash(txhex: string) {
-    const hash = ethUtil.keccak(txhex).toString('hex');
+    const hash = ethUtil.keccak(Buffer.from(txhex, "utf-8")).toString('hex');
     return '0x' + hash;
   }
 
@@ -550,7 +550,7 @@ export class Web3Service {
     return abiHex;
   }
 
-  getWithdrawFuncABI(coinType: number, amount: BigNumber, destAddress: string, coinTypePrefix = null) {
+  getWithdrawFuncABI(coinType: number, amount: BigNumber, destAddress: string, coinTypePrefix: any = null) {
 
     // let abiHex = '3a5b6c70';
 
@@ -608,7 +608,7 @@ export class Web3Service {
     return abiHex;
   }
 
-  getDepositFuncABI(coinType: number, txHash: string, amount: BigNumber, addressInKanban: string, signedMessage: Signature, coinTypePrefix = null) {
+  getDepositFuncABI(coinType: number, txHash: string, amount: BigNumber, addressInKanban: string, signedMessage: Signature, coinTypePrefix: any = null) {
     console.log('signedMessage==', signedMessage);
     let abiHex = '379eb862';
     abiHex += this.utilServ.stripHexPrefix(signedMessage.v);

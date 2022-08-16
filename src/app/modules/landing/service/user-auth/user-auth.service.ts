@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { root } from 'rxjs/internal/util/root';
-
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({providedIn: 'root', })
 export class UserAuth {
@@ -15,8 +13,8 @@ export class UserAuth {
   public _lan = 'English';
   loggedIn = false;
 
-  isLoggedIn$ = new BehaviorSubject('');
-  userDisplay$ = new BehaviorSubject('');
+  isLoggedIn$: any = new BehaviorSubject('');
+  userDisplay$: any = new BehaviorSubject('');
   manageNews = 0;
   manageEmployee = 0;
   manageFinance = 0;

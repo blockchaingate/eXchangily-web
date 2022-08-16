@@ -13,7 +13,6 @@ export class MyCoin extends Coin {
     changeAdds: Address[];
     tokenType: string;
     baseCoin: MyCoin;
-    decimals: number;
     usdPrice: number;
     redeposit: any[];
     depositErr: any[];

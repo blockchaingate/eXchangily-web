@@ -5,7 +5,7 @@ import { Icotx, IcotxStatus, IcotxStatuses, IcotxColours } from '../../../models
 import { IcotxService } from '../../../service/icotx/icotx.service';
 import { IcotxesAuthService } from '../../../service/icotxes-auth/icotxes-auth.service';
 import { AccountPaths } from '../../../paths/account-paths';
-
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
@@ -29,11 +29,10 @@ export class OrderComponent implements OnInit {
 
   ngOnInit() {
     this.backRoute = AccountPaths[2].absolute;
-    this._route.data
-    .map(data => {
+    this._route.data.pipe(map(data => {
       this.admin = data.isAdmin;
       return data.icotx;
-    })
+    }))
     .subscribe(ret => {
       if (!ret.status) {
         ret.status = 'pending';

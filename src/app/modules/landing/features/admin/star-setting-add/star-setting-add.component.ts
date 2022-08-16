@@ -39,7 +39,7 @@ import { StorageService } from '../../../../../services/storage.service';
 
     ngOnInit() {
       this._storageServ.getToken().subscribe(
-        (token: string) => {
+        (token: any) => {
           this.token = token;
 
           this.route.params.subscribe((params: Params) => {

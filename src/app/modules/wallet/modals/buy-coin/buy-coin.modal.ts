@@ -130,6 +130,10 @@ export class BuyCoinModal implements OnInit, OnDestroy{
         
     }
 
+    onChangeEvent(event) {
+        const index = Number((event.target as HTMLInputElement).value);
+        this.onChange(index);
+    }
     onChange(index: number) {
         const coin = this.buyableCoins[index];
         this.blockchainName = this.getBlockChainName(coin);

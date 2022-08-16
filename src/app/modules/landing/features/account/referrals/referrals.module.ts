@@ -13,6 +13,7 @@ import { OrderComponent } from '../order/order.component';
 import { IcotxComponent } from '../components/icotx/icotx.component';
 import { ReferralsComponent } from './referrals.component';
 import { InfoComponent } from './info/info.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { InfoComponent } from './info/info.component';
     FormsModule,
     ReactiveFormsModule,
     ReferralsRoutingModule,
-    ComponentsModule
+    ComponentsModule,
+    TranslateModule
   ],
   providers: [
     AuthGuard,

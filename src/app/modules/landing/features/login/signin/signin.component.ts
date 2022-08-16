@@ -54,7 +54,7 @@ export class SigninComponent implements OnInit {
     this.isSystemAdmin = false;
     if (!this._userAuth.token) {
       this._storageServ.getToken().subscribe(
-        (token: string) => {
+        (token: any) => {
           // console.log('token=', token);
         }
       );
@@ -80,8 +80,8 @@ export class SigninComponent implements OnInit {
     this.submitted = true;
     this.loginError = '';
 
-    this._userService.loginUser(this.email.value.toLowerCase(), this.password.value)
-      .subscribe((user: User) => this.processLogin(user),
+    this._userService.loginUser(this.email?.value.toLowerCase(), this.password?.value)
+      .subscribe((user: any) => this.processLogin(user),
         err =>  {
           this.submitted = false;
           this.loginError = err.error.message

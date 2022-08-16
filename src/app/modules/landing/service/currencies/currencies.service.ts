@@ -1,8 +1,7 @@
 
-import {throwError as observableThrowError} from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpService } from '../../../../services/http.service';
-import { map } from 'rxjs/operators/map';
+import { map } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 
 const path = environment.endpoints.blockchaingate + 'currencies/';

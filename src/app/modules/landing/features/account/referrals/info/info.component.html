@@ -23,8 +23,10 @@
             <p>{{ 'Account.Referrals.Page.ReferralCode.Code.Desc' | translate }}</p>
             <input class="form-input__text" type="text" readonly="true" [value]="appUser.referralCode" #referralCode>
 
-            <button (click)="clipboard(referralCode)"  class="next-button form-input__button button secondary">{{ 'Account.Referrals.Page.ReferralCode.Code.Button' | translate }}</button>
-
+            <button (click)="clipboard(referralCode)"  class="next-button form-input__button button secondary">
+                {{ 'Account.Referrals.Page.ReferralCode.Code.Button' | translate }}
+            </button>
+            
         </div>
     </div>
 

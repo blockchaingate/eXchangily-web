@@ -17,7 +17,7 @@ import { StorageService } from '../../../../../services/storage.service';
 
 import * as bs58 from 'bs58';
 import { environment } from '../../../../../../environments/environment';
-import BigNumber from 'bignumber.js/bignumber';
+import BigNumber from 'bignumber.js';
 import { PinNumberModal } from '../../../../shared/modals/pin-number/pin-number.modal';
 import * as createHash from 'create-hash';
 import * as exaddr from '../../../../../lib/exaddr';
@@ -38,7 +38,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     screenheight = screen.height;
     select = 100;
     showAll = false;
-    currentPair = '';
+    currentPair: any = '';
     baseCoin: number;
     targetCoin: number;
     openorders: Transaction[] = [];
@@ -99,7 +99,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     interval;
     transFeeAdvance = 0.0;
     coinServ: CoinService;
-    lan = 'en';
+    lan: any = 'en';
 
     constructor(private _router: Router, private apiServ: ApiService, private _route: ActivatedRoute,
         public utilServ: UtilService, private kanbanServ: KanbanService, private _coinServ: CoinService,
@@ -113,7 +113,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     }
 
     getOrders() {
-        let orders = [];
+        let orders: any = [];
         if (this.select === 0) {
             orders = this.showAll? this.allOpenorders : this.openorders;
         } else if (this.select === 1) {
@@ -251,7 +251,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
             currentCoin.name === 'DOGE' || currentCoin.name === 'LTC' ||
             currentCoin.name == 'TRX' || currentCoin.tokenType == 'TRX') {
             const bytes = bs58.decode(addressInWallet);
-            addressInWallet = bytes.toString('hex');
+            addressInWallet = Buffer.from(bytes).toString('hex');
             console.log('addressInWallet there we go:', addressInWallet);
 
         } else if (currentCoin.name === 'BCH') {
@@ -286,7 +286,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 return;
             }
             const bytes = bs58.decode(fabAddress);
-            addressInWallet = bytes.toString('hex');
+            addressInWallet = Buffer.from(bytes).toString('hex');
         }
 
         /*
@@ -455,7 +455,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     }
 
     selectOrder(ord: number) {
-        this.currentPair = this._route.snapshot.paramMap.get('pair').replace('_', '');
+        this.currentPair = this._route.snapshot.paramMap.get('pair')?.replace('_', '');
         this.prepareOrders();
 
         this.select = ord;
@@ -647,6 +647,9 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
     async deleteOrderDo() {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
+        if(!seed) {
+            return;
+        }
         const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
         const abiHex = this.web3Serv.getDeleteOrderFuncABI(this.orderHash);
         console.log('abiHex for deleteOrderDo=', abiHex);
@@ -682,7 +685,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
     eventCheck(event) {
         this.showAll = event.target.checked;
-        this.currentPair = this._route.snapshot.paramMap.get('pair').replace('_', '');
+        this.currentPair = this._route.snapshot.paramMap.get('pair')?.replace('_', '');
         this.prepareOrders();
     }
 }

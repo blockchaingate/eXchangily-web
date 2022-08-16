@@ -4,7 +4,6 @@ import * as BIP39 from 'node_modules/bip39';
 
 import { Wallet } from '../models/wallet';
 
-import { ConfigService } from './config.service';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 
 import {CoinService} from './coin.service';
@@ -16,9 +15,9 @@ enum addressType {
 
 @Injectable()
 export class WalletService {
-    wallet: Wallet; // set when loged in, else it is null.
+    wallet: Wallet | null; // set when loged in, else it is null.
 
-    constructor(private configServ: ConfigService, private localSt: LocalStorage, private coinService: CoinService,
+    constructor( private localSt: LocalStorage, private coinService: CoinService,
         private utilService: UtilService) {
     }
 
@@ -91,7 +90,7 @@ export class WalletService {
     }
 
     // Generate walllet, store it to db and set current wallet to it.
-     generateWallet(pwd: string, name: string, mnemonic: string): Wallet {
+     generateWallet(pwd: string, name: string, mnemonic: string): Wallet | null {
         const mnemonicArr = mnemonic.split(' ');
         if (!mnemonicArr || mnemonicArr.length !== 12) {
             return null;
@@ -109,7 +108,7 @@ export class WalletService {
     }
 
     // Generate walllet, store it to db and set current wallet to it.
-    generateWalletOld(pwd: string, name: string, mnemonic: string): Wallet {
+    generateWalletOld(pwd: string, name: string, mnemonic: string): Wallet | null {
         const mnemonicArr = mnemonic.split(' ');
         if (!mnemonicArr || mnemonicArr.length !== 12) {
             return null;
@@ -128,6 +127,7 @@ export class WalletService {
         }
     }
 
+    /*
     // Search wallet from wallets stored in localStorage.
     searchWallet(name: string, pwd: string) {
         this.localSt.getItem('wallets').subscribe((wallets: Wallet[]) => {
@@ -142,6 +142,7 @@ export class WalletService {
             });
         });
     }
+    */
     getCurrentWallets() {
         return this.localSt.getItem('wallets');
     }
@@ -179,7 +180,7 @@ export class WalletService {
 
 
     storeToWalletList(wallet: Wallet) {
-        this.localSt.getItem('wallets').subscribe((wallets: Wallet[]) => {
+        this.localSt.getItem('wallets').subscribe((wallets: any) => {
             if (!wallets) {
                 wallets = [];
             }
@@ -194,7 +195,7 @@ export class WalletService {
 
     updateToWalletList(wallet: Wallet, index: number) {
 
-        this.localSt.getItem('wallets').subscribe((wallets: Wallet[]) => {
+        this.localSt.getItem('wallets').subscribe((wallets: any) => {
             if (!wallets) {
                 wallets = [];
             }
@@ -264,10 +265,11 @@ export class WalletService {
         }
     }
 
+    /*
     logIn(pwd: string) {
         this.wallet = null;
         const pwdHash = this.utilService.SHA256(pwd).toString();
-        this.localSt.getItem('wallets').subscribe((wallets: Wallet[]) => {
+        this.localSt.getItem('wallets').subscribe((wallets: any) => {
             wallets.forEach(wallet => {
                 if (wallet.pwdHash === pwdHash) {
                     this.wallet = wallet;
@@ -276,8 +278,9 @@ export class WalletService {
             });
         });
     }
+    */
 
     getWalletStatus(): boolean {
-        return sessionStorage.loggedIn;
+        return sessionStorage['loggedIn'];
     }
 }

@@ -97,7 +97,7 @@ export class OrderComponent implements OnInit {
     this.currentStatus = 0;
 
     this.storageService.getToken().subscribe(
-      (token: string) => {
+      (token: any) => {
         this.token = token;
 
       }

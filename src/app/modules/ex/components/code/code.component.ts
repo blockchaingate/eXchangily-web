@@ -9,8 +9,7 @@ import { WalletService } from '../../../../services/wallet.service';
 import { AlertService } from '../../../../services/alert.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Wallet } from '../../../../models/wallet';
-import BigNumber from 'bignumber.js/bignumber';
-import { TransactionResp } from '../../../../interfaces/kanban.interface';
+import BigNumber from 'bignumber.js';
 import { environment } from '../../../../../environments/environment';
 
 @Component({

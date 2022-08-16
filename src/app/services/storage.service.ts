@@ -41,7 +41,7 @@ export class StorageService {
         return currentWalletIndex;
     }
     addTradeTransaction(tx: Transaction) {
-        this.localSt.getItem('mytransactions').subscribe((transactions: Transaction[]) => {
+        this.localSt.getItem('mytransactions').subscribe((transactions: any) => {
             if (!transactions) {
                 transactions = [];
             }
@@ -58,7 +58,7 @@ export class StorageService {
     }
     
     addIssueTokenTransaction(tx: IssueToken) {
-        this.localSt.getItem('issue-tokens').subscribe((transactions: IssueToken[]) => {
+        this.localSt.getItem('issue-tokens').subscribe((transactions: any) => {
             if (!transactions) {
                 transactions = [];
             }
@@ -110,7 +110,7 @@ export class StorageService {
 
 
     storeToTransactionHistoryList(transactionItem: TransactionItem) {
-        this.getTransactionHistoryList().subscribe((transactionHistory: TransactionItem[]) => {
+        this.getTransactionHistoryList().subscribe((transactionHistory: any) => {
             if (!transactionHistory) {
                 transactionHistory = [];
             }
@@ -121,7 +121,7 @@ export class StorageService {
     }  
 
     updateTransactionHistoryList(transactionItem: TransactionItem) {
-        this.getTransactionHistoryList().subscribe((transactionHistory: TransactionItem[]) => {
+        this.getTransactionHistoryList().subscribe((transactionHistory: any) => {
             if (!transactionHistory) {
                 transactionHistory = [];
             }

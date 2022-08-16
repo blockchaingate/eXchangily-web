@@ -1,8 +1,6 @@
 
 import { throwError as observableThrowError } from 'rxjs';
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
 import { environment } from '../../../../../environments/environment';
 // import { HttpService } from '../../../../services/http.service';
 // Here can't use HttpService because it uses local path.
@@ -17,12 +15,12 @@ export class JsonFileService {
     return environment.endpoints.blockchaingate;
   }
 
-  get afterLoginUrl(): string {
+  get afterLoginUrl(): string | null{
     return sessionStorage.getItem('__AfterLoginUrl');
   }
 
   get needId(): number {
-    return sessionStorage.__NeedId;
+    return sessionStorage['__NeedId'];
   }
 
   // Read a Json file

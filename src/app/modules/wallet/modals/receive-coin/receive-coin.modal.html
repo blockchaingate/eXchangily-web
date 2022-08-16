@@ -10,7 +10,7 @@
     <div class="modal-body">
         <div class="text-dark">{{"Currency" | translate }}</div>
         <div class="pt-2 pb-3 w-25">
-            <select class="form-control" (change)="onChange($event.target.value)">
+            <select class="form-control" (change)="onChange($event)">
                 <option [value]="i" *ngFor="let coin of wallet.mycoins;let i = index">
                     {{coin.symbol}}
                     <span *ngIf="coin.tokenType=='ETH'">
@@ -54,7 +54,7 @@
         </div>
 
         <div class="text-center py-5">
-            <qrcode [qrdata]="currentAddress" id="address_qr_code" style="display: inline-block" [size]="150" [level]="'M'"></qrcode>
+            <qrcode [qrdata]="currentAddress" id="address_qr_code" style="display: inline-block" [width]="150" [errorCorrectionLevel]="'M'"></qrcode>
             <div class="py-2">
                 <a href="{{link}}" download (click)="dlDataUrlBin()">
                     <div class="d-inline-block px-1">

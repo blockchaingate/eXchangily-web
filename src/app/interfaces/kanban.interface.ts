@@ -1,6 +1,4 @@
 // import { OrderBookItem } from '../modules/market/models/order-book';
-import { number } from 'bitcoinjs-lib/types/script';
-
 // import { Block } from 'bitcoinjs-lib';
 
 export interface OfficialAddress {
@@ -78,6 +76,7 @@ export interface OrderItem {
     p: number;
     q: number;
     my: boolean;
+    percentage: number;
 }
 
 export interface Order {
@@ -99,7 +98,7 @@ export interface Price {
     change24h: number; // 12.6%
     vol24h: number; // 24h volume
     price24hh: number;
-    price24hl: Number;
+    price24hl: number;
 }
 
 export interface Ticker {

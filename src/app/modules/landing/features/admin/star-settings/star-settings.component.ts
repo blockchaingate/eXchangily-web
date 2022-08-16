@@ -15,7 +15,7 @@ import { StorageService } from '../../../../../services/storage.service';
         private starServ: StarService) {}      
       ngOnInit() {
         this._storageServ.getToken().subscribe(
-          (token: string) => {
+          (token: any) => {
             this.token = token;        
             this.starServ.getSettings(this.token).subscribe(
                 (ret: any) => {

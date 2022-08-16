@@ -18,7 +18,7 @@ export class OtcOrderComponent implements OnInit {
     ) {}    
     ngOnInit() {
       this._storageServ.getToken().subscribe(
-        (token: string) => {
+        (token: any) => {
           this.token = token;
           this.otcServ.getMerchantOrders(this.token).subscribe(
             (res: any) => {

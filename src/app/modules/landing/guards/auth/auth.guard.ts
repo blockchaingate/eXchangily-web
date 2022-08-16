@@ -16,13 +16,14 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     console.log('isAuthenticated===');
     if (!this.userAuth.isLoggedIn$.getValue()) {
       this._storageServ.getToken().subscribe(
-        (token: string) => {
+        (token: any) => {
           if (!token) {
             this.route.navigate(['/login/signin'])
               .then(_ => console.error('You are not signed in!'))
               .catch(err => console.error(err));
             return false;
           }
+          return true;
         }
       );
 

@@ -38,14 +38,19 @@ export class RestoreWalletOldComponent implements OnInit {
     }    
 
     checkPasswords(group: FormGroup) { // here we have the 'passwords' group
-        const pass = group.controls.password.value;
-        const confirmPass = group.controls.pwdconfirm.value;
+        const pass = group.value.password;
+        const confirmPass = group.value.pwdconfirm;
         if (pass !== confirmPass) {
           return { notSame: true };
         }
 
         return null;
     }   
+    
+    autoGrowEvent(event: any) {
+      const seedPhrase = (event.target as HTMLInputElement).value;
+      this.autoGrow(seedPhrase);
+    }
     
     autoGrow(seedPhrase: string) {
       this.seedPhrase = seedPhrase.trim().replace(/\s\s+/g, ' ').replace(/(\r\n|\n|\r)/gm, '');
@@ -56,8 +61,8 @@ export class RestoreWalletOldComponent implements OnInit {
       }
     }
     onSubmit() {
-      const name = this.userForm.controls.name.value;
-      const pwd = this.userForm.controls.password.value;
+      const name = this.userForm.value.name;
+      const pwd = this.userForm.value.password;
       const mnemonic = this.seedPhrase;
       const wallet = this.walletServ.generateWalletOld(pwd, name, mnemonic);
 
@@ -68,7 +73,7 @@ export class RestoreWalletOldComponent implements OnInit {
           alert('Error occured, please try again.');
         }
       } else {
-          this.localSt.getItem('wallets').subscribe((wallets: Wallet[]) => {
+          this.localSt.getItem('wallets').subscribe((wallets: any) => {
               if (!wallets) {
                   wallets = [];
               }

@@ -20,7 +20,7 @@ export class AddGasModal {
     }
 
     onSubmit() {
-        const depositAmount = this.depositAmountForm.get('depositAmount').value;
+        const depositAmount = this.depositAmountForm.value.depositAmount;
         const amount = Number(depositAmount);
         this.confirmedGas.emit(amount);
         this.hide();

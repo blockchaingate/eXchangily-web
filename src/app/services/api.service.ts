@@ -155,7 +155,7 @@ export class ApiService {
     async getBtcUtxos(address: string): Promise<[BtcUtxo]> {
         const url = environment.endpoints.BTC.exchangily + 'getutxos/' + address;
         console.log('url in getBtcUtxos' + url);
-        let response = null;
+        let response: any = null;
         try {
             response = await this.http.get(url).toPromise() as [BtcUtxo];
         } catch (e) {console.log (e); }
@@ -166,7 +166,7 @@ export class ApiService {
         const url = environment.endpoints[coin].exchangily + 'getutxos/' + address;
         
         console.log('url in getBtcUtxos' + url);
-        let response = null;
+        let response: any = null;
         try {
             response = await this.http.get(url).toPromise() as [BtcUtxo];
         } catch (e) {console.log (e); }
@@ -176,7 +176,7 @@ export class ApiService {
     async getBchUtxos(address: string): Promise<[BtcUtxo]> {
         const url = environment.endpoints.BCH.exchangily + 'getutxos/' + address;
         console.log('url in getBchUtxos' + url);
-        let response = null;
+        let response: any = null;
         try {
             response = await this.http.get(url).toPromise() as [BtcUtxo];
         } catch (e) {console.log (e); }
@@ -374,7 +374,7 @@ export class ApiService {
     async getDogeUtxos(address: string): Promise<[BtcUtxo]> {
         const url = environment.endpoints.DOGE.exchangily + 'getutxos/' + address;
         console.log('url for getDogeUtxos=', url);
-        let response = null;
+        let response: any = null;
         try {
             response = await this.http.get(url).toPromise() as [BtcUtxo];
         } catch (e) {console.log (e); }
@@ -384,7 +384,7 @@ export class ApiService {
     async getLtcUtxos(address: string): Promise<[BtcUtxo]> {
         const url = environment.endpoints.LTC.exchangily + 'getutxos/' + address;
         console.log('url for getLtcUtxos=', url);
-        let response = null;
+        let response: any = null;
         try {
             response = await this.http.get(url).toPromise() as [BtcUtxo];
         } catch (e) {console.log (e); }
@@ -394,7 +394,7 @@ export class ApiService {
     async getBtcTransaction(txid: string) {
         txid = this.utilServ.stripHexPrefix(txid);
         const url = environment.endpoints.BTC.exchangily + 'gettransactionjson/' + txid;
-        let response = null;
+        let response: any = null;
         try {
             response = await this.http.get(url).toPromise() as BtcTransaction;
             console.log('response=', response);
@@ -410,7 +410,7 @@ export class ApiService {
     async getEthTransaction(txid: string) {
         const url = environment.endpoints.ETH.exchangily + 'gettransaction/' + txid;
         // console.log('url=' + url);
-        let response = null;
+        let response: any = null;
         try {
             response = await this.http.get(url).toPromise() as EthTransactionRes;
         } catch (e) {console.log (e); }
@@ -425,7 +425,7 @@ export class ApiService {
     async getEthTransactionStatus(txid: string) {
         const url = environment.endpoints.ETH.exchangily + 'gettransactionstatus/' + txid;
         console.log('url=' + url);
-        let response = null;
+        let response: any = null;
         try {
             response = await this.http.get(url).toPromise() as EthTransactionStatusRes;
         } catch (e) {console.log (e); }
@@ -545,7 +545,7 @@ export class ApiService {
         if (txHex) {
             try {
                 txHash = await this.http.post(url, data, {responseType: 'text'}).toPromise() as string;
-            } catch (err) {
+            } catch (err: any) {
                 console.log('errqqq=', err);
                 if (err.error) {
                  errMsg = err.error;
@@ -574,7 +574,7 @@ export class ApiService {
                 if(result) {
                     txHash = result.result;
                 }
-            } catch (err) {
+            } catch (err: any) {
                 if (err.error) {
                  errMsg = err.error;
                 }
@@ -661,7 +661,7 @@ export class ApiService {
                     errMsg = json.Error;
                 } 
             }
-           } catch (err) {
+           } catch (err: any) {
                if (err.error && err.error.Error) {
                 errMsg = err.error.Error;
                 console.log('err there we go', err.error.Error);
@@ -678,7 +678,7 @@ export class ApiService {
        let txHash = '';
        let errMsg = '';
        const url = environment.endpoints.BTC.exchangily + 'postrawtransaction';
-       let response = null;
+       let response: any = null;
 
        const data = {
         rawtx: txHex
@@ -691,7 +691,7 @@ export class ApiService {
             if (response && response.txid) {
             txHash = '0x' + response.txid;
             }
-       } catch (err) {
+       } catch (err: any) {
             if (err.error && err.error.Error) {
             errMsg = err.error.Error;
             console.log('err there we go', err.error.Error);
@@ -706,7 +706,7 @@ export class ApiService {
         let txHash = '';
         let errMsg = '';
         const url = environment.endpoints[coin].exchangily + 'postrawtransaction';
-        let response = null;
+        let response: any = null;
  
         const data = {
          rawtx: txHex
@@ -719,7 +719,7 @@ export class ApiService {
              if (response && response.txid) {
              txHash = '0x' + response.txid;
              }
-        } catch (err) {
+        } catch (err: any) {
              if (err.error && err.error.Error) {
              errMsg = err.error.Error;
              console.log('err there we go', err.error.Error);
@@ -734,7 +734,7 @@ export class ApiService {
         let txHash = '';
         let errMsg = '';
         const url = environment.endpoints.BCH.exchangily + 'postrawtransaction';
-        let response = null;
+        let response: any = null;
  
         const data = {
          rawtx: txHex
@@ -747,7 +747,7 @@ export class ApiService {
              if (response && response.txid) {
              txHash = '0x' + response.txid;
              }
-        } catch (err) {
+        } catch (err: any) {
              if (err.error && err.error.Error) {
              errMsg = err.error.Error;
              console.log('err there we go', err.error.Error);
@@ -762,7 +762,7 @@ export class ApiService {
         let txHash = '';
         let errMsg = '';
         const url = environment.endpoints.DOGE.exchangily + 'postrawtransaction';
-        let response = null;
+        let response: any = null;
  
         const data = {
          rawtx: txHex
@@ -775,7 +775,7 @@ export class ApiService {
              if (response && response.txid) {
              txHash = '0x' + response.txid;
              }
-        } catch (err) {
+        } catch (err: any) {
              if (err.error && err.error.Error) {
              errMsg = err.error.Error;
              console.log('err there we go', err.error.Error);
@@ -790,7 +790,7 @@ export class ApiService {
         let txHash = '';
         let errMsg = '';
         const url = environment.endpoints.LTC.exchangily + 'postrawtransaction';
-        let response = null;
+        let response: any = null;
  
         const data = {
          rawtx: txHex
@@ -803,7 +803,7 @@ export class ApiService {
              if (response && response.txid) {
              txHash = '0x' + response.txid;
              }
-        } catch (err) {
+        } catch (err: any) {
              if (err.error && err.error.Error) {
              errMsg = err.error.Error;
              console.log('err there we go', err.error.Error);
@@ -893,6 +893,9 @@ export class ApiService {
     }
 
     async fabCallContract(contractAddress: string, fxnCallHex: string) {
+        if(!contractAddress) {
+            return '';
+        }
         const url = environment.endpoints.FAB.exchangily + 'callcontract';
 
         contractAddress = this.utilServ.stripHexPrefix(contractAddress);     
@@ -906,16 +909,20 @@ export class ApiService {
         return response;
     }
 
-    async getFabTokenBalance(name: string, address: string, contractAddress?: string) {
+    async getFabTokenBalance(name: string, address: string, contractAddress?: string | undefined) {
         if(!contractAddress) {
             contractAddress = environment.addresses.smartContract[name];
         }
-        if(typeof contractAddress != 'string') {
+        if(typeof contractAddress != 'string' && contractAddress) {
+            
             contractAddress = contractAddress['FAB'];
         }
         let fxnCallHex = this.web3Serv.getFabTokenBalanceOfABI([address]);
 
         fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex); 
+        if(!contractAddress) {
+            return {balance: -1, lockbalance: -1}; 
+        }
         const response = await this.fabCallContract(contractAddress, fxnCallHex);    
         let balance = 0;
         const lockbalance = 0;
@@ -932,7 +939,7 @@ export class ApiService {
         fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex); 
 
         //console.log('fxnCallHex for EXGA', fxnCallHex);
-        let response = await this.fabCallContract(contractAddress, fxnCallHex);
+        let response: any = await this.fabCallContract(contractAddress, fxnCallHex);
 
         // console.log('response=', response);
         let balance = 0;

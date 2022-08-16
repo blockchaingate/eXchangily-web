@@ -16,7 +16,7 @@ export class OtcPlaceOrderErrorModal implements OnInit {
     btcAddress: string;
     ethAddress: string;
     updated: boolean;
-    lan: string;
+    lan: any;
 
    
     @ViewChild('otcPlaceOrderErrorModal', { static: true }) public otcPlaceOrderErrorModal: ModalDirective;

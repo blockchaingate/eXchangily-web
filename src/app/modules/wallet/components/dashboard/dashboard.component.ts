@@ -20,7 +20,6 @@ import { AddGasModal } from '../../modals/add-gas/add-gas.modal';
 import { ShowSeedPhraseModal } from '../../modals/show-seed-phrase/show-seed-phrase.modal';
 import { VerifySeedPhraseModal } from '../../modals/verify-seed-phrase/verify-seed-phrase.modal';
 import { SendCoinModal } from '../../modals/send-coin/send-coin.modal';
-import { BuyCoinModal } from '../../modals/buy-coin/buy-coin.modal';
 import { BackupPrivateKeyModal } from '../../modals/backup-private-key/backup-private-key.modal';
 import { DeleteWalletModal } from '../../modals/delete-wallet/delete-wallet.modal';
 import { LoginSettingModal } from '../../modals/login-setting/login-setting.modal';
@@ -32,7 +31,7 @@ import { StorageService } from '../../../../services/storage.service';
 import { AlertService } from '../../../../services/alert.service';
 import { AngularCsv } from 'angular7-csv';
 import { TransactionItem } from '../../../../models/transaction-item';
-import BigNumber from 'bignumber.js/bignumber';
+import BigNumber from 'bignumber.js';
 import { TimerService } from '../../../../services/timer.service';
 import { TranslateService } from '@ngx-translate/core';
 import { WsService } from '../../../../services/ws.service';
@@ -97,7 +96,7 @@ export class WalletDashboardComponent implements OnInit {
     coinsPrice: CoinsPrice;
     pin: string;
     baseCoinBalance: number;
-    seed: Buffer;
+    seed: Buffer | null;
     hasNewCoins: boolean;
     hideSmall: boolean;
     showMyAssets: boolean;
@@ -108,7 +107,7 @@ export class WalletDashboardComponent implements OnInit {
     opType: string;
     currentCurrency: string;
     currencyRate: number;
-    lan = 'en';
+    lan: string | null = 'en';
     walletUpdateToDate: boolean;
     hideWallet = false;
 
@@ -408,7 +407,7 @@ export class WalletDashboardComponent implements OnInit {
         }
     }
 
-    getPairConfig(pairName: string): Pair {
+    getPairConfig(pairName: string): Pair | null {
         if (!this.pairsConfig) { return null; }
 
         pairName = pairName.toLocaleUpperCase();
@@ -439,7 +438,7 @@ export class WalletDashboardComponent implements OnInit {
             noDownload: false,
             headers: ['Coin', 'Chain', 'Index', 'Address', 'Private Key']
         };
-        const data = [];
+        const data: any = [];
 
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];
@@ -449,6 +448,9 @@ export class WalletDashboardComponent implements OnInit {
             }
             for (let j = 0; j < receiveAddsLength; j++) {
                 const addr = coin.receiveAdds[j];
+                if(!this.seed) {
+                    continue;
+                }
                 const keyPair = this.coinServ.getKeyPairs(coin, this.seed, 0, addr.index);
                 const item = {
                     coin: coin.name,
@@ -569,7 +571,7 @@ export class WalletDashboardComponent implements OnInit {
                 if (item.symbol === 'EXGUSDT') {
                     const price = item.price;
                     // console.log('price===', price);
-                    const thisPairConfig: Pair = this.getPairConfig(item.symbol);
+                    const thisPairConfig: Pair | null = this.getPairConfig(item.symbol);
                     if (thisPairConfig) {
                         const priceAmount = this.utilServ.showAmount(price, thisPairConfig.priceDecimal);
                         // console.log('priceAmount====', priceAmount);
@@ -1236,6 +1238,9 @@ export class WalletDashboardComponent implements OnInit {
             }
         }
 
+        if(!seed) {
+            return;
+        }
         const bchCoin = new MyCoin('BCH');
         this.coinServ.fillUpAddress(bchCoin, seed, 1, 0);
         myCoins.push(bchCoin);
@@ -1353,6 +1358,9 @@ export class WalletDashboardComponent implements OnInit {
 
     async fabInBtc() {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
+        if(!seed) {
+            return;
+        }
         const coin = this.coinServ.initFABinBTC(seed);
         const options = {
             satoshisPerBytes: this.satoshisPerBytes ? this.satoshisPerBytes : environment.chains.BTC.satoshisPerBytes
@@ -1385,6 +1393,9 @@ export class WalletDashboardComponent implements OnInit {
                 confirmations: '0',
                 blockhash: '',
                 comment: '',
+                action: '',
+                quantity: 0, 
+                timestamp: 0,
                 status: 'pending'
             };
             this.timerServ.transactionStatus.next(item);
@@ -1395,6 +1406,9 @@ export class WalletDashboardComponent implements OnInit {
 
     async btcInFab() {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
+        if(!seed) {
+            return;
+        }
         const coin = this.coinServ.initBTCinFAB(seed);
         const options = {
             satoshisPerBytes: this.satoshisPerBytes ? this.satoshisPerBytes : environment.chains.BTC.satoshisPerBytes
@@ -1427,6 +1441,9 @@ export class WalletDashboardComponent implements OnInit {
                 confirmations: '0',
                 blockhash: '',
                 comment: '',
+                action: '',
+                quantity: 0, 
+                timestamp: 0,
                 status: 'pending'
             };
             this.timerServ.transactionStatus.next(item);
@@ -1500,6 +1517,9 @@ export class WalletDashboardComponent implements OnInit {
             }
 
             if(!baseCoin) {
+                if(!seed) {
+                    return;
+                }
                 baseCoin = this.coinServ.initCoin(seed, type);
                 console.log('baseCoin there we go=', baseCoin);
                 baseCoin.new = true;
@@ -1561,6 +1581,9 @@ export class WalletDashboardComponent implements OnInit {
                 time: new Date(),
                 confirmations: '0',
                 blockhash: '',
+                action: '',
+                quantity: 0, 
+                timestamp: 0,
                 comment: '',
                 status: 'pending'
             };
@@ -1619,6 +1642,9 @@ export class WalletDashboardComponent implements OnInit {
         } else {
             console.log('currentCoin for sendCoinDo==', currentCoin);
             const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
+            if(!seed) {
+                return;
+            }
             resForSendTx = await this.coinService.sendTransaction(currentCoin, seed,
                 this.sendCoinForm.to.trim(), amount, options, doSubmit
             );
@@ -1657,6 +1683,9 @@ export class WalletDashboardComponent implements OnInit {
                 time: new Date(),
                 confirmations: '0',
                 blockhash: '',
+                action: '',
+                quantity: 0, 
+                timestamp: 0,
                 comment: this.sendCoinForm.comment,
                 status: 'pending'
             };
@@ -1869,6 +1898,8 @@ export class WalletDashboardComponent implements OnInit {
         const keyPairs = this.coinServ.getKeyPairs(currentCoin, seed, 0, 0);
 
         const officalAddress = this.coinServ.getOfficialAddress(currentCoin);
+        console.log('currentCoin===', currentCoin);
+        console.log('officalAddress===', officalAddress);
         if (!officalAddress) {
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar(currentCoin.name + '官方地址无效', 'Ok');

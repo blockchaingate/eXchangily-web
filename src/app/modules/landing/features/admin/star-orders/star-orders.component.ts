@@ -22,7 +22,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
           
       ngOnInit() {
         this._storageServ.getToken().subscribe(
-            (token: string) => {
+            (token: any) => {
               this.token = token;
               this.starServ.getAllOrders(token).subscribe(
                 (res: any) => {

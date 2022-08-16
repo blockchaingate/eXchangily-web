@@ -22,7 +22,7 @@ export class OtcListingComponent implements OnInit {
     ngOnInit() {
 
         this._storageServ.getToken().subscribe(
-            (token: string) => {
+            (token: any) => {
               this.token = token;        
               this.otcServ.getAllListings(token).subscribe(
                 (res: any) => {

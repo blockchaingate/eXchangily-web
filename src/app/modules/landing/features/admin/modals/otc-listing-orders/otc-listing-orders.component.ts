@@ -28,7 +28,7 @@ export class OtcListingOrdersModal {
    sellOrderButtonStatuses = ['I have collected', 'Confirm receipt'];
     constructor(private storageService: StorageService, private _otcServ: OtcService, public utilServ: UtilService) {
         this.storageService.getToken().subscribe(
-            (token: string) => {
+            (token: any) => {
               this.token = token;
             }
         );       

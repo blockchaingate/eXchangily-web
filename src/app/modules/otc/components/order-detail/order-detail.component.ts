@@ -17,7 +17,7 @@ import { UtilService } from '../../../../services/util.service';
   styleUrls: ['./order-detail.component.scss']
 })
 export class OrderDetailComponent implements OnInit {
-  id: string;
+  id: any;
   order: any;
   user: any;
   achChecked: boolean;
@@ -68,7 +68,7 @@ export class OrderDetailComponent implements OnInit {
     this.goPayStep = 1;
     this.id = this.route.snapshot.paramMap.get('id');
     this.storageService.getToken().subscribe(
-      (token: string) => {
+      (token: any) => {
         this.token = token;
 
         this.paymentmethodServ.getUserPaymentMethods(this.token).subscribe(

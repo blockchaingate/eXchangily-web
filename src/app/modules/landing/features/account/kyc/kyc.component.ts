@@ -112,6 +112,11 @@ export class KycComponent implements OnInit {
     }
   }
 
+  photoUploadEvent(event: any, type: string) {
+    const files = event.target.files;
+    this.photoUpload(files, type);
+  }
+  
   photoUpload(files: Array<File>, type: string) {
     const scope = this;
     if (type === 'photoUrls') {
@@ -129,16 +134,17 @@ export class KycComponent implements OnInit {
 
       f.onload = (function(theFile) {
         return function(e) {
+          const fileName: any = e.target.result;
           if (type === 'photoUrls') {
-            scope.photoUrls.push(e.target.result);
+            scope.photoUrls.push(fileName);
             scope.output = <HTMLImageElement>document.getElementById('id' + ++scope.idNum);
             scope.output.src = <string>f.result;
           } else if (type === 'selfieUrls') {
-            scope.selfieUrls.push(e.target.result);
+            scope.selfieUrls.push(fileName);
             scope.output = <HTMLImageElement>document.getElementById('self' + ++scope.selfNum);
             scope.output.src = <string>f.result;
           } else {
-            scope.saftAgreement.push(e.target.result);
+            scope.saftAgreement.push(fileName);
           }
         };
       })(ff);

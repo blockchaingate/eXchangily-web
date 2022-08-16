@@ -18,7 +18,7 @@
         </div>
 
         <div class="text-center py-5">
-            <qrcode [qrdata]="exAddr" id="address_qr_code" style="display: inline-block" [size]="150" [level]="'M'"></qrcode>
+            <qrcode [qrdata]="exAddr" id="address_qr_code" style="display: inline-block" [width]="150" [errorCorrectionLevel]="'M'"></qrcode>
             <div class="py-2">
                 <a href="{{link}}" download (click)="dlDataUrlBin()">
                     <div class="d-inline-block px-1">

@@ -6,7 +6,7 @@ import { AccountPaths } from '../../paths/account-paths';
 import { languages } from '../../app.constants';
 
 import { DropdownData } from '../../models/dropdown-data';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',

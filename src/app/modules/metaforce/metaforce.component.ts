@@ -30,7 +30,7 @@ export class MetaforceComponent implements OnInit {
   wallet: any;
   result: string;
   error: any;
-  stakeInfo = [];
+  stakeInfo: any = [];
   hash: string;
   method: string;
   blockheight: number;
@@ -167,7 +167,7 @@ export class MetaforceComponent implements OnInit {
                           const info = this.web3Serv.decodeParameters(
                             ['uint256', 'uint256', 'uint256', 'uint8'], 
                             output2);
-                          const item = {
+                          const item: any = {
                             hash,
                             amount: info[0],
                             blocknumber1: info[1],
@@ -217,6 +217,7 @@ export class MetaforceComponent implements OnInit {
       this.alertServ.openSnackBar(
         this.translateServ.instant('Your password is wrong.'), 
         this.translateServ.instant('Ok'));
+      return;
     }
     if(this.method == 'deposit') {
       if(this.coin == 'FAB') {
@@ -322,7 +323,7 @@ export class MetaforceComponent implements OnInit {
       ]
     }
     const amountHex = '0x' + new BigNumber(this.amount).shiftedBy(18).toString(16);
-    const tos = [];
+    const tos: any = [];
     let abiHex = this.web3Serv.getGeneralFunctionABI(abi, [environment.addresses.smartContract.StakingFABEXG, amountHex]);
     
     const gasLimit = 1000000;

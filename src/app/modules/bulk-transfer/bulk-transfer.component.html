@@ -3,27 +3,9 @@
         <div>
             <textarea  name="balances" [(ngModel)]="balances" cols="120" rows="20"></textarea>
         </div>
-       
-<!--
-        <p>
-            Example:
-        </p>
-        <p>
-            { "0xca048dd6896a4ec4897863b1b5827e8cf5750a6c":
-   { "gas": "12.3",
-     "USDT": "12",
-     "FAB": "33",
-     "EXG": "2.3" },
-  "0xcdd5129db1975a2e267683958cd04edf7af4968d":
-   { "gas": "3",
-     "USDT": "2",
-     "DRGN": "3.2",
-     "FAB": "3.3",
-     "EXG": "44.4" }}
-        </p>
--->
+
     <div class="d-flex justify-content-around">
-        <input type="file" class="upload" #file style="display:none" (change)="changeListener($event.target.files)">
+        <input type="file" class="upload" #file style="display:none" (change)="changeListenerEvent($event)">
         <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="file.click()">{{'Import CSV' | translate}}</button>
         <a href="/assets/rewards.csv" target="_blank" class="text-white">CSV example file</a>
         <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="previewDo()">{{'Preview' | translate}}</button>

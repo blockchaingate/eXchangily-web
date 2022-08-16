@@ -27,8 +27,8 @@ export class LoginSettingModal implements OnInit{
     }
 
     checkPasswords(group: FormGroup) { // here we have the 'passwords' group
-        const pass = group.controls.password.value;
-        const confirmPass = group.controls.pwdconfirm.value;
+        const pass = group.value.password;
+        const confirmPass = group.value.pwdconfirm;
         if (pass !== confirmPass) {
           return { notSame: true };
         }
@@ -37,7 +37,7 @@ export class LoginSettingModal implements OnInit{
     } 
 
     onSubmit() {
-        const password = this.loginSettingForm.controls.password.value;
+        const password = this.loginSettingForm.value.password;
         this.confirmedLoginSetting.emit(password);
         this.hide();
     }

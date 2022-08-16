@@ -25,7 +25,7 @@ export class MerchantComponent implements OnInit {
     console.log('merchant go');
 
     this.storageService.getToken().subscribe(
-      (token: string) => {
+      (token: any) => {
         this.token = token;
           this.merchantServ.getAll(token).subscribe(
             (res: any) => {

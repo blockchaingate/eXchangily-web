@@ -8,8 +8,8 @@ import { Currency, Symbols } from '../../models/currency';
   styleUrls: ['./currency-display.component.scss']
 })
 export class CurrencyDisplayComponent implements AfterContentChecked {
-  @Input() curType: Currency;
-  @Input() amount: string;
+  @Input() curType: any;
+  @Input() amount: any;
 
   symbol = '';
 

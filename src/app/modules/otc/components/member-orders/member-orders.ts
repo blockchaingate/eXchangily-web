@@ -20,7 +20,7 @@ export class MemberOrdersComponent implements OnInit {
   ngOnInit() {
 
     this.storageService.getToken().subscribe(
-      (token: string) => {
+      (token: any) => {
         this.token = token;
         this._otcServ.getOrders(this.token).subscribe(
           (res: any) => {

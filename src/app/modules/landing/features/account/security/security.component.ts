@@ -21,7 +21,7 @@ export class SecurityComponent implements OnInit {
   ngOnInit() {
     this.step = 1;
       this.storageService.getToken().subscribe(
-        (token: string) => {
+        (token: any) => {
           this.token = token;
           if (!this.token) {
             this._router.navigate(['/login/signin', { 'retUrl': '/account/security' }]);

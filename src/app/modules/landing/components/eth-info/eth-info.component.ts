@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./eth-info.component.scss']
 })
 export class EthInfoComponent implements OnInit {
-  @Input() ethAdd: String;
+  @Input() ethAdd: string;
   @Input() size: number;
 
   constructor() { }

@@ -25,7 +25,7 @@ export class InfoComponent implements OnInit {
     private _appUsers: AppUsersService
   ) { }
 
-  clipboard(val: string) {
+  clipboard(val: any) {
     this.utilServ.copy(val);
   }
   

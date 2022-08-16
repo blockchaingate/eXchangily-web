@@ -15,14 +15,14 @@ export class GetFreeFabModal implements OnInit {
     question: string;
     questionair_id: string;
     answer: string;
-    error: string;
+    error: string | null;
     publicIP: string;
     constructor(private airdropServ: AirdropService, private alertServ: AlertService, private http: HttpClient) {
 
     }
 
     ngOnInit() {
-        this.http.get('https://api.ipify.org?format=json').toPromise().then(data => {
+        this.http.get('https://api.ipify.org?format=json').toPromise().then((data: any) => {
             this.publicIP = data['ip'];
         });
     }
