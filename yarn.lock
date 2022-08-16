@@ -2424,27 +2424,27 @@
     "@walletconnect/window-metadata" "1.0.0"
     "detect-browser" "5.2.0"
 
-"@walletconnect/core@^2.0.0-rc.1":
-  "integrity" "sha512-GjXGz12vehITTyVT7O/osjTAtGQzH36v1JtbTRKPg75omcEJdfj4RPoBjfLKDBnJvOnV9zcMfL2HyhvqS8ELbg=="
-  "resolved" "https://registry.npmjs.org/@walletconnect/core/-/core-2.0.0-rc.1.tgz"
-  "version" "2.0.0-rc.1"
+"@walletconnect/core@2.0.0-rc.2":
+  "integrity" "sha512-zyZs0ChqthjKKBKF8bhXRhli15U+GOa/YPX4gzmdjRB9o8LZ27GMRNvWdLhUHkJU/GC6EfmV3/B7J8rfQGsnDA=="
+  "resolved" "https://registry.npmjs.org/@walletconnect/core/-/core-2.0.0-rc.2.tgz"
+  "version" "2.0.0-rc.2"
   dependencies:
     "@walletconnect/heartbeat" "1.0.0"
     "@walletconnect/jsonrpc-provider" "1.0.5"
     "@walletconnect/jsonrpc-utils" "1.0.3"
-    "@walletconnect/jsonrpc-ws-connection" "1.0.2"
+    "@walletconnect/jsonrpc-ws-connection" "1.0.3"
     "@walletconnect/keyvaluestorage" "1.0.0"
     "@walletconnect/logger" "1.0.1"
-    "@walletconnect/relay-api" "1.0.5"
+    "@walletconnect/relay-api" "1.0.6"
     "@walletconnect/relay-auth" "1.0.3"
     "@walletconnect/safe-json" "1.0.0"
     "@walletconnect/time" "1.0.1"
-    "@walletconnect/types" "^2.0.0-rc.1"
-    "@walletconnect/utils" "^2.0.0-rc.1"
+    "@walletconnect/types" "2.0.0-rc.2"
+    "@walletconnect/utils" "2.0.0-rc.2"
     "lodash.isequal" "4.5.0"
     "pino" "6.7.0"
     "pino-pretty" "4.3.0"
-    "uint8arrays" "3.0.0"
+    "uint8arrays" "3.1.0"
 
 "@walletconnect/environment@^1.0.0":
   "integrity" "sha512-4BwqyWy6KpSvkocSaV7WR3BlZfrxLbJSLkg+j7Gl6pTDE+U55lLhJvQaMuDVazXYxcjBsG09k7UlH7cGiUI5vQ=="
@@ -2489,10 +2489,10 @@
     "@walletconnect/environment" "^1.0.0"
     "@walletconnect/jsonrpc-types" "^1.0.1"
 
-"@walletconnect/jsonrpc-ws-connection@1.0.2":
-  "integrity" "sha512-0dN55pp6On91RjnjdHPvGFy8zNB4zGRV5qXkA0VkUuJH8tqzJHGDvXYcZpRbYlBZORuESqC/h/9ScRCn30ZuNw=="
-  "resolved" "https://registry.npmjs.org/@walletconnect/jsonrpc-ws-connection/-/jsonrpc-ws-connection-1.0.2.tgz"
-  "version" "1.0.2"
+"@walletconnect/jsonrpc-ws-connection@1.0.3":
+  "integrity" "sha512-+tKT3y8HvSdwXZkvF3+6FwnT9MYVdR7rxr1/x/hCPCB4DCLl4ZfDm8rP4doXbDaMJHaMrGn2JNT3RPABlOXSnw=="
+  "resolved" "https://registry.npmjs.org/@walletconnect/jsonrpc-ws-connection/-/jsonrpc-ws-connection-1.0.3.tgz"
+  "version" "1.0.3"
   dependencies:
     "@walletconnect/jsonrpc-utils" "^1.0.3"
     "@walletconnect/safe-json" "^1.0.0"
@@ -2530,10 +2530,10 @@
     "preact" "10.4.1"
     "qrcode" "1.4.4"
 
-"@walletconnect/relay-api@1.0.5":
-  "integrity" "sha512-NB+QkRh2sAxbPuT/3A8fPGsCb5C07WOfAoU2S3hY9m1wi/sRZoN9c4gVudT8ptixuZZ3Qb8/BiqNEqnlaMIAGg=="
-  "resolved" "https://registry.npmjs.org/@walletconnect/relay-api/-/relay-api-1.0.5.tgz"
-  "version" "1.0.5"
+"@walletconnect/relay-api@1.0.6":
+  "integrity" "sha512-KW7juHNomtzZWGZy+7MuzppXlUenBOz4AvLKNwXf5c9x8T0LhpodM/NnrsJsxB+Gu3dJl5Zv5R86CcCQIqxlKg=="
+  "resolved" "https://registry.npmjs.org/@walletconnect/relay-api/-/relay-api-1.0.6.tgz"
+  "version" "1.0.6"
   dependencies:
     "@walletconnect/jsonrpc-types" "^1.0.1"
 
@@ -2553,20 +2553,20 @@
   "resolved" "https://registry.npmjs.org/@walletconnect/safe-json/-/safe-json-1.0.0.tgz"
   "version" "1.0.0"
 
-"@walletconnect/sign-client@^2.0.0-beta.101":
-  "integrity" "sha512-F2etSEW1l7TgS7SMMqdCQZvh7I9+TY7MFbYyVSfYQQlTHCApTJ5mO1VkootdBdEJpmIedLl/7l/b9h7kftNd6g=="
-  "resolved" "https://registry.npmjs.org/@walletconnect/sign-client/-/sign-client-2.0.0-rc.1.tgz"
-  "version" "2.0.0-rc.1"
+"@walletconnect/sign-client@^2.0.0-rc.2":
+  "integrity" "sha512-JJ8/31NERk59GqQ8KLm+1pM32YkTfAx8Nvh8cEBWp/mjtUgcoXEZ4V6EnoLkA+r1Vy/8kMnYOdIUH0OA5gXmvQ=="
+  "resolved" "https://registry.npmjs.org/@walletconnect/sign-client/-/sign-client-2.0.0-rc.2.tgz"
+  "version" "2.0.0-rc.2"
   dependencies:
-    "@walletconnect/core" "^2.0.0-rc.1"
+    "@walletconnect/core" "2.0.0-rc.2"
     "@walletconnect/events" "1.0.0"
     "@walletconnect/heartbeat" "1.0.0"
     "@walletconnect/jsonrpc-provider" "1.0.5"
     "@walletconnect/jsonrpc-utils" "1.0.3"
     "@walletconnect/logger" "1.0.1"
     "@walletconnect/time" "1.0.1"
-    "@walletconnect/types" "^2.0.0-rc.1"
-    "@walletconnect/utils" "^2.0.0-rc.1"
+    "@walletconnect/types" "2.0.0-rc.2"
+    "@walletconnect/utils" "2.0.0-rc.2"
     "pino" "6.7.0"
     "pino-pretty" "4.3.0"
 
@@ -2580,20 +2580,20 @@
   "resolved" "https://registry.npmjs.org/@walletconnect/types/-/types-1.8.0.tgz"
   "version" "1.8.0"
 
-"@walletconnect/types@^2.0.0-beta.101", "@walletconnect/types@^2.0.0-rc.1":
-  "integrity" "sha512-7wRSV9NjWfHO+Ofdx334Npq54v2Qi7sOSiZyNe2zqnKMz/4NrkA0ZZyNt1+xZ4eIheppA4eVg/R/UgkiSPuzyQ=="
-  "resolved" "https://registry.npmjs.org/@walletconnect/types/-/types-2.0.0-rc.1.tgz"
-  "version" "2.0.0-rc.1"
+"@walletconnect/types@^2.0.0-rc.2", "@walletconnect/types@2.0.0-rc.2":
+  "integrity" "sha512-BuQbEjkRIZULqBHBxKgGiUgeJ1i+5NpNvw5Y7ML7X+hksHooj0+Hy6qv7Jc/cegltEovElAU2w6R38dfuEPUOA=="
+  "resolved" "https://registry.npmjs.org/@walletconnect/types/-/types-2.0.0-rc.2.tgz"
+  "version" "2.0.0-rc.2"
   dependencies:
     "@walletconnect/events" "1.0.0"
     "@walletconnect/heartbeat" "1.0.0"
     "@walletconnect/jsonrpc-types" "1.0.1"
     "@walletconnect/keyvaluestorage" "1.0.0"
 
-"@walletconnect/utils@^2.0.0-rc.1":
-  "integrity" "sha512-NyfPooYavJnp1jPLWlpNMkvDjI/A4w9mX4tIwFssVji75Q4famYGTr+z5B4F3eg7Cbj7uIpDjYmafwG99CGihA=="
-  "resolved" "https://registry.npmjs.org/@walletconnect/utils/-/utils-2.0.0-rc.1.tgz"
-  "version" "2.0.0-rc.1"
+"@walletconnect/utils@2.0.0-rc.2":
+  "integrity" "sha512-G4qa4zirL3MbryhWf/+4uew7wV3gtLmIt09FVtWQLhPCePrlA0A8EuPXYQAqW58gQpFIsuUiKUYfy3kRMkp4WA=="
+  "resolved" "https://registry.npmjs.org/@walletconnect/utils/-/utils-2.0.0-rc.2.tgz"
+  "version" "2.0.0-rc.2"
   dependencies:
     "@stablelib/chacha20poly1305" "1.0.1"
     "@stablelib/hkdf" "1.0.1"
@@ -2601,15 +2601,15 @@
     "@stablelib/sha256" "1.0.1"
     "@stablelib/x25519" "1.0.2"
     "@walletconnect/jsonrpc-utils" "1.0.3"
-    "@walletconnect/relay-api" "1.0.5"
+    "@walletconnect/relay-api" "1.0.6"
     "@walletconnect/safe-json" "1.0.0"
     "@walletconnect/time" "1.0.1"
-    "@walletconnect/types" "^2.0.0-rc.1"
+    "@walletconnect/types" "2.0.0-rc.2"
     "@walletconnect/window-getters" "1.0.0"
     "@walletconnect/window-metadata" "1.0.0"
     "detect-browser" "5.3.0"
-    "query-string" "6.13.5"
-    "uint8arrays" "3.0.0"
+    "query-string" "7.1.1"
+    "uint8arrays" "3.1.0"
 
 "@walletconnect/window-getters@^1.0.0", "@walletconnect/window-getters@1.0.0":
   "integrity" "sha512-xB0SQsLaleIYIkSsl43vm8EwETpBzJ2gnzk7e0wMF3ktqiTGS6TFHxcprMl5R44KKh4tCcHCJwolMCaDSwtAaA=="
@@ -5668,6 +5668,11 @@
   "version" "7.0.1"
   dependencies:
     "to-regex-range" "^5.0.1"
+
+"filter-obj@^1.1.0":
+  "integrity" "sha512-8rXg1ZnX7xzy2NGDVkBVaAy+lSlPNwad13BtgSlLuxfIslyt5Vg64U7tFcCt4WS1R0hvtnQybT/IyCkGZ3DpXQ=="
+  "resolved" "https://registry.npmjs.org/filter-obj/-/filter-obj-1.1.0.tgz"
+  "version" "1.1.0"
 
 "finalhandler@1.1.2":
   "integrity" "sha512-aAWcW57uxVNrQZqFXjITpW3sIUQmHGG3qSb9mUah9MgMC4NeWhNOlNjXEYq3HjRAvL6arUviZGGJsBg6z0zsWA=="
@@ -9352,12 +9357,13 @@
     "object-assign" "^4.1.0"
     "strict-uri-encode" "^1.0.0"
 
-"query-string@6.13.5":
-  "integrity" "sha512-svk3xg9qHR39P3JlHuD7g3nRnyay5mHbrPctEBDUxUkHRifPHXJDhBUycdCC0NBjXoDf44Gb+IsOZL1Uwn8M/Q=="
-  "resolved" "https://registry.npmjs.org/query-string/-/query-string-6.13.5.tgz"
-  "version" "6.13.5"
+"query-string@7.1.1":
+  "integrity" "sha512-MplouLRDHBZSG9z7fpuAAcI7aAYjDLhtsiVZsevsfaHWDS2IDdORKbSd1kWUA+V4zyva/HZoSfpwnYMMQDhb0w=="
+  "resolved" "https://registry.npmjs.org/query-string/-/query-string-7.1.1.tgz"
+  "version" "7.1.1"
   dependencies:
     "decode-uri-component" "^0.2.0"
+    "filter-obj" "^1.1.0"
     "split-on-first" "^1.0.0"
     "strict-uri-encode" "^2.0.0"
 
@@ -11078,10 +11084,10 @@
   "resolved" "https://registry.npmjs.org/ua-parser-js/-/ua-parser-js-0.7.31.tgz"
   "version" "0.7.31"
 
-"uint8arrays@^3.0.0", "uint8arrays@3.0.0":
-  "integrity" "sha512-HRCx0q6O9Bfbp+HHSfQQKD7wU70+lydKVt4EghkdOvlK/NlrF90z+eXV34mUd48rNvVJXwkrMSPpCATkct8fJA=="
-  "resolved" "https://registry.npmjs.org/uint8arrays/-/uint8arrays-3.0.0.tgz"
-  "version" "3.0.0"
+"uint8arrays@^3.0.0", "uint8arrays@3.1.0":
+  "integrity" "sha512-ei5rfKtoRO8OyOIor2Rz5fhzjThwIHJZ3uyDPnDHTXbP0aMQ1RN/6AI5B5d9dBxJOU+BvOAk7ZQ1xphsX8Lrog=="
+  "resolved" "https://registry.npmjs.org/uint8arrays/-/uint8arrays-3.1.0.tgz"
+  "version" "3.1.0"
   dependencies:
     "multiformats" "^9.4.2"
 
