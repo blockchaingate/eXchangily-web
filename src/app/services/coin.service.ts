@@ -2101,7 +2101,7 @@ export class CoinService {
         // console.log('options=', options);
         let getTransFeeOnly: any = false;
         if (options) {
-            console.log('optionsoptionsoptions=', options);
+            //console.log('optionsoptionsoptions=', options);
             if (options.gasPrice) {
                 gasPrice = options.gasPrice;
             }
@@ -2272,11 +2272,11 @@ export class CoinService {
             }
             // const output2 = Math.round(new BigNumber(amount * 1e8).toNumber());  
 
-            console.log('amountttttt=', amount);
+            //console.log('amountttttt=', amount);
             const output2 = new BigNumber(this.utilServ.toBigNumber(amount, 8));
-            console.log('this.utilServ.toBigNumber(amount, 8)=', this.utilServ.toBigNumber(amount, 8));
+            //console.log('this.utilServ.toBigNumber(amount, 8)=', this.utilServ.toBigNumber(amount, 8));
 
-            console.log('output1=', output1);
+            //console.log('output1=', output1);
             amountInTx = output2;
             if (amount > 0) {
                 if (output1 >= dustAmount) {
@@ -2388,7 +2388,7 @@ export class CoinService {
                 errMsg = 'not enough fund.';
                 return {txHex: txHex, txHash: txHash, errMsg: errMsg};
             }
-            console.log('amount==', amount);
+            //console.log('amount==', amount);
             const outputNum = 2;
             transFee = ((utxos.length) * bytesPerInput + outputNum * 34 + 10) * satoshisPerBytes;
             const transFeeSatoshis = transFee;
@@ -2675,15 +2675,15 @@ export class CoinService {
                 if (!decimals) {
                     decimals = 18;
                 }
-                console.log('decimals112===', decimals);
+                //console.log('decimals112===', decimals);
                 // const amountSent = amount * Math.pow(10, decimals);
                 const amountSent = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, decimals)));
                 const toAccount = toAddress;
 
-                console.log('mycoin.name==', mycoin.name);
+                //console.log('mycoin.name==', mycoin.name);
                 let contractAddress = environment.addresses.smartContract[mycoin.name];
                 if (contractAddress) {
-                    console.log('contractAddress==', contractAddress);
+                    //console.log('contractAddress==', contractAddress);
                 
                     const addressType = typeof contractAddress;
                     if (addressType !== 'string') {
@@ -2693,7 +2693,7 @@ export class CoinService {
                     contractAddress = mycoin.contractAddr;
                 }
 
-               console.log('contractAddresscontractAddresscontractAddress=', contractAddress);
+               //console.log('contractAddresscontractAddresscontractAddress=', contractAddress);
                 // console.log('nonce = ' + nonce);
                 const func = {
                     'constant': false,
@@ -2736,7 +2736,7 @@ export class CoinService {
                     data: '0x' + abiHex + this.utilServ.fixedLengh(toAccount.slice(2), 64) +
                         this.utilServ.fixedLengh(amountSent.toString(16), 64)
                 };
-                console.log('txData==', txData);
+                //console.log('txData==', txData);
                 txHex = await this.web3Serv.signTxWithPrivateKey(txData, keyPair);
                 // console.log('after sign');
                 if (doSubmit) {
