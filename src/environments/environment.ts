@@ -5,7 +5,7 @@ import * as Btc from 'bitcoinjs-lib';
 
 export const environment = {
     production: false,
-    version: '2.2.16',
+    version: '2.2.17',
     IssueTokenReceipt: 'mxU2i997YxYv75E6YNVNwkN5qJ68WC5sZN',
     SQUARE_APP_ID: {
         CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', // ccount kenin
@@ -236,6 +236,9 @@ export const environment = {
             GET: {
                 FAB: '0xda0f76ec006246654fd2eed060f9f9025c6b3d58'
             },
+            BRB: {
+                FAB: '0xda0f76ec006246654fd2eed060f9f9025c6b3d58'
+            },
             CTG: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
             BUSD: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
             HNC: '0x122fd42c61bc66b0cd6cdbf302a0ca297497e240',
@@ -390,6 +393,7 @@ export const environment = {
         BUSD: 2,
         HNC: 2000,
         FET: 100,
+        BRB: 0.1,
         GET: 0.0000001,
         CABTC: 12.68,
         TRX: 0.2,
@@ -469,6 +473,7 @@ export const environment = {
         DJPY: 12,
         DGBP: 12,
         DEURO: 12,
+        BRB: 12,
         DAUD: 12,
         DMYR: 12,
         DKRW: 12,

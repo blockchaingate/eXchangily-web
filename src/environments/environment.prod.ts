@@ -11,7 +11,7 @@ export const environment = {
     PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',
     baseUrl: 'https://exchangily.com',
     url: 'https://api.exchangily.com/',
-    version: '2.2.16',
+    version: '2.2.17',
     campaignId: 1,
     PUBLIC_KEY: '8aff99f9727143fccd28e62df14e4e67305faa70d19b4cb0b9d4cde18ea3cd23c8e58bda3c26e10813aaa6020f3d07a3d9f83a9062cfe662a600949325378b99',
     OTC_COMMISSION_RATE: 0,
@@ -226,6 +226,9 @@ export const environment = {
             },
             GET: {
                 FAB: '0xda0f76ec006246654fd2eed060f9f9025c6b3d58'
+            },  
+            BRB: {
+                FAB: '0x16c319eb06ffbc0d94684cbfb2dba2f1f39b8c29'
             },  
             BUSD: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
             HNC: '0x122fd42c61bc66b0cd6cdbf302a0ca297497e240',

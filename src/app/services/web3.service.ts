@@ -168,18 +168,13 @@ export class Web3Service {
     }
     // console.log('abiHex after', abiHex);
 
-    console.log('gasPrice=', gasPrice);
-    console.log('gasLimit=', gasLimit);
     const txObject = {
       to: address,
       nonce: nonce,
       data: '0x' + abiHex,
       value: value,
       gas: gasLimit,
-
-      // coin: '0x',
       gasPrice: gasPrice  // in wei
-      // gasPrice: 40  // in wei
     };
 
     const privKey = Buffer.from(keyPair.privateKeyHex, 'hex');

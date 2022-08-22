@@ -35,7 +35,8 @@ export const coin_list: Coin[] = [
     { id: 131099, name: 'SEED', icon: ''},
     { id: 131100, name: 'FET', icon: ''},
     { id: 131101, name: 'GET', icon: ''},
-    
+    { id: 131102, name: 'BRB', icon: ''},
+
     { id: 262144, name: 'BCH', icon: ''},
     { id: 327680, name: 'LTC', icon: ''},
     { id: 393216, name: 'DOGE', icon: ''},
