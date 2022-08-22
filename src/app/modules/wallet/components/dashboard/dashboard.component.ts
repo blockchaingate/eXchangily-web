@@ -1932,6 +1932,7 @@ export class WalletDashboardComponent implements OnInit {
             currentCoin, seed, officalAddress, amount, options, doSubmit
         );
 
+        //console.log('txHash in send = ', txHash);
         if (errMsg) {
             this.alertServ.openSnackBar(errMsg, 'Ok');
             return;

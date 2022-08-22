@@ -74,7 +74,14 @@ export class Web3Service {
   }
 
   getTransactionHash(txhex: string) {
-    const hash = ethUtil.keccak(Buffer.from(txhex, "utf-8")).toString('hex');
+    //console.log('begin getTransactionHash');
+    //console.log('txhex=', txhex);
+    //const hash = ethUtil.keccak(Buffer.from(txhex, "utf-8")).toString('hex');
+    if(txhex.indexOf('0x') === 0) {
+      txhex = txhex.substring(2);
+    }
+    const hash = ethUtil.keccak(Buffer.from(txhex, "hex")).toString('hex');
+    //console.log('hash=', hash);
     return '0x' + hash;
   }
 
