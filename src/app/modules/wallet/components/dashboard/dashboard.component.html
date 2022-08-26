@@ -142,13 +142,13 @@
             <div class="mt-2 exg-bg">
                 <div class="container py-2" *ngIf="wallet && (!wallet.hide)">
                     <div class="row">
-                        <div class="col col-8 col-md-6">
-                            <h6 class="d-flex justify-content-between align-items-center hand-cursor" (click)="onShowMyAssets()">
+                        <div class="col col-10 col-md-8">
+                            <h6 class="d-flex justify-content-between align-items-center hand-cursor w-100" (click)="onShowMyAssets()">
                                 <div>
                                     {{"My Assets" | translate}}
                                 </div>
 
-
+                                <!--
                                 <mat-form-field>
                                     <mat-select panelClass="example-panel" [value]="currentChain" (selectionChange)="changeChain($event.value)">
                                         <mat-option *ngFor="let chain of chains;let i = index" [value]="chain.value">
@@ -156,12 +156,19 @@
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
+                                -->
+                                
                             </h6>
+
+                            <div class="d-flex justify-content-between w-100">
+                                <div [ngClass]="currentChain == chain.value ? 'chain-selected' : ''" *ngFor="let chain of chains;let i = index" (click)="changeChain(chain.value)"> {{chain.value}} </div>
+                            </div>
+
                             <mat-checkbox [(ngModel)]="hideSmall" class="small">
                                 {{"Hide Small Amount Assets" | translate}}</mat-checkbox>
                         </div>
 
-                        <div class="col col-4 col-md-6 small text-right fxHide-sm">
+                        <div class="col col-2 col-md-4 small text-right fxHide-sm">
                             <div class="d-inline mr-3">
                                 <!--
                                 <modal-transaction-history></modal-transaction-history>
@@ -179,7 +186,7 @@
                             </div>
 
                         </div>
-                        <div class="col col-4 col-md-6 small text-right fxHide-gt-sm">
+                        <div class="col col-2 col-md-4 small text-right fxHide-gt-sm">
                             <mat-menu #appMenu="matMenu">
                                 <button mat-menu-item (click)="onShowTransactionHistory()">{{"Transaction History" | translate}}</button>
                                 <button (click)="addAssets()" mat-menu-item>{{"Add Assets" | translate}}</button>
