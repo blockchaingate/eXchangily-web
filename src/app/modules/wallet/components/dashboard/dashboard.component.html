@@ -161,7 +161,7 @@
                             </h6>
 
                             <div class="d-flex justify-content-between w-100">
-                                <div [ngClass]="currentChain == chain.value ? 'chain-selected' : ''" *ngFor="let chain of chains;let i = index" (click)="changeChain(chain.value)"> {{chain.value}} </div>
+                                <div [ngClass]="currentChain == chain.value ? 'chain-selected hand-cursor' : 'hand-cursor'" *ngFor="let chain of chains;let i = index" (click)="changeChain(chain.value)"> {{chain.value}} </div>
                             </div>
 
                             <mat-checkbox [(ngModel)]="hideSmall" class="small">
