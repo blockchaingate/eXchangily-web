@@ -253,6 +253,11 @@ export class KanbanService {
         return this.get(url);
     }
 
+    getLocker(address: string) {
+        const url = environment.endpoints.explorerapi + '/kanban/locker/user/' + address + '/50/0';
+        return this.http.get(url);
+    }
+
     async getGas(address: string) {
         const path = 'kanban/getBalance/' + address;
         // console.log('path2=' + path);

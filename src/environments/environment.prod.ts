@@ -149,6 +149,7 @@ export const environment = {
         }
     },
     endpoints: {
+        explorerapi: 'https://fabexplorer.com/api',
         blockchaingate: 'https://api.blockchaingate.com/v2/',
         coingecko: 'https://api.coingecko.com/',
         kanban: 'https://api.exchangily.com/',
@@ -187,6 +188,7 @@ export const environment = {
     }, 
     addresses: {
         smartContract: {
+            KanbanLocker: '',
             StakingFABEXG: '0xa2b4a288cc953f5c1c39e3c0a11b421a17746b38',
             FABLOCK: '0x04baa04d9550c49831427c6abe16def2c579af4a',
             EXG: {

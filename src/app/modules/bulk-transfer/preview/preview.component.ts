@@ -7,6 +7,7 @@ import { CoinService } from '../../../services/coin.service';
 import { KanbanService } from '../../../services/kanban.service';
 import { Web3Service } from '../../../services/web3.service';
 import BigNumber from 'bignumber.js';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-bulk-transfer-preview',
@@ -54,9 +55,9 @@ export class PreviewComponent implements OnInit {
             for(let j = 0; j < keys.length; j++) {
                 const key = keys[j];
                 if(!this.total[key]) {
-                    this.total[key] = value[key];
+                    this.total[key] = value[key]['amount'];
                 } else {
-                    this.total[key] += value[key];
+                    this.total[key] += value[key]['amount'];
                 }
             }
             this.assets.push(
@@ -101,6 +102,10 @@ export class PreviewComponent implements OnInit {
         this.sendAssetsDoItem(this.item);
     }
 
+    sendLockedAssetsDo() {
+
+    }
+
     async sendAssetsDoItem(item) {
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, this.seed, 0, 0);
         const gas = item.assets.gas;
@@ -114,14 +119,20 @@ export class PreviewComponent implements OnInit {
         for(let i = 0; i<keyNames.length;i++) {
             const name = keyNames[i];
             let value = item.assets[name];
-
+            const amount = value.amount;
+            const lockPeriodOfBlockNumber = value.lockPeriodOfBlockNumber;
             if(!value) {
                 continue;
             }
             if(name == 'gas') {
                 this.sendGas(keyPairsKanban, address, gas, this.nonce);
             } else {
-                this.sendAsset(keyPairsKanban, address, name, value, this.nonce);
+                if(!lockPeriodOfBlockNumber) {
+                    this.sendAsset(keyPairsKanban, address, name, amount, this.nonce);
+                } else {
+                    this.sendLockedAsset(keyPairsKanban, address, name, amount, lockPeriodOfBlockNumber, this.nonce);
+                }
+                
             }  
             this.nonce ++;       
             await new Promise(resolve => setTimeout(resolve, 1000));   
@@ -187,7 +198,27 @@ export class PreviewComponent implements OnInit {
             }
         });
 
+    }
 
+    async sendLockedAsset(keyPairsKanban, address, name, amount, lockPeriodOfBlockNumber, nonce) {
+        const coin = this.coinServ.getCoinTypeIdByName(name);
+
+        if(address.indexOf('0x') < 0) {
+            address = this.utilServ.fabToExgAddress(address);
+        }
+
+        const abiHex = this.web3Serv.getKanbanLockerFuncABIAmountBig(coin, address, new BigNumber(amount).multipliedBy(new BigNumber(1e18)), lockPeriodOfBlockNumber);
+
+        const kanbanLocker = environment.addresses.smartContract.KanbanLocker;
+        const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, kanbanLocker, nonce);
+
+        this.kanbanServ.sendRawSignedTransaction(txhex).subscribe((resp: any) => {
+            console.log('resp=', resp);
+            if (resp && resp.transactionHash) {
+
+                this.alertServ.openSnackBar('转账请求提交成功，等待区块链处理。', 'Ok');
+            }
+        });
 
     }
 }

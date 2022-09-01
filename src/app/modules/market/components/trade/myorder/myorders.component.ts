@@ -30,6 +30,7 @@ import * as exaddr from '../../../../../lib/exaddr';
 
 export class MyordersComponent implements OnInit, OnDestroy {
     // @Input() wallet: Wallet;
+    mylockers: any;
     private wallet: any;
     exAddress: string;
     isProduction: boolean;
@@ -152,6 +153,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this.wallet = await this.walletServ.getCurrentWallet();
         if (this.wallet) {
             const address = this.wallet.excoin.receiveAdds[0].address;
+            this.getLockers(address);
             const fabAddress = this.utilServ.exgToFabAddress(address);
             this.exAddress = exaddr.toKbpayAddress(fabAddress);
             this.timerServ.checkOrderStatus(address, 1);
@@ -181,6 +183,15 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
     }
 
+    getLockers(address) {
+        this.kanbanServ.getLocker(address).subscribe(
+            (lockers: any) => {
+                console.log('lockers====', lockers);
+                this.mylockers = lockers;
+            }
+        );
+    }
+    
     prepareOrders() {
         this.timerServ.openOrders.subscribe(
             (orders: any) => {
@@ -476,6 +487,12 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this.pinModal.show();
     }
 
+    unlock(token) {
+        this.opType = 'unlock';
+        this.token = token;
+        this.pinModal.show();
+    }
+
     withdraw(withdrawModal: TemplateRef<any>, token) {
         console.log('withdraw there we go');
         this.token = token;
@@ -638,12 +655,31 @@ export class MyordersComponent implements OnInit, OnDestroy {
             this.withdrawDo();
         } else if (this.opType === 'deleteOrder') {
             this.deleteOrderDo();
+        } else
+        if(this.opType === 'unlock') {
+            this.unlockDo();
         }
 
     }
 
 
+    async unlockDo() {
+        const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
+        if(!seed) {
+            return;
+        }
+        const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
+        const abiHex = this.web3Serv.getUnlockFuncABI(this.token.id, this.token.user);
 
+        const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
+
+        const address = await this.token.address;
+        const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce);
+        console.log('txhex=', txhex);
+        this.kanbanServ.sendRawSignedTransaction(txhex).subscribe((resp: any) => {
+            console.log('resp for unlock=', resp);
+        });
+    }
 
     async deleteOrderDo() {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);

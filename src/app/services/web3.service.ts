@@ -315,9 +315,56 @@ export class Web3Service {
     return abiHex;
   }
 
+  getKanbanLockerFuncABIAmountBig(coin: number, address: string, amountBig: BigNumber, lockPeriodOfBlockNumber: number) {
+    const web3 = this.getWeb3Provider();
+    let value = '0x' + amountBig.toString(16).split('.')[0];
+    const id = this.hashKanbanMessage(address + coin + value + lockPeriodOfBlockNumber);
+    const params = [id, address, coin, value, lockPeriodOfBlockNumber];
+
+    const func = {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_id",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        },
+        {
+          "internalType": "uint32",
+          "name": "_coinType",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_lockPeriodOfBlockNumber",
+          "type": "uint256"
+        }
+      ],
+      "name": "lock",
+      "outputs": [
+        
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    };
+
+    const abiHex = this.getGeneralFunctionABI(func, params);
+
+    return abiHex;  
+  }
+
   getTransferFuncABIAmountBig(coin: number, address: string, amountBig: BigNumber) {
     const web3 = this.getWeb3Provider();
-    let value = amountBig.toFixed();
+    let value = '0x' + amountBig.toString(16).split('.')[0];
     console.log('value for decimal=', value);
     const params = [address, coin, value, web3.utils.asciiToHex('')];
 
@@ -455,6 +502,32 @@ export class Web3Service {
     const abiHex = this.getGeneralFunctionABI(func, params);
 
     console.log('abiHex for transfer=', abiHex);
+    return abiHex;
+  }
+
+  getUnlockFuncABI(id: string, user: string) {
+    const web3 = this.getWeb3Provider();
+    const func: any = {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_id",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        }
+      ],
+      "name": "unlock",
+      "outputs": [
+        
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    };
+    const abiHex = web3.eth.abi.encodeFunctionCall(func, [id,user]);
     return abiHex;
   }
 

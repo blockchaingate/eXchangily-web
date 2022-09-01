@@ -156,6 +156,7 @@ export const environment = {
     },
     endpoints: {
         // blockchaingate: 'http://localhost:3002/v2/',
+        explorerapi: 'https://fabtest.info/api',
         blockchaingate: 'https://test.blockchaingate.com/v2/',
         coingecko: 'https://api.coingecko.com/',
         kanban: 'https://kanbantest.fabcoinapi.com/',
@@ -196,6 +197,7 @@ export const environment = {
     },
     addresses: {
         smartContract: {
+            KanbanLocker: '0xab1bebd05b67381ed268c615b4824cfc45d20d35',
             FABLOCK: '0xa7d4a4e23bf7dd7a1e03eda9eb7c28a016fd54aa',
             StakingFABEXG: '0xb6af31442fef2e631dfcfe02de59ef703c961717',
             EXG: {
