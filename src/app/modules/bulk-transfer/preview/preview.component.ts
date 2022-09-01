@@ -210,6 +210,10 @@ export class PreviewComponent implements OnInit {
         const abiHex = this.web3Serv.getKanbanLockerFuncABIAmountBig(coin, address, new BigNumber(amount).multipliedBy(new BigNumber(1e18)), lockPeriodOfBlockNumber);
 
         const kanbanLocker = environment.addresses.smartContract.KanbanLocker;
+        if(!kanbanLocker) {
+            this.alertServ.openSnackBar('kanban locker is not available', 'Ok');
+            return; 
+        }
         const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, kanbanLocker, nonce);
 
         this.kanbanServ.sendRawSignedTransaction(txhex).subscribe((resp: any) => {
