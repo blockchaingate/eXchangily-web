@@ -21,6 +21,7 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
 
   handleFileInputEvent(event: any) {
     const files = event.target.files;
+    this.handleFileInput(files);
   }
   
   handleFileInput(files: FileList) {
