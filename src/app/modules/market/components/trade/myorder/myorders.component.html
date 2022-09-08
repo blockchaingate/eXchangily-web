@@ -167,9 +167,9 @@
     <div class="orders container w-100" *ngIf="select == 102">
         <div class="row w-100 header py-3">
             <div class="orditem col-2">{{'Coin' | translate }}</div>
-            <div class="orditem col-3">{{'Amount' | translate }}</div>
-            <div class="orditem col-3">{{'Release block' | translate }}</div>
-            <div class="orditem col-3">
+            <div class="orditem col-4">{{'Amount' | translate }}</div>
+            <div class="orditem col-3">{{'Release Block' | translate }}</div>
+            <div class="orditem col-2">
                 <span class="hand-cursor">
                     {{'Unlock' | translate }}
                     <mat-icon svgIcon="history"></mat-icon>
@@ -178,16 +178,16 @@
         </div>
         <div class="myorderlist scroll-bar w-100">
             <div class="row orderline w-100 py-3" *ngFor="let token of mylockers; let i=index">
-                <div class="col col-3 text-white smallfont">
+                <div class="col col-2 text-white smallfont">
                     {{coinServ.getCoinNameByTypeId(token.coinType)}}
                 </div>
-                <div class="col col-3 text-white smallfont">
+                <div class="col col-4 text-white smallfont">
                     {{token.amount}}
                 </div>
                 <div class="col col-3 text-whit smallfonte">
                     {{token.releaseBlock}}
                 </div>
-                <div class="col col-3 text-white smallfont">
+                <div class="col col-2 text-white smallfont">
                     <span class="hand-cursor" (click)="unlock(token)">
                         <mat-icon svgIcon="arrow-upward"></mat-icon>
                     </span>
