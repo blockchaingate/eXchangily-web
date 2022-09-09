@@ -2966,8 +2966,7 @@ export class CoinService {
                     'type': 'function'
                 };
                 // console.log('foreeeee');
-                console.log('amountSent=', amountSent);
-                console.log('toAddress===', toAddress);
+
                 amountInTx = new BigNumber(amountSent);
                 let fxnCallHex = this.web3Serv.getGeneralFunctionABI(funcTransfer, [toAddress, amountSent]);
                 // console.log('enddddd');
@@ -2989,8 +2988,7 @@ export class CoinService {
                if(!contractAddress) {
                    contractAddress = mycoin.contractAddr;
                }
-               console.log('mycoin==', mycoin);
-               console.log('contractAddresscontractAddresscontractAddress=', contractAddress);
+
                 // const keyPair = this.getKeyPairs(mycoin, seed, 0, 0);
 
                 // contractAddress = '0x28a6efffaf9f721a1e95667e3de54c622edc5ffa';
@@ -3050,12 +3048,10 @@ export class CoinService {
                 }
             }
         const ret = { txHex: txHex, txHash: txHash, errMsg: errMsg, transFee: transFee, amountInTx: amountInTx, txids: txids };
-        console.log('ret there eeee=', ret);
         return ret;
     }
 
     fillUpAddress(mycoin: MyCoin, seed: Buffer, numReceiveAdds: number, numberChangeAdds: number) {
-        console.log(mycoin);
         for (let i = 0; i < numReceiveAdds; i++) {
             const keyPair = this.getKeyPairs(mycoin, seed, 0, i);
             const addr = new Address(mycoin.coinType, keyPair.address, i);

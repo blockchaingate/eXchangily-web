@@ -34,7 +34,6 @@ router.post('/compile', (req, res) => {
   else {
     let contracts = [];
     for (let contractName in output.contracts) {
-      // console.log(output.contracts[contractName].gasEstimates);
       contracts.push({
         'name': contractName.slice(1), // get rid of leading colon
         'bytecode': output.contracts[contractName].bytecode,
