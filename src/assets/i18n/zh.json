@@ -1160,12 +1160,12 @@
     "piece": "枚",
     "My investment": "我的投资",
     "My EXG": "我的亿币",
-    
+
     "By Cash App": "Cash App",
     "Bank": "开户行",
     "Your transaction was submitted.": "交易已提交",
     "The format of the payment address is incorrect.": "收款地址格式不对",
-    "Not enough balance":"余额不足",
+    "Not enough balance": "余额不足",
     "Token type": "代币类型",
     "Issue Token": "一键发币",
     "Transfer request is pending.": "转账请求提交成功，等待区块链处理。",
@@ -1588,7 +1588,7 @@
     "My Otc Order": "我的法币交易",
     "Method": "付款方式",
     "Member": "客户",
-    "Please check": "请查看", 
+    "Please check": "请查看",
     "ACH PAY Tutorial": "ACH支付指南",
     "for more details": "获取详细信息",
     "Show details": "显示详细信息",
@@ -1634,7 +1634,7 @@
     "Or pick an address from your wallet": "或从钱包中选择一个地址",
     "Wallet address incorrect": "钱包地址不正确",
     "Marked as paid": "确认付款",
-    "Pay to 216-233-4316 directly with Zelle. Please click \"Marked as paid\" button after payment finished":"直接转账到216-233-4316。转账完成后，请点击“确认付款”按钮",
+    "Pay to 216-233-4316 directly with Zelle. Please click \"Marked as paid\" button after payment finished": "直接转账到216-233-4316。转账完成后，请点击“确认付款”按钮",
     "Please set your display password in display setting": "请在显示设置中设置显示密码",
     "Important Notice txt": "这里注册和登录功能只是为了让用户方便参加我们的加密货币派送活动。注册时仅记录您的邮箱及钱包地址，绝不会记录您的私钥信息，如果您的私钥丢失，无法从系统恢复。亿币(eXchangily)是完全去中心化的开源项目，公开透明，安全可靠。您可以通过github找到并查看源代码。",
     "My profile": "我的账户",
@@ -1648,5 +1648,6 @@
     "Update": "更新",
     "Team": "团队",
     "Assets": "数字资产",
-    "User manual": "用户手册"
+    "User manual": "用户手册",
+    "Developer Quickstart": "开发人员快速入门"
 }

@@ -704,7 +704,7 @@
     "ExgName": "Decentralized crypto exchange",
     "ExgOfflWeb": "Exchangily Official Website",
     "AboutExg": "About eXchangily",
-    "Resource": "Resources", 
+    "Resource": "Resources",
     "Not enough balance": "Not enough balance",
     "Withdraw Stake": "Withdraw",
     "Meta Force": "Meta Force",
@@ -1333,5 +1333,6 @@
     "CashAppNote": "Make payment through Cash App.",
     "Kanban Gas": "Kanban Gas",
     "User manual": "User manual",
-    "Totalsupply$": "Total quantity of the token"
+    "Totalsupply$": "Total quantity of the token",
+    "Developer Quickstart": "Developer Quickstart"
 }
