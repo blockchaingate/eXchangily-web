@@ -114,8 +114,12 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     if (this.tradesSocket) {
       this.tradesSocket.unsubscribe();
     }
-    this.sub.unsubscribe();
-    clearInterval(this.timer);
+    if(this.sub) {
+      this.sub.unsubscribe();
+    }
+    if(this.timer) {
+      clearInterval(this.timer);
+    }
   }
 
   bigmul(num1, num2) {
