@@ -24,7 +24,7 @@ export class VerifySeedPhraseModal  implements OnInit {
     }
 
     onSubmit() {
-        const mnemonic = this.verifySeedPhraseForm.controls.seedphrase.value;
+        const mnemonic = this.verifySeedPhraseForm.value.seedphrase;
         if (mnemonic === this.seedPhrase) {
             this.verifyResult = 'Great, you have the correct seed phrase for the wallet.';
         } else {

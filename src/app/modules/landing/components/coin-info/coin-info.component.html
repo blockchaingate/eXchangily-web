@@ -1,6 +1,6 @@
 <div class="coin-info">
     <div class="coin-info__qr">
-        <qrcode [qrdata]="coinAdd" [size]="size" [level]="'M'"></qrcode>
+        <qrcode [qrdata]="coinAdd" [width]="150" [errorCorrectionLevel]="'M'"></qrcode>
     </div>
 
     <p class="semi-bold center coin-info__text">{{coin}}{{ 'Admin.Address' | translate }}:</p>

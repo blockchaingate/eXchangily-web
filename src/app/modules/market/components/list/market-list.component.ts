@@ -137,9 +137,9 @@ export class MarketListComponent implements OnInit {
 
         this.prices = this.prServ.getPriceList();
 
-        this.selectCat('USDT');
+        this.selectCat('DUSD');
         this.storageServ.getFavoritePairs().subscribe(
-            (pairs: string[]) => {
+            (pairs: any) => {
                 if (pairs && pairs.length > 0) {
                     this.favorite_pairs = pairs;
                     this.selectCat('100');

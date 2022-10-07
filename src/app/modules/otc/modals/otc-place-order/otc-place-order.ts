@@ -124,8 +124,18 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit {
     this.amount = quantity * this.element.price;
   }
 
+  changeQuantityEvent(event: any) {
+    const quantity = Number((event.target as HTMLInputElement).value);
+    this.changeQuantity(quantity);
+  }
+
   changeAmount(amount: number) {
     this.quantity = amount / this.element.price;
+  }
+
+  changeAmountEvent(event: any) {
+    const amount = Number((event.target as HTMLInputElement).value);
+    this.changeAmount(amount);
   }
 
   enablePaypal() {

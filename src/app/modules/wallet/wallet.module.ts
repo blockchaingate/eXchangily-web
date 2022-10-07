@@ -29,6 +29,7 @@ import { TransactionDetailModal } from './modals/transaction-detail/transaction-
 import { TransactionDetailModal2 } from './modals/transaction-detail2/transaction-detail2.modal';
 import { AddAssetsModal } from './modals/add-assets/add-assets.modal';
 import { SendCoinModal } from './modals/send-coin/send-coin.modal';
+import { BuyCoinModal } from './modals/buy-coin/buy-coin.modal';
 import { ReceiveCoinModal } from './modals/receive-coin/receive-coin.modal';
 import { DepositAmountModal } from './modals/deposit-amount/deposit-amount.modal';
 import { RedepositAmountModal } from './modals/redeposit-amount/redeposit-amount.modal';
@@ -80,6 +81,7 @@ import { TransactionTypePipe } from './pipes/transaction-type.pipe';
         TransactionDetailModal,
         AddAssetsModal,
         SendCoinModal,
+        BuyCoinModal,
         TransactionDetailModal2,
         LockedInfoModal,
         ReceiveCoinModal,

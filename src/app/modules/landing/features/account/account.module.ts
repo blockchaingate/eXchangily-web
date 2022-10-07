@@ -25,9 +25,9 @@ import { MyOtcOrderComponent } from './my-otc-order/my-otc-order.component';
 import { AppService } from '../../service/app-service/app.service';
 import { UserService } from '../../service/user/user.service';
 import { CurrenciesService } from '../../service/currencies/currencies.service';
-import { UserResolver, UserAdminResolver } from '../../resolvers/user/user.resolve';
+//import { UserResolver, UserAdminResolver } from '../../resolvers/user/user.resolve';
 import { AppUsersResolver, ChildReferralsResolver } from '../../resolvers/app-users/app-users.resolve';
-import { IcotxResolver, IcotxParentResolver } from '../../resolvers/icotx/icotx.resolve';
+//import { IcotxResolver, IcotxParentResolver } from '../../resolvers/icotx/icotx.resolve';
 import { IcotxService } from '../../service/icotx/icotx.service';
 import { AppUsersService } from '../../service/app-users/app-users.service';
 import { IcotxesAuthService } from '../../service/icotxes-auth/icotxes-auth.service';
@@ -68,16 +68,16 @@ import {MatSelectModule} from '@angular/material/select';
   ],
   providers: [
     AuthGuard,
-    UserResolver,
-    UserAdminResolver,
-    IcotxResolver,
+    //UserResolver,
+    //UserAdminResolver,
+    //IcotxResolver,
     IcotxService,
     IcotxesAuthService,
     CurrenciesService,
     CreateOrderService,
     UserService,
     AppUsersResolver,
-    IcotxParentResolver,
+    //IcotxParentResolver,
     KycService,
     CoinService,
     AlertService,

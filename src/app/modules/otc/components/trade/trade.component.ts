@@ -35,7 +35,7 @@ export class TradeComponent implements OnInit {
   txid: string;
   quantity: number;
   currentCoin: MyCoin;
-  wallet: Wallet;
+  wallet: any;
   gasPrice: number;
   gasLimit: number;
   satoshisPerBytes: number;
@@ -85,7 +85,7 @@ export class TradeComponent implements OnInit {
     );
 
     this.storageService.getToken().subscribe(
-      (token: string) => {
+      (token: any) => {
         this.token = token;
         if (!this.token) {
           this._router.navigate(['/login/signin', { 'retUrl': '/otc/trade' }]);
@@ -238,6 +238,9 @@ export class TradeComponent implements OnInit {
     };
 
     console.log('currentCoin==', currentCoin);
+    if(!seed) {
+      return;
+    }
     const { txHex, txHash, errMsg } = await this.coinService.sendTransaction(currentCoin, seed,
       environment.addresses.otcOfficial[currentCoin.name], amount, options, doSubmit
     );
@@ -255,7 +258,7 @@ export class TradeComponent implements OnInit {
             this.alertServ.openSnackBar('your transaction was submitted successfully.', 'Ok');
         }
       */
-      const item = {
+      const item: any = {
         walletId: this.wallet.id,
         type: 'Send',
         coin: currentCoin.name,

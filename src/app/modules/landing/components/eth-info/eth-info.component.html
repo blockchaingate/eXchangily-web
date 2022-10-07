@@ -1,6 +1,6 @@
 <div class="eth-info">
   <div class="eth-info__qr">
-    <qrcode [qrdata]="ethAdd" [size]="size" [level]="'M'"></qrcode>
+    <qrcode [qrdata]="ethAdd" [width]="150" [errorCorrectionLevel]="'M'"></qrcode>
   </div>
 
   <p class="semi-bold center eth-info__text">{{ 'Form.ETH Address' | translate }}:</p>

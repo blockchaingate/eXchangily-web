@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
+import { WebSocketSubject } from 'rxjs/webSocket';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable(

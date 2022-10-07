@@ -6,7 +6,6 @@ import { JsonFileService } from '../../../service/jsondata/jsondata.service';
 import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
-import { stringify } from '@angular/compiler/src/util';
 
 
 @Component({
@@ -23,11 +22,13 @@ export class TeamComponent implements OnInit, OnDestroy {
   constructor(private _jsonData: JsonFileService, private _translate: TranslateService) { }
 
   ngOnInit() {
+    /*
     this.getTeam().subscribe(res => {
       console.log('res=', res);
       this.team = res;
     });
 
+    
     this.subscribers.push(
       this._translate.onLangChange
       .pipe(
@@ -37,12 +38,14 @@ export class TeamComponent implements OnInit, OnDestroy {
         this.team = members;
       })
     );
+    */
   }
 
   toggleTeam() {
     this.open = !this.open;
   }
 
+  /*
   private getTeam(language = ''): Observable<any> {
     const lang = language || this._translate.currentLang || window.localStorage.getItem('Lan');
     console.log('lang=' + lang);
@@ -60,7 +63,7 @@ export class TeamComponent implements OnInit, OnDestroy {
       return members;
     });
   }
-
+  */
   ngOnDestroy() {
     for (let i = 0; i < this.subscribers.length; i++) {
       this.subscribers[i].unsubscribe();

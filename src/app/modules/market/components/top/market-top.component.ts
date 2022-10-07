@@ -27,13 +27,13 @@ export class MarketTopComponent implements OnInit {
       const item = arr[i];
 
       const s = item.s;
-      if (s === 'BTCUSDT') {
+      if (s === 'BTCDUSD') {
         this.marketTopBlock1.updateTicker(item);
-      } else if (s === 'FABUSDT') {
+      } else if (s === 'FABDUSD') {
         this.marketTopBlock2.updateTicker(item);
-      } else if (s === 'ETHUSDT') {
+      } else if (s === 'ETHDUSD') {
         this.marketTopBlock3.updateTicker(item);
-      } else if (s === 'EXGUSDT') {
+      } else if (s === 'EXGDUSD') {
         this.marketTopBlock4.updateTicker(item);
       }
     }

@@ -16,8 +16,8 @@ import { OtcListingComponent } from './otc-listing/otc-listing.component';
 import { SecurityComponent } from './security/security.component';
 import { MerchantComponent } from './merchant/merchant.component';
 // import { AdminModule } from '../admin/admin.module';
-import { UserResolver, UserAdminResolver } from '../../resolvers/user/user.resolve';
-import { IcotxResolver, IcotxParentResolver } from '../../resolvers/icotx/icotx.resolve';
+//import { UserResolver, UserAdminResolver } from '../../resolvers/user/user.resolve';
+//import { IcotxResolver, IcotxParentResolver } from '../../resolvers/icotx/icotx.resolve';
 import { AppUsersResolver, ChildReferralsResolver } from '../../resolvers/app-users/app-users.resolve';
 // import { ReferralModule } from './referrals/referrals.module';
 import { OtcOrderComponent } from './otc-order/otc-order.component';
@@ -80,13 +80,16 @@ const routes: Routes = [
         */
       },
       {
+        /*
         resolve: {
           user: UserResolver,
           isAdmin: UserAdminResolver
         },
+        */
         path: AccountPaths[3].relative,
         component: OrderListComponent,
         children: [
+          /*
           {
             path:  ':icotx',
             resolve: {
@@ -95,6 +98,7 @@ const routes: Routes = [
             },
             component: OrderComponent
           }
+          */
         ]
       },
       {
@@ -106,12 +110,14 @@ const routes: Routes = [
       },
       {
         path: 'admin',
-        loadChildren: '../admin/admin.module#AdminModule'
+        loadChildren: () => import('../admin/admin.module').then(x => x.AdminModule)
+        //loadChildren: '../admin/admin.module#AdminModule'
       }
       ,
       {
         path: 'logout',
-        loadChildren: '../admin/admin.module#AdminModule'
+        loadChildren: () => import('../admin/admin.module').then(x => x.AdminModule)
+        //loadChildren: '../admin/admin.module#AdminModule'
       },
       {
         path: '',

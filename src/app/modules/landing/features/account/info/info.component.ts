@@ -54,6 +54,7 @@ export class InfoComponent implements OnInit {
     this._userService.getUserById(id).subscribe(
       (ret: User) => {
         this.processRetGetUser(ret);
+        const parentReferralCodeParam: any = { value: parentReferral, disabled: parentReferral };
         // build form
         this.userForm = new FormGroup({
           'email': new FormControl(this.user.email, [
@@ -69,7 +70,7 @@ export class InfoComponent implements OnInit {
           'mobile': new FormControl(this.user.mobile, []),
           'walletExgAddress': new FormControl(this.user.walletExgAddress, []),
           'workEmail': new FormControl(this.user.workEmail, []),
-          'parentReferralCode': new FormControl({ value: parentReferral, disabled: parentReferral }, [])
+          'parentReferralCode': new FormControl(parentReferralCodeParam, [])
         });
         this.loadingDone = true;
       },

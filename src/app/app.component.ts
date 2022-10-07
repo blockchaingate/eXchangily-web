@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 import { setTheme } from 'ngx-bootstrap/utils';
 import { Router, NavigationEnd } from '@angular/router';
-import { ConfigService } from './services/config.service';
 import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-root',
@@ -16,7 +15,7 @@ export class AppComponent {
   msg: string;
   currentLang: string;
   darkBgEnable: boolean;
-  constructor(private route: ActivatedRoute, private configServ: ConfigService, router: Router) {
+  constructor(private route: ActivatedRoute,  router: Router) {
     setTheme('bs4'); // Bootstrap 4
     this.darkBgEnable = false;
     // const url = window.location.href;

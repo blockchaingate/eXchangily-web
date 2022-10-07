@@ -31,7 +31,8 @@ export class ReceiveCoinModal {
         this.utilServ.copy(this.currentAddress);
     }
 
-    onChange(index: number) {
+    onChange(event: any) {
+        const index = (event.target as HTMLInputElement).value;
         /*
         if (this.wallet.mycoins[index].tokenType === 'FAB') {
             this.currentAddress = this.wallet.mycoins[1].receiveAdds[0].address;
@@ -48,12 +49,16 @@ export class ReceiveCoinModal {
     }
 
     dlDataUrlBin() {
-        const y = document.getElementById('address_qr_code').getElementsByTagName('canvas')[0];
-        // console.log('y.src=' + y.src);
-        if (y) {
-            const link = y.toDataURL('image/png');
-            this.link = link;
+        const obj = document.getElementById('address_qr_code');
+        if( obj && obj.getElementsByTagName('canvas')) {
+            const y = obj.getElementsByTagName('canvas')[0];
+            // console.log('y.src=' + y.src);
+            if (y) {
+                const link = y.toDataURL('image/png');
+                this.link = link;
+            }
         }
+
 
     }
 }

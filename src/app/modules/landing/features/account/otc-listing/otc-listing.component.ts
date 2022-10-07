@@ -67,7 +67,7 @@ export class OtcListingComponent implements OnInit {
         this.advType = 'ongoing';
         this.wallet = await this.walletService.getCurrentWallet();
         this.storageService.getToken().subscribe(
-            (token: string) => {
+            (token: any) => {
                 this.token = token;
                 this._otcServ.getListings(this.token).subscribe(
                     (res: any) => {
@@ -204,7 +204,7 @@ export class OtcListingComponent implements OnInit {
                 this.alertServ.openSnackBarSuccess('your transaction was submitted successfully.', 'Ok');
             }
 
-            const item = {
+            const item: any = {
                 walletId: this.wallet.id,
                 type: 'Send',
                 coin: currentCoin.name,

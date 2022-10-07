@@ -1,49 +1,15 @@
+0x000000000000000000000000dcd0f23125f74ef621dfa3310625f8af0dcd971b000000000000000000000000ab1bebd05b67381ed268c615b4824cfc45d20d3500000000000000000000000000000000000000000000000000000000000300010000000000000000000000000000000000000000000000001feb3dd067660000
 
-USDT
-(BEP20)
-19995560
-19995560
+0x000000000000000000000000dcd0f23125f74ef621dfa3310625f8af0dcd971b0000000000000000000000003fb2e7025357734fb11efca50664bd9f6647df2200000000000000000000000000000000000000000000000000000000000300010000000000000000000000000000000000000000000000001feb3dd067660000
 
-FAB
-(BEP20)
-299999999999983763
-212699999999988450
+0x60ce43edd4993cd15af9dd88a4b0e555977261e588d4e7a1c54dedc5137d4a4d0000000000000000000000003fb2e7025357734fb11efca50664bd9f6647df2200000000000000000000000000000000000000000000000000000000000300010000000000000000000000000000000000000000000000001feb3dd0676600000000000000000000000000000000000000000000000000000000000001845977000000000000000000000000dcd0f23125f74ef621dfa3310625f8af0dcd971b
 
 
+wc:ed88934efe1cdb5ba6ebd28488d0ca969cc7a65b5e7513792165d53a296dfa1b@2?controller=false&publicKey=fa6b0d538d0d370a84547bcf7030c5afb66b050cbd299b05324c5f30b4eaa57f&relay=%7B%22protocol%22%3A%22waku%22%7D
+wc:1b4772a2-cba4-4cbe-a5f4-7d60058b0589@1?bridge=https%3A%2F%2Fx.bridge.walletconnect.org&key=a253fad178268a5ee267446332d810921066a0a4fbb83a207bafafe4dac141a3
 
-
-tron:
-
-                const root = bip32.fromSeed(seed);
-                const path = "m/44'/195'/0'/0/0";
-                const childNode = root.derivePath(path);
-
-                priKey = childNode.privateKey;
-
-                buffer = wif.decode(childNode.toWIF());
-                addr = 
-                TronWeb.utils.crypto.getBase58CheckAddress(TronWeb.utils.crypto.getAddressFromPriKey(priKey));
-
-
-
-     
-            
-
-fab:
-
-            const root = bip32.fromSeed(seed);
-            const path = "m/44'/1150'/0'/0/0";
-            const childNode = root.derivePath(path);
-            const { address } = bitcoin.payments.p2pkh({
-                pubkey: childNode.publicKey,
-                network: bitcoin.networks.bitcoin
-            });
-            addr = address;
-            priKey = childNode.toWIF();
-
-
-
-
+https://kanbanprod.fabcoinapi.com/publicapi/orderbook/EXGUSDT
+"0.04","104285.912749"
 
 
 
@@ -57,6 +23,8 @@ BST:
 7352239.91768
 
 
+
+https://polygonscan.com/tx/0xf9aa3dac63a3e6873eef3a1bb5a67b83dc815641192c8d90ae4a98cda929416d
 
 1859322.9999999
 
@@ -89,6 +57,7 @@ dune stem onion cliff equip seek kiwi salute area elegant atom injury
 tortoise cry hello tail taste goose rural fringe destroy next age tray
 
 new: dignity swing wine hub ankle broom cloud fiction side thank pony grass
+fiat-payment: step puzzle nice access game kitten nature sick cradle patrol crane napki
 
 polygon: layer shoe duck kind bachelor chimney lazy rug exchange rose imitate health
 uint8Array not defined

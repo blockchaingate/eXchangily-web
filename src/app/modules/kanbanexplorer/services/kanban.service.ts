@@ -44,7 +44,7 @@ export class KanbanService {
   }
 
   getTokenList() {
-    return this.http.get<Coin[]>(`${this.url}exchangily/getTokenList`);
+    return this.http.get<Coin[]>(`${this.url}exchangily/getTokenList/coinpool`);
   }
 
   // private tmpBlock: Block

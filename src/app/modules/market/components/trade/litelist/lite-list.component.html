@@ -1,8 +1,8 @@
 <div class="h-100">
     <div class="menu w-100">
+        <div class="menuitem hand smallfont text-white" [class.selected]="selectedcat === 'DUSD'" (click)="selectCat('DUSD');">DUSD</div>
         <div class="menuitem hand smallfont text-white" [class.selected]="selectedcat === 'USDT'" (click)="selectCat('USDT');">USDT</div>
         <div class="menuitem hand smallfont text-white" [class.selected]="selectedcat === 'USDC'" (click)="selectCat('USDC');">USDC</div>
-        <div class="menuitem hand smallfont text-white" [class.selected]="selectedcat === 'DUSD'" (click)="selectCat('DUSD');">DUSD</div>
     </div>
     <div class="menu w-100">
         <div class="menuitem hand smallfont text-white" [class.selected]="selectedcat === 'BTC'" (click)="selectCat('BTC');">BTC</div>

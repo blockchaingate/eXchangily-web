@@ -3,7 +3,7 @@ import { throwError as observableThrowError } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpService } from '../../../../services/http.service';
 import { UserAuth } from '../user-auth/user-auth.service';
-import { map } from 'rxjs/operators/map';
+import { map } from 'rxjs';
 
 import { app } from '../../app.constants';
 import { Tokenlock } from '../../models/tokenlock';

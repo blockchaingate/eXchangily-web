@@ -1,4 +1,5 @@
 {
+    "stakeFabExg": "质押FAB或EXG获种子代币SEED空投",
     "Security": "安全",
     "Transfer": "转账",
     "Header": {
@@ -22,6 +23,8 @@
     "Footer": {
         "Copyright": "2020 eXchangily All Rights Reserved"
     },
+    "Lockers": "锁仓",
+    "Unlock": "解锁",
     "Home": {
         "Top": {
             "Hero": {
@@ -735,7 +738,17 @@
     "exgshortintroduce": "亿币交易所是目前全球唯一准实时的去中心化加密货币交易所，具备各种主流区块链的跨链功能，提供快速、匿名交易处理能力。用户无需将资产托管给交易所，自己永远绝对拥有资产的控制权。亿币交易所的所有收益100%由平台币EXG持币人分享。",
     "VerifyMnemNote": "为了确保您准确无误地记下了助记词，请按顺序输入一遍进行验证。",
     "Confirm": "确认",
+    "Meta Force": "原力",
+    "Deposit Stake": "存入",
+    "Withdraw Stake": "取出",
+    "not enough fab coin to make the transaction.": "Fab余额不足",
+    "Your password is wrong.": "密码错误",
     "Announcements": "公 告",
+    "Mininum amount required.": "未满足最小数量",
+    "Coin not available.": "币种不存在",
+    "No current wallet was found.": "钱包不存在",
+    "Stake Block": "存入区块",
+    "Release Block": "释放区块",
     "Set Password": "设置密码",
     "PwdNote": "设置本机密码。请注意，此密码仅保护本机钱包资料，并非钱包私钥。",
     "Wallet Name": "钱包名称",
@@ -743,6 +756,7 @@
     "Pwdvalid": "密码最少8个字符，其中至少1个大写字母，一个小写字母，一个数字和一个特殊字符(!@#$%^&*~`)",
     "Password doesn't match": "密码不匹配",
     "Password": "密码",
+    "Wallet connect": "钱包连接",
     "Wallet Password": "钱包密码",
     "Confirm Password": "确认密码",
     "Back": "上一步",
@@ -1017,7 +1031,7 @@
     "Action": "操作",
     "Your balance": "可用数量",
     "Withdraw amount": "待转数量",
-    "Transaction fee": "交易费用",
+    "Transaction fee": "矿工费",
     "Gas price": "燃料价格",
     "Satoshis/byte": "聪/字节",
     "Gas limit": "燃料限额",
@@ -1047,7 +1061,7 @@
     "Confirm Wallet Password": "确认钱包密码",
     "Seed phrase, seperated by space": "助记词，用空格分开",
     "Seed Phrase is invalid": "助记词无效",
-    "Already have mnemonics? Restore": "已有助记词？恢复",
+    "Already have mnemonics? Restore": "已有助记词？恢复钱包",
     "Export": "导出",
     "Delete": "删除",
     "Once you delete your wallet, you can only recover it if you keep your seed phrase.": "删除钱包后，只有保留助记词才能恢复它。",
@@ -1083,7 +1097,7 @@
     "Commission": "手续费",
     "Limit": "限额",
     "Minimum Purchase": "限额",
-    "Not enough transaction fee": "交易费用不足",
+    "Not enough transaction fee": "矿工费不足",
     "Question": "问题",
     "Answer": "答案",
     "Dividends": "分红",
@@ -1146,12 +1160,12 @@
     "piece": "枚",
     "My investment": "我的投资",
     "My EXG": "我的亿币",
-    
+
     "By Cash App": "Cash App",
     "Bank": "开户行",
     "Your transaction was submitted.": "交易已提交",
     "The format of the payment address is incorrect.": "收款地址格式不对",
-    "Not enough balance":"余额不足",
+    "Not enough balance": "余额不足",
     "Token type": "代币类型",
     "Issue Token": "一键发币",
     "Transfer request is pending.": "转账请求提交成功，等待区块链处理。",
@@ -1434,6 +1448,7 @@
     "Subscribe for Updates": "订阅获取最新动态",
     "Name": "姓名",
     "Submit": "提交",
+    "Decode ABI": "解碼ABI",
     "Copy Link": "复制链接",
     "Details": "详细信息",
     "Gas Price(GWEI)": "燃料价格(GWEI)",
@@ -1573,7 +1588,7 @@
     "My Otc Order": "我的法币交易",
     "Method": "付款方式",
     "Member": "客户",
-    "Please check": "请查看", 
+    "Please check": "请查看",
     "ACH PAY Tutorial": "ACH支付指南",
     "for more details": "获取详细信息",
     "Show details": "显示详细信息",
@@ -1619,7 +1634,7 @@
     "Or pick an address from your wallet": "或从钱包中选择一个地址",
     "Wallet address incorrect": "钱包地址不正确",
     "Marked as paid": "确认付款",
-    "Pay to 216-233-4316 directly with Zelle. Please click \"Marked as paid\" button after payment finished":"直接转账到216-233-4316。转账完成后，请点击“确认付款”按钮",
+    "Pay to 216-233-4316 directly with Zelle. Please click \"Marked as paid\" button after payment finished": "直接转账到216-233-4316。转账完成后，请点击“确认付款”按钮",
     "Please set your display password in display setting": "请在显示设置中设置显示密码",
     "Important Notice txt": "这里注册和登录功能只是为了让用户方便参加我们的加密货币派送活动。注册时仅记录您的邮箱及钱包地址，绝不会记录您的私钥信息，如果您的私钥丢失，无法从系统恢复。亿币(eXchangily)是完全去中心化的开源项目，公开透明，安全可靠。您可以通过github找到并查看源代码。",
     "My profile": "我的账户",
@@ -1633,5 +1648,6 @@
     "Update": "更新",
     "Team": "团队",
     "Assets": "数字资产",
-    "User manual": "用户手册"
+    "User manual": "用户手册",
+    "Developer Quickstart": "开发人员快速入门"
 }

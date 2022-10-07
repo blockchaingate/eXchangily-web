@@ -20,7 +20,7 @@ export class CampaignOrdersComponent implements OnInit {
 
   ngOnInit() {
     this._storageServ.getToken().subscribe(
-      (token: string) => {
+      (token: any) => {
         this.token = token;
         this.campaignorderServ.getAllOrders(token).subscribe(
           (res: any) => {

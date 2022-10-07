@@ -5,6 +5,7 @@ import {Token} from '../../../../interfaces/kanban.interface';
 import { environment } from '../../../../../environments/environment';
 import { ApiService } from 'src/app/services/api.service';
 import { UtilService } from 'src/app/services/util.service';
+import { CoinService } from 'src/app/services/coin.service';
 
 @Component({
     selector: 'add-assets-modal',
@@ -15,11 +16,11 @@ export class AddAssetsModal implements OnInit{
     @ViewChild('addAssetsModal', {static: true}) public addAssetsModal: ModalDirective;
     @Output() confirmedAssets = new EventEmitter<[Token]>();
     selectedIndex: number;
-    fabCoinsSelected = [];
-    ethCoinsSelected = [];
-    otherCoinsSelected = [];
-    showFabCustom = false;
-    showEthCustom = true;
+    fabCoinsSelected: any = [];
+    ethCoinsSelected: any = [];
+    otherCoinsSelected: any = [];
+    showFabCustom: any = false;
+    showEthCustom: any = true;
 
     /*
     otherCoins = [
@@ -31,7 +32,7 @@ export class AddAssetsModal implements OnInit{
         }
     ];
     */
-    ethTokens = [
+    ethTokens: any = [
        
         {
             name: 'USD Coin', 
@@ -41,7 +42,7 @@ export class AddAssetsModal implements OnInit{
         }      
     ]; 
 
-    fabTokens = [
+    fabTokens: any = [
 
     ]; 
 
@@ -61,6 +62,7 @@ export class AddAssetsModal implements OnInit{
 
     constructor(
         private utilServ: UtilService,
+        private coinServ: CoinService,
         private fb: FormBuilder, private apiServ: ApiService) {
         this.selectedIndex = 0;
     }
@@ -72,35 +74,63 @@ export class AddAssetsModal implements OnInit{
             }
         );
 
-        this.addAssetsForm.get("ethContractAddress").valueChanges.subscribe(x => {
-            this.loadSmartContractInfo();
-        });
+        const ethContractAddressObj = this.addAssetsForm.get("ethContractAddress");
+        if(ethContractAddressObj) {
+            ethContractAddressObj.valueChanges.subscribe(x => {
+                this.loadSmartContractInfo();
+            });
+        }
 
 
-        this.addAssetsForm.get("ethChain").valueChanges.subscribe(x => {
-            this.loadSmartContractInfo();
-        });
+        const ethChainObj = this.addAssetsForm.get("ethChain");
+        if(ethChainObj) {
+            ethChainObj.valueChanges.subscribe(x => {
+                this.loadSmartContractInfo();
+            });
+        }
+
     }
 
 
     async loadSmartContractInfo() {
-        /*
-        const chain = this.addAssetsForm.get('ethChain').value;
-        const smartContractAddress = this.addAssetsForm.get('ethContractAddress').value;
-        if(smartContractAddress && this.utilServ.stripHexPrefix(smartContractAddress).length == 40) {
-            console.log('firstname value changed')
-            console.log(smartContractAddress);
-            const decimals = await this.apiServ.getEtheruemCompatibleDecimals(chain, smartContractAddress);
-            console.log('decimals=', decimals);
+        
+        const chain: any = this.addAssetsForm.value.ethChain;
+        let smartContractAddress = this.addAssetsForm.get('ethContractAddress')?.value;
+        console.log('chain===', chain);
+        console.log('smartContractAddress===', smartContractAddress);
+        if(smartContractAddress) {
+            if(chain == 'TRX') {
+                const name = await this.coinServ.getTrxTokenName(smartContractAddress);
+                this.addAssetsForm.get('ethTokenName')?.setValue(name);
+                const decimals = await this.coinServ.getTrxTokenDecimals(smartContractAddress);
+                this.addAssetsForm.get('ethTokenDecimals')?.setValue(decimals);
+                const symbol = await this.coinServ.getTrxTokenSymbol(smartContractAddress);
+                this.addAssetsForm.get('ethTokenSymbol')?.setValue(symbol);
+            } else
+            if(this.utilServ.stripHexPrefix(smartContractAddress).length == 40) {
+                const decimals = await this.apiServ.getEtheruemCompatibleDecimals(chain, smartContractAddress);
+                this.addAssetsForm.get('ethTokenDecimals')?.setValue(decimals);
+    
+                const name = await this.apiServ.getEtheruemCompatibleName(chain, smartContractAddress);
+                this.addAssetsForm.get('ethTokenName')?.setValue(name);
+    
+                const symbol = await this.apiServ.getEtheruemCompatibleSymbol(chain, smartContractAddress);
+                this.addAssetsForm.get('ethTokenSymbol')?.setValue(symbol);
+    
+            }
         }
-        */
+
+        
     }
 
-    onFabSelection(e, v) {
+    onFabSelection(e, v: any) {
         console.log(e.option.selected, v); 
         this.fabCoinsSelected = [];
         for (let i = 0; i < v.length; i++) {
-            this.fabCoinsSelected.push(v[i].value);
+            if(v && v[i] && v[i].value) {
+                this.fabCoinsSelected.push(v[i].value);
+            }
+            
         }
         if (this.fabCoinsSelected.indexOf('0') >= 0) {
             this.showFabCustom = true;
@@ -140,12 +170,12 @@ export class AddAssetsModal implements OnInit{
 */    
 
     onSubmit() {
-        const tokens = [];
+        const tokens: any = [];
         if(this.selectedIndex == 0) { //FAB
             const token = {
                 type: '',
                 name: 'FAB',
-                privateKey: this.addAssetsForm.get('fabPrivateKey').value
+                privateKey: this.addAssetsForm.value.fabPrivateKey
             }
             tokens.push(token);
 
@@ -158,10 +188,10 @@ export class AddAssetsModal implements OnInit{
             return;
         } else
         if(this.selectedIndex == 1) { //FAB token
-            const smartContractAddress = this.addAssetsForm.get('fabContractAddress').value;
-            const name = this.addAssetsForm.get('fabTokenName').value;
-            const symbol = this.addAssetsForm.get('fabTokenSymbol').value;
-            const decimals = this.addAssetsForm.get('fabTokenDecimals').value;
+            const smartContractAddress = this.addAssetsForm.get('fabContractAddress')?.value;
+            const name = this.addAssetsForm.get('fabTokenName')?.value;
+            const symbol = this.addAssetsForm.get('fabTokenSymbol')?.value;
+            const decimals = this.addAssetsForm.get('fabTokenDecimals')?.value;
 
 
             if(smartContractAddress && name && symbol && decimals) {
@@ -183,15 +213,15 @@ export class AddAssetsModal implements OnInit{
             }
         } else 
         if(this.selectedIndex == 2) { //ETH token
-            const chain = this.addAssetsForm.get('ethChain').value;
-            const smartContractAddress = this.addAssetsForm.get('ethContractAddress').value;
+            const chain = this.addAssetsForm.get('ethChain')?.value;
+            const smartContractAddress = this.addAssetsForm.get('ethContractAddress')?.value;
 
 
 
 
-            const name = this.addAssetsForm.get('ethTokenName').value;
-            const symbol = this.addAssetsForm.get('ethTokenSymbol').value;
-            const decimals = this.addAssetsForm.get('ethTokenDecimals').value;
+            const name = this.addAssetsForm.get('ethTokenName')?.value;
+            const symbol = this.addAssetsForm.get('ethTokenSymbol')?.value;
+            const decimals = this.addAssetsForm.get('ethTokenDecimals')?.value;
             if(smartContractAddress && name && symbol && decimals) {
                 const token = {
                     type: chain,
@@ -214,7 +244,7 @@ export class AddAssetsModal implements OnInit{
 
         if(this.fabCoinsSelected && this.fabCoinsSelected.length > 0) {
             for (let i = 0; i < this.fabCoinsSelected.length; i++) {
-                const fabToken = this.fabTokens[this.fabCoinsSelected[i] - 1];
+                const fabToken: any = this.fabTokens[this.fabCoinsSelected[i] - 1];
                 console.log('fabToken===', fabToken);
                 if(fabToken) {
                     const token = {

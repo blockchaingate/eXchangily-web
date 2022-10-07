@@ -1,7 +1,6 @@
 import { Component, OnInit, Renderer2, Inject } from '@angular/core';
 import { HttpService } from '../../services/http.service';
-import { environment } from '../../../environments/environment';
-import { Observable, forkJoin } from 'rxjs';
+import * as exaddr from '../../lib/exaddr';
 import { UtilService } from '../../services/util.service';
 import { AlertService } from '../../services/alert.service';
 @Component({
@@ -28,6 +27,11 @@ export class BulkTransferComponent implements OnInit {
 
     }
 
+    changeListenerEvent(event: any) {
+        const files = event.target.files;
+        this.changeListener(files);
+    }
+    
     changeListener(files: FileList){
     console.log(files);
     if(files && files.length > 0) {
@@ -65,25 +69,43 @@ export class BulkTransferComponent implements OnInit {
                 //console.log('data=', data);
                 const coinsMap = {};
                 try {
-                    coinsMap[coinName] = Number(data[1].trim());
+                    coinsMap[coinName] = {amount:Number(data[1].trim())};
+                    if(data[2].trim()) {
+                        coinsMap[coinName]['lockPeriodOfBlockNumber'] = Number(data[2].trim())
+                    };
                 } catch(e) {
 
                 }
-                if(!coinsMap[coinName] || coinsMap[coinName] <= 0) {
+                if(coinsMap[coinName]['amount'] < 0) {
                     this.alertServ.openSnackBar('Amount ' + data[1].trim() + ' is invalid', 'Ok');
                     return;                    
                 }
-                const address = data[0];
-                let exgAddress = '';
-                try {
-                    exgAddress = this.utilServ.fabToExgAddress(address);
-                } catch(e) {
+                let address = data[0].replace(/\"/g, '');
+                address = address.trim();
 
+                console.log('address====', address);
+                if(!address) {
+                    continue;
                 }
-                if(address.indexOf('19Txgh32N16g4sWiZ9JnzoVXQxxqAk4wC') == 0) {
-                    console.log('address=====', address);
-                    console.log('exgAddress=====', exgAddress);
+
+                let exgAddress = '';
+                if(address.trim().length == 40) {
+                    address = '0x' + address.trim();
                 }
+                if(address.indexOf('0x') < 0) {
+                    let newAddress = address;
+                    if(newAddress.indexOf('o') === 0 || newAddress.indexOf('K') === 0) {
+                        newAddress = exaddr.toLegacyAddress(newAddress);
+                    } 
+                    try {
+                        exgAddress = this.utilServ.fabToExgAddress(newAddress);
+                    } catch(e) {
+    
+                    }
+                } else {
+                    exgAddress = address;
+                }
+
                 if(!exgAddress || (exgAddress.indexOf('0x') != 0) || (exgAddress.length != 42)) {
                     this.alertServ.openSnackBar('Address ' + address + ' is invalid', 'Ok');
                     return;

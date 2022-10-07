@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Price, Ticker } from '../../../../../interfaces/kanban.interface';
+import { Price } from '../../../../../interfaces/kanban.interface';
 import { PriceService } from '../../../../../services/price.service';
-import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 import { WsService } from '../../../../../services/ws.service';
 import { UtilService } from '../../../../../services/util.service';
-import BigNumber from 'bignumber.js';
-import { Pair } from '../../../models/pair';
 
 export interface Section {
     name: string;
@@ -19,8 +16,8 @@ export interface Section {
 })
 
 export class LiteListComponent implements OnInit {
-    selectedcat = 'USDT';
-    selectedpair = 'BTC/USDT';
+    selectedcat: any = 'DUSD';
+    selectedpair: any = 'FAB/DUSD';
     pdecimal = '1.2-2';
     vdecimal = '1.6-6';
     // pairConfig: Pair = { name: 'BTCUSDT', priceDecimal: 2, qtyDecimal: 6 };

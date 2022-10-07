@@ -18,13 +18,13 @@ import { FormBuilder } from '@angular/forms';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TransactionResp } from '../../../../../interfaces/kanban.interface';
-import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
+import { WebSocketSubject } from 'rxjs/webSocket';
 import { ActivatedRoute } from '@angular/router';
 import { AlertService } from '../../../../../services/alert.service';
 import { StorageService } from '../../../../../services/storage.service';
 import { environment } from '../../../../../../environments/environment';
 import { TimerService } from '../../../../../services/timer.service';
-import BigNumber from 'bignumber.js/bignumber';
+import BigNumber from 'bignumber.js';
 
 import { Pair, defaultPairsConfig } from '../../../models/pair';
 import { number } from 'bitcoinjs-lib/types/script';
@@ -39,10 +39,10 @@ declare let window: any;
 })
 
 export class OrderPadComponent implements OnInit, OnDestroy {
-  pairsConfig: Pair[];
-  pairConfig: Pair = { name: 'BTCUSDT', priceDecimal: 2, qtyDecimal: 6 };
-  pairName = '';
-  wallet: Wallet;
+  pairsConfig: any;
+  pairConfig: any = { name: 'BTCUSDT', priceDecimal: 2, qtyDecimal: 6 };
+  pairName: any = '';
+  wallet: any;
   private _mytokens: any;
   screenheight = screen.height;
   select = 1;
@@ -72,7 +72,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   price = 0;
   qty = 0;
   trades: any;
-  pin: string;
+  pin: any;
   modalRef: BsModalRef;
   baseCoinAvail: number;
   targetCoinAvail: number;
@@ -94,7 +94,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   buyTransFeeAdvance = 0.0;
   sellTransFeeAdvance = 0.0;
   coinService: CoinService;
-  lan = 'en';
+  lan: any = 'en';
   // interval;
 
   mySubscription: any;
@@ -114,8 +114,12 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     if (this.tradesSocket) {
       this.tradesSocket.unsubscribe();
     }
-    this.sub.unsubscribe();
-    clearInterval(this.timer);
+    if(this.sub) {
+      this.sub.unsubscribe();
+    }
+    if(this.timer) {
+      clearInterval(this.timer);
+    }
   }
 
   bigmul(num1, num2) {
@@ -134,7 +138,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     if (!buys) {
       return 0;
     }
-    const pairName = this.route.snapshot.paramMap.get('pair').replace('_', '');
 
     let amountBig = 0;
     for (let i = 0; i <= index; i++) {
@@ -170,7 +173,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   checkBuyPrice() {
-    const pairName = this.route.snapshot.paramMap.get('pair').replace('_', '');
+    const pairName = this.route.snapshot.paramMap.get('pair')?.replace('_', '');
     if (this.pairsConfig) {
       this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
     }
@@ -191,7 +194,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   checkBuyQty() {
-    const pairName = this.route.snapshot.paramMap.get('pair').replace('_', '');
+    const pairName = this.route.snapshot.paramMap.get('pair')?.replace('_', '');
     if (this.pairsConfig) {
       this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
     }
@@ -212,7 +215,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   checkSellPrice() {
-    const pairName = this.route.snapshot.paramMap.get('pair').replace('_', '');
+    const pairName = this.route.snapshot.paramMap.get('pair')?.replace('_', '');
     console.log('this.pairsConfig===', this.pairsConfig);
     if (this.pairsConfig) {
       this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
@@ -234,7 +237,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   checkSellQty() {
-    const pairName = this.route.snapshot.paramMap.get('pair').replace('_', '');
+    const pairName = this.route.snapshot.paramMap.get('pair')?.replace('_', '');
     if (this.pairsConfig) {
       this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
     }
@@ -976,6 +979,9 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     (pin: string, wallet: any, bidOrAsk: boolean, baseCoin: number, targetCoin: number, price: number, qty: number) {
 
     const seed = this.utilService.aesDecryptSeed(wallet.encryptedSeed, pin);
+    if(!seed) {
+      return;
+    }
     const keyPairsKanban = this._coinServ.getKeyPairs(wallet.excoin, seed, 0, 0);
     const orderType = 1;
     if (!bidOrAsk) {
@@ -1016,11 +1022,12 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
   async buyOrSell() {
     this.refreshTokenDone = false;
-    const { txHex, orderHash } = await this.txHexforPlaceOrder(
+    const resTxHex = await this.txHexforPlaceOrder(
       this.pin, this.wallet, this.bidOrAsk, this.baseCoin, this.targetCoin, this.price, this.qty
     );
 
-    this.kanbanService.sendRawSignedTransaction(txHex).subscribe((resp: TransactionResp) => {
+    const txHex: any = resTxHex?.txHex;
+    this.kanbanService.sendRawSignedTransaction(txHex).subscribe((resp: any) => {
 
       if (resp && resp.transactionHash) {
         this.kanbanService.incNonce();

@@ -25,7 +25,7 @@ export class ListingComponent implements OnInit {
     advType: string;
     price: number;
     listings: any;
-    wallet: Wallet;
+    wallet: any;
     gasPrice: number;
     txid: string;
     available: number;
@@ -45,7 +45,7 @@ export class ListingComponent implements OnInit {
         'CAD',
         'CNY'
     ];
-    lan = 'en';
+    lan: any = 'en';
 
     constructor(
         private timerServ: TimerService,
@@ -66,7 +66,7 @@ export class ListingComponent implements OnInit {
         this.advType = 'ongoing';
         this.wallet = await this.walletService.getCurrentWallet();
         this.storageService.getToken().subscribe(
-            (token: string) => {
+            (token: any) => {
                 this.token = token;
                 this._otcServ.getListings(this.token).subscribe(
                     (res: any) => {
@@ -187,6 +187,9 @@ export class ListingComponent implements OnInit {
             satoshisPerBytes: this.satoshisPerBytes
         };
 
+        if(!seed) {
+            return;
+        }
         const { txHex, txHash, errMsg } = await this.coinService.sendTransaction(currentCoin, seed,
             environment.addresses.otcOfficial[currentCoin.name], amount, options, doSubmit
         );
@@ -202,7 +205,7 @@ export class ListingComponent implements OnInit {
                 this.alertServ.openSnackBarSuccess('your transaction was submitted successfully.', 'Ok');
             }
 
-            const item = {
+            const item: any = {
                 walletId: this.wallet.id,
                 type: 'Send',
                 coin: currentCoin.name,

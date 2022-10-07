@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
-import { Subscription } from 'rxjs/Subscription';
+//import { Subscription } from 'rxjs';
 import { SubscriptionService } from '../../../../services/subscription.service';
 
 const whitepaperPath = './assets/pdfs/wp';

@@ -1,7 +1,7 @@
 import { Renderer2, Inject, Component, OnInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 const whitepaperPath = './assets/pdfs/wp';

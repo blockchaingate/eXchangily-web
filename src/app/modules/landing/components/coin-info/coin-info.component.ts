@@ -6,8 +6,8 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./coin-info.component.scss']
 })
 export class CoinInfoComponent implements OnInit {
-  @Input() coin: String;
-  @Input() coinAdd: String;
+  @Input() coin: string;
+  @Input() coinAdd: string;
   @Input() size: number;
 
   constructor() { }

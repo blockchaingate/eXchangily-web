@@ -146,6 +146,9 @@ const routes: Routes = [
   {
     path: 'club', loadChildren: () => import('./modules/club/club.module').then(m => m.ClubModule)
   },
+  {
+    path: 'metaforce', loadChildren: () => import('./modules/metaforce/metaforce.module').then(m => m.MetaforceModule)
+  },
   { path: 'help', component: HelpComponent },
   { path: 'manual', loadChildren: () => import('./modules/manual/manual.module').then(m => m.ManualModule) },
   { path: 'faq', component: FaqComponent },
@@ -158,6 +161,7 @@ const routes: Routes = [
   { path: 'news', component: NewsComponent },
 //  { path: 'coin/:symbol', component: CoininfoComponent },
   { path: 'announcements', component: AnnouncementListComponent },
+  { path: 'announcements/:lang', component: AnnouncementListComponent },
   { path: '', redirectTo: '/market/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

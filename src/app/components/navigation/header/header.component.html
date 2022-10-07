@@ -328,7 +328,7 @@
                     <a class="nav-link" (click)="linkTo('/market/home');selectedItem=1" [class.selected]="selectedItem==1" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Market' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" (click)="linkTo('/market/trade/FAB_USDT');selectedItem=2" [class.selected]="selectedItem==2" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Trade' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/market/trade/FAB_DUSD');selectedItem=2" [class.selected]="selectedItem==2" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Trade' | translate}}</a>
                 </li>
 
                 <li class="nav-item">
@@ -344,16 +344,14 @@
                 </li>  
                 
                 <li class="nav-item">
-                    <a class="nav-link" (click)="linkTo('/bindpay');selectedItem=7" [class.selected]="selectedItem==7" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Transfer' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/bindpay');selectedItem=7" [class.selected]="selectedItem==7" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'BindPay' | translate}}</a>
                 </li>         
                 <li class="nav-item">
                     <a class="nav-link" (click)="linkTo('/listing');selectedItem=8" [class.selected]="selectedItem==8" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Listing on Exchangily' | translate}}</a>
-                </li>          
-                <!-- Don't remove, may need it later
+                </li>    
                 <li class="nav-item">
-                    <a class="nav-link" (click)="linkTo('/reward');selectedItem=40" [class.selected]="selectedItem===40" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Reward' | translate}}</a>
-                </li>
--->
+                    <a class="nav-link" (click)="linkTo('/metaforce');selectedItem=9" [class.selected]="selectedItem==9" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Meta Force' | translate}}</a>
+                </li>   
             </ul>
             <ul class="navbar-nav ml-auto align-right">
                 <li class="nav-item">

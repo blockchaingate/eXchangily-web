@@ -62,7 +62,7 @@ export class RewardComponent implements OnInit {
   extraEXG = 0;
   baseUrl: string;
   membership: string;
-  members = [];
+  members: any = [];
 
   @ViewChild('chart1', { static: false }) chart1: ElementRef;
   @ViewChild('memberModal', { static: true }) memberModal: MemberModal;
@@ -157,7 +157,7 @@ export class RewardComponent implements OnInit {
     private campaignorderServ: CampaignOrderService) {
 
     this.storageService.getToken().subscribe(
-      (token: string) => {
+      (token: any) => {
         this.campaignorderServ.getRewards(token).subscribe(
           (res: any) => {
             console.log(res);
@@ -196,7 +196,7 @@ export class RewardComponent implements OnInit {
     this.referralCode = '';
 
     this.storageService.getToken().subscribe(
-      (token: string) => {
+      (token: any) => {
 
         this.campaignorderServ.getProfile(token).subscribe(
           (res2: any) => {
@@ -216,7 +216,7 @@ export class RewardComponent implements OnInit {
                         const reward = rewards.personal[i];
                         for(let j = 0; j < reward.users.length; j++) {
                           const u = reward.users[j];
-                          const member = {
+                          const member: any = {
                             level: reward.level,
                             email: u.memberId.email
                           };

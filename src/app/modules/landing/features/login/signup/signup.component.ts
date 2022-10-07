@@ -22,7 +22,7 @@ export class SignupComponent implements OnInit {
   ExgAddRegistered = false;
   serverErrorMsg: string;
   NoWallet = false;
-  wallet: Wallet;
+  wallet: any;
 
   constructor(private _userService: UserService, private _router: Router, private _activeRout: ActivatedRoute,
     private localSt: LocalStorage, private _walletServ: WalletService) { }
@@ -36,7 +36,7 @@ export class SignupComponent implements OnInit {
   get referralCode() { return this.signupForm.get('referralCode'); }
 
   async ngOnInit() {
-    let strRefCode: string = this._activeRout.snapshot.paramMap.get('refcode');
+    let strRefCode: any = this._activeRout.snapshot.paramMap.get('refcode');
     console.log('strRefCode=', strRefCode);
     if (strRefCode) {
       this.localSt.setItem('refcode', strRefCode).subscribe(() => {
@@ -100,9 +100,9 @@ export class SignupComponent implements OnInit {
 
     this.serverErrorMsg = '';
     this._userService.createUser({
-      email: this.email.value, password: this.password.value,
+      email: this.email?.value, password: this.password?.value,
       walletExgAddress: walletExgAddress,
-      referralCode: this.referralCode.value, campaignId: environment.campaignId
+      referralCode: this.referralCode?.value, campaignId: environment.campaignId
     }).subscribe(
       ret => this.processSignup(ret),
       error => {
@@ -118,7 +118,7 @@ export class SignupComponent implements OnInit {
   }
 
   processSignup(signupRet: any) {
-    this.password.setValue('');
+    this.password?.setValue('');
     this.serverErrorMsg = '';
     // const retJson = signupRet.json();
     this._router.navigate(['/login/activate']);

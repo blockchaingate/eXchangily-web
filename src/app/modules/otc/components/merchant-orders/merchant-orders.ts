@@ -20,7 +20,7 @@ export class MerchantOrdersComponent implements OnInit {
   ngOnInit() {
 
     this.storageService.getToken().subscribe(
-      (token: string) => {
+      (token: any) => {
         this.token = token;
         this._otcServ.getMerchantOrders(this.token).subscribe(
           (res: any) => {

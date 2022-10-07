@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpService } from '../../../../services/http.service';
 import { AppUsers } from '../../models/app-users';
 import { AppAuthService } from '../../service/app-auth/app-auth.service';
-import { map } from 'rxjs/operators/map';
+import { map } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 
 const path = environment.endpoints.blockchaingate + 'appUsers/';

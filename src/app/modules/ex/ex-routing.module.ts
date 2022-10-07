@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CodeComponent } from './components/code/code.component';
+import { CoinbaseComponent } from './components/coinbase/coinbase.component';
 import { HistoryComponent } from './components/history/history.component';
 import { WalletconnectComponent } from './components/walletconnect/walletconnect.component';
-
+//import { WalletconnectClientComponent } from './components/walletconnect-client/walletconnect-client.component';
 const routes: Routes = [
   { path: 'history', component: HistoryComponent },
   { path: 'walletconnect', component: WalletconnectComponent },
+  { path: 'coinbase', component: CoinbaseComponent },
+  //{ path: 'walletconnect-client', component: WalletconnectClientComponent },
   { path: ':code', component: CodeComponent }
 ];
 

@@ -6,7 +6,7 @@ import { HttpService } from '../../../../services/http.service';
 import { app } from '../../app.constants';
 import { AppAuthService } from '../app-auth/app-auth.service';
 import { environment } from '../../../../../environments/environment';
-import { map } from 'rxjs/operators/map';
+import { map } from 'rxjs';
 
 const path = environment.endpoints.blockchaingate + 'members/';
 
@@ -150,6 +150,7 @@ export class UserService {
     return this.http.post(path + 'exepwdreset', theBody).toPromise();
   }
 
+  /*
   private convertResponseToUser(res: Response) {
     let thisUser: User;
 
@@ -173,8 +174,9 @@ export class UserService {
         if (retJson['manageNews']) { thisUser.manageNews = retJson['manageNews']; }
       }
     }
-    return thisUser;
+    return !!thisUser;
   }
+  */
 
   private isAdminResponse(res: any) {
     let answer = {};

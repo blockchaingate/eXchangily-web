@@ -31,6 +31,9 @@ export class AddressDetailsComponent implements OnInit {
     private coinServ: CoinService,
     private route: ActivatedRoute, private service: KanbanService, private utilServ: UtilService) { }
 
+    getValue(value: any) {
+      return new BigNumber(value).shiftedBy(-18).toNumber();
+    }
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.address = params.get('address');

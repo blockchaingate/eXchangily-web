@@ -19,6 +19,11 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
   ngOnInit(): void {
   }
 
+  handleFileInputEvent(event: any) {
+    const files = event.target.files;
+    this.handleFileInput(files);
+  }
+  
   handleFileInput(files: FileList) {
     
     const file = files.item(0);

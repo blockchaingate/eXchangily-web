@@ -126,8 +126,10 @@ export class KanbanService {
 
     async kanbanCall(to: string, abiData: string) {
         const data = {
-            to: to,
-            data: abiData
+            transactionOptions: { 
+                to: to,
+                data: abiData
+            }
         };
         const path = 'kanban/call';
         const res = await this.post(path, data).toPromise();
@@ -193,6 +195,14 @@ export class KanbanService {
         return this.post('kanban/sendRawTransaction', data);
     }
 
+    async sendRawSignedTransactionPromise(txhex: string): Promise<any> {
+        const data = {
+            signedTransactionData: txhex
+        };
+        const res = await this.post('kanban/sendRawTransaction', data).toPromise();
+        return res;
+    }
+
     signJsonData(privateKey: any, data: any) {
 
         var queryString = Object.keys(data).filter((k) => (data[k] != null) && (data[k] != undefined))
@@ -241,6 +251,11 @@ export class KanbanService {
     getBalance(address: string) {
         const url = 'exchangily/getBalances/' + address;
         return this.get(url);
+    }
+
+    getLocker(address: string) {
+        const url = environment.endpoints.explorerapi + '/kanban/locker/user/' + address + '/50/0';
+        return this.http.get(url);
     }
 
     async getGas(address: string) {
@@ -296,7 +311,7 @@ export class KanbanService {
     }
 
     async getDepositStatus(txid: string) {
-        let response = null;
+        let response: any = null;
         let status = 'pending';
         if (!txid) {
             return 'undefined';
@@ -323,7 +338,7 @@ export class KanbanService {
     }
     
     async getTransactionStatus(txid: string) {
-        let response = null;
+        let response: any = null;
         let status = 'failed';
         try {
             response = await this.get('kanban/getTransactionReceipt/' + txid).toPromise() as TransactionReceiptResp;

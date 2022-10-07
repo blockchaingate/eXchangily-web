@@ -13,6 +13,9 @@
         <div class="d-inline-block p-2" [ngClass]="select === 100?'text-white':'text-muted'">
             <a class="tab-link" [class.selected]="select === 100" (click)="selectOrder(100);">{{'Balances' | translate }}</a>
         </div>
+        <div class="d-inline-block p-2" [ngClass]="select === 102?'text-white':'text-muted'">
+            <a class="tab-link" [class.selected]="select === 102" (click)="selectOrder(102);">{{'Lockers' | translate }}</a>
+        </div>
         <div class="d-inline-block p-2" [ngClass]="select === 101?'text-white':'text-muted'">
             <a class="tab-link" [class.selected]="select === 101" (click)="selectOrder(101);">{{'Transfer' | translate }}</a>
         </div>
@@ -20,7 +23,7 @@
             <input type="checkbox" [checked]="showAll" (change)="eventCheck($event)"> {{"Show all orders" | translate}}
         </div>
     </div>
-    <div class="orders container fxHide-sm" *ngIf="(select != 100) && (select != 101)">
+    <div class="orders container fxHide-sm" *ngIf="(select != 100) && (select != 101) && (select != 102)">
         <div class="row px-4 header py-3">
             <div class="orditem" style="width: 15%; margin-left: -1.2em;">{{'Time' | translate }}</div>
             <div class="orditem" style="width: 15%;">{{'Symbol' | translate }}</div>
@@ -74,7 +77,7 @@
         </div>
     </div>
 
-    <div class="orders w-100 fxHide-gt-sm container" *ngIf="(select != 100) && (select != 101)">
+    <div class="orders w-100 fxHide-gt-sm container" *ngIf="(select != 100) && (select != 101) && (select != 102)">
         <div class="row w-100 header py-3">
             <div class="orditem col-4">{{'Symbol' | translate }}</div>
             <div class="orditem col-4">{{'Price' | translate }}</div>
@@ -160,6 +163,40 @@
         </div>
 
     </div>
+
+    <div class="orders container w-100" *ngIf="select == 102">
+        <div class="row w-100 header py-3">
+            <div class="orditem col-2">{{'Coin' | translate }}</div>
+            <div class="orditem col-4">{{'Amount' | translate }}</div>
+            <div class="orditem col-3">{{'Release Block' | translate }}</div>
+            <div class="orditem col-2">
+                <span class="hand-cursor">
+                    {{'Unlock' | translate }}
+                    <mat-icon svgIcon="history"></mat-icon>
+                </span>
+            </div>
+        </div>
+        <div class="myorderlist scroll-bar w-100">
+            <div class="row orderline w-100 py-3" *ngFor="let token of mylockers; let i=index">
+                <div class="col col-2 text-white smallfont">
+                    {{coinServ.getCoinNameByTypeId(token.coinType)}}
+                </div>
+                <div class="col col-4 text-white smallfont">
+                    {{token.amount}}
+                </div>
+                <div class="col col-3 text-whit smallfonte">
+                    {{token.releaseBlock}}
+                </div>
+                <div class="col col-2 text-white smallfont">
+                    <span class="hand-cursor" (click)="unlock(token)">
+                        <mat-icon svgIcon="arrow-upward"></mat-icon>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
     <div class="transfer w-100 px-3" *ngIf="select == 101">
         <div class="px-3">
             <app-bindpay></app-bindpay>
@@ -200,6 +237,8 @@
                     <mat-radio-button value="TRX">TRC20</mat-radio-button>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <mat-radio-button value="BNB">BEP20</mat-radio-button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <mat-radio-button value="MATIC">Polygon</mat-radio-button>                    
                   </mat-radio-group>
             </div>
             <div>
@@ -207,6 +246,7 @@
                 <span *ngIf="chain == 'TRX'">{{trxUSDTTSBalance?trxUSDTTSBalance:'NA'}}</span>
                 <span *ngIf="chain == 'ETH'">{{ethUSDTTSBalance?ethUSDTTSBalance:'NA'}}</span>
                 <span *ngIf="chain == 'BNB'">{{bnbUSDTTSBalance?bnbUSDTTSBalance:'NA'}}</span>
+                <span *ngIf="chain == 'MATIC'">{{maticUSDTTSBalance?maticUSDTTSBalance:'NA'}}</span>
             </div>
         </div>
 

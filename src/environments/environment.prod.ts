@@ -11,7 +11,7 @@ export const environment = {
     PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',
     baseUrl: 'https://exchangily.com',
     url: 'https://api.exchangily.com/',
-    version: '2.2.9',
+    version: '2.2.22',
     campaignId: 1,
     PUBLIC_KEY: '8aff99f9727143fccd28e62df14e4e67305faa70d19b4cb0b9d4cde18ea3cd23c8e58bda3c26e10813aaa6020f3d07a3d9f83a9062cfe662a600949325378b99',
     OTC_COMMISSION_RATE: 0,
@@ -81,10 +81,11 @@ export const environment = {
                 networkId: 56,
                 chainId: 56
             },
-            rpcEndpoint: 'https://bsc-dataseed.binance.org',
+            //rpcEndpoint: 'https://bsc-dataseed.binance.org',
+            rpcEndpoint: 'https://kanbanprod.fabcoinapi.com/redirect/binance',
             hardfork: 'petersburg',
             gasPrice: 5,
-            gasPriceMax: 20,
+            gasPriceMax: 200,
             gasLimit: 21000,
             gasLimitToken: 70000
         },
@@ -94,10 +95,11 @@ export const environment = {
                 networkId: 137,
                 chainId: 137
             },
-            rpcEndpoint: 'https://polygon-rpc.com',
+            //rpcEndpoint: 'https://polygon-rpc.com',
+            rpcEndpoint: 'https://kanbanprod.fabcoinapi.com/redirect/polygon',
             hardfork: 'petersburg',
             gasPrice: 5,
-            gasPriceMax: 20,
+            gasPriceMax: 200,
             gasLimit: 21000,
             gasLimitToken: 70000
         },
@@ -110,7 +112,7 @@ export const environment = {
             rpcEndpoint: 'https://http-mainnet.hecochain.com/',
             hardfork: 'petersburg',
             gasPrice: 5,
-            gasPriceMax: 20,
+            gasPriceMax: 200,
             gasLimit: 21000,
             gasLimitToken: 70000
         },
@@ -147,6 +149,7 @@ export const environment = {
         }
     },
     endpoints: {
+        explorerapi: 'https://fabexplorer.com/api',
         blockchaingate: 'https://api.blockchaingate.com/v2/',
         coingecko: 'https://api.coingecko.com/',
         kanban: 'https://api.exchangily.com/',
@@ -185,6 +188,8 @@ export const environment = {
     }, 
     addresses: {
         smartContract: {
+            KanbanLocker: '0x10c1c675db57d2a374a14564393e6095a4ea0e93',
+            StakingFABEXG: '0xa2b4a288cc953f5c1c39e3c0a11b421a17746b38',
             FABLOCK: '0x04baa04d9550c49831427c6abe16def2c579af4a',
             EXG: {
                 FAB: '0xa3e26671a38978e8204b8a37f1c2897042783b00',
@@ -194,7 +199,7 @@ export const environment = {
                 ETH: '0xdac17f958d2ee523a2206206994597c13d831ec7',
                 TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t',
                 BNB: '0x55d398326f99059ff775485246999027b3197955',
-                MATIC: ''
+                MATIC: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F'
             },
             IXT: {
                 MATIC: '0xe06bd4f5aac8d0aa337d13ec88db6defc6eaeefe'
@@ -205,7 +210,7 @@ export const environment = {
             },
             FAB: {
                 ETH: '0xf2260ed15c59c9437848afed04645044a8d5e270',
-                BNB: '0x8ddae5f3e5a5d9eb0509e23259e1948362eb5ca8'
+                BNB: '0x0ad248f7941fd41f28a4cb2b8b34b3baf0246d96'
             },
             DSC: {
                 FAB: '0x64f1f72543c9d517a4e0bee32a3d11a21dc87de4',
@@ -214,8 +219,25 @@ export const environment = {
             BST: {
                 FAB: '0x3e6f8813ab824ac2fea001091fb2ce0365297164',
                 ETH: '0x4fe1819daf783a3f3151ea0937090063b85d6122'
-            },              
+            },  
+            SEED: {
+                FAB: '0xdcc3abba31890d81f450662f9c99de4979073a60'
+            },
+            FET: {
+                FAB: '0xb1c5a4648c9be7f0ca00b559a3325133c2dfdc37'
+            },
+            GET: {
+                FAB: '0xda0f76ec006246654fd2eed060f9f9025c6b3d58'
+            },  
+            BRB: {
+                FAB: '0x16c319eb06ffbc0d94684cbfb2dba2f1f39b8c29'
+            },  
+            BUSD: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
+            HNC: '0x122fd42c61bc66b0cd6cdbf302a0ca297497e240',
+            CTG: '0x05c1a1dff47874f49230f31774b1ebe4b8899f68',  
+            CABTC: '0x4eeda2159e1a66de4ec1d711d53123eb2ba15e92',        
             DUSD: '0x46e0021c17d30a2db972ee5719cdc7e829ed9930',
+            TWBTC: '0xc50389694f222bf95f014e0bdae3f5e3676999fb',
             DCAD: '0x39296a9d1c5019fd64c9ef4cd0e657403bf10405',
             DCNY: '0xcb856b9d1184232a3ec1ae735b39778c6e65a33a',
             DJPY: '0xec794fc70b9db714a4dec2581bce6764b3731a84',
@@ -368,11 +390,14 @@ export const environment = {
         USDT: {
             ETH: 20 * 2,
             TRX: 0.2,
-            BNB: 2
+            BNB: 2,
+            MATIC: 0.1
         },    
         TRX: 0.2,    
         DUSD: 20,
-
+        SEED: 1,
+        FET: 100,
+        GET: 0.0000001,
         DCAD: 12.68,
         DCNY: 64,
         DJPY: 1100,
@@ -386,15 +411,18 @@ export const environment = {
         DTWD: 280,
         DSGD: 14,
         DHKD: 80,
+        BUSD: 2,
+        HNC: 2000,
         DINR: 800,
         DMXN: 200,
         DBRL: 60,
+        TWBTC: 1,
         DNGN: 4000,
-
+        IXT: 0.006,
         BCH: 0.002,
         LTC: 0.02,
         DOGE: 20,
-        BNB: 0.6 * 2,
+        BNB: 0.001,
         INB: 20 * 2,
         REP: 0.8 * 2,
         HOT: 16000 * 2,
@@ -455,12 +483,18 @@ export const environment = {
         DHKD: 12,
         DINR: 12,
         DMXN: 12,
+        SEED: 12,
+        FET: 12,
+        GET: 12,
         DBRL: 12,
-        DNGN: 12,       
+        DNGN: 12,  
+        TWBTC: 12,     
         BCH: 2,
         LTC: 8,
         DOGE: 20,
         BNB: 20,
+        BUSD: 15,
+        HNC: 10,
         INB: 20,
         REP: 20,
         HOT: 20,

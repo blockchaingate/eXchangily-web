@@ -109,21 +109,14 @@
                         <p>{{ 'Account.KYC.KYCForm.AccreditedInvestorVerification.Desc' | translate }}</p>
                     </div>
                 </div>
-                <!--
-                <div *ngIf="couldBeAccredited && kGet('accreditedInvestor') && kGet('accreditedInvestor').value === 'true'">
-                    <div class="form-input__field-wrap">
-                        <label for="saftAgreement" class="form-input__text__label block">{{ 'Account.KYC.KYCForm.SAFT.Button' | translate }}</label>
-                        <input type="file" name="saftAgreement" (change)="photoUpload($event.target.files, 'saftAgreement')" class="form-input__file" formControlName="saftAgreement">
-                    </div>
-                </div>
--->
+
                 <br/>
 
                 <div fxLayout="row" fxLayout.lt-md="column">
                     <div fxFlex="45" class="form-input__field-wrap">
                         <label for="photoUrls" class="form-input__text__label block">{{ 'Account.KYC.KYCForm.PhotoID.Title' | translate }}</label>
                         <div class="form-input__file-wrap">
-                            <input type="file" name="photoUrls" (change)="photoUpload($event.target.files, 'photoUrls')" class="form-input__file fileloader" formControlName="photoUrls" multiple>
+                            <input type="file" name="photoUrls" (change)="photoUploadEvent($event, 'photoUrls')" class="form-input__file fileloader" formControlName="photoUrls" multiple>
                             <p class="app-kyc__note">{{ 'Account.KYC.KYCForm.PhotoID.Desc' | translate }}</p>
                         </div>
 
@@ -144,7 +137,7 @@
                 <div fxLayout="row" fxLayout.lt-md="column">
                     <div fxFlex="45" class="form-input__field-wrap">
                         <label for="selfieUrls" class="form-input__text__label block">{{ 'Account.KYC.KYCForm.SelfieWithId.Title' | translate }}</label>
-                        <input type="file" name="selfieUrls" (change)="photoUpload($event.target.files, 'selfieUrls')" class="form-input__file fileloader" formControlName="selfieUrls" multiple>
+                        <input type="file" name="selfieUrls" (change)="photoUploadEvent($event, 'selfieUrls')" class="form-input__file fileloader" formControlName="selfieUrls" multiple>
 
                         <p>1. {{ 'Account.KYC.KYCForm.SelfieWithId.Desc.Content1' | translate }}</p>
                         <p>2. {{ 'Account.KYC.KYCForm.SelfieWithId.Desc.Content2' | translate }}</p>

@@ -9,7 +9,7 @@ import { CoinService } from '../../../../services/coin.service';
 import { environment } from '../../../../../environments/environment';
 import { TimerService } from '../../../../services/timer.service';
 import { StorageService } from '../../../../services/storage.service';
-import BigNumber from 'bignumber.js/bignumber';
+import BigNumber from 'bignumber.js';
 import { CampaignOrderService } from '../../../../services/campaignorder.service';
 import { Router } from '@angular/router';
 import { ApiService } from '../../../../services/api.service';
@@ -25,7 +25,7 @@ import { LoginQualifyService } from 'src/app/services/lgoin-quality.service';
 })
 export class MainComponent implements OnInit {
   orders: any;
-  wallet: Wallet;
+  wallet: any;
   available: any;
   price: number;
   isodd: boolean;
@@ -44,7 +44,7 @@ export class MainComponent implements OnInit {
   readyGoReasons: any;
   selectedPaymentCurrency: string;
   loggedIn = false;
-  lan = 'en';
+  lan: any = 'en';
 
   step: number;
   _value: number;
@@ -68,7 +68,7 @@ export class MainComponent implements OnInit {
 
   token: string;
 
-  selectedPaymentMethod: string;
+  selectedPaymentMethod: any;
   @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal;
   // currencies: string[] = ['USD', 'RMB', 'DUSD', 'USDT', 'FAB', 'BTC', 'ETH'];
   currencies: string[] = ['USD', 'USDT'];
@@ -224,7 +224,7 @@ export class MainComponent implements OnInit {
     this.wallet = await this.storageService.getCurrentWallet();
     // this.price = this.prices.EXG.USD;
     this.storageService.getToken().subscribe(
-      (token: string) => {
+      (token: any) => {
         if (!token) {
           this.readyGo = false;
           if (!this.readyGoReasons) {
@@ -313,7 +313,6 @@ export class MainComponent implements OnInit {
     );
 
     if (!this.wallet) {
-      // this.alertServ.openSnackBar('no current wallet was found.', 'Ok');
       if (!this.readyGoReasons) {
         this.readyGoReasons = [];
       }
@@ -529,6 +528,9 @@ export class MainComponent implements OnInit {
     console.log('options theee=', options);
     console.log('amount000===', amount);
     console.log('this.quantity000===', this.quantity);
+    if(!seed) {
+      return;
+    }
     const { txHex, txHash, errMsg } = await this.coinService.sendTransaction(currentCoin, seed,
       environment.addresses.promotionOfficial[currentCoin.name], amount, options, doSubmit
     );
@@ -548,7 +550,7 @@ export class MainComponent implements OnInit {
 
       console.log('amount1===', amount);
       console.log('this.quantity1===', this.quantity);
-      const item = {
+      const item: any = {
         walletId: this.wallet.id,
         type: 'Send',
         coin: currentCoin.name,

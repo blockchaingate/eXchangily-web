@@ -34,11 +34,11 @@ export class DetailsComponent implements OnInit, OnDestroy {
         filter((loggedIn) => {
           return loggedIn !== '';
         }),
-        mergeMap(adsf => this._userService.getUserById(this._userAuth.id)
-       .map((user: User) => {
+        mergeMap(adsf => this._userService.getUserById(this._userAuth.id).pipe(
+       map((user: User) => {
          this.isAdmin = user.isWriteAccessAdmin || false;
          return user;
-       })
+       }))
       ))
       .subscribe()
     );

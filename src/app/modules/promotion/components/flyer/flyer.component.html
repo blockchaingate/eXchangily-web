@@ -27,7 +27,7 @@
 
             </div>
             <qrcode *ngIf="promotionLink" [qrdata]="promotionLink" id="promotionLink_qr_code"
-                style="display: inline-block" [size]="150" [level]="'M'"></qrcode>
+                style="display: inline-block" [width]="150" [errorCorrectionLevel]="'M'"></qrcode>
             
         </div>
         <div class="Flyer-qr py-4 mt-3 px-2">

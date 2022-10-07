@@ -1,6 +1,11 @@
 {
+    "stakeFabExg": "Stake FAB or EXG for SEED airdrop",
     "Security": "Security",
     "Transfer": "Transfer",
+    "Issue Token": "Issue Token",
+    "Blog": "Blog",
+    "Wallet": "Wallet",
+    "My Wallet": "My Wallet",
     "Header": {
         "Title": "eXchangily",
         "Navigation": {
@@ -33,8 +38,8 @@
     "Home": {
         "Top": {
             "Hero": {
-                "Line1": "THE REAL-TIME DECENTRALIZED EXCHANGE",
-                "Line2": "That's S.A.F.E. - Secure, Autonomous, Fast and Easy. Never lose control of your crypto assets !"
+                "Line1": "A REAL-TIME DECENTRALIZED EXCHANGE",
+                "Line2": "That is S.A.F.E. - Secure, Autonomous, Fast and Easy. Never lose control of your crypto assets!"
             },
             "WhitepaperButton": "Download Whitepaper",
             "WhitelistCTA": {
@@ -44,8 +49,8 @@
         "Overview": {
             "Title": "What is eXchangily?",
             "Disc": {
-                "Content1": "eXchangily is a new decentralized exchange model built on the prominent Fast Access Blockchain. It carries the best of a centralized exchange, namely the speed and ease of use, with all the security benefits of a decentralized exchange.",
-                "Content2": "Users retain control over their funds, their private keys, and their transaction information is transparent and secure. Individuals can trade, and enterprises can transact on eXchangily with ERC20 tokens and other cryptocurrencies. It is a fully democratic and autonomous platform."
+                "Content1": "eXchangily is a new decentralized exchange model built on the prominent Fast Access Blockchain. It matches the best of a centralized exchange – the speed and ease of use – while maintaining all the security benefits of a decentralized exchange.",
+                "Content2": "Users retain control over their funds and their private keys. All transaction information is always transparent and secure. A fully democratic and autonomous platform, individuals and  enterprises can transact and transact on eXchangily with ERC20 tokens and other cryptocurrencies."
             },
             "Button": "START NOW"
         },
@@ -688,6 +693,7 @@
         "ReferralCodeError": "The referral code you entered does not exist"
     },
     "Title": "",
+
     "Listing on Exchangily": "Listing",
     "Listing overview": "eXchangily Dex is dedicated to list meaningful crypto assets that meet its standard requirements. We provide our business partners with a fully decentralized crypto exchange in market with the tools to discover, trade and hold your digital assets.",
     "Reasons to list on eXchangily DEX": "Reasons to list on eXchangily DEX",
@@ -698,7 +704,17 @@
     "ExgName": "Decentralized crypto exchange",
     "ExgOfflWeb": "Exchangily Official Website",
     "AboutExg": "About eXchangily",
-    "Resource": "Resources", 
+    "Resource": "Resources",
+    "Not enough balance": "Not enough balance",
+    "Withdraw Stake": "Withdraw",
+    "Meta Force": "Meta Force",
+    "Your password is wrong.": "Your password is wrong.",
+    "Mininum amount required.": "Mininum amount required.",
+    "Coin not available.": "Coin not available.",
+    "Stake Block": "Stake Block",
+    "Deposit Stake": "Deposit",
+    "No current wallet was found.": "No current wallet was found.",
+    "Release Block": "Release Block",
     "Community": "Community center",
     "Slid1Title": "Keep Private Key Properly",
     "Slid1Content": "Keep private key or 12 memory words safely, they are the only way to access your cryptocurreneics.",
@@ -716,7 +732,7 @@
     "Favorites": "Favorite",
     "Pair": "Pairs",
     "Fiat": "Fiat",
-    "BindPay": "Send",
+    "BindPay": "BindPay",
     "Your payment was confirmed!": "Your payment was confirmed!",
     "Your payment failed.": "Your payment failed.",
     "Please copy hashes below to the above textbox": "Please copy hashes below to the above textbox",
@@ -727,7 +743,7 @@
     "H24L": "24H Low",
     "Vol24": "24H Volume",
     "Announcements": "Announcements",
-    "MnemNote": "Please accurately record and securely store the following twelve words mnemonic SEED, do not disclose the mnemonic SEED to anybody else. Disclosure of your mnemonic SEED will result in your account being compromised and potential lose of all your funds. Safely store your mnemonic SEED such that the loss or damage of a device does not impact your ability to access your mnemonic SEED. It is recommended to never send your mnemonic SEED via email or other social communication application. Be sure to only use your mnemonic SEED with the official eXchangily wallet.",
+    "MnemNote": "Please accurately record and securely store the following twelve words, which is your mnemonic SEED. Do not disclose the mnemonic SEED to others. Sharing your mnemonic SEED may compromise the security of your account and see the potential loss of your funds. Safely store your mnemonic SEED such that the loss or damage of an electronic device would not impact your ability to access your mnemonic SEED. Never share your mnemonic SEED via email or on other social platforms. Only use your mnemonic SEED with the official eXchangily wallet.",
     "PwdNote": "Please note, this password is only for protecting wallet information on this device, it is not a wallet private key.",
     "Wnvalid": "Wallet name must be 2 or more letters or numbers",
     "Pwdvalid": "Password must be at least 8 characters including at least 1 upper case letter, 1 lower case letter and 1 special character(!@#$%^&*~`)",
@@ -1015,7 +1031,7 @@
     "Confirm Wallet Password": "Confirm Wallet Password",
     "Seed phrase, seperated by space": "Seed phrase, seperated by space",
     "Seed Phrase is invalid": "Seed Phrase is invalid",
-    "Already have mnemonics? Restore": "Already have mnemonics? Restore",
+    "Already have mnemonics? Restore": "Already have mnemonics? Existing wallet",
     "Export": "Export",
     "Delete": "Delete",
     "Once you delete your wallet, you can only recover it if you keep your seed phrase.": "Once you delete your wallet, you can only recover it if you keep your seed phrase.",
@@ -1265,7 +1281,7 @@
     "General Infomation": "General Infomation",
     "Deploy": "Deploy",
     "Customer Support": "Customer Support",
-    "exgshortintroduce": "eXchangily is the 1st and only near real time decentralized crypto exchange, eXchangily offers secure, autonomous, fast and easy trades, cross-chain capabilities and 100% profit sharing to EXG token holders.",
+    "exgshortintroduce": "eXchangily is the first and only near real time decentralized crypto exchange. eXchangily offers secure, autonomous, fast and easy trades, cross-chain capabilities and 100% profit sharing to all EXG token holders.",
     "VerifyMnemNote": "To make sure that you copied the mnemonics accurately, please enter it in order for verification.",
     "News": "News",
     "Support": "Support",
@@ -1277,27 +1293,27 @@
     "FAB Chain": "FAB Chain",
     "Mobile App": "Mobile App",
     "eXchangily Mobile APP": "eXchangily Mobile APP",
-    "download app txt": "Download APP Now and Enjoy the Fast Trading Experience Everywhere",
+    "download app txt": "Download eXchangily DEX now to enjoy a faster trading experience everywhere",
     "download": "Download",
     "Android Now": "Android Now",
     "Features": "Features",
-    "app feature intro": "eXchangily is a community-owned, high-performance decentralized exchange and payment portal. We plan to be one of the most robust decentralized exchange and payment gateway out there. Built by, Fast Access Blockchain, the world-leader in blockchain technology, we plan to make digital assets and cryptocurrency decentralized again.",
+    "app feature intro": "eXchangily is a community-owned, high performance decentralized exchange and payment portal with the potential to be one of the most robust platforms out there. Built by Fast Access Blockchain, the world-leader in blockchain technology, our mission is to make digital assets and cryptocurrency decentralized again.",
     "Performance": "Performance",
-    "Performance intro": "eXchangily using a high performance Universal State Layer (Kanban) which is a in-memory database sharded for efficiency.",
+    "Performance intro": "eXchangily uses a high performance Universal State Layer (Kanban) which is an in-memory database sharded for efficiency.",
     "Decentralized": "Decentralized",
-    "Decentra intro": "Though transfers are done in network, there a more than one nodes processing the transaction (PBFT).",
+    "Decentra intro": "Though transfers are done in the network, there are more than one node processing the transaction (PBFT).",
     "Faster": "Faster",
     "Faster intro": "To achieve efficient trade matching processing and scalability, eXchangily's high-speed trading engine is the core technology of the system.",
     "Cheaper": "Cheaper",
-    "Cheaper intro": "eXchangily will be the universal, very small “gas” fee charged by miners who authenticate digital asset transfers.",
+    "Cheaper intro": "Miners on eXchangily charge a very small “gas” fee to authenticate digital asset transfers.",
     "Safer": "Safer",
-    "Safer intro": "our decentralized exchange will never have custody or control of your digital assets. We will never have your private key.",
+    "Safer intro": "As a decentralized exchange, eXchangily will never have access or control our user’s digital assets. Only the users will have access to their assets and private keys.",
     "Easy to Use": "Easy to Use",
-    "Easy to Use intro": "eXchangily continuously collect feed back from all user group to build a app with love and convenient to user",
+    "Easy to Use intro": "eXchangily continues to collect feedback from all users to build a platform with a user-friendly interface.",
     "Better Decentralized Exchange App": "Better Decentralized Exchange App",
-    "Better intro": "Unlike many digital exchanges, our decentralized exchange will never have custody or control of your digital assets. We will never have your private key.",
+    "Better intro": "Unlike many centralized digital exchanges, our platform will never have access to our users’ assets and private keys. As long as the private key is not shared, wallets remain secure and safe.",
     "Enjoy Fast Trading Everywhere": "Enjoy Fast Trading Everywhere",
-    "Enjoy intro": "Crypto trading, digital asset management and global payments need a new model, and the industry is leaning to decentralized exchanges (DEXs) as the solution.",
+    "Enjoy intro": "Crypto trading, digital asset management and global payments require a new model as crypto is increasingly utilized. The industry is leaning towards decentralized exchanges (DEXs) as the solution.",
     "10 MILLION EQUITY TOKEN": "10 MILLION EQUITY TOKEN",
     "GIVE AWAY": "GIVE AWAY",
     "Important Notice": "Important Notice",
@@ -1317,5 +1333,6 @@
     "CashAppNote": "Make payment through Cash App.",
     "Kanban Gas": "Kanban Gas",
     "User manual": "User manual",
-    "Totalsupply$": "Total quantity of the token"
+    "Totalsupply$": "Total quantity of the token",
+    "Developer Quickstart": "Developer Quickstart"
 }

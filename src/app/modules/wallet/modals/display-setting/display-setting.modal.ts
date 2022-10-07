@@ -25,8 +25,8 @@ export class DisplaySettingModal implements OnInit{
     }
 
     checkPasswords(group: FormGroup) { // here we have the 'passwords' group
-        const pass = group.controls.password.value;
-        const confirmPass = group.controls.pwdconfirm.value;
+        const pass = group.value.password;
+        const confirmPass = group.value.pwdconfirm;
         if (pass !== confirmPass) {
           return { notSame: true };
         }
@@ -35,7 +35,7 @@ export class DisplaySettingModal implements OnInit{
     } 
     
     onSubmit() {
-        const password = this.displaySettingForm.controls.password.value;
+        const password = this.displaySettingForm.value.password;
         this.confirmedDisplaySetting.emit(password);
         this.hide();
     }

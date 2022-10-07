@@ -6,9 +6,6 @@ import { UtilService } from '../../../../services/util.service';
 import { CoinService } from '../../../../services/coin.service';
 import { KanbanService } from '../../../../services/kanban.service';
 import { TransactionResp } from '../../../../interfaces/kanban.interface';
-import { price_list, coin_list } from '../../../../config/coins';
-import * as bip39 from 'bip39';
-import * as BIP32 from 'node_modules/bip32';
 import { environment } from '../../../../../environments/environment';
 @Component({
     selector: 'app-trade-auto',
@@ -17,7 +14,7 @@ import { environment } from '../../../../../environments/environment';
 })
 
 export class TradeAutoComponent implements OnInit {
-    nonces = [];
+    nonces: any = [];
     version: string;
     constructor(private walletServ: WalletService, private web3Serv: Web3Service, private utilService: UtilService,
         private coinService: CoinService, private kanbanService: KanbanService) {
@@ -55,6 +52,9 @@ export class TradeAutoComponent implements OnInit {
     async txHexforPlaceOrder
         (pin: string, wallet: any, bidOrAsk: boolean, baseCoin: number, targetCoin: number, price: number, qty: number) {
         const seed = this.utilService.aesDecryptSeed(wallet.encryptedSeed, pin);
+        if(!seed) {
+            return;
+        }
         const keyPairsKanban = this.coinService.getKeyPairs(wallet.excoin, seed, 0, 0);
         const orderType = 1;
         if (!bidOrAsk) {
@@ -131,10 +131,11 @@ export class TradeAutoComponent implements OnInit {
             */
             console.log('baseCoin = ' + baseCoin + ',targetCoin = ' + targetCoin);
             // const qty = 0.00001 * Math.random() * 10;
-            const qty = 0.00001 * Math.random() * 10;
-            const { txHex, orderHash } = await this.txHexforPlaceOrder(pin, wallet, bidOrAsk, baseCoin, targetCoin, price, qty);
+            const qty: any = 0.00001 * Math.random() * 10;
+            const resTeHex: any = await this.txHexforPlaceOrder(pin, wallet, bidOrAsk, baseCoin, targetCoin, price, qty);
 
-            this.kanbanService.sendRawSignedTransaction(txHex).subscribe((resp: TransactionResp) => {
+            const txHex: any = resTeHex?.txHex;
+            this.kanbanService.sendRawSignedTransaction(txHex).subscribe((resp: any) => {
                 if (resp && resp.transactionHash) {
                     console.log('transactionHash=', resp.transactionHash);
                 }

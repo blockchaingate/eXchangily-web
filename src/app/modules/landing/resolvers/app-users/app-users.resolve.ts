@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { map } from 'rxjs/operators/map';
+import { map } from 'rxjs';
 
 import { AppUsers } from '../../models/app-users';
 import { AppUsersService } from '../../service/app-users/app-users.service';

@@ -17,7 +17,7 @@ import { StorageService } from '../../../../../services/storage.service';
 
 import * as bs58 from 'bs58';
 import { environment } from '../../../../../../environments/environment';
-import BigNumber from 'bignumber.js/bignumber';
+import BigNumber from 'bignumber.js';
 import { PinNumberModal } from '../../../../shared/modals/pin-number/pin-number.modal';
 import * as createHash from 'create-hash';
 import * as exaddr from '../../../../../lib/exaddr';
@@ -30,6 +30,7 @@ import * as exaddr from '../../../../../lib/exaddr';
 
 export class MyordersComponent implements OnInit, OnDestroy {
     // @Input() wallet: Wallet;
+    mylockers: any;
     private wallet: any;
     exAddress: string;
     isProduction: boolean;
@@ -38,7 +39,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     screenheight = screen.height;
     select = 100;
     showAll = false;
-    currentPair = '';
+    currentPair: any = '';
     baseCoin: number;
     targetCoin: number;
     openorders: Transaction[] = [];
@@ -71,6 +72,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
     trxUSDTTSBalance: number;
     ethUSDTTSBalance: number;
+    maticUSDTTSBalance: number;
     fabTSBalance: number;
     ethFABTSBalance: number;
     exgTSBalance: number;
@@ -98,7 +100,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     interval;
     transFeeAdvance = 0.0;
     coinServ: CoinService;
-    lan = 'en';
+    lan: any = 'en';
 
     constructor(private _router: Router, private apiServ: ApiService, private _route: ActivatedRoute,
         public utilServ: UtilService, private kanbanServ: KanbanService, private _coinServ: CoinService,
@@ -112,7 +114,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     }
 
     getOrders() {
-        let orders = [];
+        let orders: any = [];
         if (this.select === 0) {
             orders = this.showAll? this.allOpenorders : this.openorders;
         } else if (this.select === 1) {
@@ -151,6 +153,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this.wallet = await this.walletServ.getCurrentWallet();
         if (this.wallet) {
             const address = this.wallet.excoin.receiveAdds[0].address;
+            this.getLockers(address);
             const fabAddress = this.utilServ.exgToFabAddress(address);
             this.exAddress = exaddr.toKbpayAddress(fabAddress);
             this.timerServ.checkOrderStatus(address, 1);
@@ -180,6 +183,15 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
     }
 
+    getLockers(address) {
+        this.kanbanServ.getLocker(address).subscribe(
+            (lockers: any) => {
+                console.log('lockers====', lockers);
+                this.mylockers = lockers;
+            }
+        );
+    }
+    
     prepareOrders() {
         this.timerServ.openOrders.subscribe(
             (orders: any) => {
@@ -250,7 +262,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
             currentCoin.name === 'DOGE' || currentCoin.name === 'LTC' ||
             currentCoin.name == 'TRX' || currentCoin.tokenType == 'TRX') {
             const bytes = bs58.decode(addressInWallet);
-            addressInWallet = bytes.toString('hex');
+            addressInWallet = Buffer.from(bytes).toString('hex');
             console.log('addressInWallet there we go:', addressInWallet);
 
         } else if (currentCoin.name === 'BCH') {
@@ -285,7 +297,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 return;
             }
             const bytes = bs58.decode(fabAddress);
-            addressInWallet = bytes.toString('hex');
+            addressInWallet = Buffer.from(bytes).toString('hex');
         }
 
         /*
@@ -381,7 +393,11 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 if(!this.bnbUSDTTSBalance) {
                     const balance = await this.coinServ.getEtherumCompatibleTokenBalance('BNB', environment.addresses.smartContract.USDT.BNB, environment.addresses.exchangilyOfficial.BNB);
                     this.bnbUSDTTSBalance = new BigNumber(balance, 16).shiftedBy(-18).toNumber();
-                }               
+                }   
+                if(!this.maticUSDTTSBalance) {
+                    const balance = await this.coinServ.getEtherumCompatibleTokenBalance('MATIC', environment.addresses.smartContract.USDT.MATIC, environment.addresses.exchangilyOfficial.MATIC);
+                    this.maticUSDTTSBalance = new BigNumber(balance, 16).shiftedBy(-6).toNumber();
+                }              
             }catch(e) {
 
             }           
@@ -450,7 +466,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     }
 
     selectOrder(ord: number) {
-        this.currentPair = this._route.snapshot.paramMap.get('pair').replace('_', '');
+        this.currentPair = this._route.snapshot.paramMap.get('pair')?.replace('_', '');
         this.prepareOrders();
 
         this.select = ord;
@@ -468,6 +484,12 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this.orderHash = orderHash;
         this.opType = 'deleteOrder';
 
+        this.pinModal.show();
+    }
+
+    unlock(token) {
+        this.opType = 'unlock';
+        this.token = token;
         this.pinModal.show();
     }
 
@@ -536,7 +558,15 @@ export class MyordersComponent implements OnInit, OnDestroy {
                     this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
                 }
                 return;                
-            }           
+            }    
+            if(this.chain == 'MATIC' && (!this.maticUSDTTSBalance || (amount > this.maticUSDTTSBalance))) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                }
+                return;                
+            }         
         }
 
         if(this.coinName == 'FAB') {
@@ -625,15 +655,37 @@ export class MyordersComponent implements OnInit, OnDestroy {
             this.withdrawDo();
         } else if (this.opType === 'deleteOrder') {
             this.deleteOrderDo();
+        } else
+        if(this.opType === 'unlock') {
+            this.unlockDo();
         }
 
     }
 
 
+    async unlockDo() {
+        const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
+        if(!seed) {
+            return;
+        }
+        const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
+        const abiHex = this.web3Serv.getUnlockFuncABI(this.token.id, this.token.user);
 
+        const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
+
+        const address = await this.token.address;
+        const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce);
+        console.log('txhex=', txhex);
+        this.kanbanServ.sendRawSignedTransaction(txhex).subscribe((resp: any) => {
+            console.log('resp for unlock=', resp);
+        });
+    }
 
     async deleteOrderDo() {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
+        if(!seed) {
+            return;
+        }
         const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
         const abiHex = this.web3Serv.getDeleteOrderFuncABI(this.orderHash);
         console.log('abiHex for deleteOrderDo=', abiHex);
@@ -669,7 +721,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
     eventCheck(event) {
         this.showAll = event.target.checked;
-        this.currentPair = this._route.snapshot.paramMap.get('pair').replace('_', '');
+        this.currentPair = this._route.snapshot.paramMap.get('pair')?.replace('_', '');
         this.prepareOrders();
     }
 }

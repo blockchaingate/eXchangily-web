@@ -1,7 +1,7 @@
 
 import {throwError as observableThrowError} from 'rxjs';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators/map';
+import { map } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { HttpService } from '../services/http.service';
 import { app } from '../modules/landing/app.constants';

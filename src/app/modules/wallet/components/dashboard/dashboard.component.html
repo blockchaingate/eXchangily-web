@@ -23,8 +23,8 @@
                                 <button (click)="onmanageWallet('DELETE_WALLET')" mat-menu-item>{{"Delete wallet" | translate}}</button>
                                 <button (click)="onmanageWallet('SMART_CONTRACT')" mat-menu-item>{{"Smart contract" | translate}}</button>
                                 <button (click)="onmanageWallet('HIDE_SHOW_WALLET')" mat-menu-item>{{ (hideWallet ? 'Show wallet' : 'Hide wallet') | translate}}  </button>
+                                <button (click)="navigate('/ex/walletconnect')" mat-menu-item>{{"Wallet connect" | translate}}</button>
                                 <button (click)="onmanageWallet('TOOLS')" mat-menu-item>{{"Tools" | translate}}</button>
-
                             </mat-menu>
 
                             <button mat-icon-button [matMenuTriggerFor]="walletMenu">
@@ -106,6 +106,8 @@
                                 </div>
                             </div>
                         </div>
+
+                        
                     </div>
 
                     <div class="row py-3" *ngIf="wallet && !wallet.hide">
@@ -128,19 +130,45 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row py-3" *ngIf="wallet && !wallet.hide">
+                        <div class="col col-12">
+                            <div class="d-inline-block pr-3 walletBtn">
+                                <buy-coin-modal [wallet]="wallet"></buy-coin-modal>
+                            </div> 
+                        </div>    
+                    </div>
                 </div>
             </div>
             <div class="mt-2 exg-bg">
                 <div class="container py-2" *ngIf="wallet && (!wallet.hide)">
                     <div class="row">
-                        <div class="col col-8 col-md-6">
-                            <h6 class="d-inline mr-3 hand-cursor" (click)="onShowMyAssets()">{{"My Assets" | translate}}
+                        <div class="col col-10 col-md-8">
+                            <h6 class="d-flex justify-content-between align-items-center hand-cursor w-100" (click)="onShowMyAssets()">
+                                <div>
+                                    {{"My Assets" | translate}}
+                                </div>
+
+                                <!--
+                                <mat-form-field>
+                                    <mat-select panelClass="example-panel" [value]="currentChain" (selectionChange)="changeChain($event.value)">
+                                        <mat-option *ngFor="let chain of chains;let i = index" [value]="chain.value">
+                                            {{chain.text}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                -->
+                                
                             </h6>
+
+                            <div class="d-flex justify-content-between w-100">
+                                <div [ngClass]="currentChain == chain.value ? 'chain-selected hand-cursor' : 'hand-cursor'" *ngFor="let chain of chains;let i = index" (click)="changeChain(chain.value)"> {{chain.value}} </div>
+                            </div>
+
                             <mat-checkbox [(ngModel)]="hideSmall" class="small">
                                 {{"Hide Small Amount Assets" | translate}}</mat-checkbox>
                         </div>
 
-                        <div class="col col-4 col-md-6 small text-right fxHide-sm">
+                        <div class="col col-2 col-md-4 small text-right fxHide-sm">
                             <div class="d-inline mr-3">
                                 <!--
                                 <modal-transaction-history></modal-transaction-history>
@@ -158,7 +186,7 @@
                             </div>
 
                         </div>
-                        <div class="col col-4 col-md-6 small text-right fxHide-gt-sm">
+                        <div class="col col-2 col-md-4 small text-right fxHide-gt-sm">
                             <mat-menu #appMenu="matMenu">
                                 <button mat-menu-item (click)="onShowTransactionHistory()">{{"Transaction History" | translate}}</button>
                                 <button (click)="addAssets()" mat-menu-item>{{"Add Assets" | translate}}</button>
@@ -204,12 +232,20 @@
                                 </div>
                             </div>
                             <div class="container-wallet-main scroll-bar" *ngIf="wallet">
-                                <ng-container *ngFor="let mycoin of wallet.mycoins | sortByField : sortField : sortFieldType : sortAsc; index as i">
-                                    <div class="row apair dataline small" *ngIf="(!hideSmall || ((mycoin.usdPrice > 0) && ((mycoin.balance + (mycoin.lockedBalance ? mycoin.lockedBalance : 0)) * mycoin.usdPrice >= 1)))">
+                                <ng-container *ngFor="let mycoin of wallet.mycoins | sortByField : sortField : sortFieldType : sortAsc | filterByChain: currentChain; index as i">
+                                    <div class="row apair dataline small" *ngIf="!hideSmall 
+                                    || 
+                                        (
+                                            (mycoin.usdPrice > 0) 
+                                            && 
+                                            utilServ.toPrecisionMul(mycoin.balance, mycoin.lockedBalance, mycoin.usdPrice) >= 1
+                                        )">
                                         <div class="col-custom-1 pointer" (click)="selectCoin(mycoin.symbol)">
+                                            
                                             <img *ngIf="!mycoin.new"  src="{{getCoinLogo(mycoin)}}" name="icon" class="icon" />
                                         </div>
                                         <div class="col-custom-1">
+                                            
                                             {{mycoin.symbol}}
                                             <div>
                                                 <div *ngIf="(mycoin.tokenType=='ETH')">
@@ -222,7 +258,7 @@
                                                     (BEP20)
                                                 </div>
                                                 <div *ngIf="(mycoin.tokenType=='MATIC')">
-                                                    (MATIC)
+                                                    (Polygon)
                                                 </div>
                                                 <div *ngIf="(mycoin.tokenType=='HT')">
                                                     (HT)
@@ -230,6 +266,7 @@
                                             </div>
                                         </div>
                                         <div class="col-2">
+                                            
                                             <span *ngIf="mycoin.balance >= 0">
                                                 {{utilServ.toPrecision(mycoin.balance)}}
                                             </span>
@@ -259,6 +296,10 @@
                                             <button mat-icon-button matTooltip="{{'Confirm move fund to DEX'|translate}}" *ngIf="!mycoin.new && (mycoin.redeposit && mycoin.redeposit.length > 0) || (mycoin.depositErr && mycoin.depositErr.length > 0)" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                                 <mat-icon svgIcon="vertical_align_bottom"></mat-icon>
                                             </button>
+
+                                            <button mat-icon-button matTooltip="{{'Delete'|translate}}" *ngIf="mycoin.new" (click)="delete(mycoin)" aria-label="Example icon-button with a heart icon">
+                                                <mat-icon svgIcon="delete"></mat-icon>
+                                            </button>
                                         </div>
 
                                     </div>
@@ -284,8 +325,14 @@
 
                                 </div>
                             </div>
-                            <div class="row apair dataline" *ngFor="let mycoin of wallet.mycoins; index as i">
-                                <div *ngIf="(!hideSmall || ((mycoin.usdPrice > 0) && ((mycoin.balance + (mycoin.lockedBalance ? mycoin.lockedBalance : 0)) * mycoin.usdPrice >= 1)))">
+                            <div class="row apair dataline" *ngFor="let mycoin of wallet.mycoins | sortByField : sortField : sortFieldType : sortAsc | filterByChain: currentChain; index as i">
+                                <div *ngIf="!hideSmall 
+                                || 
+                                    (
+                                        (mycoin.usdPrice > 0) 
+                                        && 
+                                        utilServ.toPrecisionMul(mycoin.balance, mycoin.lockedBalance, mycoin.usdPrice) >= 1
+                                    )">
                                     <div class="col-2">
                                         <img *ngIf="!mycoin.new" src="{{getCoinLogo(mycoin)}}" name="icon2" class="icon" />
                                     </div>
@@ -303,7 +350,7 @@
                                                 (BEP20)
                                             </div>
                                             <div *ngIf="(mycoin.tokenType=='MATIC')">
-                                                (MATIC)
+                                                (Polygon)
                                             </div>
                                             <div *ngIf="(mycoin.tokenType=='HT')">
                                                 (HT)
@@ -318,8 +365,12 @@
                                         <button mat-icon-button matTooltip="Deposit" [disabled]="gas <= 0 || maintainence" *ngIf="!mycoin.new" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon svgIcon="arrow-downward"></mat-icon>
                                     </button>
-                                        <button mat-icon-button matTooltip="Redeposit" *ngIf="!mycoin.new && (mycoin.redeposit && mycoin.redeposit.length > 0) || (mycoin.depositErr && mycoin.depositErr.length > 0)" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                    <button mat-icon-button matTooltip="Redeposit" *ngIf="!mycoin.new && (mycoin.redeposit && mycoin.redeposit.length > 0) || (mycoin.depositErr && mycoin.depositErr.length > 0)" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon svgIcon="vertical_align_bottom"></mat-icon>
+                                    </button>
+
+                                    <button mat-icon-button matTooltip="{{'Delete'|translate}}" *ngIf="mycoin.new" (click)="delete(mycoin)" aria-label="Example icon-button with a heart icon">
+                                        <mat-icon svgIcon="delete"></mat-icon>
                                     </button>
                                     </div>
                                     <div class="col-12 text-muted">

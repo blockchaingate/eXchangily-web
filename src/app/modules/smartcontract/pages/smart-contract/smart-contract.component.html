@@ -51,7 +51,7 @@
                     </div>
     
                     <div class="w-50 px-1">
-                        <div class="exg-bg content" *ngIf="abiName!=''">
+                        <div class="exg-bg content">
                             <div class="container py-2" *ngIf="method">
                                 <div *ngFor="let input of method.inputs; let i = index">
                                     <div class="row">
@@ -59,9 +59,14 @@
                                             <mat-form-field class="example-full-width">
                                                 <mat-label class="text-muted">{{input.name}}</mat-label>
                                                 <mat-select [(value)]="input.type">
+                                                    <mat-option [value]="input.type">
+                                                        {{input.type}}
+                                                    </mat-option>
+                                                    <!--
                                                     <mat-option *ngFor="let type of types" [value]="type">
                                                         {{type}}
                                                     </mat-option>
+                                                    -->
                                                 </mat-select>
                                             </mat-form-field>
     
@@ -111,6 +116,9 @@
                                 <div class="row py-2" *ngIf="error">
                                     {{error}}
                                 </div>
+                                <div class="row py-2" *ngIf="txHex">
+                                    {{txHex}}
+                                </div>
                             </div>
                         </div>
 
@@ -131,11 +139,15 @@
                 <mat-form-field class="example-full-width">
                     <input matInput placeholder="Arguments" [(ngModel)]="fabArguments">
                 </mat-form-field>
+                <p>for example: [1000000000000,"FAB","FAB"]</p>
                 <button mat-raised-button color="primary" (click)="deployFab()"> {{'Deploy' | translate}} </button>
 
                 <div class="row py-2" *ngIf="result">
                     <div class="col col-12">
                         {{'Result' | translate}}:{{result | json}}
+                    </div>
+                    <div class="col col-12">
+                        <a target="_blank" href="{{getReceipt(result)}}">{{'Get receipt' | translate}}</a>
                     </div>
                     <div class="col col-12">
                         Please wait for a few minutes to confirm.
@@ -144,8 +156,12 @@
                 <div class="row py-2" *ngIf="error">
                     {{error}}
                 </div>  
+                <div class="row py-2" *ngIf="txHex">
+                    {{txHex}}
+                </div>
             </div>                  
         </mat-tab>
+
         <mat-tab label="Eth Deploy">
             <div *ngIf="2 == currentTabIndex">
                 <mat-form-field class="example-full-width">
@@ -167,34 +183,32 @@
                     <mat-label class="text-muted">To</mat-label>
                     <input matInput [(ngModel)]="kanbanTo">
                 </mat-form-field>
-    
-                <mat-form-field class="example-full-width">
-                    <mat-label class="text-muted">Value</mat-label>
-                    <input matInput [(ngModel)]="kanbanValue">
-                </mat-form-field>
 
                 <mat-form-field class="example-full-width">
                     <mat-label class="text-muted">ABI</mat-label>
                     <textarea [(ngModel)]="kanbanCallABI" matInput></textarea>
-                </mat-form-field>                
-
-                <mat-form-field class="example-full-width">
-                    <mat-label class="text-muted">Args</mat-label>
-                    <input matInput [(ngModel)]="kanbanCallArgs">
                 </mat-form-field>
 
-                <mat-form-field class="example-full-width">
-                    <mat-label class="text-muted">Data</mat-label>
-                    <textarea [(ngModel)]="kanbanData" matInput></textarea>
-                </mat-form-field>
-                <button mat-raised-button color="primary" (click)="callKanban()"> {{'Submit' | translate}} </button>
+                <div *ngFor="let param of this._kanbanCallArgs">
+                    <mat-form-field class="example-full-width">
+                        <mat-label class="text-muted">{{param.name}}</mat-label>
+                        <textarea [(ngModel)]="param.value" placeholder="{{param.type}}" matInput></textarea>
+                    </mat-form-field>
+                </div>
+
+                <button class="button" mat-raised-button color="primary" (click)="decodeABI()"> {{'Decode ABI' | translate}}</button>
+                <button class="button" mat-raised-button color="primary" (click)="viewKanban()"> {{'View' | translate}} </button>
+                <button class="button" mat-raised-button color="primary" (click)="callKanban()"> {{'Submit' | translate}} </button>
+
                 <div *ngIf="txid">
                     txid: <a target="_blank" class="link" href="{{getReceiptLink(txid)}}">{{txid}}</a>
+                </div>
+                <div *ngIf="result">
+                    result: {{result}}
                 </div>
             </div>
 
         </mat-tab>
-
 
         <mat-tab label="Kanban Deploy">
             <div *ngIf="4 == currentTabIndex">

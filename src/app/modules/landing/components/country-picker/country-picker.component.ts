@@ -1,8 +1,7 @@
 import { HttpService } from '../../../../services/http.service';
 import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { environment } from '../../../../../environments/environment';
-import { map } from 'rxjs/operators/map';
+import { map } from 'rxjs';
 
 const filePath = 'assets/countries.json';
 

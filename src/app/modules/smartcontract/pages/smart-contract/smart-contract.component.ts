@@ -14,7 +14,8 @@ import { MyCoin } from '../../../../models/mycoin';
 import {environment} from '../../../../../environments/environment';
 import { TransactionResp } from '../../../../interfaces/kanban.interface';
 import Common from 'ethereumjs-common';
-import KanbanTxService from '../../../../services/kanban.tx.service';
+import * as Eth from 'ethereumjs-tx';
+import BigNumber from 'bignumber.js';
 
 @Component({
   selector: 'app-smart-contract',
@@ -27,6 +28,7 @@ export class SmartContractComponent implements OnInit {
   action: string;
   abiName: string;
   txid: string;
+  txHex: string;
   customAbi: string;
   contractName: string;
   smartContractName: string;
@@ -44,11 +46,10 @@ export class SmartContractComponent implements OnInit {
 
   kanbanABI: string;
   kanbanBytecode: string;
-  kanbanArguments: string;  
-
+  kanbanArguments: string;
 
   _kanbanCallABI: string;
-  _kanbanCallArgs: string;
+  _kanbanCallArgs: any;
 
   get kanbanCallABI(): string {
     return this._kanbanCallABI;
@@ -59,28 +60,24 @@ export class SmartContractComponent implements OnInit {
     this.formAbiHex();
   }
 
-  get kanbanCallArgs(): string {
-    return this._kanbanCallArgs;
-  }
-
-  set kanbanCallArgs(val: string) {
-    this._kanbanCallArgs = val;
-    this.formAbiHex();
-  }
-
   formAbiHex() {
-    console.log('go form');
     try {
-      console.log('1');
-      const abi = JSON.parse(this._kanbanCallABI);
-      console.log('2');
-      let args = [];
-      if(this._kanbanCallArgs) {
-        args = this._kanbanCallArgs.split(',');
+      const abiDoubleQuote = this._kanbanCallABI.replace(/'/g, '"');
+      const abi = JSON.parse(abiDoubleQuote);
+      let args: any = [];
+      if (this._kanbanCallArgs.length > 0) {
+        this._kanbanCallArgs.forEach(input => {
+          let jsonObj = input.value;
+          try {
+            jsonObj = JSON.parse(jsonObj);
+          } catch (e) {}
+          if(typeof jsonObj === 'number') {
+            jsonObj = '0x' + new BigNumber(jsonObj).toString(16)
+          }
+          args.push(jsonObj);
+        });
       }
-      console.log('args=', args);
       this.kanbanData = this.web3Serv.getGeneralFunctionABI(abi, args);
-      console.log('this.kanbanData==', this.kanbanData);
     } catch(e) {}
   }
   
@@ -93,8 +90,8 @@ export class SmartContractComponent implements OnInit {
   kanbanData: string;
   payableValue: number;
   selectedMethod: string;
-  types = [];
-  wallet: Wallet;
+  types: any = [];
+  wallet: Wallet | null;
   smartContractAddress: string;
   mycoin: MyCoin;
   ethCoin: MyCoin;
@@ -102,13 +99,14 @@ export class SmartContractComponent implements OnInit {
   balance: any;
   ethBalance: any;
   contractNames = [
+    'Lock FAB or EXG for SEED airdrop',
     'EXG',
     'DSC',
     'BST',
     'Fab Lock For EXG Airdrop',
     'Custom'
   ];
-  ABI = [];
+  ABI: any = [];
   constructor(
     private storageService: StorageService, 
     private apiServ: ApiService, 
@@ -127,6 +125,9 @@ export class SmartContractComponent implements OnInit {
     if(name === 'Fab Lock For EXG Airdrop') {
       this.smartContractAddress =  environment.addresses.smartContract.FABLOCK;
     } else
+    if(name === 'Lock FAB or EXG for SEED airdrop') {
+      this.smartContractAddress =  environment.addresses.smartContract.StakingFABEXG;
+    } else
     if(name === 'Custom') {
       this.smartContractAddress = '';
     } else {
@@ -135,66 +136,10 @@ export class SmartContractComponent implements OnInit {
 
     this.changeSmartContractAddress();
   }
+
   changeSmartContractAddress() {
-    /*
-    if (this.smartContractAddress == environment.addresses.smartContract.FABLOCK) {
-      this.apiServ.getSmartContractABI(this.smartContractAddress).subscribe((res: any) => {
-        console.log('res=', res);
-        if (res && res.abi) {
-          this.ABI = this.getFunctionABI(res.abi);
-          if(this.ABI && this.ABI.length > 0) {
-            this.changeMethod(this.ABI[0].name);
-          }
-          
-        }
-      });
-      
-    } else 
-    if(this.smartContractAddress == environment.addresses.smartContract.EXG.FAB) {
-      this.ABI = [
-        {
-          "constant": false,
-          "inputs": [
-              {
-                  "name": "_lockerHash",
-                  "type": "bytes32"
-              }
-          ],
-          "name": "unlockByLockerHash",
-          "outputs": [
-              {
-                  "name": "",
-                  "type": "bool"
-              }
-          ],
-          "payable": false,
-          "stateMutability": "nonpayable",
-          "type": "function"
-      },
-        {
-          "constant": false,
-          "inputs": [
-              {
-                  "name": "_account",
-                  "type": "address"
-              }
-          ],
-          "name": "unlockByAccount",
-          "outputs": [
-              {
-                  "name": "",
-                  "type": "bool"
-              }
-          ],
-          "payable": false,
-          "stateMutability": "nonpayable",
-          "type": "function"
-        }         
-      ];
-      this.changeMethod('unlockByLockerHash');
-    } else 
-    */
-    if(this.smartContractAddress === '0x0') {
+
+    if(this.smartContractAddress === '0x0' || this.smartContractAddress === '0x' || !this.smartContractAddress) {
       this.changeMethod('');
     } else {
       this.apiServ.getSmartContractABI(this.smartContractAddress).subscribe((res: any) => {
@@ -209,6 +154,7 @@ export class SmartContractComponent implements OnInit {
             
           }
         }
+
       });      
     }
   }
@@ -216,13 +162,14 @@ export class SmartContractComponent implements OnInit {
   formTypes(abi) {
     for (let j = 0; j < abi.inputs.length; j ++) {
       const input = abi.inputs[j];
-      const type = input.type;
+      const type: any = input.type;
       if (this.types.includes(type)) {
         continue;
       }
       this.types.push(type);
     }
   }
+
   getFunctionABI(ABI: any) {
     const retABI = ABI.filter((abi) => abi.type === 'function');
     for (let i = 0; i < retABI.length; i++) {
@@ -249,10 +196,10 @@ export class SmartContractComponent implements OnInit {
     this.wallet = await this.storageService.getCurrentWallet();
 
     if (!this.wallet) {
-      this.alertServ.openSnackBar('no current wallet was found.', 'Ok');
+      this.alertServ.openSnackBar('No current wallet was found.', 'Ok');
       return;
     }  
-    
+    this.changeContractName('Lock FAB or EXG for SEED airdrop');
     for (let i = 0; i < this.wallet.mycoins.length; i++) {
       const coin = this.wallet.mycoins[i];
       if ((coin.name === 'FAB') && !coin.tokenType && !this.balance) {
@@ -296,7 +243,7 @@ export class SmartContractComponent implements OnInit {
         }
       }
     );
-    this.changeContractName('EXG');
+    
   }
 
   getMethodDefinition = (json, method) => {
@@ -326,10 +273,13 @@ export class SmartContractComponent implements OnInit {
       }
     }
     this.method = def;
+    console.log('this.method===', this.method);
   }
 
   inputCustomAbi(event) {
+    this.customAbi = this.customAbi.replace(/'/g, '"');
     const def = JSON.parse(this.customAbi);
+    console.log('def=====', def);
     this.formTypes(def);
     this.renderAbi(def);
   }
@@ -342,27 +292,6 @@ export class SmartContractComponent implements OnInit {
       return;
     }
     this.renderAbi(def);
-
-    /*
-    console.log('def=', def);
-    if (canRenderMethodParams(this.ABI, method)) {
-      renderMethodParams(this.ABI, method, (name, instance) => {
-        console.log('name=', name);
-        console.log('instance=', instance);
-        switch (instance.fieldType()) {
-          case FIELD_TYPES.NUMBER: {
-            console.log('FIELD_TYPEcoinServ
-            break;
-          }
-          case FIELD_TYPES.ADDRESS:coinServ
-            // ...
-            console.log('FIELD_TYPES.ADDRESS');
-            break;
-          // ...
-        }
-      });
-    }
-    */
   }
 
   callContract() {
@@ -376,6 +305,8 @@ export class SmartContractComponent implements OnInit {
       this.alertServ.openSnackBar('address was not found.', 'Ok');
       return;
     }
+
+
     this.apiServ.callFabSmartContract(address, abiHex, sender).subscribe((res: any) => {
       console.log('res=', res);
       this.payableValue = 0;
@@ -396,18 +327,17 @@ export class SmartContractComponent implements OnInit {
   }
 
   formABI() {
-    const vals = [];
+    const vals: any = [];
     for (let i = 0; i < this.method.inputs.length; i++) {
       const input = this.method.inputs[i];
-      let val = input.val;
+      let val: any = input.val;
       if(!val) {
         val = '0x0000000000000000000000000000000000000000000000000000000000000000';
       }
       vals.push(val);
-    } 
+    }
 
     const abi = this.web3Serv.getGeneralFunctionABI(this.method, vals);
-
     return abi;
   }
 
@@ -482,14 +412,15 @@ export class SmartContractComponent implements OnInit {
       },
       environment.chains.ETH.hardfork,
     );
-    const tx = new KanbanTxService(txObject, { common: customCommon });
+    let tx = new Eth.Transaction(txObject, { common: customCommon });
+
 
     tx.sign(privKey);
     const serializedTx = tx.serialize();
     txhex = '0x' + serializedTx.toString('hex');
 
     this.kanbanServ.sendRawSignedTransaction(txhex).subscribe(
-      (resp: TransactionResp) => {
+      (resp: any) => {
         console.log('resp for deploy kanban==', resp);
       if (resp && resp.transactionHash) {
         this.result = 'txid:' + resp.transactionHash;
@@ -544,24 +475,19 @@ export class SmartContractComponent implements OnInit {
   }
 
   async callKanbanDo(seed) {
-
+    this.formAbiHex();
+    
     const keyPairsKanban = this.coinServ.getKeyPairs(this.exgCoin, seed, 0, 0);
-    // const nonce = await this.apiServ.getEthNonce(this.ethCoin.receiveAdds[0].address);
     let gasPrice = environment.chains.KANBAN.gasPrice;
     let gasLimit = environment.chains.KANBAN.gasLimit;
     const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
-
-    let kanbanTo = null;
+    
+    let kanbanTo: any = null;
+    let kanbanValue = 0;
     if(this.kanbanTo) {
       kanbanTo = this.kanbanTo;
     }
-
-    let kanbanValue = 0;
-    if(this.kanbanValue) {
-      kanbanValue = this.kanbanValue;
-    }
     
-    console.log('kanbanValue.toString(16)=', kanbanValue.toString(16));
     const txObject = {
         nonce: nonce,
         gasPrice: gasPrice,
@@ -585,14 +511,14 @@ export class SmartContractComponent implements OnInit {
       },
       environment.chains.ETH.hardfork,
     );
-    const tx = new KanbanTxService(txObject, { common: customCommon });
+    const tx = new Eth.Transaction(txObject, { common: customCommon });
 
     tx.sign(privKey);
     const serializedTx = tx.serialize();
     txhex = '0x' + serializedTx.toString('hex');
 
     this.kanbanServ.sendRawSignedTransaction(txhex).subscribe(
-      (resp: TransactionResp) => {
+      (resp: any) => {
       if (resp && resp.transactionHash) {
         this.txid = resp.transactionHash;
         this.alertServ.openSnackBarSuccess('Smart contract was called successfully.', 'Ok');
@@ -608,15 +534,24 @@ export class SmartContractComponent implements OnInit {
   }
 
   getReceiptLink(txid) {
-    return environment.endpoints.kanban + 'kanban/getTransactionReceipt/' + txid;
+    return '/explorer/tx-detail/' + txid;
+    //return environment.endpoints.kanban + 'kanban/getTransactionReceipt/' + txid;
   }
 
   formCreateSmartContractABI() {
     let abi = JSON.parse(this.fabABI);
 
-    let args = [];
-    if(this.fabArguments) {
+    let args: any = [];
+    let argsParsed;
+    try {
+      argsParsed = JSON.parse(this.fabArguments);
+    } catch(e) {}
+    if(!Array.isArray(argsParsed)) {
+      console.log('11111');
       args = this.fabArguments.split(',').map(item => {return item.trim()});
+      console.log('final args=', args);
+    } else {
+      args = argsParsed;
     }
 
     return this.web3Serv.formCreateSmartContractABI(abi, this.fabBytecode.trim(), args);
@@ -625,12 +560,16 @@ export class SmartContractComponent implements OnInit {
 
   formCreateEthSmartContractABI() {
     const abi = JSON.parse(this.ethABI);
-    let args = [];
+    let args: any = [];
     if(this.ethArguments) {
       args = this.ethArguments.split(',').map(item => {return item.trim()});
     }
     return this.web3Serv.formCreateSmartContractABI(abi, this.ethBytecode.trim(), args);
  
+  }
+
+  getReceipt(txid: string) {
+    return 'https://fab' + (environment.production ? 'prod' : 'test') + '.fabcoinapi.com/gettransactionreceipt/' + txid;
   }
 
   formCreateKanbanSmartContractABI() {
@@ -649,6 +588,7 @@ export class SmartContractComponent implements OnInit {
   async callFabSmartContract(seed) {
     let abiHex = '';
     let gasLimit = this.gasLimit;
+    //gasLimit = 8000000;
     const gasPrice = this.gasPrice;    
     let smartContractAddress = this.smartContractAddress;
     if(smartContractAddress == '0x0') {
@@ -662,7 +602,7 @@ export class SmartContractComponent implements OnInit {
     
 
     let value = 0;
-    if (this.method.stateMutability === 'payable') {
+    if (this.method && this.method.stateMutability === 'payable') {
       value = Number(this.payableValue);
     }
     console.log('value=', value);
@@ -716,10 +656,12 @@ export class SmartContractComponent implements OnInit {
         } else 
         if (errMsg) {
           this.error = errMsg;
+          this.txHex = txHex;
         }
     } else {
       console.log('error msg=', errMsg);
       this.error = errMsg;
+      this.txHex = txHex;
     } 
   }
 
@@ -731,7 +673,7 @@ export class SmartContractComponent implements OnInit {
   async onConfirmedPin(pin: string) {
 
     
-    const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
+    const seed = this.utilServ.aesDecryptSeed(this.wallet?.encryptedSeed, pin);
     if (!seed) {
       this.alertServ.openSnackBar('Your password is wrong.', 'Ok');
     }
@@ -766,5 +708,39 @@ export class SmartContractComponent implements OnInit {
   callKanban() {
     this.action = 'callKanban';
     this.pinModal.show(); 
+  }
+
+  async viewKanban() {
+    const to = this.kanbanTo;
+    this.formAbiHex();
+    const data = '0x' + this.utilServ.stripHexPrefix(this.kanbanData);
+    const res = await this.kanbanServ.kanbanCall(to, data);  
+    console.log('res===', res); 
+    this.result = JSON.stringify(res);
+    
+  }
+
+  decodeABI() {
+    if (this._kanbanCallABI) {
+      this._kanbanCallArgs = [];
+      try {
+        const doubleQuoteABI = this._kanbanCallABI.replace(/'/g, '"');
+        const abi = JSON.parse(doubleQuoteABI);
+        for (let j = 0; j < abi.inputs.length; j ++) {
+          const input = abi.inputs[j];
+          const type = input.type;
+          const name = input.name;
+          this._kanbanCallArgs.push(
+            {
+              name: name,
+              type: type,
+              value: '' // Set 0 as initial value to replace with input value after
+            }
+          );
+        }
+      } catch(e) {
+        console.log('error when decoding ABI', e);
+      }
+    }
   }
 }

@@ -14,7 +14,7 @@ export class LockedInfoModal implements OnInit{
     }
 
     ngOnInit() {
-
+        
     }
 
     show(coin) {

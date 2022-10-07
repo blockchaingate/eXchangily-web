@@ -21,7 +21,7 @@ export class MerchantApplicationComponent implements OnInit {
     submited = false;
     msg = 'You applied merchant account already.';
     errMsg: string;
-    lan = 'en';
+    lan: any = 'en';
 
     merchantForm = new FormGroup({
         merchantName: new FormControl(''),
@@ -43,7 +43,7 @@ export class MerchantApplicationComponent implements OnInit {
         this.lan = localStorage.getItem('Lan');
 
         this.storageService.getToken().subscribe(
-            (token: string) => {
+            (token: any) => {
                 this.token = token;
                 console.log('token==', token);
                 this._userServ.getMe(token).subscribe(
@@ -79,10 +79,10 @@ export class MerchantApplicationComponent implements OnInit {
 
     onSubmit() {
 
-        const merchant = {
-            name: this.merchantForm.get('merchantName').value,
-            phone: this.merchantForm.get('phone').value,
-            email: this.merchantForm.get('email').value
+        const merchant: any = {
+            name: this.merchantForm.get('merchantName')?.value,
+            phone: this.merchantForm.get('phone')?.value,
+            email: this.merchantForm.get('email')?.value
         };
 
         this._mcServ.create(this.token, merchant).subscribe(
