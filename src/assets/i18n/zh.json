@@ -1167,7 +1167,7 @@
     "The format of the payment address is incorrect.": "收款地址格式不对",
     "Not enough balance": "余额不足",
     "Token type": "代币类型",
-    "Issue Token": "一键发币",
+    "Mint Token": "一键发币",
     "Transfer request is pending.": "转账请求提交成功，等待区块链处理。",
     "Project name": "项目名称",
     "Projectname$": "例如Bitcoin是比特币的项目名称",
