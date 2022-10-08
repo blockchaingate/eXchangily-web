@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UserAuth } from 'src/app/modules/landing/service/user-auth/user-auth.service';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 
 @Component({
@@ -8,7 +9,8 @@ import { LocalStorage } from '@ngx-pwa/local-storage';
 })
 export class PrivacyComponent {
   lan = 'en';
-  constructor(private localSt: LocalStorage) {
-    this.lan = localStorage.getItem('_lan') || 'en';
+  constructor(public userAuth: UserAuth) {
+    // this.lan = localStorage.getItem('_lan') || 'en';
+    this.lan = userAuth._lan;
   }
 }
