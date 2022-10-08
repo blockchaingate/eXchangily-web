@@ -53,6 +53,8 @@ import { AnnouncementListComponent } from './components/help/announcement/announ
 import { AnnouncementComponent } from './components/help/announcement/announcement/announcement.component';
 import { AppIntroComponent } from './modules/app-intro/app-intro.component';
 import { ListingComponent } from './modules/listing/listing.component';
+import { PrivacyComponent } from './components/privacy/privacy.component';
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -76,7 +78,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     AnnouncementComponent,
     AnnouncementListComponent,
     AppIntroComponent,
-    ListingComponent
+    ListingComponent,
+    PrivacyComponent
   ],
   imports: [
     BrowserAnimationsModule,

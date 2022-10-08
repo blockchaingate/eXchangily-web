@@ -17,9 +17,14 @@ import { AnnouncementComponent } from './components/help/announcement/announceme
 import { AnnouncementListComponent } from './components/help/announcement/announcement-list/announcement-list.component';
 import { BindpayComponent } from './modules/bindpay/bindpay.component';
 import { ListingComponent } from './modules/listing/listing.component';
+import { PrivacyComponent } from './components/privacy/privacy.component';
+
 // import { CoininfoComponent } from './components/coin/coin-info.component';
 
 const routes: Routes = [
+  {
+    path: 'privacy', component: PrivacyComponent
+  },
   {
     path: 'explorer',
     loadChildren: () => import('./modules/kanbanexplorer/kanbanexplorer.module').then(m => m.KanbanExplorerModule)
