@@ -3,7 +3,7 @@
     <table>
         <tr>
             <td class="text-right">
-                {{'Token type' | translate}}: 
+                <b>{{'Token type' | translate}}: </b>
             </td>
             <td>
                 {{'FRC20 token' | translate}}
@@ -13,7 +13,7 @@
         <tr></tr>
         <tr>
             <td class="text-right">
-                {{'Description' | translate}}: 
+                <b>{{'Description' | translate}}: </b>
             </td>
             <td>
                 <div>
@@ -26,7 +26,7 @@
         </tr>        
         <tr>
             <td class="text-right">
-                {{'Project name' | translate}}: 
+                <b>{{'Project name' | translate}}: </b>
             </td>
             <td>
                 <mat-form-field class="example-full-width">
@@ -36,7 +36,7 @@
         </tr>  
         <tr>
             <td class="text-right">
-                {{'Token symbol' | translate}}: 
+                <b>{{'Token symbol' | translate}}: </b>
             </td>
             <td>
                 <mat-form-field class="example-full-width">
@@ -46,7 +46,7 @@
         </tr> 
         <tr>
             <td class="text-right">
-                {{'Logo' | translate}}: 
+                <b>{{'Logo' | translate}}:</b><br><span style="font-size:small">(64x64 px)</span>
             </td>
             <td>
                 <app-file-upload [(ngModel)]="file"></app-file-upload>
@@ -54,7 +54,7 @@
         </tr>
         <tr>
             <td class="text-right">
-                {{'Total supply' | translate}}: 
+                <b>{{'Total supply' | translate}}: </b>
             </td>
             <td>
                 <mat-form-field class="example-full-width">
@@ -65,7 +65,7 @@
        
         <tr>
             <td class="text-right">
-                {{'Token decimals' | translate}}: 
+                <b>{{'Token decimals' | translate}}: </b>
             </td>
             <td>
                 <mat-form-field class="example-full-width">
@@ -75,7 +75,7 @@
         </tr>  
         <tr *ngIf="totalSupply" class="alert alert-danger">
             <td class="text-right">
-                {{'Token Balance' | translate}}: 
+                <b>{{'Token Balance' | translate}}: </b>
             </td>
             <td>
                 {{totalSupply}} {{symbol}}
@@ -83,7 +83,7 @@
         </tr>   
         <tr>
             <td class="text-right">
-                {{'Fee total' | translate}}: 
+                <b>{{'Fee total' | translate}}: </b>
             </td>
             <td>
                 {{totalFee}}FAB
@@ -91,7 +91,7 @@
         </tr>   
         <tr>
             <td class="text-right">
-                {{'Wallet balance' | translate}}: 
+                <b>{{'Wallet balance' | translate}}: </b>
             </td>
             <td>
                 {{balance}}FAB
