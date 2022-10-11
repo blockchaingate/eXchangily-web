@@ -23,7 +23,9 @@
                                 <mat-list-option *ngFor="let token of fabTokens; let i = index" [value]="i+1">
                                     <div class="d-flex">
                                         {{token.symbol}}
+                                        
                                         <img class="logo" *ngIf="token.logo" [src]="token.logo">
+                                        
                                     </div>
                                 </mat-list-option>
                                 <mat-list-option value="0">

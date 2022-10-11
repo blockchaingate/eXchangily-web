@@ -9,6 +9,7 @@ export class BannerService {
 
     getAll() {
         const url = environment.endpoints.blockchaingate + 'banners/app/' + Config.appid;
+        console.log('url===', url);
         return this.http.get(url);
     }
 

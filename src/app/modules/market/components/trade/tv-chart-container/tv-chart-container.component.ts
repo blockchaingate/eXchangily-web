@@ -238,7 +238,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
                 newRes.push(newitem);
 
               }
-              console.log('newRes==', newRes);
+              //console.log('newRes==', newRes);
               //const copied = JSON.parse(JSON.stringify(newRes));
               onResult(newRes, { noData: false });
               //console.log('copied=', copied);

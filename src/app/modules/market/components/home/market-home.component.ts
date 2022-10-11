@@ -6,7 +6,6 @@ import { environment } from '../../../../../environments/environment';
 import { KanbanService } from '../../../../services/kanban.service';
 import { BannerService } from '../../../../services/banner.service';
 import { CarouselConfig } from 'ngx-bootstrap/carousel';
-//import DefaultBanner from '../../../../../images/adv/default/default-adv.json';
 import { Banner } from '../../../../models/banner';
 
 var DefaultBanner = require('../../../../../images/adv/default/default-adv.json');
@@ -19,7 +18,7 @@ var DefaultBanner = require('../../../../../images/adv/default/default-adv.json'
   ]
 })
 export class MarketHomeComponent implements OnInit {
-  banners: Banner[] = [];
+  banners: any[] = [];
   maintainence: boolean;
   isMobile: boolean;
 
@@ -57,14 +56,19 @@ export class MarketHomeComponent implements OnInit {
 
   getBannerAdv() {
     this.bannerServ.getAll().subscribe(
-      res => {
-        this.banners = res['_body'] as Banner[];
-        if (!this.banners || this.banners.length < 1) {
-          // this.banners = DefaultBanner as Banner[];
-          this.getDefaultadv()
+      (res: any) => {
+        if(res.ok) {
+          this.banners = res['_body'] as Banner[];
+          if (!this.banners || this.banners.length < 1) {
+            // this.banners = DefaultBanner as Banner[];
+            this.getDefaultadv();
+          } else {
+            this.handleBaner();
+          }
         } else {
-          this.handleBaner();
+          this.getDefaultadv();
         }
+
       },
       err => {
         // this.banners = DefaultBanner as Banner[];
@@ -93,22 +97,26 @@ export class MarketHomeComponent implements OnInit {
       currentLan = 'sc';
     }
 
-    this.banners.forEach(banner => {
-      const titleItem = banner.title.filter(t => t.lan === currentLan) || banner.title.filter(t => t.lan === 'en');
-      if (titleItem) {
-        banner.titleLan = titleItem[0].text;
-      }
+    console.log('this.banners===', this.banners);
+    if(this.banners && (this.banners.length > 0)) {
+      this.banners.forEach(banner => {
+        const titleItem = banner.title.filter(t => t.lan === currentLan) || banner.title.filter(t => t.lan === 'en');
+        if (titleItem) {
+          banner.titleLan = titleItem[0].text;
+        }
+  
+        const subtitleItem = banner.subtitle.filter(t => t.lan === currentLan) || banner.subtitle.filter(t => t.lan === 'en');
+        if (subtitleItem) {
+          banner.subtitleLan = subtitleItem[0].text;
+        }
+  
+        const descItem = banner.desc.filter(t => t.lan === currentLan) || banner.desc.filter(t => t.lan === 'en');
+        if (descItem) {
+          banner.descLan = descItem[0].text;
+        }
+      });
+    }
 
-      const subtitleItem = banner.subtitle.filter(t => t.lan === currentLan) || banner.subtitle.filter(t => t.lan === 'en');
-      if (subtitleItem) {
-        banner.subtitleLan = subtitleItem[0].text;
-      }
-
-      const descItem = banner.desc.filter(t => t.lan === currentLan) || banner.desc.filter(t => t.lan === 'en');
-      if (descItem) {
-        banner.descLan = descItem[0].text;
-      }
-    });
   }
 
   onClick(url: string) {
