@@ -241,6 +241,9 @@ export const environment = {
             BRB: {
                 FAB: '0xda0f76ec006246654fd2eed060f9f9025c6b3d58'
             },
+            KUSH: {
+                BNB: '0xb3Dcd26FBFCC3aeA2aa0ac833c2B38421d4b1905'
+            },
             CTG: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
             BUSD: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
             HNC: '0x122fd42c61bc66b0cd6cdbf302a0ca297497e240',

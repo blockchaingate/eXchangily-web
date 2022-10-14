@@ -46,7 +46,7 @@ export class BulkTransferComponent implements OnInit {
 
             const list = csv.split('\n');
             const headers = list[0].split(',');
-            if(headers[0] != 'Address') {
+            if((headers[0] != 'Address') && (headers[0] != 'address')) {
                 return;
             }
             const coinName = headers[1].trim();
