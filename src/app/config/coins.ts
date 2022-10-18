@@ -87,7 +87,8 @@ export const coin_list: Coin[] = [
     {id: 524289, name: 'USDTB', icon: ''},
     {id: 524290, name: 'FABB', icon: ''},
     {id: 524291, name: 'BUSD', icon: ''},
-
+    {id: 524292, name: 'KUSH', icon: ''},
+    
     {id: 589824, name: 'MATICM', icon: ''},
     {id: 589826, name: 'USDTM', icon: ''},
     {id: 589825, name: 'IXT', icon: ''}
@@ -297,4 +298,5 @@ export const price_list: Price[] = [
 
     { id: 131, coin_id: 196648, base_id: 196608, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'HNC/ETH' },
     { id: 132, coin_id: 196648, base_id: 196632, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'HNC/USDC' },
+    { id: 133, coin_id: 524292, base_id: 524288, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'KUSH/BNB' },
 ];

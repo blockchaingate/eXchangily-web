@@ -220,6 +220,10 @@ export class CoinService {
         this.fillUpAddress(busdBNBCoin, seed, 1, 0);
         myCoins.push(busdBNBCoin);  
 
+        const kushBNBCoin = this.initToken('BNB', 'KUSH', 18, environment.addresses.smartContract.KUSH.BNB, bnbCoin);
+        this.fillUpAddress(kushBNBCoin, seed, 1, 0);
+        myCoins.push(kushBNBCoin);  
+
         const maticCoin = new MyCoin('MATIC');
         this.fillUpAddress(maticCoin, seed, 1, 0);
         myCoins.push(maticCoin);

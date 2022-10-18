@@ -404,6 +404,7 @@ export const environment = {
         TRX: 0.2,
         IXT: 0.006,
         DUSD: 10,
+        KUSH: 20000000,
         DCAD: 12.68,
         DCNY: 64,
         DJPY: 1100,
@@ -472,7 +473,7 @@ export const environment = {
         ETH: 20,
         USDT: 20,
         DUSD: 12,
-
+        KUSH: 15,
         DCAD: 12,
         DCNY: 12,
         DJPY: 12,
