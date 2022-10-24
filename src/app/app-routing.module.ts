@@ -18,12 +18,16 @@ import { AnnouncementListComponent } from './components/help/announcement/announ
 import { BindpayComponent } from './modules/bindpay/bindpay.component';
 import { ListingComponent } from './modules/listing/listing.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
+import { DusdComponent } from './components/dusd/dusd.component';
 
 // import { CoininfoComponent } from './components/coin/coin-info.component';
 
 const routes: Routes = [
   {
     path: 'privacy', component: PrivacyComponent
+  },
+  {
+    path: 'dusd', component: DusdComponent
   },
   {
     path: 'explorer',

@@ -54,6 +54,7 @@ import { AnnouncementComponent } from './components/help/announcement/announceme
 import { AppIntroComponent } from './modules/app-intro/app-intro.component';
 import { ListingComponent } from './modules/listing/listing.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
+import { DusdComponent } from './components/dusd/dusd.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -79,7 +80,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     AnnouncementListComponent,
     AppIntroComponent,
     ListingComponent,
-    PrivacyComponent
+    PrivacyComponent,
+    DusdComponent
   ],
   imports: [
     BrowserAnimationsModule,
