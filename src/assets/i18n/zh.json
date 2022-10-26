@@ -1652,5 +1652,13 @@
     "Assets": "数字资产",
     "User manual": "用户手册",
     "Developer Quickstart": "开发人员快速入门",
-    "Privacy Policy": "隐私政策"
+    "Privacy Policy": "隐私政策",
+    "DUSDdsc1": "DUSD是与美元挂钩的公有区块链美元稳定币，目前在FAB区块链、以太坊及币安智能链上发行。DUSD由亿币公司(Exchangily LLC)发行。亿币是于美国俄亥俄州注册的去中心化数字货币交易所。",
+    "DUSDdsc2": "一个DUSD价值上等于法币１美元。",
+    "DUSDdsc3": "发行DUSD目的: 用于在线支付，线上线下商业应用。",
+    "Public blockchain cryptocurrency": "公有区块链加密货货币",
+    "Equals to US Dollar": "等于法币美元。",
+    "Usage": "用途",
+    "Payment, shopping": "支付、消费",
+    "Issuer": "发行人"
 }

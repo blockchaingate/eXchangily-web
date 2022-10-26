@@ -7,6 +7,7 @@
     "Blog": "Blog",
     "Wallet": "Wallet",
     "My Wallet": "My Wallet",
+    "Logo": "Logo",
     "About stable token": "About stable token",
     "Header": {
         "Title": "eXchangily",
@@ -1337,5 +1338,13 @@
     "User manual": "User manual",
     "Totalsupply$": "Total quantity of the token",
     "Developer Quickstart": "Developer Quickstart",
-    "Privacy Policy": "Privacy Policy"
+    "Privacy Policy": "Privacy Policy",
+    "DUSDdsc1": "DUSD is an USD-pegged stable token that is issued on public blockchains. Currently it is created and issued on FAB blockchain, Ethereum blockchain as well as Binance BSC chain. It was issued by Exchangily LLC, a decentralized cryptocurrency exchange registered in Ohio, United States.",
+    "DUSDdsc2": "One DUSD in value is equal to one US Dollar.",
+    "DUSDdsc3": "Purpose of DUSD: For online cryptocurrency payment, and for either offline or online business.",
+    "Public blockchain cryptocurrency": "Public blockchain cryptocurrency",
+    "Equals to US Dollar": "Equals to US Dollar",
+    "Usage": "Usage",
+    "Payment, shopping": "Payment, shopping",
+    "Issuer": "Issuer"
 }
