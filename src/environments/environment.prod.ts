@@ -87,7 +87,7 @@ export const environment = {
             gasPrice: 5,
             gasPriceMax: 200,
             gasLimit: 21000,
-            gasLimitToken: 70000
+            gasLimitToken: 200000
         },
         MATIC: {
             chain: {
@@ -101,7 +101,7 @@ export const environment = {
             gasPrice: 5,
             gasPriceMax: 200,
             gasLimit: 21000,
-            gasLimitToken: 70000
+            gasLimitToken: 200000
         },
         HT: {
             chain: {
@@ -114,7 +114,7 @@ export const environment = {
             gasPrice: 5,
             gasPriceMax: 200,
             gasLimit: 21000,
-            gasLimitToken: 70000
+            gasLimitToken: 200000
         },
         FAB: {
             network: Btc.networks.bitcoin,
