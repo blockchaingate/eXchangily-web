@@ -607,7 +607,16 @@ export class WalletDashboardComponent implements OnInit {
 
             if(coin.name == 'KUSH') {
                 //console.log('coin.contractAddr coin.contractAddr =', coin.contractAddr );
-                this.walletUpdateToDate = true;
+                if(environment.production) {
+
+                    this.walletUpdateToDate = true;
+                } 
+            }
+
+            if(!environment.production 
+                && (coin.name == 'FET') 
+                && (coin.contractAddr == environment.addresses.smartContract.FET.FAB)) {
+                this.walletUpdateToDate = true;  
             }
             if (coin.name == 'BTC' && !btcAddress) {
                 btcAddress = coin.receiveAdds[0].address;

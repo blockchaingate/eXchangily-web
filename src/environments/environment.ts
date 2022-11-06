@@ -5,7 +5,7 @@ import * as Btc from 'bitcoinjs-lib';
 
 export const environment = {
     production: false,
-    version: '2.2.23',
+    version: '2.2.24',
     IssueTokenReceipt: 'mxU2i997YxYv75E6YNVNwkN5qJ68WC5sZN',
     SQUARE_APP_ID: {
         CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', // ccount kenin
@@ -233,7 +233,7 @@ export const environment = {
                 FAB: '0xdcc3abba31890d81f450662f9c99de4979073a60'
             },
             FET: {
-                FAB: '0xb1c5a4648c9be7f0ca00b559a3325133c2dfdc37'
+                FAB: '0x18a454cc6486af9c516c5e0a10861c1adefc0d88'
             },
             GET: {
                 FAB: '0xda0f76ec006246654fd2eed060f9f9025c6b3d58'
@@ -248,7 +248,7 @@ export const environment = {
             BUSD: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
             HNC: '0x122fd42c61bc66b0cd6cdbf302a0ca297497e240',
             CABTC: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
-            DUSD: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
+            DUSD: '0x35cb9b675495714909c80c1c11366dc8d396cbe7',
             TWBTC: '0x569e4c00dbae584eb3e2189739eae951886ac2a3',
             DCAD: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
             DCNY: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
