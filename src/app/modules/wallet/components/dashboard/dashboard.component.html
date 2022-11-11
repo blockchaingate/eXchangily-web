@@ -289,11 +289,11 @@
                                         <div class="col-2">
 
                                         </div>
-                                        <div class="col-custom-2" *ngIf="(gas > 0) && !maintainence">
-                                            <button mat-icon-button matTooltip="{{'Move fund to DEX'|translate}}" *ngIf="!mycoin.new && mycoin.name !== 'CSU'" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                        <div class="col-custom-2" *ngIf="!maintainence">
+                                            <button mat-icon-button matTooltip="{{'Move fund to DEX'|translate}}" *ngIf="(gas > 0) && !mycoin.new && mycoin.name !== 'CSU'" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                                 <mat-icon svgIcon="arrow-downward"></mat-icon>
                                             </button>
-                                            <button mat-icon-button matTooltip="{{'Confirm move fund to DEX'|translate}}" *ngIf="!mycoin.new && (mycoin.redeposit && mycoin.redeposit.length > 0) || (mycoin.depositErr && mycoin.depositErr.length > 0)" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                            <button mat-icon-button matTooltip="{{'Confirm move fund to DEX'|translate}}" *ngIf="(gas > 0) && !mycoin.new && (mycoin.redeposit && mycoin.redeposit.length > 0) || (mycoin.depositErr && mycoin.depositErr.length > 0)" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                                 <mat-icon svgIcon="vertical_align_bottom"></mat-icon>
                                             </button>
 

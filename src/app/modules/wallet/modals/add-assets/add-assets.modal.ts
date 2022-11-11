@@ -124,7 +124,8 @@ export class AddAssetsModal implements OnInit{
     }
 
     onFabSelection(e, v: any) {
-        console.log(e.option.selected, v); 
+        //console.log('e===', e);
+        //console.log(e.option.selected, v); 
         this.fabCoinsSelected = [];
         for (let i = 0; i < v.length; i++) {
             if(v && v[i] && v[i].value) {
@@ -148,7 +149,7 @@ export class AddAssetsModal implements OnInit{
     }
     */
     onEthSelection(e, v) {
-        console.log(e.option.selected, v); 
+        //console.log(e.option.selected, v); 
         this.ethCoinsSelected = [];
         for (let i = 0; i < v.length; i++) {
             this.ethCoinsSelected.push(v[i].value);
