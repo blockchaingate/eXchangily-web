@@ -614,8 +614,9 @@ export class WalletDashboardComponent implements OnInit {
             }
 
             if(!environment.production 
-                && (coin.name == 'FET') 
-                && (coin.contractAddr == environment.addresses.smartContract.FET.FAB)) {
+                && (coin.name == 'USDT') 
+                && (coin.tokenType == 'ETH')
+                && (coin.contractAddr == environment.addresses.smartContract.USDT.ETH)) {
                 this.walletUpdateToDate = true;  
             }
             if (coin.name == 'BTC' && !btcAddress) {

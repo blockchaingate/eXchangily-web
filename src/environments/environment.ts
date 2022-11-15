@@ -74,7 +74,7 @@ export const environment = {
             bytesPerInput: 148
         },
         ETH: {
-            chain: 'ropsten',
+            chain: 'goerli',
             hardfork: 'byzantium',
             gasPrice: 90,
             gasPriceMax: 200,
@@ -202,10 +202,10 @@ export const environment = {
             StakingFABEXG: '0xb6af31442fef2e631dfcfe02de59ef703c961717',
             EXG: {
                 FAB: '0x867480ba8e577402fa44f43c33875ce74bdc5df6',
-                ETH: '0x9cffdbe1bc18c3de44893107b8d2b16d515dbbf7'
+                ETH: '0xe1a2c9b54ec74717756f618197e8f5a0e8c9a16b'
             },
             USDT: { 
-                ETH: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',
+                ETH: '0xa9f4f6f0fa56058ebdb91865eb2f6aec83b94532',
                 TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t',
                 BNB: '0x4850754EA867654339F38d4e6DF7cd80CFee141f',
                 MATIC: '0x26CbCDe3842D9A9170d47F122F69D993a00676ED'
@@ -215,7 +215,7 @@ export const environment = {
                 TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t'
             },
             FAB: {
-                ETH: '0xd8b836a7276b3D28FE98CE9d5C8D3041051b792C',
+                ETH: '0xffa05f852083b712e2cc575dc6f37b958418ff42',
                 BNB: '0xb3Dcd26FBFCC3aeA2aa0ac833c2B38421d4b1905'
             },
             IXT: {
@@ -223,11 +223,11 @@ export const environment = {
             },
             DSC: {
                 FAB: '0xc65624b3bbdf3e786705045405b5f09ab811b9dd',
-                ETH: '0x2c4eac82c6aca937c9dc30796f1f8e7f1c04843b'
+                ETH: '0x517ce51819932f74cd1fdb3bba53c54b8cd303f2'
             }, 
             BST: {
                 FAB: '0x3407424d43886a93434e7ff220c1c5a3bf75327b',
-                ETH: '0x3732abecb2b660334ea71c029b10494ce9972cfe'
+                ETH: '0xcff73e73291688243b9a4d1221602163bec1bd76'
             }, 
             SEED: {
                 FAB: '0xdcc3abba31890d81f450662f9c99de4979073a60'
@@ -267,24 +267,24 @@ export const environment = {
             DMXN: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
             DBRL: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
             DNGN: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
-            INB: '0x919c6d21670fe8cEBd1E86a82a1A74E9AA2988F8',
-            REP: '0x4659c4A33432A5091c322E438e0Fb1D286A1EbdE',
-            HOT: '0x6991d9fff5de74085f5c786d425403601280c8f4',
-            CEL: '0xa07a1ab0a8e4d95683dce8d22d0ed665499f0a2b',
-            MATIC: '0x39ccec89a2251652265ab63fdcd551b6f65e37d5',
-            IOST: '0x4dd868d8d961f202e3244a25871105b5e1feaa62',
-            MANA: '0x4527fa0ce6f221a7b9e54412d7a3edd9a37c350a',
-            FUN: '0x98e6affb8192ffd89a62e27dc5a594cd3c1fc8db', //??
-            WAX: '0xb2140669d08a02b78a9fb4a9ebe36371ae023e5f',
-            ELF: '0xdd3d64919c119a7cde45763b94cf3d1b33fdaff7',
-            GNO: '0x94fd1b18c927935d4f1751239172ad212281f4ac',
-            POWR: '0x6e981f5d973a3ab55ff9db9a77f4123b71d833dd',
-            WINGS: '0x08705dc287150ba2da249b5a1b0c3b99c71b4100',
-            MTL: '0x1c9b5afa112b42b12fb06b62e5f1e159af49dfa7',
-            KNC: '0x3aad796ceb3a1063f727c6d0c698e37053292d10',
-            GVT: '0x3e610d9fb322063e50d185e2cc1b45f007e7180c',
-            DRGN: '0xbbdd7a557a0d8a9bf166dcc2730ae3ccec7df05c',
-            NVZN: '0xf18e828a19c00764522e50a511fffd521de4b119',
+            INB: '0x9dff4f44c379d69fb1fda37dcf750125becc57da',
+            REP: '0xb72ef247c46b2efdff34481d0d3d15b6b6ea4aa6',
+            HOT: '0x78926047105b9672c9ddce74ae23a1c261ac912b',
+            CEL: '0xf64f8e2f35e7348a2ffbd4e6259976dd8330fd6a',
+            MATIC: '0x2e531ff02391983353077d54f3c9a35c5519bec4',
+            IOST: '0x50ef08e9ad2767526ff2f7fa4d73e6518b6ad84f',
+            MANA: '0x7cf9e15578319cebceeddf88662f8792db9831fb',
+            FUN: '0x916068693b1486adb6328dbcf907aca92f3df7bf', //??
+            WAX: '0xd8aedc6bf8b152f5858c3917d5a072d5008d4bc8',
+            ELF: '0xb3dcd26fbfcc3aea2aa0ac833c2b38421d4b1905',
+            GNO: '0xfde7e42b0f2800a666c84bcba35760896a78821a',
+            POWR: '0x2b0a783eba71eb6d1c17eae68c1fdb80df6f80a1',
+            WINGS: '0xf6555cd1d427af1324bb07fd243d34487279507f',
+            MTL: '0x8f490b97daf8eee500648db337b63c587ab669b6',
+            KNC: '0x354c9c50615937142892b86613098b7f6cd868ac',
+            GVT: '0xb3dcd26fbfcc3aea2aa0ac833c2b38421d4b1905',
+            DRGN: '0x80839f352ae01b452b90a31182cc82078a6a1387',
+            NVZN: '0x448c4e040c8fe732c39aef01008e392d64cb7a4d',
             CNB: '0x466bc642fdd001b49aa8fa76c8058934bd428526',
             CSU: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
 
