@@ -60,8 +60,9 @@ export class WalletconnectComponent implements OnInit {
     }
 
     const client = await SignClient.init({
-      projectId: "3acbabd1deb4672edfd4ca48226cfc0f",    
-      relayUrl: 'wss://relay.walletconnect.com',
+      //projectId: "3acbabd1deb4672edfd4ca48226cfc0f",    
+      //relayUrl: 'wss://relay.walletconnect.com',
+      relayUrl: 'wss://api.biswap.com',
       metadata: {
         name: 'Angular Wallet',
         description: 'Angular Wallet for WalletConnect',
