@@ -11,7 +11,7 @@ export const environment = {
     PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',
     baseUrl: 'https://exchangily.com',
     url: 'https://api.exchangily.com/',
-    version: '2.2.24',
+    version: '2.2.27',
     campaignId: 1,
     PUBLIC_KEY: '8aff99f9727143fccd28e62df14e4e67305faa70d19b4cb0b9d4cde18ea3cd23c8e58bda3c26e10813aaa6020f3d07a3d9f83a9062cfe662a600949325378b99',
     OTC_COMMISSION_RATE: 0,
@@ -235,6 +235,9 @@ export const environment = {
             KUSH: {
                 BNB: '0x0a6c10ab62408f8af68b7132a929aa816b0d85d1'
             },
+            HS: {
+                BNB: '0xa4C876143891F012991E5e06fABde7D6Ad31E1b0'
+            },
             BUSD: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
             HNC: '0x122fd42c61bc66b0cd6cdbf302a0ca297497e240',
             CTG: '0x05c1a1dff47874f49230f31774b1ebe4b8899f68',  
@@ -405,6 +408,8 @@ export const environment = {
         DCNY: 64,
         DJPY: 1100,
         DGBP: 8,
+        KUSH: 20000000,
+        HS: 20,
         DEURO: 9,
         DAUD: 14,
         DMYR: 40,
@@ -479,6 +484,8 @@ export const environment = {
         DAUD: 12,
         DMYR: 12,
         DKRW: 12,
+        KUSH: 15,
+        HS: 15,
         DPHP: 12,
         DTHB: 12,
         DTWD: 12,
