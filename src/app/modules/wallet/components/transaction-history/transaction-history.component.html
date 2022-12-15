@@ -10,10 +10,10 @@
                         <a class="dropdown-item" (click)="changeType('All')">{{"All" | translate}}</a>
                     </li>
                     <li role="menuitem" *ngIf="currentType !== 'Deposit'">
-                        <a class="dropdown-item" (click)="changeType('Deposit')">{{"Deposit" | translate}}</a>
+                        <a class="dropdown-item" (click)="changeType('Deposit')">{{"To exchange" | translate}}</a>
                     </li>
                     <li role="menuitem" *ngIf="currentType !== 'Withdraw'">
-                        <a class="dropdown-item" (click)="changeType('Withdraw')">{{"Withdraw" | translate}}</a>
+                        <a class="dropdown-item" (click)="changeType('Withdraw')">{{"To wallet" | translate}}</a>
                     </li>
                     <li role="menuitem" *ngIf="currentType !== 'Send'">
                         <a class="dropdown-item" (click)="changeType('Send')">{{"Send" | translate}}</a>

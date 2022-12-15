@@ -994,6 +994,8 @@
     "All": "All",
     "Deposit": "Deposit",
     "Withdraw": "Withdraw",
+    "To exchange": "To exchange",
+    "To wallet": "To wallet",
     "WithdrawNote": "Note: Move coins to wallet will result in a cross-chain transaction, need to pay third party's token as gas(or transactin fee), it depend on the thrid party blockchain's current transaction fee, it will be converted and charged from the amount you are moving. ",
     "Send": "Send",
     "Locked Amount": "Locked Amount",
