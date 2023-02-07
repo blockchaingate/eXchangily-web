@@ -38,7 +38,8 @@ export class SendCoinModal {
         gasFeeCustomChecked: [false],
         gasPrice: [environment.chains.FAB.gasPrice],
         gasLimit: [environment.chains.FAB.gasLimit],
-        satoshisPerBytes: [environment.chains.FAB.satoshisPerBytes]
+        satoshisPerBytes: [environment.chains.FAB.satoshisPerBytes],
+        feeLimit: [environment.chains.TRX.feeLimit]
     });
 
     constructor(
@@ -149,7 +150,7 @@ export class SendCoinModal {
             }            
         } else {
             if(this.coin.name == 'TRX') {
-                this.transFee = environment.chains.TRX.feeLimit / 1e6;
+                this.transFee = environment.chains.TRX.feeLimit;
             }            
         }
         
@@ -281,6 +282,7 @@ export class SendCoinModal {
         const comment = this.sendCoinForm.value.comment;
         const gasPrice = this.sendCoinForm.value.gasPrice ? Number(this.sendCoinForm.value.gasPrice) : 0;
         const gasLimit = this.sendCoinForm.value.gasLimit ? Number(this.sendCoinForm.value.gasLimit) : 0;
+        const feeLimit = this.sendCoinForm.value.feeLimit ? Number(this.sendCoinForm.value.feeLimit) : 0;
         const satoshisPerBytes = this.sendCoinForm.value.satoshisPerBytes ?
             Number(this.sendCoinForm.value.satoshisPerBytes) : 0;
 
@@ -302,6 +304,10 @@ export class SendCoinModal {
             if (!gasPrice || !gasLimit || !satoshisPerBytes) {
                 return;
             }
+        } else if ((this.coin.name === 'TRX') || (this.coin.tokenType === 'TRX')) {
+            if (!feeLimit) {
+                return;
+            }
         }
 
         const theForm: any = {
@@ -313,6 +319,7 @@ export class SendCoinModal {
             comment: comment,
             gasPrice: gasPrice,
             gasLimit: gasLimit,
+            feeLimit,
             satoshisPerBytes: satoshisPerBytes
         };
         this.confirmedCoinSent.emit(theForm);
@@ -394,11 +401,10 @@ export class SendCoinModal {
             // }
         }
 
-        const selectedCoinIndex = Number(this.sendCoinForm.value.selectedCoinIndex);
         const amount = Number(this.sendCoinForm.value.sendAmount);
-        const comment = this.sendCoinForm.value.comment;
         const gasPrice = this.sendCoinForm.value.gasPrice ? Number(this.sendCoinForm.value.gasPrice) : 0;
         const gasLimit = this.sendCoinForm.value.gasLimit ? Number(this.sendCoinForm.value.gasLimit) : 0;
+        const feeLimit = this.sendCoinForm.value.feeLimit ? Number(this.sendCoinForm.value.feeLimit) : 0;
         const satoshisPerBytes = this.sendCoinForm.value.satoshisPerBytes ?
             Number(this.sendCoinForm.value.satoshisPerBytes) : 0;
 
@@ -421,20 +427,31 @@ export class SendCoinModal {
             if (!gasPrice || !gasLimit || !satoshisPerBytes) {
                 return;
             }
+        } else 
+        if((this.coin.name === 'TRX') || (this.coin.tokenType === 'TRX')) {
+            if(!feeLimit) {
+                return;
+            }
         }
 
-        const options = {
-            gasPrice: gasPrice,
-            gasLimit: gasLimit,
-            satoshisPerBytes: satoshisPerBytes,
-            getTransFeeOnly: true
-        };
+        if((this.coin.name === 'TRX') || (this.coin.tokenType === 'TRX')) {
+            this.transFee = feeLimit; 
+        }
+        else {
+            const options = {
+                gasPrice: gasPrice,
+                gasLimit: gasLimit,
+                satoshisPerBytes: satoshisPerBytes,
+                getTransFeeOnly: true
+            };
+    
+            const ret = await this.coinServ.sendTransaction(this.coin, Buffer.from(''), to, amount, options, false);
+    
+            console.log('ret===', ret);
+            this.transFee = ret.transFee;
+        }
 
-        const ret = await this.coinServ.sendTransaction(this.coin, Buffer.from(''), to, amount, options, false);
-
-        console.log('ret===', ret);
-        this.transFee = ret.transFee;
-        return ret;
+        
     }
 
     show() {

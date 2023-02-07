@@ -138,6 +138,16 @@
                             </div>
                         </div>
 
+                        <div *ngIf="
+                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value || 0].name === 'TRX' 
+                        || wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value || 0].tokenType === 'TRX'
+                        ">
+                            <div class="form-group">
+                                <label for="gasPrice" class="text-dark">{{'Fee Limit' | translate }}</label>
+                                <input type="text" class="form-control" id="inputFeeLimit" (input)="onTextChange()" formControlName="feeLimit" placeholder="0">
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 

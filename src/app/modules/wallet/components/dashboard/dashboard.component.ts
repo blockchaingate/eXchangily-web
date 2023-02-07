@@ -1001,6 +1001,7 @@ export class WalletDashboardComponent implements OnInit {
         const currentCoinBalance = this.currentCoin.balance;
         const coinName = this.currentCoin.name;
         const tokenType = this.currentCoin.tokenType;
+
         if (currentCoinBalance < amount) {
             this.alertServ.openSnackBar(
                 this.translateServ.instant('InsufficientForTransaction', {coin: coinName}),
@@ -1625,7 +1626,8 @@ export class WalletDashboardComponent implements OnInit {
         const options = {
             gasPrice: this.sendCoinForm.gasPrice,
             gasLimit: this.sendCoinForm.gasLimit,
-            satoshisPerBytes: this.sendCoinForm.satoshisPerBytes
+            satoshisPerBytes: this.sendCoinForm.satoshisPerBytes,
+            feeLimit: this.sendCoinForm.feeLimit
         };
         
         let resForSendTx;
@@ -1903,7 +1905,8 @@ export class WalletDashboardComponent implements OnInit {
         const options = {
             gasPrice: this.amountForm.gasPrice,
             gasLimit: this.amountForm.gasLimit,
-            satoshisPerBytes: this.amountForm.satoshisPerBytes
+            satoshisPerBytes: this.amountForm.satoshisPerBytes,
+            feeLimit: this.amountForm.feeLimit
         };
 
         const { txHex, txHash, errMsg, amountInTx, txids } = await this.coinServ.sendTransaction(

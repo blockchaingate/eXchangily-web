@@ -2101,6 +2101,7 @@ export class CoinService {
         let gasLimit: any = 0;
         let satoshisPerBytes: any = 0;
         let bytesPerInput: any = 0;
+        let feeLimit: any = 0;
         let txHex: any = '';
         let txHash: any = '';
         let errMsg: any = '';
@@ -2129,6 +2130,9 @@ export class CoinService {
             }
             if (options.getTransFeeOnly) {
                 getTransFeeOnly = options.getTransFeeOnly;
+            }
+            if (options.feeLimit) {
+                feeLimit = options.feeLimit;
             }
         }
         const receiveAddsIndexArr: any = [];
@@ -2475,7 +2479,7 @@ export class CoinService {
             console.log('start to send TRX');
 
             if (getTransFeeOnly) {
-                return { txHex: '', txHash: '', errMsg: '', transFee: environment.chains.TRX.feeLimit / 1e6, amountInTx: 0, txids: '' };
+                return { txHex: '', txHash: '', errMsg: '', transFee: feeLimit, amountInTx: 0, txids: '' };
             }            
             const address1 = mycoin.receiveAdds[0];
             const currentIndex = address1.index;            
@@ -2509,7 +2513,7 @@ export class CoinService {
         if (mycoin.tokenType == 'TRX') {
 
             if (getTransFeeOnly) {
-                return { txHex: '', txHash: '', errMsg: '', transFee: environment.chains.TRX.feeLimitToken / 1e6, amountInTx: 0, txids: '' };
+                return { txHex: '', txHash: '', errMsg: '', transFee: feeLimit, amountInTx: 0, txids: '' };
             }              
             const trc20ContractAddress = environment.addresses.smartContract[mycoin.name]['TRX']; // contract address
             const address1 = mycoin.receiveAdds[0];
@@ -2529,6 +2533,7 @@ export class CoinService {
             try {
                 const contract = await tronWeb.contract().at(trc20ContractAddress);
                 console.log('gogogo');
+                console.log('feeLimit===', feeLimit);
                 // Use call to execute a pure or view smart contract method.
                 // These methods do not modify the blockchain, do not cost anything to execute and are also not broadcasted to the network.
                 if (doSubmit) {
@@ -2537,45 +2542,16 @@ export class CoinService {
                         toAddress, // address _to
                         amountNum   // amount
                     ).send({
-                        feeLimit: environment.chains.TRX.feeLimitToken
+                        feeLimit: new BigNumber(feeLimit).shiftedBy(6).toNumber()
                     });
                 } else {
 
-                    /*
-                    const functionSelector = 'transfer(address,uint256)';
 
-                    const options= {
-                        feeLimit: 1000000,
-                        callValue: 0,
-                        userFeePercentage: 100,
-                        shouldPollResponse: false,
-                        from: '41de44a0022fa24706a1d23756d418980ff321db84'
-                    };
-
-                    const parameters = [
-                        {
-                          type: 'address',
-                          value: '0xb2c57719f8ff16f9f20952947fb09601e465ce2d'
-                        },
-                        { type: 'uint256', value: amountNum }
-                    ];
-
-                     const transaction = await tronWeb.transactionBuilder.triggerSmartContract(
-                        trc20ContractAddress,
-                        functionSelector,
-                        options,
-                        parameters,
-                        ''
-                    );
-                    const txHexObj = await tronWeb.trx.sign(transaction.transaction, priKeyDisp);
-                    txHex = txHexObj.raw_data_hex;
-                    txHash = txHexObj.txID;
-                    */
 
                    const functionSelector = 'transfer(address,uint256)';
 
                    const options = {
-                       feeLimit: environment.chains.TRX.feeLimitToken,
+                       feeLimit: new BigNumber(feeLimit).shiftedBy(6).toNumber(),
                        callValue: 0,
                        userFeePercentage: 100,
                        shouldPollResponse: false,

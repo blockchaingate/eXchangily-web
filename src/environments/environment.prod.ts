@@ -141,8 +141,8 @@ export const environment = {
             network: {
                 messagePrefix: '\x15TRON Signed Message:\n'
             },     
-            feeLimit: 15000000,
-            feeLimitToken: 15000000,                   
+            feeLimit: 40,
+            feeLimitToken: 40,                   
             fullNode: 'https://api.trongrid.io',
             solidityNode: 'https://api.trongrid.io',
             eventServer: 'https://api.trongrid.io'          
