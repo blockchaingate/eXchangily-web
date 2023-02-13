@@ -585,7 +585,7 @@ export class WalletDashboardComponent implements OnInit {
     }
 
     async loadBalance(includeNew: boolean = true) {
-        this.walletUpdateToDate = false;
+        this.walletUpdateToDate = true;
         // console.log('this.coinsPrice=');
         // console.log(this.coinsPrice);
         if (!this.wallet) {
@@ -605,12 +605,10 @@ export class WalletDashboardComponent implements OnInit {
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];       
 
-            if((coin.name == 'GET')
-            && (coin.contractAddr == environment.addresses.smartContract.GET.FAB)
-            ) {
+            if(coin.name == 'BRB') {
                 //console.log('coin.contractAddr coin.contractAddr =', coin.contractAddr );
 
-                this.walletUpdateToDate = true;
+                this.walletUpdateToDate = false;
             }
 
             /*
@@ -708,7 +706,6 @@ export class WalletDashboardComponent implements OnInit {
                     let updated = false;
                     let hasDRGN = false;
                     let hasNVZN = false;
-                    let hasCNB = false;
                     let ethCoin;
                     let fabCoin;
                     for (let j = 0; j < this.wallet.mycoins.length; j++) {
@@ -751,9 +748,7 @@ export class WalletDashboardComponent implements OnInit {
                             fabCoin = coin;
                             
                         }
-                        if (coin.name === 'CNB') {
-                            hasCNB = true;
-                        }                        
+                   
 
                         const resBody = res.data;
 
@@ -1214,14 +1209,15 @@ export class WalletDashboardComponent implements OnInit {
             dusdCoin.encryptedPrivateKey = coin.encryptedPrivateKey;    
             this.coinServ.updateCoinBalance(dusdCoin);
 
+            /*
             const cnbCoin = this.coinServ.initToken('FAB', 'CNB', 18, environment.addresses.smartContract.CNB, coin);
             cnbCoin.new = true;
             cnbCoin.encryptedPrivateKey = coin.encryptedPrivateKey; 
             this.coinServ.updateCoinBalance(cnbCoin);
-
+            */
             this.wallet.mycoins.push(exgCoin);
             this.wallet.mycoins.push(dusdCoin);
-            this.wallet.mycoins.push(cnbCoin);
+            //this.wallet.mycoins.push(cnbCoin);
         }
 
         this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);

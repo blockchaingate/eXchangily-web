@@ -296,13 +296,11 @@ export class CoinService {
 
         myCoins.push(getCoin);           
 
-
+        /*
         const brbCoin = this.initToken('FAB', 'BRB', 18, environment.addresses.smartContract.BRB.FAB, fabCoin);
-
         this.fillUpAddress(brbCoin, seed, 1, 0);
-
         myCoins.push(brbCoin);     
-
+        */
 
         const stableCoins = [
             'DCAD', 'DCNY', 'DJPY', 'DGBP', 'DEURO', 'DAUD', 'DMYR', 
@@ -527,10 +525,11 @@ export class CoinService {
         myCoins.push(token);
 */
 
+        /*
         const cnbCoin = this.initToken('FAB', 'CNB', 18, environment.addresses.smartContract.CNB, fabCoin);
         this.fillUpAddress(cnbCoin, seed, 1, 0);
         myCoins.push(cnbCoin);
-
+        */
         return myCoins;
     }
 

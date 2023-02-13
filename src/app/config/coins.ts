@@ -8,7 +8,7 @@ export const coin_list: Coin[] = [
     { id: 131072, name: 'FAB', icon: '' },
     { id: 131073, name: 'EXG', icon: '' },
     { id: 131074, name: 'DUSD', icon: ''},
-    { id: 131075, name: 'CNB', icon: ''},
+    //{ id: 131075, name: 'CNB', icon: ''},
     { id: 131076, name: 'DSC', icon: ''},
     { id: 131077, name: 'BST', icon: ''},
     { id: 131078, name: 'DCAD', icon: ''},
@@ -35,7 +35,7 @@ export const coin_list: Coin[] = [
     { id: 131099, name: 'SEED', icon: ''},
     { id: 131100, name: 'FET', icon: ''},
     { id: 131101, name: 'GET', icon: ''},
-    { id: 131102, name: 'BRB', icon: ''},
+    //{ id: 131102, name: 'BRB', icon: ''},
 
     { id: 262144, name: 'BCH', icon: ''},
     { id: 327680, name: 'LTC', icon: ''},

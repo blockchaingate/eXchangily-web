@@ -256,7 +256,7 @@ export const environment = {
             DCAD: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
             DCNY: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
             DJPY: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
-            DGBP: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
+            DGBP: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed', 
             DEURO: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
             DAUD: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
             DMYR: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',
