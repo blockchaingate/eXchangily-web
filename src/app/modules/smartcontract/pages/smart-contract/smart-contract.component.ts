@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ɵRender3NgModuleRef } from '@angular/core';
 
 import { PinNumberModal } from '../../../shared/modals/pin-number/pin-number.modal';
+import { PrivateKeyModal } from '../../../shared/modals/private-key/private-key.modal';
 import { Wallet } from '../../../../models/wallet';
 import { StorageService } from '../../../../services/storage.service';
 import { ApiService } from '../../../../services/api.service';
@@ -24,10 +25,12 @@ import BigNumber from 'bignumber.js';
 })
 export class SmartContractComponent implements OnInit {
   @ViewChild('pinModal', {static: true}) pinModal: PinNumberModal;
+  @ViewChild('privateKeyModal', {static: true}) privateKeyModal: PrivateKeyModal;
   method: any;
   action: string;
   abiName: string;
   txid: string;
+  withPrivateKey: boolean;
   txHex: string;
   customAbi: string;
   contractName: string;
@@ -205,7 +208,6 @@ export class SmartContractComponent implements OnInit {
       if ((coin.name === 'FAB') && !coin.tokenType && !this.balance) {
         this.mycoin = coin;
         this.balance = await this.coinServ.getBalance(coin);
-        console.log('this.balance=', this.balance);
         // break;
       } else 
       if (coin.name === 'ETH') {
@@ -268,18 +270,15 @@ export class SmartContractComponent implements OnInit {
           if(!input.val.startsWith('0x')) {
             input.val = this.utilServ.fabToExgAddress(input.val);
           }
-          console.log('input.val===', input.val);
         }      
       }
     }
     this.method = def;
-    console.log('this.method===', this.method);
   }
 
   inputCustomAbi(event) {
     this.customAbi = this.customAbi.replace(/'/g, '"');
     const def = JSON.parse(this.customAbi);
-    console.log('def=====', def);
     this.formTypes(def);
     this.renderAbi(def);
   }
@@ -287,7 +286,6 @@ export class SmartContractComponent implements OnInit {
   renderMethod(method: string) {
 
     const def = this.getMethodDefinition(this.ABI, method);
-    console.log('def===', def);
     if(!def) {
       return;
     }
@@ -474,10 +472,20 @@ export class SmartContractComponent implements OnInit {
     */
   }
 
-  async callKanbanDo(seed) {
+  async callKanbanWithPrivateKeyDo(privateKey: string) {
+    const coin: any = {
+      name: 'FAB'
+    };
+
+    const keyPairsKanban = this.coinServ.getKeyPairsFromPrivateKey(coin, privateKey);
+    keyPairsKanban.address = this.utilServ.fabToExgAddress(keyPairsKanban.address);
+    await this.callKanbanWithKeyPairDo(keyPairsKanban);
+  }
+
+  async callKanbanWithKeyPairDo(keyPairsKanban) {
     this.formAbiHex();
     
-    const keyPairsKanban = this.coinServ.getKeyPairs(this.exgCoin, seed, 0, 0);
+    
     let gasPrice = environment.chains.KANBAN.gasPrice;
     let gasLimit = environment.chains.KANBAN.gasLimit;
     const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
@@ -497,7 +505,9 @@ export class SmartContractComponent implements OnInit {
         data: '0x' + this.utilServ.stripHexPrefix(this.kanbanData)          
     };
 
-    const privKey = Buffer.from(keyPairsKanban.privateKeyHex, 'hex');
+    const privKey = keyPairsKanban.privateKeyBuffer ? keyPairsKanban.privateKeyBuffer.privateKey
+    :
+    Buffer.from(keyPairsKanban.privateKeyHex, 'hex');
 
     let txhex = '';
 
@@ -530,6 +540,12 @@ export class SmartContractComponent implements OnInit {
       this.alertServ.openSnackBar(error.error, 'Ok');
     }
     );
+
+  }
+
+  async callKanbanDo(seed) {
+    const keyPairsKanban = this.coinServ.getKeyPairs(this.exgCoin, seed, 0, 0);
+    await this.callKanbanWithKeyPairDo(keyPairsKanban);
 
   }
 
@@ -670,6 +686,9 @@ export class SmartContractComponent implements OnInit {
     this.pinModal.show(); 
   }
 
+  async onConfirmedPrivateKey(privateKey: string) {
+    await this.callKanbanWithPrivateKeyDo(privateKey);
+  }
   async onConfirmedPin(pin: string) {
 
     
@@ -706,8 +725,12 @@ export class SmartContractComponent implements OnInit {
   }
 
   callKanban() {
-    this.action = 'callKanban';
-    this.pinModal.show(); 
+    if(this.withPrivateKey) {
+      this.privateKeyModal.show();
+    } else {
+      this.action = 'callKanban';
+      this.pinModal.show();
+    } 
   }
 
   async viewKanban() {

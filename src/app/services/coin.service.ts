@@ -765,7 +765,6 @@ export class CoinService {
         return await this.apiService.getFabTransactionReceiptAsync(txid);
     }
     async getBalance(myCoin: MyCoin) {
-        console.log('myCoin.name for getBalance=', myCoin);
         let balance;
         let totalBalance = 0;
         let totalLockBalance = 0;
@@ -1489,7 +1488,6 @@ export class CoinService {
 
         for (index = 0; index < receiveAddsIndexArr.length; index++) {
             const keyPair = this.getKeyPairs(mycoin, seed, 0, receiveAddsIndexArr[index]);
-            // console.log('keyPair.privateKey=' + keyPair.privateKey + ',keyPair.publicKey=' + keyPair.publicKey);
             // console.log('receiveAddsIndexArr[index]=' + receiveAddsIndexArr[index] + ',address for keypair=' + keyPair.address);
             const alice = Btc.ECPair.fromWIF(keyPair.privateKey, network);
             txb.sign(index, alice);
@@ -1690,6 +1688,14 @@ export class CoinService {
                 prefix = 9;
             }           
         } else 
+        if(coin.name === 'USDC') {
+            if (coin.tokenType === 'ETH') {
+                prefix = 3;
+            } else 
+            if (coin.tokenType === 'TRX') {
+                prefix = 7;
+            }            
+        }
         if (coin.name === 'FAB') {
             if (coin.tokenType === 'ETH') {
                 prefix = 3;
@@ -1720,6 +1726,9 @@ export class CoinService {
         const tokenType = coin.tokenType;
         if (name === 'USDT' && tokenType === 'TRX') {
             name = 'USDTX';
+        } else 
+        if (name === 'USDC' && tokenType === 'TRX') {
+            name = 'USDCX';
         } else 
         if (name === 'USDT' && tokenType === 'BNB') {
             name = 'USDTB';

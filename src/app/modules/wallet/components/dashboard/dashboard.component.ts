@@ -1751,6 +1751,9 @@ export class WalletDashboardComponent implements OnInit {
         if(coinName == 'USDTX') {
             coinType = this.coinServ.getCoinTypeIdByName('USDT');
         } else
+        if(coinName == 'USDCX') {
+            coinType = this.coinServ.getCoinTypeIdByName('USDC');
+        } else
         if(coinName == 'USDTM') {
             coinType = this.coinServ.getCoinTypeIdByName('USDT');
         } else
@@ -1856,10 +1859,11 @@ export class WalletDashboardComponent implements OnInit {
 
     async depositdo() {
         await this.loadBalance(false);
+        
         if(!this.checkAmount(this.amountForm.amount, this.amountForm.transFee, this.amountForm.tranFeeUnit)) {
             return;
         }
-
+        
         const currentCoin = this.currentCoin;
         if(currentCoin.name == 'FAB' && currentCoin.tokenType == 'FAB') {
             currentCoin.tokenType = '';

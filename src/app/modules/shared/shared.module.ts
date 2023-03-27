@@ -1,6 +1,7 @@
 
 import { NgModule } from '@angular/core';
 import { PinNumberModal } from './modals/pin-number/pin-number.modal';
+import { PrivateKeyModal } from './modals/private-key/private-key.modal';
 import { DisplayPinNumberModal } from './modals/display-pin-number/display-pin-number.modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -20,6 +21,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
     declarations: [
         PinNumberModal,
+        PrivateKeyModal,
         DisplayPinNumberModal,
         SortByFieldPipe,
         FilterByChainPipe
@@ -46,6 +48,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ],
     exports: [
         PinNumberModal,
+        PrivateKeyModal,
         DisplayPinNumberModal,
         SortByFieldPipe,
         FilterByChainPipe,
