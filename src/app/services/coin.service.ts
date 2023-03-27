@@ -1489,7 +1489,6 @@ export class CoinService {
 
         for (index = 0; index < receiveAddsIndexArr.length; index++) {
             const keyPair = this.getKeyPairs(mycoin, seed, 0, receiveAddsIndexArr[index]);
-            // console.log('keyPair.privateKey=' + keyPair.privateKey + ',keyPair.publicKey=' + keyPair.publicKey);
             // console.log('receiveAddsIndexArr[index]=' + receiveAddsIndexArr[index] + ',address for keypair=' + keyPair.address);
             const alice = Btc.ECPair.fromWIF(keyPair.privateKey, network);
             txb.sign(index, alice);
@@ -1728,6 +1727,9 @@ export class CoinService {
         const tokenType = coin.tokenType;
         if (name === 'USDT' && tokenType === 'TRX') {
             name = 'USDTX';
+        } else 
+        if (name === 'USDC' && tokenType === 'TRX') {
+            name = 'USDCX';
         } else 
         if (name === 'USDT' && tokenType === 'BNB') {
             name = 'USDTB';

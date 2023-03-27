@@ -1751,6 +1751,9 @@ export class WalletDashboardComponent implements OnInit {
         if(coinName == 'USDTX') {
             coinType = this.coinServ.getCoinTypeIdByName('USDT');
         } else
+        if(coinName == 'USDCX') {
+            coinType = this.coinServ.getCoinTypeIdByName('USDC');
+        } else
         if(coinName == 'USDTM') {
             coinType = this.coinServ.getCoinTypeIdByName('USDT');
         } else
