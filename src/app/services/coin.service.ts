@@ -1690,6 +1690,14 @@ export class CoinService {
                 prefix = 9;
             }           
         } else 
+        if(coin.name === 'USDC') {
+            if (coin.tokenType === 'ETH') {
+                prefix = 3;
+            } else 
+            if (coin.tokenType === 'TRX') {
+                prefix = 7;
+            }            
+        }
         if (coin.name === 'FAB') {
             if (coin.tokenType === 'ETH') {
                 prefix = 3;
