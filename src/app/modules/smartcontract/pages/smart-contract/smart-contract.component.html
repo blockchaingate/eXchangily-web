@@ -195,7 +195,7 @@
                         <textarea [(ngModel)]="param.value" placeholder="{{param.type}}" matInput></textarea>
                     </mat-form-field>
                 </div>
-                <div>
+                <div class="dark-bg">
                     <mat-checkbox [(ngModel)]="withPrivateKey">{{'With private key' | translate}}</mat-checkbox>
                 </div>
                 <button class="button" mat-raised-button color="primary" (click)="decodeABI()"> {{'Decode ABI' | translate}}</button>
