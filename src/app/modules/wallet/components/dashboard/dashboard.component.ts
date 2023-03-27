@@ -1856,10 +1856,11 @@ export class WalletDashboardComponent implements OnInit {
 
     async depositdo() {
         await this.loadBalance(false);
+        
         if(!this.checkAmount(this.amountForm.amount, this.amountForm.transFee, this.amountForm.tranFeeUnit)) {
             return;
         }
-
+        
         const currentCoin = this.currentCoin;
         if(currentCoin.name == 'FAB' && currentCoin.tokenType == 'FAB') {
             currentCoin.tokenType = '';
