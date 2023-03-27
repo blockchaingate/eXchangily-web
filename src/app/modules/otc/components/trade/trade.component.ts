@@ -100,7 +100,6 @@ export class TradeComponent implements OnInit {
       const mycoin = this.wallet.mycoins[i];
       if (mycoin.name === coin) {
         this.balance = mycoin.balance;
-        console.log('this.balance=', this.balance);
 
         this.currentCoin = mycoin;
 

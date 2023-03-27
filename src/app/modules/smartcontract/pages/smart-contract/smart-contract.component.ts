@@ -208,7 +208,6 @@ export class SmartContractComponent implements OnInit {
       if ((coin.name === 'FAB') && !coin.tokenType && !this.balance) {
         this.mycoin = coin;
         this.balance = await this.coinServ.getBalance(coin);
-        console.log('this.balance=', this.balance);
         // break;
       } else 
       if (coin.name === 'ETH') {
@@ -287,7 +286,6 @@ export class SmartContractComponent implements OnInit {
   renderMethod(method: string) {
 
     const def = this.getMethodDefinition(this.ABI, method);
-    console.log('def===', def);
     if(!def) {
       return;
     }

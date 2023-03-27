@@ -765,7 +765,6 @@ export class CoinService {
         return await this.apiService.getFabTransactionReceiptAsync(txid);
     }
     async getBalance(myCoin: MyCoin) {
-        console.log('myCoin.name for getBalance=', myCoin);
         let balance;
         let totalBalance = 0;
         let totalLockBalance = 0;
