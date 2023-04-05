@@ -25,13 +25,13 @@
                                     <option [value]="i" *ngFor="let coin of wallet.mycoins;let i = index">
                                         {{coin.symbol}}
                                         <span *ngIf="coin.tokenType == 'ETH'">
-                                            (ERC20)
+                                            (ETH)
                                         </span>
                                         <span *ngIf="coin.tokenType == 'TRX'">
-                                            (TRC20)
+                                            (TRX)
                                         </span>     
                                         <span *ngIf="coin.tokenType == 'BNB'">
-                                            (BEP20)
+                                            (BNB)
                                         </span>  
                                         <span *ngIf="coin.tokenType == 'MATIC'">
                                             (Polygon)

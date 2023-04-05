@@ -236,7 +236,8 @@ export const environment = {
                 FAB: '0x18a454cc6486af9c516c5e0a10861c1adefc0d88'
             },
             GET: {
-                FAB: '0xf0cbab2b17349dc03be7528f2152d24778725924'
+                FAB: '0xf0cbab2b17349dc03be7528f2152d24778725924',
+                BNB: '0xb3Dcd26FBFCC3aeA2aa0ac833c2B38421d4b1905'
             },
             BRB: {
                 FAB: '0xda0f76ec006246654fd2eed060f9f9025c6b3d58'

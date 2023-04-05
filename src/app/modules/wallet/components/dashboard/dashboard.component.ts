@@ -585,7 +585,7 @@ export class WalletDashboardComponent implements OnInit {
     }
 
     async loadBalance(includeNew: boolean = true) {
-        this.walletUpdateToDate = true;
+        this.walletUpdateToDate = false;
         // console.log('this.coinsPrice=');
         // console.log(this.coinsPrice);
         if (!this.wallet) {
@@ -605,10 +605,10 @@ export class WalletDashboardComponent implements OnInit {
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];       
 
-            if(coin.name == 'BRB') {
+            if(((coin.name == 'GET') && (coin.tokenType == 'BNB'))) {
                 //console.log('coin.contractAddr coin.contractAddr =', coin.contractAddr );
 
-                this.walletUpdateToDate = false;
+                this.walletUpdateToDate = true;
             }
 
             /*

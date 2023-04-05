@@ -211,7 +211,7 @@ export const environment = {
             },
             FAB: {
                 ETH: '0xf2260ed15c59c9437848afed04645044a8d5e270',
-                BNB: '0x0ad248f7941fd41f28a4cb2b8b34b3baf0246d96'
+                BNB: '0x6dbcdd833b8aa587f5b95c03e1cfb40edd300ef9'
             },
             DSC: {
                 FAB: '0x64f1f72543c9d517a4e0bee32a3d11a21dc87de4',
@@ -228,7 +228,8 @@ export const environment = {
                 FAB: '0xb1c5a4648c9be7f0ca00b559a3325133c2dfdc37'
             },
             GET: {
-                FAB: '0xda0f76ec006246654fd2eed060f9f9025c6b3d58'
+                FAB: '0xda0f76ec006246654fd2eed060f9f9025c6b3d58',
+                BNB: '0xa2f4d9f01a117c23c2e81e36113c7264cec8de82'
             },  
             BRB: {
                 FAB: '0x16c319eb06ffbc0d94684cbfb2dba2f1f39b8c29'
