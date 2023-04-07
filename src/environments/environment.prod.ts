@@ -229,7 +229,7 @@ export const environment = {
             },
             GET: {
                 FAB: '0xda0f76ec006246654fd2eed060f9f9025c6b3d58',
-                BNB: '0xa2f4d9f01a117c23c2e81e36113c7264cec8de82'
+                BNB: '0x5599f29555eae55535241c7ef661c23ed2871db3'
             },  
             BRB: {
                 FAB: '0x16c319eb06ffbc0d94684cbfb2dba2f1f39b8c29'
