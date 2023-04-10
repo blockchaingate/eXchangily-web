@@ -283,12 +283,6 @@ export const price_list: Price[] = [
 
     { id: 120, coin_id: 589825, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'IXT/USDT' },
 
-
-    { id: 121, coin_id: 131096, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'TWBTC/USDT' },
-    { id: 122, coin_id: 131096, base_id: 196632, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'TWBTC/DUSD' },
-    { id: 123, coin_id: 131096, base_id: 131088, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'TWBTC/DTWD' },
-    { id: 124, coin_id: 131096, base_id: 131072, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'TWBTC/FAB' },
-
     { id: 125, coin_id: 131097, base_id: 196609, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'CTG/USDT' },
     { id: 126, coin_id: 131097, base_id: 196632, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'CTG/DUSD' },
     { id: 127, coin_id: 131097, base_id: 131072, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'CTG/FAB' },
@@ -298,7 +292,6 @@ export const price_list: Price[] = [
 
     { id: 130, coin_id: 65536, base_id: 131078, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'BTC/DCAD' },
     { id: 131, coin_id: 196608, base_id: 131078, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'ETH/DCAD' },
-
 
     { id: 132, coin_id: 196648, base_id: 196608, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'HNC/ETH' },
     { id: 133, coin_id: 196648, base_id: 196632, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'HNC/USDC' },
