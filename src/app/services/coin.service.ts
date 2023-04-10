@@ -220,6 +220,10 @@ export class CoinService {
         this.fillUpAddress(busdBNBCoin, seed, 1, 0);
         myCoins.push(busdBNBCoin);  
 
+        const exgBNBCoin = this.initToken('BNB', 'EXG', 18, environment.addresses.smartContract.EXG.BNB, bnbCoin);
+        this.fillUpAddress(exgBNBCoin, seed, 1, 0);
+        myCoins.push(exgBNBCoin); 
+
         const getBNBCoin = this.initToken('BNB', 'GET', 18, environment.addresses.smartContract.GET.BNB, bnbCoin);
         this.fillUpAddress(getBNBCoin, seed, 1, 0);
         myCoins.push(getBNBCoin);  
@@ -1714,6 +1718,9 @@ export class CoinService {
             }          
         } else
         if (['EXG', 'DSC', 'BST'].indexOf(coin.name) >= 0) {
+            if (coin.tokenType === 'BNB') {
+                prefix = 8;
+            } else
             if (coin.tokenType === 'ETH') {
                 prefix = 3;
             } else
@@ -1756,6 +1763,9 @@ export class CoinService {
         } else 
         if (name === 'EXG' && tokenType === 'ETH') {
             name = 'EXGE';
+        } else 
+        if (name === 'EXG' && tokenType === 'BNB') {
+            name = 'EXGB';
         } else 
         if (name === 'DSC' && tokenType === 'ETH') {
             name = 'DSCE';

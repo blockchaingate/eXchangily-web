@@ -605,9 +605,7 @@ export class WalletDashboardComponent implements OnInit {
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];       
 
-            if(((coin.name == 'GET') && (coin.tokenType == 'BNB'))) {
-                //console.log('coin.contractAddr coin.contractAddr =', coin.contractAddr );
-
+            if(((coin.name == 'EXG') && (coin.tokenType == 'BNB'))) {
                 this.walletUpdateToDate = true;
             }
 

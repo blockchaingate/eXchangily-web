@@ -202,7 +202,8 @@ export const environment = {
             StakingFABEXG: '0xb6af31442fef2e631dfcfe02de59ef703c961717',
             EXG: {
                 FAB: '0x867480ba8e577402fa44f43c33875ce74bdc5df6',
-                ETH: '0xe1a2c9b54ec74717756f618197e8f5a0e8c9a16b'
+                ETH: '0xe1a2c9b54ec74717756f618197e8f5a0e8c9a16b',
+                BNB: '0x4850754EA867654339F38d4e6DF7cd80CFee141f'
             },
             USDT: { 
                 ETH: '0xa9f4f6f0fa56058ebdb91865eb2f6aec83b94532',

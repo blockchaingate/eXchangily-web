@@ -12,7 +12,7 @@ export const environment = {
     baseUrl: 'https://exchangily.com',
     // url: 'https://api.exchangily.com/',
     url: 'https://api.dscmap.com/',
-    version: '2.2.28',
+    version: '2.2.30',
     campaignId: 1,
     PUBLIC_KEY: '8aff99f9727143fccd28e62df14e4e67305faa70d19b4cb0b9d4cde18ea3cd23c8e58bda3c26e10813aaa6020f3d07a3d9f83a9062cfe662a600949325378b99',
     OTC_COMMISSION_RATE: 0,
@@ -194,7 +194,8 @@ export const environment = {
             FABLOCK: '0x04baa04d9550c49831427c6abe16def2c579af4a',
             EXG: {
                 FAB: '0xa3e26671a38978e8204b8a37f1c2897042783b00',
-                ETH: '0xebbe2e94b6efd2a09b707167f796ef2616291438'
+                ETH: '0xebbe2e94b6efd2a09b707167f796ef2616291438',
+                BNB: '0x4ce928b8309e59f423c98f0e704d2e42270a8741'
             },
             USDT: {
                 ETH: '0xdac17f958d2ee523a2206206994597c13d831ec7',
