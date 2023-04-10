@@ -77,10 +77,13 @@ export class MyordersComponent implements OnInit, OnDestroy {
     ethFABTSBalance: number;
     exgTSBalance: number;
     ethEXGTSBalance: number;
+    bnbEXGTSBalance: number;
 
     bnbUSDTTSBalance: number;
     bnbFABTSBalance: number;
-
+    bnbGETTSBalance: number;
+    getTSBalance: number;
+    
     maticTSBalance: number;
     ethMATICTSBalance: number;
 
@@ -424,6 +427,24 @@ export class MyordersComponent implements OnInit, OnDestroy {
             }catch(e) {
 
             }      
+        } else if(this.coinName == 'GET') {
+            this.chain = 'FAB';
+            try {
+                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+         
+
+                const balance = await this.apiServ.getFabTokenBalance(this.coinName, this.utilServ.fabToExgAddress(environment.addresses.exchangilyOfficial.FAB));
+                this.getTSBalance = balance.balance / 1e18;
+
+
+                if(!this.bnbGETTSBalance) {
+                    const balance = await this.coinServ.getEtherumCompatibleTokenBalance('BNB', environment.addresses.smartContract.GET.BNB, environment.addresses.exchangilyOfficial.BNB);
+                    this.bnbGETTSBalance = new BigNumber(balance, 16).shiftedBy(-18).toNumber();
+                } 
+
+            }catch(e) {
+
+            }   
         } else if(this.coinName == 'MATIC') {
             this.chain = 'MATIC';
             try {
@@ -452,6 +473,12 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
                 balance = await this.apiServ.getFabTokenBalance(this.coinName, this.utilServ.fabToExgAddress(environment.addresses.exchangilyOfficial.FAB));
                 this.exgTSBalance = balance.balance / 1e18;
+
+
+                if(!this.bnbEXGTSBalance) {
+                    const balance = await this.coinServ.getEtherumCompatibleTokenBalance('BNB', environment.addresses.smartContract.EXG.BNB, environment.addresses.exchangilyOfficial.BNB);
+                    this.bnbEXGTSBalance = new BigNumber(balance, 16).shiftedBy(-18).toNumber();
+                }  
 
             }catch(e) {
 
