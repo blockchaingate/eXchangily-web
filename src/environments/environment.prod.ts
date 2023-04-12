@@ -391,7 +391,7 @@ export const environment = {
         },                
         BTC: 0.01,
         FAB: {
-            FAB:50,
+            FAB:0.005,
             ETH: 100,
             BNB: 2
         },
