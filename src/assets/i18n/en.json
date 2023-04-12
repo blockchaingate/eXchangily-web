@@ -1349,5 +1349,11 @@
     "Equals to US Dollar": "Equals to US Dollar",
     "Usage": "Usage",
     "Payment, shopping": "Payment, shopping",
-    "Issuer": "Issuer"
+    "Issuer": "Issuer",
+    "recent apk": "Recent APK",
+    "older apk": "Older APK",
+    "downloadApk": "Download",
+    "whatsnew": "What is new",
+    "lastRelease": "Last Release",
+    "candidate": "Candidate"
 }
