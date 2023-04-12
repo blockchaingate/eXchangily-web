@@ -19,6 +19,7 @@ import { BindpayComponent } from './modules/bindpay/bindpay.component';
 import { ListingComponent } from './modules/listing/listing.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { DusdComponent } from './components/dusd/dusd.component';
+import { DonwloadComponent } from './components/donwload/donwload.component';
 
 // import { CoininfoComponent } from './components/coin/coin-info.component';
 
@@ -164,6 +165,7 @@ const routes: Routes = [
   { path: 'fee', component: FeeComponent },
   { path: 'subscription', component: SubscriptionComponent },
   { path: 'app', component: AppIntroComponent },
+  { path: 'download', component: DonwloadComponent },
   { path: 'support', component: SupportComponent },
   { path: 'tickets', component: TicketComponent },
   { path: 'ticket-add', component: TicketAddComponent },

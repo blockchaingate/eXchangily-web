@@ -55,6 +55,7 @@ import { AppIntroComponent } from './modules/app-intro/app-intro.component';
 import { ListingComponent } from './modules/listing/listing.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { DusdComponent } from './components/dusd/dusd.component';
+import { DonwloadComponent } from './components/donwload/donwload.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -81,7 +82,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppIntroComponent,
     ListingComponent,
     PrivacyComponent,
-    DusdComponent
+    DusdComponent,
+    DonwloadComponent
   ],
   imports: [
     BrowserAnimationsModule,

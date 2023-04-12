@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-app-intro',
@@ -7,9 +8,16 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class AppIntroComponent implements OnInit {
   @Input() showHeadOnly: boolean;
-  constructor() { }
+  constructor(
+     private router: Router,
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  linkTo(url: string) {
+    this.router.navigate([url]);
+
   }
 
 }

@@ -1665,5 +1665,11 @@
     "Usage": "用途",
     "Payment, shopping": "支付、消费",
     "Issuer": "发行人",
-    "With private key": "使用私钥"
+    "With private key": "使用私钥",
+    "recent apk": "最近的 APK",
+    "older apk": "较旧的 APK",
+    "downloadApk": "下载",
+    "whatsnew": "什么是新的",
+    "lastRelease": "最后发布",
+    "candidate": "候选人"
 }

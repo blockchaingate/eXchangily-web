@@ -1,0 +1,53 @@
+[
+{
+   "versionName":"Realize",
+   "versionNumber":"1.0.9+46",
+   "issueDate":"2023-03-31",
+   "features":[
+      "Policy languages in Chinese",
+      "Policy display",
+      "Deposit fee",
+      "Function page dark mode integration",
+      "Function page balance to Exchangily balance"
+   ]
+},
+{
+   "versionName":"Candidate",
+   "versionNumber":"1.0.9+45",
+   "issueDate":"2023-03-30",
+   "features":[
+      "Pool Pair chart added",
+      "Fix USDTX to USDT (TRC20) and other similar case",
+      "Liquidity token list duplicated token removed",
+      "Deposit page bug fixed",
+      "Remit history page new api",
+      "Long numbers display"
+   ]
+},
+{
+   "versionName":"1.0.6+35",
+   "versionNumber":"1.0.6+35",
+   "issueDate":"2023-02-21",
+   "features":[
+      "Liquidity history ",
+      "Reward info"
+   ]
+},
+{
+   "versionName":"1.0.6+36",
+   "versionNumber":"1.0.6+363",
+   "issueDate":"2023-02-11",
+   "features":[
+      "version package added"
+   ]
+},
+{
+   "versionName":"1.0.6+34",
+   "versionNumber":"1.0.6+34",
+   "issueDate":"2023-03-01",
+   "features":[
+      "remove liquidity bug fix",
+      "remove liquidity page button has changed"
+   ]
+}
+]
