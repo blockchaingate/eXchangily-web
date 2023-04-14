@@ -406,7 +406,7 @@ export const environment = {
         DUSD: 20,
         SEED: 1,
         FET: 100,
-        GET: 0.0000001,
+        GET: 0.1,
         DCAD: 12.68,
         DCNY: 64,
         DJPY: 1100,
