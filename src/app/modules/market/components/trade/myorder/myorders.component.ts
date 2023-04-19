@@ -33,6 +33,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     mylockers: any;
     private wallet: any;
     exAddress: string;
+    withdrawFee: number = 0;
     isProduction: boolean;
     transactionHistory: boolean;
     transactionHistories: any;
@@ -63,6 +64,53 @@ export class MyordersComponent implements OnInit, OnDestroy {
             if(['USDT', 'FAB', 'MATIC'].indexOf(this.coinName) >= 0) {
                 this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
             }
+
+            let coinNameInKanban = this.coinName;
+            if(this.coinName == 'USDT') {
+                if(val == 'TRX') {
+                    coinNameInKanban = 'USDTX';
+                }
+                if(val == 'BNB') {
+                    coinNameInKanban = 'USDTB';
+                }
+                if(val == 'MATIC') {
+                    coinNameInKanban = 'USDTM';
+                }
+            } else 
+            if(this.coinName == 'FAB' || this.coinName == 'EXG' || this.coinName == 'DSC' || this.coinName == 'BST' ) {
+                if(val == 'BNB') {
+                    coinNameInKanban = this.coinName + 'B';
+                } else
+                if(val == 'ETH') {
+                    coinNameInKanban = this.coinName + 'e';
+                }
+            } else
+            if(this.coinName == 'USDC') {
+                if(val == 'TRX') {
+                    coinNameInKanban = 'USDCX';
+                }
+            } else
+            if(this.coinName == 'MATIC') {
+                if(val == 'MATIC') {
+                    coinNameInKanban = 'MATICM';
+                }
+            }
+
+            const coinTypeId = this.coinServ.getCoinTypeIdByName(coinNameInKanban);
+            this.kanbanServ.getTokenList().subscribe(
+                (ret: any) => {
+                    const tokenList = ret.data.tokenList;
+                    for(let i = 0; i < tokenList.length; i++) {
+                        const token = tokenList[i];
+                        const type = token.type;
+                        if(type == coinTypeId) {
+                            this.withdrawFee = token.feeWithdraw;
+                            break;
+                        }
+                    }
+                }
+            );
+
         }
         
     }
@@ -377,9 +425,10 @@ export class MyordersComponent implements OnInit, OnDestroy {
     async openWithdrawModal(template: TemplateRef<any>) {
         this.modalWithdrawRef = this.modalService.show(template, { class: 'second' });
 
-        console.log('this.coinName==', this.coinName);
+        let coinNameInKanban = this.coinName;
         if(this.coinName == 'USDT') {
             this.chain = 'TRX';
+            coinNameInKanban = 'USDTX';
             try {
                 this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
 
@@ -447,6 +496,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
             }   
         } else if(this.coinName == 'MATIC') {
             this.chain = 'MATIC';
+            coinNameInKanban = 'MATICM';
             try {
                 this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
 
@@ -488,7 +538,20 @@ export class MyordersComponent implements OnInit, OnDestroy {
             this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName];
         }
         
-
+        const coinTypeId = this.coinServ.getCoinTypeIdByName(coinNameInKanban);
+        this.kanbanServ.getTokenList().subscribe(
+            (ret: any) => {
+                const tokenList = ret.data.tokenList;
+                for(let i = 0; i < tokenList.length; i++) {
+                    const token = tokenList[i];
+                    const type = token.type;
+                    if(type == coinTypeId) {
+                        this.withdrawFee = token.feeWithdraw;
+                        break;
+                    }
+                }
+            }
+        );
         
     }
 

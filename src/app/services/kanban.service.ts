@@ -108,6 +108,12 @@ export class KanbanService {
         return res;
     }
 
+    getTokenList() {
+        const path = environment.endpoints.kanban + 'exchangily/getTokenList';
+        const res = this.http.get(path);
+        return res;
+    }
+
     async getTransactionCount(address: string) {
         //return this.getNonce(address);
 

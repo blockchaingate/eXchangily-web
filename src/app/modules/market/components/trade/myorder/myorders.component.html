@@ -224,6 +224,11 @@
         <div>
             <label for="inputSendTo" class="text-muted">{{'Minimum amount' | translate }}:{{minimumWithdrawAmount}}</label>
         </div>
+
+        <div>
+            <label for="inputSendTo" class="text-muted">{{'Withdraw fee' | translate }}:{{withdrawFee}}</label>
+        </div>
+
         <div class="pb-4">
             <label for="inputSendTo" class="text-muted">{{'Withdraw amount' | translate }}</label>
             <input type="number" class="form-control" id="inputWithdrawAmount" name="inputWithdrawAmount" [(ngModel)]="withdrawAmount" aria-describedby="emailHelp" placeholder="0.0000">
