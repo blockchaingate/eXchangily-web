@@ -257,6 +257,14 @@ export class WalletconnectComponent implements OnInit {
           result.push(resp.transactionHash);
         }
       }
+    } else 
+    if(method == 'personal_sign') {
+      const data = params[0];
+      const address = params[1];
+      const privKey = Buffer.from(keyPair.privateKeyHex, 'hex');
+      const sign = this.web3Serv.signKanbanMessageWithPrivateKey(data, privKey);
+
+      result.push(sign.signature);
     }
 
     const topic = this.topic;

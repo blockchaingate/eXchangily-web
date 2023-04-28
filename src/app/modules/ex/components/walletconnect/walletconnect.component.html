@@ -101,6 +101,19 @@
             </div>
           </div>
         </div>
+
+        <div *ngIf="request.method == 'personal_sign'">
+          <div class="row">
+            <div class="col-sm-2  text-muted">Data</div>
+            <div class="col-sm-10">{{request.params[0]}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-2  text-muted">Address</div>
+            <div class="col-sm-10">{{request.params[1]}}</div>
+          </div>
+
+        </div>
       </div>
     </div>
 
