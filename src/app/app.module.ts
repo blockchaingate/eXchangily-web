@@ -38,6 +38,7 @@ import { AlertService } from './services/alert.service';
 import { UtilService } from './services/util.service';
 import { KanbanService } from './services/kanban.service';
 import { TicketService } from './services/ticket.service';
+import { KycService } from './services/kyc.service';
 import { ApiService } from './services/api.service';
 import { SubscriptionService } from './services/subscription.service';
 import { SupportComponent } from './modules/support/support.component';
@@ -120,7 +121,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoginInfoService,
     LoginQualifyService,
     CampaignOrderService,
-    AnnouncementsService
+    AnnouncementsService,
+    KycService
   ],
   bootstrap: [AppComponent]
 })

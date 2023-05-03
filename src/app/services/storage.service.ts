@@ -11,6 +11,14 @@ export class StorageService {
 
     }
 
+    setItem(name: string, value: any) {
+        return this.localSt.setItem(name, value);
+    }
+
+    getItem(name: string) {
+        return this.localSt.getItem(name);
+    }
+
     async getCurrentWallet() {
         let currentWalletIndex = await this.getCurrentWalletIndex();
 

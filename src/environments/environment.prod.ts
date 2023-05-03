@@ -154,6 +154,8 @@ export const environment = {
         blockchaingate: 'https://api.blockchaingate.com/v2/',
         coingecko: 'https://api.coingecko.com/',
         kanban: 'https://api.exchangily.com/',
+        otc_api: 'https://api.fundark.com/',
+        otc_website: 'https://fundark.com/',
         normal_kanban: 'https://kanbanprod.fabcoinapi.com/',
         BTC: {
             exchangily: 'https://btcprod.fabcoinapi.com/'

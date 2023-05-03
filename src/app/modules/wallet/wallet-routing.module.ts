@@ -15,6 +15,8 @@ import { WalletPwdComponent } from './components/create/wallet-pwd.component';
 import { RestoreWalletComponent } from './components/restore/restorewallet.component';
 import { RestoreWalletOldComponent } from './components/restoreold/restorewalletold.component';
 import { WalletDashboardComponent } from './components/dashboard/dashboard.component';
+import { KycComponent } from './components/kyc/kyc.component';
+import { KycProcessComponent } from './components/kyc-process/kyc-process.component';
 
 @Injectable()
 export class CanActivateTeam implements CanActivate {
@@ -43,6 +45,8 @@ const routes: Routes = [
             { path: 'set-password', component: WalletPwdComponent },
             { path: 'restore', component: RestoreWalletComponent },
             { path: 'restoreold', component: RestoreWalletOldComponent },
+            { path: 'kyc', component: KycComponent },
+            { path: 'kyc-process', component: KycProcessComponent },
             { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
 
         ]

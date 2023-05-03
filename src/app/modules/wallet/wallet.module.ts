@@ -61,6 +61,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
 import { SharedModule } from '../shared/shared.module';
 import { TransactionTypePipe } from './pipes/transaction-type.pipe';
+import { KycComponent } from './components/kyc/kyc.component';
+import { KycProcessComponent } from './components/kyc-process/kyc-process.component';
 @NgModule({
     declarations: [
         WalletDashboardComponent,
@@ -96,7 +98,9 @@ import { TransactionTypePipe } from './pipes/transaction-type.pipe';
         BackupPrivateKeyModal,
         DeleteWalletModal,
         LoginSettingModal,
-        DisplaySettingModal
+        DisplaySettingModal,
+        KycComponent,
+        KycProcessComponent
     ],
     imports: [
         CommonModule,

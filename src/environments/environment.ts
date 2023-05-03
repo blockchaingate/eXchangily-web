@@ -159,6 +159,9 @@ export const environment = {
         explorerapi: 'https://fabtest.info/api',
         blockchaingate: 'https://test.blockchaingate.com/v2/',
         coingecko: 'https://api.coingecko.com/',
+        //otc: 'https://testapi.fundark.com/',
+        otc_api: 'http://localhost:3100/',
+        otc_website: 'http://localhost:4200/',
         kanban: 'https://kanbantest.fabcoinapi.com/',
         BTC: {
             exchangily: 'https://btctest.fabcoinapi.com/'
