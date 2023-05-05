@@ -228,7 +228,8 @@ export const environment = {
                 FAB: '0xdcc3abba31890d81f450662f9c99de4979073a60'
             },
             FET: {
-                FAB: '0xb1c5a4648c9be7f0ca00b559a3325133c2dfdc37'
+                FAB: '0xb1c5a4648c9be7f0ca00b559a3325133c2dfdc37',
+                BNB: '0x186e1122b25dc73869cacd7ccdc96bf5d4c2419a'
             },
             GET: {
                 FAB: '0xda0f76ec006246654fd2eed060f9f9025c6b3d58',
@@ -407,7 +408,7 @@ export const environment = {
         TRX: 0.2,    
         DUSD: 20,
         SEED: 1,
-        FET: 100,
+        FET: 1,
         GET: 0.1,
         DCAD: 12.68,
         DCNY: 64,

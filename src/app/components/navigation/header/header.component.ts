@@ -24,6 +24,7 @@ import { AnnouncementsService } from 'src/app/services/announcements.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  isProduction: boolean;
   currentLang: string;
   loggedIn = false;
   selectedItem = 1;
@@ -60,7 +61,7 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    this.isProduction = environment.production;
     this.LoginInfodata.currentMessage.subscribe(isLogin => this.LoginInfo = isLogin);
     this.LoginQualifydata.currentMessage.subscribe(isQualify => this.LoginQualify = isQualify);
     // console.log("init:");

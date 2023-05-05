@@ -352,6 +352,10 @@
                 <li class="nav-item">
                     <a class="nav-link" (click)="linkTo('/metaforce');selectedItem=9" [class.selected]="selectedItem==9" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Meta Force' | translate}}</a>
                 </li>   
+
+                <li class="nav-item" *ngIf="!isProduction">
+                    <a class="nav-link" (click)="linkTo('/wallet/kyc');selectedItem=10" [class.selected]="selectedItem==10" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Kyc' | translate}}</a>
+                </li>   
             </ul>
             <ul class="navbar-nav ml-auto align-right">
                 <li class="nav-item">

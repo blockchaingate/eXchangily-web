@@ -48,7 +48,6 @@ const routes: Routes = [
             { path: 'kyc', component: KycComponent },
             { path: 'kyc-process', component: KycProcessComponent },
             { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
-
         ]
     },
 ];

@@ -6,6 +6,7 @@ import { CoinService } from 'src/app/services/coin.service';
 import { KanbanService } from 'src/app/services/kanban.service';
 import { KycService } from 'src/app/services/kyc.service';
 import { Router } from '@angular/router';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-kyc',
@@ -28,21 +29,21 @@ export class KycComponent implements OnInit {
     private utilServ: UtilService,
     private kycServ: KycService,
     private router: Router,
+    private alertServ: AlertService,
     private storageService: StorageService) { }
 
   async ngOnInit() {
     this.wallet = await this.storageService.getCurrentWallet();
-    console.log('this.wallet=', this.wallet);
     let walletAddress = '';
     if(this.wallet) {
       const address = this.wallet.excoin.receiveAdds[0].address;
       walletAddress = this.utilServ.exgToFabAddress(address);
       this.kycServ.getByWalletAddress(walletAddress).subscribe(
         (ret: any) => {
-          console.log('ret===', ret);
           if(ret.success) {
             const data = ret.data;
             this.user = data.user;
+            
             this.kyc = data.kyc;
           }
         }
@@ -53,15 +54,24 @@ export class KycComponent implements OnInit {
 
   signup() {
     this.type = 'signup';
+    if(!this.wallet) {
+      this.alertServ.openSnackBar('No wallet', 'Ok');
+      return;
+    }
     this.pinModal.show();
   }
 
   signin() {
     this.type = 'signin';
+    if(!this.wallet) {
+      this.alertServ.openSnackBar('No wallet', 'Ok');
+      return;
+    }
     this.pinModal.show();
   }
 
   onConfirmedPin(pin: string) {
+
     const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
     const privateKey = this.coinServ.getFabPrivateKey(seed);
 
@@ -74,14 +84,16 @@ export class KycComponent implements OnInit {
   
       const sig = this.kanbanServ.signJsonData(privateKey, data);
       data['sig'] = sig.signature;  
-      this.kycServ.userAdd(data).subscribe(
-        (ret: any) => {
+      this.kycServ.userAdd(data).subscribe({
+        next: (ret: any) => {
           if(ret.success) {
             const data = ret.data;
             const token = data.token;
             this.storageService.setItem('otc_token', token).subscribe(
               () => {
-                this.storageService.setItem('otc_email', this.email).subscribe(
+                let next_url = 'email/' + this.email;
+
+                this.storageService.setItem('next_url', next_url).subscribe(
                   () => {
                     this.router.navigate(['/wallet/kyc-process']);
                   }
@@ -89,8 +101,15 @@ export class KycComponent implements OnInit {
               }
             );
           }
+        },
+        error: (ret: any) => {
+          if(ret.error) {
+            if(ret.error.message) {
+              this.alertServ.openSnackBar(ret.error.message, 'Ok');
+            }
+          }
         }
-      );
+      });
     } else {
       const data = {
         action: 'login'
@@ -105,7 +124,30 @@ export class KycComponent implements OnInit {
             const token = data.token;
             this.storageService.setItem('otc_token', token).subscribe(
               () => {
-                this.storageService.setItem('otc_email', this.email).subscribe(
+
+                let next_url = '';
+                if(!this.kyc) {
+                  next_url = 'email/' + this.user.email;
+                } else {
+                  const step = this.kyc.step;
+                  if(step == 0) {
+                    next_url = 'phone';
+                  } else 
+                  if(step == 1) {
+                    next_url = 'nationality';
+                  } else
+                  if(step == 2) {
+                    next_url = 'identity';
+                  } else
+                  if(step == 3) {
+                    next_url = 'customer-due-diligence';
+                  } else
+                  if(step <= 5) {
+                    next_url = 'document';
+                  }
+                }
+
+                this.storageService.setItem('next_url', next_url).subscribe(
                   () => {
                     this.router.navigate(['/wallet/kyc-process']);
                   }

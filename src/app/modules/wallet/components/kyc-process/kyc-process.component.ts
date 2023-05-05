@@ -17,9 +17,8 @@ export class KycProcessComponent implements OnInit {
     console.log('go kyc process');
     this.storageService.getItem('otc_token').subscribe((token: any) => {
       console.log('token=', token);
-      this.storageService.getItem('otc_email').subscribe((email: any) => {
-        console.log('email=', email);
-        this.url = environment.endpoints.otc_website + 'setup/email/' + email + '/token/' + token;
+      this.storageService.getItem('next_url').subscribe((next_url: any) => {
+        this.url = environment.endpoints.otc_website + 'setup/' + next_url + '/token/' + token;
         console.log('this.url=', this.url);
         this.urlSafe= this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
       });

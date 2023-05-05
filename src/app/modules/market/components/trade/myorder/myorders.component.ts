@@ -77,12 +77,12 @@ export class MyordersComponent implements OnInit, OnDestroy {
                     coinNameInKanban = 'USDTM';
                 }
             } else 
-            if(this.coinName == 'FAB' || this.coinName == 'EXG' || this.coinName == 'DSC' || this.coinName == 'BST' ) {
+            if(this.coinName == 'FAB' || this.coinName == 'EXG' || this.coinName == 'DSC' || this.coinName == 'BST' || this.coinName =='FET' || this.coinName == 'BST' ) {
                 if(val == 'BNB') {
                     coinNameInKanban = this.coinName + 'B';
                 } else
                 if(val == 'ETH') {
-                    coinNameInKanban = this.coinName + 'e';
+                    coinNameInKanban = this.coinName + 'E';
                 }
             } else
             if(this.coinName == 'USDC') {
@@ -132,6 +132,15 @@ export class MyordersComponent implements OnInit, OnDestroy {
     bnbGETTSBalance: number;
     getTSBalance: number;
     
+    bnbFETTSBalance: number;
+    fetTSBalance: number;
+    bstTSBalance: number;
+    ethBSTTSBalance: number;
+
+    dscTSBalance: number;
+    ethDSCTSBalance: number;
+
+
     maticTSBalance: number;
     ethMATICTSBalance: number;
 
@@ -276,7 +285,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             currentCoin = this.wallet.mycoins[i];
             if (
-                ((this.coinName != 'USDT') && (this.coinName != 'FAB') && (['EXG', 'DSC', 'BST', 'MATIC'].indexOf(this.coinName) < 0) && (currentCoin.name === this.coinName))
+                ((this.coinName != 'USDT') && (this.coinName != 'FAB') && (['EXG', 'DSC', 'BST', 'MATIC', 'FET', 'GET'].indexOf(this.coinName) < 0) && (currentCoin.name === this.coinName))
                 ||
                 (this.coinName == 'USDT' && (currentCoin.name === this.coinName) && currentCoin.tokenType == this.chain)
                 ||
@@ -288,7 +297,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 ||
                 (this.coinName == 'FAB'  && (currentCoin.name === this.coinName) && currentCoin.tokenType == this.chain)
                 ||
-                ((['EXG', 'DSC', 'BST'].indexOf(this.coinName) >= 0)  && (currentCoin.name === this.coinName) && currentCoin.tokenType == this.chain)                
+                ((['EXG', 'DSC', 'BST', 'FET', 'GET'].indexOf(this.coinName) >= 0)  && (currentCoin.name === this.coinName) && currentCoin.tokenType == this.chain)                
                 ) {
                 break;
             }
@@ -476,6 +485,24 @@ export class MyordersComponent implements OnInit, OnDestroy {
             }catch(e) {
 
             }      
+        } else if(this.coinName == 'FET') {
+            this.chain = 'FAB';
+            try {
+                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+         
+
+                const balance = await this.apiServ.getFabTokenBalance(this.coinName, this.utilServ.fabToExgAddress(environment.addresses.exchangilyOfficial.FAB));
+                this.fetTSBalance = balance.balance / 1e18;
+
+
+                if(!this.bnbFETTSBalance) {
+                    const balance = await this.coinServ.getEtherumCompatibleTokenBalance('BNB', environment.addresses.smartContract.FET.BNB, environment.addresses.exchangilyOfficial.BNB);
+                    this.bnbFETTSBalance = new BigNumber(balance, 16).shiftedBy(-18).toNumber();
+                } 
+
+            }catch(e) {
+
+            }   
         } else if(this.coinName == 'GET') {
             this.chain = 'FAB';
             try {
@@ -513,7 +540,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
             }catch(e) {
 
             }             
-        }else if(['EXG', 'DSC', 'BST'].indexOf(this.coinName) >= 0) {
+        }else if(['EXG'].indexOf(this.coinName) >= 0) {
             this.chain = 'FAB';
             try {
                 this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
@@ -533,6 +560,34 @@ export class MyordersComponent implements OnInit, OnDestroy {
             }catch(e) {
 
             }  
+        }else if(['DSC'].indexOf(this.coinName) >= 0) {
+            this.chain = 'FAB';
+            try {
+                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+
+                let balance = await this.apiServ.getEthTokenBalance(this.coinName, environment.addresses.smartContract[this.coinName]['ETH'], environment.addresses.exchangilyOfficial.ETH);                    
+                this.ethDSCTSBalance = balance.balance / 1e18;
+
+                balance = await this.apiServ.getFabTokenBalance(this.coinName, this.utilServ.fabToExgAddress(environment.addresses.exchangilyOfficial.FAB));
+                this.dscTSBalance = balance.balance / 1e18;
+
+            }catch(e) {
+
+            }  
+        }else if(['BST'].indexOf(this.coinName) >= 0) {
+            this.chain = 'FAB';
+            try {
+                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+
+                let balance = await this.apiServ.getEthTokenBalance(this.coinName, environment.addresses.smartContract[this.coinName]['ETH'], environment.addresses.exchangilyOfficial.ETH);                    
+                this.ethBSTTSBalance = balance.balance / 1e18;
+
+                balance = await this.apiServ.getFabTokenBalance(this.coinName, this.utilServ.fabToExgAddress(environment.addresses.exchangilyOfficial.FAB));
+                this.bstTSBalance = balance.balance / 1e18;
+
+            }catch(e) {
+
+            } 
         } else
         {
             this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName];
