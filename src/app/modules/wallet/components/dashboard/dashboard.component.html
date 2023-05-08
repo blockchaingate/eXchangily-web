@@ -107,7 +107,7 @@
                             </div>
                         </div>
 
-                        
+
                     </div>
 
                     <div class="row py-3" *ngIf="wallet && !wallet.hide">
@@ -134,8 +134,8 @@
                         <div class="col col-12">
                             <div class="d-inline-block pr-3 walletBtn">
                                 <buy-coin-modal [wallet]="wallet"></buy-coin-modal>
-                            </div> 
-                        </div>    
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -157,7 +157,7 @@
                                     </mat-select>
                                 </mat-form-field>
                                 -->
-                                
+
                             </h6>
 
                             <div class="d-flex justify-content-between w-100">
@@ -241,11 +241,11 @@
                                             utilServ.toPrecisionMul(mycoin.balance, mycoin.lockedBalance, mycoin.usdPrice) >= 1
                                         )">
                                         <div class="col-custom-1 pointer" (click)="selectCoin(mycoin.symbol)">
-                                            
-                                            <img *ngIf="!mycoin.new"  src="{{getCoinLogo(mycoin)}}" name="icon" class="icon" />
+
+                                            <img *ngIf="!mycoin.new" src="{{getCoinLogo(mycoin)}}" name="icon" class="icon" />
                                         </div>
                                         <div class="col-custom-1">
-                                            
+
                                             {{mycoin.symbol}}
                                             <div>
                                                 <div *ngIf="(mycoin.tokenType=='ETH')">
@@ -255,7 +255,7 @@
                                                     (TRX)
                                                 </div>
                                                 <div *ngIf="(mycoin.tokenType=='BNB')">
-                                                    (BNB)
+                                                    (BSC)
                                                 </div>
                                                 <div *ngIf="(mycoin.tokenType=='MATIC')">
                                                     (Polygon)
@@ -266,7 +266,7 @@
                                             </div>
                                         </div>
                                         <div class="col-2">
-                                            
+
                                             <span *ngIf="mycoin.balance >= 0">
                                                 {{utilServ.toPrecision(mycoin.balance)}}
                                             </span>
@@ -365,11 +365,11 @@
                                         <button mat-icon-button matTooltip="To exchange" [disabled]="gas <= 0 || maintainence" *ngIf="!mycoin.new" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon svgIcon="arrow-downward"></mat-icon>
                                     </button>
-                                    <button mat-icon-button matTooltip="Reconfirm" *ngIf="!mycoin.new && (mycoin.redeposit && mycoin.redeposit.length > 0) || (mycoin.depositErr && mycoin.depositErr.length > 0)" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                        <button mat-icon-button matTooltip="Reconfirm" *ngIf="!mycoin.new && (mycoin.redeposit && mycoin.redeposit.length > 0) || (mycoin.depositErr && mycoin.depositErr.length > 0)" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon svgIcon="vertical_align_bottom"></mat-icon>
                                     </button>
 
-                                    <button mat-icon-button matTooltip="{{'Delete'|translate}}" *ngIf="mycoin.new" (click)="delete(mycoin)" aria-label="Example icon-button with a heart icon">
+                                        <button mat-icon-button matTooltip="{{'Delete'|translate}}" *ngIf="mycoin.new" (click)="delete(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon svgIcon="delete"></mat-icon>
                                     </button>
                                     </div>
