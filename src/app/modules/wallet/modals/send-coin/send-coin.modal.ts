@@ -266,6 +266,13 @@ export class SendCoinModal {
             return;
         }
 
+        if((to.indexOf('0x') >= 0) && (to.length != 42)) {
+            this.alertServ.openSnackBar(
+                this.translateServ.instant('Wallet address incorrect'),
+                this.translateServ.instant('Ok'));
+            return;
+        }
+
         if (this.coin.name === 'TRX' || this.coin.tokenType === 'TRX') {
             console.log('fsdfaes');
             console.log('to=', to);
