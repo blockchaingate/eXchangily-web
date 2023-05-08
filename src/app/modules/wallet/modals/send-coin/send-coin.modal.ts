@@ -274,8 +274,6 @@ export class SendCoinModal {
         }
 
         if (this.coin.name === 'TRX' || this.coin.tokenType === 'TRX') {
-            console.log('fsdfaes');
-            console.log('to=', to);
             if (to.indexOf('T') !== 0) {
 
                 this.alertServ.openSnackBar(
