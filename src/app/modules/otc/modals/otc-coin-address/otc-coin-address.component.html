@@ -36,8 +36,8 @@
                                   [(ngModel)]="coinAddress">
                                   <mat-radio-button class="example-radio-button" *ngFor="let coin of coins" [value]="coin.address">
                                     {{coin.address}}
-                                    <span *ngIf="coin.tokenType == 'ETH'">(ERC20)</span>
-                                    <span *ngIf="coin.tokenType == 'TRX'">(TRC20)</span>
+                                    <span *ngIf="coin.tokenType == 'ETH'">(ETH)</span>
+                                    <span *ngIf="coin.tokenType == 'TRX'">(TRX)</span>
                                   </mat-radio-button>
                                 </mat-radio-group>
                             </div>

@@ -315,7 +315,19 @@ export class TimerService {
                             status: status
                         }
                     );
-                    if(status == 'confirmed') {
+                    if(status == 'confirmed' || status == 'failed') {
+                        this.unCheckTransactionStatus(txid); 
+                    }
+                } else
+                if(coin == 'BNB' || tokenType == 'BNB') {
+                    const status = await this.apiServ.getBnbTransactionStatus(txid);
+                    this.transactionStatus.next(
+                        {
+                            txid: txid,
+                            status: status
+                        }
+                    );
+                    if(status == 'confirmed' || status == 'failed') {
                         this.unCheckTransactionStatus(txid); 
                     }
                 }

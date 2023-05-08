@@ -12,7 +12,7 @@ export interface TxRef {
 export interface JsonResult {
     jsonrpc: string,
     id: number,
-    result: string
+    result: any
 }
 
 export interface GasPrice {

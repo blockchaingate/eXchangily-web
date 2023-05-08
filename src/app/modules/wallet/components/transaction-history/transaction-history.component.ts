@@ -43,24 +43,47 @@ export class TransactionHistoryComponent implements OnInit {
         console.log('tokenType for showCoinName=', tokenType);
 
 
+        /*
         if ((name == 'TRON_USDT') || ((name == 'USDT') && (tokenType == 'TRX'))) {
-            return 'USDT(TRC20)';
+            return 'USDT(TRX)';
         } else 
-        if (name == 'USDT') {
-            return 'USDT(ERC20)';
+        if ((name == 'USDT') && (tokenType == 'ETH')) {
+            return 'USDT(ETH)';
         } else         
         if ((name == 'ETH_FAB') || ((name == 'FAB') && (tokenType == 'ETH'))) {
-            return 'FAB(ERC20)'
+            return 'FAB(ETH)'
         } else
         if ((name == 'ETH_EXG') || ((name == 'EXG') && (tokenType == 'ETH'))) {
-            return 'EXG(ERC20)'
+            return 'EXG(ETH)'
         } else 
         if ((name == 'ETH_DSC') || ((name == 'DSC') && (tokenType == 'ETH'))) {
-            return 'DSC(ERC20)'
+            return 'DSC(ETH)'
         } else
         if ((name == 'ETH_BST') || ((name == 'BST') && (tokenType == 'ETH'))) {
-            return 'BST(ERC20)'
+            return 'BST(ETH)'
         }
+        */
+
+        if(name.indexOf('_') > 0) {
+            const pair = name.split('_');
+            if(pair.length == 2) {
+                name = pair[1];
+                tokenType = pair[0];
+            }
+
+            
+        }
+
+        if(tokenType) {
+            if(tokenType == 'BNB') {
+                tokenType = 'BSC';
+            }
+            if(tokenType == 'TRON') {
+                tokenType = 'TRX';
+            }
+            return name + '(' + tokenType + ')';
+        } else 
+
         return name;
     }
     mergeSortedArray(a,b){
