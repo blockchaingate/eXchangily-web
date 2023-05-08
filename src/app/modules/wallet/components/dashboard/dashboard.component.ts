@@ -765,6 +765,8 @@ export class WalletDashboardComponent implements OnInit {
                                 ((item.coin === 'FABE') && (coin.name ==='FAB') && (coin.tokenType === 'ETH')) ||
                                 ((item.coin === 'FABB') && (coin.name ==='FAB') && (coin.tokenType === 'BNB')) ||
                                 ((item.coin === 'GETB') && (coin.name ==='GET') && (coin.tokenType === 'BNB')) ||
+                                ((item.coin === 'FETB') && (coin.name ==='FET') && (coin.tokenType === 'BNB')) ||
+                                ((item.coin === 'EXGB') && (coin.name ==='EXG') && (coin.tokenType === 'BNB')) ||
                                 ((item.coin === 'EXGE') && (coin.name ==='EXG') && (coin.tokenType === 'ETH')) ||
                                 ((item.coin === 'DSCE') && (coin.name ==='DSC') && (coin.tokenType === 'ETH')) ||
                                 ((item.coin === 'BSTE') && (coin.name ==='BST') && (coin.tokenType === 'ETH'))
