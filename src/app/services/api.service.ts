@@ -49,6 +49,36 @@ export class ApiService {
         return 'pending';
     }
 
+    async getBnbTransactionStatus(txid: string) {
+        const url = environment.chains.BNB.rpcEndpoint;
+
+        let status = '';
+        try {
+            const data = {
+                "jsonrpc":"2.0",
+                "method":"eth_getTransactionReceipt",
+                "params":[
+                    txid
+                ],
+                "id":1
+            };
+            const response = await this.http.post(url, data).toPromise() as JsonResult;
+            const receipt = response.result;
+            if(!receipt) {
+                return status;
+            }
+            const receiptStatus = receipt.status;
+            if(receiptStatus == '0x1') {
+                status = 'confirmed';
+            } else
+            if(receiptStatus == '0x0') {
+                status = 'failed';
+            }
+
+        } catch (e) {console.log (e); }
+        return status;
+    }
+
     getOrderByCode(code: string) {
 
         const url = environment.endpoints.blockchaingate + 'orders/code/' + code;
