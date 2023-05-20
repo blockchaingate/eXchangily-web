@@ -229,7 +229,7 @@ export const environment = {
             },
             FET: {
                 FAB: '0xb1c5a4648c9be7f0ca00b559a3325133c2dfdc37',
-                BNB: '0x186e1122b25dc73869cacd7ccdc96bf5d4c2419a'
+                BNB: '0xfe136d6fdeae84871210eeb8c85622fb8b2861c0'
             },
             GET: {
                 FAB: '0xda0f76ec006246654fd2eed060f9f9025c6b3d58',
