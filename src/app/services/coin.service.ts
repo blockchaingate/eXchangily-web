@@ -308,7 +308,14 @@ export class CoinService {
 
         this.fillUpAddress(getCoin, seed, 1, 0);
 
-        myCoins.push(getCoin);           
+        myCoins.push(getCoin);         
+        
+
+        const dncCoin = this.initToken('FAB', 'DNC', 1, environment.addresses.smartContract.DNC.FAB, fabCoin);
+
+        this.fillUpAddress(dncCoin, seed, 1, 0);
+
+        myCoins.push(dncCoin);    
 
         /*
         const brbCoin = this.initToken('FAB', 'BRB', 18, environment.addresses.smartContract.BRB.FAB, fabCoin);

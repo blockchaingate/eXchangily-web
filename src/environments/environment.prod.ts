@@ -244,6 +244,9 @@ export const environment = {
             HS: {
                 BNB: '0xa4C876143891F012991E5e06fABde7D6Ad31E1b0'
             },
+            DNC: {
+                FAB: '0x1b3fba8fe613803086c38312a23a8df1ad02ca9f'
+            },
             BUSD: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
             HNC: '0x122fd42c61bc66b0cd6cdbf302a0ca297497e240',
             CTG: '0x05c1a1dff47874f49230f31774b1ebe4b8899f68',  
