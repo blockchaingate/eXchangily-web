@@ -301,4 +301,6 @@ export const price_list: Price[] = [
     { id: 134, coin_id: 524292, base_id: 524288, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'KUSH/BNB' },
 
     { id: 135, coin_id: 524293, base_id: 524288, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'HS/BNB' },
+
+    { id: 136, coin_id: 131077, base_id: 131072, price: 0, change24h: 0, price24hh: 0, price24hl: 0, vol24h: 0, symbol: 'BST/FAB' },
 ];
