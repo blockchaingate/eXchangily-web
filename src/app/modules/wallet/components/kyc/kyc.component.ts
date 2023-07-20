@@ -91,6 +91,7 @@ export class KycComponent implements OnInit {
             const token = data.token;
             this.storageService.setItem('otc_token', token).subscribe(
               () => {
+
                 let next_url = 'email/' + this.email;
 
                 this.storageService.setItem('next_url', next_url).subscribe(
@@ -98,6 +99,7 @@ export class KycComponent implements OnInit {
                     this.router.navigate(['/wallet/kyc-process']);
                   }
                 );
+
               }
             );
           }

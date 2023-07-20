@@ -7,7 +7,7 @@ export class KycService {
 
     }    
     userAdd(data: any) {
-        const url = environment.endpoints.otc_api + 'user/add';
+        const url = environment.endpoints.otc_api + 'user/register/wallet';
         return this.http.post(url, data);
     }
 
