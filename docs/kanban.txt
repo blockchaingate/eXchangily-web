@@ -1,3 +1,2 @@
-GET /tradesbetweentimestamps/:startingTimestamp/:endingTimestamp
-https://kanbantest.fabcoinapi.com/getdepositsbetween/1607110454/1607115809
-https://kanbantest.fabcoinapi.com/getwithdrawsbetween/1607110454/1607115809
+oUag2M4v5Hd1m3MwQNc5SUqouQ8M88ssJD
+0x0c08522710089e30d4c3e3f7b1eeaab2af5edb3bb27390eb2b24bd5af6a432af

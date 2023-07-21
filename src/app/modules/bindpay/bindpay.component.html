@@ -4,6 +4,10 @@
         <div *ngIf="!transactionHistory" class="main-container">
                 <label for="fname">{{'Coin' | translate }}</label>
                 <select id="coin" name="coin" class="coin" [(ngModel)]="coin">
+                    <option class="coinitem" value="0">
+                        {{'Kanban Gas' | translate}}({{gas}})
+                    </option>
+
                     <ng-container class="coin" *ngFor="let token of mytokens; let i=index">
                         <option class="coinitem" *ngIf="token.unlockedAmount > 0" [value]="token.coinType">
                             {{coinServ.getCoinNameByTypeId(token.coinType)}}

@@ -9,6 +9,7 @@ import { WalletService } from 'src/app/services/wallet.service';
 import { Web3Service } from 'src/app/services/web3.service';
 import * as exaddr from '../../lib/exaddr';
 import { PinNumberModal } from '../shared/modals/pin-number/pin-number.modal';
+import BigNumber from 'bignumber.js';
 
 @Component({
     selector: 'app-bindpay',
@@ -29,6 +30,7 @@ export class BindpayComponent  implements OnInit{
   mytokens: any;
   transactionHistories: any;
   wallet: any;
+  gas: number = 0;
   @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal;
 
   constructor(
@@ -48,6 +50,18 @@ export class BindpayComponent  implements OnInit{
         this.address = this.wallet.excoin.receiveAdds[0].address;
         const fabAddress = this.utilServ.exgToFabAddress(this.address);
         this.exAddress = exaddr.toKbpayAddress(fabAddress);
+
+
+        this.kanbanServ.getKanbanBalance(this.address).subscribe(
+            (resp: any) => {
+                const fab = this.utilServ.stripHexPrefix(resp.balance.FAB);
+                this.gas = this.utilServ.hexToDec(fab) / 1e18;
+            },
+            error => {
+                // console.log('errorrrr=', error);
+            }
+        );
+
         this.kanbanServ.getBalance(this.address).subscribe((tokens) => {
             console.log('tokens====', tokens);
             this.mytokens = tokens;
@@ -89,15 +103,19 @@ export class BindpayComponent  implements OnInit{
             break;
         }
     }
+    /*
     if (!this.token) {
         console.log('this.token not found');
         return;
     }
-    if (this.amount > this.utilServ.toNumber(this.utilServ.showAmount(this.token.unlockedAmount, 18))) {
-        this.alertServ.openSnackBar(this.translateServ.instant('Not enough balance'), this.translateServ.instant('Ok'));
+    */
+   if(this.token) {
+        if (this.amount > this.utilServ.toNumber(this.utilServ.showAmount(this.token.unlockedAmount, 18))) {
+            this.alertServ.openSnackBar(this.translateServ.instant('Not enough balance'), this.translateServ.instant('Ok'));
+            return;
+        }
+   }
 
-        return;
-    }
 
     this.pinModal.show();
   }
@@ -134,14 +152,20 @@ export class BindpayComponent  implements OnInit{
         return;            
     }
 
-    console.log('toAddressLegacy===', toAddressLegacy);
-    const abiHex = this.web3Serv.getTransferFuncABI(this.coin, this.utilServ.fabToExgAddress(toAddressLegacy), this.amount);
-    console.log('abiHex for getTransferFuncABI=', abiHex);
+    let abiHex = '';
+    console.log('this.coin===', this.coin);
+    this.coin = Number(this.coin);
+    if(this.coin) {
+        abiHex = this.web3Serv.getTransferFuncABI(this.coin, this.utilServ.fabToExgAddress(toAddressLegacy), this.amount);
+    }
+    
+
+    console.log('abiHex=', abiHex);
     const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 
     const address = await this.kanbanServ.getCoinPoolAddress();
-    const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce);
-    console.log('txhex=', txhex);
+    const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, this.coin ? address : this.utilServ.fabToExgAddress(toAddressLegacy), nonce, this.coin ? 0 : '0x' + new BigNumber(this.amount).shiftedBy(18).toString(16));
+    
     this.kanbanServ.sendRawSignedTransaction(txhex).subscribe((resp: any) => {
         console.log('resp=', resp);
         if (resp && resp.transactionHash) {

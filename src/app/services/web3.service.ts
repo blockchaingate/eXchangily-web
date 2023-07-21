@@ -150,7 +150,7 @@ export class Web3Service {
  }
 
   async signAbiHexWithPrivateKey(abiHex: string, keyPair: any, address: string, nonce: number,
-    value = 0, options = { gasPrice: 0, gasLimit: 0 }) {
+    value: any = 0, options = { gasPrice: 0, gasLimit: 0 }) {
     // console.log('abiHex before', abiHex);
     if (abiHex.startsWith('0x')) {
       abiHex = abiHex.slice(2);
@@ -171,7 +171,7 @@ export class Web3Service {
     const txObject = {
       to: address,
       nonce: nonce,
-      data: '0x' + abiHex,
+      data: abiHex ? ('0x' + abiHex) : null,
       value: value,
       gas: gasLimit,
       gasPrice: gasPrice  // in wei
@@ -464,7 +464,7 @@ export class Web3Service {
     const web3 = this.getWeb3Provider();
     let value = new BigNumber(amount).multipliedBy(new BigNumber(1e18)).toFixed();
     value = value.split('.')[0];
-    console.log('value for decimal=', value);
+    
     const params = [address, coin, value, web3.utils.asciiToHex('')];
 
     const func = {
