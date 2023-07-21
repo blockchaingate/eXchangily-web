@@ -27,8 +27,7 @@ import { TimerService } from '../../../../../services/timer.service';
 import BigNumber from 'bignumber.js';
 
 import { Pair, defaultPairsConfig } from '../../../models/pair';
-import { number } from 'bitcoinjs-lib/types/script';
-import { env } from 'process';
+
 
 declare let window: any;
 
@@ -929,11 +928,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     this.qty = this.buyQty;
     this.gasLimit = Number(this.buyGasLimit);
     this.gasPrice = Number(this.buyGasPrice);
-    if (this.pin && !pin_expired) {
-      this.buyOrSell();
-    } else {
+    //if (this.pin && !pin_expired) {
+    //  this.buyOrSell();
+    //} else {
       this.openModal(pinModal);
-    }
+    //}
 
   }
 
@@ -963,11 +962,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     this.qty = this.sellQty;
     this.gasLimit = Number(this.sellGasLimit);
     this.gasPrice = Number(this.sellGasPrice);
-    if (this.pin) {
-      this.buyOrSell();
-    } else {
+    //if (this.pin) {
+    //  this.buyOrSell();
+    //} else {
       this.openModal(pinModal);
-    }
+  //}
 
   }
 
