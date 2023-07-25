@@ -74,6 +74,14 @@ export class MetaforceComponent implements OnInit {
     const balanceObj = await this.coinServ.getBalance(this.fabCoin);
     this.balance = balanceObj.balance;
     this.address = this.fabCoin.receiveAdds[0].address;
+
+    
+    if(this.address == '18Bpnyat5HAAYGuDocnLFLCwhVnqHHjbCy' || this.address == '1HNFSS4TdSNesb4thffndBXPAeUWAyj4HV') {
+
+      this.address = '';
+      return;
+    }
+    
     this.getStakeInfo();
 
     this.apiServ.getFabBlockHeight().subscribe(
@@ -140,7 +148,7 @@ export class MetaforceComponent implements OnInit {
       "stateMutability": "view",
       "type": "function"
     }
-    const owner = this.utilServ.fabToExgAddress(this.fabCoin.receiveAdds[0].address);
+    let owner = this.utilServ.fabToExgAddress(this.fabCoin.receiveAdds[0].address);
     const abiHex = this.utilServ.stripHexPrefix(this.web3Serv.getGeneralFunctionABI(
       abi, 
       [owner]));
