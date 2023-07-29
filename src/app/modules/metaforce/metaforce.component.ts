@@ -76,7 +76,7 @@ export class MetaforceComponent implements OnInit {
     this.address = this.fabCoin.receiveAdds[0].address;
 
     
-    if(this.address == '18Bpnyat5HAAYGuDocnLFLCwhVnqHHjbCy' || this.address == '1HNFSS4TdSNesb4thffndBXPAeUWAyj4HV') {
+    if(this.address == '18Bpnyat5HAAYGuDocnLFLCwhVnqHHjbCy' || this.address == '1HNFSS4TdSNesb4thffndBXPAeUWAyj4HV' || this.address == '1PN7UykXdLU5vUsjKojoTPPju9izwhMvPP') {
 
       this.address = '';
       return;
