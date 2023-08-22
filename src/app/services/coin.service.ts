@@ -137,7 +137,7 @@ export class CoinService {
 
             if (contract.balanceOf(address)) {
                 const result = await contract.balanceOf(address).call({from: address});
-                console.log('result===', result);
+
                 return result.toString();
             }
             return -1;

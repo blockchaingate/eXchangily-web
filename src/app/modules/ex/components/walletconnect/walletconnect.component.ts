@@ -13,6 +13,12 @@ import { CoinService } from 'src/app/services/coin.service';
 import { environment } from 'src/environments/environment';
 import BigNumber from 'bignumber.js';
 
+import { Core } from '@walletconnect/core'
+import { Web3Wallet } from '@walletconnect/web3wallet'
+import { buildApprovedNamespaces } from '@walletconnect/utils'
+import { MyCoin } from 'src/app/models/mycoin';
+import { ApiService } from 'src/app/services/api.service';
+
 @Component({
   selector: 'app-walletconnect',
   templateUrl: './walletconnect.component.html',
@@ -34,6 +40,15 @@ export class WalletconnectComponent implements OnInit {
   request: any;
   requiredNamespaces: any;
   walletAddress: string;
+  params: any;
+  web3wallet: any;
+  ethAddress: string;
+  kanbanChainId = environment.chains.KANBAN.chain.chainId;
+  ethChainId = environment.chains.ETH.chainId;
+  bnbChainId = environment.chains.BNB.chain.chainId;
+  connectedChainId: number;
+  ethCoin: MyCoin;
+  bnbCoin: MyCoin;
   @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal;
 
   constructor(
@@ -44,6 +59,7 @@ export class WalletconnectComponent implements OnInit {
     private alertServ: AlertService,
     private cd: ChangeDetectorRef,
     private utilServ: UtilService,
+    private apiServ: ApiService,
     private walletServ: WalletService) { }
 
   changeState(newState: string) {
@@ -55,14 +71,22 @@ export class WalletconnectComponent implements OnInit {
     const wallet = await this.walletServ.getCurrentWallet();
     if (wallet) {
       this.wallet =wallet;
-        const address = wallet.excoin.receiveAdds[0].address;
-        this.walletAddress = this.utilServ.exgToFabAddress(address);
+      console.log('wallet===', wallet);
+      const address = wallet.excoin.receiveAdds[0].address;
+      this.walletAddress = address;
+      const mycoins = wallet.mycoins;
+      const ethCoins = mycoins.filter(item => ((item.name == 'ETH') && (item.symbol == 'ETH') && !item.tokenType));
+      this.ethCoin = ethCoins[0];
+      const bnbCoins = mycoins.filter(item => ((item.name == 'BNB') && (item.symbol == 'BNB') && !item.tokenType));
+      this.bnbCoin = bnbCoins[0];
+      this.ethAddress = this.ethCoin.receiveAdds[0].address;
     }
 
+    /*
     const client = await SignClient.init({
-      //projectId: "3acbabd1deb4672edfd4ca48226cfc0f",    
-      //relayUrl: 'wss://relay.walletconnect.com',
-      relayUrl: 'wss://api.biswap.com',
+      projectId: "3acbabd1deb4672edfd4ca48226cfc0f",    
+      relayUrl: 'wss://relay.walletconnect.com',
+      //relayUrl: 'wss://api.biswap.com',
       metadata: {
         name: 'Angular Wallet',
         description: 'Angular Wallet for WalletConnect',
@@ -70,9 +94,25 @@ export class WalletconnectComponent implements OnInit {
         icons: ['https://avatars.githubusercontent.com/u/37784886']
       }
     });
+    */
 
-    this.client = client;
+    const core = new Core({
+      projectId: '3acbabd1deb4672edfd4ca48226cfc0f'
+    })
+    
+    const web3wallet = await Web3Wallet.init({
+      core, // <- pass the shared `core` instance
+      metadata: {
+        name: 'Demo app',
+        description: 'Demo Client as Wallet/Peer',
+        url: 'www.walletconnect.com',
+        icons: []
+      }
+    })
 
+    this.web3wallet = web3wallet;
+
+    /*
     client.on('session_proposal', proposal => this.onSessionProposal(proposal))
     client.on('session_request', request => this.onSessionRequest(request))
     // TODOs
@@ -80,17 +120,63 @@ export class WalletconnectComponent implements OnInit {
     client.on('session_event', data => console.log('event', data))
     client.on('session_update', data => console.log('update', data))
     client.on('session_delete', data => console.log('delete', data))
+    */
+    
+    web3wallet.on('session_proposal', proposal => this.onSessionProposal(proposal));
+    web3wallet.on('session_request', request => this.onSessionRequest(request));
+    /*
+    async sessionProposal => {
+      const { id, params } = sessionProposal
+    
+      // ------- namespaces builder util ------------ //
+      const approvedNamespaces = buildApprovedNamespaces({
+        proposal: params,
+        supportedNamespaces: {
+          eip155: {
+            chains: [
+              'eip155:' + this.ethChainId, 
+              'eip155:' + this.bnbChainId, 
+              'eip155:' + this.kanbanChainId
+            ],
+            methods: [
+              'eth_sendTransaction', 
+              'eth_signTransaction', 
+              'personal_sign',
+              'eth_sign',
+              "kanban_sendTransaction",
+              "personal_sign"
+            ],
+
+            events: ['accountsChanged', 'chainChanged'],
+            accounts: [
+              'eip155:' + this.ethChainId + ':' + this.ethAddress,
+              'eip155:' + this.bnbChainId + ':' + this.ethAddress,
+              'eip155:' + this.kanbanChainId +':' + this.walletAddress
+            ]
+          }
+        }
+      })
+      // ------- end namespaces builder util ------------ //
+    
+      const session = await web3wallet.approveSession({
+        id,
+        namespaces: approvedNamespaces
+      });
+
+    })
+    */
   }
 
   async onSessionRequest(requestEvent) {
-        console.log('requestEvent===', requestEvent);
         const {id, params, topic} = requestEvent;
         this.id = id;
-        const { request } = params;
+        const { chainId, request } = params;
         
-        const session = await this.client.session.get(topic);
+        const connectedChainId = chainId.split(':')[1];
+        this.connectedChainId = connectedChainId;
+        //const session = await this.client.session.get(topic);
         // now you can display to the user for approval using the stored metadata
-        const { metadata } = session.peer;
+        //const { metadata } = session.peer;
         // after user has either approved or not the request it should be formatted
         // as response with either the result or the error message
         this.topic = topic;
@@ -101,6 +187,7 @@ export class WalletconnectComponent implements OnInit {
   onSessionProposal(proposal) {
     const {id, params} = proposal;
     this.id = id;
+    this.params = params;
     const { proposer, requiredNamespaces, relays } = params;
     this.proposal = proposal;
     this.relays = relays;
@@ -231,41 +318,149 @@ export class WalletconnectComponent implements OnInit {
         this.alertServ.openSnackBar(this.translateServ.instant('Your password is invalid.'), this.translateServ.instant('Ok'));
         return;
     }
+
     this.handleRequestDo();
+
 
   }
 
   async handleRequestDo() {
     //console.log('transferDo start');
     const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
-    const keyPair = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
+    
 
     let result = [];
     const method = this.request.method;
     const params = this.request.params;
-    let nonce = await this.kanbanServ.getTransactionCount(keyPair.address);
-    if(method == 'kanban_sendTransaction') {
-      for(let i = 0; i < params.length; i++) {
-        const param = params[i];
-        const to = param.to;
-        const value = param.value;
-        const data = param.data;
+    if(this.connectedChainId == this.kanbanChainId) {
+      const keyPair = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
+      
+      if(method == 'kanban_sendTransaction') {
+        //let 
+        for(let i = 0; i < params.length; i++) {
+          const param = params[i];
+          const to = param.to;
+          let nonce = param.nonce;
+          if(!nonce) {
+            nonce = await this.kanbanServ.getTransactionCount(keyPair.address);
+          }
+          const value = param.value;
+          const data = param.data;
+          const gasPrice = param.gasPrice;
+          const gasLimit = param.gasLimit;
+          const txhex = await this.web3Serv.signAbiHexWithPrivateKey(data, keyPair, to, nonce, value);
+          const resp = await this.kanbanServ.sendRawSignedTransactionPromise(txhex);
+          if (resp && resp.transactionHash) {
+            result.push(resp.transactionHash);
+          }
+        }
+      } else 
+      if(method == 'personal_sign') {
+        const data = params[0];
+        const address = params[1];
+        const privKey = Buffer.from(keyPair.privateKeyHex, 'hex');
+        const sign = this.web3Serv.signKanbanMessageWithPrivateKey(data, privKey);
+  
+        result.push(sign.signature);
+      }
+    } else
+    if(this.connectedChainId == this.ethChainId) {
+      const keyPair = this.coinServ.getKeyPairs(this.ethCoin, seed, 0, 0);
+      if(method == 'eth_sendTransaction') {
+        //let nonce = await this.apiServ.getEthNonce(this.ethAddress);
+        for(let i = 0; i < params.length; i++) {
+          const param = params[i];
+          let nonce = param.nonce;
+          if(!nonce) {
+            nonce = await this.apiServ.getEthNonce(this.ethAddress);
+          }
+          const to = param.to;
+          const value = param.value;
+          const data = param.data;
+  
+          console.log('param=', param);
+          const gasPrice = param.gasPrice;
+          const gasLimit = param.gasLimit;
+          //const txhex = await this.web3Serv.signAbiHexWithPrivateKey(data, keyPair, to, nonce ++ , value);
 
-        const txhex = await this.web3Serv.signAbiHexWithPrivateKey(data, keyPair, to, nonce ++ , value);
-        const resp = await this.kanbanServ.sendRawSignedTransactionPromise(txhex);
-        if (resp && resp.transactionHash) {
-          result.push(resp.transactionHash);
+          const txParams = {
+            nonce: nonce,
+            gasPrice: gasPrice ?? ('0x' + new BigNumber(environment.chains.ETH.gasPrice).shiftedBy(9).toString(16)),
+            gasLimit: gasLimit ?? environment.chains.ETH.gasLimitToken,
+            to,
+            value,
+            data
+          };
+
+          const txhex = await this.web3Serv.signTxWithPrivateKey(txParams, keyPair);  
+
+          //const resp = await this.kanbanServ.sendRawSignedTransactionPromise(txhex);
+
+          const retEth = await this.apiServ.postEthTx(txhex);
+          if (retEth && retEth.txHash) {
+            result.push(retEth.txHash.trim());
+          }
         }
       }
-    } else 
-    if(method == 'personal_sign') {
-      const data = params[0];
-      const address = params[1];
-      const privKey = Buffer.from(keyPair.privateKeyHex, 'hex');
-      const sign = this.web3Serv.signKanbanMessageWithPrivateKey(data, privKey);
+    } else
+    if(this.connectedChainId == this.bnbChainId) {
+      const keyPair = this.coinServ.getKeyPairs(this.bnbCoin, seed, 0, 0);
+      if(method == 'eth_sendTransaction') {
+        //let nonce = await this.apiServ.getEtheruemCampatibleNonce('BNB', this.ethAddress);
+        for(let i = 0; i < params.length; i++) {
+          const param = params[i];
+          let nonce = param.nonce;
+          if(!nonce) {
+            nonce = await this.apiServ.getEthNonce(this.ethAddress);
+          }
+          const to = param.to;
+          const value = param.value;
+          const data = param.data;
+          const gasPrice = param.gasPrice;
+          const gasLimit = param.gasLimit;
+  
+          //const txhex = await this.web3Serv.signAbiHexWithPrivateKey(data, keyPair, to, nonce ++ , value);
 
-      result.push(sign.signature);
+          const txParams = {
+            nonce: nonce,
+            gasPrice: gasPrice ?? ('0x' + new BigNumber(environment.chains.ETH.gasPrice).shiftedBy(9).toString(16)),
+            gasLimit: gasLimit ?? environment.chains.BNB.gasLimitToken,
+            to,
+            value,
+            data
+          };
+
+          const txhex = await this.web3Serv.signEtheruemCompatibleTxWithPrivateKey('BNB', txParams, keyPair);  
+
+          //const resp = await this.kanbanServ.sendRawSignedTransactionPromise(txhex);
+
+          const retBnb = await this.apiServ.postEtheruemCompatibleTx('BNB', txhex);
+          console.log('retBnb===', retBnb);
+          if (retBnb && retBnb.txHash) {
+            result.push(retBnb.txHash.trim());
+          }
+        }
+      }
     }
+
+
+    /*
+                const nonce = await this.apiService.getEthNonce(address1.address);
+                const gasPriceFinal = new BigNumber(gasPrice).multipliedBy(new BigNumber(1e9)).toNumber();
+
+                amountInTx = amountNum;
+
+                const txParams = {
+                    nonce: nonce,
+                    gasPrice: gasPriceFinal,
+                    gasLimit: gasLimit,
+                    to: toAddress,
+                    value: '0x' + amountNum.toString(16)
+                };
+
+                txHex = await this.web3Serv.signTxWithPrivateKey(txParams, keyPair);    
+    */
+
 
     const topic = this.topic;
     const response = {
@@ -279,8 +474,9 @@ export class WalletconnectComponent implements OnInit {
 
     console.log('response for =', response);
     this.changeState('sessionRequestApproved');
-    return await this.client.respond(response);
+    return await this.web3wallet.respondSessionRequest(response);
   }
+
   approveRequest() {
     this.cd.detectChanges();
     this.pinModal.show();
@@ -308,7 +504,7 @@ export class WalletconnectComponent implements OnInit {
 
     const pairBody = { uri: this.uri };
     console.log('pairBody===', pairBody);
-    this.client.pair(pairBody);
+    this.web3wallet.core.pairing.pair(pairBody);
 
   }
 
@@ -318,29 +514,51 @@ export class WalletconnectComponent implements OnInit {
   ) {
     if (approved) {
       // if user approved then include response with accounts matching the chains and wallet metadata
-      /*
-      const response = {
-        state: {
-          accounts: ["eip155:fab:" + this.walletAddress],
-        },
-      };
-      await this.client.approve({ proposal, response });
-      */
 
+
+      /*
       const namespaces: any = {}
       Object.keys(this.requiredNamespaces).forEach(key => {
-        const accounts: string[] = ["eip155:fab:" + this.walletAddress];
+        const accounts: string[] = ["eip155:212:" + this.walletAddress];
         namespaces[key] = {
           accounts,
           methods: this.requiredNamespaces[key].methods,
           events: this.requiredNamespaces[key].events
         }
       })
+      */
+      const approvedNamespaces = buildApprovedNamespaces({
+        proposal: this.params,
+        supportedNamespaces: {
+          eip155: {
+            chains: [
+              'eip155:' + this.ethChainId, 
+              'eip155:' + this.bnbChainId, 
+              'eip155:' + this.kanbanChainId
+            ],
+            methods: [
+              'eth_sendTransaction', 
+              'eth_signTransaction', 
+              'personal_sign',
+              'eth_sign',
+              "kanban_sendTransaction",
+              "personal_sign"
+            ],
 
-      const apprvedResult = await this.client.approve({
+            events: ['accountsChanged', 'chainChanged'],
+            accounts: [
+              'eip155:' + this.ethChainId + ':' + this.ethAddress,
+              'eip155:' + this.bnbChainId + ':' + this.ethAddress,
+              'eip155:' + this.kanbanChainId +':' + this.walletAddress
+            ]
+          }
+        }
+      })
+
+      const apprvedResult = await this.web3wallet.approveSession({
         id: this.id,
-        relayProtocol: this.relays[0].protocol,
-        namespaces
+        //relayProtocol: this.relays[0].protocol,
+        namespaces: approvedNamespaces
       })
       console.log('apprvedResult===', apprvedResult);
       this.changeState('sessionCreated');

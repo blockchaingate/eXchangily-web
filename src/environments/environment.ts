@@ -75,6 +75,7 @@ export const environment = {
         },
         ETH: {
             chain: 'goerli',
+            chainId: 5,
             hardfork: 'byzantium',
             gasPrice: 90,
             gasPriceMax: 200,
