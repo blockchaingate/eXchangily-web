@@ -12,7 +12,7 @@ export const environment = {
     baseUrl: 'https://exchangily.com',
     // url: 'https://api.exchangily.com/',
     url: 'https://api.dscmap.com/',
-    version: '2.2.37',
+    version: '2.2.38',
     campaignId: 1,
     PUBLIC_KEY: '8aff99f9727143fccd28e62df14e4e67305faa70d19b4cb0b9d4cde18ea3cd23c8e58bda3c26e10813aaa6020f3d07a3d9f83a9062cfe662a600949325378b99',
     OTC_COMMISSION_RATE: 0,
@@ -74,7 +74,7 @@ export const environment = {
             hardfork: 'petersburg',
             gasPrice: 90,
             gasPriceMax: 200,
-            gasLimit: 21000,
+            gasLimit: 70000,
             gasLimitToken: 70000
         },
         BNB: {
@@ -88,7 +88,7 @@ export const environment = {
             hardfork: 'petersburg',
             gasPrice: 5,
             gasPriceMax: 200,
-            gasLimit: 21000,
+            gasLimit: 200000,
             gasLimitToken: 200000
         },
         MATIC: {

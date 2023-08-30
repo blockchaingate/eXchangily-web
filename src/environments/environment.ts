@@ -5,7 +5,7 @@ import * as Btc from 'bitcoinjs-lib';
 
 export const environment = {
     production: false,
-    version: '2.2.37',
+    version: '2.2.38',
     IssueTokenReceipt: 'mxU2i997YxYv75E6YNVNwkN5qJ68WC5sZN',
     SQUARE_APP_ID: {
         CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', // ccount kenin
@@ -79,7 +79,7 @@ export const environment = {
             hardfork: 'byzantium',
             gasPrice: 90,
             gasPriceMax: 200,
-            gasLimit: 21000,
+            gasLimit: 70000,
             gasLimitToken: 70000
         },
         BNB: {
@@ -93,7 +93,7 @@ export const environment = {
             hardfork: 'byzantium',
             gasPrice: 5,
             gasPriceMax: 100,
-            gasLimit: 21000,
+            gasLimit: 200000,
             gasLimitToken: 200000
         },
         MATIC: {

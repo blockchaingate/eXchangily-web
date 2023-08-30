@@ -2643,7 +2643,7 @@ export class CoinService {
                         gasPrice = await this.getEthGasprice();
                     } catch(e) {}
                     if(!gasPrice) {
-                        gasPrice = environment.chains.ETH.gasPrice;;
+                        gasPrice = environment.chains.ETH.gasPrice;
                     }
 
                 }
