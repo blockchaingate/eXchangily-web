@@ -246,6 +246,9 @@ export const environment = {
                 FAB: '0xf0cbab2b17349dc03be7528f2152d24778725924',
                 BNB: '0xb3Dcd26FBFCC3aeA2aa0ac833c2B38421d4b1905'
             },
+            MWM: {
+                BNB: '0xf0cbab2b17349dc03be7528f2152d24778725924',
+            },
             BRB: {
                 FAB: '0xda0f76ec006246654fd2eed060f9f9025c6b3d58'
             },

@@ -203,7 +203,7 @@ export class KanbanService {
 
     async sendRawSignedTransactionPromise(txhex: string): Promise<any> {
         const data = {
-            signedTransactionData: txhex
+            tawtx: txhex
         };
         const res = await this.post('kanban/sendRawTransaction', data).toPromise();
         return res;

@@ -98,6 +98,7 @@ export class WalletconnectComponent implements OnInit {
 
     const core = new Core({
       projectId: '3acbabd1deb4672edfd4ca48226cfc0f'
+      //relayUrl: 'wss://api.biswap.com',
     })
     
     const web3wallet = await Web3Wallet.init({
@@ -334,14 +335,14 @@ export class WalletconnectComponent implements OnInit {
     const params = this.request.params;
     if(this.connectedChainId == this.kanbanChainId) {
       const keyPair = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
-      
+
       if(method == 'kanban_sendTransaction') {
         //let 
         for(let i = 0; i < params.length; i++) {
           const param = params[i];
           const to = param.to;
           let nonce = param.nonce;
-          if(!nonce) {
+          if(!nonce && (nonce !== 0)) {
             nonce = await this.kanbanServ.getTransactionCount(keyPair.address);
           }
           const value = param.value;
