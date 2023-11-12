@@ -137,7 +137,7 @@ export class CoinService {
 
             if (contract.balanceOf(address)) {
                 const result = await contract.balanceOf(address).call({from: address});
-                console.log('result===', result);
+
                 return result.toString();
             }
             return -1;
@@ -232,7 +232,9 @@ export class CoinService {
         this.fillUpAddress(getBNBCoin, seed, 1, 0);
         myCoins.push(getBNBCoin);  
 
-
+        const mwmBNBCoin = this.initToken('BNB', 'MWM', 18, environment.addresses.smartContract.MWM.BNB, bnbCoin);
+        this.fillUpAddress(mwmBNBCoin, seed, 1, 0);
+        myCoins.push(mwmBNBCoin);  
 
         const kushBNBCoin = this.initToken('BNB', 'KUSH', 18, environment.addresses.smartContract.KUSH.BNB, bnbCoin);
         this.fillUpAddress(kushBNBCoin, seed, 1, 0);
@@ -634,9 +636,13 @@ export class CoinService {
     }
 
     getOfficialAddress(myCoin: MyCoin) {
+
         const coinName = myCoin.name;
         const tokenType = myCoin.tokenType;
 
+        if(coinName == 'MWM') {
+            return '';
+        }
         const chain = tokenType ? tokenType : coinName;
         //console.log('chain===', chain);
         if (environment.addresses.exchangilyOfficial[chain]) {
@@ -2643,7 +2649,7 @@ export class CoinService {
                         gasPrice = await this.getEthGasprice();
                     } catch(e) {}
                     if(!gasPrice) {
-                        gasPrice = environment.chains.ETH.gasPrice;;
+                        gasPrice = environment.chains.ETH.gasPrice;
                     }
 
                 }

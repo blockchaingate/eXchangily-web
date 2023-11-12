@@ -12,7 +12,7 @@ export const environment = {
     baseUrl: 'https://exchangily.com',
     // url: 'https://api.exchangily.com/',
     url: 'https://api.dscmap.com/',
-    version: '2.2.36',
+    version: '2.3.0',
     campaignId: 1,
     PUBLIC_KEY: '8aff99f9727143fccd28e62df14e4e67305faa70d19b4cb0b9d4cde18ea3cd23c8e58bda3c26e10813aaa6020f3d07a3d9f83a9062cfe662a600949325378b99',
     OTC_COMMISSION_RATE: 0,
@@ -70,10 +70,11 @@ export const environment = {
         },               
         ETH: {
             chain: 'mainnet',
+            chainId: 1,
             hardfork: 'petersburg',
             gasPrice: 90,
             gasPriceMax: 200,
-            gasLimit: 21000,
+            gasLimit: 70000,
             gasLimitToken: 70000
         },
         BNB: {
@@ -87,7 +88,7 @@ export const environment = {
             hardfork: 'petersburg',
             gasPrice: 5,
             gasPriceMax: 200,
-            gasLimit: 21000,
+            gasLimit: 200000,
             gasLimitToken: 200000
         },
         MATIC: {
@@ -235,6 +236,9 @@ export const environment = {
                 FAB: '0xda0f76ec006246654fd2eed060f9f9025c6b3d58',
                 BNB: '0x5599f29555eae55535241c7ef661c23ed2871db3'
             },  
+            MWM: {
+                BNB: '0x59c46f6edde846ec970eeffe925f6a278902e3d5',
+            },
             BRB: {
                 FAB: '0x16c319eb06ffbc0d94684cbfb2dba2f1f39b8c29'
             },  
