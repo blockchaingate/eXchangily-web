@@ -25,7 +25,7 @@
         "@ngx-translate/core": "^14.0.0",
         "@ngx-translate/http-loader": "^7.0.0",
         "@types/jquery": "^3.5.14",
-        "@walletconnect/web3wallet": "^1.9.0",
+        "@walletconnect/web3wallet": "^1.9.3",
         "angular7-csv": "^0.2.12",
         "angularx-qrcode": "^14.0.0",
         "bchaddrjs": "^0.5.2",

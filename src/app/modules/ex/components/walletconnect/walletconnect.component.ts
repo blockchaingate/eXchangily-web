@@ -15,7 +15,7 @@ import BigNumber from 'bignumber.js';
 
 import { Core } from '@walletconnect/core'
 import { Web3Wallet } from '@walletconnect/web3wallet'
-import { buildApprovedNamespaces } from '@walletconnect/utils'
+import { buildApprovedNamespaces, getSdkError } from '@walletconnect/utils'
 import { MyCoin } from 'src/app/models/mycoin';
 import { ApiService } from 'src/app/services/api.service';
 
@@ -25,7 +25,7 @@ import { ApiService } from 'src/app/services/api.service';
   styleUrls: ['./walletconnect.component.css']
 })
 export class WalletconnectComponent implements OnInit {
-  client: any;
+
   uri: string;
   session: any;
   state: string;
@@ -67,11 +67,11 @@ export class WalletconnectComponent implements OnInit {
     this.cd.detectChanges();
   }
   async ngOnInit() {
+
     this.changeState('noSession');
     const wallet = await this.walletServ.getCurrentWallet();
     if (wallet) {
       this.wallet =wallet;
-      console.log('wallet===', wallet);
       const address = wallet.excoin.receiveAdds[0].address;
       this.walletAddress = address;
       const mycoins = wallet.mycoins;
@@ -82,90 +82,17 @@ export class WalletconnectComponent implements OnInit {
       this.ethAddress = this.ethCoin.receiveAdds[0].address;
     }
 
-    /*
-    const client = await SignClient.init({
-      projectId: "3acbabd1deb4672edfd4ca48226cfc0f",    
-      relayUrl: 'wss://relay.walletconnect.com',
-      //relayUrl: 'wss://api.biswap.com',
-      metadata: {
-        name: 'Angular Wallet',
-        description: 'Angular Wallet for WalletConnect',
-        url: 'https://walletconnect.com/',
-        icons: ['https://avatars.githubusercontent.com/u/37784886']
-      }
-    });
-    */
-
-    const core = new Core({
-      projectId: '3acbabd1deb4672edfd4ca48226cfc0f'
-      //relayUrl: 'wss://api.biswap.com',
-    })
+    if(this.web3wallet) {
+      this.web3wallet.killSession();
+    }
     
-    const web3wallet = await Web3Wallet.init({
-      core, // <- pass the shared `core` instance
-      metadata: {
-        name: 'Demo app',
-        description: 'Demo Client as Wallet/Peer',
-        url: 'www.walletconnect.com',
-        icons: []
-      }
-    })
 
-    this.web3wallet = web3wallet;
+  }
 
-    /*
-    client.on('session_proposal', proposal => this.onSessionProposal(proposal))
-    client.on('session_request', request => this.onSessionRequest(request))
-    // TODOs
-    client.on('session_ping', data => console.log('ping', data))
-    client.on('session_event', data => console.log('event', data))
-    client.on('session_update', data => console.log('update', data))
-    client.on('session_delete', data => console.log('delete', data))
-    */
-    
-    web3wallet.on('session_proposal', proposal => this.onSessionProposal(proposal));
-    web3wallet.on('session_request', request => this.onSessionRequest(request));
-    /*
-    async sessionProposal => {
-      const { id, params } = sessionProposal
-    
-      // ------- namespaces builder util ------------ //
-      const approvedNamespaces = buildApprovedNamespaces({
-        proposal: params,
-        supportedNamespaces: {
-          eip155: {
-            chains: [
-              'eip155:' + this.ethChainId, 
-              'eip155:' + this.bnbChainId, 
-              'eip155:' + this.kanbanChainId
-            ],
-            methods: [
-              'eth_sendTransaction', 
-              'eth_signTransaction', 
-              'personal_sign',
-              'eth_sign',
-              "kanban_sendTransaction",
-              "personal_sign"
-            ],
-
-            events: ['accountsChanged', 'chainChanged'],
-            accounts: [
-              'eip155:' + this.ethChainId + ':' + this.ethAddress,
-              'eip155:' + this.bnbChainId + ':' + this.ethAddress,
-              'eip155:' + this.kanbanChainId +':' + this.walletAddress
-            ]
-          }
-        }
-      })
-      // ------- end namespaces builder util ------------ //
-    
-      const session = await web3wallet.approveSession({
-        id,
-        namespaces: approvedNamespaces
-      });
-
-    })
-    */
+  async onSessionDelete(args) {
+    console.log('args on session delete=', args);
+    const {id, topic} = args;
+    this.disconnect();
   }
 
   async onSessionRequest(requestEvent) {
@@ -175,11 +102,6 @@ export class WalletconnectComponent implements OnInit {
         
         const connectedChainId = chainId.split(':')[1];
         this.connectedChainId = connectedChainId;
-        //const session = await this.client.session.get(topic);
-        // now you can display to the user for approval using the stored metadata
-        //const { metadata } = session.peer;
-        // after user has either approved or not the request it should be formatted
-        // as response with either the result or the error message
         this.topic = topic;
         this.request = request;
         this.changeState('sessionRequest');
@@ -189,21 +111,23 @@ export class WalletconnectComponent implements OnInit {
     const {id, params} = proposal;
     this.id = id;
     this.params = params;
-    const { proposer, requiredNamespaces, relays } = params;
+    const { proposer, requiredNamespaces, relays, pairingTopic } = params;
     this.proposal = proposal;
     this.relays = relays;
     this.requiredNamespaces = requiredNamespaces;
+    this.topic = pairingTopic;
     const { metadata } = proposer;
     this.metadata = metadata;
     this.changeState('sessionProposal');
   }
 
   async disconnect() {
-    if(this.client) {
+    if(this.web3wallet) {
       this.changeState('noSession');
-      await this.client.disconnect({
-        topic: this.session.topic,
-        reason: 'User disconnect',
+      this.uri = '';
+      await this.web3wallet.disconnectSession({
+        topic: this.topic,
+        reason: getSdkError('USER_DISCONNECTED')
       })
     }
 
@@ -460,24 +384,6 @@ export class WalletconnectComponent implements OnInit {
     }
 
 
-    /*
-                const nonce = await this.apiService.getEthNonce(address1.address);
-                const gasPriceFinal = new BigNumber(gasPrice).multipliedBy(new BigNumber(1e9)).toNumber();
-
-                amountInTx = amountNum;
-
-                const txParams = {
-                    nonce: nonce,
-                    gasPrice: gasPriceFinal,
-                    gasLimit: gasLimit,
-                    to: toAddress,
-                    value: '0x' + amountNum.toString(16)
-                };
-
-                txHex = await this.web3Serv.signTxWithPrivateKey(txParams, keyPair);    
-    */
-
-
     const topic = this.topic;
     const response = {
       topic,
@@ -503,24 +409,45 @@ export class WalletconnectComponent implements OnInit {
   }
 
   async rejectRequest() {
+    /*
+    console.log('rejectRequest start');
+    console.log('this.web3wallet===', this.web3wallet);
     const topic = this.topic;
     const request = this.request;
-    const response = {
-        topic,
-        response: {
-          id: request.id,
-          jsonrpc: "2.0",
-          error: {
-            code: -32000,
-            message: "User rejected JSON-RPC request",
-          },
-        },
-    };
+    console.log('this.proposal.id==', this.proposal.id);
     this.changeState('sessionRequestRejected');
-    return await this.client.respond(response);
-
+    return await this.web3wallet.rejectSession({
+      id: this.proposal.id,
+      reason: getSdkError("USER_REJECTED")
+    });
+    */
+    this.disconnect();
   }
-  connect() {
+
+  async connect() {
+    const core = new Core({
+      projectId: '3acbabd1deb4672edfd4ca48226cfc0f'
+      //relayUrl: 'wss://api.biswap.com',
+    })
+    
+    const web3wallet = await Web3Wallet.init({
+      core, // <- pass the shared `core` instance
+      metadata: {
+        name: 'Exchangily app',
+        description: 'Exchangily wallet',
+        url: 'www.exchangily.com',
+        icons: []
+      }
+    })
+
+    this.web3wallet = web3wallet;
+
+    if(this.web3wallet) {
+      this.web3wallet.on('session_proposal', proposal => this.onSessionProposal(proposal));
+      this.web3wallet.on('session_request', request => this.onSessionRequest(request));
+      this.web3wallet.on('session_delete', args => this.onSessionDelete(args));
+    }
+
 
     const pairBody = { uri: this.uri };
     console.log('pairBody===', pairBody);
@@ -533,20 +460,6 @@ export class WalletconnectComponent implements OnInit {
     proposal: any
   ) {
     if (approved) {
-      // if user approved then include response with accounts matching the chains and wallet metadata
-
-
-      /*
-      const namespaces: any = {}
-      Object.keys(this.requiredNamespaces).forEach(key => {
-        const accounts: string[] = ["eip155:212:" + this.walletAddress];
-        namespaces[key] = {
-          accounts,
-          methods: this.requiredNamespaces[key].methods,
-          events: this.requiredNamespaces[key].events
-        }
-      })
-      */
       const approvedNamespaces = buildApprovedNamespaces({
         proposal: this.params,
         supportedNamespaces: {
@@ -584,7 +497,7 @@ export class WalletconnectComponent implements OnInit {
       this.changeState('sessionCreated');
     } else {
       // if user didn't approve then reject with no response
-      await this.client.reject({ proposal });
+      await this.web3wallet.reject({ proposal });
     }
   }
 }
