@@ -81,11 +81,11 @@ export class WalletconnectComponent implements OnInit {
       this.bnbCoin = bnbCoins[0];
       this.ethAddress = this.ethCoin.receiveAdds[0].address;
     }
-
-    if(this.web3wallet) {
-      this.web3wallet.killSession();
-    }
-    
+    try {
+      if(this.web3wallet) {
+        this.web3wallet.killSession();
+      }
+    } catch(e) {}
 
   }
 
@@ -425,9 +425,12 @@ export class WalletconnectComponent implements OnInit {
 
   async connect() {
 
-    if(this.web3wallet) {
-      this.web3wallet.killSession();
-    }
+    try {
+      if(this.web3wallet) {
+        this.web3wallet.killSession();
+      }
+    } catch(e) {}
+
     const core = new Core({
       projectId: '3acbabd1deb4672edfd4ca48226cfc0f'
       //relayUrl: 'wss://api.biswap.com',
