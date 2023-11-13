@@ -205,8 +205,17 @@ export class KanbanService {
         const data = {
             tawtx: txhex
         };
-        const res = await this.post('kanban/sendRawTransaction', data).toPromise();
-        return res;
+        try {
+            const res = await this.post('kanban/sendRawTransaction', data).toPromise();
+            return res;
+        } catch(e) {
+            let errMsg = e;
+            if(e.error) {
+                errMsg = e.error;
+            }
+            return {errMsg};
+        }
+
     }
 
     signJsonData(privateKey: any, data: any) {

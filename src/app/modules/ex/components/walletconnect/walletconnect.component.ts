@@ -326,18 +326,19 @@ export class WalletconnectComponent implements OnInit {
   }
 
   async handleRequestDo() {
-    //console.log('transferDo start');
+    console.log('handleRequestDo start');
     const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
     
 
     let result = [];
     const method = this.request.method;
     const params = this.request.params;
+    console.log('this.connectedChainId===', this.connectedChainId);
     if(this.connectedChainId == this.kanbanChainId) {
       const keyPair = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
 
       if(method == 'kanban_sendTransaction') {
-        //let 
+        console.log('kanban_sendTransaction start');
         for(let i = 0; i < params.length; i++) {
           const param = params[i];
           const to = param.to;
@@ -351,8 +352,15 @@ export class WalletconnectComponent implements OnInit {
           const gasLimit = param.gasLimit;
           const txhex = await this.web3Serv.signAbiHexWithPrivateKey(data, keyPair, to, nonce, value);
           const resp = await this.kanbanServ.sendRawSignedTransactionPromise(txhex);
-          if (resp && resp.transactionHash) {
-            result.push(resp.transactionHash);
+          console.log('resp===', resp);
+          if (resp) {
+            console.log('resp for post====', resp);
+            if(resp.transactionHash) {
+              result.push(resp.transactionHash);
+            } else {
+              console.log('errorMessage===', resp.errMsg);
+              return this.alertServ.openSnackBar(this.translateServ.instant('Error'), resp.errMsg);
+            }
           }
         }
       } else 
@@ -395,11 +403,15 @@ export class WalletconnectComponent implements OnInit {
 
           const txhex = await this.web3Serv.signTxWithPrivateKey(txParams, keyPair);  
 
-          //const resp = await this.kanbanServ.sendRawSignedTransactionPromise(txhex);
 
           const retEth = await this.apiServ.postEthTx(txhex);
-          if (retEth && retEth.txHash) {
-            result.push(retEth.txHash.trim());
+          if (retEth) {
+            if(retEth.txHash) {
+              result.push(retEth.txHash.trim());
+            } else {
+              return this.alertServ.openSnackBar(this.translateServ.instant('Error'), retEth.errMsg);
+            }
+            
           }
         }
       }
@@ -433,12 +445,15 @@ export class WalletconnectComponent implements OnInit {
 
           const txhex = await this.web3Serv.signEtheruemCompatibleTxWithPrivateKey('BNB', txParams, keyPair);  
 
-          //const resp = await this.kanbanServ.sendRawSignedTransactionPromise(txhex);
-
           const retBnb = await this.apiServ.postEtheruemCompatibleTx('BNB', txhex);
           console.log('retBnb===', retBnb);
-          if (retBnb && retBnb.txHash) {
-            result.push(retBnb.txHash.trim());
+          if (retBnb) {
+            if(retBnb) {
+              result.push(retBnb.txHash.trim());
+            } else {
+              return this.alertServ.openSnackBar(this.translateServ.instant('Error'), retBnb.errMsg);
+            }
+            
           }
         }
       }
@@ -473,9 +488,13 @@ export class WalletconnectComponent implements OnInit {
       },
     };
 
-    console.log('response for =', response);
-    this.changeState('sessionRequestApproved');
-    return await this.web3wallet.respondSessionRequest(response);
+    if(result && (result.length > 0)) {
+      this.changeState('sessionRequestApproved');
+      return await this.web3wallet.respondSessionRequest(response);
+    } else {
+      return this.alertServ.openSnackBar(this.translateServ.instant('Error'), "Error while sending transaction");
+    }
+
   }
 
   approveRequest() {
