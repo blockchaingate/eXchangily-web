@@ -257,7 +257,6 @@ export class WalletconnectComponent implements OnInit {
     let result = [];
     const method = this.request.method;
     const params = this.request.params;
-    console.log('this.connectedChainId===', this.connectedChainId);
     if(this.connectedChainId == this.kanbanChainId) {
       const keyPair = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
 
@@ -425,6 +424,10 @@ export class WalletconnectComponent implements OnInit {
   }
 
   async connect() {
+
+    if(this.web3wallet) {
+      this.web3wallet.killSession();
+    }
     const core = new Core({
       projectId: '3acbabd1deb4672edfd4ca48226cfc0f'
       //relayUrl: 'wss://api.biswap.com',
