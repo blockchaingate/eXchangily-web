@@ -313,6 +313,13 @@ export class CoinService {
         myCoins.push(getCoin);         
         
 
+        const vftCoin = this.initToken('FAB', 'VFT', 0, environment.addresses.smartContract.VFT.FAB, fabCoin);
+
+        this.fillUpAddress(vftCoin, seed, 1, 0);
+
+        myCoins.push(vftCoin);    
+
+
         const dncCoin = this.initToken('FAB', 'DNC', 1, environment.addresses.smartContract.DNC.FAB, fabCoin);
 
         this.fillUpAddress(dncCoin, seed, 1, 0);
@@ -640,9 +647,15 @@ export class CoinService {
         const coinName = myCoin.name;
         const tokenType = myCoin.tokenType;
 
-        if(coinName == 'MWM') {
+        const undepositable = [
+            'MWM',
+            'VFT'
+        ];
+
+        if(undepositable.indexOf(coinName) !== -1) {
             return '';
         }
+
         const chain = tokenType ? tokenType : coinName;
         //console.log('chain===', chain);
         if (environment.addresses.exchangilyOfficial[chain]) {

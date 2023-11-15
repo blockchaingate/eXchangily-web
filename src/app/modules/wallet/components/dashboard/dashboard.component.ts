@@ -605,7 +605,7 @@ export class WalletDashboardComponent implements OnInit {
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];       
 
-            if(((coin.name == 'MWM') && (coin.tokenType == 'BNB'))) {
+            if(((coin.name == 'VFT') && (coin.tokenType == 'FAB'))) {
                 this.walletUpdateToDate = true;
             }
 
