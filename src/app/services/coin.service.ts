@@ -313,12 +313,13 @@ export class CoinService {
         myCoins.push(getCoin);         
         
 
+        /*
         const vftCoin = this.initToken('FAB', 'VFT', 0, environment.addresses.smartContract.VFT.FAB, fabCoin);
 
         this.fillUpAddress(vftCoin, seed, 1, 0);
 
         myCoins.push(vftCoin);    
-
+        */
 
         const dncCoin = this.initToken('FAB', 'DNC', 1, environment.addresses.smartContract.DNC.FAB, fabCoin);
 
@@ -649,7 +650,7 @@ export class CoinService {
 
         const undepositable = [
             'MWM',
-            'VFT'
+            //'VFT'
         ];
 
         if(undepositable.indexOf(coinName) !== -1) {
