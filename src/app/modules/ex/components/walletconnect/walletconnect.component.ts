@@ -371,7 +371,7 @@ export class WalletconnectComponent implements OnInit {
           const retBnb = await this.apiServ.postEtheruemCompatibleTx('BNB', txhex);
           console.log('retBnb===', retBnb);
           if (retBnb) {
-            if(retBnb) {
+            if(retBnb.txHash) {
               result.push(retBnb.txHash.trim());
             } else {
               return this.alertServ.openSnackBar(this.translateServ.instant('Error'), retBnb.errMsg);
