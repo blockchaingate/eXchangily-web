@@ -786,8 +786,8 @@ export class CoinService {
                 balance = balanceObj.balance / Math.pow(10, decimals);
                 lockbalance = balanceObj.lockbalance / Math.pow(10, decimals);
             } else {
-                balance = 0;
-                lockbalance = 0;
+                balance = balanceObj.balance;
+                lockbalance = balanceObj.lockbalance;
             }
 
         }
@@ -829,8 +829,7 @@ export class CoinService {
             if ((!myCoin.receiveAdds) || (myCoin.receiveAdds.length === 0)) {
                 continue;
             }
-            const addr = myCoin.receiveAdds[i].address;
-
+            let addr = myCoin.receiveAdds[i].address;
             const decimals = myCoin.decimals;
             balance = await this.getBlanceByAddress(tokenType, contractAddr, coinName, addr, decimals);
             myCoin.receiveAdds[i].balance = balance.balance;
