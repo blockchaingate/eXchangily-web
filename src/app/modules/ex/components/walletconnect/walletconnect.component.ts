@@ -67,7 +67,7 @@ export class WalletconnectComponent implements OnInit {
     this.cd.detectChanges();
   }
   async ngOnInit() {
-
+    localStorage.clear();
     this.changeState('noSession');
     const wallet = await this.walletServ.getCurrentWallet();
     if (wallet) {
