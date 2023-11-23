@@ -2985,12 +2985,17 @@ export class CoinService {
                 }
                 console.log('gasPrice final=', gasPrice);
                 let decimals = mycoin.decimals;
-                if (!decimals) {
-                    decimals = 18;
-                }
+
                 if (mycoin.name === 'DUSD') {
                     decimals = 6;
+                } else
+                if (mycoin.name  == 'VFT') {
+                    decimals = 0;
+                } else
+                if (decimals !== 0 && !decimals) {
+                    decimals = 18;
                 }
+
                 // const amountSent = BigInt(amount * Math.pow(10, decimals));
                 // const amountSent = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, decimals)));
                 const amountSent = this.utilServ.toBigNumber(amount, decimals);
