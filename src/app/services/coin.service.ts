@@ -232,6 +232,10 @@ export class CoinService {
         this.fillUpAddress(getBNBCoin, seed, 1, 0);
         myCoins.push(getBNBCoin);  
 
+        const bccBNBCoin = this.initToken('BNB', 'BCC', 2, environment.addresses.smartContract.BCC.BNB, bnbCoin);
+        this.fillUpAddress(bccBNBCoin, seed, 1, 0);
+        myCoins.push(bccBNBCoin);  
+
         const mwmBNBCoin = this.initToken('BNB', 'MWM', 18, environment.addresses.smartContract.MWM.BNB, bnbCoin);
         this.fillUpAddress(mwmBNBCoin, seed, 1, 0);
         myCoins.push(mwmBNBCoin);  
@@ -312,6 +316,12 @@ export class CoinService {
 
         myCoins.push(getCoin);         
         
+
+        const bccCoin = this.initToken('FAB', 'BCC', 2, environment.addresses.smartContract.BCC.FAB, fabCoin);
+
+        this.fillUpAddress(bccCoin, seed, 1, 0);
+
+        myCoins.push(bccCoin);          
 
         /*
         const vftCoin = this.initToken('FAB', 'VFT', 0, environment.addresses.smartContract.VFT.FAB, fabCoin);

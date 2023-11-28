@@ -218,6 +218,9 @@ export class WalletconnectComponent implements OnInit {
   }
 
   showData(data:string) {
+    if(!data) {
+      return '';
+    }
     const method = data.substring(0, 10);
     const body = data.substring(10);
     switch(method) {
