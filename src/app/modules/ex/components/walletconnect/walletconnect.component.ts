@@ -265,18 +265,23 @@ export class WalletconnectComponent implements OnInit {
 
       if(method == 'kanban_sendTransaction') {
         console.log('kanban_sendTransaction start');
+        let nonce = await this.kanbanServ.getTransactionCount(keyPair.address);
         for(let i = 0; i < params.length; i++) {
           const param = params[i];
           const to = param.to;
-          let nonce = param.nonce;
+          //let nonce = param.nonce;
+
+          /*
           if(!nonce && (nonce !== 0)) {
             nonce = await this.kanbanServ.getTransactionCount(keyPair.address);
           }
+          */
+
           const value = param.value;
           const data = param.data;
           const gasPrice = param.gasPrice;
           const gasLimit = param.gasLimit;
-          const txhex = await this.web3Serv.signAbiHexWithPrivateKey(data, keyPair, to, nonce, value);
+          const txhex = await this.web3Serv.signAbiHexWithPrivateKey(data, keyPair, to, nonce++, value);
           const resp = await this.kanbanServ.sendRawSignedTransactionPromise(txhex);
           console.log('resp===', resp);
           if (resp) {
