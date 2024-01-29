@@ -157,6 +157,7 @@ export const environment = {
     },
     endpoints: {
         // blockchaingate: 'http://localhost:3002/v2/',
+        api: 'https://testapi.fundark.com/api/',
         explorerapi: 'https://fabtest.info/api',
         blockchaingate: 'https://test.blockchaingate.com/v2/',
         coingecko: 'https://api.coingecko.com/',

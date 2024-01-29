@@ -19,6 +19,7 @@ import { environment } from '../../environments/environment';
 import BigNumber from "bignumber.js";
 import TronWeb from 'tronweb';
 
+
 const HttpProvider = TronWeb.providers.HttpProvider;
 const fullNode = new HttpProvider(environment.chains.TRX.fullNode);
 const solidityNode = new HttpProvider(environment.chains.TRX.solidityNode);
@@ -653,11 +654,15 @@ export class CoinService {
         return false;
     }
 
-    getOfficialAddress(myCoin: MyCoin) {
+    getOfficialAddress(myCoin: MyCoin): Promise<string> {
 
         const coinName = myCoin.name;
         const tokenType = myCoin.tokenType;
 
+        const chain = tokenType ? tokenType : coinName;
+
+        return this.apiService.getTSWalletAddress(chain);
+        /*
         const undepositable = [
             'MWM',
             //'VFT'
@@ -678,7 +683,7 @@ export class CoinService {
             //console.log('newAddress===', address);
             return address;
         }
-        return '';
+        */
     }
 
     async depositFab(scarContractAddress: string, seed: any, mycoin: MyCoin, amount: number) {

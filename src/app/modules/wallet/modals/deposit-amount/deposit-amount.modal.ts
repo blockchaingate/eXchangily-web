@@ -214,7 +214,7 @@ export class DepositAmountModal {
     }
 
     async checkTransFee() {
-        const to = this.coinServ.getOfficialAddress(this.coin);
+        const to = await this.coinServ.getOfficialAddress(this.coin);
         const amount = Number(this.depositAmountForm.value.depositAmount);
         const gasPrice = this.depositAmountForm.value.gasPrice ? Number(this.depositAmountForm.value.gasPrice) : 0;
         const gasLimit = this.depositAmountForm.value.gasLimit ? Number(this.depositAmountForm.value.gasLimit) : 0;

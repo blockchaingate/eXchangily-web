@@ -151,6 +151,7 @@ export const environment = {
         }
     },
     endpoints: {
+        api: 'https://api.pay.cool/api/',
         explorerapi: 'https://fabexplorer.com/api',
         blockchaingate: 'https://api.blockchaingate.com/v2/',
         coingecko: 'https://api.coingecko.com/',

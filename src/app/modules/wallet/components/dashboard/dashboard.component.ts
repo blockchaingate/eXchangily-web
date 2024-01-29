@@ -1825,7 +1825,7 @@ export class WalletDashboardComponent implements OnInit {
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
 
-        const abiHex = this.web3Serv.getDepositFuncABI(coinType, transactionID, amount, addressInKanban, signedMessage, coinTypePrefix);
+        const abiHex = this.web3Serv.getDepositFuncABI(coinType, transactionID, amount, addressInKanban, keyPairs);
 
         const options = {
             gasPrice: gasPrice,
@@ -1882,7 +1882,9 @@ export class WalletDashboardComponent implements OnInit {
         }
         const keyPairs = this.coinServ.getKeyPairs(currentCoin, seed, 0, 0);
 
-        const officalAddress = this.coinServ.getOfficialAddress(currentCoin);
+        const officalAddress = await this.coinServ.getOfficialAddress(currentCoin);
+
+        console.log('officalAddress===', officalAddress);
         if (!officalAddress) {
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar(currentCoin.name + '官方地址无效', 'Ok');
@@ -1988,7 +1990,7 @@ export class WalletDashboardComponent implements OnInit {
 
 
         const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
-        const abiHex = this.web3Serv.getDepositFuncABI(coinType, txHash, amountInLink, addressInKanban, signedMessage, coinTypePrefix);
+        const abiHex = this.web3Serv.getDepositFuncABI(coinType, txHash, amountInLink, addressInKanban,  keyPairs);
 
         const nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
         // const nonce = await this.kanbanServ.getNonce(addressInKanban);

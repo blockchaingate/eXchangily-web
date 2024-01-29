@@ -11,6 +11,7 @@ import {AlertService} from './alert.service';
 import BigNumber from 'bignumber.js';
 import { environment } from '../../environments/environment';
 import TronWeb from 'tronweb';
+import { Observable } from 'rxjs';
 
 const HttpProvider = TronWeb.providers.HttpProvider;
 const fullNode = new HttpProvider(environment.chains.TRX.fullNode);
@@ -29,6 +30,26 @@ export class ApiService {
     
     constructor(private http: HttpClient, private web3Serv: Web3Service, private utilServ: UtilService, private alertServ: AlertService) { }
     
+    async getTSWalletAddress(chain: string): Promise<string> {
+        return new Promise<string>((resolve, reject) => {
+            const url = environment.endpoints.api + '/v3/bridge/tsWalletAddress';
+            const data = {
+                chain
+            };
+            this.http.post(url, data).subscribe(
+                {
+                    next: (ret: any) => {
+                        if(ret.success) {
+                            const data = ret.data;
+                            resolve(data);
+                        }
+                    }
+                }
+            );
+          });
+
+    }
+
     getExTransaction(code: string) {
         const url = environment.endpoints.blockchaingate + 'payment/gateway/code/' + code;
         return this.http.get(url);

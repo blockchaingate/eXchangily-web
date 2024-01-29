@@ -683,9 +683,79 @@ export class Web3Service {
     return abiHex;
   }
 
-  getDepositFuncABI(coinType: number, txHash: string, amount: BigNumber, addressInKanban: string, signedMessage: Signature, coinTypePrefix: any = null) {
-    console.log('signedMessage==', signedMessage);
-    let abiHex = '379eb862';
+  getPayloadForTokenIdReceipientTxid(tokenId: string, receipient: string, txid: string) {
+    const payload =  
+    this.utilServ.fixedLengh(this.utilServ.stripHexPrefix(tokenId ? tokenId : '0x0000000000000000000000000000000000000001'), 64) + 
+    '0000000000000000000000000000000000000000000000000000000000000000' + // token type, erc20
+    this.utilServ.fixedLengh(this.utilServ.stripHexPrefix(receipient), 64) + 
+    this.utilServ.stripHexPrefix(txid);
+
+    return payload;
+  }
+
+  getChainId(chain: string) {
+    let chainId = '0000'; // KANBAN
+    switch(chain) {
+        case 'BTC':
+            chainId = "0001";
+            break;
+        case 'FAB':
+            chainId = "0002";
+            break;       
+        case 'ETH':
+            chainId = "0003";
+            break;
+        case 'BCH':
+            chainId = "0004";
+            break; 
+        case 'LTC':
+            chainId = "0005";
+            break; 
+        case 'DOGE':
+            chainId = "0006";
+            break;  
+        case 'TRX':
+            chainId = "0007";
+            break;  
+        case 'BNB':
+            chainId = "0008";
+            break;   
+        case 'MATIC':
+            chainId = "0009";
+            break;                                                              
+    }
+    return chainId; 
+  }
+
+  getPayload(srcChain: string, tokenId: string, receipient: string, txid: string, keyPair: any) {
+        
+    const subPayload = this.getPayloadForTokenIdReceipientTxid(tokenId, receipient, txid);
+    const srcChainId = this.getChainId(srcChain);
+    const message = srcChainId + subPayload;
+
+    const sig = this.signMessageWithPrivateKey(message.toLowerCase(), keyPair);
+
+    const payload = '0x' + this.utilServ.fixedLengh(this.utilServ.stripHexPrefix(sig.v),64) + 
+    this.utilServ.fixedLengh(srcChainId, 64) + 
+    subPayload +
+    this.utilServ.stripHexPrefix(sig.r) + 
+    this.utilServ.stripHexPrefix(sig.s);  
+
+    console.log('payload part=');
+    console.log(this.utilServ.fixedLengh(this.utilServ.stripHexPrefix(sig.v),64));
+    console.log(this.utilServ.fixedLengh(srcChainId, 64));
+    console.log(subPayload);
+    console.log(this.utilServ.stripHexPrefix(sig.r));
+    console.log(this.utilServ.stripHexPrefix(sig.s));
+    return payload;
+    
+  }
+
+  getDepositFuncABI(coinType: number, txHash: string, amount: BigNumber, addressInKanban: string, keyPairs: any) {
+
+    const abiHex = '';
+
+    /*
     abiHex += this.utilServ.stripHexPrefix(signedMessage.v);
     if(!coinTypePrefix) {
       abiHex += this.utilServ.fixedLengh(coinType.toString(16), 62);
@@ -701,6 +771,7 @@ export class Web3Service {
     abiHex += this.utilServ.fixedLengh(this.utilServ.stripHexPrefix(addressInKanban), 64);
     abiHex += this.utilServ.stripHexPrefix(signedMessage.r);
     abiHex += this.utilServ.stripHexPrefix(signedMessage.s);
+    */
 
     return abiHex;
 
