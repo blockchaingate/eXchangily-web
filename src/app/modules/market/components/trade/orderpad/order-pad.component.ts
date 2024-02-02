@@ -81,8 +81,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   socket: WebSocketSubject<OrderBookItem>;
   tradesSocket: WebSocketSubject<TradeItem>;
   sub: any;
-  baseCoin: number;
-  targetCoin: number;
+  baseCoin: string;
+  targetCoin: string;
   buyGasPrice: number;
   buyGasLimit: number;
   sellGasPrice: number;
@@ -523,8 +523,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     this.mySellPrices = [];
     this.myBuyPrices = [];
 
-    const baseCoinName = this._coinServ.getCoinNameByTypeId(this.baseCoin);
-    const targetCoinName = this._coinServ.getCoinNameByTypeId(this.targetCoin);
+    const baseCoinName = this.baseCoin;
+    const targetCoinName = this.targetCoin;
     const pair = targetCoinName + baseCoinName;
     this.pairName = pair;
 
@@ -731,6 +731,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   buyable() {
+    /*
     if ((this.buyPrice <= 0) || (this.buyQty <= 0)) {
       return false;
     }
@@ -743,9 +744,12 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       return true;
     }
     return false;
+    */
+   return true;
   }
 
   sellable() {
+    /*
     if ((this.sellPrice <= 0) || (this.sellQty <= 0)) {
       return false;
     }
@@ -758,6 +762,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       return true;
     }
     return false;
+    */
+    return true;
   }
 
   getMytokens(): any { return this._mytokens; }
@@ -766,8 +772,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     this.lan = localStorage.getItem('Lan');
     this.pairName = this.route.snapshot.paramMap.get('pair');
     const pairArray = this.pairName.split('_');
-    this.baseCoin = this._coinServ.getCoinTypeIdByName(pairArray[1]);
-    this.targetCoin = this._coinServ.getCoinTypeIdByName(pairArray[0]);
+    this.baseCoin = pairArray[1];
+    this.targetCoin = pairArray[0];
     this.pairName = this.pairName.replace('_', '');
 
     // console.log('ngOnInit for order Pad');
@@ -823,8 +829,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       );
       // console.log('pair for refresh pageeee=' + pair);
       const pairArray = pair.split('_');
-      this.baseCoin = this._coinServ.getCoinTypeIdByName(pairArray[1]);
-      this.targetCoin = this._coinServ.getCoinTypeIdByName(pairArray[0]);
+      this.baseCoin = pairArray[1];
+      this.targetCoin = pairArray[0];
       this.refreshOrders();
       this.refreshCoinAvail();
 
@@ -947,9 +953,9 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     }
     if (this.targetCoinAvail < this.sellQty) {
       if (this.lan === 'zh') {
-        this.alertServ.openSnackBar(this._coinServ.getCoinNameByTypeId(this.targetCoin) + '余额不足', 'Ok');
+        this.alertServ.openSnackBar(this.targetCoin + '余额不足', 'Ok');
       } else {
-        this.alertServ.openSnackBar('You have not enough ' + this._coinServ.getCoinNameByTypeId(this.targetCoin), 'ok');
+        this.alertServ.openSnackBar('You have not enough ' + this.targetCoin, 'ok');
       }
       return;
     }
@@ -975,7 +981,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   async txHexforPlaceOrder
-    (pin: string, wallet: any, bidOrAsk: boolean, baseCoin: number, targetCoin: number, price: number, qty: number) {
+    (pin: string, wallet: any, bidOrAsk: boolean, baseCoin: string, targetCoin: string, price: number, qty: number) {
 
     const seed = this.utilService.aesDecryptSeed(wallet.encryptedSeed, pin);
     if(!seed) {
@@ -991,7 +997,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
     const timeBeforeExpiration = 423434342432;
 
-    const address = await this.kanbanService.getExchangeAddress();
+    //const address = await this.kanbanService.getExchangeAddress();
+    const address = '0xb0f8cb20b064e8f867a21e5bda1250234a854931';
     const orderHash = this.generateOrderHash(bidOrAsk, orderType, baseCoin
       , targetCoin, qty, price, timeBeforeExpiration);
 
@@ -1000,7 +1007,13 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
     //console.log('qtyString=', qtyString);
     //console.log('priceString=', priceString);
-    const abiHex = this.web3Serv.getCreateOrderFuncABI([false, bidOrAsk,
+    targetCoin= '0x20d9cacf41b67029d3378e16fa67fbe1aec4ac3d';
+     baseCoin = '0x84fa23c263a0b1410ab89d33f6eec2c8bf3e9802';
+
+    //kbeth:0x84fa23c263a0b1410ab89d33f6eec2c8bf3e9802
+    //kbfab:0x20d9cacf41b67029d3378e16fa67fbe1aec4ac3d
+
+    const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk,
       baseCoin, targetCoin, qtyString, priceString, orderHash]);
     const nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
 

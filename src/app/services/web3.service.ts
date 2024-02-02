@@ -565,47 +565,42 @@ export class Web3Service {
     
     const web3 = this.getWeb3Provider();
     const func: any = {
-      'constant': false,
-      'inputs': [
+      "inputs": [
         {
-          'name': '_fromContract',
-          'type': 'bool'
-        },        
-        {
-          'name': '_bid',
-          'type': 'bool'
+          "internalType": "bool",
+          "name": "_bid",
+          "type": "bool"
         },
         {
-          'name': '_baseCoin',
-          'type': 'uint32'
+          "internalType": "address",
+          "name": "_baseCoin",
+          "type": "address"
         },
         {
-          'name': '_targetCoin',
-          'type': 'uint32'
+          "internalType": "address",
+          "name": "_targetCoin",
+          "type": "address"
         },
         {
-          'name': '_amount',
-          'type': 'uint256'
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
         },
         {
-          'name': '_price',
-          'type': 'uint256'
+          "internalType": "uint256",
+          "name": "_price",
+          "type": "uint256"
         },
         {
-          'name': '_orderHash',
-          'type': 'bytes32'
+          "internalType": "bytes32",
+          "name": "_orderHash",
+          "type": "bytes32"
         }
       ],
-      'name': 'createOrder',
-      'outputs': [
-        {
-          'name': '',
-          'type': 'bytes32'
-        }
-      ],
-      'payable': false,
-      'stateMutability': 'nonpayable',
-      'type': 'function'
+      "name": "createOrder",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
     };
     const abiHex = web3.eth.abi.encodeFunctionCall(func, paramsArray);
     return abiHex;

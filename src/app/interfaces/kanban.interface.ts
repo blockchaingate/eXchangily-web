@@ -91,8 +91,8 @@ export interface Order {
 
 export interface Price {
     id: number;
-    base_id: number;
-    coin_id: number;
+    tokenA: string;
+    tokenB: string;
     symbol: string;
     price: number; // latest price
     change24h: number; // 12.6%

@@ -110,7 +110,14 @@ export class LiteListComponent implements OnInit {
             this.selectedpair = 'BTC/USDT';
         }
 
-        this.prices = this.prServ.getPriceList();
+        this.prServ.getPriceList(100,0).subscribe(
+            (ret: any) => {
+                if(ret && ret.success) {
+                    const data = ret.data;
+                    this.prices = data;
+                }
+            }
+        );
         // this._wsServ.getAllPrices();
         // this.socket = new WebSocketSubject(environment.websockets.allprices);
         this._wsServ.currentPrices.subscribe(

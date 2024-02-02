@@ -93,7 +93,7 @@
                     <img [src]="isFavorite(pr) ? '/images/star-light.svg' : '/images/star-grey.svg'">
                 </button>
                 <span (click)="gotoTrade(pr.id);">
-                    <span class="text-coin">{{getCoinName(pr.coin_id)}}</span><span class="text-base-coin">/{{getCoinName(pr.base_id)}}</span>
+                    <span class="text-coin">{{pr.tokenA}}</span><span class="text-base-coin">/{{pr.tokenB}}</span>
                 </span>
 
             </div>
@@ -118,7 +118,7 @@
                     <img [src]="isFavorite(pr) ? '/images/star-light.svg' : '/images/star-grey.svg'">
                 </button>
                 <span (click)="gotoTrade(pr.id);">
-                    <span class="text-coin">{{getCoinName(pr.coin_id)}}</span><span class="text-base-coin">/{{getCoinName(pr.base_id)}}</span>
+                    <span class="text-coin">{{pr.tokenA}}</span><span class="text-base-coin">/{{pr.tokenB}}</span>
                 </span>
             </div>
             <div class="col-4 align-self-center">{{toDecimal(pr.price, 6)}}</div>

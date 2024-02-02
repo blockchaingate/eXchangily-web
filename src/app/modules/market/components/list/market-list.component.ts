@@ -135,7 +135,14 @@ export class MarketListComponent implements OnInit {
         this.sortAscLow = 0;
         this.sortAscVolume = 0;
 
-        this.prices = this.prServ.getPriceList();
+        this.prServ.getPriceList(100,0).subscribe(
+            (ret: any) => {
+                if(ret && ret.success) {
+                    const data = ret.data;
+                    this.prices = data;
+                }
+            }
+        );
 
         this.selectCat('DUSD');
         this.storageServ.getFavoritePairs().subscribe(
@@ -172,12 +179,13 @@ export class MarketListComponent implements OnInit {
 
     selectCat(catName: string) {
         this.select = catName;
+        console.log('catName===', catName);
         if (catName == '100') {
             this.tab_prices = this.prices.filter((listing: Price) => this.favorite_pairs.indexOf(listing.symbol) >= 0);
         } else if (catName == '1000') {
             this.tab_prices = [];
         } else {
-            this.tab_prices = this.prices.filter((listing: Price) => listing.symbol.indexOf('/' + catName) >= 0);
+            this.tab_prices = this.prices.filter((listing: Price) => listing.symbol.indexOf('kb' + catName) >= 0);
         }
     }
 
@@ -187,9 +195,12 @@ export class MarketListComponent implements OnInit {
         this.tab_prices = this.prices.filter((listing: Price) => listing.symbol.indexOf(searchText) >= 0);
     }
 
-    gotoTrade(id: number) {
+    gotoTrade(tokenName: any) {
+
+        /*
         const pair = this.getCoinName(this.prices[id].coin_id) + '_' + this.getCoinName(this.prices[id].base_id);
         this._router.navigate(['market/trade/' + pair]);
+        */
     }
 
     isFavorite(price: Price) {
@@ -241,7 +252,7 @@ export class MarketListComponent implements OnInit {
             const v = item['v'];
             for (let j = 0; j < this.tab_prices.length; j++) {
                 const tabItem = this.tab_prices[j];
-                const tabItemSymbol = this.getCoinName(tabItem.coin_id) + this.getCoinName(tabItem.base_id);
+                const tabItemSymbol = tabItem.tokenA + tabItem.tokenB;
                 if (s == tabItemSymbol) {
                     tabItem.change24h = change24h;
                     tabItem.price = price;
