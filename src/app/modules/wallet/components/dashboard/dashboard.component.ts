@@ -1997,7 +1997,7 @@ export class WalletDashboardComponent implements OnInit {
             tokenContract = '0000000000000000000000000000000000000002';
         }
         if(currentCoin.contractAddr) {
-            tokenContract = currentCoin.contractAddr;
+            tokenContract = this.utilServ.stripHexPrefix(currentCoin.contractAddr).toLowerCase();
         }
         const tokenType = '0000000000000000000000000000000000000000'; //ERC20
         const originalMessage = this.coinServ.getOriginalMessage(chainType, tokenContract, tokenType,this.utilServ.stripHexPrefix(addressInKanban), this.utilServ.stripHexPrefix(txHash));
