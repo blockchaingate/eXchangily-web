@@ -1723,6 +1723,8 @@ export class CoinService {
         return buf;
     }
 
+
+
     getOriginalMessage(
         chainType: string, tokenContract: string, tokenType: string, addressInKanban: string, txHash: string) {
 

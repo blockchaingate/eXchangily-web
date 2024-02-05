@@ -142,7 +142,7 @@
                 </span>
             </div>
         </div>
-        <div class="myorderlist scroll-bar w-100">
+        <div class="myorderlist scroll-bar w-100" *ngIf="mytokens">
             <div class="row orderline w-100 py-3" *ngFor="let symbol of mytokens.symbols; let i=index">
                 <div class="col col-3 text-white smallfont">
                     {{symbol}}
@@ -151,7 +151,7 @@
                 {{utilServ.toNumber(utilServ.showAmount(mytokens.balances[i], mytokens.decimals[i]))}}
                 </div>
                 <div class="col col-3 text-white smallfont">
-                    <span class="hand-cursor" (click)="withdraw(templateWithdraw, token)">
+                    <span class="hand-cursor" (click)="withdraw(templateWithdraw, i)">
                         <mat-icon svgIcon="arrow-upward"></mat-icon>
                     </span>
                 </div>
@@ -214,11 +214,7 @@
     </div>
     <div class="modal-body">
         <div>
-            <label for="inputSendTo" class="text-muted">{{'Your balance' | translate }}:{{utilServ.toNumber(utilServ.showAmount(token.unlockedAmount, 18))}}</label>
-        </div>
-
-        <div>
-            <label for="inputSendTo" class="text-muted">{{'Minimum amount' | translate }}:{{minimumWithdrawAmount}}</label>
+            <label for="inputSendTo" class="text-muted">{{'Your balance' | translate }}:{{kanbanBalance}}</label>
         </div>
 
         <div>
@@ -230,138 +226,18 @@
             <input type="number" class="form-control" id="inputWithdrawAmount" name="inputWithdrawAmount" [(ngModel)]="withdrawAmount" aria-describedby="emailHelp" placeholder="0.0000">
         </div>
 
-        <div *ngIf="coinName == 'USDT'">
+        <div>
             <div>
                 <mat-radio-group aria-label="Select an option" [(ngModel)]="chain">
-                    <mat-radio-button value="ETH">ETH</mat-radio-button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <mat-radio-button value="TRX">TRX</mat-radio-button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <mat-radio-button value="BNB">BSC</mat-radio-button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <mat-radio-button value="MATIC">Polygon</mat-radio-button>
+                    <mat-radio-button class="mx-2" *ngFor="let tokenMap of tokenMaps" value="{{getChainName(tokenMap.srcChain)}}">{{getChainName(tokenMap.srcChain)}}</mat-radio-button>
                 </mat-radio-group>
             </div>
             <div>
-                {{'TS Wallet Balance' | translate}}:
-                <span *ngIf="chain == 'TRX'">{{trxUSDTTSBalance?trxUSDTTSBalance:'NA'}}</span>
-                <span *ngIf="chain == 'ETH'">{{ethUSDTTSBalance?ethUSDTTSBalance:'NA'}}</span>
-                <span *ngIf="chain == 'BNB'">{{bnbUSDTTSBalance?bnbUSDTTSBalance:'NA'}}</span>
-                <span *ngIf="chain == 'MATIC'">{{maticUSDTTSBalance?maticUSDTTSBalance:'NA'}}</span>
+              {{chain}} -  {{'TS Wallet Balance' | translate}}:
+                <span>{{tsWalletBalance}}</span>
             </div>
         </div>
 
-
-        <div *ngIf="coinName == 'FAB'">
-            <div>
-                <mat-radio-group aria-label="Select an option" [(ngModel)]="chain">
-                    <mat-radio-button value="FAB">{{'FAB Chain' | translate}}</mat-radio-button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <mat-radio-button value="ETH">ETH</mat-radio-button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <mat-radio-button value="BNB">BSC</mat-radio-button>
-                </mat-radio-group>
-            </div>
-            <div>
-                {{'TS Wallet Balance' | translate}}:
-                <span *ngIf="chain == 'FAB'">{{fabTSBalance?fabTSBalance:'NA'}}</span>
-                <span *ngIf="chain == 'ETH'">{{ethFABTSBalance?ethFABTSBalance:'NA'}}</span>
-                <span *ngIf="chain == 'BNB'">{{bnbFABTSBalance?bnbFABTSBalance:'NA'}}</span>
-            </div>
-        </div>
-
-        <div *ngIf="coinName == 'MATIC'">
-            <div>
-                <mat-radio-group aria-label="Select an option" [(ngModel)]="chain">
-                    <mat-radio-button value="MATIC">{{'Polygon Chain' | translate}}</mat-radio-button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <mat-radio-button value="ETH">ERC20</mat-radio-button>
-                </mat-radio-group>
-            </div>
-            <div>
-                {{'TS Wallet Balance' | translate}}:
-                <span *ngIf="chain == 'MATIC'">{{maticTSBalance?maticTSBalance:'NA'}}</span>
-                <span *ngIf="chain == 'ETH'">{{ethMATICTSBalance?ethMATICTSBalance:'NA'}}</span>
-            </div>
-        </div>
-
-        <div *ngIf="(coinName == 'EXG')">
-            <div>
-                <mat-radio-group aria-label="Select an option" [(ngModel)]="chain">
-                    <mat-radio-button value="FAB">{{'FAB Chain' | translate}}</mat-radio-button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <mat-radio-button value="ETH">ETH</mat-radio-button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <mat-radio-button value="BNB">BSC</mat-radio-button>
-                </mat-radio-group>
-            </div>
-            <div>
-                {{'TS Wallet Balance' | translate}}:
-                <span *ngIf="chain == 'FAB'">{{exgTSBalance?exgTSBalance:'NA'}}</span>
-                <span *ngIf="chain == 'ETH'">{{ethEXGTSBalance?ethEXGTSBalance:'NA'}}</span>
-                <span *ngIf="chain == 'BNB'">{{bnbEXGTSBalance?bnbEXGTSBalance:'NA'}}</span>
-            </div>
-        </div>
-
-        <div *ngIf="(coinName == 'FET')">
-            <div>
-                <mat-radio-group aria-label="Select an option" [(ngModel)]="chain">
-                    <mat-radio-button value="FAB">{{'FAB Chain' | translate}}</mat-radio-button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <mat-radio-button value="BNB">BSC</mat-radio-button>
-                </mat-radio-group>
-            </div>
-            <div>
-                {{'TS Wallet Balance' | translate}}:
-                <span *ngIf="chain == 'FAB'">{{fetTSBalance?fetTSBalance:'NA'}}</span>
-                <span *ngIf="chain == 'BNB'">{{bnbFETTSBalance?bnbFETTSBalance:'NA'}}</span>
-            </div>
-        </div>
-
-        <div *ngIf="(coinName == 'GET')">
-            <div>
-                <mat-radio-group aria-label="Select an option" [(ngModel)]="chain">
-                    <mat-radio-button value="FAB">{{'FAB Chain' | translate}}</mat-radio-button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <mat-radio-button value="BNB">BSC</mat-radio-button>
-                </mat-radio-group>
-            </div>
-            <div>
-                {{'TS Wallet Balance' | translate}}:
-                <span *ngIf="chain == 'FAB'">{{getTSBalance?getTSBalance:'NA'}}</span>
-                <span *ngIf="chain == 'BNB'">{{bnbGETTSBalance?bnbGETTSBalance:'NA'}}</span>
-            </div>
-        </div>
-
-        <div *ngIf="coinName == 'DSC'">
-            <div>
-                <mat-radio-group aria-label="Select an option" [(ngModel)]="chain">
-                    <mat-radio-button value="FAB">{{'FAB Chain' | translate}}</mat-radio-button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <mat-radio-button value="ETH">ETH</mat-radio-button>
-                </mat-radio-group>
-            </div>
-            <div>
-                {{'TS Wallet Balance' | translate}}:
-                <span *ngIf="chain == 'FAB'">{{dscTSBalance?dscTSBalance:'NA'}}</span>
-                <span *ngIf="chain == 'ETH'">{{ethDSCTSBalance?ethDSCTSBalance:'NA'}}</span>
-            </div>
-        </div>
-
-        <div *ngIf="coinName == 'BST'">
-            <div>
-                <mat-radio-group aria-label="Select an option" [(ngModel)]="chain">
-                    <mat-radio-button value="FAB">{{'FAB Chain' | translate}}</mat-radio-button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <mat-radio-button value="ETH">ETH</mat-radio-button>
-                </mat-radio-group>
-            </div>
-            <div>
-                {{'TS Wallet Balance' | translate}}:
-                <span *ngIf="chain == 'FAB'">{{bstTSBalance?bstTSBalance:'NA'}}</span>
-                <span *ngIf="chain == 'ETH'">{{ethBSTTSBalance?ethBSTTSBalance:'NA'}}</span>
-            </div>
-        </div>
 
         <div class="d-flex justify-content-between py-1">
             <div>

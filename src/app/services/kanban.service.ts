@@ -278,6 +278,23 @@ export class KanbanService {
         return this.postNewKanban(url, data);
     }
 
+    withdrawQuote(address: string, recipient:string, destId: string,  srcChain: string,  amount: number) {
+        const url = this.api + '/v3/bridge/withdrawQuote';
+        const data = {
+            address,
+            recipient,
+            destId,
+            srcChain,
+            amount
+        };
+        return this.http.post(url, data);
+    }
+    
+    getTokenMaps(descAddress: string) {
+        const url = this.api + '/v3/bridge/tokenMap/' + descAddress;
+        return this.http.get(url);
+    }
+    
     getLocker(address: string) {
         const url = environment.endpoints.explorerapi + '/kanban/locker/user/' + address + '/50/0';
         return this.http.get(url);

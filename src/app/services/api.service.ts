@@ -30,9 +30,26 @@ export class ApiService {
     
     constructor(private http: HttpClient, private web3Serv: Web3Service, private utilServ: UtilService, private alertServ: AlertService) { }
     
+    async getTsWalletBalance(chain: string, tokenId: string): Promise<number> {
+        return new Promise<number>((resolve, reject) => {
+            const url = environment.endpoints.api + 'v3/bridge//tsWalletBalance/' + chain + '/' + tokenId;
+
+            this.http.get(url).subscribe(
+                {
+                    next: (ret: any) => {
+                        if(ret.success) {
+                            const data = ret.data;
+                            resolve(data);
+                        }
+                    }
+                }
+            );
+          });
+
+    }
     async getTSWalletAddress(chain: string): Promise<string> {
         return new Promise<string>((resolve, reject) => {
-            const url = environment.endpoints.api + '/v3/bridge/tsWalletAddress';
+            const url = environment.endpoints.api + 'v3/bridge/tsWalletAddress';
             const data = {
                 chain
             };

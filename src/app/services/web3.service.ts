@@ -722,6 +722,40 @@ export class Web3Service {
     return chainId; 
   }
 
+  getChainName(chainid) {
+    let chainName = 'KANBAN'; // KANBAN
+    switch(chainid) {
+        case '1':
+          chainName = "BTC";
+            break;
+        case '2':
+          chainName = "FAB";
+            break;       
+        case '3':
+          chainName = "ETH";
+            break;
+        case '4':
+          chainName = "BCH";
+            break; 
+        case '5':
+          chainName = "LTC";
+            break; 
+        case '6':
+          chainName = "DOGE";
+            break;  
+        case '7':
+          chainName = "TRX";
+            break;  
+        case '8':
+          chainName = "BNB";
+            break;   
+        case '9':
+          chainName = "MATIC";
+            break;                                                              
+    }
+    return chainName; 
+  }
+
   getPayload(srcChain: string, tokenId: string, receipient: string, txid: string, keyPair: any) {
         
     const subPayload = this.getPayloadForTokenIdReceipientTxid(tokenId, receipient, txid);

@@ -54,63 +54,34 @@ export class MyordersComponent implements OnInit, OnDestroy {
     orderHash: string;
     modalWithdrawRef: BsModalRef;
     orderStatus: string;
+    kanbanBalance: number;
     mytokens: any;
     opType: string;
     token: any;
+    tokenMaps: any;
+    srcId: string;
     _chain: string;
+    tsWalletBalance: number;
     set  chain(val: string) {
         this._chain = val;
         if(val) {
-            if(['USDT', 'FAB', 'MATIC'].indexOf(this.coinName) >= 0) {
-                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
-            }
+            
 
-            let coinNameInKanban = this.coinName;
-            if(this.coinName == 'USDT') {
-                if(val == 'TRX') {
-                    coinNameInKanban = 'USDTX';
-                }
-                if(val == 'BNB') {
-                    coinNameInKanban = 'USDTB';
-                }
-                if(val == 'MATIC') {
-                    coinNameInKanban = 'USDTM';
-                }
-            } else 
-            if(this.coinName == 'FAB' || this.coinName == 'EXG' || this.coinName == 'DSC' || this.coinName == 'BST' || this.coinName =='FET' || this.coinName == 'BST' ) {
-                if(val == 'BNB') {
-                    coinNameInKanban = this.coinName + 'B';
-                } else
-                if(val == 'ETH') {
-                    coinNameInKanban = this.coinName + 'E';
-                }
-            } else
-            if(this.coinName == 'USDC') {
-                if(val == 'TRX') {
-                    coinNameInKanban = 'USDCX';
-                }
-            } else
-            if(this.coinName == 'MATIC') {
-                if(val == 'MATIC') {
-                    coinNameInKanban = 'MATICM';
+            for(let i = 0; i < this.tokenMaps.length; i++) {
+                const tokenMap = this.tokenMaps[i];
+                const chain = this.web3Serv.getChainName(tokenMap.srcChain);
+                if(chain == val) {
+                    this.srcId = tokenMap.srcId;
+                    break;
                 }
             }
 
-            const coinTypeId = this.coinServ.getCoinTypeIdByName(coinNameInKanban);
-            this.kanbanServ.getTokenList().subscribe(
-                (ret: any) => {
-                    const tokenList = ret.data.tokenList;
-                    for(let i = 0; i < tokenList.length; i++) {
-                        const token = tokenList[i];
-                        const type = token.type;
-                        if(type == coinTypeId) {
-                            this.withdrawFee = token.feeWithdraw;
-                            break;
-                        }
-                    }
-                }
-            );
 
+            this.apiServ.getTsWalletBalance(val, this.srcId).then(
+                balance => {
+                    this.tsWalletBalance = balance;
+                }
+            )
         }
         
     }
@@ -643,15 +614,31 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this.pinModal.show();
     }
 
-    withdraw(withdrawModal: TemplateRef<any>, token) {
+    getChainName(chainId) {
+        return this.web3Serv.getChainName(chainId);
+    }
+    withdraw(withdrawModal: TemplateRef<any>, index: number) {
         console.log('withdraw there we go');
-        this.token = token;
-        // console.log('token=', this.token);
 
-        this.coinType = Number(this.token.coinType);
 
-        this.coinName = this._coinServ.getCoinNameByTypeId(this.coinType);
+        this.coinName = this.mytokens.symbols[index];
+        this.kanbanBalance = this.utilServ.toNumber(this.utilServ.showAmount(this.mytokens.balances[index], this.mytokens.decimals[index]));
 
+        const tokenId = this.mytokens.ids[index];
+        this.kanbanServ.getTokenMaps(tokenId).subscribe(
+            (res: any) => {
+                console.log('res of tokenMaps = ', res);
+                if(res.success) {
+                    this.tokenMaps = res.data;
+                    const tokenMap = this.tokenMaps[0];
+                    console.log('this.srcId===', this.srcId);
+                    //this.srcId = tokenMap.srcId;
+                    this.chain = this.web3Serv.getChainName(tokenMap.srcChain);
+                    
+                    
+                }
+            }
+        );
         this.opType = 'withdraw';
         // this.pin = sessionStorage.getItem('pin');
         // if (this.pin) {  
