@@ -1712,24 +1712,14 @@ export class CoinService {
 
     getProof(signedMessage: Signature, chainType: string, tokenContract: string, tokenType: string, addressInKanban: string, txHash: string) {
         let buf = '0x';
-        console.log('signedMessage===', signedMessage);
-        console.log('txHash===111111' + txHash + '222222');
         buf += this.utilServ.fixedLengh( this.utilServ.stripHexPrefix(signedMessage.v), 64);
-        console.log('buf1===', buf);
         buf += this.utilServ.fixedLengh(chainType, 64);
-        console.log('buf2===', buf);
         buf += this.utilServ.fixedLengh(tokenContract, 64);
-        console.log('buf3===', buf);
         buf += this.utilServ.fixedLengh(tokenType, 64);
-        console.log('buf4===', buf);
         buf += this.utilServ.fixedLengh(addressInKanban, 64);
-        console.log('buf5===', buf);
         buf += this.utilServ.fixedLengh(txHash, 64);
-        console.log('buf6===', buf);
         buf += this.utilServ.fixedLengh( this.utilServ.stripHexPrefix(signedMessage.r), 64);
-        console.log('buf7===', buf);
         buf += this.utilServ.fixedLengh( this.utilServ.stripHexPrefix(signedMessage.s), 64);
-        console.log('buf8===', buf);
         return buf;
     }
 
@@ -3112,6 +3102,9 @@ MATIC: 0x0009
                 // console.log('foreeeee');
 
                 amountInTx = new BigNumber(amountSent);
+                if(toAddress.indexOf('0x') < 0) {
+                    toAddress = this.utilServ.fabToExgAddress(toAddress);
+                }
                 let fxnCallHex = this.web3Serv.getGeneralFunctionABI(funcTransfer, [toAddress, amountSent]);
                 // console.log('enddddd');
                 fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
