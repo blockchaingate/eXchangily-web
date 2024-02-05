@@ -223,7 +223,12 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this.prepareOrders();
 
         this.timerServ.tokens.subscribe(
-            (tokens: any) => {
+            (data: any) => {
+                const tokens = data.tokens;
+                this.mytokens = tokens;
+                console.log('this.mytokens=', this.mytokens);
+
+                /*
                 if(this.mytokens && (this.mytokens.length > 0)) {
                     for(let i=0;i<tokens.length;i++) {
                         const token = tokens[i];
@@ -237,7 +242,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 } else {
                     this.mytokens = tokens;
                 }
-
+                */
             }
         );
 

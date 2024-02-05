@@ -92,6 +92,7 @@ export class WalletDashboardComponent implements OnInit {
     fabBalance: number;
     ethBalance: number;
     maticBalance: number;
+    depositGas: boolean;
     bnbBalance: number;
     coinsPrice: CoinsPrice;
     pin: string;
@@ -936,6 +937,7 @@ export class WalletDashboardComponent implements OnInit {
     }
 
     deposit(currentCoin: MyCoin) {
+        this.depositGas = false;
         this.currentCoin = currentCoin;
         if (currentCoin.tokenType === 'ETH') {
             this.baseCoinBalance = this.ethBalance;
@@ -1550,6 +1552,7 @@ export class WalletDashboardComponent implements OnInit {
        */
     }
 
+    /*
     async depositFab(currentCoin) {
         const amount = this.amount;
         const pin = this.pin;
@@ -1592,6 +1595,7 @@ export class WalletDashboardComponent implements OnInit {
             }
         }
     }
+    */
 
     async addGasDo() {
         /*
@@ -1600,8 +1604,10 @@ export class WalletDashboardComponent implements OnInit {
             return;
         }
         */
+        this.depositGas = true;
         const currentCoin = this.wallet.mycoins[1];
-        this.depositFab(currentCoin);
+        this.currentCoin = currentCoin;
+        this.depositdo();
     }
 
     async sendCoinDo() {
@@ -1812,12 +1818,12 @@ export class WalletDashboardComponent implements OnInit {
         //console.log('coinTypePrefix==', coinTypePrefix);
         const amountInLink = amount; // it's for all coins.
         const updatedCoinType = this.coinServ.getUpdatedCoinType(currentCoin);
+        /*
         const originalMessage = this.coinServ.getOriginalMessage(updatedCoinType, this.utilServ.stripHexPrefix(transactionID)
             , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
+        */
 
-
-
-
+        const originalMessage = '';
 
         const keyPairs = this.coinServ.getKeyPairs(currentCoin, seed, 0, 0);
         const signedMessage: Signature = await this.coinServ.signedMessage(originalMessage, keyPairs);
@@ -1859,9 +1865,23 @@ export class WalletDashboardComponent implements OnInit {
     }
 
     async depositdo() {
+        console.log('depositdo start');
         await this.loadBalance(false);
         
-        if(!this.checkAmount(this.amountForm.amount, this.amountForm.transFee, this.amountForm.tranFeeUnit)) {
+        let amount = 0;
+        
+        if(this.depositGas) {
+            amount = this.amount;
+        } else {
+            amount = this.amountForm.amount;
+        }
+
+        if(!amount) {
+            console.log('amount not set');
+            return;
+        }
+
+        if(!this.checkAmount(amount, this.amountForm ? this.amountForm.transFee : 0.04, this.amountForm ? this.amountForm.tranFeeUnit : 'FAB')) {
             return;
         }
         
@@ -1869,11 +1889,11 @@ export class WalletDashboardComponent implements OnInit {
         if(currentCoin.name == 'FAB' && currentCoin.tokenType == 'FAB') {
             currentCoin.tokenType = '';
         }
-        const amount = this.amountForm.amount;
+
         const pin = this.pin;
 
-        let coinName = currentCoin.name;
-        const coinType = this.coinServ.getCoinTypeIdByName(coinName);
+        //let coinName = currentCoin.name;
+        //const coinType = this.coinServ.getCoinTypeIdByName(coinName);
         
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         if (!seed) {
@@ -1906,13 +1926,14 @@ export class WalletDashboardComponent implements OnInit {
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
         let keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
 
-        const doSubmit = false;
+        const doSubmit = true;
         const options = {
-            gasPrice: this.amountForm.gasPrice,
-            gasLimit: this.amountForm.gasLimit,
-            satoshisPerBytes: this.amountForm.satoshisPerBytes,
-            feeLimit: this.amountForm.feeLimit
+            gasPrice: this.amountForm ? this.amountForm.gasPrice : environment.chains.FAB.gasPrice,
+            gasLimit: this.amountForm ? this.amountForm.gasLimit : environment.chains.FAB.gasLimit,
+            satoshisPerBytes: this.amountForm ? this.amountForm.satoshisPerBytes : environment.chains.FAB.satoshisPerBytes,
+            feeLimit: this.amountForm ? this.amountForm.feeLimit : environment.chains.TRX.feeLimit
         };
+
 
         const { txHex, txHash, errMsg, amountInTx, txids } = await this.coinServ.sendTransaction(
             currentCoin, seed, officalAddress, amount, options, doSubmit
@@ -1921,15 +1942,6 @@ export class WalletDashboardComponent implements OnInit {
         //console.log('txHash in send = ', txHash);
         if (errMsg) {
             this.alertServ.openSnackBar(errMsg, 'Ok');
-            return;
-        }
-
-        if (!txHex) {
-            if (this.lan === 'zh') {
-                this.alertServ.openSnackBar('内部错误，txHex为空', 'Ok');
-            } else {
-                this.alertServ.openSnackBar('Internal error, txHex is null', 'Ok');
-            }
             return;
         }
 
@@ -1979,32 +1991,25 @@ export class WalletDashboardComponent implements OnInit {
             return;
         }
 
-        let coinTypePrefix = this.coinServ.getCoinTypePrefix(currentCoin);
-
-
-        const updatedCoinType = this.coinServ.getUpdatedCoinType(currentCoin);
-        const originalMessage = this.coinServ.getOriginalMessage(updatedCoinType, this.utilServ.stripHexPrefix(txHash)
-            , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
+        const chainType = this.coinServ.getChainType(currentCoin);
+        let tokenContract = '0000000000000000000000000000000000000001';
+        if(this.depositGas) {
+            tokenContract = '0000000000000000000000000000000000000002';
+        }
+        if(currentCoin.contractAddr) {
+            tokenContract = currentCoin.contractAddr;
+        }
+        const tokenType = '0000000000000000000000000000000000000000'; //ERC20
+        const originalMessage = this.coinServ.getOriginalMessage(chainType, tokenContract, tokenType,this.utilServ.stripHexPrefix(addressInKanban), this.utilServ.stripHexPrefix(txHash));
 
         const signedMessage: Signature = await this.coinServ.signedMessage(originalMessage, keyPairs);
 
-
-        const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
-        const abiHex = this.web3Serv.getDepositFuncABI(coinType, txHash, amountInLink, addressInKanban,  keyPairs);
-
-        const nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
-        // const nonce = await this.kanbanServ.getNonce(addressInKanban);
-        // console.log('nonce there we go =', nonce);
-        const optionsKanban = {
-            gasPrice: this.amountForm.kanbanGasPrice,
-            gasLimit: this.amountForm.kanbanGasLimit,
-        };
-        const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, 0, optionsKanban);
+        const proof = this.coinServ.getProof(signedMessage, chainType, tokenContract, tokenType,this.utilServ.stripHexPrefix(addressInKanban), this.utilServ.stripHexPrefix(txHash));
 
         // return 0;
-        this.kanbanServ.submitDeposit(txHex, txKanbanHex).subscribe((resp: any) => {
-            // console.log('resp=', resp);
-            if (resp && resp.data && resp.data.transactionID) {
+        this.kanbanServ.submitDeposit(proof).subscribe((resp: any) => {
+            console.log('resp for submitDeposit=', resp);
+            if (resp && resp.success) {
                 this.kanbanServ.incNonce();
                 this.coinServ.addTxids(txids);
                 if (this.lan === 'zh') {

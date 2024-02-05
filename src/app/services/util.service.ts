@@ -294,7 +294,7 @@ export class UtilService {
             return '0';
         }
 
-        const bigN = new BigNumber(amount).dividedBy(new BigNumber(1e18));
+        const bigN = new BigNumber(amount).shiftedBy(-decimal);
         /*
         let numStr = amount.toString();
  

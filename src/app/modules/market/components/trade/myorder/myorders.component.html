@@ -133,9 +133,8 @@
 
     <div class="orders container w-100" *ngIf="select == 100">
         <div class="row w-100 header py-3">
-            <div class="orditem col-2">{{'Coin' | translate }}</div>
-            <div class="orditem col-3">{{'Amount' | translate }}</div>
-            <div class="orditem col-3">{{'Locked Amount' | translate }}</div>
+            <div class="orditem col-3">{{'Coin' | translate }}</div>
+            <div class="orditem col-5">{{'Amount' | translate }}</div>
             <div class="orditem col-3">
                 <span class="hand-cursor" (click)="showWithdrawHistory()">
                     {{'Withdraw' | translate }}
@@ -144,15 +143,12 @@
             </div>
         </div>
         <div class="myorderlist scroll-bar w-100">
-            <div class="row orderline w-100 py-3" *ngFor="let token of mytokens; let i=index">
+            <div class="row orderline w-100 py-3" *ngFor="let symbol of mytokens.symbols; let i=index">
                 <div class="col col-3 text-white smallfont">
-                    {{coinServ.getCoinNameByTypeId(token.coinType)}}
+                    {{symbol}}
                 </div>
-                <div class="col col-3 text-white smallfont">
-                    {{utilServ.toNumber(utilServ.showAmount(token.unlockedAmount, 18))}}
-                </div>
-                <div class="col col-3 text-whit smallfonte">
-                    {{utilServ.toNumber(utilServ.showAmount(token.lockedAmount, 18))}}
+                <div class="col col-5 text-white smallfont">
+                {{utilServ.toNumber(utilServ.showAmount(mytokens.balances[i], mytokens.decimals[i]))}}
                 </div>
                 <div class="col col-3 text-white smallfont">
                     <span class="hand-cursor" (click)="withdraw(templateWithdraw, token)">

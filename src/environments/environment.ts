@@ -150,9 +150,9 @@ export const environment = {
             },
             feeLimit: 40,
             feeLimitToken: 40,
-            fullNode: 'https://api.trongrid.io',
-            solidityNode: 'https://api.trongrid.io',
-            eventServer: 'https://api.trongrid.io'       
+            fullNode: 'https://api.nileex.io',
+            solidityNode: 'https://api.nileex.io',
+            eventServer: 'https://event.nileex.io'       
         }
     },
     endpoints: {

@@ -792,7 +792,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
     this.timerServ.tokens.subscribe(
       (tokens: any) => {
-        //console.log('tokens====', tokens);
+        console.log('tokens there we go====', tokens);
         this.setMytokens(tokens);
       }
     );
@@ -1002,13 +1002,13 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     const orderHash = this.generateOrderHash(bidOrAsk, orderType, baseCoin
       , targetCoin, qty, price, timeBeforeExpiration);
 
-    const qtyString = new BigNumber(qty).multipliedBy(new BigNumber(1e18)).toFixed();
-    const priceString = new BigNumber(price).multipliedBy(new BigNumber(1e18)).toFixed();
+    const qtyString = new BigNumber(qty).shiftedBy(8).toFixed();
+    const priceString = new BigNumber(price).shiftedBy(8).toFixed();
 
     //console.log('qtyString=', qtyString);
     //console.log('priceString=', priceString);
     targetCoin= '0x20d9cacf41b67029d3378e16fa67fbe1aec4ac3d';
-     baseCoin = '0x84fa23c263a0b1410ab89d33f6eec2c8bf3e9802';
+    baseCoin = '0x84fa23c263a0b1410ab89d33f6eec2c8bf3e9802';
 
     //kbeth:0x84fa23c263a0b1410ab89d33f6eec2c8bf3e9802
     //kbfab:0x20d9cacf41b67029d3378e16fa67fbe1aec4ac3d

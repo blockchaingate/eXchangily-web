@@ -12,7 +12,7 @@ export class KanbanService {
     // getExchangeAddress
     nonce: number;
     endpoint = environment.endpoints.kanban;
-
+    api = environment.endpoints.api;
     constructor(
         private web3Serv: Web3Service,
         private http: HttpClient, 
@@ -246,10 +246,9 @@ export class KanbanService {
         return this.http.post(path, data, options);
     }
 
-    submitDeposit(rawTransaction: string, rawKanbanTransaction: string) {
+    submitDeposit(proof: string) {
         const data = {
-            'rawTransaction': rawTransaction,
-            'rawKanbanTransaction': rawKanbanTransaction
+            'proof': proof
         };
         const httpHeaders = new HttpHeaders({
             'Content-Type': 'application/json',
@@ -259,13 +258,24 @@ export class KanbanService {
             headers: httpHeaders
         };
         // console.log('data for submitDeposit=', data);       
-        const path = this.endpoint + 'submitDeposit';
+        const path = this.api + 'v3/bridge/claimDeposit';
         return this.http.post(path, data, options);
     }
 
+    /*
+                const url = environment.api + '/v3/bridge/claimDeposit';
+            const data = {
+                proof
+            };
+
+    */
     getBalance(address: string) {
-        const url = 'exchangily/getBalances/' + address;
-        return this.get(url);
+        const url = 'kanban/balance';
+        
+        const data = {
+            native: address
+        };
+        return this.postNewKanban(url, data);
     }
 
     getLocker(address: string) {
@@ -317,6 +327,11 @@ export class KanbanService {
         return this.http.get(path);
     }
 
+    postNewKanban(path: string, body: any) {
+        path = this.api + path;
+        return this.http.post(path, body);
+    }
+    
     getAllOrders() {
         return this.get('exchangily/getAllOrderData');
     }

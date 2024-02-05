@@ -1710,18 +1710,40 @@ export class CoinService {
         return { txHex: txHex, errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids };
     }
 
-    getOriginalMessage(coinType: number, txHash: string, amount: BigNumber, address: string) {
+    getProof(signedMessage: Signature, chainType: string, tokenContract: string, tokenType: string, addressInKanban: string, txHash: string) {
+        let buf = '0x';
+        console.log('signedMessage===', signedMessage);
+        console.log('txHash===111111' + txHash + '222222');
+        buf += this.utilServ.fixedLengh( this.utilServ.stripHexPrefix(signedMessage.v), 64);
+        console.log('buf1===', buf);
+        buf += this.utilServ.fixedLengh(chainType, 64);
+        console.log('buf2===', buf);
+        buf += this.utilServ.fixedLengh(tokenContract, 64);
+        console.log('buf3===', buf);
+        buf += this.utilServ.fixedLengh(tokenType, 64);
+        console.log('buf4===', buf);
+        buf += this.utilServ.fixedLengh(addressInKanban, 64);
+        console.log('buf5===', buf);
+        buf += this.utilServ.fixedLengh(txHash, 64);
+        console.log('buf6===', buf);
+        buf += this.utilServ.fixedLengh( this.utilServ.stripHexPrefix(signedMessage.r), 64);
+        console.log('buf7===', buf);
+        buf += this.utilServ.fixedLengh( this.utilServ.stripHexPrefix(signedMessage.s), 64);
+        console.log('buf8===', buf);
+        return buf;
+    }
+
+    getOriginalMessage(
+        chainType: string, tokenContract: string, tokenType: string, addressInKanban: string, txHash: string) {
 
         let buf = '';
-        const coinTypeHex = coinType.toString(16);
 
-        buf += this.utilServ.fixedLengh(coinTypeHex, 8);
-
+        buf += chainType;
         
+        buf += this.utilServ.fixedLengh(tokenContract, 64);
+        buf += this.utilServ.fixedLengh(tokenType, 64);
+        buf += this.utilServ.fixedLengh(addressInKanban, 64);
         buf += this.utilServ.fixedLengh(txHash, 64);
-        const hexString = amount.toString(16);
-        buf += this.utilServ.fixedLengh(hexString, 64);
-        buf += this.utilServ.fixedLengh(address, 64);
 
         return buf;
     }
@@ -1787,6 +1809,50 @@ export class CoinService {
         }
         
         return prefix;
+    }
+
+    getChainType(coin: MyCoin): string {
+        let tokenType = coin.tokenType;
+        if(!tokenType) {
+            tokenType = coin.name.toUpperCase();
+        }
+
+        let coinType = '0000';
+        if(tokenType == 'BTC') {
+            coinType = '0001';
+        } else 
+        if(tokenType == 'FAB') {
+            coinType = '0002';
+        } else 
+        if(tokenType == 'ETH') {
+            coinType = '0003';
+        } else 
+        if(tokenType == 'BCH') {
+            coinType = '0004';
+        } else 
+        if(tokenType == 'LTC') {
+            coinType = '0005';
+        } else 
+        if(tokenType == 'DOGE') {
+            coinType = '0006';
+        } else 
+        if(tokenType == 'TRX') {
+            coinType = '0007';
+        } else 
+        if(tokenType == 'BNB') {
+            coinType = '0008';
+        } else 
+        if(tokenType == 'MATIC') {
+            coinType = '0009';
+        }
+        return coinType;
+        /*
+        KANBAN: 0x0000
+
+TRX: 0x0007
+BNB: 0x0008
+MATIC: 0x0009
+        */
     }
 
     getUpdatedCoinType(coin: MyCoin): number {
@@ -2574,10 +2640,14 @@ export class CoinService {
             amountInTx = new BigNumber(this.utilServ.toBigNumber(amount, 6));
             const amountNum2 = amountInTx.toNumber();
 
+            console.log('gogogo');
+            console.log('toAddress=',toAddress);
+            console.log('amountNum2=',amountNum2);
+            console.log('keyPair.address=',keyPair.address);
             const tradeobj = await tronWeb.transactionBuilder.sendTrx(toAddress, amountNum2, keyPair.address);
-
+            console.log('tradeobj=', tradeobj);
             const txHexObj = await tronWeb.trx.sign(tradeobj, priKeyDisp);
-
+            console.log('txHexObj=', txHexObj);
             if (txHexObj) {
                 if (doSubmit) {
                     const receipt = await tronWeb.trx.sendRawTransaction(txHexObj);
@@ -3121,6 +3191,7 @@ export class CoinService {
                     }
                 }
             }
+        txHash = txHash.trim();
         const ret = { txHex: txHex, txHash: txHash, errMsg: errMsg, transFee: transFee, amountInTx: amountInTx, txids: txids };
         return ret;
     }
