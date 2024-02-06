@@ -561,6 +561,39 @@ export class Web3Service {
     return web3.utils.sha3(str);
   }
 
+  getApproveFuncABI(approveCoin: string, qtyString: string) {
+    const web3 = this.getWeb3Provider();
+    const func: any = {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "spender",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "approve",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    };
+    const paramsArray = [approveCoin, qtyString];
+    const abiHex = web3.eth.abi.encodeFunctionCall(func, paramsArray);
+    return abiHex;
+  }
+
   getCreateOrderFuncABI(paramsArray: any) {
     
     const web3 = this.getWeb3Provider();

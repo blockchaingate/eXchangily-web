@@ -89,7 +89,10 @@ export class LiteListComponent implements OnInit {
     }
 
     toDecimal(amount: number, decimal: number) {
-        return amount.toFixed(decimal);
+        if(amount) {
+            return amount.toFixed(decimal);
+        }
+        return 0;
     }
 
     ngOnInit() {

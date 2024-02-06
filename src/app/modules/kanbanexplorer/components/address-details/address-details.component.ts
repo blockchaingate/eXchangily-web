@@ -96,7 +96,7 @@ export class AddressDetailsComponent implements OnInit {
   }
 
   getHumanReadableFormat(num: string): string {
-    return (new BigNumber(num).multipliedBy(new BigNumber(1e-18))).toFixed(18);
+    return new BigNumber(num).shiftedBy(-18).toFixed(18);
   }
 
   getCoinName(coin_id: number) {

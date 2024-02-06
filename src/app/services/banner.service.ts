@@ -8,7 +8,7 @@ export class BannerService {
     constructor(private http: HttpClient) { }
 
     getAll() {
-        const url = environment.endpoints.blockchaingate + 'banners/app/' + Config.appid;
+       const url = environment.endpoints.blockchaingate + 'banners/app/' + Config.appid;
         return this.http.get(url);
     }
 

@@ -195,8 +195,9 @@ export class MarketListComponent implements OnInit {
         this.tab_prices = this.prices.filter((listing: Price) => listing.symbol.indexOf(searchText) >= 0);
     }
 
-    gotoTrade(tokenName: any) {
-
+    gotoTrade(pr: any) {
+        console.log('pr trade=', pr);
+        this._router.navigate(['market/trade/' + pr.symbol]);
         /*
         const pair = this.getCoinName(this.prices[id].coin_id) + '_' + this.getCoinName(this.prices[id].base_id);
         this._router.navigate(['market/trade/' + pair]);
@@ -221,7 +222,10 @@ export class MarketListComponent implements OnInit {
     }
 
     toDecimal(amount: number, decimal: number) {
-        return amount.toFixed(decimal);
+        if(amount) {
+            return amount.toFixed(decimal);
+        }
+        return 0;
     }
     
     getCoinName(coin_id: number) {

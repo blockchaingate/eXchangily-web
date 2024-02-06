@@ -154,7 +154,7 @@ export class CodeComponent implements OnInit {
     const amount = this.amount;
     const coin = this.coinID;
     const txHex = await this.txHexforSendToken(
-      this.pin, this.wallet, address, coin, new BigNumber(amount).multipliedBy(new BigNumber(1e18)).toFixed()
+      this.pin, this.wallet, address, coin, new BigNumber(amount).shiftedBy(18).toFixed()
     );
 
     this.apiServ.chargeOrder(this.orderID, txHex).subscribe(

@@ -30,9 +30,31 @@ export class ApiService {
     
     constructor(private http: HttpClient, private web3Serv: Web3Service, private utilServ: UtilService, private alertServ: AlertService) { }
     
+    async getPair(symbol: string): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            const url = environment.endpoints.api + 'v3/exchangily/pair/' + symbol;
+
+            console.log('url===', url);
+            this.http.get(url).subscribe(
+                {
+                    next: (ret: any) => {
+                        if(ret.success) {
+                            const data = ret.data;
+                            resolve(data);
+                        } else {
+                            resolve(null);
+                        }
+
+                    }
+                }
+            );
+          });
+
+    }
+
     async getTsWalletBalance(chain: string, tokenId: string): Promise<number> {
         return new Promise<number>((resolve, reject) => {
-            const url = environment.endpoints.api + 'v3/bridge//tsWalletBalance/' + chain + '/' + tokenId;
+            const url = environment.endpoints.api + 'v3/bridge/tsWalletBalance/' + chain + '/' + tokenId;
 
             this.http.get(url).subscribe(
                 {

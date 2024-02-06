@@ -1,4 +1,4 @@
-<div class="outwraper w-100 h-100">
+<div class="outwraper w-100 h-100" *ngIf="pairData">
     <div class="upper w-100">
         <div class="orderbook  h-100 mr-2 exg-bg">
             <div class="w-100 headerl p-2">{{'Order Book' | translate }}</div>
@@ -12,9 +12,9 @@
                     <div class="orderbookitem mt-1" *ngFor="let sell of sells; let i=index" (click)="setPrice(sell.p)" [ngStyle]="{'background-color': sell.my ? '#3e3e5f' : ''}">
                         <div [style.width.%]="sell.percentage" [style.height.%]="100" class="percentage-bar percentage-bar-red">&nbsp;</div>
                         <div class="price smallfont text-danger">
-                            {{toDecimal(sell.p,pairConfig.priceDecimal)}}</div>
+                            {{toDecimal(sell.p,pairConfig ? pairConfig.priceDecimal : 4)}}</div>
                         <div class="quantity smallfont text-muted">
-                            {{toDecimal(sell.q,pairConfig.qtyDecimal)}}</div>
+                            {{toDecimal(sell.q,pairConfig ? pairConfig.qtyDecimal : 4)}}</div>
                         <div class="total smallfont text-muted">{{showSellsAmount(sells, i)}}</div>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
                 <div [style.width.%]="100" [style.height.%]="100" class="percentage-bar percentage-bar-blue">&nbsp;
                 </div>
                 <div style="width: 24%; text-align: right; font-size: larger;" class="text-info">
-                    {{toDecimal(currentPrice, pairConfig.priceDecimal)}}</div>
+                    {{toDecimal(currentPrice, pairConfig ? pairConfig.priceDecimal : 4)}}</div>
                 <!--
                 <div [class.redcolor]="change24h<0" [class.greencolor]="change24h>0" class="text-info"> {{utilService.showAmount(currentQuantity.toString())}} </div>
                 -->
@@ -33,8 +33,8 @@
             <div class="buylist w-100">
                 <div class="orderbookitem mt-1" *ngFor="let buy of buys; let i=index" (click)="setPrice(buy.p)" [ngStyle]="{'background-color': buy.my ? '#3e3e5f' : ''}">
                     <div [style.width.%]="buy.percentage" [style.height.%]="100" class="percentage-bar percentage-bar-green">&nbsp;</div>
-                    <div class="price smallfont text-success">{{toDecimal(buy.p,pairConfig.priceDecimal)}}</div>
-                    <div class="quantity smallfont text-muted">{{toDecimal(buy.q,pairConfig.qtyDecimal)}}</div>
+                    <div class="price smallfont text-success">{{toDecimal(buy.p,pairConfig ? pairConfig.priceDecimal : 4)}}</div>
+                    <div class="quantity smallfont text-muted">{{toDecimal(buy.q,pairConfig ? pairConfig.qtyDecimal : 4)}}</div>
                     <div class="total smallfont text-muted">{{showBuysAmount(buys, i)}}</div>
                 </div>
             </div>
@@ -50,9 +50,9 @@
             <div class="transacs w-100">
                 <div class="orderbookitem" *ngFor="let tx of trades; let l=index">
                     <div class="price smallfont" [ngClass]="tx.b?'text-success':'text-danger'">
-                        {{toDecimal(tx.p,pairConfig.priceDecimal)}}</div>
+                        {{toDecimal(tx.p, pairConfig ? pairConfig.priceDecimal : 4)}}</div>
                     <div class="quantity smallfont text-muted">
-                        {{toDecimal(tx.q,pairConfig.qtyDecimal)}}</div>
+                        {{toDecimal(tx.q, pairConfig ? pairConfig.qtyDecimal : 4)}}</div>
                     <div class="total smallfont text-muted">{{tx.t * 1000 | date:'HH:mm:ss'}}</div>
                 </div>
             </div>
@@ -195,19 +195,23 @@
             </div>
         </div>
     </div>
+    <ng-template #templatePasswd>
+        <div class="modal-header text-center">
+            <h4 class="modal-title w-100">Password</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="pb-4">
+                <input type="password" autocomplete="off" class="form-control" id="inputPin" [(ngModel)]="pin" aria-describedby="emailHelp" placeholder="Please provide your password to confirm the transaction">
+            </div>
+            <button class="btn btn1 btn-gradient text-white" (click)="confirmPin()">{{"Confirm" | translate }}</button>
+        </div>
+    </ng-template>
 </div>
 
-<ng-template #templatePasswd>
-    <div class="modal-header text-center">
-        <h4 class="modal-title w-100">Password</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="pb-4">
-            <input type="password" autocomplete="off" class="form-control" id="inputPin" [(ngModel)]="pin" aria-describedby="emailHelp" placeholder="Please provide your password to confirm the transaction">
-        </div>
-        <button class="btn btn1 btn-gradient text-white" (click)="confirmPin()">{{"Confirm" | translate }}</button>
-    </div>
-</ng-template>
+<div *ngIf="!pairData">
+    Pair not found
+</div>
+

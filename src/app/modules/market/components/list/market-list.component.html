@@ -92,7 +92,7 @@
                 <button mat-icon-button (click)="toggleFavorite(pr)" aria-label="Example icon-button with a heart icon" class="text-right">
                     <img [src]="isFavorite(pr) ? '/images/star-light.svg' : '/images/star-grey.svg'">
                 </button>
-                <span (click)="gotoTrade(pr.id);">
+                <span (click)="gotoTrade(pr);">
                     <span class="text-coin">{{pr.tokenA}}</span><span class="text-base-coin">/{{pr.tokenB}}</span>
                 </span>
 
@@ -117,7 +117,7 @@
                 <button mat-icon-button color="warn" (click)="toggleFavorite(pr)" aria-label="Example icon-button with a heart icon" class="text-right">
                     <img [src]="isFavorite(pr) ? '/images/star-light.svg' : '/images/star-grey.svg'">
                 </button>
-                <span (click)="gotoTrade(pr.id);">
+                <span (click)="gotoTrade(pr);">
                     <span class="text-coin">{{pr.tokenA}}</span><span class="text-base-coin">/{{pr.tokenB}}</span>
                 </span>
             </div>

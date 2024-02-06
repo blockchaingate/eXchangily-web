@@ -68,6 +68,7 @@ export class PanelComponent implements OnInit {
         //this.orders = this.getOrders();
 
         const inPair = this._route.snapshot.paramMap.get('pair');
+        console.log('inPair===', inPair);
         if (inPair) {
             const inPairArr = inPair.split('_');
             this.baseCoin = this.coinName2Number(inPairArr[0]);

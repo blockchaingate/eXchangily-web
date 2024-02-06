@@ -28,8 +28,8 @@ export class LatestTradesComponent implements OnInit {
     this.kanbanService.getLatestTrades().subscribe((r) => {
       this.trades = r;
       this.trades.forEach((trade) => {
-        trade.price = (new BigNumber(trade.price).multipliedBy(new BigNumber(1e-18))).toFixed(5);
-        trade.amount = (new BigNumber(trade.amount).multipliedBy(new BigNumber(1e-18))).toFixed(5);
+        trade.price = (new BigNumber(trade.price).shiftedBy(-18)).toFixed(5);
+        trade.amount = (new BigNumber(trade.amount).shiftedBy(-18)).toFixed(5);
       });
     });
   }
