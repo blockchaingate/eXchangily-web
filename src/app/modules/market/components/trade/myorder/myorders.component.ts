@@ -60,6 +60,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     token: any;
     tokenMaps: any;
     srcId: string;
+    destId: string;
     _chain: string;
     tsWalletBalance: number;
     set  chain(val: string) {
@@ -257,6 +258,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
         const amount = this.withdrawAmount;
         const pin = this.pin;
 
+        /*
         let currentCoin;
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             currentCoin = this.wallet.mycoins[i];
@@ -278,8 +280,20 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 break;
             }
         }
+        
 
         console.log('currentCoin=', currentCoin);
+        */
+        let addressInWallet = '';
+        let currentCoin;
+        for (let i = 0; i < this.wallet.mycoins.length; i++) {
+            currentCoin = this.wallet.mycoins[i];
+            if(!currentCoin.tokenType && currentCoin.name == this.chain) {
+                addressInWallet = currentCoin.receiveAdds[0].address;
+                break;
+            }
+        }
+
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         if (!seed) {
             if (this.lan === 'zh') {
@@ -289,9 +303,6 @@ export class MyordersComponent implements OnInit, OnDestroy {
             }
             return;
         }
-        const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
-        const amountInLink = new BigNumber(amount).multipliedBy(new BigNumber(1e18)); // it's for all coins.
-        let addressInWallet = currentCoin.receiveAdds[0].address;
 
         if (
             currentCoin.name === 'BTC' || ((currentCoin.name === 'FAB') && !currentCoin.tokenType) || 
@@ -315,7 +326,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
             const hash2 = createHash('sha256').update(Buffer.from(hash1, 'hex')).digest().toString('hex');
 
             addressInWallet = addr + hash2.substring(0, 8);
-        } else if (currentCoin.tokenType === 'FAB') {
+        } else if (currentCoin.name === 'FAB') {
             let fabAddress = '';
             for (let i = 0; i < this.wallet.mycoins.length; i++) {
                 const coin = this.wallet.mycoins[i];
@@ -336,20 +347,13 @@ export class MyordersComponent implements OnInit, OnDestroy {
             addressInWallet = Buffer.from(bytes).toString('hex');
         }
 
-        /*
-         else if () {
-            const address = currentCoin.receiveAdds[0].address;
-            addressInWallet = this.coinServ.trxToHex(address);
-        }
-        */
 
-        console.log('currentCoin==', currentCoin);
-        let coinTypePrefix = this.coinServ.getCoinTypePrefix(currentCoin);
-        const abiHex = this.web3Serv.getWithdrawFuncABI(this.coinType, amountInLink, addressInWallet, coinTypePrefix);
 
-        const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
-        const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 
+        const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
+
+
+        let nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
         this.gasPrice = Number(this.gasPrice);
         this.gasLimit = Number(this.gasLimit);
         if (this.gasPrice <= 0 || this.gasLimit <= 0) {
@@ -365,30 +369,58 @@ export class MyordersComponent implements OnInit, OnDestroy {
             gasLimit: this.gasLimit
         };
 
+        this.apiServ.withdrawQuote(keyPairsKanban.address, addressInWallet, this.destId,  this.chain,  amount).subscribe(
+            (ret: any) => {
+                console.log('ret===', ret);
+                if(ret.success) {
+                    const data = ret.data;
+                    const params = data.params;
+                    
+                    const rawtxs = [];
+                    for(let i = 0; i < params.length; i++) {
+                        const param = params[i];
+                        const to = param.to;
+                        const data = param.data;
+                        const txKanbanHex = this.web3Serv.signAbiHexWithPrivateKey(data, keyPairsKanban, to, nonce++, 0, options);
+                        rawtxs.push(txKanbanHex);
+                    }
+
+                    this.apiServ.claimWithdraw(rawtxs).subscribe(
+                        (ret: any) => {
+                            console.log('ret for claimWithdraw=', ret);
+                            if(ret.result) {
+                                if (this.lan === 'zh') {
+                                    this.alertServ.openSnackBarSuccess('提币请求提交成功，等待处理。', 'Ok');
+                                } else {
+                                    this.alertServ.openSnackBarSuccess('Your withdraw request is pending.', 'Ok');
+                                }
+                            } else {
+                                this.alertServ.openSnackBar(ret.message, 'Ok');
+                            }
+                        }
+                    );
+
+                } else {
+                    this.alertServ.openSnackBar(ret.message, 'Ok');
+                }
+            }
+        );
+
+
+
+        /*
+        const amountInLink = new BigNumber(amount).multipliedBy(new BigNumber(1e18)); // it's for all coins.
+
+        const abiHex = '';
+        const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
+
+
         const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, 0, options);
 
         this.kanbanServ.sendRawSignedTransaction(txKanbanHex).subscribe((resp: any) => {
             // console.log('resp=', resp);
             if (resp && resp.transactionHash) {
-                /*
-                const item = {
-                    walletId: this.wallet.id,
-                    type: 'Withdraw',
-                    coin: currentCoin.name,
-                    tokenType: currentCoin.tokenType,
-                    amount: amount,
-                    txid: resp.transactionHash,
-                    time: new Date(),
-                    confirmations: '0',
-                    blockhash: '',
-                    comment: '',
-                    to: addressInWallet,
-                    status: 'pending'
-                };
-                this.storageServ.storeToTransactionHistoryList(item);
-                this.timerServ.transactionStatus.next(item);
-                this.timerServ.checkTransactionStatus(item);
-                */
+
 
                 this.modalWithdrawRef.hide();
                 this.kanbanServ.incNonce();
@@ -405,6 +437,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 }
             }
         });
+        */
     }
 
     async openWithdrawModal(template: TemplateRef<any>) {
@@ -633,6 +666,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
                     const tokenMap = this.tokenMaps[0];
                     console.log('this.srcId===', this.srcId);
                     //this.srcId = tokenMap.srcId;
+                    this.destId = tokenMap.destId;
                     this.chain = this.web3Serv.getChainName(tokenMap.srcChain);
                     
                     
@@ -652,16 +686,8 @@ export class MyordersComponent implements OnInit, OnDestroy {
     onConfirmedWithdrawAmount() {
         const amount = this.withdrawAmount;
 
-        if (amount < environment.minimumWithdraw[this.coinName]) {
-            if (this.lan === 'zh') {
-                this.alertServ.openSnackBar('未满足最低提币量要求。', 'Ok');
-            } else {
-                this.alertServ.openSnackBar('Your withdraw minimum amount is not satisfied.', 'Ok');
-            }
-            return;
-        }
 
-        if (amount > Number(this.utilServ.showAmount(this.token.unlockedAmount, 18))) {
+        if (amount > this.kanbanBalance) {
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar('提币数量超过可用余额。', 'Ok');
             } else {
@@ -669,108 +695,15 @@ export class MyordersComponent implements OnInit, OnDestroy {
             }
             return;
         }
-
-        if(this.coinName == 'USDT') {
-            if(this.chain == 'TRX' && (!this.trxUSDTTSBalance || (amount > this.trxUSDTTSBalance))) {
-                if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
-                } else {
-                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
-                }
-                return;                
+        if(amount > this.tsWalletBalance) {
+            if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+            } else {
+                this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
             }
+            return;                
+        }    
 
-            if(this.chain == 'ETH' && (!this.ethUSDTTSBalance || (amount > this.ethUSDTTSBalance))) {
-                if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
-                } else {
-                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
-                }
-                return;                
-            }    
-            if(this.chain == 'BNB' && (!this.bnbUSDTTSBalance || (amount > this.bnbUSDTTSBalance))) {
-                if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
-                } else {
-                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
-                }
-                return;                
-            }    
-            if(this.chain == 'MATIC' && (!this.maticUSDTTSBalance || (amount > this.maticUSDTTSBalance))) {
-                if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
-                } else {
-                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
-                }
-                return;                
-            }         
-        }
-
-        if(this.coinName == 'FAB') {
-            if(this.chain == 'FAB' && (!this.fabTSBalance || (amount > this.fabTSBalance))) {
-                if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
-                } else {
-                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
-                }
-                return;                
-            }
-
-            if(this.chain == 'ETH' && (!this.ethFABTSBalance || (amount > this.ethFABTSBalance))) {
-                if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
-                } else {
-                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
-                }
-                return;                
-            }    
-            if(this.chain == 'BNB' && (!this.bnbFABTSBalance || (amount > this.bnbFABTSBalance))) {
-                if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
-                } else {
-                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
-                }
-                return;                
-            }            
-        }
-
-        if(this.coinName == 'MATIC') {
-            if(this.chain == 'MATIC' && (!this.maticTSBalance || (amount >= this.maticTSBalance))) {
-                if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
-                } else {
-                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
-                }
-                return;   
-            }
-            if(this.chain == 'ETH' && (!this.ethMATICTSBalance || (amount > this.ethMATICTSBalance))) {
-                if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
-                } else {
-                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
-                }
-                return;                
-            }  
-        }
-        if(['EXG', 'DSC', 'BST'].indexOf(this.coinName) >= 0) {
-            if(this.chain == 'FAB' && (!this.exgTSBalance || (amount > this.exgTSBalance))) {
-                if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
-                } else {
-                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
-                }
-                return;                
-            }
-
-            if(this.chain == 'ETH' && (!this.ethEXGTSBalance || (amount > this.ethEXGTSBalance))) {
-                if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
-                } else {
-                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
-                }
-                return;                
-            }            
-        }
 
         this.modalWithdrawRef.hide();
 

@@ -30,6 +30,38 @@ export class ApiService {
     
     constructor(private http: HttpClient, private web3Serv: Web3Service, private utilServ: UtilService, private alertServ: AlertService) { }
     
+    claimWithdraw(rawtxs: any) {
+        const observable = new Observable((subscriber) => {
+            const url = environment.endpoints.api + '/v3/bridge/claimWithdraw';
+            const data = {
+                rawtxs
+            };
+            this.http.post(url, data).subscribe(
+                {
+                    next: (ret: any) => {
+                        if(ret.success) {
+                            const data = ret.data;
+                            subscriber.next(data);
+                        }
+                    }
+                }
+            );
+        });
+        return observable;
+    }
+
+    withdrawQuote(address: string, recipient:string, destId: string,  srcChain: string,  amount: number) {
+        const url = environment.endpoints.api + '/v3/bridge/withdrawQuote';
+        const data = {
+            address,
+            recipient,
+            destId,
+            srcChain,
+            amount
+        };
+        return this.http.post(url, data);
+    }
+
     async getPair(symbol: string): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             const url = environment.endpoints.api + 'v3/exchangily/pair/' + symbol;

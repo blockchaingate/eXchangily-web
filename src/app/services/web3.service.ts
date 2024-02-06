@@ -149,7 +149,7 @@ export class Web3Service {
     return txhex;
  }
 
-  async signAbiHexWithPrivateKey(abiHex: string, keyPair: any, address: string, nonce: number,
+  signAbiHexWithPrivateKey(abiHex: string, keyPair: any, address: string, nonce: number,
     value: any = 0, options = { gasPrice: 0, gasLimit: 0 }) {
     // console.log('abiHex before', abiHex);
     if (abiHex.startsWith('0x')) {
