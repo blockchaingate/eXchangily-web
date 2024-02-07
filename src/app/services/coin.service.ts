@@ -1164,8 +1164,13 @@ export class CoinService {
  
             }
             */
+
+            /*
             signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey,
                 keyPair.privateKeyBuffer.compressed, messagePrefix);
+            */
+            signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey,
+                    false, messagePrefix);
             v = `0x${signBuffer.slice(0, 1).toString('hex')}`;
             r = `0x${signBuffer.slice(1, 33).toString('hex')}`;
             s = `0x${signBuffer.slice(33, 65).toString('hex')}`; 

@@ -1934,12 +1934,11 @@ export class WalletDashboardComponent implements OnInit {
             feeLimit: this.amountForm ? this.amountForm.feeLimit : environment.chains.TRX.feeLimit
         };
 
-
         const { txHex, txHash, errMsg, amountInTx, txids } = await this.coinServ.sendTransaction(
             currentCoin, seed, officalAddress, amount, options, doSubmit
         );
 
-        //console.log('txHash in send = ', txHash);
+        console.log('txHash in send = ', txHash);
         if (errMsg) {
             this.alertServ.openSnackBar(errMsg, 'Ok');
             return;
