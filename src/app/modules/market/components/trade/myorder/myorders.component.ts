@@ -52,6 +52,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
     pin: string;
     orderHash: string;
+    pair: string;
     modalWithdrawRef: BsModalRef;
     orderStatus: string;
     kanbanBalance: number;
@@ -633,9 +634,14 @@ export class MyordersComponent implements OnInit, OnDestroy {
         }
     }
 
-    deleteOrder(orderHash: string) {
+    deleteOrder(pair: string, orderHash: string) {
         console.log('orderHash=' + orderHash);
+        if(!pair || !orderHash) {
+            this.alertServ.openSnackBar('pair or orderHash not available', 'Ok');
+            return;
+        }
         this.orderHash = orderHash;
+        this.pair = pair;
         this.opType = 'deleteOrder';
 
         this.pinModal.show();
@@ -762,7 +768,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
         const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 
         const address = await this.kanbanServ.getExchangeAddress();
-        const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce);
+        const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, this.pair, nonce);
         console.log('txhex=', txhex);
         this.kanbanServ.sendRawSignedTransaction(txhex).subscribe((resp: any) => {
             console.log('resp=', resp);
@@ -783,8 +789,8 @@ export class MyordersComponent implements OnInit, OnDestroy {
     }
 
     showFilledPercentage(orderQty, orderFilledQty) {
-        const orderQtyNum = new BigNumber(this.utilServ.showAmount(orderFilledQty, 2));
-        const orderQtyFilledNum = new BigNumber(this.utilServ.showAddAmount(orderQty, orderFilledQty, 2));
+        const orderQtyNum = new BigNumber(orderFilledQty);
+        const orderQtyFilledNum = new BigNumber(orderQty);
         const ret = orderQtyNum.dividedBy(orderQtyFilledNum);
         return ret.toNumber() * 100;
     }

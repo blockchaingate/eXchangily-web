@@ -111,25 +111,35 @@ export class TimerService {
             }
             this.kanbanServ.getOrdersByAddressStatus(address, 'open')
             .subscribe(
-                (orders: any) => { 
+                (ret: any) => { 
                     // console.log('ordersssssssssssssssssss=', orders);
-                    this.openOrders.next(orders);
+                    if(ret.success) {
+                        const orders = ret.data;
+                        this.openOrders.next(orders);
+                    }
+                    
                 }
             );   
 
             this.kanbanServ.getOrdersByAddressStatus(address, 'closed')
             .subscribe(
-                (orders: any) => { 
-                    // console.log('ordersssssssssssssssssss=', orders);
-                    this.closedOrders.next(orders);
+                (ret: any) => { 
+                    if(ret.success) {
+                        const orders = ret.data;
+                        this.closedOrders.next(orders);
+                    }
+
                 }
             );   
             
             this.kanbanServ.getOrdersByAddressStatus(address, 'canceled')
             .subscribe(
-                (orders: any) => { 
-                    // console.log('ordersssssssssssssssssss=', orders);
-                    this.canceledOrders.next(orders);
+                (ret: any) => { 
+                    if(ret.success) {
+                        const orders = ret.data;
+                        this.canceledOrders.next(orders);
+                    }
+
                 }
             );             
         });   

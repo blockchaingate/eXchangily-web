@@ -534,23 +534,17 @@ export class Web3Service {
   getDeleteOrderFuncABI(orderHash: string) {
     const web3 = this.getWeb3Provider();
     const func: any = {
-      'constant': false,
-      'inputs': [
+      "inputs": [
         {
-          'name': '_orderHash',
-          'type': 'bytes32'
+          "internalType": "bytes32",
+          "name": "_orderHash",
+          "type": "bytes32"
         }
       ],
-      'name': 'cancelOrder',
-      'outputs': [
-        {
-          'name': 'success',
-          'type': 'bool'
-        }
-      ],
-      'payable': false,
-      'stateMutability': 'nonpayable',
-      'type': 'function'
+      "name": "cancelOrder",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
     };
     const abiHex = web3.eth.abi.encodeFunctionCall(func, [orderHash]);
     return abiHex;

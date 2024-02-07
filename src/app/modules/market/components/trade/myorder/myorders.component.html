@@ -55,20 +55,20 @@
                 </div>
 
                 <div class="orditem text-white d-flex align-items-center" style="width: 12%;">
-                    <div>{{utilServ.showAmount(order.price, 6)}}</div>
+                    <div>{{order.price}}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 15%;">
-                    <div>{{utilServ.showAddAmount(order.orderQuantity, order.filledQuantity, 6)}}</div>
+                    <div>{{order.orderQuantity}}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 15%;">
-                    <div>{{utilServ.showAmount(order.filledQuantity, 6)}}</div>
+                    <div>{{order.filledQuantity}}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 15%;">
                     <div>{{showFilledPercentage(order.orderQuantity, order.filledQuantity)|number:'2.2-2'}}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 5%;">
                     <div *ngIf="order.isActive">
-                        <button mat-icon-button aria-label="Example icon-button with a heart icon" (click)="deleteOrder(order.orderHash)">
+                        <button mat-icon-button aria-label="Example icon-button with a heart icon" (click)="deleteOrder(order.pair, order.orderHash)">
                             <mat-icon svgIcon="delete"></mat-icon>
                         </button>
                     </div>
@@ -98,7 +98,7 @@
                 </div>
                 <div class=" text-muted col-3">
                     <div *ngIf="order.isActive">
-                        <button mat-icon-button aria-label="Example icon-button with a heart icon" (click)="deleteOrder(order.orderHash)">
+                        <button mat-icon-button aria-label="Example icon-button with a heart icon" (click)="deleteOrder(order.pair, order.orderHash)">
                             <mat-icon svgIcon="delete"></mat-icon>
                         </button>
                     </div>

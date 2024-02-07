@@ -171,9 +171,8 @@ export class KanbanService {
     }
 
     getOrdersByAddressStatus(address: string, status: string, start: number = 0, count: number = 200) {
-        let path = 'ordersbyaddresspaged/' + address + '/' + start + '/' + count + '/' + status;
-        path = environment.endpoints.kanban + path;
-        console.log('path for getOrdersByAddress=' + path);
+        let path = 'v3/exchangily/order/from/' + address + '/' + count + '/' + start + '/' + status;
+        path = environment.endpoints.api + path;
         const res = this.http.get(path);
         return res;
     }
