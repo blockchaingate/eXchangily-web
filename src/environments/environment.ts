@@ -391,7 +391,7 @@ export const environment = {
     websockets: {
         allprices: 'wss://kanbantest.fabcoinapi.com/ws/allprices',
         trades: 'wss://kanbantest.fabcoinapi.com/ws/trades',
-        orders: 'wss://kanbantest.fabcoinapi.com/ws/orders',
+        orders: 'wss://testapi.fundark.com/ws/orders',
         kline: 'wss://kanbantest.fabcoinapi.com/ws/ticker'
     },
     minimumWithdraw: {

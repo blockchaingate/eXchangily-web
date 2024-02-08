@@ -141,13 +141,13 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       return 0;
     }
 
-    let amountBig = 0;
+    let amountBig = new BigNumber(0);
     for (let i = 0; i <= index; i++) {
       const buy = buys[i];
-      amountBig += buy.q;
+      amountBig = amountBig.plus(new BigNumber(buy.q));
     }
 
-    return amountBig.toFixed(this.pairConfig.qtyDecimal);
+    return amountBig.toNumber();
   }
 
   checkRegExp(value: string, decimal: number) {
@@ -268,13 +268,13 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       return 0;
     }
 
-    let amountTotal = 0;
+    let amountTotal = new BigNumber(0);
     for (let i = sells.length - 1; i >= index; i--) {
       const sell = sells[i];
-      amountTotal += sell.q;
+      amountTotal = amountTotal.plus(new BigNumber(sell.q));
     }
 
-    return amountTotal.toFixed(this.pairConfig.qtyDecimal);
+    return amountTotal.toNumber();
   }
 
   syncOrders(newOrderArr, oldOrderArr, bidOrAsk: boolean) {
@@ -523,7 +523,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
     const baseCoinName = this.baseCoin;
     const targetCoinName = this.targetCoin;
-    const pair = targetCoinName + baseCoinName;
+    const pair = targetCoinName + '_' + baseCoinName;
     this.pairName = pair;
 
     // console.log('pair = ' + pair);
@@ -535,6 +535,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     this.socket = new WebSocketSubject(environment.websockets.orders + '@' + pair);
     this.socket.subscribe(
       (orders: any) => {
+        console.log('orders===', orders);
         this.sells = orders.s.slice(0, 10).reverse();
         this.buys = orders.b.slice(0, 10);
 
@@ -546,55 +547,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           this.myBuyPrices.filter(myS => +myS === bu.p).length > 0 ? bu.my = true : bu.my = false;
         });
 
-        //   if ((pair.indexOf('NVZN') < 0) && environment.production) {
-        /*
-        for(let i=0;i<10;i++) {
-          const randNum = Math.floor((Math.random() * 10) + 1);
-          if(randNum > this.sells.length - 1) {
-            continue;
-          }
- 
-          var price = this.getRandomArbitrary(this.sells[randNum - 1].p, this.sells[randNum].p);
- 
-          if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.sells[randNum - 1].p, this.pairConfig.priceDecimal)) {
-            continue;
-          }
- 
-          if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.sells[randNum].p, this.pairConfig.priceDecimal)) {
-            continue;
-          }
- 
-          var newOrder = {
-            q: this.sells[randNum].q,
-            p: price
-          };
-          this.sells.splice(randNum, 0, newOrder);
-        }
- 
-        for(let i=0;i<10;i++) {
-          const randNum = Math.floor((Math.random() * 10) + 1);
- 
-          if(randNum > this.buys.length - 1) {
-            continue;
-          }  
-          
-          var price = this.getRandomArbitrary(this.buys[randNum - 1].p, this.buys[randNum].p);
- 
-          if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.buys[randNum - 1].p, this.pairConfig.priceDecimal)) {
-            continue;
-          }
- 
-          if(this.toDecimal(price, this.pairConfig.priceDecimal) == this.toDecimal(this.buys[randNum].p, this.pairConfig.priceDecimal)) {
-            continue;
-          }
- 
-          var newOrder = {
-            q: this.buys[randNum].q,
-            p: price
-          };
-          this.buys.splice(randNum, 0, newOrder);
-        }
-        */
        if(environment.production) {
         for (let j = 0; j < 2; j++) {
           let randNum = Math.floor((Math.random() * this.sells.length));
@@ -844,7 +796,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       (orders: any) => {
         const myPairOrders = orders.filter(mo => mo.pairName === this.pairName);
         myPairOrders.forEach(ordItm => {
-          const decimalPrice = this.utilService.showAmount(ordItm.price, this.pairConfig.priceDecimal);
+          const decimalPrice = this.utilService.showAmount(ordItm.price, this.pairConfig ? this.pairConfig.priceDecimal : 6);
             if (ordItm.bidOrAsk) {
               this.myBuyPrices.push(decimalPrice);
             } else {
@@ -885,20 +837,26 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   finalExpCheck(price: number, qty: number) {
-    if (!this.checkRegExp(price.toString(), this.pairConfig.priceDecimal)) {
+    let priceDecimal = 6;
+    let qtyDecimal = 6;
+    if(this.pairConfig) {
+      priceDecimal = this.pairConfig.priceDecimal;
+      qtyDecimal = this.pairConfig.qtyDecimal
+    }
+    if (!this.checkRegExp(price.toString(), priceDecimal)) {
       if (this.lan === 'zh') {
-        this.alertServ.openSnackBar('价格小数限' + this.pairConfig.priceDecimal + '位。', 'Ok');
+        this.alertServ.openSnackBar('价格小数限' + priceDecimal + '位。', 'Ok');
       } else {
-        this.alertServ.openSnackBar('Price decimal no more than ' + this.pairConfig.priceDecimal, 'ok');
+        this.alertServ.openSnackBar('Price decimal no more than ' + priceDecimal, 'ok');
       }
       return false;
     }
 
-    if (!this.checkRegExp(qty.toString(), this.pairConfig.qtyDecimal)) {
+    if (!this.checkRegExp(qty.toString(), qtyDecimal)) {
       if (this.lan === 'zh') {
-        this.alertServ.openSnackBar('购量小数限' + this.pairConfig.qtyDecimal + '位。', 'Ok');
+        this.alertServ.openSnackBar('购量小数限' + qtyDecimal + '位。', 'Ok');
       } else {
-        this.alertServ.openSnackBar('Quantity decimal no more than ' + this.pairConfig.qtyDecimal, 'ok');
+        this.alertServ.openSnackBar('Quantity decimal no more than ' + qtyDecimal, 'ok');
       }
       return false;
     }
