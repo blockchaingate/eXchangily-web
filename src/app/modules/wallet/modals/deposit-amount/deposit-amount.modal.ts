@@ -293,7 +293,7 @@ export class DepositAmountModal {
             return;
         }
         
-        if (amount > this.coin.balance) {
+        if (environment.production && (amount > this.coin.balance)) {
             this.alertServ.openSnackBar(
                 this.tranServ.instant('No enough balance for deposit.'), 
                 this.tranServ.instant('Ok'));

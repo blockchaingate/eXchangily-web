@@ -213,7 +213,7 @@ export const environment = {
             },
             USDT: { 
                 ETH: '0xa9f4f6f0fa56058ebdb91865eb2f6aec83b94532',
-                TRX: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t',
+                TRX: 'TXLAQ63Xg1NAzckPwKHvzw7CSEmLMEqcdj',
                 BNB: '0x4850754EA867654339F38d4e6DF7cd80CFee141f',
                 MATIC: '0x26CbCDe3842D9A9170d47F122F69D993a00676ED'
             },
@@ -390,7 +390,7 @@ export const environment = {
     },
     websockets: {
         allprices: 'wss://kanbantest.fabcoinapi.com/ws/allprices',
-        trades: 'wss://kanbantest.fabcoinapi.com/ws/trades',
+        trades: 'wss://testapi.fundark.com/ws/trades',
         orders: 'wss://testapi.fundark.com/ws/orders',
         kline: 'wss://kanbantest.fabcoinapi.com/ws/ticker'
     },

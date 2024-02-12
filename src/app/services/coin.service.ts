@@ -18,7 +18,7 @@ import { UtilService } from './util.service';
 import { environment } from '../../environments/environment';
 import BigNumber from "bignumber.js";
 import TronWeb from 'tronweb';
-
+import * as bs58 from 'bs58';
 
 const HttpProvider = TronWeb.providers.HttpProvider;
 const fullNode = new HttpProvider(environment.chains.TRX.fullNode);
@@ -53,6 +53,17 @@ export class CoinService {
     convertTrxAddressToHex(trxAddress: string) {
         const address = tronWeb.address.toHex(trxAddress).replace(ADDRESS_PREFIX_REGEX, '0x');
         return address;
+    }
+
+    convertTrxAddressToWithChecksum(trxAddress: string) {
+
+        /*
+        const address = tronWeb.address.toHex(trxAddress);
+        return address;
+        */
+        const bytes = bs58.decode(trxAddress);
+        const addressInWallet = Buffer.from(bytes).toString('hex');
+        return addressInWallet;
     }
 
     async getTrxTokenName(smartContractAddress) {
@@ -1079,8 +1090,6 @@ export class CoinService {
             },
             value: privateKey
         };
-        console.log('message=', message);
-        console.log('environment.chains.TRX.network.messagePrefix=', environment.chains.TRX.network.messagePrefix);
         const signingKey = new TronWeb.utils.ethersUtils.SigningKey(value);
         const length = message.length;
         const messageBytes = [
@@ -1089,10 +1098,7 @@ export class CoinService {
             ...TronWeb.utils.ethersUtils.toUtf8Bytes(message)
         ];
 
-        // const messageBytes = environment.chains.TRX.network.messagePrefix + message;
-        console.log('messageBytes=', messageBytes);
         const messageDigest = TronWeb.utils.ethersUtils.keccak256(messageBytes);
-        console.log('messageDigest=', messageDigest);
         const signature = signingKey.signDigest(messageDigest);
 
         /*
@@ -1116,9 +1122,6 @@ export class CoinService {
         const name = keyPair.name;
         const tokenType = keyPair.tokenType;
 
-        console.log('in signedMessage');
-        console.log('name==', name);
-        console.log('tokenType==', tokenType);
         if (name === 'ETH' || tokenType === 'ETH') {
             signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
             // console.log('signature in signed is ');
@@ -1133,15 +1136,13 @@ export class CoinService {
         }
         else if ((name === 'FAB' && !tokenType) || name === 'BTC' || tokenType === 'FAB' || name === 'DOGE' || name === 'LTC') {
             // signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
-            console.log('1aaa');
+
             let signBuffer: Buffer;
-            console.log('keyPair.privateKeyBuffer.compressed===', keyPair.privateKeyBuffer.compressed);
             // if(name === 'FAB' || name === 'BTC' || tokenType === 'FAB' || name === 'LTC' || name === 'DOGE') {
             const chainName = tokenType ? tokenType : name;
 
             const messagePrefix = environment.chains[chainName].network.messagePrefix;
 
-            console.log('messagePrefix=', messagePrefix);
 
             let v = '';
             let r = '';
@@ -1177,7 +1178,6 @@ export class CoinService {
 
             signature = { r: r, s: s, v: v };
 
-            console.log('signature====', signature);
         } else 
         if (name === 'BCH') {
 
@@ -2128,7 +2128,6 @@ MATIC: 0x0009
                 if (!bytesPerInput) {
                     bytesPerInput = environment.chains.FAB.bytesPerInput;
                 }
-                console.log('gasPrice final=', gasPrice);
                 let decimals = mycoin.decimals;
                 if (!decimals) {
                     decimals = 18;
@@ -2637,14 +2636,9 @@ MATIC: 0x0009
             amountInTx = new BigNumber(this.utilServ.toBigNumber(amount, 6));
             const amountNum2 = amountInTx.toNumber();
 
-            console.log('gogogo');
-            console.log('toAddress=',toAddress);
-            console.log('amountNum2=',amountNum2);
-            console.log('keyPair.address=',keyPair.address);
             const tradeobj = await tronWeb.transactionBuilder.sendTrx(toAddress, amountNum2, keyPair.address);
-            console.log('tradeobj=', tradeobj);
+
             const txHexObj = await tronWeb.trx.sign(tradeobj, priKeyDisp);
-            console.log('txHexObj=', txHexObj);
             if (txHexObj) {
                 if (doSubmit) {
                     const receipt = await tronWeb.trx.sendRawTransaction(txHexObj);
@@ -2684,8 +2678,7 @@ MATIC: 0x0009
             
             try {
                 const contract = await tronWeb.contract().at(trc20ContractAddress);
-                console.log('gogogo');
-                console.log('feeLimit===', feeLimit);
+
                 // Use call to execute a pure or view smart contract method.
                 // These methods do not modify the blockchain, do not cost anything to execute and are also not broadcasted to the network.
                 if (doSubmit) {
@@ -3065,7 +3058,6 @@ MATIC: 0x0009
                 if (!bytesPerInput) {
                     bytesPerInput = environment.chains.FAB.bytesPerInput;
                 }
-                console.log('gasPrice final=', gasPrice);
                 let decimals = mycoin.decimals;
 
                 if (mycoin.name === 'DUSD') {

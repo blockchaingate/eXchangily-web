@@ -1002,6 +1002,9 @@ export class WalletDashboardComponent implements OnInit {
         const coinName = this.currentCoin.name;
         const tokenType = this.currentCoin.tokenType;
 
+        if(!environment.production) {
+            return true;
+        }
         if (currentCoinBalance < amount) {
             this.alertServ.openSnackBar(
                 this.translateServ.instant('InsufficientForTransaction', {coin: coinName}),
@@ -1904,7 +1907,6 @@ export class WalletDashboardComponent implements OnInit {
 
         const officalAddress = await this.coinServ.getOfficialAddress(currentCoin);
 
-        console.log('officalAddress===', officalAddress);
         if (!officalAddress) {
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar(currentCoin.name + '官方地址无效', 'Ok');
@@ -1938,7 +1940,6 @@ export class WalletDashboardComponent implements OnInit {
             currentCoin, seed, officalAddress, amount, options, doSubmit
         );
 
-        console.log('txHash in send = ', txHash);
         if (errMsg) {
             this.alertServ.openSnackBar(errMsg, 'Ok');
             return;
@@ -1996,12 +1997,21 @@ export class WalletDashboardComponent implements OnInit {
             tokenContract = '0000000000000000000000000000000000000002';
         }
         if(currentCoin.contractAddr) {
-            tokenContract = this.utilServ.stripHexPrefix(currentCoin.contractAddr).toLowerCase();
+            tokenContract = currentCoin.contractAddr;
+            if(currentCoin.tokenType == 'TRX') {
+                tokenContract = this.coinServ.convertTrxAddressToWithChecksum(tokenContract);
+            }
+
+            tokenContract = this.utilServ.stripHexPrefix(tokenContract).toLowerCase();
         }
+
+
+
         const tokenType = '0000000000000000000000000000000000000000'; //ERC20
         const originalMessage = this.coinServ.getOriginalMessage(chainType, tokenContract, tokenType,this.utilServ.stripHexPrefix(addressInKanban), this.utilServ.stripHexPrefix(txHash));
 
         const signedMessage: Signature = await this.coinServ.signedMessage(originalMessage, keyPairs);
+
 
         const proof = this.coinServ.getProof(signedMessage, chainType, tokenContract, tokenType,this.utilServ.stripHexPrefix(addressInKanban), this.utilServ.stripHexPrefix(txHash));
 

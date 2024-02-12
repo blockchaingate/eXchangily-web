@@ -642,7 +642,6 @@ export class Web3Service {
 
   getGeneralFunctionABI(func, paramsArray) {
     const web3 = this.getWeb3Provider();
-    console.log('paramsArray==', paramsArray);
     const abiHex = web3.eth.abi.encodeFunctionCall(func, paramsArray);
     return abiHex;
   }

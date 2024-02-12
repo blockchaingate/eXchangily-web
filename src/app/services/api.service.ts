@@ -773,7 +773,6 @@ export class ApiService {
        if (txHex) {
            try {
             const json = await this.http.post(url, data).toPromise() as FabTransactionResponse;
-            console.log('json there we go=', json);
             if (json) {
                 if (json.txid) {
                     txHash = json.txid;
