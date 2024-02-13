@@ -170,6 +170,20 @@ export class KanbanService {
         return res;
     }
 
+    getLatestBlocksMetainfo() {
+        return this.http.get(environment.endpoints.kanban + `getblocksmetainfo/latest/10`);
+    }
+
+    createPairDecimals(tokenLeft, tokenRight, priceDecimals, quantityDecimals) {
+        const body = {
+            tokenA: tokenLeft,
+            tokenB: tokenRight,
+            price: priceDecimals,
+            quantity: quantityDecimals
+        };
+        return this.http.post(environment.endpoints.api + `v3/exchangily/pair/decimals`, body);
+    }
+
     getOrdersByAddressStatus(address: string, status: string, start: number = 0, count: number = 200) {
         let path = 'v3/exchangily/order/from/' + address + '/' + count + '/' + start + '/' + status;
         path = environment.endpoints.api + path;

@@ -478,6 +478,9 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     }
   }
 
+  toNumber(num: any) {
+    return Number(num);
+  }
   setBuyQtyPercent(percent: number) {
     if (this.buyPrice <= 0) {
       return;

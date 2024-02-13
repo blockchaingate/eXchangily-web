@@ -30,6 +30,24 @@ export class ApiService {
     
     constructor(private http: HttpClient, private web3Serv: Web3Service, private utilServ: UtilService, private alertServ: AlertService) { }
     
+    getKanbanTokens() {
+        const observable = new Observable((subscriber) => {
+            const url = environment.endpoints.api + '/v3/token/erc20/10000/0';
+
+            this.http.get(url).subscribe(
+                {
+                    next: (ret: any) => {
+                        if(ret.success) {
+                            const data = ret.data;
+                            subscriber.next(data);
+                        }
+                    }
+                }
+            );
+        });
+        return observable;
+    }
+
     claimWithdraw(rawtxs: any) {
         const observable = new Observable((subscriber) => {
             const url = environment.endpoints.api + '/v3/bridge/claimWithdraw';

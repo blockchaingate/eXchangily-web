@@ -13,7 +13,6 @@ import * as Btc from 'bitcoinjs-lib';
 import { KanbanService } from '../../../../services/kanban.service';
 import { MyCoin } from '../../../../models/mycoin';
 import {environment} from '../../../../../environments/environment';
-import { TransactionResp } from '../../../../interfaces/kanban.interface';
 import Common from 'ethereumjs-common';
 import * as Eth from 'ethereumjs-tx';
 import BigNumber from 'bignumber.js';

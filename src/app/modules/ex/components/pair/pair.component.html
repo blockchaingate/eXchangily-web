@@ -1,26 +1,47 @@
 <div class="d-flex justify-content-center my-3">
     <div>
         <div class="form-group">
-            <label for="exampleInputEmail1">Token Left</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter token left">
-        </div>
-        <div class="form-group">
-            <label for="exampleInputEmail1">Token Right</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter token right">
+            <label for="kycContract">Kyc contract </label>
+            <input type="text" class="form-control" id="kycContract" [(ngModel)]="kycContract" aria-describedby="emailHelp" placeholder="Enter kyc contract">
         </div>
 
         <div class="form-group">
-            <label for="exampleInputEmail1">Price decimals</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter token right">
+            <label for="requiredKycLevel">Required KycLevel</label>
+            <input type="text" class="form-control" id="requiredKycLevel" [(ngModel)]="requiredKycLevel" aria-describedby="emailHelp" placeholder="Enter Required KycLevel">
         </div>
 
         <div class="form-group">
-            <label for="exampleInputEmail1">Quantity decimals</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter token right">
+            <label for="tradeFeePool">tradeFeePool</label>
+            <input type="text" class="form-control" id="tradeFeePool" [(ngModel)]="tradeFeePool" aria-describedby="emailHelp" placeholder="Enter tradeFeePool">
+        </div>
+
+        <div class="form-group">
+            <label for="tokenLeft">Token Left</label>
+            <select class="form-control" id="tokenLeft" [(ngModel)]="tokenLeft">
+                <option *ngFor="let token of tokens" value="{{token.id}}">{{token.symbol}}</option>
+              </select>
+        </div>
+        <div class="form-group">
+            <label for="tokenRight">Token Right</label>
+            <select class="form-control" id="tokenRight" [(ngModel)]="tokenRight">
+                <option *ngFor="let token of tokens" value="{{token.id}}">{{token.symbol}}</option>
+              </select>
+        </div>
+
+        <div class="form-group">
+            <label for="priceDecimals">Price decimals</label>
+            <input type="text" class="form-control" id="priceDecimals" [(ngModel)]="priceDecimals" aria-describedby="emailHelp" placeholder="Enter price decimals">
+        </div>
+
+        <div class="form-group">
+            <label for="quantityDecimals">Quantity decimals</label>
+            <input type="text" class="form-control" id="quantityDecimals" [(ngModel)]="quantityDecimals" aria-describedby="emailHelp" placeholder="Enter quantity decimals">
         </div>
         <div class="d-grid gap-2">
-            <button class="btn btn-primary" type="button">Submit</button>
+            <button class="btn btn-primary" type="button" (click)="submit()">Submit</button>
         </div>
    
     </div>
 </div>
+
+<pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>
