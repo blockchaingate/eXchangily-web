@@ -80,6 +80,29 @@ export class ApiService {
         return this.http.post(url, data);
     }
 
+    async getPairDecimals(pairName: string): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            const url = environment.endpoints.api + 'v3/exchangily/pair/' + pairName + '/decimals';
+
+            console.log('url===', url);
+            this.http.get(url).subscribe(
+                {
+                    next: (ret: any) => {
+                        console.log('ret for getPairDecimals===', ret);
+                        if(ret.success) {
+                            const data = ret.data;
+                            resolve(data);
+                        } else {
+                            resolve(null);
+                        }
+
+                    }
+                }
+            );
+        });
+
+    }
+
     async getPair(symbol: string): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             const url = environment.endpoints.api + 'v3/exchangily/pair/' + symbol;

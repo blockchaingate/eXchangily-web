@@ -39,8 +39,12 @@ declare let window: any;
 })
 
 export class OrderPadComponent implements OnInit, OnDestroy {
-  pairsConfig: any;
-  pairConfig: any = { name: 'BTCUSDT', priceDecimal: 2, qtyDecimal: 6 };
+  //pairsConfig: any;
+  //pairConfig: any = { name: 'BTCUSDT', priceDecimal: 2, qtyDecimal: 6 };
+
+  priceDecimal: number = 2;
+  qtyDecimal: number = 6;
+
   pairName: any = '';
   wallet: any;
   private _mytokens: any;
@@ -175,86 +179,42 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   checkBuyPrice() {
-    const pairName = this.route.snapshot.paramMap.get('pair')?.replace('_', '');
-    if (this.pairsConfig) {
-      this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
-    }
-    if (!this.pairConfig) {
-      this.pairConfig = {
-        name: pairName,
-        priceDecimal: 6,
-        qtyDecimal: 6
-      }
-    }
-    const vald = this.checkRegExp(this.buyPrice.toString(), this.pairConfig.priceDecimal);
+    const vald = this.checkRegExp(this.buyPrice.toString(), this.priceDecimal);
     if (vald) {
       this.validBuyPrice = this.buyPrice;
     } else {
-      this.validBuyPrice = this.setValidValue(this.validBuyPrice, this.pairConfig.priceDecimal);
+      this.validBuyPrice = this.setValidValue(this.validBuyPrice, this.priceDecimal);
       this.buyPrice = this.validBuyPrice;
     }
   }
 
   checkBuyQty() {
-    const pairName = this.route.snapshot.paramMap.get('pair')?.replace('_', '');
-    if (this.pairsConfig) {
-      this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
-    }
-    if (!this.pairConfig) {
-      this.pairConfig = {
-        name: pairName,
-        priceDecimal: 6,
-        qtyDecimal: 6
-      }
-    }
-    const vald = this.checkRegExp(this.buyQty.toString(), this.pairConfig.qtyDecimal);
+    const vald = this.checkRegExp(this.buyQty.toString(), this.qtyDecimal);
     if (vald) {
       this.validBuyQty = this.buyQty;
     } else {
-      this.validBuyQty = this.setValidValue(this.validBuyQty, this.pairConfig.qtyDecimal);
+      this.validBuyQty = this.setValidValue(this.validBuyQty, this.qtyDecimal);
       this.buyQty = this.validBuyQty;
     }
   }
 
   checkSellPrice() {
-    const pairName = this.route.snapshot.paramMap.get('pair')?.replace('_', '');
-    console.log('this.pairsConfig===', this.pairsConfig);
-    if (this.pairsConfig) {
-      this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
-    }
-    if (!this.pairConfig) {
-      this.pairConfig = {
-        name: pairName,
-        priceDecimal: 6,
-        qtyDecimal: 6
-      }
-    }
-    const vald = this.checkRegExp(this.sellPrice.toString(), this.pairConfig.priceDecimal);
+    const vald = this.checkRegExp(this.sellPrice.toString(), this.priceDecimal);
     if (vald) {
       this.validSellPrice = this.sellPrice;
     } else {
-      this.validSellPrice = this.setValidValue(this.validSellPrice, this.pairConfig.priceDecimal);
+      this.validSellPrice = this.setValidValue(this.validSellPrice, this.priceDecimal);
       this.sellPrice = this.validSellPrice;
     }
   }
 
   checkSellQty() {
-    const pairName = this.route.snapshot.paramMap.get('pair')?.replace('_', '');
-    if (this.pairsConfig) {
-      this.pairConfig = this.pairsConfig.find(item => item.name === pairName);
-    }
-    if (!this.pairConfig) {
-      this.pairConfig = {
-        name: pairName,
-        priceDecimal: 6,
-        qtyDecimal: 6
-      }
-    }
-    const vald = this.checkRegExp(this.sellQty.toString(), this.pairConfig.qtyDecimal);
+
+    const vald = this.checkRegExp(this.sellQty.toString(), this.qtyDecimal);
     if (vald) {
       this.validSellQty = this.sellQty;
     } else {
-      this.validSellQty = this.setValidValue(this.validSellQty, this.pairConfig.qtyDecimal);
+      this.validSellQty = this.setValidValue(this.validSellQty, this.qtyDecimal);
       this.sellQty = this.validSellQty;
     }
   }
@@ -486,19 +446,19 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.buyQty = Number((new BigNumber(this.utilService.showAmount(this.bigdiv(this.baseCoinAvail, this.buyPrice), this.pairConfig.qtyDecimal)).multipliedBy(new BigNumber(percent))).toFixed(this.pairConfig.qtyDecimal));
+    this.buyQty = Number((new BigNumber(this.utilService.showAmount(this.bigdiv(this.baseCoinAvail, this.buyPrice), this.qtyDecimal)).multipliedBy(new BigNumber(percent))).toFixed(this.qtyDecimal));
     const avail = this.utilService.toNumber(this.utilService.showAmount(this.baseCoinAvail, 18));
     while ((new BigNumber(this.buyQty).multipliedBy(new BigNumber(this.buyPrice))).toNumber() > avail) {
-      const exp = Number(-this.pairConfig.qtyDecimal);
-      this.buyQty = Number(new BigNumber(this.buyQty).minus(new BigNumber(Math.pow(10, exp))).toFixed(this.pairConfig.qtyDecimal));
+      const exp = Number(-this.qtyDecimal);
+      this.buyQty = Number(new BigNumber(this.buyQty).minus(new BigNumber(Math.pow(10, exp))).toFixed(this.qtyDecimal));
     }
   }
 
   setSellQtyPercent(percent: number) {
-    this.sellQty = Number(new BigNumber(this.utilService.toNumber(this.utilService.showAmount(this.targetCoinAvail, 18))).multipliedBy(new BigNumber(percent)).toFixed(this.pairConfig.qtyDecimal));
+    this.sellQty = Number(new BigNumber(this.utilService.toNumber(this.utilService.showAmount(this.targetCoinAvail, 18))).multipliedBy(new BigNumber(percent)).toFixed(this.qtyDecimal));
     while (this.sellQty > this.utilService.toNumber(this.utilService.showAmount(this.targetCoinAvail, 18))) {
-      this.sellQty -= Math.pow(10, -this.pairConfig.qtyDecimal);
-      this.sellQty = this.utilService.toNumber(this.sellQty.toFixed(this.pairConfig.qtyDecimal));
+      this.sellQty -= Math.pow(10, -this.qtyDecimal);
+      this.sellQty = this.utilService.toNumber(this.sellQty.toFixed(this.qtyDecimal));
     }
   }
 
@@ -725,6 +685,16 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     this.lan = localStorage.getItem('Lan');
     this.pairName = this.route.snapshot.paramMap.get('pair');
 
+    console.log('go here', this.pairName);
+    this.apiServ.getPairDecimals(this.pairName).then(
+      (data: any) => {
+        if(data) {
+          this.priceDecimal = data.price;
+          this.qtyDecimal = data.quantity;
+        }
+      }
+    );
+
     const pairData = await this.apiServ.getPair(this.pairName);
     this.pairData = pairData;
 
@@ -760,26 +730,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         pair = 'BTC_USDT';
       }
 
-      const pairName = pair.replace('_', '');
-      this.kanbanService.getPairConfig().subscribe(
-        (res: any) => {
-          let pairsConfig = res;
-          const pairConfig = pairsConfig.find(item => item.name === pairName);
-
-          if (pairConfig) {
-            this.pairConfig = pairConfig;
-          } else {
-            this.pairConfig = defaultPairsConfig.find(item => item.name === pairName);
-          }
-        },
-        error => {
-          const pairConfig = defaultPairsConfig.find(item => item.name === pairName);
-
-          if (pairConfig) {
-            this.pairConfig = pairConfig;
-          }
-        }
-      );
       // console.log('pair for refresh pageeee=' + pair);
       const pairArray = pair.split('_');
       this.baseCoin = pairArray[1];
@@ -799,7 +749,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       (orders: any) => {
         const myPairOrders = orders.filter(mo => mo.pairName === this.pairName);
         myPairOrders.forEach(ordItm => {
-          const decimalPrice = this.utilService.showAmount(ordItm.price, this.pairConfig ? this.pairConfig.priceDecimal : 6);
+          const decimalPrice = this.utilService.showAmount(ordItm.price, this.priceDecimal);
             if (ordItm.bidOrAsk) {
               this.myBuyPrices.push(decimalPrice);
             } else {
@@ -840,26 +790,21 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   finalExpCheck(price: number, qty: number) {
-    let priceDecimal = 6;
-    let qtyDecimal = 6;
-    if(this.pairConfig) {
-      priceDecimal = this.pairConfig.priceDecimal;
-      qtyDecimal = this.pairConfig.qtyDecimal
-    }
-    if (!this.checkRegExp(price.toString(), priceDecimal)) {
+
+    if (!this.checkRegExp(price.toString(), this.priceDecimal)) {
       if (this.lan === 'zh') {
-        this.alertServ.openSnackBar('价格小数限' + priceDecimal + '位。', 'Ok');
+        this.alertServ.openSnackBar('价格小数限' + this.priceDecimal + '位。', 'Ok');
       } else {
-        this.alertServ.openSnackBar('Price decimal no more than ' + priceDecimal, 'ok');
+        this.alertServ.openSnackBar('Price decimal no more than ' + this.priceDecimal, 'ok');
       }
       return false;
     }
 
-    if (!this.checkRegExp(qty.toString(), qtyDecimal)) {
+    if (!this.checkRegExp(qty.toString(), this.qtyDecimal)) {
       if (this.lan === 'zh') {
-        this.alertServ.openSnackBar('购量小数限' + qtyDecimal + '位。', 'Ok');
+        this.alertServ.openSnackBar('购量小数限' + this.qtyDecimal + '位。', 'Ok');
       } else {
-        this.alertServ.openSnackBar('Quantity decimal no more than ' + qtyDecimal, 'ok');
+        this.alertServ.openSnackBar('Quantity decimal no more than ' + this.qtyDecimal, 'ok');
       }
       return false;
     }

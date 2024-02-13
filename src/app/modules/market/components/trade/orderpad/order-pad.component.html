@@ -12,9 +12,9 @@
                     <div class="orderbookitem mt-1" *ngFor="let sell of sells; let i=index" (click)="setPrice(sell.p)" [ngStyle]="{'background-color': sell.my ? '#3e3e5f' : ''}">
                         <div [style.width.%]="sell.percentage" [style.height.%]="100" class="percentage-bar percentage-bar-red">&nbsp;</div>
                         <div class="price smallfont text-danger">
-                            {{toDecimal(sell.p,pairConfig ? pairConfig.priceDecimal : 4)}}</div>
+                            {{toDecimal(sell.p,priceDecimal)}}</div>
                         <div class="quantity smallfont text-muted">
-                            {{toDecimal(sell.q,pairConfig ? pairConfig.qtyDecimal : 4)}}</div>
+                            {{toDecimal(sell.q, qtyDecimal)}}</div>
                         <div class="total smallfont text-muted">{{showSellsAmount(sells, i)}}</div>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
                 <div [style.width.%]="100" [style.height.%]="100" class="percentage-bar percentage-bar-blue">&nbsp;
                 </div>
                 <div style="width: 24%; text-align: right; font-size: larger;" class="text-info">
-                    {{toDecimal(currentPrice, pairConfig ? pairConfig.priceDecimal : 4)}}</div>
+                    {{toDecimal(currentPrice, priceDecimal)}}</div>
                 <!--
                 <div [class.redcolor]="change24h<0" [class.greencolor]="change24h>0" class="text-info"> {{utilService.showAmount(currentQuantity.toString())}} </div>
                 -->
@@ -50,9 +50,9 @@
             <div class="transacs w-100">
                 <div class="orderbookitem" *ngFor="let tx of trades; let l=index">
                     <div class="price smallfont" [ngClass]="tx.b?'text-success':'text-danger'">
-                        {{toDecimal(tx.p, pairConfig ? pairConfig.priceDecimal : 4)}}</div>
+                        {{toDecimal(tx.p, priceDecimal)}}</div>
                     <div class="quantity smallfont text-muted">
-                        {{toDecimal(tx.q, pairConfig ? pairConfig.qtyDecimal : 4)}}</div>
+                        {{toDecimal(tx.q, qtyDecimal)}}</div>
                     <div class="total smallfont text-muted">{{tx.t * 1000 | date:'HH:mm:ss'}}</div>
                 </div>
             </div>
