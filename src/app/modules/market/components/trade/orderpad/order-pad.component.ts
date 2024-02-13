@@ -971,16 +971,12 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     const qtyString = new BigNumber(qty).shiftedBy(qtyDecimals).toFixed();
     const priceString = new BigNumber(price).shiftedBy(18).toFixed();
 
-    //console.log('qtyString=', qtyString);
-    //console.log('priceString=', priceString);
-
-
-
-    //kbeth:0x84fa23c263a0b1410ab89d33f6eec2c8bf3e9802 left
-    //kbfab:0x20d9cacf41b67029d3378e16fa67fbe1aec4ac3d right
-
+    let approveQtystring = qtyString;
+    if(bidOrAsk) {
+      approveQtystring = new BigNumber(qty).multipliedBy(new BigNumber(price)).shiftedBy(qtyDecimals).toFixed();
+    }
     
-    const approveAbiHex = this.web3Serv.getApproveFuncABI(address, qtyString);
+    const approveAbiHex = this.web3Serv.getApproveFuncABI(address, approveQtystring);
     const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk,
       baseCoin, targetCoin, qtyString, priceString, orderHash]);
     let nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
