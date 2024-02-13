@@ -19,7 +19,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { SharedModule} from '../../modules/shared/shared.module';
 import {MatInputModule} from '@angular/material/input';
 import { CoinbaseComponent } from './components/coinbase/coinbase.component';
-
+import { PairComponent } from './components/pair/pair.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -46,7 +46,8 @@ import { CoinbaseComponent } from './components/coinbase/coinbase.component';
         CodeComponent,
         HistoryComponent,
         WalletconnectComponent,
-        CoinbaseComponent
+        CoinbaseComponent,
+        PairComponent
     ],
     exports: [
     ]

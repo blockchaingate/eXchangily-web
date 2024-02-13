@@ -4,12 +4,13 @@ import { CodeComponent } from './components/code/code.component';
 import { CoinbaseComponent } from './components/coinbase/coinbase.component';
 import { HistoryComponent } from './components/history/history.component';
 import { WalletconnectComponent } from './components/walletconnect/walletconnect.component';
-//import { WalletconnectClientComponent } from './components/walletconnect-client/walletconnect-client.component';
+import { PairComponent } from './components/pair/pair.component';
+
 const routes: Routes = [
   { path: 'history', component: HistoryComponent },
   { path: 'walletconnect', component: WalletconnectComponent },
   { path: 'coinbase', component: CoinbaseComponent },
-  //{ path: 'walletconnect-client', component: WalletconnectClientComponent },
+  { path: 'pair', component: PairComponent },
   { path: ':code', component: CodeComponent }
 ];
 

@@ -11,17 +11,12 @@ import { SupportComponent } from './modules/support/support.component';
 import { TicketComponent } from './modules/support/ticket/ticket.component';
 import { TicketAddComponent } from './modules/support/ticket-add/ticket-add.component';
 import { NewsComponent } from './modules/news/news.component';
-import { from } from 'rxjs';
 import { AppIntroComponent } from './modules/app-intro/app-intro.component';
-import { AnnouncementComponent } from './components/help/announcement/announcement/announcement.component';
 import { AnnouncementListComponent } from './components/help/announcement/announcement-list/announcement-list.component';
-import { BindpayComponent } from './modules/bindpay/bindpay.component';
 import { ListingComponent } from './modules/listing/listing.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { DusdComponent } from './components/dusd/dusd.component';
 import { DonwloadComponent } from './components/donwload/donwload.component';
-
-// import { CoininfoComponent } from './components/coin/coin-info.component';
 
 const routes: Routes = [
   {
