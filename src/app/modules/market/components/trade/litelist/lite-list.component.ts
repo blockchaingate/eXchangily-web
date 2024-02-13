@@ -121,8 +121,6 @@ export class LiteListComponent implements OnInit {
                 }
             }
         );
-        // this._wsServ.getAllPrices();
-        // this.socket = new WebSocketSubject(environment.websockets.allprices);
         this._wsServ.currentPrices.subscribe(
             (tickers: any) => {
                 // console.log('tickets=', tickers);

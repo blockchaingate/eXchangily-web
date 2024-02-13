@@ -38,46 +38,13 @@ export class MockService {
 
 
   getHistoryListSync(param) {
+    console.log('getHistoryListSync start');
+    console.log('param===', param);
     this.gotHistoryList = true;
     const inter = param.interval;
     const symbol = param.symbol;
-    const url = environment.endpoints.kanban + 'v2/klinedata/' + symbol + '/' + inter;
+    const url = environment.endpoints.api + 'v3/exchangily/pair/' + symbol + '/klinedata/' + inter;
     return this.http.get(url);    
-  }
-  async getHistoryList(param): Promise<BarData[]> {
-    //console.log('getting history');
-
-    const list = [];
-    const inter = param.interval;
-    const symbol = param.symbol;
-    //console.log('interval=' + interval);
-    /*
-    let timePoint = +new Date(param.startTime * 1e3).setSeconds(0, 0);
-    const now = +new Date();
-    while (timePoint < now) {
-      this.lastBarTimestamp = timePoint;
-      list.push(MockService.dataGenerator(timePoint));
-      timePoint += param.granularity * 1e3;
-    }
-    console.log(list[list.length - 1]);
-    */
-    // intervals array('1h','30m','15m','5m', '1m')
-    const url = environment.endpoints.kanban + 'klinedata/' + symbol + '/' + inter;
-
-    // console.log('url for getHistoryList=', url);
-    const res = await this.http.get(url).toPromise() as [BarData];
-    if (res && res.length > 0) {
-      for (let i = 0; i < res.length; i++) {
-        res[i].o = res[i].o;
-        res[i].c = res[i].c;
-        res[i].v = res[i].v;
-        res[i].h = res[i].h;
-        res[i].l = res[i].l;
-        res[i].t = res[i].t * 1000;
-      }
-    }
-    this.gotHistoryList = true;
-    return res;
   }
 
   fakeWebSocket() {

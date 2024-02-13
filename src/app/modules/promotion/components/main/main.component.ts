@@ -185,7 +185,7 @@ export class MainComponent implements OnInit {
     this.lan = localStorage.getItem('Lan');
     this.apiServ.postCampaignSingleDetail("001").subscribe(
       (res: any) => {
-        if (res && res != {}) {
+        if (res) {
           this.eventInfo = res;
           console.log("eventInfo: ");
           console.log(res);

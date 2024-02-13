@@ -71,7 +71,7 @@
     <div class="lower w-100">
         <div class="buyorder h-100 exg-bg mr-2 pb-3" *ngIf="baseCoin">
             <div class="aspace text-success">
-                {{'Available' | translate}} {{baseCoin}}: {{utilService.toNumber(utilService.showAmount(baseCoinAvail, 18))}}
+                {{'Available' | translate}} {{baseCoin}}: {{baseCoinAvail}}
             </div>
 
             <div class="aspace text-white">{{'Price' | translate}}</div>
@@ -134,7 +134,7 @@
 
         <div class="sellorder h-100 exg-bg pb-2" *ngIf="targetCoin">
             <div class="aspace text-danger">
-                {{'Available' | translate}} {{targetCoin}}: {{utilService.toNumber(utilService.showAmount(targetCoinAvail, 18))}}
+                {{'Available' | translate}} {{targetCoin}}: {{targetCoinAvail}}
             </div>
 
             <div class="aspace text-white">{{'Price' | translate}}</div>

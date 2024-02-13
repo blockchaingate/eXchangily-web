@@ -191,19 +191,8 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
         }
         that.currentGranularity = granularity;
         // console.log('begin getBarsgetBarsgetBarsgetBarsgetBa');
-        /*
-        const pair = targetCoinName + baseCoinName;
-        const list = await that.mockService.getHistoryList({
-          granularity: that.granularityMap[granularity],
-          interval: that.intervalMap[granularity],
-          startTime,
-          symbol: pair,
-          endTime
-        });
-        console.log('list===');
-        console.log(list);
-        */
-        const pair = targetCoinName + baseCoinName;
+
+        const pair = targetCoinName + '_' + baseCoinName;
         const param = {
           granularity: that.granularityMap[granularity],
           interval: that.intervalMap[granularity],
@@ -213,13 +202,14 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
         };
 
         that.mockService.getHistoryListSync(param).subscribe(
-          (res: any) => {
-            if (res && res.length > 0) {
+          (res: any) => { 
+            if (res && res.success) {
+              const data = res.data;
               const newRes:TradingView.Bar[] = [];
               
               let currentTime = 0;
-              for (let i = 0; i < res.length; i++) {
-                const item = res[i];
+              for (let i = 0; i < data.length; i++) {
+                const item = data[i];
                 const newtime = Number((item.t - 1).toString() + '000');
                 if(newtime == currentTime) {
                   continue;
@@ -233,20 +223,12 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
                   high: item.h,
                   low: item.l
                 };
-                //console.log('newtime=', newtime);
-                //console.log('newItem=', newitem);
                 newRes.push(newitem);
-
               }
-              //console.log('newRes==', newRes);
-              //const copied = JSON.parse(JSON.stringify(newRes));
               onResult(newRes, { noData: false });
-              //console.log('copied=', copied);
             }
           }
         );
-        //const list = [];
-        // onResult(list);
       },
       resolveSymbol(symbol, onResolve) {
         timer(1e3)
@@ -268,37 +250,13 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
       getServerTime() {
       },
       subscribeBars(symbol, granularity, onTick) {
-        const pair = targetCoinName.toLowerCase() + baseCoinName.toLowerCase();
+        const pair = targetCoinName.toUpperCase() + '_' + baseCoinName.toUpperCase();
 
-        /*
-        this.socket = new WebSocketSubject('wss://stream.binance.com:9443/ws/' + pair + '@kline_' + that.intervalMap[granularity]);
-        this.socket.subscribe(
-          (item) => {
-            
-            const itemData = {
-              time: item.k.T,
-              open: item.k.o,
-              high: item.k.h,
-              low: item.k.l,
-              close: item.k.c,
-              volume: item.k.v
-            };
-            console.log('binance.time=', itemData.time);
-
-            console.log('binance.open=', itemData.open);
-            console.log('binance.high=', itemData.high);
-            console.log('binance.low=', itemData.low);
-            console.log('binance.close=', itemData.close);
-            console.log('binance.volume=', itemData.volume);                  
-            //onTick(itemData);
-          }
-        );
-        */
         if (that.socket) {
           that.socket.unsubscribe();
         }
         that.socket = new WebSocketSubject(environment.websockets.kline + '@'
-          + pair.toUpperCase() + '@' + that.intervalMap[granularity]);
+          + pair + '@' + that.intervalMap[granularity]);
         that.socket.subscribe(
           (item) => {
             //console.log('item===', item);

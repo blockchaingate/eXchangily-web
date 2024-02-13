@@ -564,7 +564,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         //     }
       },
       (err) => {
-        console.log('err:', err);
+        console.log('err1111:', err);
       },
       () => {
         console.log('Completed');
@@ -630,7 +630,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         */
       },
       (err) => {
-        console.log('err:', err);
+        console.log('err22222:', err);
       },
       () => {
         console.log('Completed');
@@ -657,20 +657,24 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   refreshCoinAvail() {
     let baseCoinAvailExisted = false;
     let targetCoinAvailExisted = false;
-    if (this.baseCoin && this.targetCoin) {
-      if (this._mytokens && this._mytokens.length > 0) {
-        for (let i = 0; i < this._mytokens.length; i++) {
-
-          if (this._mytokens[i].coinType == this.baseCoin.toString()) {
-            baseCoinAvailExisted = true;
-            this.baseCoinAvail = Number(this._mytokens[i].unlockedAmount);
-          }
-          if (this._mytokens[i].coinType == this.targetCoin.toString()) {
-            targetCoinAvailExisted = true;
-            this.targetCoinAvail = Number(this._mytokens[i].unlockedAmount);
-          }
+    if (this.baseCoin && this.targetCoin && this._mytokens) {
+      const tokens = this._mytokens.tokens;
+      if(!tokens) {
+        return;
+      }
+      const symbols = tokens.symbols;
+      for(let i = 0; i < symbols.length; i++) {
+        const symbol = symbols[i];
+        if(symbol == this.baseCoin) {
+          baseCoinAvailExisted = true;
+          this.baseCoinAvail = new BigNumber(tokens.balances[i]).shiftedBy(-tokens.decimals[i]).toNumber();
+        } else
+        if(symbol == this.targetCoin) {
+          targetCoinAvailExisted = true;
+          this.targetCoinAvail = new BigNumber(tokens.balances[i]).shiftedBy(-tokens.decimals[i]).toNumber();
         }
       }
+
     }
     if (!baseCoinAvailExisted) {
       this.baseCoinAvail = 0;
@@ -681,7 +685,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   buyable() {
-    /*
+    
     if ((this.buyPrice <= 0) || (this.buyQty <= 0)) {
       return false;
     }
@@ -694,26 +698,22 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       return true;
     }
     return false;
-    */
-   return true;
   }
 
   sellable() {
-    /*
     if ((this.sellPrice <= 0) || (this.sellQty <= 0)) {
       return false;
     }
     if (!this.targetCoinAvail) {
       return false;
     }
-    const avail = Number(this.utilService.showAmount(this.targetCoinAvail.toString(), this.pairConfig.qtyDecimal));
+    const avail = this.targetCoinAvail;
     const consume = this.sellQty;
     if (avail >= consume) {
       return true;
     }
     return false;
-    */
-    return true;
+
   }
 
   getMytokens(): any { return this._mytokens; }
