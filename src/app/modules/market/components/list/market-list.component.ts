@@ -140,11 +140,12 @@ export class MarketListComponent implements OnInit {
                 if(ret && ret.success) {
                     const data = ret.data;
                     this.prices = data;
+                    this.selectCat('DUSD');
                 }
             }
         );
 
-        this.selectCat('DUSD');
+        
         this.storageServ.getFavoritePairs().subscribe(
             (pairs: any) => {
                 if (pairs && pairs.length > 0) {
