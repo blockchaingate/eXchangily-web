@@ -142,7 +142,7 @@ export const environment = {
                 chainId: 212
             },
             gasPrice: 50000000,
-            gasLimit: 20000000
+            gasLimit: 50000000
         },
         TRX: {
             network: {

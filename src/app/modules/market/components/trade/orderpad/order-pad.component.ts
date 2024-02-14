@@ -498,7 +498,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     this.socket = new WebSocketSubject(environment.websockets.orders + '@' + pair);
     this.socket.subscribe(
       (orders: any) => {
-        console.log('orders===', orders);
         this.sells = orders.s.slice(0, 10).reverse();
         this.buys = orders.b.slice(0, 10);
 

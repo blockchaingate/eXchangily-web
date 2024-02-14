@@ -212,13 +212,13 @@
     <div class="warningMsg">
         {{"WithdrawNote" | translate}}
     </div>
-    <div class="modal-body">
+    <div class="modal-body" *ngIf="tokenMaps && (tokenMaps.length > 0)">
         <div>
             <label for="inputSendTo" class="text-muted">{{'Your balance' | translate }}:{{kanbanBalance}}</label>
         </div>
 
         <div>
-            <label for="inputSendTo" class="text-muted">{{'Withdraw fee' | translate }}:{{withdrawFee}}</label>
+            <label for="inputSendTo" class="text-muted">{{'Withdraw fee' | translate }}:{{withdrawFee}} kb{{chain}}</label>
         </div>
 
         <div class="pb-4">
@@ -269,7 +269,9 @@
         <button [disabled]="withdrawAmount < minimumWithdrawAmount" class="btn btn1 btn-gradient text-white" (click)="onConfirmedWithdrawAmount()">{{"Confirm" | translate }}</button>
 
     </div>
-
+    <div class="modal-body" *ngIf="!tokenMaps || (tokenMaps.length == 0)">
+        Your token cannot be withdrawed
+    </div>
 </ng-template>
 
 <pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>

@@ -68,6 +68,14 @@ export class ApiService {
         return observable;
     }
 
+    withdrawFee(srcChain: string) {
+        const url = environment.endpoints.api + '/v3/bridge/withdrawFee';
+        const data = {
+            srcChain
+        };
+        return this.http.post(url, data);
+    }
+
     withdrawQuote(address: string, recipient:string, destId: string,  srcChain: string,  amount: number) {
         const url = environment.endpoints.api + '/v3/bridge/withdrawQuote';
         const data = {

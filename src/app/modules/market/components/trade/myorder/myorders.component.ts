@@ -68,7 +68,15 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this._chain = val;
         if(val) {
             
-
+            this.apiServ.withdrawFee(val).subscribe(
+                (ret: any) => {
+                    if(ret.success) {
+                        const data = ret.data;
+                        this.withdrawFee = this.formatGasFee(val, data.gasFee);
+                    }
+                    console.log('ret===', ret);
+                }
+            )
             for(let i = 0; i < this.tokenMaps.length; i++) {
                 const tokenMap = this.tokenMaps[i];
                 const chain = this.web3Serv.getChainName(tokenMap.srcChain);
@@ -144,6 +152,18 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.timerServ.unCheckAllOrderStatus();
+    }
+
+    formatGasFee(srcChain: string, gasFeeHex: string) {
+        let decimals = 18;
+        if(['BTC','FAB','LTC','DOGE'].indexOf(srcChain) >= 0) {
+            decimals = 8;
+        } else
+        if(['TRX'].indexOf(srcChain) >= 0) {
+            decimals = 6;
+        }
+
+        return new BigNumber(gasFeeHex).shiftedBy( - decimals).toNumber();
     }
 
     getOrders() {
