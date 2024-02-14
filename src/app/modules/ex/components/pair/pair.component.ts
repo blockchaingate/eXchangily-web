@@ -30,6 +30,7 @@ export class PairComponent implements OnInit {
   quantityDecimals: number;
   exgCoin: MyCoin;
   tokens: any;
+  nonce: number = 0;
   wallet: Wallet | null;
   pairSmartContractAddress: string;
   constructor(private apiServ: ApiService,
@@ -126,7 +127,7 @@ export class PairComponent implements OnInit {
     
     let gasPrice = environment.chains.KANBAN.gasPrice;
     let gasLimit = environment.chains.KANBAN.gasLimit;
-    const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
+    const nonce = this.nonce;
 
     
     const txObject = {
@@ -186,6 +187,7 @@ export class PairComponent implements OnInit {
     let gasLimit = 8000000;
     const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 
+    this.nonce = nonce + 1;
     //let kanbanTo = '0x0000000000000000000000000000000000000000';
 
     let kanbanValue = 0;
