@@ -673,6 +673,11 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this.pinModal.show();
     }
 
+    showBalance(balance, decimals) {
+        const showbalance = new BigNumber(balance).shiftedBy(-decimals).toNumber();
+        return showbalance;
+    }
+
     getChainName(chainId) {
         return this.web3Serv.getChainName(chainId);
     }

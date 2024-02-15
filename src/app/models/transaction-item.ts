@@ -2,8 +2,9 @@ export class TransactionItem {
 // item for transaction history
     walletId: string;
     type: string;
-    coin: string;
     tokenType: string;
+    coin: string;
+    chain?: string;
     amount: number;
     txid: string;
     action: string;

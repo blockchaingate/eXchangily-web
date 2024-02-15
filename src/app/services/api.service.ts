@@ -1051,7 +1051,7 @@ export class ApiService {
     }
 
     getTransactionHistoryEvents(data) {
-        const url = environment.endpoints.kanban + 'getTransactionHistoryEvents';
+        const url = environment.endpoints.api + 'v3/transaction/history';
         return this.http.post(url, data);
     }
 

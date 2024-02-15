@@ -148,7 +148,7 @@
                     {{symbol}}
                 </div>
                 <div class="col col-5 text-white smallfont">
-                {{utilServ.toNumber(utilServ.showAmount(mytokens.balances[i], mytokens.decimals[i]))}}
+                {{showBalance(mytokens.balances[i], mytokens.decimals[i])}}
                 </div>
                 <div class="col col-3 text-white smallfont">
                     <span class="hand-cursor" (click)="withdraw(templateWithdraw, i)">
