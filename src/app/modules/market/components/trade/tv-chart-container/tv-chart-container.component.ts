@@ -203,6 +203,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
 
         that.mockService.getHistoryListSync(param).subscribe(
           (res: any) => { 
+            console.log('res of getHistoryListSync=', res);
             if (res && res.success) {
               const data = res.data;
               const newRes:TradingView.Bar[] = [];
@@ -210,7 +211,8 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
               let currentTime = 0;
               for (let i = 0; i < data.length; i++) {
                 const item = data[i];
-                const newtime = Number((item.t - 1).toString() + '000');
+                //const newtime = Number((item.t - 1).toString() + '000');
+                const newtime = item.t * 1000;
                 if(newtime == currentTime) {
                   continue;
                 }
@@ -259,7 +261,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
           + pair + '@' + that.intervalMap[granularity]);
         that.socket.subscribe(
           (item) => {
-            //console.log('item===', item);
+            console.log('item===', item);
             if(!item) {
               return;
             }
