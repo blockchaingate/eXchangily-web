@@ -24,7 +24,7 @@ export class BindpayComponent  implements OnInit{
   pin: string;
   receiverAddress: string;
   transactionHistory: any;
-  coin: any;
+  tokenIndex: number;
   token: any;
   amount: number;
   mytokens: any;
@@ -52,13 +52,14 @@ export class BindpayComponent  implements OnInit{
         this.exAddress = exaddr.toKbpayAddress(fabAddress);
 
 
-        this.kanbanServ.getKanbanBalance(this.wallet.excoin.receiveAdds[0].address).subscribe(
+        this.kanbanServ.getBalance(this.wallet.excoin.receiveAdds[0].address).subscribe(
             {
                 next: (resp: any) => {
-                console.log('resp for gas=', resp);
+                console.log('resp for gasfffff=', resp);
                 if(resp.success) {
                     const data = resp.data;
-                    this.gas = new BigNumber(data).shiftedBy(-18).toNumber();
+                    this.gas = new BigNumber(data.native).shiftedBy(-18).toNumber();
+                    this.mytokens = data.tokens;
                 }
 
 
@@ -68,17 +69,9 @@ export class BindpayComponent  implements OnInit{
             }
         });
 
-        this.kanbanServ.getBalance(this.address).subscribe((tokens) => {
-            console.log('tokens====', tokens);
-            this.mytokens = tokens;
-        }); 
+        /*
         this.timerServ.tokens.subscribe(
             (tokens: any) => {
-                /*
-                if(tokens != this.mytokens) {
-                    this.mytokens = tokens;
-                }
-                */
                if(!this.token) {
                    return;
                }
@@ -95,28 +88,17 @@ export class BindpayComponent  implements OnInit{
                 }
             }
         );
+        */
     }   
   }
 
   confirmTransfer() {
     this.transactionHistory = false;
-    if(!this.coin && (this.mytokens.length > 0)) {
-        this.coin = this.mytokens[0];
-    }
-    for (let i = 0; i < this.mytokens.length; i++) {
-        if (this.mytokens[i].coinType == this.coin) {
-            this.token = this.mytokens[i];
-            break;
-        }
-    }
-    /*
-    if (!this.token) {
-        console.log('this.token not found');
-        return;
-    }
-    */
-   if(this.token) {
-        if (this.amount > this.utilServ.toNumber(this.utilServ.showAmount(this.token.unlockedAmount, 18))) {
+
+    console.log('tokenIndex=', this.tokenIndex);
+    const tokenIndex = this.tokenIndex;
+   if(tokenIndex >= 0) {
+        if (this.amount > this.utilServ.toNumber(this.utilServ.showAmount(this.mytokens.balances[tokenIndex], this.mytokens.decimals[tokenIndex]))) {
             this.alertServ.openSnackBar(this.translateServ.instant('Not enough balance'), this.translateServ.instant('Ok'));
             return;
         }
@@ -158,19 +140,20 @@ export class BindpayComponent  implements OnInit{
         return;            
     }
 
-    let abiHex = '';
-    console.log('this.coin===', this.coin);
-    this.coin = Number(this.coin);
-    if(this.coin) {
-        abiHex = this.web3Serv.getTransferFuncABI(this.coin, this.utilServ.fabToExgAddress(toAddressLegacy), this.amount);
-    }
-    
-
-    console.log('abiHex=', abiHex);
     const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 
-    const address = await this.kanbanServ.getCoinPoolAddress();
-    const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, this.coin ? address : this.utilServ.fabToExgAddress(toAddressLegacy), nonce, this.coin ? 0 : '0x' + new BigNumber(this.amount).shiftedBy(18).toString(16));
+    let txhex;
+    const toAddressHex = this.utilServ.fabToExgAddress(toAddressLegacy);
+    if(this.tokenIndex >= 0) {
+        let abiHex = this.web3Serv.getTransferFuncABI(toAddressHex, this.amount, this.mytokens.decimals[this.tokenIndex]);
+        txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, this.mytokens.ids[this.tokenIndex], nonce, 0);
+    } else {
+        txhex = await this.web3Serv.signAbiHexWithPrivateKey('0x', keyPairsKanban, toAddressHex, nonce, '0x' + new BigNumber(this.amount).shiftedBy(18).toString(16));
+    }
+
+    
+
+    
     
     this.kanbanServ.sendRawSignedTransaction(txhex).subscribe((resp: any) => {
         console.log('resp=', resp);

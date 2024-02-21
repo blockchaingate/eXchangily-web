@@ -18,13 +18,13 @@
         <div class="form-group">
             <label for="tokenLeft">Token Left</label>
             <select class="form-control" id="tokenLeft" [(ngModel)]="tokenLeft">
-                <option *ngFor="let token of tokens" value="{{token.id}}">{{token.symbol}}</option>
+                <option *ngFor="let token of tokens" value="{{token.id}}">{{token.symbol}}({{token.id}})</option>
               </select>
         </div>
         <div class="form-group">
             <label for="tokenRight">Token Right</label>
             <select class="form-control" id="tokenRight" [(ngModel)]="tokenRight">
-                <option *ngFor="let token of tokens" value="{{token.id}}">{{token.symbol}}</option>
+                <option *ngFor="let token of tokens" value="{{token.id}}">{{token.symbol}}({{token.id}})</option>
               </select>
         </div>
 

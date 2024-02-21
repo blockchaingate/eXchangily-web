@@ -460,39 +460,31 @@ export class Web3Service {
     return web3.utils.toAscii(hex);
   }
   
-  getTransferFuncABI(coin: number, address: string, amount: number) {
+  getTransferFuncABI(address: string, amount: number, decimals: number) {
     const web3 = this.getWeb3Provider();
-    let value = new BigNumber(amount).multipliedBy(new BigNumber(1e18)).toFixed();
+    let value = new BigNumber(amount).shiftedBy(decimals).toFixed();
     value = value.split('.')[0];
     
-    const params = [address, coin, value, web3.utils.asciiToHex('')];
+    const params = [address, value];
 
     const func = {
       'constant': false,
       'inputs': [
-        {
-          'name': '_to',
-          'type': 'address'
-        },
-        {
-          'name': '_coinType',
-          'type': 'uint32'
-        },
-        {
-          'name': '_value',
-          'type': 'uint256'
-        },
-        {
-          "name": "_comment",
-          "type": "bytes32"
-        }
+          {
+              'name': 'to',
+              'type': 'address'
+          },
+          {
+              'name': 'value',
+              'type': 'uint256'
+          }
       ],
       'name': 'transfer',
       'outputs': [
-        {
-          'name': 'success',
-          'type': 'bool'
-        }
+          {
+              'name': '',
+              'type': 'bool'
+          }
       ],
       'payable': false,
       'stateMutability': 'nonpayable',

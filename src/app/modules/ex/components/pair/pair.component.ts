@@ -48,6 +48,7 @@ export class PairComponent implements OnInit {
       const coin = this.wallet.mycoins[i];
       if(coin.name === 'EXG' && coin.tokenType == 'FAB') {
         this.exgCoin = coin;
+        this.tradeFeePool = this.utilServ.fabToExgAddress(coin.receiveAdds[0].address);
       }
     }  
 
@@ -232,7 +233,7 @@ export class PairComponent implements OnInit {
         console.log('resp for deploy kanban==', resp);
       if (resp && resp.transactionHash) {
         const txid = resp.transactionHash;
-        this.alertServ.openSnackBarSuccess('Smart contract was created successfully.', 'Ok');
+        //this.alertServ.openSnackBarSuccess('Smart contract was created successfully.', 'Ok');
 
         var that = this;
         var myInterval = setInterval(function(){ 
@@ -249,7 +250,7 @@ export class PairComponent implements OnInit {
                       if(ret && ret.length > 0) {
                         const block = ret[0];
                         let blocknumber = block.number;
-                        blocknumber = blocknumber + 100;
+                        blocknumber = blocknumber + 30;
                         that.registerPair(keyPairsKanban, blocknumber);
                       }
                     }

@@ -3,15 +3,15 @@
 
         <div *ngIf="!transactionHistory" class="main-container">
                 <label for="fname">{{'Coin' | translate }}</label>
-                <select id="coin" name="coin" class="coin" [(ngModel)]="coin">
-                    <option class="coinitem" value="0">
+                <select id="coin" name="coin" class="coin" [(ngModel)]="tokenIndex" *ngIf="mytokens">
+                    <option class="coinitem" value="-1">
                         {{'Kanban Gas' | translate}}({{gas}})
                     </option>
 
-                    <ng-container class="coin" *ngFor="let token of mytokens; let i=index">
-                        <option class="coinitem" *ngIf="token.unlockedAmount > 0" [value]="token.coinType">
-                            {{coinServ.getCoinNameByTypeId(token.coinType)}}
-                            ({{utilServ.toNumber(utilServ.showAmount(token.unlockedAmount, 18))}})
+                    <ng-container class="coin" *ngFor="let id of mytokens.ids; let i=index">
+                        <option class="coinitem" [value]="i">
+                            {{mytokens.symbols[i]}}
+                            ({{utilServ.toNumber(utilServ.showAmount(mytokens.balances[i], mytokens.decimals[i]))}})
                         </option>                       
                     </ng-container>
                 </select>

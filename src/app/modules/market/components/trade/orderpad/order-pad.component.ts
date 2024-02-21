@@ -624,14 +624,14 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       if(!tokens) {
         return;
       }
-      const symbols = tokens.symbols;
-      for(let i = 0; i < symbols.length; i++) {
-        const symbol = symbols[i];
-        if(symbol == this.baseCoin) {
+      const ids = tokens.ids;
+      for(let i = 0; i < ids.length; i++) {
+        const id = ids[i].toLowerCase();
+        if(id == this.pairData.tokenB.id.toLowerCase()) {
           baseCoinAvailExisted = true;
           this.baseCoinAvail = new BigNumber(tokens.balances[i]).shiftedBy(-tokens.decimals[i]).toNumber();
         } else
-        if(symbol == this.targetCoin) {
+        if(id == this.pairData.tokenA.id.toLowerCase()) {
           targetCoinAvailExisted = true;
           this.targetCoinAvail = new BigNumber(tokens.balances[i]).shiftedBy(-tokens.decimals[i]).toNumber();
         }
@@ -697,7 +697,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     const pairData = await this.apiServ.getPair(this.pairName);
     this.pairData = pairData;
 
-
+      console.log('this.pairData===', this.pairData);
     // console.log('ngOnInit for order Pad');
     this.oldNonce = -1;
     this.buyGasLimit = environment.chains.KANBAN.gasLimit;
