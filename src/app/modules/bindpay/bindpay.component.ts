@@ -52,15 +52,21 @@ export class BindpayComponent  implements OnInit{
         this.exAddress = exaddr.toKbpayAddress(fabAddress);
 
 
-        this.kanbanServ.getKanbanBalance(this.address).subscribe(
-            (resp: any) => {
-                const fab = this.utilServ.stripHexPrefix(resp.balance.FAB);
-                this.gas = this.utilServ.hexToDec(fab) / 1e18;
+        this.kanbanServ.getKanbanBalance(this.wallet.excoin.receiveAdds[0].address).subscribe(
+            {
+                next: (resp: any) => {
+                console.log('resp for gas=', resp);
+                if(resp.success) {
+                    const data = resp.data;
+                    this.gas = new BigNumber(data).shiftedBy(-18).toNumber();
+                }
+
+
             },
-            error => {
+            error:(error) => {
                 // console.log('errorrrr=', error);
             }
-        );
+        });
 
         this.kanbanServ.getBalance(this.address).subscribe((tokens) => {
             console.log('tokens====', tokens);

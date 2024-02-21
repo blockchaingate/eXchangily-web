@@ -3,6 +3,7 @@ import { Icons } from '../../../../environments/icons';
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
 import { environment } from '../../../../environments/environment';
+import { version } from '../../../../environments/version';
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
@@ -14,7 +15,7 @@ export class FooterComponent implements OnInit {
 
   gradientTop: number;
   gradientLeft: number;
-  version = environment.version;
+  version = version;
   constructor(
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,

@@ -292,7 +292,7 @@ export class KanbanService {
     }
 
     withdrawQuote(address: string, recipient:string, destId: string,  srcChain: string,  amount: number) {
-        const url = this.api + '/v3/bridge/withdrawQuote';
+        const url = this.api + 'v3/bridge/withdrawQuote';
         const data = {
             address,
             recipient,
@@ -304,7 +304,7 @@ export class KanbanService {
     }
     
     getTokenMaps(descAddress: string) {
-        const url = this.api + '/v3/bridge/tokenMap/' + descAddress;
+        const url = this.api + 'v3/bridge/tokenMap/' + descAddress;
         return this.http.get(url);
     }
     
@@ -328,9 +328,12 @@ export class KanbanService {
     }
 
     getKanbanBalance(address: string) {
-        const path = 'kanban/getBalance/' + address;
-        // console.log('path1=' + path);
-        return this.get(path);
+        let path = 'kanban/nativeBalance';
+        path = this.api + path;
+        const body = {
+            native: address
+        }
+        return this.http.post(path, body);
     }
 
     getDepositErr(address: string) {

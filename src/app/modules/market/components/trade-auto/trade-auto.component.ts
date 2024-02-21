@@ -5,8 +5,7 @@ import { Web3Service } from '../../../../services/web3.service';
 import { UtilService } from '../../../../services/util.service';
 import { CoinService } from '../../../../services/coin.service';
 import { KanbanService } from '../../../../services/kanban.service';
-import { TransactionResp } from '../../../../interfaces/kanban.interface';
-import { environment } from '../../../../../environments/environment';
+import { version } from '../../../../../environments/version';
 @Component({
     selector: 'app-trade-auto',
     templateUrl: './trade-auto.component.html',
@@ -22,7 +21,7 @@ export class TradeAutoComponent implements OnInit {
     }
     
     ngOnInit() {
-        this.version = environment.version;
+        this.version = version;
     }
 
     async getNonce(address: string) {

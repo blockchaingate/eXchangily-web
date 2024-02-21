@@ -904,7 +904,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       const tmp = baseCoin;
       baseCoin = targetCoin;
       targetCoin = tmp;
-      qtyDecimals = this.pairData.tokenA.decimals;
+      //qtyDecimals = this.pairData.tokenA.decimals;
     }
 
     const timeBeforeExpiration = 423434342432;

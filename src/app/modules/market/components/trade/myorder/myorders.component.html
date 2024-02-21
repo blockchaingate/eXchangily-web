@@ -58,13 +58,13 @@
                     <div>{{order.price}}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 15%;">
-                    <div>{{order.orderQuantity}}</div>
+                    <div>{{order.originalOrderQuantity}}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 15%;">
                     <div>{{order.filledQuantity}}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 15%;">
-                    <div>{{showFilledPercentage(order.orderQuantity, order.filledQuantity)|number:'2.2-2'}}</div>
+                    <div>{{showFilledPercentage(order.originalOrderQuantity, order.filledQuantity)|number:'2.2-2'}}</div>
                 </div>
                 <div class="orditem text-white d-flex align-items-center" style="width: 5%;">
                     <div *ngIf="order.isActive">
@@ -117,13 +117,13 @@
                     </p>
                 </div>
                 <div class=" text-muted col-6">
-                    {{'Order Qty' | translate }}:{{utilServ.showAmount(order.orderQuantity, 6)}}
+                    {{'Order Qty' | translate }}:{{utilServ.showAmount(order.originalOrderQuantity, 6)}}
                 </div>
                 <div class=" text-muted col-6">
                     {{'Filled Qty' | translate }}:{{utilServ.showAmount(order.filledQuantity, 6)}}
                 </div>
                 <div class=" text-muted col-6">
-                    {{'Filled%' | translate }}:{{order.filledQuantity*100/order.orderQuantity|number:'2.2-2'}}
+                    {{'Filled%' | translate }}:{{order.filledQuantity*100/order.originalOrderQuantity|number:'2.2-2'}}
                 </div>
 
             </div>
