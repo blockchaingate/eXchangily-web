@@ -898,8 +898,9 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
     baseCoin = this.pairData.tokenB.id;
     targetCoin = this.pairData.tokenA.id;
-    
-    let qtyDecimals = this.pairData.tokenB.decimals;
+    console.log('this.pairData===', this.pairData);
+    let qtyDecimals = this.pairData.tokenA.decimals;
+    console.log('qtyDecimals===', qtyDecimals);
     if (!bidOrAsk) {
       const tmp = baseCoin;
       baseCoin = targetCoin;
@@ -926,6 +927,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     const approveAbiHex = this.web3Serv.getApproveFuncABI(address, approveQtystring);
     const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk,
       baseCoin, targetCoin, qtyString, priceString, orderHash]);
+    console.log('abiHex===', abiHex);
     let nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
 
     if ((this.gasPrice <= 0) || (this.gasLimit <= 0)) {

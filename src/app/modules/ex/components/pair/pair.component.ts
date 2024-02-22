@@ -23,7 +23,7 @@ export class PairComponent implements OnInit {
   @ViewChild('pinModal', {static: true}) pinModal: PinNumberModal;
   kycContract: string = '0x0000000000000000000000000000000000000000';
   requiredKycLevel: number = 0;
-  tradeFeePool: string = '0x0000000000000000000000000000000000000000';
+  tradeFeePool: string = '';
   tokenLeft: string;
   tokenRight: string;
   priceDecimals: number;
@@ -66,6 +66,9 @@ export class PairComponent implements OnInit {
   }
 
   onConfirmedPin(pin: string) {
+    if(!this.tradeFeePool || (this.tradeFeePool == '0x0000000000000000000000000000000000000000')) {
+      return this.alertServ.openSnackBar('tradeFeePool need to be set.', 'Ok');
+    }
     const seed = this.utilServ.aesDecryptSeed(this.wallet?.encryptedSeed, pin);
     if (!seed) {
       this.alertServ.openSnackBar('Your password is wrong.', 'Ok');
@@ -238,24 +241,30 @@ export class PairComponent implements OnInit {
         var that = this;
         var myInterval = setInterval(function(){ 
           that.kanbanServ.getTransactionReceipt(txid).subscribe(
-            (receipt: any) => {
-              if(receipt && receipt.transactionReceipt) {
+            (res: any) => {
+              if(res && res.transactionReceipt) {
                 clearInterval(myInterval);
-                if(receipt.transactionReceipt.contractAddress) {
-                  that.pairSmartContractAddress = receipt.transactionReceipt.contractAddress;
-
-                  that.kanbanServ.getLatestBlocksMetainfo().subscribe(
-                    (ret: any) => {
-                      console.log('ret for latest info===', ret);
-                      if(ret && ret.length > 0) {
-                        const block = ret[0];
-                        let blocknumber = block.number;
-                        blocknumber = blocknumber + 30;
-                        that.registerPair(keyPairsKanban, blocknumber);
+                const receipt = res.transactionReceipt;
+                if(receipt.status == '0x1') {
+                  if(res.transactionReceipt.contractAddress) {
+                    that.pairSmartContractAddress = res.transactionReceipt.contractAddress;
+  
+                    that.kanbanServ.getLatestBlocksMetainfo().subscribe(
+                      (ret: any) => {
+                        console.log('ret for latest info===', ret);
+                        if(ret && ret.length > 0) {
+                          const block = ret[0];
+                          let blocknumber = block.number;
+                          blocknumber = blocknumber + 30;
+                          that.registerPair(keyPairsKanban, blocknumber);
+                        }
                       }
-                    }
-                  );
+                    );
+                  }
+                } else {
+                  this.alertServ.openSnackBar('Failed to create smart contract.', 'Ok');
                 }
+
               }
             }
           );
