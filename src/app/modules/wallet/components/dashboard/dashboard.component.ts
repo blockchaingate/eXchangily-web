@@ -963,9 +963,6 @@ export class WalletDashboardComponent implements OnInit {
         this.currentCoin = currentCoin;
         // this.opType = 'redeposit';
         // this.pinModal.show();
-        if (this.currentCoin && this.currentCoin.redeposit && this.currentCoin.redeposit.length > 0) {
-            this.redepositModal.setTransactionID(this.currentCoin.redeposit[0].transactionID);
-        }
 
         this.redepositModal.show(currentCoin);
     }
@@ -1702,7 +1699,7 @@ export class WalletDashboardComponent implements OnInit {
         }
     }
 
-    async redepositdo() {
+    redepositdo() {
         if (!this.amountForm) {
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar('没有待确认的转币去交易所输入', 'Ok');
@@ -1712,163 +1709,74 @@ export class WalletDashboardComponent implements OnInit {
             return;
         }
         const transactionID = this.amountForm.transactionID;
-        const gasPrice = Number(this.amountForm.gasPrice);
-        const gasLimit = Number(this.amountForm.gasLimit);
 
         const currentCoin = this.currentCoin;
-        if (!transactionID || !gasPrice || !gasLimit) {
+        if (!transactionID) {
             if (this.lan === 'zh') {
-                this.alertServ.openSnackBar('没有转币去交易所输入', 'Ok');
+                this.alertServ.openSnackBar('没有交易哈希', 'Ok');
             } else {
-                this.alertServ.openSnackBar('invalid input for moving fund to DEX', 'OK');
+                this.alertServ.openSnackBar('No transaction id', 'OK');
             }
             return;
         }
 
+        this.depositForTransactionID(currentCoin, transactionID);
 
-        const redepositArray = currentCoin.redeposit ? currentCoin.redeposit : currentCoin.depositErr;
-        // const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
-        if (redepositArray && redepositArray.length > 0) {
-
-            for (let i = 0; i < redepositArray.length; i++) {
-                const redepositItem = redepositArray[i];
-                const amount = new BigNumber(redepositItem.amount);
-                const coinType = redepositItem.coinType;
-                const r = redepositItem.r;
-                const s = redepositItem.s;
-                const v = redepositItem.v;
-                const txid = redepositItem.transactionID;
-                if (txid !== transactionID) {
-                    continue;
-                }
-
-                this.submitrediposit(coinType, amount, transactionID, gasPrice, gasLimit);
-            }
-        }
     }
 
-    async submitrediposit(coinType: number, amount: BigNumber, transactionID: string, gasPrice: number, gasLimit: number) {
-        
-        const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
-        const nonce = await this.kanbanServ.getTransactionCount(addressInKanban);
+    async depositForTransactionID(currentCoin: MyCoin, txHash: string) {
         const pin = this.pin;
 
+        
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
-
-        if (!seed) {
-            this.warnPwdErr();
-            return;
-        }
-
-        const coinName = this.coinServ.getCoinNameByTypeId(coinType);
-
-        if(coinName == 'USDTX') {
-            coinType = this.coinServ.getCoinTypeIdByName('USDT');
-        } else
-        if(coinName == 'USDCX') {
-            coinType = this.coinServ.getCoinTypeIdByName('USDC');
-        } else
-        if(coinName == 'USDTM') {
-            coinType = this.coinServ.getCoinTypeIdByName('USDT');
-        } else
-        if(coinName == 'USDTB') {
-            coinType = this.coinServ.getCoinTypeIdByName('USDT');
-        } else
-        if(coinName == 'FABB') {
-            coinType = this.coinServ.getCoinTypeIdByName('FAB');
-        } else
-        if(coinName == 'FABE') {
-            coinType = this.coinServ.getCoinTypeIdByName('FAB');
-        } else 
-        if(coinName == 'EXGE') {
-            coinType = this.coinServ.getCoinTypeIdByName('EXG');
-        } else 
-        if(coinName == 'DSCE') {
-            coinType = this.coinServ.getCoinTypeIdByName('DSC');
-        } else 
-        if(coinName == 'BSTE') {
-            coinType = this.coinServ.getCoinTypeIdByName('BST');
-        } 
-        else
-        if(coinName == 'MATICM') {
-            coinType = this.coinServ.getCoinTypeIdByName('MATIC');
-        }
-
-
-        let currentCoin = this.currentCoin;
-        /*
-        for (let i = 0; i < this.wallet.mycoins.length; i++) {
-            if (
-                ((this.wallet.mycoins[i].name === coinName)) || 
-                (coinName == 'USDTX' && this.wallet.mycoins[i].name == 'USDT' && this.wallet.mycoins[i].tokenType == 'TRX') ||
-                (coinName == 'FABE' && this.wallet.mycoins[i].name == 'FAB' && this.wallet.mycoins[i].tokenType == 'ETH') ||
-                (coinName == 'EXGE' && this.wallet.mycoins[i].name == 'EXG' && this.wallet.mycoins[i].tokenType == 'ETH') ||
-                (coinName == 'DSCE' && this.wallet.mycoins[i].name == 'DSC' && this.wallet.mycoins[i].tokenType == 'ETH') ||
-                (coinName == 'BSTE' && this.wallet.mycoins[i].name == 'BST' && this.wallet.mycoins[i].tokenType == 'ETH')
-            ) {
-                currentCoin = this.wallet.mycoins[i];
-            }
-        }
-        */
-        //console.log('for redeposit, coinType=', coinType);
-        if (!currentCoin) {
-            if (this.lan === 'zh') {
-                this.alertServ.openSnackBar('币类型错误', 'Ok');
-            } else {
-                this.alertServ.openSnackBar('Your coin type is invalid.', 'Ok');
-            }
-            return;
-        }
-
-        let coinTypePrefix = this.coinServ.getCoinTypePrefix(currentCoin);
-
-        //console.log('coinTypePrefix==', coinTypePrefix);
-        const amountInLink = amount; // it's for all coins.
-        const updatedCoinType = this.coinServ.getUpdatedCoinType(currentCoin);
-        /*
-        const originalMessage = this.coinServ.getOriginalMessage(updatedCoinType, this.utilServ.stripHexPrefix(transactionID)
-            , amountInLink, this.utilServ.stripHexPrefix(addressInKanban));
-        */
-
-        const originalMessage = '';
-
+        const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
         const keyPairs = this.coinServ.getKeyPairs(currentCoin, seed, 0, 0);
+        const chainType = this.coinServ.getChainType(currentCoin);
+        let tokenContract = '0000000000000000000000000000000000000001';
+        if(this.depositGas) {
+            tokenContract = '0000000000000000000000000000000000000002';
+        }
+        if(currentCoin.contractAddr) {
+            tokenContract = currentCoin.contractAddr;
+            if(currentCoin.tokenType == 'TRX') {
+                tokenContract = this.coinServ.convertTrxAddressToWithChecksum(tokenContract);
+            }
+
+            tokenContract = this.utilServ.stripHexPrefix(tokenContract).toLowerCase();
+        }
+
+
+
+        const tokenType = '0000000000000000000000000000000000000000'; //ERC20
+        const originalMessage = this.coinServ.getOriginalMessage(chainType, tokenContract, tokenType,this.utilServ.stripHexPrefix(addressInKanban), this.utilServ.stripHexPrefix(txHash));
+
         const signedMessage: Signature = await this.coinServ.signedMessage(originalMessage, keyPairs);
 
-        const coinPoolAddress = await this.kanbanServ.getCoinPoolAddress();
-        const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
 
-        const abiHex = this.web3Serv.getDepositFuncABI(coinType, transactionID, amount, addressInKanban, keyPairs);
+        const proof = this.coinServ.getProof(signedMessage, chainType, tokenContract, tokenType,this.utilServ.stripHexPrefix(addressInKanban), this.utilServ.stripHexPrefix(txHash));
 
-        const options = {
-            gasPrice: gasPrice,
-            gasLimit: gasLimit
-        };
-
-        const txKanbanHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, coinPoolAddress, nonce, 0, options);
-        this.kanbanServ.submitReDeposit(txKanbanHex).subscribe((resp: any) => {
-            if (resp.success) {
-                // const txid = resp.data.transactionID;
+        // return 0;
+        this.kanbanServ.submitDeposit(proof).subscribe((resp: any) => {
+            console.log('resp for submitDeposit=', resp);
+            if (resp && resp.success) {
                 this.kanbanServ.incNonce();
                 if (this.lan === 'zh') {
-                    this.alertServ.openSnackBarSuccess('确认交易所入币成功提交', 'Ok');
+                    this.alertServ.openSnackBarSuccess('转币去交易所请求已提交，请等待' + environment.depositMinimumConfirmations[currentCoin.name] + '个确认', 'Ok');
                 } else {
-                    this.alertServ.openSnackBarSuccess('Confirmation was submitted successfully.', 'Ok');
+                    this.alertServ.openSnackBarSuccess('Moving fund to DEX was submitted, please wait for ' + environment.depositMinimumConfirmations[currentCoin.name] + ' confirmations.', 'Ok');
                 }
+            } else if (resp.error) {
+                this.alertServ.openSnackBar(resp.error, 'Ok');
             }
         },
-            (error: any) => {
-                let message = 'Unknown error while confirm moving fund to DEX.';
-                if (this.lan === 'zh') {
-                    message = '确认交易所入币时发生未知错误';
+            error => {
+                if (error.error && error.error.error) {
+                    this.alertServ.openSnackBar(error.error.error, 'Ok');
+                } else if (error.message) {
+                    this.alertServ.openSnackBar(error.message, 'Ok');
                 }
-                if (error.message) {
-                    message = error.message;
-                } else if (error.error && error.error.message) {
-                    message = error.error.message;
-                }
-                this.alertServ.openSnackBar(error.error.message, 'ok');
-            });
+            }
+        );
     }
 
     async depositdo() {
@@ -1929,9 +1837,7 @@ export class WalletDashboardComponent implements OnInit {
             return;
         }
 
-        const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
-        let keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
-
+        
         const doSubmit = true;
         const options = {
             gasPrice: this.amountForm ? this.amountForm.gasPrice : environment.chains.FAB.gasPrice,
@@ -1958,90 +1864,9 @@ export class WalletDashboardComponent implements OnInit {
             return;
         }
         
-        const amountInLink = new BigNumber(amount).shiftedBy(18); // it's for all coins.
-
-        const amountInLinkString = amountInLink.toFixed();
-        const amountInTxString = amountInTx.toFixed();
-
-        if (amountInLinkString.indexOf(amountInTxString) !== 0) {
-            if (this.lan === 'zh') {
-                this.alertServ.openSnackBar('转账数量不相等', 'Ok');
-            } else {
-                this.alertServ.openSnackBar('Inequal amount for deposit', 'Ok');
-            }
-            return;
-        }
-
-        const sub = amountInLinkString.substring(amountInTxString.length);
-        if(sub) {
-            if(Number(sub) != 0) {
-                if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('转账数量不相等', 'Ok');
-                } else {
-                    this.alertServ.openSnackBar('Inequal amount for deposit', 'Ok');
-                }
-                return;                
-            }
-        }
-        
-        const subString = amountInLinkString.substring(amountInTxString.length);
-
-        if (subString && Number(subString) !== 0) {
-            if (this.lan === 'zh') {
-                this.alertServ.openSnackBar('转账数量不符合', 'Ok');
-            } else {
-                this.alertServ.openSnackBar('deposit amount not the same', 'Ok');
-            }
-            return;
-        }
-
-        const chainType = this.coinServ.getChainType(currentCoin);
-        let tokenContract = '0000000000000000000000000000000000000001';
-        if(this.depositGas) {
-            tokenContract = '0000000000000000000000000000000000000002';
-        }
-        if(currentCoin.contractAddr) {
-            tokenContract = currentCoin.contractAddr;
-            if(currentCoin.tokenType == 'TRX') {
-                tokenContract = this.coinServ.convertTrxAddressToWithChecksum(tokenContract);
-            }
-
-            tokenContract = this.utilServ.stripHexPrefix(tokenContract).toLowerCase();
-        }
+        this.depositForTransactionID(currentCoin, txHash);
 
 
-
-        const tokenType = '0000000000000000000000000000000000000000'; //ERC20
-        const originalMessage = this.coinServ.getOriginalMessage(chainType, tokenContract, tokenType,this.utilServ.stripHexPrefix(addressInKanban), this.utilServ.stripHexPrefix(txHash));
-
-        const signedMessage: Signature = await this.coinServ.signedMessage(originalMessage, keyPairs);
-
-
-        const proof = this.coinServ.getProof(signedMessage, chainType, tokenContract, tokenType,this.utilServ.stripHexPrefix(addressInKanban), this.utilServ.stripHexPrefix(txHash));
-
-        // return 0;
-        this.kanbanServ.submitDeposit(proof).subscribe((resp: any) => {
-            console.log('resp for submitDeposit=', resp);
-            if (resp && resp.success) {
-                this.kanbanServ.incNonce();
-                this.coinServ.addTxids(txids);
-                if (this.lan === 'zh') {
-                    this.alertServ.openSnackBarSuccess('转币去交易所请求已提交，请等待' + environment.depositMinimumConfirmations[currentCoin.name] + '个确认', 'Ok');
-                } else {
-                    this.alertServ.openSnackBarSuccess('Moving fund to DEX was submitted, please wait for ' + environment.depositMinimumConfirmations[currentCoin.name] + ' confirmations.', 'Ok');
-                }
-            } else if (resp.error) {
-                this.alertServ.openSnackBar(resp.error, 'Ok');
-            }
-        },
-            error => {
-                if (error.error && error.error.error) {
-                    this.alertServ.openSnackBar(error.error.error, 'Ok');
-                } else if (error.message) {
-                    this.alertServ.openSnackBar(error.message, 'Ok');
-                }
-            }
-        );
 
     }
 

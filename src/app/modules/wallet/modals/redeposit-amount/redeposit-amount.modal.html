@@ -8,63 +8,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="transactionID">
-                    <div *ngFor="let item of coin.redeposit; let i = index">
-                        <mat-radio-button class="text-muted" [value]="item.transactionID">
-                            <div>
-                                {{"Quantity"| translate}}: {{utilServ.showAmount(item.amount, 6)}}
-                                <button mat-icon-button aria-label="Show Details" (click)="showDetail(i)">
-                                    <mat-icon svgIcon="detail"></mat-icon>
-                                </button>
-                            </div>
-                            <div *ngIf="showDetailIndex == i">
-                                <div>
-                                    {{"TXID"|translate}}:{{item.transactionID}}
-                                    <button mat-icon-button (click)="copyTransactionID(item.transactionID)">
-                                        <mat-icon svgIcon="copy"></mat-icon>
-                                    </button>
-                                </div>
-                            </div>
-                        </mat-radio-button>
-                    </div>
-
-                </mat-radio-group>
-
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col text-dark">
-                            {{"Transaction fee"|translate}} </div>
-                        <div class="col text-muted">
-                            <div class="pull-right">
-                                {{utilServ.showAmount(gasPrice*gasLimit, 6)}}
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col text-dark">
-                            {{"Transaction fee advanced"|translate}}
-                        </div>
-                        <div class="col text-muted">
-                            <div class="pull-right">
-                                <mat-slide-toggle [(ngModel)]="gasFeeCustomChecked"></mat-slide-toggle>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div *ngIf="gasFeeCustomChecked">
-
-                    <div class="form-group">
-                        <label for="gasPrice" class="text-dark">{{"Gas Price"|translate}}</label>
-                        <input type="text" class="form-control" id="inputGasPrice" [(ngModel)]="gasPrice" placeholder="0">
-                    </div>
-                    <div class="form-group">
-                        <label for="gasPrice" class="text-dark">{{"Gas Limit"|translate}}</label>
-                        <input type="text" class="form-control" id="inputGasLimit" [(ngModel)]="gasLimit" placeholder="0">
-                    </div>
-                </div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Transaction ID</mat-label>
+                    <input matInput [(ngModel)]="transactionID">
+                </mat-form-field>
 
             </div>
 

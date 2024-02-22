@@ -19,8 +19,6 @@ export class RedepositAmountModal implements OnInit {
     redeposit: any;
     @Output() confirmedAmount = new EventEmitter<any>();
     showDetailIndex: number;
-    gasPrice = environment.chains.KANBAN.gasPrice;
-    gasLimit = environment.chains.KANBAN.gasLimit;
     transactionID: string;
     gasFeeCustomChecked = false;
 
@@ -44,22 +42,18 @@ export class RedepositAmountModal implements OnInit {
     }
     onSubmit() {
         const data = {
-            gasPrice: this.gasPrice,
-            gasLimit: this.gasLimit,
             transactionID: this.transactionID
         };
-        console.log('data==', data);
         this.confirmedAmount.emit(data);
         this.hide();
     }
 
     show(coin) {
         this.coin = coin;
-        this.redeposit = coin.redeposit ? coin.redeposit : coin.depositErr;
-        console.log('redeposit==', this.redeposit);
         this.depositModal.show();
     }
     hide() {
         this.depositModal.hide();
     }
+
 }
