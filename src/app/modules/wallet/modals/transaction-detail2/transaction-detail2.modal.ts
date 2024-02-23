@@ -44,16 +44,20 @@ export class TransactionDetailModal2 {
             return baseUrl + '/#/transactions/' + txid;
         } else
         if(chain == 'LTC') {
-            return 'https://live.blockcypher.com/ltc/tx/' + txid + '/';
+            const baseUrl = this.production ? 'https://live.blockcypher.com/ltc/tx/' : 'https://blockexplorer.one/litecoin/testnet/blockHash/';
+            return baseUrl + txid;
         } else
         if(chain == 'DOGE') {
-            return 'https://dogechain.info/tx/' + txid;
+            const baseUrl = this.production ? 'https://dogechain.info/tx/' : 'https://blockexplorer.one/dogecoin/testnet/blockHash/';
+            return baseUrl + txid;
         } else
         if(chain == 'BCH') {
-            return 'https://explorer.bitcoin.com/bch/tx/' + txid;
+            const baseUrl = this.production ? 'https://explorer.bitcoin.com/bch/tx/' : 'https://blockexplorer.one/bitcoin-cash/testnet/blockHash/';
+            return baseUrl + txid;
         } else
         if(chain == 'TRX') {
-            return 'https://tronscan.org/#/transaction/' + txid;
+            const baseUrl = this.production ? 'https://tronscan.org/' : 'https://nile.tronscan.org/';
+            return baseUrl + '#/transaction/' + this.utilService.stripHexPrefix(txid);
         }
         return '';
     }

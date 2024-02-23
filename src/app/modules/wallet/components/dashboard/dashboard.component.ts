@@ -904,6 +904,7 @@ export class WalletDashboardComponent implements OnInit {
 
         this.exgBalance = 0;
 
+        /*
         this.campaignorderServ.getCheck(this.exgAddress).subscribe(
             (resp: any) => {
                 if (resp.ok) {
@@ -916,13 +917,12 @@ export class WalletDashboardComponent implements OnInit {
                     } else {
                         this.alertMsg = '';
                     }
-                    //console.log('this.alertMsg==', this.alertMsg);
                 } else {
                     this.alertMsg = '';
                 }
             }
         );
-        // console.log('load wallet again.');
+        */
         this.refreshGas();
     }
     exchangeMoney() {

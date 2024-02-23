@@ -117,8 +117,6 @@ export class TransactionHistoryComponent implements OnInit {
                         newTransactions.push(newTransaction);
                     }
 
-                    console.log('this.transactions==', this.transactions);
-                    console.log('newTransactions==', newTransactions);
                     this.transactions = this.mergeSortedArray(this.transactions, newTransactions);
 
                 }
@@ -132,43 +130,6 @@ export class TransactionHistoryComponent implements OnInit {
     }
 
     async showTransactionDetail(item: TransactionItem) {
-        /*
-        console.log('item is:', item);
-        if (item.type === 'Withdraw') {
-            const status = await this.kanbanServ.getTransactionStatus(item.txid);
-            item.confirmations = status;
-        } else
-        if (item.type === 'Deposit') {
-            const status = await this.kanbanServ.getDepositStatus(item.txid);
-            item.confirmations = status;
-        } else
-        if (item.coin === 'BTC') {
-            const tx = await this.apiServ.getBtcTransaction(item.txid);
-            item.confirmations = tx.confirmations;
-            item.blockhash = tx.blockhash;
-        } else
-        if (item.coin === 'ETH' || item.tokenType === 'ETH') {
-            const tx = await this.apiServ.getEthTransaction(item.txid);
-            item.confirmations = '0';
-            if (tx.blockNumber) {
-                item.confirmations = tx.confirmations;
-            }
-            item.blockhash = tx.blockHash;
-        } else
-        if (item.coin === 'FAB' || item.tokenType === 'FAB') {
-            const tx = await this.apiServ.getFabTransactionJson(item.txid);
-            item.confirmations = '0';
-            if (tx.confirmations) {
-                item.confirmations = tx.confirmations.toString();
-            }
-            item.blockhash = tx.blockhash;
-        } else
-        if (item.coin === 'TRX' || item.tokenType === 'TRX') {
-            const status = await this.coinServ.getTrxTransactionStatus(item.txid);
-            //console.log('status for tron ===', status);
-            item.status = status;
-        }
-        */
         this.transactionDetailModal.show(item);
     }
 }
