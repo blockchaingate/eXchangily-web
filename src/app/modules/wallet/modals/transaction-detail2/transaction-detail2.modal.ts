@@ -36,7 +36,7 @@ export class TransactionDetailModal2 {
             return baseUrl + '/tx/' + txid + '/';
         } else
         if(chain == 'ETH') {
-            const baseUrl = this.production ? 'https://etherscan.io' : 'https://ropsten.etherscan.io';
+            const baseUrl = this.production ? 'https://etherscan.io' : 'https://goerli.etherscan.io';
             return baseUrl + '/tx/' + txid;
         } else
         if(chain == 'FAB') {
