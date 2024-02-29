@@ -22,6 +22,7 @@
     "strict": false,
     "strictNullChecks": false,
     "noImplicitOverride": true,
+    "skipLibCheck": true,
     "noPropertyAccessFromIndexSignature": false,
     "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": true,
@@ -36,8 +37,6 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2020",
-
-
     "module": "es2020",
     "lib": [
       "es2020",
