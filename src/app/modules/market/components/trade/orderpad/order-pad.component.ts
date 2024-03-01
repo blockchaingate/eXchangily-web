@@ -931,7 +931,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     let nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
 
     if ((this.gasPrice <= 0) || (this.gasLimit <= 0)) {
-      return;
+      return; 
     }
     const options = {
       gasPrice: this.gasPrice,

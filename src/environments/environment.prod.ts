@@ -192,6 +192,7 @@ export const environment = {
     }, 
     addresses: {
         smartContract: {
+            ExchangilyFactory: '',
             KanbanLocker: '0x10c1c675db57d2a374a14564393e6095a4ea0e93',
             StakingFABEXG: '0xa2b4a288cc953f5c1c39e3c0a11b421a17746b38',
             FABLOCK: '0x04baa04d9550c49831427c6abe16def2c579af4a',
