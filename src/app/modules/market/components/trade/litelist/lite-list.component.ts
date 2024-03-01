@@ -127,7 +127,7 @@ export class LiteListComponent implements OnInit {
                 for (let i = 0; i < tickers.length; i++) {
                     const ticker = tickers[i];
                     const symbol = ticker.s;
-                    const price = Number(ticker.p);
+                    const price = Number(ticker.c);
                     const open = Number(ticker['o']);
                     const close = Number(ticker['c']);
                     let change24h = 0;
@@ -151,7 +151,7 @@ export class LiteListComponent implements OnInit {
                     const vol24h = Number(ticker['v']);
 
                     for (let j = 0; j < this.prices.length; j++) {
-                        const symbol_replace = this.prices[j].symbol.replace('/', '');
+                        const symbol_replace = this.prices[j].symbol;
                         if (symbol === symbol_replace) {
                             this.prices[j].price = price;
                             this.prices[j].change24h = Number(change24h.toFixed(2));

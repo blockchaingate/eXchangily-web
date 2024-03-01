@@ -10,7 +10,8 @@ export class PriceService {
   }
 
   getPriceList(pageSize:number, pageNum: number) {
-    const url = environment.endpoints.api + 'v3/exchangily/pair/' + pageSize + '/' + pageNum;
+    const url = environment.endpoints.api + 'v3/exchangily/pair/withPrice/' + pageSize + '/' + pageNum;
+    console.log('url for getPriceList===', url);
     return this.http.get(url);
   }
 

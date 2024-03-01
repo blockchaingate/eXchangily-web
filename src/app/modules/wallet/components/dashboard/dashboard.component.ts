@@ -315,7 +315,6 @@ export class WalletDashboardComponent implements OnInit {
         console.log('addr2====', addr2);
         */
 
-        this.setPairsConfig();
 
         await this.loadWallets();
         // this.currentWalletIndex = await this.walletServ.getCurrentWalletIndex();
@@ -389,23 +388,6 @@ export class WalletDashboardComponent implements OnInit {
             }
         );    
         */
-    }
-
-    setPairsConfig() {
-        if (this.pairsConfig) { return; }
-
-        let strPairsConfig = sessionStorage.getItem('pairsConfig');
-        if (!strPairsConfig) {
-            this.kanbanServ.getPairConfig().subscribe(
-                res => {
-                    strPairsConfig = JSON.stringify(res);
-                    sessionStorage.setItem('pairsConfig', strPairsConfig);
-                    this.pairsConfig = <Pair[]>res;
-                },
-                err => { this.alertMsg = err.message; });
-        } else {
-            this.pairsConfig = <Pair[]>(JSON.parse(strPairsConfig));
-        }
     }
 
     getPairConfig(pairName: string): Pair | null {

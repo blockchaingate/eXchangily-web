@@ -104,7 +104,7 @@ export class TimerService {
                 return;
             }
         }
-        const source = timer(1000, 1000);
+        const source = timer(2000, 2000);
         const subscribeItem = source.subscribe(val => {
             if ((maxTimes > 0) && (val >= maxTimes - 1)) {
                 this.unCheckOrderStatus(address);

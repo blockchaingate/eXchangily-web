@@ -137,8 +137,10 @@ export class MarketListComponent implements OnInit {
 
         this.prServ.getPriceList(100,0).subscribe(
             (ret: any) => {
+                console.log('ret===', ret);
                 if(ret && ret.success) {
                     const data = ret.data;
+                    console.log('dataaaaa===', data);
                     this.prices = data;
                     this.selectCat('DUSD');
                 }
@@ -237,7 +239,7 @@ export class MarketListComponent implements OnInit {
             const item = arr[i];
             const s = item.s;
             const h = item['h'];
-            const price = item.p;
+            const price = item.c;
             const l = item['l'];
             let change24h = 0;
             const o = item['o'];
@@ -257,7 +259,7 @@ export class MarketListComponent implements OnInit {
             const v = item['v'];
             for (let j = 0; j < this.tab_prices.length; j++) {
                 const tabItem = this.tab_prices[j];
-                const tabItemSymbol = tabItem.tokenA + tabItem.tokenB;
+                const tabItemSymbol = tabItem.symbol;
                 if (s == tabItemSymbol) {
                     tabItem.change24h = change24h;
                     tabItem.price = price;

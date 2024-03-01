@@ -971,8 +971,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
             }
     
             const address = this.wallet.excoin.receiveAdds[0].address;
-            this.timerServ.checkOrderStatus(address, 30);
-            this.timerServ.checkTokens(address, 30);
+            this.timerServ.checkOrderStatus(address, 6);
+            this.timerServ.checkTokens(address, 6);
     
             if (this.bidOrAsk) {
               this.buyPrice = 0;

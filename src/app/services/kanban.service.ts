@@ -424,10 +424,6 @@ export class KanbanService {
         return this.get('checkstatus/' + txid);
     }
 
-    getPairConfig() {
-        return this.get('kanban/getPairConfig');
-    }
-
 
   
 }
