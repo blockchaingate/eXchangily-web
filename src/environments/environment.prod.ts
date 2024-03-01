@@ -391,10 +391,10 @@ export const environment = {
         }
     },
     websockets: {
-        allprices: 'wss://kanbanprod.fabcoinapi.com/ws/allprices',
-        trades: 'wss://kanbanprod.fabcoinapi.com/ws/trades',
-        orders: 'wss://kanbanprod.fabcoinapi.com/ws/orders',
-        kline: 'wss://kanbanprod.fabcoinapi.com/ws/ticker'
+        allprices: 'wss://api.pay.cool/ws/allprices',
+        trades: 'wss://api.pay.cool/ws/trades',
+        orders: 'wss://api.pay.cool/ws/orders',
+        kline: 'wss://api.pay.cool/ws/ticker'
     },
     minimumWithdraw: {
         EXG: {
