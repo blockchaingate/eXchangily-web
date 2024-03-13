@@ -31,7 +31,7 @@ export class MarketTopBlockComponent implements OnInit {
   toNumber(str: string) {
     return Number(str);
   }
-  
+
   gotoTrade() {
     const pair = this.targetCoinName + '_' + this.baseCoinName;
     this._router.navigate(['market/trade/' + pair]);

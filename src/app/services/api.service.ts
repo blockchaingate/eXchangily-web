@@ -32,7 +32,7 @@ export class ApiService {
     
     getKanbanTokens() {
         const observable = new Observable((subscriber) => {
-            const url = environment.endpoints.api + '/v3/token/erc20/10000/0';
+            const url = environment.endpoints.api + 'v3/token/erc20/10000/0';
 
             this.http.get(url).subscribe(
                 {
@@ -50,7 +50,7 @@ export class ApiService {
 
     claimWithdraw(rawtxs: any) {
         const observable = new Observable((subscriber) => {
-            const url = environment.endpoints.api + '/v3/bridge/claimWithdraw';
+            const url = environment.endpoints.api + 'v3/bridge/claimWithdraw';
             const data = {
                 rawtxs
             };
@@ -69,7 +69,7 @@ export class ApiService {
     }
 
     withdrawFee(srcChain: string) {
-        const url = environment.endpoints.api + '/v3/bridge/withdrawFee';
+        const url = environment.endpoints.api + 'v3/bridge/withdrawFee';
         const data = {
             srcChain
         };
@@ -77,7 +77,7 @@ export class ApiService {
     }
 
     withdrawQuote(address: string, recipient:string, destId: string,  srcChain: string,  amount: number) {
-        const url = environment.endpoints.api + '/v3/bridge/withdrawQuote';
+        const url = environment.endpoints.api + 'v3/bridge/withdrawQuote';
         const data = {
             address,
             recipient,

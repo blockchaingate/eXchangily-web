@@ -95,6 +95,13 @@ export class LiteListComponent implements OnInit {
         return 0;
     }
 
+    formatSymbol(symbol: string) {
+        const symbolArr = symbol.split('_');
+        const targetCoin = symbolArr[0];
+        const baseCoin = symbolArr[1];
+        return targetCoin + '/' + baseCoin;
+    }
+
     ngOnInit() {
 
         this.sortField = '';
