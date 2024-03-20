@@ -592,14 +592,14 @@ export class WalletDashboardComponent implements OnInit {
                 this.walletUpdateToDate = true;
             }
 
-            /*
+            
             if(!environment.production 
                 && (coin.name == 'USDT') 
                 && (coin.tokenType == 'ETH')
                 && (coin.contractAddr == environment.addresses.smartContract.USDT.ETH)) {
                 this.walletUpdateToDate = true;  
             }
-            */
+            
             if (coin.name == 'BTC' && !btcAddress) {
                 btcAddress = coin.receiveAdds[0].address;
             }
