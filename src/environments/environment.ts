@@ -212,7 +212,7 @@ export const environment = {
                 BNB: '0x4850754EA867654339F38d4e6DF7cd80CFee141f'
             },
             USDT: { 
-                ETH: '0xa9f4f6f0fa56058ebdb91865eb2f6aec83b94532',
+                ETH: '0x81cc3af688f37fdea2580bd382821a34fd8d9857',
                 TRX: 'TXLAQ63Xg1NAzckPwKHvzw7CSEmLMEqcdj',
                 BNB: '0x4850754EA867654339F38d4e6DF7cd80CFee141f',
                 MATIC: '0x26CbCDe3842D9A9170d47F122F69D993a00676ED'
@@ -269,6 +269,9 @@ export const environment = {
                 BNB: '0xb3Dcd26FBFCC3aeA2aa0ac833c2B38421d4b1905'
             },
             DNC: {
+                FAB: '0xda0f76ec006246654fd2eed060f9f9025c6b3d58'
+            },
+            RIS: {
                 FAB: '0xda0f76ec006246654fd2eed060f9f9025c6b3d58'
             },
             CTG: '0x78f6bedc7c3d6500e004c6dca19c8d614cfd91ed',

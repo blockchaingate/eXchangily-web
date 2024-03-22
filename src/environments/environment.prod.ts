@@ -261,6 +261,9 @@ export const environment = {
             DNC: {
                 FAB: '0x1b3fba8fe613803086c38312a23a8df1ad02ca9f'
             },
+            RIS: {
+                FAB: '0x7dec653c6025077e444b352f16719cc809357f05'
+            },
             BUSD: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
             HNC: '0x122fd42c61bc66b0cd6cdbf302a0ca297497e240',
             CTG: '0x05c1a1dff47874f49230f31774b1ebe4b8899f68',  

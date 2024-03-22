@@ -588,18 +588,18 @@ export class WalletDashboardComponent implements OnInit {
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];       
 
-            if(((coin.name == 'BCC') && (coin.tokenType == 'BNB'))) {
+            if(((coin.name == 'RIS') && (coin.tokenType == 'FAB'))) {
                 this.walletUpdateToDate = true;
             }
 
-            /*
+            
             if(!environment.production 
                 && (coin.name == 'USDT') 
                 && (coin.tokenType == 'ETH')
                 && (coin.contractAddr == environment.addresses.smartContract.USDT.ETH)) {
                 this.walletUpdateToDate = true;  
             }
-            */
+            
             if (coin.name == 'BTC' && !btcAddress) {
                 btcAddress = coin.receiveAdds[0].address;
             }

@@ -48,7 +48,9 @@ export class BindpayComponent  implements OnInit{
     this.wallet = await this.walletServ.getCurrentWallet();
     if (this.wallet) {
         this.address = this.wallet.excoin.receiveAdds[0].address;
+
         const fabAddress = this.utilServ.exgToFabAddress(this.address);
+        console.log('fabAddress=', fabAddress);
         this.exAddress = exaddr.toKbpayAddress(fabAddress);
 
 
