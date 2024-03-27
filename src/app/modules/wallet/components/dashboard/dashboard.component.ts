@@ -1800,7 +1800,7 @@ export class WalletDashboardComponent implements OnInit {
         const keyPairs = this.coinServ.getKeyPairs(currentCoin, seed, 0, 0);
 
         const officalAddress = await this.coinServ.getOfficialAddress(currentCoin);
-/* useless for V3
+
         if (!officalAddress) {
             if (this.lan === 'zh') {
                 this.alertServ.openSnackBar(currentCoin.name + '官方地址无效', 'Ok');
@@ -1809,7 +1809,7 @@ export class WalletDashboardComponent implements OnInit {
             }
             return;
         }
-        */
+        /* useless for V3
         const depositable = this.coinServ.isDepositable(currentCoin);
         if (!depositable) {
             if (this.lan === 'zh') {
@@ -1819,7 +1819,7 @@ export class WalletDashboardComponent implements OnInit {
             }
             return;
         }
-
+        */
         
         const doSubmit = true;
         const options = {
