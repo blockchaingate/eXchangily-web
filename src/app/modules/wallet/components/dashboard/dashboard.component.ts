@@ -1809,6 +1809,7 @@ export class WalletDashboardComponent implements OnInit {
             }
             return;
         }
+        /* useless for V3
         const depositable = this.coinServ.isDepositable(currentCoin);
         if (!depositable) {
             if (this.lan === 'zh') {
@@ -1818,7 +1819,7 @@ export class WalletDashboardComponent implements OnInit {
             }
             return;
         }
-
+        */
         
         const doSubmit = true;
         const options = {
