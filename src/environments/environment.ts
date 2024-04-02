@@ -73,8 +73,8 @@ export const environment = {
             bytesPerInput: 148
         },
         ETH: {
-            chain: 'goerli',
-            chainId: 5,
+            chain: 'sepolia',
+            chainId: 11155111,
             hardfork: 'byzantium',
             gasPrice: 90,
             gasPriceMax: 200,
