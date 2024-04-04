@@ -182,15 +182,15 @@ export class Web3Service {
     let txhex = '';
 
     const customCommon = Common.forCustomChain(
-      environment.chains.ETH.chain,
+      'mainnet',
       {
         name: environment.chains.KANBAN.chain.name,
         networkId: environment.chains.KANBAN.chain.networkId,
         chainId: environment.chains.KANBAN.chain.chainId
       },
-      environment.chains.ETH.hardfork,
+      'petersburg',
     );
-    
+
     let tx = new Eth.Transaction(txObject, { common: customCommon });
     
     tx.sign(privKey);
