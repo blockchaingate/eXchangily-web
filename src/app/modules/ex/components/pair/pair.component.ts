@@ -150,14 +150,15 @@ export class PairComponent implements OnInit {
 
 
     const customCommon = Common.forCustomChain(
-      environment.chains.ETH.chain,
+      'mainnet',
       {
         name: environment.chains.KANBAN.chain.name,
         networkId: environment.chains.KANBAN.chain.networkId,
         chainId: environment.chains.KANBAN.chain.chainId
       },
-      environment.chains.ETH.hardfork,
+      'petersburg',
     );
+
     const tx = new Eth.Transaction(txObject, { common: customCommon });
 
     tx.sign(privKey);
@@ -216,16 +217,15 @@ export class PairComponent implements OnInit {
 
 
     const customCommon = Common.forCustomChain(
-      environment.chains.ETH.chain,
+      'mainnet',
       {
         name: environment.chains.KANBAN.chain.name,
         networkId: environment.chains.KANBAN.chain.networkId,
         chainId: environment.chains.KANBAN.chain.chainId
       },
-      environment.chains.ETH.hardfork,
+      'petersburg'
     );
     let tx = new Eth.Transaction(txObject, { common: customCommon });
-
 
     tx.sign(privKey);
     const serializedTx = tx.serialize();
