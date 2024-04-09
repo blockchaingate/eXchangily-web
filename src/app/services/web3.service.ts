@@ -100,13 +100,15 @@ export class Web3Service {
     const privKey = keyPair.privateKeyBuffer;
     const EthereumTx = Eth.Transaction;
     const customCommon = Common.forCustomChain(
-      environment.chains.ETH.chain, {
+      'mainnet', {
            name: environment.chains[coinName].chain.name,
            networkId: environment.chains[coinName].chain.networkId,
            chainId: environment.chains[coinName].chain.chainId
        },
-       environment.chains[coinName].hardfork,
+       'petersburg'
    );
+
+
     const tx = new EthereumTx(txParams, { common: customCommon });
     tx.sign(privKey);
     const serializedTx = tx.serialize();
@@ -132,14 +134,16 @@ export class Web3Service {
  
  
     const customCommon = Common.forCustomChain(
-       environment.chains.ETH.chain, {
+      'mainnet', {
             name: environment.chains.KANBAN.chain.name,
             networkId: environment.chains.KANBAN.chain.networkId,
             chainId: environment.chains.KANBAN.chain.chainId
         },
-        environment.chains.ETH.hardfork,
+        'petersburg'
     );
  
+    
+    
     let tx = new Eth.Transaction(txObject, { common: customCommon });
 
     tx.sign(privateKey);

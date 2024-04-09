@@ -509,7 +509,6 @@ export class SmartContractComponent implements OnInit {
 
     let txhex = '';
 
-
     const customCommon = Common.forCustomChain(
       'mainnet',
       {
