@@ -77,7 +77,8 @@ import { PanelComponent } from './panel/panel.component';
         WithdrawHistoryComponent
     ],
     exports: [
-        TradeComponent
+        TradeComponent,
+        MyordersComponent
     ]
 })
 export class TradeModule { }

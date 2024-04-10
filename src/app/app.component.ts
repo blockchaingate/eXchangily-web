@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { setTheme } from 'ngx-bootstrap/utils';
 import { Router, NavigationEnd } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { WsService } from './services/ws.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,9 +16,16 @@ export class AppComponent {
   msg: string;
   currentLang: string;
   darkBgEnable: boolean;
-  constructor(private route: ActivatedRoute,  router: Router) {
+  private isMobile: boolean;
+ 
+
+  constructor(
+    private route: ActivatedRoute,
+    private wsService: WsService,
+    router: Router) {
     setTheme('bs4'); // Bootstrap 4
     this.darkBgEnable = false;
+    this.isMobile = this.isMobileDevice();
     // const url = window.location.href;
 
     router.events.subscribe((e) => {
@@ -60,6 +68,25 @@ export class AppComponent {
     });
     */
   } 
+
+  private isMobileDevice(): boolean {
+
+    var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      console.log('User is accessing from a mobile browser.');
+      this.wsService.connectSocketDapp();
+
+    } else {
+      console.log('User is accessing from a laptop or desktop browser.');
+    }
+
+    return isMobile;
+  }
+
+  getisMobile(): boolean {
+    return this.isMobile;
+  }
 
 
 }

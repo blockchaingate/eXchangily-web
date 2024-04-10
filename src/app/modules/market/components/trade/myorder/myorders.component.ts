@@ -21,6 +21,9 @@ import BigNumber from 'bignumber.js';
 import { PinNumberModal } from '../../../../shared/modals/pin-number/pin-number.modal';
 import * as createHash from 'create-hash';
 import * as exaddr from '../../../../../lib/exaddr';
+import { AppModule } from 'src/app/app.module';
+import { AppComponent } from 'src/app/app.component';
+import { WsService } from 'src/app/services/ws.service';
 
 @Component({
     selector: 'app-myorders',
@@ -143,10 +146,12 @@ export class MyordersComponent implements OnInit, OnDestroy {
     coinServ: CoinService;
     lan: any = 'en';
 
-    constructor(private _router: Router, private apiServ: ApiService, private _route: ActivatedRoute,
+    constructor(
+        private _router: Router, private apiServ: ApiService, private _route: ActivatedRoute,
         public utilServ: UtilService, private kanbanServ: KanbanService, private _coinServ: CoinService,
         private modalService: BsModalService, private web3Serv: Web3Service, private alertServ: AlertService,
-        private timerServ: TimerService, private walletServ: WalletService, private storageServ: StorageService) {
+        private timerServ: TimerService, private walletServ: WalletService, private storageServ: StorageService,
+    private appComponenet : AppComponent, private wsService: WsService) {
         this.coinServ = _coinServ;
     }
 
@@ -204,15 +209,25 @@ export class MyordersComponent implements OnInit, OnDestroy {
         this.gasLimit = environment.chains.KANBAN.gasLimit;
         this.orderStatus = 'open';
         this.wallet = await this.walletServ.getCurrentWallet();
-        if (this.wallet) {
+        if (this.wallet && this.appComponenet.getisMobile() === false) {
             const address = this.wallet.excoin.receiveAdds[0].address;
+ 
             this.getLockers(address);
             const fabAddress = this.utilServ.exgToFabAddress(address);
             this.exAddress = exaddr.toKbpayAddress(fabAddress);
             this.timerServ.checkOrderStatus(address, 1);
             this.timerServ.checkTokens(address, 1);
-        }
+        }else {
+            const address = this.wsService.getExchangeAddress();
 
+            this.getLockers(address);
+            const fabAddress = this.utilServ.exgToFabAddress(address);
+            this.exAddress = exaddr.toKbpayAddress(fabAddress);
+            this.timerServ.checkOrderStatus(address, 1);
+            this.timerServ.checkTokens(address, 1);
+
+        }
+        
         this.prepareOrders();
 
         this.timerServ.tokens.subscribe(
@@ -220,22 +235,6 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 const tokens = data.tokens;
                 this.mytokens = tokens;
                 console.log('this.mytokens=', this.mytokens);
-
-                /*
-                if(this.mytokens && (this.mytokens.length > 0)) {
-                    for(let i=0;i<tokens.length;i++) {
-                        const token = tokens[i];
-                        for(let j=0;j<this.mytokens.length;j++) {
-                            const mytoken = this.mytokens[j];
-                            if(mytoken.coinType == token.coinType) {
-                                mytoken.unlockedAmount = token.unlockedAmount;
-                            }
-                        }
-                    }
-                } else {
-                    this.mytokens = tokens;
-                }
-                */
             }
         );
 
@@ -271,6 +270,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
             }
         );
     }
+
 
 
 
