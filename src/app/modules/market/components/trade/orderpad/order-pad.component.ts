@@ -893,7 +893,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       this.gasLimit = Number(this.sellGasLimit);
       this.gasPrice = Number(this.sellGasPrice);
 
-      this.buyOrSell(true,true);
+      this.buyOrSell(true,false);
     }else{
     
 
