@@ -295,7 +295,7 @@
                                             <button mat-icon-button matTooltip="{{'Move fund to DEX'|translate}}" *ngIf="(gas > 0) && !mycoin.new && mycoin.name !== 'CSU'" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                                 <mat-icon svgIcon="arrow-downward"></mat-icon>
                                             </button>
-                                            <button mat-icon-button matTooltip="{{'Confirm move fund to DEX'|translate}}" *ngIf="(gas > 0) && !mycoin.new && (mycoin.redeposit && mycoin.redeposit.length > 0) || (mycoin.depositErr && mycoin.depositErr.length > 0)" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                            <button mat-icon-button matTooltip="{{'Confirm move fund to DEX'|translate}}" *ngIf="forceredeposit || ((gas > 0) && !mycoin.new && (mycoin.redeposit && mycoin.redeposit.length > 0) || (mycoin.depositErr && mycoin.depositErr.length > 0))" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                                 <mat-icon svgIcon="vertical_align_bottom"></mat-icon>
                                             </button>
 
@@ -367,7 +367,7 @@
                                         <button mat-icon-button matTooltip="To exchange" [disabled]="gas <= 0 || maintainence" *ngIf="!mycoin.new" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon svgIcon="arrow-downward"></mat-icon>
                                     </button>
-                                        <button mat-icon-button matTooltip="Reconfirm" *ngIf="!mycoin.new && (mycoin.redeposit && mycoin.redeposit.length > 0) || (mycoin.depositErr && mycoin.depositErr.length > 0)" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                        <button mat-icon-button matTooltip="Reconfirm" *ngIf="forceredeposit || (!mycoin.new && (mycoin.redeposit && mycoin.redeposit.length > 0) || (mycoin.depositErr && mycoin.depositErr.length > 0))" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon svgIcon="vertical_align_bottom"></mat-icon>
                                     </button>
 

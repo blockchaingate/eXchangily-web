@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, TemplateRef, ViewChild, ViewContainerRef, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { Wallet } from '../../../../models/wallet';
 import { MyCoin } from '../../../../models/mycoin';
 import { WalletService } from '../../../../services/wallet.service';
@@ -72,6 +72,7 @@ export class WalletDashboardComponent implements OnInit {
     wallet: Wallet;
     privateKey: string;
     coinName: string;
+    forceredeposit: boolean = false;
     amountForm: any;
     assets: any;
     maintainence: boolean;
@@ -163,6 +164,7 @@ export class WalletDashboardComponent implements OnInit {
     ];
     constructor(
         private campaignorderServ: CampaignOrderService,
+        private activeRoute: ActivatedRoute,
         private route: Router, private walletServ: WalletService, private modalServ: BsModalService,
         private coinServ: CoinService, public utilServ: UtilService, private apiServ: ApiService,
         private _wsServ: WsService,
@@ -316,6 +318,14 @@ export class WalletDashboardComponent implements OnInit {
 
         this.setPairsConfig();
 
+        this.activeRoute.queryParamMap.subscribe((map: ParamMap) => {
+            const forceredeposit: any = map.get('forceredeposit');
+            console.log('forceredeposit===', forceredeposit);
+            if((forceredeposit == 'true') || forceredeposit) {
+                this.forceredeposit = true;
+                console.log('thisforceredeposit===', this.forceredeposit);
+            }
+        });
         await this.loadWallets();
         // this.currentWalletIndex = await this.walletServ.getCurrentWalletIndex();
         // console.log('this.currentWalletIndex=', this.currentWalletIndex);
@@ -1731,6 +1741,9 @@ export class WalletDashboardComponent implements OnInit {
 
                 this.submitrediposit(coinType, amount, transactionID, gasPrice, gasLimit);
             }
+        } else {
+            //const coinType = this.coinServ.getCoinTypeIdByName(currentCoin.name);
+            //this.submitrediposit(coinType, amount, transactionID, gasPrice, gasLimit);
         }
     }
 

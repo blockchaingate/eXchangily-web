@@ -16,6 +16,9 @@
       ],
       "stream": [
         "./node_modules/stream-browserify"
+      ],
+      "querystring": [
+        "./node_modules/querystring-es3"
       ]
     },
     "forceConsistentCasingInFileNames": true,

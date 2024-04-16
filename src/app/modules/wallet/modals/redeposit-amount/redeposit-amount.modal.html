@@ -8,6 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
+
                 <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="transactionID">
                     <div *ngFor="let item of coin.redeposit; let i = index">
                         <mat-radio-button class="text-muted" [value]="item.transactionID">
