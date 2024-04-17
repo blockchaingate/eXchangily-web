@@ -16,6 +16,9 @@
       ],
       "stream": [
         "./node_modules/stream-browserify"
+      ],
+      "querystring": [
+        "./node_modules/querystring-es3"
       ]
     },
     "forceConsistentCasingInFileNames": true,
@@ -32,6 +35,7 @@
     "strictPropertyInitialization": false,
     "noImplicitAny": false,
     "downlevelIteration": true,
+    "skipLibCheck": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,

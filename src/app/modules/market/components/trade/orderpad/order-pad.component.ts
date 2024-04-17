@@ -28,6 +28,7 @@ import BigNumber from 'bignumber.js';
 
 import { Pair, defaultPairsConfig } from '../../../models/pair';
 import { ApiService } from 'src/app/services/api.service';
+import { WsService } from 'src/app/services/ws.service';
 
 
 declare let window: any;
@@ -108,7 +109,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     private kanbanService: KanbanService, public utilService: UtilService, private walletService: WalletService,
     private fb: FormBuilder, private modalService: BsModalService, private tradeService: TradeService,
     private apiServ: ApiService,
-    private route: ActivatedRoute, private alertServ: AlertService, private timerServ: TimerService) {
+    private route: ActivatedRoute, private alertServ: AlertService, private timerServ: TimerService,
+  private wsService: WsService) {
     this.refreshTokenDone = true;
     this.coinService = _coinServ;
   }
@@ -784,7 +786,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     sessionStorage.setItem('pin', this.pin);
     const thirty_minutes_from_now = new Date().getTime() + 600000 * 3;
     sessionStorage.setItem('pin_expired_at', thirty_minutes_from_now.toString());
-    this.buyOrSell();
+    this.buyOrSell(false,false);
     this.modalRef.hide();
   }
 
@@ -811,41 +813,94 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   buy(pinModal: TemplateRef<any>) {
-    if (!this.wallet) {
-      if (this.lan === 'zh') {
-        this.alertServ.openSnackBar('请先创建钱包才能下单', 'Ok');
+
+
+    if(this.wsService.isSocketActive){
+
+      if (!this.finalExpCheck(this.buyPrice, this.buyQty)) { return; }
+  
+      this.bidOrAsk = true;
+      this.pin = sessionStorage.getItem('pin');
+      const pin_expired_at = sessionStorage.getItem('pin_expired_at');
+      let pin_expired = true;
+      if (pin_expired_at) {
+        const currentTime = new Date().getTime();
+        const expired_time = parseInt(pin_expired_at);
+        if (currentTime < expired_time) {
+          pin_expired = false;
+        }
+      }
+      this.price = this.buyPrice;
+      this.qty = this.buyQty;
+      this.gasLimit = Number(this.buyGasLimit);
+      this.gasPrice = Number(this.buyGasPrice);
+
+      this.buyOrSell(true, true);
+    }else{
+
+
+      if (!this.wallet ) {
+        if (this.lan === 'zh') {
+          this.alertServ.openSnackBar('请先创建钱包才能下单', 'Ok');
+        } else {
+          this.alertServ.openSnackBar('please create wallet before placing order', 'ok');
+        }
+        return;
+      }
+  
+      if (!this.finalExpCheck(this.buyPrice, this.buyQty)) { return; }
+  
+      this.bidOrAsk = true;
+      this.pin = sessionStorage.getItem('pin');
+      const pin_expired_at = sessionStorage.getItem('pin_expired_at');
+      let pin_expired = true;
+      if (pin_expired_at) {
+        const currentTime = new Date().getTime();
+        const expired_time = parseInt(pin_expired_at);
+        if (currentTime < expired_time) {
+          pin_expired = false;
+        }
+      }
+      this.price = this.buyPrice;
+      this.qty = this.buyQty;
+      this.gasLimit = Number(this.buyGasLimit);
+      this.gasPrice = Number(this.buyGasPrice);
+      if (this.pin && !pin_expired) {
+       this.buyOrSell(false,false);
       } else {
-        this.alertServ.openSnackBar('please create wallet before placing order', 'ok');
+        this.openModal(pinModal);
       }
-      return;
+
+
     }
 
-    if (!this.finalExpCheck(this.buyPrice, this.buyQty)) { return; }
+  
 
-    this.bidOrAsk = true;
-    this.pin = sessionStorage.getItem('pin');
-    const pin_expired_at = sessionStorage.getItem('pin_expired_at');
-    let pin_expired = true;
-    if (pin_expired_at) {
-      const currentTime = new Date().getTime();
-      const expired_time = parseInt(pin_expired_at);
-      if (currentTime < expired_time) {
-        pin_expired = false;
-      }
-    }
-    this.price = this.buyPrice;
-    this.qty = this.buyQty;
-    this.gasLimit = Number(this.buyGasLimit);
-    this.gasPrice = Number(this.buyGasPrice);
-    //if (this.pin && !pin_expired) {
-    //  this.buyOrSell();
-    //} else {
-      this.openModal(pinModal);
-    //}
 
   }
 
   sell(pinModal: TemplateRef<any>) {
+
+
+    if(this.wsService.isSocketActive){
+
+      if (!this.finalExpCheck(this.sellPrice, this.sellQty)) { return; }
+
+      this.bidOrAsk = false;
+      this.pin = sessionStorage.getItem('pin');
+      this.price = this.sellPrice;
+      this.qty = this.sellQty;
+      this.gasLimit = Number(this.sellGasLimit);
+      this.gasPrice = Number(this.sellGasPrice);
+
+      this.buyOrSell(true,false);
+    }else{
+    
+
+
+
+
+
     if (!this.wallet) {
       if (this.lan === 'zh') {
         this.alertServ.openSnackBar('请先创建钱包才能下单', 'Ok');
@@ -854,17 +909,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       }
       return;
     }
-
-    /*
-    if (this.targetCoinAvail < this.sellQty) {
-      if (this.lan === 'zh') {
-        this.alertServ.openSnackBar(this.targetCoin + '余额不足', 'Ok');
-      } else {
-        this.alertServ.openSnackBar('You have not enough ' + this.targetCoin, 'ok');
-      }
-      return;
-    }
-    */
 
     if (!this.finalExpCheck(this.sellPrice, this.sellQty)) { return; }
 
@@ -874,12 +918,10 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     this.qty = this.sellQty;
     this.gasLimit = Number(this.sellGasLimit);
     this.gasPrice = Number(this.sellGasPrice);
-    //if (this.pin) {
-    //  this.buyOrSell();
-    //} else {
-      this.openModal(pinModal);
-  //}
 
+      this.openModal(pinModal);
+
+  }
   }
 
   openModal(template: TemplateRef<any>) {
@@ -887,7 +929,81 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   async txHexforPlaceOrder
-    (pin: string, wallet: any, bidOrAsk: boolean, baseCoin: string, targetCoin: string, price: number, qty: number) {
+    (pin: string, wallet: any, bidOrAsk: boolean, baseCoin: string, targetCoin: string, price: number, qty: number, isBuy?: boolean) {
+
+      if (this.wsService.isSocketActive) {
+  
+
+        const orderType = 1;
+
+        baseCoin = this.pairData.tokenB.id;
+        targetCoin = this.pairData.tokenA.id;
+        console.log('this.pairData===', this.pairData);
+        let qtyDecimals = this.pairData.tokenA.decimals;
+        console.log('qtyDecimals===', qtyDecimals);
+        if (!bidOrAsk) {
+          const tmp = baseCoin;
+          baseCoin = targetCoin;
+          targetCoin = tmp;
+          //qtyDecimals = this.pairData.tokenA.decimals;
+        }
+
+        const timeBeforeExpiration = 423434342432;
+        const address = this.pairData.pair.pair;
+        const orderHash = this.generateOrderHash(bidOrAsk, orderType, baseCoin
+          , targetCoin, qty, price, timeBeforeExpiration);
+
+          const approveCoin = baseCoin;
+          const qtyString = new BigNumber(qty).shiftedBy(qtyDecimals).toFixed();
+          const priceString = new BigNumber(price).shiftedBy(18).toFixed();
+
+          let approveQtystring = qtyString;
+          if(bidOrAsk) {
+            approveQtystring = new BigNumber(qty).multipliedBy(new BigNumber(price)).shiftedBy(qtyDecimals).toFixed();
+          }
+
+          const approveAbiHex = this.web3Serv.getApproveFuncABI(address, approveQtystring);
+
+
+      
+          const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk,
+            baseCoin, targetCoin, qtyString, priceString, orderHash]);
+ 
+          const params: any = [];
+
+          params.push(
+            {
+              to: approveCoin,
+              data: approveAbiHex
+            }
+          );
+      
+          params.push(
+            {
+              to: address,
+              data: abiHex
+            }
+          );
+           
+          let name = isBuy ? 'Buy' : 'Sell';
+
+            const paramsSentSocket =
+            {
+              source: "Exchangily-"+name,
+              data: params
+            }
+            this.wsService.sendMessage(paramsSentSocket);
+      
+      
+            return {
+              txHexApprove: '',
+              txHex: '',
+              orderHash: orderHash
+            };
+
+      }else {
+
+
 
     const seed = this.utilService.aesDecryptSeed(wallet.encryptedSeed, pin);
     if(!seed) {
@@ -923,11 +1039,16 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     if(bidOrAsk) {
       approveQtystring = new BigNumber(qty).multipliedBy(new BigNumber(price)).shiftedBy(qtyDecimals).toFixed();
     }
+
+
+
     
     const approveAbiHex = this.web3Serv.getApproveFuncABI(address, approveQtystring);
+
+
     const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk,
       baseCoin, targetCoin, qtyString, priceString, orderHash]);
-    console.log('abiHex===', abiHex);
+
     let nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
 
     if ((this.gasPrice <= 0) || (this.gasLimit <= 0)) {
@@ -938,67 +1059,108 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       gasLimit: this.gasLimit
     };
 
+   
+
+
     const txHexApprove = await this.web3Serv.signAbiHexWithPrivateKey(approveAbiHex, keyPairsKanban, approveCoin, nonce++, 0, options);
 
     const txHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce, 0, options);
+
+
     return {
       txHexApprove,
       txHex: txHex,
       orderHash: orderHash
     };
-  }
 
-  async buyOrSell() {
-    this.refreshTokenDone = false;
-    const resTxHex = await this.txHexforPlaceOrder(
-      this.pin, this.wallet, this.bidOrAsk, this.baseCoin, this.targetCoin, this.price, this.qty
-    );
-
-    const txHex: any = resTxHex?.txHex;
-    const txHexApprove: any = resTxHex?.txHexApprove;
-
-    this.kanbanService.sendRawSignedTransaction(txHexApprove).subscribe((resp: any) => {
-      if (resp && resp.transactionHash) {
-        this.kanbanService.incNonce();
-        this.kanbanService.sendRawSignedTransaction(txHex).subscribe((resp: any) => {
-
-          if (resp && resp.transactionHash) {
-            this.kanbanService.incNonce();
-            if (this.lan === 'zh') {
-              this.alertServ.openSnackBarSuccess('下单成功。', 'Ok');
-            } else {
-              this.alertServ.openSnackBarSuccess('Your order was placed successfully.', 'Ok');
-            }
-    
-            const address = this.wallet.excoin.receiveAdds[0].address;
-            this.timerServ.checkOrderStatus(address, 6);
-            this.timerServ.checkTokens(address, 6);
-    
-            if (this.bidOrAsk) {
-              this.buyPrice = 0;
-              this.buyQty = 0;
-            } else {
-              this.sellPrice = 0;
-              this.sellQty = 0;
-            }
-    
-          } else {
-            if (this.lan === 'zh') {
-              this.alertServ.openSnackBar('创建订单时发生错误, 订单提交失败。', 'Ok');
-            } else {
-              this.alertServ.openSnackBar('Error happened while placing your order.', 'Ok');
-            }
-          }
-        },
-          error => {
-            this.alertServ.openSnackBar(error.error, 'Ok');
-          }
-        );
       }
-      
-    });
 
 
   }
 
-}
+  async buyOrSell(isSocketActive?: boolean, isBuy?: boolean) {
+    this.refreshTokenDone = false;
+
+    if (isSocketActive) {
+
+      const resTxHex = await this.txHexforPlaceOrder(
+        this.pin, this.wallet, this.bidOrAsk, this.baseCoin, this.targetCoin, this.price, this.qty,isBuy
+      );
+
+      const txHex: any = resTxHex?.txHex;
+      const txHexApprove: any = resTxHex?.txHexApprove;
+
+      
+        const paramsSentSocket =
+        {
+          source: "Exchangily-Buy",
+          data: txHexApprove
+        }
+        this.wsService.sendMessage(paramsSentSocket);
+  
+        const paramsSentSocket2 =
+        {
+          source: "Exchangily-Buy",
+          data: txHex
+        }
+        this.wsService.sendMessage(paramsSentSocket2);
+      
+      
+    }else{
+
+      const resTxHex = await this.txHexforPlaceOrder(
+        this.pin, this.wallet, this.bidOrAsk, this.baseCoin, this.targetCoin, this.price, this.qty
+      );
+  
+      const txHex: any = resTxHex?.txHex;
+      const txHexApprove: any = resTxHex?.txHexApprove;
+  
+      this.kanbanService.sendRawSignedTransaction(txHexApprove).subscribe((resp: any) => {
+        if (resp && resp.transactionHash) {
+          this.kanbanService.incNonce();
+          this.kanbanService.sendRawSignedTransaction(txHex).subscribe((resp: any) => {
+  
+            if (resp && resp.transactionHash) {
+              this.kanbanService.incNonce();
+              if (this.lan === 'zh') {
+                this.alertServ.openSnackBarSuccess('下单成功。', 'Ok');
+              } else {
+                this.alertServ.openSnackBarSuccess('Your order was placed successfully.', 'Ok');
+              }
+      
+              const address = this.wallet.excoin.receiveAdds[0].address;
+              this.timerServ.checkOrderStatus(address, 6);
+              this.timerServ.checkTokens(address, 6);
+      
+              if (this.bidOrAsk) {
+                this.buyPrice = 0;
+                this.buyQty = 0;
+              } else {
+                this.sellPrice = 0;
+                this.sellQty = 0;
+              }
+      
+            } else {
+              if (this.lan === 'zh') {
+                this.alertServ.openSnackBar('创建订单时发生错误, 订单提交失败。', 'Ok');
+              } else {
+                this.alertServ.openSnackBar('Error happened while placing your order.', 'Ok');
+              }
+            }
+          },
+            error => {
+              this.alertServ.openSnackBar(error.error, 'Ok');
+            }
+          );
+        }
+        
+      });
+  
+
+    }
+
+ 
+    }
+  }
+
+

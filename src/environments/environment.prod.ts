@@ -397,7 +397,8 @@ export const environment = {
         allprices: 'wss://api.pay.cool/ws/allprices',
         trades: 'wss://api.pay.cool/ws/trades',
         orders: 'wss://api.pay.cool/ws/orders',
-        kline: 'wss://api.pay.cool/ws/ticker'
+        kline: 'wss://api.pay.cool/ws/ticker',
+        dapp: 'wss://api.pay.cool/ws/paycool@'
     },
     minimumWithdraw: {
         EXG: {

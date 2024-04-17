@@ -41,6 +41,7 @@ import { CampaignOrderService } from '../../../../services/campaignorder.service
 import { Pair } from 'src/app/modules/market/models/pair';
 import { LockedInfoModal } from '../../modals/locked-info/locked-info.modal';
 import { WalletUpdateModal } from '../../modals/wallet-update/wallet-update.modal';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
     selector: 'app-wallet-dashboard',
@@ -170,7 +171,8 @@ export class WalletDashboardComponent implements OnInit {
         private translateServ: TranslateService,
         private kanbanServ: KanbanService, private web3Serv: Web3Service,
         private alertServ: AlertService, private timerServ: TimerService,
-        private coinService: CoinService, private storageService: StorageService) {
+        private coinService: CoinService, private storageService: StorageService,
+        private appComponent: AppComponent) {
         this.lan = localStorage.getItem('Lan');
         
         this.showMyAssets = true;
@@ -849,7 +851,9 @@ export class WalletDashboardComponent implements OnInit {
     }
 
     async loadWallets() {
+        const isMobile = this.appComponent.getisMobile();
         this.wallets = await this.walletServ.getWallets();
+
         if (!this.wallets || this.wallets.length === 0) {
             this.route.navigate(['/wallet/create']);
             return;

@@ -73,8 +73,8 @@ export const environment = {
             bytesPerInput: 148
         },
         ETH: {
-            chain: 'goerli',
-            chainId: 5,
+            chain: 'sepolia',
+            chainId: 11155111,
             hardfork: 'byzantium',
             gasPrice: 90,
             gasPriceMax: 200,
@@ -395,7 +395,8 @@ export const environment = {
         allprices: 'wss://testapi.fundark.com/ws/allprices',
         trades: 'wss://testapi.fundark.com/ws/trades',
         orders: 'wss://testapi.fundark.com/ws/orders',
-        kline: 'wss://testapi.fundark.com/ws/ticker'
+        kline: 'wss://testapi.fundark.com/ws/ticker',
+        dapp: 'wss://testapi.fundark.com/ws/paycool@'
     },
     minimumWithdraw: {
         EXG: {

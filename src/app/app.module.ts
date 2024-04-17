@@ -57,6 +57,7 @@ import { ListingComponent } from './modules/listing/listing.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { DusdComponent } from './components/dusd/dusd.component';
 import { DonwloadComponent } from './components/donwload/donwload.component';
+import { WalletService } from './services/wallet.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -122,7 +123,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoginQualifyService,
     CampaignOrderService,
     AnnouncementsService,
-    KycService
+    KycService,
+    WalletService
   ],
   bootstrap: [AppComponent]
 })

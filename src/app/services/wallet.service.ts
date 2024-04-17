@@ -167,8 +167,8 @@ export class WalletService {
     }
     
     async getWallets() {
-        const wallets = await this.localSt.getItem('wallets').toPromise() as Wallet[];
-        return wallets;
+            const wallets = await this.localSt.getItem('wallets').toPromise() as Wallet[];
+            return wallets;
     }
 
     async getCurrentWalletIndex() {
