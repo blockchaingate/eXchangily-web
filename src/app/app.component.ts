@@ -2,11 +2,8 @@ import { Component } from '@angular/core';
 import { setTheme } from 'ngx-bootstrap/utils';
 import { Router, NavigationEnd } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-<<<<<<< HEAD
-
-=======
 import { WsService } from './services/ws.service';
->>>>>>> a189e5836e64d0543dd6392a8f38a931b9e9602a
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
