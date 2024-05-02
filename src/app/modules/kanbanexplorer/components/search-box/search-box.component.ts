@@ -16,6 +16,10 @@ export class SearchBoxComponent implements OnInit {
   searchClicked(v: any) {
     // assuming v is a number
     // this.router.navigate(['/block-detail/'+v])
-    this.service.validateInputAndSetRoute(v);
+    if(v) {
+      v = v.trim();
+      this.service.validateInputAndSetRoute(v);
+    }
+    
   }
 }
