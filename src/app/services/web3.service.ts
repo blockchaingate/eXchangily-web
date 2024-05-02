@@ -88,7 +88,16 @@ export class Web3Service {
   async signTxWithPrivateKey(txParams: any, keyPair: any) {
     const privKey = keyPair.privateKeyBuffer;
     const EthereumTx = Eth.Transaction;
-    const tx = new EthereumTx(txParams, { chain: environment.chains.ETH.chain, hardfork: environment.chains.ETH.hardfork });
+
+    const customCommon = Common.forCustomChain(
+      'mainnet', {
+           name: environment.chains.ETH.chain,
+           networkId: environment.chains.ETH.chainId,
+           chainId: environment.chains.ETH.chainId
+       },
+       'petersburg'
+   );    
+    const tx = new EthereumTx(txParams, { common: customCommon });
     tx.sign(privKey);
     const serializedTx = tx.serialize();
     const txhex = '0x' + serializedTx.toString('hex');
