@@ -86,8 +86,8 @@ export const environment = {
             //rpcEndpoint: 'https://bsc-dataseed.binance.org',
             rpcEndpoint: 'https://kanbanprod.fabcoinapi.com/redirect/binance',
             hardfork: 'petersburg',
-            gasPrice: 5,
-            gasPriceMax: 200,
+            gasPrice: 1,
+            gasPriceMax: 100,
             gasLimit: 200000,
             gasLimitToken: 200000
         },
