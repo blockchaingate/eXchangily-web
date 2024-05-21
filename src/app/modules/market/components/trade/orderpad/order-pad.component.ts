@@ -448,20 +448,27 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       return;
     }
 
+    this.buyQty = Number(new BigNumber(this.baseCoinAvail).dividedBy(new BigNumber(this.buyPrice)).multipliedBy(new BigNumber(percent)).toFixed(this.qtyDecimal));
+    /*
     this.buyQty = Number((new BigNumber(this.utilService.showAmount(this.bigdiv(this.baseCoinAvail, this.buyPrice), this.qtyDecimal)).multipliedBy(new BigNumber(percent))).toFixed(this.qtyDecimal));
     const avail = this.utilService.toNumber(this.utilService.showAmount(this.baseCoinAvail, 18));
     while ((new BigNumber(this.buyQty).multipliedBy(new BigNumber(this.buyPrice))).toNumber() > avail) {
       const exp = Number(-this.qtyDecimal);
       this.buyQty = Number(new BigNumber(this.buyQty).minus(new BigNumber(Math.pow(10, exp))).toFixed(this.qtyDecimal));
     }
+    */
   }
 
   setSellQtyPercent(percent: number) {
+    this.sellQty = Number(new BigNumber(this.targetCoinAvail).multipliedBy(new BigNumber(percent)).toFixed(this.qtyDecimal));
+
+    /*
     this.sellQty = Number(new BigNumber(this.utilService.toNumber(this.utilService.showAmount(this.targetCoinAvail, 18))).multipliedBy(new BigNumber(percent)).toFixed(this.qtyDecimal));
     while (this.sellQty > this.utilService.toNumber(this.utilService.showAmount(this.targetCoinAvail, 18))) {
       this.sellQty -= Math.pow(10, -this.qtyDecimal);
       this.sellQty = this.utilService.toNumber(this.sellQty.toFixed(this.qtyDecimal));
     }
+    */
   }
 
   setPrice(price: number) {
@@ -619,14 +626,18 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   refreshCoinAvail() {
+    console.log('refreshCoinAvail start');
     let baseCoinAvailExisted = false;
     let targetCoinAvailExisted = false;
     if (this.baseCoin && this.targetCoin && this._mytokens) {
+      console.log('111');
       const tokens = this._mytokens.tokens;
       if(!tokens) {
         return;
       }
+      console.log('222');
       const ids = tokens.ids;
+      console.log('this.pairData====', this.pairData);
       for(let i = 0; i < ids.length; i++) {
         const id = ids[i].toLowerCase();
         if(id == this.pairData.tokenB.id.toLowerCase()) {
@@ -638,7 +649,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           this.targetCoinAvail = new BigNumber(tokens.balances[i]).shiftedBy(-tokens.decimals[i]).toNumber();
         }
       }
-
+      console.log('333');
     }
     if (!baseCoinAvailExisted) {
       this.baseCoinAvail = 0;
@@ -725,12 +736,14 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
     //this.pairsConfig = <Pair[]>(JSON.parse(sessionStorage.getItem('pairsConfig')));
 
-    this.sub = this.route.params.subscribe(params => {
+    this.sub = this.route.params.subscribe(async params => {
       let pair = params['pair']; // (+) converts string 'id' to a number
       if (!pair) {
         pair = 'BTC_USDT';
       }
-
+      this.pairName = pair;
+      const pairData = await this.apiServ.getPair(this.pairName);
+      this.pairData = pairData;
       // console.log('pair for refresh pageeee=' + pair);
       const pairArray = pair.split('_');
       this.baseCoin = pairArray[1];
