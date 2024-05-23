@@ -232,7 +232,11 @@ export class ApiService {
     }
 
     issueToken(data) {
+        console.log('data===', data);
+        
         const url = environment.endpoints.blockchaingate + 'issuetoken/Create' ;
+
+        console.log('url===', url);
         return this.http.post(url, data);
     }
     

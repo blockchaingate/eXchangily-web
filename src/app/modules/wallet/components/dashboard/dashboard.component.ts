@@ -1711,6 +1711,7 @@ export class WalletDashboardComponent implements OnInit {
     }
 
     async depositForTransactionID(currentCoin: MyCoin, txHash: string) {
+        txHash = txHash.trim();
         const pin = this.pin;
 
         

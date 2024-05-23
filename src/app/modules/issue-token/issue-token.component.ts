@@ -146,6 +146,12 @@ export class IssueTokenComponent implements OnInit {
     var bytesPerInput = 150;
 
     const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
+    if(!seed) {
+      console.log('this.wallet===', this.wallet);
+      console.log('this.wallet.encryptedSeed===', this.wallet.encryptedSeed);
+      console.log('pin====', pin);
+      return this.alertServ.openSnackBar('Invalid password', this.translateServ.instant('Ok'));
+    }
     const { contract, totalFee } = this.deployFabSmartContract();
 
     const tos = [
@@ -158,12 +164,17 @@ export class IssueTokenComponent implements OnInit {
         amount: 0
       }
     ];
+
+    console.log('this.mycoin=', this.mycoin);
+    //console.log('SEED=', seed);
     const keyPair = this.coinServ.getKeyPairs(this.mycoin, seed, 0, 0);
-    console.log('keyPair====', keyPair);
+    if(!keyPair || !keyPair.privateKey) {
+      console.log('seed===', seed);
+      return this.alertServ.openSnackBar('Cannot get private key', this.translateServ.instant('Ok'));
+    }
     const { txHex, errMsg, transFee } = await this.coinServ.getFabTransactionHexMultiTos(keyPair.privateKey, this.address, tos, totalFee,
       satoshisPerBytes, bytesPerInput);
 
-    console.log('transFee==', transFee);
     if (txHex) {
       const data = {
         owner: this.address,

@@ -992,10 +992,13 @@ export class CoinService {
                 
             }
             */
+            //console.log('address======', address);
             addr = address;
             priKey = childNode.toWIF();
             pubKey = `0x${childNode.publicKey.toString('hex')}`;
 
+            //console.log('priKey======', priKey);
+            //console.log('pubKey======', pubKey);
             buffer = wif.decode(priKey);
             priKeyDisp = priKey;
         } else
@@ -1291,8 +1294,9 @@ export class CoinService {
     
                 console.log('push one');
                 this.txids.push(txidItem);
-    
+                console.log('1a');
                 txb.addInput(utxo.txid, idx);
+                console.log('1b');
                 // console.log('input is');
                 // console.log(utxo.txid, utxo.idx, utxo.value);
                 receiveAddsIndexArr.push(index);
@@ -1307,6 +1311,7 @@ export class CoinService {
             }    
         }
        
+        console.log('11111');
         // console.log('totalInput here 2=', totalInput);
         if (!finished) {
             // console.log('not enough fab coin to make the transaction.');
@@ -1319,7 +1324,7 @@ export class CoinService {
         let outputNum = (tos.length + 1);
     
         transFee = ((receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput + outputNum * 34) * satoshisPerBytes;
-    
+        console.log('222222');
         const output1 = Math.round(totalInput
         - (amount + extraTransactionFee) * 1e8
         - transFee);
@@ -1333,21 +1338,27 @@ export class CoinService {
             transFee: 0, amountInTx: amountInTx, txids: this.txids};
         }
     
-    
+        console.log('33333');
         txb.addOutput(changeAddress, output1);
-        tos.forEach(to => {
-            const output2 = new BigNumber(to.amount).multipliedBy(new BigNumber(1e8));
+
+        for(let i = 0; i < tos.length; i++) {
+            const to = tos[i];
+            console.log('to = ', to);
+            const output2 = new BigNumber(to.amount).shiftedBy(8);
+            console.log('output2 = ', Number(output2.toFixed()));
             amountInTx = output2;
             txb.addOutput(to.address, Number(output2.toFixed()));
-        });
+        }
 
+        console.log('44444');
         for (index = 0; index < receiveAddsIndexArr.length; index ++) {
             //const alice = Btc.ECPair.fromPrivateKey(privateKey, { network: network });
             const alice = Btc.ECPair.fromWIF(privateKey, network);
             txb.sign(index, alice);                
         }
-           
+        console.log('55555');   
         txHex = txb.build().toHex();
+        console.log('66666');
         return {txHex: txHex, errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: this.txids};
     }
 

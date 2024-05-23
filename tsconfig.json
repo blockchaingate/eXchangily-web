@@ -19,6 +19,9 @@
       ],
       "querystring": [
         "./node_modules/querystring-es3"
+      ],
+      "vm": [
+        "./node_modules/vm-browserify"
       ]
     },
     "forceConsistentCasingInFileNames": true,
