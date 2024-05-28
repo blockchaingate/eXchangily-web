@@ -761,23 +761,65 @@ export class MyordersComponent implements OnInit, OnDestroy {
             }  
         }
         if(['EXG', 'DSC', 'BST'].indexOf(this.coinName) >= 0) {
-            if(this.chain == 'FAB' && (!this.exgTSBalance || (amount > this.exgTSBalance))) {
-                if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
-                } else {
-                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+            if(this.coinName == 'EXG') {
+                if(this.chain == 'FAB' && (!this.exgTSBalance || (amount > this.exgTSBalance))) {
+                    if (this.lan === 'zh') {
+                        this.alertServ.openSnackBar('TS钱包余额不足 EXG(FAB)。', 'Ok');
+                    } else {
+                        this.alertServ.openSnackBar('Withdraw amount is over ts balance in EXG(FAB).', 'Ok');
+                    }
+                    return;                
                 }
-                return;                
+    
+                if(this.chain == 'ETH' && (!this.ethEXGTSBalance || (amount > this.ethEXGTSBalance))) {
+                    if (this.lan === 'zh') {
+                        this.alertServ.openSnackBar('TS钱包余额不足 EXG(ETH)。', 'Ok');
+                    } else {
+                        this.alertServ.openSnackBar('Withdraw amount is over ts balance in EXG(ETH).', 'Ok');
+                    }
+                    return;                
+                }  
+            }
+          
+            if(this.coinName == 'DSC') {
+                if(this.chain == 'FAB' && (!this.dscTSBalance || (amount > this.dscTSBalance))) {
+                    if (this.lan === 'zh') {
+                        this.alertServ.openSnackBar('TS钱包余额不足 DSC(FAB)。', 'Ok');
+                    } else {
+                        this.alertServ.openSnackBar('Withdraw amount is over ts balance in DSC(FAB).', 'Ok');
+                    }
+                    return;                
+                }
+    
+                if(this.chain == 'ETH' && (!this.ethDSCTSBalance || (amount > this.ethDSCTSBalance))) {
+                    if (this.lan === 'zh') {
+                        this.alertServ.openSnackBar('TS钱包余额不足 DSC(ETH)。', 'Ok');
+                    } else {
+                        this.alertServ.openSnackBar('Withdraw amount is over ts balance in DSC(ETH).', 'Ok');
+                    }
+                    return;                
+                }  
             }
 
-            if(this.chain == 'ETH' && (!this.ethEXGTSBalance || (amount > this.ethEXGTSBalance))) {
-                if (this.lan === 'zh') {
-                    this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
-                } else {
-                    this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+            if(this.coinName == 'BST') {
+                if(this.chain == 'FAB' && (!this.bstTSBalance || (amount > this.bstTSBalance))) {
+                    if (this.lan === 'zh') {
+                        this.alertServ.openSnackBar('TS钱包余额不足 BST(FAB)。', 'Ok');
+                    } else {
+                        this.alertServ.openSnackBar('Withdraw amount is over ts balance in BST(FAB).', 'Ok');
+                    }
+                    return;                
                 }
-                return;                
-            }            
+    
+                if(this.chain == 'ETH' && (!this.ethBSTTSBalance || (amount > this.ethBSTTSBalance))) {
+                    if (this.lan === 'zh') {
+                        this.alertServ.openSnackBar('TS钱包余额不足 BST(ETH)。', 'Ok');
+                    } else {
+                        this.alertServ.openSnackBar('Withdraw amount is over ts balance in BST(ETH).', 'Ok');
+                    }
+                    return;                
+                }  
+            }
         }
 
         this.modalWithdrawRef.hide();
