@@ -510,7 +510,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
          
 
                 const balance = await this.apiServ.getFabTokenBalance(this.coinName, this.utilServ.fabToExgAddress(environment.addresses.exchangilyOfficial.FAB));
-                this.getTSBalance = balance.balance / 1e18;
+                this.getTSBalance = new BigNumber(balance.balance).shiftedBy(-6).toNumber();
 
 
                 if(!this.bnbGETTSBalance) {
