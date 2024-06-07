@@ -791,19 +791,19 @@ export class CoinService {
             lockbalance = 0;                  
         } else if (name === 'BCH') {
             const balanceObj = await this.apiService.getBchBalance(addr);
-            balance = balanceObj.balance / 1e18;
-            lockbalance = balanceObj.lockbalance / 1e18;
+            balance = new BigNumber(balanceObj.balance).shiftedBy(-18).toNumber();
+            lockbalance = new BigNumber(balanceObj.lockbalance).shiftedBy(-18).toNumber();
         } else if (name === 'FAB') {
             const balanceObj = await this.apiService.getFabBalance(addr);
-            balance = balanceObj.balance / 1e8;
-            lockbalance = balanceObj.lockbalance / 1e8;
+            balance = new BigNumber(balanceObj.balance).shiftedBy(-8).toNumber();
+            lockbalance = new BigNumber(balanceObj.lockbalance).shiftedBy(-8).toNumber();
         } else if (tokenType === 'ETH') {
             if (!decimals) {
                 decimals = 18;
             }
             const balanceObj = await this.apiService.getEthTokenBalance(name, contractAddr, addr);
-            balance = balanceObj.balance / Math.pow(10, decimals);
-            lockbalance = balanceObj.lockbalance / Math.pow(10, decimals);
+            balance = new BigNumber(balanceObj.balance).shiftedBy(-decimals).toNumber();
+            lockbalance = new BigNumber(balanceObj.lockbalance).shiftedBy(-decimals).toNumber();
         } else if (tokenType === 'FAB') {
             if (addr.indexOf('0x') < 0) {
                 addr = this.utilServ.fabToExgAddress(addr);
@@ -815,8 +815,8 @@ export class CoinService {
                 balanceObj = await this.apiService.getFabTokenBalance(name, addr, contractAddr);
             }
             if(decimals && Number(decimals) >= 0) {
-                balance = balanceObj.balance / Math.pow(10, decimals);
-                lockbalance = balanceObj.lockbalance / Math.pow(10, decimals);
+                balance = new BigNumber(balanceObj.balance).shiftedBy(-decimals).toNumber();
+                lockbalance = new BigNumber(balanceObj.lockbalance).shiftedBy(-decimals).toNumber();
             } else {
                 balance = balanceObj.balance;
                 lockbalance = balanceObj.lockbalance;
