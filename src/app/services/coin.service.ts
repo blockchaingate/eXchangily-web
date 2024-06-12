@@ -782,7 +782,6 @@ export class CoinService {
             lockbalance = 0;     
         } else if(tokenType == 'TRX') {
             const balanceObj = await this.getTrxTokenBalance(contractAddr, addr);
-            console.log('balanceObj for trxxxx=', balanceObj);
             balance = new BigNumber(balanceObj).shiftedBy(-decimals).toNumber();
             lockbalance = 0;   
         } else if(['MATIC', 'HT', 'BNB'].indexOf(tokenType) >= 0) {  
