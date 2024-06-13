@@ -1006,6 +1006,8 @@
         "MESSAGE": "欢迎把任何问题、疑问和反馈发送至 info@fabcoin.co。或者通过微信、推特和脸书联系我们。 感谢您的使用。"
     },
     "Volume": "交易量",
+    "Create orders": "创建订单",
+    "Cancel orders": "取消订单",
     "Open Order": "我的委托",
     "Closed Order": "我的交易",
     "Canceled Order": "取消的订单",

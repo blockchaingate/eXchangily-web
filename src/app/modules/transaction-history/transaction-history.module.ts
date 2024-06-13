@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TransactionHistoryComponent } from './transaction-history.component';
 import { TransactionHistoryRoutingModule } from './transaction-history-routing.module';
+import { TranslateModule } from '@ngx-translate/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
@@ -21,7 +22,8 @@ import { ApiService } from 'src/app/services/api.service';
     TransactionHistoryRoutingModule,
     MatTabsModule,
     MatPaginatorModule,
-    MatTableModule
+    MatTableModule,
+    TranslateModule
   ],
   providers: [
     ApiService
