@@ -30,6 +30,43 @@ export class ApiService {
     
     constructor(private http: HttpClient, private web3Serv: Web3Service, private utilServ: UtilService, private alertServ: AlertService) { }
     
+    getExchangilyExchangeTrades(pageSize: number, pageNum: number) {
+        const observable = new Observable((subscriber) => {
+            const url = environment.endpoints.api + 'v3/exchangily/exchangeTrade/' + pageSize + '/' + pageNum;
+
+            this.http.get(url).subscribe(
+                {
+                    next: (ret: any) => {
+                        if(ret.success) {
+                            const data = ret.data;
+                            subscriber.next(data);
+                        }
+                    }
+                }
+            );
+        });
+        return observable;
+    }
+
+    getExchangilyExchangeTradesTotalCount() {
+        const observable = new Observable((subscriber) => {
+            const url = environment.endpoints.api + 'v3/exchangily/exchangeTrade/totalCount';
+
+            this.http.get(url).subscribe(
+                {
+                    next: (ret: any) => {
+                        if(ret.success) {
+                            const data = ret.data;
+                            subscriber.next(data);
+                        }
+                    }
+                }
+            );
+        });
+        return observable;
+    }
+
+
     getExchangilyCreateOrders(pageSize: number, pageNum: number) {
         const observable = new Observable((subscriber) => {
             const url = environment.endpoints.api + 'v3/exchangily/createOrder/' + pageSize + '/' + pageNum;

@@ -1,5 +1,4 @@
 export interface OrderElement {
-    _id: string;
     pair: string;
     amount: number;
     bid: boolean,
@@ -9,5 +8,4 @@ export interface OrderElement {
     status: number;
     timestamp: number;
     txid: string;
-  }
-  
+}

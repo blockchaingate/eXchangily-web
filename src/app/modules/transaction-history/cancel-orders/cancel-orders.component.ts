@@ -15,7 +15,7 @@ export class CancelOrdersComponent implements OnInit {
   length = 1000;
 
   constructor(private apiServ: ApiService, private changeDetectorRefs: ChangeDetectorRef) {}
-  displayedColumns: string[] = ['orderHash', 'pair', 'price', 'amount'];
+  displayedColumns: string[] = ['orderHash', 'owner', 'pair', 'price', 'amount', 'timestamp'];
   dataSource: any = new MatTableDataSource<OrderElement>([]);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
