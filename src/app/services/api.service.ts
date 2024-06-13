@@ -30,9 +30,81 @@ export class ApiService {
     
     constructor(private http: HttpClient, private web3Serv: Web3Service, private utilServ: UtilService, private alertServ: AlertService) { }
     
+    getExchangilyCreateOrders(pageSize: number, pageNum: number) {
+        const observable = new Observable((subscriber) => {
+            const url = environment.endpoints.api + 'v3/exchangily/createOrder/' + pageSize + '/' + pageNum;
+
+            this.http.get(url).subscribe(
+                {
+                    next: (ret: any) => {
+                        if(ret.success) {
+                            const data = ret.data;
+                            subscriber.next(data);
+                        }
+                    }
+                }
+            );
+        });
+        return observable;
+    }
+
+    getExchangilyCreateOrdersTotalCount() {
+        const observable = new Observable((subscriber) => {
+            const url = environment.endpoints.api + 'v3/exchangily/createOrder/totalCount';
+
+            this.http.get(url).subscribe(
+                {
+                    next: (ret: any) => {
+                        if(ret.success) {
+                            const data = ret.data;
+                            subscriber.next(data);
+                        }
+                    }
+                }
+            );
+        });
+        return observable;
+    }
+
+    getExchangilyCancelledOrders(pageSize: number, pageNum: number) {
+        const observable = new Observable((subscriber) => {
+            const url = environment.endpoints.api + 'v3/exchangily/createOrder/cancelled/' + pageSize + '/' + pageNum;
+
+            this.http.get(url).subscribe(
+                {
+                    next: (ret: any) => {
+                        if(ret.success) {
+                            const data = ret.data;
+                            subscriber.next(data);
+                        }
+                    }
+                }
+            );
+        });
+        return observable;
+    }
+
+    getExchangilyCancelledOrdersTotalCount() {
+        const observable = new Observable((subscriber) => {
+            const url = environment.endpoints.api + 'v3/exchangily/createOrder/cancelled/totalCount';
+
+            this.http.get(url).subscribe(
+                {
+                    next: (ret: any) => {
+                        if(ret.success) {
+                            const data = ret.data;
+                            subscriber.next(data);
+                        }
+                    }
+                }
+            );
+        });
+        return observable;
+    }
+
     getKanbanTokens() {
         const observable = new Observable((subscriber) => {
-            const url = environment.endpoints.api + 'v3/token/erc20/10000/0';
+            const url = environment.endpoints.api + 'v3/token/erc20/1000/0';
 
             this.http.get(url).subscribe(
                 {

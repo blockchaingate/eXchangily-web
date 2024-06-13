@@ -38,6 +38,10 @@ const routes: Routes = [
     loadChildren: () => import('./components/coin/coin.module').then(c => c.CoinModule)
   },
   {
+    path: 'transaction/history',
+    loadChildren: () => import('./modules/transaction-history/transaction-history.module').then(c => c.TransactionHistoryModule)
+  },
+  {
     path: 'wallet',
     loadChildren: () => import('./modules/wallet/wallet.module').then(m => m.WalletModule)
   },

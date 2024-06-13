@@ -28,7 +28,7 @@
                                     <a class="nav-link" (click)="selectLan('en')">English</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" (click)="selectLan('zh')">中文</a>
+                                    <a class="nav-link" (click)="selectLan('sc')">中文</a>
                                 </li>
                             </ul>
                         </div>
@@ -307,7 +307,7 @@
                                         <a class="nav-link" (click)="selectLan('en')">English</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" (click)="selectLan('zh')">中文</a>
+                                        <a class="nav-link" (click)="selectLan('sc')">中文</a>
                                     </li>
                                 </ul>
                             </div>
@@ -339,6 +339,9 @@
                     <a class="nav-link" (click)="linkTo('/otc/trade');selectedItem=5" [class.selected]="selectedItem==5" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'OTC Trade' | translate}}</a>
                 </li>
             -->
+                <li class="nav-item">
+                    <a class="nav-link" (click)="linkTo('/transaction/history');selectedItem=5" [class.selected]="selectedItem==5" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Transaction History' | translate}}</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" (click)="linkTo('/issue');selectedItem=6" [class.selected]="selectedItem==6" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Mint Token' | translate}}</a>
                 </li>  
