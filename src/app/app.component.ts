@@ -3,6 +3,7 @@ import { setTheme } from 'ngx-bootstrap/utils';
 import { Router, NavigationEnd } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { WsService } from './services/ws.service';
+import { ApiService } from './services/api.service';
 
 @Component({
   selector: 'app-root',
@@ -16,18 +17,28 @@ export class AppComponent {
   msg: string;
   currentLang: string;
   darkBgEnable: boolean;
+  blocked: boolean;
   private isMobile: boolean;
  
 
   constructor(
+    private apiServ: ApiService,
     private route: ActivatedRoute,
     private wsService: WsService,
     router: Router) {
     setTheme('bs4'); // Bootstrap 4
     this.darkBgEnable = false;
+    this.blocked = false;
     this.isMobile = this.isMobileDevice();
     // const url = window.location.href;
-
+    this.apiServ.checkCountry().subscribe(
+      (countryCode: string) => {
+        console.log('countryCode===', countryCode);
+        if(['CA'].indexOf(countryCode) >= 0) {
+          this.blocked = true;
+        }
+      }
+    );
     router.events.subscribe((e) => {
       if (e instanceof NavigationEnd) {
         const url = e.url;

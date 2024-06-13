@@ -30,6 +30,36 @@ export class ApiService {
     
     constructor(private http: HttpClient, private web3Serv: Web3Service, private utilServ: UtilService, private alertServ: AlertService) { }
     
+    checkCountry() {
+        const observable = new Observable((subscriber) => {
+            let url = 'http://ipv4.myexternalip.com/json';
+            this.http.get(url).subscribe(
+                {
+                    next: (ret: any) => {
+                        if(ret.ip) {
+                            url = environment.endpoints.api + 'common/checkip/' + ret.ip;
+
+                            this.http.get(url).subscribe(
+                                {
+                                    next: (ret: any) => {
+                                        if(ret.success) {
+                                            const data = ret.data;
+                                            const countryCode = data.countryCode;
+                                            subscriber.next(countryCode);
+                                        }
+                                    }
+                                }
+                            );
+                        }
+                    }
+                }
+            );
+
+
+        });
+        return observable;  
+    }
+
     getExchangilyExchangeTrades(pageSize: number, pageNum: number) {
         const observable = new Observable((subscriber) => {
             const url = environment.endpoints.api + 'v3/exchangily/exchangeTrade/' + pageSize + '/' + pageNum;

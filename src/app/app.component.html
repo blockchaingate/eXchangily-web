@@ -1,4 +1,4 @@
-<div class="top-container">
+<div class="top-container" *ngIf="!blocked">
     <app-header>
     </app-header>
 
@@ -7,4 +7,7 @@
     </section>
     <app-footer></app-footer>
 
+</div>
+<div *ngIf="blocked" class="text-white d-flex justify-content-center mt-3">
+    {{'Access to this website is restricted based on your location.' | translate}}
 </div>
