@@ -1,61 +1,44 @@
 <div class="mat-elevation-z8" *ngIf="dataSource">
-    <table mat-table [dataSource]="dataSource"> 
-  
-      <!-- Position Column -->
-      <ng-container matColumnDef="orderHashOne">
-        <th mat-header-cell *matHeaderCellDef> orderHashOne </th>
-        <td mat-cell *matCellDef="let element"> {{element.orderHashOne}} </td>
-      </ng-container>
-  
-      <!-- Weight Column -->
-      <ng-container matColumnDef="orderHashTwo">
-        <th mat-header-cell *matHeaderCellDef> orderHashTwo </th>
-        <td mat-cell *matCellDef="let element"> {{element.orderHashTwo}} </td>
-      </ng-container>
+  <table mat-table [dataSource]="dataSource"> 
 
-      <!-- Weight Column -->
-      <ng-container matColumnDef="pair">
-        <th mat-header-cell *matHeaderCellDef> pair </th>
-        <td mat-cell *matCellDef="let element"> {{element.pair}} </td>
-      </ng-container>
+    <!-- OrderHashOne Column -->
+    <ng-container matColumnDef="orderHashOne">
+      <th mat-header-cell *matHeaderCellDef> orderHashOne </th>
+      <td mat-cell *matCellDef="let element"> {{element.orderHashOne}} </td>
+    </ng-container>    
 
-      <!-- Weight Column -->
-      <ng-container matColumnDef="oneGet">
-        <th mat-header-cell *matHeaderCellDef> oneGet,oneGiveFee,awardBackToTwo </th>
-        <td mat-cell *matCellDef="let element"> {{element.oneGet}},{{element.oneGiveFee}},{{element.awardBackToTwo}} </td>
-      </ng-container>
-  
-      <!-- Symbol Column -->
-      <ng-container matColumnDef="twoGet">
-        <th mat-header-cell *matHeaderCellDef> twoGet,twoGiveFee,awardBackToOne </th>
-        <td mat-cell *matCellDef="let element"> 
-          {{element.twoGet}},{{element.twoGiveFee}},{{element.awardBackToOne}}
-        </td>
-      </ng-container>
+    <!-- OrderHashTwo Column -->
+    <ng-container matColumnDef="orderHashTwo">
+      <th mat-header-cell *matHeaderCellDef> orderHashTwo </th>
+      <td mat-cell *matCellDef="let element"> {{element.orderHashTwo}} </td>
+    </ng-container>    
 
-      <!-- Weight Column -->
-      <ng-container matColumnDef="filledStatus">
-        <th mat-header-cell *matHeaderCellDef> filledStatus </th>
-        <td mat-cell *matCellDef="let element"> {{element.filledStatus}} </td>
-      </ng-container>
+    <!-- Pair Column -->
+    <ng-container matColumnDef="pair">
+      <th mat-header-cell *matHeaderCellDef> pair </th>
+      <td mat-cell *matCellDef="let element"> {{element.pair}} </td>
+    </ng-container>  
 
-      <!-- Weight Column -->
-      <ng-container matColumnDef="timestamp">
-        <th mat-header-cell *matHeaderCellDef> timestamp </th>
-        <td mat-cell *matCellDef="let element"> {{element.timestamp * 1000 | date : 'medium'}} </td>
-      </ng-container> 
-      
-      
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                   [pageSize]="pageSize"
-                   [length]="length"
-                   (page)="changePage($event)"
-                   showFirstLastButtons
-                   aria-label="Select page of periodic elements">
-    </mat-paginator>
+    <!-- FilledStatus Column -->
+    <ng-container matColumnDef="filledStatus">
+      <th mat-header-cell *matHeaderCellDef> filledStatus </th>
+      <td mat-cell *matCellDef="let element"> {{element.filledStatus}} </td>
+    </ng-container>  
+
+    <!-- Timestamp Column -->
+    <ng-container matColumnDef="timestamp">
+      <th mat-header-cell *matHeaderCellDef> timestamp </th>
+      <td mat-cell *matCellDef="let element"> {{element.timestamp * 1000 | date : 'medium'}} </td>
+    </ng-container>      
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                 [pageSize]="pageSize"
+                 [length]="length"
+                 (page)="changePage($event)"
+                 showFirstLastButtons
+                 aria-label="Select page of periodic elements">
+  </mat-paginator>
 </div>
-  
