@@ -32,7 +32,7 @@ export class ApiService {
     
     checkCountry() {
         const observable = new Observable((subscriber) => {
-            let url = 'http://ipv4.myexternalip.com/json';
+            let url = 'https://ipv4.myexternalip.com/json';
             this.http.get(url).subscribe(
                 {
                     next: (ret: any) => {
