@@ -10,6 +10,7 @@ import { Web3Service } from 'src/app/services/web3.service';
 import * as exaddr from '../../lib/exaddr';
 import { PinNumberModal } from '../shared/modals/pin-number/pin-number.modal';
 import BigNumber from 'bignumber.js';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
     selector: 'app-bindpay',
@@ -37,7 +38,7 @@ export class BindpayComponent  implements OnInit{
       public coinServ: CoinService,
       public utilServ: UtilService,
       private web3Serv: Web3Service,
-
+      private apiServ: ApiService,
       private timerServ: TimerService,
       private translateServ: TranslateService,
       private alertServ: AlertService,
@@ -182,6 +183,14 @@ export class BindpayComponent  implements OnInit{
     this.transactionHistory = true;
     const address = this.wallet.excoin.receiveAdds[0].address;
     const fabAddress = this.utilServ.exgToFabAddress(address);
+    const kanbanAddress = exaddr.toKbpayAddress(fabAddress);
+    this.apiServ.getTransactionHistoryForChain('KANBAN', kanbanAddress).subscribe(
+        (ret: any) => {
+            this.transactionHistories = ret;
+            console.log('ret===', ret);
+        }
+    ); 
+    /*
     this.kanbanServ.getTransactionHistory(fabAddress).subscribe(
         (res: any) => {
             if(res && res.success) {
@@ -189,6 +198,7 @@ export class BindpayComponent  implements OnInit{
             }
         }
     );
+    */
   }
 
 

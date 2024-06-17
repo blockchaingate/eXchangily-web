@@ -86,6 +86,31 @@ export class ApiService {
         return observable;
     }
 
+    getTransactionHistoryForChain(chain: string,native: string) {
+        const observable = new Observable((subscriber) => {
+            const data = {
+                pageNum: 0,
+                pageSize: 100,
+                chain,
+                native
+            };
+            
+            const url = environment.endpoints.api + 'v3/transaction/history';
+
+            this.http.post(url, data).subscribe(
+                {
+                    next: (ret: any) => {
+                        if(ret.success) {
+                            const data = ret.data;
+                            subscriber.next(data);
+                        }
+                    }
+                }
+            );
+        });
+        return observable;
+    }
+
     getExchangilyExchangeTrades(pageSize: number, pageNum: number) {
         const observable = new Observable((subscriber) => {
             const url = environment.endpoints.api + 'v3/exchangily/exchangeTrade/' + pageSize + '/' + pageNum;

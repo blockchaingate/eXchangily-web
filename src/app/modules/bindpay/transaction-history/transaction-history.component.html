@@ -10,12 +10,12 @@
     <div class="row row-with-line w-100" *ngFor="let item of transactionHistories; let i=index">
         <div class="text-muted col-4">
             <p>
-                {{item.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}
+                {{item.timestamp * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}
             </p>
         </div>
         <div class=" text-info col-2">
             <p>
-                {{item.type}}
+                {{item.action}}
             </p>
         </div>
         <div class=" text-info col-2">
@@ -25,17 +25,15 @@
         </div>
         <div class=" text-info col-2">
             <p>
-                {{item.amount}}
+                {{item.quantity}}
             </p>
         </div>
 
         <div class=" text-info col-2">
+
             <p>
-                {{item.status == 1 ? 'Success' : 'Failed'}}
-            </p>
-            <p>
-                <a target="_blank" href="/explorer/tx-detail/{{item.txid}}">
-                    {{showTxid(item.txid)}}
+                <a target="_blank" href="/explorer/tx-detail/{{item.transactionId}}">
+                    {{showTxid(item.transactionId)}}
                 </a>
                 
             </p>

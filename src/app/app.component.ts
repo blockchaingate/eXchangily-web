@@ -31,14 +31,17 @@ export class AppComponent {
     this.blocked = false;
     this.isMobile = this.isMobileDevice();
     // const url = window.location.href;
-    this.apiServ.checkCountry().subscribe(
-      (countryCode: string) => {
-        console.log('countryCode===', countryCode);
-        if(['CA'].indexOf(countryCode) >= 0) {
-          //this.blocked = true;
+    const hostname = location.hostname;
+    if(['exchangily.com', 'www.exchangily.com'].indexOf(hostname) >= 0) {
+      this.apiServ.checkCountry().subscribe(
+        (countryCode: string) => {
+          if(['CA', 'US', 'USA'].indexOf(countryCode) >= 0) {
+            this.blocked = true;
+          }
         }
-      }
-    );
+      );
+    }
+
     router.events.subscribe((e) => {
       if (e instanceof NavigationEnd) {
         const url = e.url;
