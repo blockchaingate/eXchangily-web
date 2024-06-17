@@ -1,25 +1,6 @@
 <div class="container" *ngIf="transactions">
     <div class=" row apair header">
         <div class="col-2">
-            <div class="btn-group" dropdown>
-                <button id="button-basic" dropdownToggle type="button" class="btn btn-link dropdown-toggle text-white" aria-controls="dropdown-basic">
-                    {{currentType | translate}} <span class="caret"></span>
-                </button>
-                <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
-                    <li role="menuitem" *ngIf="currentType !== 'All'">
-                        <a class="dropdown-item" (click)="changeType('All')">{{"All" | translate}}</a>
-                    </li>
-                    <li role="menuitem" *ngIf="currentType !== 'Deposit'">
-                        <a class="dropdown-item" (click)="changeType('Deposit')">{{"To exchange" | translate}}</a>
-                    </li>
-                    <li role="menuitem" *ngIf="currentType !== 'Withdraw'">
-                        <a class="dropdown-item" (click)="changeType('Withdraw')">{{"To wallet" | translate}}</a>
-                    </li>
-                    <li role="menuitem" *ngIf="currentType !== 'Send'">
-                        <a class="dropdown-item" (click)="changeType('Send')">{{"Send" | translate}}</a>
-                    </li>
-                </ul>
-            </div>
         </div>
         <div class="col-custom-1">
             {{"Asset" | translate}}
@@ -57,9 +38,6 @@
             <div class="col-custom-2">
                 <p>
                     {{item.comment}}
-                    <button mat-icon-button (click)="showTransactionDetail2(item)" aria-label="Example icon-button with a heart icon">
-                        <mat-icon svgIcon="detail"></mat-icon>
-                    </button>
                 </p>
             </div>
         </div>

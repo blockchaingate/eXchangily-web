@@ -35,7 +35,7 @@ export class AppComponent {
       (countryCode: string) => {
         console.log('countryCode===', countryCode);
         if(['CA'].indexOf(countryCode) >= 0) {
-          this.blocked = true;
+          //this.blocked = true;
         }
       }
     );

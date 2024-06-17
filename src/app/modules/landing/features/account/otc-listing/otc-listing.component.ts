@@ -204,25 +204,6 @@ export class OtcListingComponent implements OnInit {
                 this.alertServ.openSnackBarSuccess('your transaction was submitted successfully.', 'Ok');
             }
 
-            const item: any = {
-                walletId: this.wallet.id,
-                type: 'Send',
-                coin: currentCoin.name,
-                tokenType: currentCoin.tokenType,
-                amount: amount,
-                txid: txHash,
-                to: environment.addresses.otcOfficial[currentCoin.name],
-                time: new Date(),
-                confirmations: '0',
-                blockhash: '',
-                comment: '',
-                status: 'pending'
-            };
-            this.timerServ.transactionStatus.next(item);
-            this.timerServ.checkTransactionStatus(item);
-            this.storageService.storeToTransactionHistoryList(item);
-            console.log('amount2===', amount);
-            console.log('this.quantity2===', this.quantity);
             this.txid = txHash;
             this.addListingDo();
             // this.addOrder(txHash, amount, this.quantity);

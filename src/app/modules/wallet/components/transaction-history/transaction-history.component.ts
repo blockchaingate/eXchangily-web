@@ -22,7 +22,7 @@ export class TransactionHistoryComponent implements OnInit {
     @Input() walletId: string;
     @Input() transactions: TransactionItem[];
 
-    currentType: string;
+    currentChain: string;
     utilServ: UtilService;
 
     constructor(
@@ -35,9 +35,6 @@ export class TransactionHistoryComponent implements OnInit {
         this.utilServ = utilServ;
     }
 
-    changeType(type: string) {
-        this.currentType = type;
-    }
 
     showCoinName(name: string, chain: string) {
         if((name != chain) && chain) {
@@ -80,56 +77,6 @@ export class TransactionHistoryComponent implements OnInit {
 
 
     ngOnInit() {
-        this.currentType = 'All';
-        this.storageService.getTransactionHistoryList().subscribe(
-            (transactionHistory: any) => {
-                //console.log('transactionHistory=', transactionHistory);
-                if (transactionHistory && (transactionHistory.length > 0)) {
-                    //this.transactionHistory = transactionHistory.reverse().filter(s => s.walletId === this.walletId);
-                    let newTransactions: any = [];
-                    for(let i=transactionHistory.length - 1;i >= 0; i--) {
-                        const transactionItem = transactionHistory[i];
-                        const time = transactionItem.time;
-                        const timestamp = Math.round(time.getTime() / 1000);
-
-                        const wid = transactionItem.walletId;
-                        if(wid != this.walletId) {
-                            continue;
-                        }
-                        const newTransaction = {
-                            action: transactionItem.type,
-                            coin: transactionItem.coin,
-                            tokenType: transactionItem.tokenType,
-                            quantity: transactionItem.amount,
-                            to: transactionItem.to,
-                            timestamp: timestamp,
-                            comment: transactionItem.comment,
-                            transactions: [
-                                {
-                                    chain: transactionItem.tokenType ? transactionItem.tokenType : transactionItem.coin,
-                                    status: transactionItem.status,
-                                    timestamp: '',
-                                    transactionId: transactionItem.txid
-                                }                               
-                            ]
-                        };
-
-                        newTransactions.push(newTransaction);
-                    }
-
-                    this.transactions = this.mergeSortedArray(this.transactions, newTransactions);
-
-                }
-            }
-        );
     }
 
-    async showTransactionDetail2(item: any) {
-
-        this.transactionDetailModal2.show(item);
-    }
-
-    async showTransactionDetail(item: TransactionItem) {
-        this.transactionDetailModal.show(item);
-    }
 }

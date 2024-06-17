@@ -116,37 +116,6 @@ export class StorageService {
     }
 
 
-
-    storeToTransactionHistoryList(transactionItem: TransactionItem) {
-        this.getTransactionHistoryList().subscribe((transactionHistory: any) => {
-            if (!transactionHistory) {
-                transactionHistory = [];
-            }
-            transactionHistory.push(transactionItem);
-            // console.log('transactionHistory for storeToTransactionHistoryList=', transactionHistory);
-            return this.localSt.setItem('transactions', transactionHistory).subscribe(() => {});
-        });
-    }  
-
-    updateTransactionHistoryList(transactionItem: TransactionItem) {
-        this.getTransactionHistoryList().subscribe((transactionHistory: any) => {
-            if (!transactionHistory) {
-                transactionHistory = [];
-            }
-            for (let i = 0; i < transactionHistory.length; i++) {
-                if (transactionHistory[i].txid === transactionItem.txid) {
-                    transactionHistory[i].status = transactionItem.status;
-                    break;
-                }
-            }
-            // console.log('transactionHistory for storeToTransactionHistoryList=', transactionHistory);
-            return this.localSt.setItem('transactions', transactionHistory).subscribe(() => {});
-        });
-    }     
-    getTransactionHistoryList() {
-        return this.localSt.getItem('transactions');
-    }    
-
     getCurrentLang(){
         return this.localSt.getItem('Lan');
     }

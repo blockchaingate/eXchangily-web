@@ -124,9 +124,8 @@ export class HeaderComponent implements OnInit {
           } else {
             for (let i = 0; i < this.pendingtransactions.length; i++) {
               const item = this.pendingtransactions[i];
-              if (item.txid === txItem.txid) {
+              if (item.transactionId === txItem.txid) {
                 item.status = txItem.status;
-                this.storageServ.updateTransactionHistoryList(item);
                 this.pendingtransactions.splice(i, 1);
                 this.closetransactions.unshift(item);
                 break;
@@ -136,28 +135,6 @@ export class HeaderComponent implements OnInit {
         }
       }
     );
-
-    this.storageServ.getTransactionHistoryList().subscribe(
-      (transactionHistory: TransactionItem[]) => {
-        if (transactionHistory) {
-          let hasPending = false;
-          const subArray = transactionHistory.reverse().slice(0, 5);
-          for (let i = 0; i < subArray.length; i++) {
-            const item = subArray[i];
-            // console.log('item.status=', item.status);
-            if (item.status === 'pending') {
-              this.pendingtransactions.push(item);
-              this.timerServ.checkTransactionStatus(item, 60);
-
-              hasPending = true;
-            } else {
-              this.closetransactions.push(item);
-            }
-          }
-
-        }
-
-      });
 
 
     this.currentLang = 'English';

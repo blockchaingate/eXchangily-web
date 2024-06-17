@@ -30,19 +30,17 @@ import { SendCoinForm } from '../../../../interfaces/kanban.interface';
 import { StorageService } from '../../../../services/storage.service';
 import { AlertService } from '../../../../services/alert.service';
 import { AngularCsv } from 'angular7-csv';
-import { TransactionItem } from '../../../../models/transaction-item';
 import BigNumber from 'bignumber.js';
 import { TimerService } from '../../../../services/timer.service';
 import { TranslateService } from '@ngx-translate/core';
 import { WsService } from '../../../../services/ws.service';
 import { environment } from '../../../../../environments/environment';
 import { ManageWalletComponent } from '../manage-wallet/manage-wallet.component';
-import { CampaignOrderService } from '../../../../services/campaignorder.service';
 import { Pair } from 'src/app/modules/market/models/pair';
 import { LockedInfoModal } from '../../modals/locked-info/locked-info.modal';
 import { WalletUpdateModal } from '../../modals/wallet-update/wallet-update.modal';
 import { AppComponent } from 'src/app/app.component';
-
+import { TransactionDetailModal } from '../../modals/transaction-detail/transaction-detail.modal';
 @Component({
     selector: 'app-wallet-dashboard',
     templateUrl: './dashboard.component.html',
@@ -68,6 +66,7 @@ export class WalletDashboardComponent implements OnInit {
     @ViewChild('getFreeFabModal', { static: true }) getFreeFabModal: GetFreeFabModal;
     @ViewChild('lockedInfoModal', { static: true }) lockedInfoModal: LockedInfoModal;
     @ViewChild('walletUpdateModal', { static: true }) walletUpdateModal: WalletUpdateModal;
+    @ViewChild('transactionDetailModal', { static: true }) transactionDetailModal: TransactionDetailModal;
 
     sendCoinForm: SendCoinForm;
     wallet: Wallet;
@@ -102,7 +101,6 @@ export class WalletDashboardComponent implements OnInit {
     hasNewCoins: boolean;
     hideSmall: boolean;
     showMyAssets: boolean;
-    showTransactionHistory: boolean;
     gas: number;
     transactions: any;
     alertMsg: string;
@@ -164,7 +162,6 @@ export class WalletDashboardComponent implements OnInit {
         },
     ];
     constructor(
-        private campaignorderServ: CampaignOrderService,
         private route: Router, private walletServ: WalletService, private modalServ: BsModalService,
         private coinServ: CoinService, public utilServ: UtilService, private apiServ: ApiService,
         private _wsServ: WsService,
@@ -204,9 +201,6 @@ export class WalletDashboardComponent implements OnInit {
                 console.log(err);
             })
             ;
-
-        this.showTransactionHistory = false;
-
     }
 
     changeChain(chain: string) {
@@ -471,7 +465,6 @@ export class WalletDashboardComponent implements OnInit {
 
     onShowMyAssets() {
         this.showMyAssets = true;
-        this.showTransactionHistory = false;
     }
 
     onmanageWallet(type: string) {
@@ -518,9 +511,9 @@ export class WalletDashboardComponent implements OnInit {
     navigate(url: string) {
         this.route.navigate([url]);
     }
-    onShowTransactionHistory() {
-        this.showMyAssets = false;
-        this.showTransactionHistory = true;
+
+    showTransactionHistory(coin: MyCoin) {
+        this.transactionDetailModal.show(coin);
     }
 
     async onConfirmedDeleteWallet() {
@@ -1392,8 +1385,6 @@ export class WalletDashboardComponent implements OnInit {
                 status: 'pending'
             };
             this.timerServ.transactionStatus.next(item);
-            this.timerServ.checkTransactionStatus(item);
-            this.storageService.storeToTransactionHistoryList(item);
         }
     }
 
@@ -1439,8 +1430,6 @@ export class WalletDashboardComponent implements OnInit {
                 status: 'pending'
             };
             this.timerServ.transactionStatus.next(item);
-            this.timerServ.checkTransactionStatus(item);
-            this.storageService.storeToTransactionHistoryList(item);
         }
 
     }
@@ -1532,6 +1521,9 @@ export class WalletDashboardComponent implements OnInit {
         this.alertServ.openSnackBar(this.translateServ.instant('Your asset was deleted successfully.'), this.translateServ.instant('Ok'));
 
     }
+
+
+
     onConfirmedAssets(assets: [Token]) {
 
         this.assets = assets;
@@ -1542,50 +1534,6 @@ export class WalletDashboardComponent implements OnInit {
        */
     }
 
-    /*
-    async depositFab(currentCoin) {
-        const amount = this.amount;
-        const pin = this.pin;
-
-        const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
-        if (!seed) {
-            this.warnPwdErr();
-            return;
-        }
-        const scarAddress = await this.kanbanServ.getScarAddress();
-        const { txHash, errMsg } = await this.coinServ.depositFab(scarAddress, seed, currentCoin, amount);
-        if (errMsg) {
-            this.alertServ.openSnackBar(errMsg, 'Ok');
-        } else {
-            const addr = environment.addresses.exchangilyOfficial.FAB;
-
-            const item: TransactionItem = {
-                walletId: this.wallet.id,
-                type: 'Add Gas',
-                coin: currentCoin.name,
-                tokenType: currentCoin.tokenType,
-                amount: amount,
-                txid: txHash,
-                to: addr,
-                time: new Date(),
-                confirmations: '0',
-                blockhash: '',
-                action: '',
-                quantity: 0, 
-                timestamp: 0,
-                comment: '',
-                status: 'pending'
-            };
-            this.storageService.storeToTransactionHistoryList(item);
-
-            if (this.lan === 'zh') {
-                this.alertServ.openSnackBarSuccess('加燃料交易提交成功，请等40分钟后查看结果', 'Ok');
-            } else {
-                this.alertServ.openSnackBarSuccess('Add gas transaction was submitted successfully, please check gas balance 40 minutes later.', 'Ok');
-            }
-        }
-    }
-    */
 
     async addGasDo() {
         /*
@@ -1679,8 +1627,6 @@ export class WalletDashboardComponent implements OnInit {
                 status: 'pending'
             };
             this.timerServ.transactionStatus.next(item);
-            this.timerServ.checkTransactionStatus(item);
-            this.storageService.storeToTransactionHistoryList(item);
             this.coinService.addTxids(txids);
         }
     }

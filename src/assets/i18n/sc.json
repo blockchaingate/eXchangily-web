@@ -1012,6 +1012,7 @@
     "Closed Order": "我的交易",
     "Canceled Order": "取消的订单",
     "Amount": "总额",
+    "Receive from": "接收自",
     "Comment": "备注",
     "orderHash": "订单哈希值",
     "orderHashOne": "订单1哈希值",

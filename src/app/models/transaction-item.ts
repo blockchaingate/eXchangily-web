@@ -6,14 +6,14 @@ export class TransactionItem {
     coin: string;
     chain?: string;
     amount: number;
-    txid: string;
     action: string;
+    from: string;
     to: string;
     quantity: number;
     timestamp: number;
-    time: Date;
     comment: string;
     confirmations: string;
     blockhash: string;
     status: string;
+    transactionId: string;
 }

@@ -272,8 +272,6 @@ export class TradeComponent implements OnInit {
         status: 'pending'
       };
       this.timerServ.transactionStatus.next(item);
-      this.timerServ.checkTransactionStatus(item);
-      this.storageService.storeToTransactionHistoryList(item);
 
       this.txid = txHash.trim();
       this.order.txid = txHash.trim();

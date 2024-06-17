@@ -565,10 +565,6 @@ export class MainComponent implements OnInit {
         status: 'pending'
       };
       this.timerServ.transactionStatus.next(item);
-      this.timerServ.checkTransactionStatus(item);
-      this.storageService.storeToTransactionHistoryList(item);
-      console.log('amount2===', amount);
-      console.log('this.quantity2===', this.quantity);
       this.addOrder(txHash, amount, this.quantity);
 
     }

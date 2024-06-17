@@ -173,9 +173,8 @@
                         <div class="col col-2 col-md-4 small text-right fxHide-sm">
                             <div class="d-inline mr-3">
                                 <!--
-                                <modal-transaction-history></modal-transaction-history>
-                                -->
                                 <a (click)="onShowTransactionHistory()">{{"Transaction History" | translate}}</a>
+                                -->
                             </div>
                             <div class="d-inline mr-3">
                                 <a (click)="addAssets()">{{"Add Assets" | translate}}</a>
@@ -190,7 +189,9 @@
                         </div>
                         <div class="col col-2 col-md-4 small text-right fxHide-gt-sm">
                             <mat-menu #appMenu="matMenu">
+                                <!--
                                 <button mat-menu-item (click)="onShowTransactionHistory()">{{"Transaction History" | translate}}</button>
+                                -->
                                 <button (click)="addAssets()" mat-menu-item>{{"Add Assets" | translate}}</button>
                             </mat-menu>
 
@@ -226,10 +227,7 @@
                                 <div class="col-2">
                                     {{"Value(USD)" | translate}}
                                 </div>
-                                <div class="col-2">
-                                    {{"Dividend" | translate}}
-                                </div>
-                                <div class="col-custom-2">
+                                <div class="col-3">
                                     {{"Action" | translate}}
                                 </div>
                             </div>
@@ -288,17 +286,17 @@
                                                 {{utilServ.toPrecisionMul(mycoin.balance, mycoin.lockedBalance, mycoin.usdPrice)}}
                                             </span>
                                         </div>
-                                        <div class="col-2">
 
-                                        </div>
-                                        <div class="col-custom-2" *ngIf="!maintainence">
+                                        <div class="col-3" *ngIf="!maintainence">
                                             <button mat-icon-button matTooltip="{{'Move fund to DEX'|translate}}" *ngIf="(gas > 0)" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                                 <mat-icon svgIcon="arrow-downward"></mat-icon>
                                             </button>
                                             <button mat-icon-button matTooltip="{{'Confirm move fund to DEX'|translate}}" *ngIf="(gas > 0)" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                                 <mat-icon svgIcon="vertical_align_bottom"></mat-icon>
                                             </button>
-
+                                            <button mat-icon-button matTooltip="{{'Transaction history'|translate}}" (click)="showTransactionHistory(mycoin)" aria-label="Example icon-button with a heart icon">
+                                                <mat-icon svgIcon="history"></mat-icon>
+                                            </button>
                                             <button mat-icon-button matTooltip="{{'Delete'|translate}}" *ngIf="mycoin.new" (click)="delete(mycoin)" aria-label="Example icon-button with a heart icon">
                                                 <mat-icon svgIcon="delete"></mat-icon>
                                             </button>
@@ -365,15 +363,17 @@
 
                                     <div class="col-4">
                                         <button mat-icon-button matTooltip="To exchange" [disabled]="gas <= 0 || maintainence" *ngIf="!mycoin.new" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
-                                        <mat-icon svgIcon="arrow-downward"></mat-icon>
-                                    </button>
+                                            <mat-icon svgIcon="arrow-downward"></mat-icon>
+                                        </button>
                                         <button mat-icon-button matTooltip="Reconfirm" *ngIf="!mycoin.new && (mycoin.redeposit && mycoin.redeposit.length > 0) || (mycoin.depositErr && mycoin.depositErr.length > 0)" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
-                                        <mat-icon svgIcon="vertical_align_bottom"></mat-icon>
-                                    </button>
-
+                                            <mat-icon svgIcon="vertical_align_bottom"></mat-icon>
+                                        </button>
+                                        <button mat-icon-button matTooltip="{{'Transaction history'|translate}}" (click)="showTransactionHistory(mycoin)" aria-label="Example icon-button with a heart icon">
+                                            <mat-icon svgIcon="history"></mat-icon>
+                                        </button>
                                         <button mat-icon-button matTooltip="{{'Delete'|translate}}" *ngIf="mycoin.new" (click)="delete(mycoin)" aria-label="Example icon-button with a heart icon">
-                                        <mat-icon svgIcon="delete"></mat-icon>
-                                    </button>
+                                            <mat-icon svgIcon="delete"></mat-icon>
+                                        </button>
                                     </div>
                                     <div class="col-12 text-muted">
                                         <p *ngIf="mycoin.lockedBalance && (mycoin.lockedBalance >= 0)">
@@ -434,3 +434,4 @@
     <get-free-fab-modal #getFreeFabModal [address]="fabAddress"></get-free-fab-modal>
     <locked-info-modal #lockedInfoModal></locked-info-modal>
     <wallet-update-modal (confirmWalletUpdate)="updateWallet()" #walletUpdateModal></wallet-update-modal>
+    <transaction-detail-modal #transactionDetailModal></transaction-detail-modal>
