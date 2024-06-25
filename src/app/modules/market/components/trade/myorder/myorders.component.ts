@@ -80,14 +80,17 @@ export class MyordersComponent implements OnInit, OnDestroy {
                     console.log('ret===', ret);
                 }
             )
-            for(let i = 0; i < this.tokenMaps.length; i++) {
-                const tokenMap = this.tokenMaps[i];
-                const chain = this.web3Serv.getChainName(tokenMap.srcChain);
-                if(chain == val) {
-                    this.srcId = tokenMap.srcId;
-                    break;
+            if(this.tokenMaps && (this.tokenMaps.length > 0)) {
+                for(let i = 0; i < this.tokenMaps.length; i++) {
+                    const tokenMap = this.tokenMaps[i];
+                    const chain = this.web3Serv.getChainName(tokenMap.srcChain);
+                    if(chain == val) {
+                        this.srcId = tokenMap.srcId;
+                        break;
+                    }
                 }
             }
+
 
 
             this.apiServ.getTsWalletBalance(val, this.srcId).then(
