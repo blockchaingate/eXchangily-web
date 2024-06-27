@@ -41,16 +41,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row">
-                            <div class="col text-dark">
-                                {{'Kanban Gas' | translate }} </div>
-                            <div class="col text-muted">
-                                <div class="pull-right">
-                                    {{kanbanTransFee}} {{'Gas' | translate}}
-                                </div>
-                            </div>
-                        </div>
                         <div class="row">
                             <div class="col text-muted">
                                 <small>{{'depends on the gas used on the chain' | translate}}</small>
@@ -116,16 +106,6 @@
                                 <label for="gasPrice" class="text-dark">{{'Fee Limit' | translate }}</label>
                                 <input type="text" class="form-control" id="inputFeeLimit" (input)="onTextChange()" formControlName="feeLimit" placeholder="0">
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="gasPrice" class="text-dark">{{'Kanban Gas Price(WEI)' | translate }}</label>
-                            <input type="text" class="form-control" id="inputKanbanGasPrice" (input)="onTextChange()" formControlName="kanbanGasPrice" placeholder="0">
-                            <small class="text-muted">{{'1 WEI = 10^(-18) FAB' | translate }}</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="gasPrice" class="text-dark">{{'Kanban Gas Limit' | translate }}</label>
-                            <input type="text" class="form-control" id="inputKanbanGasLimit" (input)="onTextChange()" formControlName="kanbanGasLimit" placeholder="0">
                         </div>
                     </div>
                 </div>

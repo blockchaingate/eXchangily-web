@@ -321,7 +321,7 @@ export class DepositAmountModal {
     }
 
     show() {
-        this.confirmations = environment.depositMinimumConfirmations[this.coin.name];
+        this.confirmations = 12;
         this.depositModal.show();
     }
 
