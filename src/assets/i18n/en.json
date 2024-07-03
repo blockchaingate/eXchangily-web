@@ -749,7 +749,7 @@
     "MnemNote": "Please accurately record and securely store the following twelve words, which is your mnemonic SEED. Do not disclose the mnemonic SEED to others. Sharing your mnemonic SEED may compromise the security of your account and see the potential loss of your funds. Safely store your mnemonic SEED such that the loss or damage of an electronic device would not impact your ability to access your mnemonic SEED. Never share your mnemonic SEED via email or on other social platforms. Only use your mnemonic SEED with the official eXchangily wallet.",
     "PwdNote": "Please note, this password is only for protecting wallet information on this device, it is not a wallet private key.",
     "Wnvalid": "Wallet name must be 2 or more letters or numbers",
-    "Pwdvalid": "Password must be at least 8 characters including at least 1 upper case letter, 1 lower case letter and 1 special character(!@#$%^&*~`)",
+    "Pwdvalid": "Password must be at least 8 characters including at least 1 upper case letter, 1 lower case letter, 1 number and 1 special character !@#$%^&*~`()-_",
     "Manage My Wallet": "My wallet",
     "Login Setting": "Login Setting",
     "Show seed phrase": "Show seed phrase",

@@ -30,7 +30,7 @@ export class RestoreWalletComponent implements OnInit {
               Validators.minLength(2)]
           ],
           password: [null, [
-              Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~`\(\)!@#\$%\^&\*])(?=.{8,})/)]
+              Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[~`\(\)!@#\$%\^&\*\-_])(?=.{8,})/)]
           ],
           pwdconfirm: [''],
           seedphrase: [null, [Validators.required]]

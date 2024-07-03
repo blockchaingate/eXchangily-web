@@ -951,9 +951,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
         baseCoin = this.pairData.tokenB.id;
         targetCoin = this.pairData.tokenA.id;
-        console.log('this.pairData===', this.pairData);
         let qtyDecimals = this.pairData.tokenA.decimals;
-        console.log('qtyDecimals===', qtyDecimals);
         if (!bidOrAsk) {
           const tmp = baseCoin;
           baseCoin = targetCoin;

@@ -25,7 +25,6 @@ export class DepositAmountModal {
     sendAllCoinsFlag: boolean;
     tranFeeUnit: string;
     disabled: boolean;
-    kanbanTransFee: number;
     confirmations: number;
     lan = 'en';
     depositAmountForm = this.fb.group({
@@ -34,9 +33,7 @@ export class DepositAmountModal {
         gasPrice: [environment.chains.FAB.gasPrice],
         gasLimit: [environment.chains.FAB.gasLimit],
         satoshisPerBytes: [environment.chains.FAB.satoshisPerBytes],
-        feeLimit: [environment.chains.TRX.feeLimit],
-        kanbanGasPrice: [environment.chains.KANBAN.gasPrice],
-        kanbanGasLimit: [environment.chains.KANBAN.gasLimit]
+        feeLimit: [environment.chains.TRX.feeLimit]
     });
 
     constructor(
@@ -44,7 +41,6 @@ export class DepositAmountModal {
         private fb: FormBuilder, private alertServ: AlertService, private coinServ: CoinService
     ) {
         this.transFee = 0;
-        this.kanbanTransFee = 0;
         this.firstTime = true;
         this.disabled = false;
         this.sendAllCoinsFlag = false;
@@ -264,10 +260,6 @@ export class DepositAmountModal {
         this.transFee = ret.transFee;
         this.getTransFeeUnit();
 
-        const kanbanGasPrice = Number(this.depositAmountForm.value.kanbanGasPrice);
-        const kanbanGasLimit = Number(this.depositAmountForm.value.kanbanGasLimit);
-        this.kanbanTransFee = new BigNumber(kanbanGasPrice).multipliedBy(new BigNumber(kanbanGasLimit))
-            .dividedBy(new BigNumber(1e18)).toNumber();
 
         return ret;
     }
@@ -278,10 +270,7 @@ export class DepositAmountModal {
         const feeLimit = this.depositAmountForm.value.feeLimit ? Number(this.depositAmountForm.value.feeLimit) : 0;
         const satoshisPerBytes = this.depositAmountForm.value.satoshisPerBytes ?
             Number(this.depositAmountForm.value.satoshisPerBytes) : 0;
-        const kanbanGasPrice = this.depositAmountForm.value.kanbanGasPrice ?
-            Number(this.depositAmountForm.value.kanbanGasPrice) : 0;
-        const kanbanGasLimit = this.depositAmountForm.value.kanbanGasLimit ?
-            Number(this.depositAmountForm.value.kanbanGasLimit) : 0;
+
 
         const depositAmount = this.depositAmountForm.value.depositAmount;
         const amount = Number(depositAmount);
@@ -311,9 +300,7 @@ export class DepositAmountModal {
             transFee: this.transFee,
             tranFeeUnit: this.tranFeeUnit,
             satoshisPerBytes: satoshisPerBytes,
-            feeLimit,
-            kanbanGasPrice: kanbanGasPrice,
-            kanbanGasLimit: kanbanGasLimit
+            feeLimit
         };
 
         this.confirmedAmount.emit(data);
@@ -321,7 +308,7 @@ export class DepositAmountModal {
     }
 
     show() {
-        this.confirmations = environment.depositMinimumConfirmations[this.coin.name];
+        this.confirmations = 12;
         this.depositModal.show();
     }
 
