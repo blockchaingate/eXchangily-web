@@ -785,6 +785,9 @@ export class MyordersComponent implements OnInit, OnDestroy {
         });
     }
 
+    toNumber(n: string) {
+        return Number(n);
+    }
     async deleteOrderDo() {
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin);
         if(!seed) {

@@ -241,7 +241,7 @@
 
         <div class="d-flex justify-content-between py-1">
             <div>
-                {{'Kanban Gas' | translate}}: {{utilServ.showAmount(gasPrice*gasLimit, 6)}} {{'Gas' | translate}}
+                {{'Kanban Gas' | translate}}: {{toNumber(utilServ.showAmount(gasPrice*gasLimit, 18))}} {{'Gas' | translate}}
             </div>
             <div>
                 <mat-slide-toggle [(ngModel)]="transFeeAdvance"></mat-slide-toggle>
