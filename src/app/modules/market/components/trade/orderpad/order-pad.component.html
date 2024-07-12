@@ -33,8 +33,8 @@
             <div class="buylist w-100">
                 <div class="orderbookitem mt-1" *ngFor="let buy of buys; let i=index" (click)="setPrice(buy.p)" [ngStyle]="{'background-color': buy.my ? '#3e3e5f' : ''}">
                     <div [style.width.%]="buy.percentage" [style.height.%]="100" class="percentage-bar percentage-bar-green">&nbsp;</div>
-                    <div class="price smallfont text-success">{{buy.p}}</div>
-                    <div class="quantity smallfont text-muted">{{buy.q}}</div>
+                    <div class="price smallfont text-success">{{toDecimal(buy.p, priceDecimal)}}</div>
+                    <div class="quantity smallfont text-muted">{{toDecimal(buy.q, qtyDecimal)}}</div>
                     <div class="total smallfont text-muted">{{showBuysAmount(buys, i)}}</div>
                 </div>
             </div>
