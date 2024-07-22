@@ -98,11 +98,10 @@ export const environment = {
         MATIC: {
             chain: {
                 name: 'testnet',
-                networkId: 80001,
-                chainId: 80001
+                networkId: 80002,
+                chainId: 80002
             },
-            //rpcEndpoint: 'https://rpc-mumbai.matic.today',
-            rpcEndpoint: 'https://kanbantest.fabcoinapi.com/redirect/polygon',
+            rpcEndpoint: 'https://rpc-amoy.polygon.technology/',
             hardfork: 'byzantium',
             gasPrice: 5,
             gasPriceMax: 100,
