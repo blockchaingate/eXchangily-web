@@ -46,6 +46,7 @@ export class WalletconnectComponent implements OnInit {
   kanbanChainId = environment.chains.KANBAN.chain.chainId;
   ethChainId = environment.chains.ETH.chainId;
   bnbChainId = environment.chains.BNB.chain.chainId;
+  maticChainId = environment.chains.MATIC.chain.chainId;
   connectedChainId: number;
   ethCoin: MyCoin;
   bnbCoin: MyCoin;
@@ -481,6 +482,7 @@ export class WalletconnectComponent implements OnInit {
             chains: [
               'eip155:' + this.ethChainId, 
               'eip155:' + this.bnbChainId, 
+              'eip155:' + this.maticChainId, 
               'eip155:' + this.kanbanChainId
             ],
             methods: [
@@ -496,6 +498,7 @@ export class WalletconnectComponent implements OnInit {
             accounts: [
               'eip155:' + this.ethChainId + ':' + this.ethAddress,
               'eip155:' + this.bnbChainId + ':' + this.ethAddress,
+              'eip155:' + this.maticChainId + ':' + this.ethAddress,
               'eip155:' + this.kanbanChainId +':' + this.walletAddress
             ]
           }
