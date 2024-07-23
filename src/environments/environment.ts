@@ -214,7 +214,7 @@ export const environment = {
                 ETH: '0x81cc3af688f37fdea2580bd382821a34fd8d9857',
                 TRX: 'TXLAQ63Xg1NAzckPwKHvzw7CSEmLMEqcdj',
                 BNB: '0x4850754EA867654339F38d4e6DF7cd80CFee141f',
-                MATIC: '0x26CbCDe3842D9A9170d47F122F69D993a00676ED'
+                MATIC: '0xac07731a197a49bd565c6f046ee953ee7d77afd1'
             },
             USDC: {
                 ETH: '0x1c35eCBc06ae6061d925A2fC2920779a1896282c',

@@ -583,15 +583,16 @@ export class WalletDashboardComponent implements OnInit {
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];       
 
+            /*
             if(((coin.name == 'RIS') && (coin.tokenType == 'FAB'))) {
                 this.walletUpdateToDate = true;
             }
-
+            */
             
             if(!environment.production 
                 && (coin.name == 'USDT') 
-                && (coin.tokenType == 'ETH')
-                && (coin.contractAddr == environment.addresses.smartContract.USDT.ETH)) {
+                && (coin.tokenType == 'MATIC')
+                && (coin.contractAddr == environment.addresses.smartContract.USDT.MATIC)) {
                 this.walletUpdateToDate = true;  
             }
             

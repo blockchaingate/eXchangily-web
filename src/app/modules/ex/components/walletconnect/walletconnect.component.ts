@@ -112,10 +112,16 @@ export class WalletconnectComponent implements OnInit {
     const {id, params} = proposal;
     this.id = id;
     this.params = params;
-    const { proposer, requiredNamespaces, relays, pairingTopic } = params;
+    const { proposer, requiredNamespaces, optionalNamespaces, relays, pairingTopic } = params;
     this.proposal = proposal;
     this.relays = relays;
     this.requiredNamespaces = requiredNamespaces;
+    if(!requiredNamespaces.eip155) {
+      this.requiredNamespaces = optionalNamespaces;
+    }
+    console.log('proposal===', proposal);
+    console.log('params===', params);
+    console.log('this.requiredNamespaces===', this.requiredNamespaces);
     this.topic = pairingTopic;
     const { metadata } = proposer;
     this.metadata = metadata;
@@ -465,7 +471,6 @@ export class WalletconnectComponent implements OnInit {
 
 
     const pairBody = { uri: this.uri };
-    console.log('pairBody===', pairBody);
     this.web3wallet.core.pairing.pair(pairBody);
 
   }
@@ -505,6 +510,7 @@ export class WalletconnectComponent implements OnInit {
         }
       })
 
+      console.log('approvedNamespaces====', approvedNamespaces);
       const apprvedResult = await this.web3wallet.approveSession({
         id: this.id,
         //relayProtocol: this.relays[0].protocol,
