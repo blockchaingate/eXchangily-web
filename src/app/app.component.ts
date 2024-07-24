@@ -32,11 +32,10 @@ export class AppComponent {
     this.isMobile = this.isMobileDevice();
     // const url = window.location.href;
     const hostname = location.hostname;
-    console.log('hostname===', hostname);
     if(['exchangily.com', 'www.exchangily.com'].indexOf(hostname) >= 0) {
       this.apiServ.checkCountry().subscribe(
         (countryCode: string) => {
-          if(['CA', 'US', 'USA'].indexOf(countryCode) >= 0) {
+          if(['CA'].indexOf(countryCode) >= 0) {
             this.blocked = true;
           }
         }
