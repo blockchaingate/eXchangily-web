@@ -266,7 +266,7 @@
             </div>
         </div>
 
-        <button [disabled]="withdrawAmount < minimumWithdrawAmount" class="btn btn1 btn-gradient text-white" (click)="onConfirmedWithdrawAmount()">{{"Confirm" | translate }}</button>
+        <button class="btn btn1 btn-gradient text-white" (click)="onConfirmedWithdrawAmount()">{{"Confirm" | translate }}</button>
 
     </div>
     <div class="modal-body" *ngIf="!tokenMaps || (tokenMaps.length == 0)">

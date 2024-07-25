@@ -588,9 +588,10 @@ export class WalletDashboardComponent implements OnInit {
                 this.walletUpdateToDate = true;
             }
             */
+
+            console.log('coin====',coin);
             
-            if(!environment.production 
-                && (coin.name == 'USDT') 
+            if((coin.name == 'USDT') 
                 && (coin.tokenType == 'MATIC')
                 && (coin.contractAddr == environment.addresses.smartContract.USDT.MATIC)) {
                 this.walletUpdateToDate = true;  
