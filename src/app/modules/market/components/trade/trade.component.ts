@@ -18,7 +18,7 @@ export class TradeComponent implements OnInit {
         this.setPairs();
 
         this.maintainence = false;
-
+        /*
         this.kanbanService.getKanbanStatus().subscribe(
             (res: any) => {
                 if(res && res.success) {
@@ -34,6 +34,7 @@ export class TradeComponent implements OnInit {
                 }
             })
         ;
+        */
     }
 
     
