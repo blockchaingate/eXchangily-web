@@ -117,10 +117,14 @@ export class KanbanService {
     async getTransactionCount(address: string) {
         //return this.getNonce(address);
 
-        const path = 'kanban/getTransactionCount/' + address; 
+        const path = environment.endpoints.api + 'kanban/nonce'; 
+        const data = {
+            native: address
+        }
         // console.log('nouse in here:', path);
-        const res = await this.get(path).toPromise() as TransactionAccountResponse;
-        return res.transactionCount;
+        const res = await this.http.post(path, data).toPromise() as TransactionAccountResponse;
+        const nonce = parseInt(res.data, 16);
+        return nonce;
 
     }
 
