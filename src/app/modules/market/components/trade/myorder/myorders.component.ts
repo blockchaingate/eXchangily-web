@@ -798,12 +798,11 @@ export class MyordersComponent implements OnInit, OnDestroy {
         console.log('abiHex for deleteOrderDo=', abiHex);
         const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
 
-        const address = await this.kanbanServ.getExchangeAddress();
         const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, this.pair, nonce);
         console.log('txhex=', txhex);
         this.kanbanServ.sendRawSignedTransaction(txhex).subscribe((resp: any) => {
             console.log('resp=', resp);
-            if (resp && resp.transactionHash) {
+            if (resp && resp.txid) {
 
                 console.log('go this way, address=', keyPairsKanban.address);
                 this.timerServ.checkOrderStatus(keyPairsKanban.address, 10);

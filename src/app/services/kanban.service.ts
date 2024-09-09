@@ -215,7 +215,8 @@ export class KanbanService {
         const data = {
             signedTransactionData: txhex
         };
-        return this.post('kanban/sendRawTransaction', data);
+        const url = environment.endpoints.api + 'kanban/sendRawTransaction';
+        return this.http.post(url, data);
     }
 
     async sendRawSignedTransactionPromise(txhex: string): Promise<any> {
@@ -223,7 +224,8 @@ export class KanbanService {
             signedTransactionData: txhex
         };
         try {
-            const res = await this.post('kanban/sendRawTransaction', data).toPromise();
+            const url = environment.endpoints.api + 'kanban/sendRawTransaction';
+            const res = await this.http.post(url, data).toPromise();
             return res;
         } catch(e) {
             let errMsg = e;
