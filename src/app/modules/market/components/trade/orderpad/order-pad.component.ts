@@ -1127,11 +1127,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       const txHexApprove: any = resTxHex?.txHexApprove;
   
       this.kanbanService.sendRawSignedTransaction(txHexApprove).subscribe((resp: any) => {
-        if (resp && resp.transactionHash) {
+        if (resp && resp.txid) {
           this.kanbanService.incNonce();
           this.kanbanService.sendRawSignedTransaction(txHex).subscribe((resp: any) => {
   
-            if (resp && resp.transactionHash) {
+            if (resp && resp.txid) {
               this.kanbanService.incNonce();
               if (this.lan === 'zh') {
                 this.alertServ.openSnackBarSuccess('下单成功。', 'Ok');

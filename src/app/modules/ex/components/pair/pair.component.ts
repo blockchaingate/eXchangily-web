@@ -167,8 +167,9 @@ export class PairComponent implements OnInit {
 
     this.kanbanServ.sendRawSignedTransaction(txhex).subscribe(
       (resp: any) => {
-      if (resp && resp.transactionHash) {
-        const txid = resp.transactionHash;
+        console.log('resp====', resp);
+      if (resp && resp.txid) {
+        const txid = resp.txid;
         this.alertServ.openSnackBarSuccess('Smart contract was called successfully.', 'Ok');
         this.kanbanServ.createPairDecimals(this.tokenLeft, this.tokenRight, this.priceDecimals, this.quantityDecimals).subscribe(
           (ret: any) => {
@@ -234,8 +235,8 @@ export class PairComponent implements OnInit {
     this.kanbanServ.sendRawSignedTransaction(txhex).subscribe(
       (resp: any) => {
         console.log('resp for deploy kanban==', resp);
-      if (resp && resp.transactionHash) {
-        const txid = resp.transactionHash;
+      if (resp && resp.txid) {
+        const txid = resp.txid;
         //this.alertServ.openSnackBarSuccess('Smart contract was created successfully.', 'Ok');
 
         var that = this;
