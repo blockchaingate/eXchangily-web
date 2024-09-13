@@ -282,11 +282,9 @@ export class ApiService {
         return new Promise<any>((resolve, reject) => {
             const url = environment.endpoints.api + 'v3/exchangily/pair/' + pairName + '/decimals';
 
-            console.log('url===', url);
             this.http.get(url).subscribe(
                 {
                     next: (ret: any) => {
-                        console.log('ret for getPairDecimals===', ret);
                         if(ret.success) {
                             const data = ret.data;
                             resolve(data);

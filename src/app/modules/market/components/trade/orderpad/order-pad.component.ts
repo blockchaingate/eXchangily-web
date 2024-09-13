@@ -626,18 +626,14 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   refreshCoinAvail() {
-    console.log('refreshCoinAvail start');
     let baseCoinAvailExisted = false;
     let targetCoinAvailExisted = false;
     if (this.baseCoin && this.targetCoin && this._mytokens) {
-      console.log('111');
       const tokens = this._mytokens.tokens;
       if(!tokens) {
         return;
       }
-      console.log('222');
       const ids = tokens.ids;
-      console.log('this.pairData====', this.pairData);
       for(let i = 0; i < ids.length; i++) {
         const id = ids[i].toLowerCase();
         if(id == this.pairData.tokenB.id.toLowerCase()) {
@@ -649,7 +645,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           this.targetCoinAvail = new BigNumber(tokens.balances[i]).shiftedBy(-tokens.decimals[i]).toNumber();
         }
       }
-      console.log('333');
     }
     if (!baseCoinAvailExisted) {
       this.baseCoinAvail = 0;
@@ -697,7 +692,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     this.lan = localStorage.getItem('Lan');
     this.pairName = this.route.snapshot.paramMap.get('pair');
 
-    console.log('go here', this.pairName);
     this.apiServ.getPairDecimals(this.pairName).then(
       (data: any) => {
         if(data) {
@@ -710,7 +704,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     const pairData = await this.apiServ.getPair(this.pairName);
     this.pairData = pairData;
 
-      console.log('this.pairData===', this.pairData);
     // console.log('ngOnInit for order Pad');
     this.oldNonce = -1;
     this.buyGasLimit = environment.chains.KANBAN.gasLimit;
@@ -727,7 +720,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
     this.timerServ.tokens.subscribe(
       (tokens: any) => {
-        console.log('tokens there we go====', tokens);
         this.setMytokens(tokens);
       }
     );
@@ -1025,9 +1017,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
     baseCoin = this.pairData.tokenB.id;
     targetCoin = this.pairData.tokenA.id;
-    console.log('this.pairData===', this.pairData);
     let qtyDecimals = this.pairData.tokenA.decimals;
-    console.log('qtyDecimals===', qtyDecimals);
     if (!bidOrAsk) {
       const tmp = baseCoin;
       baseCoin = targetCoin;

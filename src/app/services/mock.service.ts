@@ -38,8 +38,6 @@ export class MockService {
 
 
   getHistoryListSync(param) {
-    console.log('getHistoryListSync start');
-    console.log('param===', param);
     this.gotHistoryList = true;
     const inter = param.interval;
     const symbol = param.symbol;

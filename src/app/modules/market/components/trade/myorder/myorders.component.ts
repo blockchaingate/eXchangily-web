@@ -237,7 +237,6 @@ export class MyordersComponent implements OnInit, OnDestroy {
             (data: any) => {
                 const tokens = data.tokens;
                 this.mytokens = tokens;
-                console.log('this.mytokens=', this.mytokens);
             }
         );
 
@@ -246,7 +245,6 @@ export class MyordersComponent implements OnInit, OnDestroy {
     getLockers(address) {
         this.kanbanServ.getLocker(address).subscribe(
             (lockers: any) => {
-                console.log('lockers====', lockers);
                 this.mylockers = lockers;
             }
         );
