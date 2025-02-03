@@ -26,7 +26,8 @@ export interface DepositStatusResp {
 }
 
 export interface TransactionAccountResponse {
-transactionCount: number;
+success: boolean;
+data: string;
 }
 export interface OrderBookItem {
     asks: [][];

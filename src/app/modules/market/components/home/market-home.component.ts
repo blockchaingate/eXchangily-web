@@ -38,6 +38,7 @@ export class MarketHomeComponent implements OnInit {
       this.isMobile = true;
     }
 
+    /*
     this.kanbanServ.getKanbanStatus().subscribe(
       (res: any) => {
         if (res && res.success) {
@@ -52,6 +53,7 @@ export class MarketHomeComponent implements OnInit {
           this.maintainence = true;
         }
       });
+    */
   }
 
   getBannerAdv() {
