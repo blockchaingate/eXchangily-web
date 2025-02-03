@@ -30,7 +30,6 @@ import { Pair, defaultPairsConfig } from '../../../models/pair';
 import { ApiService } from 'src/app/services/api.service';
 import { WsService } from 'src/app/services/ws.service';
 
-
 declare let window: any;
 //http://localhost:4200/market/trade/kbeth_kbfab
 @Component({
@@ -211,7 +210,6 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   checkSellQty() {
-
     const vald = this.checkRegExp(this.sellQty.toString(), this.qtyDecimal);
     if (vald) {
       this.validSellQty = this.sellQty;
@@ -443,6 +441,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   toNumber(num: any) {
     return Number(num);
   }
+
   setBuyQtyPercent(percent: number) {
     if (this.buyPrice <= 0) {
       return;
