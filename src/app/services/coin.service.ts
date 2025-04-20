@@ -775,7 +775,7 @@ export class CoinService {
             const balanceObj = await this.apiService.getEthBalance(addr);
             balance = balanceObj.balance / 1e18;
             lockbalance = balanceObj.lockbalance / 1e18;
-        } else if(['MATIC', 'HT', 'BNB'].indexOf(name) >= 0) {  
+        } else if(['MATIC', 'POLYGON', 'HT', 'BNB'].indexOf(name) >= 0) {  
             const balanceObj = await this.apiService.getEthereumCompatibleBalance(name, addr);
             console.log('balanceObj====', balanceObj);
             balance = new BigNumber(balanceObj, 16).shiftedBy(-18).toNumber();
@@ -784,7 +784,7 @@ export class CoinService {
             const balanceObj = await this.getTrxTokenBalance(contractAddr, addr);
             balance = new BigNumber(balanceObj).shiftedBy(-decimals).toNumber();
             lockbalance = 0;   
-        } else if(['MATIC', 'HT', 'BNB'].indexOf(tokenType) >= 0) {  
+        } else if(['MATIC', 'POLYGON', 'HT', 'BNB'].indexOf(tokenType) >= 0) {  
             const balanceObj = await this.apiService.getEthereumCompatibleTokenBalance(tokenType, contractAddr, addr);
             balance = new BigNumber(balanceObj, 16).shiftedBy(-decimals).toNumber();
             lockbalance = 0;                  

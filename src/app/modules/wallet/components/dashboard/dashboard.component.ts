@@ -161,9 +161,10 @@ export class WalletDashboardComponent implements OnInit {
             value: 'DOGE'
         },
     ];
+    
     constructor(
         private route: Router, private walletServ: WalletService, private modalServ: BsModalService,
-        private coinServ: CoinService, public utilServ: UtilService, private apiServ: ApiService,
+        public utilServ: UtilService, private apiServ: ApiService,
         private _wsServ: WsService,
         private translateServ: TranslateService,
         private kanbanServ: KanbanService, private web3Serv: Web3Service,
@@ -277,6 +278,7 @@ export class WalletDashboardComponent implements OnInit {
             this.currencyRate = 7.07;
         }
     }
+
     async updateCoinBalance(coinName: string) {
         // console.log('coinName=' + coinName);
         let interval = 3000;
@@ -289,7 +291,7 @@ export class WalletDashboardComponent implements OnInit {
             if (coin.name === coinName) {
                 for (let j = 0; j < 20; j++) {
                     await new Promise(resolve => setTimeout(resolve, interval));
-                    const balance = await this.coinServ.getBalance(coin);
+                    const balance = await this.coinService.getBalance(coin);
                     if (coin.balance !== balance.balance || coin.lockedBalance !== balance.lockbalance) {
                         // console.log('you got it');
                         coin.balance = balance.balance;
@@ -430,7 +432,7 @@ export class WalletDashboardComponent implements OnInit {
                 if(!this.seed) {
                     continue;
                 }
-                const keyPair = this.coinServ.getKeyPairs(coin, this.seed, 0, addr.index);
+                const keyPair = this.coinService.getKeyPairs(coin, this.seed, 0, addr.index);
                 const item = {
                     coin: coin.name,
                     chain: 'external',
@@ -531,9 +533,7 @@ export class WalletDashboardComponent implements OnInit {
             await this.walletServ.saveCurrentWalletIndex(this.currentWalletIndex);
         }
         this.walletServ.updateWallets(this.wallets);
-
     }
-
 
     async loadCoinsPrice() {
         this.coinsPrice = await this.apiServ.getCoinsPrice();
@@ -578,8 +578,7 @@ export class WalletDashboardComponent implements OnInit {
         let ltcAddress = '';
         let trxAddress = '';
         let bnbAddress = '';
-
-        
+ 
         for (let i = 0; i < this.wallet.mycoins.length; i++) {
             const coin = this.wallet.mycoins[i];       
 
@@ -626,7 +625,7 @@ export class WalletDashboardComponent implements OnInit {
             }
             if (coin.name == 'USD Coin') {
                 try {
-                    const balance = await this.coinServ.getBalance(coin);
+                    const balance = await this.coinService.getBalance(coin);
                     coin.balance = balance.balance;
                     coin.lockedBalance = balance.lockbalance;
                 } catch(e) {
@@ -637,11 +636,9 @@ export class WalletDashboardComponent implements OnInit {
             
             if(coin.new && includeNew) {
                 try {
-                    const balance = await this.coinServ.getBalance(coin);
+                    const balance = await this.coinService.getBalance(coin);
                     coin.balance = balance.balance;
                     coin.lockedBalance = balance.lockbalance;
-
-
                     
                     if(!coin.logo && (coin.tokenType == 'FAB') && (['EXG', 'DUSD', 'DSC', 'BST'].indexOf(coin.symbol) < 0)) {
                         const token: any = await this.apiServ.getIssueToken(coin.contractAddr);
@@ -670,7 +667,7 @@ export class WalletDashboardComponent implements OnInit {
             timestamp: 0
         };
 
-        this.coinServ.getTransactionHistoryEvents(data).subscribe(
+        this.coinService.getTransactionHistoryEvents(data).subscribe(
             (res: any) => {
                 if (res && res.success) {
                     const data = res.data;
@@ -678,7 +675,7 @@ export class WalletDashboardComponent implements OnInit {
                 }
             }
         );
-        this.coinServ.walletBalance(data).subscribe(
+        this.coinService.walletBalance(data).subscribe(
             async (res: any) => {
                 if (res && res.success) {
                     let updated = false;
@@ -727,7 +724,6 @@ export class WalletDashboardComponent implements OnInit {
                             
                         }
                    
-
                         const resBody = res.data;
 
                         for (let i = 0; i < resBody.length; i++) {
@@ -776,8 +772,6 @@ export class WalletDashboardComponent implements OnInit {
                                 }
                             }
 
-
-
                         }
                    }
 
@@ -796,7 +790,7 @@ export class WalletDashboardComponent implements OnInit {
                 let fabCoin;
                 for (let i = 0; i < this.wallet.mycoins.length; i++) {
                     const coin = this.wallet.mycoins[i];
-                    const balance = await this.coinServ.getBalance(coin);
+                    const balance = await this.coinService.getBalance(coin);
                     if (coin.name === 'DUSD') {
                         hasDUSD = true;
                     } else if (coin.name === 'EXG') {
@@ -871,7 +865,6 @@ export class WalletDashboardComponent implements OnInit {
                     const data = resp.data;
                     this.gas = new BigNumber(data).shiftedBy(-18).toNumber();
                 }
-
 
             },
             error:(error) => {
@@ -1175,7 +1168,7 @@ export class WalletDashboardComponent implements OnInit {
         const coin = new MyCoin(this.coinName);
         coin.new = true;
         coin.encryptedPrivateKey = this.utilServ.aesEncrypt(this.privateKey, this.pin);
-        this.coinServ.fillUpAddressByPrivateKey(coin, this.privateKey);
+        this.coinService.fillUpAddressByPrivateKey(coin, this.privateKey);
         for(let i=0;i<this.wallet.mycoins.length;i++) {
             const item = this.wallet.mycoins[i];
             if(item.name == 'FAB' && item.receiveAdds[0].address == coin.receiveAdds[0].address) {
@@ -1183,19 +1176,19 @@ export class WalletDashboardComponent implements OnInit {
                 return;
             }
         }
-        this.coinServ.updateCoinBalance(coin);
+        this.coinService.updateCoinBalance(coin);
         this.wallet.mycoins.push(coin);
 
         if(this.coinName == 'FAB') {
-            const exgCoin = this.coinServ.initToken('FAB', 'EXG', 18, environment.addresses.smartContract.EXG.FAB, coin);
+            const exgCoin = this.coinService.initToken('FAB', 'EXG', 18, environment.addresses.smartContract.EXG.FAB, coin);
             exgCoin.new = true;
             exgCoin.encryptedPrivateKey = coin.encryptedPrivateKey;
-            this.coinServ.updateCoinBalance(exgCoin);
+            this.coinService.updateCoinBalance(exgCoin);
 
-            const dusdCoin = this.coinServ.initToken('FAB', 'DUSD', 6, environment.addresses.smartContract.DUSD, coin);
+            const dusdCoin = this.coinService.initToken('FAB', 'DUSD', 6, environment.addresses.smartContract.DUSD, coin);
             dusdCoin.new = true;
             dusdCoin.encryptedPrivateKey = coin.encryptedPrivateKey;    
-            this.coinServ.updateCoinBalance(dusdCoin);
+            this.coinService.updateCoinBalance(dusdCoin);
 
             /*
             const cnbCoin = this.coinServ.initToken('FAB', 'CNB', 18, environment.addresses.smartContract.CNB, coin);
@@ -1232,15 +1225,15 @@ export class WalletDashboardComponent implements OnInit {
             return;
         }
         const bchCoin = new MyCoin('BCH');
-        this.coinServ.fillUpAddress(bchCoin, seed, 1, 0);
+        this.coinService.fillUpAddress(bchCoin, seed, 1, 0);
         myCoins.push(bchCoin);
 
         const ltcCoin = new MyCoin('LTC');
-        this.coinServ.fillUpAddress(ltcCoin, seed, 1, 0);
+        this.coinService.fillUpAddress(ltcCoin, seed, 1, 0);
         myCoins.push(ltcCoin);
 
         const dogCoin = new MyCoin('DOGE');
-        this.coinServ.fillUpAddress(dogCoin, seed, 1, 0);
+        this.coinService.fillUpAddress(dogCoin, seed, 1, 0);
         myCoins.push(dogCoin);
 
         const erc20Tokens = [
@@ -1250,8 +1243,8 @@ export class WalletDashboardComponent implements OnInit {
 
         for (let i = 0; i < erc20Tokens.length; i++) {
             const tokenName1 = erc20Tokens[i];
-            const token1 = this.coinServ.initToken('ETH', tokenName1, 18, environment.addresses.smartContract[tokenName1], ethCoin);
-            this.coinServ.fillUpAddress(token1, seed, 1, 0);
+            const token1 = this.coinService.initToken('ETH', tokenName1, 18, environment.addresses.smartContract[tokenName1], ethCoin);
+            this.coinService.fillUpAddress(token1, seed, 1, 0);
             myCoins.push(token1);
         }
 
@@ -1261,19 +1254,19 @@ export class WalletDashboardComponent implements OnInit {
 
         for (let i = 0; i < erc20Tokens2.length; i++) {
             const tokenName2 = erc20Tokens2[i];
-            const token2 = this.coinServ.initToken('ETH', tokenName2, 8, environment.addresses.smartContract[tokenName2], ethCoin);
-            this.coinServ.fillUpAddress(token2, seed, 1, 0);
+            const token2 = this.coinService.initToken('ETH', tokenName2, 8, environment.addresses.smartContract[tokenName2], ethCoin);
+            this.coinService.fillUpAddress(token2, seed, 1, 0);
             myCoins.push(token2);
         }
 
         let tokenName = 'POWR';
-        let token = this.coinServ.initToken('ETH', tokenName, 6, environment.addresses.smartContract[tokenName], ethCoin);
-        this.coinServ.fillUpAddress(token, seed, 1, 0);
+        let token = this.coinService.initToken('ETH', tokenName, 6, environment.addresses.smartContract[tokenName], ethCoin);
+        this.coinService.fillUpAddress(token, seed, 1, 0);
         myCoins.push(token);
 
         tokenName = 'CEL';
-        token = this.coinServ.initToken('ETH', tokenName, 4, environment.addresses.smartContract[tokenName], ethCoin);
-        this.coinServ.fillUpAddress(token, seed, 1, 0);
+        token = this.coinService.initToken('ETH', tokenName, 4, environment.addresses.smartContract[tokenName], ethCoin);
+        this.coinService.fillUpAddress(token, seed, 1, 0);
         myCoins.push(token);
 
         this.hasNewCoins = false;
@@ -1350,7 +1343,7 @@ export class WalletDashboardComponent implements OnInit {
         if(!seed) {
             return;
         }
-        const coin = this.coinServ.initFABinBTC(seed);
+        const coin = this.coinService.initFABinBTC(seed);
         const options = {
             satoshisPerBytes: this.satoshisPerBytes ? this.satoshisPerBytes : environment.chains.BTC.satoshisPerBytes
         };
@@ -1395,7 +1388,7 @@ export class WalletDashboardComponent implements OnInit {
         if(!seed) {
             return;
         }
-        const coin = this.coinServ.initBTCinFAB(seed);
+        const coin = this.coinService.initBTCinFAB(seed);
         const options = {
             satoshisPerBytes: this.satoshisPerBytes ? this.satoshisPerBytes : environment.chains.BTC.satoshisPerBytes
         };
@@ -1501,11 +1494,11 @@ export class WalletDashboardComponent implements OnInit {
                 if(!seed) {
                     return;
                 }
-                baseCoin = this.coinServ.initCoin(seed, type);
+                baseCoin = this.coinService.initCoin(seed, type);
                 baseCoin.new = true;
                 this.wallet.mycoins.push(baseCoin);
             }
-            const mytoken = this.coinServ.initToken(type, name, decimals, addr, baseCoin, symbol);
+            const mytoken = this.coinService.initToken(type, name, decimals, addr, baseCoin, symbol);
             mytoken.new = true;
             this.wallet.mycoins.push(mytoken);
         }
@@ -1524,8 +1517,6 @@ export class WalletDashboardComponent implements OnInit {
 
     }
 
-
-
     onConfirmedAssets(assets: [Token]) {
 
         this.assets = assets;
@@ -1535,7 +1526,6 @@ export class WalletDashboardComponent implements OnInit {
         /*
        */
     }
-
 
     async addGasDo() {
         /*
@@ -1566,7 +1556,6 @@ export class WalletDashboardComponent implements OnInit {
         }
         //}
 
-
         const doSubmit = true;
         const options = {
             gasPrice: this.sendCoinForm.gasPrice,
@@ -1591,8 +1580,7 @@ export class WalletDashboardComponent implements OnInit {
                 this.sendCoinForm.to.trim(), amount, options, doSubmit
             );
         }
-
-        
+  
         if(!resForSendTx) {
             return;
         }
@@ -1655,18 +1643,16 @@ export class WalletDashboardComponent implements OnInit {
         }
 
         this.depositForTransactionID(currentCoin, transactionID);
-
     }
 
     async depositForTransactionID(currentCoin: MyCoin, txHash: string) {
         txHash = txHash.trim();
         const pin = this.pin;
-
         
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
-        const keyPairs = this.coinServ.getKeyPairs(currentCoin, seed, 0, 0);
-        const chainType = this.coinServ.getChainType(currentCoin);
+        const keyPairs = this.coinService.getKeyPairs(currentCoin, seed, 0, 0);
+        const chainType = this.coinService.getChainType(currentCoin);
         let tokenContract = '0000000000000000000000000000000000000001';
         if(this.depositGas) {
             tokenContract = '0000000000000000000000000000000000000002';
@@ -1674,21 +1660,18 @@ export class WalletDashboardComponent implements OnInit {
         if(currentCoin.contractAddr) {
             tokenContract = currentCoin.contractAddr;
             if(currentCoin.tokenType == 'TRX') {
-                tokenContract = this.coinServ.convertTrxAddressToWithChecksum(tokenContract);
+                tokenContract = this.coinService.convertTrxAddressToWithChecksum(tokenContract);
             }
 
             tokenContract = this.utilServ.stripHexPrefix(tokenContract).toLowerCase();
         }
 
-
-
         const tokenType = '0000000000000000000000000000000000000000'; //ERC20
-        const originalMessage = this.coinServ.getOriginalMessage(chainType, tokenContract, tokenType,this.utilServ.stripHexPrefix(addressInKanban), this.utilServ.stripHexPrefix(txHash));
+        const originalMessage = this.coinService.getOriginalMessage(chainType, tokenContract, tokenType,this.utilServ.stripHexPrefix(addressInKanban), this.utilServ.stripHexPrefix(txHash));
 
-        const signedMessage: Signature = await this.coinServ.signedMessage(originalMessage, keyPairs);
+        const signedMessage: Signature = await this.coinService.signedMessage(originalMessage, keyPairs);
 
-
-        const proof = this.coinServ.getProof(signedMessage, chainType, tokenContract, tokenType,this.utilServ.stripHexPrefix(addressInKanban), this.utilServ.stripHexPrefix(txHash));
+        const proof = this.coinService.getProof(signedMessage, chainType, tokenContract, tokenType,this.utilServ.stripHexPrefix(addressInKanban), this.utilServ.stripHexPrefix(txHash));
 
         // return 0;
         this.kanbanServ.submitDeposit(proof).subscribe((resp: any) => {
@@ -1750,9 +1733,9 @@ export class WalletDashboardComponent implements OnInit {
             this.warnPwdErr();
             return;
         }
-        const keyPairs = this.coinServ.getKeyPairs(currentCoin, seed, 0, 0);
+        const keyPairs = this.coinService.getKeyPairs(currentCoin, seed, 0, 0);
 
-        const officalAddress = await this.coinServ.getOfficialAddress(currentCoin);
+        const officalAddress = await this.coinService.getOfficialAddress(currentCoin);
 
         if (!officalAddress) {
             if (this.lan === 'zh') {
@@ -1782,7 +1765,7 @@ export class WalletDashboardComponent implements OnInit {
             feeLimit: this.amountForm ? this.amountForm.feeLimit : environment.chains.TRX.feeLimit
         };
 
-        const { txHex, txHash, errMsg, amountInTx, txids } = await this.coinServ.sendTransaction(
+        const { txHex, txHash, errMsg, amountInTx, txids } = await this.coinService.sendTransaction(
             currentCoin, seed, officalAddress, amount, options, doSubmit
         );
 
@@ -1801,9 +1784,6 @@ export class WalletDashboardComponent implements OnInit {
         }
         
         this.depositForTransactionID(currentCoin, txHash);
-
-
-
     }
 
     selectCoin(coinSymbol: string) {
