@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
+import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
 import { UtilService } from 'src/app/services/util.service';
 import { MyCoin } from '../../../../../models/mycoin';
 import { CoinService } from '../../../../../services/coin.service';

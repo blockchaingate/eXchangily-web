@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AuthGuard } from '../landing/guards/auth/auth.guard';
 import { TradeComponent } from './components/trade/trade.component';
 import { OtcRoutingModule } from './otc-routing.module';
-import { MatSelectModule } from '@angular/material/select';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 import { OtcPlaceOrderModal } from './modals/otc-place-order/otc-place-order';
 import { MemberDetailModal } from './modals/member-detail/member-detail.component';
 import { OtcPlaceOrderErrorModal } from './modals/otc-place-order-error/otc-place-order-error.component';
@@ -18,13 +18,13 @@ import { OrderDetailComponent } from './components/order-detail/order-detail.com
 import { UserPaymentMethodsComponent } from './components/userpaymentmethods/userpaymentmethods.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatRadioModule } from '@angular/material/radio';
+import { MatLegacyRadioModule as MatRadioModule } from '@angular/material/legacy-radio';
 import { OrderComponent } from './components/order/order.component';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 // duplicate component in otc-merchant module
-import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { SharedModule } from '../shared/shared.module';
 import { OtcMerchantModule } from '../otc/components/otc-merchant/otc-merchant.module';
 import { TranslateModule } from '@ngx-translate/core';

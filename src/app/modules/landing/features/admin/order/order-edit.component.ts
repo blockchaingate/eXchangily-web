@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, Params, ParamMap } from '@angular/router';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { Icotx, IcotxStatus, IcotxStatuses, IcotxColours } from '../../../models/icotx';
 import { IcotxService } from '../../../service/icotx/icotx.service';
 import { IcotxesAuthService } from '../../../service/icotxes-auth/icotxes-auth.service';

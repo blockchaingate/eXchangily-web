@@ -16,7 +16,7 @@ import { Wallet } from '../../../../../models/wallet';
 import * as randombytes from 'randombytes';
 import { FormBuilder } from '@angular/forms';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { TransactionResp } from '../../../../../interfaces/kanban.interface';
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { ActivatedRoute } from '@angular/router';

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Block, BlockMetainfo } from '../../models/block';
 import { KanbanService } from '../../services/kanban.service';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { MatLegacySlideToggleChange as MatSlideToggleChange } from '@angular/material/legacy-slide-toggle';
 import { SearchBoxComponent } from './../search-box/search-box.component';
 
 @Component({

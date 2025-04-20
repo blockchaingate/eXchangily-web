@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '../../components/components.module';
 import { ReferralModule } from './referrals/referrals.module';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { AccountComponent } from './account/account.component';
 import { InfoComponent } from './info/info.component';
 import { OtcModule } from '../../../otc/otc.module';
@@ -37,8 +37,8 @@ import { CreateOrderService } from '../../service/create-order/create-order.serv
 import { KycService } from '../../service/kyc/kyc.service';
 import { PlaceOrderFormComponent } from './place-order/place-order-form/place-order-form.component';
 import { CreateOrderSubmissionComponent } from './components/create-order-submission/create-order-submission.component';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { SharedModule } from '../../../shared/shared.module';
 import { CoinService } from '../../../../services/coin.service';
 import { AlertService } from '../../../../services/alert.service';
@@ -48,7 +48,7 @@ import { StorageService } from '../../../../services/storage.service';
 import { OtcService } from '../../../../services/otc.service';
 import { TimerService } from '../../../../services/timer.service';
 
-import {MatSelectModule} from '@angular/material/select';
+import {MatLegacySelectModule as MatSelectModule} from '@angular/material/legacy-select';
 @NgModule({
   imports: [
     CommonModule,
