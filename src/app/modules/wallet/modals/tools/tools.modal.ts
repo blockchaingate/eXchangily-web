@@ -1,7 +1,7 @@
 import { Component, ViewChild, EventEmitter, Output, OnInit } from '@angular/core';
 import {  ModalDirective } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../../environments/environment';
 import { UtilService } from '../../../../services/util.service';
 import * as exaddr from '../../../../lib/exaddr';
 
@@ -11,16 +11,16 @@ import * as exaddr from '../../../../lib/exaddr';
     styleUrls: ['./tools.modal.css']
 })
 export class ToolsModal implements OnInit{
-    _fabAddress: string;
-    _exgAddress: string;
-    _kbAddress: string;
-    to: string;
-    satoshisPerBytes: number;
-    @ViewChild('toolsModal', {static: true}) public toolsModal: ModalDirective;
+    _fabAddress = '';
+    _exgAddress = '';
+    _kbAddress = '';
+    to = '';
+    satoshisPerBytes = 0;
+    @ViewChild('toolsModal', {static: true}) public toolsModal: ModalDirective = {} as ModalDirective;
     @Output() confirmedTools = new EventEmitter<any>();
     constructor(private utilServ: UtilService) {
-
     }
+
     ngOnInit() {
         this.satoshisPerBytes = environment.chains.BTC.satoshisPerBytes;
     }
@@ -57,7 +57,6 @@ export class ToolsModal implements OnInit{
     }   
     
     BTCinFAB() {
-        
         const toolData = {
             action: 'BTCinFAB',
             data: this.to,

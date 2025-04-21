@@ -19,8 +19,8 @@ var DefaultBanner = require('../../../../../images/adv/default/default-adv.json'
 })
 export class MarketHomeComponent implements OnInit {
   banners: any[] = [];
-  maintainence: boolean;
-  isMobile: boolean;
+  maintainence = false;
+  isMobile = false;
 
   constructor(private kanbanServ: KanbanService, private bannerServ: BannerService, private _router: Router,
     private _renderer2: Renderer2, @Inject(DOCUMENT) private _document: Document
@@ -57,7 +57,7 @@ export class MarketHomeComponent implements OnInit {
   }
 
   getBannerAdv() {
-    
+
     /*
     this.bannerServ.getAll().subscribe(
       (res: any) => {
@@ -93,8 +93,8 @@ export class MarketHomeComponent implements OnInit {
       }
     )
     */
-   this.banners = DefaultBanner;
-   this.handleBaner();
+    this.banners = DefaultBanner;
+    this.handleBaner();
   }
 
   handleBaner() {
@@ -104,19 +104,19 @@ export class MarketHomeComponent implements OnInit {
     }
 
     console.log('this.banners===', this.banners);
-    if(this.banners && (this.banners.length > 0)) {
+    if (this.banners && (this.banners.length > 0)) {
       this.banners.forEach(banner => {
-        const titleItem = banner.title.filter(t => t.lan === currentLan) || banner.title.filter(t => t.lan === 'en');
+        const titleItem = banner.title.filter((t: any) => t.lan === currentLan) || banner.title.filter((t: any) => t.lan === 'en');
         if (titleItem) {
           banner.titleLan = titleItem[0].text;
         }
-  
-        const subtitleItem = banner.subtitle.filter(t => t.lan === currentLan) || banner.subtitle.filter(t => t.lan === 'en');
+
+        const subtitleItem = banner.subtitle.filter((t: any) => t.lan === currentLan) || banner.subtitle.filter((t: any) => t.lan === 'en');
         if (subtitleItem) {
           banner.subtitleLan = subtitleItem[0].text;
         }
-  
-        const descItem = banner.desc.filter(t => t.lan === currentLan) || banner.desc.filter(t => t.lan === 'en');
+
+        const descItem = banner.desc.filter((t: any) => t.lan === currentLan) || banner.desc.filter((t: any) => t.lan === 'en');
         if (descItem) {
           banner.descLan = descItem[0].text;
         }

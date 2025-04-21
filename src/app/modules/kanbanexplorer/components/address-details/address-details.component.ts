@@ -8,7 +8,7 @@ import { KanbanBalance } from '../../models/kanbanBalance';
 import { BigNumber } from 'bignumber.js';
 import { WithdrawRequest } from '../../models/withdrawRequest';
 import { DepositRequest } from '../../models/depositRequest';
-import { CoinService } from 'src/app/services/coin.service';
+import { CoinService } from '../../../../services/coin.service';
 
 @Component({
   selector: 'app-address-details',
@@ -17,13 +17,13 @@ import { CoinService } from 'src/app/services/coin.service';
   providers: [CoinService]
 })
 export class AddressDetailsComponent implements OnInit {
-  address: string;
+  address = '';
   balances: Balance[] = [];
   balancesDisplayedColumns = ['coinType', 'lockedAmount', 'unlockedAmount'];
   orders: Order[] = [];
-  kanbanBalance: KanbanBalance;
+  kanbanBalance: KanbanBalance = {} as KanbanBalance;
 
-  nonce: Number;
+  nonce = 0;
   withdrawReqs: WithdrawRequest[] = [];
   depositReqs: DepositRequest[] = [];
 
@@ -31,12 +31,13 @@ export class AddressDetailsComponent implements OnInit {
     private coinServ: CoinService,
     private route: ActivatedRoute, private service: KanbanService, private utilServ: UtilService) { }
 
-    getValue(value: any) {
-      return new BigNumber(value).shiftedBy(-18).toNumber();
-    }
+  getValue(value: any) {
+    return new BigNumber(value).shiftedBy(-18).toNumber();
+  }
+
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      this.address = params.get('address');
+      this.address = params.get('address') || '';
       console.log(this.address);
       let address = this.address.trim();
       if (!address.startsWith('0x')) {
@@ -69,8 +70,9 @@ export class AddressDetailsComponent implements OnInit {
 
       this.service.getAddressKanbanBalance(address).subscribe((b: KanbanBalance) => {
         this.kanbanBalance = b;
-        Object.keys(this.kanbanBalance.balance).forEach((k, v) => {
-          this.kanbanBalance.balance[k] = (new BigNumber(this.kanbanBalance.balance[k], 16)).toString();
+        Object.keys(this.kanbanBalance.balance).forEach((k) => {
+          const key = k as keyof typeof this.kanbanBalance.balance;
+          this.kanbanBalance.balance[key] = (new BigNumber(this.kanbanBalance.balance[key].toString(), 16)).toString();
         });
       });
 

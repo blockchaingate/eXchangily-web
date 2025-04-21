@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { WalletService } from '../../../../services/wallet.service';
-import { LocalStorage } from '@ngx-pwa/local-storage';
+import { StorageMap } from '@ngx-pwa/local-storage';
 import { Wallet } from '../../../../models/wallet';
 
 @Component({
@@ -13,11 +13,11 @@ import { Wallet } from '../../../../models/wallet';
     encapsulation: ViewEncapsulation.None
 })
 export class RestoreWalletComponent implements OnInit {
-    userForm: FormGroup;
-    seedPhrase: string;
-    seedPhraseInvalid: boolean;
+    userForm: FormGroup = new FormGroup({});
+    seedPhrase = '';
+    seedPhraseInvalid = false;
 
-    constructor(private route: Router, private fb: FormBuilder, private walletServ: WalletService, private localSt: LocalStorage) {
+    constructor(private route: Router, private fb: FormBuilder, private walletServ: WalletService, private localSt: StorageMap) {
     }
 
     ngOnInit() {
@@ -74,7 +74,7 @@ export class RestoreWalletComponent implements OnInit {
           alert('Error occured, please try again.');
         }
       } else {
-          this.localSt.getItem('wallets').subscribe((wallets: any) => {
+          this.localSt.get('wallets').subscribe((wallets: any) => {
               if (!wallets) {
                   wallets = [];
               }
@@ -83,7 +83,7 @@ export class RestoreWalletComponent implements OnInit {
                   
               }
               this.walletServ.saveCurrentWalletIndex(wallets.length - 1);
-              this.localSt.setItem('wallets', wallets).subscribe(() => {
+              this.localSt.set('wallets', wallets).subscribe(() => {
                   this.route.navigate(['/wallet/dashboard']);
               });
           });

@@ -10,8 +10,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['../style.scss']
 })
 export class ResetComponent implements OnInit {
-  resetForm: FormGroup;
-  emailData: string;
+  resetForm: FormGroup = new FormGroup({});
+  emailData = '';
   sent = false;
   errorMessage = '';
 
@@ -29,13 +29,14 @@ export class ResetComponent implements OnInit {
   }
 
   onSubmit() {
-    this._userService.requestPwdReset(this.email.value).then(
-      ret => this.processSuccess(ret),
-      error => { this.errorMessage = error; }
-    );
+    if (this.email) {
+      this._userService.requestPwdReset(this.email.value).then(
+      error => { this.errorMessage = error ? String(error) : 'An unknown error occurred'; }
+      );
+    }
   }
 
-  processSuccess(retLogin) {
+  processSuccess(retLogin: any) {
     this.errorMessage = '';
     this.sent = true;
   }

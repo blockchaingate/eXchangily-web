@@ -1,17 +1,17 @@
 import { Component, ViewChild, EventEmitter, Output, OnInit } from '@angular/core';
-import {  ModalDirective } from 'ngx-bootstrap/modal';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
     selector: 'team-modal',
     templateUrl: './team.component.html',
     styleUrls: ['./team.component.css']
 })
-export class TeamModal implements OnInit{
+export class TeamModal implements OnInit {
 
-    @ViewChild('teamModal', {static: true}) public teamModal: ModalDirective;
+    @ViewChild('teamModal', { static: true }) public teamModal: ModalDirective = {} as ModalDirective;
     constructor() {
-
     }
+
     ngOnInit() {
     }
 
@@ -20,5 +20,5 @@ export class TeamModal implements OnInit{
     }
     hide() {
         this.teamModal.hide();
-    }      
+    }
 }

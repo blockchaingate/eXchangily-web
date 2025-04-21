@@ -8,11 +8,16 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { StorageService } from '../../../../../services/storage.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from '../../../models/user';
-import { LoginInfoService } from 'src/app/services/loginInfo.service';
-import { CampaignOrderService } from 'src/app/services/campaignorder.service';
-import { LoginInfoModel } from 'src/app/models/lgoin-info';
-import { LoginQualifyService } from 'src/app/services/lgoin-quality.service';
 
+// Extend the User interface to include the 'id' property
+declare module '../../../models/user' {
+  interface User {
+    id?: string;
+  }
+}
+import { LoginInfoService } from '../../../../../services/loginInfo.service';
+import { CampaignOrderService } from '../../../../../services/campaignorder.service';
+import { LoginQualifyService } from '../../../../../services/lgoin-quality.service';
 
 @Component({
   selector: 'app-signin',
@@ -20,28 +25,26 @@ import { LoginQualifyService } from 'src/app/services/lgoin-quality.service';
   styleUrls: ['../style.scss']
 })
 export class SigninComponent implements OnInit {
-  private afterLoginUrl: string;
-  public submitted: boolean;
-  private isSystemAdmin: boolean;
-  loginError: string;
+  private afterLoginUrl = '';
+  public submitted = false;
+  private isSystemAdmin = false;
+  loginError = '';
   user = { email: '', password: '' };
-  signinForm: FormGroup;
-
+  signinForm: FormGroup = new FormGroup({});
 
   get email() { return this.signinForm.get('email'); }
 
   get password() { return this.signinForm.get('password'); }
 
-  LoginInfo: boolean;
-  LoginQualify: boolean;
-  membership: string;
+  LoginInfo = false;
+  LoginQualify = false;
+  membership = '';
 
   constructor(private _router: Router, private _route: ActivatedRoute, private _userService: UserService, private _userAuth: UserAuth,
     private _storageServ: StorageService,
     private LoginInfodata: LoginInfoService,
     private LoginQualifydata: LoginQualifyService,
     private campaignorderServ: CampaignOrderService,
-
   ) {
   }
 
@@ -82,14 +85,14 @@ export class SigninComponent implements OnInit {
 
     this._userService.loginUser(this.email?.value.toLowerCase(), this.password?.value)
       .subscribe((user: any) => this.processLogin(user),
-        err =>  {
+        err => {
           this.submitted = false;
           this.loginError = err.error.message
         }
       );
   }
 
-  processError(err) {
+  processError(err: any) {
     this.loginError = err.message;
   }
 
@@ -119,10 +122,10 @@ export class SigninComponent implements OnInit {
     }
 
     this._userAuth.userDisplay$.next(loginRet.displayName);
-    this._userAuth.isLoggedIn$.next(loginRet['id'] || loginRet._id);
+    this._userAuth.isLoggedIn$.next(loginRet._id);
 
-    this._userAuth.hasWrite = loginRet.isWriteAccessAdmin;
-    this._userAuth.id = loginRet._id || loginRet['id'];
+    this._userAuth.hasWrite = loginRet.isWriteAccessAdmin ?? false;
+    this._userAuth.id = loginRet._id || loginRet['id'] || '';
     this._userAuth.email = loginRet.email;
     this._userAuth.kyc = loginRet.kyc;
     this._userAuth.kycNote = loginRet.kycNote;
@@ -143,7 +146,7 @@ export class SigninComponent implements OnInit {
       this.LoginInfodata.changeMessage(true);
     }
     //check if user joined campaign
-    this.campaignorderServ.getProfile(token).subscribe(
+    this.campaignorderServ.getProfile(token + '').subscribe(
       (res: any) => {
         if (res && res.ok) {
           //this.submitted = false;
@@ -187,13 +190,6 @@ export class SigninComponent implements OnInit {
         }
       }
     );
-
-
-
-
-
-
-
 
   }
 }

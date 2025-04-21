@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, Params, ParamMap } from '@angular/router';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Icotx, IcotxStatus, IcotxStatuses, IcotxColours } from '../../../models/icotx';
 import { IcotxService } from '../../../service/icotx/icotx.service';
 import { IcotxesAuthService } from '../../../service/icotxes-auth/icotxes-auth.service';
@@ -14,18 +14,18 @@ import { switchMap } from 'rxjs/operators';
   styleUrls: ['./order-edit.component.scss']
 })
 export class OrderEditComponent implements OnInit {
-  order: Icotx;
+  order: Icotx = {} as Icotx;
   colours = IcotxColours;
   statuses = IcotxStatuses;
 
-  updateOrderForm: FormGroup;
-  serverMessage: string;
+  updateOrderForm: FormGroup = new FormGroup({});
+  serverMessage = '';
   formEdit = false;
 
-  totalAppTokenFm: FormControl;
-  totalToPayFm: FormControl;
+  totalAppTokenFm: FormControl = new FormControl();
+  totalToPayFm: FormControl = new FormControl();
 
-  private initStatus: IcotxStatus;
+  private initStatus: IcotxStatus = IcotxStatus.PENDING;
   constructor(private _icotxService: IcotxService, private _route: ActivatedRoute,
     private _localIcotx: IcotxesAuthService, private _router: Router,
     private dialog: MatDialog) { }
@@ -132,7 +132,7 @@ export class OrderEditComponent implements OnInit {
     this._icotxService.updateIcotx(icotx)
       .subscribe(
         res => {
-          this._localIcotx.findAndUpdate(<IcotxStatus>this.initStatus.toLowerCase(), icotx._id, icotx);
+          this._localIcotx.findAndUpdate(<IcotxStatus>this.initStatus.toLowerCase(), icotx._id || '', icotx);
           this.order = icotx;
           this.serverMessage = '';
           this.formEdit = false;
@@ -154,6 +154,6 @@ export class OrderEditComponent implements OnInit {
   }
 
   getStatus() {
-    return this.order.status.toLowerCase();
+    return this.order?.status?.toLowerCase();
   }
 }

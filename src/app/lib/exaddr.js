@@ -35,7 +35,7 @@ Type.P2PKH = 'p2pkh'
  * @param {*} input - Any input to check for validity.
  * @returns {boolean}
  */
-function isValidAddress (input) {
+function isValidAddress(input) {
   try {
     decodeAddress(input)
     return true
@@ -51,7 +51,7 @@ function isValidAddress (input) {
  * @return {string}
  * @throws {InvalidAddressError}
  */
-function detectAddressFormat (address) {
+function detectAddressFormat(address) {
   return decodeAddress(address).format
 }
 
@@ -62,7 +62,7 @@ function detectAddressFormat (address) {
  * @return {string}
  * @throws {InvalidAddressError}
  */
-function detectAddressNetwork (address) {
+function detectAddressNetwork(address) {
   return decodeAddress(address).network
 }
 
@@ -73,7 +73,7 @@ function detectAddressNetwork (address) {
  * @return {string}
  * @throws {InvalidAddressError}
  */
-function detectAddressType (address) {
+function detectAddressType(address) {
   return decodeAddress(address).type
 }
 
@@ -84,8 +84,8 @@ function detectAddressType (address) {
  * @return {string}
  * @throws {InvalidAddressError}
  */
-function toLegacyAddress (address) {
-  if(!address) {
+function toLegacyAddress(address) {
+  if (!address) {
     return '';
   }
   var decoded = decodeAddress(address)
@@ -102,8 +102,8 @@ function toLegacyAddress (address) {
  * @return {string}
  * @throws {InvalidAddressError}
  */
-function toKbpayAddress (address) {
-  if(!address) {
+function toKbpayAddress(address) {
+  if (!address) {
     return '';
   }
   var decoded = decodeAddress(address)
@@ -112,7 +112,6 @@ function toKbpayAddress (address) {
   }
   return encodeAsKbpay(decoded)
 }
-
 
 /**
  * Version byte table for base58 formats.
@@ -137,7 +136,7 @@ VERSION_BYTE[Format.Kbpay][Network.Testnet][Type.P2PKH] = 115
  * @return {object}
  * @throws {InvalidAddressError}
  */
-function decodeAddress (address) {
+function decodeAddress(address) {
   try {
     return decodeBase58Address(address)
   } catch (error) {
@@ -159,7 +158,7 @@ var BASE_58_CHECK_PAYLOAD_LENGTH = 21
  * @return {object}
  * @throws {InvalidAddressError}
  */
-function decodeBase58Address (address) {
+function decodeBase58Address(address) {
   try {
     var payload = bs58check.decode(address);
     if (payload.length !== BASE_58_CHECK_PAYLOAD_LENGTH) {
@@ -191,14 +190,14 @@ function decodeBase58Address (address) {
           type: Type.P2PKH
         }
 
-        case VERSION_BYTE[Format.Kbpay][Network.Testnet][Type.P2PKH]:
-          return {
-            hash: hash,
-            format: Format.Kbpay,
-            network: Network.Testnet,
-            type: Type.P2PKH
-          }
-  
+      case VERSION_BYTE[Format.Kbpay][Network.Testnet][Type.P2PKH]:
+        return {
+          hash: hash,
+          format: Format.Kbpay,
+          network: Network.Testnet,
+          type: Type.P2PKH
+        }
+
     }
   } catch (error) {
   }
@@ -211,7 +210,7 @@ function decodeBase58Address (address) {
  * @param {object} decoded
  * @returns {string}
  */
-function encodeAsLegacy (decoded) {
+function encodeAsLegacy(decoded) {
   var versionByte = VERSION_BYTE[Format.Legacy][decoded.network][decoded.type]
   var buffer = Buffer.alloc(1 + decoded.hash.length)
   buffer[0] = versionByte
@@ -225,14 +224,13 @@ function encodeAsLegacy (decoded) {
  * @param {object} decoded
  * @returns {string}
  */
-function encodeAsKbpay (decoded) {
+function encodeAsKbpay(decoded) {
   var versionByte = VERSION_BYTE[Format.Kbpay][decoded.network][decoded.type]
   var buffer = Buffer.alloc(1 + decoded.hash.length)
   buffer[0] = versionByte
   buffer.set(decoded.hash, 1)
   return bs58check.encode(buffer)
 }
-
 
 /**
  * Returns a boolean indicating whether the address is in legacy format.
@@ -241,7 +239,7 @@ function encodeAsKbpay (decoded) {
  * @returns {boolean}
  * @throws {InvalidAddressError}
  */
-function isLegacyAddress (address) {
+function isLegacyAddress(address) {
   return detectAddressFormat(address) === Format.Legacy
 }
 
@@ -252,10 +250,9 @@ function isLegacyAddress (address) {
  * @returns {boolean}
  * @throws {InvalidAddressError}
  */
-function isKbpayAddress (address) {
+function isKbpayAddress(address) {
   return detectAddressFormat(address) === Format.Kbpay
 }
-
 
 /**
  * Returns a boolean indicating whether the address is a mainnet address.
@@ -264,7 +261,7 @@ function isKbpayAddress (address) {
  * @returns {boolean}
  * @throws {InvalidAddressError}
  */
-function isMainnetAddress (address) {
+function isMainnetAddress(address) {
   return detectAddressNetwork(address) === Network.Mainnet
 }
 
@@ -275,7 +272,7 @@ function isMainnetAddress (address) {
  * @returns {boolean}
  * @throws {InvalidAddressError}
  */
-function isTestnetAddress (address) {
+function isTestnetAddress(address) {
   return detectAddressNetwork(address) === Network.Testnet
 }
 
@@ -286,17 +283,16 @@ function isTestnetAddress (address) {
  * @returns {boolean}
  * @throws {InvalidAddressError}
  */
-function isP2PKHAddress (address) {
+function isP2PKHAddress(address) {
   return detectAddressType(address) === Type.P2PKH
 }
-
 
 /**
  * Error thrown when the address given as input is not a valid Kbpay address.
  * @constructor
  * InvalidAddressError
  */
-function InvalidAddressError () {
+function InvalidAddressError() {
   var error = new Error()
   this.name = error.name = 'InvalidAddressError'
   this.message = error.message = 'Received an invalid Kbpay address as input.'

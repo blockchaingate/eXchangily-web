@@ -1,6 +1,5 @@
 import { Component, TemplateRef, Input} from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import * as exaddr from '../../../../lib/exaddr';
 
 @Component({
     selector: 'modal-receive-coin',
@@ -8,13 +7,13 @@ import * as exaddr from '../../../../lib/exaddr';
     styleUrls: ['./receive-coin.component.scss']
 })
 export class ReceiveCoinModal {
-    modalRef: BsModalRef;
-    @Input() address: string;
-    exAddr: string;
-    link: string;
+    modalRef: BsModalRef = {} as BsModalRef;
+    @Input() address = '';
+    exAddr = '';
+    link = '';
     constructor(private modalService: BsModalService) {
-
     }
+
     openModal(template: TemplateRef<any>) {
         console.log('this.addresseeee=', this.address);
         this.exAddr = this.address;
@@ -36,7 +35,7 @@ export class ReceiveCoinModal {
     }
     
     dlDataUrlBin() {
-        const y = document.getElementById('address_qr_code').getElementsByTagName('canvas')[0];
+        const y = document.getElementById('address_qr_code')?.getElementsByTagName('canvas')[0];
         //console.log('y.src=' + y.src);
         if(y) {
             var link = y.toDataURL("image/png");

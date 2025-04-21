@@ -15,7 +15,7 @@ import { ActivateComponent } from './activate/activate.component';
 import { NoAuthGuard } from '../../guards/no-auth/no-auth.guard';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { WalletService } from '../.../../../../../services/wallet.service';
-import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { StorageService } from '../../../../services/storage.service';
 
 import { CoinService } from '../../../../services/coin.service';

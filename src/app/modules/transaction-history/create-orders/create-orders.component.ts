@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
-import { MatLegacyPaginator as MatPaginator, LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
-import { ApiService } from 'src/app/services/api.service';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { ApiService } from '../../../services/api.service';
 import { OrderElement } from '../order-element';
 @Component({
   selector: 'app-create-orders',
@@ -9,16 +9,15 @@ import { OrderElement } from '../order-element';
   styleUrls: ['./create-orders.component.css']
 })
 export class CreateOrdersComponent implements OnInit {
-
   pageSize = 10;
   pageIndex = 0;
   length = 1000;
 
-  constructor(private apiServ: ApiService, private changeDetectorRefs: ChangeDetectorRef) {}
+  constructor(private apiServ: ApiService, private changeDetectorRefs: ChangeDetectorRef) { }
   displayedColumns: string[] = ['orderHash', 'owner', 'pair', 'price', 'amount', 'timestamp'];
   dataSource: any = new MatTableDataSource<OrderElement>([]);
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator = new MatPaginator(this.pageSize, this.pageIndex);
 
   ngOnInit(): void {
     this.apiServ.getExchangilyCreateOrders(this.pageSize, this.pageIndex).subscribe(

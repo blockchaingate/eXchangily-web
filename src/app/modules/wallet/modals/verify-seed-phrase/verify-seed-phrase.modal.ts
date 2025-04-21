@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import {  ModalDirective } from 'ngx-bootstrap/modal';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -7,13 +7,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
     templateUrl: './verify-seed-phrase.modal.html',
     styleUrls: ['./verify-seed-phrase.modal.css']
 })
-export class VerifySeedPhraseModal  implements OnInit {
-    @ViewChild('verifySeedPhraseModal', {static: true}) public verifySeedPhraseModal: ModalDirective;
-    verifySeedPhraseForm: FormGroup;
-    verifyResult: string;
-    seedPhrase: string;
-    constructor(private fb: FormBuilder) {
+export class VerifySeedPhraseModal implements OnInit {
+    @ViewChild('verifySeedPhraseModal', { static: true }) public verifySeedPhraseModal: ModalDirective = {} as ModalDirective;
+    verifySeedPhraseForm: FormGroup = {} as FormGroup;
+    verifyResult = '';
+    seedPhrase = '';
 
+    constructor(private fb: FormBuilder) {
     }
 
     ngOnInit() {

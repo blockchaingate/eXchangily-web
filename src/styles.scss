@@ -1,10 +1,10 @@
 // Bootstrap
 // @import "~bootstrap/scss/bootstrap-reboot";
 // @import "~bootstrap/scss/bootstrap-grid";
-@import "colours";
-@import "fonts";
-@import "sizing";
-@import "forms";
+@import "./global_styles/colours";
+@import "./global_styles/fonts";
+@import "./global_styles/sizing";
+@import "./global_styles/forms";
 @import "./styles/margin.css";
 @import "./styles/padding.css";
 @import "./styles/size.css";

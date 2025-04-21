@@ -17,11 +17,11 @@ import { Observable } from 'rxjs';
   styleUrls: ['./place-order.component.scss']
 })
 export class PlaceOrderComponent implements OnInit, OnDestroy {
-  app: Application;
-  totalUSD: number;
+  app: Application = {} as Application;
+  totalUSD = 0;
   paymethods = ['FAB', 'BTC', 'ETH', 'USD', 'CAD', 'RMB'];
 
-  orderForm: FormGroup;
+  orderForm: FormGroup = new FormGroup({});
   payMethod = new FormControl('ETH', [Validators.required]);
   paidAmount = new FormControl(0, {
     validators: [
@@ -69,8 +69,8 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
       return;
     }
 
-    for (let i = 0; i < this.app.coins.length; i++) {
-      if (this.app.coins[i].symbol === symbol) {
+    for (let i = 0; i < (this.app.coins?.length || 0); i++) {
+      if (this.app.coins?.[i]?.symbol === symbol) {
         this._createOrderService.appCoinSymbol = symbol;
         this._createOrderService.appCoinAddress = '' + this.app.coins[i].add;
       }
@@ -82,11 +82,13 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
   }
 
   next() {
-    const payMethod = ('' + this.orderForm.get('payMethod').value).toUpperCase();
+    const payMethodControl = this.orderForm.get('payMethod');
+    const payMethod = payMethodControl ? ('' + payMethodControl.value).toUpperCase() : '';
 
     this.getAppCoinAddress(payMethod);
 
-    if (!this.orderForm.valid && this.orderForm.get('paidAmount').value > 0) {
+    const paidAmountControl = this.orderForm.get('paidAmount');
+    if (!this.orderForm.valid && paidAmountControl && paidAmountControl.value > 0) {
       return;
     }
 
@@ -101,14 +103,22 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
   }
 
   updateFromPayMethod() {
-    const amount = this.orderForm.get('paidAmount').value;
-    const payMethod = this.orderForm.get('payMethod').value;
+    const paidAmountControl = this.orderForm.get('paidAmount');
+    const amount = paidAmountControl ? paidAmountControl.value : 0;
+    const payMethodControl = this.orderForm.get('payMethod');
+    const payMethod = payMethodControl ? payMethodControl.value : null;
     if (amount !== 0) {
       this._currenciesService.convertToEXC(amount, payMethod, false, false)
       .subscribe((result: any) => {
         const outcome = this.returnFixedNumber(result.conversion);
-        this.orderForm.get('appTokenQty').setValue(outcome);
-        this.orderForm.get('payRate').setValue(result.rate);
+        const appTokenQtyControl = this.orderForm.get('appTokenQty');
+        if (appTokenQtyControl) {
+          appTokenQtyControl.setValue(outcome);
+        }
+        const payRateControl = this.orderForm.get('payRate');
+        if (payRateControl) {
+          payRateControl.setValue(result.rate);
+        }
         this.totalUSD = result.amountUSD;
         // this.amountUSD.setValue(result.amountUSD);
       });
@@ -116,36 +126,57 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
   }
 
   updateFromQty() {
-    const pm = this.orderForm.get('payMethod').value;
-    const qty = this.orderForm.get('appTokenQty').value || 0;
+    const pm = this.orderForm.get('payMethod')?.value || null;
+    const appTokenQtyControl = this.orderForm.get('appTokenQty');
+    const qty = appTokenQtyControl ? appTokenQtyControl.value || 0 : 0;
 
     if (qty === 0) {
-      this.orderForm.get('paidAmount').setValue(0);
+      const paidAmountControl = this.orderForm.get('paidAmount');
+      if (paidAmountControl) {
+        paidAmountControl.setValue(0);
+      }
     }
 
     this._currenciesService.convertToEXC(qty, pm, true, false)
     .subscribe((result: any) => {
       const outcome = this.returnFixedNumber(result.conversion);
-      this.orderForm.get('paidAmount').setValue(outcome);
-      this.orderForm.get('payRate').setValue(result.rate);
+      const paidAmountControl = this.orderForm.get('paidAmount');
+      if (paidAmountControl) {
+        paidAmountControl.setValue(outcome);
+      }
+      const payRateControl = this.orderForm.get('payRate');
+      if (payRateControl) {
+        payRateControl.setValue(result.rate);
+      }
       this.totalUSD = result.amountUSD;
       // this.amountUSD.setValue(result.amountUSD);
     });
   }
 
   updateFromAmount() {
-    const pm = this.orderForm.get('payMethod').value;
-    const amount = this.orderForm.get('paidAmount').value || 0;
+    const payMethodControl = this.orderForm.get('payMethod');
+    const pm = payMethodControl ? payMethodControl.value : null;
+    const paidAmountControl = this.orderForm.get('paidAmount');
+    const amount = paidAmountControl ? paidAmountControl.value || 0 : 0;
 
     if (amount === 0) {
-      this.orderForm.get('appTokenQty').setValue(0);
+      const appTokenQtyControl = this.orderForm.get('appTokenQty');
+      if (appTokenQtyControl) {
+        appTokenQtyControl.setValue(0);
+      }
     }
 
     this._currenciesService.convertToEXC(amount, pm, false, false)
     .subscribe((result: any) => {
       const outcome = this.returnFixedNumber(result.conversion);
-      this.orderForm.get('appTokenQty').setValue(outcome);
-      this.orderForm.get('payRate').setValue(result.rate);
+      const appTokenQtyControl = this.orderForm.get('appTokenQty');
+      if (appTokenQtyControl) {
+        appTokenQtyControl.setValue(outcome);
+      }
+      const payRateControl = this.orderForm.get('payRate');
+      if (payRateControl) {
+        payRateControl.setValue(result.rate);
+      }
       this.totalUSD = result.amountUSD;
       // this.amountUSD.setValue(result.amountUSD);
     });

@@ -16,7 +16,7 @@ export class UserService {
   }
 
   // For signup
-  public createUser(data) {
+  public createUser(data: any) {
     const theBody = {
       email: data.email,
       password: data.password,
@@ -30,15 +30,15 @@ export class UserService {
       appId: this._appAuth.id
     };
 
-    return this.http.post(path + 'create', theBody).pipe(map(res => res, err => {alert(err); }));
+    return this.http.post(path + 'create', theBody).pipe(map(res => res, (err: any) => { alert(err); }));
   }
 
   // Get member
-  public getUser(data) {
+  public getUser(data: any) {
     return this.http.post(path + 'findOne', data, true).pipe(map(res => res));
   }
 
-  public setWallets(data) {
+  public setWallets(data: any) {
     data.appId = this._appAuth.id;
     return this.http.post(path + 'wallets', data, true).pipe(map(res => res));
   }
@@ -48,7 +48,7 @@ export class UserService {
   }
 
   // Get members
-  public getUsers(data) {
+  public getUsers(data: any) {
     return this.http.post(path + 'find', data, true).pipe(map(res => <Array<User>>res));
   }
 
@@ -89,17 +89,17 @@ export class UserService {
     return this.http.get(path + id, true).pipe(map(res => res));
   }
 
-  getMe(token) {
+  getMe(token: string) {
     const url = path + 'me';
     return this.http.getPrivate(url, token).pipe(map(res => res));
   }
 
-  getMerchant(token) {
+  getMerchant(token: string) {
     const url = path + 'merchant';
     return this.http.getPrivate(url, token).pipe(map(res => res));
   }
 
-  validateNumber(token, mobile) {
+  validateNumber(token: any, mobile: any) {
     const url = path + 'validateNumber';
     const data = {
       mobile: mobile
@@ -107,7 +107,7 @@ export class UserService {
     return this.http.postPrivate(url, data, token).pipe(map(res => res));
   }
 
-  confirmValifacationCode(token, mobileVerifyCode) {
+  confirmValifacationCode(token: any, mobileVerifyCode: any) {
     const url = path + 'confirmValifacationCode';
     const data = {
       mobileVerifyCode: mobileVerifyCode
@@ -120,16 +120,16 @@ export class UserService {
   }
 
   // Update member
-  updateUser(data) {
+  updateUser(data: any) {
     data.appId = this._appAuth.id;
     return this.http.post(path + 'FindOneAndUpdate', data, true).pipe(map(res => res));
   }
 
-  setKycPass(data) {
+  setKycPass(data: any) {
     data.appId = this._appAuth.id;
-    return this.http.post(path + 'setKycPass', data, true).pipe(map(res => res));    
+    return this.http.post(path + 'setKycPass', data, true).pipe(map(res => res));
   }
-  
+
   // Request Password Reset
   requestPwdReset(email: string) {
     const theBody = { 'email': email, appId: this._appAuth.id };

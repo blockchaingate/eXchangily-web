@@ -10,9 +10,9 @@ import { UtilService } from '../../../../../../services/util.service';
   styleUrls: ['./info.component.scss']
 })
 export class InfoComponent implements OnInit {
-  appUser: AppUsers;
-  user;
-  children;
+  appUser: AppUsers = {} as AppUsers;
+  user: any;
+  children: any;
 
   showCopySuccess = {
     link: false,
@@ -30,13 +30,11 @@ export class InfoComponent implements OnInit {
   }
   
   ngOnInit() {
-    this.appUser = this._route.snapshot.data.appUser;
-    this.user = this._route.snapshot.data.user;
+    this.appUser = this._route.snapshot.data['appUser'];
+    this.user = this._route.snapshot.data['user'];
 
     console.log("this.appUser: ");
     console.log(this.appUser);
-    
-    
     
     this._appUsers.getChildReferrals(this.appUser.userId)
     .subscribe(
@@ -45,7 +43,7 @@ export class InfoComponent implements OnInit {
     );
   }
 
-  onCopiedSuccessfully(type: string) {
+  onCopiedSuccessfully(type: 'link' | 'code') {
     if (this.showCopySuccess[type]) {
       return;
     }
@@ -55,14 +53,14 @@ export class InfoComponent implements OnInit {
     }, 2500);
   }
 
-  private childLoaded(res) {
+  private childLoaded(res: any) {
     if (!res.success) {
       return;
     }
     this.children = res;
   }
 
-  private childError(err) {
+  private childError(err: any) {
     console.log(err);
   }
 }

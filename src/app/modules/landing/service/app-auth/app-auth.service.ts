@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AppAuthService {
-  private _id: string;
+  private _id = '';
 
   get id(): string {
     return this._id;

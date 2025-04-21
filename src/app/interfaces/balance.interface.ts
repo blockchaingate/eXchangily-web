@@ -1,4 +1,4 @@
-import { TextWithCheckboxFieldCustomInfo } from 'src/assets/charting_library/charting_library.min';
+import { TextWithCheckboxFieldCustomInfo } from '../../assets/charting_library/charting_library.min';
 
 export interface TxRef {
     tx_hash: string;
@@ -32,8 +32,8 @@ export interface Balance {
     final_n_tx: number;
     txrefs: [TxRef];
     */
-   balance: number;
-   lockbalance: number;
+    balance: number;
+    lockbalance: number;
 }
 
 export interface BtcUtxo {
@@ -153,7 +153,6 @@ export interface EthTransactionRes {
     value: number;
 }
 
-
 export interface EthTransactionStatusRes {
     txhash: string;
     status: boolean;
@@ -184,7 +183,7 @@ export interface TxBtc {
 
 export interface OriginalMessage {
     // defined in https://github.com/blockchaingate/devdoc/blob/master/kanban/deposit.md
-    
+
 }
 
 export interface BtcTransaction {
@@ -200,7 +199,7 @@ export interface EthTransaction {
 export interface CoinsPrice {
     exgcoin: {
         usd: number
-    };    
+    };
     bitcoin: {
         usd: number
     };
@@ -212,6 +211,6 @@ export interface CoinsPrice {
     };
     tether: {
         usd: number
-    };           
+    };
 }
 

@@ -10,15 +10,15 @@ import { HttpClient } from '@angular/common/http';
     styleUrls: ['./get-free-fab.modal.scss']
 })
 export class GetFreeFabModal implements OnInit {
-    @ViewChild('getFreeFabModal', { static: true }) public getFreeFabModal: ModalDirective;
-    @Input() address: string;
-    question: string;
-    questionair_id: string;
-    answer: string;
-    error: string | null;
-    publicIP: string;
-    constructor(private airdropServ: AirdropService, private alertServ: AlertService, private http: HttpClient) {
+    @ViewChild('getFreeFabModal', { static: true }) public getFreeFabModal: ModalDirective = {} as ModalDirective;
+    @Input() address = '';
+    question = '';
+    questionair_id = '';
+    answer = '';
+    error: any;
+    publicIP = '';
 
+    constructor(private airdropServ: AirdropService, private alertServ: AlertService, private http: HttpClient) {
     }
 
     ngOnInit() {
@@ -49,7 +49,6 @@ export class GetFreeFabModal implements OnInit {
                 if (res) {
                     const data = res._body;
                     if (res.ok) {
-
                         console.log('data=', data);
                         this.question = data.question;
                         this.questionair_id = data._id;
@@ -62,6 +61,7 @@ export class GetFreeFabModal implements OnInit {
         );
         this.getFreeFabModal.show();
     }
+
     hide() {
         this.getFreeFabModal.hide();
     }

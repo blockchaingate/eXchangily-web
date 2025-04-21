@@ -16,14 +16,14 @@ import { AppService } from '../../../../service/app-service/app.service';
 })
 export class ConfirmPageComponent implements OnInit, OnDestroy {
   coins = 'btc,eth,fab,BTC,ETH,FAB';
-  confirmForm: FormGroup;
+  confirmForm: FormGroup = new FormGroup({});
   serverError = '';
   success = false;
   loaded = false;
   crOS: CreateOrderService;
 
   // app: Application;
-  user: User;
+  user: User = {} as User;
   // fabAdd = '';
   //  ethAdd = '';
   //  btcAdd = '';
@@ -45,7 +45,7 @@ export class ConfirmPageComponent implements OnInit, OnDestroy {
       this._router.navigate([AccountPaths[2].absolute]);
     }
 
-    this._activatedRoute.data.subscribe(ret => {
+    this._activatedRoute.data.subscribe((ret: any) => {
       this.user = ret.user;
     });
   }
@@ -70,7 +70,7 @@ export class ConfirmPageComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const addrs = { btcAddress: this.user.btcAdd, ethAddress: this.user.ethAdd, fabAddress: this.user.fabAdd };
+    const addrs = { btcAddress: this.user.btcAdd + '', ethAddress: this.user.ethAdd + '', fabAddress: this.user.fabAdd + '' };
     // const addrs = { btcAddress: this.btcAdd, ethAddress: this.ethAdd, fabAddress: this.fabAdd };
     this._icotx.createIcotx(this._crOS.objectWithTransitIDs(this.transitIds.value, addrs))
       .subscribe(

@@ -8,10 +8,10 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CommonModule } from '@angular/common';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 import { SortByFieldPipe } from './pipes/sort.pipe';
 import { FilterByChainPipe } from './pipes/filter-by-chain.pipe';
@@ -20,11 +20,11 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 @NgModule({
     declarations: [
-        PinNumberModal,
-        PrivateKeyModal,
-        DisplayPinNumberModal,
-        SortByFieldPipe,
-        FilterByChainPipe
+   //     PinNumberModal,
+   //     PrivateKeyModal,
+    //    DisplayPinNumberModal,
+    //    SortByFieldPipe,
+    //    FilterByChainPipe
     ],
     imports: [
         ModalModule.forRoot(),
@@ -47,11 +47,6 @@ export function HttpLoaderFactory(http: HttpClient) {
         */
     ],
     exports: [
-        PinNumberModal,
-        PrivateKeyModal,
-        DisplayPinNumberModal,
-        SortByFieldPipe,
-        FilterByChainPipe,
         TranslateModule
     ],
     providers: [

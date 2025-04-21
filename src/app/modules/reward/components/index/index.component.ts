@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RewardService } from '../../../../services/reward.service';
 import { UtilService } from '../../../../services/util.service';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-reward-index',
@@ -11,8 +11,8 @@ import { environment } from 'src/environments/environment';
 export class IndexComponent implements OnInit {
   traderewards: any;
   currentTradereward: any;
-  totalReward: number;
-  totalReward2: number;
+  totalReward = 0;
+  totalReward2 = 0;
   periods: any;
   pairs = [
     'BTCUSDT',
@@ -23,7 +23,8 @@ export class IndexComponent implements OnInit {
   ];
 
   constructor(private rewardService: RewardService, public utilServ: UtilService) {
-  }  
+  }
+
   ngOnInit() {
     this.totalReward = 0;
     this.totalReward2 = 0;
@@ -37,14 +38,12 @@ export class IndexComponent implements OnInit {
     );
   }
 
-  getProofLink(pair, period) {
+  getProofLink(pair: any, period: any) {
     const url = 'https://kanban' + (environment.production ? 'prod' : 'test') + '.fabcoinapi.com/' + 'tradesbypairbetweenblocks/' 
     + pair + '/' + period.startBlock + '/' + period.endBlock;
     return url;
   }
 }
-
-
 
 /*
 url = 'https://kanban' + (secret.production ? 'prod' : 'test') + '.fabcoinapi.com/' + 'tradesbypairbetweenblocks/' 

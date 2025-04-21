@@ -9,10 +9,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./merchant.component.scss']
 })
 export class MerchantComponent implements OnInit {
-  token: string;
-  mobile: string;
-  verificationCode: string;
-  step: number;
+  token = '';
+  mobile = '';
+  verificationCode = '';
+  step = 0;
   merchant: any;
   member: any;
   constructor(
@@ -23,18 +23,18 @@ export class MerchantComponent implements OnInit {
   ngOnInit() {
 
     this.storageService.getToken().subscribe(
-      (token: string) => {
-          this.token = token;
-          console.log('token==', token);
-          this.userServ.getMerchant(token).subscribe(
-              (res: any) => {
-                console.log('res for getMerchant=', res);
-                  if (res && res.ok) {
-                    const body = res._body;
-                    this.merchant = body.merchant,
-                    this.member = body.member;
-                  }
+      (token: any) => {
+        this.token = token;
+        console.log('token==', token);
+        this.userServ.getMerchant(token).subscribe(
+          (res: any) => {
+            console.log('res for getMerchant=', res);
+            if (res && res.ok) {
+              const body = res._body;
+              this.merchant = body.merchant,
+                this.member = body.member;
+            }
           });
-        });    
+      });
   }
 }

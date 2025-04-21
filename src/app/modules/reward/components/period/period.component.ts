@@ -11,13 +11,14 @@ import { ActivatedRoute } from '@angular/router';
 export class PeriodComponent implements OnInit {
   traderewards: any;
   currentTradereward: any;
-  totalReward: number;
-  totalReward2: number;
-  id: string;
+  totalReward = 0;
+  totalReward2 = 0;
+  id = '';
   private sub: any;
 
   constructor(private route: ActivatedRoute, private rewardService: RewardService, public utilServ: UtilService) {
-  }  
+  }
+
   ngOnInit() {
     this.totalReward = 0;
     this.totalReward2 = 0;
@@ -27,25 +28,24 @@ export class PeriodComponent implements OnInit {
 
       this.rewardService.getRewards(this.id).subscribe(
         (res: any) => {
-          if(res && res.ok) {
+          if (res && res.ok) {
             const body = res._body;
             console.log('body=', body);
             this.traderewards = body;
-            for(let i=0;i<body.length; i++) {
+            for (let i = 0; i < body.length; i++) {
               const item = body[i];
               this.totalReward += item.reward;
               this.totalReward2 += item.reward2;
             }
           }
         }
-      );      
+      );
       // In a real app: dispatch action to load the details here.
-   });
-
+    });
 
   }
 
-  setTradereward(tradereward) {
+  setTradereward(tradereward: any) {
     console.log('setTradereward===', tradereward);
     this.currentTradereward = tradereward;
   }

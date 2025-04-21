@@ -9,10 +9,10 @@ import { WsService } from '../../../../services/ws.service';
 })
 export class MarketTopComponent implements OnInit {
 
-  @ViewChild('marketTopBlock1', { static: true }) marketTopBlock1: MarketTopBlockComponent;
-  @ViewChild('marketTopBlock2', { static: true }) marketTopBlock2: MarketTopBlockComponent;
-  @ViewChild('marketTopBlock3', { static: true }) marketTopBlock3: MarketTopBlockComponent;
-  @ViewChild('marketTopBlock4', { static: true }) marketTopBlock4: MarketTopBlockComponent;
+  @ViewChild('marketTopBlock1', { static: true }) marketTopBlock1: MarketTopBlockComponent = {} as MarketTopBlockComponent;
+  @ViewChild('marketTopBlock2', { static: true }) marketTopBlock2: MarketTopBlockComponent = {} as MarketTopBlockComponent;
+  @ViewChild('marketTopBlock3', { static: true }) marketTopBlock3: MarketTopBlockComponent = {} as MarketTopBlockComponent;
+  @ViewChild('marketTopBlock4', { static: true }) marketTopBlock4: MarketTopBlockComponent = {} as MarketTopBlockComponent;
 
   constructor(private _wsServ: WsService) { }
 
@@ -22,7 +22,7 @@ export class MarketTopComponent implements OnInit {
     });
   }
 
-  updateTickerList(arr) {
+  updateTickerList(arr: Array<any>) {
     for (let i = 0; i < arr.length; i++) {
       const item = arr[i];
 

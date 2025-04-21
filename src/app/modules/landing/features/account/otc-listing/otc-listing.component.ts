@@ -19,26 +19,26 @@ import { TimerService } from '../../../../../services/timer.service';
     styleUrls: ['./otc-listing.component.scss']
 })
 export class OtcListingComponent implements OnInit {
-    maxLimit: number;
-    buy: boolean;
-    coin: string;
-    fiat: string;
-    advType: string;
-    price: number;
+    maxLimit = 0;
+    buy = false;
+    coin = '';
+    fiat = '';
+    advType = '';
+    price = 0;
     listings: any;
-    wallet: Wallet;
-    gasPrice: number;
-    txid: string;
-    available: number;
-    gasLimit: number;
-    satoshisPerBytes: number;
-    currentCoin: MyCoin;
-    quantity: number;
-    qtyLimitPerOrderLow: number;
-    qtyLimitPerOrderHigh: number;
-    notes: string;
-    token: string;
-    @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal;
+    wallet: Wallet = {} as Wallet;
+    gasPrice = 0;
+    txid = '';
+    available = 0;
+    gasLimit = 0;
+    satoshisPerBytes = 0;
+    currentCoin: MyCoin = {} as MyCoin;
+    quantity = 0;
+    qtyLimitPerOrderLow = 0;
+    qtyLimitPerOrderHigh = 0;
+    notes = '';
+    token = '';
+    @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal = {} as PinNumberModal;
     commissionRate = environment.OTC_COMMISSION_RATE;
     paymethods = ['E-Transfer'];
     fiats: string[] = [
@@ -58,14 +58,20 @@ export class OtcListingComponent implements OnInit {
         private _otcServ: OtcService) { }
 
     async ngOnInit() {
-        this.lan = localStorage.getItem('Lan');
+        this.lan = localStorage.getItem('Lan') || 'en';
 
         this.txid = '';
         this.buy = true;
         this.coin = 'USDT';
         this.fiat = 'USD';
         this.advType = 'ongoing';
-        this.wallet = await this.walletService.getCurrentWallet();
+        const wallet = await this.walletService.getCurrentWallet();
+        if (wallet) {
+            this.wallet = wallet;
+        } else {
+            // Handle the case where wallet is null
+            this.wallet = {} as Wallet;
+        }
         this.storageService.getToken().subscribe(
             (token: any) => {
                 this.token = token;
@@ -189,6 +195,10 @@ export class OtcListingComponent implements OnInit {
             satoshisPerBytes: this.satoshisPerBytes
         };
 
+        if (!seed) {
+            this.alertServ.openSnackBar(this.lan === 'zh' ? '种子无效' : 'Invalid seed.', 'Ok');
+            return;
+        }
         const { txHex, txHash, errMsg } = await this.coinService.sendTransaction(currentCoin, seed,
             environment.addresses.otcOfficial[currentCoin.name], amount, options, doSubmit
         );

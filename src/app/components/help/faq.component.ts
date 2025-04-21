@@ -3,22 +3,17 @@ import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { UserAuth } from '../../modules/landing/service/user-auth/user-auth.service';
-import { StorageService } from 'src/app/services/storage.service';
-import { LanService } from 'src/app/services/lan.service';
+import { LanService } from '../../services/lan.service';
 
 @Component({
     selector: 'app-faq',
     templateUrl: './faq.component.html',
     styleUrls: ['./faq.component.css']
 })
-export class FaqComponent implements OnInit{
-    message: string;
+export class FaqComponent implements OnInit {
+    message = '';
 
-    constructor(
-        public _authServ: UserAuth,
-        private lanData: LanService
-        // private storageService: StorageService,
-    ) { }
+    constructor(public _authServ: UserAuth, private lanData: LanService) { }
 
     ngOnInit() {
         this.lanData.currentMessage.subscribe(message => this.message = message)

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
-import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
-import { UtilService } from 'src/app/services/util.service';
+import { PageEvent } from '@angular/material/paginator';
+import { UtilService } from '../../../../../services/util.service';
 import { MyCoin } from '../../../../../models/mycoin';
 import { CoinService } from '../../../../../services/coin.service';
 @Component({
@@ -9,15 +9,15 @@ import { CoinService } from '../../../../../services/coin.service';
     styleUrls: ['./address-key.component.css']
 })
 export class AddressKeyComponent implements OnInit, OnChanges {
-    @Input() chain: number;
-    @Input() seed: Buffer;
-    addsArraylength: number;
-    @Input() currentCoin: MyCoin;
+    @Input() chain = 0;
+    @Input() seed: Buffer = Buffer.from('');
+    addsArraylength = 0;
+    @Input() currentCoin: MyCoin = {} as MyCoin;
     pageIndex = 0;
     pageSize = 10;
     addsPagination: any;
     // MatPaginator Output
-    pageEvent: PageEvent;
+    pageEvent: PageEvent = {} as PageEvent;
 
     constructor(
         private utilServ: UtilService,
@@ -45,7 +45,7 @@ export class AddressKeyComponent implements OnInit, OnChanges {
         }
     }
 
-    pageChanged(event) {
+    pageChanged(event: any) {
         console.log(event);
         this.pageIndex = event.pageIndex;
         this.showPage();

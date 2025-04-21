@@ -8,7 +8,7 @@ import { FormBuilder } from '@angular/forms';
     styleUrls: ['./add-gas.modal.css']
 })
 export class AddGasModal {
-    @ViewChild('addGasModal', {static: true}) public addGasModal: ModalDirective;
+    @ViewChild('addGasModal', {static: true}) public addGasModal: ModalDirective = {} as ModalDirective;
     @Output() confirmedGas = new EventEmitter<number>();
 
     depositAmountForm = this.fb.group({
@@ -16,7 +16,6 @@ export class AddGasModal {
     });    
 
     constructor(private fb: FormBuilder) {
-
     }
 
     onSubmit() {

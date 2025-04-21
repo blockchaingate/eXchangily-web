@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
-import {MatLegacySnackBar as MatSnackBar} from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-@Injectable() 
+@Injectable()
 export class AlertService {
-    constructor(private _snackBar: MatSnackBar) {
+  constructor(private _snackBar: MatSnackBar) {
+  }
 
-    }
-    openSnackBar(message: string, action: string) {
-        this._snackBar.open(message, action, {
-          duration: 100000,
-          panelClass: ['custom-snackbar']
-        });
-    }
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 100000,
+      panelClass: ['custom-snackbar']
+    });
+  }
 
-    openSnackBarSuccess(message: string, action: string) {
-      this._snackBar.open(message, action, {
-        duration: 100000,
-        panelClass: ['custom-snackbar-success']
-      });
-  }    
+  openSnackBarSuccess(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 100000,
+      panelClass: ['custom-snackbar-success']
+    });
+  }
 }

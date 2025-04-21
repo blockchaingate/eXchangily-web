@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 })
 export class DebounceClickDirective implements OnInit, OnDestroy {
   @Output() debounceClick = new EventEmitter();
-  private subscription: Subscription;
+  private subscription: Subscription = new Subscription();
   private clicks = new Subject();
 
   constructor() { }
@@ -24,7 +24,7 @@ export class DebounceClickDirective implements OnInit, OnDestroy {
   }
 
   @HostListener('click', ['$event'])
-  clickEvent(event) {
+  clickEvent(event: any) {
     event.preventDefault();
     event.stopPropagation();
     this.clicks.next(event);

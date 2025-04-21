@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { LanService } from 'src/app/services/lan.service';
-import { AnnouncementsService } from 'src/app/services/announcements.service';
+import { LanService } from '../../../../../../services/lan.service';
+import { AnnouncementsService } from '../../../../../../services/announcements.service';
 
 @Component({
   selector: 'app-announcement-list',
@@ -8,11 +8,12 @@ import { AnnouncementsService } from 'src/app/services/announcements.service';
   styleUrls: ['./announcement-list.component.css']
 })
 export class AnnouncementListComponent implements OnInit {
-  currentLan: String;
-  errMsg: string;
+  currentLan = 'en';
+  errMsg = '';
   success = true;
   busy = true;
-  announceList = [];
+  announceList: any;
+  
   constructor(
     private lanData: LanService,
     private _announcementsService: AnnouncementsService,
@@ -32,7 +33,7 @@ export class AnnouncementListComponent implements OnInit {
     this.success = true;
     // console.log("currentLan: ", currentLan);
 
-    this._announcementsService.getManyByLan(currentLan === 'en' ? 'en' : 'cn').subscribe(ret => {
+    this._announcementsService.getManyByLan(currentLan === 'en' ? 'en' : 'cn').subscribe((ret:any) => {
       // console.log("return: ");
       // console.log(ret);
 
@@ -41,7 +42,7 @@ export class AnnouncementListComponent implements OnInit {
         // console.log("success");
 
         this.success = true;
-        this.announceList = ret['body'];
+        this.announceList = ret?['body']: [];
       } else {
         // console.log("fail");
 

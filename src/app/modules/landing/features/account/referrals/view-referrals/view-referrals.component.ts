@@ -16,19 +16,19 @@ import { mergeMap ,  map ,  filter } from 'rxjs/operators';
   styleUrls: ['./view-referrals.component.scss']
 })
 export class ViewReferralsComponent implements OnInit {
-  serverMessage: string;
-  icotx: Icotx;
+  serverMessage = '';
+  icotx: Icotx = {} as Icotx;
   loaded = false;
   admin = false;
-  pend: Observable<any>;
+  pend: Observable<any> = new Observable();
   pendingLength = 0;
 
   localIcotxes: {
     pending: BehaviorSubject<Array<Icotx>>,
     completed: BehaviorSubject<Array<Icotx>>
   } = {
-      pending: new BehaviorSubject([]),
-      completed: new BehaviorSubject([])
+      pending: new BehaviorSubject<Icotx[]>([]),
+      completed: new BehaviorSubject<Icotx[]>([])
     };
 
   constructor(private _icotx: IcotxService, private _userAuth: UserAuth,
@@ -37,7 +37,7 @@ export class ViewReferralsComponent implements OnInit {
   ngOnInit() {
     this._activatedRoute.data
       .pipe(
-        map((data) => {
+        map((data: any) => {
           this.admin = data.isAdmin;
           return data.user;
         }),
@@ -50,7 +50,7 @@ export class ViewReferralsComponent implements OnInit {
         }),
         mergeMap(user => this._icotx.getChildIcotx(user._id)))
       .subscribe((res: any) => {
-        const tmp = {
+        const tmp: { [key: string]: Icotx[] } = {
           pending: [],
           completed: []
         };
@@ -60,10 +60,12 @@ export class ViewReferralsComponent implements OnInit {
             res[i].status = 'pending';
           }
           res[i].status = res[i].status.toLowerCase();
-          tmp[res[i].status].push(res[i]);
+          if (tmp[res[i].status]) {
+            tmp[res[i].status].push(res[i]);
+          }
         }
-        this.localIcotxes.pending.next(tmp.pending);
-        this.localIcotxes.completed.next(tmp.completed);
+        this.localIcotxes['pending'].next(tmp['pending']);
+        this.localIcotxes['completed'].next(tmp['completed']);
 
         this.loaded = true;
       },

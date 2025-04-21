@@ -5,10 +5,10 @@ import { BehaviorSubject } from 'rxjs';
 export class UserAuth {
   private _hasMerchant = false;
   private _hasWriteAccess = false;
-  private _id;
-  private _email;
-  private _token;
-  private _kyc;
+  private _id = '';
+  private _email = '';
+  private _token = '';
+  private _kyc: any;
   private _kycNote = '';
   public _lan = 'English';
   loggedIn = false;
@@ -22,7 +22,7 @@ export class UserAuth {
 
 
   // store the URL so we can redirect after logging in
-  redirectUrl: string;
+  redirectUrl = '';
 
   get id() { return this._id; }
 
@@ -47,7 +47,7 @@ export class UserAuth {
    this._kyc = theKyc;
   }
 
-  get kycNote() { return this.kycNote; }
+  get kycNote(): any { return this._kycNote; }
 
   set kycNote(kycNote) { this._kycNote = kycNote; }
 

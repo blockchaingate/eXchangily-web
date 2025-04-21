@@ -14,12 +14,12 @@ import BigNumber from 'bignumber.js';
     styleUrls: ['./redeposit-amount.modal.css']
 })
 export class RedepositAmountModal implements OnInit {
-    @ViewChild('depositModal', { static: true }) public depositModal: ModalDirective;
-    coin: MyCoin;
+    @ViewChild('depositModal', { static: true }) public depositModal: ModalDirective = {} as ModalDirective;
+    coin: MyCoin = {} as MyCoin;
     redeposit: any;
     @Output() confirmedAmount = new EventEmitter<any>();
-    showDetailIndex: number;
-    transactionID: string;
+    showDetailIndex = 0;
+    transactionID = '';
     gasFeeCustomChecked = false;
 
     constructor(private alertServ: AlertService, public utilServ: UtilService) {
@@ -48,7 +48,7 @@ export class RedepositAmountModal implements OnInit {
         this.hide();
     }
 
-    show(coin) {
+    show(coin: MyCoin) {
         this.coin = coin;
         this.depositModal.show();
     }

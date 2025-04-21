@@ -6,10 +6,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CampaignsComponent implements OnInit {
   campaigns: any;
+  
   ngOnInit() {
   }
 
-  confirmOrder(order) {
+  confirmOrder(order: any) {
 
   }
 }

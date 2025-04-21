@@ -24,7 +24,7 @@ export class AppUsersService {
     return this.http.post(path + 'updateChildren', children, true).pipe(map(res => res));
   }
 
-  updateAppUserById(id: string, appUser) {
+  updateAppUserById(id: string, appUser: AppUsers) {
     let data = { id: id };
     data = Object.assign(data, appUser);
     return this.http.post(path + 'setParentReferralCode', data, true).pipe(map(res => res));

@@ -8,12 +8,12 @@ import { Icotx, IcotxColours } from '../../../models/icotx';
   templateUrl: './order-item.component.html'
 })
 export class OrderItemComponent implements OnInit {
-  @Input() order: Icotx;
-  @Input() userId: string;
-  @Input() admin: boolean;
+  @Input() order: Icotx = {} as Icotx;
+  @Input() userId = '';
+  @Input() admin = false;
   @Input() clickable = true;
 
-  color: string;
+  color = '';
   private colours = IcotxColours;
 
   constructor(private _userAuth: UserAuth, private _route: ActivatedRouteSnapshot) { }
@@ -22,6 +22,6 @@ export class OrderItemComponent implements OnInit {
     const orderdata = this._route.paramMap.get('orderdata');
     //  alert('aaa: ' + JSON.stringify(orderdata));
     this.userId = this._userAuth.id;
-    this.color = this.colours[this.order.status];
+    this.color = this.order.status && this.colours[this.order.status as keyof typeof IcotxColours] ? this.colours[this.order.status as keyof typeof IcotxColours] : '';
   }
 }

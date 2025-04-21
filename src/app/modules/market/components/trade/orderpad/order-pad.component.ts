@@ -13,10 +13,10 @@ import { UtilService } from '../../../../../services/util.service';
 import { WalletService } from '../../../../../services/wallet.service';
 import { CoinService } from '../../../../../services/coin.service';
 import { Wallet } from '../../../../../models/wallet';
-import * as randombytes from 'randombytes';
+import randombytes from 'randombytes';
 import { FormBuilder } from '@angular/forms';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TransactionResp } from '../../../../../interfaces/kanban.interface';
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { ActivatedRoute } from '@angular/router';
@@ -27,8 +27,8 @@ import { TimerService } from '../../../../../services/timer.service';
 import BigNumber from 'bignumber.js';
 
 import { Pair, defaultPairsConfig } from '../../../models/pair';
-import { ApiService } from 'src/app/services/api.service';
-import { WsService } from 'src/app/services/ws.service';
+import { ApiService } from '../../../../../services/api.service';
+import { WsService } from '../../../../../services/ws.service';
 
 declare let window: any;
 //http://localhost:4200/market/trade/kbeth_kbfab
@@ -51,8 +51,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   screenheight = screen.height;
   select = 1;
   orderType = 1;
-  myorders: Order[];
-  bidOrAsk: boolean;
+  myorders: Order[] = [];
+  bidOrAsk = false;
   sells: OrderItem[] = [];
   buys: OrderItem[] = [];
   mySellPrices: string[] = [];
@@ -77,23 +77,23 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   qty = 0;
   trades: any;
   pin: any;
-  modalRef: BsModalRef;
-  baseCoinAvail: number;
-  targetCoinAvail: number;
+  modalRef: BsModalRef = {} as BsModalRef;
+  baseCoinAvail = 0;
+  targetCoinAvail = 0;
   refreshTokenDone: boolean;
   timer: any;
-  oldNonce: number;
-  socket: WebSocketSubject<OrderBookItem>;
-  tradesSocket: WebSocketSubject<TradeItem>;
+  oldNonce = 0;
+  socket: WebSocketSubject<OrderBookItem> = {} as WebSocketSubject<OrderBookItem>;
+  tradesSocket: WebSocketSubject<TradeItem> = {} as WebSocketSubject<TradeItem>;
   sub: any;
-  baseCoin: string;
-  targetCoin: string;
-  buyGasPrice: number;
-  buyGasLimit: number;
-  sellGasPrice: number;
-  sellGasLimit: number;
-  gasPrice: number;
-  gasLimit: number;
+  baseCoin = '';
+  targetCoin = '';
+  buyGasPrice = 0;
+  buyGasLimit = 0;
+  sellGasPrice = 0;
+  sellGasLimit = 0;
+  gasPrice = 0;
+  gasLimit = 0;
   errMsg = '';
   buyTransFeeAdvance = 0.0;
   sellTransFeeAdvance = 0.0;
@@ -109,7 +109,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     private fb: FormBuilder, private modalService: BsModalService, private tradeService: TradeService,
     private apiServ: ApiService,
     private route: ActivatedRoute, private alertServ: AlertService, private timerServ: TimerService,
-  private wsService: WsService) {
+    private wsService: WsService) {
     this.refreshTokenDone = true;
     this.coinService = _coinServ;
   }
@@ -121,21 +121,21 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     if (this.tradesSocket) {
       this.tradesSocket.unsubscribe();
     }
-    if(this.sub) {
+    if (this.sub) {
       this.sub.unsubscribe();
     }
-    if(this.timer) {
+    if (this.timer) {
       clearInterval(this.timer);
     }
   }
 
-  bigmul(num1, num2) {
+  bigmul(num1: any, num2: any) {
     const x = new BigNumber(num1.toString());
     const result = x.times(num2);
     return result;
   }
 
-  bigdiv(num1, num2) {
+  bigdiv(num1: any, num2: any) {
     const x = new BigNumber(num1.toString());
     const result = x.dividedBy(num2);
     return result;
@@ -237,7 +237,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     return amountTotal.toNumber();
   }
 
-  syncOrders(newOrderArr, oldOrderArr, bidOrAsk: boolean) {
+  syncOrders(newOrderArr: any, oldOrderArr: any, bidOrAsk: boolean) {
     // console.log('begin newOrderArr=', newOrderArr);
     // console.log('begin oldOrderArr=', oldOrderArr);
     let i = 0;
@@ -424,7 +424,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     }
   }
   */
-  checkIfDeleted(existedArray, incomingArray) {
+  checkIfDeleted(existedArray: any, incomingArray: any) {
     for (let i = 0; i < existedArray.length; i++) {
       const existedItem = existedArray[i];
       for (let j = 0; j < incomingArray.length; j++) {
@@ -479,7 +479,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  getRandomArbitrary(min, max) {
+  getRandomArbitrary(min: number, max: number) {
     return Math.random() * (max - min) + min;
   }
 
@@ -517,19 +517,19 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           this.myBuyPrices.filter(myS => +myS === bu.p).length > 0 ? bu.my = true : bu.my = false;
         });
 
-       if(environment.production) {
-        for (let j = 0; j < 2; j++) {
-          let randNum = Math.floor((Math.random() * this.sells.length));
-          if (randNum > 0) {
-            this.sells.splice(randNum, 1);
+        if (environment.production) {
+          for (let j = 0; j < 2; j++) {
+            let randNum = Math.floor((Math.random() * this.sells.length));
+            if (randNum > 0) {
+              this.sells.splice(randNum, 1);
+            }
+            randNum = Math.floor((Math.random() * this.buys.length));
+            if (randNum > 0) {
+              this.buys.splice(randNum, 1);
+            }
+            //this.delay(500);
           }
-          randNum = Math.floor((Math.random() * this.buys.length));
-          if (randNum > 0) {
-            this.buys.splice(randNum, 1);
-          }
-          //this.delay(500);
         }
-       }
 
         //     }
       },
@@ -629,20 +629,20 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     let targetCoinAvailExisted = false;
     if (this.baseCoin && this.targetCoin && this._mytokens) {
       const tokens = this._mytokens.tokens;
-      if(!tokens) {
+      if (!tokens) {
         return;
       }
       const ids = tokens.ids;
-      for(let i = 0; i < ids.length; i++) {
+      for (let i = 0; i < ids.length; i++) {
         const id = ids[i].toLowerCase();
-        if(id == this.pairData.tokenB.id.toLowerCase()) {
+        if (id == this.pairData.tokenB.id.toLowerCase()) {
           baseCoinAvailExisted = true;
           this.baseCoinAvail = new BigNumber(tokens.balances[i]).shiftedBy(-tokens.decimals[i]).toNumber();
         } else
-        if(id == this.pairData.tokenA.id.toLowerCase()) {
-          targetCoinAvailExisted = true;
-          this.targetCoinAvail = new BigNumber(tokens.balances[i]).shiftedBy(-tokens.decimals[i]).toNumber();
-        }
+          if (id == this.pairData.tokenA.id.toLowerCase()) {
+            targetCoinAvailExisted = true;
+            this.targetCoinAvail = new BigNumber(tokens.balances[i]).shiftedBy(-tokens.decimals[i]).toNumber();
+          }
       }
     }
     if (!baseCoinAvailExisted) {
@@ -654,7 +654,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   buyable() {
-    
+
     if ((this.buyPrice <= 0) || (this.buyQty <= 0)) {
       return false;
     }
@@ -693,7 +693,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
     this.apiServ.getPairDecimals(this.pairName).then(
       (data: any) => {
-        if(data) {
+        if (data) {
           this.priceDecimal = data.price;
           this.qtyDecimal = data.quantity;
         }
@@ -752,14 +752,14 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     this.mySellPrices = [];
     this.timerServ.openOrders.subscribe(
       (orders: any) => {
-        const myPairOrders = orders.filter(mo => mo.pairName === this.pairName);
-        myPairOrders.forEach(ordItm => {
+        const myPairOrders = orders.filter((mo: any) => mo.pairName === this.pairName);
+        myPairOrders.forEach((ordItm: any) => {
           const decimalPrice = this.utilService.showAmount(ordItm.price, this.priceDecimal);
-            if (ordItm.bidOrAsk) {
-              this.myBuyPrices.push(decimalPrice);
-            } else {
-              this.mySellPrices.push(decimalPrice);
-            }
+          if (ordItm.bidOrAsk) {
+            this.myBuyPrices.push(decimalPrice);
+          } else {
+            this.mySellPrices.push(decimalPrice);
+          }
         });
       }
     );
@@ -767,8 +767,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   // This method provides a unique value to track orders with.
-  generateOrderHash(bidOrAsk, orderType, baseCoin, targetCoin, amount, price, timeBeforeExpiration) {
-    const randomString = randombytes(32).map(String).join('');
+  generateOrderHash(bidOrAsk: boolean, orderType: any, baseCoin: any, targetCoin: any, amount: number, price: number, timeBeforeExpiration: number) {
+    const randomString = Array.from(randombytes(32), byte => String.fromCharCode(byte)).join('');
     const concatString = [bidOrAsk, orderType, baseCoin, targetCoin, amount, price, timeBeforeExpiration, randomString].join('');
     return this.web3Serv.sha3(concatString);
   }
@@ -790,7 +790,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     sessionStorage.setItem('pin', this.pin);
     const thirty_minutes_from_now = new Date().getTime() + 600000 * 3;
     sessionStorage.setItem('pin_expired_at', thirty_minutes_from_now.toString());
-    this.buyOrSell(false,false);
+    this.buyOrSell(false, false);
     this.modalRef.hide();
   }
 
@@ -817,12 +817,10 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   }
 
   buy(pinModal: TemplateRef<any>) {
-
-
-    if(this.wsService.isSocketActive){
+    if (this.wsService.isSocketActive) {
 
       if (!this.finalExpCheck(this.buyPrice, this.buyQty)) { return; }
-  
+
       this.bidOrAsk = true;
       this.pin = sessionStorage.getItem('pin');
       const pin_expired_at = sessionStorage.getItem('pin_expired_at');
@@ -840,10 +838,10 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       this.gasPrice = Number(this.buyGasPrice);
 
       this.buyOrSell(true, true);
-    }else{
+    } else {
 
 
-      if (!this.wallet ) {
+      if (!this.wallet) {
         if (this.lan === 'zh') {
           this.alertServ.openSnackBar('请先创建钱包才能下单', 'Ok');
         } else {
@@ -851,9 +849,9 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         }
         return;
       }
-  
+
       if (!this.finalExpCheck(this.buyPrice, this.buyQty)) { return; }
-  
+
       this.bidOrAsk = true;
       this.pin = sessionStorage.getItem('pin');
       const pin_expired_at = sessionStorage.getItem('pin_expired_at');
@@ -870,23 +868,17 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       this.gasLimit = Number(this.buyGasLimit);
       this.gasPrice = Number(this.buyGasPrice);
       if (this.pin && !pin_expired) {
-       this.buyOrSell(false,false);
+        this.buyOrSell(false, false);
       } else {
         this.openModal(pinModal);
       }
-
-
     }
-
-  
-
-
   }
 
   sell(pinModal: TemplateRef<any>) {
 
 
-    if(this.wsService.isSocketActive){
+    if (this.wsService.isSocketActive) {
 
       if (!this.finalExpCheck(this.sellPrice, this.sellQty)) { return; }
 
@@ -897,35 +889,31 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       this.gasLimit = Number(this.sellGasLimit);
       this.gasPrice = Number(this.sellGasPrice);
 
-      this.buyOrSell(true,false);
-    }else{
-    
+      this.buyOrSell(true, false);
+    } else {
 
 
-
-
-
-    if (!this.wallet) {
-      if (this.lan === 'zh') {
-        this.alertServ.openSnackBar('请先创建钱包才能下单', 'Ok');
-      } else {
-        this.alertServ.openSnackBar('please create wallet before placing order', 'ok');
+      if (!this.wallet) {
+        if (this.lan === 'zh') {
+          this.alertServ.openSnackBar('请先创建钱包才能下单', 'Ok');
+        } else {
+          this.alertServ.openSnackBar('please create wallet before placing order', 'ok');
+        }
+        return;
       }
-      return;
-    }
 
-    if (!this.finalExpCheck(this.sellPrice, this.sellQty)) { return; }
+      if (!this.finalExpCheck(this.sellPrice, this.sellQty)) { return; }
 
-    this.bidOrAsk = false;
-    this.pin = sessionStorage.getItem('pin');
-    this.price = this.sellPrice;
-    this.qty = this.sellQty;
-    this.gasLimit = Number(this.sellGasLimit);
-    this.gasPrice = Number(this.sellGasPrice);
+      this.bidOrAsk = false;
+      this.pin = sessionStorage.getItem('pin');
+      this.price = this.sellPrice;
+      this.qty = this.sellQty;
+      this.gasLimit = Number(this.sellGasLimit);
+      this.gasPrice = Number(this.sellGasPrice);
 
       this.openModal(pinModal);
 
-  }
+    }
   }
 
   openModal(template: TemplateRef<any>) {
@@ -935,145 +923,145 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   async txHexforPlaceOrder
     (pin: string, wallet: any, bidOrAsk: boolean, baseCoin: string, targetCoin: string, price: number, qty: number, isBuy?: boolean) {
 
-      if (this.wsService.isSocketActive) {
-  
-
-        const orderType = 1;
-
-        baseCoin = this.pairData.tokenB.id;
-        targetCoin = this.pairData.tokenA.id;
-        let qtyDecimals = this.pairData.tokenA.decimals;
-        if (!bidOrAsk) {
-          const tmp = baseCoin;
-          baseCoin = targetCoin;
-          targetCoin = tmp;
-          //qtyDecimals = this.pairData.tokenA.decimals;
-        }
-
-        const timeBeforeExpiration = 423434342432;
-        const address = this.pairData.pair.pair;
-        const orderHash = this.generateOrderHash(bidOrAsk, orderType, baseCoin
-          , targetCoin, qty, price, timeBeforeExpiration);
-
-          const approveCoin = baseCoin;
-          const qtyString = new BigNumber(qty).shiftedBy(qtyDecimals).toFixed();
-          const priceString = new BigNumber(price).shiftedBy(18).toFixed();
-
-          let approveQtystring = qtyString;
-          if(bidOrAsk) {
-            approveQtystring = new BigNumber(qty).multipliedBy(new BigNumber(price)).shiftedBy(qtyDecimals).toFixed();
-          }
-
-          const approveAbiHex = this.web3Serv.getApproveFuncABI(address, approveQtystring);
+    if (this.wsService.isSocketActive) {
 
 
-      
-          const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk,
-            baseCoin, targetCoin, qtyString, priceString, orderHash]);
- 
-          const params: any = [];
+      const orderType = 1;
 
-          params.push(
-            {
-              to: approveCoin,
-              data: approveAbiHex
-            }
-          );
-      
-          params.push(
-            {
-              to: address,
-              data: abiHex
-            }
-          );
-           
-          let name = isBuy ? 'Buy' : 'Sell';
-
-            const paramsSentSocket =
-            {
-              source: "Exchangily-"+name,
-              data: params
-            }
-            this.wsService.sendMessage(paramsSentSocket);
-      
-      
-            return {
-              txHexApprove: '',
-              txHex: '',
-              orderHash: orderHash
-            };
-
-      }else {
-
-
-
-    const seed = this.utilService.aesDecryptSeed(wallet.encryptedSeed, pin);
-    if(!seed) {
-      return;
-    }
-    const keyPairsKanban = this._coinServ.getKeyPairs(wallet.excoin, seed, 0, 0);
-    const orderType = 1;
-
-    baseCoin = this.pairData.tokenB.id;
-    targetCoin = this.pairData.tokenA.id;
-    let qtyDecimals = this.pairData.tokenA.decimals;
-    if (!bidOrAsk) {
-      const tmp = baseCoin;
-      baseCoin = targetCoin;
-      targetCoin = tmp;
-      //qtyDecimals = this.pairData.tokenA.decimals;
-    }
-
-    const timeBeforeExpiration = 423434342432;
-
-    //const address = await this.kanbanService.getExchangeAddress();
-    const address = this.pairData.pair.pair;
-    const orderHash = this.generateOrderHash(bidOrAsk, orderType, baseCoin
-      , targetCoin, qty, price, timeBeforeExpiration);
-
-    const approveCoin = baseCoin;
-    const qtyString = new BigNumber(qty).shiftedBy(qtyDecimals).toFixed();
-    const priceString = new BigNumber(price).shiftedBy(18).toFixed();
-
-    let approveQtystring = qtyString;
-    if(bidOrAsk) {
-      approveQtystring = new BigNumber(qty).multipliedBy(new BigNumber(price)).shiftedBy(qtyDecimals).toFixed();
-    }
-
-
-
-    
-    const approveAbiHex = this.web3Serv.getApproveFuncABI(address, approveQtystring);
-
-
-    const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk,
-      baseCoin, targetCoin, qtyString, priceString, orderHash]);
-
-    let nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
-
-    if ((this.gasPrice <= 0) || (this.gasLimit <= 0)) {
-      return; 
-    }
-    const options = {
-      gasPrice: this.gasPrice,
-      gasLimit: this.gasLimit
-    };
-
-   
-
-
-    const txHexApprove = await this.web3Serv.signAbiHexWithPrivateKey(approveAbiHex, keyPairsKanban, approveCoin, nonce++, 0, options);
-
-    const txHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce, 0, options);
-
-
-    return {
-      txHexApprove,
-      txHex: txHex,
-      orderHash: orderHash
-    };
-
+      baseCoin = this.pairData.tokenB.id;
+      targetCoin = this.pairData.tokenA.id;
+      let qtyDecimals = this.pairData.tokenA.decimals;
+      if (!bidOrAsk) {
+        const tmp = baseCoin;
+        baseCoin = targetCoin;
+        targetCoin = tmp;
+        //qtyDecimals = this.pairData.tokenA.decimals;
       }
+
+      const timeBeforeExpiration = 423434342432;
+      const address = this.pairData.pair.pair;
+      const orderHash = this.generateOrderHash(bidOrAsk, orderType, baseCoin
+        , targetCoin, qty, price, timeBeforeExpiration);
+
+      const approveCoin = baseCoin;
+      const qtyString = new BigNumber(qty).shiftedBy(qtyDecimals).toFixed();
+      const priceString = new BigNumber(price).shiftedBy(18).toFixed();
+
+      let approveQtystring = qtyString;
+      if (bidOrAsk) {
+        approveQtystring = new BigNumber(qty).multipliedBy(new BigNumber(price)).shiftedBy(qtyDecimals).toFixed();
+      }
+
+      const approveAbiHex = this.web3Serv.getApproveFuncABI(address, approveQtystring);
+
+
+
+      const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk,
+        baseCoin, targetCoin, qtyString, priceString, orderHash]);
+
+      const params: any = [];
+
+      params.push(
+        {
+          to: approveCoin,
+          data: approveAbiHex
+        }
+      );
+
+      params.push(
+        {
+          to: address,
+          data: abiHex
+        }
+      );
+
+      let name = isBuy ? 'Buy' : 'Sell';
+
+      const paramsSentSocket =
+      {
+        source: "Exchangily-" + name,
+        data: params
+      }
+      this.wsService.sendMessage(paramsSentSocket);
+
+
+      return {
+        txHexApprove: '',
+        txHex: '',
+        orderHash: orderHash
+      };
+
+    } else {
+
+
+
+      const seed = this.utilService.aesDecryptSeed(wallet.encryptedSeed, pin);
+      if (!seed) {
+        return;
+      }
+      const keyPairsKanban = this._coinServ.getKeyPairs(wallet.excoin, seed, 0, 0);
+      const orderType = 1;
+
+      baseCoin = this.pairData.tokenB.id;
+      targetCoin = this.pairData.tokenA.id;
+      let qtyDecimals = this.pairData.tokenA.decimals;
+      if (!bidOrAsk) {
+        const tmp = baseCoin;
+        baseCoin = targetCoin;
+        targetCoin = tmp;
+        //qtyDecimals = this.pairData.tokenA.decimals;
+      }
+
+      const timeBeforeExpiration = 423434342432;
+
+      //const address = await this.kanbanService.getExchangeAddress();
+      const address = this.pairData.pair.pair;
+      const orderHash = this.generateOrderHash(bidOrAsk, orderType, baseCoin
+        , targetCoin, qty, price, timeBeforeExpiration);
+
+      const approveCoin = baseCoin;
+      const qtyString = new BigNumber(qty).shiftedBy(qtyDecimals).toFixed();
+      const priceString = new BigNumber(price).shiftedBy(18).toFixed();
+
+      let approveQtystring = qtyString;
+      if (bidOrAsk) {
+        approveQtystring = new BigNumber(qty).multipliedBy(new BigNumber(price)).shiftedBy(qtyDecimals).toFixed();
+      }
+
+
+
+
+      const approveAbiHex = this.web3Serv.getApproveFuncABI(address, approveQtystring);
+
+
+      const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk,
+        baseCoin, targetCoin, qtyString, priceString, orderHash]);
+
+      let nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
+
+      if ((this.gasPrice <= 0) || (this.gasLimit <= 0)) {
+        return;
+      }
+      const options = {
+        gasPrice: this.gasPrice,
+        gasLimit: this.gasLimit
+      };
+
+
+
+
+      const txHexApprove = await this.web3Serv.signAbiHexWithPrivateKey(approveAbiHex, keyPairsKanban, approveCoin, nonce++, 0, options);
+
+      const txHex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, address, nonce, 0, options);
+
+
+      return {
+        txHexApprove,
+        txHex: txHex,
+        orderHash: orderHash
+      };
+
+    }
 
 
   }
@@ -1084,42 +1072,42 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     if (isSocketActive) {
 
       const resTxHex = await this.txHexforPlaceOrder(
-        this.pin, this.wallet, this.bidOrAsk, this.baseCoin, this.targetCoin, this.price, this.qty,isBuy
+        this.pin, this.wallet, this.bidOrAsk, this.baseCoin, this.targetCoin, this.price, this.qty, isBuy
       );
 
       const txHex: any = resTxHex?.txHex;
       const txHexApprove: any = resTxHex?.txHexApprove;
 
-      
-        const paramsSentSocket =
-        {
-          source: "Exchangily-Buy",
-          data: txHexApprove
-        }
-        this.wsService.sendMessage(paramsSentSocket);
-  
-        const paramsSentSocket2 =
-        {
-          source: "Exchangily-Buy",
-          data: txHex
-        }
-        this.wsService.sendMessage(paramsSentSocket2);
-      
-      
-    }else{
+
+      const paramsSentSocket =
+      {
+        source: "Exchangily-Buy",
+        data: txHexApprove
+      }
+      this.wsService.sendMessage(paramsSentSocket);
+
+      const paramsSentSocket2 =
+      {
+        source: "Exchangily-Buy",
+        data: txHex
+      }
+      this.wsService.sendMessage(paramsSentSocket2);
+
+
+    } else {
 
       const resTxHex = await this.txHexforPlaceOrder(
         this.pin, this.wallet, this.bidOrAsk, this.baseCoin, this.targetCoin, this.price, this.qty
       );
-  
+
       const txHex: any = resTxHex?.txHex;
       const txHexApprove: any = resTxHex?.txHexApprove;
-  
+
       this.kanbanService.sendRawSignedTransaction(txHexApprove).subscribe((resp: any) => {
         if (resp && resp.txid) {
           this.kanbanService.incNonce();
           this.kanbanService.sendRawSignedTransaction(txHex).subscribe((resp: any) => {
-  
+
             if (resp && resp.txid) {
               this.kanbanService.incNonce();
               if (this.lan === 'zh') {
@@ -1127,11 +1115,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
               } else {
                 this.alertServ.openSnackBarSuccess('Your order was placed successfully.', 'Ok');
               }
-      
+
               const address = this.wallet.excoin.receiveAdds[0].address;
               this.timerServ.checkOrderStatus(address, 6);
               this.timerServ.checkTokens(address, 6);
-      
+
               if (this.bidOrAsk) {
                 this.buyPrice = 0;
                 this.buyQty = 0;
@@ -1139,7 +1127,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
                 this.sellPrice = 0;
                 this.sellQty = 0;
               }
-      
+
             } else {
               if (this.lan === 'zh') {
                 this.alertServ.openSnackBar('创建订单时发生错误, 订单提交失败。', 'Ok');
@@ -1153,14 +1141,14 @@ export class OrderPadComponent implements OnInit, OnDestroy {
             }
           );
         }
-        
+
       });
-  
+
 
     }
 
- 
-    }
+
   }
+}
 
 

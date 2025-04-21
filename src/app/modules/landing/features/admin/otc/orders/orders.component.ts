@@ -9,36 +9,38 @@ import { Router } from '@angular/router';
   styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
-    token: string;
-    orders: any;
-    constructor(
-      private router: Router,
-      private otcServ: OtcService, 
-      private _storageServ: StorageService        
-    ) {}    
-    ngOnInit() {
-      this._storageServ.getToken().subscribe(
-        (token: any) => {
-          this.token = token;
-          this.otcServ.getAllOrders(this.token).subscribe(
-            (res: any) => {
-              if (res) {
-                const ok = res.ok;
-                const data = res._body;
-                if (ok) {
-                  this.orders = data;
-                } else {
-                  if (data && data.name === 'TokenExpiredError') {
-                    this.router.navigate(['/login/signin', { 'retUrl': '/admin/otc-orders' }]);
-                  }
+  token = '';
+  orders: any;
+
+  constructor(
+    private router: Router,
+    private otcServ: OtcService,
+    private _storageServ: StorageService
+  ) { }
+
+  ngOnInit() {
+    this._storageServ.getToken().subscribe(
+      (token: any) => {
+        this.token = token;
+        this.otcServ.getAllOrders(this.token).subscribe(
+          (res: any) => {
+            if (res) {
+              const ok = res.ok;
+              const data = res._body;
+              if (ok) {
+                this.orders = data;
+              } else {
+                if (data && data.name === 'TokenExpiredError') {
+                  this.router.navigate(['/login/signin', { 'retUrl': '/admin/otc-orders' }]);
                 }
               }
-            },
-            (error: any) => {
-              this.orders = [];
             }
-          );
-        }
-      );
-    }
+          },
+          (error: any) => {
+            this.orders = [];
+          }
+        );
+      }
+    );
+  }
 }

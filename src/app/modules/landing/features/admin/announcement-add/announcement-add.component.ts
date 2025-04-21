@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Announcement } from '../../../../../models/announcement';
-import { StorageService } from 'src/app/services/storage.service';
+import { StorageService } from '../../../../../services/storage.service';
 import { UserAuth } from '../../../service/user-auth/user-auth.service';
-import { AnnouncementsService } from 'src/app/services/announcements.service';
+import { AnnouncementsService } from '../../../../../services/announcements.service';
 
 @Component({
   selector: 'app-announcement-add',
@@ -12,20 +12,20 @@ import { AnnouncementsService } from 'src/app/services/announcements.service';
 export class AnnouncementAddComponent implements OnInit {
 
 
-  title: string;
-  summary: string;
-  desc: string;
-  token: string;
+  title = '';
+  summary = '';
+  desc = '';
+  token = '';
 
   success = false;
-  ticketId: string;
+  ticketId = '';
   toShort = false;
   catselected = true;
   lanselected = true;
   logIn = true;
-  errMsg: string;
-  selectedLan: string;
-  selectedCat: string;
+  errMsg = '';
+  selectedLan = '';
+  selectedCat = '';
   catValues = ['Technical Updates', 'News', 'Events', 'Partnerships'];
 
   constructor(private _AnnouncementServ: AnnouncementsService, private storageService: StorageService, private _userAuth: UserAuth) { }
@@ -37,16 +37,15 @@ export class AnnouncementAddComponent implements OnInit {
     */
   }
 
-  selectCat(catId) {
+  selectCat(catId: any) {
     this.selectCat = catId;
   }
 
-  selectLan(lanId) {
+  selectLan(lanId: any) {
     this.selectLan = lanId;
   }
 
   submit() {
-
     this._userAuth.isLoggedIn$.subscribe((value: string) => {
       // console.log('value: ' + value);
       this.logIn = value ? true : false;
@@ -97,7 +96,7 @@ export class AnnouncementAddComponent implements OnInit {
             this.logIn = false;
             this.success = false;
           } else {
-            this._AnnouncementServ.create(announce, token).subscribe(ret => {
+            this._AnnouncementServ.create(announce, token).subscribe((ret: any) => {
               console.log('Return: ');
               console.log(ret['body']);
 

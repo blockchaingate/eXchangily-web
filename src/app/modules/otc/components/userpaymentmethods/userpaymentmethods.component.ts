@@ -8,14 +8,15 @@ import { StorageService } from '../../../../services/storage.service';
   styleUrls: ['./userpaymentmethods.component.css']
 })
 export class UserPaymentMethodsComponent implements OnInit {
-  name: string;
-  content: string;
-  details: string;
-  token: string;
+  name = '';
+  content = '';
+  details = '';
+  token = '';
   userpaymentmethod: any;
   userpaymentmethods: any;
   paymentmethods: any;
   paymethod: any;
+
   constructor(private _storageServ: StorageService, private paymentmethodServ: PaymentMethodService) { }
 
   ngOnInit() {
@@ -33,29 +34,28 @@ export class UserPaymentMethodsComponent implements OnInit {
           });
       });
 
-      this.paymentmethods = [
-        "Cash App"
-      ];
-      /*
-    this.paymentmethodServ.getPaymentMethods().subscribe(
-      (res: any) => {
-        console.log('res for ');
-        if (res && res.ok) {
-          this.paymentmethods = res._body;
-          console.log('this.paymentmethods===', this.paymentmethods);
-        }
-      });
-      */
+    this.paymentmethods = [
+      "Cash App"
+    ];
+    /*
+  this.paymentmethodServ.getPaymentMethods().subscribe(
+    (res: any) => {
+      console.log('res for ');
+      if (res && res.ok) {
+        this.paymentmethods = res._body;
+        console.log('this.paymentmethods===', this.paymentmethods);
+      }
+    });
+    */
   }
 
   delete(userpaymentmethod_id: string) {
     this.paymentmethodServ.deleteUserPaymentmethod(this.token, userpaymentmethod_id).subscribe(
-
       (res: any) => {
         if (res && res.ok) {
           console.log('this.userpaymentmethods before===', this.userpaymentmethods);
           console.log('userpaymentmethod_id===', userpaymentmethod_id);
-          this.userpaymentmethods = this.userpaymentmethods.filter((item) => { item._id.toString() != userpaymentmethod_id.toString() });
+          this.userpaymentmethods = this.userpaymentmethods.filter((item: any) => { item._id.toString() != userpaymentmethod_id.toString() });
           console.log('this.userpaymentmethods===', this.userpaymentmethods);
         }
       }

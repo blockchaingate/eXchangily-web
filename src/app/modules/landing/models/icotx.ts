@@ -23,7 +23,7 @@ export const IcotxStatuses = [
 export const IcotxColours = {
   [IcotxStatus.PENDING]: '#979797',
   [IcotxStatus.COMPLETED]: '#06ae00',
-  [IcotxStatus.COMPLETED]: '#ff0000'
+  [IcotxStatus.DELETED]: '#ff0000'
 };
 
 export interface Icotx {

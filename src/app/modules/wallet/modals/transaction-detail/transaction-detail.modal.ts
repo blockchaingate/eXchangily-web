@@ -2,8 +2,8 @@ import { Component, ViewChild} from '@angular/core';
 import {  ModalDirective } from 'ngx-bootstrap/modal';
 import { TransactionItem } from '../../../../models/transaction-item';
 import {UtilService} from '../../../../services/util.service';
-import { MyCoin } from 'src/app/models/mycoin';
-import { ApiService } from 'src/app/services/api.service';
+import { MyCoin } from '../../../../models/mycoin';
+import { ApiService } from '../../../../services/api.service';
 
 @Component({
     selector: 'transaction-detail-modal',
@@ -11,8 +11,8 @@ import { ApiService } from 'src/app/services/api.service';
     styleUrls: ['./transaction-detail.modal.css']
 })
 export class TransactionDetailModal {
-    @ViewChild('transactionDetailModal', {static: true}) public transactionDetailModal: ModalDirective;   
-    coin: MyCoin;
+    @ViewChild('transactionDetailModal', {static: true}) public transactionDetailModal: ModalDirective = {} as ModalDirective;   
+    coin: MyCoin = {} as MyCoin;
     utilService: UtilService;
     transactions: TransactionItem[] = [];
 

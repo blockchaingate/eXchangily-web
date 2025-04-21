@@ -15,7 +15,7 @@ export class KanbanService {
     api = environment.endpoints.api;
     constructor(
         private web3Serv: Web3Service,
-        private http: HttpClient, 
+        private http: HttpClient,
         private utilServ: UtilService) { this.nonce = 0; }
 
     async getCoinPoolAddress() {
@@ -59,7 +59,8 @@ export class KanbanService {
         // console.log('path=' + path);
         // console.log(data);
         return this.http.post(path, data, options);
-    }    
+    }
+
     getAccounts() {
         const path = 'kanban/getAccounts';
         const res = this.get(path);
@@ -117,7 +118,7 @@ export class KanbanService {
     async getTransactionCount(address: string) {
         //return this.getNonce(address);
 
-        const path = environment.endpoints.api + 'kanban/nonce'; 
+        const path = environment.endpoints.api + 'kanban/nonce';
         const data = {
             native: address
         }
@@ -136,7 +137,7 @@ export class KanbanService {
 
     async kanbanCall(to: string, abiData: string) {
         const data = {
-            transactionOptions: { 
+            transactionOptions: {
                 to: to,
                 data: abiData
             }
@@ -178,7 +179,7 @@ export class KanbanService {
         return this.http.get(environment.endpoints.kanban + `getblocksmetainfo/latest/10`);
     }
 
-    createPairDecimals(tokenLeft, tokenRight, priceDecimals, quantityDecimals) {
+    createPairDecimals(tokenLeft: any, tokenRight: any, priceDecimals: number, quantityDecimals: number) {
         const body = {
             tokenA: tokenLeft,
             tokenB: tokenRight,
@@ -227,26 +228,25 @@ export class KanbanService {
             const url = environment.endpoints.api + 'kanban/sendRawTransaction';
             const res = await this.http.post(url, data).toPromise();
             return res;
-        } catch(e) {
+        } catch (e: any) {
             let errMsg = e;
-            if(e.error) {
+            if (e.error) {
                 errMsg = e.error;
             }
-            return {errMsg};
+            return { errMsg };
         }
 
     }
 
     signJsonData(privateKey: any, data: any) {
-
         var queryString = Object.keys(data).filter((k) => (data[k] != null) && (data[k] != undefined))
-        .map(key => key + '=' + (typeof data[key] === 'string' ? data[key] : JSON.stringify(data[key]))).sort().join('&');
+            .map(key => key + '=' + (typeof data[key] === 'string' ? data[key] : JSON.stringify(data[key]))).sort().join('&');
 
         console.log('queryString===', queryString);
         //const test = this.web3Serv.signMessageTest(queryString, privateKey);
         const signature = this.web3Serv.signKanbanMessageWithPrivateKey(queryString, privateKey);
         //console.log('signature here=', signature);
-        return signature;  
+        return signature;
     }
 
     submitReDeposit(rawKanbanTransaction: string) {
@@ -290,14 +290,14 @@ export class KanbanService {
     */
     getBalance(address: string) {
         const url = 'kanban/balance';
-        
+
         const data = {
             native: address
         };
         return this.postNewKanban(url, data);
     }
 
-    withdrawQuote(address: string, recipient:string, destId: string,  srcChain: string,  amount: number) {
+    withdrawQuote(address: string, recipient: string, destId: string, srcChain: string, amount: number) {
         const url = this.api + 'v3/bridge/withdrawQuote';
         const data = {
             address,
@@ -308,12 +308,12 @@ export class KanbanService {
         };
         return this.http.post(url, data);
     }
-    
+
     getTokenMaps(descAddress: string) {
         const url = this.api + 'v3/bridge/tokenMap/' + descAddress;
         return this.http.get(url);
     }
-    
+
     getLocker(address: string) {
         const url = environment.endpoints.explorerapi + '/kanban/locker/user/' + address + '/50/0';
         return this.http.get(url);
@@ -370,7 +370,7 @@ export class KanbanService {
         path = this.api + path;
         return this.http.post(path, body);
     }
-    
+
     getAllOrders() {
         return this.get('exchangily/getAllOrderData');
     }
@@ -405,7 +405,7 @@ export class KanbanService {
     getTransactionReceipt(txid: string) {
         return this.get('kanban/getTransactionReceipt/' + txid);
     }
-    
+
     async getTransactionStatus(txid: string) {
         let response: any = null;
         let status = 'failed';
@@ -429,7 +429,4 @@ export class KanbanService {
         txid = this.utilServ.stripHexPrefix(txid);
         return this.get('checkstatus/' + txid);
     }
-
-
-  
 }

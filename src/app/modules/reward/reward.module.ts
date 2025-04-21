@@ -13,8 +13,8 @@ import { KanbanService } from '../../services/kanban.service';
 import { RewardService } from '../../services/reward.service';
 import { WalletService } from '../../services/wallet.service';
 import { AlertService } from '../../services/alert.service';
-import {MatLegacyFormFieldModule as MatFormFieldModule} from '@angular/material/legacy-form-field';
-import {MatLegacySelectModule as MatSelectModule} from '@angular/material/legacy-select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
     imports: [

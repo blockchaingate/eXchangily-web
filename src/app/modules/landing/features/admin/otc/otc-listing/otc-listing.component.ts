@@ -11,9 +11,9 @@ import { OtcListingOrdersModal } from '../../modals/otc-listing-orders/otc-listi
 export class OtcListingComponent implements OnInit {
     listings: any;
     listing: any;
-    token: string;
+    token = '';
     
-    @ViewChild('adminOtcListingOrders', { static: true }) adminOtcListingOrders: OtcListingOrdersModal;
+    @ViewChild('adminOtcListingOrders', { static: true }) adminOtcListingOrders: OtcListingOrdersModal = {} as OtcListingOrdersModal;
 
     constructor(
         private otcServ: OtcService, 
@@ -34,12 +34,12 @@ export class OtcListingComponent implements OnInit {
         });
     }
 
-    openOrdersModal(listing) {
+    openOrdersModal(listing: any) {
         console.log();
         this.adminOtcListingOrders.show(listing);
     }
 
-    toggleActive(listing) {
+    toggleActive(listing: any) {
         const status = !listing.active;
         this.otcServ.setActive(listing._id, status, this.token).subscribe(
             (res: any) => {

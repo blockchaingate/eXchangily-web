@@ -15,15 +15,14 @@ import { CoinService } from '../../../../services/coin.service';
     styleUrls: ['./transaction-history.component.css']
 })
 export class TransactionHistoryComponent implements OnInit {
-    @ViewChild('transactionDetailModal', { static: true }) transactionDetailModal: TransactionDetailModal;
-    @ViewChild('transactionDetailModal2', { static: true }) transactionDetailModal2: TransactionDetailModal2;
+    @ViewChild('transactionDetailModal', { static: true }) transactionDetailModal: TransactionDetailModal = {} as TransactionDetailModal;
+    @ViewChild('transactionDetailModal2', { static: true }) transactionDetailModal2: TransactionDetailModal2 = {} as TransactionDetailModal2;
 
-    @Input() coinsPrice: CoinsPrice;
-    @Input() walletId: string;
-    @Input() transactions: TransactionItem[];
+    @Input() coinsPrice: CoinsPrice = {} as CoinsPrice;
+    @Input() walletId = '';
+    @Input() transactions: TransactionItem[] = [];
 
-    currentChain: string;
-    utilServ: UtilService;
+    currentChain = '';
 
     constructor(
         private coinServ: CoinService,
@@ -32,9 +31,7 @@ export class TransactionHistoryComponent implements OnInit {
         utilServ: UtilService,
         private kanbanServ: KanbanService
     ) {
-        this.utilServ = utilServ;
     }
-
 
     showCoinName(name: string, chain: string) {
         if((name != chain) && chain) {
@@ -42,39 +39,36 @@ export class TransactionHistoryComponent implements OnInit {
         }
         return name;
     }
-    mergeSortedArray(a,b){
-        if(!a) {
+    mergeSortedArray(a: TransactionItem[], b: TransactionItem[]): TransactionItem[] {
+        if (!a) {
             return b;
-        } else
-        if(!b) {
+        } else if (!b) {
             return a;
         }
-        var tempArray: any = [];
-        var currentPos: any = {
+        const tempArray: TransactionItem[] = [];
+        const currentPos: { a: number; b: number } = {
             a: 0,
             b: 0
-        }
-        while(currentPos.a < a.length && currentPos.b < b.length) {
-
-            if(typeof a[currentPos.a] === 'undefined') {
+        };
+        while (currentPos.a < a.length && currentPos.b < b.length) {
+            if (typeof a[currentPos.a] === 'undefined') {
                 tempArray.push(b[currentPos.b++]);
-            } else if(a[currentPos.a].timestamp > b[currentPos.b].timestamp){
+            } else if (a[currentPos.a].timestamp > b[currentPos.b].timestamp) {
                 tempArray.push(a[currentPos.a++]);
             } else {
                 tempArray.push(b[currentPos.b++]);
             }
         }
 
-        while(currentPos.a < a.length) {
+        while (currentPos.a < a.length) {
             tempArray.push(a[currentPos.a++]);
         }
 
-        while(currentPos.b < b.length) {
+        while (currentPos.b < b.length) {
             tempArray.push(b[currentPos.b++]);
-        }        
+        }
         return tempArray;
     }
-
 
     ngOnInit() {
     }

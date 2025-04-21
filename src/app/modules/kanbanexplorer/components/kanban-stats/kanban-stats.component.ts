@@ -8,8 +8,7 @@ import { KanbanStats } from '../../models/kanbanStats';
   styleUrls: ['./kanban-stats.component.css']
 })
 export class KanbanStatsComponent implements OnInit, OnDestroy {
-
-  public kanbanStats: KanbanStats;
+  public kanbanStats: KanbanStats = {} as KanbanStats;
   dividends: any;
   private interval;
 
@@ -24,7 +23,6 @@ export class KanbanStatsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
   }
 
   getKanbanStats() {

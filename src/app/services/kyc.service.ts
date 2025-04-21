@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-@Injectable() 
+@Injectable()
 export class KycService {
     constructor(private http: HttpClient) {
-
-    }    
+    }
     userAdd(data: any) {
         const url = environment.endpoints.otc_api + 'user/register/wallet';
         return this.http.post(url, data);

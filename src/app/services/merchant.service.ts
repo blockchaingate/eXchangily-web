@@ -1,5 +1,4 @@
-
-import {throwError as observableThrowError} from 'rxjs';
+import { throwError as observableThrowError } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -13,8 +12,8 @@ const path = environment.endpoints.blockchaingate + 'merchants/';
 @Injectable()
 export class MerchantService {
   private body: any = { app: app };
-  
-  constructor(private http: HttpService) {}
+
+  constructor(private http: HttpService) { }
 
   // Create merchant
   create(token: string, merchant: MerchantModel) {
@@ -23,7 +22,7 @@ export class MerchantService {
 
   createOtcMerchant(token: string, merchant: MerchantModel) {
     return this.http.postPrivate(environment.endpoints.blockchaingate + 'otc-merchant/' + 'create', merchant, token);
-  }  
+  }
   // Retrieve a merchant by its id.
   get(id: number | string) {
     return this.http.get(path + id, true).pipe(map(res => <Merchant>res));
@@ -36,7 +35,7 @@ export class MerchantService {
   }
 
   approve(id: string, token: string) {
-    const url = path + 'approve/' + id ;
+    const url = path + 'approve/' + id;
     console.log('url==', url);
     return this.http.getPrivate(url, token);
   }

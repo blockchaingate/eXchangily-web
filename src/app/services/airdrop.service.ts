@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-@Injectable() 
+@Injectable()
 export class AirdropService {
     constructor(private http: HttpClient) {
-
     }
+
     getQuestionair(address: string, ip: string) {
         const url = environment.endpoints.blockchaingate + 'airdrop/getQuestionair/' + address + '/' + ip;
         return this.http.get(url);
@@ -18,6 +18,6 @@ export class AirdropService {
             answer: answer
         };
         const url = environment.endpoints.blockchaingate + 'airdrop/answerQuestionair';
-        return this.http.post(url, data);       
+        return this.http.post(url, data);
     }
 }

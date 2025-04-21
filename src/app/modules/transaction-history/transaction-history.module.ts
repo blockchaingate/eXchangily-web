@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 import { TransactionHistoryComponent } from './transaction-history.component';
 import { TransactionHistoryRoutingModule } from './transaction-history-routing.module';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
-import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
-import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
 import { CreateOrdersComponent } from './create-orders/create-orders.component';
 import { TradesComponent } from './trades/trades.component';
 import { CancelOrdersComponent } from './cancel-orders/cancel-orders.component'; 
-import { ApiService } from 'src/app/services/api.service';
+import { ApiService } from '../../services/api.service';
 @NgModule({
   declarations: [
     TransactionHistoryComponent,

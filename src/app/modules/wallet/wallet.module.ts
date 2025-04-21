@@ -19,12 +19,11 @@ import { AddressKeyComponent } from './modals/components/address-key/address-key
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { MatLegacySlideToggleModule as MatSlideToggleModule } from '@angular/material/legacy-slide-toggle';
-import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
-import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
-import { QRCodeModule } from 'angularx-qrcode';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatListModule } from '@angular/material/list';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { TransactionDetailModal } from './modals/transaction-detail/transaction-detail.modal';
 import { TransactionDetailModal2 } from './modals/transaction-detail2/transaction-detail2.modal';
 import { AddAssetsModal } from './modals/add-assets/add-assets.modal';
@@ -49,18 +48,19 @@ import { AirdropService } from '../../services/airdrop.service';
 import { CampaignOrderService } from '../../services/campaignorder.service';
 import { Web3Service } from '../../services/web3.service';
 import { AlertService } from '../../services/alert.service';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
-import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
-import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
-import { MatLegacyRadioModule as MatRadioModule } from '@angular/material/legacy-radio';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatRadioModule } from '@angular/material/radio';
 import { SharedModule } from '../shared/shared.module';
 import { TransactionTypePipe } from './pipes/transaction-type.pipe';
+import { QRCodeComponent } from 'angularx-qrcode';
 import { KycComponent } from './components/kyc/kyc.component';
 import { KycProcessComponent } from './components/kyc-process/kyc-process.component';
 @NgModule({
@@ -107,7 +107,6 @@ import { KycProcessComponent } from './components/kyc-process/kyc-process.compon
         FormsModule,
         ReactiveFormsModule,
         WalletRoutingModule,
-        QRCodeModule,
         MatTabsModule,
         MatListModule,
         MatCheckboxModule,

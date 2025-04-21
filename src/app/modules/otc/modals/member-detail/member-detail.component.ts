@@ -9,19 +9,18 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 export class MemberDetailModal implements OnInit {
     member: any;
     userpaymentmethods: any;
-    coin: string;
-    bidOrAsk: boolean;
+    coin = '';
+    bidOrAsk = false;
 
-    @ViewChild('memberDetailModal', { static: true }) public memberDetailModal: ModalDirective;
+    @ViewChild('memberDetailModal', { static: true }) public memberDetailModal: ModalDirective = {} as ModalDirective;
 
     constructor(
+    ) { }
 
-      ) { }    
     ngOnInit() {
-
     }
-    
-    show(bidOrAsk:boolean, coin, member, userpaymentmethods) {
+
+    show(bidOrAsk: boolean, coin: string, member: any, userpaymentmethods: any) {
         console.log('member=', member);
         this.bidOrAsk = bidOrAsk;
         this.coin = coin;
@@ -32,14 +31,13 @@ export class MemberDetailModal implements OnInit {
     hide() {
         this.memberDetailModal.hide();
     }
+
     getAddress() {
-        if(this.coin == 'USDT' || this.coin == 'ETH') {
+        if (this.coin == 'USDT' || this.coin == 'ETH') {
             return this.member.walletEthAddress;
-        } else 
-        if(this.coin == 'BTC') {
+        } else if (this.coin == 'BTC') {
             return this.member.walletBtcAddress;
-        } else 
-        if(this.coin == 'FAB' || this.coin == 'DUSD' || this.coin == 'EXG') {
+        } else if (this.coin == 'FAB' || this.coin == 'DUSD' || this.coin == 'EXG') {
             return this.member.walletExgAddress;
         }
         return '';

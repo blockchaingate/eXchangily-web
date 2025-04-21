@@ -1,18 +1,14 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { CampaignOrderService } from 'src/app/services/campaignorder.service';
+import { CampaignOrderService } from '../../../../services/campaignorder.service';
 import { StorageService } from '../../../../services/storage.service';
 import { environment } from '../../../../../environments/environment';
 import { MemberModal } from '../../modals/member/member.component';
 
-import {
-  IBarChartOptions,
-  IChartistAnimationOptions,
-  IChartistData
-} from 'chartist';
-import { ChartEvent, ChartType } from 'ng-chartist';
-import { TeamComponent } from 'src/app/modules/landing/features/home/team/team.component';
+import { BarChartOptions } from 'chartist';
+import { ChartEvent } from 'ng-chartist';
+import { TeamComponent } from '../../../../modules/landing/features/home/team/team.component';
 import { TranslateService } from '@ngx-translate/core';
 
 interface FoodNode {
@@ -50,23 +46,21 @@ interface ExampleFlatNode {
   templateUrl: './reward.component.html',
   styleUrls: ['./reward.component.scss']
 })
-
 export class RewardComponent implements OnInit {
-
-  referralCode: string;
-  teamsRewards: number;
+  referralCode = '';
+  teamsRewards = 0;
   totalEXG = 0;
   totalNextEXG = 0;
   totalValue = 0;
   totalQuantities = 0;
   extraEXG = 0;
-  baseUrl: string;
-  membership: string;
+  baseUrl = '';
+  membership = '';
   members: any = [];
 
-  @ViewChild('chart1', { static: false }) chart1: ElementRef;
-  @ViewChild('memberModal', { static: true }) memberModal: MemberModal;
-  type: ChartType = 'Bar';
+  @ViewChild('chart1', { static: false }) chart1: ElementRef = {} as ElementRef;
+  @ViewChild('memberModal', { static: true }) memberModal: MemberModal = {} as MemberModal;
+  type: string = 'Bar';
   dataPersonal1: any = {
     labels: [
       this.translateServ.instant('level 1'),
@@ -101,7 +95,7 @@ export class RewardComponent implements OnInit {
   openMemberModal() {
     this.memberModal.show();
   }
-  options: IBarChartOptions = {
+  options: BarChartOptions = {
     axisX: {
       showGrid: false
     },
@@ -120,10 +114,10 @@ export class RewardComponent implements OnInit {
   };
 
   events: ChartEvent = {
-    draw: (data) => {
+    draw: (data: any) => {
       if (data.type === 'bar') {
         data.element.animate({
-          y2: <IChartistAnimationOptions>{
+          y2: {
             dur: '0.5s',
             from: data.y1,
             to: data.y2,
@@ -266,7 +260,6 @@ export class RewardComponent implements OnInit {
       });
   }
   
-  onConfirmedPin(pin) {
-
+  onConfirmedPin(pin: string) {
   }
 }

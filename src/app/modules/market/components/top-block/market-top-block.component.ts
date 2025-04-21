@@ -10,12 +10,12 @@ import { parse } from 'url';
   styleUrls: ['./market-top-block.component.css']
 })
 export class MarketTopBlockComponent implements OnInit {
-  @Input() pair: string;
-  price: string;
-  volume: string;
-  changePercent: string;
-  baseCoinName: string;
-  targetCoinName: string;
+  @Input() pair = '';
+  price = '';
+  volume = '';
+  changePercent = '';
+  baseCoinName = '';
+  targetCoinName = '';
 
   constructor(private utilServ: UtilService, private _router: Router) { }
 
@@ -38,13 +38,13 @@ export class MarketTopBlockComponent implements OnInit {
   }
 
   toDecimal(amount: number, decimal: number) {
-    if(amount) {
+    if (amount) {
       return amount.toFixed(decimal);
     }
     return '0';
   }
 
-  updateTicker(ticker) {
+  updateTicker(ticker: any) {
     const price = this.toDecimal(ticker.p, 6);
     const volume = this.toDecimal(ticker.v, 6);
     this.price = price;

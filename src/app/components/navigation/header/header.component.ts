@@ -11,12 +11,11 @@ import { UserAuth } from '../../../modules/landing/service/user-auth/user-auth.s
 import { KanbanService } from '../../../services/kanban.service';
 import { TimerService } from '../../../services/timer.service';
 import { environment } from '../../../../environments/environment';
-import { LanService } from 'src/app/services/lan.service';
-import { LoginInfoModel } from 'src/app/models/lgoin-info';
-import { LoginInfoService } from 'src/app/services/loginInfo.service';
-import { LoginQualifyService } from 'src/app/services/lgoin-quality.service';
+import { LanService } from '../../../services/lan.service';
+import { LoginInfoService } from '../../../services/loginInfo.service';
+import { LoginQualifyService } from '../../../services/lgoin-quality.service';
 import { Announcement } from '../../../models/announcement';
-import { AnnouncementsService } from 'src/app/services/announcements.service';
+import { AnnouncementsService } from '../../../services/announcements.service';
 
 @Component({
   selector: 'app-header',
@@ -24,25 +23,25 @@ import { AnnouncementsService } from 'src/app/services/announcements.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  isProduction: boolean;
-  currentLang: string;
+  isProduction = false;
+  currentLang = 'en';
   loggedIn = false;
   selectedItem = 1;
   // @Output() public sidenavToggle = new EventEmitter();
-  background: string;
-  pendingtransactions: TransactionItem[];
-  closetransactions: TransactionItem[];
+  background = '';
+  pendingtransactions: TransactionItem[] = [];
+  closetransactions: TransactionItem[] = [];
   color = 'primary';
   mode = 'determinate';
   value = 100;
-  showCollapse: boolean;
-  testMode: boolean;
-  displayHideLabel: boolean;
-  readyGo: boolean;
-  interval;
-  message: string;
-  LoginInfo: boolean;
-  LoginQualify: boolean;
+  showCollapse = false;
+  testMode = false;
+  displayHideLabel = true;
+  readyGo = false;
+  interval = 0;
+  message = '';
+  LoginInfo = false;
+  LoginQualify = false;
   urgentAnnouncementsList: Announcement[] = [];
 
   constructor(
@@ -95,14 +94,14 @@ export class HeaderComponent implements OnInit {
     // check user login token.
     this.readyGo = true;
     this.storageServ.getToken().subscribe(
-      (token: string) => {
+      (token: any) => {
         if (!token) {
           this.readyGo = false;
         } else {
           this.LoginInfodata.changeMessage(true);
           // check if user qualify for compaign
           this.storageServ.getCampaignQualify().subscribe(
-            (Qualify: boolean) => {
+            (Qualify: any) => {
               // console.log('Qualify=', Qualify);
               // set event menu items status.
               this.LoginQualifydata.changeMessage(Qualify);
@@ -136,11 +135,9 @@ export class HeaderComponent implements OnInit {
       }
     );
 
-
     this.currentLang = 'English';
     this.translate.setDefaultLang('en');
     this.setLan();
-
 
     this.background = 'dark-back';
     const path = this.location.path();
@@ -151,8 +148,8 @@ export class HeaderComponent implements OnInit {
 
   linkTo(url: string) {
     this.showCollapse = false;
-    if(url == '/manual') {
-      if(this.currentLang != 'English') {
+    if (url == '/manual') {
+      if (this.currentLang != 'English') {
         url = '/manual/sc'
       }
     }
@@ -184,8 +181,6 @@ export class HeaderComponent implements OnInit {
       this.currentLang = '中文';
       this._userAuth.language = '简体中文';
       this.lanData.changeMessage('zh');
-
-
     } else if (lang === 'en') {
       this.currentLang = 'English';
       this._userAuth.language = 'English';
@@ -246,8 +241,8 @@ export class HeaderComponent implements OnInit {
   getUrgentAnnouncements(currentLan: string) {
     if (currentLan === 'zh') currentLan = 'sc';
     const query = { lanCode: currentLan, active: true, urgent: true };
-    this.announceServ.find(query).subscribe(ret => {
-      if (ret['success']) {
+    this.announceServ.find(query).subscribe((ret: any) => {
+      if (ret.success) {
         this.urgentAnnouncementsList = ret['body'] as Announcement[];
         alert(this.urgentAnnouncementsList[0].title)
       } else {

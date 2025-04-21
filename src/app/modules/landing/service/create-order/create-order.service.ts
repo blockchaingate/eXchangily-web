@@ -6,8 +6,8 @@ import { Icotx } from '../../models/icotx';
 })
 export class CreateOrderService {
   icotx: any;
-  appCoinSymbol: string; // to this transaction, app receipient coin symbol
-  appCoinAddress: string; // to this transaction, app receipient coin address.
+  appCoinSymbol = ''; // to this transaction, app receipient coin symbol
+  appCoinAddress = ''; // to this transaction, app receipient coin address.
 
   constructor() { }
 

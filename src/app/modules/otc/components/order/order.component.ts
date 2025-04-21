@@ -14,19 +14,20 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class OrderComponent implements OnInit {
   @Input() isMerchant: boolean = false;
-  bidOrAsk: boolean;
-  statuses = [0,1,2,3];
+  bidOrAsk = false;
+  statuses = [0, 1, 2, 3];
   @Input() orders: any;
-  @Input() type: string;
-  token: string;
+  @Input() type = '';
+  token = '';
   buyOrderStatuses = ['Waiting for payment', 'Marked as paid', 'Finished', 'Cancelled', 'Held', 'All orders'];
   buyOrderButtonStatuses = ['Mark as paid', 'Finish'];
 
   sellOrderStatuses = ['Waiting to pay', 'Waiting for confirm', 'Finished', 'Cancelled', 'Held', 'All orders'];
   sellOrderButtonStatuses = ['I received', 'Finish'];
 
-  @ViewChild('memberDetailModal', { static: true }) memberDetailModal: MemberDetailModal;
-  currentStatus: number;
+  @ViewChild('memberDetailModal', { static: true }) memberDetailModal: MemberDetailModal = {} as MemberDetailModal;
+  currentStatus = 0;
+
   constructor(
     private alertServ: AlertService,
     private router: Router,
@@ -48,7 +49,7 @@ export class OrderComponent implements OnInit {
       }
     return text;
   }
-  
+
   getStatusText(buy: boolean, status: number) {
     buy = !buy;
     let text = '';
@@ -60,35 +61,35 @@ export class OrderComponent implements OnInit {
     return text;
   }
 
-  makePayment(ord) {
+  makePayment(ord: any) {
     this.router.navigate(['/otc/order-detail/' + ord._id]);
   }
 
-  changePaymentStatus(element, paymentStatus) {
+  changePaymentStatus(element: any, paymentStatus: any) {
     this._otcServ.changePaymentStatus(this.token, element._id, paymentStatus).subscribe(
       (res: any) => {
         if (res && res.ok) {
           element.paymentStatus = paymentStatus;
           this.alertServ.openSnackBarSuccess(
-            this.translateServ.instant('Good job'), 
+            this.translateServ.instant('Good job'),
             this.translateServ.instant('Ok'));
         }
       }
     );
   }
 
-  viewMemberDetail(bidOrAsk, coin, member) {
+  viewMemberDetail(bidOrAsk: boolean, coin: any, member: any) {
     const memberId = member._id;
     this._userServ.getUserPaymentMethods(memberId).subscribe(
       (res: any) => {
         console.log('res==', res);
-        if(res && res.ok) {
+        if (res && res.ok) {
           const userpaymentmethods = res._body;
           this.memberDetailModal.show(bidOrAsk, coin, member, userpaymentmethods);
         }
       }
     );
-    
+
   }
 
   ngOnInit() {

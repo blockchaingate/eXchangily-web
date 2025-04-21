@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PinNumberModal } from '../../../shared/modals/pin-number/pin-number.modal';
-import { StorageService } from 'src/app/services/storage.service';
-import { UtilService } from 'src/app/services/util.service';
-import { CoinService } from 'src/app/services/coin.service';
-import { KanbanService } from 'src/app/services/kanban.service';
-import { KycService } from 'src/app/services/kyc.service';
+import { StorageService } from '../../../../services/storage.service';
+import { UtilService } from '../../../../services/util.service';
+import { CoinService } from '../../../../services/coin.service';
+import { KanbanService } from '../../../../services/kanban.service';
+import { KycService } from '../../../../services/kyc.service';
 import { Router } from '@angular/router';
-import { AlertService } from 'src/app/services/alert.service';
+import { AlertService } from '../../../../services/alert.service';
 
 @Component({
   selector: 'app-kyc',
@@ -14,14 +14,14 @@ import { AlertService } from 'src/app/services/alert.service';
   styleUrls: ['./kyc.component.css']
 })
 export class KycComponent implements OnInit {
-  @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal;
-  first_name: string;
-  last_name: string;
-  email: string;
+  @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal = {} as PinNumberModal;
+  first_name = '';
+  last_name = '';
+  email = '';
   user: any;
   kyc: any;
   wallet: any;
-  type: string; 
+  type = ''; 
 
   constructor(
     private coinServ: CoinService,
@@ -73,10 +73,14 @@ export class KycComponent implements OnInit {
   onConfirmedPin(pin: string) {
 
     const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
+    if (!seed) {
+      this.alertServ.openSnackBar('Invalid seed', 'Ok');
+      return;
+    }
     const privateKey = this.coinServ.getFabPrivateKey(seed);
 
     if(this.type == 'signup') {
-      const data = {
+      const data: { first_name: string; last_name: string; email: string; sig?: string } = {
         first_name: this.first_name,
         last_name: this.last_name,
         email: this.email
@@ -113,7 +117,7 @@ export class KycComponent implements OnInit {
         }
       });
     } else {
-      const data = {
+      const data: { action: string; sig?: string } = {
         action: 'login'
       };
   

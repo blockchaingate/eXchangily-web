@@ -8,7 +8,7 @@ import { UserService } from '../../../service/user/user.service';
   styleUrls: ['./members.component.scss']
 })
 export class MembersComponent implements OnInit {
-  token: string;
+  token = '';
   members: any;
 
   constructor(private _storageServ: StorageService, private _userServ: UserService) { }

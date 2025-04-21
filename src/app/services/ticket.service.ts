@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpService } from '../services/http.service';
@@ -14,7 +13,7 @@ export class TicketService {
   }
 
   // Create ticket
-  createTicket(ticket, token) {
+  createTicket(ticket: any, token: string) {
     return this.http.postPrivate(path + 'ticket/create', ticket, token);
   }
 
@@ -24,12 +23,12 @@ export class TicketService {
   }
 
   // find by memberId, appId, active = true | false, lanCode
-  findTicket(data, token) {
+  findTicket(data: any, token: string) {
     return this.http.postPrivate(path + 'ticket/find', data, token);
   }
 
   // Update ticket
-  updateTicket(ticket, token) {
+  updateTicket(ticket: any, token: string) {
     return this.http.postPrivate(path + 'ticket/update', ticket, token);
   }
 }

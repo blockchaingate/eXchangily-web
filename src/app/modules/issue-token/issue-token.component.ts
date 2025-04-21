@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UtilService } from 'src/app/services/util.service';
+import { UtilService } from '../../services/util.service';
 import { PinNumberModal } from '../shared/modals/pin-number/pin-number.modal';
 import * as Btc from 'bitcoinjs-lib';
-import { Web3Service } from 'src/app/services/web3.service';
-import { StorageService } from 'src/app/services/storage.service';
-import { AlertService } from 'src/app/services/alert.service';
-import { CoinService } from 'src/app/services/coin.service';
+import { Web3Service } from '../../services/web3.service';
+import { StorageService } from '../../services/storage.service';
+import { AlertService } from '../../services/alert.service';
+import { CoinService } from '../../services/coin.service';
 import { MyCoin } from '../../models/mycoin';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 import { FRC20 } from '../../config/frc20';
-import { ApiService } from 'src/app/services/api.service';
+import { ApiService } from '../../services/api.service';
 import { IssueToken } from '../../interfaces/fab.interface';
 import { TranslateService } from '@ngx-translate/core';
 import BigNumber from 'bignumber.js';
@@ -22,21 +22,21 @@ import BigNumber from 'bignumber.js';
 })
 
 export class IssueTokenComponent implements OnInit {
-  @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal;
+  @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal = {} as PinNumberModal;
 
-  totalSupply: number;
+  totalSupply = 0;
   file: any;
-  name: string;
-  symbol: string;
-  decimals: number;
+  name = '';
+  symbol = '';
+  decimals = 0;
   wallet: any;
   totalFee: number = 200;
-  txHash: string;
-  errMsg: string;
-  mycoin: MyCoin;
-  balance: number;
-  txs: IssueToken[];
-  address: string;
+  txHash = '';
+  errMsg = '';
+  mycoin: MyCoin = {} as MyCoin;
+  balance = 0;
+  txs: IssueToken[] = [];
+  address = '';
 
   constructor(
     private utilServ: UtilService,
@@ -48,7 +48,6 @@ export class IssueTokenComponent implements OnInit {
     private web3Serv: Web3Service) { }
 
   async ngOnInit() {
-
     this.wallet = await this.storageService.getCurrentWallet();
 
     if (!this.wallet) {
@@ -69,31 +68,28 @@ export class IssueTokenComponent implements OnInit {
     this.txs = [];
     this.apiServ.getIssueTokensOwnedBy(this.address).subscribe(
       (ret: any) => {
-        for(let i = 0; i < ret.length; i++) {
+        for (let i = 0; i < ret.length; i++) {
           const item = ret[i];
           item.smartContractAddress = item.tokenId;
           this.txs.push(item);
         }
 
-
-
         this.storageService.getIssueTokenTransactions().subscribe(
-          async (res: IssueToken[]) => {
-    
+          async (res: any) => {
             if (res) {
-              for(let j = 0; j < res.length; j++) {
+              for (let j = 0; j < res.length; j++) {
                 const itemInStorage = res[j];
                 let existed = false;
-                for(let i = 0; i < this.txs.length; i++) {
-                  if(this.txs[i].txid ==  itemInStorage.txid) {
+                for (let i = 0; i < this.txs.length; i++) {
+                  if (this.txs[i].txid == itemInStorage.txid) {
                     existed = true;
                     break;
                   }
                 }
-                if(!existed) {
+                if (!existed) {
                   this.txs.push(itemInStorage);
                 }
-              }             
+              }
               /*
               this.txs = res;
               let updated = false;
@@ -146,7 +142,7 @@ export class IssueTokenComponent implements OnInit {
     var bytesPerInput = 150;
 
     const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
-    if(!seed) {
+    if (!seed) {
       console.log('this.wallet===', this.wallet);
       console.log('this.wallet.encryptedSeed===', this.wallet.encryptedSeed);
       console.log('pin====', pin);
@@ -168,7 +164,7 @@ export class IssueTokenComponent implements OnInit {
     console.log('this.mycoin=', this.mycoin);
     //console.log('SEED=', seed);
     const keyPair = this.coinServ.getKeyPairs(this.mycoin, seed, 0, 0);
-    if(!keyPair || !keyPair.privateKey) {
+    if (!keyPair || !keyPair.privateKey) {
       console.log('seed===', seed);
       return this.alertServ.openSnackBar('Cannot get private key', this.translateServ.instant('Ok'));
     }
@@ -188,7 +184,7 @@ export class IssueTokenComponent implements OnInit {
       this.apiServ.issueToken(data).subscribe(
         (ret: any) => {
           console.log('ret===', ret);
-          if(ret && ret.txid) {
+          if (ret && ret.txid) {
             const tx: IssueToken = {
               txid: ret.txid,
               status: 'pending',
@@ -249,7 +245,6 @@ export class IssueTokenComponent implements OnInit {
       193
     ]);
 
-
     const contractSize = contract.toJSON.toString().length;
     totalFee += this.utilServ.convertLiuToFabcoin(contractSize * 10);
 
@@ -257,12 +252,11 @@ export class IssueTokenComponent implements OnInit {
     return { contract, totalFee };
   }
 
-
-  onTotalSupplyChange(event) {
+  onTotalSupplyChange(event: any) {
     this.totalSupply = event;
   }
 
-  onDecimalsChange(event) {
+  onDecimalsChange(event: any) {
     this.decimals = event;
   }
 }

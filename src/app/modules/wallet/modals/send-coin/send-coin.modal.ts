@@ -18,17 +18,17 @@ import { TranslateService } from '@ngx-translate/core';
     styleUrls: ['./send-coin.modal.css']
 })
 export class SendCoinModal {
-    @Input() wallet: Wallet;
-    @Input() alertMsg: string;
-    coin: MyCoin;
-    gasUnit: string;
-    transFee: number;
-    sendAllCoinsFlag: boolean;
-    tranFeeUnit: string;
-    @ViewChild('sendCoinModal', { static: true }) public sendCoinModal: ModalDirective;
+    @Input() wallet: Wallet = {} as Wallet;
+    @Input() alertMsg = '';
+    coin: MyCoin = {} as MyCoin;
+    gasUnit = '';
+    transFee = 0;
+    sendAllCoinsFlag = false;
+    tranFeeUnit = '';
+    @ViewChild('sendCoinModal', { static: true }) public sendCoinModal: ModalDirective = {} as ModalDirective;
     @Output() confirmedCoinSent = new EventEmitter<SendCoinForm>();
-    currentCoinIndex: number;
-    currentCoinBalance: number;
+    currentCoinIndex = 0;
+    currentCoinBalance = 0;
     btcTransFeeEstimate: number;
     sendCoinForm = this.fb.group({
         sendTo: [''],
@@ -70,7 +70,6 @@ export class SendCoinModal {
     }
 
     async calCulateSendAllAmount() {
-
         if (this.wallet) {
             this.coin = this.wallet.mycoins[this.currentCoinIndex];
         }
@@ -132,7 +131,7 @@ export class SendCoinModal {
         }
     }
 
-    async sendAllAmount(event) {
+    async sendAllAmount(event: any) {
         console.log('event=', event);
 
         /*
@@ -333,7 +332,7 @@ export class SendCoinModal {
 
     async onChange(event: any) {
         const index = (event.target as HTMLInputElement).value;
-        this.coin = this.wallet.mycoins[index];
+        this.coin = this.wallet.mycoins[Number(index)];
         this.currentCoinIndex = Number(index);
         console.log('this.coin===', this.coin);
         if ((this.coin.name === 'ETH') || (this.coin.tokenType === 'ETH')) {

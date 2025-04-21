@@ -10,7 +10,7 @@ import BigNumber from 'bignumber.js';
 })
 export class LatestTradesComponent implements OnInit {
 
-  trades: Trade[];
+  trades: Trade[] = [];
   displayedColumns = ['Pair', 'Price', 'Quantity', 'Block'];
   interval: any;
 

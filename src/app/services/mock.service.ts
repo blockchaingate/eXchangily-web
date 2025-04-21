@@ -3,7 +3,7 @@ import { Observable, Observer, interval, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BTC_PRICE_LIST } from '../components/mock/btc-181123_2006-181124_0105';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 
 interface BarData {
   t: number;
@@ -23,7 +23,7 @@ export class MockService {
   static dataLength = BTC_PRICE_LIST.length;
   gotHistoryList: boolean;
 
-  lastBarTimestamp: number;
+  lastBarTimestamp = 0;
 
   static dataGenerator(time = +new Date()): BarData {
     const obj: any = {};
@@ -37,12 +37,12 @@ export class MockService {
   }
 
 
-  getHistoryListSync(param) {
+  getHistoryListSync(param: any): Observable<any> {
     this.gotHistoryList = true;
     const inter = param.interval;
     const symbol = param.symbol;
     const url = environment.endpoints.api + 'v3/exchangily/pair/' + symbol + '/klinedata/' + inter;
-    return this.http.get(url);    
+    return this.http.get(url);
   }
 
   fakeWebSocket() {

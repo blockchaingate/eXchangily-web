@@ -26,12 +26,12 @@ export class LiteListComponent implements OnInit {
     prices: Price[] = [];
     searchText = '';
 
-    sortField: string;
-    sortFieldType: string;
-    sortAsc: boolean;
-    sortAscPair: number;
-    sortAscPrice: number;
-    sortAscChange: number;
+    sortField = '';
+    sortFieldType = '';
+    sortAsc = false;
+    sortAscPair = 0;
+    sortAscPrice = 0;
+    sortAscChange = 0;
 
     // socket: WebSocketSubject<[Ticker]>;
     constructor(private prServ: PriceService,
@@ -89,7 +89,7 @@ export class LiteListComponent implements OnInit {
     }
 
     toDecimal(amount: number, decimal: number) {
-        if(amount) {
+        if (amount) {
             return amount.toFixed(decimal);
         }
         return 0;
@@ -120,9 +120,9 @@ export class LiteListComponent implements OnInit {
             this.selectedpair = 'BTC/USDT';
         }
 
-        this.prServ.getPriceList(100,0).subscribe(
+        this.prServ.getPriceList(100, 0).subscribe(
             (ret: any) => {
-                if(ret && ret.success) {
+                if (ret && ret.success) {
                     const data = ret.data;
                     this.prices = data;
                 }

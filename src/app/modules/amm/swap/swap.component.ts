@@ -4,15 +4,11 @@ import { Component, TemplateRef, OnInit } from '@angular/core';
     selector: 'app-amm-swap',
     templateUrl: './swap.component.html',
     styleUrls: ['./swap.component.scss']
-  })
-  export class SwapComponent implements OnInit {
+})
+export class SwapComponent implements OnInit {
+    constructor() {
+    }
 
-      constructor() {
-
-      }
-
-      ngOnInit() {
-
-      }
-
-  }
+    ngOnInit() {
+    }
+}

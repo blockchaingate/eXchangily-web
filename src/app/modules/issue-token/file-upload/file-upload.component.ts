@@ -1,5 +1,5 @@
 import { Component, OnInit, forwardRef, Input } from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 @Component({
   selector: 'app-file-upload',
@@ -9,10 +9,10 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => FileUploadComponent),
     multi: true
-  }] 
+  }]
 })
 export class FileUploadComponent implements OnInit, ControlValueAccessor {
-  @Input() title: string;
+  @Input() title = '';
   fileToUpload: any = null;
   constructor() { }
 
@@ -23,10 +23,13 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
     const files = event.target.files;
     this.handleFileInput(files);
   }
-  
+
   handleFileInput(files: FileList) {
-    
     const file = files.item(0);
+    if (!file) {
+      console.error('No file selected');
+      return;
+    }
     //console.log('this.fileToUpload===', this.fileToUpload);
 
     const reader = new FileReader();
@@ -37,20 +40,19 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
     };
   }
 
-  onChange: (_: any) => void = (_: any) => {};
- 
+  onChange: (_: any) => void = (_: any) => { };
+
   /**
    * Invoked when the model has been touched
    */
-  onTouched: () => void = () => {};
+  onTouched: () => void = () => { };
 
   /**
    * Method that is invoked on an update of a model.
    */
   updateChanges() {
-      this.onChange(this.fileToUpload);
+    this.onChange(this.fileToUpload);
   }
-
 
   ///////////////
   // OVERRIDES //
@@ -61,8 +63,8 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
    * @param value the value
    */
   writeValue(value: any): void {
-      this.fileToUpload = value;
-      this.updateChanges();
+    this.fileToUpload = value;
+    this.updateChanges();
   }
 
   /**
@@ -70,15 +72,14 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
    * @param fn
    */
   registerOnChange(fn: any): void {
-      this.onChange = fn;
+    this.onChange = fn;
   }
-
 
   /**
    * Registers a callback function that should be called when the control receives a blur event.
    * @param fn
    */
   registerOnTouched(fn: any): void {
-      this.onTouched = fn;
-  }  
+    this.onTouched = fn;
+  }
 }

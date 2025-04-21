@@ -8,7 +8,7 @@ import { StorageService } from '../../../../services/storage.service';
 import { Order, Price, Coin } from '../../../../interfaces/kanban.interface';
 import { UtilService } from '../../../../services/util.service';
 import BigNumber from 'bignumber.js';
-import { CoinService } from 'src/app/services/coin.service';
+import { CoinService } from '../../../../services/coin.service';
 import { stringify } from 'querystring';
 
 @Component({
@@ -24,15 +24,15 @@ export class MarketListComponent implements OnInit {
     favorite_pairs: string[] = [];
     searchText = '';
 
-    sortField: string;
-    sortFieldType: string;
-    sortAsc: boolean;
-    sortAscPair: number;
-    sortAscPrice: number;
-    sortAscChange: number;
-    sortAscHigh: number;
-    sortAscLow: number;
-    sortAscVolume: number;
+    sortField = '';
+    sortFieldType = '';
+    sortAsc = false;
+    sortAscPair = 0;
+    sortAscPrice = 0;
+    sortAscChange = 0;
+    sortAscHigh = 0;
+    sortAscLow = 0;
+    sortAscVolume = 0;
 
     constructor(
         private coinServ: CoinService,
@@ -47,84 +47,77 @@ export class MarketListComponent implements OnInit {
     changeSort(field: string, fieldType: string) {
         this.sortField = field;
         this.sortFieldType = fieldType;
-        if(field == 'coin_id') {
-            if(!this.sortAscPair) {
+        if (field == 'coin_id') {
+            if (!this.sortAscPair) {
                 this.sortAscPair = 1;
             } else {
                 this.sortAscPair = -this.sortAscPair;
             }
-            if(this.sortAscPair == 1) {
+            if (this.sortAscPair == 1) {
                 this.sortAsc = true;
             } else {
                 this.sortAsc = false;
             }
-        } else
-        if(field == 'price') {
-            if(!this.sortAscPrice) {
+        } else if (field == 'price') {
+            if (!this.sortAscPrice) {
                 this.sortAscPrice = 1;
             } else {
                 this.sortAscPrice = -this.sortAscPrice;
             }
-            if(this.sortAscPrice == 1) {
+            if (this.sortAscPrice == 1) {
                 this.sortAsc = true;
             } else {
                 this.sortAsc = false;
-            }            
-        } else
-        if(field == 'change24h') {
-            if(!this.sortAscChange) {
+            }
+        } else if (field == 'change24h') {
+            if (!this.sortAscChange) {
                 this.sortAscChange = 1;
             } else {
                 this.sortAscChange = -this.sortAscChange;
             }
-            if(this.sortAscChange == 1) {
+            if (this.sortAscChange == 1) {
                 this.sortAsc = true;
             } else {
                 this.sortAsc = false;
-            }             
-        } else
-        if(field == 'price24hh') {
-            if(!this.sortAscHigh) {
+            }
+        } else if (field == 'price24hh') {
+            if (!this.sortAscHigh) {
                 this.sortAscHigh = 1;
             } else {
                 this.sortAscHigh = -this.sortAscHigh;
             }
-            if(this.sortAscHigh == 1) {
+            if (this.sortAscHigh == 1) {
                 this.sortAsc = true;
             } else {
                 this.sortAsc = false;
-            }             
-        } else
-        if(field == 'price24hl') {
-            if(!this.sortAscLow) {
+            }
+        } else if (field == 'price24hl') {
+            if (!this.sortAscLow) {
                 this.sortAscLow = 1;
             } else {
                 this.sortAscLow = -this.sortAscLow;
             }
-            if(this.sortAscLow == 1) {
+            if (this.sortAscLow == 1) {
                 this.sortAsc = true;
             } else {
                 this.sortAsc = false;
-            }             
-        } else
-        if(field == 'vol24h') {
-            if(!this.sortAscVolume) {
+            }
+        } else if (field == 'vol24h') {
+            if (!this.sortAscVolume) {
                 this.sortAscVolume = 1;
             } else {
                 this.sortAscVolume = -this.sortAscVolume;
             }
-            if(this.sortAscVolume == 1) {
+            if (this.sortAscVolume == 1) {
                 this.sortAsc = true;
             } else {
                 this.sortAsc = false;
-            }             
-        }      
-        
+            }
+        }
+
     }
 
-
     ngOnInit() {
-
         this.sortField = '';
         this.sortFieldType = '';
         this.sortAsc = true;
@@ -135,10 +128,10 @@ export class MarketListComponent implements OnInit {
         this.sortAscLow = 0;
         this.sortAscVolume = 0;
 
-        this.prServ.getPriceList(100,0).subscribe(
+        this.prServ.getPriceList(100, 0).subscribe(
             (ret: any) => {
                 console.log('ret===', ret);
-                if(ret && ret.success) {
+                if (ret && ret.success) {
                     const data = ret.data;
                     console.log('dataaaaa===', data);
                     this.prices = data;
@@ -147,7 +140,6 @@ export class MarketListComponent implements OnInit {
             }
         );
 
-        
         this.storageServ.getFavoritePairs().subscribe(
             (pairs: any) => {
                 if (pairs && pairs.length > 0) {
@@ -225,16 +217,16 @@ export class MarketListComponent implements OnInit {
     }
 
     toDecimal(amount: number, decimal: number) {
-        if(amount) {
+        if (amount) {
             return amount.toFixed(decimal);
         }
         return 0;
     }
-    
+
     getCoinName(coin_id: number) {
         return this.coinServ.getCoinNameByTypeId(coin_id);
     }
-    updateTickerList(arr) {
+    updateTickerList(arr: Array<any>) {
         for (let i = 0; i < arr.length; i++) {
             const item = arr[i];
             const s = item.s;

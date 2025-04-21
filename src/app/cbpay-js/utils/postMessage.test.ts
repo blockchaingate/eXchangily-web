@@ -39,7 +39,7 @@ describe('postMessage', () => {
       expect(callbackMock).toHaveBeenCalled();
     });
 
-    it.each([
+    test.each([
       ['https://coinbase.com', true],
       ['https://bad-website.com', false],
     ])('validates origin for %s', async (allowedOrigin, isCallbackExpected) => {
@@ -59,7 +59,7 @@ describe('postMessage', () => {
       expect(callbackMock).toHaveBeenCalledTimes(isCallbackExpected ? 1 : 0);
     });
 
-    it.each([
+    test.each([
       ['https://coinbase.com', true],
       ['https://bad-website.com', false],
     ])('triggers callback for allowedOrigin for %s', async (allowedOrigin, isCallbackExpected) => {
@@ -98,7 +98,7 @@ describe('postMessage', () => {
 
       await flushMessages();
 
-      expect(onMessageMock).toBeCalledWith({
+      expect(onMessageMock).toHaveBeenCalledWith({
         data: 'app_ready',
         origin: 'https://coinbase.com',
       });
@@ -109,8 +109,8 @@ describe('postMessage', () => {
 
       await flushMessages();
 
-      expect(onMessageMock).toBeCalledWith(
-        expect.objectContaining({
+      expect(onMessageMock).toHaveBeenCalledWith(
+        jasmine.objectContaining({
           data: '{"eventName":"app_ready","data":{"test":"hi"}}',
         }),
       );

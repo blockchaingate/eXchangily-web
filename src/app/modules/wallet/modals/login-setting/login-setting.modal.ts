@@ -1,5 +1,5 @@
 import { Component, ViewChild, EventEmitter, Output, OnInit } from '@angular/core';
-import {  ModalDirective } from 'ngx-bootstrap/modal';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -7,14 +7,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
     templateUrl: './login-setting.modal.html',
     styleUrls: ['./login-setting.modal.css']
 })
-export class LoginSettingModal implements OnInit{
-    @ViewChild('loginSettingModal', {static: true}) public loginSettingModal: ModalDirective;
+export class LoginSettingModal implements OnInit {
+    @ViewChild('loginSettingModal', { static: true }) public loginSettingModal: ModalDirective = {} as ModalDirective;
     @Output() confirmedLoginSetting = new EventEmitter<string>();
-    loginSettingForm: FormGroup;
-   
+    loginSettingForm: FormGroup = {} as FormGroup;
 
     constructor(private fb: FormBuilder) {
-
     }
 
     ngOnInit() {
@@ -23,18 +21,18 @@ export class LoginSettingModal implements OnInit{
                 Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/)]
             ],
             pwdconfirm: ['']
-        }, { validator: this.checkPasswords });        
+        }, { validator: this.checkPasswords });
     }
 
     checkPasswords(group: FormGroup) { // here we have the 'passwords' group
         const pass = group.value.password;
         const confirmPass = group.value.pwdconfirm;
         if (pass !== confirmPass) {
-          return { notSame: true };
+            return { notSame: true };
         }
 
         return null;
-    } 
+    }
 
     onSubmit() {
         const password = this.loginSettingForm.value.password;

@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
-import { MatLegacyPaginator as MatPaginator, LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
-import { ApiService } from 'src/app/services/api.service';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { ApiService } from '../../../services/api.service';
 import { TradeElement } from '../trade-element';
 @Component({
   selector: 'app-trades',
@@ -24,7 +24,7 @@ export class TradesComponent implements OnInit {
   ];
   dataSource: any = new MatTableDataSource<TradeElement>([]);
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator = new MatPaginator(this.pageSize, this.pageIndex);
 
   ngOnInit(): void {
     this.apiServ.getExchangilyExchangeTrades(this.pageSize, this.pageIndex).subscribe(

@@ -18,22 +18,22 @@ import { environment } from '../../../../../environments/environment';
   styleUrls: ['./code.component.scss']
 })
 export class CodeComponent implements OnInit {
-  gasLimit: number;
-  gasPrice: number;
-  pin: string;
-  orderID: string;
-  modalRef: BsModalRef;
-  wallet: Wallet;
-  wallets: Wallet[];
+  gasLimit = 0;
+  gasPrice = 0;
+  pin = '';
+  orderID = '';
+  modalRef: BsModalRef = {} as BsModalRef;
+  wallet: Wallet = {} as Wallet;
+  wallets: Wallet[] = [] as Wallet[];
   merchant: any;
-  code: string;
-  coinID: number;
-  available: string;
-  amount: number;
-  currency: string;
+  code = '';
+  coinID = 0;
+  available = '';
+  amount = 0;
+  currency = '';
   items: any;
-  description: string;
-  currentWalletIndex: number;
+  description = '';
+  currentWalletIndex = 0;
   lan = 'en';
 
   constructor(
@@ -52,14 +52,13 @@ export class CodeComponent implements OnInit {
   }
   async ngOnInit() {
     this.pin = '';
-    this.lan = localStorage.getItem('Lan');
+    this.lan = localStorage.getItem('Lan') || 'en';
 
     this.gasLimit = environment.chains.KANBAN.gasLimit;
     this.gasPrice = environment.chains.KANBAN.gasPrice;
 
-    const code = this.route.snapshot.paramMap.get('code');
-    this.code = code;
-    this.apiServ.getOrderByCode(code).subscribe(
+    this.code = this.route.snapshot.paramMap.get('code') || '';
+    this.apiServ.getOrderByCode(this.code).subscribe(
       (res: any) => {
         console.log('');
         if (res && res.ok) {
@@ -97,7 +96,7 @@ export class CodeComponent implements OnInit {
     await this.loadWallet();
   }
 
-  async changeWallet(value) {
+  async changeWallet(value: any) {
     this.currentWalletIndex = value;
     // this.wallet = this.wallets[this.currentWalletIndex];
     // this.exgAddress = this.wallet.mycoins[0].receiveAdds[0].address;
@@ -123,7 +122,8 @@ export class CodeComponent implements OnInit {
       }
     );
   }
-  confirm(pinModal) {
+
+  confirm(pinModal: TemplateRef<any>) {
     this.openModal(pinModal);
   }
 
@@ -141,7 +141,7 @@ export class CodeComponent implements OnInit {
     this.transferCoin();
   }
 
-  changePin(event) {
+  changePin(event: any) {
     console.log(event);
   }
 
@@ -157,7 +157,7 @@ export class CodeComponent implements OnInit {
       this.pin, this.wallet, address, coin, new BigNumber(amount).shiftedBy(18).toFixed()
     );
 
-    this.apiServ.chargeOrder(this.orderID, txHex).subscribe(
+    this.apiServ.chargeOrder(this.orderID, txHex + '').subscribe(
       (res: any) => {
         if (res && res.ok) {
           if (this.lan === 'zh') {
@@ -185,7 +185,7 @@ export class CodeComponent implements OnInit {
   async txHexforSendToken
     (pin: string, wallet: any, to: string, coin: number, value: string) {
 
-    const seed = this.utilService.aesDecryptSeed(wallet.encryptedSeed, pin);
+    const seed = this.utilService.aesDecryptSeed(wallet.encryptedSeed, pin) as Buffer;
     const keyPairsKanban = this._coinServ.getKeyPairs(wallet.excoin, seed, 0, 0);
 
     const address = await this.kanbanService.getCoinPoolAddress();

@@ -19,18 +19,18 @@ declare var SqPaymentForm: any; // magic to allow us to access the SquarePayment
 })
 export class OtcPlaceOrderModal implements OnInit, AfterViewInit {
   public payPalConfig: any;
-  @Input() balance: number;
+  @Input() balance = 0;
   @Output() confirmed = new EventEmitter<any>();
-  @ViewChild('stripeCard', { static: true }) stripeCard;
+  @ViewChild('stripeCard', { static: true }) stripeCard = {} as any; // StripeCard;
   element: any;
-  user_id: string;
-  amount: number;
+  user_id = '';
+  amount = 0;
   user: any;
-  quantity: number;
-  coinAddress: string;
+  quantity = 0;
+  coinAddress = '';
   invalidError = { message: '' };
-  selectedMethod: string;
-  paymentForm; // this is our payment form object
+  selectedMethod = '';
+  paymentForm: any; // this is our payment form object
 
   extraData = {
     'name': '',
@@ -55,7 +55,7 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit {
   */
   options: any;
 
-  @ViewChild('otcPlaceOrderModal', { static: true }) public otcPlaceOrderModal: ModalDirective;
+  @ViewChild('otcPlaceOrderModal', { static: true }) public otcPlaceOrderModal: ModalDirective = {} as ModalDirective;
   methods: string[] = ['Paypal', 'CreditCard'];
 
   constructor() {
@@ -66,7 +66,7 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit {
     //this.selectedMethod = 'CreditCard';
   }
 
-  show(user, element) {
+  show(user: any, element: any) {
     this.element = element;
     this.user_id = user._id;
     this.user = user;
@@ -230,17 +230,13 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit {
 
 
     const data = {
-        amount: this.amount,
-        quantity: this.quantity
+      amount: this.amount,
+      quantity: this.quantity
     };
-    this.confirmed.emit(data);  
+    this.confirmed.emit(data);
 
-    
+
     return;
-      
-
-
-
 
     //this.paymentForm.requestCardNonce();
     /*
@@ -426,7 +422,7 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit {
      */
   }
 
-  requestCardNonce(event) {
+  requestCardNonce(event: any) {
 
     // Don't submit the form until SqPaymentForm returns with a nonce
     // event.preventDefault();
@@ -438,7 +434,7 @@ export class OtcPlaceOrderModal implements OnInit, AfterViewInit {
   ngAfterViewInit() {
   }
 
-  onGetCardNonce(event) {
+  onGetCardNonce(event: any) {
     console.log('event111=', event);
     console.log('111');
     const token = this.paymentForm.requestCardNonce();

@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { VersionModel } from 'src/app/models/version';
-
+import { VersionModel } from '../../models/version';
 
 @Component({
   selector: 'app-donwload',
@@ -9,7 +8,6 @@ import { VersionModel } from 'src/app/models/version';
   styleUrls: ['./donwload.component.scss']
 })
 export class DonwloadComponent implements OnInit {
-
   breakpoint: any;
   clickCount = 0;
 

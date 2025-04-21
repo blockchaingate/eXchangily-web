@@ -7,18 +7,15 @@ import { ActivatedRoute, Router } from '@angular/router';
     styleUrls: ['./advblock.component.scss']
 })
 export class AdvblockComponent {
+    @Input() bNum = '';
+    @Input() title = '';
+    @Input() desc1 = '';
+    @Input() desc2 = '';
+    @Input() desc3 = '';
+    @Input() desc4 = '';
+    @Input() bgimgurl = '';
+    @Input() linkurl = '';
     
-    @Input() bNum: string;
-    @Input() title: string;
-    @Input() desc1: string;
-    @Input() desc2: string;
-    @Input() desc3: string;
-    @Input() desc4: string;
-    @Input() bgimgurl: string;
-    @Input() linkurl: string;
-    
-    
-
     constructor(private _router: Router) {}
 
 }

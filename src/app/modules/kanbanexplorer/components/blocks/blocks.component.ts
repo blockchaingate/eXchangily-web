@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Block, BlockMetainfo } from '../../models/block';
 import { KanbanService } from '../../services/kanban.service';
-import { MatLegacySlideToggleChange as MatSlideToggleChange } from '@angular/material/legacy-slide-toggle';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { SearchBoxComponent } from './../search-box/search-box.component';
 
 @Component({
@@ -10,12 +10,12 @@ import { SearchBoxComponent } from './../search-box/search-box.component';
   styleUrls: ['./blocks.component.css']
 })
 export class BlocksComponent implements OnInit {
-  blocks: BlockMetainfo[];
+  blocks: BlockMetainfo[] = [];
   private interval;
   private onlyShowBlocksWithTxs: boolean;
   displayedColumns = ['number', 'Mined On', 'Block Info'];
-  constructor(private kanbanService: KanbanService) {
 
+  constructor(private kanbanService: KanbanService) {
     this.onlyShowBlocksWithTxs = false;
     this.getBlocks();
 
@@ -86,7 +86,6 @@ export class BlocksComponent implements OnInit {
   }
 
   getBlocks() {
-
     this.kanbanService.getLatestBlocksMetainfo().subscribe((blks: BlockMetainfo[]) => {
       this.blocks = [...blks];
     });

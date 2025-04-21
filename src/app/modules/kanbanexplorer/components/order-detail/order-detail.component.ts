@@ -9,14 +9,13 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./order-detail.component.scss']
 })
 export class OrdeDetailComponent implements OnInit {
-
-  orderHash: string;
+  orderHash = '';
   order: any;
   constructor(private route: ActivatedRoute, private kanbanService: KanbanService) {
   }
 
   ngOnInit() {
-    this.orderHash = this.route.snapshot.paramMap.get('orderHash');
+    this.orderHash = this.route.snapshot.paramMap.get('orderHash') || '';
       this.kanbanService.getOrder(this.orderHash).subscribe(
           (res: any) => {
             this.order = res;

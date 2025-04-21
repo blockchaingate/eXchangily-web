@@ -9,28 +9,27 @@ import { StorageService } from '../../../../../services/storage.service';
     styleUrls: ['./star-setting-add.component.scss']
   })
   export class StarSettingAddComponent implements OnInit {
+    id = '';
+    receivingContractAdd = '';
+    consumer = 0;
+    merchant = 0;
+    merchantReferral = 0;
+    consumerLevel1 = 0;
+    consumerLevel2 = 0;
+    consumerLevel3 = 0;
+    consumerLevel4 = 0;
+    consumerLevel5 = 0;
+    consumerLevel6 = 0;
+    consumerLevel7 = 0;
+    consumerLevel8 = 0;
 
-    id: string;
-    receivingContractAdd: string;
-    consumer: number;
-    merchant: number;
-    merchantReferral: number;
-    consumerLevel1: number;
-    consumerLevel2: number;
-    consumerLevel3: number;
-    consumerLevel4: number;
-    consumerLevel5: number;
-    consumerLevel6: number;
-    consumerLevel7: number;
-    consumerLevel8: number;
+    coin1 = '';
+    coin1Proportion = 0;
 
-    coin1: string;
-    coin1Proportion: number;
+    coin2 = '';
+    coin2Proportion = 0;    
 
-    coin2: string;
-    coin2Proportion: number;    
-
-    token: string;
+    token = '';
     constructor(
       private starServ: StarService,
       private router: Router,

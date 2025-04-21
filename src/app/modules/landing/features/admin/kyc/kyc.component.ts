@@ -14,28 +14,28 @@ import { User } from '../../../models/user';
   styleUrls: ['./kyc.component.css']
 })
 export class KycComponent implements OnInit {
-  kyc: Kyc;
-  user: User;
+  kyc: Kyc = {} as Kyc;
+  user: User = {} as User;
   name = '';
   residence = '';
   accredited = false;
-  msg: string;
-  kycForm: FormControl;
+  msg = '';
+  kycForm: FormControl = new FormControl('', [Validators.required]);
   denyreason = '';
 
   constructor(private _activatedRoute: ActivatedRoute, private _router: Router,
-    private _kycServ: KycService, private _userServ: UserService) {}
+    private _kycServ: KycService, private _userServ: UserService) { }
 
   ngOnInit() {
     const uId = this._activatedRoute.snapshot.paramMap.get('id');
     if (uId) {
       this.loadUser(uId);
-        this.loadKyc(uId);
+      this.loadKyc(uId);
     }
   }
 
   loadUser(id: string) {
-    this._userServ.getUserById(id).subscribe (
+    this._userServ.getUserById(id).subscribe(
       (ret: any) => {
         this.user = ret;
       },
@@ -45,7 +45,7 @@ export class KycComponent implements OnInit {
   }
 
   loadKyc(userId: string) {
-    this._kycServ.findKYCs(userId).subscribe (
+    this._kycServ.findKYCs(userId).subscribe(
       ret => {
         this.kyc = ret[0];
         this.setData(this.kyc);
@@ -55,30 +55,30 @@ export class KycComponent implements OnInit {
   }
 
   setData(kyc: Kyc) {
-      this.name = kyc.name;
-      this.residence = kyc.countryOfResidency;
-      this.accredited = kyc.accreditedInvestor;
+    this.name = kyc.name;
+    this.residence = kyc.countryOfResidency;
+    this.accredited = kyc.accreditedInvestor ?? false;
 
-      if (kyc.photoUrls) {
-          let imgId = 0;
-          for (let i = 0; i < kyc.photoUrls.length; i++) {
-            if (kyc.photoUrls[i]) {
-                imgId ++;
-                const img = <HTMLImageElement>document.getElementById('id' + imgId);
-                img.src = kyc.photoUrls[i];
-            }
-          }
-      }
-
-      if (kyc.selfieUrls) {
-        let selfieId = 0;
-        for (let i = 0; i < kyc.selfieUrls.length; i++) {
-          if (kyc.selfieUrls[i]) {
-              selfieId ++;
-              const selfie = <HTMLImageElement>document.getElementById('self' + selfieId);
-              selfie.src = kyc.selfieUrls[i];
-          }
+    if (kyc.photoUrls) {
+      let imgId = 0;
+      for (let i = 0; i < kyc.photoUrls.length; i++) {
+        if (kyc.photoUrls[i]) {
+          imgId++;
+          const img = <HTMLImageElement>document.getElementById('id' + imgId);
+          img.src = kyc.photoUrls[i];
         }
+      }
+    }
+
+    if (kyc.selfieUrls) {
+      let selfieId = 0;
+      for (let i = 0; i < kyc.selfieUrls.length; i++) {
+        if (kyc.selfieUrls[i]) {
+          selfieId++;
+          const selfie = <HTMLImageElement>document.getElementById('self' + selfieId);
+          selfie.src = kyc.selfieUrls[i];
+        }
+      }
     }
   }
 
@@ -86,24 +86,24 @@ export class KycComponent implements OnInit {
     if (!this.denyreason || this.denyreason.length < 2) {
       return;
     } else {
-      this._userServ.updateUser({_id: this.kyc.memberId, kyc: 3, kycNote: this.denyreason}).subscribe(
+      this._userServ.updateUser({ _id: this.kyc.memberId, kyc: 3, kycNote: this.denyreason }).subscribe(
         ret => {
           this._router.navigate(['/account/admin/kycs']);
         },
         err => this.msg = err
-    );
-  }
+      );
+    }
   }
 
-  setPass() { 
-    if(!this.kyc) {
+  setPass() {
+    if (!this.kyc) {
       return;
     }
-      this._userServ.setKycPass({_id: this.kyc.memberId}).subscribe(
-          ret => {
-            this._router.navigate(['/account/admin/kycs']);
-          },
-          err => this.msg = err
-      );
+    this._userServ.setKycPass({ _id: this.kyc.memberId }).subscribe(
+      ret => {
+        this._router.navigate(['/account/admin/kycs']);
+      },
+      err => this.msg = err
+    );
   }
 }

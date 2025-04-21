@@ -10,11 +10,11 @@ import { environment } from '../../../../../environments/environment';
 
 export class TradeComponent implements OnInit {
     errMsg = '';
-    maintainence: boolean;
+    maintainence = false;
+
     constructor(private kanbanService: KanbanService) {}
 
     ngOnInit() {
-
         this.maintainence = false;
         /*
         this.kanbanService.getKanbanStatus().subscribe(

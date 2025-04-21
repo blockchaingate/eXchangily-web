@@ -17,7 +17,7 @@ import { environment } from '../../../../environments/environment';
   providedIn: 'root'
 })
 export class KanbanService {
-  coins: Coin[];
+  coins: Coin[] = [];
   // codeToCurrencyMap: Map<string, string>;
   private url: string = environment.url;
 
@@ -37,9 +37,9 @@ export class KanbanService {
     if(!this.coins || !Array.isArray(this.coins)) {
       return '-';
     }
-    const coin = this.coins.filter(c => c.coinType === parseInt(num));
-    if (!coin || coin.length < 1) return '-';
-    return coin[0]['tickerName'];
+    const coins: Coin[] = this.coins.filter(c => c.coinType === parseInt(num));
+    if (!coins || coins.length < 1) return '-';
+    return coins[0].symbol;
     // return this.codeToCurrencyMap.get(num);
   }
 
@@ -56,7 +56,7 @@ export class KanbanService {
 
   getLatestBlocksMetainfo(startBlock?: Number, onlyWithTransactions = false): Observable<BlockMetainfo[]> {
     if (onlyWithTransactions) {
-      return this.http.get<BlockMetainfo[]>(`${this.url}getblockwithtxsmetainfo/` + startBlock.toString() + '/10');
+      return this.http.get<BlockMetainfo[]>(`${this.url}getblockwithtxsmetainfo/` + startBlock?.toString() + '/10');
     }
 
     if (startBlock) {
@@ -69,7 +69,7 @@ export class KanbanService {
   getNextBlocksMetainfo(startBlock?: Number, onlyWithTransactions = false): Observable<BlockMetainfo[]> {
 
     if (onlyWithTransactions) {
-      return this.http.get<BlockMetainfo[]>(`${this.url}getblockwithtxsfwdmetainfo/` + startBlock.toString() + '/10');
+      return this.http.get<BlockMetainfo[]>(`${this.url}getblockwithtxsfwdmetainfo/` + startBlock?.toString() + '/10');
     }
 
     if (startBlock) {
@@ -100,7 +100,7 @@ export class KanbanService {
   }
 
   async getTransactionStatus(txid: string) {
-    let response = null;
+    let response: any;
     let status = '';
     try {
         response = await this.http.get(`${this.url}kanban/getTransactionReceipt/` + txid).toPromise();

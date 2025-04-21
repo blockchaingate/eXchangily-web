@@ -1,5 +1,5 @@
 import { Component, ViewChild, EventEmitter, Output } from '@angular/core';
-import {  ModalDirective } from 'ngx-bootstrap/modal';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import { FormBuilder } from '@angular/forms';
 
 @Component({
@@ -8,14 +8,13 @@ import { FormBuilder } from '@angular/forms';
     styleUrls: ['./delete-wallet.modal.css']
 })
 export class DeleteWalletModal {
-    @ViewChild('deleteWalletModal', {static: true}) public deleteWalletModal: ModalDirective;
+    @ViewChild('deleteWalletModal', { static: true }) public deleteWalletModal: ModalDirective = {} as ModalDirective;
     @Output() confirmedDeleteWallet = new EventEmitter();
 
     deleteWalletForm = this.fb.group({
-    });    
+    });
 
     constructor(private fb: FormBuilder) {
-
     }
 
     onSubmit() {

@@ -9,16 +9,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./merchant-orders.css']
 })
 export class MerchantOrdersComponent implements OnInit {
-  token: string;
+  token = '';
   orders: any;
-  constructor(
-    private router: Router,
-    private storageService: StorageService,
-    private _otcServ: OtcService
+
+  constructor(private router: Router, private storageService: StorageService, private _otcServ: OtcService
   ) { }
 
   ngOnInit() {
-
     this.storageService.getToken().subscribe(
       (token: any) => {
         this.token = token;

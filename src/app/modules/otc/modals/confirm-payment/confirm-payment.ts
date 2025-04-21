@@ -13,7 +13,7 @@ export class ConfirmPaymentModal {
         amount: ['0'],
         method: ['alipay']
     });
-    @ViewChild('confirmPaymentModal', { static: true }) public confirmPaymentModal: ModalDirective;
+    @ViewChild('confirmPaymentModal', { static: true }) public confirmPaymentModal: ModalDirective = {} as ModalDirective;
 
     methods: string[] = ['alipay', 'bank'];
     constructor(private fb: FormBuilder) { }
@@ -25,7 +25,7 @@ export class ConfirmPaymentModal {
     hide() {
         this.confirmPaymentModal.hide();
     }
-    onSubmit() {
 
+    onSubmit() {
     }
 }

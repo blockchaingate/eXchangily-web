@@ -12,44 +12,44 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./order.component.scss']
 })
 export class OrderComponent implements OnInit {
-  icotx: Icotx;
+  icotx: Icotx = {} as Icotx;
   colours = IcotxColours;
   backRoute = AccountPaths[2].absolute;
   admin = false;
   statuses = IcotxStatuses;
   loaded = false;
 
-  updateOrderForm: FormGroup;
-  serverMessage: string;
+  updateOrderForm: FormGroup = new FormGroup({});
+  serverMessage = '';
   formEdit = false;
 
-  private initStatus: IcotxStatus;
+  private initStatus: IcotxStatus = {} as IcotxStatus;
   constructor(private _icotxService: IcotxService, private _route: ActivatedRoute,
-              private _localIcotx: IcotxesAuthService, private _router: Router) { }
+    private _localIcotx: IcotxesAuthService, private _router: Router) { }
 
   ngOnInit() {
     this.backRoute = AccountPaths[2].absolute;
-    this._route.data.pipe(map(data => {
+    this._route.data.pipe(map((data: any) => {
       this.admin = data.isAdmin;
       return data.icotx;
     }))
-    .subscribe(ret => {
-      if (!ret.status) {
-        ret.status = 'pending';
-      }
-      this.initStatus = <IcotxStatus>ret.status;
-      this.icotx = ret;
-      this.updateOrderForm = new FormGroup({
-        'status': new FormControl(this.icotx.status.toLocaleLowerCase(), [
-          Validators.required
-        ]),
-        'notes': new FormControl(this.icotx.notes, [
-          Validators.maxLength(1500)
-        ])
-      });
+      .subscribe(ret => {
+        if (!ret.status) {
+          ret.status = 'pending';
+        }
+        this.initStatus = <IcotxStatus>ret.status;
+        this.icotx = ret;
+        this.updateOrderForm = new FormGroup({
+          'status': new FormControl(this.icotx.status?.toLocaleLowerCase() || 'pending', [
+            Validators.required
+          ]),
+          'notes': new FormControl(this.icotx.notes, [
+            Validators.maxLength(1500)
+          ])
+        });
 
-      this.loaded = true;
-    });
+        this.loaded = true;
+      });
   }
 
   exit() {
@@ -67,25 +67,23 @@ export class OrderComponent implements OnInit {
   submit() {
     const icotx: Icotx = Object.assign(this.icotx, this.updateOrderForm.value);
     this._icotxService.updateIcotx(icotx)
-    .subscribe(
-      res => {
-        this._localIcotx.findAndUpdate(<IcotxStatus>this.initStatus.toLowerCase(), icotx._id, icotx);
-        this.icotx = icotx;
-        this.serverMessage = '';
-        this.formEdit = false;
-      },
-      err => {
-        this.serverMessage = err;
-      });
+      .subscribe(
+        res => {
+          this._localIcotx.findAndUpdate(<IcotxStatus>this.initStatus.toLowerCase(), icotx._id || '', icotx);
+          this.icotx = icotx;
+          this.serverMessage = '';
+          this.formEdit = false;
+        },
+        err => {
+          this.serverMessage = err;
+        });
   }
 
   isCrypto(index: number): boolean {
     const pay = this.icotx.payment[index].payMethod;
     let crypto = false;
 
-    if (pay === 'eth' ||
-        pay === 'fab' ||
-          pay === 'btx') {
+    if (pay === 'eth' || pay === 'fab' || pay === 'btx') {
       crypto = true;
     }
 
@@ -93,6 +91,6 @@ export class OrderComponent implements OnInit {
   }
 
   getStatus() {
-    return this.icotx.status.toLowerCase();
+    return this.icotx.status?.toLowerCase() ?? '';
   }
 }

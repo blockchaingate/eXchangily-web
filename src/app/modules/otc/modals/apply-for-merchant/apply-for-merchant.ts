@@ -1,5 +1,5 @@
 import { Component, ViewChild, EventEmitter, Output } from '@angular/core';
-import {  ModalDirective } from 'ngx-bootstrap/modal';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import { FormBuilder } from '@angular/forms';
 
 @Component({
@@ -13,7 +13,7 @@ export class ApplyForMerchantModal {
         amount: ['0'],
         method: ['alipay']
     });
-    @ViewChild('applyForMerchantModal', {static: true}) public applyForMerchantModal: ModalDirective;
+    @ViewChild('applyForMerchantModal', { static: true }) public applyForMerchantModal: ModalDirective = {} as ModalDirective;
     methods: string[] = ['alipay', 'bank'];
 
     constructor(private fb: FormBuilder) { }

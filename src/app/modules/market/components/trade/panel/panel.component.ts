@@ -19,21 +19,21 @@ import { OrderPadComponent } from '../orderpad/order-pad.component';
 })
 
 export class PanelComponent implements OnInit {
-    @ViewChild('myOrders', {static: true}) myOrders: MyordersComponent;
-    @ViewChild('orderPad', {static: true}) orderPad: OrderPadComponent;
-    screenwidth: number;
-    screenheight: number;
-    orders: Order[];
+    @ViewChild('myOrders', { static: true }) myOrders: MyordersComponent = {} as MyordersComponent;
+    @ViewChild('orderPad', { static: true }) orderPad: OrderPadComponent = {} as OrderPadComponent;
+    screenwidth = 0;
+    screenheight = 0;
+    orders: Order[] = [];
     cat = 2;
     select = 2;
     pair = 'BTC/USDT';
     // pairConfig: Pair = { name: 'BTCUSDT', priceDecimal: 2, qtyDecimal: 6 };
     searchText = '';
-    baseCoin: number;
-    targetCoin: number;
+    baseCoin = 0;
+    targetCoin = 0;
     mytokens: any;
-    wallet: Wallet;
-    address: string;
+    wallet: Wallet = {} as Wallet;
+    address = '';
     errMsg = '';
 
     constructor(private prServ: PriceService, private _route: ActivatedRoute, private _router: Router,
@@ -53,9 +53,9 @@ export class PanelComponent implements OnInit {
 
     async ngOnInit() {
         this.screenwidth = window.innerWidth;
-        window.onresize = () => {this.screenwidth = window.innerWidth;};
+        window.onresize = () => { this.screenwidth = window.innerWidth; };
 
-        this.screenheight = window.innerHeight;  
+        this.screenheight = window.innerHeight;
         const wallet = await this.walletService.getCurrentWallet();
         if (wallet) {
             this.wallet = wallet;
@@ -76,7 +76,7 @@ export class PanelComponent implements OnInit {
             this.pair = inPair.replace('_', '/');
         }
     }
- 
+
     coinName2Number(name: string) {
         return this.coinService.getCoinTypeIdByName(name);
     }
@@ -84,6 +84,5 @@ export class PanelComponent implements OnInit {
     selectOrder(selected: number) {
         alert(selected);
     }
-
 
 }

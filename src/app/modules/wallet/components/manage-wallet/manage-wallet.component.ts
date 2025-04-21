@@ -6,9 +6,9 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
     styleUrls: ['./manage-wallet.component.css']
 })
 export class ManageWalletComponent implements OnInit {
-    @Input() hideWallet: boolean;
+    @Input() hideWallet = false;
     @Output() manageWallet = new EventEmitter<string>();
-    constructor () {
+    constructor() {
     }
     manageWal(type: string) {
         this.manageWallet.emit(type);

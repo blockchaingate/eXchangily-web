@@ -1,11 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({name: 'transactionType'})
+@Pipe({ name: 'transactionType' })
 export class TransactionTypePipe implements PipeTransform {
   transform(transactionsArr: any, type?: string): number {
     if (!type || type === 'All') {
-        return transactionsArr;
+      return transactionsArr;
     }
-    return transactionsArr.filter(transaction => (transaction.type === type));
+    return transactionsArr.filter((transaction: any) => (transaction.type === type));
   }
 }

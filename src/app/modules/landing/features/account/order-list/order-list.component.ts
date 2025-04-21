@@ -14,11 +14,11 @@ import { mergeMap ,  map ,  filter } from 'rxjs/operators';
   styleUrls: ['./order-list.component.scss']
 })
 export class OrderListComponent implements OnInit, OnDestroy {
-  serverMessage: string;
-  icotx: Icotx;
+  serverMessage = '';
+  icotx: Icotx = {} as Icotx;
   loaded = false;
   admin = false;
-  pend: Observable<any>;
+  pend: Observable<any> = new Observable();
   pendingLength = 0;
 
   private icotxes: IcotxSorted = {
@@ -37,7 +37,7 @@ export class OrderListComponent implements OnInit, OnDestroy {
 
     this._activatedRoute.data
     .pipe(
-      map( (data) => {
+      map( (data: any) => {
         this.admin = data.isAdmin;
         return data.user;
       }),
@@ -49,8 +49,8 @@ export class OrderListComponent implements OnInit, OnDestroy {
         }
       }),
       mergeMap(user => this._icotx.findIcotxes(user._id)))
-      .subscribe(res => {
-        const tmp = {
+      .subscribe((res: any) => {
+        const tmp: { pending: Icotx[]; completed: Icotx[]; deleted: Icotx[] } = {
           pending: [],
           completed: [],
           deleted: []
@@ -60,8 +60,8 @@ export class OrderListComponent implements OnInit, OnDestroy {
           if (!res[i].status) {
             res[i].status = 'pending';
           }
-          res[i].status = res[i].status.toLowerCase();
-          tmp[res[i].status].push(res[i]);
+          const stat = res[i].status.toLowerCase() as keyof typeof tmp;
+          tmp[stat].push(res[i]);
         }
         this.localIcotxes.pending.next(tmp.pending);
         this.localIcotxes.completed.next(tmp.completed);

@@ -1,4 +1,3 @@
-
 import { throwError as observableThrowError } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpService } from '../../../../services/http.service';
@@ -60,7 +59,7 @@ export class TokenlockService {
     return this.http.post(path + 'delete', obj, true).pipe(map(res => <Tokenlock>res));
   }
 
-  private logAndPassOn (error) {
+  private logAndPassOn (error: any) {
     let errorObj;
     try {
       errorObj = JSON.parse(error._body);

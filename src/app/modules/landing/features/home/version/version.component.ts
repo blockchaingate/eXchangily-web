@@ -7,7 +7,8 @@ import { environment } from '../../../../../../environments/environment';
   styleUrls: ['./version.component.scss']
 })
 export class VersionComponent implements OnInit {
-    version: string;
+    version = '';
+    
     ngOnInit() {
         this.version = environment.production.toString() + ' ' + version;
     }    

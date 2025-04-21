@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./listing.component.css']
 })
 export class ListingComponent implements OnInit {
-  lang: string;
+  lang = 'en';
   constructor(private translate: TranslateService) { }
 
   ngOnInit(): void {

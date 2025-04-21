@@ -9,9 +9,9 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
     styleUrls: ['./star-orders.component.scss']
   })
   export class StarOrdersComponent implements OnInit {
-      token: string;
+      token = '';
       orders: any;
-      modalRef: BsModalRef;
+      modalRef: BsModalRef = new BsModalRef();
       payments: any;
       
       constructor(

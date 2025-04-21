@@ -125,7 +125,7 @@ export class CoinbasePixel {
             left: window.screenLeft - PopupSizes.signin.width - 10,
             top: window.screenTop,
           },
-          (winRef) => {
+          (winRef: any) => {
             this.addEventStreamListener('open', () => {
               if (winRef?.id) {
                 window.chrome.windows.update(winRef.id, {
@@ -159,7 +159,7 @@ export class CoinbasePixel {
     this.onMessage('pixel_ready', {
       shouldUnsubscribe: false,
       onMessage: (data) => {
-        this.isLoggedIn = !!data?.isLoggedIn as boolean;
+        this.isLoggedIn = !!data?.['isLoggedIn'] as boolean;
         this.sendAppParams(this.appParams);
       },
     });
@@ -177,7 +177,7 @@ export class CoinbasePixel {
     this.onMessage('on_app_params_nonce', {
       shouldUnsubscribe: false,
       onMessage: (data) => {
-        this.nonce = (data?.nonce as string) || '';
+        this.nonce = (data?.['nonce'] as string) || '';
       },
     });
   };

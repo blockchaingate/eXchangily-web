@@ -7,7 +7,7 @@ import { User } from '../../../models/user';
 
 import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs';
-import { mergeMap ,  map ,  filter } from 'rxjs/operators';
+import { mergeMap, map, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-details',
@@ -15,8 +15,8 @@ import { mergeMap ,  map ,  filter } from 'rxjs/operators';
   styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit, OnDestroy {
-  userModifyForm: FormGroup;
-  errorMessage: string;
+  userModifyForm: FormGroup = new FormGroup({});
+  errorMessage = '';
   isAdmin = false;
 
   private subscribers: Array<Subscription> = [];
@@ -30,17 +30,17 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
     this.subscribers.push(
       this._userAuth.isLoggedIn$
-      .pipe(
-        filter((loggedIn) => {
-          return loggedIn !== '';
-        }),
-        mergeMap(adsf => this._userService.getUserById(this._userAuth.id).pipe(
-       map((user: User) => {
-         this.isAdmin = user.isWriteAccessAdmin || false;
-         return user;
-       }))
-      ))
-      .subscribe()
+        .pipe(
+          filter((loggedIn) => {
+            return loggedIn !== '';
+          }),
+          mergeMap(adsf => this._userService.getUserById(this._userAuth.id).pipe(
+            map((user: any) => {
+              this.isAdmin = user.isWriteAccessAdmin || false;
+              return user;
+            }))
+          ))
+        .subscribe()
     );
   }
 
@@ -51,23 +51,23 @@ export class DetailsComponent implements OnInit, OnDestroy {
     const values = this.userModifyForm.value;
 
     this._userService.getUser(values)
-    .subscribe(
-      (ret:any) => {
-        this._userService.updateUser({id: ret._id, isWriteAccessAdmin: true})
-        .subscribe(
-          res => {
-            console.log('this should have worked!😈');
-          },
-          err => {
-            console.log('ERROR', err);
-            this.errorMessage = this.errorMessage;
-          }
-        );
-      },
-      error => {
-        this.errorMessage = error;
-      }
-    );
+      .subscribe(
+        (ret: any) => {
+          this._userService.updateUser({ id: ret._id, isWriteAccessAdmin: true })
+            .subscribe(
+              res => {
+                console.log('this should have worked!😈');
+              },
+              err => {
+                console.log('ERROR', err);
+                this.errorMessage = this.errorMessage;
+              }
+            );
+        },
+        error => {
+          this.errorMessage = error;
+        }
+      );
   }
 
   ngOnDestroy() {

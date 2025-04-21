@@ -10,9 +10,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['../style.scss']
 })
 export class ActivateComponent implements OnInit {
-  activateForm: FormGroup;
+  activateForm: FormGroup = new FormGroup({});
   formDetails = {email: '', code: ''};
-  errorMessage: string;
+  errorMessage = '';
 
   constructor(private _userService: UserService, private _router: Router, private _route: ActivatedRoute) { }
 
@@ -21,8 +21,8 @@ export class ActivateComponent implements OnInit {
   get code() { return this.activateForm.get('code'); }
 
   ngOnInit() {
-    this.formDetails.email = this._route.snapshot.paramMap.get('email');
-    this.formDetails.code = this._route.snapshot.paramMap.get('activeCode');
+    this.formDetails.email = this._route.snapshot.paramMap.get('email') || '';
+    this.formDetails.code = this._route.snapshot.paramMap.get('activeCode') || '';
 
     this.activateForm = new FormGroup({
       'email': new FormControl(this.formDetails.email, [
@@ -36,14 +36,14 @@ export class ActivateComponent implements OnInit {
   }
 
   onSubmit() {
-    this._userService.activation(this.email.value, this.code.value).then(
+    this._userService.activation(this.email?.value ?? '', this.code?.value ?? '').then(
       ret => this.proccessSuccess(ret),
       err => { this.errorMessage = err || 'Activation failure. '; }
     );
   }
 
-  proccessSuccess(retMember) {
-    this.errorMessage = null;
+  proccessSuccess(retMember: any) {
+    this.errorMessage = '';
     if (retMember) {
       this._router.navigate(['login/signin']);
     } else {

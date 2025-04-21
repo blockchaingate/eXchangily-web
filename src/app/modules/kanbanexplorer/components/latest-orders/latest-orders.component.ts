@@ -9,7 +9,7 @@ import { Order } from '../../models/order';
 })
 export class LatestOrdersComponent implements OnInit {
 
-  orders: Order[];
+  orders: Order[] = [];
   displayedColumns = ['Pair', 'Price', 'Quantity', 'Block'];
   interval;
   constructor(private kanbanService: KanbanService) {
@@ -20,7 +20,6 @@ export class LatestOrdersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
   }
 
   getLatestOrders() {

@@ -11,14 +11,15 @@ import bchaddr from 'bchaddrjs';
     styleUrls: ['./receive-coin.modal.css']
 })
 export class ReceiveCoinModal {
-    modalRef: BsModalRef;
-    @Input() wallet: Wallet;
-    currentAddress: string;
-    currentCoin: MyCoin;
-    link: string;
-    constructor(private modalService: BsModalService, private utilServ: UtilService) {
+    modalRef: BsModalRef = {} as BsModalRef;
+    @Input() wallet: Wallet = {} as Wallet;
+    currentAddress = '';
+    currentCoin: MyCoin = {} as MyCoin;
+    link = '';
 
+    constructor(private modalService: BsModalService, private utilServ: UtilService) {
     }
+
     openModal(template: TemplateRef<any>) {
         if (this.wallet) {
             this.currentAddress = this.wallet.mycoins[1].receiveAdds[0].address;
@@ -32,7 +33,7 @@ export class ReceiveCoinModal {
     }
 
     onChange(event: any) {
-        const index = (event.target as HTMLInputElement).value;
+        const index = parseInt((event.target as HTMLInputElement).value, 10);
         /*
         if (this.wallet.mycoins[index].tokenType === 'FAB') {
             this.currentAddress = this.wallet.mycoins[1].receiveAdds[0].address;
@@ -40,7 +41,7 @@ export class ReceiveCoinModal {
             this.currentAddress = this.wallet.mycoins[index].receiveAdds[0].address;
         }
         */
-       this.currentAddress = this.wallet.mycoins[index].receiveAdds[0].address;
+        this.currentAddress = this.wallet.mycoins[index].receiveAdds[0].address;
         // console.log(selectedValue);
     }
 
@@ -50,7 +51,7 @@ export class ReceiveCoinModal {
 
     dlDataUrlBin() {
         const obj = document.getElementById('address_qr_code');
-        if( obj && obj.getElementsByTagName('canvas')) {
+        if (obj && obj.getElementsByTagName('canvas')) {
             const y = obj.getElementsByTagName('canvas')[0];
             // console.log('y.src=' + y.src);
             if (y) {
@@ -58,7 +59,6 @@ export class ReceiveCoinModal {
                 this.link = link;
             }
         }
-
 
     }
 }

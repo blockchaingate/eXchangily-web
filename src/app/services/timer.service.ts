@@ -18,7 +18,7 @@ export class TimerService {
     public canceledOrders: BehaviorSubject<any> = new BehaviorSubject([]);
     public tokens: BehaviorSubject<any> = new BehaviorSubject([]);
 
-    constructor(public kanbanServ: KanbanService, private apiServ: ApiService) { 
+    constructor(public kanbanServ: KanbanService, private apiServ: ApiService) {
         this.transactionStatusSubscribe = [];
         this.orderStatusSubscribe = [];
         this.tokenSubscribe = [];
@@ -62,13 +62,13 @@ export class TimerService {
                 this.unCheckTokens(address);
             }
             this.kanbanServ.getBalance(address).subscribe((resp: any) => {
-                if(resp.success) {
+                if (resp.success) {
                     this.tokens.next(resp.data);
                 }
-                
-            });          
-        });   
-        
+
+            });
+        });
+
         this.tokenSubscribe.push(
             {
                 address: address,
@@ -91,10 +91,10 @@ export class TimerService {
     checkOrderStatus(address: string, maxTimes = 160) {
         if (this.maxTimes > 0) {
             maxTimes = this.maxTimes;
-        }      
+        }
         if (!this.timerEnabled) {
             return;
-        }       
+        }
         // console.log('begin checkint');
         for (let i = 0; i < this.orderStatusSubscribe.length; i++) {
             const item = this.orderStatusSubscribe[i];
@@ -108,40 +108,40 @@ export class TimerService {
                 this.unCheckOrderStatus(address);
             }
             this.kanbanServ.getOrdersByAddressStatus(address, 'open')
-            .subscribe(
-                (ret: any) => { 
-                    // console.log('ordersssssssssssssssssss=', orders);
-                    if(ret.success) {
-                        const orders = ret.data;
-                        this.openOrders.next(orders);
+                .subscribe(
+                    (ret: any) => {
+                        // console.log('ordersssssssssssssssssss=', orders);
+                        if (ret.success) {
+                            const orders = ret.data;
+                            this.openOrders.next(orders);
+                        }
+
                     }
-                    
-                }
-            );   
+                );
 
             this.kanbanServ.getOrdersByAddressStatus(address, 'closed')
-            .subscribe(
-                (ret: any) => { 
-                    if(ret.success) {
-                        const orders = ret.data;
-                        this.closedOrders.next(orders);
-                    }
+                .subscribe(
+                    (ret: any) => {
+                        if (ret.success) {
+                            const orders = ret.data;
+                            this.closedOrders.next(orders);
+                        }
 
-                }
-            );   
-            
+                    }
+                );
+
             this.kanbanServ.getOrdersByAddressStatus(address, 'canceled')
-            .subscribe(
-                (ret: any) => { 
-                    if(ret.success) {
-                        const orders = ret.data;
-                        this.canceledOrders.next(orders);
-                    }
+                .subscribe(
+                    (ret: any) => {
+                        if (ret.success) {
+                            const orders = ret.data;
+                            this.canceledOrders.next(orders);
+                        }
 
-                }
-            );             
-        });   
-        
+                    }
+                );
+        });
+
         this.orderStatusSubscribe.push(
             {
                 address: address,
@@ -156,7 +156,5 @@ export class TimerService {
             item.subscribeItem.unsubscribe();
         }
     }
-   
-
 
 }

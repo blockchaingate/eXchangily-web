@@ -19,7 +19,7 @@ export class UserService {
     }
     return this.http.post(environment.endpoints.blockchaingate + 'members/importAllAddresses', data);
   }
-  getUserPaymentMethods(memberId) {
+  getUserPaymentMethods(memberId: string) {
     return this.http.get(environment.endpoints.blockchaingate + 'userpaymentmethods/member/' + memberId);
   }
 }

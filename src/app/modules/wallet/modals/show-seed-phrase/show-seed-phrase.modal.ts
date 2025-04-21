@@ -1,5 +1,5 @@
 import { Component, ViewChild, Input } from '@angular/core';
-import {  ModalDirective } from 'ngx-bootstrap/modal';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import { FormBuilder } from '@angular/forms';
 
 @Component({
@@ -8,17 +8,18 @@ import { FormBuilder } from '@angular/forms';
     styleUrls: ['./show-seed-phrase.modal.css']
 })
 export class ShowSeedPhraseModal {
-    @ViewChild('showSeedPhraseModal', {static: true}) public showSeedPhraseModal: ModalDirective;
+    @ViewChild('showSeedPhraseModal', { static: true }) public showSeedPhraseModal: ModalDirective = {} as ModalDirective;
 
-    seedPhrase: string;
+    seedPhrase = '';
+
     constructor() {
-
     }
 
     show(seedPhrase: string) {
         this.seedPhrase = seedPhrase;
         this.showSeedPhraseModal.show();
     }
+
     hide() {
         this.showSeedPhraseModal.hide();
     }

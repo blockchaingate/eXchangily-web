@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Announcement } from '../../../../models/announcement';
-import { LanService } from 'src/app/services/lan.service';
-import { AnnouncementsService } from 'src/app/services/announcements.service';
+import { LanService } from '../../../../services/lan.service';
+import { AnnouncementsService } from '../../../../services/announcements.service';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -11,11 +11,12 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./announcement-list.component.css']
 })
 export class AnnouncementListComponent implements OnInit {
-  currentLan: string;
-  errMsg: string;
+  currentLan = 'en';
+  errMsg = '';
   success = true;
   busy = true;
   announceList: Announcement[] = [];
+
   constructor(
     private lanData: LanService,
     private route: ActivatedRoute,
@@ -27,17 +28,17 @@ export class AnnouncementListComponent implements OnInit {
 
     this.route.paramMap.subscribe((params) => {
       console.log('lang===', params.get('lang'));
-      if(params && params.get('lang')) {
-        this.currentLan = params.get('lang');
+      if (params && params.get('lang')) {
+        this.currentLan = params.get('lang') || 'en';
         this.getAnnouncements(this.currentLan);
       } else {
         this.lanData.currentMessage.subscribe(message => {
           // console.log("Yoyo lan changed: ", message);
-          if(message) {
+          if (message) {
             this.currentLan = message;
             this.getAnnouncements(this.currentLan);
           }
-    
+
         });
       }
     });
@@ -51,8 +52,8 @@ export class AnnouncementListComponent implements OnInit {
     this.translateServ.setDefaultLang(currentLan);
     this.translateServ.use(currentLan);
     let changedLang = currentLan;
-    if(changedLang === 'zh') changedLang = 'sc';
-    this._announcementsService.getManyByLan(changedLang).subscribe(ret => {
+    if (changedLang === 'zh') changedLang = 'sc';
+    this._announcementsService.getManyByLan(changedLang).subscribe((ret: any) => {
       // console.log("return: ");
       // console.log(ret);
 

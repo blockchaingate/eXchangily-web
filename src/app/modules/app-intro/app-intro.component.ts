@@ -7,9 +7,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./app-intro.component.scss']
 })
 export class AppIntroComponent implements OnInit {
-  @Input() showHeadOnly: boolean;
+  @Input() showHeadOnly = false;
+
   constructor(
-     private router: Router,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {

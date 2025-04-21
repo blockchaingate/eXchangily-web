@@ -9,6 +9,7 @@ import { UserService } from '../../../service/user/user.service';
 import { IcotxService } from '../../../service/icotx/icotx.service';
 import { User } from '../../../models/user';
 import { Icotx } from '../../../models/icotx';
+import { AppUsers } from '../../../models/app-users';
 
 @Component({
   selector: 'app-info',
@@ -16,14 +17,14 @@ import { Icotx } from '../../../models/icotx';
   styleUrls: ['./info.component.scss']
 })
 export class InfoComponent implements OnInit {
-  userForm: FormGroup;
+  userForm: FormGroup = new FormGroup({});
   user: User = { email: '' };
 
   edit = false;
-  errorMessage: string;
+  errorMessage = '';
   activeStatus = 'clear';
   personalUser = 'done';
-  parentReferralCode: string;
+  parentReferralCode = '';
   data: any;
   totalTokens = 0;
 
@@ -36,11 +37,11 @@ export class InfoComponent implements OnInit {
     private _route: ActivatedRoute,
     private _appUsers: AppUsersService,
     private _icotx: IcotxService
-  ) {}
+  ) { }
 
   ngOnInit() {
     // get user data
-    this.data = this._route.snapshot.data.appUser;
+    this.data = this._route.snapshot.data['appUser'];
     this.getUser(this._userAuth.id, this.data ? this.data.parentReferralCode : '');
     this.getAllOrders();
   }
@@ -52,7 +53,7 @@ export class InfoComponent implements OnInit {
   getUser(id: number | string, parentReferral: string) {
     console.log('getUser=', id);
     this._userService.getUserById(id).subscribe(
-      (ret: User) => {
+      (ret: any) => {
         this.processRetGetUser(ret);
         const parentReferralCodeParam: any = { value: parentReferral, disabled: parentReferral };
         // build form
@@ -79,42 +80,51 @@ export class InfoComponent implements OnInit {
   }
 
   gotoUserUpdate() {
-    Object.keys(this.userForm.controls).forEach(key => {
-      if (key !== 'parentReferralCode') {
-        this.user[key] = this.userForm.get(key).value;
-      }
-    });
+    this.user = {
+      ...this.user,
+      email: this.userForm.get('email')?.value,
+      displayName: this.userForm.get('displayName')?.value,
+      firstName: this.userForm.get('firstName')?.value,
+      midName: this.userForm.get('midName')?.value,
+      lastName: this.userForm.get('lastName')?.value,
+      homePhone: this.userForm.get('homePhone')?.value,
+      workPhone: this.userForm.get('workPhone')?.value,
+      mobile: this.userForm.get('mobile')?.value,
+      walletExgAddress: this.userForm.get('walletExgAddress')?.value,
+      workEmail: this.userForm.get('workEmail')?.value
+    };
 
     this._userService.updateUser(this.user).subscribe(
-      (ret: User) => { this.processRet(ret); },
+      (ret: any) => { this.processRet(ret); },
       error => this.processError(error)
     );
 
     const prefcode = this.userForm.get('parentReferralCode');
     if (prefcode && prefcode.value && prefcode.value.length > 3) {
-      this._appUsers.updateAppUserById(this._userAuth.id, { parentReferralCode: prefcode.value })
+      let appUsers: AppUsers = { parentReferralCode: prefcode.value } as AppUsers;
+      this._appUsers.updateAppUserById(this._userAuth.id, appUsers)
         .subscribe(res_ => {
-          this.userForm.get('parentReferralCode').disable();
+          this.userForm.get('parentReferralCode')?.disable();
         });
     }
   }
 
   getAllOrders() {
-    this._icotx.findIcotxes(this._userAuth.id, this.data ? this.data.email : '', null, null, null)
+    this._icotx.findIcotxes(this._userAuth.id, this.data ? this.data.email : '', '', '', '')
       .subscribe(res => {
         const orders = <Icotx[]>res;
         orders.forEach(ord => {
           if (ord.status === 'completed') {
-            this.totalTokens += ord.totalAppTokens;
+            this.totalTokens += ord.totalAppTokens ?? 0;
           }
         });
       });
   }
 
   onCancel() {
-    const ref = this.userForm.get('parentReferralCode').value;
+    const ref = this.userForm.get('parentReferralCode')?.value;
     this.userForm.reset();
-    this.userForm.get('parentReferralCode').setValue(ref);
+    this.userForm.get('parentReferralCode')?.setValue(ref);
     this.edit = false;
   }
 

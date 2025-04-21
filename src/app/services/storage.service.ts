@@ -1,22 +1,21 @@
 import { Injectable } from '@angular/core';
-import { LocalStorage } from '@ngx-pwa/local-storage';
+import { StorageMap } from '@ngx-pwa/local-storage';
 import { TransactionItem } from '../models/transaction-item';
-import {Transaction} from '../interfaces/kanban.interface';
-import {IssueToken} from '../interfaces/fab.interface';
+import { Transaction } from '../interfaces/kanban.interface';
+import { IssueToken } from '../interfaces/fab.interface';
 import { Wallet } from '../models/wallet';
 
 @Injectable()
 export class StorageService {
-    constructor(private localSt: LocalStorage) {
-
+    constructor(private localSt: StorageMap) {
     }
 
     setItem(name: string, value: any) {
-        return this.localSt.setItem(name, value);
+        return this.localSt.set(name, value);
     }
 
     getItem(name: string) {
-        return this.localSt.getItem(name);
+        return this.localSt.get(name);
     }
 
     async getCurrentWallet() {
@@ -31,94 +30,91 @@ export class StorageService {
             }
             if (currentWalletIndex > wallets.length - 1) {
                 currentWalletIndex = wallets.length - 1;
-            }              
+            }
             // console.log('currentWalletIndex here=' + currentWalletIndex);
             return wallets[currentWalletIndex];
         }
         return null;
     }
-    
+
     async getWallets() {
-        const wallets = await this.localSt.getItem('wallets').toPromise() as Wallet[];
+        const wallets = await this.localSt.get('wallets').toPromise() as Wallet[];
         return wallets;
-    }   
+    }
 
     async getCurrentWalletIndex() {
-        const currentWalletIndex = await this.localSt.getItem('currentWalletIndex').toPromise() as number;
+        const currentWalletIndex = await this.localSt.get('currentWalletIndex').toPromise() as number;
         // console.log('currentWalletIndex in get', currentWalletIndex);
         return currentWalletIndex;
     }
     addTradeTransaction(tx: Transaction) {
-        this.localSt.getItem('mytransactions').subscribe((transactions: any) => {
+        this.localSt.get('mytransactions').subscribe((transactions: any) => {
             if (!transactions) {
                 transactions = [];
             }
             transactions.push(tx);
             // console.log('transactions before setItem');
             // console.log(transactions);
-            return this.localSt.setItem('mytransactions', transactions).subscribe(() => {
+            return this.localSt.set('mytransactions', transactions).subscribe(() => {
             });
         });
     }
 
     getIssueTokenTransactions() {
-        return this.localSt.getItem('issue-tokens');
+        return this.localSt.get('issue-tokens');
     }
-    
+
     addIssueTokenTransaction(tx: IssueToken) {
-        this.localSt.getItem('issue-tokens').subscribe((transactions: any) => {
+        this.localSt.get('issue-tokens').subscribe((transactions: any) => {
             if (!transactions) {
                 transactions = [];
             }
             transactions.push(tx);
             // console.log('transactions before setItem');
             // console.log(transactions);
-            return this.localSt.setItem('issue-tokens', transactions).subscribe(() => {
+            return this.localSt.set('issue-tokens', transactions).subscribe(() => {
             });
         });
     }
 
     storeIssueTokenTransactions(txs: IssueToken[]) {
-        return this.localSt.setItem('issue-tokens', txs).subscribe(() => {
-        });        
+        return this.localSt.set('issue-tokens', txs).subscribe(() => {
+        });
     }
 
-    storeFavoritePairs(favoritePairs: string[] ) {
-        return this.localSt.setItem('favoritePairs', favoritePairs).subscribe(() => {});
+    storeFavoritePairs(favoritePairs: string[]) {
+        return this.localSt.set('favoritePairs', favoritePairs).subscribe(() => { });
     }
 
     getFavoritePairs() {
-        return this.localSt.getItem('favoritePairs');
-    }   
+        return this.localSt.get('favoritePairs');
+    }
 
     storeToken(token: string) {
-        return this.localSt.setItem('token', token).subscribe(() => {});
+        return this.localSt.set('token', token).subscribe(() => { });
     }
 
     getToken() {
-        return this.localSt.getItem('token');
+        return this.localSt.get('token');
     }
-    
-    removeToken(){
-        return this.localSt.removeItem('token').subscribe(() => {});
+
+    removeToken() {
+        return this.localSt.delete('token').subscribe(() => { });
     }
 
     storeCampaignQualify() {
-        return this.localSt.setItem('campaignQualify', true).subscribe(() => {});
+        return this.localSt.set('campaignQualify', true).subscribe(() => { });
     }
 
     getCampaignQualify() {
-        return this.localSt.getItem('campaignQualify');
-    }
-    
-    removeCampaignQualify(){
-        return this.localSt.removeItem('campaignQualify').subscribe(() => {});
+        return this.localSt.get('campaignQualify');
     }
 
-
-    getCurrentLang(){
-        return this.localSt.getItem('Lan');
+    removeCampaignQualify() {
+        return this.localSt.delete('campaignQualify').subscribe(() => { });
     }
 
-
+    getCurrentLang() {
+        return this.localSt.get('Lan');
+    }
 }

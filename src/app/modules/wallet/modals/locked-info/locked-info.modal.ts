@@ -7,17 +7,16 @@ import {  ModalDirective } from 'ngx-bootstrap/modal';
     styleUrls: ['./locked-info.modal.scss']
 })
 export class LockedInfoModal implements OnInit{
-    @ViewChild('lockedInfoModal', {static: true}) public lockedInfoModal: ModalDirective;
+    @ViewChild('lockedInfoModal', {static: true}) public lockedInfoModal: ModalDirective = {} as ModalDirective;
     coin: any;
-    constructor() {
 
+    constructor() {
     }
 
     ngOnInit() {
-        
     }
 
-    show(coin) {
+    show(coin: any) {
         console.log('coin=', coin);
         this.coin = coin;
         this.lockedInfoModal.show();

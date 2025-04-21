@@ -14,9 +14,9 @@ export class BlockDetailsComponent implements OnInit {
   }
 
   blockNumber: any;
-  block: Block;
-  ngOnInit(): void {
+  block: Block = {} as Block;
 
+  ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.blockNumber = (params.get('blockNumber'));
 

@@ -14,7 +14,7 @@ const path = environment.endpoints.blockchaingate + 'apps/';
 export class AppService {
   appAdminId: any;
   appAdminEmail: any;
-  app: Application;
+  app: Application = {} as Application;
 
   constructor(private http: HttpService) { }
 

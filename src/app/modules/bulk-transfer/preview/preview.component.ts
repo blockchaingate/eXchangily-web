@@ -7,26 +7,26 @@ import { CoinService } from '../../../services/coin.service';
 import { KanbanService } from '../../../services/kanban.service';
 import { Web3Service } from '../../../services/web3.service';
 import BigNumber from 'bignumber.js';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 
 @Component({
-  selector: 'app-bulk-transfer-preview',
-  templateUrl: './preview.component.html',
-  styleUrls: ['./preview.component.scss'],
-  providers: [WalletService,CoinService,KanbanService, Web3Service, AlertService, UtilService]
+    selector: 'app-bulk-transfer-preview',
+    templateUrl: './preview.component.html',
+    styleUrls: ['./preview.component.scss'],
+    providers: [WalletService, CoinService, KanbanService, Web3Service, AlertService, UtilService]
 })
 export class PreviewComponent implements OnInit {
     @Input() accounts: any;
     assets: any;
-    pin: string;
+    pin = '';
     total: any;
     item: any;
-    sendAllFlag: boolean;
-    nonce: number;
+    sendAllFlag = false;
+    nonce = 0;
     seed: any;
-    noWallet
+    noWallet: any;
     wallet: any;
-    @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal;
+    @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal = {} as PinNumberModal;
 
     constructor(
         private utilServ: UtilService,
@@ -37,6 +37,7 @@ export class PreviewComponent implements OnInit {
         private web3Serv: Web3Service
     ) {
     }
+
     async ngOnInit() {
         this.total = {};
         this.sendAllFlag = false;
@@ -46,15 +47,14 @@ export class PreviewComponent implements OnInit {
         this.assets = [];
         this.wallet = await this.walletServ.getCurrentWallet();
 
-
-        for(let i = 0; i < keyNames.length; i++) {
+        for (let i = 0; i < keyNames.length; i++) {
             const address = keyNames[i];
             const value = this.accounts[address];
             const keys = Object.keys(value);
-            
-            for(let j = 0; j < keys.length; j++) {
+
+            for (let j = 0; j < keys.length; j++) {
                 const key = keys[j];
-                if(!this.total[key]) {
+                if (!this.total[key]) {
                     this.total[key] = value[key]['amount'];
                 } else {
                     this.total[key] += value[key]['amount'];
@@ -65,77 +65,71 @@ export class PreviewComponent implements OnInit {
                     address: address,
                     assets: value
                 }
-            );            
+            );
         }
-
-
     }
 
-    sendAssets(item) {
+    sendAssets(item: any) {
         this.sendAllFlag = false;
         console.log('item for sendAssets=', item);
         this.item = item;
-        if(!this.seed) {
+        if (!this.seed) {
             this.pinModal.show();
         } else {
             this.sendAssetsDo();
         }
-        
     }
 
     async sendAll() {
-        
         this.sendAllFlag = true;
-        if(!this.seed) {
+        if (!this.seed) {
             this.pinModal.show();
         } else {
-            for(let i = 0; i < this.assets.length; i++) {
+            for (let i = 0; i < this.assets.length; i++) {
                 const item = this.assets[i];
                 await this.sendAssetsDoItem(item);
                 await new Promise(resolve => setTimeout(resolve, 3000));
             };
         }
-
-
     }
+
     async sendAssetsDo() {
         this.sendAssetsDoItem(this.item);
     }
 
     sendLockedAssetsDo() {
-
     }
 
-    async sendAssetsDoItem(item) {
+    async sendAssetsDoItem(item: any) {
         const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, this.seed, 0, 0);
         const gas = item.assets.gas;
         let address = item.address;
 
-        if(!this.nonce) {
+        if (!this.nonce) {
             this.nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
         }
 
         var keyNames = Object.keys(item.assets);
-        for(let i = 0; i<keyNames.length;i++) {
+        for (let i = 0; i < keyNames.length; i++) {
             const name = keyNames[i];
             let value = item.assets[name];
             const amount = value.amount;
             const lockPeriodOfBlockNumber = value.lockPeriodOfBlockNumber;
-            if(!value) {
+            if (!value) {
                 continue;
             }
-            if(name == 'gas') {
+            if (name == 'gas') {
                 this.sendGas(keyPairsKanban, address, gas, this.nonce);
             } else {
-                if(!lockPeriodOfBlockNumber) {
+                if (!lockPeriodOfBlockNumber) {
                     this.sendAsset(keyPairsKanban, address, name, amount, this.nonce);
                 } else {
                     this.sendLockedAsset(keyPairsKanban, address, name, amount, lockPeriodOfBlockNumber, this.nonce);
                 }
-                
-            }  
-            this.nonce ++;       
-            await new Promise(resolve => setTimeout(resolve, 1000));   
+
+            }
+            this.nonce++;
+            await new Promise(resolve => setTimeout(resolve, 1000));
         }
         console.log('this.nonce before exit =', this.nonce);
     }
@@ -149,21 +143,21 @@ export class PreviewComponent implements OnInit {
         }
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         this.seed = seed;
-        if(!this.sendAllFlag) {
+        if (!this.sendAllFlag) {
             this.sendAssetsDo();
         } else {
-            for(let i = 0; i < this.assets.length; i++) {
+            for (let i = 0; i < this.assets.length; i++) {
                 const item = this.assets[i];
                 await this.sendAssetsDoItem(item);
-            };            
+            };
         }
-        
-    } 
-    
-    sendGas(keyPairsKanban, address, gas, nonce) {
+
+    }
+
+    sendGas(keyPairsKanban: any, address: string, gas: any, nonce: any) {
         const privateKey = Buffer.from(keyPairsKanban.privateKeyHex, 'hex');
 
-        if(address.indexOf('0x') < 0) {
+        if (address.indexOf('0x') < 0) {
             address = this.utilServ.fabToExgAddress(address);
         }
 
@@ -175,13 +169,13 @@ export class PreviewComponent implements OnInit {
 
                 this.alertServ.openSnackBar('转燃料请求提交成功，等待区块链处理。', 'Ok');
             }
-        });        
+        });
     }
 
-    async sendAsset(keyPairsKanban, address, name, amount, nonce) {
+    async sendAsset(keyPairsKanban: any, address: string, name: string, amount: number, nonce: any) {
         const coin = this.coinServ.getCoinTypeIdByName(name);
 
-        if(address.indexOf('0x') < 0) {
+        if (address.indexOf('0x') < 0) {
             address = this.utilServ.fabToExgAddress(address);
         }
 
@@ -200,26 +194,25 @@ export class PreviewComponent implements OnInit {
 
     }
 
-    async sendLockedAsset(keyPairsKanban, address, name, amount, lockPeriodOfBlockNumber, nonce) {
+    async sendLockedAsset(keyPairsKanban: any, address: string, name: string, amount: number, lockPeriodOfBlockNumber: number, nonce: any) {
         const coin = this.coinServ.getCoinTypeIdByName(name);
 
-        if(address.indexOf('0x') < 0) {
+        if (address.indexOf('0x') < 0) {
             address = this.utilServ.fabToExgAddress(address);
         }
 
         const abiHex = this.web3Serv.getKanbanLockerFuncABIAmountBig(coin, address, new BigNumber(amount).multipliedBy(new BigNumber(1e18)), lockPeriodOfBlockNumber);
 
         const kanbanLocker = environment.addresses.smartContract.KanbanLocker;
-        if(!kanbanLocker) {
+        if (!kanbanLocker) {
             this.alertServ.openSnackBar('kanban locker is not available', 'Ok');
-            return; 
+            return;
         }
         const txhex = await this.web3Serv.signAbiHexWithPrivateKey(abiHex, keyPairsKanban, kanbanLocker, nonce);
 
         this.kanbanServ.sendRawSignedTransaction(txhex).subscribe((resp: any) => {
             console.log('resp=', resp);
             if (resp && resp.transactionHash) {
-
                 this.alertServ.openSnackBar('转账请求提交成功，等待区块链处理。', 'Ok');
             }
         });

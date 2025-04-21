@@ -15,12 +15,12 @@ import { StorageService } from '../../../../../services/storage.service';
     styleUrls: ['./merchant-application.component.css']
 })
 export class MerchantApplicationComponent implements OnInit {
-    user: User;
-    token: string;
+    user: User = {} as User;
+    token = '';
     merchant: Merchant = new Merchant('', '');
     submited = false;
     msg = 'You applied merchant account already.';
-    errMsg: string;
+    errMsg = '';
     lan: any = 'en';
 
     merchantForm = new FormGroup({
@@ -38,10 +38,7 @@ export class MerchantApplicationComponent implements OnInit {
 
     ngOnInit() {
         console.log('init in application');
-
-        
         this.lan = localStorage.getItem('Lan');
-
         this.storageService.getToken().subscribe(
             (token: any) => {
                 this.token = token;
@@ -74,11 +71,10 @@ export class MerchantApplicationComponent implements OnInit {
                 );
             }
         );
-            
+
     }
 
     onSubmit() {
-
         const merchant: any = {
             name: this.merchantForm.get('merchantName')?.value,
             phone: this.merchantForm.get('phone')?.value,

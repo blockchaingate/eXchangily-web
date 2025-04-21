@@ -8,9 +8,9 @@ export class PaymentMethodService {
   }
 
   addPaymentmethod(token: string, name: string) {
-      const data = {
-          name: name
-      }
+    const data = {
+      name: name
+    }
     return this.http.postPrivate(environment.endpoints.blockchaingate + 'paymentmethods/create', data, token);
   }
 
@@ -18,7 +18,7 @@ export class PaymentMethodService {
     return this.http.postPrivate(environment.endpoints.blockchaingate + 'userpaymentmethods/create', data, token);
   }
 
-  updateUserPaymentmethod(token: string, userpaymentmethod_id: string, data) {
+  updateUserPaymentmethod(token: string, userpaymentmethod_id: string, data: any) {
     return this.http.postPrivate(environment.endpoints.blockchaingate + 'userpaymentmethods/' + userpaymentmethod_id + '/update', data, token);
   }
 
@@ -34,7 +34,7 @@ export class PaymentMethodService {
     return this.http.get(environment.endpoints.blockchaingate + 'paymentmethods');
   }
 
-  getUserPaymentMethods(token) {
+  getUserPaymentMethods(token: string) {
     return this.http.getPrivate(environment.endpoints.blockchaingate + 'userpaymentmethods/owned', token);
   }
 

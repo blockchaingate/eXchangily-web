@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpService } from '../services/http.service';
@@ -9,28 +8,28 @@ const path = environment.endpoints.blockchaingate;
 @Injectable()
 export class OtcService {
   private body: any = { app: app };
-  
-  constructor(private http: HttpService) {}
+
+  constructor(private http: HttpService) { }
 
   addListing(token: string, data: any) {
     return this.http.postPrivate(path + 'otc-listing/create', data, token);
   }
-  
-  changePaymentStatus(token:string, order_id: string, paymentStatus) {
+
+  changePaymentStatus(token: string, order_id: string, paymentStatus: string) {
     const data = {
       paymentStatus: paymentStatus
     };
-    return this.http.postPrivate(path + 'orders/' + order_id + '/changePaymentStatus',data, token);
+    return this.http.postPrivate(path + 'orders/' + order_id + '/changePaymentStatus', data, token);
   }
 
-  updateOrderAddress(token:string, order_id: string, address) {
+  updateOrderAddress(token: string, order_id: string, address: string) {
     const data = {
       address: address
     };
-    return this.http.postPrivate(path + 'orders/' + order_id + '/updateAddress',data, token);
+    return this.http.postPrivate(path + 'orders/' + order_id + '/updateAddress', data, token);
   }
 
-  changePaymentMethod(token:string, order_id: string, method: string) {
+  changePaymentMethod(token: string, order_id: string, method: string) {
 
     return this.http.getPrivate(path + 'orders/' + order_id + '/changePaymentMethod/' + method, token);
   }
@@ -50,7 +49,7 @@ export class OtcService {
   getOrder(id: string) {
     return this.http.get(path + 'orders/public/' + id, false);
   }
-  
+
   getAllOrders(token: string) {
     return this.http.getPrivate(path + 'orders/admin/otc-orders', token);
   }

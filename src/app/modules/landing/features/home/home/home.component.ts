@@ -12,10 +12,10 @@ const whitepaperPath = './assets/pdfs/wp';
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-    whitepaper: string;
-    lang: string;
+    whitepaper = '';
+    lang = 'en';
     private subscribers: Array<Subscription> = [];
-    bsModalRef: BsModalRef;
+    bsModalRef: BsModalRef = {} as BsModalRef;
 
     constructor(
         private modalService: BsModalService,
@@ -394,8 +394,8 @@ export class HomeComponent implements OnInit {
     }
 
     private getLang(language = ''): string {
-        const lang = language || this._translate.currentLang || window.localStorage.getItem('Lan');
-        this.lang = lang;
+        const lang = language || this._translate.currentLang || window.localStorage.getItem('Lan') || 'en';
+        this.lang = lang || 'en';
         this.whitepaper = `${whitepaperPath}-${lang}.pdf`;
         return lang;
     }
@@ -415,7 +415,6 @@ export class HomeComponent implements OnInit {
     }
 }
 
-
 @Component({
     selector: 'modal-content',
     template: `
@@ -431,8 +430,8 @@ export class HomeComponent implements OnInit {
 
 
 export class ModalContentComponent implements OnInit {
-    title: string;
-    closeBtnName: string;
+    title = '';
+    closeBtnName = '';
     list: any[] = [];
 
     constructor(public bsModalRef: BsModalRef) { }

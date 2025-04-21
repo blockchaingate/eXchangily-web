@@ -14,12 +14,12 @@ import { mergeMap, map, filter } from 'rxjs/operators';
   styleUrls: ['./order-mngmt.component.scss']
 })
 export class OrderManagementComponent implements OnInit, OnDestroy {
-  serverMessage: string;
-  icotx: Icotx;
+  serverMessage = '';
+  icotx: Icotx = {} as Icotx;
   status = 'pending';
   loaded = false;
   admin = true;
-  pend: Observable<any>;
+  pend: Observable<any> = {} as Observable<any>;
   pendingLength = 0;
   selected = 0;
 
@@ -30,7 +30,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
   };
 
   constructor(private _activatedRoute: ActivatedRoute, private _icotx: IcotxService,
-              public localIcotxes: IcotxesAuthService, private _router: Router) {}
+    public localIcotxes: IcotxesAuthService, private _router: Router) { }
 
   ngOnInit() {
     console.log('mngmt');
@@ -38,7 +38,7 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
     this.pendingLength = this.localIcotxes.pending.value.length;
 
     this._activatedRoute.data
-    .pipe(mergeMap(user => this._icotx.findIcotxes('', '', '', '', '')))
+      .pipe(mergeMap(user => this._icotx.findIcotxes('', '', '', '', '')))
       .subscribe(res => {
         const tmp = {
           pending: [],
@@ -50,8 +50,12 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
           if (!res[i].status) {
             res[i].status = 'pending';
           }
-          res[i].status = res[i].status.toLowerCase();
-          tmp[res[i].status].push(res[i]);
+          res[i].status = (res[i].status ?? 'pending').toLowerCase();
+
+          if (res == undefined || res[i].status == undefined) {
+          } else {
+            res[i].status = res[i].status?.toLowerCase();
+          }
         }
         this.localIcotxes.pending.next(tmp.pending);
         this.localIcotxes.completed.next(tmp.completed);
@@ -59,10 +63,10 @@ export class OrderManagementComponent implements OnInit, OnDestroy {
 
         this.loaded = true;
       },
-      err => {
-        this.serverMessage = err;
-        this.loaded = true;
-      });
+        err => {
+          this.serverMessage = err;
+          this.loaded = true;
+        });
   }
 
   selectStatus(num: number) {

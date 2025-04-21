@@ -20,35 +20,35 @@ export class OrderDetailComponent implements OnInit {
   id: any;
   order: any;
   user: any;
-  achChecked: boolean;
-  accountName: string;
-  memberAccountName: string;
-  receivingAddress: string;
-  token: string;
+  achChecked = false;
+  accountName = '';;
+  memberAccountName = '';;
+  receivingAddress = '';;
+  token = '';;
   achAccountBundle: any;
   achAccount2: any;
-  privateKey: string;
-  achAccount: string;
+  privateKey = '';;
+  achAccount = '';;
   userpaymentmethodCashApp: any;
   userpaymentmethodACH: any;
   userpaymentmethodACH2: any;
   userpaymentmethods: any;
-  goPayStep: number;
-  modalRef: BsModalRef;
+  goPayStep = 0;
+  modalRef: BsModalRef = {} as BsModalRef;
 
-  routingNumber: string;
-  accountNumber: string;
+  routingNumber = '';;
+  accountNumber = '';;
 
-  customerName: string;
-  companyName: string;
-  billingAddress: string;
-  city: string;
-  country: string;
-  state: string;
-  zip: string;
-  email: string;
-  email2: string;
-  phone: string;
+  customerName = '';;
+  companyName = '';;
+  billingAddress = '';;
+  city = '';;
+  country = '';;
+  state = '';;
+  zip = '';;
+  email = '';;
+  email2 = '';;
+  phone = '';;
 
   constructor(
     private modalService: BsModalService,
@@ -61,8 +61,8 @@ export class OrderDetailComponent implements OnInit {
     private paymentmethodServ: PaymentMethodService,
     private route: ActivatedRoute,
     private _otcServ: OtcService) {
-
   }
+
   ngOnInit() {
     this.achChecked = true;
     this.goPayStep = 1;
@@ -77,21 +77,19 @@ export class OrderDetailComponent implements OnInit {
 
             if (res && res.ok) {
               this.userpaymentmethods = res._body;
-              for(let i = 0; i < this.userpaymentmethods.length;i++) {
+              for (let i = 0; i < this.userpaymentmethods.length; i++) {
                 const userpaymentmethod = this.userpaymentmethods[i];
-                if(userpaymentmethod.method == 'CashApp') {
+                if (userpaymentmethod.method == 'CashApp') {
                   this.userpaymentmethodCashApp = userpaymentmethod;
                   this.accountName = userpaymentmethod.details;
-                } else 
-                if(userpaymentmethod.method == 'ACH') {
+                } else if (userpaymentmethod.method == 'ACH') {
                   this.userpaymentmethodACH = userpaymentmethod;
-                } else
-                if(userpaymentmethod.method == 'ACH2') {
+                } else if (userpaymentmethod.method == 'ACH2') {
                   this.userpaymentmethodACH2 = userpaymentmethod;
                 }
               }
             }
-        });
+          });
 
         this.userServ.getMe(token).subscribe(
           (res: any) => {
@@ -104,69 +102,65 @@ export class OrderDetailComponent implements OnInit {
                   if (res.ok) {
                     this.order = res._body;
                     const memberId = this.order.buyerMemberId;
-                    if(this.order.paymentMethod == 'CashApp') {
+                    if (this.order.paymentMethod == 'CashApp') {
                       this.paymentmethodServ.getUserPaymentMethodsByMemberId(memberId).subscribe(
                         (res: any) => {
                           if (res && res.ok) {
                             const body = res._body;
-                            for(let i = 0; i < body.length;i++) {
+                            for (let i = 0; i < body.length; i++) {
                               const userpaymentmethod = body[i];
-                              if(userpaymentmethod.method == 'CashApp') {
+                              if (userpaymentmethod.method == 'CashApp') {
                                 this.memberAccountName = userpaymentmethod.details;
                                 break;
                               }
                             }
-                          }                          
+                          }
                         }
                       );
-                    } else
-                    if(this.order.paymentMethod == 'ACH') {
+                    } else if (this.order.paymentMethod == 'ACH') {
                       this.paymentmethodServ.getUserPaymentMethodsByMemberId(memberId).subscribe(
                         (res: any) => {
                           if (res && res.ok) {
                             const body = res._body;
-                            for(let i = 0; i < body.length;i++) {
+                            for (let i = 0; i < body.length; i++) {
                               const userpaymentmethod = body[i];
-                              if(userpaymentmethod.method == 'ACH') {
+                              if (userpaymentmethod.method == 'ACH') {
                                 this.achAccount = userpaymentmethod.details;
                               }
                             }
-                          }                          
+                          }
                         }
                       );
-                    } else
-                    if(this.order.paymentMethod == 'ACH2') {
+                    } else if (this.order.paymentMethod == 'ACH2') {
                       this.paymentmethodServ.getUserPaymentMethodsByMemberId(memberId).subscribe(
                         (res: any) => {
                           if (res && res.ok) {
                             const body = res._body;
 
-                            for(let i = 0; i < body.length;i++) {
+                            for (let i = 0; i < body.length; i++) {
                               const userpaymentmethod = body[i];
 
                               console.log('userpaymentmethod===', userpaymentmethod);
-                              if(userpaymentmethod.method == 'ACH2') {
+                              if (userpaymentmethod.method == 'ACH2') {
                                 this.achAccount2 = JSON.parse(userpaymentmethod.details);
                                 console.log('this.achAccount2==', this.achAccount2);
                               }
                             }
-                          }                          
+                          }
                         }
                       );
-                    }                      
+                    }
 
                     const coinName = this.order.items[0].title;
-          
+
                     if (coinName === 'BTC') {
                       this.receivingAddress = this.user.walletBtcAddress;
-                    } else
-                    if (coinName === 'ETH' || coinName === 'USDT') {
+                    } else if (coinName === 'ETH' || coinName === 'USDT') {
                       this.receivingAddress = this.user.walletEthAddress;
-                    } else
-                    if (coinName === 'FAB' || coinName === 'EXG' || coinName == 'DUSD') {
+                    } else if (coinName === 'FAB' || coinName === 'EXG' || coinName == 'DUSD') {
                       this.receivingAddress = this.user.walletExgAddress;
-                    }          
-          
+                    }
+
                     console.log('this.receivingAddress==', this.receivingAddress);
                   }
                 }
@@ -177,7 +171,6 @@ export class OrderDetailComponent implements OnInit {
         );
       }
     );
-    
 
   }
 
@@ -186,7 +179,7 @@ export class OrderDetailComponent implements OnInit {
     this._otcServ.changePaymentMethod(this.token, this.id, 'CashApp').subscribe(
       (res: any) => {
         console.log('res==', res);
-        if(res && res.ok) {
+        if (res && res.ok) {
           this.goPayStep = 2;
           window.open("https://cash.app/$exchangily", "_blank");
         }
@@ -197,21 +190,21 @@ export class OrderDetailComponent implements OnInit {
   changePaymentMethodACH() {
     this._otcServ.changePaymentMethod(this.token, this.id, 'ACH').subscribe(
       (res: any) => {
-        if(res && res.ok) {
+        if (res && res.ok) {
           this.modalRef.hide();
           this.alertServ.openSnackBarSuccess(
             this.translateServ.instant("Your payment is pending"),
             this.translateServ.instant("Ok")
-            );
+          );
         }
       }
     );
   }
- 
+
   changePaymentMethodACH2() {
     this._otcServ.changePaymentMethod(this.token, this.id, 'ACH2').subscribe(
       (res: any) => {
-        if(res && res.ok) {
+        if (res && res.ok) {
           this.goPayStep = 2;
           //this.modalRef.hide();
           /*
@@ -225,7 +218,7 @@ export class OrderDetailComponent implements OnInit {
     );
   }
 
-  changePaymentStatus(paymentStatus) {
+  changePaymentStatus(paymentStatus: string) {
     this._otcServ.changePaymentStatus(this.token, this.id, paymentStatus).subscribe(
       (res: any) => {
         if (res && res.ok) {
@@ -235,67 +228,66 @@ export class OrderDetailComponent implements OnInit {
     );
   }
 
-  payByACH(template) {
+  payByACH(template: any) {
     this.modalRef = this.modalService.show(template);
   }
 
-  payByZelle(template) {
+  payByZelle(template: any) {
     this.modalRef = this.modalService.show(template);
   }
 
-  payByACH2(template) {
-    this.modalRef = this.modalService.show(template, {class: 'modal-lg'});
+  payByACH2(template: any) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-lg' });
   }
+
   confirmCashAppPay() {
     const data = {
       method: 'CashApp',
       details: this.accountName
     }
 
-    if(!this.userpaymentmethodCashApp) {
+    if (!this.userpaymentmethodCashApp) {
       this.paymentmethodServ.addUserPaymentmethod(this.token, data).subscribe(
         (res: any) => {
-          if(res && res.ok) {
+          if (res && res.ok) {
             this.changePaymentMethodCashApp();
           }
         }
       );
     } else {
-      if(this.accountName == this.userpaymentmethodCashApp.details) {
+      if (this.accountName == this.userpaymentmethodCashApp.details) {
         this.changePaymentMethodCashApp();
       } else {
         this.paymentmethodServ.updateUserPaymentmethod(this.token, this.userpaymentmethodCashApp._id, data).subscribe(
           (res: any) => {
-            if(res && res.ok) {
+            if (res && res.ok) {
               this.changePaymentMethodCashApp();
             }
           }
         );
       }
-      
+
     }
-
-
   }
-  payByCashApp(template) {
+
+  payByCashApp(template: any) {
     this.modalRef = this.modalService.show(template);
   }
-
 
   decryptAccount() {
     this.achAccountBundle = this.utilServ.decrypt(this.privateKey, this.achAccount);
-    console.log('achAccountBundle=',this.achAccountBundle);
-    if(this.achAccountBundle) {
+    console.log('achAccountBundle=', this.achAccountBundle);
+    if (this.achAccountBundle) {
       this.achAccountBundle = JSON.parse(this.achAccountBundle);
     }
-    console.log('achAccountBundle=',this.achAccountBundle);
+    console.log('achAccountBundle=', this.achAccountBundle);
   }
 
-  decrypt(template) {
+  decrypt(template: any) {
     this.modalRef = this.modalService.show(template);
   }
 
-  achCheckedChange(event) {
+  achCheckedChange(event: any) {
     this.achChecked = !this.achChecked;
   }
 
@@ -307,10 +299,10 @@ export class OrderDetailComponent implements OnInit {
     }
 
     console.log('this.userpaymentmethodACH==', this.userpaymentmethodACH);
-    if(!this.userpaymentmethodACH) {
+    if (!this.userpaymentmethodACH) {
       this.paymentmethodServ.addUserPaymentmethod(this.token, data).subscribe(
         (res: any) => {
-          if(res && res.ok) {
+          if (res && res.ok) {
             this.changePaymentMethodACH();
           }
         }
@@ -318,17 +310,17 @@ export class OrderDetailComponent implements OnInit {
     } else {
       this.paymentmethodServ.updateUserPaymentmethod(this.token, this.userpaymentmethodACH._id, data).subscribe(
         (res: any) => {
-          if(res && res.ok) {
+          if (res && res.ok) {
             this.changePaymentMethodACH();
           }
         }
       );
-      
+
     }
   }
 
   confirmACHPay2() {
-    if(!this.email || !this.email2 || (this.email.trim() != this.email2.trim())) {
+    if (!this.email || !this.email2 || (this.email.trim() != this.email2.trim())) {
       this.modalRef.hide();
       this.alertServ.openSnackBar(
         this.translateServ.instant('Email not the same'), this.translateServ.instant('Ok')
@@ -355,10 +347,10 @@ export class OrderDetailComponent implements OnInit {
       details: JSON.stringify(rawData)
     }
 
-    if(!this.userpaymentmethodACH2) {
+    if (!this.userpaymentmethodACH2) {
       this.paymentmethodServ.addUserPaymentmethod(this.token, data).subscribe(
         (res: any) => {
-          if(res && res.ok) {
+          if (res && res.ok) {
             this.changePaymentMethodACH2();
           }
         }
@@ -366,12 +358,12 @@ export class OrderDetailComponent implements OnInit {
     } else {
       this.paymentmethodServ.updateUserPaymentmethod(this.token, this.userpaymentmethodACH2._id, data).subscribe(
         (res: any) => {
-          if(res && res.ok) {
+          if (res && res.ok) {
             this.changePaymentMethodACH2();
           }
         }
       );
-      
+
     }
   }
 
@@ -389,7 +381,6 @@ export class OrderDetailComponent implements OnInit {
         if (ret && ret.ok) {
 
           const paymentId = 'otc_' + this.id;
-
 
           const data = ret._body;
           const hash = data.hash;
@@ -426,13 +417,11 @@ export class OrderDetailComponent implements OnInit {
           mapInput3.value = paymentUnit;
           mapForm.appendChild(mapInput3);
 
-
           const mapInput5 = document.createElement('input');
           mapInput5.type = 'hidden';
           mapInput5.name = 'STATUS_URL';
           mapInput5.value = environment.endpoints.blockchaingate + 'epay/callback';
           mapForm.appendChild(mapInput5);
-
 
           const mapInput6 = document.createElement('input');
           mapInput6.type = 'hidden';
@@ -452,13 +441,11 @@ export class OrderDetailComponent implements OnInit {
           mapInput8.value = paymentId;
           mapForm.appendChild(mapInput8);
 
-
           const mapInput9 = document.createElement('input');
           mapInput9.type = 'hidden';
           mapInput9.name = 'V2_HASH';
           mapInput9.value = hash;
           mapForm.appendChild(mapInput9);
-
 
           const mapInput10 = document.createElement('input');
           mapInput10.type = 'hidden';
@@ -468,8 +455,6 @@ export class OrderDetailComponent implements OnInit {
           mapInput10.value += this.order.name;
           mapInput10.value += ')';
           mapForm.appendChild(mapInput10);
-
-
 
           document.body.appendChild(mapForm);
 

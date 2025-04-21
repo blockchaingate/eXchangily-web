@@ -15,8 +15,8 @@ import { Router } from '@angular/router';
 import { ApiService } from '../../../../services/api.service';
 import { TranslateService } from '@ngx-translate/core';
 import { UserAuth } from '../../../landing/service/user-auth/user-auth.service';
-import { LoginInfoService } from 'src/app/services/loginInfo.service';
-import { LoginQualifyService } from 'src/app/services/lgoin-quality.service';
+import { LoginInfoService } from '../../../../services/loginInfo.service';
+import { LoginQualifyService } from '../../../../services/lgoin-quality.service';
 
 @Component({
   selector: 'app-main',
@@ -27,30 +27,30 @@ export class MainComponent implements OnInit {
   orders: any;
   wallet: any;
   available: any;
-  price: number;
-  isodd: boolean;
-  showMarkedAsPaidId: string;
-  quantity: number;
-  comment: string;
-  currentCoin: MyCoin;
-  gasPrice: number;
-  gasLimit: number;
-  satoshisPerBytes: number;
-  membership: string;
-  payableAmount: number;
-  coinName: string;
-  readyGo: boolean;
-  exgAddress: string;
+  price = 0;
+  isodd = false;
+  showMarkedAsPaidId = '';
+  quantity = 0;
+  comment = '';
+  currentCoin: MyCoin = {} as MyCoin;
+  gasPrice = 0;
+  gasLimit = 0;
+  satoshisPerBytes = 0;
+  membership = '';
+  payableAmount = 0;
+  coinName = '';
+  readyGo = false;
+  exgAddress = '';
   readyGoReasons: any;
-  selectedPaymentCurrency: string;
+  selectedPaymentCurrency = '';
   loggedIn = false;
   lan: any = 'en';
 
-  step: number;
-  _value: number;
+  step = 0;
+  _value = 0;
   updated = false;
-  LoginInfo: boolean;
-  LoginQualify: boolean;
+  LoginInfo = false;
+  LoginQualify = false;
   eventInfo = {};
   eventInfoReady = false;
   eventInfoError = false;
@@ -64,12 +64,12 @@ export class MainComponent implements OnInit {
     this.quantity = val / this.price;
     this._value = Number(val);
   }
-  referralCode: string;
+  referralCode = '';
 
-  token: string;
+  token = '';
 
   selectedPaymentMethod: any;
-  @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal;
+  @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal = {} as PinNumberModal;
   // currencies: string[] = ['USD', 'RMB', 'DUSD', 'USDT', 'FAB', 'BTC', 'ETH'];
   currencies: string[] = ['USD', 'USDT'];
   methods = {
@@ -90,7 +90,7 @@ export class MainComponent implements OnInit {
     'ETH': null
   };
   submethods: any;
-  prices = {
+  prices: { [key in 'CAD' | 'RMB' | 'EXG' | 'USDT' | 'DUSD' | 'FAB' | 'BTC' | 'ETH']: { USD: number } } = {
     'CAD': { 'USD': 0.71 },
     'RMB': { 'USD': 0.14 },
     'EXG': { 'USD': 0.26 },
@@ -156,11 +156,11 @@ export class MainComponent implements OnInit {
     );
   }
 
-  markedAsPaid(order) {
+  markedAsPaid(order: any) {
     this.showMarkedAsPaidId = order._id;
   }
 
-  confirmMarkedAsPaid(order) {
+  confirmMarkedAsPaid(order: any) {
     const order_id = order._id;
     this.campaignorderServ.confirmMarkedAsPaid(this.token, order_id, this.comment).subscribe(
       (res: any) => {
@@ -330,7 +330,7 @@ export class MainComponent implements OnInit {
 
     let coinPrice = 1;
     if (this.selectedPaymentCurrency !== 'USD') {
-      coinPrice = this.prices[this.selectedPaymentCurrency]['USD'];
+      coinPrice = this.prices[this.selectedPaymentCurrency as keyof typeof this.prices]['USD'];
     }
     this.value = result.times(coinPrice).toNumber();
 
@@ -339,7 +339,7 @@ export class MainComponent implements OnInit {
 
   async selectCurrency(coinName: string) {
     console.log('methods=', this.methods);
-    this.submethods = this.methods[coinName];
+    this.submethods = this.methods[coinName as keyof typeof this.methods];
     if (this.submethods && this.submethods.length) {
       this.selectedPaymentMethod = this.submethods[0];
     } else {
@@ -348,7 +348,7 @@ export class MainComponent implements OnInit {
 
     let coinPrice = 1;
     if (coinName !== 'USD') {
-      coinPrice = this.prices[coinName]['USD'];
+      coinPrice = this.prices[coinName as keyof typeof this.prices]['USD'];
     }
 
     // this.price = this.prices['EXG']['USD'] / coinPrice;
@@ -372,15 +372,25 @@ export class MainComponent implements OnInit {
           this.available = this.currentCoin.balance;
 
           const chainName = this.currentCoin.tokenType ? this.currentCoin.tokenType : this.currentCoin.name;
-          this.gasPrice = environment.chains[chainName]['gasPrice'];
+          const chainConfig = environment.chains[chainName as keyof typeof environment.chains];
+          if ('gasPrice' in chainConfig) {
+            this.gasPrice = (chainConfig as { gasPrice: number }).gasPrice;
+          } else {
+            this.gasPrice = 0; // Default or fallback value
+          }
           if (coinName == 'USDT' || coinName == 'ETH') {
             const gasPrice = await this.coinService.getEthGasprice();
             if (gasPrice > this.gasPrice) {
               this.gasPrice = gasPrice
             }
           }
-          this.gasLimit = environment.chains[chainName]['gasLimitToken'];
-          this.satoshisPerBytes = environment.chains[chainName]['satoshisPerBytes'];
+          this.gasLimit = (environment.chains[chainName as keyof typeof environment.chains] as { gasLimitToken: number }).gasLimitToken;
+          const chainConfigSatoshis = environment.chains[chainName as keyof typeof environment.chains];
+          if ('satoshisPerBytes' in chainConfigSatoshis) {
+            this.satoshisPerBytes = (chainConfigSatoshis as { satoshisPerBytes: number }).satoshisPerBytes;
+          } else {
+            this.satoshisPerBytes = 0; // Default or fallback value
+          }
 
           break;
         }
@@ -528,11 +538,11 @@ export class MainComponent implements OnInit {
     console.log('options theee=', options);
     console.log('amount000===', amount);
     console.log('this.quantity000===', this.quantity);
-    if(!seed) {
+    if (!seed) {
       return;
     }
     const { txHex, txHash, errMsg } = await this.coinService.sendTransaction(currentCoin, seed,
-      environment.addresses.promotionOfficial[currentCoin.name], amount, options, doSubmit
+      environment.addresses.promotionOfficial[currentCoin.name as keyof typeof environment.addresses.promotionOfficial], amount, options, doSubmit
     );
     console.log('amount001===', amount);
     console.log('this.quantity001===', this.quantity);
@@ -557,7 +567,7 @@ export class MainComponent implements OnInit {
         tokenType: currentCoin.tokenType,
         amount: amount,
         txid: txHash,
-        to: environment.addresses.promotionOfficial[currentCoin.name],
+        to: environment.addresses.promotionOfficial[currentCoin.name as keyof typeof environment.addresses.promotionOfficial],
         time: new Date(),
         confirmations: '0',
         blockhash: '',

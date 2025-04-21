@@ -10,13 +10,13 @@ import { AddressKeyComponent } from '../components/address-key/address-key.compo
     styleUrls: ['./backup-private-key.modal.css']
 })
 export class BackupPrivateKeyModal {
-    seed: Buffer;
-    wallet: Wallet;
-    currentCoin: MyCoin;
+    seed: Buffer = Buffer.from('');
+    wallet: Wallet = {} as Wallet;
+    currentCoin: MyCoin = {} as MyCoin;
     mycoins: any;
     fabAddress = 'unknown';
 
-    @ViewChild('backupPrivateKeyModal', {static: true}) public backupPrivateKeyModal: ModalDirective;
+    @ViewChild('backupPrivateKeyModal', {static: true}) public backupPrivateKeyModal: ModalDirective = {} as ModalDirective;
 
     // @ViewChild(AddressKeyComponent, {static: true}) addressKey: AddressKeyComponent;
     @Output() confirmedBackupPrivateKey = new EventEmitter<string>();
@@ -39,7 +39,7 @@ export class BackupPrivateKeyModal {
         console.log('this.currentCoin=', this.currentCoin);
     }
 
-    onChangeEvent(event) {
+    onChangeEvent(event: any) {
         const index = Number((event.target as HTMLInputElement).value);
         this.onChange(index);
     }

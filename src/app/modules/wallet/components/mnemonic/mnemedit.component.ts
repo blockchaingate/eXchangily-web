@@ -50,7 +50,7 @@ export class MnemeditComponent {
             + this.sanitize(this.word10) + ' ' + this.sanitize(this.word11) + ' ' + this.sanitize(this.word12);
 
         if (mnem === sessionStorage['mnemonic']) {
-            this.route.navigate(['/wallet/set-password']);           
+            this.route.navigate(['/wallet/set-password']);
         } else {
             this.clicked = true;
         }

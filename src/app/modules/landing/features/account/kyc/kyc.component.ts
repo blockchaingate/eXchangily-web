@@ -23,11 +23,11 @@ export class KycComponent implements OnInit {
   selfNum = 0;
   saftAgreement: Array<string> = new Array(2);
   submitted = false;
-  errMsg: string;
+  errMsg = '';
 
-  output: HTMLImageElement;
+  output: HTMLImageElement = <HTMLImageElement>document.getElementById('id0');
 
-  kycForm: FormGroup;
+  kycForm: FormGroup = new FormGroup({});
   couldBeAccredited = false;
   isAccredited = false;
   kycState = 'No KYC documents submited.';
@@ -75,31 +75,31 @@ export class KycComponent implements OnInit {
         Validators.required
       ]),
       'homeAddress2': new FormControl('', [
-        
-      ]),   
+
+      ]),
       'city': new FormControl('', [
         Validators.required
-      ]),  
+      ]),
       'province': new FormControl('', [
         Validators.required
-      ]),       
+      ]),
       'postalCode': new FormControl('', [
         Validators.required
-      ]),       
+      ]),
       'countryOfResidency': new FormControl('', [
         Validators.required
       ]),
-      'saftAgreement' : new FormControl(''),
+      'saftAgreement': new FormControl(''),
       'photoUrls': new FormControl('', [
-      //  Validators.required
+        //  Validators.required
       ]),
       'selfieUrls': new FormControl('', [
-      //  Validators.required
+        //  Validators.required
       ])
     });
   }
 
-  accreditedInvestorToggle(country) {
+  accreditedInvestorToggle(country: any) {
     country = country.target.value.toLowerCase();
     if ((country === 'can' || country === 'usa') && !this.couldBeAccredited) {
       // toggle fields
@@ -116,7 +116,7 @@ export class KycComponent implements OnInit {
     const files = event.target.files;
     this.photoUpload(files, type);
   }
-  
+
   photoUpload(files: Array<File>, type: string) {
     const scope = this;
     if (type === 'photoUrls') {
@@ -132,8 +132,8 @@ export class KycComponent implements OnInit {
       const f = new FileReader();
       ff = files[i];
 
-      f.onload = (function(theFile) {
-        return function(e) {
+      f.onload = (function (theFile) {
+        return function (e: any) {
           const fileName: any = e.target.result;
           if (type === 'photoUrls') {
             scope.photoUrls.push(fileName);
@@ -152,28 +152,28 @@ export class KycComponent implements OnInit {
     }
   }
 
-  saveKyc () {
+  saveKyc() {
     this.errMsg = '';
     const lang = this.translate.currentLang;
     console.log('lang == ', lang);
-    if (this.kGet('name').value.length < 1) {
+    if (!this.kGet('name') || this.kGet('name')!.value.length < 1) {
       this.errMsg = 'Must provide valid name';
-      if(lang == 'zh') {
+      if (lang == 'zh') {
         this.errMsg = '必须提供姓名';
       }
       return;
     }
-    if (this.kGet('email').value.length < 4) {
+    if (!this.kGet('email') || this.kGet('email')!.value.length < 4) {
       this.errMsg = 'Must provide valid email address';
-      if(lang == 'zh') {
+      if (lang == 'zh') {
         this.errMsg = '必须提供邮箱';
-      }      
+      }
       return;
     }
 
     if (this.idNum < 2) {
       this.errMsg = 'Must provide valid 2 identity photos.';
-      if(lang == 'zh') {
+      if (lang == 'zh') {
         this.errMsg = '必须提供合格身份证明照片正反面两张。';
       }
       return;
@@ -181,82 +181,82 @@ export class KycComponent implements OnInit {
 
     if (this.selfNum < 1) {
       this.errMsg = 'Must provide valid selfie pictures.';
-      if(lang == 'zh') {
+      if (lang == 'zh') {
         this.errMsg = '必须提供合格本人手持身份证明图像。';
       }
       return;
     }
 
-    if(this.kGet('dateOfBirth').value.length < 1) {
+    if (!this.kGet('dateOfBirth') || this.kGet('dateOfBirth')!.value.length < 1) {
       this.errMsg = 'Must provide Date of Birth';
-      if(lang == 'zh') {
+      if (lang == 'zh') {
         this.errMsg = '必须提供出生日期。';
       }
-      return;      
+      return;
     }
 
-    if(this.kGet('countryOfBirth').value.length < 1) {
+    if (!this.kGet('countryOfBirth') || this.kGet('countryOfBirth')!.value.length < 1) {
       this.errMsg = 'Must provide Citizenship';
-      if(lang == 'zh') {
+      if (lang == 'zh') {
         this.errMsg = '必须提供国籍。';
       }
-      return;      
+      return;
     }
 
-    if(this.kGet('countryOfResidency').value.length < 1) {
+    if (!this.kGet('countryOfResidency') || this.kGet('countryOfResidency')!.value.length < 1) {
       this.errMsg = 'Must provide country of residency';
-      if(lang == 'zh') {
+      if (lang == 'zh') {
         this.errMsg = '必须提供居住国家。';
       }
-      return;      
+      return;
     }
-        
-    if(this.kGet('homeAddress').value.length < 1) {
+
+    if (!this.kGet('homeAddress') || this.kGet('homeAddress')!.value.length < 1) {
       this.errMsg = 'Must provide Address Line 1';
-      if(lang == 'zh') {
+      if (lang == 'zh') {
         this.errMsg = '必须提供地址第一行。';
       }
-      return;      
-    }  
-    
-    if(this.kGet('city').value.length < 1) {
+      return;
+    }
+
+    if (!this.kGet('city') || this.kGet('city')!.value.length < 1) {
       this.errMsg = 'Must provide City';
-      if(lang == 'zh') {
+      if (lang == 'zh') {
         this.errMsg = '必须提供城市。';
       }
-      return;      
-    }    
-    
-    if(this.kGet('province').value.length < 1) {
+      return;
+    }
+
+    if (!this.kGet('province') || this.kGet('province')!.value.length < 1) {
       this.errMsg = 'Must provide Province';
-      if(lang == 'zh') {
+      if (lang == 'zh') {
         this.errMsg = '必须提供省份。';
       }
-      return;      
-    }      
+      return;
+    }
 
-    if(this.kGet('postalCode').value.length < 1) {
+    if (!this.kGet('postalCode') || this.kGet('postalCode')!.value.length < 1) {
       this.errMsg = 'Must provide Postal Code';
-      if(lang == 'zh') {
+      if (lang == 'zh') {
         this.errMsg = '必须提供邮政编码。';
-      }        
-      return;      
-    }      
+      }
+      return;
+    }
 
-    const theKyc: Kyc =  {
+    const theKyc: Kyc = {
       memberId: this._userAuth.id,
-      name: this.kGet('name').value,
-      countryOfBirth: this.kGet('countryOfBirth').value,
+      name: this.kGet('name')?.value,
+      countryOfBirth: this.kGet('countryOfBirth')?.value,
       accreditedInvestor: false,
-      dateOfBirth: this.kGet('dateOfBirth').value,
-      countryOfResidency: this.kGet('countryOfResidency').value,
-      homeAddress: this.kGet('homeAddress').value,
-      homeAddress2: this.kGet('homeAddress2').value,
-      city: this.kGet('city').value,
-      province: this.kGet('province').value,
-      postalCode: this.kGet('postalCode').value,
+      dateOfBirth: this.kGet('dateOfBirth')?.value,
+      countryOfResidency: this.kGet('countryOfResidency')?.value,
+      homeAddress: this.kGet('homeAddress')?.value,
+      homeAddress2: this.kGet('homeAddress2')?.value,
+      city: this.kGet('city')?.value,
+      province: this.kGet('province')?.value,
+      postalCode: this.kGet('postalCode')?.value,
       saftAgreement: this.saftAgreement[0],
-      email: this.kGet('email').value,
+      email: this.kGet('email')?.value,
       photoUrls: this.photoUrls,
       selfieUrls: this.selfieUrls
     };
@@ -264,7 +264,7 @@ export class KycComponent implements OnInit {
     const length = JSON.stringify(theKyc).length;
     console.log('length===', length);
     this.storageServ.getToken().subscribe(
-      (token:string) => {
+      (token: any) => {
         this._kycService.createKyc(theKyc, token).subscribe(
           ret => {
             this.photoUrls = new Array(4);
@@ -277,7 +277,7 @@ export class KycComponent implements OnInit {
             this._userAuth.kyc = 1;
           },
           err => {
-            
+
             if (lang === 'en') {
               this.errMsg = 'KYC submision failure: the size of each photo must be less than 500k';
             } else if (lang === 'zh') {
@@ -297,7 +297,7 @@ export class KycComponent implements OnInit {
    * @param {String} address the given HEX adress
    * @return {Boolean}
    */
-  isAddress (address: string) {
+  isAddress(address: string) {
     const addd = address.toLowerCase();
     if (!/^(0x)?[0-9a-f]{40}$/i.test(addd)) {
       // check if it has the basic requirements of an address

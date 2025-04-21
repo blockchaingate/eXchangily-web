@@ -14,13 +14,13 @@ export class TxDetailsComponent implements OnInit {
     private kanbanService: KanbanService,
     private router: Router) { }
 
-  txhash: string;
-  status: string;
-  transaction: Transaction;
+  txhash = '';
+  status = '';
+  transaction: Transaction = {} as Transaction;
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      this.txhash = params.get('txhash');
+      this.txhash = params.get('txhash') || '';
     });
     console.log('skjdflsdhskldhf');
     this.kanbanService.getTxByHash(this.txhash).subscribe(async (tx: Transaction) => {

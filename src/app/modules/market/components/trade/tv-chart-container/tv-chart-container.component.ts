@@ -4,7 +4,8 @@ import {
   IChartingLibraryWidget,
   ChartingLibraryWidgetOptions,
   LanguageCode,
-} from '../../../../../../assets/charting_library/charting_library.min';
+  LibrarySymbolInfo,
+  SubscribeBarsCallback } from '../../../../../../assets/charting_library/charting_library.min';
 import { timer } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { MockService } from '../../../../../services/mock.service';
@@ -48,7 +49,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
   private _tvWidget: IChartingLibraryWidget | null = null;
 
   wsMessage = 'you may need to send specific message to subscribe data, eg: BTC';
-  socket: WebSocketSubject<BarData>;
+  socket: WebSocketSubject<BarData>  = {} as any;
   private sub: any;
 
   granularityMap = {
@@ -166,7 +167,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
 
     const that = this;
     const datafeed = {
-      onReady(x) {
+      onReady(x: any) {
         timer(0)
           .pipe(
             tap(() => {
@@ -176,11 +177,11 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
             })
           ).subscribe();
       },
-      searchSymbols(userInput: string, exchange: string, symbolType: string, onResultReadyCallback) {
+      searchSymbols(userInput: string, exchange: string, symbolType: string, onResultReadyCallback: any) {
         onResultReadyCallback('haha');
       },
-      getBars(symbol, granularity, startTime, endTime, onResult: TradingView.HistoryCallback,
-        onError: TradingView.ErrorCallback, isFirst) {
+      getBars(symbol: any, granularity: keyof typeof that.intervalMap, startTime: any, endTime: any, onResult: TradingView.HistoryCallback,
+        onError: TradingView.ErrorCallback, isFirst: any) {
         // console.log('symbol in getBars=', symbol);
         // console.log('granularity=' + granularity);
 
@@ -232,7 +233,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
           }
         );
       },
-      resolveSymbol(symbol, onResolve) {
+      resolveSymbol(symbol: string, onResolve: any) {
         timer(1e3)
           .pipe(
             tap(() => {
@@ -251,14 +252,14 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
       },
       getServerTime() {
       },
-      subscribeBars(symbol, granularity, onTick) {
-        const pair = targetCoinName.toUpperCase() + '_' + baseCoinName.toUpperCase();
+      subscribeBars(symbolInfo: LibrarySymbolInfo, resolution: string, onTick: SubscribeBarsCallback, listenerGuid: string, onResetCacheNeededCallback: () => void) {
+        const pair = symbolInfo.name.replace('/', '_');
 
         if (that.socket) {
           that.socket.unsubscribe();
         }
         that.socket = new WebSocketSubject(environment.websockets.kline + '@'
-          + pair + '@' + that.intervalMap[granularity]);
+          + pair + '@' + resolution);
         that.socket.subscribe(
           (item) => {
             console.log('item===', item);

@@ -24,33 +24,33 @@ import { UserService } from '../../../../services/user.service';
   styleUrls: ['./trade.component.scss']
 })
 export class TradeComponent implements OnInit {
-  balance: number;
+  balance = 0;
   order: any;
-  bidOrAsk: boolean;
-  coinName: string;
-  currency: string;
-  token: string;
+  bidOrAsk = false;
+  coinName = '';
+  currency = '';
+  token = '';
   element: any;
-  orderId: string;
-  txid: string;
-  quantity: number;
-  currentCoin: MyCoin;
+  orderId = '';
+  txid = '';
+  quantity = 0;
+  currentCoin: MyCoin = {} as MyCoin;
   wallet: any;
-  gasPrice: number;
-  gasLimit: number;
-  satoshisPerBytes: number;
-  addressIncorrect: boolean;
+  gasPrice = 0;
+  gasLimit = 0;
+  satoshisPerBytes = 0;
+  addressIncorrect = false;
 
   commissionRate = environment.OTC_COMMISSION_RATE;
   currencies: string[] = ['USD', 'CAD', 'CNY', 'EURO'];
 
   dataSource: any;
-  @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal;
-  @ViewChild('otcPlaceOrderModal', { static: true }) otcPlaceOrderModal: OtcPlaceOrderModal;
-  @ViewChild('otcCoinAddressModal', { static: true }) otcCoinAddressModal: OtcCoinAddressModal;
-  @ViewChild('otcPlaceOrderErrorModal', { static: true }) otcPlaceOrderErrorModal: OtcPlaceOrderErrorModal;
-  @ViewChild('applyForMerchantModal', { static: true }) applyForMerchantModal: ApplyForMerchantModal;
-  @ViewChild('confirmPaymentModal', { static: true }) confirmPaymentModal: ConfirmPaymentModal;
+  @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal = {} as PinNumberModal;
+  @ViewChild('otcPlaceOrderModal', { static: true }) otcPlaceOrderModal: OtcPlaceOrderModal = {} as OtcPlaceOrderModal;
+  @ViewChild('otcCoinAddressModal', { static: true }) otcCoinAddressModal: OtcCoinAddressModal = {} as OtcCoinAddressModal;
+  @ViewChild('otcPlaceOrderErrorModal', { static: true }) otcPlaceOrderErrorModal: OtcPlaceOrderErrorModal = {} as OtcPlaceOrderErrorModal;
+  @ViewChild('applyForMerchantModal', { static: true }) applyForMerchantModal: ApplyForMerchantModal = {} as ApplyForMerchantModal;
+  @ViewChild('confirmPaymentModal', { static: true }) confirmPaymentModal: ConfirmPaymentModal = {} as ConfirmPaymentModal;
 
   constructor(
     private userServ: UserService,
@@ -76,8 +76,8 @@ export class TradeComponent implements OnInit {
         console.log('res from addListing=', res);
         if (res && res.ok) {
           this.dataSource = res._body;
-          if(this.dataSource && (this.dataSource.length > 0)) {
-            this.dataSource = this.dataSource.filter(item => item.qtyAvilable > 0);
+          if (this.dataSource && (this.dataSource.length > 0)) {
+            this.dataSource = this.dataSource.filter((item: any) => item.qtyAvilable > 0);
           }
           console.log('this.dataSource===', this.dataSource);
         }
@@ -114,7 +114,7 @@ export class TradeComponent implements OnInit {
     }
   }
 
-  placeOrder(element) {
+  placeOrder(element: nay) {
     this.userServ.getMe(this.token).subscribe(
       (res: any) => {
         console.log('res===', res);
@@ -163,19 +163,19 @@ export class TradeComponent implements OnInit {
 
   }
 
-  onConfirmedCoinAddress(event) {
+  onConfirmedCoinAddress(event: any) {
     console.log('onConfirmedCoinAddress start');
     const address = event.address;
     this._otcServ.updateOrderAddress(this.token, this.orderId, address).toPromise().then(
       (res: any) => {
-        if(res && res.ok) {
+        if (res && res.ok) {
           this._router.navigate(['/otc/order-detail/' + this.orderId]);
         }
       }
     );
   }
 
-  onConfirmedPlaceOrder(event) {
+  onConfirmedPlaceOrder(event: any) {
 
     /*
     console.log('event=', event);
@@ -188,8 +188,8 @@ export class TradeComponent implements OnInit {
       this.pinModal.show();
     }
     */
-   this.order = event;
-   this.addOrderDo();
+    this.order = event;
+    this.addOrderDo();
   }
 
   addOrderDo() {
@@ -237,7 +237,7 @@ export class TradeComponent implements OnInit {
     };
 
     console.log('currentCoin==', currentCoin);
-    if(!seed) {
+    if (!seed) {
       return;
     }
     const { txHex, txHash, errMsg } = await this.coinService.sendTransaction(currentCoin, seed,
@@ -283,10 +283,9 @@ export class TradeComponent implements OnInit {
   placeAdv() {
   }
 
-  onBecomeMerchant(event) {
+  onBecomeMerchant(event: any) {
   }
 
-  onConfirmPayment(event) {
-
+  onConfirmPayment(event: any) {
   }
 }

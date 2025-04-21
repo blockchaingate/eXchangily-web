@@ -14,32 +14,32 @@ import { User } from '../../../models/user';
   styleUrls: ['./tokenlock.component.css']
 })
 export class TokenlockComponent implements OnInit {
-  tokenlock: Tokenlock;
+  tokenlock: Tokenlock = {} as Tokenlock;
   symbol = 'EXG';
-  ownerAdd: string;
-  msg: string;
-  editmode: boolean;
-  kycForm: FormControl;
+  ownerAdd = '';
+  msg = '';
+  editmode = false;
+  kycForm: FormControl = new FormControl('', [Validators.required]);
 
   constructor(private _activatedRoute: ActivatedRoute, private _router: Router,
-    private _tokenlockServ: TokenlockService) {}
+    private _tokenlockServ: TokenlockService) { }
 
   ngOnInit() {
     const tlId = this._activatedRoute.snapshot.paramMap.get('id');
     if (tlId) {
-        this.loadTokenlock(tlId);
+      this.loadTokenlock(tlId);
     } else {
-        this.tokenlock = {
-            name: 'eXchangily Security Token',
-            symbol: 'EXG',
-            decimals: 18,
-            active: true
-        };
+      this.tokenlock = {
+        name: 'eXchangily Security Token',
+        symbol: 'EXG',
+        decimals: 18,
+        active: true
+      };
     }
   }
 
   loadTokenlock(id: string) {
-    this._tokenlockServ.getTokenlock(id).subscribe (
+    this._tokenlockServ.getTokenlock(id).subscribe(
       ret => {
         this.tokenlock = ret;
       },
@@ -48,7 +48,7 @@ export class TokenlockComponent implements OnInit {
   }
 
   loadTokenlockByOwnerAddress(symbol: string, ownerAdd: string) {
-    this._tokenlockServ.getTokenlockByOwnerAddress(symbol, ownerAdd).subscribe (
+    this._tokenlockServ.getTokenlockByOwnerAddress(symbol, ownerAdd).subscribe(
       ret => {
         this.tokenlock = ret[0];
       },
@@ -57,30 +57,30 @@ export class TokenlockComponent implements OnInit {
   }
 
   setEdit() {
-      this.editmode = !this.editmode;
+    this.editmode = !this.editmode;
   }
 
   submit() {
-      this.editmode = false;
-      if (this.tokenlock._id) {
-        this._tokenlockServ.updateTokenlock(this.tokenlock).subscribe(
-            ret => { this.tokenlock = ret; },
-            err => { this.msg = err; }
-        );
-      } else {
-          this._tokenlockServ.createTokenlock(this.tokenlock).subscribe(
-              ret => { this.tokenlock = ret; },
-              err => { this.msg = err; }
-        );
-      }
+    this.editmode = false;
+    if (this.tokenlock._id) {
+      this._tokenlockServ.updateTokenlock(this.tokenlock).subscribe(
+        ret => { this.tokenlock = ret; },
+        err => { this.msg = err; }
+      );
+    } else {
+      this._tokenlockServ.createTokenlock(this.tokenlock).subscribe(
+        ret => { this.tokenlock = ret; },
+        err => { this.msg = err; }
+      );
+    }
   }
 
   onSearch() {
-      this.editmode = false;
+    this.editmode = false;
 
-      this._tokenlockServ.getTokenlockByOwnerAddress(this.symbol, this.ownerAdd).subscribe(
-          ret => { this.tokenlock = ret[0]; },
-          err => { this.msg = JSON.stringify(err); }
-      );
+    this._tokenlockServ.getTokenlockByOwnerAddress(this.symbol, this.ownerAdd).subscribe(
+      ret => { this.tokenlock = ret[0]; },
+      err => { this.msg = JSON.stringify(err); }
+    );
   }
 }

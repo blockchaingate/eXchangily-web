@@ -1,6 +1,6 @@
 import { Component, Output, TemplateRef, Input, OnInit, EventEmitter, OnDestroy } from '@angular/core';
 import { WalletService } from '../../../../services/wallet.service';
-import * as randomBytes from 'randombytes';
+import randomBytes from 'randombytes';
 import { Web3Service } from '../../../../services/web3.service';
 import { UtilService } from '../../../../services/util.service';
 import { CoinService } from '../../../../services/coin.service';
@@ -14,12 +14,12 @@ import { version } from '../../../../../environments/version';
 
 export class TradeAutoComponent implements OnInit {
     nonces: any = [];
-    version: string;
+    version = '';
+
     constructor(private walletServ: WalletService, private web3Serv: Web3Service, private utilService: UtilService,
         private coinService: CoinService, private kanbanService: KanbanService) {
-
     }
-    
+
     ngOnInit() {
         this.version = version;
     }
@@ -42,8 +42,8 @@ export class TradeAutoComponent implements OnInit {
         return value;
     }
 
-    generateOrderHash(bidOrAsk, orderType, baseCoin, targetCoin, amount, price, timeBeforeExpiration) {
-        const randomString = randomBytes(32).map(String).join('');
+    generateOrderHash(bidOrAsk: boolean, orderType: any, baseCoin: any, targetCoin: any, amount: number, price: number, timeBeforeExpiration: number) {
+        const randomString = Array.from(randomBytes(32)).map(byte => String.fromCharCode(byte)).join('');
         const concatString = [bidOrAsk, orderType, baseCoin, targetCoin, amount, price, timeBeforeExpiration, randomString].join('');
         return this.web3Serv.sha3(concatString);
     }
@@ -51,7 +51,7 @@ export class TradeAutoComponent implements OnInit {
     async txHexforPlaceOrder
         (pin: string, wallet: any, bidOrAsk: boolean, baseCoin: number, targetCoin: number, price: number, qty: number) {
         const seed = this.utilService.aesDecryptSeed(wallet.encryptedSeed, pin);
-        if(!seed) {
+        if (!seed) {
             return;
         }
         const keyPairsKanban = this.coinService.getKeyPairs(wallet.excoin, seed, 0, 0);
@@ -73,7 +73,7 @@ export class TradeAutoComponent implements OnInit {
         const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk,
             orderType, baseCoin, targetCoin, (Math.floor(qty * 1e18)).toString(), (Math.floor(price * 1e18)).toString(),
             timeBeforeExpiration, false, orderHash]);
-        
+
         console.log('abiHex=', abiHex);
         /*
         if (this.oldNonce === nonce) {

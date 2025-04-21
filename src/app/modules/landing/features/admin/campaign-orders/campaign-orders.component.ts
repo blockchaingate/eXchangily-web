@@ -10,8 +10,8 @@ import { UtilService } from '../../../../../services/util.service';
 })
 export class CampaignOrdersComponent implements OnInit {
   orders: any;
-  token: string;
-  
+  token = '';
+
   constructor(
     public utilServ: UtilService,
     private campaignorderServ: CampaignOrderService,
@@ -42,7 +42,7 @@ export class CampaignOrdersComponent implements OnInit {
     return this.campaignorderServ.getStatusText(status);
   }
 
-  confirmOrder(order) {
+  confirmOrder(order: any) {
     this.campaignorderServ.confirmOrder(this.token, order._id).subscribe(
       (res: any) => {
         if (res.ok) {

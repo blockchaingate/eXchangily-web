@@ -1,8 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Coin } from '../../models/coin';
-import { LanService } from 'src/app/services/lan.service';
-import { ApiService } from 'src/app/services/api.service';
+import { ApiService } from '../../services/api.service';
 
 @Component({
     selector: 'app-coininfo',
@@ -12,7 +11,7 @@ import { ApiService } from 'src/app/services/api.service';
 export class CoininfoComponent implements OnInit {
     @Input() width = 800;
     @Input() height = 480;
-    @Input() coin: Coin;
+    @Input() coin: Coin = {} as Coin;
     symbol = '';
 
     constructor(private _route: ActivatedRoute, private api: ApiService) { }

@@ -10,7 +10,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['../style.scss']
 })
 export class ChangePasswordComponent implements OnInit {
-  passwordForm: FormGroup;
+  passwordForm: FormGroup = new FormGroup({});
   passwordMin = 5;
   sent = false;
   errorMessage = '';
@@ -36,16 +36,16 @@ export class ChangePasswordComponent implements OnInit {
       ])
     });
 
-    this.id = this._route.snapshot.paramMap.get('id');
-    this.code = this._route.snapshot.paramMap.get('code');
+    this.id = this._route.snapshot.paramMap.get('id') || '';
+    this.code = this._route.snapshot.paramMap.get('code') || '';
   }
 
   onSubmit() {
-    if (this.password.value !== this.passwordConfirm.value) {
+    if ((this.password?.value ?? '') !== (this.passwordConfirm?.value ?? '')) {
       return;
     }
     this.errorMessage = '';
-    this._userService.executePwdReset(this.id, this.code, this.password.value).then(
+    this._userService.executePwdReset(this.id, this.code, this.password!.value).then(
       ret => this.processSuccess(ret),
       error => this.errorMessage = error
     );

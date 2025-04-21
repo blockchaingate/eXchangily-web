@@ -11,51 +11,50 @@ declare var window: any;
     templateUrl: './buy-coin.modal.html',
     styleUrls: ['./buy-coin.modal.css']
 })
-export class BuyCoinModal implements OnInit, OnDestroy{
+export class BuyCoinModal implements OnInit, OnDestroy {
     instance: any;
-    currentAddress: string;
-    blockchainName: string;
-    assetName: string;
+    currentAddress = '';
+    blockchainName = '';
+    assetName = '';
     appId = '6a6b1793-0892-4889-b6ae-a193fe650321';
-    modalRef: BsModalRef;
-    @Input() wallet: Wallet;
-    @Input() alertMsg: string;
-    coin: MyCoin;
-    @ViewChild('buyCoinModal', { static: true }) public buyCoinModal: ModalDirective;
-    currentCoinIndex: number;
-    currentCoinBalance: number;
+    modalRef: BsModalRef = {} as BsModalRef;
+    @Input() wallet: Wallet = {} as Wallet;
+    @Input() alertMsg = '';
+    coin: MyCoin = {} as MyCoin;
+    @ViewChild('buyCoinModal', { static: true }) public buyCoinModal: ModalDirective = {} as ModalDirective;
+    currentCoinIndex = 0;
+    currentCoinBalance = 0;
     //buyAmount: number;
 
     buyableCoins: any;
+
     constructor(
         private modalService: BsModalService) {
-
     }
 
-    
     getBlockChainName(coin: MyCoin) {
         const tokenType = coin.tokenType;
         let chainName = '';
-        switch(tokenType) {
+        switch (tokenType) {
             case 'ETH':
                 chainName = 'ethereum';
-                break;                
+                break;
         }
         return chainName;
     }
-    
+
     openModal(template: TemplateRef<any>) {
         if (this.wallet) {
-            
+
             this.buyableCoins = this.wallet.mycoins.filter(
-                item => item.name == 'BTC' || 
-                item.name == 'ETH' || 
-                item.name == 'LTC' || 
-                item.name == 'DOGE' || 
-                item.name == 'BCH' || 
-                (item.name == 'USDC' && item.tokenType == 'ETH') || 
-                (item.name == 'USDT' && item.tokenType == 'ETH'));
-            if(this.buyableCoins && this.buyableCoins.length > 0) {
+                item => item.name == 'BTC' ||
+                    item.name == 'ETH' ||
+                    item.name == 'LTC' ||
+                    item.name == 'DOGE' ||
+                    item.name == 'BCH' ||
+                    (item.name == 'USDC' && item.tokenType == 'ETH') ||
+                    (item.name == 'USDT' && item.tokenType == 'ETH'));
+            if (this.buyableCoins && this.buyableCoins.length > 0) {
                 this.onChange(0);
             }
 
@@ -69,54 +68,52 @@ export class BuyCoinModal implements OnInit, OnDestroy{
         if (this.wallet) {
             this.coin = this.wallet.mycoins[this.currentCoinIndex];
             this.currentAddress = this.coin.receiveAdds[0].address;
-        }   
+        }
     }
 
     ngOnDestroy(): void {
-        if(this.instance) {
+        if (this.instance) {
             this.instance.destroy();
         }
-        
     }
 
     onSubmit() {
-
         let destinationWallets: any;
 
         destinationWallets = [
             {
-              "address": this.currentAddress,
-              "assets": [this.assetName]
+                "address": this.currentAddress,
+                "assets": [this.assetName]
             },
-        ];         
+        ];
         console.log('destinationWallets===', destinationWallets);
         let isChromium = window.chrome;
         isChromium = false;
-        if(isChromium) {
+        if (isChromium) {
             this.instance = initOnRamp({
                 target: '#button-container',
                 appId: this.appId,
                 widgetParameters: {
-                  destinationWallets,
+                    destinationWallets,
                 },
                 onExit: () => {
-                  alert('On Exit');
+                    alert('On Exit');
                 },
                 onSuccess: () => {
-                  alert('On Success');
+                    alert('On Success');
                 },
                 onEvent: (metadata) => {
-                  console.log(metadata);
+                    console.log(metadata);
                 },
                 closeOnExit: true,
                 closeOnSuccess: true,
                 embeddedContentStyles: {
-                  top: '10px',
-                  width: '50%',
-                  height: '90%',
+                    top: '10px',
+                    width: '50%',
+                    height: '90%',
                 },
             });
-          
+
             this.instance.open();
         } else {
             const url = generateOnRampURL({
@@ -127,10 +124,10 @@ export class BuyCoinModal implements OnInit, OnDestroy{
         }
 
         this.modalRef.hide();
-        
+
     }
 
-    onChangeEvent(event) {
+    onChangeEvent(event: any) {
         const index = Number((event.target as HTMLInputElement).value);
         this.onChange(index);
     }
@@ -140,6 +137,4 @@ export class BuyCoinModal implements OnInit, OnDestroy{
         this.currentAddress = coin.receiveAdds[0].address;
         this.assetName = coin.name;
     }
-
-
 }

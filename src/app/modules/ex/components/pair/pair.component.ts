@@ -1,18 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ApiService } from 'src/app/services/api.service';
-import { Pair } from 'src/app/config/pair';
+import { ApiService } from '../../../../services/api.service';
+import { Pair } from '../../../../config/pair';
 import { PinNumberModal } from '../../../shared/modals/pin-number/pin-number.modal';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../../environments/environment';
 import { Wallet } from '../../../../models/wallet';
-import { StorageService } from 'src/app/services/storage.service';
-import { UtilService } from 'src/app/services/util.service';
-import { AlertService } from 'src/app/services/alert.service';
+import { StorageService } from '../../../../services/storage.service';
+import { UtilService } from '../../../../services/util.service';
+import { AlertService } from '../../../../services/alert.service';
 import { MyCoin } from '../../../../models/mycoin';
-import { CoinService } from 'src/app/services/coin.service';
-import { KanbanService } from 'src/app/services/kanban.service';
+import { CoinService } from '../../../../services/coin.service';
+import { KanbanService } from '../../../../services/kanban.service';
 import Common from 'ethereumjs-common';
 import * as Eth from 'ethereumjs-tx';
-import { Web3Service } from 'src/app/services/web3.service';
+import { Web3Service } from '../../../../services/web3.service';
 
 @Component({
   selector: 'app-pair',
@@ -20,19 +20,20 @@ import { Web3Service } from 'src/app/services/web3.service';
   styleUrls: ['./pair.component.css']
 })
 export class PairComponent implements OnInit {
-  @ViewChild('pinModal', {static: true}) pinModal: PinNumberModal;
+  @ViewChild('pinModal', {static: true}) pinModal: PinNumberModal = {} as PinNumberModal;
   kycContract: string = '0x0000000000000000000000000000000000000000';
   requiredKycLevel: number = 0;
   tradeFeePool: string = '';
-  tokenLeft: string;
-  tokenRight: string;
-  priceDecimals: number;
-  quantityDecimals: number;
-  exgCoin: MyCoin;
+  tokenLeft = '';
+  tokenRight = '';
+  priceDecimals = 2;
+  quantityDecimals = 2;
+  exgCoin: MyCoin = {} as MyCoin;
   tokens: any;
   nonce: number = 0;
-  wallet: Wallet | null;
-  pairSmartContractAddress: string;
+  wallet: Wallet = {} as Wallet;
+  pairSmartContractAddress = '';
+
   constructor(private apiServ: ApiService,
     private storageService: StorageService,
     private utilServ: UtilService,
@@ -42,7 +43,7 @@ export class PairComponent implements OnInit {
     private alertServ: AlertService) { }
 
   async ngOnInit() {
-    this.wallet = await this.storageService.getCurrentWallet();
+    this.wallet = await this.storageService.getCurrentWallet() as Wallet;
 
     for (let i = 0; i < this.wallet.mycoins.length; i++) {
       const coin = this.wallet.mycoins[i];
@@ -61,8 +62,6 @@ export class PairComponent implements OnInit {
 
   submit() {
     this.pinModal.show();
-
-
   }
 
   onConfirmedPin(pin: string) {
@@ -73,7 +72,11 @@ export class PairComponent implements OnInit {
     if (!seed) {
       this.alertServ.openSnackBar('Your password is wrong.', 'Ok');
     }
-    this.deployKanbanDo(seed);
+    if (seed) {
+      this.deployKanbanDo(seed);
+    } else {
+      this.alertServ.openSnackBar('Seed is null. Cannot proceed.', 'Ok');
+    }
 
   }
 
@@ -91,7 +94,7 @@ export class PairComponent implements OnInit {
  
   }
 
-  async registerPair(keyPairsKanban, blocknumber) {
+  async registerPair(keyPairsKanban: any, blocknumber: number) {
     const abi = {
       "inputs": [
         {
@@ -133,7 +136,6 @@ export class PairComponent implements OnInit {
     let gasLimit = environment.chains.KANBAN.gasLimit;
     const nonce = this.nonce;
 
-    
     const txObject = {
         nonce: nonce,
         gasPrice: gasPrice,
@@ -147,7 +149,6 @@ export class PairComponent implements OnInit {
     Buffer.from(keyPairsKanban.privateKeyHex, 'hex');
 
     let txhex = '';
-
 
     const customCommon = Common.forCustomChain(
       'mainnet',
@@ -186,7 +187,7 @@ export class PairComponent implements OnInit {
     );
   }
 
-  async deployKanbanDo(seed) {
+  async deployKanbanDo(seed: Buffer) {
     const keyPairsKanban = this.coinServ.getKeyPairs(this.exgCoin, seed, 0, 0);
     // const nonce = await this.apiServ.getEthNonce(this.ethCoin.receiveAdds[0].address);
     let gasPrice = environment.chains.KANBAN.gasPrice;
@@ -215,7 +216,6 @@ export class PairComponent implements OnInit {
     }
     
     let txhex = '';
-
 
     const customCommon = Common.forCustomChain(
       'mainnet',
@@ -263,7 +263,7 @@ export class PairComponent implements OnInit {
                     );
                   }
                 } else {
-                  this.alertServ.openSnackBar('Failed to create smart contract.', 'Ok');
+                  // this.alertServ.openSnackBar('Failed to create smart contract.', 'Ok');
                 }
 
               }

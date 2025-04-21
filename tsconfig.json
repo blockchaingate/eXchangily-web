@@ -2,53 +2,26 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
-    "paths": {
-      "crypto": [
-        "./node_modules/crypto-browserify"
-      ],
-      "https": [
-        "./node_modules/https-browserify"
-      ],
-      "http": [
-        "./node_modules/stream-http"
-      ],
-      "stream": [
-        "./node_modules/stream-browserify"
-      ],
-      "querystring": [
-        "./node_modules/querystring-es3"
-      ],
-      "vm": [
-        "./node_modules/vm-browserify"
-      ]
-    },
-    "forceConsistentCasingInFileNames": true,
-    "strict": false,
-    "strictNullChecks": false,
+    "strict": true,
     "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": false,
-    "noImplicitReturns": false,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "sourceMap": true,
-    "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
-    "declaration": false,
-    "strictPropertyInitialization": false,
-    "noImplicitAny": false,
-    "downlevelIteration": true,
     "skipLibCheck": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "declaration": false,
     "experimentalDecorators": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
-    "module": "es2020",
+    "module": "ES2022",
+    "useDefineForClassFields": false,
     "lib": [
-      "es2020",
+      "ES2022",
       "dom"
-    ],
-    "useDefineForClassFields": false
+    ]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

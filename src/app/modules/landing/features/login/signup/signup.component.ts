@@ -3,7 +3,7 @@ import { UserService } from '../../../service/user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from '../../../../../../environments/environment';
 
-import { LocalStorage } from '@ngx-pwa/local-storage';
+import { StorageMap } from '@ngx-pwa/local-storage';
 import { Wallet } from '../../.../../../../../models/wallet';
 import { WalletService } from '../../.../../../../../services/wallet.service';
 
@@ -17,15 +17,15 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class SignupComponent implements OnInit {
   user = { email: '', password: '' };
   repeatPassword = '';
-  signupForm: FormGroup;
+  signupForm: FormGroup = new FormGroup({});
   passwordMin = 5;
   ExgAddRegistered = false;
-  serverErrorMsg: string;
+  serverErrorMsg = '';
   NoWallet = false;
   wallet: any;
 
   constructor(private _userService: UserService, private _router: Router, private _activeRout: ActivatedRoute,
-    private localSt: LocalStorage, private _walletServ: WalletService) { }
+    private localSt: StorageMap, private _walletServ: WalletService) { }
 
   get email() { return this.signupForm.get('email'); }
 
@@ -39,17 +39,16 @@ export class SignupComponent implements OnInit {
     let strRefCode: any = this._activeRout.snapshot.paramMap.get('refcode');
     console.log('strRefCode=', strRefCode);
     if (strRefCode) {
-      this.localSt.setItem('refcode', strRefCode).subscribe(() => {
-      });  
+      this.localSt.set('refcode', strRefCode).subscribe(() => {
+      });
     } else {
-       this.localSt.getItem('refcode').subscribe(
+      this.localSt.get('refcode').subscribe(
         (res: any) => {
           strRefCode = res;
           this.signupForm.controls['referralCode'].setValue(strRefCode);
         }
       );
     }
-
 
     this.signupForm = new FormGroup({
       'email': new FormControl(this.user.email, [
