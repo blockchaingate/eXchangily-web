@@ -160,7 +160,7 @@ export class CoinService {
     }
 
     async getEtherumCompatibleTokenBalance(chainName: string, smartContractAddress: string, address: string) {
-        return await this.apiService.getEthereumCompatibleTokenBalance(chainName, smartContractAddress, address);
+        return await this.apiService.getEthereumCompatibleTokenBalance(chainName as "BTC" | "DOGE" | "LTC" | "BCH" | "ETH" | "BNB" | "MATIC" | "HT" | "FAB" | "KANBAN" | "TRX", smartContractAddress, address);
     }
 
     initToken(type: string, name: string, decimals: number, address: string, baseCoin: MyCoin, symbol?: string) {
@@ -780,7 +780,7 @@ export class CoinService {
             balance = new BigNumber(balanceObj).shiftedBy(-decimals).toNumber();
             lockbalance = 0;
         } else if (['MATIC', 'POLYGON', 'HT', 'BNB'].indexOf(tokenType) >= 0) {
-            const balanceObj = await this.apiService.getEthereumCompatibleTokenBalance(tokenType, contractAddr, addr);
+            const balanceObj = await this.apiService.getEthereumCompatibleTokenBalance(tokenType as "BTC" | "ETH" | "TRX" | "DOGE" | "LTC" | "BCH" | "BNB" | "MATIC" | "HT" | "FAB" | "KANBAN", contractAddr, addr);
             balance = new BigNumber(balanceObj, 16).shiftedBy(-decimals).toNumber();
             lockbalance = 0;
         } else if (name === 'BCH') {
@@ -995,78 +995,75 @@ export class CoinService {
             //console.log('pubKey======', pubKey);
             buffer = wif.decode(priKey);
             priKeyDisp = priKey;
-        } else
-            if (name === 'BCH') {
-                let root = bitcore.HDPrivateKey.fromSeed(seed);
-                if (!environment.production) {
-                    root = bitcore.HDPrivateKey.fromSeed(seed, bitcore.Networks.testnet);
-                }
-                // tslint:disable-next-line: prefer-const
-                let child = root.deriveChild(path);
+        } else if (name === 'BCH') {
+            let root = bitcore.HDPrivateKey.fromSeed(seed);
+            if (!environment.production) {
+                root = bitcore.HDPrivateKey.fromSeed(seed, bitcore.Networks.testnet);
+            }
+            // tslint:disable-next-line: prefer-const
+            let child = root.deriveChild(path);
 
-                const publicKey = child.hdPublicKey.publicKey;
-                priKey = child.privateKey;
+            const publicKey = child.hdPublicKey.publicKey;
+            priKey = child.privateKey;
 
-                if (!environment.production) {
-                    const addrObj = bitcore.Address.fromPublicKey(publicKey, bitcore.Networks.testnet);
-                    addr = addrObj.toString();
+            if (!environment.production) {
+                const addrObj = bitcore.Address.fromPublicKey(publicKey, bitcore.Networks.testnet);
+                addr = addrObj.toString();
 
-                    const json = addrObj.toObject();
-                    addrHash = (json as { hash: string }).hash;
-                } else {
-                    const addrObj = bitcore.Address.fromPublicKey(publicKey, bitcore.Networks.livenet);
-                    addr = addrObj.toString();
+                const json = addrObj.toObject();
+                addrHash = (json as { hash: string }).hash;
+            } else {
+                const addrObj = bitcore.Address.fromPublicKey(publicKey, bitcore.Networks.livenet);
+                addr = addrObj.toString();
 
-                    const json = addrObj.toObject();
-                    addrHash = (json as { hash: string }).hash;
-                }
-            } else
-                if ((name === 'ETH') || (tokenType === 'ETH')
-                    || (name == 'BNB') || (tokenType == 'BNB')
-                    || (name == 'HT') || (tokenType == 'HT')
-                    || (name == 'MATIC') || (tokenType == 'MATIC')) {
+                const json = addrObj.toObject();
+                addrHash = (json as { hash: string }).hash;
+            }
+        } else if ((name === 'ETH') || (tokenType === 'ETH')
+            || (name == 'BNB') || (tokenType == 'BNB')
+            || (name == 'HT') || (tokenType == 'HT')
+            || (name == 'MATIC') || (tokenType == 'MATIC')) {
 
-                    const root = hdkey.fromMasterSeed(seed);
-                    const childNode = root.derivePath(path);
+            const root = hdkey.fromMasterSeed(seed);
+            const childNode = root.derivePath(path);
 
-                    const wallet = childNode.getWallet();
-                    const address = `0x${wallet.getAddress().toString('hex')}`;
-                    addr = address;
-                    buffer = wallet.getPrivateKey();
-                    priKey = wallet.getPrivateKey();
-                    priKeyDisp = buffer.toString('hex');
-                } else
-                    if (name === 'TRX' || tokenType === 'TRX') {
-                        const root = Btc.bip32.fromSeed(seed);
-                        const childNode = root.derivePath(path);
+            const wallet = childNode.getWallet();
+            const address = `0x${wallet.getAddress().toString('hex')}`;
+            addr = address;
+            buffer = wallet.getPrivateKey();
+            priKey = wallet.getPrivateKey();
+            priKeyDisp = buffer.toString('hex');
+        } else if (name === 'TRX' || tokenType === 'TRX') {
+            const root = Btc.bip32.fromSeed(seed);
+            const childNode = root.derivePath(path);
 
-                        // console.log('publicKey for TRX=', childNode.publicKey.toString('hex'));
+            // console.log('publicKey for TRX=', childNode.publicKey.toString('hex'));
 
-                        priKey = childNode.privateKey;
+            priKey = childNode.privateKey;
 
-                        buffer = wif.decode(childNode.toWIF());
-                        addr = utils.crypto.getBase58CheckAddress(utils.crypto.getAddressFromPriKey(priKey));
-                    }
-                    else if (name === 'EX' || tokenType === 'FAB') {
-                        // console.log('000');
-                        const root = Btc.bip32.fromSeed(seed, environment.chains.BTC.network);
+            buffer = wif.decode(childNode.toWIF());
+            addr = utils.crypto.getBase58CheckAddress(utils.crypto.getAddressFromPriKey(priKey));
+        }
+        else if (name === 'EX' || tokenType === 'FAB') {
+            // console.log('000');
+            const root = Btc.bip32.fromSeed(seed, environment.chains.BTC.network);
 
-                        // console.log('root=', root);
-                        const childNode = root.derivePath(path);
-                        // console.log('childNode=', childNode);
-                        const originalPrivateKey: any = childNode.privateKey;
-                        // console.log('111');
-                        priKeyHex = originalPrivateKey.toString('hex');
-                        priKey = childNode.toWIF();
-                        // console.log('333');
-                        priKeyDisp = priKey;
-                        buffer = wif.decode(priKey);
-                        // console.log('buffer=', buffer);
-                        const publicKey = childNode.publicKey;
-                        // console.log('publicKey=', publicKey);
-                        // const publicKeyString = `0x${publicKey.toString('hex')}`;
-                        addr = this.utilServ.toKanbanAddress(publicKey);
-                    }
+            // console.log('root=', root);
+            const childNode = root.derivePath(path);
+            // console.log('childNode=', childNode);
+            const originalPrivateKey: any = childNode.privateKey;
+            // console.log('111');
+            priKeyHex = originalPrivateKey.toString('hex');
+            priKey = childNode.toWIF();
+            // console.log('333');
+            priKeyDisp = priKey;
+            buffer = wif.decode(priKey);
+            // console.log('buffer=', buffer);
+            const publicKey = childNode.publicKey;
+            // console.log('publicKey=', publicKey);
+            // const publicKeyString = `0x${publicKey.toString('hex')}`;
+            addr = this.utilServ.toKanbanAddress(publicKey);
+        }
 
         const keyPairs = {
             address: addr,
@@ -1082,7 +1079,6 @@ export class CoinService {
 
         return keyPairs;
     }
-
 
     signStringTron(message: string, privateKey: any) {
         message = message.replace(/^0x/, '');
@@ -1128,69 +1124,68 @@ export class CoinService {
             signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
             // console.log('signature in signed is ');
             // console.log(signature);
-        } else
-            if (name == 'BNB' || tokenType === 'BNB' || name == 'MATIC' || tokenType === 'MATIC') {
-                signature = this.web3Serv.signEtheruemCompatibleMessageWithPrivateKey(originalMessage, keyPair) as Signature;
-            } else
-                if (name === 'TRX' || tokenType === 'TRX') {
-                    const priKeyDisp = keyPair.privateKey.toString('hex');
-                    signature = this.signStringTron(originalMessage, priKeyDisp);
-                }
-                else if ((name === 'FAB' && !tokenType) || name === 'BTC' || tokenType === 'FAB' || name === 'DOGE' || name === 'LTC') {
-                    // signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
+        } else if (name == 'BNB' || tokenType === 'BNB' || name == 'MATIC' || tokenType === 'MATIC') {
+            signature = this.web3Serv.signEtheruemCompatibleMessageWithPrivateKey(originalMessage, keyPair) as Signature;
+        } else if (name === 'TRX' || tokenType === 'TRX') {
+            const priKeyDisp = keyPair.privateKey.toString('hex');
+            signature = this.signStringTron(originalMessage, priKeyDisp);
+        }
+        else if ((name === 'FAB' && !tokenType) || name === 'BTC' || tokenType === 'FAB' || name === 'DOGE' || name === 'LTC') {
+            // signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
 
-                    let signBuffer: Buffer;
-                    // if(name === 'FAB' || name === 'BTC' || tokenType === 'FAB' || name === 'LTC' || name === 'DOGE') {
-                    const chainName = tokenType ? tokenType : name;
+            let signBuffer: Buffer;
+            // if(name === 'FAB' || name === 'BTC' || tokenType === 'FAB' || name === 'LTC' || name === 'DOGE') {
+            const chainName = tokenType ? tokenType : name;
 
-                    const chain = environment.chains[chainName as keyof typeof environment.chains];
-                    const messagePrefix = 'network' in chain ? chain.network.messagePrefix : '';
+            const chain = environment.chains[chainName as keyof typeof environment.chains];
+            const messagePrefix = 'network' in chain ? chain.network.messagePrefix : '';
 
 
-                    let v = '';
-                    let r = '';
-                    let s = '';
-                    /*
-                    console.log('2bbb');
-                    if((name === 'TRX' || tokenType == 'TRX')) {
-                        const priKeyDisp = keyPair.privateKey.toString('hex'); 
-                        //const signiture = TronWeb.Trx.signString(originalMessage, priKeyDisp);
-                        //const signiture = await tronWeb.trx.sign(originalMessage, priKeyDisp);
-        
-                        const signiture = this.signStringTron(originalMessage, priKeyDisp);
-                        console.log('signiture=', signiture);
-                        r = '0x' + signiture.slice(2, 66);
-                        s = '0x' + signiture.slice(66, 130);
-                        v = '0x' + signiture.slice(130, 132);
-                        console.log('for trx');
-                        console.log(v,r,s);
-                    } else {
-         
-                    }
-                    */
+            let v = '';
+            let r = '';
+            let s = '';
+            /*
+            console.log('2bbb');
+            if((name === 'TRX' || tokenType == 'TRX')) {
+                const priKeyDisp = keyPair.privateKey.toString('hex'); 
+                //const signiture = TronWeb.Trx.signString(originalMessage, priKeyDisp);
+                //const signiture = await tronWeb.trx.sign(originalMessage, priKeyDisp);
+ 
+                const signiture = this.signStringTron(originalMessage, priKeyDisp);
+                console.log('signiture=', signiture);
+                r = '0x' + signiture.slice(2, 66);
+                s = '0x' + signiture.slice(66, 130);
+                v = '0x' + signiture.slice(130, 132);
+                console.log('for trx');
+                console.log(v,r,s);
+            } else {
+ 
+            }
+            */
 
-                    /*
-                    signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey,
-                        keyPair.privateKeyBuffer.compressed, messagePrefix);
-                    */
-                    signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey,
-                        true, messagePrefix);
-                    v = `0x${signBuffer.slice(0, 1).toString('hex')}`;
-                    r = `0x${signBuffer.slice(1, 33).toString('hex')}`;
-                    s = `0x${signBuffer.slice(33, 65).toString('hex')}`;
+            /*
+            signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey,
+                keyPair.privateKeyBuffer.compressed, messagePrefix);
+            */
+            signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey,
+                true, messagePrefix);
+            v = `0x${Buffer.from(signBuffer).slice(0, 1).toString('hex')}`;
+            r = `0x${signBuffer.slice(1, 33).toString('hex')}`;
+            s = `0x${signBuffer.slice(33, 65).toString('hex')}`;
 
-                    signature = { r: r, s: s, v: v };
+            signature = { r: r, s: s, v: v };
 
-                } else
-                    if (name === 'BCH') {
+        } else if (name === 'BCH') {
 
-                        let signBuffer: Buffer;
-                        const message = new BchMessage(originalMessage);
+            // let signBuffer: Buffer;
+            const message = new BchMessage(originalMessage);
 
-                        // var signature = message.sign(privateKey);
+            // var signature = message.sign(privateKey);
 
-                        const hash = message.magicHash();
-                        const ecdsa = new bitcore.crypto.ECDSA();
+            const hash = message.magicHash();
+            const ecdsa = bitcore.crypto.ECDSA;
+            let signBuffer: Buffer = bitcoinMessage.sign(hash, keyPair.privateKeyBuffer.privateKey, true);
+            /*
                         ecdsa.hashbuf = hash;
                         ecdsa.privkey = keyPair.privateKey;
                         ecdsa.pubkey = keyPair.privateKey.toPublicKey();
@@ -1203,20 +1198,20 @@ export class CoinService {
                         ecdsa.signRandomK();
                         ecdsa.calci();
                         signBuffer = ecdsa.sig.toCompact();
+            */
+            console.log('signBuffer===', signBuffer);
+            let v = '';
+            let r = '';
+            let s = '';
 
-                        console.log('signBuffer===', signBuffer);
-                        let v = '';
-                        let r = '';
-                        let s = '';
+            v = `0x${signBuffer.slice(0, 1).toString('hex')}`;
+            r = `0x${signBuffer.slice(1, 33).toString('hex')}`;
+            s = `0x${signBuffer.slice(33, 65).toString('hex')}`;
 
-                        v = `0x${signBuffer.slice(0, 1).toString('hex')}`;
-                        r = `0x${signBuffer.slice(1, 33).toString('hex')}`;
-                        s = `0x${signBuffer.slice(33, 65).toString('hex')}`;
+            signature = { r: r, s: s, v: v };
+            // console.log('signature=', signature);
 
-                        signature = { r: r, s: s, v: v };
-                        // console.log('signature=', signature);
-
-                    }
+        }
 
         return signature;
     }
@@ -1672,7 +1667,6 @@ export class CoinService {
             }
         }
 
-
         // console.log('totalInput here 2=', totalInput);
         if ((amount > 0) && !finished) {
             // console.log('not enough fab coin to make the transaction.');
@@ -1746,11 +1740,7 @@ export class CoinService {
         return buf;
     }
 
-
-
-    getOriginalMessage(
-        chainType: string, tokenContract: string, tokenType: string, addressInKanban: string, txHash: string) {
-
+    getOriginalMessage(chainType: string, tokenContract: string, tokenType: string, addressInKanban: string, txHash: string) {
         let buf = '';
 
         buf += chainType;
@@ -2649,7 +2639,8 @@ MATIC: 0x0009
                 if (getTransFeeOnly) {
                     return { txHex: '', txHash: '', errMsg: '', transFee: feeLimit, amountInTx: 0, txids: '' };
                 }
-                const trc20ContractAddress = environment.addresses.smartContract[mycoin.name]['TRX']; // contract address
+                const smartContract = environment.addresses.smartContract[mycoin.name as keyof typeof environment.addresses.smartContract];
+                const trc20ContractAddress = typeof smartContract === 'object' && 'TRX' in smartContract ? smartContract['TRX'] : undefined; // contract address
                 const address1 = mycoin.receiveAdds[0];
                 const currentIndex = address1.index;
                 const keyPair = this.getKeyPairs(mycoin, seed, 0, currentIndex);
@@ -2665,7 +2656,7 @@ MATIC: 0x0009
                 const amountNum = amountInTx.toNumber();
 
                 try {
-                    const contract = await tronWeb.contract().at(trc20ContractAddress);
+                    const contract = await tronWeb.contract().at(trc20ContractAddress ?? '');
 
                     // Use call to execute a pure or view smart contract method.
                     // These methods do not modify the blockchain, do not cost anything to execute and are also not broadcasted to the network.
@@ -2697,7 +2688,7 @@ MATIC: 0x0009
                         ];
 
                         const transaction = await tronWeb.transactionBuilder.triggerSmartContract(
-                            tronWeb.address.toHex(trc20ContractAddress),
+                            tronWeb.address.toHex(trc20ContractAddress ?? ''),
                             functionSelector,
                             options,
                             parameters,
@@ -2710,8 +2701,6 @@ MATIC: 0x0009
                         txHex = '0a' + (raw_dat_hex.length / 2).toString(16) + '01' + raw_dat_hex + '1241' + txHexObj.signature;
                         console.log('txHex=', txHex);
                     }
-
-
                 } catch (error) {
                     console.error('trigger smart contract error', error);
                 }
@@ -2962,7 +2951,9 @@ MATIC: 0x0009
                 const amountSent = new BigNumber(amount).multipliedBy(new BigNumber(Math.pow(10, decimals)));
                 const toAccount = toAddress;
 
-                let contractAddress = environment.addresses.smartContract[mycoin.name] ? environment.addresses.smartContract[mycoin.name][mycoin.tokenType] : '';
+                let contractAddress = (environment.addresses.smartContract as Record<string, any>)[mycoin.name]
+                    ? (environment.addresses.smartContract as Record<string, any>)[mycoin.name][mycoin.tokenType]
+                    : '';
                 if (!contractAddress) {
                     contractAddress = mycoin.contractAddr;
                 }

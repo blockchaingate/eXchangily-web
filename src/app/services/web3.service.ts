@@ -45,7 +45,6 @@ export class Web3Service {
     return abi;
   }
 
-
   signMessageWithPrivateKey(message: string, keyPair: any) {
     const privateKey = `0x${keyPair.privateKey.toString('hex')}`;
     const web3 = this.getWeb3Provider();
@@ -102,19 +101,18 @@ export class Web3Service {
     return txhex;
   }
 
-  async signEtheruemCompatibleTxWithPrivateKey(coinName: string, txParams: any, keyPair: any) {
+  async signEtheruemCompatibleTxWithPrivateKey(coinName: keyof typeof environment.chains, txParams: any, keyPair: any) {
     console.log('coinName');
     const privKey = keyPair.privateKeyBuffer;
     const EthereumTx = Eth.Transaction;
     const customCommon = Common.forCustomChain(
       'mainnet', {
-      name: environment.chains[coinName].chain.name,
-      networkId: environment.chains[coinName].chain.networkId,
-      chainId: environment.chains[coinName].chain.chainId
+      name: 'chain' in (environment.chains[coinName] as any) ? (environment.chains[coinName] as any).chain.name : '',
+      networkId: 'chain' in (environment.chains[coinName] as any) ? (environment.chains[coinName] as any).chain.networkId : 0,
+      chainId: 'chain' in (environment.chains[coinName] as any) ? (environment.chains[coinName] as any).chain.chainId : 0
     },
       'petersburg'
     );
-
 
     const tx = new EthereumTx(txParams, { common: customCommon });
     tx.sign(privKey);
@@ -124,7 +122,6 @@ export class Web3Service {
   }
 
   sendGasHex(privateKey: any, address: string, amountInBigNumber: BigNumber, nonce: any) {
-
     let gasPrice = environment.chains.KANBAN.gasPrice;
     let gasLimit = environment.chains.KANBAN.gasLimit;
     var to = address;
@@ -220,6 +217,7 @@ export class Web3Service {
     const web3 = this.getWeb3Provider();
     return web3.eth.abi.decodeParameters(types, data);
   }
+
   getFabFrozenBalanceABI(paramsArray: any) {
     const web3 = this.getWeb3Provider();
     const func: any = {
@@ -423,7 +421,7 @@ export class Web3Service {
     var preamble = '\x17Kanban Signed Message:\n' + messageBytes.length;
     var preambleBuffer = Buffer.from(preamble);
     var ethMessage = Buffer.concat([preambleBuffer, messageBuffer]);
-    var hash = Hash.keccak256s(ethMessage);
+    var hash = Hash.keccak256s(ethMessage.toString('hex'));
     console.log('hash1=', hash);
     return hash;
   }
@@ -436,7 +434,7 @@ export class Web3Service {
     var preamble = '\x19Ethereum Signed Message:\n' + messageBytes.length;
     var preambleBuffer = Buffer.from(preamble);
     var ethMessage = Buffer.concat([preambleBuffer, messageBuffer]);
-    var hash = Hash.keccak256s(ethMessage);
+    var hash = Hash.keccak256s(ethMessage.toString('hex'));
     console.log('hash1=', hash);
     return hash;
   }
@@ -590,7 +588,6 @@ export class Web3Service {
   }
 
   getCreateOrderFuncABI(paramsArray: any) {
-
     const web3 = this.getWeb3Provider();
     const func: any = {
       "inputs": [
@@ -639,7 +636,6 @@ export class Web3Service {
     const abiHex = web3.eth.abi.encodeFunctionSignature(func).substring(2);
     return abiHex;
   }
-
 
   getGeneralFunctionABI(func: any, paramsArray: any) {
     const web3 = this.getWeb3Provider();
@@ -784,7 +780,6 @@ export class Web3Service {
   }
 
   getPayload(srcChain: string, tokenId: string, receipient: string, txid: string, keyPair: any) {
-
     const subPayload = this.getPayloadForTokenIdReceipientTxid(tokenId, receipient, txid);
     const srcChainId = this.getChainId(srcChain);
     const message = srcChainId + subPayload;
@@ -804,11 +799,9 @@ export class Web3Service {
     console.log(this.utilServ.stripHexPrefix(sig.r));
     console.log(this.utilServ.stripHexPrefix(sig.s));
     return payload;
-
   }
 
   getDepositFuncABI(coinType: number, txHash: string, amount: BigNumber, addressInKanban: string, keyPairs: any) {
-
     const abiHex = '';
 
     /*
@@ -830,6 +823,5 @@ export class Web3Service {
     */
 
     return abiHex;
-
   }
 }

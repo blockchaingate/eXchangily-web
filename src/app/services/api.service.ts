@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import {
-    Balance, EthTransactionRes
-    , FabTransactionResponse, CoinsPrice, BtcUtxo, KEthBalance, FabUtxo, EthTransactionStatusRes, GasPrice,
+    Balance, EthTransactionRes, FabTransactionResponse, CoinsPrice, BtcUtxo, KEthBalance, FabUtxo, EthTransactionStatusRes, GasPrice,
     FabTokenBalance, FabTransactionJson, BtcTransactionResponse, BtcTransaction, JsonResult
 } from '../interfaces/balance.interface';
 
@@ -340,6 +339,7 @@ export class ApiService {
         });
 
     }
+
     async getTSWalletAddress(chain: string): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             const url = environment.endpoints.api + 'v3/bridge/tsWalletAddress';
@@ -369,6 +369,7 @@ export class ApiService {
         const url = environment.endpoints.FAB.exchangily + 'getblockcount';
         return this.http.get(url);
     }
+
     async getTrxTransactionStatus(txid: string) {
         const transactionInfo = await tronWeb.trx.getTransactionInfo(txid);
         if (transactionInfo && transactionInfo.receipt) {
@@ -444,14 +445,17 @@ export class ApiService {
         const url = environment.endpoints.blockchaingate + 'issuetoken';
         return this.http.get(url);
     }
+
     getIssueTokensOwnedBy(address: string) {
         const url = environment.endpoints.blockchaingate + 'issuetoken/ownedBy/' + address;
         return this.http.get(url);
     }
+
     async getIssueToken(tokenId: string) {
         const url = environment.endpoints.blockchaingate + 'issuetoken/' + tokenId;
         return await this.http.get(url).toPromise();
     }
+
     getAllCoins() {
         const url = environment.endpoints.kanban + 'coins/';
         return this.http.get(url).toPromise();
@@ -461,6 +465,7 @@ export class ApiService {
         const url = environment.endpoints.blockchaingate + 'epay/hash/' + paymentAmount + '/' + paymentUnit;
         return this.http.get(url);
     }
+
     /// hash/:payeeAccount/:paymentAmount/:paymentUnit
     chargeOrder(orderID: string, txhex: string) {
         const url = environment.endpoints.blockchaingate + 'orders/' + orderID + '/charge';
@@ -499,6 +504,7 @@ export class ApiService {
         */
         return this.http.get(url);
     }
+
     async getCoinsPrice() {
         const url = environment.endpoints.coingecko + 'api/v3/simple/price?ids=bitcoin,ethereum,fabcoin,tether&vs_currencies=usd';
         const response = await this.http.get(url).toPromise() as CoinsPrice;
@@ -788,6 +794,7 @@ export class ApiService {
         const url = environment.endpoints.BTC.exchangily + 'gettransactionjson/' + txid;
         return this.http.get(url);
     }
+
     async getEthTransaction(txid: string) {
         const url = environment.endpoints.ETH.exchangily + 'gettransaction/' + txid;
         // console.log('url=' + url);
@@ -864,6 +871,7 @@ export class ApiService {
         const response = await this.http.get(url).toPromise() as [FabUtxo];
         return response;
     }
+
     async getFabBalance(address: string): Promise<Balance> {
 
         let balance = 0;
@@ -1005,6 +1013,7 @@ export class ApiService {
         }
         return balance;
     }
+
     callFabSmartContract(address: string, abiHex: string, sender: string) {
         const url = environment.endpoints.FAB.exchangily + 'callcontract';
         const data = {
@@ -1211,6 +1220,7 @@ export class ApiService {
         //return ret;
         return { txHash, errMsg };
     }
+
     async getEthBalance(address: string): Promise<Balance> {
         const url = environment.endpoints.ETH.exchangily + 'getbalance/' + address;
         const response = await this.http.get(url).toPromise() as KEthBalance;
@@ -1316,7 +1326,7 @@ export class ApiService {
 
     async getFabTokenBalance(name: string, address: string, contractAddress?: string | undefined) {
         if (!contractAddress) {
-            contractAddress = environment.addresses.smartContract[name];
+            contractAddress = environment.addresses.smartContract[name as keyof typeof environment.addresses.smartContract] as any;
         }
         if (typeof contractAddress != 'string' && contractAddress) {
 
