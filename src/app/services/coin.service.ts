@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
 import { MyCoin } from '../models/mycoin';
-import * as Btc from 'bitcoinjs-lib';
+import Btc from 'bitcoinjs-lib';
+import BIP32Factory from 'bip32';
+import { BIP32Interface } from 'bip32';
+import ECPairFactory from 'ecpair';
+import * as tinysecp from 'tiny-secp256k1';
 
 import * as bitcoinMessage from 'bitcoinjs-message';
 // import { hdkey } from 'ethereumjs-wallet/dist'; // v1.0.1 version, not working?
-import { hdkey } from 'ethereumjs-wallet';
+import { HDKey } from 'ethereum-cryptography/hdkey';
 import * as bchaddr from 'bchaddrjs';
 import { Address } from '../models/address';
 import { coin_list } from '../config/coins';
@@ -13,9 +17,9 @@ import * as wif from 'wif';
 import * as bitcore from 'bitcore-lib-cash';
 import * as BchMessage from 'bitcore-message';
 import { Web3Service } from './web3.service';
-import { Signature } from '../interfaces/kanban.interface';
+import { Signature } from '../models/kanban.interface';
 import { UtilService } from './util.service';
-import { environment } from '../../environments/environment';
+import { environment } from '../environments/environment';
 import BigNumber from "bignumber.js";
 import { TronWeb, providers, utils } from 'tronweb';
 import * as bs58 from 'bs58';
@@ -893,10 +897,10 @@ export class CoinService {
         if (name === 'BTC' || name === 'FAB' || name === 'LTC' || name === 'DOGE' || name === 'BCH') {
             // privateKey = 'xprv9s21ZrQH143K3QTDL4LXw2F7HEK3wJUD2nW2nRk4stbPy6cq3jPPqjiChkVvvNKmPGJxWUtg6LnF5kejMRNNU3TGtRBeJgk33yuGBxrMPHi';
 
-            // const childNode = BIP32.fromBase58(privateKey, environment.chains[name]['network']);
-            const alice = Btc.ECPair.fromWIF(privateKey, environment.chains[name]['network']);
+            const ECPair = ECPairFactory(tinysecp);
+            const alice = ECPair.fromWIF(privateKey, environment.chains[name]['network']);
             const { address } = Btc.payments.p2pkh({
-                pubkey: alice.publicKey,
+                pubkey: Buffer.from(alice.publicKey),
                 network: environment.chains[name]['network']
             });
 
@@ -909,7 +913,7 @@ export class CoinService {
             }
 
             priKey = privateKey;
-            pubKey = `0x${alice.publicKey.toString('hex')}`;
+            pubKey = `0x${alice.publicKey.toString()}`;
 
             buffer = Buffer.from(wif.decode(priKey).privateKey);
             priKeyDisp = priKey;
@@ -932,8 +936,9 @@ export class CoinService {
 
     getFabPrivateKey(seed: Buffer): Buffer {
         const path: string = 'm/44\'/' + 1150 + '\'/0\'/' + 0 + '/' + 0;
-        const root2: Btc.BIP32Interface = Btc.bip32.fromSeed(seed, environment.chains['FAB']['network']);
-        const childNode: Btc.BIP32Interface = root2.derivePath(path);
+        const bip32 = BIP32Factory(tinysecp);
+        const root2: BIP32Interface = bip32.fromSeed(seed, environment.chains['FAB']['network']);
+        const childNode: BIP32Interface =  root2.derivePath(path);
         return childNode.privateKey as Buffer;
     }
 
@@ -965,7 +970,8 @@ export class CoinService {
         const path = 'm/44\'/' + coin.coinType + '\'/0\'/' + chain + '/' + index;
 
         if (name === 'BTC' || (name === 'FAB' && !tokenType) || name === 'LTC' || name === 'DOGE') {
-            const root2 = Btc.bip32.fromSeed(seed, environment.chains[name]['network']);
+            const bip32 = BIP32Factory(tinysecp);
+            const root2 = bip32.fromSeed(seed, environment.chains[name]['network']);
             /*
             const childNode1 = root2.deriveHardened(44);
             const childNode2 = childNode1.deriveHardened(coin.coinType);
@@ -975,7 +981,7 @@ export class CoinService {
             */
             const childNode = root2.derivePath(path);
             const { address } = Btc.payments.p2pkh({
-                pubkey: childNode.publicKey,
+                pubkey: Buffer.from(childNode.publicKey),
                 network: environment.chains[name]['network']
             });
             /*
@@ -989,7 +995,7 @@ export class CoinService {
             //console.log('address======', address);
             addr = address;
             priKey = childNode.toWIF();
-            pubKey = `0x${childNode.publicKey.toString('hex')}`;
+            pubKey = `0x${childNode.publicKey.toString()}`;
 
             //console.log('priKey======', priKey);
             //console.log('pubKey======', pubKey);
@@ -1024,17 +1030,19 @@ export class CoinService {
             || (name == 'HT') || (tokenType == 'HT')
             || (name == 'MATIC') || (tokenType == 'MATIC')) {
 
-            const root = hdkey.fromMasterSeed(seed);
-            const childNode = root.derivePath(path);
+            const root = HDKey.fromMasterSeed(seed);
+            const childNode = root.derive(path);
 
-            const wallet = childNode.getWallet();
+            const privateKey = childNode.privateKey;
+            const wallet = require('ethereumjs-wallet').default.fromPrivateKey(privateKey);
             const address = `0x${wallet.getAddress().toString('hex')}`;
             addr = address;
             buffer = wallet.getPrivateKey();
             priKey = wallet.getPrivateKey();
             priKeyDisp = buffer.toString('hex');
         } else if (name === 'TRX' || tokenType === 'TRX') {
-            const root = Btc.bip32.fromSeed(seed);
+            const bip32 = BIP32Factory(tinysecp);
+            const root = bip32.fromSeed(seed);
             const childNode = root.derivePath(path);
 
             // console.log('publicKey for TRX=', childNode.publicKey.toString('hex'));
@@ -1046,7 +1054,8 @@ export class CoinService {
         }
         else if (name === 'EX' || tokenType === 'FAB') {
             // console.log('000');
-            const root = Btc.bip32.fromSeed(seed, environment.chains.BTC.network);
+            const bip32 = BIP32Factory(tinysecp);
+            const root = bip32.fromSeed(seed, environment.chains.BTC.network);
 
             // console.log('root=', root);
             const childNode = root.derivePath(path);
@@ -1062,7 +1071,7 @@ export class CoinService {
             const publicKey = childNode.publicKey;
             // console.log('publicKey=', publicKey);
             // const publicKeyString = `0x${publicKey.toString('hex')}`;
-            addr = this.utilServ.toKanbanAddress(publicKey);
+            addr = this.utilServ.toKanbanAddress(Buffer.from(publicKey));
         }
 
         const keyPairs = {
@@ -1252,7 +1261,7 @@ export class CoinService {
         // const TestNet = Btc.networks.testnet;
         const network = environment.production ? Btc.networks.bitcoin : Btc.networks.testnet;
 
-        const txb = new Btc.TransactionBuilder(network);
+        const txb = new Btc.Psbt({ network });
         // console.log('amountNum=', amountNum);
         let txHex = '';
 
@@ -1290,7 +1299,7 @@ export class CoinService {
                 console.log('push one');
                 this.txids.push(txidItem);
                 console.log('1a');
-                txb.addInput(utxo.txid, idx);
+                txb.addInput({ hash: utxo.txid, index: idx });
                 console.log('1b');
                 // console.log('input is');
                 // console.log(utxo.txid, utxo.idx, utxo.value);
@@ -1335,7 +1344,7 @@ export class CoinService {
         }
 
         console.log('33333');
-        txb.addOutput(changeAddress, output1);
+        txb.addOutput({ address: changeAddress, value: output1 });
 
         for (let i = 0; i < tos.length; i++) {
             const to = tos[i];
@@ -1343,17 +1352,22 @@ export class CoinService {
             const output2 = new BigNumber(to.amount).shiftedBy(8);
             console.log('output2 = ', Number(output2.toFixed()));
             amountInTx = output2;
-            txb.addOutput(to.address, Number(output2.toFixed()));
+            txb.addOutput({ address: to.address, value: Number(output2.toFixed()) });
         }
 
         console.log('44444');
         for (index = 0; index < receiveAddsIndexArr.length; index++) {
             //const alice = Btc.ECPair.fromPrivateKey(privateKey, { network: network });
-            const alice = Btc.ECPair.fromWIF(privateKey, network);
-            txb.sign(index, alice);
+            const ECPair = ECPairFactory(tinysecp);
+            const alice = ECPair.fromWIF(privateKey, network);
+            txb.signInput(index, {
+                publicKey: Buffer.from(alice.publicKey),
+                sign: (hash: Buffer) => Buffer.from(alice.sign(hash)),
+            });
         }
         console.log('55555');
-        txHex = txb.build().toHex();
+        txb.finalizeAllInputs();
+        txHex = txb.extractTransaction().toHex();
         console.log('66666');
         return { txHex: txHex, errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: this.txids };
     }
@@ -1384,7 +1398,7 @@ export class CoinService {
         // const TestNet = Btc.networks.testnet;
         const network = environment.chains.BTC.network;
 
-        const txb = new Btc.TransactionBuilder(network);
+        const txb = new Btc.Psbt({ network });
         // console.log('amountNum=', amountNum);
         let txHex = '';
 
@@ -1432,7 +1446,7 @@ export class CoinService {
 
                     txids.push(txidItem);
 
-                    txb.addInput(utxo.txid, idx);
+                    txb.addInput({ hash: utxo.txid, index: idx });
                     // console.log('input is');
                     // console.log(utxo.txid, utxo.idx, utxo.value);
                     receiveAddsIndexArr.push(index);
@@ -1492,7 +1506,7 @@ export class CoinService {
                         }
                         txids.push(txidItem);
 
-                        txb.addInput(utxo.txid, idx);
+                        txb.addInput({ hash: utxo.txid, index: idx });
                         // console.log('input is');
                         // console.log(utxo.txid, utxo.idx, utxo.value);
                         receiveAddsIndexArr.push(index);
@@ -1553,27 +1567,35 @@ export class CoinService {
 
         if ((amount > 0) || (mycoin.tokenType === 'FAB')) {
 
-            txb.addOutput(changeAddress.address, output1);
-            txb.addOutput(to, output2.toNumber());
+            txb.addOutput({ address: changeAddress.address, value: output1 });
+            txb.addOutput({ address: to, value: output2.toNumber() });
         } else {
-            txb.addOutput(to, output1);
+            txb.addOutput({ address: to, value: output1 });
         }
 
         for (index = 0; index < receiveAddsIndexArr.length; index++) {
             const keyPair = this.getKeyPairs(mycoin, seed, 0, receiveAddsIndexArr[index]);
             // console.log('receiveAddsIndexArr[index]=' + receiveAddsIndexArr[index] + ',address for keypair=' + keyPair.address);
-            const alice = Btc.ECPair.fromWIF(keyPair.privateKey, network);
-            txb.sign(index, alice);
+            const ECPair = ECPairFactory(tinysecp);
+            const alice = ECPair.fromWIF(keyPair.privateKey, network);
+            txb.signInput(index, {
+                publicKey: Buffer.from(alice.publicKey),
+                sign: (hash: Buffer) => Buffer.from(alice.sign(hash)),
+            });
         }
 
         for (index = 0; index < changeAddsIndexArr.length; index++) {
             const keyPair = this.getKeyPairs(mycoin, seed, 1, changeAddsIndexArr[index]);
             // console.log('changeAddsIndexArr[index]=' + changeAddsIndexArr[index] + 'address for keypair=' + keyPair.address);
-            const alice = Btc.ECPair.fromWIF(keyPair.privateKey, network);
-            txb.sign(receiveAddsIndexArr.length + index, alice);
+            const ECPair = ECPairFactory(tinysecp);
+            const alice = ECPair.fromWIF(keyPair.privateKey, network);
+            txb.signInput(receiveAddsIndexArr.length + index, {
+                publicKey: Buffer.from(alice.publicKey),
+                sign: (hash: Buffer) => Buffer.from(alice.sign(hash)),
+            });
         }
 
-        txHex = txb.build().toHex();
+        txHex = txb.extractTransaction().toHex();
         return { txHex: txHex, errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids };
     }
 
@@ -1603,7 +1625,7 @@ export class CoinService {
         // const TestNet = Btc.networks.testnet;
         const network: any = environment.chains.BTC.network;
 
-        const txb: any = new Btc.TransactionBuilder(network);
+        const txb: any = new Btc.Psbt({ network });
         // console.log('amountNum=', amountNum);
         let txHex: any = '';
 
@@ -1709,7 +1731,7 @@ export class CoinService {
 
         if ((amount > 0) || (mycoin.tokenType === 'FAB')) {
 
-            txb.addOutput(changeAddress.address, output1);
+            txb.addOutput({ address: changeAddress.address, value: output1 });
             txb.addOutput(to, output2.toNumber());
             console.log('changeAddress.address=' + changeAddress.address + ',to=' + to);
             console.log('output1=' + output1 + ',output2=' + output2.toNumber());
@@ -1719,11 +1741,16 @@ export class CoinService {
 
         for (index = 0; index < receiveAddsIndexArr.length; index++) {
             // console.log('receiveAddsIndexArr[index]=' + receiveAddsIndexArr[index] + ',address for keypair=' + keyPair.address);
-            const alice = Btc.ECPair.fromWIF(privateKey, network);
-            txb.sign(index, alice);
+            const ECPair = ECPairFactory(tinysecp);
+            const alice = ECPair.fromWIF(privateKey, network);
+            txb.signInput(index, {
+                publicKey: Buffer.from(alice.publicKey),
+                sign: (hash: Buffer) => Buffer.from(alice.sign(hash)),
+            });
         }
 
-        txHex = txb.build().toHex();
+        txb.finalizeAllInputs();
+        txHex = txb.extractTransaction().toHex();
         return { txHex: txHex, errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids };
     }
 
@@ -1939,7 +1966,7 @@ MATIC: 0x0009
                 bytesPerInput = environment.chains[mycoin.name].bytesPerInput;
             }
             const BtcNetwork = environment.chains[mycoin.name].network;
-            const txb = new Btc.TransactionBuilder(BtcNetwork);
+            const txb = new Btc.Psbt({ network: BtcNetwork });
             console.log('mycoin.receiveAdds=', mycoin.receiveAdds);
             for (index = 0; index < mycoin.receiveAdds.length; index++) {
 
@@ -1974,7 +2001,7 @@ MATIC: 0x0009
 
                     txids.push(txidItem);
 
-                    txb.addInput(tx.txid, tx.idx);
+                    txb.addInput({ hash: tx.txid, index: tx.idx });
                     amountNum = amountNum.minus(tx.value);
                     amountNum = amountNum.plus(bytesPerInput * satoshisPerBytes);
                     totalInput += tx.value;
@@ -2028,20 +2055,25 @@ MATIC: 0x0009
             amountInTx = output2;
             if (amount > 0) {
                 if (output1 >= dustAmount) {
-                    txb.addOutput(changeAddress.address, output1);
+                    txb.addOutput({ address: changeAddress.address, value: output1 });
                 }
-                txb.addOutput(toAddress, output2.toNumber());
+                txb.addOutput({ address: toAddress, value: output2.toNumber() });
             } else {
                 console.log('go amount = 0');
-                txb.addOutput(toAddress, output1);
+                txb.addOutput({ address: toAddress, value: output1 });
             }
 
             for (index = 0; index < receiveAddsIndexArr.length; index++) {
-                const alice = Btc.ECPair.fromWIF(privateKey, BtcNetwork);
-                txb.sign(index, alice);
+                const ECPair = ECPairFactory(tinysecp);
+                const alice = ECPair.fromWIF(privateKey, BtcNetwork);
+                txb.signInput(index, {
+                    publicKey: Buffer.from(alice.publicKey),
+                    sign: (hash: Buffer) => Buffer.from(alice.sign(hash)),
+                });
             }
 
-            txHex = txb.build().toHex();
+            txb.finalizeAllInputs();
+            txHex = txb.extractTransaction().toHex();
             // console.log('doSubmit=', doSubmit);
             if (doSubmit) {
                 // console.log('1');
@@ -2282,7 +2314,7 @@ MATIC: 0x0009
                 bytesPerInput = environment.chains[mycoin.name].bytesPerInput;
             }
             const BtcNetwork = environment.chains[mycoin.name].network;
-            const txb = new Btc.TransactionBuilder(BtcNetwork);
+            const txb = new Btc.Psbt({ network: BtcNetwork });
 
             for (index = 0; index < mycoin.receiveAdds.length; index++) {
 
@@ -2315,7 +2347,7 @@ MATIC: 0x0009
 
                     txids.push(txidItem);
 
-                    txb.addInput(tx.txid, tx.idx);
+                    txb.addInput({ hash: tx.txid, index: tx.idx });
 
                     amountNum = amountNum.minus(tx.value);
                     amountNum = amountNum.plus(bytesPerInput * satoshisPerBytes);
@@ -2367,7 +2399,7 @@ MATIC: 0x0009
                         }
                         txids.push(txidItem);
 
-                        txb.addInput(tx.txid, tx.idx);
+                        txb.addInput({ hash: tx.txid, index: tx.idx });
                         amountNum = amountNum.minus(tx.value);
                         amountNum = amountNum.plus(bytesPerInput * satoshisPerBytes);
                         totalInput += tx.value;
@@ -2428,27 +2460,36 @@ MATIC: 0x0009
                         myChangeAddress = bchaddr.toLegacyAddress(myChangeAddress);
                     }   
                     */
-                    txb.addOutput(myChangeAddress, output1);
+                    txb.addOutput({ address: myChangeAddress, value: output1 });
                 }
-                txb.addOutput(toAddress, output2.toNumber());
+                txb.addOutput({ address: toAddress, value: output2.toNumber() });
             } else {
                 console.log('go amount = 0');
-                txb.addOutput(toAddress, output1);
+                txb.addOutput({ address: toAddress, value: output1 });
             }
 
             for (index = 0; index < receiveAddsIndexArr.length; index++) {
                 const keyPair = this.getKeyPairs(mycoin, seed, 0, receiveAddsIndexArr[index]);
-                const alice = Btc.ECPair.fromWIF(keyPair.privateKey, BtcNetwork);
-                txb.sign(index, alice);
+                const ECPair = ECPairFactory(tinysecp);
+                const alice = ECPair.fromWIF(keyPair.privateKey, BtcNetwork);
+                txb.signInput(index, {
+                    publicKey: Buffer.from(alice.publicKey),
+                    sign: (hash: Buffer) => Buffer.from(alice.sign(hash)),
+                });
             }
 
             for (index = 0; index < changeAddsIndexArr.length; index++) {
                 const keyPair = this.getKeyPairs(mycoin, seed, 1, changeAddsIndexArr[index]);
-                const alice = Btc.ECPair.fromWIF(keyPair.privateKey, BtcNetwork);
-                txb.sign(receiveAddsIndexArr.length + index, alice);
+                const ECPair = ECPairFactory(tinysecp);
+                const alice = ECPair.fromWIF(keyPair.privateKey, BtcNetwork);
+                txb.signInput(receiveAddsIndexArr.length + index, {
+                    publicKey: Buffer.from(alice.publicKey),
+                    sign: (hash: Buffer) => Buffer.from(alice.sign(hash)),
+                });
             }
 
-            txHex = txb.build().toHex();
+            txb.finalizeAllInputs();
+            txHex = txb.extractTransaction().toHex();
             // console.log('doSubmit=', doSubmit);
             if (doSubmit) {
                 // console.log('1');

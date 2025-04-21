@@ -3,7 +3,7 @@ import { Observable, Observer, interval, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BTC_PRICE_LIST } from '../components/mock/btc-181123_2006-181124_0105';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import { environment } from '../environments/environment';
 
 interface BarData {
   t: number;

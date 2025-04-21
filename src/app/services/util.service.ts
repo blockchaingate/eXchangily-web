@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import * as CryptoJS from 'crypto-js';
+import CryptoJS from 'crypto-js';
 import { MyCoin } from '../models/mycoin';
 import createHash from 'create-hash';
 import BigNumber from "bignumber.js";
 import * as Btc from 'bitcoinjs-lib';
 import * as bs58 from 'bs58';
 import * as ecies from 'eth-ecies';
-import { environment } from '../../environments/environment';
+import { environment } from '../environments/environment';
+
 @Injectable()
 export class UtilService {
     auth_code = 'encrypted by crypto-js|';

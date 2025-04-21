@@ -5,7 +5,11 @@
   "projects": {
     "exchangily": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -17,9 +21,11 @@
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
-              "zone.js"
+              "zone.js",
+              "src/polyfills.ts"
             ],
             "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
             "assets": [
               {
                 "glob": "**/*",
@@ -27,6 +33,7 @@
               }
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/magenta-violet.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -37,7 +44,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kB",
-                  "maximumError": "2MB"
+                  "maximumError": "1MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -75,9 +82,11 @@
           "options": {
             "polyfills": [
               "zone.js",
-              "zone.js/testing"
+              "zone.js/testing",
+              "src/polyfills.ts"
             ],
             "tsConfig": "tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
             "assets": [
               {
                 "glob": "**/*",
@@ -85,6 +94,7 @@
               }
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/magenta-violet.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -92,8 +102,5 @@
         }
       }
     }
-  },
-  "cli": {
-    "analytics": false
   }
 }

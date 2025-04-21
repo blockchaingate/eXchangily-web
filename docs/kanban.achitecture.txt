@@ -1,8 +1,0 @@
-pow  pbft
-Balance: int -> Balance []
-Bridge
-
-communicate SCAR on FAB via RPC calls
-
-
-

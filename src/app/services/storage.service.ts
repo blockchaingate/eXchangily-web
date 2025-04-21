@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { TransactionItem } from '../models/transaction-item';
-import { Transaction } from '../interfaces/kanban.interface';
-import { IssueToken } from '../interfaces/fab.interface';
+import { Transaction } from '../models/kanban.interface';
+import { IssueToken } from '../models/fab.interface';
 import { Wallet } from '../models/wallet';
 
 @Injectable()
@@ -47,6 +47,7 @@ export class StorageService {
         // console.log('currentWalletIndex in get', currentWalletIndex);
         return currentWalletIndex;
     }
+
     addTradeTransaction(tx: Transaction) {
         this.localSt.get('mytransactions').subscribe((transactions: any) => {
             if (!transactions) {
@@ -108,6 +109,14 @@ export class StorageService {
 
     getCampaignQualify() {
         return this.localSt.get('campaignQualify');
+    }
+
+    setIsMobile(isMobile: boolean) {
+        return this.localSt.set('isMobile', isMobile).subscribe(() => { });
+    }
+    
+    getIsMobile() {
+        return this.localSt.get('isMobile');
     }
 
     removeCampaignQualify() {

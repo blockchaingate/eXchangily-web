@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
+import { environment } from '../environments/environment';
 import { WebSocketSubject } from 'rxjs/webSocket';
 import { BehaviorSubject, Observable, Observer } from 'rxjs';
 import { ApiService } from './api.service';

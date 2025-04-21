@@ -1,13 +1,13 @@
 <div class="top-container" *ngIf="!blocked">
-    <app-header>
-    </app-header>
+  <app-header></app-header>
 
-    <section class="main-container" [ngClass]="darkBgEnable?'exg-bg-dark py-1':''">
-        <router-outlet></router-outlet>
-    </section>
-    <app-footer></app-footer>
+  <section class="main-container" [ngClass]="darkBgEnable?'exg-bg-dark py-1':''">
+    <router-outlet></router-outlet>
+  </section>
+
+  <app-footer></app-footer>
 
 </div>
 <div *ngIf="blocked" class="text-white d-flex justify-content-center mt-3">
-    {{'Access to this website is restricted based on your location.' | translate}}
+  {{'Access to this website is restricted based on your location.' | translate}}
 </div>

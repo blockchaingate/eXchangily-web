@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
 import Web3 from 'web3';
 declare let window: any;
-import * as Eth from 'ethereumjs-tx';
-import { Signature, EthTransactionObj } from '../interfaces/kanban.interface';
+import * as Eth from '@ethereumjs/tx';
+import { Signature, EthTransactionObj } from '../models/kanban.interface';
 import { UtilService } from './util.service';
-import * as ethUtil from 'ethereumjs-util';
-import Common from 'ethereumjs-common';
-import { environment } from '../../environments/environment';
+import * as ethUtil from '@ethereumjs/util';
+import { Common, CustomChain } from '@ethereumjs/common';
+import { environment } from '../environments/environment';
 import BigNumber from 'bignumber.js';
 import base58 from 'bs58';
 import * as Account from 'eth-lib/lib/account';
 import * as  Hash from 'eth-lib/lib/hash';
+import { BytesLike } from '@ethersproject/bytes';
 //import * as ethLib from 'eth-lib';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -77,47 +79,49 @@ export class Web3Service {
     if (txhex.indexOf('0x') === 0) {
       txhex = txhex.substring(2);
     }
-    const hash = ethUtil.keccak(Buffer.from(txhex, "hex")).toString('hex');
+    const hash = ethUtil.hashPersonalMessage(Buffer.from(txhex, "hex"));
     //console.log('hash=', hash);
     return '0x' + hash;
   }
 
   async signTxWithPrivateKey(txParams: any, keyPair: any) {
     const privKey = keyPair.privateKeyBuffer;
-    const EthereumTx = Eth.Transaction;
+    const EthereumTx = Eth.TransactionFactory.fromTxData(txParams);
 
-    const customCommon = Common.forCustomChain(
-      'mainnet', {
-      name: environment.chains.ETH.chain,
-      networkId: environment.chains.ETH.chainId,
-      chainId: environment.chains.ETH.chainId
-    },
-      'petersburg'
-    );
-    const tx = new EthereumTx(txParams, { common: customCommon });
+    const customCommon = Common.custom(
+      {
+        name: 'mainnet',
+        networkId: environment.chains.ETH.chainId,
+        chainId: environment.chains.ETH.chainId
+      }, {
+      hardfork: 'petersburg'
+    });
+
+    const tx = Eth.TransactionFactory.fromTxData(txParams, { common: customCommon });
     tx.sign(privKey);
     const serializedTx = tx.serialize();
-    const txhex = '0x' + serializedTx.toString('hex');
+    const txhex = '0x' + serializedTx.toString();
     return txhex;
   }
 
   async signEtheruemCompatibleTxWithPrivateKey(coinName: keyof typeof environment.chains, txParams: any, keyPair: any) {
     console.log('coinName');
     const privKey = keyPair.privateKeyBuffer;
-    const EthereumTx = Eth.Transaction;
-    const customCommon = Common.forCustomChain(
-      'mainnet', {
-      name: 'chain' in (environment.chains[coinName] as any) ? (environment.chains[coinName] as any).chain.name : '',
-      networkId: 'chain' in (environment.chains[coinName] as any) ? (environment.chains[coinName] as any).chain.networkId : 0,
-      chainId: 'chain' in (environment.chains[coinName] as any) ? (environment.chains[coinName] as any).chain.chainId : 0
-    },
-      'petersburg'
+    const EthereumTx = Eth.TransactionFactory;
+    const customCommon = Common.custom(
+      {
+        name: environment.chains.ETH.chain,
+        networkId: environment.chains.ETH.chainId,
+        chainId: environment.chains.ETH.chainId
+      }, {
+      hardfork: 'petersburg',
+    }
     );
 
-    const tx = new EthereumTx(txParams, { common: customCommon });
+    const tx = EthereumTx.fromTxData(txParams, { common: customCommon });
     tx.sign(privKey);
     const serializedTx = tx.serialize();
-    const txhex = '0x' + serializedTx.toString('hex');
+    const txhex = '0x' + serializedTx.toString();
     return txhex;
   }
 
@@ -129,28 +133,30 @@ export class Web3Service {
       return '';
     }
     const txObject = {
-      to: to,
+      to: Buffer.from(to.replace(/^0x/, ''), 'hex'), // Convert to AddressLike type
       nonce: nonce,
       value: amountInBigNumber.toNumber(),
-      gas: gasLimit,
+      gasLimit: gasLimit,
       gasPrice: gasPrice  // in wei
     };
 
-    const customCommon = Common.forCustomChain(
-      'mainnet', {
-      name: environment.chains.KANBAN.chain.name,
-      networkId: environment.chains.KANBAN.chain.networkId,
-      chainId: environment.chains.KANBAN.chain.chainId
-    },
-      'petersburg'
+    const customCommon = Common.custom(
+      {
+        name: environment.chains.KANBAN.chain.name,
+        networkId: environment.chains.KANBAN.chain.networkId,
+        chainId: environment.chains.KANBAN.chain.chainId
+      },
+      {
+        hardfork: 'petersburg'
+      }
     );
 
-    let tx = new Eth.Transaction(txObject, { common: customCommon });
+    let tx = Eth.TransactionFactory.fromTxData(txObject, { common: customCommon });
 
     tx.sign(privateKey);
 
     const serializedTx = tx.serialize();
-    const txhex = '0x' + serializedTx.toString('hex');
+    const txhex = '0x' + serializedTx.toString();
     return txhex;
   }
 
@@ -173,12 +179,12 @@ export class Web3Service {
     }
     // console.log('abiHex after', abiHex);
 
-    const txObject = {
-      to: address,
+    const txObject: Eth.TypedTxData = {
+      to: Buffer.from(address.replace(/^0x/, ''), 'hex'), // Convert to AddressLike type
       nonce: nonce,
-      data: abiHex ? ('0x' + abiHex) : undefined,
+      data: abiHex ? Buffer.from(abiHex, 'hex') : '',
       value: value,
-      gas: gasLimit,
+      gasLimit: gasLimit,
       gasPrice: gasPrice  // in wei
     };
 
@@ -186,21 +192,22 @@ export class Web3Service {
 
     let txhex = '';
 
-    const customCommon = Common.forCustomChain(
-      'mainnet',
+    const customCommon = Common.custom(
       {
         name: environment.chains.KANBAN.chain.name,
         networkId: environment.chains.KANBAN.chain.networkId,
         chainId: environment.chains.KANBAN.chain.chainId
       },
-      'petersburg',
+      {
+        hardfork: 'petersburg'
+      }
     );
 
-    let tx = new Eth.Transaction(txObject, { common: customCommon });
+    let tx = Eth.TransactionFactory.fromTxData(txObject, { common: customCommon });
 
     tx.sign(privKey);
     const serializedTx = tx.serialize();
-    txhex = '0x' + serializedTx.toString('hex');
+    txhex = '0x' + serializedTx.toString();
     return txhex;
 
     /*

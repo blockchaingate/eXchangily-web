@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { UserAuth } from '../modules/landing/service/user-auth/user-auth.service';
-import { User } from '../modules/landing/models/user';
-import { environment } from '../../environments/environment';
+import { UserAuth } from './user-auth.service';
+import { environment } from '../environments/environment';
 
 @Injectable()
 export class HttpService {

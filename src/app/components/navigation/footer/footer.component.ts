@@ -1,11 +1,16 @@
 import { Component, OnInit, ElementRef, HostListener, AfterViewInit } from '@angular/core';
-import { Icons } from '../../../../environments/icons';
+import { Icons } from '../../../environments/icons';
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
-import { environment } from '../../../../environments/environment';
-import { version } from '../../../../environments/version';
+import { version } from '../../../environments/version';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { SubscriptionComponent } from '../../subscription/subscription.component';
+
 @Component({
   selector: 'app-footer',
+  standalone: true,
+  imports: [CommonModule, TranslateModule, SubscriptionComponent],
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css']
 })

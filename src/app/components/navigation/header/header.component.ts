@@ -1,24 +1,27 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Router, RouterModule } from '@angular/router';
+import { CommonModule, Location } from '@angular/common';
 import { TransactionItem } from '../../../models/transaction-item';
 import { StorageService } from '../../../services/storage.service';
 import { ApiService } from '../../../services/api.service';
 import { AlertService } from '../../../services/alert.service';
 import { UtilService } from '../../../services/util.service';
-import { UserAuth } from '../../../modules/landing/service/user-auth/user-auth.service';
+import { UserAuth } from '../../../services/user-auth.service';
 import { KanbanService } from '../../../services/kanban.service';
 import { TimerService } from '../../../services/timer.service';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { LanService } from '../../../services/lan.service';
 import { LoginInfoService } from '../../../services/loginInfo.service';
 import { LoginQualifyService } from '../../../services/lgoin-quality.service';
 import { Announcement } from '../../../models/announcement';
 import { AnnouncementsService } from '../../../services/announcements.service';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-header',
+  standalone: true,
+  imports: [CommonModule, RouterModule, MatMenuModule, TranslateModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from '../services/http.service';
+import { HttpService } from './http.service';
 import { Announcement } from '../models/announcement';
 
 @Injectable()

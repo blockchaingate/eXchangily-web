@@ -8,6 +8,7 @@ export class Address {
     nonce: number;
     balance: number;
     lockedBalance: number;
+
     constructor(coinType: number, address: string, index: number) {
         this.coinType = coinType;
         this.address = address;

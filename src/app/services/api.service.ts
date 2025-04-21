@@ -4,13 +4,13 @@ import { HttpClient } from '@angular/common/http';
 import {
     Balance, EthTransactionRes, FabTransactionResponse, CoinsPrice, BtcUtxo, KEthBalance, FabUtxo, EthTransactionStatusRes, GasPrice,
     FabTokenBalance, FabTransactionJson, BtcTransactionResponse, BtcTransaction, JsonResult
-} from '../interfaces/balance.interface';
+} from '../models/balance.interface';
 
 import { Web3Service } from './web3.service';
 import { UtilService } from './util.service';
 import { AlertService } from './alert.service';
 import BigNumber from 'bignumber.js';
-import { environment } from '../../environments/environment';
+import { environment } from '../environments/environment';
 import { TronWeb, providers } from 'tronweb';
 import { Observable } from 'rxjs';
 

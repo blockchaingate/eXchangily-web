@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { price_list, coin_list } from '../config/coins';
-import { environment } from '../../environments/environment';
+import { environment } from '../environments/environment';
 
 @Injectable()
 export class PriceService {

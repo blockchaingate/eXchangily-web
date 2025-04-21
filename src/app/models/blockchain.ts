@@ -2,8 +2,8 @@ export class Blockchain {
     _id?: number;
     name: string;
     desc?: string;
-    testApis: string[];
-    apis: string[];
+    testApis: string[] = new Array();
+    apis: string[] = new Array();
 
     constructor(name: string, desc: string, apis?: string[], testApis?: string[]) {
         this.name = name;
