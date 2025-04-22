@@ -1,0 +1,23 @@
+@media (max-width: 991px) and (min-width: 768px) {
+    .blocks {
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 767px) {
+    .stats {
+        margin-top: 20px;
+    }
+
+    .kanbanBottom {
+        margin-top: 5px;
+    }
+
+    .trades {
+        margin-top: 20px;
+    }
+
+    .blocks {
+        margin-top: 20px;
+    }
+}

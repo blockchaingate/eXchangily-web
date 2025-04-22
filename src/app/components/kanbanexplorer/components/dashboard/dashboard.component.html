@@ -1,0 +1,51 @@
+<div class="container-fluid">
+    <div class="row py-3 kanbanTop">
+        <div class="col-md-6 search">
+            <app-search-box></app-search-box>
+        </div>
+        <div class="col-md-6 stats">
+            <app-kanban-stats></app-kanban-stats>
+        </div>        
+    </div>
+
+    <div class="row kanbanBottom">
+        <div class="col-lg-4 col-md-6 orders">
+            <app-latest-orders></app-latest-orders>
+        </div>
+        <div class="col-lg-4 col-md-6 trades">
+            <app-latest-trades></app-latest-trades>
+        </div>   
+        
+        <div class="col-lg-4 col-md-12 blocks">
+            <app-blocks></app-blocks>
+        </div>          
+    </div>    
+</div>
+
+<!--
+<div fxLayout="column" fxLayoutGap="20px" fxFlex='100'>
+
+    <div fxLayout='row' fxLayout.xs="column" fxLayout.sm="column" fxFlex='100' fxLayoutGap="20px">
+        <div fxFlex='50'>
+            <app-search-box></app-search-box>
+        </div>
+        <div fxFlex='50'>
+            <app-kanban-stats></app-kanban-stats>
+        </div>
+    </div>
+
+    <div fxLayout='row' fxLayout.xs="column" fxLayout.sm="column" fxFlex='100' fxLayoutGap='20px'>
+        <div fxFlex='33.33'>
+            <div fxLayout="column" fxLayoutGap='20px'>
+                <app-latest-orders></app-latest-orders>
+            </div>
+        </div>
+        <div fxFlex='33.33'>
+            <app-latest-trades></app-latest-trades>
+        </div>
+        <div fxFlex='33.33'>
+            <app-blocks></app-blocks>
+        </div>
+    </div>  
+</div>
+-->

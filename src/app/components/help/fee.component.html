@@ -1,0 +1,112 @@
+<div class="container faqPage">
+    <br>
+    <div class="paragraph mt-8" *ngIf="message==='en'">
+        <h3>Fee Structure</h3>
+        <div class="mt-8">
+            <p>Effective on 00:00 Dec. 8, 2020 UTC, eXchangily’s Transaction Fee pivoted to a new model that is successful at developing liquidity in US equities markets – the Maker-Taker Model.</p>
+            <br>
+            <H4>CURRENT TRANSACTION FEE SCHEDULE</H4>
+
+            <p>
+                Since its inception, eXchangily has charged each side of a trade a Transaction Fee, calculated as 0.15% (15 basis points or bps) of the Notional Value of the transaction.
+            </p>
+
+            <p>
+                For example, consider a transaction where 1900 USDT is swapped for 0.1 BTC:
+            </p>
+            <p>
+                <li>The party acquiring 1900 USDT would be charged 15 bps or 2.85 USDT.</li>
+                <li>The party acquiring 0.1 BTC would be charged 15 bps or 0.00015 BTC.</li>
+            </p>
+            <p>
+                <b>Each party to the trade pays their Transaction Fee in the cryptocurrency which they receive in the transaction.</b>
+            </p>
+            <br>
+
+            <H4>NEW TRANSACTION FEE SCHEDULE</H4>
+
+            <p>
+                Each trade on eXchangily is comprised of a limit sell order that creates liquidity with an inbound buy order that takes liquidity. To incentivize traders to place orders on eXchangily to create a market, the Maker-Taker Model charges a Transaction Fee (30 bps) to the order which takes the liquidity and pays a portion of that Transaction Fee (20 bps) as a Transaction Rebate to the order that made the liquidity.
+            </p>
+            <p>
+                For example, consider a transaction where 1900 USDT is traded for 0.1 BTC in a BTC/USDT pair. The limit order of 0.1 BTC is matched with an inbound buy order of 1900 of USDT, so the buyer trades their USDT.
+            </p>
+            <p>
+                The seller created liquidity by offering 0.1 BTC and the buyer took the liquidity by purchasing the BTC with USDT. In this case:
+            </p>
+
+            <p>
+                <li>The Taker, who is buying 0.1 BTC for 1900 USDT, will be charged a Transaction Fee of 5.70 USDT (30 bpt of 1900 USDT).</li>
+                <li>The Maker, who is selling 0.1 BTC for 1900 UDST,will be paid a Transaction Rebate of 3.8 USDT (20 bpt of 1900 USDT).</li>
+            </p>
+
+            <p>
+                In the reverse scenario where someone paid 0.1 BTC to buy 1900 USDT, the maker and taker have swapped roles. In this case, the maker is the party that is selling 1900 USDT and the taker is paying 0.1 BTC for that trade. In this scenario, transaction fees are as follows:
+            </p>
+
+            <p>
+                <li>The Taker, who is buying 1900 USDT for 0.1 BTC, will be charged a Transaction Fee of 0.0003 BTC (30 bpt of 0.1 BTC).</li>
+                <li>The Maker, who is selling 1900 USDT for 0.1 BTC, will be paid a Transaction Rebate of 0.0002 BTC (20 bpt of 0.1 BTC).</li>
+            </p>
+            <br>
+            <b>
+                The Transaction Fee and Transaction Rebate will be charged and paid in the cryptocurrency that the Maker is receiving from the Taker. 
+            </b>
+        </div>
+    </div>
+
+    <div class="paragraph mt-4" *ngIf="message==='zh'">
+        <h3>亿币交易所费率</h3>
+        <div class="mt-4">
+            <br>
+            <p>从国际标准时间2020年12月8日零时起，亿币交易所将引入在美国证券市场取得巨大成功的挂单/吃单交易模型，采用新的费率标准，以鼓励提供流动性。</p>
+            <br>
+            <H4>原有的交易费用结构</H4>
+            <p>
+                自开始运营以来，亿币交易所一直是向交易双方收取交易费用，该费用计算为交易名义价值的0.0015％（15个基点或bps）。
+            </p>
+
+            <p>
+                例如，如果用1900 USDT购买0.1 BTC的交易：
+            </p>
+            <p>
+                <li>获得1900 USDT的一方将被收取15个基点或2.85 USDT。</li>
+                <li>获得0.1 BTC的一方将被收取15个基点或0.00015 BTC的费用。</li>
+            </p>
+            <p>
+                <b>交易各方以交易中收到的加密货币支付交易费。</b>
+            </p>
+            <br>
+            <H4>新的交易费用结构</H4>
+
+            <p>
+                亿币交易所的每笔交易都与显示的限价挂单相匹配，该限价挂单具有提供流动性功能。为了激励交易者积极挂单以充分提供流动性，新的挂单/吃单模型是：吃单方支付30个基点的交易费，挂单方不支付任何交易费且收取20个基点交易费作为提供流动性奖励佣金。
+            </p>
+            <p>
+                例如，在BTC/USDT交易对中，同样是用1900 USDT兑换为0.1 BTC的交易，其中价格为19000 USDT的BTC卖单处于在线等待状态，则买方可以使用USDT立即吃单进行兑换：
+            </p>
+            <p>
+                在上面的示例中，市场显示已有挂单在线，挂单方的挂单是以1900 USDT购买(兑换为)0.1 BTC。 该挂单即增加了流动性。 现在，吃单可以进入立即匹配把0.1 BTC卖(兑换)为1900 USDT。该吃单即消耗了流动性。 在这种情况下：
+            </p>
+
+            <p>
+                <li>吃单方 - 将0.1 BTC交换为1900 USDT的交易者，将被收取5.70 USDT的交易费（1900 USDT的30个基点）。</li>
+                <li>挂单方 - 将1900 USDT换成0.1 BTC的交易者，将获得3.8 USDT的流动性佣金作为奖励（1900 USDT的20个基点）。</li>
+            </p>
+
+            <p>
+                相反，如果市场有已存在挂单将0.1 BTC卖(兑换)为1900 USDT。 该挂单同样增加了流动性。 现在，一个新入的订单(吃单)要将1900 USDT兑换为0.1 BTC。（请注意：这个交易看似与前例相同，但挂单与吃单角色相反。）此新入订单（吃单）可与已存在订单（挂单）匹配，吃单同样消耗了流动性。 在这种情况下：
+            </p>
+
+            <p>
+                <li>吃单方 - 将1900 USDT兑换0.1 BTC的交易者将被收取0.0003 BTC的交易费（0.1 BTC的30个基点）。</li>
+                <li>挂单方 - 将0.1 BTC交换为1900 USDT的交易者将获得0.0002 BTC的流动性佣金作为奖励（0.1 BTC的20个基点）。</li>
+            </p>
+            <br>
+            <b>
+                交易费用和流动性奖励佣金以吃单方收取的加密货币作为费用收取及佣金支付币种。
+            </b>
+        </div>
+    </div>
+    <br><br><br><br>
+</div>

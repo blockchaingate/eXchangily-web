@@ -1,0 +1,35 @@
+<mat-card class="mat-elevation-z6">
+    <h5 style="text-align: center;">{{"Latest Orders"|translate}}</h5>
+
+    <table mat-table [dataSource]="orders" style="width: 100%; text-align: center;" class="exg-bg graycolor">
+        <ng-container matColumnDef="Pair">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center;"> {{"Pair"|translate}} </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.pairName}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Price">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center;"> {{"Price"|translate}} </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.price * 1e-18 | number:'1.6-6'}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Quantity">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center;"> {{"Quantity"|translate}} </th>
+            <td mat-cell *matCellDef="let element">
+                {{element.currentOrderQuantity * 1e-18 | number:'1.6-6' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Block">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center;"> {{"Block"|translate}} </th>
+            <td mat-cell *matCellDef="let element">
+                <!--{{element.time*1000 | date : 'EEEE, MMMM dd, yyyy'}} <br>
+                {{element.time*1000 | date : 'h:mm:ss a'}} -->
+                <a mat-button [routerLink]="[ './block-detail', element.blockNumber.createOrder ]">{{element.blockNumber.createOrder}}</a>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky:true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</mat-card>

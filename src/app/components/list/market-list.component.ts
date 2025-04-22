@@ -10,9 +10,15 @@ import { UtilService } from '../../services/util.service';
 import BigNumber from 'bignumber.js';
 import { CoinService } from '../../services/coin.service';
 import { stringify } from 'querystring';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
+import { SortByFieldPipe } from '../shared/pipes/sort.pipe';
 
 @Component({
     selector: 'app-market-list',
+    standalone: true,
+    imports: [CommonModule, FormsModule, TranslateModule, SortByFieldPipe],
     templateUrl: './market-list.component.html',
     styleUrls: ['./market-list.component.scss']
 })
