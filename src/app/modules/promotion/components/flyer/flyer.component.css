@@ -1,0 +1,60 @@
+:host{
+    color: #ddd;
+}
+
+@media (min-width:768px){
+    .mobile-div {
+        width: 480px;
+    }
+}
+
+a {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.advblock {
+    width: 100%;
+    height: 120px;
+    background-image: url("/images/adv/01.png");
+}
+
+.title {
+    font-family: Verdana, sans-serif, SimHei, "Microsoft YaHei";
+    margin: 2px 12px;
+    padding-top: 12px;
+    color: white;
+}
+
+.desc {
+    font-size: x-small;
+    margin: 0 12px 0 12px;
+    color: silver;
+}
+
+.text-referralcode {
+    color: #e7e7e7;
+    font-size: 60px;
+    font-weight: 800;
+}
+
+.copyBtn {
+    border: none;
+    color: #fff;
+    background-color: #4e90fd;
+    cursor: pointer;
+    -webkit-transition: all 450ms ease-in-out;
+    -moz-transition: all 450ms ease-in-out;
+    -o-transition: all 450ms ease-in-out;
+    -ms-transition: all 450ms ease-in-out;
+    transition: all 450ms ease-in-out;
+}
+
+.copyBtn:hover {
+    background-color: #73a1ec;
+}
+
+.Flyer-qr{
+    background-color: #73a1ec;
+    border-radius: 10px;
+}

@@ -1,0 +1,20 @@
+.panel {
+    height: 640px;
+    background-color: #343554;
+    margin-bottom: 4em;
+    padding-top: 1em;
+}
+
+input.transparent-input,
+input.transparent-input:focus,
+textarea.transparent-input,
+textarea.transparent-input:focus {
+    background-color: rgba(0, 0, 0, 0) !important;
+    border: white !important;
+    box-shadow: 0 0 0 0.1rem rgba(90, 104, 119, 0.25);
+    color: white;
+}
+
+textarea.transparent-input {
+    resize: none;
+}

@@ -1,0 +1,71 @@
+<ng-container class="xcontainer">
+    <div class="orders">
+        <div class="menu">
+            <div class="menuitm" [class.selected]="selected==0" (click)="selectStatus(0); selected=0;">{{ 'Account.View Orders.ViewOrderPage.SubHeaders.Pending' | translate }}</div>
+            <div class="menuitm" [class.selected]="selected==1" (click)="selectStatus(1); selected=1">{{ 'Account.View Orders.ViewOrderPage.SubHeaders.Completed' | translate }}</div>
+            <div class="menuitm" [class.selected]="selected==2" (click)="selectStatus(2); selected=2">{{ 'Account.View Orders.ViewOrderPage.SubHeaders.Deleted' | translate }}</div>
+            <div class="menuitm"><a href="https://www.blockchain.com/btc/address/1GdAhHtamA1UkN33wAAVy9zmU99ua1j7F2" target="_blank">BTC</a></div>
+            <div class="menuitm"><a href="https://etherscan.io/address/0x7cd0CAD7a4bEb59307E836142d4b340652Fa9Ec9" target="_blank">ETH</a></div>
+            <div class="menuitm"><a href="https://fabexplorer.info/#/search/1fsACcz6w5HF48S2vB5AQ8Lukn7npb8cm" target="_blank">FAB</a></div>
+        </div>
+        <br>
+        <div class="order-list__orders" *ngIf="status === 'pending'">
+            <div class="list-title">
+                <div class="item8em">Time</div>
+                <div class="item18em">Email</div>
+                <div class="item12em">Amount to pay</div>
+                <div class="item12em">Token quantity</div>
+            </div>
+            <div class="list-row" fxLayout="row" *ngFor="let order of (localIcotxes.pending | async); let i = index" (click)="editorder(order)">
+                <div class="item8em">{{ order.dateCreated | date:'dd MMM yyyy' }}</div>
+                <div class="item18em">{{ order.email }}</div>
+                <div class="item12em" *ngIf="order.payment[0]">{{order.payment[0].payMethod}}: {{order.payment[0].paidAmount}}</div>
+                <div class="item12em">{{order.totalAppTokens}}</div>
+            </div>
+        </div>
+
+        <div class="order-list__orders" *ngIf="status === 'completed'">
+            <div class="list-title" fxLayout="row">
+                <div class="item8em">Time</div>
+                <div class="item18em">Email</div>
+                <div class="item12em">Amount to pay</div>
+                <div class="item12em">Token quantity</div>
+            </div>
+            <div class="list-row" fxLayout="row" *ngFor="let order of (localIcotxes.completed | async); let i = index" (click)="editorder(order)">
+                <div class="item8em">{{order.dateCreated | date:'dd MMM yyyy'}}</div>
+                <div class="item18em">{{order.email}}</div>
+                <div class="item12em" *ngIf="order.payment[0]">{{order.payment[0].payMethod}}: {{order.payment[0].paidAmount}}</div>
+                <div class="item12em">{{order.totalAppTokens}}</div>
+            </div>
+
+        </div>
+
+        <div class="order-list__orders" *ngIf="status === 'deleted'">
+            <div class="list-title" fxLayout="row">
+                <div class="item8em">Time</div>
+                <div class="item18em">Email</div>
+                <div class="item12em">Amount to pay</div>
+                <div class="item12em">Token quantity</div>
+            </div>
+            <div class="list-row" fxLayout="row" *ngFor="let order of (localIcotxes.deleted | async); let i = index" (click)="editorder(order)">
+                <div class="item8em">{{order.dateCreated | date:'dd MMM yyyy'}}</div>
+                <div class="item18em">{{order.email}}</div>
+                <div class="item12em" *ngIf="order.payment[0]">{{order.payment[0].payMethod}}: {{order.payment[0].paidAmount}}</div>
+                <div class="item12em">{{order.totalAppTokens}}</div>
+            </div>
+
+        </div>
+
+
+        <!--        
+                <h4>{{ 'Account.View Orders.ViewOrderPage.SubHeaders.Completed' | translate }}</h4>
+                <div class="order-list__orders">
+                    <div *ngIf="!localIcotxes.completed.getValue().length" class="order-list__none">
+                    </div>
+                    <div class="order-list__order" fxLayout="row" fxLayoutGap="2em" *ngFor="let order of (localIcotxes.completed | async); let i = index">
+                        <icotx-item [order]="order" [admin]="admin"></icotx-item>
+                    </div>
+                </div>
+            -->
+    </div>
+</ng-container>

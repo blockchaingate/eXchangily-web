@@ -1,0 +1,60 @@
+:host {
+  color: #fff;
+}
+
+@media (max-width:767px){
+  h4{
+    text-align: center;
+    padding-bottom: 10px;
+  }
+
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+/* .table {
+  background-color: rgb(59, 123, 253);
+  border-radius: 10px;
+} */
+
+.paymentmethod-table {
+  background-color: rgb(59, 123, 253);
+  border-radius: 10px;
+}
+
+.paymentmethod-add{
+  background-color: rgb(61 80 210);
+  border-radius: 10px;
+  padding:10px
+}
+
+.table th,
+.table td {
+  border: none;
+}
+
+thead {
+  background-color: rgb(61 80 210);
+}
+
+thead tr th:first-child {
+  border-top-left-radius: 10px;
+}
+
+thead tr th:last-child {
+  border-top-right-radius: 10px;
+}
+
+::ng-deep .mat-form-field-type-mat-select .mat-form-field-label {
+  color: #fff;
+}
+
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-label {
+  color: #fff;
+}
+
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+  color: #ddd;
+}

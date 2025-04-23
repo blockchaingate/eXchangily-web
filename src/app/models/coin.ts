@@ -1,13 +1,13 @@
 import { Blockchain } from './blockchain';
-import { environment } from '../environments/environment';
 
+import { environment } from '../../environments/environment';
 export class Coin {
     _id?: string;
     name: string;
     symbol: string;
-    decimals = 0;
-    coinType = 0; // Bip44 cointype
-    blockchain: Blockchain = new Blockchain('FAB', 'FAB Blockchain');
+    decimals: number;
+    coinType: number; // Bip44 cointype
+    blockchain: Blockchain;
 
     internalOnly?: boolean;  // This coin only for Exchangily use, not exposure to external.
     needsStripping?: boolean;

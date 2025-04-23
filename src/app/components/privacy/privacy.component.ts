@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
-import { UserAuth } from '../../services/user-auth.service';
-import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { UserAuth } from 'src/app/modules/landing/service/user-auth/user-auth.service';
+import { LocalStorage } from '@ngx-pwa/local-storage';
 
 @Component({
   selector: 'app-privacy',
-  standalone: true,
-  imports: [CommonModule, TranslateModule],
   templateUrl: './privacy.component.html',
   styleUrls: ['./privacy.component.scss']
 })

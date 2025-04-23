@@ -1,0 +1,56 @@
+<div class="app-home__team app-home__section2 ">
+    <div class="max-out title">
+        <h2 class="center app-home__title">{{ 'Home.Team.Title'| translate }}</h2>
+    </div>
+
+</div>
+
+<div class="home__team">
+
+    <div class="max-out">
+        <!--
+        <section *ngIf="doneLoading" class="home__team__section">
+            <div fxLayout="row wrap" fxLayoutAlign="space-around" class="home__team__section--wrapper d-flex justify-content-around">
+                <div *ngFor="let member of team; let j = index" fxFlex="25" class="home__team__section__member">
+                    <div class="member--image">
+                        <div class="member--image-unit" [ngStyle]="{'background': 'url(\'./images/photos/' + member.Image + '\')'}"></div>
+                    </div>
+                    <h5 class="member--name center color-secondary">
+                        {{ member.Name }}
+                    </h5>
+                    <p class="member--title center color-secondary">{{ member.Title }} </p>
+                    <ul class="member__list">
+                        <li *ngFor="let skill of member.Desc; let k = index">
+                            <span class="small">{{ skill }}</span>
+                        </li>
+                    </ul>
+                    <a *ngIf="member.linkedIn" class="color-primary member--linkedin icon-linked-in" href="{{ member.linkedIn }}" target="_blank"></a>
+                </div>
+            </div>
+        </section>
+        -->
+        <section *ngIf="doneLoading" class="home__team__section">
+            <div class="row">
+                <div *ngFor="let member of team; let j = index" class="home__team__section__member col-md-3">
+                    <div class="member-detail">
+                        <div class="member--image">
+                            <div class="member--image-unit" [ngStyle]="{'background': 'url(\'./images/photos/' + member.Image + '\')'}"></div>
+                        </div>
+                        <h5 class="member--name center">
+                            {{ member.Name }}
+                        </h5>
+                        <p class="member--title center ">{{ member.Title }} </p>
+                        <ul class="member__list">
+                            <li *ngFor="let skill of member.Desc; let k = index">
+                                <span class="small">{{ skill }}</span>
+                            </li>
+                        </ul>
+                        <a *ngIf="member.linkedIn" class="color-primary member--linkedin icon-linked-in" href="{{ member.linkedIn }}" target="_blank"></a>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+</div>

@@ -1,0 +1,159 @@
+:host {
+    color: #f3f3f3;
+}
+
+.tab-status .el-tabs_item {
+    height: 32px;
+    margin-right: 20px;
+    padding: 0 20px;
+    border-radius: 16px;
+    line-height: 32px;
+    background: #f5f5f5;
+    color: #354052;
+    cursor: pointer;
+}
+
+.tab-status .el-tabs_item.is-active {
+    color: #fff;
+    background: #3b7bfd;
+}
+
+.noOrder {
+    display: block;
+    text-align: center;
+    padding-top: 80px;
+}
+
+a.view-detail,
+a.view-detail:hover {
+    text-decoration: underline;
+    cursor: pointer;
+    text-decoration-color: rgb(59, 123, 253);
+    color: rgb(59, 123, 253);
+}
+
+.order-top {
+    background-color: #3c3c5e;
+}
+
+.order-status {
+    background-color: #3c3c5e;
+}
+
+.order-table {
+    padding: 0 !important;
+    overflow-x: scroll;
+}
+
+table {
+    margin-bottom: 0;
+    /* overflow-x: scroll; */
+}
+
+table th,
+table td {
+    border: none;
+}
+
+.odd {
+    background-color: #5c5c6e;
+}
+
+.even {
+    background-color: #7c7c8e !important;
+}
+
+.order-manage .el-tabs_item {
+    padding: 10px;
+}
+
+.order-manage .el-tabs_item.is-active {
+    color: #fff;
+    background-color: rgb(59, 123, 253);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.order-bottom {
+    @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+        /* Force table to not be like tables anymore */
+        table, thead, tbody, th, td, tr {
+            display: block;
+        }
+        /* Hide table headers (but not display: none;, for accessibility) */
+        thead tr {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+        tr {
+            margin: 0 0 5px 0;
+        }
+        td:nth-child(odd) {
+            background-color: #2c2cb5;
+        }
+        thead td,
+        td {
+            background-color: #3a3abf;
+        }
+        td {
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eeeeee66;
+            position: relative;
+            padding-left: 35%;
+        }
+        td:before {
+            /* Now like a table header */
+            position: absolute;
+            /* Top/left values mimic padding */
+            top: 10px;
+            left: 6px;
+            width: 33%;
+            padding-right: 10px;
+            white-space: nowrap;
+        }
+        /* Label the data*/
+        td:nth-of-type(1):before {
+            content: "Order number";
+        }
+        td:nth-of-type(2):before {
+            content: "Coin";
+        }
+        td:nth-of-type(3):before {
+            content: "Price";
+        }
+        td:nth-of-type(4):before {
+            content: "Quantity";
+        }
+        td:nth-of-type(5):before {
+            content: "Amount";
+        }
+        td:nth-of-type(6):before {
+            content: "Creating time";
+        }
+        td:nth-of-type(7):before {
+            content: "	Status";
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .order-top-exportS {
+        display: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .order-top-exportL {
+        display: none;
+    }
+    .order-top-exportS {
+        padding-bottom: 20px;
+    }
+    .order-status .el-tabs_item {
+        margin-top: 10px;
+        width: 100%;
+        text-align: center;
+    }
+}

@@ -1,0 +1,56 @@
+.container {
+    width: 100%;
+}
+
+.kyc-list {
+    width: 100%;
+    padding-left: 1em;
+    margin-bottom: 4em;
+}
+
+.operbar {
+    margin-top: 1em;
+    margin-bottom: 2em;
+}
+
+.select{
+    width: 8em;
+    font-size: small;
+    margin: 1em;
+    border: 1px solid lightgray;
+}
+
+.emailbox {
+    margin-left: 0.5em;
+    margin-right: 0.4em;
+}
+
+.searchbox {
+    height: 28px;
+}
+
+.menuitm {
+    width: 4em;
+    cursor: pointer;
+}
+
+.list-title {
+    font-weight: bold;
+    margin-bottom: 0.3em;
+}
+
+.list-row:hover {
+    background-color: #F0F0F0;
+    color: red;
+    cursor: pointer;
+}
+
+.item8em {
+    width: 8em;
+}
+.item12em {
+    width: 12em;
+}
+.item18em {
+    width: 18em;
+}

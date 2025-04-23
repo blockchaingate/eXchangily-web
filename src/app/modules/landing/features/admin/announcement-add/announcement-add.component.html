@@ -1,0 +1,69 @@
+<div class="container newsBody">
+    <div class="row">
+        <div class="col-auto mr-auto">
+            <h1 class="">Create New Announcements</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="announcement-add">
+            <form class="row my-3 announcement-form">
+                <div class="form-group col-md-12">
+                    <label for="FormControlSelect1">{{"Language" | translate}} *</label>
+                    <select class="form-control cat-select-panel" id="FormControlSelect1" name="lans" [(ngModel)]="selectedLan">
+                        <option value="" disabled selected>- Please select a language -</option>
+                        <option value="en">English</option>
+                        <option value="cn">中文</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label for="FormControlSelect1">{{"Category" | translate}} *</label>
+                    <select class="form-control cat-select-panel" id="FormControlSelect2" name="category" [(ngModel)]="selectedCat">
+                        <option value="" disabled selected>- Please select a category -</option>
+                        <option value="Technical Updates">Technical Updates</option>
+                        <option value="News">News</option>
+                        <option value="Events">Events</option>
+                        <option value="Partnerships">Partnerships</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="FormControlInput2">Title *</label>
+                    <input type="text" class="form-control" id="FormControlInput1"  name="title" placeholder="Subject of the announcement"
+                        [(ngModel)]="title">
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="FormControlInput2">Content Summary *</label>
+                    <input type="text" class="form-control" id="FormControlInput2"  name="summary" placeholder="Summary of the announcement"
+                        [(ngModel)]="summary">
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="FormControlTextarea1">Content *</label>
+                    <textarea class="form-control" id="FormControlTextarea1" rows="3"  name="desc" placeholder="Detailed information"
+                        [(ngModel)]="desc"></textarea>
+                </div>
+
+                <div class="col-md-12">
+                    <div style="color: red;" *ngIf="!logIn || errMsg">
+                        {{"Token expired, please login and try again" | translate}}
+                    </div>
+                    <div style="color: red;" *ngIf="!lanselected">
+                        {{"Please select language" | translate}}
+                    </div>
+                    <div style="color: red;" *ngIf="!catselected">
+                        {{"Please select category" | translate}}
+                    </div>
+                    <div style="color: red;" *ngIf="toShort">
+                        {{"Issue, summary or description too short" | translate}}
+                    </div>
+                    <div style="color: lightgreen;" *ngIf="success">
+                        {{"tickCreateSuccess" | translate}}
+                    </div>
+                </div>
+                <div class="submitBtn col-md-12">
+                    <button type="submit" (click)="submit()" class="exbtn">{{"Submit"|translate}}</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

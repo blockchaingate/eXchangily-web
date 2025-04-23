@@ -28,7 +28,7 @@
                                     <a class="nav-link" (click)="selectLan('en')">English</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" (click)="selectLan('sc')">中文</a>
+                                    <a class="nav-link" (click)="selectLan('zh')">中文</a>
                                 </li>
                             </ul>
                         </div>
@@ -37,7 +37,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" (click)="linkTo('/app');selectedItem=41" [class.selected]="selectedItem===41" routerLinkActive="selected" [routerLinkActiveOptions]="{ exact: true }">
+                <a class="nav-link" (click)="linkTo('/app');selectedItem=41" [class.selected]="selectedItem===41" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">
                     {{'Mobile App' | translate}}
                 </a>
             </li>
@@ -141,11 +141,11 @@
                         </div>
                         <div class="row px-2 py-2 border-bottom" *ngFor="let tr of pendingtransactions">
                             <div class="col col-12">
-                                <small>{{tr.transactionId}}</small>
+                                <small>{{tr.txid}}</small>
 
                             </div>
                             <div class="col col-12">
-                                {{utilServ.getFormattedDate(tr.timestamp)}}
+                                {{utilServ.getFormattedDate(tr.time)}}
                             </div>
                             <div class="col col-3">
                                 <img *ngIf="tr.coin == 'BTC'" src="/assets/coins/btc.png" class="icon coin-logo" />
@@ -251,12 +251,12 @@
                         <div class="row px-2 py-2 border-bottom" *ngFor="let tr of closetransactions">
                             <div class="col col-12">
                                 <small>
-                                    {{tr.transactionId}}
+                                    {{tr.txid}}
                                 </small>
 
                             </div>
                             <div class="col col-12">
-                                {{utilServ.getFormattedDate(tr.timestamp)}}
+                                {{utilServ.getFormattedDate(tr.time)}}
                             </div>
                             <div class="col col-3">
                                 <img *ngIf="tr.coin == 'BTC'" src="/assets/coins/btc.png" class="icon coin-logo" />
@@ -307,7 +307,7 @@
                                         <a class="nav-link" (click)="selectLan('en')">English</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" (click)="selectLan('sc')">中文</a>
+                                        <a class="nav-link" (click)="selectLan('zh')">中文</a>
                                     </li>
                                 </ul>
                             </div>
@@ -328,7 +328,7 @@
                     <a class="nav-link" (click)="linkTo('/market/home');selectedItem=1" [class.selected]="selectedItem==1" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Market' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" (click)="linkTo('/market/trade/FAB_DUSD');selectedItem=2" [class.selected]="selectedItem==2" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Trade' | translate}}</a>
+                    <a class="nav-link" (click)="linkTo('/market/trade/kbFAB_kbDUSD');selectedItem=2" [class.selected]="selectedItem==2" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Trade' | translate}}</a>
                 </li>
 
                 <li class="nav-item">
@@ -339,9 +339,6 @@
                     <a class="nav-link" (click)="linkTo('/otc/trade');selectedItem=5" [class.selected]="selectedItem==5" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'OTC Trade' | translate}}</a>
                 </li>
             -->
-                <li class="nav-item">
-                    <a class="nav-link" (click)="linkTo('/transaction/history');selectedItem=5" [class.selected]="selectedItem==5" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Transaction History' | translate}}</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link" (click)="linkTo('/issue');selectedItem=6" [class.selected]="selectedItem==6" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'Mint Token' | translate}}</a>
                 </li>  

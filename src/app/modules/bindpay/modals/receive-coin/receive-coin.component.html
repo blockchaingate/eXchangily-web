@@ -1,0 +1,35 @@
+<button class="button" (click)="openModal(templateReceive)">{{"Receive" | translate }}</button>
+
+<ng-template #templateReceive class="modal-bg-grey">
+    <div class="modal-header text-center">
+        <h4 class="modal-title w-100">{{"Receive" | translate }}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="text-dark">{{"Receive address" | translate }}</div>
+        <div>
+            {{exAddr}}
+            <button mat-icon-button (click)="copyAddress()">
+                <mat-icon svgIcon="copy"></mat-icon>
+            </button>
+        </div>
+
+        <div class="text-center py-5">
+            <qrcode [qrdata]="exAddr" id="address_qr_code" style="display: inline-block" [width]="150" [errorCorrectionLevel]="'M'"></qrcode>
+            <div class="py-2">
+                <a href="{{link}}" download (click)="dlDataUrlBin()">
+                    <div class="d-inline-block px-1">
+                        <img src="/assets/download.png">
+                    </div>
+                    <div class="d-inline-block px-1">
+                        {{'Download QR Code' | translate}}
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</ng-template>

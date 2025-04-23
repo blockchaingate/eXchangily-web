@@ -1,0 +1,87 @@
+<div *ngIf="!preview">
+  <div class="main-container">
+    <h3 class="text-center text-black pt-2">
+        {{'Deposit USDT' | translate}}
+    </h3>
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">{{'Address' | translate}}</th>
+            <th scope="col">{{'Amount' | translate}}</th>
+            <th scope="col">{{'Reward' | translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of depositUSDT; let i = index">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{item.address}}</td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.reward}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+  </div>
+
+  <div class="main-container">
+      <h3 class="text-center text-black pt-2">
+          {{'FAB Trading' | translate}}
+      </h3>
+      <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">{{'Address' | translate}}</th>
+              <th scope="col">{{'Amount' | translate}}</th>
+              <th scope="col">{{'Reward' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of bidFAB; let i = index">
+              <th scope="row">{{i + 1}}</th>
+              <td>{{item.address}}</td>
+              <td>{{item.quantity}}</td>
+              <td>{{item.reward}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+  </div>
+
+
+  <div class="main-container">
+      <h3 class="text-center text-black pt-2">
+          {{'EXG Trading' | translate}}
+      </h3>
+      <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">{{'Address' | translate}}</th>
+              <th scope="col">{{'Amount' | translate}}</th>
+              <th scope="col">{{'Reward' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of bidEXG; let i = index">
+              <th scope="row">{{i + 1}}</th>
+              <td>{{item.address}}</td>
+              <td>{{item.quantity}}</td>
+              <td>{{item.reward}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+  </div>
+
+
+  <div class="p-3 text-center">
+    <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="previewDo()">Preview</button>
+  </div>
+</div>
+<div *ngIf="preview">
+  <app-bulk-transfer-preview [accounts]="accounts">
+
+  </app-bulk-transfer-preview>
+</div>

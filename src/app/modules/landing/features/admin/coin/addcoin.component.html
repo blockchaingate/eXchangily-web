@@ -1,0 +1,30 @@
+<div class="container">
+    <form class="place-order" [formGroup]="coinForm" (ngSubmit)="saveCoins()" #formDir="ngForm">
+    <!--    <select class="coin-selection" formControlName="coinControl">
+            <option [value]="coin" *ngFor="let coin of coins">{{coin.symbol}}</option>
+        </select>
+    -->
+        <div class="success" *ngIf="successMsg">
+            {{successMsg}}
+        </div>
+        <div class="fail" *ngIf="errMsg">
+            {{errMsg}}
+        </div>
+
+        <div>
+            <label for="sybmol" class="form-input__text__label regular">{{ 'Admin.Symbol' | translate }}</label>
+            <input type="text" id="symbol" formControlName="symbol" class="block form-input__text">
+
+            <label for="address" class="form-input__text__label regular">{{ 'Admin.Address' | translate }}</label>
+            <input type="text" id="address" formControlName="address" class="block form-input__text">
+        </div>
+
+        <div class="pave">
+            <button type="button" (click)="addCoins()" class="form-input__button background-primary-bold">Add coin</button>
+        </div>
+
+        <div class="pave">
+            <button type="submit" [disabled]="!formDir.form.valid" class="form-input__button background-primary-bold"><span class="color-white">Submit</span></button>
+        </div>
+    </form>
+</div>

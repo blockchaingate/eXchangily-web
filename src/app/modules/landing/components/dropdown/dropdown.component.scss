@@ -1,0 +1,80 @@
+@import 'colours';
+
+.app-dropdown {
+  position: relative;
+
+  &__arrow {
+    width: 13px;
+    height: 4px;
+    display: inline-block;
+    position: relative;
+    bottom: -6px;
+    left: 0; 
+    transition: 0.4s ease;
+    margin-top: 2px;
+    text-align: left;
+    transform: rotate(45deg);
+    float: right;
+    &:before, &:after {
+      position: absolute;
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 1px;
+      background-color: $secondary;
+      transition: 0.4s ease;
+    }
+    &:after {
+      position: absolute;
+      transform: rotate(90deg);
+      top: -3px;
+      left: 3px;
+    }
+
+    &.open {
+      &:after {
+        transform: rotate(360deg);
+      }
+      &:before {
+        transform: rotate(-270deg);
+      }
+    }
+  }
+
+  &__text, &__menu__item {
+    background: none;
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
+    padding: .5em;
+    position: relative;
+    width: 100%;
+    font-size: small;
+  }
+
+  &__text {
+    color: $secondary;
+    text-transform: uppercase;
+    text-align: left;
+  }
+
+  &__menu {
+    background-color: $white;
+    min-width: 100%;
+    position: absolute;
+    z-index: 100;
+
+    &__item {
+      background-color: white;
+      color: $black;
+      cursor: pointer;
+      text-align: left;
+      transition: background-color .35s, color .35s;
+      padding: 1em .5em;
+
+      &:hover, &:focus {
+        background-color: $primary-light;
+      }
+    }
+  }
+}

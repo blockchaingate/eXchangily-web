@@ -5,8 +5,8 @@ export class MyCoin extends Coin {
     new: boolean;
     encryptedPrivateKey: any;
     balance: number;
-    logo = '';
-    unconfirmedBalance = 0;
+    logo: string;
+    unconfirmedBalance: number;
     lockedBalance: number;
     lockers: any;
     receiveAdds: Address[];
@@ -14,8 +14,8 @@ export class MyCoin extends Coin {
     tokenType: string;
     baseCoin: MyCoin;
     usdPrice: number;
-    redeposit: any[] = [];
-    depositErr: any[] = [];
+    redeposit: any[];
+    depositErr: any[];
     contractAddr: string;
 
     constructor(name: string) {
@@ -28,7 +28,7 @@ export class MyCoin extends Coin {
         this.contractAddr = '';
         this.receiveAdds = new Array();
         this.changeAdds = new Array();
-        this.baseCoin = new MyCoin('FAB');
+        this.baseCoin = null;
     }
 
 }

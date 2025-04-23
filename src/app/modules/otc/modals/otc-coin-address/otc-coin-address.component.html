@@ -1,0 +1,56 @@
+<div bsModal #otcCoinAddressModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-bg-grey">
+
+        <form (ngSubmit)="onSubmit()">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 text-dark">{{coinName}} {{'Address' | translate}}</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col col-12 py-2">
+                                {{coinName}} {{'Address' | translate}}: 
+                                <input type="text" class="form-control" id="inputCoinAddress" name="coinAddress" [(ngModel)]="coinAddress">
+                            </div> 
+                            <div *ngIf="!wallet">
+                                {{'No wallet?, click' | translate}}
+                                <a href="/wallet/create" target="_blank">
+                                    {{'Create Wallet' | translate}}
+                                </a>
+                            </div>
+                        </div>
+                       <div class="row" *ngIf="wallet">
+                            <div class="col col-12 py-2">
+                                <div>
+                                    <label id="example-radio-group-label">{{'Or pick an address from your wallet' | translate}}</label>
+                                </div>
+                                
+                                <mat-radio-group
+                                  name="coinAddress2"
+                                  aria-labelledby="example-radio-group-label"
+                                  class="example-radio-group"
+                                  [(ngModel)]="coinAddress">
+                                  <mat-radio-button class="example-radio-button" *ngFor="let coin of coins" [value]="coin.address">
+                                    {{coin.address}}
+                                    <span *ngIf="coin.tokenType == 'ETH'">(ETH)</span>
+                                    <span *ngIf="coin.tokenType == 'TRX'">(TRX)</span>
+                                  </mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                       </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer justify-content-center">
+                    <button class="btn btn-gradient text-white py-2 px-5" type="submit" [disabled]="!coinAddress"> {{'Confirm' | translate}} </button>
+                </div>                 
+            </div>
+
+           
+        </form>
+    </div>
+</div>

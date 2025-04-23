@@ -1,0 +1,160 @@
+<div bsModal #sendCoinModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-bg-grey">
+        <form [formGroup]="sendCoinForm" (ngSubmit)="onSubmit()">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 text-dark">{{'Send Coin' | translate }}</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-danger" *ngIf="alertMsg && (!coin || (coin.name == 'EXG'))">
+                        {{alertMsg | translate}}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputSendTo" class="text-dark">{{'Send to' | translate }}</label>
+                        <input type="text" class="form-control" id="inputSendTo" aria-describedby="emailHelp" formControlName="sendTo" placeholder="{{'Wallet address' | translate }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputSendTo" class="text-dark">{{'Currency' | translate }}</label>
+                        <div class="row">
+                            <div class="col">
+                                <select class="custom-select" (change)="onChange($event)" formControlName="selectedCoinIndex" *ngIf="wallet">
+                                    <option [value]="i" *ngFor="let coin of wallet.mycoins;let i = index">
+                                        {{coin.symbol}}
+                                        <span *ngIf="coin.tokenType == 'ETH'">
+                                            (ETH)
+                                        </span>
+                                        <span *ngIf="coin.tokenType == 'TRX'">
+                                            (TRX)
+                                        </span>     
+                                        <span *ngIf="coin.tokenType == 'BNB'">
+                                            (BSC)
+                                        </span>  
+                                        <span *ngIf="coin.tokenType == 'MATIC'">
+                                            (Polygon)
+                                        </span>      
+                                        <span *ngIf="coin.tokenType == 'HT'">
+                                            (HT)
+                                        </span>                                 
+                                    </option>
+                                </select>
+
+                            </div>
+                            <div class="col">
+                                <div class="pull-right text-muted" *ngIf="wallet && wallet.mycoins && wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value||0]">
+                                    {{'Balance' | translate }}:{{wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value||0].balance}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between" *ngIf="wallet">
+                        <div>
+                            <label for="inputSendTo" class="text-dark">{{'Send amount' | translate }}</label>
+                        </div>
+                        <div>
+                            <mat-slide-toggle (change)="sendAllAmount($event)" class="text-muted">
+                                {{'All' | translate}}
+                            </mat-slide-toggle>
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <input type="text" class="form-control" [attr.disabled]="sendAllCoinsFlag?'':null" (input)="onTextChange()" id="inputSendAmount" formControlName="sendAmount" aria-describedby="emailHelp" placeholder="0.0000">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputSendTo" class="text-dark">{{'Comment' | translate }}</label>
+                        <input type="text" class="form-control" id="inputComment" formControlName="comment" aria-describedby="emailHelp" placeholder="">
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col text-dark">
+                                {{'Transaction fee' | translate }} </div>
+                            <div class="col text-muted">
+                                <div class="pull-right">
+                                    {{transFee}} {{getTransFeeUnit()}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row text-muted">
+                            <div class="col text-muted">
+                                <small>{{'depends on the gas used on the chain' | translate}}</small>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col text-dark">
+                                {{'Advanced' | translate }}
+                            </div>
+                            <div class="col text-muted">
+                                <div class="pull-right">
+                                    <mat-slide-toggle formControlName="gasFeeCustomChecked"></mat-slide-toggle>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="sendCoinForm.get('gasFeeCustomChecked')?.value">
+                        <div *ngIf="
+                        ['ETH','HT','MATIC','BNB'].indexOf(wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value||0].name) >= 0 || 
+                        ['ETH','HT','MATIC','BNB','FAB'].indexOf(wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value||0].tokenType) >= 0
+                        ">
+                            <div class="form-group">
+                                <label for="gasPrice" class="text-dark">{{'Gas price' | translate }}({{getGasPriceUnit()}})</label>
+
+                                <input type="text" class="form-control" id="inputGasPrice" (input)="onTextChange()" formControlName="gasPrice" placeholder="0">
+                                <small class="text-muted" *ngIf="gasUnit == 'LIU'">
+                                    1 LIU = 10^(-8) FAB
+                                </small>
+                                <small class="text-muted" *ngIf="gasUnit == 'WEI' && coin && (coin.name == 'EXG' || coin.name == 'DUSD')">
+                                    1 GWEI = 10^(-9) FAB
+                                </small>
+
+                                <small class="text-muted" *ngIf="gasUnit == 'WEI' && coin && (coin.name == 'USDT' || coin.name == 'USDC' || coin.name == 'ETH')">
+                                    1 GWEI = 10^(-9) ETH
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label for="gasPrice" class="text-dark">{{'Gas limit' | translate }}</label>
+                                <input type="text" class="form-control" id="inputGasLimit" (input)="onTextChange()" formControlName="gasLimit" placeholder="0">
+                            </div>
+                        </div>
+                        <div *ngIf="
+                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value || 0].name === 'BTC' 
+                        || wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value || 0].name === 'FAB' 
+                        || wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value || 0].name === 'LTC' 
+                        || wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value || 0].name === 'BCH' 
+                        || wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value || 0].name === 'DOGE' 
+                        || wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value || 0].tokenType === 'FAB'
+                        ">
+                            <div class="form-group">
+                                <label for="gasPrice" class="text-dark">{{'Satoshis/byte' | translate }}</label>
+                                <input type="text" class="form-control" id="inputSatoshisPerByte" (input)="onTextChange()" formControlName="satoshisPerBytes" placeholder="0">
+                            </div>
+                        </div>
+
+                        <div *ngIf="
+                        wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value || 0].name === 'TRX' 
+                        || wallet.mycoins[sendCoinForm.get('selectedCoinIndex')?.value || 0].tokenType === 'TRX'
+                        ">
+                            <div class="form-group">
+                                <label for="gasPrice" class="text-dark">{{'Fee Limit' | translate }}</label>
+                                <input type="text" class="form-control" id="inputFeeLimit" (input)="onTextChange()" formControlName="feeLimit" placeholder="0">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer justify-content-center">
+                    <button class="btn btn-gradient text-white py-2 px-5" type="submit"> {{"Send" | translate }} </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

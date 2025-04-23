@@ -1,0 +1,44 @@
+.panel2 {
+    width: 100%;
+    min-height: 640px;
+}
+
+.words {
+    padding: 1em;
+    width: 100%;
+}
+
+.wordbox {
+    display: flex;
+}
+
+.word {
+    display: flex;
+    border: 1px solid #444564;
+    margin: 0.5em 0 0.5em 0.5em;
+    width: 80%;
+    text-align: center;
+}
+
+.letterbox {
+    width: 20%;
+}
+
+.numbox {
+    width: 20%;
+    padding-top: 0.5em;
+}
+
+code {
+    color: white;
+}
+
+@media (max-width:600px){
+    .words{
+        padding: 10px 0;
+    }
+
+    .word, .numbox{
+        font-size: 14px;
+    }
+}

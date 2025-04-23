@@ -1,0 +1,354 @@
+$easeInOutQuad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+
+.campaignPage {
+    color: #f3f3f3;
+
+    .topImage {
+        min-height: 500px;
+        color: #fff;
+        /* background-image: linear-gradient(90deg,#fbc879,#eb7f75,#a26aa7,#695aad,#3e51b0); */
+        background: #060610;
+        // background-image: url("/images/img/slider.jpg");
+        background-image: url("https://prodid.s3.amazonaws.com/45fdssirfssss/newyearbg");
+        background-repeat: no-repeat;
+        // background-size: 100% auto;
+        // background-position: 100% 100%;
+        background-size: cover;
+        background-position: center;
+        text-align: center;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .topInfo {
+            // padding-top: 120px;
+            font-size: 60px;
+            font-weight: 900;
+            animation: neonGlow 2s infinite alternate $easeInOutQuad;
+        }
+
+        @keyframes neonGlow {
+            0% {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.5),
+                    0 0 22px rgba(255, 255, 255, 0.5), 0 0 40px rgba(66, 66, 219, 0.3), 0 0 60px rgba(66, 66, 219, 0.3),
+                    0 0 80px rgba(66, 66, 219, 0.3), 0 0 100px rgba(66, 66, 219, 0.3);
+            }
+            100% {
+                text-shadow: 0 0 2px rgba(255, 255, 255, 0.8), 0 0 8px rgba(255, 255, 255, 0.8),
+                    0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(66, 66, 219, 0.8), 0 0 30px rgba(66, 66, 219, 0.5),
+                    0 0 40px rgba(66, 66, 219, 0.5);
+            }
+        }
+
+        .topButtons {
+            // display: inline;
+            text-decoration: none;
+            padding-top: 30px;
+        }
+
+        a.topBtn {
+            margin: 0 10px;
+        }
+
+        .topBtn button {
+            height: 40px !important;
+            line-height: 40px !important;
+            font-size: 16px;
+            background: linear-gradient(to right, #cd45ff 0%, #7368ff 50%, #cd45ff 100%);
+            // background: linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
+            max-width: 300px;
+            width: 200px;
+            border: 0 !important;
+            border-radius: 50px;
+            color: #fff;
+            font-weight: 900;
+            text-transform: uppercase;
+            transition: all 450ms ease-in-out;
+            background-size: 200%;
+        }
+
+        .topBtn button:hover {
+            background-position: -100%;
+            // margin-top: -10px;
+            // font-size: 18px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .topImage {
+            a.topBtn {
+                margin: 20px 10px;
+                display: block;
+            }
+        }
+
+        .topButtons {
+            padding-bottom: 30px;
+        }
+    }
+
+    .campaignDetail {
+        text-align: center;
+
+        .eventFormTable {
+            margin: 10px auto;
+
+            td {
+                padding: 0 20px;
+            }
+        }
+
+        .sectionTitle {
+            font-size: 35px;
+            text-align: center;
+            margin: 0 auto;
+            padding-top: 60px;
+        }
+
+        .sectionTitleSub {
+            padding-top: 20px;
+            // display: inline-block;
+        }
+
+        .sectionBody {
+            padding-top: 20px;
+            text-align: left;
+        }
+
+        .fromInfo {
+            padding-bottom: 20px;
+        }
+
+        .formContanier {
+            display: flex;
+        }
+
+        .columns {
+            float: left;
+            width: 33.3%;
+            padding: 8px;
+        }
+
+        .price {
+            list-style-type: none;
+            // border: 1px solid #eee;
+            margin: 0;
+            padding: 0;
+            -webkit-transition: 0.3s;
+            transition: 0.3s;
+        }
+
+        .price:hover {
+            box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .price .header {
+            // background-color: #111;
+            color: white;
+            font-size: 25px;
+
+            img {
+                max-width: 50px;
+            }
+        }
+
+        .price li {
+            // border-bottom: 1px solid #eee;
+            padding: 20px;
+            text-align: center;
+            background-color: #3a3abf;
+            font-size: 22px;
+            font-weight: 900;
+        }
+
+        .price .grey {
+            background-color: #0f0d65;
+            font-size: 30px;
+            font-weight: 900;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        .price .tier {
+            background-color: #302e92;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 4px;
+        }
+
+        .button {
+            background-color: #4caf50;
+            border: none;
+            color: white;
+            padding: 10px 25px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .col-md-3,
+        .col-md-6 {
+            padding: 0 !important;
+        }
+
+        .topForm {
+            background-color: #302e92;
+            height: 45px;
+            line-height: 45px;
+
+            span {
+                display: none;
+            }
+        }
+
+        .btmForm {
+            background-color: #3a3abf;
+            height: 45px;
+            line-height: 45px;
+
+            span {
+                display: none;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .price .grey {
+                font-size: 22px;
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            .columns {
+                width: 100%;
+            }
+
+            .formContanier {
+                display: block;
+            }
+
+            .topForm {
+                span {
+                    display: contents;
+                }
+            }
+
+            .btmForm {
+                span {
+                    display: contents;
+                }
+            }
+        }
+    }
+
+    .promotionData {
+        border: 1px solid #626780;
+        padding: 21px 10px;
+        border-radius: 10px;
+        background: #2d2d69;
+
+        .infoBody {
+            text-align: center;
+
+            .graBtn {
+                background: linear-gradient(
+                    Í 45deg,
+                    rgba(59, 173, 227, 1) 0%,
+                    rgba(87, 111, 230, 1) 25%,
+                    rgba(152, 68, 183, 1) 51%,
+                    rgba(255, 53, 127, 1) 100%
+                );
+            }
+        }
+
+        .finalBtn {
+            margin: 0 auto;
+        }
+
+        .investmentDialogTitle {
+            padding-bottom: 15px;
+            text-align: center;
+        }
+
+        .investmentInput {
+            text-align: center;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .investmentField {
+            hr {
+                display: none;
+            }
+        }
+    }
+
+    @media (max-width: 767px) {
+        .investmentInput {
+            text-align: center;
+        }
+
+        .investmentField {
+            text-align: center;
+
+            hr {
+                background-color: rgba(255, 255, 255, 0.5);
+            }
+        }
+    }
+
+    .readyTable {
+        .odd {
+            td {
+                border: none;
+                background-color: #3a3abf;
+            }
+        }
+
+        .even {
+            td {
+                border: none;
+                background-color: #2c2cb5;
+            }
+        }
+
+        th {
+            border: none;
+            background-color: #0f0d65;
+        }
+    }
+    @media (max-width: 1199px) {
+        .readyTable {
+            overflow-x: scroll;
+        }
+    }
+    .text-center {
+        align-items: center;
+        justify-content: center;
+    }
+
+    .example-radio-group {
+        display: flex;
+        flex-direction: column;
+        margin: 0px 15px;
+    }
+
+    .example-radio-button {
+        margin: 5px;
+    }
+
+    .img-responsive {
+        width: 100%;
+        height: auto;
+    }
+
+    a,
+    a h3 {
+        color: lightskyblue;
+        text-decoration: underline;
+    }
+}
+
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-label {
+    color: rgba(255, 252, 252, 0.54) !important;
+}

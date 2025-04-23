@@ -1,0 +1,9 @@
+<div class="coin-info">
+    <div class="coin-info__qr">
+        <qrcode [qrdata]="coinAdd" [width]="150" [errorCorrectionLevel]="'M'"></qrcode>
+    </div>
+
+    <p class="semi-bold center coin-info__text">{{coin}}{{ 'Admin.Address' | translate }}:</p>
+    <p class="center eth-info__add">{{ coinAdd }}</p>
+</div>
+      

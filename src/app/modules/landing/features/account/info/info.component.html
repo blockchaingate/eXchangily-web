@@ -1,0 +1,177 @@
+<div class="container">
+    <h3 class="color-primary center">{{ 'Header.Navigation.Account.UserInfo' | translate }}</h3>
+
+    <form *ngIf="loadingDone" name="userForm" class="user-info" (ngSubmit)="gotoUserUpdate()" [formGroup]="userForm" #formDir="ngForm">
+
+        <div class="user-info__field-wrap" fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap.gt-xs="3em" fxLayoutAlign.lt-sm="center">
+            <div fxFlex="16em">
+                <label class="form-input__text__label">{{ 'Account.View Orders.ViewOrderPage.ListFields.Field3' | translate }}</label>
+                <p class="color-primary">{{ totalTokens || 0 }}</p>
+            </div>
+
+            <div fxFlex="6em">
+                <label class="form-input__text__label">{{ 'Account.Referrals.Page.ReferralOrderList.ListFields.Field6' | translate }}</label>
+                <p>{{ data ? data.pointsEarned : 0}}</p>
+            </div>
+
+            <div fxFlex="26em">
+                <label class="form-input__text__label">{{ 'EXG Address' | translate }}</label>
+
+                <ng-container *ngIf="edit">
+                    <input type="text" name="walletExgAddress" formControlName="walletExgAddress" class="form-input__text block">
+                </ng-container>
+                <ng-container *ngIf="!edit">
+                    <p>{{ user.walletExgAddress }}</p>
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="user-info__field-wrap">
+            <label for="email" required class="form-input__text__label">{{ 'Form.Email' | translate }}</label>
+            <ng-container *ngIf="edit">
+                <input type="email" name="email" formControlName="email" class="form-input__text block">
+            </ng-container>
+
+            <ng-container *ngIf="!edit">
+                <p>{{user.email}}</p>
+            </ng-container>
+        </div>
+
+        <div class="user-info__field-wrap">
+            <label for="displayName" class="form-input__text__label">{{ 'Form.Display Name' | translate }}</label>
+            <ng-container *ngIf="edit">
+                <input type="text" name="displayName" formControlName="displayName" class="form-input__text block">
+            </ng-container>
+
+            <ng-container *ngIf="!edit">
+                <p>{{user.displayName || '-'}}</p>
+            </ng-container>
+        </div>
+
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap.gt-xs="3em" fxLayoutAlign.lt-sm="center">
+            <div class="user-info__field-wrap">
+                <label for="firstName" class="form-input__text__label">{{ 'Form.First Name' | translate }}</label>
+                <ng-container *ngIf="edit">
+                    <input type="text" name="firstName" formControlName="firstName" class="form-input__text">
+                </ng-container>
+
+                <ng-container *ngIf="!edit">
+                    <p>{{user.firstName || '-'}}</p>
+                </ng-container>
+            </div>
+
+            <div class="user-info__field-wrap">
+                <label for="midName" class="form-input__text__label">{{ 'Form.Middle Name' | translate }}</label>
+                <ng-container *ngIf="edit">
+                    <input type="text" name="midName" formControlName="midName" class="form-input__text">
+                </ng-container>
+
+                <ng-container *ngIf="!edit">
+                    <p>{{user.midName|| '-'}}</p>
+                </ng-container>
+            </div>
+
+            <div class="user-info__field-wrap">
+                <label for="lastName" class="form-input__text__label">{{ 'Form.Last Name' | translate }}</label>
+                <ng-container *ngIf="edit">
+                    <input type="text" name="lastName" formControlName="lastName" class="form-input__text">
+                </ng-container>
+
+                <ng-container *ngIf="!edit">
+                    <p>{{user.lastName|| '-'}}</p>
+                </ng-container>
+            </div>
+        </div>
+
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap.gt-xs="3em" fxLayoutAlign.lt-sm="center" class="user-info__field-wrap">
+            <div fxFlex="50" class="user-info__field-wrap">
+                <label for="homePhone" class="form-input__text__label block">{{ 'Form.Home Phone' | translate }}</label>
+                <ng-container *ngIf="edit">
+                    <input type="number" name="homePhone" formControlName="homePhone" class="form-input__text">
+                </ng-container>
+
+                <ng-container *ngIf="!edit">
+                    <p>{{user.homePhone|| '-'}}</p>
+                </ng-container>
+            </div>
+
+            <div fxFlex="50" class="user-info__field-wrap">
+                <label for="workPhone" class="form-input__text__label block">{{ 'Form.Work Number' | translate }}</label>
+                <ng-container *ngIf="edit">
+                    <input type="number" name="workPhone" formControlName="workPhone" class="form-input__text">
+                </ng-container>
+
+                <ng-container *ngIf="!edit">
+                    <p>{{user.workPhone|| '-'}}</p>
+                </ng-container>
+            </div>
+        </div>
+
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap.gt-xs="3em" fxLayoutAlign.lt-sm="center">
+            <div fxFlex="50" class="user-info__field-wrap">
+                <label for="mobile" class="form-input__text__label block">{{ 'Form.Mobile Number' | translate }}</label>
+                <ng-container *ngIf="edit">
+                    <input type="number" name="mobile" formControlName="mobile" class="form-input__text">
+                </ng-container>
+
+                <ng-container *ngIf="!edit">
+                    <p>{{user.mobile || '-'}}</p>
+                </ng-container>
+            </div>
+
+            <div fxFlex="50" class="user-info__field-wrap">
+                <label for="workEmail" class="form-input__text__label block">{{ 'Form.Work Email' | translate }}</label>
+                <ng-container *ngIf="edit">
+                    <input type="email" name="workEmail" formControlName="workEmail" class="form-input__text">
+                </ng-container>
+
+                <ng-container *ngIf="!edit">
+                    <p>{{user.workEmail || '-'}}</p>
+                </ng-container>
+            </div>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="space-around" class="user-info__field-wrap">
+            <div fxFlex="50">
+                <label for="personalMember" class="form-input__text__label block">{{ 'Form.Personal Member' | translate }}</label>
+            </div>
+
+            <div fxFlex="50">
+                <label for="active" class="form-input__text__label block">{{ 'Form.Active' | translate }}</label>
+            </div>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="space-around" class="user-info__field-wrap">
+            <div fxFlex="50">
+                <label for="memberSince" class="form-input__text__label block">{{ 'Form.Member Since' | translate }}</label>
+                <p>{{user.dateCreated | date:'dd MMM yyyy'}}</p>
+            </div>
+
+            <div fxFlex="50">
+                <label for="active" class="form-input__text__label block">{{ 'Form.Last Updated' | translate }}</label>
+                <p>{{user.lastUpdated | date:'dd MMM yyyy'}}</p>
+            </div>
+        </div>
+        <!--- disabled temporily,  will restore after campaign
+    <div fxLayout="row" fxLayoutAlign="flex-start" class="user-info__field-wrap">
+      <div fxFlex="50">
+        <label for="parentReferralCode" class="form-input__text__label labl1">{{ 'Account.User Info.InfoForm.Field12.Title' | translate }}</label>
+        <input *ngIf="edit" type="text" for="parentReferralCode" class="form-input__text" formControlName="parentReferralCode">
+        <p *ngIf="!edit">{{ userForm.get('parentReferralCode').value }}</p>
+        <div *ngIf="edit" class="form-input__error">
+          <p>{{ 'Account.User Info.InfoForm.Field12.Note' | translate }}</p>
+        </div>
+      </div>
+    </div>
+  -->
+        <!-- NEEDS TRANSALATION -->
+        <div fxLayout="row" fxLayoutAlign="center start" fxLayoutGap="1em" class="col-12 center">
+            <button *ngIf="!edit" type="button" (click)="setEdit()" class="next-button form-input__button background-secondary color-white"><span class="color-white">{{ 'Form.Edit' | translate }}</span></button>
+
+            <ng-container *ngIf="edit">
+                <button type="submit" class="form-input__button background-primary-bold"><span class="color-white">{{ 'Form.Save' | translate }}</span></button>
+                <button type="button" (click)="onCancel()" class="form-input__button cancel-button"><span class="semi-bold color-primary-bold">{{ 'Form.Cancel' | translate }}</span></button>
+            </ng-container>
+        </div>
+    </form>
+</div>

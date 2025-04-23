@@ -1,0 +1,43 @@
+<div bsModal #otcListingOrdersModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-bg-grey">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 text-dark">{{"Orders"|translate}}</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" *ngIf="listing && listing.orders">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Txid</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let order of listing.orders">
+                            <td><small>{{utilServ.toPrecision(order.totalSale)}}</small></td>
+                            <td><small>{{order.totalToPay}}</small></td>
+                            <td><small>{{order.txid}}</small></td>
+                            <td>
+                                <small>
+                                {{getStatusText(order.buy, order.paymentStatus)}}
+                            </small>
+                                <button *ngIf="order.paymentStatus == 0" (click)="changePaymentStatus(order, 1)" mat-raised-button color="primary">
+                                    {{getButtonText(order.buy, order.paymentStatus) | translate}}
+                                </button>
+
+                                <button *ngIf="order.paymentStatus != 0 && order.paymentStatus != 4" (click)="changePaymentStatus(order, 4)" mat-raised-button color="primary">
+                                    {{'Locked' | translate}}
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

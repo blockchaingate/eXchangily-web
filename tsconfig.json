@@ -1,22 +1,52 @@
-/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
-/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
-    "strict": true,
+    "paths": {
+      "crypto": [
+        "./node_modules/crypto-browserify"
+      ],
+      "https": [
+        "./node_modules/https-browserify"
+      ],
+      "http": [
+        "./node_modules/stream-http"
+      ],
+      "stream": [
+        "./node_modules/stream-browserify"
+      ],
+      "querystring": [
+        "./node_modules/querystring-es3"
+      ]
+    },
+    "forceConsistentCasingInFileNames": true,
+    "strict": false,
+    "strictNullChecks": false,
     "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": false,
+    "strictPropertyInitialization": false,
+    "noImplicitAny": false,
+    "downlevelIteration": true,
     "skipLibCheck": true,
-    "isolatedModules": true,
-    "esModuleInterop": true,
     "experimentalDecorators": true,
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "importHelpers": true,
-    "target": "ES2022",
-    "module": "ES2022"
+    "target": "es2020",
+
+
+    "module": "es2020",
+    "lib": [
+      "es2020",
+      "dom"
+    ]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

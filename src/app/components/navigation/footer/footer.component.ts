@@ -1,27 +1,21 @@
-import { Component, OnInit, ElementRef, HostListener, AfterViewInit } from '@angular/core';
-import { Icons } from '../../../environments/icons';
+import { Component, OnInit,ElementRef, HostListener, AfterViewInit } from '@angular/core';
+import { Icons } from '../../../../environments/icons';
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
-import { version } from '../../../environments/version';
-import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
-import { SubscriptionComponent } from '../../subscription/subscription.component';
-
+import { environment } from '../../../../environments/environment';
+import { version } from '../../../../environments/version';
 @Component({
   selector: 'app-footer',
-  standalone: true,
-  imports: [CommonModule, TranslateModule, SubscriptionComponent],
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent implements OnInit {
-  year = 2025;
+  year: number;
   lang = 'en';
 
-  gradientTop = 0;
-  gradientLeft = 0;
+  gradientTop: number;
+  gradientLeft: number;
   version = version;
-
   constructor(
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
@@ -30,8 +24,8 @@ export class FooterComponent implements OnInit {
   ) { }
 
   get gradientStyle() {
-    const top = -this.gradientTop / 10;
-    const left = -this.gradientLeft / 10;
+    const top = -this.gradientTop /10;
+    const left = -this.gradientLeft /10;
 
     return {
       'backgroundPositionX.px': left,
@@ -49,16 +43,16 @@ export class FooterComponent implements OnInit {
 
   ngOnInit() {
     this.year = (new Date()).getFullYear();
-    this.lang = window.localStorage.getItem('Lan')?.toLowerCase() || 'en';
+    this.lang = window.localStorage.getItem('Lan').toLowerCase();
 
     const icons = Icons;
-    for (let i = 0; i < icons.length; i++) {
+    for(let i=0; i<icons.length; i++) {
       const icon = icons[i];
       this.matIconRegistry.addSvgIcon(
         icon,
         this.domSanitizer.bypassSecurityTrustResourceUrl("/assets/svg/" + icon + ".svg")
-      );
-    }
+      );        
+    }     
   }
 
 }

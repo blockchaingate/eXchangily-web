@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
-import * as BIP39 from 'bip39';
+
+import * as BIP39 from 'node_modules/bip39';
+
 import { Wallet } from '../models/wallet';
-import { StorageMap } from '@ngx-pwa/local-storage';
-import { CoinService } from './coin.service';
-import { UtilService } from './util.service';
+
+import { LocalStorage } from '@ngx-pwa/local-storage';
+
+import {CoinService} from './coin.service';
+import {UtilService} from './util.service';
 enum addressType {
     receive = 'receive',
     change = 'change'
@@ -11,9 +15,9 @@ enum addressType {
 
 @Injectable()
 export class WalletService {
-    wallet: Wallet | null = {} as Wallet; // set when loged in, else it is null.
+    wallet: Wallet | null; // set when loged in, else it is null.
 
-    constructor(private localSt: StorageMap, private coinService: CoinService,
+    constructor( private localSt: LocalStorage, private coinService: CoinService,
         private utilService: UtilService) {
     }
 
@@ -69,9 +73,9 @@ export class WalletService {
 
     updateWalletPassword(wallet: Wallet, oldPassword: string, newPassword: string) {
         const pwdHashStr = this.utilService.SHA256(newPassword).toString();
-        const mnemonic = this.utilService.aesDecrypt(wallet.encryptedMnemonic, oldPassword);
+        const  mnemonic = this.utilService.aesDecrypt(wallet.encryptedMnemonic, oldPassword);
         const seed = BIP39.mnemonicToSeedSync(mnemonic);
-        const encryptedMnemonic = this.utilService.aesEncrypt(mnemonic, newPassword);
+        const encryptedMnemonic = this.utilService.aesEncrypt(mnemonic, newPassword);   
         const encryptedSeed = this.utilService.aesEncryptSeed(seed, newPassword);
         wallet.pwdHash = pwdHashStr;
         wallet.encryptedMnemonic = encryptedMnemonic;
@@ -86,7 +90,7 @@ export class WalletService {
     }
 
     // Generate walllet, store it to db and set current wallet to it.
-    generateWallet(pwd: string, name: string, mnemonic: string): Wallet | null {
+     generateWallet(pwd: string, name: string, mnemonic: string): Wallet | null {
         const mnemonicArr = mnemonic.split(' ');
         if (!mnemonicArr || mnemonicArr.length !== 12) {
             return null;
@@ -140,7 +144,7 @@ export class WalletService {
     }
     */
     getCurrentWallets() {
-        return this.localSt.get('wallets');
+        return this.localSt.getItem('wallets');
     }
 
     async getCurrentWallet() {
@@ -155,41 +159,43 @@ export class WalletService {
             }
             if (currentWalletIndex > wallets.length - 1) {
                 currentWalletIndex = wallets.length - 1;
-            }
+            }              
             // console.log('currentWalletIndex here=' + currentWalletIndex);
             return wallets[currentWalletIndex];
         }
         return null;
     }
-
+    
     async getWallets() {
-        const wallets = await this.localSt.get('wallets').toPromise() as Wallet[];
-        return wallets;
+            const wallets = await this.localSt.getItem('wallets').toPromise() as Wallet[];
+            return wallets;
     }
 
     async getCurrentWalletIndex() {
-        const currentWalletIndex = await this.localSt.get('currentWalletIndex').toPromise() as number;
+        const currentWalletIndex = await this.localSt.getItem('currentWalletIndex').toPromise() as number;
         // console.log('currentWalletIndex in get', currentWalletIndex);
         return currentWalletIndex;
     }
 
+
+
     storeToWalletList(wallet: Wallet) {
-        this.localSt.get('wallets').subscribe((wallets: any) => {
+        this.localSt.getItem('wallets').subscribe((wallets: any) => {
             if (!wallets) {
                 wallets = [];
             }
             // const index = wallets.indexOf(wallet);
             if (wallets.indexOf(wallet) < 0) {
                 wallets.push(wallet);
-
+                
             }
-            return this.localSt.set('wallets', wallets);
+            return this.localSt.setItem('wallets', wallets);
         });
     }
 
     updateToWalletList(wallet: Wallet, index: number) {
 
-        this.localSt.get('wallets').subscribe((wallets: any) => {
+        this.localSt.getItem('wallets').subscribe((wallets: any) => {
             if (!wallets) {
                 wallets = [];
             }
@@ -209,18 +215,18 @@ export class WalletService {
                 wallets[index] = wallet;
             }
 
-            this.localSt.set('wallets', wallets).subscribe(() => {
+            this.localSt.setItem('wallets', wallets).subscribe(() => {
             });
         });
     }
 
-    updateWallets(wallets: Wallet[]) {
-        this.localSt.set('wallets', wallets).subscribe(() => {
+    updateWallets(wallets) {
+        this.localSt.setItem('wallets', wallets).subscribe(() => {
         });
     }
 
     getWalletList() {
-        return this.localSt.get('wallets');
+        return this.localSt.getItem('wallets');
     }
 
     /*
@@ -234,12 +240,12 @@ export class WalletService {
             this.localSt.setItem('currentWalletIndex', value).subscribe((newValue) => {console.log('newValue=' + newValue);});
         });
         */
-        this.localSt.set('currentWalletIndex', value).subscribe(async (newValue) => {
+        this.localSt.setItem('currentWalletIndex', value).subscribe( async (newValue) => {
             const index = await this.getCurrentWalletIndex();
         });
-
+        
     }
-
+    
     /*
     restoreWallet(mnemonic: string, pwd: string) {
         const theWallet = this.formatWallet(pwd, name, mnemonic);

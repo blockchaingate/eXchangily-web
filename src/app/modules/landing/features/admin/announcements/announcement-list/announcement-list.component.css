@@ -1,0 +1,22 @@
+.newsBody{
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+
+.Articles{
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+
+.media{
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.media img{
+    width: 200px;
+    height: 200px;
+}
+.articalBoty{
+    color:#ddd
+}

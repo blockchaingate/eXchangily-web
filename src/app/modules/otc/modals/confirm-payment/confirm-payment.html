@@ -1,0 +1,41 @@
+<div bsModal #confirmPaymentModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-bg-grey">
+        <form [formGroup]="confirmPaymentModalForm" (ngSubmit)="onSubmit()">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 text-dark">Confirm Payment</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row pb-3 text-muted text-center">
+                            <div class="col col-6">
+                                <div>
+                                    Order Number: 11351
+                                </div>
+                                <div>
+                                    Order Time: 11351
+                                </div>
+                                <div>
+                                    Amount: 698 CNY
+                                </div>
+                                <div>
+                                    Merchant's alipay number: 188888888
+                                </div>
+                            </div>
+                            <div class="col col-6">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer  justify-content-center">
+                    <button class="btn btn-gradient text-white py-2 px-5" type="submit"> Already Paid </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

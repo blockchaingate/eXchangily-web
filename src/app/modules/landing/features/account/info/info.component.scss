@@ -1,0 +1,54 @@
+// @import '~bootstrap/scss/bootstrap-reboot';
+// @import '~bootstrap/scss/bootstrap-grid';
+@import 'sizing';
+@import 'colours';
+
+.user-info {
+  background-color: white;
+  display: block;
+
+  margin: 0 0 4em 0;
+  width: 100%;
+
+  &.no-margin {
+    margin: 0;
+    width: calc(100% - 4em);
+  }
+
+  h2 {
+    margin: 0;
+  }
+
+  &__field-wrap {
+    margin-top: .6em;
+    max-width: 25em;
+
+    p {
+      margin: 0 0 0 1em;
+    }
+  }
+
+  label {
+    display: block;
+    margin-top: .6em;
+  }
+
+  button {
+    border-radius: 3px;
+    margin-top: 3em;
+    max-width: 7em;
+
+    &.cancel-button {
+      background-color: none;
+      border: solid $primary 2px;
+    }
+  }
+
+  input {
+    width: calc(100% - 2em);
+  }
+}
+
+.labl1 {
+  width: 12em;
+}

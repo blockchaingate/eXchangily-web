@@ -1,114 +1,32 @@
-import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Language } from './models/language';
-import { ApiService } from './services/api.service';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
-import { WsService } from './services/ws.service';
-import { CommonModule } from '@angular/common';
-import { setTheme } from 'ngx-bootstrap/utils';
-import { HeaderComponent } from './components/navigation/header/header.component';
-import { FooterComponent } from './components/navigation/footer/footer.component';
-import { UtilService } from './services/util.service';
-import { TimerService } from './services/timer.service';
-import { StorageService } from './services/storage.service';
-import { LoginInfoService } from './services/loginInfo.service';
-import { LoginQualifyService } from './services/lgoin-quality.service';
-import { LanService } from './services/lan.service';
-import { KanbanService } from './services/kanban.service';
-import { HttpService } from './services/http.service';
-import { AnnouncementsService } from './services/announcements.service';
-import { AlertService } from './services/alert.service';
-import { SubscriptionService } from './services/subscription.service';
-import { BrowserModule } from '@angular/platform-browser';
-import { Web3Service } from './services/web3.service';
+import { Component } from '@angular/core';
 
+import { setTheme } from 'ngx-bootstrap/utils';
+import { Router, NavigationEnd } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { WsService } from './services/ws.service';
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, RouterOutlet, TranslateModule, HeaderComponent, FooterComponent],
-  providers: [
-    AlertService,
-    AnnouncementsService,
-    ApiService,
-    StorageService,
-    HttpService,
-    LoginInfoService,
-    LoginQualifyService,
-    LanService,
-    KanbanService,
-    SubscriptionService,
-    UtilService,
-    Web3Service,
-    WsService,
-    TimerService
-  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
-  title = 'exchangily';
+export class AppComponent {
   selected = 1;
   noHeader = false;
   flag = 'flag_zh.svg';
-  msg = '';
-  currentLang = 'en';
-  darkBgEnable = false;
-  blocked = false;
-  private isMobile = false;
+  msg: string;
+  currentLang: string;
+  darkBgEnable: boolean;
+  private isMobile: boolean;
+ 
 
-  LANGUAGES: Language[] = [
-    { code: 'en', name: 'English', flag: '🇺🇸' },
-    { code: 'sc', name: '简体中文', flag: '🇨🇳' },
-    { code: 'tc', name: '繁體中文', flag: 'TW' },
-    { code: 'es', name: 'Spanish', flag: '🇪🇸' },
-    { code: 'fr', name: 'French', flag: '🇫🇷' },
-    { code: 'de', name: 'German', flag: '🇩🇪' },
-    { code: 'jp', name: 'Japanese', flag: '🇯🇵' },
-    { code: 'ru', name: 'Russian', flag: '🇷🇺' },
-    { code: 'kr', name: 'Korean', flag: '🇰🇷' },
-    { code: 'it', name: 'Italian', flag: '🇮🇹' },
-    { code: 'pt', name: 'Portuguese', flag: '🇧🇷' },
-    { code: 'hi', name: 'Hindi', flag: '🇮🇳' },
-    { code: 'ar', name: 'Arabic', flag: '🇸🇦' },
-    { code: 'tr', name: 'Turkish', flag: '🇹🇷' },
-    { code: 'vi', name: 'Vietnamese', flag: '🇻🇳' },
-    { code: 'nl', name: 'Dutch', flag: '🇳🇱' },
-    { code: 'sv', name: 'Swedish', flag: '🇸🇪' },
-    { code: 'no', name: 'Norwegian', flag: '🇳🇴' },
-    { code: 'pl', name: 'Polish', flag: '🇵🇱' },
-    { code: 'th', name: 'Thai', flag: '🇹🇭' },
-    { code: 'he', name: 'Hebrew', flag: '🇮🇱' }
-  ];
-  // selectedLanguage = 'en';
-  selectedLan = this.LANGUAGES[0].code;
-
-  constructor(private translate: TranslateService, private apiServ: ApiService, private route: ActivatedRoute,
-    private wsService: WsService, private storage: StorageService,
-    router: Router
-  ) {
-    const storedLang = localStorage.getItem('selectedLanguage');
-    if (storedLang) {
-      this.selectedLan = storedLang;
-    }
-    this.translate.setDefaultLang(this.selectedLan);
-
-
+  constructor(
+    private route: ActivatedRoute,
+    private wsService: WsService,
+    router: Router) {
     setTheme('bs4'); // Bootstrap 4
     this.darkBgEnable = false;
-    this.blocked = false;
     this.isMobile = this.isMobileDevice();
     // const url = window.location.href;
-    const hostname = location.hostname;
-    if(['exchangily.com', 'www.exchangily.com'].indexOf(hostname) >= 0) {
-      this.apiServ.checkCountry().subscribe(
-        (countryCode: any) => {
-          if(['CA'].indexOf(countryCode) >= 0) {
-            this.blocked = true;
-          }
-        }
-      );
-    }
 
     router.events.subscribe((e) => {
       if (e instanceof NavigationEnd) {
@@ -149,27 +67,10 @@ export class AppComponent implements OnInit {
       }
     });
     */
-
-  }
-
-  ngOnInit() {
-    const storedLang = localStorage.getItem('selectedLan');
-    if (storedLang) {
-      this.selectedLan = storedLang;
-      this.translate.use(storedLang);
-    } else {
-      this.translate.use(this.selectedLan);
-    }
-  }
-
-  switchLanguage(lang: string) {
-    this.selectedLan = (this.LANGUAGES.find((item) => item.code === lang) as Language).code;
-    this.translate.use(lang);
-    this.translate.setDefaultLang(lang);
-    localStorage.setItem("selectedLan", lang);
-  }
+  } 
 
   private isMobileDevice(): boolean {
+
     var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     if (isMobile) {
@@ -179,13 +80,13 @@ export class AppComponent implements OnInit {
     } else {
       console.log('User is accessing from a laptop or desktop browser.');
     }
-    this.storage.setIsMobile(isMobile);
-    // console.log('isMobile=' + isMobile);
+
     return isMobile;
   }
 
   getisMobile(): boolean {
     return this.isMobile;
   }
+
 
 }

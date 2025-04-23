@@ -1,0 +1,23 @@
+<div class="row Articles">
+    <div class="col-md-12">
+        <ul class="list-unstyled" *ngIf="!busy && success">
+            <li class="media" *ngFor="let announce of announceList">
+                <!-- btn-info -->
+                <div class="media-body">
+                    <h5 class="mt-0 mb-1">{{announce.title}}</h5>
+                    <div class="articalSub my-2"><button type="button" class="btn btn-sm mr-2 btn-primary">{{announce.category}}</button>{{announce.postedDate}}</div>
+                    <p class="articalBody">
+                        {{announce.contentSummary}}
+                    </p>
+                </div>
+            </li>
+        </ul>
+        <div *ngIf="busy">
+            Loading...
+        </div>
+        <div *ngIf="!busy && !success">
+
+        </div>
+    </div>
+
+</div>

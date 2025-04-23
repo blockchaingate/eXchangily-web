@@ -1,0 +1,24 @@
+.app-lightbox {
+  background-color: rgba(0, 0, 0, .75);
+  height: 200%;
+  left: 0;
+  position: absolute;
+  width: calc(100% + .55em);
+
+  button {
+    position: relative;
+    z-index: 200;
+  }
+
+  &__content {
+    bottom: 0;
+    height: min-content;
+    left: 0;
+    position: absolute;
+    overflow-y: scroll;
+    right: 0;
+    top: .5em;
+    width: calc(100% + .55em);
+    z-index: 120;
+  }
+}

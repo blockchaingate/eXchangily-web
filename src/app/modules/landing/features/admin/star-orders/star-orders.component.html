@@ -1,0 +1,77 @@
+<table class="table table-striped text-white">
+    <thead>
+        <tr>
+            <th scope="col">Wallet address</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Currency</th>
+            <th scope="col">Status</th>
+            <th scope="col">Date created</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let order of orders">
+            <td>{{order.walletAdd}}</td>
+            <td>{{order.amount}}</td>
+            <td>{{order.currency}}</td>
+            <td>
+                <a (click)="openModal(order, template)">
+                    {{getStatusText(order.status)}}
+                </a>
+            </td>
+            <td>
+                {{order.dateCreated}}
+            </td>
+            <td>
+                <div class="py-2">
+                    <button *ngIf="(order.status != 3) && (order.status != 4)"
+                     class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="changeStatus(order, 3)">
+                        confirm payment
+                    </button>  
+                </div>
+                <div class="py-2">
+                    <button *ngIf="order.status != 4"
+                    class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="changeStatus(order, 4)">
+                        Finished
+                    </button>
+                </div>
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<ng-template #template>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Payment detail</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped text-white" *ngIf="payments">
+            <thead>
+                <tr class="text-black">
+                    <th scope="col">Amount</th>
+                    <th scope="col">Payment method</th>
+                    <th scope="col">Transaction Id</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-black" *ngFor="let payment of payments">
+                    <td>{{payment.amount}}</td>
+                    <td>{{payment.paymentMethod}}</td>
+                    <td>{{payment.transactionId}}</td>
+                    <td>
+                        {{getPaymentStatusText(payment.status)}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div *ngIf="!payments" class="text-center">
+            {{'No payment' | translate}}
+        </div>
+    </div>
+  </ng-template>
+

@@ -1,19 +1,19 @@
 export class TransactionItem {
 // item for transaction history
-    walletId = '';
-    type = '';
-    tokenType = '';
-    coin = '';
-    chain? = '';
-    amount = 0;
-    action = '';
-    from = '';
-    to = '';
-    quantity = 0;
-    timestamp = 0;
-    comment = '';
-    confirmations = '';
-    blockhash = '';
-    status = '';
-    transactionId = '';
+    walletId: string;
+    type: string;
+    tokenType: string;
+    coin: string;
+    chain?: string;
+    amount: number;
+    txid: string;
+    action: string;
+    to: string;
+    quantity: number;
+    timestamp: number;
+    time: Date;
+    comment: string;
+    confirmations: string;
+    blockhash: string;
+    status: string;
 }

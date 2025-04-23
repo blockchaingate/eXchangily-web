@@ -1921,7 +1921,7 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
 }
 
 .mat-select-value {
-    color: grey;
+    color: #fff
 }
 
 .mat-select-placeholder {

@@ -1,33 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-/* Above is Angular Material's default theme */
-/* Below is the custom theme */
-/*
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
-@import '~@angular/material/theming';
-@import '~@angular/material/core/theming';
-@import '~@angular/material/typography';
-@import '~@angular/material/core/theming';
-*/
 // Bootstrap
 // @import "~bootstrap/scss/bootstrap-reboot";
 // @import "~bootstrap/scss/bootstrap-grid";
-@import "./global_styles/colours";
-@import "./global_styles/fonts";
-@import "./global_styles/sizing";
-@import "./global_styles/forms";
+@import "colours";
+@import "fonts";
+@import "sizing";
+@import "forms";
 @import "./styles/margin.css";
 @import "./styles/padding.css";
 @import "./styles/size.css";
 @import "./styles/color.css";
 @import "./styles/style.css";
-
-html, body { height: 100%; }
+html,
 body {
     color: $secondary-light;
-    font-family: Verdana, Roboto, "Helvetica Neue", sans-serif, SimHei, "Microsoft YaHei";
+    font-family: Verdana, sans-serif, SimHei, "Microsoft YaHei";
     height: 100%;
     margin: 0;
     padding: 0;
@@ -122,6 +108,7 @@ fieldset {
             width: calc(100% - 4em);
         }
         height: 100%;
+        width: 100%;
     }
 }
 

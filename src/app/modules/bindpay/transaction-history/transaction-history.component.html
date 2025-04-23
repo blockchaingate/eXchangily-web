@@ -1,0 +1,44 @@
+<div class="row w-100 header py-3">
+    <div class="orditem col-4">{{'Time' | translate }}</div>
+    <div class="orditem col-2">{{'Type' | translate }}</div>
+    <div class="orditem col-2">{{'Coin' | translate }}</div>
+    <div class="orditem col-2">{{'Amount' | translate }}</div>
+    <div class="orditem col-2">{{'Status' | translate }}</div>
+</div>
+
+<div class="myorderlist scroll-bar w-100 pt-2">
+    <div class="row row-with-line w-100" *ngFor="let item of transactionHistories; let i=index">
+        <div class="text-muted col-4">
+            <p>
+                {{item.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}
+            </p>
+        </div>
+        <div class=" text-info col-2">
+            <p>
+                {{item.type}}
+            </p>
+        </div>
+        <div class=" text-info col-2">
+            <p>
+                {{item.coin}}
+            </p>
+        </div>
+        <div class=" text-info col-2">
+            <p>
+                {{item.amount}}
+            </p>
+        </div>
+
+        <div class=" text-info col-2">
+            <p>
+                {{item.status == 1 ? 'Success' : 'Failed'}}
+            </p>
+            <p>
+                <a target="_blank" href="/explorer/tx-detail/{{item.txid}}">
+                    {{showTxid(item.txid)}}
+                </a>
+                
+            </p>
+        </div>
+    </div>
+</div>

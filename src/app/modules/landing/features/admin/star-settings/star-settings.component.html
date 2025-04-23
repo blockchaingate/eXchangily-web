@@ -1,0 +1,19 @@
+<div class="text-right">
+    <button routerLink="/admin/star-setting/add">Add</button>
+</div>
+<table class="table table-striped text-white">
+    <thead>
+        <tr>
+            <th scope="col">Smart contract Address</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let setting of settings">
+            <td>{{setting.receivingContractAdd}}</td>
+            <td>
+                <button routerLink="/admin/star-setting/{{setting._id}}/edit">Edit</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

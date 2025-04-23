@@ -1,0 +1,27 @@
+.container {
+    width: 100vw;
+}
+
+.failbox{
+    color: red;
+    margin: 2em;
+}
+
+.outbox {
+    width: 80%;
+    padding: 1em;
+    margin-bottom: 4em;
+}
+
+.imgbox {
+    width: 500px;
+}
+
+.imgitm {
+    margin: 2em;
+}
+
+.itmtitle {
+    width: 12em;
+    font-weight: bold;
+}

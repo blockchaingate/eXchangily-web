@@ -1,0 +1,46 @@
+<div class="container d-flex">
+    <div>
+        <h3 class="color-primary">{{ "Account.Admin.Title" | translate }}</h3>
+    <!--
+        <ul class="menu">
+            <li>
+                <a routerLink="/account/admin/order-mngmt" routerLinkActive="color-black bold">Orders</a>
+            </li>
+            <li>
+                <a routerLink="/account/admin/kycs" routerLinkActive="color-black bold">KYCs</a>
+            </li>
+            <li>
+                <a routerLink="/account/admin/addcoin" routerLinkActive="color-black bold">Coin</a>
+            </li>
+            <li>
+                <a routerLink="/account/admin/tokenlock" routerLinkActive="color-black bold">Lock</a>
+            </li>
+    
+            <li>
+                <a routerLink="/account/admin/campaign-orders" routerLinkActive="color-black bold">Campaign Orders</a>
+            </li>        
+        </ul>
+    -->
+        <div class="vertical-menu px-3">
+            <a routerLink="/admin/members" routerLinkActive="active">Members</a>
+            <a routerLink="/admin/order-mngmt" routerLinkActive="active">FAB Orders</a>
+            <a routerLink="/admin/kycs" routerLinkActive="active">KYCs</a>
+            <a routerLink="/admin/addcoin" routerLinkActive="active">Coin</a>
+            <a routerLink="/admin/tokenlock" routerLinkActive="active">Lock</a>
+            <a routerLink="/admin/star-orders" routerLinkActive="active">7star Orders</a>
+            <a routerLink="/admin/star-settings" routerLinkActive="active">7star Settings</a>
+            <a routerLink="/admin/star-events" routerLinkActive="active">7star Events</a>
+            <a routerLink="/admin/campaign-orders" routerLinkActive="active">Campaign Orders</a>
+            <a routerLink="/admin/merchant" routerLinkActive="active">Merchant</a>
+            <a routerLink="/admin/otc-listing" routerLinkActive="active">Otc Listing</a>
+            <a routerLink="/admin/otc-orders" routerLinkActive="active">Otc Orders</a>
+            
+            <a routerLink="/admin/paymentmethods" routerLinkActive="active">Payment methods</a>
+            <a routerLink="/admin/announcements" routerLinkActive="active">Announcements</a>
+        </div>
+    </div>
+    <div class="rightSide">
+        <router-outlet></router-outlet>
+    </div>
+
+</div>

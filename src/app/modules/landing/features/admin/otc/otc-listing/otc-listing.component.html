@@ -1,0 +1,65 @@
+<table class="table table-striped table-borderless text-white">
+    <thead>
+        <tr>
+            <th scope="col">{{'Time' | translate }}</th>
+            <th scope="col">{{'Type' | translate }}</th>
+            <th scope="col">{{'Quantity' | translate }}</th>
+            <th scope="col">{{'Commission' | translate }}</th>
+            <th scope="col">{{'Limit' | translate }}</th>
+            <th scope="col">{{'Price' | translate }}</th>
+            <th scope="col">{{'Orders' | translate }}</th>
+            <th scope="col">{{'Status' | translate }}</th>
+            <th scope="col">{{'Operation' | translate }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let listing of listings">
+            <td (click)="openOrdersModal(listing)">
+                <span class="table-text">
+                    {{listing.dateCreated | date : 'mediumDate'}}
+                </span>
+            </td>
+            <td (click)="openOrdersModal(listing)">
+                <span class="table-text">
+                    {{(listing.buy ? 'Buy' : 'Sell') | translate }} {{listing.coin}}
+                </span>
+            </td>
+            <td (click)="openOrdersModal(listing)">
+                <span class="table-text">
+                    {{listing.qtyAvilable}}
+                </span>
+            </td>
+            <td (click)="openOrdersModal(listing)">
+                <span class="table-text">
+                    {{listing.qtyAvilable * 0.01}}{{listing.coin}}
+                </span>
+            </td>
+            <td (click)="openOrdersModal(listing)">
+                <span class="table-text">
+                {{listing.qtyLimitPerOrderLow}}-{{listing.qtyLimitPerOrderHigh}}{{listing.fiat}}
+                </span>
+            </td>
+            <td (click)="openOrdersModal(listing)">
+                <span class="table-text">
+                    {{listing.price}}{{listing.fiat}}
+                </span>
+            </td>
+            <td (click)="openOrdersModal(listing)">
+                <span class="table-text">
+                {{listing.orders ? listing.orders.length : 0}}
+                </span>
+            </td>
+
+            <td (click)="openOrdersModal(listing)">
+                <span class="table-text">
+                    {{listing.active ? 'Active' : 'Inactive'}}
+                </span>
+            </td>            
+            <td>
+                <button mat-raised-button color="primary" (click)="toggleActive(listing)">{{listing.active ? 'Deactive' : 'Activate' }}</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<admin-otc-listing-orders-modal #adminOtcListingOrders [listing]="listing"></admin-otc-listing-orders-modal>

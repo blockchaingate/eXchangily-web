@@ -5,12 +5,12 @@ export class Wallet {
     hide: boolean;
     name: string;
     pwdHash: string; // pwd - encrypt seed, resetable.
-    pwdDisplayHash = ''; // display password
+    pwdDisplayHash: string; // display password
     pinHash?: string; // pin - encrypt other data and confirm payment, resetable.
     encryptedSeed: string; // Encrypted with pwd.
     encryptedMnemonic: string; // Encrypted with pwd
     mycoins: MyCoin[]; // My tokens
-    excoin: MyCoin = {} as MyCoin; // My token for exchangily
+    excoin: MyCoin; // My token for exchangily
     dateCreated: Date;
     lastUpdated: Date;
 
