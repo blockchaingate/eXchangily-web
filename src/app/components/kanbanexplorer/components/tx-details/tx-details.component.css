@@ -15,6 +15,13 @@ h7 {
     word-break: break-all;
 }
 
+.spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
 table {
     table-layout: auto;
     background: #f5f5f5;

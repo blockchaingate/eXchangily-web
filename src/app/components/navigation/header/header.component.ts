@@ -8,7 +8,7 @@ import { ApiService } from '../../../services/api.service';
 import { AlertService } from '../../../services/alert.service';
 import { UtilService } from '../../../services/util.service';
 import { UserAuth } from '../../../services/user-auth.service';
-import { KanbanService } from '../../../services/kanban.service';
+import { KanbanV2Service } from '../../../services/kanban-v2.service';
 import { TimerService } from '../../../services/timer.service';
 import { environment } from '../../../environments/environment';
 import { LanService } from '../../../services/lan.service';
@@ -51,7 +51,7 @@ export class HeaderComponent implements OnInit {
     private translate: TranslateService, private router: Router,
     private alertServ: AlertService,
     public utilServ: UtilService,
-    private kanbanServ: KanbanService, private timerServ: TimerService,
+    private kanbanV2Serv: KanbanV2Service, private timerServ: TimerService,
     private location: Location,
     private storageServ: StorageService,
     private apiServ: ApiService,

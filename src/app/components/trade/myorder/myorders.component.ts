@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
 import { CoinService } from '../../../services/coin.service';
 import { UtilService } from '../../../services/util.service';
-import { KanbanService } from '../../../services/kanban.service';
+import { KanbanV2Service } from '../../../services/kanban-v2.service';
 import { TransactionReceiptResp, Transaction } from '../../../models/kanban.interface';
 import { Wallet } from '../../../models/wallet';
 import { MyCoin } from '../../../models/mycoin';
@@ -155,7 +155,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
     constructor(
         private _router: Router, private apiServ: ApiService, private _route: ActivatedRoute,
-        public utilServ: UtilService, private kanbanServ: KanbanService, private _coinServ: CoinService,
+        public utilServ: UtilService, private kanbanServ: KanbanV2Service, private _coinServ: CoinService,
         private modalService: BsModalService, private web3Serv: Web3Service, private alertServ: AlertService,
         private timerServ: TimerService, private walletServ: WalletService, private storageServ: StorageService,
         private storage: StorageService, private wsService: WsService) {

@@ -1,6 +1,6 @@
 <mat-card class="mat-elevation-z6">
-    <h5 style="text-align: center;">{{"Kanban Quick Stats"|translate}}</h5>
-    <div *ngIf="kanbanStats" style="text-align: center;" class="small">
+    <h5 class="text-center">{{"Kanban Quick Stats"|translate}}</h5>
+    <div *ngIf="kanbanStats" class="small text-center">
         {{"Blocks"|translate}} : {{ kanbanStats.lastBlockCrawled }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{"Orders"|translate}} : {{ kanbanStats.totalOrders}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{"Trades"|translate}} : {{ kanbanStats.totalTrades }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <br> {{"Deposits"|translate}} : {{kanbanStats.totalDepositRequests}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{"Withdraw Requests"|translate}} : {{kanbanStats.totalWithdrawRequests}}
         <!--

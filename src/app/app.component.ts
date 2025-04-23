@@ -15,7 +15,7 @@ import { StorageService } from './services/storage.service';
 import { LoginInfoService } from './services/loginInfo.service';
 import { LoginQualifyService } from './services/lgoin-quality.service';
 import { LanService } from './services/lan.service';
-import { KanbanService } from './services/kanban.service';
+import { KanbanV2Service } from './services/kanban-v2.service';
 import { HttpService } from './services/http.service';
 import { AnnouncementsService } from './services/announcements.service';
 import { AlertService } from './services/alert.service';
@@ -36,7 +36,7 @@ import { Web3Service } from './services/web3.service';
     LoginInfoService,
     LoginQualifyService,
     LanService,
-    KanbanService,
+    KanbanV2Service,
     SubscriptionService,
     UtilService,
     Web3Service,

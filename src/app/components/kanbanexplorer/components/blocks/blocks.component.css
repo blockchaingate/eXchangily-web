@@ -1,3 +1,25 @@
+.card-top {
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.txtAlignCenter {
+    text-align: center;
+}
+
+.toggletop {
+    line-height: 2em;
+    margin: 10px;
+}
+
+.m10 {
+    margin: 10px;
+}
+
+.w100per {
+    width: 100%;
+}
+
 .graycolor {
     color: white;
 }

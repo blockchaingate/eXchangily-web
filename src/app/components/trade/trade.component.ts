@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { KanbanService } from '../../services/kanban.service';
+import { KanbanV2Service } from '../../services/kanban-v2.service';
 import { CommonModule } from '@angular/common';
 import { LiteListComponent } from './litelist/lite-list.component';
 import { RouterOutlet } from '@angular/router';
@@ -16,7 +16,7 @@ export class TradeComponent implements OnInit {
     errMsg = '';
     maintainence = false;
 
-    constructor(private kanbanService: KanbanService) {}
+    constructor(private kanbanService: KanbanV2Service) {}
 
     ngOnInit() {
         this.maintainence = false;

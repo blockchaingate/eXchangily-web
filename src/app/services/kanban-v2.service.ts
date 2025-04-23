@@ -7,12 +7,13 @@ import { TransactionReceiptResp } from '../models/kanban.interface';
 import { Web3Service } from './web3.service';
 
 @Injectable()
-export class KanbanService {
+export class KanbanV2Service {
     // getCoinPoolAddress
     // getExchangeAddress
     nonce: number;
     endpoint = environment.endpoints.kanban;
     api = environment.endpoints.api;
+    
     constructor(
         private web3Serv: Web3Service,
         private http: HttpClient,

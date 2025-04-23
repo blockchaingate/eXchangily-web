@@ -1,6 +1,9 @@
 .graycolor {
     color: white;
 }
+.tab{
+    width: 100%;
+}
 
 th {
     color: white;

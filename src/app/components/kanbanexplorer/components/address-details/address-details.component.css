@@ -13,11 +13,22 @@ h7 {
     word-break: break-all;
 }
 
+.outter1 {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
 .vh500 {
     overflow-y: auto;
     min-height: 500px;
     max-height: 500px;
     word-wrap: break-word;
+}
+
+.ordrow {
+    text-align: left;
+    margin-left: 50px;
 }
 
 .divider {
@@ -27,9 +38,24 @@ h7 {
     border-top: 1px dashed lightgray;
 }
 
+.kbbaln{
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.matdiv {
+    width: 90%;
+    margin-left: 5%;
+}
+
 .grayback {
     background-color: #383850;
     color: lightgray;
+}
+
+.align22{
+    line-height: 2em;
+    padding: 10px;
 }
 
 th {
@@ -43,6 +69,22 @@ td {
     font-size: 0.9em;
 }
 
+.green {
+    color: green;
+}
+
+.red {
+    color: red;
+}
+
+.gray {
+    color: gray;
+}
+
+.rowsty {
+    line-height: 1.5em;
+    margin: 1em;
+}
 
 /*
 table {

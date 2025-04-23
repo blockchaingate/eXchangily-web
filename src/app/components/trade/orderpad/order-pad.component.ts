@@ -5,7 +5,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { Order, OrderBookItem, OrderItem, TradeItem } from '../../../models/kanban.interface';
 import { TxRecord } from '../../../models/order-book';
 import { Web3Service } from '../../../services/web3.service';
-import { KanbanService } from '../../../services/kanban.service';
+import { KanbanV2Service } from '../../../services/kanban-v2.service';
 import { TradeService } from '../../../services/trade.service';
 
 import { UtilService } from '../../../services/util.service';
@@ -107,7 +107,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   mySubscription: any;
 
   constructor(private storageServ: StorageService, private web3Serv: Web3Service, private _coinServ: CoinService,
-    private kanbanService: KanbanService, public utilService: UtilService, private walletService: WalletService,
+    private kanbanService: KanbanV2Service, public utilService: UtilService, private walletService: WalletService,
     private fb: FormBuilder, private modalService: BsModalService, private tradeService: TradeService,
     private apiServ: ApiService,
     private route: ActivatedRoute, private alertServ: AlertService, private timerServ: TimerService,

@@ -5,7 +5,7 @@ import { setTheme } from 'ngx-bootstrap/utils';
 import { Order } from '../../../models/order';
 
 import { PriceService } from '../../../services/price.service';
-import { KanbanService } from '../../../services/kanban.service';
+import { KanbanV2Service } from '../../../services/kanban-v2.service';
 import { CoinService } from '../../../services/coin.service';
 import { Wallet } from '../../../models/wallet';
 import { WalletService } from '../../../services/wallet.service';
@@ -41,7 +41,7 @@ export class PanelComponent implements OnInit {
     errMsg = '';
 
     constructor(private prServ: PriceService, private _route: ActivatedRoute, private _router: Router,
-        private walletService: WalletService, private kanbanService: KanbanService, private coinService: CoinService) {
+        private walletService: WalletService, private kanbanService: KanbanV2Service, private coinService: CoinService) {
         setTheme('bs4'); // Bootstrap 4
     }
 

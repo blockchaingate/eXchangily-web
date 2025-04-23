@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { PriceService } from '../../services/price.service';
-import { KanbanService } from '../../services/kanban.service';
+import { KanbanV2Service } from '../../services/kanban-v2.service';
 import { WsService } from '../../services/ws.service';
 import { StorageService } from '../../services/storage.service';
 import { Order, Price, Coin } from '../../models/kanban.interface';
@@ -43,7 +43,7 @@ export class MarketListComponent implements OnInit {
     constructor(
         private coinServ: CoinService,
         private prServ: PriceService, private _router: Router, private storageServ: StorageService,
-        private _wsServ: WsService, private kanbanService: KanbanService, public utilServ: UtilService) {
+        private _wsServ: WsService, private kanbanService: KanbanV2Service, public utilServ: UtilService) {
     }
 
     showAmount(amount: number, decimal: number) {

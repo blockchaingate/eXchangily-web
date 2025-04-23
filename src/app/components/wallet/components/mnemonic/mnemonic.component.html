@@ -1,0 +1,34 @@
+<div class="container">
+    <div class="header">
+        <h3>{{"Backup Wallet Seed Phrases" | translate }}</h3>
+    </div>
+    <div class="row textarea text-light fxHide-sm">
+        <div class="col-md-2 col-xs-12">
+            <img src="/images/icons/lighting.png" width="100%">
+        </div>
+        <div class="col-md-10 col-xs-12">
+            {{"MnemNote" | translate }}
+        </div>
+    </div>
+
+    <div class="row words center">
+        <div class="wordbox col-lg-3 col-md-4 col-sm-4 col-6 text-center" *ngFor="let wd of mnemonics; let i=index">
+            <div class="numbox">{{i+1}}.</div>
+            <div class="word"><code>{{wd}}</code> </div>
+        </div>
+    </div>
+    <div class="row words">
+        <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+            <button class="btn btn-gradient text-white" (click)="next()">{{"Next"|translate}}</button>
+        </div>
+    </div>
+
+    <div class="row words">
+        <div class="col-12">
+            <a routerLink="/wallet/restore" class="text-primary">
+                {{'Already have mnemonics? Restore' | translate }}
+            </a>
+
+        </div>
+    </div>
+</div>

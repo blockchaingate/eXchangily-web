@@ -9,9 +9,17 @@ import { BigNumber } from 'bignumber.js';
 import { WithdrawRequest } from '../../models/withdrawRequest';
 import { DepositRequest } from '../../models/depositRequest';
 import { CoinService } from '../../../../services/coin.service';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { TranslateModule } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-address-details',
+  standalone: true,
+  imports: [CommonModule, MatCardModule, MatDividerModule, MatTableModule, TranslateModule],
   templateUrl: './address-details.component.html',
   styleUrls: ['./address-details.component.css'],
   providers: [CoinService]

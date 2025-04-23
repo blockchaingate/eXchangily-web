@@ -1,0 +1,66 @@
+.leftcol {
+    margin-top: 1em;
+    text-align: center;
+}
+
+.panel {
+    min-height: 640px;
+    background-color: #343554;
+    margin-bottom: 4em;
+    padding-top: 1em;
+}
+
+.menu {
+    padding-top: 1em;
+    margin-bottom: 1em;
+}
+
+.textarea {
+    margin: 3em;
+}
+
+.btn {
+    width: 100%;
+}
+
+.vl {
+    border-left: 2px solid green;
+    position: absolute;
+    left: 50%;
+    margin-left: -1px;
+    height: 160px;
+}
+
+.vlgray {
+    border-left: 2px solid gray;
+}
+
+.numberCircle {
+    border-radius: 50%;
+    /* remove if you don't care about IE8 */
+    width: 46px;
+    height: 46px;
+    padding: 8px;
+    border: 1px solid #666;
+    background-image: linear-gradient(120deg, #f2ac0e, #d56a70, #bb2ad1);
+    color: yellow;
+    text-align: center;
+    font: 24px Arial, sans-serif;
+    margin: auto;
+}
+
+.numberCircle-gray {
+    background-image: linear-gradient(to right, silver, gray);
+}
+
+.ball {
+    margin-top: 160px;
+}
+
+input {
+    width: 95%;
+}
+
+.letterbox {
+    width: 20%;
+}

@@ -2,7 +2,7 @@ import { Component, Inject, OnInit, ViewChild, ElementRef, AfterViewInit } from 
 import { ActivatedRoute, Router } from '@angular/router';
 import { Renderer2 } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { KanbanService } from '../../services/kanban.service';
+import { KanbanV2Service } from '../../services/kanban-v2.service';
 import { BannerService } from '../../services/banner.service';
 import { CarouselConfig, CarouselModule } from 'ngx-bootstrap/carousel';
 import { Banner } from '../../models/banner';
@@ -25,7 +25,7 @@ export class MarketHomeComponent implements OnInit {
   maintainence = false;
   isMobile = false;
 
-  constructor(private kanbanServ: KanbanService, private bannerServ: BannerService, private _router: Router,
+  constructor(private kanbanServ: KanbanV2Service, private bannerServ: BannerService, private _router: Router,
     private _renderer2: Renderer2, @Inject(DOCUMENT) private _document: Document
   ) {
     //this.getBannerAdv();

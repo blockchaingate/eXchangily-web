@@ -1,0 +1,29 @@
+<div bsModal #lockedInfoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-bg-grey">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 text-dark">{{'Locked Details' | translate }}</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" *ngIf="coin && coin.lockers">
+                    <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">{{'Expired Block' | translate}}</th>
+                            <th scope="col">{{'Amount' | translate}}</th>
+                          </tr>
+                        </thead>
+                        <tbody class="text-muted">
+                          <tr *ngFor="let locker of coin.lockers">
+                            <td>{{locker.expiredBlock}}</td>
+                            <td>{{locker.amount}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+
+            </div>
+    </div>
+</div>

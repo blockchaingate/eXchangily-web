@@ -9,6 +9,23 @@ input {
     /* Firefox */
 }
 
+.example-form {
+    width: 80%;
+    padding-left: 10%;
+}
+
+.matfield {
+    width: 100%;
+}
+
+.matlab {
+    color:lightgray
+}
+
 .mat-focused .mat-form-field {
     color: #027D7C !important;
+}
+
+.alignCenter {
+    text-align: center;
 }

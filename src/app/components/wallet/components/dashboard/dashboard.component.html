@@ -1,0 +1,436 @@
+<div class="container text-white walletDashboard">
+    <div class="row row-flex">
+        <div class="w-75">
+            <div class="exg-bg content">
+                <div class="container py-2">
+
+                    <div class="row">
+                        <div class="col col-8 col-md-6">
+                            {{"My Wallet" | translate}}
+                        </div>
+
+                        <div class="col col-4 w-100 col-md-6 small text-right fxHide-gt-sm">
+                            <mat-menu #walletMenu="matMenu">
+                                <button (click)="onmanageWallet('BACKUP_PRIVATE_KEY')" mat-menu-item>{{"Backup private key" | translate}}</button>
+                                <button mat-menu-item (click)="navigate('/wallet/restore')">{{"Import Wallet" | translate}}</button>
+                                <button (click)="navigate('/wallet/create')" mat-menu-item>{{"Create Wallet" | translate}}</button>
+                                <!--
+                                <button (click)="onmanageWallet('LOGIN_SETTING')" mat-menu-item>{{"Login Setting" | translate}}</button>
+                                -->
+                                <button (click)="onmanageWallet('DISPLAY_SETTING')" mat-menu-item>{{"Display Setting" | translate}}</button>
+                                <button (click)="onmanageWallet('SHOW_SEED_PHRASE')" mat-menu-item>{{"Show seed phrase" | translate}}</button>
+
+                                <button (click)="onmanageWallet('VERIFY_SEED_PHRASE')" mat-menu-item>{{"Verify seed phrase" | translate}}</button>
+
+                                <button (click)="onmanageWallet('DELETE_WALLET')" mat-menu-item>{{"Delete wallet" | translate}}</button>
+                                <button (click)="onmanageWallet('SMART_CONTRACT')" mat-menu-item>{{"Smart contract" | translate}}</button>
+                                <button (click)="onmanageWallet('HIDE_SHOW_WALLET')" mat-menu-item>{{ (hideWallet ? 'Show wallet' : 'Hide wallet') | translate}}  </button>
+                                <button (click)="navigate('/ex/walletconnect')" mat-menu-item>{{"Wallet connect" | translate}}</button>
+                                <button (click)="onmanageWallet('TOOLS')" mat-menu-item>{{"Tools" | translate}}</button>
+                            </mat-menu>
+
+                            <button mat-icon-button [matMenuTriggerFor]="walletMenu">
+                                <mat-icon svgIcon="more-vert"></mat-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!--
+                <li class="nav-item">
+                    <a (click)="hideShowWallet()" class="nav-link text-silver">
+                        {{ (hideWallet ? 'Show wallet' : 'Hide wallet') | translate}}  
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a (click)="manageWal('TOOLS')" class="nav-link text-silver">
+                        {{'Tools' | translate}}  
+                    </a>
+                </li>   
+-->
+
+                    <div class="row">
+                        <div class="col col-md-8">
+
+                            <div *ngIf="wallets">
+                                <mat-form-field>
+                                    <mat-select panelClass="example-panel" [value]="currentWalletIndex" (selectionChange)="changeWallet($event.value)">
+                                        <mat-option *ngFor="let wallet of wallets;let i = index" [value]="i">
+                                            {{wallet.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div *ngIf="wallet && wallet.hide">
+                                <div class="hide-wallet-text">
+                                    {{'Your wallet is hidden' | translate }}
+                                </div>
+                            </div>
+                            <div class="small text-white" *ngIf="wallet && !wallet.hide">
+                                {{"Wallet address" | translate }}: <span style="color: lightgray;" class="pl-2"> {{fabAddress}}</span>
+                                <button mat-icon-button (click)="copyAddress()" title="{{'Copy address'|translate}}">
+                                    <mat-icon svgIcon="copy"></mat-icon>
+                                </button>
+                            </div>
+                            <div class="small text-white" *ngIf="wallet && !wallet.hide">{{"Kanban Gas" | translate }}: {{gas}}
+                                <span class="warningMsg pr-2" *ngIf="gas<0.0001">{{"No enough gas in exchange, please add gas to trade"|translate}}.</span>
+                                <button class="btn button btn-outline btn-basic-outline btn-fixed-width" *ngIf="(gas<=0) && (fabBalance <= 0)" (click)="getFreeFab()">{{"Get free FAB" | translate }}</button>
+                            </div>
+
+                        </div>
+                        <div class="col col-md-2 small" *ngIf="wallet && !wallet.hide">
+                            {{"EXG" | translate}} {{utilServ.toPrecision(exgBalance)}}
+                            <div class="small">
+                                <span>
+                                    {{utilServ.toPrecision(exgBalance * exgValue * currencyRate)}}
+                                </span> {{currentCurrency | translate}}
+                            </div>
+                        </div>
+                        <div class="col col-md-2" *ngIf="wallet && !wallet.hide">
+                            <div class="small pl-3">{{valueChange| number:'0.2-2'}}%</div>
+                            <div>
+
+                                <div class="btn-group" dropdown>
+                                    <button id="button-basic" dropdownToggle type="button" class="btn btn-link dropdown-toggle small" aria-controls="dropdown-basic">
+                                        <span class="caret small pl-0">{{currentCurrency | translate}}</span>
+                                    </button>
+                                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+                                        <li role="menuitem" *ngIf="currentCurrency !== 'USD'">
+                                            <a class="dropdown-item small" (click)="changeCurrency('USD')">{{'USD' | translate }}</a>
+                                        </li>
+                                        <li role="menuitem" *ngIf="currentCurrency !== 'CAD'">
+                                            <a class="dropdown-item small" (click)="changeCurrency('CAD')">{{'CAD' | translate }}</a>
+                                        </li>
+                                        <li role="menuitem" *ngIf="currentCurrency !== 'RMB'">
+                                            <a class="dropdown-item small" (click)="changeCurrency('RMB')">{{'RMB' | translate }}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="row py-3" *ngIf="wallet && !wallet.hide">
+                        <div class="col col-12">
+                            <div class="d-inline-block pr-3 walletBtn">
+                                <modal-receive-coin [wallet]="wallet"></modal-receive-coin>
+                            </div>
+                            <div class="d-inline-block pr-3 walletBtn">
+                                <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="sendCoin()">{{"Send" | translate }}</button>
+                            </div>
+                            <div class="d-inline-block pr-3 walletBtn">
+                                <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="addGasFee()" [matTooltip]="fabBalance < 0.5 ? ('No enough FAB in wallet, can not add gas' | translate) : ''">{{"Add Gas" | translate }}</button>
+                            </div>
+                            <div class="d-inline-block pr-3 walletBtn">
+                                <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="exchangeMoney()">{{"Exchange" | translate }}</button>
+                            </div>
+
+                            <div class="d-inline-block pr-3 walletBtn" *ngIf="!walletUpdateToDate">
+                                <button class="btn button btn-outline btn-basic-outline btn-fixed-width text-danger font-weight-bold" (click)="updateWallet()">{{"Update" | translate }}</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row py-3" *ngIf="wallet && !wallet.hide">
+                        <div class="col col-12">
+                            <div class="d-inline-block pr-3 walletBtn">
+                                <buy-coin-modal [wallet]="wallet"></buy-coin-modal>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-2 exg-bg">
+                <div class="container py-2" *ngIf="wallet && (!wallet.hide)">
+                    <div class="row">
+                        <div class="col col-10 col-md-8">
+                            <h6 class="d-flex justify-content-between align-items-center hand-cursor w-100" (click)="onShowMyAssets()">
+                                <div>
+                                    {{"My Assets" | translate}}
+                                </div>
+
+                                <!--
+                                <mat-form-field>
+                                    <mat-select panelClass="example-panel" [value]="currentChain" (selectionChange)="changeChain($event.value)">
+                                        <mat-option *ngFor="let chain of chains;let i = index" [value]="chain.value">
+                                            {{chain.text}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                -->
+
+                            </h6>
+
+                            <div class="d-flex justify-content-between w-100">
+                                <div [ngClass]="currentChain == chain.value ? 'chain-selected hand-cursor' : 'hand-cursor'" *ngFor="let chain of chains;let i = index" (click)="changeChain(chain.value)"> {{chain.value}} </div>
+                            </div>
+
+                            <mat-checkbox [(ngModel)]="hideSmall" class="small">
+                                {{"Hide Small Amount Assets" | translate}}</mat-checkbox>
+                        </div>
+
+                        <div class="col col-2 col-md-4 small text-right fxHide-sm">
+                            <div class="d-inline mr-3">
+                                <!--
+                                <modal-transaction-history></modal-transaction-history>
+                                -->
+                                <a (click)="onShowTransactionHistory()">{{"Transaction History" | translate}}</a>
+                            </div>
+                            <div class="d-inline mr-3">
+                                <a (click)="addAssets()">{{"Add Assets" | translate}}</a>
+                            </div>
+
+                            <div *ngIf="hasNewCoins" class="d-inline text-danger">
+                                <a (click)="loadnewCoins()">
+                                    {{"Load new assets" | translate}}
+                                </a>
+                            </div>
+
+                        </div>
+                        <div class="col col-2 col-md-4 small text-right fxHide-gt-sm">
+                            <mat-menu #appMenu="matMenu">
+                                <button mat-menu-item (click)="onShowTransactionHistory()">{{"Transaction History" | translate}}</button>
+                                <button (click)="addAssets()" mat-menu-item>{{"Add Assets" | translate}}</button>
+                            </mat-menu>
+
+                            <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                                <mat-icon svgIcon="more-vert"></mat-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <app-transaction-history class="row pt-4" *ngIf="showTransactionHistory" [transactions]="transactions" [walletId]="wallet.id" [coinsPrice]="coinsPrice"></app-transaction-history>
+
+                    <div class="row pt-4" *ngIf="showMyAssets">
+                        <div class="container fxHide-sm" *ngIf="wallet">
+                            <div class="row apair header">
+                                <div class="col-custom-1">
+                                    {{"Logo" | translate}}
+                                </div>
+                                <div class="col-custom-1 sortable" (click)="changeSort('name', 'string')">
+                                    {{"Asset" | translate}}
+                                    <span *ngIf="sortAscName == 1">&uarr;</span>
+                                    <span *ngIf="sortAscName == -1 ">&darr;</span>
+                                </div>
+                                <div class="col-2 sortable" (click)="changeSort('balance', 'number')">
+                                    {{"Available" | translate}}
+                                    <span *ngIf="sortAscBalance == 1">&uarr;</span>
+                                    <span *ngIf="sortAscBalance == -1">&darr;</span>
+                                </div>
+                                <div class="col-2 sortable" (click)="changeSort('lockedBalance', 'number')">
+                                    {{"Locked" | translate}}
+                                    <span *ngIf="sortAscLockedBalance == 1">&uarr;</span>
+                                    <span *ngIf="sortAscLockedBalance == -1">&darr;</span>
+                                </div>
+                                <div class="col-2">
+                                    {{"Value(USD)" | translate}}
+                                </div>
+                                <div class="col-2">
+                                    {{"Dividend" | translate}}
+                                </div>
+                                <div class="col-custom-2">
+                                    {{"Action" | translate}}
+                                </div>
+                            </div>
+                            <div class="container-wallet-main scroll-bar" *ngIf="wallet">
+                                <ng-container *ngFor="let mycoin of wallet.mycoins | sortByField : sortField : sortFieldType : sortAsc | filterByChain: currentChain; index as i">
+                                    <div class="row apair dataline small" *ngIf="!hideSmall 
+                                    || 
+                                        (
+                                            (mycoin.usdPrice > 0) 
+                                            && 
+                                            utilServ.toPrecisionMul(mycoin.balance, mycoin.lockedBalance, mycoin.usdPrice) >= 1
+                                        )">
+                                        <div class="col-custom-1 pointer" (click)="selectCoin(mycoin.symbol)">
+
+                                            <img *ngIf="!mycoin.new" src="{{getCoinLogo(mycoin)}}" name="icon" class="icon" />
+                                        </div>
+                                        <div class="col-custom-1">
+
+                                            {{mycoin.symbol}}
+                                            <div>
+                                                <div *ngIf="(mycoin.tokenType=='ETH')">
+                                                    (ETH)
+                                                </div>
+                                                <div *ngIf="(mycoin.tokenType=='TRX')">
+                                                    (TRX)
+                                                </div>
+                                                <div *ngIf="(mycoin.tokenType=='BNB')">
+                                                    (BSC)
+                                                </div>
+                                                <div *ngIf="(mycoin.tokenType=='MATIC')">
+                                                    (Polygon)
+                                                </div>
+                                                <div *ngIf="(mycoin.tokenType=='HT')">
+                                                    (HT)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+
+                                            <span *ngIf="mycoin.balance >= 0">
+                                                {{utilServ.toPrecision(mycoin.balance)}}
+                                            </span>
+                                            <span *ngIf="mycoin.unconfirmedBalance && mycoin.unconfirmedBalance > 0">
+                                                <small class="text-primary">
+                                                    ({{'Unconfirmed' | translate}}:{{mycoin.unconfirmedBalance}})
+                                                </small>
+                                            </span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span class="link-span" *ngIf="mycoin.lockedBalance && (mycoin.lockedBalance > 0)" (click)="showLockedDetails(mycoin)">
+                                                {{utilServ.toPrecision(mycoin.lockedBalance)}}
+                                            </span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span *ngIf="(mycoin.balance >= 0) && mycoin.usdPrice > 0">
+                                                {{utilServ.toPrecisionMul(mycoin.balance, mycoin.lockedBalance, mycoin.usdPrice)}}
+                                            </span>
+                                        </div>
+                                        <div class="col-2">
+
+                                        </div>
+                                        <div class="col-custom-2" *ngIf="!maintainence">
+                                            <button mat-icon-button matTooltip="{{'Move fund to DEX'|translate}}" *ngIf="(gas > 0)" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                                <mat-icon svgIcon="arrow-downward"></mat-icon>
+                                            </button>
+                                            <button mat-icon-button matTooltip="{{'Confirm move fund to DEX'|translate}}" *ngIf="(gas > 0)" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                                <mat-icon svgIcon="vertical_align_bottom"></mat-icon>
+                                            </button>
+
+                                            <button mat-icon-button matTooltip="{{'Delete'|translate}}" *ngIf="mycoin.new" (click)="delete(mycoin)" aria-label="Example icon-button with a heart icon">
+                                                <mat-icon svgIcon="delete"></mat-icon>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+
+                        <div class="container fxHide-gt-sm" *ngIf="wallet">
+                            <div class="row apair header">
+                                <div class="col-2">
+                                    {{"Symbol" | translate}}
+
+                                </div>
+                                <div class="col-2">
+                                    {{"Asset" | translate}}
+
+                                </div>
+                                <div class="col-4">
+                                    {{"Available" | translate}}
+                                </div>
+
+                                <div class="col-4">
+
+                                </div>
+                            </div>
+                            <div class="row apair dataline" *ngFor="let mycoin of wallet.mycoins | sortByField : sortField : sortFieldType : sortAsc | filterByChain: currentChain; index as i">
+                                <div *ngIf="!hideSmall 
+                                || 
+                                    (
+                                        (mycoin.usdPrice > 0) 
+                                        && 
+                                        utilServ.toPrecisionMul(mycoin.balance, mycoin.lockedBalance, mycoin.usdPrice) >= 1
+                                    )">
+                                    <div class="col-2">
+                                        <img *ngIf="!mycoin.new" src="{{getCoinLogo(mycoin)}}" name="icon2" class="icon" />
+                                    </div>
+                                    <div class="col-2">
+                                        {{mycoin.symbol}}
+
+                                        <div>
+                                            <div *ngIf="(mycoin.tokenType=='ETH')">
+                                                (ETH)
+                                            </div>
+                                            <div *ngIf="(mycoin.tokenType=='TRX')">
+                                                (TRX)
+                                            </div>
+                                            <div *ngIf="(mycoin.tokenType=='BNB')">
+                                                (BSC)
+                                            </div>
+                                            <div *ngIf="(mycoin.tokenType=='MATIC')">
+                                                (MATIC)
+                                            </div>
+                                            <div *ngIf="(mycoin.tokenType=='HT')">
+                                                (HT)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4" *ngIf="mycoin.balance >= 0">
+                                        {{mycoin.balance}}
+                                    </div>
+
+                                    <div class="col-4">
+                                        <button mat-icon-button matTooltip="To exchange" [disabled]="gas <= 0 || maintainence" *ngIf="!mycoin.new" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                        <mat-icon svgIcon="arrow-downward"></mat-icon>
+                                    </button>
+                                        <button mat-icon-button matTooltip="Reconfirm" *ngIf="!mycoin.new && (mycoin.redeposit && mycoin.redeposit.length > 0) || (mycoin.depositErr && mycoin.depositErr.length > 0)" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                        <mat-icon svgIcon="vertical_align_bottom"></mat-icon>
+                                    </button>
+
+                                        <button mat-icon-button matTooltip="{{'Delete'|translate}}" *ngIf="mycoin.new" (click)="delete(mycoin)" aria-label="Example icon-button with a heart icon">
+                                        <mat-icon svgIcon="delete"></mat-icon>
+                                    </button>
+                                    </div>
+                                    <div class="col-12 text-muted">
+                                        <p *ngIf="mycoin.lockedBalance && (mycoin.lockedBalance >= 0)">
+                                            {{"Locked" | translate}}:{{mycoin.lockedBalance}}
+                                        </p>
+                                    </div>
+                                    <div class="col-12 text-muted">
+                                        {{"Value(USD)" | translate}}:
+                                        <span *ngIf="(mycoin.balance >= 0) && (mycoin.usdPrice > 0)">
+                                            {{utilServ.toPrecisionMul(mycoin.balance, mycoin.lockedBalance, mycoin.usdPrice)}}
+                                    </span>
+                                        <!--
+                                    <span *ngIf="mycoin.name == 'EXG' && coinsPrice && coinsPrice.exgcoin">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.exgcoin.usd)}}</span>
+                                    <span *ngIf="mycoin.name == 'BTC' && coinsPrice && coinsPrice.bitcoin">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.bitcoin.usd)}}</span>
+                                    <span *ngIf="mycoin.name == 'FAB' && coinsPrice && coinsPrice.fabcoin">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.fabcoin.usd)}}</span>
+                                    <span *ngIf="mycoin.name == 'ETH' && coinsPrice && coinsPrice.ethereum">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.ethereum.usd)}}</span>
+                                    <span *ngIf="mycoin.name == 'USDT' && coinsPrice && coinsPrice.tether">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * coinsPrice.tether.usd)}}</span>
+                                    <span *ngIf="mycoin.name == 'DUSD' ">{{utilServ.toPrecision((mycoin.balance + mycoin.lockedBalance) * 1)}}</span>
+                                    -->
+                                    </div>
+                                    <div class="col-12 text-muted">{{"Profit sharing" | translate}}:</div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-25 match-my-cols fxHide-sm">
+            <div class="ml-2 content">
+                <app-manage-wallet #manageWallet (manageWallet)=onmanageWallet($event) [hideWallet]="wallet && wallet.hide"></app-manage-wallet>
+                <app-faq></app-faq>
+            </div>
+        </div>
+    </div>
+
+    <deposit-amount-modal #depositModal [coin]="currentCoin" [baseCoinBalance]="baseCoinBalance" (confirmedAmount)="onConfirmedDepositAmount($event)" [alertMsg]="alertMsg"></deposit-amount-modal>
+    <redeposit-amount-modal #redepositModal (confirmedAmount)="onConfirmedRedepositAmount($event)">
+    </redeposit-amount-modal>
+    <add-gas-modal #addGasModal (confirmedGas)="onConfirmedGas($event)"></add-gas-modal>
+    <pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>
+    <display-pin-number-modal #displayPinModal (confirmedPin)="onConfirmedDisplayPin($event)">
+    </display-pin-number-modal>
+    <add-assets-modal #addAssetsModal (confirmedAssets)="onConfirmedAssets($event)"></add-assets-modal>
+    <send-coin-modal #sendCoinModal (confirmedCoinSent)="onConfirmedCoinSent($event)" [wallet]="wallet" [alertMsg]="alertMsg"></send-coin-modal>
+    <show-seed-phrase-modal #showSeedPhraseModal></show-seed-phrase-modal>
+    <tools-modal (confirmedTools)="onConfirmedTools($event)" #toolsModal></tools-modal>
+    <verify-seed-phrase-modal #verifySeedPhraseModal></verify-seed-phrase-modal>
+    <backup-private-key-modal #backupPrivateKeyModal (confirmedBackupPrivateKey)="onConfirmedBackupPrivateKey($event)">
+    </backup-private-key-modal>
+    <delete-wallet-modal #deleteWalletModal (confirmedDeleteWallet)="onConfirmedDeleteWallet()"></delete-wallet-modal>
+    <login-setting-modal #loginSettingModal (confirmedLoginSetting)="onConfirmedLoginSetting($event)">
+    </login-setting-modal>
+    <display-setting-modal #displaySettingModal (confirmedDisplaySetting)="onConfirmedDisplaySetting($event)">
+    </display-setting-modal>
+    <get-free-fab-modal #getFreeFabModal [address]="fabAddress"></get-free-fab-modal>
+    <locked-info-modal #lockedInfoModal></locked-info-modal>
+    <wallet-update-modal (confirmWalletUpdate)="updateWallet()" #walletUpdateModal></wallet-update-modal>

@@ -4,7 +4,7 @@ import randomBytes from 'randombytes';
 import { Web3Service } from '../../services/web3.service';
 import { UtilService } from '../../services/util.service';
 import { CoinService } from '../../services/coin.service';
-import { KanbanService } from '../../services/kanban.service';
+import { KanbanV2Service } from '../../services/kanban-v2.service';
 import { version } from '../../environments/version';
 import { CommonModule } from '@angular/common';
 
@@ -20,7 +20,7 @@ export class TradeAutoComponent implements OnInit {
     version = '';
 
     constructor(private walletServ: WalletService, private web3Serv: Web3Service, private utilService: UtilService,
-        private coinService: CoinService, private kanbanService: KanbanService) {
+        private coinService: CoinService, private kanbanService: KanbanV2Service) {
     }
 
     ngOnInit() {

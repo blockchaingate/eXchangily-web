@@ -1,6 +1,6 @@
 <mat-card class="mat-elevation-z6">
     <h5 *ngIf="!transaction">{{"Fetching Tx"|translate}} {{txhash}}</h5>
-    <div *ngIf="!transaction" style="display: flex; justify-content: center; align-items: center;">
+    <div *ngIf="!transaction" class="spinner">
         <mat-spinner></mat-spinner>
     </div>
 

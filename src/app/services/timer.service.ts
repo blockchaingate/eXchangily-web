@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { timer, BehaviorSubject } from 'rxjs';
-import { KanbanService } from './kanban.service';
+import { KanbanV2Service } from './kanban-v2.service';
 import { ApiService } from './api.service';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class TimerService {
     public canceledOrders: BehaviorSubject<any> = new BehaviorSubject([]);
     public tokens: BehaviorSubject<any> = new BehaviorSubject([]);
 
-    constructor(public kanbanServ: KanbanService, private apiServ: ApiService) {
+    constructor(public kanbanV2Serv: KanbanV2Service, private apiServ: ApiService) {
         this.transactionStatusSubscribe = [];
         this.orderStatusSubscribe = [];
         this.tokenSubscribe = [];
@@ -61,7 +61,7 @@ export class TimerService {
 
                 this.unCheckTokens(address);
             }
-            this.kanbanServ.getBalance(address).subscribe((resp: any) => {
+            this.kanbanV2Serv.getBalance(address).subscribe((resp: any) => {
                 if (resp.success) {
                     this.tokens.next(resp.data);
                 }
@@ -107,7 +107,7 @@ export class TimerService {
             if ((maxTimes > 0) && (val >= maxTimes - 1)) {
                 this.unCheckOrderStatus(address);
             }
-            this.kanbanServ.getOrdersByAddressStatus(address, 'open')
+            this.kanbanV2Serv.getOrdersByAddressStatus(address, 'open')
                 .subscribe(
                     (ret: any) => {
                         // console.log('ordersssssssssssssssssss=', orders);
@@ -119,7 +119,7 @@ export class TimerService {
                     }
                 );
 
-            this.kanbanServ.getOrdersByAddressStatus(address, 'closed')
+            this.kanbanV2Serv.getOrdersByAddressStatus(address, 'closed')
                 .subscribe(
                     (ret: any) => {
                         if (ret.success) {
@@ -130,7 +130,7 @@ export class TimerService {
                     }
                 );
 
-            this.kanbanServ.getOrdersByAddressStatus(address, 'canceled')
+            this.kanbanV2Serv.getOrdersByAddressStatus(address, 'canceled')
                 .subscribe(
                     (ret: any) => {
                         if (ret.success) {

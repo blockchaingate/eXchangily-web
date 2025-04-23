@@ -98,6 +98,10 @@ fieldset {
     text-align: justify;
 }
 
+.fullwidth {
+    width: 100%;
+}
+
 // vimeo screen
 .custom-vimeo-screen {
     background-color: rgba(0, 0, 0, 0.75);
@@ -121,7 +125,6 @@ fieldset {
             margin-top: 7em;
             width: calc(100% - 4em);
         }
-        height: 100%;
     }
 }
 

@@ -15,7 +15,7 @@ import { coin_list } from '../config/coins';
 import { ApiService } from './api.service';
 import * as wif from 'wif';
 import * as bitcore from 'bitcore-lib-cash';
-import * as BchMessage from 'bitcore-message';
+import BchMessage from 'bitcore-message';
 import { Web3Service } from './web3.service';
 import { Signature } from '../models/kanban.interface';
 import { UtilService } from './util.service';

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { KanbanService } from '../../../services/kanban.service';
+import { KanbanV2Service } from '../../../services/kanban-v2.service';
 import { ActivatedRoute } from '@angular/router';
 import { UtilService } from '../../../services/util.service';
 import { CommonModule } from '@angular/common';
@@ -17,7 +17,7 @@ export class WithdrawHistoryComponent implements OnInit {
 
   transactions: any;
   displayedColumns: string[] = ['Coin', 'Quantity', 'Address', 'Transaction ID', 'Block Number'];
-  constructor(private kanbanServ: KanbanService, private route: ActivatedRoute, public utilServ: UtilService) { }
+  constructor(private kanbanServ: KanbanV2Service, private route: ActivatedRoute, public utilServ: UtilService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {

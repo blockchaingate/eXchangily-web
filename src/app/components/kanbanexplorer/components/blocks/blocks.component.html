@@ -1,32 +1,32 @@
-<mat-card style="padding: 10px; overflow-y: auto;" class="mat-elevation-z6">
-    <h5 style="text-align: center;">{{"Latest Blocks"|translate}}</h5>
+<mat-card class="mat-elevation-z6 card-top">
+    <h5 class="txtAlignCenter">{{"Latest Blocks"|translate}}</h5>
 
     <div class="blockControl">
-        <div style="line-height: 2em; margin: 10px;">
+        <div class="toggletop">
             <mat-slide-toggle (change)="test($event)">{{"Show Blocks with Transactions"|translate}}</mat-slide-toggle>
         </div>
 
         <div class="blockControlBtn">
-            <button style="margin:10px;" mat-raised-button color="accent" (click)="leftClicked()">&lt;</button>
-            <button style="margin:10px;" mat-raised-button color="accent" (click)="rightClicked()">&gt;</button>
+            <button class="m10" type="button" mat-raised-button color="accent" (click)="leftClicked()">&lt;</button>
+            <button class="m10" type="button" mat-raised-button color="accent" (click)="rightClicked()">&gt;</button>
         </div>
     </div>
-    <table mat-table [dataSource]="blocks" style=" width: 100%; text-align: center;" class="exg-bg graycolor">
+    <table mat-table [dataSource]="blocks" class="exg-bg graycolor txtAlignCenter w100per">
         <ng-container matColumnDef="number">
-            <th mat-header-cell *matHeaderCellDef style="text-align: center;"> {{"Block Number"|translate}} </th>
+            <th mat-header-cell *matHeaderCellDef class="txtAlignCenter"> {{"Block Number"|translate}} </th>
             <td mat-cell *matCellDef="let element">
                 <a mat-button [routerLink]="[ './block-detail', element.number ]"> {{element.number}}
                 </a></td>
         </ng-container>
 
         <ng-container matColumnDef="Mined On">
-            <th mat-header-cell *matHeaderCellDef style="text-align: center;"> {{"Mined On"|translate}} </th>
+            <th mat-header-cell *matHeaderCellDef class="txtAlignCenter"> {{"Mined On"|translate}} </th>
             <td mat-cell *matCellDef="let element">
                 {{element.timestamp*1000 | date : 'EEEE, MMMM dd, yyyy'}} <br> {{element.timestamp*1000 | date : 'h:mm:ss a'}} </td>
         </ng-container>
 
         <ng-container matColumnDef="Block Info">
-            <th mat-header-cell *matHeaderCellDef style="text-align: center;"> {{"Block Info"|translate}} </th>
+            <th mat-header-cell *matHeaderCellDef class="txtAlignCenter"> {{"Block Info"|translate}} </th>
             <td mat-cell *matCellDef="let element">
 
                 <div *ngIf="element.totalTransactions > 0">

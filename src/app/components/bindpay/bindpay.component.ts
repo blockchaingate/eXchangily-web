@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AlertService } from '../../services/alert.service';
 import { CoinService } from '../../services/coin.service';
-import { KanbanService } from '../../services/kanban.service';
+import { KanbanV2Service } from '../../services/kanban-v2.service';
 import { TimerService } from '../../services/timer.service';
 import { UtilService } from '../../services/util.service';
 import { WalletService } from '../../services/wallet.service';
@@ -49,7 +49,7 @@ export class BindpayComponent implements OnInit {
         private timerServ: TimerService,
         private translateServ: TranslateService,
         private alertServ: AlertService,
-        private kanbanServ: KanbanService,
+        private kanbanServ: KanbanV2Service,
         private walletServ: WalletService) { }
 
     async ngOnInit() {

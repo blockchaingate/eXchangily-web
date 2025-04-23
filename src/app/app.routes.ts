@@ -3,10 +3,23 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
     { path: 'privacy', loadComponent: () => import('./components/privacy/privacy.component').then((m) => m.PrivacyComponent) },
     { path: 'dusd', loadComponent: () => import('./components/dusd/dusd.component').then((m) => m.DusdComponent) },
-
+    {
+        path: 'explorer', loadComponent: () => import('./components/kanbanexplorer/kanbanexplorer.component').then((m) => m.KanbanexplorerComponent), children:
+            [
+                { path: '', loadComponent: () => import('./components/kanbanexplorer/components/dashboard/dashboard.component').then((m) => m.DashboardComponent) },
+                { path: 'block-detail/:blockNumber', loadComponent: () => import('./components/kanbanexplorer/components/block-details/block-details.component').then((m) => m.BlockDetailsComponent) },
+                { path: 'tx-detail/:txhash', loadComponent: () => import('./components/kanbanexplorer/components/tx-details/tx-details.component').then((m) => m.TxDetailsComponent) },
+                { path: 'order-detail/:orderHash', loadComponent: () => import('./components/kanbanexplorer/components/order-detail/order-detail.component').then((m) => m.OrdeDetailComponent) },
+                { path: 'address-detail/:address', loadComponent: () => import('./components/kanbanexplorer/components/address-details/address-details.component').then((m) => m.AddressDetailsComponent) },
+            ]
+    },
+    { path: 'listing', loadComponent: () => import('./components/listing/listing.component').then((m) => m.ListingComponent) },
+    { path: 'assets', loadComponent: () => import('./components/coin/coins.component').then((m) => m.CoinsComponent) },
+    { path: 'assets/:symbol', loadComponent: () => import('./components/coin/coin-info.component').then((m) => m.CoininfoComponent) },
+    { path: 'assets/info/:symbol', loadComponent: () => import('./components/coin/coin-info.component').then((m) => m.CoininfoComponent) },
     { path: 'help', loadComponent: () => import('./components/help/help.component').then((m) => m.HelpComponent) },
     { path: 'faq', loadComponent: () => import('./components/help/faq.component').then((m) => m.FaqComponent) },
-    { path: 'fee' , loadComponent: () => import('./components/help/fee.component').then((m) => m.FeeComponent) },
+    { path: 'fee', loadComponent: () => import('./components/help/fee.component').then((m) => m.FeeComponent) },
     { path: 'subscription', loadComponent: () => import('./components/subscription/subscription.component').then((m) => m.SubscriptionComponent) },
     { path: 'app', loadComponent: () => import('./components/app-intro/app-intro.component').then((m) => m.AppIntroComponent) },
     { path: 'download', loadComponent: () => import('./components/download/download.component').then((m) => m.DownloadComponent) },
@@ -16,13 +29,14 @@ export const routes: Routes = [
     { path: 'news', loadComponent: () => import('./components/news/news.component').then((m) => m.NewsComponent) },
     { path: 'announcements', loadComponent: () => import('./components/help/announcement/announcement-list/announcement-list.component').then((m) => m.AnnouncementListComponent) },
     { path: 'announcements/:lang', loadComponent: () => import('./components/help/announcement/announcement-list/announcement-list.component').then((m) => m.AnnouncementListComponent) },
-    { path: 'manual', loadComponent: () => import('./components/manual/manual.component').then((m) => m.ManualComponent), children:
-        [
-            { path: 'home', loadComponent: () => import('./components/manual/manual.component').then((m) => m.ManualComponent) },
-            { path: 'sc', loadComponent: () => import('./components/manual/sc/sc.component').then((m) => m.ScComponent) },
-            { path: '', redirectTo: './home', pathMatch: 'full' }
-        ]
-     },
-     { path: '', redirectTo: 'market/home', pathMatch: 'full' },
-     { path: '**', loadComponent: () => import('./page-not-found.component').then((m) => m.PageNotFoundComponent) },
+    {
+        path: 'manual', loadComponent: () => import('./components/manual/manual.component').then((m) => m.ManualComponent), children:
+            [
+                { path: 'home', loadComponent: () => import('./components/manual/manual.component').then((m) => m.ManualComponent) },
+                { path: 'sc', loadComponent: () => import('./components/manual/sc/sc.component').then((m) => m.ScComponent) },
+                { path: '', redirectTo: './home', pathMatch: 'full' }
+            ]
+    },
+    { path: '', redirectTo: 'market/home', pathMatch: 'full' },
+    { path: '**', loadComponent: () => import('./page-not-found.component').then((m) => m.PageNotFoundComponent) },
 ];

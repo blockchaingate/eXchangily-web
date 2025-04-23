@@ -16,14 +16,13 @@ import { MatSpinner } from '@angular/material/progress-spinner';
   styleUrls: ['./tx-details.component.css']
 })
 export class TxDetailsComponent implements OnInit {
+  txhash = '';
+  status = '';
+  transaction: Transaction = {} as Transaction;
 
   constructor(private route: ActivatedRoute,
     private kanbanService: KanbanService,
     private router: Router) { }
-
-  txhash = '';
-  status = '';
-  transaction: Transaction = {} as Transaction;
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {

@@ -1,0 +1,24 @@
+.container-wallet-main {
+    max-height: 430px;
+    overflow-y: scroll;
+}
+
+.container-no-transactions {
+    height: 325px;
+}
+
+.field_types {
+    width: 100%;
+}
+
+.col-custom-1 {
+    -webkit-box-flex: 0;
+    flex: 0 0 13%;
+    max-width: 13%;
+}
+
+.col-custom-2 {
+    -webkit-box-flex: 0;
+    flex: 0 0 12%;
+    max-width: 12%;
+}
