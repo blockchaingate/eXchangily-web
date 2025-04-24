@@ -8,11 +8,12 @@ import BigNumber from 'bignumber.js';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
     selector: 'redeposit-amount-modal',
     standalone: true,
-    imports: [CommonModule, ModalDirective, MatFormFieldModule, FormsModule, TranslateModule],
+    imports: [CommonModule, ModalDirective, MatFormFieldModule, MatInputModule, FormsModule, TranslateModule],
     templateUrl: './redeposit-amount.modal.html',
     styleUrls: ['./redeposit-amount.modal.css']
 })

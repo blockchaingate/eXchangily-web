@@ -4,12 +4,13 @@ import { KanbanService } from '../../services/kanban.service';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-search-box',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatFormFieldModule, TranslateModule],
+  imports: [CommonModule, MatCardModule, MatFormFieldModule, MatInputModule, TranslateModule],
   templateUrl: './search-box.component.html',
   styleUrls: ['./search-box.component.css']
 })

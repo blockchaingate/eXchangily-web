@@ -11,11 +11,12 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatListModule } from '@angular/material/list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
     selector: 'add-assets-modal',
     standalone: true,
-    imports: [CommonModule, ModalDirective, ReactiveFormsModule, MatTabsModule, MatListModule, MatFormFieldModule, TranslateModule],
+    imports: [CommonModule, ModalDirective, ReactiveFormsModule, MatTabsModule, MatListModule, MatFormFieldModule, MatInputModule, TranslateModule],
     templateUrl: './add-assets.modal.html',
     styleUrls: ['./add-assets.modal.css']
 })
