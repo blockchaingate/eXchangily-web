@@ -1,18 +1,17 @@
 import { Routes } from '@angular/router';
-import { WalletDashboardComponent } from './components/wallet/components/dashboard/dashboard.component';
-import { CreateWalletComponent } from './components/wallet/components/create/createwallet.component';
-import { NoWalletComponent } from './components/wallet/components/create/no-wallet.component';
-import { ConfirmMnemonicsComponent } from './components/wallet/components/create/confirmmnem.component';
-import { WalletPwdComponent } from './components/wallet/components/create/wallet-pwd.component';
-import { RestoreWalletComponent } from './components/wallet/components/restore/restorewallet.component';
-import { RestoreWalletOldComponent } from './components/wallet/components/restoreold/restorewalletold.component';
-import { KycComponent } from './components/wallet/components/kyc/kyc.component';
-import { KycProcessComponent } from './components/wallet/components/kyc-process/kyc-process.component';
+//import { WalletDashboardComponent } from './components/wallet/components/dashboard/dashboard.component';
+//import { CreateWalletComponent } from './components/wallet/components/create/createwallet.component';
+//import { NoWalletComponent } from './components/wallet/components/create/no-wallet.component';
+//import { ConfirmMnemonicsComponent } from './components/wallet/components/create/confirmmnem.component';
+//import { WalletPwdComponent } from './components/wallet/components/create/wallet-pwd.component';
+//import { RestoreWalletComponent } from './components/wallet/components/restore/restorewallet.component';
+//import { RestoreWalletOldComponent } from './components/wallet/components/restoreold/restorewalletold.component';
+//import { KycComponent } from './components/wallet/components/kyc/kyc.component';
+//import { KycProcessComponent } from './components/wallet/components/kyc-process/kyc-process.component';
 
 export const routes: Routes = [
     { path: 'privacy', loadComponent: () => import('./components/privacy/privacy.component').then((m) => m.PrivacyComponent) },
     { path: 'dusd', loadComponent: () => import('./components/dusd/dusd.component').then((m) => m.DusdComponent) },
-    /*
     {
         path: 'explorer', loadComponent: () => import('./components/kanbanexplorer/kanbanexplorer.component').then((m) => m.KanbanexplorerComponent), children:
             [
@@ -23,27 +22,25 @@ export const routes: Routes = [
                 { path: 'address-detail/:address', loadComponent: () => import('./components/kanbanexplorer/components/address-details/address-details.component').then((m) => m.AddressDetailsComponent) },
             ]
     },
-    */
     { path: 'listing', loadComponent: () => import('./components/listing/listing.component').then((m) => m.ListingComponent) },
     { path: 'assets', loadComponent: () => import('./components/coin/coins.component').then((m) => m.CoinsComponent) },
     { path: 'assets/:symbol', loadComponent: () => import('./components/coin/coin-info.component').then((m) => m.CoininfoComponent) },
     { path: 'assets/info/:symbol', loadComponent: () => import('./components/coin/coin-info.component').then((m) => m.CoininfoComponent) },
-    /*
-    { path: 'wallet', loadComponent: () => import('./components/wallet/wallet.component').then((m) => m.WalletComponent), children:
-        [
-            { path: 'dashboard', component: WalletDashboardComponent },
-            { path: 'create', component: CreateWalletComponent },
-            { path: 'no-wallet', component: NoWalletComponent },
-            { path: 'confirm-words', component: ConfirmMnemonicsComponent },
-            { path: 'set-password', component: WalletPwdComponent },
-            { path: 'restore', component: RestoreWalletComponent },
-            { path: 'restoreold', component: RestoreWalletOldComponent },
-            { path: 'kyc', component: KycComponent },
-            { path: 'kyc-process', component: KycProcessComponent },
-            { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
-        ]
+    {
+        path: 'wallet', loadComponent: () => import('./components/wallet/wallet.component').then((m) => m.WalletComponent), children:
+            [
+                { path: 'dashboard', loadComponent: () => import('./components/wallet/components/dashboard/dashboard.component').then((m) => m.WalletDashboardComponent) },
+                { path: 'create', loadComponent: () => import('./components/wallet/components/create/createwallet.component').then((m) => m.CreateWalletComponent) },
+                { path: 'no-wallet', loadComponent: () => import('./components/wallet/components/create/no-wallet.component').then((m) => m.NoWalletComponent) },
+                { path: 'confirm-words', loadComponent: () => import('./components/wallet/components/create/confirmmnem.component').then((m) => m.ConfirmMnemonicsComponent) },
+                { path: 'set-password', loadComponent: () => import('./components/wallet/components/create/wallet-pwd.component').then((m) => m.WalletPwdComponent) },
+                { path: 'restore', loadComponent: () => import('./components/wallet/components/restore/restorewallet.component').then((m) => m.RestoreWalletComponent) },
+                { path: 'restoreold', loadComponent: () => import('./components/wallet/components/restoreold/restorewalletold.component').then((m) => m.RestoreWalletOldComponent) },
+                { path: 'kyc', loadComponent: () => import('./components/wallet/components/kyc/kyc.component').then((m) => m.KycComponent) },
+                { path: 'kyc-process', loadComponent: () => import('./components/wallet/components/kyc-process/kyc-process.component').then((m) => m.KycProcessComponent) },
+                { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
+            ]
     },
-    */
     { path: 'help', loadComponent: () => import('./components/help/help.component').then((m) => m.HelpComponent) },
     { path: 'faq', loadComponent: () => import('./components/help/faq.component').then((m) => m.FaqComponent) },
     { path: 'fee', loadComponent: () => import('./components/help/fee.component').then((m) => m.FeeComponent) },
@@ -56,7 +53,6 @@ export const routes: Routes = [
     { path: 'news', loadComponent: () => import('./components/news/news.component').then((m) => m.NewsComponent) },
     { path: 'announcements', loadComponent: () => import('./components/help/announcement/announcement-list/announcement-list.component').then((m) => m.AnnouncementListComponent) },
     { path: 'announcements/:lang', loadComponent: () => import('./components/help/announcement/announcement-list/announcement-list.component').then((m) => m.AnnouncementListComponent) },
-/*
     {
         path: 'manual', loadComponent: () => import('./components/manual/manual.component').then((m) => m.ManualComponent), children:
             [
@@ -65,7 +61,6 @@ export const routes: Routes = [
                 { path: '', redirectTo: './home', pathMatch: 'full' }
             ]
     },
-    */
     { path: '', redirectTo: 'market/home', pathMatch: 'full' },
     { path: '**', loadComponent: () => import('./page-not-found.component').then((m) => m.PageNotFoundComponent) },
 ];

@@ -150,6 +150,7 @@ export class HeaderComponent implements OnInit {
   }
 
   linkTo(url: string) {
+    alert(url)
     this.showCollapse = false;
     if (url == '/manual') {
       if (this.currentLang != 'English') {
