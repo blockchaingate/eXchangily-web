@@ -22,21 +22,29 @@ import { AlertService } from './services/alert.service';
 import { SubscriptionService } from './services/subscription.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { Web3Service } from './services/web3.service';
+import { KycService } from './services/kyc.service';
+import { AirdropService } from './services/airdrop.service';
+import { CoinService } from './services/coin.service';
+import { CampaignOrderService } from './services/campaignorder.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, RouterOutlet, TranslateModule, HeaderComponent, FooterComponent],
   providers: [
+    AirdropService,
     AlertService,
     AnnouncementsService,
     ApiService,
-    StorageService,
+    CampaignOrderService,
+    CoinService,
     HttpService,
     LoginInfoService,
     LoginQualifyService,
     LanService,
     KanbanV2Service,
+    KycService,
+    StorageService,
     SubscriptionService,
     UtilService,
     Web3Service,

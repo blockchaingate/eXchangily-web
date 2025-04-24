@@ -1,0 +1,217 @@
+<div class="outwraper w-100 h-100" *ngIf="pairData">
+    <div class="upper w-100">
+        <div class="orderbook  h-100 mr-2 exg-bg">
+            <div class="w-100 headerl p-2">{{'Order Book' | translate }}</div>
+            <div class="title w-100">
+                <div class="price">{{"Price" | translate}}</div>
+                <div class="quantity">{{"Quantity" | translate}}</div>
+                <div class="total">{{"Total" | translate}}</div>
+            </div>
+            <div class="selllist w-100 pt-2">
+                <div class="selllist-wrapper">
+                    <div class="orderbookitem mt-1" *ngFor="let sell of sells; let i=index" (click)="setPrice(sell.p)" [ngStyle]="{'background-color': sell.my ? '#3e3e5f' : ''}">
+                        <div [style.width.%]="sell.percentage" [style.height.%]="100" class="percentage-bar percentage-bar-red">&nbsp;</div>
+                        <div class="price smallfont text-danger">
+                            {{toDecimal(sell.p,priceDecimal)}}</div>
+                        <div class="quantity smallfont text-muted">
+                            {{toDecimal(sell.q, qtyDecimal)}}</div>
+                        <div class="total smallfont text-muted">{{showSellsAmount(sells, i)}}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="current-price-box px-2">
+                <div [style.width.%]="100" [style.height.%]="100" class="percentage-bar percentage-bar-blue">&nbsp;
+                </div>
+                <div class="text-info">
+                    {{toDecimal(currentPrice, priceDecimal)}}</div>
+                <!--
+                <div [class.redcolor]="change24h<0" [class.greencolor]="change24h>0" class="text-info"> {{utilService.showAmount(currentQuantity.toString())}} </div>
+                -->
+            </div>
+
+            <div class="buylist w-100">
+                <div class="orderbookitem mt-1" *ngFor="let buy of buys; let i=index" (click)="setPrice(buy.p)" [ngStyle]="{'background-color': buy.my ? '#3e3e5f' : ''}">
+                    <div [style.width.%]="buy.percentage" [style.height.%]="100" class="percentage-bar percentage-bar-green">&nbsp;</div>
+                    <div class="price smallfont text-success">{{buy.p}}</div>
+                    <div class="quantity smallfont text-muted">{{buy.q}}</div>
+                    <div class="total smallfont text-muted">{{showBuysAmount(buys, i)}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="trades h-100 exg-bg">
+            <div class="w-100 headerr p-2">{{'Market Trades' | translate }}</div>
+            <div class="title w-100">
+                <div class="price">{{"Price" | translate}}</div>
+                <div class="quantity">{{"Quantity" | translate}}</div>
+                <div class="time">{{"Time" | translate}}</div>
+            </div>
+
+            <div class="transacs w-100">
+                <div class="orderbookitem" *ngFor="let tx of trades; let l=index">
+                    <div class="price smallfont" [ngClass]="tx.b?'text-success':'text-danger'">
+                        {{toDecimal(tx.p, priceDecimal)}}</div>
+                    <div class="quantity smallfont text-muted">
+                        {{toDecimal(tx.q, qtyDecimal)}}</div>
+                    <div class="total smallfont text-muted">{{tx.t * 1000 | date:'HH:mm:ss'}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="middle w-100  mt-2">
+        <div class="limitorder text-center text-white w-50 hand exg-bg mr-2 " (click)="orderType=1;" [class.selected]="orderType === 1">
+            {{'Limit Order' | translate}}
+        </div>
+        <div class="marketorder text-center text-white w-50 hand exg-bg" (click)="orderType=2;" [class.selected]="orderType === 2">
+            {{'Limit Order' | translate}}
+        </div>
+    </div>
+    <!--Market Order-->
+    <div class="lower w-100">
+        <div class="buyorder h-100 exg-bg mr-2 pb-3" *ngIf="baseCoin">
+            <div class="aspace text-success">
+                {{'Available' | translate}} {{baseCoin}}: {{baseCoinAvail}}
+            </div>
+
+            <div class="aspace text-white">{{'Price' | translate}}</div>
+            <div><input type="text" class="form-control" [disabled]="orderType === 2" [(ngModel)]="buyPrice" (keyup)="checkBuyPrice()" title="buy price"> </div>
+
+            <div class="aspace text-white">{{'Quantity' | translate}}</div>
+            <div><input type="text" class="form-control" [(ngModel)]="buyQty" (keyup)="checkBuyQty()" title="quantity"> </div>
+            <div class="container pt-2">
+                <div class="row text-white">
+                    <div class="pnum text-center hand" (click)="setBuyQtyPercent(0.25)">
+                        <div class="percent-text py-1 px-2 d-inline-block"><small>25%</small></div>
+                    </div>
+                    <div class="pnum text-center hand" (click)="setBuyQtyPercent(0.5)">
+                        <div class="percent-text py-1 px-2 d-inline-block"><small>50%</small></div>
+                    </div>
+                    <div class="pnum text-center hand" (click)="setBuyQtyPercent(0.75)">
+                        <div class="percent-text py-1 px-2 d-inline-block"><small>75%</small></div>
+                    </div>
+                    <div class="pnum text-center hand" (click)="setBuyQtyPercent(1)">
+                        <div class="percent-text py-1 px-2 d-inline-block"><small>100%</small></div>
+                    </div>
+                </div>
+            </div>
+            <div class="aspace text-white">
+                {{'Total' | translate}} {{baseCoin}}:
+                <span *ngIf="buyPrice > 0">{{ bigmul(buyPrice, buyQty)}}</span>
+            </div>
+            <div class="d-flex justify-content-between py-1 text-white">
+                <div class="mr-2">
+                    {{'Kanban Gas' | translate}}: {{toNumber(utilService.showAmount(sellGasPrice*sellGasLimit, 18))}} {{'Gas' | translate}}
+                </div>
+                <div>
+                    <mat-slide-toggle [(ngModel)]="buyTransFeeAdvance"></mat-slide-toggle>
+                </div>
+            </div>
+            <div *ngIf="buyTransFeeAdvance" class="text-white">
+                <div class="py-1">
+                    <div>
+                        {{'Gas price' | translate}}:
+                    </div>
+                    <div>
+                        <input class="form-control" type="text" [(ngModel)]="buyGasPrice" title="gas price">
+                    </div>
+                </div>
+                <div class="py-1">
+                    <div>
+                        {{'Gas limit' | translate}}:
+                    </div>
+                    <div>
+                        <input class="form-control" type="text" [(ngModel)]="buyGasLimit" title="gas limit">
+                    </div>
+                </div>
+            </div>
+            <div class="aspace" *ngIf="targetCoin">
+                <button type="button" class="btn btn-success" (click)="buy(templatePasswd)" [disabled]="!buyable()">
+                    {{'Buy' | translate}} {{targetCoin}}
+                </button>
+            </div>
+        </div>
+
+        <div class="sellorder h-100 exg-bg pb-2" *ngIf="targetCoin">
+            <div class="aspace text-danger">
+                {{'Available' | translate}} {{targetCoin}}: {{targetCoinAvail}}
+            </div>
+
+            <div class="aspace text-white">{{'Price' | translate}}</div>
+            <div><input type="text" class="form-control" [disabled]="orderType === 2" [(ngModel)]="sellPrice" (keyup)="checkSellPrice()" title="sell price"></div>
+            <div class="aspace text-white">{{'Quantity' | translate}}</div>
+            <div><input type="text" class="form-control" [(ngModel)]="sellQty" (keyup)="checkSellQty()" title="qty"> </div>
+
+            <div class="container pt-2">
+                <div class="row text-white">
+                    <div class="pnum text-center hand" (click)="setSellQtyPercent(0.25)">
+                        <div class="percent-text py-1 px-2 d-inline-block"><small>25%</small></div>
+                    </div>
+                    <div class="pnum text-center hand" (click)="setSellQtyPercent(0.5)">
+                        <div class="percent-text py-1 px-2 d-inline-block"><small>50%</small></div>
+                    </div>
+                    <div class="pnum text-center hand" (click)="setSellQtyPercent(0.75)">
+                        <div class="percent-text py-1 px-2 d-inline-block"><small>75%</small></div>
+                    </div>
+                    <div class="pnum text-center hand" (click)="setSellQtyPercent(1)">
+                        <div class="percent-text py-1 px-2 d-inline-block"><small>100%</small></div>
+                    </div>
+                </div>
+            </div>
+            <div class="aspace text-white">
+                {{'Total' | translate}} {{baseCoin}}: {{bigmul(sellPrice, sellQty)}}
+            </div>
+
+            <div class="d-flex justify-content-between py-1 text-white">
+                <div class="mr-2">
+                    {{'Kanban Gas' | translate}}: {{toNumber(utilService.showAmount(sellGasPrice*sellGasLimit, 18))}} {{'Gas' | translate}}
+                </div>
+                <div>
+                    <mat-slide-toggle [(ngModel)]="sellTransFeeAdvance"></mat-slide-toggle>
+                </div>
+            </div>
+            <div *ngIf="sellTransFeeAdvance" class="text-white">
+                <div class="py-1">
+                    <div>
+                        {{'Gas price' | translate}}:
+                    </div>
+                    <div>
+                        <input class="form-control" type="text" [(ngModel)]="sellGasPrice" title="gas price">
+                    </div>
+                </div>
+                <div class="py-1">
+                    <div>
+                        {{'Gas limit' | translate}}:
+                    </div>
+                    <div>
+                        <input class="form-control" type="text" [(ngModel)]="sellGasLimit" title="gas limit">
+                    </div>
+                </div>
+            </div>
+            <div class="aspace" *ngIf="targetCoin">
+                <button type="button" class="btn btn-success btn-danger" (click)="sell(templatePasswd)" [disabled]="!sellable()">
+                    {{'Sell' | translate}} {{targetCoin}}
+                </button>
+            </div>
+        </div>
+    </div>
+    <ng-template #templatePasswd>
+        <div class="modal-header text-center">
+            <h4 class="modal-title w-100">Password</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="pb-4">
+                <input type="password" autocomplete="off" class="form-control" id="inputPin" [(ngModel)]="pin" aria-describedby="emailHelp" placeholder="Please provide your password to confirm the transaction">
+            </div>
+            <button class="btn btn1 btn-gradient text-white" (click)="confirmPin()">{{"Confirm" | translate }}</button>
+        </div>
+    </ng-template>
+</div>
+
+<div *ngIf="!pairData">
+    Pair not found
+</div>
+

@@ -4,21 +4,28 @@ import { Wallet } from '../../../../models/wallet';
 import { MyCoin } from '../../../../models/mycoin';
 import { UtilService } from '../../../../services/util.service';
 import bchaddr from 'bchaddrjs';
+import { Common } from '@ethereumjs/common';
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { QRCodeComponent } from 'angularx-qrcode';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'modal-receive-coin',
+    standalone: true,
+    imports: [CommonModule, MatIconModule, QRCodeComponent, TranslateModule],
     templateUrl: './receive-coin.modal.html',
     styleUrls: ['./receive-coin.modal.css']
 })
 export class ReceiveCoinModal {
-    modalRef: BsModalRef;
-    @Input() wallet: Wallet;
-    currentAddress: string;
-    currentCoin: MyCoin;
-    link: string;
-    constructor(private modalService: BsModalService, private utilServ: UtilService) {
+    modalRef: BsModalRef = new BsModalRef();
+    @Input() wallet: Wallet = {} as Wallet;
+    currentAddress = '';
+    currentCoin: MyCoin = {} as MyCoin;
+    link = '';
 
-    }
+    constructor(private modalService: BsModalService, private utilServ: UtilService) {}
+
     openModal(template: TemplateRef<any>) {
         if (this.wallet) {
             this.currentAddress = this.wallet.mycoins[1].receiveAdds[0].address;
@@ -32,7 +39,7 @@ export class ReceiveCoinModal {
     }
 
     onChange(event: any) {
-        const index = (event.target as HTMLInputElement).value;
+           const index = parseInt((event.target as HTMLInputElement).value, 10);
         /*
         if (this.wallet.mycoins[index].tokenType === 'FAB') {
             this.currentAddress = this.wallet.mycoins[1].receiveAdds[0].address;
@@ -58,7 +65,6 @@ export class ReceiveCoinModal {
                 this.link = link;
             }
         }
-
 
     }
 }

@@ -2,7 +2,7 @@ import { Component, ViewChild, EventEmitter, Output, Input } from '@angular/core
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { SendCoinForm } from '../../../../models/kanban.interface';
 import { Wallet } from '../../../../models/wallet';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MyCoin } from '../../../../models/mycoin';
 import { environment } from '../../../../environments/environment';
 import { CoinService } from '../../../../services/coin.service';
@@ -10,10 +10,14 @@ import { AlertService } from '../../../../services/alert.service';
 import { UtilService } from '../../../../services/util.service';
 import { ApiService } from '../../../../services/api.service';
 import BigNumber from 'bignumber.js';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
     selector: 'send-coin-modal',
+    standalone: true,
+    imports: [CommonModule, ModalDirective, ReactiveFormsModule, MatSlideToggleModule, TranslateModule],
     templateUrl: './send-coin.modal.html',
     styleUrls: ['./send-coin.modal.css']
 })
@@ -53,7 +57,7 @@ export class SendCoinModal {
             gasLimit: [environment.chains.FAB.gasLimit],
             satoshisPerBytes: [environment.chains.FAB.satoshisPerBytes],
             feeLimit: [environment.chains.TRX.feeLimit]
-            });
+        });
         /*
         this.apiServ.getBtcTransFeeEstimate().subscribe(
             (res: any) => {
@@ -71,7 +75,6 @@ export class SendCoinModal {
     }
 
     async calCulateSendAllAmount() {
-
         if (this.wallet) {
             this.coin = this.wallet.mycoins[this.currentCoinIndex];
         }
@@ -283,8 +286,8 @@ export class SendCoinModal {
                 return;
             }
         }
-        const selectedCoinIndex = Number(this.sendCoinForm.value.selectedCoinIndex);
 
+        const selectedCoinIndex = Number(this.sendCoinForm.value.selectedCoinIndex);
         const comment = this.sendCoinForm.value.comment;
         const gasPrice = this.sendCoinForm.value.gasPrice ? Number(this.sendCoinForm.value.gasPrice) : 0;
         const gasLimit = this.sendCoinForm.value.gasLimit ? Number(this.sendCoinForm.value.gasLimit) : 0;
@@ -358,15 +361,26 @@ export class SendCoinModal {
             let gasPrice = await this.coinServ.getEtheruemCompatibleGasprice(chainName);
             console.log('gasPrice for getEtheruemCompatibleGasprice=', gasPrice);
             if (!gasPrice) {
-                gasPrice = environment.chains[chainName].gasPrice;
+                if ('gasPrice' in environment.chains[chainName as keyof typeof environment.chains]) {
+                    gasPrice = (environment.chains[chainName as keyof typeof environment.chains] as { gasPrice: number }).gasPrice;
+                }
             }
-            if (gasPrice > environment.chains[chainName].gasPriceMax) {
-                gasPrice = environment.chains[chainName].gasPriceMax;
+            if ('gasPriceMax' in environment.chains[chainName as keyof typeof environment.chains] &&
+                gasPrice > (environment.chains[chainName as keyof typeof environment.chains] as { gasPriceMax: number }).gasPriceMax) {
+                if ('gasPriceMax' in environment.chains[chainName as keyof typeof environment.chains]) {
+                    gasPrice = (environment.chains[chainName as keyof typeof environment.chains] as { gasPriceMax: number }).gasPriceMax;
+                }
             }
             this.sendCoinForm.patchValue({ 'gasPrice': gasPrice });
-            this.sendCoinForm.patchValue({ 'gasLimit': environment.chains[chainName].gasLimit });
+            if (chainName in environment.chains) {
+                if ('gasLimit' in environment.chains[chainName as keyof typeof environment.chains]) {
+                    this.sendCoinForm.patchValue({ 'gasLimit': (environment.chains[chainName as keyof typeof environment.chains] as { gasLimit: number }).gasLimit });
+                }
+            }
             if (['BNB', 'MATIC', 'HT'].indexOf(this.coin.tokenType) >= 0) {
-                this.sendCoinForm.patchValue({ 'gasLimit': environment.chains[chainName].gasLimitToken });
+                if (chainName in environment.chains) {
+                    this.sendCoinForm.patchValue({ 'gasLimit': (environment.chains[chainName as keyof typeof environment.chains] as { gasLimitToken: number }).gasLimitToken });
+                }
             }
         }
         else if (this.coin.name === 'FAB') {
@@ -393,14 +407,16 @@ export class SendCoinModal {
     onTextChange() {
         this.checkTransFee();
     }
-    async checkTransFee() {
 
+    async checkTransFee() {
         if (!this.coin) {
             this.coin = this.wallet.mycoins[this.currentCoinIndex];
         }
         let to = this.sendCoinForm.value.sendTo;
         if (!to) {
-            to = environment.addresses.exchangilyOfficial[this.coin.name];
+            if (this.coin.name in environment.addresses.exchangilyOfficial) {
+                to = environment.addresses.exchangilyOfficial[this.coin.name as keyof typeof environment.addresses.exchangilyOfficial];
+            }
         } else if (this.coin.tokenType === 'FAB') {
             // if(to.indexOf('0x') < 0) {
             to = this.utilServ.fabToExgAddress(to);
@@ -411,8 +427,7 @@ export class SendCoinModal {
         const gasPrice = this.sendCoinForm.value.gasPrice ? Number(this.sendCoinForm.value.gasPrice) : 0;
         const gasLimit = this.sendCoinForm.value.gasLimit ? Number(this.sendCoinForm.value.gasLimit) : 0;
         const feeLimit = this.sendCoinForm.value.feeLimit ? Number(this.sendCoinForm.value.feeLimit) : 0;
-        const satoshisPerBytes = this.sendCoinForm.value.satoshisPerBytes ?
-            Number(this.sendCoinForm.value.satoshisPerBytes) : 0;
+        const satoshisPerBytes = this.sendCoinForm.value.satoshisPerBytes ? Number(this.sendCoinForm.value.satoshisPerBytes) : 0;
 
         if (!to) {
             return;
@@ -433,17 +448,14 @@ export class SendCoinModal {
             if (!gasPrice || !gasLimit || !satoshisPerBytes) {
                 return;
             }
-        } else
-            if ((this.coin.name === 'TRX') || (this.coin.tokenType === 'TRX')) {
-                if (!feeLimit) {
-                    return;
-                }
+        } else if ((this.coin.name === 'TRX') || (this.coin.tokenType === 'TRX')) {
+            if (!feeLimit) {
+                return;
             }
-
+        }
         if ((this.coin.name === 'TRX') || (this.coin.tokenType === 'TRX')) {
             this.transFee = feeLimit;
-        }
-        else {
+        } else {
             const options = {
                 gasPrice: gasPrice,
                 gasLimit: gasLimit,

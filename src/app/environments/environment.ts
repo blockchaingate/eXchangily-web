@@ -26,7 +26,6 @@ export const environment = {
             satoshisPerBytes: 60,
             bytesPerInput: 148
         },
-
         DOGE: {
             network: {
                 messagePrefix: '\u0019Dogecoin Signed Message:\n',

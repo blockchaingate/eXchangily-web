@@ -17,3 +17,7 @@ button.button:hover {
     box-shadow: none;
     color: white;
 }
+
+Qrcode {
+    display: inline-block;
+}

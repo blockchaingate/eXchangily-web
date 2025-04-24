@@ -123,6 +123,37 @@ export class StorageService {
         return this.localSt.delete('campaignQualify').subscribe(() => { });
     }
 
+    storeToTransactionHistoryList(transactionItem: TransactionItem) {
+        this.getTransactionHistoryList().subscribe((transactionHistory: any) => {
+            if (!transactionHistory) {
+                transactionHistory = [];
+            }
+            transactionHistory.push(transactionItem);
+            // console.log('transactionHistory for storeToTransactionHistoryList=', transactionHistory);
+            return this.localSt.set('transactions', transactionHistory).subscribe(() => {});
+        });
+    }
+
+    updateTransactionHistoryList(transactionItem: TransactionItem) {
+        this.getTransactionHistoryList().subscribe((transactionHistory: any) => {
+            if (!transactionHistory) {
+                transactionHistory = [];
+            }
+            for (let i = 0; i < transactionHistory.length; i++) {
+                if (transactionHistory[i].txid === transactionItem.txid) {
+                    transactionHistory[i].status = transactionItem.status;
+                    break;
+                }
+            }
+            // console.log('transactionHistory for storeToTransactionHistoryList=', transactionHistory);
+            return this.localSt.set('transactions', transactionHistory).subscribe(() => {});
+        });
+    }
+
+    getTransactionHistoryList() {
+        return this.localSt.get('transactions');
+    }
+
     getCurrentLang() {
         return this.localSt.get('Lan');
     }

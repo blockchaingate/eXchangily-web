@@ -139,11 +139,11 @@
                         </div>
                         <div class="row px-2 py-2 border-bottom" *ngFor="let tr of pendingtransactions">
                             <div class="col col-12">
-                                <small>{{tr.transactionId}}</small>
+                                <small>{{tr.txid}}</small>
 
                             </div>
                             <div class="col col-12">
-                                {{utilServ.getFormattedDate(tr.timestamp)}}
+                                {{utilServ.getFormattedDate(tr.time)}}
                             </div>
                             <div class="col col-3">
                                 <img *ngIf="tr.coin == 'BTC'" src="/assets/coins/btc.png" class="icon coin-logo" alt="BTC" />
@@ -249,12 +249,12 @@
                         <div class="row px-2 py-2 border-bottom" *ngFor="let tr of closetransactions">
                             <div class="col col-12">
                                 <small>
-                                    {{tr.transactionId}}
+                                    {{tr.txid}}
                                 </small>
 
                             </div>
                             <div class="col col-12">
-                                {{utilServ.getFormattedDate(tr.timestamp)}}
+                                {{utilServ.getFormattedDate(tr.time)}}
                             </div>
                             <div class="col col-3">
                                 <img *ngIf="tr.coin == 'BTC'" src="/assets/coins/btc.png" class="icon coin-logo" alt="BTC" />
@@ -389,7 +389,6 @@
                     </div>
                 </li>
 
-
                 <li class="nav-item">
                     <a class="nav-link highlight">{{'New Campaign' | translate}}</a>
                     <div class="exSubMenu camMenu">
@@ -408,7 +407,6 @@
                                         <a class="nav-link" (click)="linkTo('/promotion');selectedItem=6" [class.selected]="selectedItem===6" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">{{'New Campaign' | translate}}</a>
                                     </li>
 
-
                                     <li class="nav-item" *ngIf="LoginQualify">
                                         <a class="nav-link pointer" href="/promotion/reward">
                                             {{'My rewards' | translate }}
@@ -421,17 +419,9 @@
                                 </ul>
                             </div>
 
-
                         </div>
                     </div>
                 </li>
-
-
-
-
-
-
-
 
 
             </ul>

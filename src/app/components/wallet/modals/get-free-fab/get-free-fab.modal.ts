@@ -3,22 +3,27 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { AirdropService } from '../../../../services/airdrop.service';
 import { AlertService } from '../../../../services/alert.service';
 import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'get-free-fab-modal',
+    standalone: true,
+    imports: [CommonModule, ModalDirective, FormsModule, TranslateModule],
     templateUrl: './get-free-fab.modal.html',
     styleUrls: ['./get-free-fab.modal.scss']
 })
 export class GetFreeFabModal implements OnInit {
-    @ViewChild('getFreeFabModal', { static: true }) public getFreeFabModal: ModalDirective;
-    @Input() address: string;
-    question: string;
-    questionair_id: string;
-    answer: string;
-    error: string | null;
-    publicIP: string;
-    constructor(private airdropServ: AirdropService, private alertServ: AlertService, private http: HttpClient) {
+    @ViewChild('getFreeFabModal', { static: true }) public getFreeFabModal: ModalDirective = {} as ModalDirective;
+    @Input() address = '';
+    question = '';
+    questionair_id = '';
+    answer = '';
+    error = '';
+    publicIP = '';
 
+    constructor(private airdropServ: AirdropService, private alertServ: AlertService, private http: HttpClient) {
     }
 
     ngOnInit() {
@@ -43,25 +48,24 @@ export class GetFreeFabModal implements OnInit {
     }
 
     show() {
-        this.error = null;
+        this.error = '';
         this.airdropServ.getQuestionair(this.address, this.publicIP).toPromise().then(
             (res: any) => {
                 if (res) {
                     const data = res._body;
                     if (res.ok) {
-
                         console.log('data=', data);
                         this.question = data.question;
                         this.questionair_id = data._id;
                     } else {
                         this.error = data;
                     }
-
                 }
             }
         );
         this.getFreeFabModal.show();
     }
+
     hide() {
         this.getFreeFabModal.hide();
     }

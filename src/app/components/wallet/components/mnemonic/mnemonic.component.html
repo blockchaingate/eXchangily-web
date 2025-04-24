@@ -4,7 +4,7 @@
     </div>
     <div class="row textarea text-light fxHide-sm">
         <div class="col-md-2 col-xs-12">
-            <img src="/images/icons/lighting.png" width="100%">
+            <img src="/images/icons/lighting.png" width="100%" alt="memory">
         </div>
         <div class="col-md-10 col-xs-12">
             {{"MnemNote" | translate }}
@@ -19,7 +19,7 @@
     </div>
     <div class="row words">
         <div class="col-lg-2 col-md-3 col-sm-4 col-6">
-            <button class="btn btn-gradient text-white" (click)="next()">{{"Next"|translate}}</button>
+            <button type="button" class="btn btn-gradient text-white" (click)="next()">{{"Next"|translate}}</button>
         </div>
     </div>
 
@@ -28,7 +28,6 @@
             <a routerLink="/wallet/restore" class="text-primary">
                 {{'Already have mnemonics? Restore' | translate }}
             </a>
-
         </div>
     </div>
 </div>

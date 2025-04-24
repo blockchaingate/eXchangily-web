@@ -126,7 +126,7 @@ export class HeaderComponent implements OnInit {
           } else {
             for (let i = 0; i < this.pendingtransactions.length; i++) {
               const item = this.pendingtransactions[i];
-              if (item.transactionId === txItem.txid) {
+              if (item.txid === txItem.txid) {
                 item.status = txItem.status;
                 this.pendingtransactions.splice(i, 1);
                 this.closetransactions.unshift(item);

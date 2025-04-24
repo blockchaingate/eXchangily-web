@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { timer, BehaviorSubject } from 'rxjs';
 import { KanbanV2Service } from './kanban-v2.service';
+import { TransactionItem } from '../models/transaction-item';
 import { ApiService } from './api.service';
 
 @Injectable()
@@ -157,4 +158,199 @@ export class TimerService {
         }
     }
 
+    unCheckAllTransactionStatus() {
+        for (let i = 0; i < this.transactionStatusSubscribe.length; i++) {
+            const item = this.transactionStatusSubscribe[i];
+            item.subscribeItem.unsubscribe();
+        }
+    }
+
+    unCheckTransactionStatus(txid: string) {
+        for (let i = 0; i < this.transactionStatusSubscribe.length; i++) {
+            const item = this.transactionStatusSubscribe[i];
+            if (item.txid === txid) {
+                item.subscribeItem.unsubscribe();
+                this.transactionStatusSubscribe.splice(i, 1);
+                break;
+            }
+        }
+    }
+
+    checkTransactionStatus(item: TransactionItem, maxTimes = 160) {
+        if (this.maxTimes > 0) {
+            maxTimes = this.maxTimes;
+        }
+        if (!this.timerEnabled) {
+            return;
+        }
+        const txid = item.txid;
+        if (!txid) {
+            return;
+        }
+        const type = item.type;
+        const coin = item.coin;
+        const tokenType = item.tokenType;
+
+        for (let i = 0; i < this.transactionStatusSubscribe.length; i++) {
+            const itemS = this.transactionStatusSubscribe[i];
+            if (itemS.txid === txid) {
+                return;
+            }
+        }
+
+        const source = timer(10000, 20000);
+        const subscribeItem = source.subscribe(async val => {
+            if ((maxTimes > 0) && (val >= maxTimes - 1)) {
+                this.unCheckTransactionStatus(txid);
+            }
+            if (type === 'Withdraw') {
+                this.kanbanV2Serv.getTransactionStatusSync(txid).subscribe(
+                    (res: any) => {
+                        if (res && res.transactionReceipt) {
+                            let status = 'failed';
+                            if (res.transactionReceipt.status === '0x1') {
+                                status = 'confirmed';
+                            }
+                            this.transactionStatus.next(
+                                {
+                                    txid: txid,
+                                    status: status
+                                }
+                            );
+                            this.unCheckTransactionStatus(txid);
+                        }
+                    }
+                );
+            } else if (type === 'Deposit') {
+                console.log('check deposit status');
+                this.kanbanV2Serv.getDepositStatusSync(txid).subscribe((res: any) => {
+                    if (res && res.code !== undefined) {
+                        const code = res.code;
+                        let status = '';
+                        if (code === 0) {
+                            status = 'confirmed';
+                        } else if (code === 2) {
+                            status = 'failed';
+                        } else if (code === 3) {
+                            status = 'claim';
+                        }
+                        if (status) {
+                            // console.log('confirmed, status changed');
+                            this.transactionStatus.next(
+                                {
+                                    txid: txid,
+                                    status: status
+                                }
+                            );
+                            this.unCheckTransactionStatus(txid);
+                        }
+                    }
+                }, (error: any) => {
+                    // console.log('error', error);
+                });
+            } else if (type === 'Send' || type === 'Add Gas') {
+                if (coin === 'BTC') {
+                    this.apiServ.getBtcTransactionSync(txid).subscribe((res: any) => {
+                        if (res.confirmations && res.confirmations >= 1) {
+                            this.transactionStatus.next(
+                                {
+                                    txid: txid,
+                                    status: status
+                                }
+                            );
+                            this.unCheckTransactionStatus(txid);
+                        }
+                    });
+                } else if (coin === 'ETH' || tokenType === 'ETH') {
+                    this.apiServ.getEthTransactionSync(txid).subscribe((res: any) => {
+                        if (res) {
+                            let confirmations = 0;
+                            if (res.blockNumber) {
+                                confirmations = res.confirmations;
+                            }
+                            if (confirmations >= 1) {
+                                this.apiServ.getEthTransactionStatusSync(txid).subscribe(
+                                    (res2: any) => {
+                                        let status = 'failed';
+                                        if (res2.status) {
+                                            status = 'confirmed';
+                                        }
+                                        this.transactionStatus.next(
+                                            {
+                                                txid: txid,
+                                                status: status
+                                            }
+                                        );
+                                        this.unCheckTransactionStatus(txid);
+                                    }
+                                );
+                            }
+                        }
+                    });
+                } else if (coin === 'FAB' || tokenType === 'FAB') {
+                    this.apiServ.getFabTransactionJsonSync(txid).subscribe(
+                        (res2: any) => {
+                            let confirmations = 0;
+                            if (res2.confirmations) {
+                                confirmations = res2.confirmations;
+                            }
+                            if (confirmations >= 1) {
+                                const status = 'confirmed';
+                                this.transactionStatus.next(
+                                    {
+                                        txid: txid,
+                                        status: status
+                                    }
+                                );
+                                this.unCheckTransactionStatus(txid);
+                            }
+                        },
+                        (error: any) => {
+                            console.log('error===', error);
+                            const status = 'failed';
+                            this.transactionStatus.next(
+                                {
+                                    txid: txid,
+                                    status: status
+                                }
+                            );
+                            this.unCheckTransactionStatus(txid);
+                        }
+                    );
+                } else
+                    if (coin == 'TRX' || tokenType == 'TRX') {
+                        const status = await this.apiServ.getTrxTransactionStatus(txid);
+                        this.transactionStatus.next(
+                            {
+                                txid: txid,
+                                status: status
+                            }
+                        );
+                        if (status == 'confirmed' || status == 'failed') {
+                            this.unCheckTransactionStatus(txid);
+                        }
+                    } else
+                        if (coin == 'BNB' || tokenType == 'BNB') {
+                            const status = await this.apiServ.getBnbTransactionStatus(txid);
+                            this.transactionStatus.next(
+                                {
+                                    txid: txid,
+                                    status: status
+                                }
+                            );
+                            if (status == 'confirmed' || status == 'failed') {
+                                this.unCheckTransactionStatus(txid);
+                            }
+                        }
+            }
+        });
+
+        this.transactionStatusSubscribe.push(
+            {
+                txid: item.txid,
+                subscribeItem: subscribeItem
+            }
+        );
+
+    }
 }

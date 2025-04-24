@@ -17,15 +17,12 @@
                             </div>
                         </mat-tab>
                         
-                        <mat-tab label="{{'FAB tokens'|translate}}">
-                            
-                            <mat-selection-list #fabtokens (selectionChange)="onFabSelection($event, fabtokens.selectedOptions.selected)">
+                        <mat-tab label="{{'FAB tokens'|translate}}">  
+                            <mat-selection-list #fabtokens="matSelectionList" (selectionChange)="onFabSelection($event, fabtokens.selectedOptions.selected)">
                                 <mat-list-option *ngFor="let token of fabTokens; let i = index" [value]="i+1">
                                     <div class="d-flex">
                                         {{token.symbol}}
-                                        
-                                        <img class="logo" *ngIf="token.logo" [src]="token.logo">
-                                        
+                                        <img class="logo" *ngIf="token.logo" [src]="token.logo">            
                                     </div>
                                 </mat-list-option>
                                 <mat-list-option value="0">
@@ -54,7 +51,6 @@
                         </mat-tab>
                    
                         <mat-tab label="{{'Ethereum tokens'|translate}}">
-
                             <div *ngIf="showEthCustom">
                                 <mat-form-field appearance="fill" class="mt-3">
                                   <mat-label>{{'Chain' | translate}}</mat-label>

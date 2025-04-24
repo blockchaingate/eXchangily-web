@@ -1,4 +1,4 @@
-<button class="button btn-fixed-width" (click)="openModal(templateReceive)">{{"Receive" | translate }}</button>
+<button class="button btn-fixed-width" type="button" (click)="openModal(templateReceive)">{{"Receive" | translate }}</button>
 
 <ng-template #templateReceive class="modal-bg-grey">
     <div class="modal-header text-center">
@@ -10,7 +10,7 @@
     <div class="modal-body">
         <div class="text-dark">{{"Currency" | translate }}</div>
         <div class="pt-2 pb-3 w-25">
-            <select class="form-control" (change)="onChange($event)">
+            <select class="form-control" (change)="onChange($event)" title="Select a currency">
                 <option [value]="i" *ngFor="let coin of wallet.mycoins;let i = index">
                     {{coin.symbol}}
                     <span *ngIf="coin.tokenType=='ETH'">
@@ -38,7 +38,7 @@
                     {{"Wallet address" | translate }}
                 </div>
                 <div *ngIf="currentAddress.indexOf('bch') == 0">
-                    <button mat-button color="primary" (click)="changeToLegacyAddress()">
+                    <button mat-button type="button" color="primary" (click)="changeToLegacyAddress()">
                         {{'Legacy Address' | translate }} 
                     </button>
                     
@@ -48,17 +48,17 @@
         </div>
         <div>
             {{currentAddress}}
-            <button mat-icon-button (click)="copyAddress()">
+            <button mat-icon-button type="button" (click)="copyAddress()" title="copy address">
                 <mat-icon svgIcon="copy"></mat-icon>
             </button>
         </div>
 
         <div class="text-center py-5">
-            <qrcode [qrdata]="currentAddress" id="address_qr_code" style="display: inline-block" [width]="150" [errorCorrectionLevel]="'M'"></qrcode>
+            <qrcode [qrdata]="currentAddress" id="address_qr_code" class="Qrcode" [width]="150" [errorCorrectionLevel]="'M'"></qrcode>
             <div class="py-2">
                 <a href="{{link}}" download (click)="dlDataUrlBin()">
                     <div class="d-inline-block px-1">
-                        <img src="/assets/download.png">
+                        <img src="/assets/download.png" alt="download">
                     </div>
                     <div class="d-inline-block px-1">
                         {{'Download QR Code' | translate}}

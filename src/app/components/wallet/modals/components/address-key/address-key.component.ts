@@ -1,27 +1,32 @@
 import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
-import { UtilService } from 'src/app/services/util.service';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { UtilService } from '../../../../../services/util.service';
 import { MyCoin } from '../../../../../models/mycoin';
 import { CoinService } from '../../../../../services/coin.service';
+import { Common } from '@ethereumjs/common';
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
     selector: 'app-address-key',
+    standalone: true,
+    imports: [CommonModule, MatIconModule, MatPaginatorModule, TranslateModule],
     templateUrl: './address-key.component.html',
     styleUrls: ['./address-key.component.css']
 })
 export class AddressKeyComponent implements OnInit, OnChanges {
-    @Input() chain: number;
-    @Input() seed: Buffer;
-    addsArraylength: number;
-    @Input() currentCoin: MyCoin;
+    @Input() chain = -1;
+    @Input() seed: Buffer = Buffer.alloc(0);
+    addsArraylength = 0;
+    @Input() currentCoin: MyCoin = {} as MyCoin;
     pageIndex = 0;
     pageSize = 10;
     addsPagination: any;
     // MatPaginator Output
-    pageEvent: PageEvent;
+    pageEvent: PageEvent = {} as PageEvent;
 
-    constructor(
-        private utilServ: UtilService,
-        private coinServ: CoinService) { }
+    constructor(private utilServ: UtilService, private coinServ: CoinService) { }
 
     ngOnInit() {
         this.showPage();
@@ -32,9 +37,11 @@ export class AddressKeyComponent implements OnInit, OnChanges {
             this.showPage();
         }
     }
+
     copyPrivateKey(priKey: string) {
         this.utilServ.copy(priKey);
     }
+
     showPage() {
         const addsArray = (this.chain === 0) ? this.currentCoin.receiveAdds : this.currentCoin.changeAdds;
         this.addsArraylength = (addsArray.length < 1) ? (addsArray.length) : 1;
@@ -45,7 +52,7 @@ export class AddressKeyComponent implements OnInit, OnChanges {
         }
     }
 
-    pageChanged(event) {
+    pageChanged(event: any) {
         console.log(event);
         this.pageIndex = event.pageIndex;
         this.showPage();

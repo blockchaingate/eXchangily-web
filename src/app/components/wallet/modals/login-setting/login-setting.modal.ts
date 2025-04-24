@@ -1,21 +1,22 @@
 import { Component, ViewChild, EventEmitter, Output, OnInit } from '@angular/core';
 import {  ModalDirective } from 'ngx-bootstrap/modal';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'login-setting-modal',
+    standalone: true,
+    imports: [CommonModule, ModalDirective, ReactiveFormsModule, TranslateModule],
     templateUrl: './login-setting.modal.html',
     styleUrls: ['./login-setting.modal.css']
 })
 export class LoginSettingModal implements OnInit{
-    @ViewChild('loginSettingModal', {static: true}) public loginSettingModal: ModalDirective;
+    @ViewChild('loginSettingModal', {static: true}) public loginSettingModal: ModalDirective = {} as ModalDirective;
     @Output() confirmedLoginSetting = new EventEmitter<string>();
-    loginSettingForm: FormGroup;
+    loginSettingForm: FormGroup = {} as FormGroup;
    
-
-    constructor(private fb: FormBuilder) {
-
-    }
+    constructor(private fb: FormBuilder) {}
 
     ngOnInit() {
         this.loginSettingForm = this.fb.group({
@@ -45,6 +46,7 @@ export class LoginSettingModal implements OnInit{
     show() {
         this.loginSettingModal.show();
     }
+
     hide() {
         this.loginSettingModal.hide();
     }

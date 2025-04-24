@@ -33,7 +33,7 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">{{'Seed phrase, seperated by space' | translate }}</label>
-                    <textarea class="form-control transparent-input" (input)="autoGrowEvent($event)" formControlName="seedphrase" id="seedphrase" name="seedphrase" id="exampleFormControlTextarea1" rows="5"></textarea>
+                    <textarea class="form-control transparent-input" (input)="autoGrowEvent($event)" formControlName="seedphrase" id="seedphrase" name="seedphrase" id="exampleFormControlTextarea1" rows="5" placeholder="{{ 'Enter seed phrase separated by space' | translate }}"></textarea>
                     <div class="error text-danger smallfont" *ngIf="seedPhraseInvalid">
                         {{"Seed Phrase is invalid" | translate }}!
                     </div>

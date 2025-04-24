@@ -287,7 +287,7 @@ export class UtilService {
         return amountStrFull;
     }
 
-    showAmount(amount: number, decimal: number) {
+    showAmount(amount: any, decimal: number) {
 
         if (!amount || amount.toString() === '0') {
             return '0';
@@ -371,7 +371,7 @@ export class UtilService {
 
     fabToExgAddress(address: string) {
         try {
-            const bytes: any = Buffer.from(bs58.decode(address));
+            const bytes: any = Buffer.from(bs58.default.decode(address));
             //console.log('bytes===', bytes);
             const addressInWallet = bytes.toString('hex');
             //console.log('addressInWallet===', addressInWallet);
@@ -400,7 +400,7 @@ export class UtilService {
             const hash2 = createHash('sha256').update(Buffer.from(hash1, 'hex')).digest().toString('hex');
 
             buf = Buffer.from(address + hash2.substring(0, 8), 'hex');
-            address = bs58.encode(buf);
+            address = bs58.default.encode(buf);
             return address;
         } catch (e) { }
 

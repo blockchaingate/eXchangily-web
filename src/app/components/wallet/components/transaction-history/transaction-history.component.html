@@ -44,10 +44,10 @@
                 <p>{{item.action}}</p>
             </div>
             <div class="col-custom-1">
-                <p>{{showCoinName(item.coin, item.chain)}}</p>
+                <p>{{showCoinName(item.coin || '', item.chain || '')}}</p>
             </div>
             <div class="col-3 ">
-                <p>{{item.timestamp?utilServ.getFormattedDate(item.timestamp):''}}</p>
+                <p>{{item.time?utilServ.getFormattedDate(item.time):''}}</p>
             </div>
             <div class="col-2 ">
                 <p>{{item.quantity}}</p>
@@ -57,7 +57,7 @@
             <div class="col-custom-2">
                 <p>
                     {{item.comment}}
-                    <button mat-icon-button (click)="showTransactionDetail2(item)" aria-label="Example icon-button with a heart icon">
+                    <button mat-icon-button type="button" (click)="showTransactionDetail2(item)" aria-label="Example icon-button with a heart icon">
                         <mat-icon svgIcon="detail"></mat-icon>
                     </button>
                 </p>

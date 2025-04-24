@@ -14,7 +14,7 @@
             </div>
             <div class="col col-12 col-md-7">
                 <small>{{addr.privateKey}}</small>
-                <button mat-icon-button (click)="copyPrivateKey(addr.privateKey)" title="{{'Copy private key'|translate}}">
+                <button mat-icon-button type="button" (click)="copyPrivateKey(addr.privateKey)" title="{{'Copy private key'|translate}}">
                     <mat-icon svgIcon="copy"></mat-icon>
                 </button>
             </div>

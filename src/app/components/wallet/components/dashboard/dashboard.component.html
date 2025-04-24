@@ -11,25 +11,25 @@
 
                         <div class="col col-4 w-100 col-md-6 small text-right fxHide-gt-sm">
                             <mat-menu #walletMenu="matMenu">
-                                <button (click)="onmanageWallet('BACKUP_PRIVATE_KEY')" mat-menu-item>{{"Backup private key" | translate}}</button>
-                                <button mat-menu-item (click)="navigate('/wallet/restore')">{{"Import Wallet" | translate}}</button>
-                                <button (click)="navigate('/wallet/create')" mat-menu-item>{{"Create Wallet" | translate}}</button>
+                                <button type="button" (click)="onmanageWallet('BACKUP_PRIVATE_KEY')" mat-menu-item>{{"Backup private key" | translate}}</button>
+                                <button type="button" mat-menu-item (click)="navigate('/wallet/restore')">{{"Import Wallet" | translate}}</button>
+                                <button type="button" (click)="navigate('/wallet/create')" mat-menu-item>{{"Create Wallet" | translate}}</button>
                                 <!--
-                                <button (click)="onmanageWallet('LOGIN_SETTING')" mat-menu-item>{{"Login Setting" | translate}}</button>
+                                <button type="button" (click)="onmanageWallet('LOGIN_SETTING')" mat-menu-item>{{"Login Setting" | translate}}</button>
                                 -->
-                                <button (click)="onmanageWallet('DISPLAY_SETTING')" mat-menu-item>{{"Display Setting" | translate}}</button>
-                                <button (click)="onmanageWallet('SHOW_SEED_PHRASE')" mat-menu-item>{{"Show seed phrase" | translate}}</button>
+                                <button type="button" (click)="onmanageWallet('DISPLAY_SETTING')" mat-menu-item>{{"Display Setting" | translate}}</button>
+                                <button type="button" (click)="onmanageWallet('SHOW_SEED_PHRASE')" mat-menu-item>{{"Show seed phrase" | translate}}</button>
 
-                                <button (click)="onmanageWallet('VERIFY_SEED_PHRASE')" mat-menu-item>{{"Verify seed phrase" | translate}}</button>
+                                <button type="button" (click)="onmanageWallet('VERIFY_SEED_PHRASE')" mat-menu-item>{{"Verify seed phrase" | translate}}</button>
 
-                                <button (click)="onmanageWallet('DELETE_WALLET')" mat-menu-item>{{"Delete wallet" | translate}}</button>
-                                <button (click)="onmanageWallet('SMART_CONTRACT')" mat-menu-item>{{"Smart contract" | translate}}</button>
-                                <button (click)="onmanageWallet('HIDE_SHOW_WALLET')" mat-menu-item>{{ (hideWallet ? 'Show wallet' : 'Hide wallet') | translate}}  </button>
-                                <button (click)="navigate('/ex/walletconnect')" mat-menu-item>{{"Wallet connect" | translate}}</button>
-                                <button (click)="onmanageWallet('TOOLS')" mat-menu-item>{{"Tools" | translate}}</button>
+                                <button type="button" (click)="onmanageWallet('DELETE_WALLET')" mat-menu-item>{{"Delete wallet" | translate}}</button>
+                                <button type="button" (click)="onmanageWallet('SMART_CONTRACT')" mat-menu-item>{{"Smart contract" | translate}}</button>
+                                <button type="button" (click)="onmanageWallet('HIDE_SHOW_WALLET')" mat-menu-item>{{ (hideWallet ? 'Show wallet' : 'Hide wallet') | translate}}  </button>
+                                <button type="button" (click)="navigate('/ex/walletconnect')" mat-menu-item>{{"Wallet connect" | translate}}</button>
+                                <button type="button" (click)="onmanageWallet('TOOLS')" mat-menu-item>{{"Tools" | translate}}</button>
                             </mat-menu>
 
-                            <button mat-icon-button [matMenuTriggerFor]="walletMenu">
+                            <button type="button" mat-icon-button [matMenuTriggerFor]="walletMenu" title="menu">
                                 <mat-icon svgIcon="more-vert"></mat-icon>
                             </button>
                         </div>
@@ -54,7 +54,7 @@
 
                             <div *ngIf="wallets">
                                 <mat-form-field>
-                                    <mat-select panelClass="example-panel" [value]="currentWalletIndex" (selectionChange)="changeWallet($event.value)">
+                                    <mat-select panelClass="example-panel" [value]="currentWalletIndex" (selectionChange)="changeWallet($event)">
                                         <mat-option *ngFor="let wallet of wallets;let i = index" [value]="i">
                                             {{wallet.name}}
                                         </mat-option>
@@ -67,14 +67,14 @@
                                 </div>
                             </div>
                             <div class="small text-white" *ngIf="wallet && !wallet.hide">
-                                {{"Wallet address" | translate }}: <span style="color: lightgray;" class="pl-2"> {{fabAddress}}</span>
-                                <button mat-icon-button (click)="copyAddress()" title="{{'Copy address'|translate}}">
+                                {{"Wallet address" | translate }}: <span class="pl-2 walletadd"> {{fabAddress}}</span>
+                                <button type="button" mat-icon-button (click)="copyAddress()" title="{{'Copy address'|translate}}">
                                     <mat-icon svgIcon="copy"></mat-icon>
                                 </button>
                             </div>
                             <div class="small text-white" *ngIf="wallet && !wallet.hide">{{"Kanban Gas" | translate }}: {{gas}}
                                 <span class="warningMsg pr-2" *ngIf="gas<0.0001">{{"No enough gas in exchange, please add gas to trade"|translate}}.</span>
-                                <button class="btn button btn-outline btn-basic-outline btn-fixed-width" *ngIf="(gas<=0) && (fabBalance <= 0)" (click)="getFreeFab()">{{"Get free FAB" | translate }}</button>
+                                <button type="button" class="btn button btn-outline btn-basic-outline btn-fixed-width" *ngIf="(gas<=0) && (fabBalance <= 0)" (click)="getFreeFab()">{{"Get free FAB" | translate }}</button>
                             </div>
 
                         </div>
@@ -108,8 +108,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
 
                     <div class="row py-3" *ngIf="wallet && !wallet.hide">
@@ -118,17 +116,17 @@
                                 <modal-receive-coin [wallet]="wallet"></modal-receive-coin>
                             </div>
                             <div class="d-inline-block pr-3 walletBtn">
-                                <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="sendCoin()">{{"Send" | translate }}</button>
+                                <button type="button" class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="sendCoin()">{{"Send" | translate }}</button>
                             </div>
                             <div class="d-inline-block pr-3 walletBtn">
-                                <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="addGasFee()" [matTooltip]="fabBalance < 0.5 ? ('No enough FAB in wallet, can not add gas' | translate) : ''">{{"Add Gas" | translate }}</button>
+                                <button type="button" class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="addGasFee()" [matTooltip]="fabBalance < 0.5 ? ('No enough FAB in wallet, can not add gas' | translate) : ''">{{"Add Gas" | translate }}</button>
                             </div>
                             <div class="d-inline-block pr-3 walletBtn">
-                                <button class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="exchangeMoney()">{{"Exchange" | translate }}</button>
+                                <button type="button" class="btn button btn-outline btn-basic-outline btn-fixed-width" (click)="exchangeMoney()">{{"Exchange" | translate }}</button>
                             </div>
 
                             <div class="d-inline-block pr-3 walletBtn" *ngIf="!walletUpdateToDate">
-                                <button class="btn button btn-outline btn-basic-outline btn-fixed-width text-danger font-weight-bold" (click)="updateWallet()">{{"Update" | translate }}</button>
+                                <button type="button" class="btn button btn-outline btn-basic-outline btn-fixed-width text-danger font-weight-bold" (click)="updateWallet()">{{"Update" | translate }}</button>
                             </div>
                         </div>
                     </div>
@@ -190,11 +188,11 @@
                         </div>
                         <div class="col col-2 col-md-4 small text-right fxHide-gt-sm">
                             <mat-menu #appMenu="matMenu">
-                                <button mat-menu-item (click)="onShowTransactionHistory()">{{"Transaction History" | translate}}</button>
-                                <button (click)="addAssets()" mat-menu-item>{{"Add Assets" | translate}}</button>
+                                <button type="button" mat-menu-item (click)="onShowTransactionHistory()">{{"Transaction History" | translate}}</button>
+                                <button type="button" (click)="addAssets()" mat-menu-item>{{"Add Assets" | translate}}</button>
                             </mat-menu>
 
-                            <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                            <button type="button" mat-icon-button [matMenuTriggerFor]="appMenu" title="More options">
                                 <mat-icon svgIcon="more-vert"></mat-icon>
                             </button>
                         </div>
@@ -243,8 +241,7 @@
                                             utilServ.toPrecisionMul(mycoin.balance, mycoin.lockedBalance, mycoin.usdPrice) >= 1
                                         )">
                                         <div class="col-custom-1 pointer" (click)="selectCoin(mycoin.symbol)">
-
-                                            <img *ngIf="!mycoin.new" src="{{getCoinLogo(mycoin)}}" name="icon" class="icon" />
+                                            <img *ngIf="!mycoin.new" src="{{getCoinLogo(mycoin)}}" name="icon" class="icon" alt="mycoin" />
                                         </div>
                                         <div class="col-custom-1">
 
@@ -292,14 +289,14 @@
 
                                         </div>
                                         <div class="col-custom-2" *ngIf="!maintainence">
-                                            <button mat-icon-button matTooltip="{{'Move fund to DEX'|translate}}" *ngIf="(gas > 0)" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                            <button type="button" mat-icon-button matTooltip="{{'Move fund to DEX'|translate}}" *ngIf="(gas > 0)" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                                 <mat-icon svgIcon="arrow-downward"></mat-icon>
                                             </button>
-                                            <button mat-icon-button matTooltip="{{'Confirm move fund to DEX'|translate}}" *ngIf="(gas > 0)" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                            <button type="button" mat-icon-button matTooltip="{{'Confirm move fund to DEX'|translate}}" *ngIf="(gas > 0)" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                                 <mat-icon svgIcon="vertical_align_bottom"></mat-icon>
                                             </button>
 
-                                            <button mat-icon-button matTooltip="{{'Delete'|translate}}" *ngIf="mycoin.new" (click)="delete(mycoin)" aria-label="Example icon-button with a heart icon">
+                                            <button type="button" mat-icon-button matTooltip="{{'Delete'|translate}}" *ngIf="mycoin.new" (click)="delete(mycoin)" aria-label="Example icon-button with a heart icon">
                                                 <mat-icon svgIcon="delete"></mat-icon>
                                             </button>
                                         </div>
@@ -313,18 +310,14 @@
                             <div class="row apair header">
                                 <div class="col-2">
                                     {{"Symbol" | translate}}
-
                                 </div>
                                 <div class="col-2">
                                     {{"Asset" | translate}}
-
                                 </div>
                                 <div class="col-4">
                                     {{"Available" | translate}}
                                 </div>
-
                                 <div class="col-4">
-
                                 </div>
                             </div>
                             <div class="row apair dataline" *ngFor="let mycoin of wallet.mycoins | sortByField : sortField : sortFieldType : sortAsc | filterByChain: currentChain; index as i">
@@ -336,7 +329,7 @@
                                         utilServ.toPrecisionMul(mycoin.balance, mycoin.lockedBalance, mycoin.usdPrice) >= 1
                                     )">
                                     <div class="col-2">
-                                        <img *ngIf="!mycoin.new" src="{{getCoinLogo(mycoin)}}" name="icon2" class="icon" />
+                                        <img *ngIf="!mycoin.new" src="{{getCoinLogo(mycoin)}}" name="icon2" class="icon" alt="mycoin" />
                                     </div>
                                     <div class="col-2">
                                         {{mycoin.symbol}}
@@ -364,14 +357,14 @@
                                     </div>
 
                                     <div class="col-4">
-                                        <button mat-icon-button matTooltip="To exchange" [disabled]="gas <= 0 || maintainence" *ngIf="!mycoin.new" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                        <button type="button" mat-icon-button matTooltip="To exchange" [disabled]="gas <= 0 || maintainence" *ngIf="!mycoin.new" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon svgIcon="arrow-downward"></mat-icon>
                                     </button>
-                                        <button mat-icon-button matTooltip="Reconfirm" *ngIf="!mycoin.new && (mycoin.redeposit && mycoin.redeposit.length > 0) || (mycoin.depositErr && mycoin.depositErr.length > 0)" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                        <button type="button" mat-icon-button matTooltip="Reconfirm" *ngIf="!mycoin.new && (mycoin.redeposit && mycoin.redeposit.length > 0) || (mycoin.depositErr && mycoin.depositErr.length > 0)" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon svgIcon="vertical_align_bottom"></mat-icon>
                                     </button>
 
-                                        <button mat-icon-button matTooltip="{{'Delete'|translate}}" *ngIf="mycoin.new" (click)="delete(mycoin)" aria-label="Example icon-button with a heart icon">
+                                        <button type="button" mat-icon-button matTooltip="{{'Delete'|translate}}" *ngIf="mycoin.new" (click)="delete(mycoin)" aria-label="Example icon-button with a heart icon">
                                         <mat-icon svgIcon="delete"></mat-icon>
                                     </button>
                                     </div>

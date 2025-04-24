@@ -33,6 +33,11 @@ code {
     color: white;
 }
 
+.mismatch {
+    color: red;
+    margin: 0.5em 1.2em;
+}
+
 @media (max-width:600px){
     .words{
         padding: 10px 0;

@@ -10,10 +10,10 @@ export class TransactionItem {
     from = '';
     to = '';
     quantity = 0;
-    timestamp = 0;
+    time = 0;
     comment = '';
     confirmations = '';
     blockhash = '';
     status = '';
-    transactionId = '';
+    txid = '';
 }

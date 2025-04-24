@@ -1,22 +1,25 @@
 import { Component, ViewChild, EventEmitter, Output } from '@angular/core';
 import {  ModalDirective } from 'ngx-bootstrap/modal';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'add-gas-modal',
+    standalone: true,
+    imports: [CommonModule, ModalDirective, ReactiveFormsModule, TranslateModule],
     templateUrl: './add-gas.modal.html',
     styleUrls: ['./add-gas.modal.css']
 })
 export class AddGasModal {
-    @ViewChild('addGasModal', {static: true}) public addGasModal: ModalDirective;
+    @ViewChild('addGasModal', {static: true}) public addGasModal: ModalDirective = {} as ModalDirective;
     @Output() confirmedGas = new EventEmitter<number>();
-
-    depositAmountForm = this.fb.group({
-        depositAmount: ['']
-    });    
+    depositAmountForm = {} as FormGroup   
 
     constructor(private fb: FormBuilder) {
-
+        this.depositAmountForm = this.fb.group({
+            depositAmount: ['']
+        });    
     }
 
     onSubmit() {
@@ -29,6 +32,7 @@ export class AddGasModal {
     show() {
         this.addGasModal.show();
     }
+
     hide() {
         this.addGasModal.hide();
     }

@@ -33,7 +33,7 @@ export class TransactionDetailModal2 {
 
     getTxUrl(tx: TransactionItem) {
         const chain = tx.chain;
-        const txid = tx.transactionId;
+        const txid = tx.txid;
         if (chain == 'KANBAN') {
             return environment.baseUrl + '/explorer/tx-detail/' + txid;
         } else if (chain == 'BTC') {

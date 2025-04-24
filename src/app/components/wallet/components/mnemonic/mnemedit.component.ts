@@ -1,9 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-mnemedit',
+    standalone: true,
+    imports: [CommonModule, FormsModule, TranslateModule],
     templateUrl: './mnemedit.component.html',
     styleUrls: ['./mnemonic.component.css']
 })

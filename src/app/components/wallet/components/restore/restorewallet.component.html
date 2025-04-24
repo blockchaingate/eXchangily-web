@@ -14,7 +14,6 @@
                     </div>
                 </div>
 
-
                 <div class="form-group">
                     <label for="exampleInputPassword1">{{'Wallet Password' | translate }}</label>
                     <input type="password" autocomplete="off" class="form-control transparent-input" formControlName="password" id="password" placeholder="{{ 'Type wallet password' | translate }}">
@@ -22,7 +21,6 @@
                         {{"Pwdvalid" | translate}}
                     </div>
                 </div>
-
 
                 <div class="form-group">
                     <label for="exampleInputPassword2">{{'Confirm Wallet Password' | translate }}</label>
@@ -33,7 +31,7 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">{{'Seed phrase, seperated by space' | translate }}</label>
-                    <textarea class="form-control transparent-input" (input)="autoGrowEvent($event)" formControlName="seedphrase" id="seedphrase" name="seedphrase" id="exampleFormControlTextarea1" rows="5"></textarea>
+                    <textarea class="form-control transparent-input" (input)="autoGrowEvent($event)" formControlName="seedphrase" id="seedphrase" name="seedphrase" id="exampleFormControlTextarea1" rows="5" title="{{ 'Seed phrase, separated by space' | translate }}" placeholder="{{ 'Enter your seed phrase here' | translate }}"></textarea>
                     <div class="error text-danger smallfont" *ngIf="seedPhraseInvalid">
                         {{"Seed Phrase is invalid" | translate }}!
                     </div>

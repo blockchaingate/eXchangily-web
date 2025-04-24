@@ -1,10 +1,14 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { WalletService } from '../../../../services/wallet.service';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { MnemonicComponent } from '../mnemonic/mnemonic.component';
 
 @Component({
     selector: 'app-create-wallet',
+    standalone: true,
+    imports: [CommonModule, MnemonicComponent, TranslateModule],
     templateUrl: './createwallet.component.html',
     styleUrls: ['./createwallet.component.css'],
     encapsulation: ViewEncapsulation.None

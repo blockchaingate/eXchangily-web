@@ -7,7 +7,6 @@ import ECPairFactory from 'ecpair';
 import * as tinysecp from 'tiny-secp256k1';
 
 import * as bitcoinMessage from 'bitcoinjs-message';
-// import { hdkey } from 'ethereumjs-wallet/dist'; // v1.0.1 version, not working?
 import { HDKey } from 'ethereum-cryptography/hdkey';
 import * as bchaddr from 'bchaddrjs';
 import { Address } from '../models/address';
@@ -66,7 +65,7 @@ export class CoinService {
         const address = tronWeb.address.toHex(trxAddress);
         return address;
         */
-        const bytes = bs58.decode(trxAddress);
+        const bytes = bs58.default.decode(trxAddress);
         const addressInWallet = Buffer.from(bytes).toString('hex');
         return addressInWallet;
     }
@@ -1034,7 +1033,7 @@ export class CoinService {
             const childNode = root.derive(path);
 
             const privateKey = childNode.privateKey;
-            const wallet = require('ethereumjs-wallet').default.fromPrivateKey(privateKey);
+            const wallet = require('@ethereumjs/wallet').default.fromPrivateKey(privateKey);
             const address = `0x${wallet.getAddress().toString('hex')}`;
             addr = address;
             buffer = wallet.getPrivateKey();

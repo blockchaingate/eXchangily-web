@@ -17,7 +17,7 @@
                             {{"Transaction Date"| translate}}
                         </div>
                         <div class="ml-auto text-dark">
-                            {{item.timestamp | date: 'yyyy/MM/dd HH:mm'}}
+                            {{item.time | date: 'yyyy/MM/dd HH:mm'}}
                         </div>
                     </div>
                     <div class="d-flex">
@@ -56,7 +56,7 @@
                         {{"Transaction ID" |translate}}
                     </div>
                     <div class="text-dark" *ngIf="item.type != 'Withdraw'">
-                        <small>{{getFormattedTxid(item.transactionId)}}</small>
+                        <small>{{getFormattedTxid(item.txid)}}</small>
                     </div>
                     <div class="text-muted pt-2">
                         {{"Status"|translate}}

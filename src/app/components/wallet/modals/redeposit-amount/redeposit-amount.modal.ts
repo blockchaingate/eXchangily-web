@@ -1,25 +1,28 @@
 import { Component, ViewChild, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormsModule } from '@angular/forms';
 import { MyCoin } from '../../../../models/mycoin';
 import { AlertService } from '../../../../services/alert.service';
-import { environment } from '../../../../../environments/environment';
-import { CoinService } from '../../../../services/coin.service';
 import { UtilService } from '../../../../services/util.service';
 import BigNumber from 'bignumber.js';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'redeposit-amount-modal',
+    standalone: true,
+    imports: [CommonModule, ModalDirective, MatFormFieldModule, FormsModule, TranslateModule],
     templateUrl: './redeposit-amount.modal.html',
     styleUrls: ['./redeposit-amount.modal.css']
 })
 export class RedepositAmountModal implements OnInit {
-    @ViewChild('depositModal', { static: true }) public depositModal: ModalDirective;
-    coin: MyCoin;
+    @ViewChild('depositModal', { static: true }) public depositModal: ModalDirective = {} as ModalDirective;
+    coin: MyCoin = {} as MyCoin;
     redeposit: any;
     @Output() confirmedAmount = new EventEmitter<any>();
-    showDetailIndex: number;
-    transactionID: string;
+    showDetailIndex = 0;
+    transactionID = '';
     gasFeeCustomChecked = false;
 
     constructor(private alertServ: AlertService, public utilServ: UtilService) {
@@ -40,6 +43,7 @@ export class RedepositAmountModal implements OnInit {
     setTransactionID(txid: string) {
         this.transactionID = txid;
     }
+
     onSubmit() {
         const data = {
             transactionID: this.transactionID
@@ -48,10 +52,11 @@ export class RedepositAmountModal implements OnInit {
         this.hide();
     }
 
-    show(coin) {
+    show(coin: MyCoin) {
         this.coin = coin;
         this.depositModal.show();
     }
+
     hide() {
         this.depositModal.hide();
     }

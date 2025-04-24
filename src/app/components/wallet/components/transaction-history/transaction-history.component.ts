@@ -1,28 +1,33 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { StorageService } from '../../../../services/storage.service';
 import { TransactionItem } from '../../../../models/transaction-item';
-import { CoinsPrice } from '../../../../interfaces/balance.interface';
+import { CoinsPrice } from '../../../../models/balance.interface';
 import { UtilService } from '../../../../services/util.service';
 import { ApiService } from '../../../../services/api.service';
-import { KanbanService } from '../../../../services/kanban.service';
+import { KanbanV2Service } from '../../../../services/kanban-v2.service';
 import { TransactionDetailModal } from '../../modals/transaction-detail/transaction-detail.modal';
 import { TransactionDetailModal2 } from '../../modals/transaction-detail2/transaction-detail2.modal';
 import { CoinService } from '../../../../services/coin.service';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'app-transaction-history',
+    standalone: true,
+    imports: [CommonModule, TransactionDetailModal, TransactionDetailModal2, MatIconModule, TranslateModule],
     templateUrl: './transaction-history.component.html',
     styleUrls: ['./transaction-history.component.css']
 })
 export class TransactionHistoryComponent implements OnInit {
-    @ViewChild('transactionDetailModal', { static: true }) transactionDetailModal: TransactionDetailModal;
-    @ViewChild('transactionDetailModal2', { static: true }) transactionDetailModal2: TransactionDetailModal2;
+    @ViewChild('transactionDetailModal', { static: true }) transactionDetailModal: TransactionDetailModal = {} as TransactionDetailModal;
+    @ViewChild('transactionDetailModal2', { static: true }) transactionDetailModal2: TransactionDetailModal2 = {} as TransactionDetailModal2;
 
-    @Input() coinsPrice: CoinsPrice;
-    @Input() walletId: string;
-    @Input() transactions: TransactionItem[];
+    @Input() coinsPrice: CoinsPrice = {} as CoinsPrice;
+    @Input() walletId = '';
+    @Input() transactions: TransactionItem[] = [] as TransactionItem[];
 
-    currentType: string;
+    currentType = '';
     utilServ: UtilService;
 
     constructor(
@@ -30,7 +35,7 @@ export class TransactionHistoryComponent implements OnInit {
         private storageService: StorageService,
         private apiServ: ApiService,
         utilServ: UtilService,
-        private kanbanServ: KanbanService
+        private kanbanV2Serv: KanbanV2Service
     ) {
         this.utilServ = utilServ;
     }
@@ -40,44 +45,40 @@ export class TransactionHistoryComponent implements OnInit {
     }
 
     showCoinName(name: string, chain: string) {
-        if((name != chain) && chain) {
+        if ((name != chain) && chain) {
             return name + '(' + chain + ')';
         }
         return name;
     }
-    mergeSortedArray(a,b){
-        if(!a) {
+
+    mergeSortedArray(a: any, b: any) {
+        if (!a) {
             return b;
-        } else
-        if(!b) {
+        } else if (!b) {
             return a;
         }
         var tempArray: any = [];
-        var currentPos: any = {
-            a: 0,
-            b: 0
-        }
-        while(currentPos.a < a.length && currentPos.b < b.length) {
+        var currentPos: any = { a: 0, b: 0 }
+        while (currentPos.a < a.length && currentPos.b < b.length) {
 
-            if(typeof a[currentPos.a] === 'undefined') {
+            if (typeof a[currentPos.a] === 'undefined') {
                 tempArray.push(b[currentPos.b++]);
-            } else if(a[currentPos.a].timestamp > b[currentPos.b].timestamp){
+            } else if (a[currentPos.a].timestamp > b[currentPos.b].timestamp) {
                 tempArray.push(a[currentPos.a++]);
             } else {
                 tempArray.push(b[currentPos.b++]);
             }
         }
 
-        while(currentPos.a < a.length) {
+        while (currentPos.a < a.length) {
             tempArray.push(a[currentPos.a++]);
         }
 
-        while(currentPos.b < b.length) {
+        while (currentPos.b < b.length) {
             tempArray.push(b[currentPos.b++]);
-        }        
+        }
         return tempArray;
     }
-
 
     ngOnInit() {
         this.currentType = 'All';
@@ -87,13 +88,13 @@ export class TransactionHistoryComponent implements OnInit {
                 if (transactionHistory && (transactionHistory.length > 0)) {
                     //this.transactionHistory = transactionHistory.reverse().filter(s => s.walletId === this.walletId);
                     let newTransactions: any = [];
-                    for(let i=transactionHistory.length - 1;i >= 0; i--) {
+                    for (let i = transactionHistory.length - 1; i >= 0; i--) {
                         const transactionItem = transactionHistory[i];
                         const time = transactionItem.time;
                         const timestamp = Math.round(time.getTime() / 1000);
 
                         const wid = transactionItem.walletId;
-                        if(wid != this.walletId) {
+                        if (wid != this.walletId) {
                             continue;
                         }
                         const newTransaction = {
@@ -110,15 +111,12 @@ export class TransactionHistoryComponent implements OnInit {
                                     status: transactionItem.status,
                                     timestamp: '',
                                     transactionId: transactionItem.txid
-                                }                               
+                                }
                             ]
                         };
-
                         newTransactions.push(newTransaction);
                     }
-
                     this.transactions = this.mergeSortedArray(this.transactions, newTransactions);
-
                 }
             }
         );
