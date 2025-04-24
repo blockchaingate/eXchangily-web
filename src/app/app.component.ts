@@ -28,6 +28,7 @@ import { CoinService } from './services/coin.service';
 import { CampaignOrderService } from './services/campaignorder.service';
 import { BannerService } from './services/banner.service';
 import { PriceService } from './services/price.service';
+import { WalletService } from './services/wallet.service';
 
 @Component({
   selector: 'app-root',
@@ -51,6 +52,7 @@ import { PriceService } from './services/price.service';
     StorageService,
     SubscriptionService,
     UtilService,
+    WalletService,
     Web3Service,
     WsService,
     TimerService

@@ -68,14 +68,14 @@ export class SendCoinModal {
             }
         );
         */
-        if (this.wallet) {
+        if (this.wallet && this.wallet.mycoins && this.wallet.mycoins.length > 0) {
             this.coin = this.wallet.mycoins[this.currentCoinIndex];
             console.log('this.coin111==', this.coin);
         }
     }
 
     async calCulateSendAllAmount() {
-        if (this.wallet) {
+        if (this.wallet && this.wallet.mycoins && this.wallet.mycoins.length > 0) {
             this.coin = this.wallet.mycoins[this.currentCoinIndex];
         }
         const coinName = this.coin.name;
@@ -139,12 +139,6 @@ export class SendCoinModal {
     async sendAllAmount(event: any) {
         console.log('event=', event);
 
-        /*
-        if (this.wallet) {
-            this.coin = this.wallet.mycoins[this.currentCoinIndex];
-            console.log('this.coin111==', this.coin);
-        }       
-        */
         this.sendAllCoinsFlag = event.checked;
         if (this.sendAllCoinsFlag) {
             await this.calCulateSendAllAmount();
@@ -200,7 +194,7 @@ export class SendCoinModal {
     }
 
     onSubmit() {
-        if (!this.coin) {
+        if (!this.coin && this.wallet && this.wallet.mycoins && this.wallet.mycoins.length > 0) {
             this.coin = this.wallet.mycoins[this.currentCoinIndex];
         }
 

@@ -1,4 +1,5 @@
-var bs58check = require('bs58check')
+// var bs58check = require('bs58check')
+import bs58check from 'bs58check';
 
 /**
  * General purpose Kbpay address detection and translation.<br />

@@ -41,6 +41,7 @@ export const routes: Routes = [
                 { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
             ]
     },
+    { path: 'bindpay', loadComponent: () => import('./components/bindpay/bindpay.component').then((m) => m.BindpayComponent) },
     { path: 'market', loadComponent: () => import('./components/market/components/home/market-home.component').then((m) => m.MarketHomeComponent), children:
         [
             { path: 'home', loadComponent: () => import('./components/market/components/home/market-home.component').then((m) => m.MarketHomeComponent) }, 

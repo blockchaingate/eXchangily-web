@@ -71,6 +71,7 @@
     "@angular/compiler-cli": "^19.2.7",
     "@types/bchaddrjs": "^0.4.3",
     "@types/bitcore-lib-cash": "^8.23.8",
+    "@types/bs58check": "^2.1.2",
     "@types/create-hash": "^1.2.6",
     "@types/crypto-js": "^4.2.2",
     "@types/jasmine": "~5.1.7",

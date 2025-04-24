@@ -15,14 +15,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddressProcessor } from '../../lib/exaddr';
 import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
 import { ReceiveCoinModal } from './modals/receive-coin/receive-coin.component';
+import { BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
     selector: 'app-bindpay',
     standalone: true,
     imports: [CommonModule, FormsModule, ReactiveFormsModule, TranslateModule, PinNumberModal, TransactionHistoryComponent, ReceiveCoinModal],
+    providers: [BsModalService],
     templateUrl: './bindpay.component.html',
-    styleUrls: ['./bindpay.component.scss'],
-    providers: []
+    styleUrls: ['./bindpay.component.scss']
 })
 
 export class BindpayComponent implements OnInit {

@@ -27,7 +27,7 @@ export class ReceiveCoinModal {
     constructor(private modalService: BsModalService, private utilServ: UtilService) {}
 
     openModal(template: TemplateRef<any>) {
-        if (this.wallet) {
+        if (this.wallet && this.wallet.mycoins && this.wallet.mycoins.length > 0) {
             this.currentAddress = this.wallet.mycoins[1].receiveAdds[0].address;
         }
         console.log('open heere');

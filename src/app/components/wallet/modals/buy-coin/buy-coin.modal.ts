@@ -47,8 +47,7 @@ export class BuyCoinModal implements OnInit, OnDestroy {
     }
 
     openModal(template: TemplateRef<any>) {
-        if (this.wallet) {
-
+        if (this.wallet && this.wallet.mycoins && this.wallet.mycoins.length > 0) {
             this.buyableCoins = this.wallet.mycoins.filter(
                 item => item.name == 'BTC' ||
                     item.name == 'ETH' ||
@@ -68,7 +67,7 @@ export class BuyCoinModal implements OnInit, OnDestroy {
     ngOnInit() {
         this.currentCoinIndex = 0;
         this.currentAddress = '';
-        if (this.wallet) {
+        if (this.wallet && this.wallet.mycoins && this.wallet.mycoins.length > 0) {
             this.coin = this.wallet.mycoins[this.currentCoinIndex];
             this.currentAddress = this.coin.receiveAdds[0].address;
         }

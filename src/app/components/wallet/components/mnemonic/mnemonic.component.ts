@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-mnemonic',
     standalone: true,
-    imports: [CommonModule, TranslateModule],
+    imports: [CommonModule, RouterLink, TranslateModule],
     templateUrl: './mnemonic.component.html',
     styleUrls: ['./mnemonic.component.css']
 })

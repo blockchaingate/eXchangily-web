@@ -65,6 +65,7 @@ import { FaqComponent } from '../faq/faq.component';
         AddAssetsModal, PinNumberModal, DisplayPinNumberModal, AddGasModal, ShowSeedPhraseModal, SendCoinModal,
         VerifySeedPhraseModal, BackupPrivateKeyModal, DeleteWalletModal, LoginSettingModal, GetFreeFabModal,
         DisplaySettingModal, ToolsModal, LockedInfoModal, WalletUpdateModal],
+    providers: [BsModalService],
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
     encapsulation: ViewEncapsulation.None
@@ -183,6 +184,7 @@ export class WalletDashboardComponent implements OnInit {
             value: 'DOGE'
         },
     ];
+
     constructor(
         private campaignorderServ: CampaignOrderService,
         private route: Router, private walletServ: WalletService, private modalServ: BsModalService,
@@ -225,7 +227,6 @@ export class WalletDashboardComponent implements OnInit {
             ;
 
         this.showTransactionHistory = false;
-
     }
 
     changeChain(chain: string) {
@@ -250,31 +251,29 @@ export class WalletDashboardComponent implements OnInit {
             } else {
                 this.sortAsc = false;
             }
-        } else
-            if (field == 'balance') {
-                if (!this.sortAscBalance) {
-                    this.sortAscBalance = 1;
-                } else {
-                    this.sortAscBalance = -this.sortAscBalance;
-                }
-                if (this.sortAscBalance == 1) {
-                    this.sortAsc = true;
-                } else {
-                    this.sortAsc = false;
-                }
-            } else
-                if (field == 'lockedBalance') {
-                    if (!this.sortAscLockedBalance) {
-                        this.sortAscLockedBalance = 1;
-                    } else {
-                        this.sortAscLockedBalance = -this.sortAscLockedBalance;
-                    }
-                    if (this.sortAscLockedBalance == 1) {
-                        this.sortAsc = true;
-                    } else {
-                        this.sortAsc = false;
-                    }
-                }
+        } else if (field == 'balance') {
+            if (!this.sortAscBalance) {
+                this.sortAscBalance = 1;
+            } else {
+                this.sortAscBalance = -this.sortAscBalance;
+            }
+            if (this.sortAscBalance == 1) {
+                this.sortAsc = true;
+            } else {
+                this.sortAsc = false;
+            }
+        } else if (field == 'lockedBalance') {
+            if (!this.sortAscLockedBalance) {
+                this.sortAscLockedBalance = 1;
+            } else {
+                this.sortAscLockedBalance = -this.sortAscLockedBalance;
+            }
+            if (this.sortAscLockedBalance == 1) {
+                this.sortAsc = true;
+            } else {
+                this.sortAsc = false;
+            }
+        }
 
         //this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
     }
@@ -335,7 +334,6 @@ export class WalletDashboardComponent implements OnInit {
         const addr2 = this.utilServ.toKanbanAddress(Buffer.from(anotherPublicKey, 'hex'));
         console.log('addr2====', addr2);
         */
-
 
         await this.loadWallets();
         // this.currentWalletIndex = await this.walletServ.getCurrentWalletIndex();
@@ -653,7 +651,6 @@ export class WalletDashboardComponent implements OnInit {
                 } catch (e) {
 
                 }
-
             }
 
             if (coin.new && includeNew) {
@@ -738,7 +735,6 @@ export class WalletDashboardComponent implements OnInit {
                             }
 
                             //console.log('this.exgBalance=', this.exgBalance);
-
                         }
                         if (coin.name === 'FAB' && !coin.tokenType) {
                             fabCoin = coin;
@@ -844,10 +840,6 @@ export class WalletDashboardComponent implements OnInit {
             }
         );
 
-        /*
-
-        */
-
     }
 
     async changeWallet(value: any) {
@@ -886,7 +878,6 @@ export class WalletDashboardComponent implements OnInit {
                         const data = resp.data;
                         this.gas = new BigNumber(data).shiftedBy(-18).toNumber();
                     }
-
                 },
                 error: (error) => {
                     // console.log('errorrrr=', error);
@@ -942,16 +933,13 @@ export class WalletDashboardComponent implements OnInit {
         this.currentCoin = currentCoin;
         if (currentCoin.tokenType === 'ETH') {
             this.baseCoinBalance = this.ethBalance;
-        } else
-            if (currentCoin.tokenType === 'FAB') {
-                this.baseCoinBalance = this.fabBalance;
-            } else
-                if (currentCoin.tokenType == 'MATIC') {
-                    this.baseCoinBalance = this.maticBalance;
-                } else
-                    if (currentCoin.tokenType == 'BNB') {
-                        this.baseCoinBalance = this.bnbBalance;
-                    }
+        } else if (currentCoin.tokenType === 'FAB') {
+            this.baseCoinBalance = this.fabBalance;
+        } else if (currentCoin.tokenType == 'MATIC') {
+            this.baseCoinBalance = this.maticBalance;
+        } else if (currentCoin.tokenType == 'BNB') {
+            this.baseCoinBalance = this.bnbBalance;
+        }
         this.depositModal.initForm(currentCoin);
         this.depositModal.show();
     }
@@ -1277,7 +1265,7 @@ export class WalletDashboardComponent implements OnInit {
 
         for (let i = 0; i < erc20Tokens2.length; i++) {
             const tokenName2 = erc20Tokens2[i];
-            const token2SmartcontractAdd = environment.addresses.smartContract[tokenName2 as keyof typeof environment.addresses.smartContract].toString();  
+            const token2SmartcontractAdd = environment.addresses.smartContract[tokenName2 as keyof typeof environment.addresses.smartContract].toString();
             const token2 = this.coinServ.initToken('ETH', tokenName2, 8, token2SmartcontractAdd, ethCoin);
             this.coinServ.fillUpAddress(token2, seed, 1, 0);
             myCoins.push(token2);

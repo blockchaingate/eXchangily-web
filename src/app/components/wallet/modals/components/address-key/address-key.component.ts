@@ -44,6 +44,12 @@ export class AddressKeyComponent implements OnInit, OnChanges {
 
     showPage() {
         const addsArray = (this.chain === 0) ? this.currentCoin.receiveAdds : this.currentCoin.changeAdds;
+    
+        if(!addsArray || addsArray.length < 1) {
+            this.addsArraylength = 0;
+            this.addsPagination = [];
+            return;
+        }
         this.addsArraylength = (addsArray.length < 1) ? (addsArray.length) : 1;
         this.addsPagination = addsArray.slice(0, 1);
         for (let i = 0; i < this.addsPagination.length; i++) {
