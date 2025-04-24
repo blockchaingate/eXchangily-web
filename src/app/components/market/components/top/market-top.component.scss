@@ -1,5 +1,3 @@
-@import "sizing";
-
 .market-top {
     margin-top: 2em;
     margin-bottom: 0.5em;
@@ -19,19 +17,19 @@
     }
 }
 
-@media (min-width: $p1024) {
+@media (min-width: 1024px) {
     .top-border-right {
         border-right: 1px solid #505369;
     }
 }
 
-@media (max-width: $p1023) {
+@media (max-width: 1023px) {
     .top-border-right:nth-child(odd) {
         border-right: 1px solid #505369;
     }
 }
 
-@media (max-width: $p767) {
+@media (max-width: 767px) {
     .col {
         background-color: #4a52ca;
         border-radius: 20px;
@@ -51,7 +49,7 @@
     }
 }
 
-@media (max-width: $p575) {
+@media (max-width: 575px) {
     .top-border-right:nth-child(odd) {
         border-right: none;
     }

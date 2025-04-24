@@ -186,7 +186,7 @@ export class MarketListComponent implements OnInit {
         } else if (catName == '1000') {
             this.tab_prices = [];
         } else {
-            this.tab_prices = this.prices.filter((listing: Price) => listing.symbol.indexOf('kb' + catName) >= 0);
+            this.tab_prices = this.prices.filter((listing: Price) => listing.symbol.indexOf(catName) >= 0);
         }
     }
 
@@ -232,6 +232,7 @@ export class MarketListComponent implements OnInit {
     getCoinName(coin_id: number) {
         return this.coinServ.getCoinNameByTypeId(coin_id);
     }
+    
     updateTickerList(arr: Array<any>) {
         for (let i = 0; i < arr.length; i++) {
             const item = arr[i];
