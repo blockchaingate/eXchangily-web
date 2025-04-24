@@ -26,6 +26,8 @@ import { KycService } from './services/kyc.service';
 import { AirdropService } from './services/airdrop.service';
 import { CoinService } from './services/coin.service';
 import { CampaignOrderService } from './services/campaignorder.service';
+import { BannerService } from './services/banner.service';
+import { PriceService } from './services/price.service';
 
 @Component({
   selector: 'app-root',
@@ -36,6 +38,7 @@ import { CampaignOrderService } from './services/campaignorder.service';
     AlertService,
     AnnouncementsService,
     ApiService,
+    BannerService,
     CampaignOrderService,
     CoinService,
     HttpService,
@@ -44,6 +47,7 @@ import { CampaignOrderService } from './services/campaignorder.service';
     LanService,
     KanbanV2Service,
     KycService,
+    PriceService,
     StorageService,
     SubscriptionService,
     UtilService,

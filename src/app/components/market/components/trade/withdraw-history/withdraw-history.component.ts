@@ -4,11 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { UtilService } from '../../../../../services/util.service';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-withdraw-history',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, MatTableModule, TranslateModule],
   templateUrl: './withdraw-history.component.html',
   styleUrls: ['./withdraw-history.component.css']
 })

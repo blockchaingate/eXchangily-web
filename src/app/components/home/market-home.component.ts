@@ -8,8 +8,8 @@ import { CarouselConfig, CarouselModule } from 'ngx-bootstrap/carousel';
 import { Banner } from '../../models/banner';
 import { MarketTopComponent } from '../top/market-top.component';
 import { MarketListComponent } from '../list/market-list.component';
+var DefaultBanner = require('../../../../public/images/adv/default/default-adv.json');
 
-var DefaultBanner = require('../../../../../images/adv/default/default-adv.json');
 @Component({
   selector: 'app-market-home',
   standalone: true,

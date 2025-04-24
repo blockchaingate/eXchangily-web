@@ -9,11 +9,13 @@ import { UtilService } from '../../../../services/util.service';
 import { CoinService } from '../../../../services/coin.service';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { SortByFieldPipe } from '../../../shared/pipes/sort.pipe';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-market-list',
     standalone: true,
-    imports: [CommonModule, TranslateModule],
+    imports: [CommonModule, FormsModule, SortByFieldPipe, TranslateModule],
     templateUrl: './market-list.component.html',
     styleUrls: ['./market-list.component.scss']
 })

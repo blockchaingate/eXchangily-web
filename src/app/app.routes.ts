@@ -41,6 +41,16 @@ export const routes: Routes = [
                 { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
             ]
     },
+    { path: 'market', loadComponent: () => import('./components/market/components/home/market-home.component').then((m) => m.MarketHomeComponent), children:
+        [
+            { path: 'home', loadComponent: () => import('./components/market/components/home/market-home.component').then((m) => m.MarketHomeComponent) }, 
+            { path: 'list', loadComponent: () => import('./components/market/components/list/market-list.component').then((m) => m.MarketListComponent) }, 
+            { path: 'withdraw-history/:address', loadComponent: () => import('./components/market/components/trade/withdraw-history/withdraw-history.component').then((m) => m.WithdrawHistoryComponent) },
+            { path: 'trade', loadComponent: () => import('./components/market/components/trade/trade.component').then((m) => m.TradeComponent) },
+            { path: 'trade/:pair', loadComponent: () => import('./components/market/components/trade/panel/panel.component').then((m) => m.PanelComponent) },
+            { path: '', redirectTo: 'home', pathMatch: 'full' },
+        ]
+    },
     { path: 'help', loadComponent: () => import('./components/help/help.component').then((m) => m.HelpComponent) },
     { path: 'faq', loadComponent: () => import('./components/help/faq.component').then((m) => m.FaqComponent) },
     { path: 'fee', loadComponent: () => import('./components/help/fee.component').then((m) => m.FeeComponent) },

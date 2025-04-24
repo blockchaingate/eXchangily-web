@@ -96,7 +96,6 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 }
             }
 
-
             this.apiServ.getTsWalletBalance(val, this.srcId).then(
                 balance => {
                     this.tsWalletBalance = balance;
@@ -337,7 +336,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
             currentCoin.name === 'BTC' || ((currentCoin.name === 'FAB') && !currentCoin.tokenType) ||
             currentCoin.name === 'DOGE' || currentCoin.name === 'LTC' ||
             currentCoin.name == 'TRX' || currentCoin.tokenType == 'TRX') {
-            const bytes = bs58.decode(addressInWallet);
+            const bytes = bs58.default.decode(addressInWallet);
             addressInWallet = Buffer.from(bytes).toString('hex');
             console.log('addressInWallet there we go:', addressInWallet);
 
@@ -372,7 +371,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 }
                 return;
             }
-            const bytes = bs58.decode(fabAddress);
+            const bytes = bs58.default.decode(fabAddress);
             addressInWallet = Buffer.from(bytes).toString('hex');
         }
 
@@ -473,7 +472,8 @@ export class MyordersComponent implements OnInit, OnDestroy {
             this.chain = 'TRX';
             coinNameInKanban = 'USDTX';
             try {
-                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+                const coinWithdrawConfig = environment.minimumWithdraw[this.coinName] as Record<string, number>;
+                this.minimumWithdrawAmount = coinWithdrawConfig[this.chain];
 
                 if (!this.trxUSDTTSBalance) {
                     this.trxUSDTTSBalance = await this.coinServ.getTrxTokenBalance(environment.addresses.smartContract.USDT.TRX, environment.addresses.exchangilyOfficial.TRX);
@@ -499,7 +499,8 @@ export class MyordersComponent implements OnInit, OnDestroy {
         } else if (this.coinName == 'FAB') {
             this.chain = 'FAB';
             try {
-                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+                const coinWithdrawConfig = environment.minimumWithdraw[this.coinName] as Record<string, number>;
+                this.minimumWithdrawAmount = coinWithdrawConfig[this.chain];
 
                 if (!this.ethFABTSBalance) {
                     let balance = await this.apiServ.getEthTokenBalance('FAB', environment.addresses.smartContract.FAB.ETH, environment.addresses.exchangilyOfficial.ETH);
@@ -522,26 +523,32 @@ export class MyordersComponent implements OnInit, OnDestroy {
         } else if (this.coinName == 'FET') {
             this.chain = 'FAB';
             try {
-                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
-
+                const coinWithdrawConfig = environment.minimumWithdraw[this.coinName];
+                if (typeof coinWithdrawConfig === 'object' && coinWithdrawConfig !== null) {
+                    this.minimumWithdrawAmount = (coinWithdrawConfig as Record<string, number>)[this.chain];
+                } else {
+                    this.minimumWithdrawAmount = coinWithdrawConfig as number;
+                }
 
                 const balance = await this.apiServ.getFabTokenBalance(this.coinName, this.utilServ.fabToExgAddress(environment.addresses.exchangilyOfficial.FAB));
                 this.fetTSBalance = balance.balance / 1e18;
-
 
                 if (!this.bnbFETTSBalance) {
                     const balance = await this.coinServ.getEtherumCompatibleTokenBalance('BNB', environment.addresses.smartContract.FET.BNB, environment.addresses.exchangilyOfficial.BNB);
                     this.bnbFETTSBalance = new BigNumber(balance, 16).shiftedBy(-18).toNumber();
                 }
-
             } catch (e) {
 
             }
         } else if (this.coinName == 'GET') {
             this.chain = 'FAB';
             try {
-                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
-
+                const withdrawConfig = environment.minimumWithdraw[this.coinName];
+                if (typeof withdrawConfig === 'object' && withdrawConfig !== null) {
+                    this.minimumWithdrawAmount = (withdrawConfig as Record<string, number>)[this.chain];
+                } else {
+                    this.minimumWithdrawAmount = withdrawConfig as number;
+                }
 
                 const balance = await this.apiServ.getFabTokenBalance(this.coinName, this.utilServ.fabToExgAddress(environment.addresses.exchangilyOfficial.FAB));
                 this.getTSBalance = balance.balance / 1e18;
@@ -559,7 +566,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
             this.chain = 'MATIC';
             coinNameInKanban = 'MATICM';
             try {
-                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+                this.minimumWithdrawAmount = environment.minimumWithdraw.MATIC.MATIC;
 
                 if (!this.ethMATICTSBalance) {
                     let balance = await this.apiServ.getEthTokenBalance('MATIC', environment.addresses.smartContract.MATIC, environment.addresses.exchangilyOfficial.ETH);
@@ -577,9 +584,9 @@ export class MyordersComponent implements OnInit, OnDestroy {
         } else if (['EXG'].indexOf(this.coinName) >= 0) {
             this.chain = 'FAB';
             try {
-                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+                this.minimumWithdrawAmount = environment.minimumWithdraw.EXG.FAB;
 
-                let balance = await this.apiServ.getEthTokenBalance(this.coinName, environment.addresses.smartContract[this.coinName]['ETH'], environment.addresses.exchangilyOfficial.ETH);
+                let balance = await this.apiServ.getEthTokenBalance(this.coinName, environment.addresses.smartContract.EXG.ETH, environment.addresses.exchangilyOfficial.ETH);
                 this.ethEXGTSBalance = balance.balance / 1e18;
 
                 balance = await this.apiServ.getFabTokenBalance(this.coinName, this.utilServ.fabToExgAddress(environment.addresses.exchangilyOfficial.FAB));
@@ -597,9 +604,9 @@ export class MyordersComponent implements OnInit, OnDestroy {
         } else if (['DSC'].indexOf(this.coinName) >= 0) {
             this.chain = 'FAB';
             try {
-                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+                this.minimumWithdrawAmount = environment.minimumWithdraw.DSC.FAB;
 
-                let balance = await this.apiServ.getEthTokenBalance(this.coinName, environment.addresses.smartContract[this.coinName]['ETH'], environment.addresses.exchangilyOfficial.ETH);
+                let balance = await this.apiServ.getEthTokenBalance(this.coinName, environment.addresses.smartContract.DSC.ETH, environment.addresses.exchangilyOfficial.ETH);
                 this.ethDSCTSBalance = balance.balance / 1e18;
 
                 balance = await this.apiServ.getFabTokenBalance(this.coinName, this.utilServ.fabToExgAddress(environment.addresses.exchangilyOfficial.FAB));
@@ -611,9 +618,9 @@ export class MyordersComponent implements OnInit, OnDestroy {
         } else if (['BST'].indexOf(this.coinName) >= 0) {
             this.chain = 'FAB';
             try {
-                this.minimumWithdrawAmount = environment.minimumWithdraw[this.coinName][this.chain];
+                this.minimumWithdrawAmount = environment.minimumWithdraw.BST.FAB;
 
-                let balance = await this.apiServ.getEthTokenBalance(this.coinName, environment.addresses.smartContract[this.coinName]['ETH'], environment.addresses.exchangilyOfficial.ETH);
+                let balance = await this.apiServ.getEthTokenBalance(this.coinName, environment.addresses.smartContract.BST.ETH, environment.addresses.exchangilyOfficial.ETH);
                 this.ethBSTTSBalance = balance.balance / 1e18;
 
                 balance = await this.apiServ.getFabTokenBalance(this.coinName, this.utilServ.fabToExgAddress(environment.addresses.exchangilyOfficial.FAB));
@@ -641,7 +648,6 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 }
             }
         );
-
     }
 
     selectOrder(ord: number) {

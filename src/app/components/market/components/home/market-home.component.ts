@@ -5,15 +5,17 @@ import { CommonModule, DOCUMENT } from '@angular/common';
 import { environment } from '../../../../environments/environment';
 import { KanbanV2Service } from '../../../../services/kanban-v2.service';
 import { BannerService } from '../../../../services/banner.service';
-import { CarouselConfig } from 'ngx-bootstrap/carousel';
+import { CarouselConfig, CarouselModule } from 'ngx-bootstrap/carousel';
 import { Banner } from '../../../../models/banner';
 import { TranslateModule } from '@ngx-translate/core';
-var DefaultBanner = require('../../../../../images/adv/default/default-adv.json');
+import { MarketTopComponent } from '../top/market-top.component';
+import { MarketListComponent } from '../list/market-list.component';
+var DefaultBanner = require('../../../../../../public/images/adv/default/default-adv.json');
 
 @Component({
   selector: 'app-market-home',
   standalone: true,
-  imports: [CommonModule, CarouselConfig, TranslateModule],
+  imports: [CommonModule, CarouselModule, MarketTopComponent, MarketListComponent, TranslateModule],
   templateUrl: './market-home.component.html',
   styleUrls: ['./market-home.component.scss'],
   providers: [
