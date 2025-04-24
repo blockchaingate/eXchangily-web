@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
     selector: 'pin-number-modal',
     standalone: true,
-    imports: [ModalDirective, CommonModule, ReactiveFormsModule, MatFormFieldModule, TranslateModule, MatAutocompleteModule],
+    imports: [ModalDirective, CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, TranslateModule, MatAutocompleteModule],
     templateUrl: './pin-number.modal.html',
     styleUrls: ['./pin-number.modal.css']
 })

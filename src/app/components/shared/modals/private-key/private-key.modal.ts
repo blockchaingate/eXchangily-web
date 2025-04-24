@@ -4,11 +4,12 @@ import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
     selector: 'private-key-modal',
     standalone: true,
-    imports: [ModalDirective, CommonModule, ReactiveFormsModule, MatFormFieldModule, TranslateModule],
+    imports: [ModalDirective, CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, TranslateModule],
     templateUrl: './private-key.modal.html',
     styleUrls: ['./private-key.modal.css']
 })

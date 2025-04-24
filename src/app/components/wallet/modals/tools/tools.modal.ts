@@ -8,11 +8,12 @@ import { CommonModule } from '@angular/common';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
     selector: 'tools-modal',
     standalone: true,
-    imports: [CommonModule, FormsModule, ModalDirective, MatExpansionModule, MatFormFieldModule, TranslateModule],
+    imports: [CommonModule, FormsModule, ModalDirective, MatExpansionModule, MatFormFieldModule, MatInputModule, TranslateModule],
     templateUrl: './tools.modal.html',
     styleUrls: ['./tools.modal.css']
 })
