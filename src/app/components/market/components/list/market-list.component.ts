@@ -134,7 +134,7 @@ export class MarketListComponent implements OnInit {
                 console.log('ret===', ret);
                 if (ret && ret.success) {
                     const data = ret.data;
-                    console.log('dataaaaa===', data);
+                    console.log('price dataaaaa===', data);
                     this.prices = data;
                     this.tab_prices = data;
                     this.selectCat('DUSD');
