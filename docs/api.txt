@@ -1,0 +1,58 @@
+1. register
+post  https://test.blockchaingate.com/v2/members/create
+
+{
+    email: "kenind@gmail.com"
+    password: "98523020"
+    referralCode: "445dw4"
+    app: "eXchangily"
+    appId: "5b6a8688905612106e976a69"
+}
+
+
+
+2. login (get the token)
+
+post https://test.blockchaingate.com/v2/members/login
+{
+    email: "kenin.qiu+19@gmail.com"
+    password: "98523020"
+    appId: "5b6a8688905612106e976a69"    
+}
+
+
+3. kyc (with token)
+
+post https://test.blockchaingate.com/v2/kyc/create
+
+app: "eXchangily"
+memberId: "5e7237b32eaed9123793303e"
+name: "eeetrwe"
+countryOfBirth: "ATF"
+accreditedInvestor: false
+dateOfBirth: "1980-11-22"
+countryOfResidency: "ARM"
+homeAddress: "83 song meadoway"
+email: "fawefrwafr@fawe.com"
+photoUrls: ["data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABDgA"]
+selfieUrls: ["data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABDgA"]
+
+
+4. buy coin  (with token)
+
+post https://test.blockchaingate.com/v2/coinorders/create
+{
+    coinName: "EXG"
+    paymentmethod: "USDT"
+    price: "1"
+    quantity: "1"
+    txid: "0x8a46878fe1f0dad8f055b6fe0b64f2d178dc0e6d4bad1d2de213d233bfc1fa9c"
+}
+
+5. list orders  (with token)
+get https://test.blockchaingate.com/v2/coinorders
+
+
+6. rewards  (with token)
+
+get https://test.blockchaingate.com/v2/coinorders/rewards

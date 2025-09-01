@@ -1,0 +1,11 @@
+1. How to set a token as official recognized token?
+   in api2 database, in the tokens document, set the token's "selected" as true;
+
+2. When a token was minted on FAB chain, how to create its Kanban contract?
+   When the owner deposit the token to Kanban, related contract created automatically on Kanban chain, nothing need to do.
+   BUT, if the token has multiple-chain issuance, such as issued on FAB, BNB, and Ethereum, must set them manually to the same contract on Kanban.
+    (this need Jason to do it)
+
+3. How to add a trading pair?
+  at https://exchangily.com/ex/pair to set up trading pair by using official wallet.
+
