@@ -323,7 +323,11 @@ export const environment = {
             CVC: '0x41e5560054824ea6b0732e656e3ad64e20e94e45',
             CELR: '0x4f9254c83eb525f9fcf346490bbb3ed28a81c667',
             YFI: '0x0bc529c00c6401aef6d220be8c6ea1667f6ad93e',
-            SLP: '0x37236cd05b34cc79d3715af2383e96dd7443dcf1'
+            SLP: '0x37236cd05b34cc79d3715af2383e96dd7443dcf1',
+            SIG: {
+                FAB:'0x64ad31e841ac89fd8e9e8c97e02668b384e8c88d'
+            }
+
         },
         /*
         exchangilyOfficial: [
