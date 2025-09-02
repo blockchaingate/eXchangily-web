@@ -1,5 +1,9 @@
 1. How to set a token as official recognized token?
    in api2 database, in the tokens document, set the token's "selected" as true;
+   BE MIND: data collection: v3erc20tokens - this is for tokens mapped to Kanban. 
+     for example: SIG, minted on FAB chain, contract address is: 64ad31e841ac89fd8e9e8c97e02668b384e8c88d,
+     when SIG was depositted to Kanban, a same Symbol SIG token will be automatical minted on Kanban, but with different id: 0x4105d1db5e11bed95865a4e57ac3822fc62a9e72
+     so NEVER touch data collection: v3erc20tokens !!!
 
 2. When a token was minted on FAB chain, how to create its Kanban contract?
    When the owner deposit the token to Kanban, related contract created automatically on Kanban chain, nothing need to do.

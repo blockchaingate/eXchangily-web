@@ -341,10 +341,8 @@ export class CoinService {
 
         myCoins.push(bccCoin);   
 
-        const sigCoin = this.initToken('FAB', 'SIG', 2, environment.addresses.smartContract.SIG.FAB, fabCoin);
-
+        const sigCoin = this.initToken('FAB', 'SIG', 18, environment.addresses.smartContract.SIG.FAB, fabCoin);
         this.fillUpAddress(sigCoin, seed, 1, 0);
-
         myCoins.push(sigCoin);
 
         /*
@@ -382,9 +380,7 @@ export class CoinService {
 
 
         const csuCoin = this.initToken('FAB', 'CSU', 8, environment.addresses.smartContract.BST.FAB, fabCoin);
-
         this.fillUpAddress(csuCoin, seed, 1, 0);
-
         myCoins.push(csuCoin);  
 
 
