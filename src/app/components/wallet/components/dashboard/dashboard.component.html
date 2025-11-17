@@ -61,11 +61,13 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div *ngIf="wallet && wallet.hide">
+                            @if(wallet && wallet.hide) {
+                            <div>
                                 <div class="hide-wallet-text">
                                     {{'Your wallet is hidden' | translate }}
                                 </div>
                             </div>
+                            }
                             <div class="small text-white" *ngIf="wallet && !wallet.hide">
                                 {{"Wallet address" | translate }}: <span class="pl-2 walletadd"> {{fabAddress}}</span>
                                 <button type="button" mat-icon-button (click)="copyAddress()" title="{{'Copy address'|translate}}">
@@ -94,7 +96,7 @@
                                     <button id="button-basic" dropdownToggle type="button" class="btn btn-link dropdown-toggle small" aria-controls="dropdown-basic">
                                         <span class="caret small pl-0">{{currentCurrency | translate}}</span>
                                     </button>
-                                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+                                    <ul id="dropdown-basic" class="dropdown-menu" role="menu" aria-labelledby="button-basic">
                                         <li role="menuitem" *ngIf="currentCurrency !== 'USD'">
                                             <a class="dropdown-item small" (click)="changeCurrency('USD')">{{'USD' | translate }}</a>
                                         </li>
