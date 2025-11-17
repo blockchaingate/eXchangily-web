@@ -1,7 +1,7 @@
-import { Component, Inject, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild, ElementRef, AfterViewInit, DOCUMENT } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Renderer2 } from '@angular/core';
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { environment } from '../../../../environments/environment';
 import { KanbanV2Service } from '../../../../services/kanban-v2.service';
 import { BannerService } from '../../../../services/banner.service';
