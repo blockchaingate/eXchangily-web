@@ -4,14 +4,14 @@ import { Wallet } from '../../../../models/wallet';
 import { MyCoin } from '../../../../models/mycoin';
 import { initOnRamp, generateOnRampURL } from '../../../../lib/cbpay-js';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { CommonModule } from '@angular/common';
+
 import { TranslateModule } from '@ngx-translate/core';
 declare var window: any;
 
 @Component({
     selector: 'buy-coin-modal',
     standalone: true,
-    imports: [CommonModule, TranslateModule],
+    imports: [TranslateModule],
     templateUrl: './buy-coin.modal.html',
     styleUrls: ['./buy-coin.modal.css']
 })

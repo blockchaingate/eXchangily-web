@@ -2,13 +2,13 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, RouterModule } from '@angular/router';
 import { Coin } from '../../models/coin';
 import { ApiService } from '../../services/api.service';
-import { CommonModule } from '@angular/common';
+
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-coininfo',
     standalone: true,
-    imports: [CommonModule, RouterModule, TranslateModule],
+    imports: [RouterModule, TranslateModule],
     templateUrl: './coins.component.html',
     styleUrls: ['./coins.component.css']
 })

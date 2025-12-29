@@ -1,13 +1,13 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'verify-seed-phrase-modal',
     standalone: true,
-    imports: [CommonModule, ModalDirective, ReactiveFormsModule, TranslateModule],
+    imports: [ModalDirective, ReactiveFormsModule, TranslateModule],
     templateUrl: './verify-seed-phrase.modal.html',
     styleUrls: ['./verify-seed-phrase.modal.css']
 })

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { UserAuth } from '../../services/user-auth.service';
 import { LanService } from '../../services/lan.service';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
     selector: 'app-fee',
     standalone: true,
-    imports: [CommonModule],
+    imports: [],
     templateUrl: './fee.component.html',
     styleUrls: ['./faq.component.css']
 })

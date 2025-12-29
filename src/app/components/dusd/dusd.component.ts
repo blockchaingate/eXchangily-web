@@ -5,13 +5,13 @@ import { Ticket } from '../../models/ticket';
 import { UserAuth } from '../../services/user-auth.service';
 import { TicketService } from '../../services/ticket.service';
 import { StorageService } from '../../services/storage.service';
-import { CommonModule } from '@angular/common';
+
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-dusd',
     standalone: true,
-    imports: [CommonModule, TranslateModule],
+    imports: [TranslateModule],
     templateUrl: './dusd.component.html',
     styleUrls: ['./dusd.component.scss'],
     encapsulation: ViewEncapsulation.None

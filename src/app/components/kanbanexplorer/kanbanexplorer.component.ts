@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterOutlet } from '@angular/router';
@@ -9,7 +9,7 @@ import { KanbanService } from './services/kanban.service';
 @Component({
   selector: 'app-kanbanexplorer',
   standalone: true,
-  imports: [CommonModule, MatToolbarModule, RouterLink, RouterOutlet, TranslateModule],
+  imports: [MatToolbarModule, RouterLink, RouterOutlet, TranslateModule],
   providers: [KanbanService],
   templateUrl: './kanbanexplorer.component.html',
   styleUrls: ['./kanbanexplorer.component.css']

@@ -1,132 +1,136 @@
 <footer class="page-footer text-white exg-bg-dark" id="page-footer" [ngStyle]="gradientStyle">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3 about">
-                <div class="logo-font"><img src="./images/logo/pureExLogo.svg"> eXchangily</div>
-                <div class="txt">{{"exgshortintroduce" | translate}} </div>
-            </div>
-            <div class="col-md-3 colMenu">
-                <div class="colTitle">
-                    {{'Directory' | translate}}
-                </div>
-                <div class="colList">
-                    <div class="text-links">
-                        <img src="./images/logo/next.svg">
-                        <a routerLink="/wallet/dashboard">{{'Manage My Wallet' | translate}}</a>
-                    </div>
-                    <div class="text-links">
-                        <img src="./images/logo/next.svg">
-                        <a routerLink="/market/home">{{'Market' | translate}}</a>
-                    </div>
-                    <div class="text-links">
-                        <img src="./images/logo/next.svg">
-                        <a routerLink="/market/trade/ETH_BTC">{{'Trade' | translate}}</a>
-                    </div>
-                    <div class="text-links">
-                        <img src="./images/logo/next.svg">
-                        <a routerLink="/explorer">{{'Explore' | translate}}</a>
-                    </div>
-                    <div class="text-links">
-                        <img src="./images/logo/next.svg">
-                        <a routerLink="/assets/BTC">{{'Assets' | translate}}</a>
-                    </div>
-                    <div class="text-links">
-                        <img src="./images/logo/next.svg">
-                        <a routerLink="/home/team">{{'Team' | translate}}</a>
-                    </div>
-                    <div class="text-links">
-                        <img src="./images/logo/next.svg">
-                        <a routerLink="/app">{{'Mobile App' | translate}}</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 colMenu">
-                <div class="colTitle">
-                    {{'Help' | translate}}
-                </div>
-                <div class="colList">
-                    <div class="text-links">
-                        <img src="./images/logo/next.svg">
-                        <a href="/home" title="About us">{{'About Us' | translate}}</a>
-                    </div>
-                    <div class="text-links">
-                        <img src="./images/logo/next.svg">
-                        <a href="/faq" title="About us">{{'FAQ' | translate}}</a>
-                    </div>
-                    <div class="text-links">
-                        <img src="./images/logo/next.svg">
-                        <a href="/help" title="Help">{{'Help' | translate}}</a>
-                    </div>
-                    <div class="text-links">
-                        <img src="./images/logo/next.svg">
-                        <a href="/assets/pdfs/kanban-developer-quickstart.pdf" title="Quickstart" target="_blank">{{'Developer Quickstart' | translate}}</a>
-                    </div>
-                    <div class="text-links">
-                        <img src="./images/logo/next.svg">
-                        <a>{{'Law and compliance' | translate}}</a>
-                    </div>
-                    <div class="text-links">
-                        <img src="./images/logo/next.svg">
-                        <a href="https://api.exchangily.com">{{'API term' | translate}}</a>
-                    </div>
-                    <div class="text-links">
-                        <img src="./images/logo/next.svg">
-                        <a href="/dusd">{{'About' | translate}}DUSD</a>
-                    </div>
-
-                    <!-- <div class="text-links">
-                        <img src="./images/logo/next.svg">
-                        {{'Rate statement' | translate}}
-                    </div>
-                    <div class="text-links">
-                        <img src="./images/logo/next.svg">
-                        {{'Wallet security' | translate}}
-                    </div>
-                    <div class="text-links">
-                        <img src="./images/logo/next.svg">
-                        {{'Community announcement' | translate}}
-                    </div> -->
-                </div>
-            </div>
-            <div class="col-md-3">
-
-                <div class="colTitle Subscribe">{{ 'Subscribe for Updates' | translate }}</div>
-                <app-subscription></app-subscription>
-            </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 about">
+        <div class="logo-font"><img src="./images/logo/pureExLogo.svg"> eXchangily</div>
+        <div class="txt">{{"exgshortintroduce" | translate}} </div>
+      </div>
+      <div class="col-md-3 colMenu">
+        <div class="colTitle">
+          {{'Directory' | translate}}
         </div>
-
-        <hr>
-        <!-- Copyright -->
-        <div class="footerBottom">
-            <!-- <div class="colTitle">{{'JoinUs' | translate}} </div> -->
-            <div class="d-inline-block social-media" id="img-social">
-                <a href="https://twitter.com/exchangilydex" target="_blank" title="Twitter"><img src="./images/social/twitter.png" /></a>
-                <a href="https://www.facebook.com/Exchangily-439040053240813" target="_blank" title="Facebook"><img src="./images/social/facebook.png" /></a>
-                <a href="https://medium.com/exchangily-blog" target="_blank" title="Medium"><img src="./images/social/medium.png" /></a>
-                <a href="https://www.youtube.com/blockchaingateofficial" target="_blank" title="YouTube"><img src="./images/social/youtube.png" /></a>
-                <a href="https://t.me/exchangily1" target="_blank" title="电报群" *ngIf="lang=='zh'"><img src="./images/social/telegram.png" /></a>
-                <a href="https://t.me/exchangily_chat" target="_blank" title="Telegram" *ngIf="lang=='en'"><img src="./images/social/telegram.png" /></a>
-                <a href="https://github.com/blockchaingate/eXchangily-web" target="_blank" title="Github"><img src="./images/social/github.png" /></a>
-                <a href="https://www.tiktok.com/@exchangilydex" target="_blank" title="Tiktok"><img src="./images/social/tiktok.png" /></a>
-            </div>
-            <!-- <div class="colTitle">{{'Email' | translate}} </div> -->
-            <div>
-                <a class="text-muted small" href="mailto: info@exchangily.com">
-                    <!-- <mat-icon svgIcon="email"></mat-icon>  -->
-                    {{"General Infomation" | translate}}: info&#64;exchangily.com
-                </a>
-            </div>
-            <div>
-                <a class="text-muted small" href="mailto: Service@exchangily.com">
-                    <!-- <mat-icon svgIcon="email"></mat-icon>  -->
-                    {{"Customer Support"|translate}}: service&#64;exchangily.com
-                </a>
-            </div>
-            <div class="text-center small pb-3">© {{year}} {{"Copyright" | translate}}:
-                <a href="https://exchangily.com"> eXchangily.com</a> v{{version}}
-            </div>
-            <!-- <div>top: {{gradientTop}} left: {{gradientLeft}}</div> -->
+        <div class="colList">
+          <div class="text-links">
+            <img src="./images/logo/next.svg">
+            <a routerLink="/wallet/dashboard">{{'Manage My Wallet' | translate}}</a>
+          </div>
+          <div class="text-links">
+            <img src="./images/logo/next.svg">
+            <a routerLink="/market/home">{{'Market' | translate}}</a>
+          </div>
+          <div class="text-links">
+            <img src="./images/logo/next.svg">
+            <a routerLink="/market/trade/ETH_BTC">{{'Trade' | translate}}</a>
+          </div>
+          <div class="text-links">
+            <img src="./images/logo/next.svg">
+            <a routerLink="/explorer">{{'Explore' | translate}}</a>
+          </div>
+          <div class="text-links">
+            <img src="./images/logo/next.svg">
+            <a routerLink="/assets/BTC">{{'Assets' | translate}}</a>
+          </div>
+          <div class="text-links">
+            <img src="./images/logo/next.svg">
+            <a routerLink="/home/team">{{'Team' | translate}}</a>
+          </div>
+          <div class="text-links">
+            <img src="./images/logo/next.svg">
+            <a routerLink="/app">{{'Mobile App' | translate}}</a>
+          </div>
         </div>
-        <!-- Copyright -->
+      </div>
+      <div class="col-md-3 colMenu">
+        <div class="colTitle">
+          {{'Help' | translate}}
+        </div>
+        <div class="colList">
+          <div class="text-links">
+            <img src="./images/logo/next.svg">
+            <a href="/home" title="About us">{{'About Us' | translate}}</a>
+          </div>
+          <div class="text-links">
+            <img src="./images/logo/next.svg">
+            <a href="/faq" title="About us">{{'FAQ' | translate}}</a>
+          </div>
+          <div class="text-links">
+            <img src="./images/logo/next.svg">
+            <a href="/help" title="Help">{{'Help' | translate}}</a>
+          </div>
+          <div class="text-links">
+            <img src="./images/logo/next.svg">
+            <a href="/assets/pdfs/kanban-developer-quickstart.pdf" title="Quickstart" target="_blank">{{'Developer Quickstart' | translate}}</a>
+          </div>
+          <div class="text-links">
+            <img src="./images/logo/next.svg">
+            <a>{{'Law and compliance' | translate}}</a>
+          </div>
+          <div class="text-links">
+            <img src="./images/logo/next.svg">
+            <a href="https://api.exchangily.com">{{'API term' | translate}}</a>
+          </div>
+          <div class="text-links">
+            <img src="./images/logo/next.svg">
+            <a href="/dusd">{{'About' | translate}}DUSD</a>
+          </div>
+
+          <!-- <div class="text-links">
+          <img src="./images/logo/next.svg">
+          {{'Rate statement' | translate}}
+        </div>
+        <div class="text-links">
+          <img src="./images/logo/next.svg">
+          {{'Wallet security' | translate}}
+        </div>
+        <div class="text-links">
+          <img src="./images/logo/next.svg">
+          {{'Community announcement' | translate}}
+        </div> -->
+      </div>
     </div>
+    <div class="col-md-3">
+
+      <div class="colTitle Subscribe">{{ 'Subscribe for Updates' | translate }}</div>
+      <app-subscription></app-subscription>
+    </div>
+  </div>
+
+  <hr>
+    <!-- Copyright -->
+    <div class="footerBottom">
+      <!-- <div class="colTitle">{{'JoinUs' | translate}} </div> -->
+      <div class="d-inline-block social-media" id="img-social">
+        <a href="https://twitter.com/exchangilydex" target="_blank" title="Twitter"><img src="./images/social/twitter.png" /></a>
+        <a href="https://www.facebook.com/Exchangily-439040053240813" target="_blank" title="Facebook"><img src="./images/social/facebook.png" /></a>
+        <a href="https://medium.com/exchangily-blog" target="_blank" title="Medium"><img src="./images/social/medium.png" /></a>
+        <a href="https://www.youtube.com/blockchaingateofficial" target="_blank" title="YouTube"><img src="./images/social/youtube.png" /></a>
+        @if (lang=='zh') {
+          <a href="https://t.me/exchangily1" target="_blank" title="电报群"><img src="./images/social/telegram.png" /></a>
+        }
+        @if (lang=='en') {
+          <a href="https://t.me/exchangily_chat" target="_blank" title="Telegram"><img src="./images/social/telegram.png" /></a>
+        }
+        <a href="https://github.com/blockchaingate/eXchangily-web" target="_blank" title="Github"><img src="./images/social/github.png" /></a>
+        <a href="https://www.tiktok.com/@exchangilydex" target="_blank" title="Tiktok"><img src="./images/social/tiktok.png" /></a>
+      </div>
+      <!-- <div class="colTitle">{{'Email' | translate}} </div> -->
+      <div>
+        <a class="text-muted small" href="mailto: info@exchangily.com">
+          <!-- <mat-icon svgIcon="email"></mat-icon>  -->
+          {{"General Infomation" | translate}}: info&#64;exchangily.com
+        </a>
+      </div>
+      <div>
+        <a class="text-muted small" href="mailto: Service@exchangily.com">
+          <!-- <mat-icon svgIcon="email"></mat-icon>  -->
+          {{"Customer Support"|translate}}: service&#64;exchangily.com
+        </a>
+      </div>
+      <div class="text-center small pb-3">© {{year}} {{"Copyright" | translate}}:
+        <a href="https://exchangily.com"> eXchangily.com</a> v{{version}}
+      </div>
+      <!-- <div>top: {{gradientTop}} left: {{gradientLeft}}</div> -->
+    </div>
+    <!-- Copyright -->
+  </div>
 </footer>

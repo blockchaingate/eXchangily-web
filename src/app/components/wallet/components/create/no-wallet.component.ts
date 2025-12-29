@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {Component, ViewEncapsulation} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
     selector: 'app-no-wallet',
     standalone: true,
-    imports: [CommonModule, TranslateModule],
+    imports: [TranslateModule],
     templateUrl: './no-wallet.component.html',
     styleUrls: ['./no-wallet.component.css'],
     encapsulation: ViewEncapsulation.None

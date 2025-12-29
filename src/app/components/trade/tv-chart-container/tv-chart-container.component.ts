@@ -14,7 +14,7 @@ import { CoinService } from '../../../services/coin.service';
 import { ActivatedRoute } from '@angular/router';
 import { WsService } from '../../../services/ws.service';
 import { environment } from '../../../environments/environment';
-import { CommonModule } from '@angular/common';
+
 import { TranslateModule } from '@ngx-translate/core';
 // import { OrderTicketFocusControl } from 'dist/dex/assets/charting_library/charting_library.min';
 
@@ -30,7 +30,7 @@ interface BarData {
 @Component({
   selector: 'app-tv-chart-container',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [TranslateModule],
   templateUrl: './tv-chart-container.component.html',
   styleUrls: ['./tv-chart-container.component.css']
 })

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-app-intro',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [TranslateModule],
   templateUrl: './app-intro.component.html',
   styleUrls: ['./app-intro.component.scss']
 })

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { KanbanV2Service } from '../../../../services/kanban-v2.service';
 import { environment } from '../../../../environments/environment';
-import { CommonModule } from '@angular/common';
+
 import { TranslateModule } from '@ngx-translate/core';
 import { LiteListComponent } from './litelist/lite-list.component';
 import { RouterOutlet } from '@angular/router';
@@ -9,7 +9,7 @@ import { RouterOutlet } from '@angular/router';
 @Component({
     selector: 'app-trade',
     standalone: true,
-    imports: [CommonModule, LiteListComponent, RouterOutlet, TranslateModule],
+    imports: [LiteListComponent, RouterOutlet, TranslateModule],
     templateUrl: './trade.component.html',
     styleUrls: ['./trade.component.css']
 })

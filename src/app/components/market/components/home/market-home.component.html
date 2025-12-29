@@ -1,36 +1,40 @@
-<div *ngIf="maintainence" class="d-flex justify-content-center align-items-center pt-3 mt-3">
+@if (maintainence) {
+  <div class="d-flex justify-content-center align-items-center pt-3 mt-3">
     <img src="/assets/maintainence.jpeg" alt="maintainence">
-</div>
+  </div>
+}
 
-<div class="containerX market-page" *ngIf="!maintainence" >
-    <div *ngIf="isMobile">
+@if (!maintainence) {
+  <div class="containerX market-page" >
+    @if (isMobile) {
+      <div>
         <!-- <app-app-intro [showHeadOnly]="true"></app-app-intro> -->
         <div></div>
-    </div>
+      </div>
+    }
     <div class="gradient-back-area" fxLayout="column" fxFlex.lt-md="300px">
-        <div class="topslogan">
-            <div class="container carousel-container">
-
-                <carousel [isAnimated]="true" class="m-carousel">
-                    <div class="slider-wrap">
-                        <slide *ngFor="let banner of banners">
-                            <div class="text-center py-5 text-white pointer" (click)="onClick(banner.clickLink)">
-                                <h2 class="carousel-txt">{{banner.titleLan}}</h2>
-                                <div class="lead">
-                                    <h3 class="carousel-txt">{{banner.subtitleLan}}</h3>
-                                    <img src="{{banner.imageUrl}}" alt="{{banner.imageAlt}}">
-                                    <p class="carousel-txt-p">{{banner.descLan}}</p>
-                                </div>
-                            </div>
-                        </slide>
+      <div class="topslogan">
+        <div class="container carousel-container">
+          <carousel [isAnimated]="true" class="m-carousel">
+            <div class="slider-wrap">
+              @for (banner of banners; track banner) {
+                <slide>
+                  <div class="text-center py-5 text-white pointer" (click)="onClick(banner.clickLink)">
+                    <h2 class="carousel-txt">{{banner.titleLan}}</h2>
+                    <div class="lead">
+                      <h3 class="carousel-txt">{{banner.subtitleLan}}</h3>
+                      <img src="{{banner.imageUrl}}" alt="{{banner.imageAlt}}">
+                      <p class="carousel-txt-p">{{banner.descLan}}</p>
                     </div>
-                </carousel>
-
+                  </div>
+                </slide>
+              }
             </div>
+          </carousel>
         </div>
+      </div>
     </div>
-
     <app-market-top></app-market-top>
     <app-market-list></app-market-list>
-
-</div>
+  </div>
+}

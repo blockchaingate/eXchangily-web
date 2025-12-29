@@ -8,14 +8,14 @@ import { KanbanV2Service } from '../../../../services/kanban-v2.service';
 import { TransactionDetailModal } from '../../modals/transaction-detail/transaction-detail.modal';
 import { TransactionDetailModal2 } from '../../modals/transaction-detail2/transaction-detail2.modal';
 import { CoinService } from '../../../../services/coin.service';
-import { CommonModule } from '@angular/common';
+
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'app-transaction-history',
     standalone: true,
-    imports: [CommonModule, TransactionDetailModal, TransactionDetailModal2, MatIconModule, TranslateModule],
+    imports: [TransactionDetailModal, TransactionDetailModal2, MatIconModule, TranslateModule],
     templateUrl: './transaction-history.component.html',
     styleUrls: ['./transaction-history.component.css']
 })

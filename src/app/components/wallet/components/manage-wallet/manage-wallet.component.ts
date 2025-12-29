@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-manage-wallet',
     standalone: true,
-    imports: [CommonModule, TranslateModule],
+    imports: [TranslateModule],
     templateUrl: './manage-wallet.component.html',
     styleUrls: ['./manage-wallet.component.css']
 })

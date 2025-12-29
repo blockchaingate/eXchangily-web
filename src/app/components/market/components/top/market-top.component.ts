@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MarketTopBlockComponent } from '../top-block/market-top-block.component';
 import { WsService } from '../../../../services/ws.service';
-import { CommonModule } from '@angular/common';
+
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-market-top',
   standalone: true,
-  imports: [CommonModule, MarketTopBlockComponent, TranslateModule],
+  imports: [MarketTopBlockComponent, TranslateModule],
   templateUrl: './market-top.component.html',
   styleUrls: ['./market-top.component.scss']
 })

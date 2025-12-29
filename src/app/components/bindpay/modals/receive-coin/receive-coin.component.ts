@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, TemplateRef, Input} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
@@ -8,7 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
     selector: 'modal-receive-coin',
     standalone: true,
-    imports: [CommonModule, MatIconModule, QRCodeComponent, TranslateModule],
+    imports: [MatIconModule, QRCodeComponent, TranslateModule],
     templateUrl: './receive-coin.component.html',
     styleUrls: ['./receive-coin.component.scss']
 })

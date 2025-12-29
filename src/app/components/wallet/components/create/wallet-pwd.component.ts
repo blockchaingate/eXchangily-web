@@ -4,13 +4,13 @@ import { Router } from '@angular/router';
 import { WalletService } from '../../../../services/wallet.service';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { Wallet } from '../../../../models/wallet';
-import { CommonModule } from '@angular/common';
+
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-wallet-pwd',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, TranslateModule],
+    imports: [ReactiveFormsModule, TranslateModule],
     templateUrl: './wallet-pwd.component.html',
     styleUrls: ['./wallet-pwd.component.css'],
     encapsulation: ViewEncapsulation.None

@@ -4,14 +4,14 @@ import { UtilService } from '../../../../../services/util.service';
 import { MyCoin } from '../../../../../models/mycoin';
 import { CoinService } from '../../../../../services/coin.service';
 import { Common } from '@ethereumjs/common';
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-address-key',
     standalone: true,
-    imports: [CommonModule, MatIconModule, MatPaginatorModule, TranslateModule],
+    imports: [MatIconModule, MatPaginatorModule, TranslateModule],
     templateUrl: './address-key.component.html',
     styleUrls: ['./address-key.component.css']
 })

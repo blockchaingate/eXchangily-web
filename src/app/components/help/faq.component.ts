@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { CommonModule, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { UserAuth } from '../../services/user-auth.service';
 import { LanService } from '../../services/lan.service';
 
 @Component({
     selector: 'app-faq',
     standalone: true,
-    imports: [CommonModule, TranslateModule],
+    imports: [TranslateModule],
     templateUrl: './faq.component.html',
     styleUrls: ['./faq.component.css']
 })

@@ -11,13 +11,13 @@ import { UtilService } from '../../../../services/util.service';
 import { ApiService } from '../../../../services/api.service';
 import BigNumber from 'bignumber.js';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CommonModule } from '@angular/common';
+
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
     selector: 'send-coin-modal',
     standalone: true,
-    imports: [CommonModule, ModalDirective, ReactiveFormsModule, MatSlideToggleModule, TranslateModule],
+    imports: [ModalDirective, ReactiveFormsModule, MatSlideToggleModule, TranslateModule],
     templateUrl: './send-coin.modal.html',
     styleUrls: ['./send-coin.modal.css']
 })

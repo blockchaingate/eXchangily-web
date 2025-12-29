@@ -5,14 +5,14 @@ import { Ticket } from '../../models/ticket';
 import { UserAuth } from '../../services/user-auth.service';
 import { TicketService } from '../../services/ticket.service';
 import { StorageService } from '../../services/storage.service';
-import { CommonModule } from '@angular/common';
+
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-help',
     standalone: true,
-    imports: [CommonModule, FormsModule, TranslateModule],
+    imports: [FormsModule, TranslateModule],
     providers: [TicketService],
     templateUrl: './help.component.html',
     styleUrls: ['./help.component.scss'],

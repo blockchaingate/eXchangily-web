@@ -3,13 +3,13 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { TransactionItem } from '../../../../models/transaction-item';
 import { UtilService } from '../../../../services/util.service';
 import { environment } from '../../../../environments/environment';
-import { CommonModule } from '@angular/common';
+
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'transaction-detail2-modal',
     standalone: true,
-    imports: [CommonModule, ModalDirective, TranslateModule],
+    imports: [ModalDirective, TranslateModule],
     templateUrl: './transaction-detail2.modal.html',
     styleUrls: ['./transaction-detail2.modal.css']
 })

@@ -5,13 +5,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { WalletService } from '../../../../services/wallet.service';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { Wallet } from '../../../../models/wallet';
-import { CommonModule } from '@angular/common';
+
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-restore-wallet',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
+  imports: [ReactiveFormsModule, TranslateModule],
   templateUrl: './restorewallet.component.html',
   styleUrls: ['./restorewallet.component.css'],
   encapsulation: ViewEncapsulation.None

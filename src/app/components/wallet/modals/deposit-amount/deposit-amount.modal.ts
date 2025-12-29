@@ -8,13 +8,13 @@ import { CoinService } from '../../../../services/coin.service';
 import BigNumber from 'bignumber.js';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ApiService } from '../../../../services/api.service';
-import { CommonModule } from '@angular/common';
+
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
     selector: 'deposit-amount-modal',
     standalone: true,
-    imports: [CommonModule, ModalDirective, ReactiveFormsModule, MatSlideToggleModule, TranslateModule],
+    imports: [ModalDirective, ReactiveFormsModule, MatSlideToggleModule, TranslateModule],
     templateUrl: './deposit-amount.modal.html',
     styleUrls: ['./deposit-amount.modal.css']
 })

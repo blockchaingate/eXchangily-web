@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, ViewChild, Input, OnInit } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
@@ -6,7 +6,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 @Component({
     selector: 'locked-info-modal',
     standalone: true,
-    imports: [CommonModule, ModalDirective, TranslateModule],
+    imports: [ModalDirective, TranslateModule],
     templateUrl: './locked-info.modal.html',
     styleUrls: ['./locked-info.modal.scss']
 })

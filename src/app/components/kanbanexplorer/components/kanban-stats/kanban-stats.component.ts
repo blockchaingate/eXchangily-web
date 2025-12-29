@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { KanbanService } from '../../services/kanban.service';
 import { KanbanStats } from '../../models/kanbanStats';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-kanban-stats',
   standalone: true,
-  imports: [CommonModule, MatCardModule, TranslateModule],
+  imports: [MatCardModule, TranslateModule],
   templateUrl: './kanban-stats.component.html',
   styleUrls: ['./kanban-stats.component.css']
 })

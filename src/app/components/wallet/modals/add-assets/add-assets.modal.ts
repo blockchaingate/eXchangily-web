@@ -6,7 +6,7 @@ import { environment } from '../../../../environments/environment';
 import { ApiService } from '../../../../services/api.service';
 import { UtilService } from '../../../../services/util.service';
 import { CoinService } from '../../../../services/coin.service';
-import { CommonModule } from '@angular/common';
+
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatListModule } from '@angular/material/list';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,7 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 @Component({
     selector: 'add-assets-modal',
     standalone: true,
-    imports: [CommonModule, ModalDirective, ReactiveFormsModule, MatTabsModule, MatListModule, MatFormFieldModule, MatInputModule, TranslateModule],
+    imports: [ModalDirective, ReactiveFormsModule, MatTabsModule, MatListModule, MatFormFieldModule, MatInputModule, TranslateModule],
     templateUrl: './add-assets.modal.html',
     styleUrls: ['./add-assets.modal.css']
 })

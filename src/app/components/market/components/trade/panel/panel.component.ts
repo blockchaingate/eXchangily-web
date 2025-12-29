@@ -11,14 +11,14 @@ import { Wallet } from '../../../../../models/wallet';
 import { WalletService } from '../../../../../services/wallet.service';
 import { MyordersComponent } from '../myorder/myorders.component';
 import { OrderPadComponent } from '../orderpad/order-pad.component';
-import { CommonModule } from '@angular/common';
+
 import { TvChartContainerComponent } from '../tv-chart-container/tv-chart-container.component';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-trade-panel',
     standalone: true,
-    imports: [CommonModule, TvChartContainerComponent, MyordersComponent, OrderPadComponent, TranslateModule],
+    imports: [TvChartContainerComponent, MyordersComponent, OrderPadComponent, TranslateModule],
     templateUrl: './panel.component.html',
     styleUrls: ['./panel.component.css']
 })

@@ -7,14 +7,14 @@ import { KanbanV2Service } from '../../../../services/kanban-v2.service';
 import { KycService } from '../../../../services/kyc.service';
 import { Router } from '@angular/router';
 import { AlertService } from '../../../../services/alert.service';
-import { CommonModule } from '@angular/common';
+
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-kyc',
   standalone: true,
-  imports: [CommonModule, PinNumberModal, FormsModule, TranslateModule],
+  imports: [PinNumberModal, FormsModule, TranslateModule],
   templateUrl: './kyc.component.html',
   styleUrls: ['./kyc.component.css']
 })

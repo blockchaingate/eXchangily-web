@@ -3,14 +3,14 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { AirdropService } from '../../../../services/airdrop.service';
 import { AlertService } from '../../../../services/alert.service';
 import { HttpClient } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'get-free-fab-modal',
     standalone: true,
-    imports: [CommonModule, ModalDirective, FormsModule, TranslateModule],
+    imports: [ModalDirective, FormsModule, TranslateModule],
     templateUrl: './get-free-fab.modal.html',
     styleUrls: ['./get-free-fab.modal.scss']
 })

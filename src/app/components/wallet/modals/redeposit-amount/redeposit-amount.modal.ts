@@ -5,7 +5,7 @@ import { MyCoin } from '../../../../models/mycoin';
 import { AlertService } from '../../../../services/alert.service';
 import { UtilService } from '../../../../services/util.service';
 import BigNumber from 'bignumber.js';
-import { CommonModule } from '@angular/common';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatInputModule } from '@angular/material/input';
@@ -13,7 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 @Component({
     selector: 'redeposit-amount-modal',
     standalone: true,
-    imports: [CommonModule, ModalDirective, MatFormFieldModule, MatInputModule, FormsModule, TranslateModule],
+    imports: [ModalDirective, MatFormFieldModule, MatInputModule, FormsModule, TranslateModule],
     templateUrl: './redeposit-amount.modal.html',
     styleUrls: ['./redeposit-amount.modal.css']
 })

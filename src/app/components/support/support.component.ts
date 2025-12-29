@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-support',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [TranslateModule],
   templateUrl: './support.component.html',
   styleUrls: ['./support.component.scss']
 })

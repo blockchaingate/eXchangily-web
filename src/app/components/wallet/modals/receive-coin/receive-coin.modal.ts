@@ -5,7 +5,7 @@ import { MyCoin } from '../../../../models/mycoin';
 import { UtilService } from '../../../../services/util.service';
 import bchaddr from 'bchaddrjs';
 import { Common } from '@ethereumjs/common';
-import { CommonModule } from '@angular/common';
+
 import { MatIconModule } from '@angular/material/icon';
 import { QRCodeComponent } from 'angularx-qrcode';
 import { TranslateModule } from '@ngx-translate/core';
@@ -13,7 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
     selector: 'modal-receive-coin',
     standalone: true,
-    imports: [CommonModule, MatIconModule, QRCodeComponent, TranslateModule],
+    imports: [MatIconModule, QRCodeComponent, TranslateModule],
     templateUrl: './receive-coin.modal.html',
     styleUrls: ['./receive-coin.modal.css']
 })

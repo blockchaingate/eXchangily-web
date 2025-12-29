@@ -4,13 +4,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Wallet } from '../../../../models/wallet';
 import { MyCoin } from '../../../../models/mycoin';
 import { AddressKeyComponent } from '../components/address-key/address-key.component';
-import { CommonModule } from '@angular/common';
+
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'backup-private-key-modal',
     standalone: true,
-    imports: [CommonModule, ModalDirective, AddressKeyComponent, ReactiveFormsModule, TranslateModule],
+    imports: [ModalDirective, AddressKeyComponent, ReactiveFormsModule, TranslateModule],
     templateUrl: './backup-private-key.modal.html',
     styleUrls: ['./backup-private-key.modal.css']
 })

@@ -10,7 +10,7 @@ import { Web3Service } from '../../services/web3.service';
 import { PinNumberModal } from '../shared/modals/pin-number/pin-number.modal';
 import BigNumber from 'bignumber.js';
 import { ApiService } from '../../services/api.service';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddressProcessor } from '../../lib/exaddr';
 import { TransactionHistoryComponent } from './transaction-history/transaction-history.component';
@@ -20,7 +20,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 @Component({
     selector: 'app-bindpay',
     standalone: true,
-    imports: [CommonModule, FormsModule, ReactiveFormsModule, TranslateModule, PinNumberModal, TransactionHistoryComponent, ReceiveCoinModal],
+    imports: [FormsModule, ReactiveFormsModule, TranslateModule, PinNumberModal, TransactionHistoryComponent, ReceiveCoinModal],
     providers: [BsModalService],
     templateUrl: './bindpay.component.html',
     styleUrls: ['./bindpay.component.scss']

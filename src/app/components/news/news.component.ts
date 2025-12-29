@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-news',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [TranslateModule],
   templateUrl: './news.component.html',
   styleUrls: ['./news.component.scss']
 })

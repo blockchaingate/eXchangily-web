@@ -3,13 +3,13 @@ import { UtilService } from '../../../../services/util.service';
 import BigNumber from 'bignumber.js';
 import { ActivatedRoute, Router } from '@angular/router';
 import { parse } from 'url';
-import { CommonModule } from '@angular/common';
+
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-market-top-block',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [TranslateModule],
   templateUrl: './market-top-block.component.html',
   styleUrls: ['./market-top-block.component.css']
 })

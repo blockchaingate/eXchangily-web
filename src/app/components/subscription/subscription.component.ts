@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import { TranslateService, LangChangeEvent, TranslateModule } from '@ngx-translate/core';
 //import { Subscription } from 'rxjs';
 import { SubscriptionService } from '../../services/subscription.service';
-import { CommonModule } from '@angular/common';
+
 
 const whitepaperPath = './assets/pdfs/wp';
 
 @Component({
     selector: 'app-subscription',
     standalone: true,
-    imports: [CommonModule, TranslateModule],
+    imports: [TranslateModule],
     templateUrl: './subscription.component.html',
     styleUrls: ['./subscription.component.css']
 })

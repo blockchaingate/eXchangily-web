@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import { SearchBoxComponent } from '../search-box/search-box.component';
 import { KanbanStatsComponent } from '../kanban-stats/kanban-stats.component';
@@ -9,7 +9,7 @@ import { BlocksComponent } from '../blocks/blocks.component';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, SearchBoxComponent, KanbanStatsComponent, LatestOrdersComponent,LatestTradesComponent, BlocksComponent ],
+  imports: [SearchBoxComponent, KanbanStatsComponent, LatestOrdersComponent, LatestTradesComponent, BlocksComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })

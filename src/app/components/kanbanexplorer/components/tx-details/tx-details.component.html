@@ -1,62 +1,67 @@
 <mat-card class="mat-elevation-z6">
-    <h5 *ngIf="!transaction">{{"Fetching Tx"|translate}} {{txhash}}</h5>
-    <div *ngIf="!transaction" class="spinner">
-        <mat-spinner></mat-spinner>
+  @if (!transaction) {
+    <h5>{{"Fetching Tx"|translate}} {{txhash}}</h5>
+  }
+  @if (!transaction) {
+    <div class="spinner">
+      <mat-spinner></mat-spinner>
     </div>
+  }
 
-    <div *ngIf="transaction" class="small">
-        <h5>{{"Tx Hash"|translate}} : {{txhash}}</h5>
-        <hr>
+  @if (transaction) {
+    <div class="small">
+      <h5>{{"Tx Hash"|translate}} : {{txhash}}</h5>
+      <hr>
         <div class="even">
-            <b>{{"Block Hash"|translate}} : </b> {{transaction.blockHash}}
+          <b>{{"Block Hash"|translate}} : </b> {{transaction.blockHash}}
         </div>
         <div class="odd">
-            <b> {{"Block Number"|translate}}  : </b>
-            <a [routerLink]="[ '/explorer/block-detail', transaction.blockNumber ]">{{transaction.blockNumber}}</a>
+          <b> {{"Block Number"|translate}}  : </b>
+          <a [routerLink]="[ '/explorer/block-detail', transaction.blockNumber ]">{{transaction.blockNumber}}</a>
         </div>
         <div class="even">
-            <b>{{"From"|translate}}  : </b>
-            <a [routerLink]="[ '/explorer/address-detail', transaction.from ]"> {{transaction.from}} </a>
+          <b>{{"From"|translate}}  : </b>
+          <a [routerLink]="[ '/explorer/address-detail', transaction.from ]"> {{transaction.from}} </a>
         </div>
         <div class="odd">
-            <b>{{"Gas"|translate}}  : </b> {{transaction.gas}}
+          <b>{{"Gas"|translate}}  : </b> {{transaction.gas}}
         </div>
         <div class="even">
-            <b>{{"Gas Price"|translate}}  : </b> {{transaction.gasPrice}}
+          <b>{{"Gas Price"|translate}}  : </b> {{transaction.gasPrice}}
         </div>
         <div class="odd">
-            <b> {{"Hash"|translate}}  : </b> {{transaction.hash}}
+          <b> {{"Hash"|translate}}  : </b> {{transaction.hash}}
         </div>
         <div class="even">
-            <b> {{"Input"|translate}}  : </b> {{transaction.input}}
+          <b> {{"Input"|translate}}  : </b> {{transaction.input}}
         </div>
         <div class="odd">
-            <b>nonce  : </b> {{transaction.nonce}}
+          <b>nonce  : </b> {{transaction.nonce}}
         </div>
         <div class="even">
-            <b>{{"To"|translate}}  : </b> {{transaction.to}}
+          <b>{{"To"|translate}}  : </b> {{transaction.to}}
         </div>
         <div class="odd">
-            <b>{{"Transaction Index"|translate}}  : </b> {{transaction.transactionIndex}}
+          <b>{{"Transaction Index"|translate}}  : </b> {{transaction.transactionIndex}}
         </div>
         <div class="even">
-            <b>{{"Value"|translate}}  : </b> {{transaction.value}}
+          <b>{{"Value"|translate}}  : </b> {{transaction.value}}
         </div>
         <div class="odd">
-            <b> v  : </b> {{transaction.v}}
+          <b> v  : </b> {{transaction.v}}
         </div>
         <div class="even">
-            <b> r  : </b> {{transaction.r}}
+          <b> r  : </b> {{transaction.r}}
         </div>
         <div class="odd">
-            <b>s : </b> {{transaction.s}}
+          <b>s : </b> {{transaction.s}}
         </div>
         <div class="even">
-            <b> {{"Confirmations"|translate}} : </b> {{transaction.confirmations}}
+          <b> {{"Confirmations"|translate}} : </b> {{transaction.confirmations}}
         </div>
-
         <div class="odd">
-            <b> {{"Status"|translate}} : </b> {{status | translate}}
-        </div>        
-    </div>
-</mat-card>
+          <b> {{"Status"|translate}} : </b> {{status | translate}}
+        </div>
+      </div>
+    }
+  </mat-card>

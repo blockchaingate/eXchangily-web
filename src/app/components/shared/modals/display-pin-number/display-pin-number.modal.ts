@@ -1,7 +1,7 @@
 import { Component, ViewChild, EventEmitter, Output } from '@angular/core';
 import {  ModalDirective } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { TranslateModule } from '@ngx-translate/core';
@@ -10,7 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 @Component({
     selector: 'display-pin-number-modal',
     standalone: true,
-    imports: [ModalDirective, CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatAutocompleteModule, TranslateModule],
+    imports: [ModalDirective, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatAutocompleteModule, TranslateModule],
     templateUrl: './display-pin-number.modal.html',
     styleUrls: ['./display-pin-number.modal.css']
 })

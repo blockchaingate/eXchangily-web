@@ -1,106 +1,125 @@
 <mat-card class="mat-elevation-z6">
-    <h5 *ngIf="!block">{{"Fetching block"|translate}} # {{blockNumber}}</h5>
-    <div *ngIf="!block" class="nonblk">
-        <mat-spinner></mat-spinner>
+  @if (!block) {
+    <h5>{{"Fetching block"|translate}} # {{blockNumber}}</h5>
+  }
+  @if (!block) {
+    <div class="nonblk">
+      <mat-spinner></mat-spinner>
     </div>
-    <h5 *ngIf="block">{{"Block Number"|translate}}: {{blockNumber}}</h5>
-    <hr>
+  }
+  @if (block) {
+    <h5>{{"Block Number"|translate}}: {{blockNumber}}</h5>
+  }
+  <hr>
 
-    <div *ngIf="block" class="small text-left">
-
+    @if (block) {
+      <div class="small text-left">
         <div class="even">
-            <b>{{"Block Number"|translate}} : </b> {{block.number}}
+          <b>{{"Block Number"|translate}} : </b> {{block.number}}
         </div>
         <div class="odd">
-            <b>{{"Block Hash"|translate}} : </b> {{block.hash}}
+          <b>{{"Block Hash"|translate}} : </b> {{block.hash}}
         </div>
-
         <div class="even">
-            <b>{{"difficulty"|translate}}</b> {{block.difficulty}}
+          <b>{{"difficulty"|translate}}</b> {{block.difficulty}}
         </div>
         <div class='odd'>
-            <b> {{"Extra Data"|translate}}: </b> {{block.extraData}}
+          <b> {{"Extra Data"|translate}}: </b> {{block.extraData}}
         </div>
         <div class='even'>
-            <b>{{"Gas Limit"|translate}}: </b> {{block.gasLimit}}
+          <b>{{"Gas Limit"|translate}}: </b> {{block.gasLimit}}
         </div>
         <div class='odd'>
-            <b>{{"Gas Used"|translate}}: </b> {{block.gasUsed}}
+          <b>{{"Gas Used"|translate}}: </b> {{block.gasUsed}}
         </div>
         <div class="even">
-            <b>{{"hashNoSignature"|translate}}: </b> {{block.hashNoSignature}}
+          <b>{{"hashNoSignature"|translate}}: </b> {{block.hashNoSignature}}
         </div>
         <div class="odd">
-            <b>{{"logsBloom"|translate}}: </b> {{block.logsBloom}}
+          <b>{{"logsBloom"|translate}}: </b> {{block.logsBloom}}
         </div>
         <div class="even">
-            <b>{{"Miner"|translate}}: </b> {{block.miner}}
+          <b>{{"Miner"|translate}}: </b> {{block.miner}}
         </div>
         <div class="odd">
-            <b>{{"mixHash"|translate}}: </b> {{block.mixHash}}
+          <b>{{"mixHash"|translate}}: </b> {{block.mixHash}}
         </div>
         <div class="even">
-            <b>{{"Next Block"|translate}}: </b> {{block.nextBlock}}
+          <b>{{"Next Block"|translate}}: </b> {{block.nextBlock}}
         </div>
         <div class="odd">
-            <b>nonce: </b> {{block.nonce}}
+          <b>nonce: </b> {{block.nonce}}
         </div>
         <div class="even">
-            <b>{{"Parent Hash"|translate}}: </b> {{block.parentHash}}
+          <b>{{"Parent Hash"|translate}}: </b> {{block.parentHash}}
         </div>
         <div class="odd">
-            <b>{{"receiptsRoot"|translate}}: </b> {{block.receiptsRoot}}
+          <b>{{"receiptsRoot"|translate}}: </b> {{block.receiptsRoot}}
         </div>
         <div class="even">
-            <b>{{"Round"|translate}}: </b> {{block.round}}
+          <b>{{"Round"|translate}}: </b> {{block.round}}
         </div>
         <div class="odd">
-            <b>sha3Uncles: </b> {{block.sha3Uncles}}
+          <b>sha3Uncles: </b> {{block.sha3Uncles}}
         </div>
         <div class="even">
-            <b>{{"Signature"|translate}}: </b> {{block.signature}}
+          <b>{{"Signature"|translate}}: </b> {{block.signature}}
         </div>
         <div class="odd">
-            <b>{{"Size"|translate}}: </b> {{block.size}}
+          <b>{{"Size"|translate}}: </b> {{block.size}}
         </div>
         <div class="even">
-            <b>{{"stateRoot"|translate}}: </b> {{block.stateRoot}}
+          <b>{{"stateRoot"|translate}}: </b> {{block.stateRoot}}
         </div>
         <div class="odd">
-            <b>{{"Timestamp"|translate}}: </b> {{block.timestamp}}
+          <b>{{"Timestamp"|translate}}: </b> {{block.timestamp}}
         </div>
         <div class="even">
-            <b>{{"Mined on"|translate}}: </b> <span *ngIf="block && block.timestamp">{{block.timestamp * 1000 | date : 'EEEE, MMMM d, yyyy h:mm:ss a'}}</span>
-        </div>
-        <div class="odd">
-            <b>{{"totalDifficulty"|translate}}: </b> {{block.totalDifficulty}}
-        </div>
-        <div class="even">
-            <b>{{"transactionsRoot"|translate}}: </b> {{block.transactionsRoot}}
-        </div>
-        <div class="odd">
-            <b>{{"Transactions"|translate}}: </b>
-            <i *ngIf="block.transactions.length == 0">
-                {{"No Transaction"|translate}}
-            </i>
-            <div *ngIf="block.transactions.length > 0">
-                <div *ngFor="let tx of block.transactions; index as i;">
-                    {{i+1}}.
-                    <a [routerLink]="['/explorer/tx-detail', tx ]">{{tx}}</a><br>
-                </div>
-            </div>
-        </div>
-
-        <div class="even">
-            <b>{{"Uncles"|translate}}: </b>
-            <i *ngIf="block.uncles.length == 0">
-                {{"No Uncles"|translate}}
-            </i>
-            <div *ngIf="block.uncles.length > 0">
-                <div *ngFor="let uncle of block.uncles; index as i;">
-                    {{i+1}} {{uncle}}<br>
-                </div>
-            </div>
-        </div>
+          <b>{{"Mined on"|translate}}: </b> @if (block && block.timestamp) {
+          <span>{{block.timestamp * 1000 | date : 'EEEE, MMMM d, yyyy h:mm:ss a'}}</span>
+        }
+      </div>
+      <div class="odd">
+        <b>{{"totalDifficulty"|translate}}: </b> {{block.totalDifficulty}}
+      </div>
+      <div class="even">
+        <b>{{"transactionsRoot"|translate}}: </b> {{block.transactionsRoot}}
+      </div>
+      <div class="odd">
+        <b>{{"Transactions"|translate}}: </b>
+        @if (block.transactions.length == 0) {
+          <i>
+            {{"No Transaction"|translate}}
+          </i>
+        }
+        @if (block.transactions.length > 0) {
+          <div>
+            @for (tx of block.transactions; track tx; let i = $index) {
+              <div>
+                {{i+1}}.
+                <a [routerLink]="['/explorer/tx-detail', tx ]">{{tx}}</a><br>
+              </div>
+            }
+          </div>
+        }
+      </div>
+      <div class="even">
+        <b>{{"Uncles"|translate}}: </b>
+        @if (block.uncles.length == 0) {
+          <i>
+            {{"No Uncles"|translate}}
+          </i>
+        }
+        @if (block.uncles.length > 0) {
+          <div>
+            @for (uncle of block.uncles; track uncle; let i = $index) {
+              <div>
+                {{i+1}} {{uncle}}<br>
+              </div>
+            }
+          </div>
+        }
+      </div>
     </div>
+  }
 </mat-card>

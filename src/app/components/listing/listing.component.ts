@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-listing',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [TranslateModule],
   templateUrl: './listing.component.html',
   styleUrls: ['./listing.component.css']
 })

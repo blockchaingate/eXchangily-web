@@ -3,13 +3,13 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Coin } from '../../models/coin';
 import { LanService } from '../../services/lan.service';
 import { ApiService } from '../../services/api.service';
-import { CommonModule } from '@angular/common';
+
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-coininfo',
     standalone: true,
-    imports: [CommonModule, TranslateModule],
+    imports: [TranslateModule],
     templateUrl: './coin-info.component.html',
     styleUrls: ['./coin-info.component.css']
 })

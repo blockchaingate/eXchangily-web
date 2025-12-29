@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Trade } from '../../models/trade';
 import { KanbanService } from '../../services/kanban.service';
 import BigNumber from 'bignumber.js';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -11,7 +11,7 @@ import { MatTableModule } from '@angular/material/table';
 @Component({
   selector: 'app-latest-trades',
   standalone: true,
-  imports: [CommonModule, MatCardModule, RouterModule, MatTableModule, TranslateModule],
+  imports: [MatCardModule, RouterModule, MatTableModule, TranslateModule],
   templateUrl: './latest-trades.component.html',
   styleUrls: ['./latest-trades.component.css']
 })

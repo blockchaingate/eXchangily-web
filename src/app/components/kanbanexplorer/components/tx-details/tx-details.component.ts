@@ -3,7 +3,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Transaction } from '../../models/transaction';
 import { KanbanService } from '../../services/kanban.service';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -11,7 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @Component({
   selector: 'app-tx-details',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatCardModule, MatProgressSpinnerModule, TranslateModule],
+  imports: [RouterLink, MatCardModule, MatProgressSpinnerModule, TranslateModule],
   templateUrl: './tx-details.component.html',
   styleUrls: ['./tx-details.component.css']
 })

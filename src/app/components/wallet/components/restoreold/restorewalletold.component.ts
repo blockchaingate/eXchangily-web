@@ -5,13 +5,13 @@ import { WalletService } from '../../../../services/wallet.service';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { Wallet } from '../../../../models/wallet';
 import { Common } from '@ethereumjs/common';
-import { CommonModule } from '@angular/common';
+
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-restore-wallet-old',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
+  imports: [ReactiveFormsModule, TranslateModule],
   templateUrl: './restorewalletold.component.html',
   styleUrls: ['./restorewalletold.component.css'],
   encapsulation: ViewEncapsulation.None

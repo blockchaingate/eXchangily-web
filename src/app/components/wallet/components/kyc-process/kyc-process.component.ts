@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { StorageService } from '../../../../services/storage.service';
 import { environment } from '../../../../environments/environment';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-kyc-process',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './kyc-process.component.html',
   styleUrls: ['./kyc-process.component.css']
 })
