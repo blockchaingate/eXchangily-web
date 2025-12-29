@@ -1,9 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import "./global_styles/colours";
-@import "./global_styles/fonts";
-@import "./global_styles/sizing";
-@import "./global_styles/forms";
+@use "./global_styles/index" as *;
 @import "./styles/margin.css";
 @import "./styles/padding.css";
 @import "./styles/size.css";

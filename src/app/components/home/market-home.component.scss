@@ -1,4 +1,4 @@
-@import "sizing";
+@use "sizing" as *;
 .containerX {
     background-color: #070829;
 }
