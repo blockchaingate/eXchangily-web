@@ -35,7 +35,8 @@ export class TransactionDetailModal2 {
         const chain = tx.chain;
         const txid = tx.txid;
         if (chain == 'KANBAN') {
-            return environment.baseUrl + '/explorer/tx-detail/' + txid;
+            // return environment.baseUrl + '/explorer/tx-detail/' + txid;
+            return environment.apiUrl + '/explorer/tx-detail/' + txid;
         } else if (chain == 'BTC') {
             const baseUrl = this.production ? 'https://live.blockcypher.com/btc' : 'https://live.blockcypher.com/btc-testnet';
             return baseUrl + '/tx/' + txid + '/';

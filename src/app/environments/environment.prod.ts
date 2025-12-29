@@ -2,16 +2,18 @@ import * as Btc from 'bitcoinjs-lib';
 export const environment = {
     production: true,
     SQUARE_APP_ID: {
-        CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg', 
+        CAD: 'sandbox-sq0idb-UUMNZpqOLdU5yOO9Y6AKyg',
         USD: 'sq0idp-5W-PIrJbalW5u5KbeEA-Gw'
     },
     IssueTokenReceipt: '1FNEhT8uTmrEMvHGCGohnEFv6Q1z4qRhQu',
     EPAY_API: 'https://api.epay.com/paymentApi',
     STRIPE_PUBLIC_KEY: 'pk_test_xVAqsYMxwh3AZfJcYu1hruyE',
     PAYPAL_CLIENT_ID: 'AdmdQayzrKMsDPxU89G_UWcLVfFlHhG-zfFm4I75F6xusJ64AIBOre6J6NxfzsM6JStHQmtviHoCp59x',
-    baseUrl: 'https://exchangily.com',
+    // baseUrl: 'https://exchangily.com',
     // url: 'https://api.exchangily.com/',
-    url: 'https://api.dscmap.com/',
+    // url: 'https://api.dscmap.com/',
+    apiUrl: 'https://api.pay.cool/api/',
+    wsUrl: 'wss://api.pay.cool/ws/',
     campaignId: 1,
     PUBLIC_KEY: '8aff99f9727143fccd28e62df14e4e67305faa70d19b4cb0b9d4cde18ea3cd23c8e58bda3c26e10813aaa6020f3d07a3d9f83a9062cfe662a600949325378b99',
     OTC_COMMISSION_RATE: 0,
@@ -26,13 +28,13 @@ export const environment = {
                 messagePrefix: '\u0019Dogecoin Signed Message:\n',
                 bech32: 'tb',
                 bip32: {
-                  public: 0x02facafd,
-                  private: 0x02fac398,
+                    public: 0x02facafd,
+                    private: 0x02fac398,
                 },
                 pubKeyHash: 0x1e,
                 scriptHash: 0x16,
                 wif: 0x9e,
-            },            
+            },
             satoshisPerBytes: 1500000,
             bytesPerInput: 148
         },
@@ -42,31 +44,31 @@ export const environment = {
                 messagePrefix: '\u0019Litecoin Signed Message:\n',
                 bech32: 'tb',
                 bip32: {
-                  public: 0x019da462,
-                  private: 0x019d9cfe,
+                    public: 0x019da462,
+                    private: 0x019d9cfe,
                 },
                 pubKeyHash: 0x30,
                 scriptHash: 0x32,
                 wif: 0xb0,
-            },            
+            },
             satoshisPerBytes: 150,
             bytesPerInput: 148
-        },  
+        },
         BCH: {
             network: {
                 messagePrefix: '\u0018Bitcoin Signed Message:\n',
                 bech32: 'tb',
                 bip32: {
-                  public: 0x0488b21e,
-                  private: 0x0488ade4,
+                    public: 0x0488b21e,
+                    private: 0x0488ade4,
                 },
                 pubKeyHash: 28,
                 scriptHash: 40,
                 wif: 0x80,
-            },            
+            },
             satoshisPerBytes: 9,
             bytesPerInput: 148
-        },               
+        },
         ETH: {
             chain: 'mainnet',
             chainId: 1,
@@ -141,12 +143,12 @@ export const environment = {
         TRX: {
             network: {
                 messagePrefix: '\x15TRON Signed Message:\n'
-            },     
+            },
             feeLimit: 40,
-            feeLimitToken: 40,                   
+            feeLimitToken: 40,
             fullNode: 'https://api.trongrid.io',
             solidityNode: 'https://api.trongrid.io',
-            eventServer: 'https://api.trongrid.io'          
+            eventServer: 'https://api.trongrid.io'
         }
     },
     endpoints: {
@@ -189,7 +191,7 @@ export const environment = {
         LTC: 2,
         DOGE: 3,
         TRX: 195
-    }, 
+    },
     addresses: {
         smartContract: {
             ExchangilyFactory: '0x0e132f9794ea24107241253f03c3500bb4822785',
@@ -225,7 +227,7 @@ export const environment = {
             BST: {
                 FAB: '0x3e6f8813ab824ac2fea001091fb2ce0365297164',
                 ETH: '0x4fe1819daf783a3f3151ea0937090063b85d6122'
-            },  
+            },
             SEED: {
                 FAB: '0xdcc3abba31890d81f450662f9c99de4979073a60'
             },
@@ -236,7 +238,7 @@ export const environment = {
             GET: {
                 FAB: '0xda0f76ec006246654fd2eed060f9f9025c6b3d58',
                 BNB: '0x5599f29555eae55535241c7ef661c23ed2871db3'
-            },  
+            },
             BCC: {
                 FAB: '0xbee5b17d790af6eceb66ee441397ad5fc345ee8a',
                 BNB: '0x48b08071a55486a312cde3c3576371e4e77919ff'
@@ -251,7 +253,7 @@ export const environment = {
             },
             BRB: {
                 FAB: '0x16c319eb06ffbc0d94684cbfb2dba2f1f39b8c29'
-            },  
+            },
             KUSH: {
                 BNB: '0x0a6c10ab62408f8af68b7132a929aa816b0d85d1'
             },
@@ -266,8 +268,8 @@ export const environment = {
             },
             BUSD: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
             HNC: '0x122fd42c61bc66b0cd6cdbf302a0ca297497e240',
-            CTG: '0x05c1a1dff47874f49230f31774b1ebe4b8899f68',  
-            CABTC: '0x4eeda2159e1a66de4ec1d711d53123eb2ba15e92',        
+            CTG: '0x05c1a1dff47874f49230f31774b1ebe4b8899f68',
+            CABTC: '0x4eeda2159e1a66de4ec1d711d53123eb2ba15e92',
             DUSD: '0x46e0021c17d30a2db972ee5719cdc7e829ed9930',
             TWBTC: '0xc50389694f222bf95f014e0bdae3f5e3676999fb',
             DCAD: '0x39296a9d1c5019fd64c9ef4cd0e657403bf10405',
@@ -287,7 +289,7 @@ export const environment = {
             DMXN: '0x9b5fe4f9fb3a20d0fc2d2b4533a047994adf51bc',
             DBRL: '0x0e0eab64b2473a0912ff767904cc013402dfc822',
             DNGN: '0xd45948d6cc0450fd97e161fafe973e59a90799c5',
-            
+
             INB: '0x17aa18a4b64a55abed7fa543f2ba4e91f2dce482',
             REP: '0x1985365e9f78359a9B6AD760e32412f4a445E862',
             HOT: '0x6c6ee5e31d828de241282b9606c8e98ea48526e2',
@@ -298,7 +300,7 @@ export const environment = {
             FUN: '0x419d0d8bdd9af5e606ae2232ed285aff190e711b',
             WAX: '0x39bb259f66e1c59d5abef88375979b4d20d98022',
             ELF: '0xbf2179859fc6d5bee9bf9158632dc51678a4100e',
-            GNO: '0x6810e776880c02933d47db1b9fc05908e5386b96', 
+            GNO: '0x6810e776880c02933d47db1b9fc05908e5386b96',
             POWR: '0x595832f8fc6bf59c85c527fec3740a1b7a361269',
             WINGS: '0x667088b212ce3d06a1b553a7221E1fD19000d9aF',
             MTL: '0xF433089366899D83a9f26A773D59ec7eCF30355e',
@@ -335,49 +337,49 @@ export const environment = {
             { name: 'DUSD', address: '0x9d95ee21e4f1b05bbfd0094daf4ce110deb00931' }
         ],
         */
-       exchangilyOfficial: {
-        FAB: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
-        BTC: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
-        ETH: '0x4983f8634255762A18D854790E6d35A522E2633a', 
-        BNB: '0x4983f8634255762A18D854790E6d35A522E2633a', 
-        MATIC: '0x4983f8634255762A18D854790E6d35A522E2633a', 
-        BCH: 'bitcoincash:qznusftmq4cac0fuj6eyke5vv45njxe6eyafcld37l',
-        LTC: 'LaX6sfX8RoHbQHNDEBmdzyBMN9vFa95FXL',
-        DOGE: 'DLSF9i9weYwpgUrendmuGiHC35HGoHuvR9',   
-        TRX: 'TGfvRWxddNoWrghwE5zC1JEcbXyMdPATdo' 
-           /*
-        EXG: '0xa7c8257b0571dc3d3c96b24b668c6569391b3ac9',
-        FAB: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
-        BTC: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
-        ETH: '0x4983f8634255762A18D854790E6d35A522E2633a',
-        USDT: '0x4983f8634255762A18D854790E6d35A522E2633a',
-        DUSD: '0xa7c8257b0571dc3d3c96b24b668c6569391b3ac9',
-        BCH: 'bitcoincash:qznusftmq4cac0fuj6eyke5vv45njxe6eyafcld37l',
-        LTC: 'LaX6sfX8RoHbQHNDEBmdzyBMN9vFa95FXL',
-        DOGE: 'DLSF9i9weYwpgUrendmuGiHC35HGoHuvR9',
-        INB: '0x4983f8634255762A18D854790E6d35A522E2633a',
-        REP: '0x4983f8634255762A18D854790E6d35A522E2633a',
-        HOT: '0x4983f8634255762A18D854790E6d35A522E2633a',
-        CEL: '0x4983f8634255762A18D854790E6d35A522E2633a',
-        MATIC: '0x4983f8634255762A18D854790E6d35A522E2633a',
-        IOST: '0x4983f8634255762A18D854790E6d35A522E2633a',
-        MANA: '0x4983f8634255762A18D854790E6d35A522E2633a',
-        FUN: '0x4983f8634255762A18D854790E6d35A522E2633a',
-        WAX: '0x4983f8634255762A18D854790E6d35A522E2633a',
-        ELF: '0x4983f8634255762A18D854790E6d35A522E2633a',
-        GNO: '0x4983f8634255762A18D854790E6d35A522E2633a', 
-        POWR: '0x4983f8634255762A18D854790E6d35A522E2633a',
-        WINGS: '0x4983f8634255762A18D854790E6d35A522E2633a',
-        MTL: '0x4983f8634255762A18D854790E6d35A522E2633a',
-        KNC: '0x4983f8634255762A18D854790E6d35A522E2633a',
-        GVT: '0x4983f8634255762A18D854790E6d35A522E2633a',
-        DRGN: '0x4983f8634255762A18D854790E6d35A522E2633a',
-        NVZN: '0x4983f8634255762A18D854790E6d35A522E2633a',
-        CNB: '0xa7c8257b0571dc3d3c96b24b668c6569391b3ac9',
-        TRX: 'TGfvRWxddNoWrghwE5zC1JEcbXyMdPATdo'
-        */
-       },
-       
+        exchangilyOfficial: {
+            FAB: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
+            BTC: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
+            ETH: '0x4983f8634255762A18D854790E6d35A522E2633a',
+            BNB: '0x4983f8634255762A18D854790E6d35A522E2633a',
+            MATIC: '0x4983f8634255762A18D854790E6d35A522E2633a',
+            BCH: 'bitcoincash:qznusftmq4cac0fuj6eyke5vv45njxe6eyafcld37l',
+            LTC: 'LaX6sfX8RoHbQHNDEBmdzyBMN9vFa95FXL',
+            DOGE: 'DLSF9i9weYwpgUrendmuGiHC35HGoHuvR9',
+            TRX: 'TGfvRWxddNoWrghwE5zC1JEcbXyMdPATdo'
+            /*
+         EXG: '0xa7c8257b0571dc3d3c96b24b668c6569391b3ac9',
+         FAB: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
+         BTC: '1GJ9cTDJM93Y9Ug443nLix7b9wYyPnad55',
+         ETH: '0x4983f8634255762A18D854790E6d35A522E2633a',
+         USDT: '0x4983f8634255762A18D854790E6d35A522E2633a',
+         DUSD: '0xa7c8257b0571dc3d3c96b24b668c6569391b3ac9',
+         BCH: 'bitcoincash:qznusftmq4cac0fuj6eyke5vv45njxe6eyafcld37l',
+         LTC: 'LaX6sfX8RoHbQHNDEBmdzyBMN9vFa95FXL',
+         DOGE: 'DLSF9i9weYwpgUrendmuGiHC35HGoHuvR9',
+         INB: '0x4983f8634255762A18D854790E6d35A522E2633a',
+         REP: '0x4983f8634255762A18D854790E6d35A522E2633a',
+         HOT: '0x4983f8634255762A18D854790E6d35A522E2633a',
+         CEL: '0x4983f8634255762A18D854790E6d35A522E2633a',
+         MATIC: '0x4983f8634255762A18D854790E6d35A522E2633a',
+         IOST: '0x4983f8634255762A18D854790E6d35A522E2633a',
+         MANA: '0x4983f8634255762A18D854790E6d35A522E2633a',
+         FUN: '0x4983f8634255762A18D854790E6d35A522E2633a',
+         WAX: '0x4983f8634255762A18D854790E6d35A522E2633a',
+         ELF: '0x4983f8634255762A18D854790E6d35A522E2633a',
+         GNO: '0x4983f8634255762A18D854790E6d35A522E2633a', 
+         POWR: '0x4983f8634255762A18D854790E6d35A522E2633a',
+         WINGS: '0x4983f8634255762A18D854790E6d35A522E2633a',
+         MTL: '0x4983f8634255762A18D854790E6d35A522E2633a',
+         KNC: '0x4983f8634255762A18D854790E6d35A522E2633a',
+         GVT: '0x4983f8634255762A18D854790E6d35A522E2633a',
+         DRGN: '0x4983f8634255762A18D854790E6d35A522E2633a',
+         NVZN: '0x4983f8634255762A18D854790E6d35A522E2633a',
+         CNB: '0xa7c8257b0571dc3d3c96b24b668c6569391b3ac9',
+         TRX: 'TGfvRWxddNoWrghwE5zC1JEcbXyMdPATdo'
+         */
+        },
+
         promotionOfficial: {
             USDT: '0x4e93c47b42d09f61a31f798877329890791077b2',
             DUSD: '0xcdd40948208b0098b6a51e69d945de4692766ef3',
@@ -402,7 +404,7 @@ export const environment = {
     },
     minimumWithdraw: {
         EXG: {
-            FAB:50,
+            FAB: 50,
             ETH: 50
         },
         DSC: {
@@ -412,10 +414,10 @@ export const environment = {
         BST: {
             FAB: 10,
             ETH: 50
-        },                
+        },
         BTC: 0.01,
         FAB: {
-            FAB:0.005,
+            FAB: 0.005,
             ETH: 100,
             BNB: 2
         },
@@ -425,8 +427,8 @@ export const environment = {
             TRX: 0.2,
             BNB: 2,
             MATIC: 0.1
-        },    
-        TRX: 0.2,    
+        },
+        TRX: 0.2,
         DUSD: 20,
         SEED: 1,
         FET: 1,
@@ -463,7 +465,7 @@ export const environment = {
         HOT: 16000 * 2,
         CEL: 40 * 2,
         MATIC: {
-            ETH:500 * 2,
+            ETH: 500 * 2,
             MATIC: 0.004
         },
         IOST: 2000 * 2,
@@ -471,7 +473,7 @@ export const environment = {
         FUN: 3000 * 2,
         WAX: 200 * 2,
         ELF: 100 * 2,
-        GNO: 0.4 * 2, 
+        GNO: 0.4 * 2,
         POWR: 100 * 2,
         WINGS: 200 * 2,
         MTL: 40 * 2,
@@ -480,20 +482,20 @@ export const environment = {
         DRGN: 100 * 2,
         NVZN: 100 * 2,
         CNB: 100 * 2,
-        LINK: 1, 
-        UNI: 1, 
-        SHIB: 2000000, 
-        CRO: 120, 
-        GALA: 200, 
-        POLY: 20, 
-        CRV: 10, 
-        SAND: 20, 
-        COMP: 0.1, 
-        BAT: 30, 
-        SUSHI: 2, 
-        CVC: 40, 
-        CELR: 140, 
-        YFI: 0.001, 
+        LINK: 1,
+        UNI: 1,
+        SHIB: 2000000,
+        CRO: 120,
+        GALA: 200,
+        POLY: 20,
+        CRV: 10,
+        SAND: 20,
+        COMP: 0.1,
+        BAT: 30,
+        SUSHI: 2,
+        CVC: 40,
+        CELR: 140,
+        YFI: 0.001,
         SLP: 240
     },
     depositMinimumConfirmations: {
@@ -524,8 +526,8 @@ export const environment = {
         FET: 12,
         GET: 12,
         DBRL: 12,
-        DNGN: 12,  
-        TWBTC: 12,     
+        DNGN: 12,
+        TWBTC: 12,
         BCH: 2,
         LTC: 8,
         DOGE: 20,
@@ -551,20 +553,20 @@ export const environment = {
         DRGN: 20,
         NVZN: 20,
         CNB: 20,
-        LINK: 10, 
-        UNI: 10, 
-        SHIB: 10, 
-        CRO: 10, 
-        GALA: 10, 
-        POLY: 10, 
-        CRV: 10, 
-        SAND: 10, 
-        COMP: 10, 
-        BAT: 10, 
-        SUSHI: 10, 
-        CVC: 10, 
-        CELR: 10, 
-        YFI: 10, 
+        LINK: 10,
+        UNI: 10,
+        SHIB: 10,
+        CRO: 10,
+        GALA: 10,
+        POLY: 10,
+        CRV: 10,
+        SAND: 10,
+        COMP: 10,
+        BAT: 10,
+        SUSHI: 10,
+        CVC: 10,
+        CELR: 10,
+        YFI: 10,
         SLP: 10
     },
     PaymentMethod: {

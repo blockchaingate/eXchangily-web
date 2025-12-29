@@ -19,7 +19,8 @@ import { environment } from '../../../environments/environment';
 export class KanbanService {
   coins: Coin[] = [];
   // codeToCurrencyMap: Map<string, string>;
-  private url: string = environment.url;
+  // private url: string = environment.url;
+  private url: string = environment.apiUrl;
 
   constructor(private http: HttpClient, private router: Router) {
     // this.codeToCurrencyMap = new Map();
@@ -34,7 +35,7 @@ export class KanbanService {
   }
 
   getCurrencyName(num: string): string {
-    if(!this.coins || !Array.isArray(this.coins)) {
+    if (!this.coins || !Array.isArray(this.coins)) {
       return '-';
     }
     const coins: Coin[] = this.coins.filter(c => c.coinType === parseInt(num));
@@ -103,22 +104,22 @@ export class KanbanService {
     let response: any;
     let status = '';
     try {
-        response = await this.http.get(`${this.url}kanban/getTransactionReceipt/` + txid).toPromise();
-        // console.log('response.transactionReceipt=', response.transactionReceipt);
-        // console.log('response.transactionReceipt.status=', response.transactionReceipt.status);
-        if (response && response.transactionReceipt) {
-          status = response.transactionReceipt.status;
-          if(status === '0x1') {
-            status = 'confirmed';
-          } else {
-            status = 'failed';
-          }
-            
+      response = await this.http.get(`${this.url}kanban/getTransactionReceipt/` + txid).toPromise();
+      // console.log('response.transactionReceipt=', response.transactionReceipt);
+      // console.log('response.transactionReceipt.status=', response.transactionReceipt.status);
+      if (response && response.transactionReceipt) {
+        status = response.transactionReceipt.status;
+        if (status === '0x1') {
+          status = 'confirmed';
+        } else {
+          status = 'failed';
         }
+
+      }
     } catch (e) { console.log(e); }
 
     return status;
-}
+  }
 
   getAddressKanbanBalance(address: string): Observable<KanbanBalance> {
     return this.http.get<KanbanBalance>(`${this.url}kanban/getBalance/${address}`);
@@ -156,7 +157,7 @@ export class KanbanService {
 
   getOrder(orderHash: string): Observable<Order> {
     return this.http.get<Order>(`${this.url}getOrderByOrderHash/${orderHash}`);
-  } 
+  }
 
   getLatestTrades(): Observable<Trade[]> {
     return this.http.get<Trade[]>(`${this.url}getlatesttrades`);
