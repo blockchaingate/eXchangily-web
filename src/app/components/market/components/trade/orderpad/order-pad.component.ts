@@ -736,20 +736,23 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     //this.pairsConfig = <Pair[]>(JSON.parse(sessionStorage.getItem('pairsConfig')));
 
     this.sub = this.route.params.subscribe(params => {
-      let pair = params['pair']; // (+) converts string 'id' to a number
-      if (!pair) {
-        pair = 'BTC_USDT';
-      }
+      setTimeout(() => {
+        let pair = params['pair']; // (+) converts string 'id' to a number
+        if (!pair) {
+          pair = 'BTC_USDT';
+        }
 
-      // console.log('pair for refresh pageeee=' + pair);
-      const pairArray = pair.split('_');
-      this.baseCoin = pairArray[1];
-      this.targetCoin = pairArray[0];
-      this.refreshOrders();
-      this.refreshCoinAvail();
+        // console.log('pair for refresh pageeee=' + pair);
+        const pairArray = pair.split('_');
+        this.baseCoin = pairArray[1];
+        this.targetCoin = pairArray[0];
+        this.refreshOrders();
+        this.refreshCoinAvail();
+        this.cdr.detectChanges();
 
-      // this.loadChart(pairArray[0], pairArray[1]);
-      // In a real app: dispatch action to load the details here.
+        // this.loadChart(pairArray[0], pairArray[1]);
+        // In a real app: dispatch action to load the details here.
+      }, 0);
     });
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, NgZone, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Price } from '../../../../../models/kanban.interface';
 import { PriceService } from '../../../../../services/price.service';
@@ -21,7 +21,8 @@ export interface Section {
     standalone: true,
     imports: [CommonModule, MatListModule, FormsModule, CallbackPipe, SortByFieldPipe, TranslateModule],
     templateUrl: './lite-list.component.html',
-    styleUrls: ['./lite-list.component.css']
+    styleUrls: ['./lite-list.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class LiteListComponent implements OnInit {
@@ -44,7 +45,7 @@ export class LiteListComponent implements OnInit {
 
     // socket: WebSocketSubject<[Ticker]>;
     constructor(private prServ: PriceService, public utilServ: UtilService, private _route: ActivatedRoute,
-        private _router: Router, private _wsServ: WsService, private cdr: ChangeDetectorRef) {
+        private _router: Router, private _wsServ: WsService, private zone: NgZone, private cdr: ChangeDetectorRef) {
     }
 
     changeSort(field: string, fieldType: string) {
@@ -129,56 +130,61 @@ export class LiteListComponent implements OnInit {
 
         this.prServ.getPriceList(100, 0).subscribe(
             (ret: any) => {
-                if (ret && ret.success && ret.data) {
-                    this.prices = ret.data;
-                } else if (Array.isArray(ret)) {
-                    this.prices = ret;
-                } else if (ret && Array.isArray(ret.data)) {
-                    this.prices = ret.data;
-                }
-                this.cdr.detectChanges();
+                const data = (ret && ret.success && ret.data) ? ret.data
+                    : Array.isArray(ret) ? ret
+                    : (ret && Array.isArray(ret.data) ? ret.data : []);
+
+                // Defer initial assignment to avoid NG0100 during first CD pass
+                setTimeout(() => {
+                    this.prices = data.map((p: any) => ({
+                        ...p,
+                        price: p.price ?? 0,
+                        change24h: p.change24h ?? 0,
+                        vol24h: p.vol24h ?? 0
+                    }));
+                    this.cdr.markForCheck();
+                }, 0);
             }
         );
-        this._wsServ.currentPrices.subscribe(
-            (tickers: any) => {
-                // console.log('tickets=', tickers);
-                for (let i = 0; i < tickers.length; i++) {
-                    const ticker = tickers[i];
-                    const symbol = ticker.s;
-                    const price = Number(ticker.c);
-                    const open = Number(ticker['o']);
-                    const close = Number(ticker['c']);
-                    let change24h = 0;
-
-                    /*
-                    const bigO = new BigNumber(ticker['24h_open']);
-                    const bigC = new BigNumber(ticker['24h_close']);
-                    if (bigO.gt(0)) {
-                        // change24h = (close - open) / open * 100;
-                        // change24h = Math.floor(change24h * 100) / 100;
-
-                        const change24hBig = bigC.minus(bigO).dividedBy(bigO).multipliedBy(new BigNumber(100));
-                        change24h = change24hBig.toNumber();
-                        change24h = Math.floor(change24h * 100) / 100;
-                    }
-                    */
-                    if (open > 0) {
-                        change24h = (close - open) / open * 100;
-                    }
-
-                    const vol24h = Number(ticker['v']);
-
-                    for (let j = 0; j < this.prices.length; j++) {
-                        const symbol_replace = this.prices[j].symbol;
-                        if (symbol === symbol_replace) {
-                            this.prices[j].price = price;
-                            this.prices[j].change24h = Number(change24h.toFixed(2));
-                            this.prices[j].vol24h = vol24h;
+        this.zone.runOutsideAngular(() => {
+            this._wsServ.currentPrices.subscribe((tickers: any) => {
+                // Defer updates to avoid ExpressionChangedAfterItHasBeenCheckedError
+                setTimeout(() => {
+                    this.zone.run(() => {
+                        if (!Array.isArray(tickers) || this.prices.length === 0) {
+                            return;
                         }
-                    }
-                }
-            }
-        );
+                        const tickerMap = new Map<string, any>();
+                        for (const t of tickers) {
+                            if (t && t.s) {
+                                tickerMap.set(t.s, t);
+                            }
+                        }
+
+                        const nextPrices = this.prices.map((p) => {
+                            const t = tickerMap.get(p.symbol);
+                            if (!t) {
+                                return p;
+                            }
+                            const price = Number(t.c);
+                            const open = Number(t['o']);
+                            const close = Number(t['c']);
+                            const change24h = open > 0 ? (close - open) / open * 100 : 0;
+                            const vol24h = Number(t['v']);
+                            return {
+                                ...p,
+                                price,
+                                change24h: Number(change24h.toFixed(2)),
+                                vol24h
+                            };
+                        });
+
+                        this.prices = nextPrices;
+                        this.cdr.markForCheck();
+                    });
+                }, 0);
+            });
+        });
     }
 
     setSelect() {

@@ -32,10 +32,22 @@ export class WsService {
 
   ) { this.getAllPrices(); }
   getAllPrices() {
+    this.connectAllPrices();
+  }
+
+  private connectAllPrices() {
+    if (this.socketAllPrices) {
+      try { this.socketAllPrices.unsubscribe(); } catch { }
+      this.socketAllPrices = null;
+    }
     this.socketAllPrices = new WebSocketSubject(environment.websockets.allprices);
     this.socketAllPrices.subscribe(
       (arr: any) => {
         this.allPricesSource.next(arr);
+      },
+      (err: any) => {
+        console.warn('allprices websocket error, reconnecting...', err);
+        setTimeout(() => this.connectAllPrices(), 2000);
       }
     );
   }
