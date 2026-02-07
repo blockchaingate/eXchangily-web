@@ -107,6 +107,9 @@
                     <mat-slide-toggle [(ngModel)]="buyTransFeeAdvance"></mat-slide-toggle>
                 </div>
             </div>
+            <div *ngIf="kanbanSenderAddress" class="text-white small">
+                {{'Gas Address' | translate}}: {{kanbanSenderAddress}} ({{kanbanSenderGas}})
+            </div>
             <div *ngIf="buyTransFeeAdvance" class="text-white">
                 <div class="py-1">
                     <div>
@@ -170,6 +173,9 @@
                     <mat-slide-toggle [(ngModel)]="sellTransFeeAdvance"></mat-slide-toggle>
                 </div>
             </div>
+            <div *ngIf="kanbanSenderAddress" class="text-white small">
+                {{'Gas Address' | translate}}: {{kanbanSenderAddress}} ({{kanbanSenderGas}})
+            </div>
             <div *ngIf="sellTransFeeAdvance" class="text-white">
                 <div class="py-1">
                     <div>
@@ -214,4 +220,3 @@
 <div *ngIf="!pairData">
     Pair not found
 </div>
-

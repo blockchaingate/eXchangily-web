@@ -104,6 +104,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   coinService: CoinService;
   lan: any = 'en';
   pairData: any;
+  kanbanSenderAddress = '';
+  kanbanSenderGas = 0;
   // interval;
 
   mySubscription: any;
@@ -993,8 +995,20 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       if (!seed) {
         return;
       }
-      const keyPairsKanban = this._coinServ.getKeyPairs(wallet.excoin, seed, 1, 0);
+      const walletAddr = wallet?.excoin?.receiveAdds?.[0]?.address || '';
+      const keyPairs0 = this._coinServ.getKeyPairs(wallet.excoin, seed, 0, 0);
+      const keyPairs1 = this._coinServ.getKeyPairs(wallet.excoin, seed, 1, 0);
+      const keyPairsKanban = walletAddr && keyPairs1?.address === walletAddr ? keyPairs1 : keyPairs0;
       const orderType = 1;
+      const signerAddress = this.web3Serv.getEthAddressFromKeyPair(keyPairsKanban) || '';
+      this.kanbanSenderAddress = signerAddress;
+      if (signerAddress) {
+        try {
+          this.kanbanSenderGas = await this.kanbanService.getGas(signerAddress);
+        } catch {
+          this.kanbanSenderGas = 0;
+        }
+      }
 
       baseCoin = this.pairData.tokenB.id;
       targetCoin = this.pairData.tokenA.id;
@@ -1026,7 +1040,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       const approveAbiHex = this.web3Serv.getApproveFuncABI(address, approveQtystring);
 
       const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk, baseCoin, targetCoin, qtyString, priceString, orderHash]);
-      let nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
+      const senderAddress = signerAddress || keyPairsKanban.address;
+      const nonceAddress = walletAddr || keyPairsKanban.address;
+      const nonceDebug = await this.kanbanService.getTransactionCountDebug(nonceAddress);
+      console.warn('[trade] nonce debug', nonceDebug);
+      let nonce = await this.kanbanService.getTransactionCount(nonceAddress);
 
       if ((this.gasPrice <= 0) || (this.gasLimit <= 0)) {
         return;
@@ -1043,7 +1061,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         txHexApprove,
         txHex: txHex,
         orderHash: orderHash,
-        signerAddress: this.web3Serv.getEthAddressFromKeyPair(keyPairsKanban)
+        signerAddress
       };
     }
   }
@@ -1084,6 +1102,20 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       if (!txHexApprove || !txHex) {
         this.alertServ.openSnackBar('Invalid signed transaction hex', 'Ok');
         return;
+      }
+      // Debug sender addresses and gas balance to verify funding address
+      try {
+        const kanbanAddr = this.wallet?.excoin?.receiveAdds?.[0]?.address;
+        const ethAddr = signerAddress;
+        if (ethAddr || kanbanAddr) {
+          const [ethGas, kbGas] = await Promise.all([
+            ethAddr ? this.kanbanService.getGas(ethAddr) : Promise.resolve(null),
+            kanbanAddr ? this.kanbanService.getGas(kanbanAddr) : Promise.resolve(null)
+          ]);
+          console.warn('[trade] sender addresses', { ethAddr, kanbanAddr, ethGas, kbGas });
+        }
+      } catch (e) {
+        console.warn('[trade] gas check failed', e);
       }
       console.warn('[trade] txHexApprove prefix/len', typeof txHexApprove, String(txHexApprove).slice(0, 10), String(txHexApprove).length);
       console.warn('[trade] txHex prefix/len', typeof txHex, String(txHex).slice(0, 10), String(txHex).length);

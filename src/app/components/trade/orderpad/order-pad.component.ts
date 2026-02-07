@@ -102,6 +102,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   coinService: CoinService;
   lan: any = 'en';
   pairData: any;
+  kanbanSenderAddress = '';
+  kanbanSenderGas = 0;
   // interval;
 
   mySubscription: any;
@@ -1001,8 +1003,20 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       if (!seed) {
         return;
       }
-      const keyPairsKanban = this._coinServ.getKeyPairs(wallet.excoin, seed, 1, 0);
+      const walletAddr = wallet?.excoin?.receiveAdds?.[0]?.address || '';
+      const keyPairs0 = this._coinServ.getKeyPairs(wallet.excoin, seed, 0, 0);
+      const keyPairs1 = this._coinServ.getKeyPairs(wallet.excoin, seed, 1, 0);
+      const keyPairsKanban = walletAddr && keyPairs1?.address === walletAddr ? keyPairs1 : keyPairs0;
       const orderType = 1;
+      const signerAddress = this.web3Serv.getEthAddressFromKeyPair(keyPairsKanban) || '';
+      this.kanbanSenderAddress = signerAddress;
+      if (signerAddress) {
+        try {
+          this.kanbanSenderGas = await this.kanbanService.getGas(signerAddress);
+        } catch {
+          this.kanbanSenderGas = 0;
+        }
+      }
 
       baseCoin = this.pairData.tokenB.id;
       targetCoin = this.pairData.tokenA.id;
@@ -1039,7 +1053,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk,
         baseCoin, targetCoin, qtyString, priceString, orderHash]);
 
-      let nonce = await this.kanbanService.getTransactionCount(keyPairsKanban.address);
+      const senderAddress = signerAddress || keyPairsKanban.address;
+      const nonceAddress = walletAddr || keyPairsKanban.address;
+      const nonceDebug = await this.kanbanService.getTransactionCountDebug(nonceAddress);
+      console.warn('[trade] nonce debug', nonceDebug);
+      let nonce = await this.kanbanService.getTransactionCount(nonceAddress);
 
       if ((this.gasPrice <= 0) || (this.gasLimit <= 0)) {
         return;
@@ -1060,7 +1078,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       return {
         txHexApprove,
         txHex: txHex,
-        orderHash: orderHash
+        orderHash: orderHash,
+        signerAddress
       };
 
     }
@@ -1079,6 +1098,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
       const txHex: any = resTxHex?.txHex;
       const txHexApprove: any = resTxHex?.txHexApprove;
+      const signerAddress: any = resTxHex?.signerAddress;
 
 
       const paramsSentSocket =
@@ -1104,11 +1124,27 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
       const txHex: any = resTxHex?.txHex;
       const txHexApprove: any = resTxHex?.txHexApprove;
+      const signerAddress: any = resTxHex?.signerAddress;
 
-      this.kanbanService.sendRawSignedTransaction(txHexApprove).subscribe((resp: any) => {
+      // Debug sender addresses and gas balance to verify funding address
+      try {
+        const kanbanAddr = this.wallet?.excoin?.receiveAdds?.[0]?.address;
+        const ethAddr = signerAddress;
+        if (ethAddr || kanbanAddr) {
+          const [ethGas, kbGas] = await Promise.all([
+            ethAddr ? this.kanbanService.getGas(ethAddr) : Promise.resolve(null),
+            kanbanAddr ? this.kanbanService.getGas(kanbanAddr) : Promise.resolve(null)
+          ]);
+          console.warn('[trade] sender addresses', { ethAddr, kanbanAddr, ethGas, kbGas });
+        }
+      } catch (e) {
+        console.warn('[trade] gas check failed', e);
+      }
+
+      this.kanbanService.sendRawSignedTransaction(txHexApprove, signerAddress).subscribe((resp: any) => {
         if (resp && resp.txid) {
           this.kanbanService.incNonce();
-          this.kanbanService.sendRawSignedTransaction(txHex).subscribe((resp: any) => {
+          this.kanbanService.sendRawSignedTransaction(txHex, signerAddress).subscribe((resp: any) => {
 
             if (resp && resp.txid) {
               this.kanbanService.incNonce();
@@ -1152,4 +1188,3 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
   }
 }
-

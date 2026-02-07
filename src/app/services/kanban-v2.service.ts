@@ -118,23 +118,73 @@ export class KanbanV2Service {
     }
 
     async getTransactionCount(address: string) {
-        //return this.getNonce(address);
-
+        // Match pay.cool-v3-app: use api/kanban/getTransactionCount/{address}
+        try {
+            const path = this.api + 'kanban/getTransactionCount/' + address;
+            const res = await this.http.get(path).toPromise() as any;
+            const nonce = this.parseNonce(res?.transactionCount ?? res?.data);
+            if (nonce > 0 || nonce === 0) {
+                return nonce;
+            }
+        } catch { }
+        // Fallback to pending/latest explorer endpoints
+        try {
+            const pending = await this.getPendingNonce(address);
+            if (pending > 0) {
+                return pending;
+            }
+        } catch { }
+        try {
+            const latest = await this.getLatestNonce(address);
+            if (latest > 0) {
+                return latest;
+            }
+        } catch { }
+        // Last resort: legacy endpoint
         const path = environment.endpoints.api + 'kanban/nonce';
-        const data = {
-            native: address
-        }
-        // console.log('nouse in here:', path);
+        const data = { native: address };
         const res = await this.http.post(path, data).toPromise() as TransactionAccountResponse;
-        const nonce = parseInt(res.data, 16);
-        return nonce;
+        return this.parseNonce(res?.data);
+    }
 
+    async getTransactionCountDebug(address: string) {
+        const info: any = { address };
+        try {
+            const path = this.api + 'kanban/getTransactionCount/' + address;
+            const res = await this.http.get(path).toPromise() as any;
+            info.getTransactionCount = res;
+            info.getTransactionCountParsed = this.parseNonce(res?.transactionCount ?? res?.data);
+        } catch (e: any) {
+            info.getTransactionCountError = e?.message || e;
+        }
+        try {
+            const pending = await this.getPendingNonce(address);
+            info.pendingNonce = pending;
+        } catch (e: any) {
+            info.pendingNonceError = e?.message || e;
+        }
+        try {
+            const latest = await this.getLatestNonce(address);
+            info.latestNonce = latest;
+        } catch (e: any) {
+            info.latestNonceError = e?.message || e;
+        }
+        try {
+            const path = environment.endpoints.api + 'kanban/nonce';
+            const data = { native: address };
+            const res = await this.http.post(path, data).toPromise() as TransactionAccountResponse;
+            info.legacyNonce = res;
+            info.legacyNonceParsed = this.parseNonce(res?.data);
+        } catch (e: any) {
+            info.legacyNonceError = e?.message || e;
+        }
+        return info;
     }
 
     async getPendingNonce(address: string) {
         const path = 'kanban/explorer/getnonce/' + address + '/pending';
         const res = await this.get(path).toPromise() as KanbanNonceResponse;
-        return res.nonce;
+        return this.parseNonce(res?.nonce);
     }
 
     async kanbanCall(to: string, abiData: string) {
@@ -152,7 +202,7 @@ export class KanbanV2Service {
     async getLatestNonce(address: string) {
         const path = 'kanban/explorer/getnonce/' + address + '/latest';
         const res = await this.get(path).toPromise() as KanbanNonceResponse;
-        return res.nonce;
+        return this.parseNonce(res?.nonce);
     }
 
     async getNonce(address: string) {
@@ -163,6 +213,22 @@ export class KanbanV2Service {
         }
         console.log('final nonce=', nonce);
         return nonce;
+    }
+
+    private parseNonce(value: any): number {
+        if (typeof value === 'number' && Number.isFinite(value)) {
+            return value;
+        }
+        if (typeof value === 'string') {
+            const v = value.trim();
+            if (v.startsWith('0x') || v.startsWith('0X')) {
+                const n = parseInt(v, 16);
+                return Number.isFinite(n) ? n : 0;
+            }
+            const n = parseInt(v, 10);
+            return Number.isFinite(n) ? n : 0;
+        }
+        return 0;
     }
 
     incNonce() {

@@ -111,6 +111,11 @@
               <mat-slide-toggle [(ngModel)]="buyTransFeeAdvance"></mat-slide-toggle>
             </div>
           </div>
+          @if (kanbanSenderAddress) {
+            <div class="text-white small">
+              {{'Gas Address' | translate}}: {{kanbanSenderAddress}} ({{kanbanSenderGas}})
+            </div>
+          }
           @if (buyTransFeeAdvance) {
             <div class="text-white">
               <div class="py-1">
@@ -176,6 +181,11 @@
               <mat-slide-toggle [(ngModel)]="sellTransFeeAdvance"></mat-slide-toggle>
             </div>
           </div>
+          @if (kanbanSenderAddress) {
+            <div class="text-white small">
+              {{'Gas Address' | translate}}: {{kanbanSenderAddress}} ({{kanbanSenderGas}})
+            </div>
+          }
           @if (sellTransFeeAdvance) {
             <div class="text-white">
               <div class="py-1">
