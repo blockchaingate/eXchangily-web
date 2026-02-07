@@ -984,7 +984,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       return {
         txHexApprove: '',
         txHex: '',
-        orderHash: orderHash
+        orderHash: orderHash,
+        signerAddress: undefined
       };
 
     } else {
@@ -1041,7 +1042,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       return {
         txHexApprove,
         txHex: txHex,
-        orderHash: orderHash
+        orderHash: orderHash,
+        signerAddress: this.web3Serv.getEthAddressFromKeyPair(keyPairsKanban)
       };
     }
   }
@@ -1056,6 +1058,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
       const txHex: any = resTxHex?.txHex;
       const txHexApprove: any = resTxHex?.txHexApprove;
+      const signerAddress: any = resTxHex?.signerAddress;
       const paramsSentSocket =
       {
         source: "Exchangily-Buy",
@@ -1076,6 +1079,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
       const txHex: any = resTxHex?.txHex;
       const txHexApprove: any = resTxHex?.txHexApprove;
+      const signerAddress: any = resTxHex?.signerAddress;
 
       if (!txHexApprove || !txHex) {
         this.alertServ.openSnackBar('Invalid signed transaction hex', 'Ok');
@@ -1083,7 +1087,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       }
       console.warn('[trade] txHexApprove prefix/len', typeof txHexApprove, String(txHexApprove).slice(0, 10), String(txHexApprove).length);
       console.warn('[trade] txHex prefix/len', typeof txHex, String(txHex).slice(0, 10), String(txHex).length);
-      const expectedFrom = this.wallet?.excoin?.receiveAdds?.[0]?.address;
+      const expectedFrom = signerAddress || this.wallet?.excoin?.receiveAdds?.[0]?.address;
       this.kanbanService.sendRawSignedTransaction(txHexApprove, expectedFrom).subscribe((resp: any) => {
         if (resp && resp.transactionHash) {
           this.kanbanService.incNonce();

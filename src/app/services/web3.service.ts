@@ -235,6 +235,34 @@ export class Web3Service {
     */
   }
 
+  getEthAddressFromKeyPair(keyPair: any): string | null {
+    try {
+      let privKey: Buffer | null = null;
+      if (keyPair?.privateKeyBuffer && Buffer.isBuffer(keyPair.privateKeyBuffer) && keyPair.privateKeyBuffer.length === 32) {
+        privKey = keyPair.privateKeyBuffer;
+      }
+      if (!privKey && keyPair?.privateKeyBuffer?.privateKey && Buffer.isBuffer(keyPair.privateKeyBuffer.privateKey) && keyPair.privateKeyBuffer.privateKey.length === 32) {
+        privKey = keyPair.privateKeyBuffer.privateKey;
+      }
+      if (!privKey && keyPair?.privateKey && Buffer.isBuffer(keyPair.privateKey) && keyPair.privateKey.length === 32) {
+        privKey = keyPair.privateKey;
+      }
+      if (!privKey) {
+        const privKeyHexRaw = keyPair?.privateKeyHex || '';
+        const privKeyHex = privKeyHexRaw.startsWith('0x') ? privKeyHexRaw.slice(2) : privKeyHexRaw;
+        if (privKeyHex.length !== 64) {
+          return null;
+        }
+        privKey = Buffer.from(privKeyHex, 'hex');
+      }
+      const addrBuf = ethUtil.privateToAddress(privKey);
+      const hex = ethUtil.bytesToHex(addrBuf as Uint8Array);
+      return hex.startsWith('0x') ? hex : `0x${hex}`;
+    } catch {
+      return null;
+    }
+  }
+
   recoverSenderFromRawTx(rawTxHex: string, chainIds?: number[]): { sender: string; chainId: number } | null {
     const ids = chainIds && chainIds.length
       ? chainIds
