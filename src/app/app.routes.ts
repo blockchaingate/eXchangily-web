@@ -78,6 +78,12 @@ export const routes: Routes = [
                 { path: '', redirectTo: './home', pathMatch: 'full' }
             ]
     },
+    { 
+        path: 'issue-token', loadComponent: () => import('./components/issue-token/issue-token.component').then((m) => m.IssueTokenComponent), children: [
+            { path: 'frc20', loadComponent: () => import('./components/issue-token/frc20/frc20.component').then((m) => m.IssueTokenFrc20Component) },
+            { path: 'update', loadComponent: () => import('./components/issue-token/update/update.component').then((m) => m.UpdateComponent) },
+        ] 
+    },
     { path: '', redirectTo: 'market/home', pathMatch: 'full' },
     { path: '**', loadComponent: () => import('./page-not-found.component').then((m) => m.PageNotFoundComponent) },
 ];
