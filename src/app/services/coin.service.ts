@@ -1173,8 +1173,22 @@ export class CoinService {
                     signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey,
                         keyPair.privateKeyBuffer.compressed, messagePrefix);
                     */
-                    signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey,
-                        true, messagePrefix);
+                    let privKeyBuf: any = keyPair?.privateKeyBuffer;
+                    if (privKeyBuf && privKeyBuf.privateKey) {
+                        privKeyBuf = privKeyBuf.privateKey;
+                    }
+                    if (!Buffer.isBuffer(privKeyBuf)) {
+                        if (keyPair?.privateKey) {
+                            privKeyBuf = Buffer.isBuffer(keyPair.privateKey) ? keyPair.privateKey : Buffer.from(keyPair.privateKey, 'hex');
+                        } else if (keyPair?.privateKeyHex) {
+                            const hex = keyPair.privateKeyHex.startsWith('0x') ? keyPair.privateKeyHex.slice(2) : keyPair.privateKeyHex;
+                            privKeyBuf = Buffer.from(hex, 'hex');
+                        }
+                    }
+                    if (!Buffer.isBuffer(privKeyBuf)) {
+                        throw new Error('Missing private key buffer for signing');
+                    }
+                    signBuffer = bitcoinMessage.sign(originalMessage, privKeyBuf, true, messagePrefix);
                     v = `0x${signBuffer.slice(0, 1).toString('hex')}`;
                     r = `0x${signBuffer.slice(1, 33).toString('hex')}`;
                     s = `0x${signBuffer.slice(33, 65).toString('hex')}`;
@@ -1288,7 +1302,11 @@ export class CoinService {
                 console.log('push one');
                 this.txids.push(txidItem);
 
-                txb.addInput({ hash: utxo.txid, index: idx });
+                const nonWitnessUtxo = await this.getFabNonWitnessUtxo(utxo.txid);
+                if (!nonWitnessUtxo) {
+                    return { txHex: '', errMsg: 'Missing raw transaction for UTXO input.', transFee: 0, amountInTx: amountInTx, txids: this.txids };
+                }
+                txb.addInput({ hash: utxo.txid, index: idx, nonWitnessUtxo });
                 // console.log('input is');
                 // console.log(utxo.txid, utxo.idx, utxo.value);
                 receiveAddsIndexArr.push(index);
@@ -1425,7 +1443,11 @@ export class CoinService {
 
                     txids.push(txidItem);
 
-                    txb.addInput({ hash: utxo.txid, index: idx });
+                        const nonWitnessUtxo = await this.getFabNonWitnessUtxo(utxo.txid);
+                        if (!nonWitnessUtxo) {
+                            return { txHex: '', errMsg: 'Missing raw transaction for UTXO input.', transFee: 0, txids: txids };
+                        }
+                        txb.addInput({ hash: utxo.txid, index: idx, nonWitnessUtxo });
                     // console.log('input is');
                     // console.log(utxo.txid, utxo.idx, utxo.value);
                     receiveAddsIndexArr.push(index);
@@ -1485,7 +1507,11 @@ export class CoinService {
                         }
                         txids.push(txidItem);
 
-                        txb.addInput({ hash: utxo.txid, index: idx });
+                        const nonWitnessUtxo = await this.getFabNonWitnessUtxo(utxo.txid);
+                        if (!nonWitnessUtxo) {
+                            return { txHex: '', errMsg: 'Missing raw transaction for UTXO input.', transFee: 0, txids: txids };
+                        }
+                        txb.addInput({ hash: utxo.txid, index: idx, nonWitnessUtxo });
                         // console.log('input is');
                         // console.log(utxo.txid, utxo.idx, utxo.value);
                         receiveAddsIndexArr.push(index);
@@ -1572,8 +1598,32 @@ export class CoinService {
             });
         }
 
+        txb.finalizeAllInputs();
         txHex = txb.extractTransaction().toHex();
         return { txHex: txHex, errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids };
+    }
+
+    private async getFabNonWitnessUtxo(txid: string): Promise<Buffer | null> {
+        try {
+            const txJson: any = await this.apiService.getFabTransactionJson(txid);
+            let hex: any = txJson?.hex;
+            if (!hex) {
+                return null;
+            }
+            if (typeof hex === 'number') {
+                hex = hex.toString(16);
+            }
+            if (typeof hex !== 'string' || hex.length === 0) {
+                return null;
+            }
+            const clean = this.utilServ.stripHexPrefix(hex);
+            if (!clean || clean.length % 2 !== 0) {
+                return null;
+            }
+            return Buffer.from(clean, 'hex');
+        } catch {
+            return null;
+        }
     }
 
     async getFabTransactionHexWithPrivateKey(privateKey: string, mycoin: MyCoin, to: any, amount: number, extraTransactionFee: number,
@@ -1646,7 +1696,11 @@ export class CoinService {
 
                     txids.push(txidItem);
 
-                    txb.addInput(utxo.txid, idx);
+                    const nonWitnessUtxo = await this.getFabNonWitnessUtxo(utxo.txid);
+                    if (!nonWitnessUtxo) {
+                        return { txHex: '', errMsg: 'Missing raw transaction for UTXO input.', transFee: 0, amountInTx: amountInTx, txids: txids };
+                    }
+                    txb.addInput({ hash: utxo.txid, index: idx, nonWitnessUtxo });
 
                     console.log('input is');
                     console.log(utxo.txid, utxo.idx, utxo.value);
