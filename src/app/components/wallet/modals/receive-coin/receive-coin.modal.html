@@ -61,9 +61,9 @@
     </div>
     <div>
       {{currentAddress}}
-      <button mat-icon-button type="button" (click)="copyAddress()" title="copy address">
+      <span class="hand" (click)="copyAddress()" title="copy address" aria-label="copy address" style="margin-left:4px; position:relative; top:10px; display:inline-block;">
         <mat-icon svgIcon="copy"></mat-icon>
-      </button>
+      </span>
     </div>
 
     <div class="text-center py-5">

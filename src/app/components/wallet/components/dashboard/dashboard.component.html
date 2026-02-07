@@ -75,9 +75,9 @@
               @if (wallet && !wallet.hide) {
                 <div class="small text-white">
                   {{"Wallet address" | translate }}: <span class="pl-2 walletadd"> {{fabAddress}}</span>
-                  <button type="button" mat-icon-button (click)="copyAddress()" title="{{'Copy address'|translate}}">
+                  <span class="hand" (click)="copyAddress()" title="{{'Copy address'|translate}}" aria-label="{{'Copy address'|translate}}" style="margin-left:4px; position:relative; top:10px; display:inline-block;">
                     <mat-icon svgIcon="copy"></mat-icon>
-                  </button>
+                  </span>
                 </div>
               }
               @if (wallet && !wallet.hide) {
@@ -349,19 +349,19 @@
                               @if (!maintainence) {
                                 <div class="col-custom-2">
                                   @if ((gas > 0)) {
-                                    <button type="button" mat-icon-button matTooltip="{{'Move fund to DEX'|translate}}" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                    <span class="hand" matTooltip="{{'Move fund to DEX'|translate}}" (click)="deposit(mycoin)" aria-label="{{'Move fund to DEX'|translate}}">
                                       <mat-icon svgIcon="arrow-downward"></mat-icon>
-                                    </button>
+                                    </span>
                                   }
                                   @if ((gas > 0)) {
-                                    <button type="button" mat-icon-button matTooltip="{{'Confirm move fund to DEX'|translate}}" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                    <span class="hand" matTooltip="{{'Confirm move fund to DEX'|translate}}" (click)="redeposit(mycoin)" aria-label="{{'Confirm move fund to DEX'|translate}}">
                                       <mat-icon svgIcon="vertical_align_bottom"></mat-icon>
-                                    </button>
+                                    </span>
                                   }
                                   @if (mycoin.new) {
-                                    <button type="button" mat-icon-button matTooltip="{{'Delete'|translate}}" (click)="delete(mycoin)" aria-label="Example icon-button with a heart icon">
+                                    <span class="hand" matTooltip="{{'Delete'|translate}}" (click)="delete(mycoin)" aria-label="{{'Delete'|translate}}">
                                       <mat-icon svgIcon="delete"></mat-icon>
-                                    </button>
+                                    </span>
                                   }
                                 </div>
                               }
@@ -439,19 +439,19 @@
                             }
                             <div class="col-4">
                               @if (!mycoin.new) {
-                                <button type="button" mat-icon-button matTooltip="To exchange" [disabled]="gas <= 0 || maintainence" (click)="deposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                <span class="hand" matTooltip="To exchange" [class.disabled]="gas <= 0 || maintainence" (click)="(gas <= 0 || maintainence) ? null : deposit(mycoin)" aria-label="To exchange">
                                   <mat-icon svgIcon="arrow-downward"></mat-icon>
-                                </button>
+                                </span>
                               }
                               @if (!mycoin.new && (mycoin.redeposit && mycoin.redeposit.length > 0) || (mycoin.depositErr && mycoin.depositErr.length > 0)) {
-                                <button type="button" mat-icon-button matTooltip="Reconfirm" (click)="redeposit(mycoin)" aria-label="Example icon-button with a heart icon">
+                                <span class="hand" matTooltip="Reconfirm" (click)="redeposit(mycoin)" aria-label="Reconfirm">
                                   <mat-icon svgIcon="vertical_align_bottom"></mat-icon>
-                                </button>
+                                </span>
                               }
                               @if (mycoin.new) {
-                                <button type="button" mat-icon-button matTooltip="{{'Delete'|translate}}" (click)="delete(mycoin)" aria-label="Example icon-button with a heart icon">
+                                <span class="hand" matTooltip="{{'Delete'|translate}}" (click)="delete(mycoin)" aria-label="{{'Delete'|translate}}">
                                   <mat-icon svgIcon="delete"></mat-icon>
-                                </button>
+                                </span>
                               }
                             </div>
                             <div class="col-12 text-muted">
