@@ -147,39 +147,6 @@ export class KanbanV2Service {
         return this.parseNonce(res?.data);
     }
 
-    async getTransactionCountDebug(address: string) {
-        const info: any = { address };
-        try {
-            const path = this.api + 'kanban/getTransactionCount/' + address;
-            const res = await this.http.get(path).toPromise() as any;
-            info.getTransactionCount = res;
-            info.getTransactionCountParsed = this.parseNonce(res?.transactionCount ?? res?.data);
-        } catch (e: any) {
-            info.getTransactionCountError = e?.message || e;
-        }
-        try {
-            const pending = await this.getPendingNonce(address);
-            info.pendingNonce = pending;
-        } catch (e: any) {
-            info.pendingNonceError = e?.message || e;
-        }
-        try {
-            const latest = await this.getLatestNonce(address);
-            info.latestNonce = latest;
-        } catch (e: any) {
-            info.latestNonceError = e?.message || e;
-        }
-        try {
-            const path = environment.endpoints.api + 'kanban/nonce';
-            const data = { native: address };
-            const res = await this.http.post(path, data).toPromise() as TransactionAccountResponse;
-            info.legacyNonce = res;
-            info.legacyNonceParsed = this.parseNonce(res?.data);
-        } catch (e: any) {
-            info.legacyNonceError = e?.message || e;
-        }
-        return info;
-    }
 
     async getPendingNonce(address: string) {
         const path = 'kanban/explorer/getnonce/' + address + '/pending';
@@ -493,14 +460,15 @@ export class KanbanV2Service {
     }
 
     getTransactionReceipt(txid: string) {
-        return this.get('kanban/getTransactionReceipt/' + txid);
+        const path = this.api + 'kanban/gettransactionreceipt/' + txid;
+        return this.http.get(path);
     }
 
     async getTransactionStatus(txid: string) {
         let response: any = null;
         let status = 'failed';
         try {
-            response = await this.get('kanban/getTransactionReceipt/' + txid).toPromise() as TransactionReceiptResp;
+            response = await this.http.get(this.api + 'kanban/gettransactionreceipt/' + txid).toPromise() as TransactionReceiptResp;
             // console.log('response.transactionReceipt=', response.transactionReceipt);
             // console.log('response.transactionReceipt.status=', response.transactionReceipt.status);
             if (response && response.transactionReceipt && response.transactionReceipt.status === '0x1') {
@@ -512,7 +480,7 @@ export class KanbanV2Service {
     }
 
     getTransactionStatusSync(txid: string) {
-        return this.get('kanban/getTransactionReceipt/' + txid);
+        return this.http.get(this.api + 'kanban/gettransactionreceipt/' + txid);
     }
 
     getDepositStatusSync(txid: string) {

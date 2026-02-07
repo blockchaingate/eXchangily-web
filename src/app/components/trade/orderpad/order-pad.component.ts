@@ -1053,10 +1053,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk,
         baseCoin, targetCoin, qtyString, priceString, orderHash]);
 
-      const senderAddress = signerAddress || keyPairsKanban.address;
       const nonceAddress = walletAddr || keyPairsKanban.address;
-      const nonceDebug = await this.kanbanService.getTransactionCountDebug(nonceAddress);
-      console.warn('[trade] nonce debug', nonceDebug);
       let nonce = await this.kanbanService.getTransactionCount(nonceAddress);
 
       if ((this.gasPrice <= 0) || (this.gasLimit <= 0)) {
@@ -1126,27 +1123,13 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       const txHexApprove: any = resTxHex?.txHexApprove;
       const signerAddress: any = resTxHex?.signerAddress;
 
-      // Debug sender addresses and gas balance to verify funding address
-      try {
-        const kanbanAddr = this.wallet?.excoin?.receiveAdds?.[0]?.address;
-        const ethAddr = signerAddress;
-        if (ethAddr || kanbanAddr) {
-          const [ethGas, kbGas] = await Promise.all([
-            ethAddr ? this.kanbanService.getGas(ethAddr) : Promise.resolve(null),
-            kanbanAddr ? this.kanbanService.getGas(kanbanAddr) : Promise.resolve(null)
-          ]);
-          console.warn('[trade] sender addresses', { ethAddr, kanbanAddr, ethGas, kbGas });
-        }
-      } catch (e) {
-        console.warn('[trade] gas check failed', e);
-      }
-
       this.kanbanService.sendRawSignedTransaction(txHexApprove, signerAddress).subscribe((resp: any) => {
-        if (resp && resp.txid) {
+        const approveTxid = resp?.transactionHash || resp?.txid;
+        if (approveTxid) {
           this.kanbanService.incNonce();
           this.kanbanService.sendRawSignedTransaction(txHex, signerAddress).subscribe((resp: any) => {
-
-            if (resp && resp.txid) {
+            const orderTxid = resp?.transactionHash || resp?.txid;
+            if (orderTxid) {
               this.kanbanService.incNonce();
               if (this.lan === 'zh') {
                 this.alertServ.openSnackBarSuccess('下单成功。', 'Ok');

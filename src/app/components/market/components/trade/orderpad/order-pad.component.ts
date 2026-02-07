@@ -1040,10 +1040,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       const approveAbiHex = this.web3Serv.getApproveFuncABI(address, approveQtystring);
 
       const abiHex = this.web3Serv.getCreateOrderFuncABI([bidOrAsk, baseCoin, targetCoin, qtyString, priceString, orderHash]);
-      const senderAddress = signerAddress || keyPairsKanban.address;
       const nonceAddress = walletAddr || keyPairsKanban.address;
-      const nonceDebug = await this.kanbanService.getTransactionCountDebug(nonceAddress);
-      console.warn('[trade] nonce debug', nonceDebug);
       let nonce = await this.kanbanService.getTransactionCount(nonceAddress);
 
       if ((this.gasPrice <= 0) || (this.gasLimit <= 0)) {
@@ -1103,29 +1100,14 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         this.alertServ.openSnackBar('Invalid signed transaction hex', 'Ok');
         return;
       }
-      // Debug sender addresses and gas balance to verify funding address
-      try {
-        const kanbanAddr = this.wallet?.excoin?.receiveAdds?.[0]?.address;
-        const ethAddr = signerAddress;
-        if (ethAddr || kanbanAddr) {
-          const [ethGas, kbGas] = await Promise.all([
-            ethAddr ? this.kanbanService.getGas(ethAddr) : Promise.resolve(null),
-            kanbanAddr ? this.kanbanService.getGas(kanbanAddr) : Promise.resolve(null)
-          ]);
-          console.warn('[trade] sender addresses', { ethAddr, kanbanAddr, ethGas, kbGas });
-        }
-      } catch (e) {
-        console.warn('[trade] gas check failed', e);
-      }
-      console.warn('[trade] txHexApprove prefix/len', typeof txHexApprove, String(txHexApprove).slice(0, 10), String(txHexApprove).length);
-      console.warn('[trade] txHex prefix/len', typeof txHex, String(txHex).slice(0, 10), String(txHex).length);
       const expectedFrom = signerAddress || this.wallet?.excoin?.receiveAdds?.[0]?.address;
       this.kanbanService.sendRawSignedTransaction(txHexApprove, expectedFrom).subscribe((resp: any) => {
-        if (resp && resp.transactionHash) {
+        const approveTxid = resp?.transactionHash || resp?.txid;
+        if (approveTxid) {
           this.kanbanService.incNonce();
           this.kanbanService.sendRawSignedTransaction(txHex, expectedFrom).subscribe((resp: any) => {
-
-            if (resp && resp.transactionHash) {
+            const orderTxid = resp?.transactionHash || resp?.txid;
+            if (orderTxid) {
               this.kanbanService.incNonce();
               if (this.lan === 'zh') {
                 this.alertServ.openSnackBarSuccess('下单成功。', 'Ok');
