@@ -556,7 +556,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           this.cdr.detectChanges();
           return;
         }
-        this.trades = trades.slice(0, 23);
+        this.trades = trades.slice(0, 20);
         this.currentPrice = this.trades[0].p;
         this.currentQuantity = this.trades[0].q;
         // this.txOrders = [];

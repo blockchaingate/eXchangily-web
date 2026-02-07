@@ -894,6 +894,7 @@ export class WalletDashboardComponent implements OnInit {
                         const data = resp.data;
                         setTimeout(() => {
                             this.gas = new BigNumber(data).shiftedBy(-18).toNumber();
+                            this.cdr.detectChanges();
                         }, 0);
                     }
                 },
@@ -1756,9 +1757,15 @@ export class WalletDashboardComponent implements OnInit {
         }
 
         const tokenType = '0000000000000000000000000000000000000000'; //ERC20
-        const originalMessage = this.coinServ.getOriginalMessage(chainType, tokenContract, tokenType, this.utilServ.stripHexPrefix(addressInKanban), this.utilServ.stripHexPrefix(txHash));
+        const originalMessage = this.coinServ.getOriginalMessage(
+            chainType,
+            tokenContract,
+            tokenType,
+            this.utilServ.stripHexPrefix(addressInKanban),
+            this.utilServ.stripHexPrefix(txHash)
+        );
 
-        const signedMessage: Signature = await this.coinServ.signedMessage(originalMessage, keyPairs);
+        const signedMessage: Signature = await this.coinServ.signedMessage(originalMessage.toLowerCase(), keyPairs);
 
         const proof = this.coinServ.getProof(signedMessage, chainType, tokenContract, tokenType, this.utilServ.stripHexPrefix(addressInKanban), this.utilServ.stripHexPrefix(txHash));
 

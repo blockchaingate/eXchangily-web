@@ -66,10 +66,10 @@ export class AddAssetsModal implements OnInit {
     ngOnInit() {
         this.apiServ.getIssueTokens().subscribe(
             (ret: any) => {
-                Promise.resolve().then(() => {
+                setTimeout(() => {
                     this.fabTokens = ret;
-                    this.cdr.detectChanges();
-                });
+                    this.cdr.markForCheck();
+                }, 0);
             }
         );
 

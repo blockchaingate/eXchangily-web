@@ -1,4 +1,5 @@
 import { ApplicationConfig, provideZoneChangeDetection, importProvidersFrom, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideClientHydration } from '@angular/platform-browser';
@@ -22,6 +23,7 @@ export const appConfig: ApplicationConfig = {
       lang: 'en'
     }),
     importProvidersFrom(ModalModule.forRoot()),
+    provideAnimations(),
     provideClientHydration(),
     provideHttpClient(withInterceptorsFromDi())
   ]

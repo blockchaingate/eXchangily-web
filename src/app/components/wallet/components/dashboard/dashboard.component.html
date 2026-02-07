@@ -492,7 +492,9 @@
     </div>
     <div class="w-25 match-my-cols fxHide-sm">
       <div class="ml-2 content">
-        <app-manage-wallet #manageWallet (manageWallet)=onmanageWallet($event) [hideWallet]="wallet && wallet.hide"></app-manage-wallet>
+        @if (wallet) {
+          <app-manage-wallet #manageWallet (manageWallet)=onmanageWallet($event) [hideWallet]="wallet.hide"></app-manage-wallet>
+        }
         <app-faq></app-faq>
       </div>
     </div>
