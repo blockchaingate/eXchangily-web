@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, TemplateRef, ViewChild, ViewContainerRef, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, TemplateRef, ViewChild, ViewContainerRef, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Wallet } from '../../../../models/wallet';
 import { MyCoin } from '../../../../models/mycoin';
@@ -193,7 +193,8 @@ export class WalletDashboardComponent implements OnInit {
         private translateServ: TranslateService,
         private kanbanV2Serv: KanbanV2Service, private web3Serv: Web3Service,
         private alertServ: AlertService, private timerServ: TimerService,
-        private coinService: CoinService, private storageService: StorageService) {
+        private coinService: CoinService, private storageService: StorageService,
+        private cdr: ChangeDetectorRef) {
         this.lan = localStorage.getItem('Lan') || 'en';
 
         this.showMyAssets = true;
@@ -326,7 +327,7 @@ export class WalletDashboardComponent implements OnInit {
         }
     }
 
-    async ngOnInit() {
+    ngOnInit() {
         this.exgBalance = 0;
         this.exgValue = 0;
         /*
@@ -335,19 +336,9 @@ export class WalletDashboardComponent implements OnInit {
         console.log('addr2====', addr2);
         */
 
-        await this.loadWallets();
-        // this.currentWalletIndex = await this.walletServ.getCurrentWalletIndex();
-        // console.log('this.currentWalletIndex=', this.currentWalletIndex);
-        if (!this.currentWalletIndex) {
-            this.currentWalletIndex = 0;
-        }
-        if (this.wallets) {
-            await this.loadWallet(this.wallets[this.currentWalletIndex]);
-            // this.loadCoinsPrice();
-
-            // this.startTimer();
-            this.loadBalance();
-        }
+        setTimeout(() => {
+            void this.initWalletState();
+        }, 0);
 
         if (this.exgAddress) {
             /*
@@ -407,6 +398,22 @@ export class WalletDashboardComponent implements OnInit {
             }
         );    
         */
+    }
+
+    private async initWalletState() {
+        await this.loadWallets();
+        // this.currentWalletIndex = await this.walletServ.getCurrentWalletIndex();
+        // console.log('this.currentWalletIndex=', this.currentWalletIndex);
+        if (!this.currentWalletIndex) {
+            this.currentWalletIndex = 0;
+        }
+        if (this.wallets) {
+            await this.loadWallet(this.wallets[this.currentWalletIndex]);
+            // this.loadCoinsPrice();
+
+            // this.startTimer();
+            this.loadBalance();
+        }
     }
 
     getPairConfig(pairName: string): Pair | null {
@@ -646,8 +653,10 @@ export class WalletDashboardComponent implements OnInit {
             if (coin.name == 'USD Coin') {
                 try {
                     const balance = await this.coinServ.getBalance(coin);
-                    coin.balance = balance.balance;
-                    coin.lockedBalance = balance.lockbalance;
+                    setTimeout(() => {
+                        coin.balance = balance.balance;
+                        coin.lockedBalance = balance.lockbalance;
+                    }, 0);
                 } catch (e) {
 
                 }
@@ -656,8 +665,10 @@ export class WalletDashboardComponent implements OnInit {
             if (coin.new && includeNew) {
                 try {
                     const balance = await this.coinServ.getBalance(coin);
-                    coin.balance = balance.balance;
-                    coin.lockedBalance = balance.lockbalance;
+                    setTimeout(() => {
+                        coin.balance = balance.balance;
+                        coin.lockedBalance = balance.lockbalance;
+                    }, 0);
 
                     if (!coin.logo && (coin.tokenType == 'FAB') && (['EXG', 'DUSD', 'DSC', 'BST'].indexOf(coin.symbol) < 0)) {
                         const token: any = await this.apiServ.getIssueToken(coin.contractAddr);
@@ -697,145 +708,151 @@ export class WalletDashboardComponent implements OnInit {
         this.coinServ.walletBalance(data).subscribe(
             async (res: any) => {
                 if (res && res.success) {
-                    let updated = false;
-                    let hasDRGN = false;
-                    let hasNVZN = false;
-                    let ethCoin;
-                    let fabCoin;
-                    for (let j = 0; j < this.wallet.mycoins.length; j++) {
-                        const coin = this.wallet.mycoins[j];
+                    setTimeout(async () => {
+                        let updated = false;
+                        let hasDRGN = false;
+                        let hasNVZN = false;
+                        let ethCoin;
+                        let fabCoin;
+                        for (let j = 0; j < this.wallet.mycoins.length; j++) {
+                            const coin = this.wallet.mycoins[j];
 
-                        if (coin.new) {
-                            continue;
-                        }
-
-                        if (coin.name === 'DRGN') {
-                            hasDRGN = true;
-                        }
-                        if (coin.name === 'NVZN') {
-                            hasNVZN = true;
-                        }
-                        if (coin.name === 'ETH') {
-                            ethCoin = coin;
-                        }
-                        if (coin.name === 'EXG' && coin.tokenType == 'FAB' && !coin.encryptedPrivateKey) {
-                            //console.log('coin=', coin);
-                            //console.log('this.exgBalance=', this.exgBalance);
-                            let exgBalance = Number(coin.balance);
-                            let exgLockedBalance = Number(coin.lockedBalance);
-                            if (exgBalance < 0) {
-                                exgBalance = 0;
-                            }
-                            if (exgLockedBalance < 0) {
-                                exgLockedBalance = 0;
-                            }
-                            if (!this.exgBalance) {
-                                this.exgBalance = exgBalance + exgLockedBalance;
-                                this.exgValue = coin.usdPrice;
+                            if (coin.new) {
+                                continue;
                             }
 
-                            //console.log('this.exgBalance=', this.exgBalance);
-                        }
-                        if (coin.name === 'FAB' && !coin.tokenType) {
-                            fabCoin = coin;
-
-                        }
-
-                        const resBody = res.data;
-
-                        for (let i = 0; i < resBody.length; i++) {
-                            const item = resBody[i];
-                            if (item.coin == 'FAB') {
-                                this.fabBalance = item.balance;
+                            if (coin.name === 'DRGN') {
+                                hasDRGN = true;
                             }
-                            if (
-                                (item.coin === coin.name) ||
-                                ((item.coin === 'MATICM') && (coin.name === 'MATIC') && !coin.tokenType) ||
-                                ((item.coin === 'USDTB') && (coin.name === 'USDT') && (coin.tokenType === 'BNB')) ||
-                                ((item.coin === 'USDTX') && (coin.name === 'USDT') && (coin.tokenType === 'TRX')) ||
-                                ((item.coin === 'USDCX') && (coin.name === 'USDC') && (coin.tokenType === 'TRX')) ||
-                                ((item.coin === 'USDTM') && (coin.name === 'USDT') && (coin.tokenType === 'MATIC')) ||
-                                ((item.coin === 'FABE') && (coin.name === 'FAB') && (coin.tokenType === 'ETH')) ||
-                                ((item.coin === 'FABB') && (coin.name === 'FAB') && (coin.tokenType === 'BNB')) ||
-                                ((item.coin === 'GETB') && (coin.name === 'GET') && (coin.tokenType === 'BNB')) ||
-                                ((item.coin === 'FETB') && (coin.name === 'FET') && (coin.tokenType === 'BNB')) ||
-                                ((item.coin === 'EXGB') && (coin.name === 'EXG') && (coin.tokenType === 'BNB')) ||
-                                ((item.coin === 'EXGE') && (coin.name === 'EXG') && (coin.tokenType === 'ETH')) ||
-                                ((item.coin === 'DSCE') && (coin.name === 'DSC') && (coin.tokenType === 'ETH')) ||
-                                ((item.coin === 'BSTE') && (coin.name === 'BST') && (coin.tokenType === 'ETH'))
-                            ) {
-                                if (item.depositErr) {
-                                    coin.redeposit = item.depositErr;
-                                    updated = true;
-                                } else {
-                                    coin.redeposit = [];
-                                    updated = true;
+                            if (coin.name === 'NVZN') {
+                                hasNVZN = true;
+                            }
+                            if (coin.name === 'ETH') {
+                                ethCoin = coin;
+                            }
+                            if (coin.name === 'EXG' && coin.tokenType == 'FAB' && !coin.encryptedPrivateKey) {
+                                //console.log('coin=', coin);
+                                //console.log('this.exgBalance=', this.exgBalance);
+                                let exgBalance = Number(coin.balance);
+                                let exgLockedBalance = Number(coin.lockedBalance);
+                                if (exgBalance < 0) {
+                                    exgBalance = 0;
                                 }
-                                if (coin.balance !== this.utilServ.toPrecision(item.balance)) {
-                                    coin.balance = this.utilServ.toPrecision(item.balance);
-                                    updated = true;
+                                if (exgLockedBalance < 0) {
+                                    exgLockedBalance = 0;
                                 }
-                                if (coin.unconfirmedBalance !== this.utilServ.toPrecision(item.unconfirmedBalance)) {
-                                    coin.unconfirmedBalance = this.utilServ.toPrecision(item.unconfirmedBalance);
+                                if (!this.exgBalance) {
+                                    this.exgBalance = exgBalance + exgLockedBalance;
+                                    this.exgValue = coin.usdPrice;
                                 }
-                                if (coin.lockedBalance !== this.utilServ.toPrecision(item.lockBalance)) {
-                                    coin.lockedBalance = this.utilServ.toPrecision(item.lockBalance);
-                                    updated = true;
-                                }
-                                coin.lockers = item.lockers ? item.lockers : item.fabLockers;
-                                if (item.usdValue && (coin.usdPrice !== item.usdValue.USD)) {
-                                    coin.usdPrice = item.usdValue.USD;
-                                    updated = true;
-                                }
+
+                                //console.log('this.exgBalance=', this.exgBalance);
+                            }
+                            if (coin.name === 'FAB' && !coin.tokenType) {
+                                fabCoin = coin;
+
                             }
 
-                        }
-                    }
+                            const resBody = res.data;
 
-                    if (updated) {
-                        // console.log('updated=' + updated);
-                        this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
-                    }
+                            for (let i = 0; i < resBody.length; i++) {
+                                const item = resBody[i];
+                                if (item.coin == 'FAB') {
+                                    this.fabBalance = item.balance;
+                                }
+                                if (
+                                    (item.coin === coin.name) ||
+                                    ((item.coin === 'MATICM') && (coin.name === 'MATIC') && !coin.tokenType) ||
+                                    ((item.coin === 'USDTB') && (coin.name === 'USDT') && (coin.tokenType === 'BNB')) ||
+                                    ((item.coin === 'USDTX') && (coin.name === 'USDT') && (coin.tokenType === 'TRX')) ||
+                                    ((item.coin === 'USDCX') && (coin.name === 'USDC') && (coin.tokenType === 'TRX')) ||
+                                    ((item.coin === 'USDTM') && (coin.name === 'USDT') && (coin.tokenType === 'MATIC')) ||
+                                    ((item.coin === 'FABE') && (coin.name === 'FAB') && (coin.tokenType === 'ETH')) ||
+                                    ((item.coin === 'FABB') && (coin.name === 'FAB') && (coin.tokenType === 'BNB')) ||
+                                    ((item.coin === 'GETB') && (coin.name === 'GET') && (coin.tokenType === 'BNB')) ||
+                                    ((item.coin === 'FETB') && (coin.name === 'FET') && (coin.tokenType === 'BNB')) ||
+                                    ((item.coin === 'EXGB') && (coin.name === 'EXG') && (coin.tokenType === 'BNB')) ||
+                                    ((item.coin === 'EXGE') && (coin.name === 'EXG') && (coin.tokenType === 'ETH')) ||
+                                    ((item.coin === 'DSCE') && (coin.name === 'DSC') && (coin.tokenType === 'ETH')) ||
+                                    ((item.coin === 'BSTE') && (coin.name === 'BST') && (coin.tokenType === 'ETH'))
+                                ) {
+                                    if (item.depositErr) {
+                                        coin.redeposit = item.depositErr;
+                                        updated = true;
+                                    } else {
+                                        coin.redeposit = [];
+                                        updated = true;
+                                    }
+                                    if (coin.balance !== this.utilServ.toPrecision(item.balance)) {
+                                        coin.balance = this.utilServ.toPrecision(item.balance);
+                                        updated = true;
+                                    }
+                                    if (coin.unconfirmedBalance !== this.utilServ.toPrecision(item.unconfirmedBalance)) {
+                                        coin.unconfirmedBalance = this.utilServ.toPrecision(item.unconfirmedBalance);
+                                    }
+                                    if (coin.lockedBalance !== this.utilServ.toPrecision(item.lockBalance)) {
+                                        coin.lockedBalance = this.utilServ.toPrecision(item.lockBalance);
+                                        updated = true;
+                                    }
+                                    coin.lockers = item.lockers ? item.lockers : item.fabLockers;
+                                    if (item.usdValue && (coin.usdPrice !== item.usdValue.USD)) {
+                                        coin.usdPrice = item.usdValue.USD;
+                                        updated = true;
+                                    }
+                                }
+
+                            }
+                        }
+
+                        if (updated) {
+                            // console.log('updated=' + updated);
+                            this.walletServ.updateToWalletList(this.wallet, this.currentWalletIndex);
+                        }
+                        this.cdr.detectChanges();
+                    }, 0);
                 }
 
             },
             async error => {
-                let updated = false;
-                let hasDUSD = false;
-                let hasBCH = false;
-                let exgCoin;
-                let fabCoin;
-                for (let i = 0; i < this.wallet.mycoins.length; i++) {
-                    const coin = this.wallet.mycoins[i];
-                    const balance = await this.coinServ.getBalance(coin);
-                    if (coin.name === 'DUSD') {
-                        hasDUSD = true;
-                    } else if (coin.name === 'EXG') {
-                        exgCoin = coin;
-                    } else if (coin.name === 'FAB') {
-                        fabCoin = coin;
-                        this.fabBalance = balance.balance;
-                    } else if (coin.name === 'ETH') {
-                        this.ethBalance = balance.balance;
-                    } else if (coin.name === 'MATIC') {
-                        this.maticBalance = balance.balance;
-                    } else if (coin.name === 'BNB') {
-                        this.bnbBalance = balance.balance;
-                    }
-                    else if (coin.name === 'BCH') {
-                        hasBCH = true;
-                    }
+                setTimeout(async () => {
+                    let updated = false;
+                    let hasDUSD = false;
+                    let hasBCH = false;
+                    let exgCoin;
+                    let fabCoin;
+                    for (let i = 0; i < this.wallet.mycoins.length; i++) {
+                        const coin = this.wallet.mycoins[i];
+                        const balance = await this.coinServ.getBalance(coin);
+                        if (coin.name === 'DUSD') {
+                            hasDUSD = true;
+                        } else if (coin.name === 'EXG') {
+                            exgCoin = coin;
+                        } else if (coin.name === 'FAB') {
+                            fabCoin = coin;
+                            this.fabBalance = balance.balance;
+                        } else if (coin.name === 'ETH') {
+                            this.ethBalance = balance.balance;
+                        } else if (coin.name === 'MATIC') {
+                            this.maticBalance = balance.balance;
+                        } else if (coin.name === 'BNB') {
+                            this.bnbBalance = balance.balance;
+                        }
+                        else if (coin.name === 'BCH') {
+                            hasBCH = true;
+                        }
 
-                    if (coin.balance !== balance.balance || coin.lockedBalance !== balance.lockbalance) {
+                        if (coin.balance !== balance.balance || coin.lockedBalance !== balance.lockbalance) {
 
-                        coin.balance = balance.balance;
-                        // coin.receiveAdds[0].balance = balance.balance;
-                        coin.lockedBalance = balance.lockbalance;
-                        updated = true;
+                            coin.balance = balance.balance;
+                            // coin.receiveAdds[0].balance = balance.balance;
+                            coin.lockedBalance = balance.lockbalance;
+                            updated = true;
+                        }
+
+                        //console.log('balance for coin' + coin.name + '=', balance);
                     }
-
-                    //console.log('balance for coin' + coin.name + '=', balance);
-                }
+                    this.cdr.detectChanges();
+                }, 0);
 
             }
         );

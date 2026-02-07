@@ -34,3 +34,5 @@ declare module './lib/exaddr' {
     export function toKbpayAddress(address: string): string;
     // Add other function or type declarations as needed
 }
+
+declare module 'bitcoinjs-message';

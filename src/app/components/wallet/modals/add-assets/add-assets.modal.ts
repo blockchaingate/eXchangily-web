@@ -1,4 +1,4 @@
-import { Component, ViewChild, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, ViewChild, EventEmitter, Output, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Token } from '../../../../models/kanban.interface';
@@ -43,6 +43,7 @@ export class AddAssetsModal implements OnInit {
     addAssetsForm = {} as FormGroup;
 
     constructor(
+        private cdr: ChangeDetectorRef,
         private utilServ: UtilService,
         private coinServ: CoinService,
         private fb: FormBuilder, private apiServ: ApiService) {
@@ -65,7 +66,10 @@ export class AddAssetsModal implements OnInit {
     ngOnInit() {
         this.apiServ.getIssueTokens().subscribe(
             (ret: any) => {
-                this.fabTokens = ret;
+                Promise.resolve().then(() => {
+                    this.fabTokens = ret;
+                    this.cdr.detectChanges();
+                });
             }
         );
 
