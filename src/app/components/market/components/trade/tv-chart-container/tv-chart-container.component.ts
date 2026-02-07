@@ -243,6 +243,8 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
                 name: targetCoinName.toUpperCase() + '/' +  baseCoinName.toUpperCase(),
                 full_name: targetCoinName.toUpperCase() + '/' +  baseCoinName.toUpperCase(), // display on the chart
                 base_name: targetCoinName.toUpperCase() + '/' +  baseCoinName.toUpperCase(),
+                timezone: 'UTC',
+                session: '24x7',
                 minmov: 1,
                 minmov2: 2,
                 pricescale: 1000000,

@@ -10,7 +10,7 @@
         </div>
         <div class="selllist w-100 pt-2">
           <div class="selllist-wrapper">
-            @for (sell of sells; track sell; let i = $index) {
+            @for (sell of sells; track $index; let i = $index) {
               <div class="orderbookitem mt-1" (click)="setPrice(sell.p)" [ngStyle]="{'background-color': sell.my ? '#3e3e5f' : ''}">
                 <div [style.width.%]="sell.percentage" [style.height.%]="100" class="percentage-bar percentage-bar-red">&nbsp;</div>
                 <div class="price smallfont text-danger">
@@ -32,7 +32,7 @@
           -->
         </div>
         <div class="buylist w-100">
-          @for (buy of buys; track buy; let i = $index) {
+          @for (buy of buys; track $index; let i = $index) {
             <div class="orderbookitem mt-1" (click)="setPrice(buy.p)" [ngStyle]="{'background-color': buy.my ? '#3e3e5f' : ''}">
               <div [style.width.%]="buy.percentage" [style.height.%]="100" class="percentage-bar percentage-bar-green">&nbsp;</div>
               <div class="price smallfont text-success">{{buy.p}}</div>
@@ -50,7 +50,7 @@
           <div class="time">{{"Time" | translate}}</div>
         </div>
         <div class="transacs w-100">
-          @for (tx of trades; track tx; let l = $index) {
+          @for (tx of trades; track tx.t; let l = $index) {
             <div class="orderbookitem">
               <div class="price smallfont" [ngClass]="tx.b?'text-success':'text-danger'">
               {{toDecimal(tx.p, priceDecimal)}}</div>
@@ -228,4 +228,3 @@
     Pair not found
   </div>
 }
-
