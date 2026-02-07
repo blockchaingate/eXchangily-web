@@ -5,10 +5,6 @@
 }
 
 .pair-panel {
-    --panel-bg: linear-gradient(165deg, #0b1520 0%, #101f2e 55%, #0c1722 100%);
-    --panel-accent: #2dd4bf;
-    --panel-accent-2: #38bdf8;
-    --panel-muted: #8aa1b5;
     --panel-text: #e8f1f7;
     --panel-border: rgba(56, 189, 248, 0.18);
     height: 100%;
@@ -16,19 +12,16 @@
     flex-direction: column;
     border-radius: 18px;
     padding: 14px 12px 12px;
-    background: var(--panel-bg);
     box-shadow: 0 18px 40px rgba(3, 10, 20, 0.4);
     position: relative;
     overflow: hidden;
+    background-color: #1a1a39;
 }
 
 .pair-panel::before {
     content: "";
     position: absolute;
     inset: 0;
-    background:
-        radial-gradient(240px 120px at -10% 10%, rgba(45, 212, 191, 0.2), transparent 60%),
-        radial-gradient(220px 140px at 110% 12%, rgba(56, 189, 248, 0.18), transparent 60%);
     opacity: 0.9;
     pointer-events: none;
 }
@@ -247,7 +240,6 @@ mat-list {
 }
 
 .price-list::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, rgba(45, 212, 191, 0.9), rgba(56, 189, 248, 0.9));
     border-radius: 6px;
 }
 
