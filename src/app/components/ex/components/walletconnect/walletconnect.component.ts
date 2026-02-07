@@ -266,7 +266,7 @@ export class WalletconnectComponent implements OnInit {
       if (!seed) {
         throw new Error('Seed is null or undefined');
       }
-      const keyPair = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
+      const keyPair = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 1, 0);
 
       if (method == 'kanban_sendTransaction') {
         console.log('kanban_sendTransaction start');

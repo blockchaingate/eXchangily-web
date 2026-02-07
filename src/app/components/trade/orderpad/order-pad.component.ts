@@ -1001,7 +1001,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       if (!seed) {
         return;
       }
-      const keyPairsKanban = this._coinServ.getKeyPairs(wallet.excoin, seed, 0, 0);
+      const keyPairsKanban = this._coinServ.getKeyPairs(wallet.excoin, seed, 1, 0);
       const orderType = 1;
 
       baseCoin = this.pairData.tokenB.id;
@@ -1152,5 +1152,4 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
   }
 }
-
 

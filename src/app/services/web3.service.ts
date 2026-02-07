@@ -21,6 +21,10 @@ export class Web3Service {
   constructor(private utilServ: UtilService) {
   }
 
+  private toHex(bytes: Uint8Array): string {
+    return '0x' + Buffer.from(bytes).toString('hex');
+  }
+
   getWeb3Provider() {
     /*
     if (typeof window.web3 !== 'undefined') {
@@ -97,10 +101,10 @@ export class Web3Service {
       hardfork: 'petersburg'
     });
 
-    const tx = Eth.TransactionFactory.fromTxData(txParams, { common: customCommon });
-    tx.sign(privKey);
+    let tx = Eth.TransactionFactory.fromTxData(txParams, { common: customCommon });
+    tx = tx.sign(privKey);
     const serializedTx = tx.serialize();
-    const txhex = '0x' + serializedTx.toString();
+    const txhex = this.toHex(serializedTx);
     return txhex;
   }
 
@@ -118,10 +122,10 @@ export class Web3Service {
     }
     );
 
-    const tx = EthereumTx.fromTxData(txParams, { common: customCommon });
-    tx.sign(privKey);
+    let tx = EthereumTx.fromTxData(txParams, { common: customCommon });
+    tx = tx.sign(privKey);
     const serializedTx = tx.serialize();
-    const txhex = '0x' + serializedTx.toString();
+    const txhex = this.toHex(serializedTx);
     return txhex;
   }
 
@@ -153,10 +157,10 @@ export class Web3Service {
 
     let tx = Eth.TransactionFactory.fromTxData(txObject, { common: customCommon });
 
-    tx.sign(privateKey);
+    tx = tx.sign(privateKey);
 
     const serializedTx = tx.serialize();
-    const txhex = '0x' + serializedTx.toString();
+    const txhex = this.toHex(serializedTx);
     return txhex;
   }
 
@@ -180,7 +184,7 @@ export class Web3Service {
     // console.log('abiHex after', abiHex);
 
     const txObject: Eth.TypedTxData = {
-      to: Buffer.from(address.replace(/^0x/, ''), 'hex'), // Convert to AddressLike type
+      to: Buffer.from(address.replace(/^0x/, ''), 'hex'),
       nonce: nonce,
       data: abiHex ? Buffer.from(abiHex, 'hex') : '',
       value: value,
@@ -188,7 +192,18 @@ export class Web3Service {
       gasPrice: gasPrice  // in wei
     };
 
-    const privKey = Buffer.from(keyPair.privateKeyHex, 'hex');
+    let privKey: Buffer | null = null;
+    if (keyPair?.privateKeyBuffer && Buffer.isBuffer(keyPair.privateKeyBuffer) && keyPair.privateKeyBuffer.length === 32) {
+      privKey = keyPair.privateKeyBuffer;
+    }
+    if (!privKey) {
+      const privKeyHexRaw = keyPair?.privateKeyHex || '';
+      const privKeyHex = privKeyHexRaw.startsWith('0x') ? privKeyHexRaw.slice(2) : privKeyHexRaw;
+      if (privKeyHex.length !== 64) {
+        throw new Error(`Invalid privateKeyHex length: ${privKeyHex.length}`);
+      }
+      privKey = Buffer.from(privKeyHex, 'hex');
+    }
 
     let txhex = '';
 
@@ -205,9 +220,9 @@ export class Web3Service {
 
     let tx = Eth.TransactionFactory.fromTxData(txObject, { common: customCommon });
 
-    tx.sign(privKey);
+    tx = tx.sign(privKey);
     const serializedTx = tx.serialize();
-    txhex = '0x' + serializedTx.toString();
+    txhex = this.toHex(serializedTx);
     return txhex;
 
     /*
@@ -218,6 +233,56 @@ export class Web3Service {
     console.log(signMess);
     return signMess.rawTransaction;   
     */
+  }
+
+  recoverSenderFromRawTx(rawTxHex: string, chainIds?: number[]): { sender: string; chainId: number } | null {
+    const ids = chainIds && chainIds.length
+      ? chainIds
+      : [
+          environment.chains.KANBAN.chain.chainId,
+          environment.chains.KANBAN.chain.networkId,
+          212,
+          211
+        ].filter((v, i, a) => typeof v === 'number' && a.indexOf(v) === i) as number[];
+    try {
+      const hex = rawTxHex.startsWith('0x') ? rawTxHex.slice(2) : rawTxHex;
+      const buf = Buffer.from(hex, 'hex');
+      // First try without forcing a chainId (let the tx decode itself)
+      try {
+        const tx = Eth.TransactionFactory.fromSerializedData(buf);
+        const sender = tx.getSenderAddress().toString();
+        const addr = sender.startsWith('0x') ? sender : `0x${sender}`;
+        const cid = (tx as any).common?.chainId?.() ?? environment.chains.KANBAN.chain.chainId;
+        return { sender: addr, chainId: Number(cid) };
+      } catch (e) {
+        console.warn('recoverSender: decode without chainId failed', e);
+        // fall through to chainId attempts
+      }
+      for (const chainId of ids) {
+        try {
+          const customCommon = Common.custom(
+            {
+              name: environment.chains.KANBAN.chain.name,
+              networkId: chainId,
+              chainId: chainId
+            },
+            {
+              hardfork: 'petersburg'
+            }
+          );
+          const tx = Eth.TransactionFactory.fromSerializedData(buf, { common: customCommon });
+          const sender = tx.getSenderAddress().toString();
+          const addr = sender.startsWith('0x') ? sender : `0x${sender}`;
+          return { sender: addr, chainId };
+        } catch (e) {
+          console.warn(`recoverSender: decode failed for chainId ${chainId}`, e);
+          // try next chainId
+        }
+      }
+      return null;
+    } catch (err) {
+      return null;
+    }
   }
 
   decodeParameters(types: any, data: any) {

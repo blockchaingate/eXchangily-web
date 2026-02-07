@@ -374,7 +374,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
             addressInWallet = Buffer.from(bytes).toString('hex');
         }
 
-        const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
+        const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 1, 0);
 
         let nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
         this.gasPrice = Number(this.gasPrice);
@@ -770,7 +770,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
         if (!seed) {
             return;
         }
-        const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
+        const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 1, 0);
         const abiHex = this.web3Serv.getUnlockFuncABI(this.token.id, this.token.user);
 
         const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
@@ -792,7 +792,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
         if (!seed) {
             return;
         }
-        const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
+        const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 1, 0);
         const abiHex = this.web3Serv.getDeleteOrderFuncABI(this.orderHash);
         console.log('abiHex for deleteOrderDo=', abiHex);
         const nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);

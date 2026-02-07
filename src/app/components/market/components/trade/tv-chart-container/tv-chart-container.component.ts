@@ -26,6 +26,8 @@ interface BarData {
   v: number;  
 }
 
+type ChartResolution = '5' | '30' | '60' | '360' | 'D' | '1D';
+
 @Component({
   selector: 'app-tv-chart-container',
   standalone: true,
@@ -36,6 +38,11 @@ interface BarData {
 
 export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
   private currentGranularity: any;
+  private lastBarTime = 0;
+  private historyLoaded = false;
+  private pendingSubscribe: { granularity: ChartResolution; onTick: any } | null = null;
+  private pendingRealtime: any = null;
+  private realtimeFlushTimer: any = null;
   private _symbol: ChartingLibraryWidgetOptions['symbol'] = ' ';
   private _interval: ChartingLibraryWidgetOptions['interval'] = '30';
   //private _interval: ChartingLibraryWidgetOptions['interval'] = '24h';
@@ -161,6 +168,54 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
 
     const that = this;
     this._symbol = targetCoinName.toUpperCase() + '/' +  baseCoinName.toUpperCase();
+    const connectRealtime = (granularity: ChartResolution, onTick: any) => {
+      const pair = targetCoinName.toUpperCase() + '_' + baseCoinName.toUpperCase();
+
+      if (that.socket) {
+        that.socket.unsubscribe();
+        that.socket = null;
+      }
+      if (that.realtimeFlushTimer) {
+        clearTimeout(that.realtimeFlushTimer);
+        that.realtimeFlushTimer = null;
+      }
+      that.pendingRealtime = null;
+      that.socket = new WebSocketSubject(environment.websockets.kline + '@'
+        + pair + '/' + that.intervalMap[granularity]);
+      that.socket.subscribe(
+        (item) => {
+          console.log('item===', item);
+          if (!item) {
+            return;
+          }
+          const time = (item.t > 10_000_000_000 ? item.t : item.t * 1000);
+          if (!time || time <= that.lastBarTime) {
+            return;
+          }
+          const itemData = {
+            time,
+            open: item.o,
+            high: item.h,
+            low: item.l,
+            close: item.c,
+            volume: item.v
+          };
+          // Coalesce rapid backlog into a single latest update
+          that.pendingRealtime = itemData;
+          if (!that.realtimeFlushTimer) {
+            that.realtimeFlushTimer = setTimeout(() => {
+              if (that.pendingRealtime) {
+                that.lastBarTime = that.pendingRealtime.time;
+                onTick(that.pendingRealtime);
+                that.pendingRealtime = null;
+              }
+              that.realtimeFlushTimer = null;
+            }, 120);
+          }
+        }
+      );
+    };
+
     const datafeed = {
       onReady(x: any) {
         timer(0)
@@ -175,7 +230,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
       searchSymbols(userInput: string, exchange: string, symbolType: string, onResultReadyCallback: any) {
         onResultReadyCallback('haha');
       },
-      getBars(symbol: any, granularity: keyof typeof that.granularityMap, startTime: any, endTime: any, onResult: TradingView.HistoryCallback,
+      getBars(symbol: any, granularity: ChartResolution, startTime: any, endTime: any, onResult: TradingView.HistoryCallback,
         onError: TradingView.ErrorCallback, isFirst: any) {
         // console.log('symbol in getBars=', symbol);
         // console.log('granularity=' + granularity);
@@ -186,6 +241,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
           return;
         }
         that.currentGranularity = granularity;
+        that.historyLoaded = false;
         // console.log('begin getBarsgetBarsgetBarsgetBarsgetBa');
 
         const pair = targetCoinName + '_' + baseCoinName;
@@ -254,6 +310,15 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
               };
               newRes.push(newitem);
             }
+            if (newRes.length > 0) {
+              that.lastBarTime = newRes[newRes.length - 1].time as number;
+            }
+            that.historyLoaded = true;
+            if (that.pendingSubscribe) {
+              const pending = that.pendingSubscribe;
+              that.pendingSubscribe = null;
+              connectRealtime(pending.granularity, pending.onTick);
+            }
             onResult(newRes, { noData: false });
           },
           (err: any) => {
@@ -264,7 +329,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
         );
       },
       resolveSymbol(symbol: any, onResolve: any) {
-        timer(1e3)
+        timer(0)
           .pipe(
             tap(() => {
               onResolve({
@@ -293,37 +358,12 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
       },
       getServerTime() {
       },
-      subscribeBars(symbol: any, granularity: keyof typeof that.intervalMap, onTick: any) {
-        const pair = targetCoinName.toUpperCase() + '_' + baseCoinName.toUpperCase();
-
-        if (that.socket) {
-          that.socket.unsubscribe();
-          that.socket = null;
+      subscribeBars(symbol: any, granularity: ChartResolution, onTick: any) {
+        if (!that.historyLoaded) {
+          that.pendingSubscribe = { granularity, onTick };
+          return;
         }
-        that.socket = new WebSocketSubject(environment.websockets.kline + '@'
-          + pair + '/' + that.intervalMap[granularity]);
-        that.socket.subscribe(
-          (item) => {
-            console.log('item===', item);
-            if(!item) {
-              return;
-            }
-            const itemData = {
-              time: (item.t > 10_000_000_000 ? item.t : item.t * 1000),
-              open: item.o,
-              high: item.h,
-              low: item.l,
-              close: item.c,
-              volume: item.v
-            };
-
-            if (item.t > 0) {
-              onTick(itemData);
-            }
-
-          }
-        );
-
+        connectRealtime(granularity, onTick);
       },
       unsubscribeBars() {
         if (that.socket) {
@@ -394,6 +434,10 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
     if (this.socket) {
       this.socket.unsubscribe();
       this.socket = null;
+    }
+    if (this.realtimeFlushTimer) {
+      clearTimeout(this.realtimeFlushTimer);
+      this.realtimeFlushTimer = null;
     }
 
     // this.sub.unsubscribe();

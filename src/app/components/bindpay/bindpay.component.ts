@@ -126,7 +126,7 @@ export class BindpayComponent implements OnInit {
     async transferDo() {
         //console.log('transferDo start');
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, this.pin) as Buffer;
-        const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
+        const keyPairsKanban = this.coinServ.getKeyPairs(this.wallet.excoin, seed, 1, 0);
         let toAddressLegacy = '';
         try {
             toAddressLegacy = this.exaddr.toLegacyAddress(this.receiverAddress);

@@ -186,7 +186,7 @@ export class CodeComponent implements OnInit {
     (pin: string, wallet: any, to: string, coin: number, value: string) {
 
     const seed = this.utilService.aesDecryptSeed(wallet.encryptedSeed, pin) as Buffer;
-    const keyPairsKanban = this._coinServ.getKeyPairs(wallet.excoin, seed, 0, 0);
+    const keyPairsKanban = this._coinServ.getKeyPairs(wallet.excoin, seed, 1, 0);
 
     const address = await this.kanbanService.getCoinPoolAddress();
 

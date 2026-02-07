@@ -5,6 +5,7 @@ import { environment } from '../environments/environment';
 import { UtilService } from './util.service';
 import { TransactionReceiptResp } from '../models/kanban.interface';
 import { Web3Service } from './web3.service';
+import { throwError } from 'rxjs';
 
 @Injectable()
 export class KanbanV2Service {
@@ -213,7 +214,29 @@ export class KanbanV2Service {
         return addr;
     }
 
-    sendRawSignedTransaction(txhex: string) {
+    sendRawSignedTransaction(txhex: string, expectedFrom?: string) {
+        if (!txhex || typeof txhex !== 'string') {
+            return throwError(() => new Error('Invalid raw transaction hex: empty or non-string'));
+        }
+        const hex = txhex.startsWith('0x') ? txhex.slice(2) : txhex;
+        if (!hex || hex.length % 2 !== 0 || !/^[0-9a-fA-F]+$/.test(hex)) {
+            return throwError(() => new Error(`Invalid raw transaction hex: length=${hex.length}`));
+        }
+        const recovered = this.web3Serv.recoverSenderFromRawTx(txhex);
+        if (!recovered) {
+            return throwError(() => new Error('Invalid raw transaction hex: cannot recover sender'));
+        }
+        if (expectedFrom) {
+            const exp = expectedFrom.toLowerCase();
+            const got = recovered.sender.toLowerCase();
+            if (exp !== got) {
+                return throwError(() => new Error(`Raw tx sender mismatch: ${got} != ${exp} (recovered chainId ${recovered.chainId})`));
+            }
+        }
+        // Warn if recovered chainId doesn't match configured one
+        if (recovered.chainId !== environment.chains.KANBAN.chain.chainId) {
+            console.warn(`Recovered sender using chainId ${recovered.chainId}, but configured chainId is ${environment.chains.KANBAN.chain.chainId}`);
+        }
         const data = {
             signedTransactionData: txhex
         };

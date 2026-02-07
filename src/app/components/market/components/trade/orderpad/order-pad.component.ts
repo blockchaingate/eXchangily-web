@@ -992,7 +992,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       if (!seed) {
         return;
       }
-      const keyPairsKanban = this._coinServ.getKeyPairs(wallet.excoin, seed, 0, 0);
+      const keyPairsKanban = this._coinServ.getKeyPairs(wallet.excoin, seed, 1, 0);
       const orderType = 1;
 
       baseCoin = this.pairData.tokenB.id;
@@ -1077,10 +1077,17 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       const txHex: any = resTxHex?.txHex;
       const txHexApprove: any = resTxHex?.txHexApprove;
 
-      this.kanbanService.sendRawSignedTransaction(txHexApprove).subscribe((resp: any) => {
+      if (!txHexApprove || !txHex) {
+        this.alertServ.openSnackBar('Invalid signed transaction hex', 'Ok');
+        return;
+      }
+      console.warn('[trade] txHexApprove prefix/len', typeof txHexApprove, String(txHexApprove).slice(0, 10), String(txHexApprove).length);
+      console.warn('[trade] txHex prefix/len', typeof txHex, String(txHex).slice(0, 10), String(txHex).length);
+      const expectedFrom = this.wallet?.excoin?.receiveAdds?.[0]?.address;
+      this.kanbanService.sendRawSignedTransaction(txHexApprove, expectedFrom).subscribe((resp: any) => {
         if (resp && resp.transactionHash) {
           this.kanbanService.incNonce();
-          this.kanbanService.sendRawSignedTransaction(txHex).subscribe((resp: any) => {
+          this.kanbanService.sendRawSignedTransaction(txHex, expectedFrom).subscribe((resp: any) => {
 
             if (resp && resp.transactionHash) {
               this.kanbanService.incNonce();

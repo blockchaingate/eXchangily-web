@@ -58,7 +58,7 @@ export class TradeAutoComponent implements OnInit {
         if (!seed) {
             return;
         }
-        const keyPairsKanban = this.coinService.getKeyPairs(wallet.excoin, seed, 0, 0);
+        const keyPairsKanban = this.coinService.getKeyPairs(wallet.excoin, seed, 1, 0);
         const orderType = 1;
         if (!bidOrAsk) {
             const tmp = baseCoin;
