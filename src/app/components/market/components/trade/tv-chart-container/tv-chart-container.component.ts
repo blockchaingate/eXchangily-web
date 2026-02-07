@@ -56,29 +56,21 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
   private sub: any;
 
   granularityMap = {
-    '1': 60,
-    '3': 180,
     '5': 300,
     '30': 30 * 60,
     '60': 60 * 60,
-    '120': 60 * 60 * 2,
-    '240': 60 * 60 * 4,
     '360': 60 * 60 * 6,
     'D': 86400,
     '1D': 86400
   };
 
   intervalMap = {
-    '1': '1m',
-    '3': '3m',
     '5': '5m',
     '30': '30m',
-    '60': '1h',
-    '120': '2h',
-    '240': '4h',
-    '360': '6h',
-    'D': '24h',
-    '1D': '24h'
+    '60': '60m',
+    '360': '360m',
+    'D': '1d',
+    '1D': '1d'
   };
 
   constructor(private mockService: MockService, private coinService: CoinService,
@@ -168,13 +160,14 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
     }
 
     const that = this;
+    this._symbol = targetCoinName.toUpperCase() + '/' +  baseCoinName.toUpperCase();
     const datafeed = {
       onReady(x: any) {
         timer(0)
           .pipe(
             tap(() => {
               x({
-                supported_resolutions: ['1', '3', '5', '30', '60', '120', '240', '360', 'D']
+                supported_resolutions: ['5', '30', '60', '360', 'D']
               });
             })
           ).subscribe();
@@ -207,31 +200,66 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
         that.mockService.getHistoryListSync(param).subscribe(
           (res: any) => { 
             console.log('res of getHistoryListSync=', res);
-            if (res && res.success) {
-              const data = res.data;
-              const newRes:TradingView.Bar[] = [];
-              
-              let currentTime = 0;
-              for (let i = 0; i < data.length; i++) {
-                const item = data[i];
-                //const newtime = Number((item.t - 1).toString() + '000');
-                const newtime = item.t * 1000;
-                if(newtime == currentTime) {
-                  continue;
-                }
-                currentTime = newtime;
-                const newitem: TradingView.Bar = {
-                  time: newtime,
-                  open: item.o,
-                  close: item.c,
-                  volume: item.v,
-                  high: item.h,
-                  low: item.l
-                };
-                newRes.push(newitem);
-              }
-              onResult(newRes, { noData: false });
+            const data = Array.isArray(res) ? res : (res && res.success ? res.data : res?.data);
+            if (!data || data.length === 0) {
+              onResult([], { noData: true });
+              return;
             }
+
+            // Normalize open values if missing (align with dapp behavior)
+            if (data.length > 1) {
+              let lastC = data[0]?.c ?? data[0]?.o ?? 0;
+              for (let i = 1; i < data.length; i++) {
+                if (data[i]) {
+                  data[i].o = lastC;
+                  lastC = data[i]?.c ?? lastC;
+                }
+              }
+            }
+
+            const newRes: TradingView.Bar[] = [];
+            let currentTime = 0;
+            const normalized = data
+              .map((item: any) => {
+                const rawT = item.t ?? item.time;
+                if (!rawT) {
+                  return null;
+                }
+                const t = rawT > 10_000_000_000 ? rawT : rawT * 1000;
+                return {
+                  t,
+                  o: Number(item.o),
+                  c: Number(item.c),
+                  h: Number(item.h),
+                  l: Number(item.l),
+                  v: Number(item.v)
+                };
+              })
+              .filter(Boolean)
+              .sort((a: any, b: any) => a.t - b.t);
+
+            for (let i = 0; i < normalized.length; i++) {
+              const item = normalized[i];
+              if (item.t === currentTime) {
+                continue;
+              }
+              currentTime = item.t;
+              const newitem: TradingView.Bar = {
+                time: item.t,
+                open: item.o,
+                close: item.c,
+                volume: item.v,
+                high: item.h,
+                low: item.l
+              };
+              newRes.push(newitem);
+            }
+            onResult(newRes, { noData: false });
+          },
+          (err: any) => {
+            console.error('getHistoryListSync error', err);
+            onResult([], { noData: true });
+            onError(err);
           }
         );
       },
@@ -243,6 +271,11 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
                 name: targetCoinName.toUpperCase() + '/' +  baseCoinName.toUpperCase(),
                 full_name: targetCoinName.toUpperCase() + '/' +  baseCoinName.toUpperCase(), // display on the chart
                 base_name: targetCoinName.toUpperCase() + '/' +  baseCoinName.toUpperCase(),
+                ticker: targetCoinName.toUpperCase() + '_' + baseCoinName.toUpperCase(),
+                description: targetCoinName.toUpperCase() + '/' +  baseCoinName.toUpperCase(),
+                type: 'crypto',
+                exchange: 'Exchangily',
+                listed_exchange: 'Exchangily',
                 timezone: 'UTC',
                 session: '24x7',
                 minmov: 1,
@@ -250,6 +283,10 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
                 pricescale: 1000000,
                 volume_precision: 8,
                 has_intraday: true, // enable minute and others
+                has_daily: true,
+                has_weekly_and_monthly: true,
+                supported_resolutions: ['1', '3', '5', '30', '60', '120', '240', '360', 'D'],
+                data_status: 'streaming'
               });
             })
           ).subscribe();
@@ -264,7 +301,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
           that.socket = null;
         }
         that.socket = new WebSocketSubject(environment.websockets.kline + '@'
-          + pair + '@' + that.intervalMap[granularity]);
+          + pair + '/' + that.intervalMap[granularity]);
         that.socket.subscribe(
           (item) => {
             console.log('item===', item);
@@ -272,7 +309,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
               return;
             }
             const itemData = {
-              time: item.t * 1000,
+              time: (item.t > 10_000_000_000 ? item.t : item.t * 1000),
               open: item.o,
               high: item.h,
               low: item.l,
