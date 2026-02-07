@@ -65,7 +65,6 @@ import { FaqComponent } from '../faq/faq.component';
         AddAssetsModal, PinNumberModal, DisplayPinNumberModal, AddGasModal, ShowSeedPhraseModal, SendCoinModal,
         VerifySeedPhraseModal, BackupPrivateKeyModal, DeleteWalletModal, LoginSettingModal, GetFreeFabModal,
         DisplaySettingModal, ToolsModal, LockedInfoModal, WalletUpdateModal],
-    providers: [BsModalService],
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
     encapsulation: ViewEncapsulation.None
@@ -893,7 +892,9 @@ export class WalletDashboardComponent implements OnInit {
                     console.log('resp for gas=', resp);
                     if (resp.success) {
                         const data = resp.data;
-                        this.gas = new BigNumber(data).shiftedBy(-18).toNumber();
+                        setTimeout(() => {
+                            this.gas = new BigNumber(data).shiftedBy(-18).toNumber();
+                        }, 0);
                     }
                 },
                 error: (error) => {
@@ -1335,7 +1336,6 @@ export class WalletDashboardComponent implements OnInit {
 
     toggleWalletHide() {
         this.wallet.hide = !this.wallet.hide;
-        this.manageWallet.changeHideWallet();
         this.walletServ.updateWallets(this.wallets);
     }
 

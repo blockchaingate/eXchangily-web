@@ -52,7 +52,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
   private _tvWidget: IChartingLibraryWidget | null = null;
 
   wsMessage = 'you may need to send specific message to subscribe data, eg: BTC';
-  socket: WebSocketSubject<BarData> = {} as WebSocketSubject<BarData>;
+  socket: WebSocketSubject<BarData> | null = null;
   private sub: any;
 
   granularityMap = {
@@ -259,6 +259,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
 
         if (that.socket) {
           that.socket.unsubscribe();
+          that.socket = null;
         }
         that.socket = new WebSocketSubject(environment.websockets.kline + '@'
           + pair + '@' + that.intervalMap[granularity]);
@@ -288,6 +289,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
       unsubscribeBars() {
         if (that.socket) {
           that.socket.unsubscribe();
+          that.socket = null;
         }
 
         // that.ws.send('stop receiving data or just close websocket');
@@ -352,6 +354,7 @@ export class TvChartContainerComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy() {
     if (this.socket) {
       this.socket.unsubscribe();
+      this.socket = null;
     }
 
     // this.sub.unsubscribe();

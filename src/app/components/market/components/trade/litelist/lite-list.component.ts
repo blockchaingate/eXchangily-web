@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Price } from '../../../../../models/kanban.interface';
 import { PriceService } from '../../../../../services/price.service';
@@ -44,7 +44,7 @@ export class LiteListComponent implements OnInit {
 
     // socket: WebSocketSubject<[Ticker]>;
     constructor(private prServ: PriceService, public utilServ: UtilService, private _route: ActivatedRoute,
-        private _router: Router, private _wsServ: WsService) {
+        private _router: Router, private _wsServ: WsService, private cdr: ChangeDetectorRef) {
     }
 
     changeSort(field: string, fieldType: string) {
@@ -127,12 +127,16 @@ export class LiteListComponent implements OnInit {
             this.selectedpair = 'BTC/USDT';
         }
 
-        this.prServ.getPriceList(100,0).subscribe(
+        this.prServ.getPriceList(100, 0).subscribe(
             (ret: any) => {
-                if(ret && ret.success) {
-                    const data = ret.data;
-                    this.prices = data;
+                if (ret && ret.success && ret.data) {
+                    this.prices = ret.data;
+                } else if (Array.isArray(ret)) {
+                    this.prices = ret;
+                } else if (ret && Array.isArray(ret.data)) {
+                    this.prices = ret.data;
                 }
+                this.cdr.detectChanges();
             }
         );
         this._wsServ.currentPrices.subscribe(

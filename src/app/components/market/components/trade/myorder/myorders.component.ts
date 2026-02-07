@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { ApiService } from '../../../../../services/api.service';
@@ -157,7 +157,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
         public utilServ: UtilService, private kanbanServ: KanbanV2Service, private _coinServ: CoinService,
         private modalService: BsModalService, private web3Serv: Web3Service, private alertServ: AlertService,
         private timerServ: TimerService, private walletServ: WalletService, private storageServ: StorageService,
-        private wsService: WsService) {
+        private wsService: WsService, private cdr: ChangeDetectorRef) {
         this.coinServ = _coinServ;
     }
 
@@ -246,6 +246,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 const tokens = data.tokens;
                 this.mytokens = tokens;
                 console.log('this.mytokens=', this.mytokens);
+                this.cdr.detectChanges();
             }
         );
 
@@ -256,6 +257,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
             (lockers: any) => {
                 console.log('lockers====', lockers);
                 this.mylockers = lockers;
+                this.cdr.detectChanges();
             }
         );
     }
@@ -266,18 +268,21 @@ export class MyordersComponent implements OnInit, OnDestroy {
                 this.openorders = orders.filter((oo: any) => oo.pairName === this.currentPair);
                 this.allOpenorders = orders;
                 // localStorage.setItem("_myOrders", orders);
+                this.cdr.detectChanges();
             }
         );
         this.timerServ.closedOrders.subscribe(
             (orders: any) => {
                 this.closedorders = orders.filter((oo: any) => oo.pairName === this.currentPair);
                 this.allClosedorders = orders;
+                this.cdr.detectChanges();
             }
         );
         this.timerServ.canceledOrders.subscribe(
             (orders: any) => {
                 this.canceledorders = orders.filter((oo: any) => oo.pairName === this.currentPair);
                 this.allCanceledorders = orders;
+                this.cdr.detectChanges();
             }
         );
     }
@@ -662,6 +667,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
         } else if (ord === 2) {
             this.orderStatus = 'canceled';
         }
+        this.cdr.detectChanges();
     }
 
     deleteOrder(pair: string, orderHash: string) {

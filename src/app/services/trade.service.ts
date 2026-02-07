@@ -2,7 +2,7 @@ import { StorageMap } from '@ngx-pwa/local-storage';
 import { Transaction } from '../models/kanban.interface';
 import { Injectable } from '@angular/core';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class TradeService {
 
     constructor(private localSt: StorageMap) {

@@ -1,4 +1,4 @@
-import { Component, TemplateRef, Input, OnInit, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, TemplateRef, Input, OnInit, EventEmitter, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
 // import { Order } from '../../../models/order';
@@ -31,13 +31,14 @@ import { ApiService } from '../../../../../services/api.service';
 import { WsService } from '../../../../../services/ws.service';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 declare let window: any;
 
 //http://localhost:4200/market/trade/kbeth_kbfab
 @Component({
   selector: 'app-order-pad',
   standalone: true,
-  imports: [CommonModule, FormsModule, TranslateModule],
+  imports: [CommonModule, FormsModule, TranslateModule, MatSlideToggleModule],
   templateUrl: './order-pad.component.html',
   styleUrls: ['./order-pad.component.css']
 })
@@ -86,8 +87,8 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   refreshTokenDone: boolean;
   timer: any;
   oldNonce = 0;
-  socket: WebSocketSubject<OrderBookItem> = {} as WebSocketSubject<OrderBookItem>;
-  tradesSocket: WebSocketSubject<TradeItem> = {} as WebSocketSubject<TradeItem>;
+  socket: WebSocketSubject<OrderBookItem> | null = null;
+  tradesSocket: WebSocketSubject<TradeItem> | null = null;
   sub: any;
   baseCoin = '';
   targetCoin = '';
@@ -112,7 +113,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
     private fb: FormBuilder, private modalService: BsModalService, private tradeService: TradeService,
     private apiServ: ApiService,
     private route: ActivatedRoute, private alertServ: AlertService, private timerServ: TimerService,
-    private wsService: WsService) {
+    private wsService: WsService, private cdr: ChangeDetectorRef) {
     this.refreshTokenDone = true;
     this.coinService = _coinServ;
   }
@@ -120,9 +121,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.socket) {
       this.socket.unsubscribe();
+      this.socket = null;
     }
     if (this.tradesSocket) {
       this.tradesSocket.unsubscribe();
+      this.tradesSocket = null;
     }
     if (this.sub) {
       this.sub.unsubscribe();
@@ -498,6 +501,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
     if (this.socket) {
       this.socket.unsubscribe();
+      this.socket = null;
     }
     this.socket = new WebSocketSubject(environment.websockets.orders + '@' + pair);
     this.socket.subscribe(
@@ -528,6 +532,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
         }
 
         //     }
+        this.cdr.detectChanges();
       },
       (err) => {
         console.log('err1111:', err);
@@ -539,12 +544,14 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
     if (this.tradesSocket) {
       this.tradesSocket.unsubscribe();
+      this.tradesSocket = null;
     }
     this.tradesSocket = new WebSocketSubject(environment.websockets.trades + '@' + pair);
     this.tradesSocket.subscribe(
       (trades: any) => {
         if (!trades || trades.length == 0) {
           this.trades = [];
+          this.cdr.detectChanges();
           return;
         }
         this.trades = trades.slice(0, 23);
@@ -594,6 +601,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
           this.txOrders.unshift(txItem);
         }
         */
+        this.cdr.detectChanges();
       },
       (err) => {
         console.log('err22222:', err);
@@ -719,6 +727,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
       (tokens: any) => {
         console.log('tokens there we go====', tokens);
         this.setMytokens(tokens);
+        this.cdr.detectChanges();
       }
     );
 
@@ -1110,5 +1119,3 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
   }
 }
-
-
