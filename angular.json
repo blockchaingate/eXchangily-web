@@ -35,6 +35,9 @@
               "@angular/material/prebuilt-themes/magenta-violet.css",
               "src/styles.scss"
             ],
+            "allowedCommonJsDependencies": [
+              "crypto-js"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -125,5 +128,8 @@
     "@schematics/angular:resolver": {
       "typeSeparator": "."
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
