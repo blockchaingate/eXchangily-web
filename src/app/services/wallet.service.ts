@@ -164,6 +164,44 @@ export class WalletService {
 
     async getWallets() {
         const wallets = await this.localSt.get('wallets').toPromise() as Wallet[];
+        if (!wallets || wallets.length === 0) {
+            return wallets;
+        }
+
+        const evmChains = new Set(['ETH', 'BNB', 'HT', 'MATIC']);
+        let updated = false;
+
+        for (const wallet of wallets) {
+            if (!wallet || !wallet.mycoins) {
+                continue;
+            }
+            for (const coin of wallet.mycoins) {
+                if (!coin || !coin.receiveAdds || !coin.changeAdds) {
+                    continue;
+                }
+                if (!(evmChains.has(coin.name) || evmChains.has(coin.tokenType))) {
+                    continue;
+                }
+                for (const addr of coin.receiveAdds) {
+                    const normalized = this.utilService.normalizeEvmAddress(addr.address);
+                    if (normalized && normalized !== addr.address) {
+                        addr.address = normalized;
+                        updated = true;
+                    }
+                }
+                for (const addr of coin.changeAdds) {
+                    const normalized = this.utilService.normalizeEvmAddress(addr.address);
+                    if (normalized && normalized !== addr.address) {
+                        addr.address = normalized;
+                        updated = true;
+                    }
+                }
+            }
+        }
+
+        if (updated) {
+            this.updateWallets(wallets);
+        }
         return wallets;
     }
 

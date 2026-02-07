@@ -1037,7 +1037,8 @@ export class CoinService {
                     const childNode = root.derivePath(path);
 
                     const wallet = childNode.getWallet();
-                    const address = `0x${wallet.getAddress().toString()}`;
+                    // getAddress() returns bytes; ensure hex string
+                    const address = `0x${Buffer.from(wallet.getAddress()).toString('hex')}`;
                     addr = address;
                     buffer = wallet.getPrivateKey();
                     priKey = wallet.getPrivateKey();

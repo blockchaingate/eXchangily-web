@@ -217,6 +217,35 @@ export class UtilService {
         return str;
     }
 
+    normalizeEvmAddress(address: string) {
+        if (!address) {
+            return '';
+        }
+        let addr = address.trim();
+
+        if (/^0x[0-9a-fA-F]{40}$/.test(addr)) {
+            return '0x' + addr.slice(2).toLowerCase();
+        }
+        if (/^[0-9a-fA-F]{40}$/.test(addr)) {
+            return '0x' + addr.toLowerCase();
+        }
+
+        // Handle comma-separated byte strings like "0x142,206,51,..."
+        if (addr.indexOf(',') >= 0) {
+            if (addr.startsWith('0x')) {
+                addr = addr.slice(2);
+            }
+            const parts = addr.split(',').map(p => p.trim()).filter(Boolean);
+            const bytes = parts.map(p => Number(p));
+            if (bytes.length === 20 && bytes.every(b => Number.isFinite(b) && b >= 0 && b <= 255)) {
+                const hex = bytes.map(b => b.toString(16).padStart(2, '0')).join('');
+                return '0x' + hex;
+            }
+        }
+
+        return address;
+    }
+
     showAddAmount(amount1: number, amount2: number, decimal: number) {
         const amount1BigNumber = new BigNumber(amount1);
         const amount2BigNumber = new BigNumber(amount2);
