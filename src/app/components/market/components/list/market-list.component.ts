@@ -182,14 +182,24 @@ export class MarketListComponent implements OnInit {
         } else if (catName == '1000') {
             this.tab_prices = [];
         } else {
-            this.tab_prices = this.prices.filter((listing: Price) => listing.symbol.indexOf('kb' + catName) >= 0);
+            const target = catName.toUpperCase();
+            this.tab_prices = this.prices.filter((listing: Price) => {
+                const symbol = (listing.symbol || '').toUpperCase();
+                const tokenB = (listing.tokenB || '').toUpperCase();
+                return tokenB === target || symbol.includes('KB' + target) || symbol.includes(target);
+            });
         }
     }
 
     search() {
         const searchText = this.searchText.toUpperCase();
         this.selectCat('1000');
-        this.tab_prices = this.prices.filter((listing: Price) => listing.symbol.indexOf(searchText) >= 0);
+        this.tab_prices = this.prices.filter((listing: Price) => {
+            const symbol = (listing.symbol || '').toUpperCase();
+            const tokenA = (listing.tokenA || '').toUpperCase();
+            const tokenB = (listing.tokenB || '').toUpperCase();
+            return symbol.includes(searchText) || tokenA.includes(searchText) || tokenB.includes(searchText);
+        });
     }
 
     gotoTrade(pr: any) {

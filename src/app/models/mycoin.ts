@@ -12,7 +12,7 @@ export class MyCoin extends Coin {
     receiveAdds: Address[];
     changeAdds: Address[];
     tokenType: string;
-    baseCoin: MyCoin;
+    baseCoin: MyCoin | null;
     usdPrice: number;
     redeposit: any[] = [];
     depositErr: any[] = [];
@@ -28,7 +28,7 @@ export class MyCoin extends Coin {
         this.contractAddr = '';
         this.receiveAdds = new Array();
         this.changeAdds = new Array();
-        this.baseCoin = new MyCoin('FAB');
+        this.baseCoin = null;
     }
 
 }

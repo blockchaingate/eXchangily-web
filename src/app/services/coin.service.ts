@@ -2188,6 +2188,9 @@ MATIC: 0x0009
             totalFee += this.utilServ.convertLiuToFabcoin(contractSize * 10);
 
             const baseCoin = mycoin.baseCoin;
+            if (!baseCoin) {
+                throw new Error('Base coin missing for token transaction.');
+            }
             baseCoin.tokenType = 'FAB';
             console.log('totalFee==', totalFee);
             const res1 = await this.getFabTransactionHexWithPrivateKey(privateKey, baseCoin, contract, 0, totalFee,
@@ -3153,6 +3156,9 @@ MATIC: 0x0009
                 // console.log('totalFee=' + totalFee);
                 console.log('satoshisPerBytessatoshisPerBytessatoshisPerBytes=', satoshisPerBytes);
                 const baseCoin = mycoin.baseCoin;
+                if (!baseCoin) {
+                    throw new Error('Base coin missing for token transaction.');
+                }
                 baseCoin.tokenType = 'FAB';
                 console.log('totalFee==', totalFee);
                 const res1 = await this.getFabTransactionHex(seed, baseCoin, contract, 0, totalFee,

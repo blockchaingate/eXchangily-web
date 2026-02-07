@@ -115,9 +115,9 @@
   @for (pr of tab_prices | sortByField : sortField : sortFieldType : sortAsc; track pr; let i = $index) {
     <div class="apair dataline fxHide-sm">
       <div class="col-md-2 hand align-self-center">
-        <button mat-icon-button type="button" (click)="toggleFavorite(pr)" aria-label="Example icon-button with a heart icon" class="text-right">
+        <span class="text-right hand" (click)="toggleFavorite(pr)" aria-label="Toggle favorite">
           <img [src]="isFavorite(pr) ? '/images/star-light.svg' : '/images/star-grey.svg'" alt="star">
-        </button>
+        </span>
         <span (click)="gotoTrade(pr);">
           <span class="text-coin">{{pr.tokenA}}</span><span class="text-base-coin">/{{pr.tokenB}}</span>
         </span>
@@ -141,9 +141,9 @@
   @for (pr of tab_prices; track pr; let i = $index) {
     <div class="row apair text-white fxHide-gt-sm">
       <div class="col-5 hand align-self-center">
-        <button mat-icon-button type="button" color="warn" (click)="toggleFavorite(pr)" aria-label="Example icon-button with a heart icon" class="text-right">
+        <span class="text-right hand" (click)="toggleFavorite(pr)" aria-label="Toggle favorite">
           <img [src]="isFavorite(pr) ? '/images/star-light.svg' : '/images/star-grey.svg'" alt="star">
-        </button>
+        </span>
         <span (click)="gotoTrade(pr);">
           <span class="text-coin">{{pr.tokenA}}</span><span class="text-base-coin">/{{pr.tokenB}}</span>
         </span>
