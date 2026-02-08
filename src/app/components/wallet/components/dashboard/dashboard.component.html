@@ -90,6 +90,24 @@
                   }
                 </div>
               }
+              @if (wallet && !wallet.hide && claimStatus !== 'idle') {
+                <div class="small claim-status mt-1"
+                  [class.claim-status-pending]="claimStatus === 'pending'"
+                  [class.claim-status-confirmed]="claimStatus === 'confirmed'"
+                  [class.claim-status-failed]="claimStatus === 'failed'">
+                  Move to DEX:
+                  <span class="claim-status-state">{{claimStatus}}</span>
+                  @if (claimStatusCoin) {
+                    <span class="claim-status-coin">({{claimStatusCoin}})</span>
+                  }
+                  @if (claimStatusTxid) {
+                    <span class="claim-status-txid">tx: {{claimStatusTxid | slice:0:10}}...{{claimStatusTxid | slice:-8}}</span>
+                  }
+                  @if (claimStatusText) {
+                    <span class="claim-status-text">{{claimStatusText}}</span>
+                  }
+                </div>
+              }
 
             </div>
             @if (wallet && !wallet.hide) {

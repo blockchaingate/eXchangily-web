@@ -1043,7 +1043,11 @@ export class ApiService {
         console.log('ret from postFabTx=' + ret);
         return ret;
         */
-        const url = environment.endpoints.FAB.exchangily + 'postrawtransaction';
+        const primaryUrls = [
+            environment.apiUrl + 'fab/postrawtransaction',
+            environment.apiUrl + 'FAB/postrawtransaction'
+        ];
+        const directFabUrl = environment.endpoints.FAB.exchangily + 'postrawtransaction';
 
         // console.log('url here we go:', url);
         let txHash = '';
@@ -1051,27 +1055,98 @@ export class ApiService {
         const data = {
             rawtx: txHex
         };
-        if (txHex) {
-            try {
-                const json = await this.http.post(url, data).toPromise() as FabTransactionResponse;
-                if (json) {
-                    if (json.txid) {
-                        txHash = json.txid;
-                    } else
-                        if (json.Error) {
-                            errMsg = json.Error;
-                        }
-                }
-            } catch (err: any) {
-                if (err.error && err.error.Error) {
-                    errMsg = err.error.Error;
-                    console.log('err there we go', err.error.Error);
-                }
-
+        const looksLikeTxid = (value: string) => /^(0x)?[0-9a-fA-F]{64}$/.test(value);
+        const parseFabPostResponse = (json: any) => {
+            if (!json) {
+                return;
             }
+            if (json.txid) {
+                const candidate = (json.txid + '').trim();
+                if (looksLikeTxid(candidate)) {
+                    txHash = candidate;
+                } else if (!errMsg) {
+                    errMsg = candidate;
+                }
+                return;
+            }
+            if (json.Error) {
+                errMsg = json.Error;
+                return;
+            }
+            if (json.success && json.data) {
+                if (typeof json.data === 'string') {
+                    const candidate = json.data.trim();
+                    if (looksLikeTxid(candidate)) {
+                        txHash = candidate;
+                    } else if (!errMsg) {
+                        errMsg = candidate;
+                    }
+                } else if (json.data.txid) {
+                    const candidate = (json.data.txid + '').trim();
+                    if (looksLikeTxid(candidate)) {
+                        txHash = candidate;
+                    } else if (!errMsg) {
+                        errMsg = candidate;
+                    }
+                }
+                return;
+            }
+            if (json.success === false) {
+                if (typeof json.data === 'string' && !errMsg) {
+                    errMsg = json.data;
+                } else if (json.data?.error && !errMsg) {
+                    errMsg = json.data.error;
+                } else if (json.data?.message && !errMsg) {
+                    errMsg = json.data.message;
+                }
+            }
+            if (json.message && !errMsg) {
+                errMsg = json.message;
+            }
+        };
 
+        if (txHex) {
+            console.log('[fab] postrawtransaction txHex prefix/len', txHex.slice(0, 12), txHex.length);
+            for (const url of primaryUrls) {
+                try {
+                    console.log('[fab] primary postrawtransaction via api', url);
+                    const json = await this.http.post(url, data).toPromise() as FabTransactionResponse;
+                    parseFabPostResponse(json);
+                    if (txHash) {
+                        break;
+                    }
+                } catch (err: any) {
+                    console.log('[fab] primary failed', url, err?.status, err?.error || err?.message);
+                    if (err.error && err.error.Error) {
+                        errMsg = err.error.Error;
+                    } else if (err.error && typeof err.error === 'string') {
+                        errMsg = err.error;
+                    } else if (err.message) {
+                        errMsg = err.message;
+                    }
+                }
+            }
+            if (!txHash) {
+                try {
+                    console.log('[fab] fallback direct postrawtransaction', directFabUrl);
+                    const json = await this.http.post(directFabUrl, data).toPromise() as FabTransactionResponse;
+                    parseFabPostResponse(json);
+                } catch (err: any) {
+                    console.log('[fab] fallback direct failed', directFabUrl, err?.status, err?.error || err?.message);
+                    if (err.error && err.error.Error) {
+                        errMsg = err.error.Error;
+                        console.log('err there we go', err.error.Error);
+                    } else if (err.error && typeof err.error === 'string') {
+                        errMsg = err.error;
+                    } else if (err.message) {
+                        errMsg = err.message;
+                    } else if (!errMsg) {
+                        errMsg = 'postrawtransaction failed';
+                    }
+                }
+            }
         }
-
+        console.log('[fab] postrawtransaction result', { txHash, errMsg });
         return { txHash, errMsg };
     }
 

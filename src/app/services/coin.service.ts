@@ -749,7 +749,7 @@ export class CoinService {
         ]);
 
         // console.log('contract=', contract);
-        const contractSize = contract.toJSON.toString().length;
+        const contractSize = contract.toString().length;
 
         // console.log('contractSize=' + contractSize);
         totalFee += this.utilServ.convertLiuToFabcoin(contractSize * 10);
@@ -1119,6 +1119,9 @@ export class CoinService {
     }
 
     async signedMessage(originalMessage: string, keyPair: any) {
+        if (!originalMessage || typeof originalMessage !== 'string') {
+            throw new Error('Missing message for signing');
+        }
         // originalMessage = '000254cbd93f69af7373dcf5fc01372230d309684f95053c7c9cbe95cf4e4e2da731000000000000000000000000000000000000000000000000000009184e72a000000000000000000000000000a2a3720c00c2872397e6d98f41305066cbf0f8b3';
         // console.log('originalMessage=', originalMessage);
         let signature: any;
@@ -1130,14 +1133,30 @@ export class CoinService {
             // console.log('signature in signed is ');
             // console.log(signature);
         } else
-            if (name == 'BNB' || tokenType === 'BNB' || name == 'MATIC' || tokenType === 'MATIC') {
+            if (
+                name == 'BNB' || tokenType === 'BNB' ||
+                name == 'MATIC' || tokenType === 'MATIC'
+            ) {
                 signature = this.web3Serv.signEtheruemCompatibleMessageWithPrivateKey(originalMessage, keyPair) as Signature;
+            } else
+                if ((name === 'FAB' && !tokenType) || tokenType === 'FAB') {
+                    const fabSignature = this.web3Serv.signEtheruemCompatibleMessageWithPrivateKey(originalMessage, keyPair) as Signature;
+                    const vRaw = parseInt(this.utilServ.stripHexPrefix(fabSignature.v), 16);
+                    const recovery = vRaw >= 27 ? (vRaw - 27) : vRaw;
+                    // Keep FAB deposit-claim signature encoding aligned with pay.cool-v3-app:
+                    // compressed-style header byte (27 + 4 + recovery) => 31/32.
+                    const encodedV = recovery + 27 + 4;
+                    signature = {
+                        r: fabSignature.r,
+                        s: fabSignature.s,
+                        v: '0x' + encodedV.toString(16)
+                    } as Signature;
             } else
                 if (name === 'TRX' || tokenType === 'TRX') {
                     const priKeyDisp = keyPair.privateKey.toString('hex');
                     signature = this.signStringTron(originalMessage, priKeyDisp);
                 }
-                else if ((name === 'FAB' && !tokenType) || name === 'BTC' || tokenType === 'FAB' || name === 'DOGE' || name === 'LTC') {
+                else if (name === 'BTC' || name === 'DOGE' || name === 'LTC') {
                     // signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
 
                     let signBuffer: Buffer;
@@ -1145,7 +1164,9 @@ export class CoinService {
                     const chainName = tokenType ? tokenType : name;
 
                     const chain = environment.chains[chainName as keyof typeof environment.chains];
-                    const messagePrefix = 'network' in chain ? chain.network.messagePrefix : '';
+                    const messagePrefix = chain && (chain as any).network && (chain as any).network.messagePrefix
+                        ? (chain as any).network.messagePrefix
+                        : '\x18Bitcoin Signed Message:\n';
 
                     let v = '';
                     let r = '';
@@ -1331,7 +1352,7 @@ export class CoinService {
 
         let outputNum = (tos.length + 1);
 
-        transFee = ((receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput + outputNum * 34) * satoshisPerBytes;
+        transFee = ((receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput + outputNum * 34 + 10) * satoshisPerBytes;
 
         const output1 = Math.round(totalInput
             - (amount + extraTransactionFee) * 1e8
@@ -1542,7 +1563,7 @@ export class CoinService {
         if ((mycoin.tokenType === '') && (amount === 0)) {
             outputNum = 1;
         }
-        transFee = ((receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput + outputNum * 34) * satoshisPerBytes;
+        transFee = ((receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput + outputNum * 34 + 10) * satoshisPerBytes;
 
         const output1 = Math.round(totalInput
             //   - new BigNumber(this.utilServ.toBigNumber(amount + extraTransactionFee, 8)).toNumber()
@@ -1570,10 +1591,18 @@ export class CoinService {
         // + (receiveAddsIndexArr.length + changeAddsIndexArr.length) * feePerInput);
         // console.log('output1=' + output1 + ',output2=' + output2);
 
-        if ((amount > 0) || (mycoin.tokenType === 'FAB')) {
+        const changeValue = output1;
+        const outputValue = output2.toNumber();
 
-            txb.addOutput({ address: changeAddress.address, value: output1 });
-            txb.addOutput({ address: to, value: output2.toNumber() });
+        if ((amount > 0) || (mycoin.tokenType === 'FAB')) {
+            if (changeValue > 1000) {
+                txb.addOutput({ address: changeAddress.address, value: changeValue });
+            }
+            if (Buffer.isBuffer(to)) {
+                txb.addOutput({ script: to, value: outputValue });
+            } else {
+                txb.addOutput({ address: to, value: outputValue });
+            }
         } else {
             txb.addOutput({ address: to, value: output1 });
         }
@@ -1598,6 +1627,8 @@ export class CoinService {
             });
         }
 
+        // FAB smart-contract style transfers can have intentionally high fee-per-byte.
+        txb.setMaximumFeeRate(200000);
         txb.finalizeAllInputs();
         txHex = txb.extractTransaction().toHex();
         return { txHex: txHex, errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids };
@@ -1732,7 +1763,7 @@ export class CoinService {
         if ((mycoin.tokenType === '') && (amount === 0)) {
             outputNum = 1;
         }
-        transFee = ((receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput + outputNum * 34) * satoshisPerBytes;
+        transFee = ((receiveAddsIndexArr.length + changeAddsIndexArr.length) * bytesPerInput + outputNum * 34 + 10) * satoshisPerBytes;
 
         const output1 = Math.round(totalInput
             //            - new BigNumber(this.utilServ.toBigNumber(amount + extraTransactionFee, 8)).toNumber()
@@ -1760,14 +1791,26 @@ export class CoinService {
         // + (receiveAddsIndexArr.length + changeAddsIndexArr.length) * feePerInput);
 
 
-        if ((amount > 0) || (mycoin.tokenType === 'FAB')) {
+        const changeValue = output1;
+        const outputValue = output2.toNumber();
 
-            txb.addOutput({ address: changeAddress.address, value: output1 });
-            txb.addOutput(to, output2.toNumber());
+        if ((amount > 0) || (mycoin.tokenType === 'FAB')) {
+            if (changeValue > 1000) {
+                txb.addOutput({ address: changeAddress.address, value: changeValue });
+            }
+            if (Buffer.isBuffer(to)) {
+                txb.addOutput({ script: to, value: outputValue });
+            } else {
+                txb.addOutput({ address: to, value: outputValue });
+            }
             console.log('changeAddress.address=' + changeAddress.address + ',to=' + to);
-            console.log('output1=' + output1 + ',output2=' + output2.toNumber());
+            console.log('output1=' + changeValue + ',output2=' + outputValue);
         } else {
-            txb.addOutput(to, output1);
+            if (Buffer.isBuffer(to)) {
+                txb.addOutput({ script: to, value: output1 });
+            } else {
+                txb.addOutput({ address: to, value: output1 });
+            }
         }
 
         for (index = 0; index < receiveAddsIndexArr.length; index++) {
@@ -1779,6 +1822,8 @@ export class CoinService {
             });
         }
 
+        // FAB smart-contract style transfers can have intentionally high fee-per-byte.
+        txb.setMaximumFeeRate(200000);
         txb.finalizeAllInputs();
         txHex = txb.extractTransaction().toHex();
         return { txHex: txHex, errMsg: '', transFee: transFee, amountInTx: amountInTx, txids: txids };
@@ -2237,7 +2282,7 @@ MATIC: 0x0009
             ]);
 
             // console.log('contract=====', contract);
-            const contractSize = contract.toJSON.toString().length;
+            const contractSize = contract.toString().length;
 
             // console.log('contractSize=' + contractSize);
             totalFee += this.utilServ.convertLiuToFabcoin(contractSize * 10);
@@ -3172,10 +3217,12 @@ MATIC: 0x0009
                     contractAddress = environment.addresses.smartContract.DUSD;
                 }
                 */
-                contractAddress = environment.addresses.smartContract[mycoin.name as keyof typeof environment.addresses.smartContract] + '';
-                const addressType = typeof contractAddress;
-                if (contractAddress && (addressType !== 'string')) {
-                    contractAddress = ((contractAddress as unknown) as { [key: string]: string })['FAB'];
+                const envContractAddress = environment.addresses.smartContract[mycoin.name as keyof typeof environment.addresses.smartContract];
+                if (typeof envContractAddress === 'string') {
+                    contractAddress = envContractAddress;
+                } else if (envContractAddress && typeof envContractAddress === 'object') {
+                    const typed = envContractAddress as { [key: string]: string };
+                    contractAddress = typed['FAB'] || contractAddress;
                 }
                 if (!contractAddress) {
                     contractAddress = mycoin.contractAddr;
@@ -3203,7 +3250,7 @@ MATIC: 0x0009
                 ]);
 
                 // console.log('contract=====', contract);
-                const contractSize = contract.toJSON.toString().length;
+                const contractSize = contract.toString().length;
 
                 // console.log('contractSize=' + contractSize);
                 totalFee += this.utilServ.convertLiuToFabcoin(contractSize * 10);

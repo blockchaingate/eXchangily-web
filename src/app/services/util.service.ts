@@ -194,6 +194,9 @@ export class UtilService {
     }
 
     fixedLengh(obj: any, length: number) {
+        if (obj === null || obj === undefined) {
+            return '';
+        }
         let str = obj.toString();
         const strLength = str.length;
         if (strLength >= length) {

@@ -61,17 +61,38 @@ export class Web3Service {
   }
 
   signEtheruemCompatibleMessageWithPrivateKey(message: string, keyPair: any) {
-    const privateKey = `0x${keyPair.privateKey.toString('hex')}`;
-
+    let privateKeyBuffer: Buffer | null = null;
+    if (keyPair?.privateKeyBuffer && Buffer.isBuffer(keyPair.privateKeyBuffer)) {
+      privateKeyBuffer = keyPair.privateKeyBuffer;
+    } else if (keyPair?.privateKeyBuffer?.privateKey && Buffer.isBuffer(keyPair.privateKeyBuffer.privateKey)) {
+      privateKeyBuffer = keyPair.privateKeyBuffer.privateKey;
+    } else if (Buffer.isBuffer(keyPair?.privateKey)) {
+      privateKeyBuffer = keyPair.privateKey;
+    } else if (typeof keyPair?.privateKey === 'string') {
+      const key = keyPair.privateKey.startsWith('0x') ? keyPair.privateKey.substring(2) : keyPair.privateKey;
+      if (/^[0-9a-fA-F]{64}$/.test(key)) {
+        privateKeyBuffer = Buffer.from(key, 'hex');
+      }
+    } else if (typeof keyPair?.privateKeyHex === 'string') {
+      const key = keyPair.privateKeyHex.startsWith('0x') ? keyPair.privateKeyHex.substring(2) : keyPair.privateKeyHex;
+      if (/^[0-9a-fA-F]{64}$/.test(key)) {
+        privateKeyBuffer = Buffer.from(key, 'hex');
+      }
+    }
+    if (!privateKeyBuffer) {
+      throw new Error('Missing private key for EVM-compatible message signing');
+    }
     const messageHash = this.hashEtherumMessage(message);
-    var signature = Account.sign(messageHash, privateKey);
-    var vrs = Account.decodeSignature(signature);
+    const messageHashHex = this.utilServ.stripHexPrefix(messageHash);
+    const messageHashBytes = Buffer.from(messageHashHex, 'hex');
+    const sig = ethUtil.ecsign(messageHashBytes, privateKeyBuffer);
+    const signature = ethUtil.toRpcSig(sig.v, sig.r, sig.s);
     return {
       message: message,
       messageHash: messageHash,
-      v: vrs[0],
-      r: vrs[1],
-      s: vrs[2],
+      v: '0x' + sig.v.toString(16),
+      r: this.toHex(sig.r),
+      s: this.toHex(sig.s),
       signature: signature
     };
   }

@@ -164,6 +164,43 @@
         color: red;
         margin-left: 1em;
     }
+    .claim-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 4px 8px;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .claim-status-state {
+        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: 0.4px;
+    }
+    .claim-status-coin,
+    .claim-status-txid,
+    .claim-status-text {
+        color: #c6c8d6;
+    }
+    .claim-status-pending {
+        border-color: rgba(226, 159, 18, 0.5);
+    }
+    .claim-status-pending .claim-status-state {
+        color: #e59f12;
+    }
+    .claim-status-confirmed {
+        border-color: rgba(68, 201, 119, 0.45);
+    }
+    .claim-status-confirmed .claim-status-state {
+        color: #44c977;
+    }
+    .claim-status-failed {
+        border-color: rgba(232, 86, 86, 0.45);
+    }
+    .claim-status-failed .claim-status-state {
+        color: #e85656;
+    }
     .link-span {
         cursor: pointer;
         color: lightgoldenrodyellow;

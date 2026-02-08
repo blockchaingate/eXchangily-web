@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, TemplateRef, ViewChild, ViewContainerRef, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewEncapsulation, TemplateRef, ViewChild, ViewContainerRef, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Wallet } from '../../../../models/wallet';
 import { MyCoin } from '../../../../models/mycoin';
@@ -69,7 +69,7 @@ import { FaqComponent } from '../faq/faq.component';
     styleUrls: ['./dashboard.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class WalletDashboardComponent implements OnInit {
+export class WalletDashboardComponent implements OnInit, OnDestroy {
     @ViewChild('manageWallet', { static: true }) manageWallet: ManageWalletComponent = {} as ManageWalletComponent;
     @ViewChild('pinModal', { static: true }) pinModal: PinNumberModal = {} as PinNumberModal;
     @ViewChild('displayPinModal', { static: true }) displayPinModal: DisplayPinNumberModal = {} as DisplayPinNumberModal;
@@ -132,6 +132,11 @@ export class WalletDashboardComponent implements OnInit {
     lan = 'en';
     walletUpdateToDate = false;
     hideWallet = false;
+    private claimStatusPollTimer: any = null;
+    claimStatus: 'idle' | 'pending' | 'confirmed' | 'failed' = 'idle';
+    claimStatusText = '';
+    claimStatusCoin = '';
+    claimStatusTxid = '';
 
     sortField = '';
     sortFieldType = '';
@@ -397,6 +402,84 @@ export class WalletDashboardComponent implements OnInit {
             }
         );    
         */
+    }
+
+    ngOnDestroy() {
+        this.stopClaimStatusPolling();
+    }
+
+    private setClaimStatus(
+        status: 'idle' | 'pending' | 'confirmed' | 'failed',
+        coin = '',
+        txid = '',
+        text = ''
+    ) {
+        this.claimStatus = status;
+        this.claimStatusCoin = coin;
+        this.claimStatusTxid = txid;
+        this.claimStatusText = text;
+    }
+
+    private stopClaimStatusPolling() {
+        if (this.claimStatusPollTimer) {
+            clearTimeout(this.claimStatusPollTimer);
+            this.claimStatusPollTimer = null;
+        }
+    }
+
+    private startClaimStatusPolling(proof: string, currentCoin: MyCoin, confirmations: any) {
+        this.stopClaimStatusPolling();
+        const maxAttempts = 20;
+        const intervalMs = 15000;
+        let attempts = 0;
+
+        const poll = () => {
+            attempts++;
+            this.kanbanV2Serv.submitDeposit(proof).subscribe((resp: any) => {
+                const bridgeResult = resp?.data?.result;
+                const bridgeError = bridgeResult?.error || bridgeResult?.message || resp?.error || resp?.message;
+                const bridgeErrorText = (typeof bridgeError === 'string' ? bridgeError : JSON.stringify(bridgeError || '')).toLowerCase();
+                const isPendingBridgeTx = bridgeErrorText.includes('pending transaction');
+                if (resp && resp.success && (!bridgeError || !isPendingBridgeTx)) {
+                    this.stopClaimStatusPolling();
+                    this.setClaimStatus('confirmed', currentCoin.name, '', 'Move to DEX confirmed.');
+                    this.loadBalance(false);
+                    this.refreshGas();
+                    if (this.lan === 'zh') {
+                        this.alertServ.openSnackBarSuccess('转币去交易所已确认。', 'Ok');
+                    } else {
+                        this.alertServ.openSnackBarSuccess('Move to DEX was confirmed.', 'Ok');
+                    }
+                    return;
+                }
+                if (isPendingBridgeTx && attempts < maxAttempts) {
+                    this.setClaimStatus('pending', currentCoin.name, '', 'Move to DEX pending on bridge.');
+                    this.claimStatusPollTimer = setTimeout(poll, intervalMs);
+                    return;
+                }
+                if (isPendingBridgeTx) {
+                    this.stopClaimStatusPolling();
+                    this.setClaimStatus('pending', currentCoin.name, '', 'Move to DEX still pending.');
+                    if (this.lan === 'zh') {
+                        this.alertServ.openSnackBar('转币去交易所仍在处理中，请稍后刷新。', 'Ok');
+                    } else {
+                        this.alertServ.openSnackBar('Move to DEX is still pending. Please refresh later.', 'Ok');
+                    }
+                    return;
+                }
+                this.stopClaimStatusPolling();
+                this.setClaimStatus('failed', currentCoin.name, '', 'Move to DEX claim failed.');
+            }, () => {
+                if (attempts < maxAttempts) {
+                    this.claimStatusPollTimer = setTimeout(poll, intervalMs);
+                } else {
+                    this.stopClaimStatusPolling();
+                    this.setClaimStatus('pending', currentCoin.name, '', 'Move to DEX still pending.');
+                }
+            });
+        };
+
+        this.claimStatusPollTimer = setTimeout(poll, intervalMs);
     }
 
     private async initWalletState() {
@@ -1757,34 +1840,94 @@ export class WalletDashboardComponent implements OnInit {
         }
 
         const tokenType = '0000000000000000000000000000000000000000'; //ERC20
-        const originalMessage = this.coinServ.getOriginalMessage(
-            chainType,
-            tokenContract,
-            tokenType,
-            this.utilServ.stripHexPrefix(addressInKanban),
-            this.utilServ.stripHexPrefix(txHash)
-        );
+        if (!chainType || !tokenContract || !tokenType || !addressInKanban || !txHash) {
+            this.alertServ.openSnackBar('Missing claim data for Move To DEX.', 'Ok');
+            return;
+        }
+        let originalMessage = '';
+        try {
+            originalMessage = this.coinServ.getOriginalMessage(
+                chainType,
+                tokenContract,
+                tokenType,
+                this.utilServ.stripHexPrefix(addressInKanban),
+                this.utilServ.stripHexPrefix(txHash)
+            );
+        } catch (e: any) {
+            this.alertServ.openSnackBar(e?.message || 'Failed to build claim message.', 'Ok');
+            return;
+        }
 
-        const signedMessage: Signature = await this.coinServ.signedMessage(originalMessage.toLowerCase(), keyPairs);
+        if (!originalMessage) {
+            this.alertServ.openSnackBar('Missing message for claim transaction.', 'Ok');
+            return;
+        }
+        let signedMessage: Signature;
+        try {
+            signedMessage = await this.coinServ.signedMessage(originalMessage.toLowerCase(), keyPairs);
+        } catch (e: any) {
+            this.alertServ.openSnackBar(e?.message || 'Failed to sign claim message.', 'Ok');
+            return;
+        }
 
         const proof = this.coinServ.getProof(signedMessage, chainType, tokenContract, tokenType, this.utilServ.stripHexPrefix(addressInKanban), this.utilServ.stripHexPrefix(txHash));
+        if (!proof || proof.length !== 514) {
+            this.alertServ.openSnackBar('Invalid claim payload generated for Move To DEX.', 'Ok');
+            return;
+        }
 
         // return 0;
         const cruuentCoinName = environment.depositMinimumConfirmations[currentCoin.name as keyof typeof environment.depositMinimumConfirmations];
         this.kanbanV2Serv.submitDeposit(proof).subscribe((resp: any) => {
             console.log('resp for submitDeposit=', resp);
-            if (resp && resp.success) {
+            try {
+                console.log('resp for submitDeposit json=', JSON.stringify(resp));
+            } catch (e) {
+                console.log('resp for submitDeposit stringify failed');
+            }
+            const bridgeResult = resp?.data?.result;
+            const bridgeError = bridgeResult?.error || bridgeResult?.message || resp?.error || resp?.message;
+            const bridgeErrorText = (typeof bridgeError === 'string' ? bridgeError : JSON.stringify(bridgeError || '')).toLowerCase();
+            const isPendingBridgeTx = bridgeErrorText.includes('pending transaction');
+            if (resp && resp.success && (!bridgeError || isPendingBridgeTx)) {
                 this.kanbanV2Serv.incNonce();
+                this.setClaimStatus('pending', currentCoin.name, txHash, isPendingBridgeTx ? 'Move to DEX pending on bridge.' : 'Move to DEX submitted for confirmations.');
                 if (this.lan === 'zh') {
-                    this.alertServ.openSnackBarSuccess('转币去交易所请求已提交，请等待' + cruuentCoinName + '个确认', 'Ok');
+                    const msg = isPendingBridgeTx
+                        ? '转币去交易所请求已提交（处理中），请等待' + cruuentCoinName + '个确认'
+                        : '转币去交易所请求已提交，请等待' + cruuentCoinName + '个确认';
+                    this.alertServ.openSnackBarSuccess(msg, 'Ok');
                 } else {
-                    this.alertServ.openSnackBarSuccess('Moving fund to DEX was submitted, please wait for ' + cruuentCoinName + ' confirmations.', 'Ok');
+                    const msg = isPendingBridgeTx
+                        ? 'Moving fund to DEX was submitted (pending), please wait for ' + cruuentCoinName + ' confirmations.'
+                        : 'Moving fund to DEX was submitted, please wait for ' + cruuentCoinName + ' confirmations.';
+                    this.alertServ.openSnackBarSuccess(msg, 'Ok');
                 }
-            } else if (resp.error) {
+                if (isPendingBridgeTx) {
+                    this.startClaimStatusPolling(proof, currentCoin, cruuentCoinName);
+                }
+            } else if (bridgeError) {
+                this.setClaimStatus('failed', currentCoin.name, txHash, typeof bridgeError === 'string' ? bridgeError : 'Move to DEX claim failed.');
+                this.alertServ.openSnackBar(typeof bridgeError === 'string' ? bridgeError : JSON.stringify(bridgeError), 'Ok');
+            } else if (resp?.error) {
+                this.setClaimStatus('failed', currentCoin.name, txHash, typeof resp.error === 'string' ? resp.error : 'Move to DEX claim failed.');
                 this.alertServ.openSnackBar(resp.error, 'Ok');
             }
         },
             error => {
+                const errTextRaw = error?.error?.error || error?.error?.message || error?.message || '';
+                const errText = (errTextRaw + '').toLowerCase();
+                if (errText.includes('pending transaction')) {
+                    this.setClaimStatus('pending', currentCoin.name, txHash, 'Move to DEX pending on bridge.');
+                    if (this.lan === 'zh') {
+                        this.alertServ.openSnackBarSuccess('转币去交易所请求已提交（处理中）。', 'Ok');
+                    } else {
+                        this.alertServ.openSnackBarSuccess('Moving fund to DEX is pending and already submitted.', 'Ok');
+                    }
+                    this.startClaimStatusPolling(proof, currentCoin, cruuentCoinName);
+                    return;
+                }
+                this.setClaimStatus('failed', currentCoin.name, txHash, (errTextRaw + '') || 'Move to DEX claim failed.');
                 if (error.error && error.error.error) {
                     this.alertServ.openSnackBar(error.error.error, 'Ok');
                 } else if (error.message) {
@@ -1879,7 +2022,14 @@ export class WalletDashboardComponent implements OnInit {
             }
             return;
         }
+        const validTxHash = /^(0x)?[0-9a-fA-F]{64}$/.test((txHash + '').trim());
+        if (!validTxHash) {
+            this.setClaimStatus('failed', currentCoin.name, '', 'Source chain transaction broadcast failed.');
+            this.alertServ.openSnackBar('Deposit transaction was not broadcast successfully: ' + txHash, 'Ok');
+            return;
+        }
 
+        this.setClaimStatus('pending', currentCoin.name, txHash, 'Source chain transaction submitted.');
         this.depositForTransactionID(currentCoin, txHash);
     }
 
