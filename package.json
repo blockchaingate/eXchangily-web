@@ -1,6 +1,7 @@
 {
     "name": "exchangily",
-    "version": "3.0.0",
+    "//": "Version 4.0.0 support Kanban-V3, dapp signin-challenge.",
+    "version": "4.0.0",
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
