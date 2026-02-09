@@ -151,6 +151,7 @@ export class MyordersComponent implements OnInit, OnDestroy {
     transFeeAdvance = 0.0;
     coinServ: CoinService;
     lan: any = 'en';
+    private pairSub: any;
 
     constructor(
         private _router: Router, private apiServ: ApiService, private _route: ActivatedRoute,
@@ -163,6 +164,9 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.timerServ.unCheckAllOrderStatus();
+        if (this.pairSub) {
+            this.pairSub.unsubscribe();
+        }
     }
 
     formatGasFee(srcChain: string, gasFeeHex: string) {
@@ -197,11 +201,10 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
     async ngOnInit() {
         this.isProduction = environment.production;
-        this.currentPair = this._route.snapshot.paramMap.get('pair');
-        const pairCoins = this.currentPair.split('_');
-        this.baseCoin = this._coinServ.getCoinTypeIdByName(pairCoins[1]);
-        this.targetCoin = this._coinServ.getCoinTypeIdByName(pairCoins[0]);
-        this.currentPair = this.currentPair.replace('_', '');
+        this.applyRoutePair(this._route.snapshot.paramMap.get('pair'));
+        this.pairSub = this._route.params.subscribe(params => {
+            this.applyRoutePair(params['pair']);
+        });
 
         // localStorage.removeItem("_myOrders");
 
@@ -250,6 +253,33 @@ export class MyordersComponent implements OnInit, OnDestroy {
             }
         );
 
+    }
+
+    private applyRoutePair(routePair: string | null) {
+        if (!routePair) {
+            return;
+        }
+        const pairCoins = routePair.split('_');
+        if (pairCoins.length !== 2) {
+            return;
+        }
+        this.baseCoin = this._coinServ.getCoinTypeIdByName(pairCoins[1]);
+        this.targetCoin = this._coinServ.getCoinTypeIdByName(pairCoins[0]);
+        this.currentPair = routePair.replace('_', '');
+        this.applyPairFilters();
+        this.cdr.detectChanges();
+    }
+
+    private applyPairFilters() {
+        if (this.allOpenorders && this.currentPair) {
+            this.openorders = this.allOpenorders.filter((oo: any) => oo.pairName === this.currentPair);
+        }
+        if (this.allClosedorders && this.currentPair) {
+            this.closedorders = this.allClosedorders.filter((oo: any) => oo.pairName === this.currentPair);
+        }
+        if (this.allCanceledorders && this.currentPair) {
+            this.canceledorders = this.allCanceledorders.filter((oo: any) => oo.pairName === this.currentPair);
+        }
     }
 
     getLockers(address: string) {

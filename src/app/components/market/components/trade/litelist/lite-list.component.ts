@@ -128,6 +128,11 @@ export class LiteListComponent implements OnInit {
             this.selectedpair = 'BTC/USDT';
         }
 
+        this.applyRoutePair(this._route.snapshot.paramMap.get('pair'));
+        this._route.params.subscribe(params => {
+            this.applyRoutePair(params['pair']);
+        });
+
         this.prServ.getPriceList(100, 0).subscribe(
             (ret: any) => {
                 const data = (ret && ret.success && ret.data) ? ret.data
@@ -185,6 +190,21 @@ export class LiteListComponent implements OnInit {
                 }, 0);
             });
         });
+    }
+
+    private applyRoutePair(routePair: string | null) {
+        if (!routePair) {
+            return;
+        }
+        const pairArr = routePair.split('_');
+        if (pairArr.length !== 2) {
+            return;
+        }
+        this.selectedpair = pairArr[0] + '/' + pairArr[1];
+        this.selectedcat = pairArr[1];
+        sessionStorage.setItem('tradePair', this.selectedpair);
+        sessionStorage.setItem('tradeCat', this.selectedcat);
+        this.cdr.markForCheck();
     }
 
     setSelect() {

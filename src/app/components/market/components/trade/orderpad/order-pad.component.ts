@@ -633,6 +633,11 @@ export class OrderPadComponent implements OnInit, OnDestroy {
   refreshCoinAvail() {
     let baseCoinAvailExisted = false;
     let targetCoinAvailExisted = false;
+    if (!this.pairData) {
+      this.baseCoinAvail = 0;
+      this.targetCoinAvail = 0;
+      return;
+    }
     if (this.baseCoin && this.targetCoin && this._mytokens) {
       const tokens = this._mytokens.tokens;
       if (!tokens) {
@@ -695,22 +700,7 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.lan = localStorage.getItem('Lan');
-    this.pairName = this.route.snapshot.paramMap.get('pair');
-
-    console.log('go here', this.pairName);
-    this.apiServ.getPairDecimals(this.pairName).then(
-      (data: any) => {
-        if (data) {
-          this.priceDecimal = data.price;
-          this.qtyDecimal = data.quantity;
-        }
-      }
-    );
-
-    const pairData = await this.apiServ.getPair(this.pairName);
-    this.pairData = pairData;
-
-    console.log('this.pairData===', this.pairData);
+    await this.syncPairFromRoute(this.route.snapshot.paramMap.get('pair'));
     // console.log('ngOnInit for order Pad');
     this.oldNonce = -1;
     this.buyGasLimit = environment.chains.KANBAN.gasLimit;
@@ -739,23 +729,49 @@ export class OrderPadComponent implements OnInit, OnDestroy {
 
     this.sub = this.route.params.subscribe(params => {
       setTimeout(() => {
-        let pair = params['pair']; // (+) converts string 'id' to a number
-        if (!pair) {
-          pair = 'BTC_USDT';
+        if (params['pair'] === this.pairName) {
+          return;
         }
-
-        // console.log('pair for refresh pageeee=' + pair);
-        const pairArray = pair.split('_');
-        this.baseCoin = pairArray[1];
-        this.targetCoin = pairArray[0];
-        this.refreshOrders();
-        this.refreshCoinAvail();
-        this.cdr.detectChanges();
-
-        // this.loadChart(pairArray[0], pairArray[1]);
-        // In a real app: dispatch action to load the details here.
+        this.syncPairFromRoute(params['pair']);
       }, 0);
     });
+  }
+
+  private async syncPairFromRoute(pairParam: string | null) {
+    let pair = pairParam;
+    if (!pair) {
+      pair = 'BTC_USDT';
+    }
+
+    const pairArray = pair.split('_');
+    if (pairArray.length !== 2) {
+      return;
+    }
+
+    this.baseCoin = pairArray[1];
+    this.targetCoin = pairArray[0];
+    this.pairName = pair;
+    this.pairData = null;
+    this.baseCoinAvail = 0;
+    this.targetCoinAvail = 0;
+
+    console.log('go here', this.pairName);
+    this.apiServ.getPairDecimals(this.pairName).then(
+      (data: any) => {
+        if (data) {
+          this.priceDecimal = data.price;
+          this.qtyDecimal = data.quantity;
+        }
+      }
+    );
+
+    const pairData = await this.apiServ.getPair(this.pairName);
+    this.pairData = pairData;
+
+    console.log('this.pairData===', this.pairData);
+    this.refreshOrders();
+    this.refreshCoinAvail();
+    this.cdr.detectChanges();
   }
 
   checkMyOrdersOfThisPair() {

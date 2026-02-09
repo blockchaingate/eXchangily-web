@@ -72,14 +72,23 @@ export class PanelComponent implements OnInit {
 
         //this.orders = this.getOrders();
 
-        const inPair = this._route.snapshot.paramMap.get('pair');
-        console.log('inPair===', inPair);
-        if (inPair) {
-            const inPairArr = inPair.split('_');
-            this.baseCoin = this.coinName2Number(inPairArr[0]);
-            this.targetCoin = this.coinName2Number(inPairArr[1]);
-            this.pair = inPair.replace('_', '/');
+        this.applyRoutePair(this._route.snapshot.paramMap.get('pair'));
+        this._route.params.subscribe(params => {
+            this.applyRoutePair(params['pair']);
+        });
+    }
+
+    private applyRoutePair(routePair: string | null) {
+        if (!routePair) {
+            return;
         }
+        const inPairArr = routePair.split('_');
+        if (inPairArr.length !== 2) {
+            return;
+        }
+        this.baseCoin = this.coinName2Number(inPairArr[0]);
+        this.targetCoin = this.coinName2Number(inPairArr[1]);
+        this.pair = routePair.replace('_', '/');
     }
 
     coinName2Number(name: string) {
