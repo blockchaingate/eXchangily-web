@@ -48,13 +48,15 @@
             </div>
 
             <div class="transacs w-100">
-                <div class="orderbookitem" *ngFor="let tx of trades; let l=index">
+                @for(tx of trades; track tx) {
+                <div class="orderbookitem">
                     <div class="price smallfont" [ngClass]="tx.b?'text-success':'text-danger'">
                         {{toDecimal(tx.p, priceDecimal)}}</div>
                     <div class="quantity smallfont text-muted">
                         {{toDecimal(tx.q, qtyDecimal)}}</div>
                     <div class="total smallfont text-muted">{{tx.t * 1000 | date:'HH:mm:ss'}}</div>
                 </div>
+            }
             </div>
         </div>
     </div>
@@ -75,10 +77,10 @@
             </div>
 
             <div class="aspace text-white">{{'Price' | translate}}</div>
-            <div><input type="text" class="form-control" [disabled]="orderType === 2" [(ngModel)]="buyPrice" (keyup)="checkBuyPrice()"> </div>
+            <div><input type="text" title="buyPrice" class="form-control" [disabled]="orderType === 2" [(ngModel)]="buyPrice" (keyup)="checkBuyPrice()"> </div>
 
             <div class="aspace text-white">{{'Quantity' | translate}}</div>
-            <div><input type="text" class="form-control" [(ngModel)]="buyQty" (keyup)="checkBuyQty()"> </div>
+            <div><input type="text" title="buyQty" class="form-control" [(ngModel)]="buyQty" (keyup)="checkBuyQty()"> </div>
             <div class="container pt-2">
                 <div class="row text-white">
                     <div class="pnum text-center hand" (click)="setBuyQtyPercent(0.25)">
@@ -116,7 +118,7 @@
                         {{'Gas price' | translate}}:
                     </div>
                     <div>
-                        <input class="form-control" type="text" [(ngModel)]="buyGasPrice">
+                        <input title="buyGasprice" class="form-control" type="text" [(ngModel)]="buyGasPrice">
                     </div>
                 </div>
                 <div class="py-1">
@@ -124,7 +126,7 @@
                         {{'Gas limit' | translate}}:
                     </div>
                     <div>
-                        <input class="form-control" type="text" [(ngModel)]="buyGasLimit">
+                        <input title="buyGaslimit" class="form-control" type="text" [(ngModel)]="buyGasLimit">
                     </div>
                 </div>
             </div>

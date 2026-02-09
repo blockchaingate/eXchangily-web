@@ -24,6 +24,7 @@ import { environment } from '../environments/environment';
 import BigNumber from "bignumber.js";
 import { TronWeb, providers, utils } from 'tronweb';
 import * as bs58 from 'bs58';
+import * as ethUtil from '@ethereumjs/util';
 
 const HttpProvider = providers.HttpProvider;
 const fullNode = new HttpProvider(environment.chains.TRX.fullNode);
@@ -946,6 +947,53 @@ export class CoinService {
         const root2 = BIP32.fromSeed(seed, environment.chains['FAB']['network']);
         const childNode = root2.derivePath(path);
         return childNode.privateKey;
+    }
+
+    getDepositClaimSigningKeyPair(coin: MyCoin, seed: Buffer) {
+        const chainName = ((coin.tokenType && coin.tokenType.length > 0) ? coin.tokenType : coin.name).toUpperCase();
+        if (chainName === 'FAB') {
+            const privateKey = this.getFabPrivateKey(seed);
+            return {
+                name: coin.name,
+                tokenType: coin.tokenType,
+                privateKey: privateKey,
+                privateKeyBuffer: privateKey
+            };
+        }
+        return this.getKeyPairs(coin, seed, 0, 0);
+    }
+
+    async signDepositClaimMessage(originalMessage: string, coin: MyCoin, seed: Buffer): Promise<Signature> {
+        const message = (originalMessage || '').toLowerCase();
+        if (!message) {
+            throw new Error('Missing message for claim signing');
+        }
+        const chainName = ((coin.tokenType && coin.tokenType.length > 0) ? coin.tokenType : coin.name).toUpperCase();
+
+        // Mirror pay.cool-v3-app main branch for FAB-chain deposit claim signing.
+        if (chainName === 'FAB') {
+            const root = BIP32.fromSeed(seed, environment.chains.BTC.network);
+            const coinType = environment.CoinType.FAB;
+            const childNode = root.derivePath(`m/44'/${coinType}'/0'/0/0`);
+            const privateKey = childNode.privateKey;
+            if (!privateKey) {
+                throw new Error('Missing private key for FAB claim signing');
+            }
+
+            const messageHash = ethUtil.hashPersonalMessage(Buffer.from(message, 'utf8'));
+            const sig = ethUtil.ecsign(messageHash, privateKey);
+            const recovery = Number(sig.v) - 27; // 0/1
+            const encodedV = recovery + 27 + 4; // 31/32 => 0x1f/0x20
+
+            return {
+                r: '0x' + Buffer.from(sig.r).toString('hex'),
+                s: '0x' + Buffer.from(sig.s).toString('hex'),
+                v: '0x' + encodedV.toString(16)
+            } as Signature;
+        }
+
+        const keyPair = this.getDepositClaimSigningKeyPair(coin, seed);
+        return this.signedMessage(message, keyPair);
     }
 
     getKeyPairs(coin: MyCoin, seed: Buffer, chain: number, index: number) {

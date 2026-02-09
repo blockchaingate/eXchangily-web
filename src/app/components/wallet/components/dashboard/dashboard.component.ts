@@ -1818,13 +1818,15 @@ export class WalletDashboardComponent implements OnInit, OnDestroy {
     async depositForTransactionID(currentCoin: MyCoin, txHash: string) {
         const pin = this.pin;
 
+        console.log('=== depositForTransactionID DEBUG ===');
+        console.log('Input txHash:', txHash);
+        console.log('currentCoin:', currentCoin.name, currentCoin.tokenType);
 
         const seed = this.utilServ.aesDecryptSeed(this.wallet.encryptedSeed, pin);
         const addressInKanban = this.wallet.excoin.receiveAdds[0].address;
         if (!seed) {
             throw new Error('Seed is null. Unable to generate key pairs.');
         }
-        const keyPairs = this.coinServ.getKeyPairs(currentCoin, seed, 0, 0);
         const chainType = this.coinServ.getChainType(currentCoin);
         let tokenContract = '0000000000000000000000000000000000000001';
         if (this.depositGas) {
@@ -1840,6 +1842,14 @@ export class WalletDashboardComponent implements OnInit, OnDestroy {
         }
 
         const tokenType = '0000000000000000000000000000000000000000'; //ERC20
+
+        console.log('chainType:', chainType);
+        console.log('tokenContract:', tokenContract);
+        console.log('tokenType:', tokenType);
+        console.log('addressInKanban:', addressInKanban);
+        console.log('txHash (before stripHexPrefix):', txHash);
+        console.log('txHash (after stripHexPrefix):', this.utilServ.stripHexPrefix(txHash));
+
         if (!chainType || !tokenContract || !tokenType || !addressInKanban || !txHash) {
             this.alertServ.openSnackBar('Missing claim data for Move To DEX.', 'Ok');
             return;
@@ -1853,6 +1863,7 @@ export class WalletDashboardComponent implements OnInit, OnDestroy {
                 this.utilServ.stripHexPrefix(addressInKanban),
                 this.utilServ.stripHexPrefix(txHash)
             );
+            console.log('originalMessage:', originalMessage);
         } catch (e: any) {
             this.alertServ.openSnackBar(e?.message || 'Failed to build claim message.', 'Ok');
             return;
@@ -1864,13 +1875,17 @@ export class WalletDashboardComponent implements OnInit, OnDestroy {
         }
         let signedMessage: Signature;
         try {
-            signedMessage = await this.coinServ.signedMessage(originalMessage.toLowerCase(), keyPairs);
+            signedMessage = await this.coinServ.signDepositClaimMessage(originalMessage, currentCoin, seed);
+            console.log('signedMessage:', signedMessage);
         } catch (e: any) {
             this.alertServ.openSnackBar(e?.message || 'Failed to sign claim message.', 'Ok');
             return;
         }
 
         const proof = this.coinServ.getProof(signedMessage, chainType, tokenContract, tokenType, this.utilServ.stripHexPrefix(addressInKanban), this.utilServ.stripHexPrefix(txHash));
+        console.log('proof:', proof);
+        console.log('proof length:', proof.length);
+
         if (!proof || proof.length !== 514) {
             this.alertServ.openSnackBar('Invalid claim payload generated for Move To DEX.', 'Ok');
             return;

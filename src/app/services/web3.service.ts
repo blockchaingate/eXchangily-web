@@ -288,11 +288,11 @@ export class Web3Service {
     const ids = chainIds && chainIds.length
       ? chainIds
       : [
-          environment.chains.KANBAN.chain.chainId,
-          environment.chains.KANBAN.chain.networkId,
-          212,
-          211
-        ].filter((v, i, a) => typeof v === 'number' && a.indexOf(v) === i) as number[];
+        environment.chains.KANBAN.chain.chainId,
+        environment.chains.KANBAN.chain.networkId,
+        212,
+        211
+      ].filter((v, i, a) => typeof v === 'number' && a.indexOf(v) === i) as number[];
     try {
       const hex = rawTxHex.startsWith('0x') ? rawTxHex.slice(2) : rawTxHex;
       const buf = Buffer.from(hex, 'hex');
@@ -549,13 +549,29 @@ export class Web3Service {
 
   hashEtherumMessage(data: any) {
     const web3 = this.getWeb3Provider();
+    // Ensure we have a hex string
     var messageHex = web3.utils.isHexStrict(data) ? data : web3.utils.utf8ToHex(data);
-    var messageBytes = web3.utils.hexToBytes(messageHex);
-    var messageBuffer = Buffer.from(messageBytes);
-    var preamble = '\x19Ethereum Signed Message:\n' + messageBytes.length;
-    var preambleBuffer = Buffer.from(preamble);
-    var ethMessage = Buffer.concat([preambleBuffer, messageBuffer]);
-    var hash = Hash.keccak256s(ethMessage.toString('hex'));
+
+    // CRITICAL FIX: Match pay.cool-v3-app's signPersonalMessageWith implementation
+    // The mobile app treats the hex message as a UTF-8 string, not as hex bytes!
+    // See signature_service.dart lines 133-154:
+    //   - StringUtil.stringToUint8(originalMessage) converts the hex string to UTF-8 bytes
+    //   - prefix = messagePrefix + payload.length.toString()
+    //   - concat = prefixBytes + payload
+    //   - hash = keccak256(concat)
+
+    // Convert the hex string to UTF-8 bytes (treating each character as UTF-8)
+    const messageUtf8Bytes = Buffer.from(messageHex, 'utf8');
+
+    // Construct prefix with the UTF-8 byte length
+    const prefix = '\x19Ethereum Signed Message:\n' + messageUtf8Bytes.length;
+    const prefixBuffer = Buffer.from(prefix, 'utf8');
+
+    // Concatenate prefix + message bytes
+    const ethMessage = Buffer.concat([prefixBuffer, messageUtf8Bytes]);
+
+    // Hash the concatenated message
+    const hash = Hash.keccak256s(ethMessage.toString('hex'));
     console.log('hash1=', hash);
     return hash;
   }

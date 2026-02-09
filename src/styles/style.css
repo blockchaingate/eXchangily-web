@@ -173,8 +173,8 @@
 .mat-form-field {
     font-size: inherit;
     font-weight: 400;
-    line-height: 1.125;
-    font-family: Verdana,sans-serif,SimHei,Microsoft YaHei
+    line-height: 1;
+   font-family: Verdana,sans-serif,SimHei,Microsoft YaHei
 }
 
 .mat-form-field-wrapper {
