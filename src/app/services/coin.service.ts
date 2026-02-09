@@ -16,7 +16,6 @@ import { coin_list } from '../config/coins';
 import { ApiService } from './api.service';
 import * as wif from 'wif';
 import * as bitcore from 'bitcore-lib-cash';
-import BchMessage from 'bitcore-message';
 import { Web3Service } from './web3.service';
 import { Signature } from '../models/kanban.interface';
 import { UtilService } from './util.service';
@@ -24,7 +23,6 @@ import { environment } from '../environments/environment';
 import BigNumber from "bignumber.js";
 import { TronWeb, providers, utils } from 'tronweb';
 import * as bs58 from 'bs58';
-import * as ethUtil from '@ethereumjs/util';
 
 const HttpProvider = providers.HttpProvider;
 const fullNode = new HttpProvider(environment.chains.TRX.fullNode);
@@ -968,30 +966,6 @@ export class CoinService {
         if (!message) {
             throw new Error('Missing message for claim signing');
         }
-        const chainName = ((coin.tokenType && coin.tokenType.length > 0) ? coin.tokenType : coin.name).toUpperCase();
-
-        // Mirror pay.cool-v3-app main branch for FAB-chain deposit claim signing.
-        if (chainName === 'FAB') {
-            const root = BIP32.fromSeed(seed, environment.chains.BTC.network);
-            const coinType = environment.CoinType.FAB;
-            const childNode = root.derivePath(`m/44'/${coinType}'/0'/0/0`);
-            const privateKey = childNode.privateKey;
-            if (!privateKey) {
-                throw new Error('Missing private key for FAB claim signing');
-            }
-
-            const messageHash = ethUtil.hashPersonalMessage(Buffer.from(message, 'utf8'));
-            const sig = ethUtil.ecsign(messageHash, privateKey);
-            const recovery = Number(sig.v) - 27; // 0/1
-            const encodedV = recovery + 27 + 4; // 31/32 => 0x1f/0x20
-
-            return {
-                r: '0x' + Buffer.from(sig.r).toString('hex'),
-                s: '0x' + Buffer.from(sig.s).toString('hex'),
-                v: '0x' + encodedV.toString(16)
-            } as Signature;
-        }
-
         const keyPair = this.getDepositClaimSigningKeyPair(coin, seed);
         return this.signedMessage(message, keyPair);
     }
@@ -1187,61 +1161,34 @@ export class CoinService {
             ) {
                 signature = this.web3Serv.signEtheruemCompatibleMessageWithPrivateKey(originalMessage, keyPair) as Signature;
             } else
-                if ((name === 'FAB' && !tokenType) || tokenType === 'FAB') {
-                    const fabSignature = this.web3Serv.signEtheruemCompatibleMessageWithPrivateKey(originalMessage, keyPair) as Signature;
-                    const vRaw = parseInt(this.utilServ.stripHexPrefix(fabSignature.v), 16);
-                    const recovery = vRaw >= 27 ? (vRaw - 27) : vRaw;
-                    // Keep FAB deposit-claim signature encoding aligned with pay.cool-v3-app:
-                    // compressed-style header byte (27 + 4 + recovery) => 31/32.
-                    const encodedV = recovery + 27 + 4;
-                    signature = {
-                        r: fabSignature.r,
-                        s: fabSignature.s,
-                        v: '0x' + encodedV.toString(16)
-                    } as Signature;
-            } else
                 if (name === 'TRX' || tokenType === 'TRX') {
                     const priKeyDisp = keyPair.privateKey.toString('hex');
                     signature = this.signStringTron(originalMessage, priKeyDisp);
                 }
-                else if (name === 'BTC' || name === 'DOGE' || name === 'LTC') {
-                    // signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
+                else if (
+                    name === 'BTC' || name === 'DOGE' || name === 'LTC' || name === 'BCH' ||
+                    (name === 'FAB' && !tokenType) || tokenType === 'FAB'
+                ) {
 
                     let signBuffer: Buffer;
-                    // if(name === 'FAB' || name === 'BTC' || tokenType === 'FAB' || name === 'LTC' || name === 'DOGE') {
-                    const chainName = tokenType ? tokenType : name;
+                    // Mirror pay.cool-v3-app: FAB/BTC/BCH use Bitcoin prefix;
+                    // LTC and DOGE use their own network prefixes.
+                    const chainName = (tokenType ? tokenType : name).toUpperCase();
+                    let network = environment.chains.BTC.network;
+                    if (chainName === 'LTC') {
+                        network = environment.chains.LTC.network;
+                    } else if (chainName === 'DOGE') {
+                        network = environment.chains.DOGE.network;
+                    }
 
-                    const chain = environment.chains[chainName as keyof typeof environment.chains];
-                    const messagePrefix = chain && (chain as any).network && (chain as any).network.messagePrefix
-                        ? (chain as any).network.messagePrefix
+                    const messagePrefix = network && (network as any).messagePrefix
+                        ? (network as any).messagePrefix
                         : '\x18Bitcoin Signed Message:\n';
 
                     let v = '';
                     let r = '';
                     let s = '';
-                    /*
-                    console.log('2bbb');
-                    if((name === 'TRX' || tokenType == 'TRX')) {
-                        const priKeyDisp = keyPair.privateKey.toString('hex'); 
-                        //const signiture = TronWeb.Trx.signString(originalMessage, priKeyDisp);
-                        //const signiture = await tronWeb.trx.sign(originalMessage, priKeyDisp);
-        
-                        const signiture = this.signStringTron(originalMessage, priKeyDisp);
-                        console.log('signiture=', signiture);
-                        r = '0x' + signiture.slice(2, 66);
-                        s = '0x' + signiture.slice(66, 130);
-                        v = '0x' + signiture.slice(130, 132);
-                        console.log('for trx');
-                        console.log(v,r,s);
-                    } else {
-         
-                    }
-                    */
 
-                    /*
-                    signBuffer = bitcoinMessage.sign(originalMessage, keyPair.privateKeyBuffer.privateKey,
-                        keyPair.privateKeyBuffer.compressed, messagePrefix);
-                    */
                     let privKeyBuf: any = keyPair?.privateKeyBuffer;
                     if (privKeyBuf && privKeyBuf.privateKey) {
                         privKeyBuf = privKeyBuf.privateKey;
@@ -1263,37 +1210,7 @@ export class CoinService {
                     s = `0x${signBuffer.slice(33, 65).toString('hex')}`;
 
                     signature = { r: r, s: s, v: v };
-                } else
-                    if (name === 'BCH') {
-
-                        // let signBuffer: Buffer;
-                        const message = new BchMessage(originalMessage);
-
-                        // var signature = message.sign(privateKey);
-
-                        const hash = message.magicHash();
-                        const ecdsa = bitcore.crypto.ECDSA;
-                        let signBuffer: Buffer = bitcoinMessage.sign(hash, keyPair.privateKeyBuffer.privateKey, true);
-                        /*
-                        ecdsa.hashbuf = hash;
-                        ecdsa.privkey = keyPair.privateKey;
-                        ecdsa.pubkey = keyPair.privateKey.toPublicKey();
-                        ecdsa.signRandomK();
-                        ecdsa.calci();
-                        signBuffer = ecdsa.sig.toCompact();
-             */
-                        console.log('signBuffer===', signBuffer);
-                        let v = '';
-                        let r = '';
-                        let s = '';
-
-                        v = `0x${signBuffer.slice(0, 1).toString('hex')}`;
-                        r = `0x${signBuffer.slice(1, 33).toString('hex')}`;
-                        s = `0x${signBuffer.slice(33, 65).toString('hex')}`;
-
-                        signature = { r: r, s: s, v: v };
-                        // console.log('signature=', signature);
-                    }
+                }
 
         return signature;
     }
