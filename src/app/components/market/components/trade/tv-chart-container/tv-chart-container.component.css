@@ -1,0 +1,14 @@
+.app-tv-chart-container {
+	height: calc(100vh - 80px);
+}
+
+
+.app-tv-chart-container{
+	height: 460px;
+}
+
+@media (max-width:600px){
+	.app-tv-chart-container{
+		height: 380px;
+	}
+}

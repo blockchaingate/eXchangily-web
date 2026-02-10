@@ -1,55 +1,57 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Router, RouterModule } from '@angular/router';
+import { CommonModule, Location } from '@angular/common';
 import { TransactionItem } from '../../../models/transaction-item';
 import { StorageService } from '../../../services/storage.service';
 import { ApiService } from '../../../services/api.service';
 import { AlertService } from '../../../services/alert.service';
 import { UtilService } from '../../../services/util.service';
-import { UserAuth } from '../../../modules/landing/service/user-auth/user-auth.service';
-import { KanbanService } from '../../../services/kanban.service';
+import { UserAuth } from '../../../services/user-auth.service';
+import { KanbanV2Service } from '../../../services/kanban-v2.service';
 import { TimerService } from '../../../services/timer.service';
-import { environment } from '../../../../environments/environment';
-import { LanService } from 'src/app/services/lan.service';
-import { LoginInfoModel } from 'src/app/models/lgoin-info';
-import { LoginInfoService } from 'src/app/services/loginInfo.service';
-import { LoginQualifyService } from 'src/app/services/lgoin-quality.service';
+import { environment } from '../../../environments/environment';
+import { LanService } from '../../../services/lan.service';
+import { LoginInfoService } from '../../../services/loginInfo.service';
+import { LoginQualifyService } from '../../../services/lgoin-quality.service';
 import { Announcement } from '../../../models/announcement';
-import { AnnouncementsService } from 'src/app/services/announcements.service';
+import { AnnouncementsService } from '../../../services/announcements.service';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-header',
+  standalone: true,
+  imports: [CommonModule, RouterModule, MatMenuModule, TranslateModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  isProduction: boolean;
-  currentLang: string;
+  isProduction = false;
+  currentLang = 'en';
   loggedIn = false;
   selectedItem = 1;
   // @Output() public sidenavToggle = new EventEmitter();
-  background: string;
-  pendingtransactions: TransactionItem[];
-  closetransactions: TransactionItem[];
+  background = '';
+  pendingtransactions: TransactionItem[] = [];
+  closetransactions: TransactionItem[] = [];
   color = 'primary';
   mode = 'determinate';
   value = 100;
-  showCollapse: boolean;
-  testMode: boolean;
-  displayHideLabel: boolean;
-  readyGo: boolean;
-  interval;
-  message: string;
-  LoginInfo: boolean;
-  LoginQualify: boolean;
+  showCollapse = false;
+  testMode = false;
+  displayHideLabel = true;
+  readyGo = false;
+  interval = 0;
+  message = '';
+  LoginInfo = false;
+  LoginQualify = false;
   urgentAnnouncementsList: Announcement[] = [];
 
   constructor(
     private translate: TranslateService, private router: Router,
     private alertServ: AlertService,
     public utilServ: UtilService,
-    private kanbanServ: KanbanService, private timerServ: TimerService,
+    private kanbanV2Serv: KanbanV2Service, private timerServ: TimerService,
     private location: Location,
     private storageServ: StorageService,
     private apiServ: ApiService,
@@ -95,14 +97,14 @@ export class HeaderComponent implements OnInit {
     // check user login token.
     this.readyGo = true;
     this.storageServ.getToken().subscribe(
-      (token: string) => {
+      (token: any) => {
         if (!token) {
           this.readyGo = false;
         } else {
           this.LoginInfodata.changeMessage(true);
           // check if user qualify for compaign
           this.storageServ.getCampaignQualify().subscribe(
-            (Qualify: boolean) => {
+            (Qualify: any) => {
               // console.log('Qualify=', Qualify);
               // set event menu items status.
               this.LoginQualifydata.changeMessage(Qualify);
@@ -126,7 +128,6 @@ export class HeaderComponent implements OnInit {
               const item = this.pendingtransactions[i];
               if (item.txid === txItem.txid) {
                 item.status = txItem.status;
-                this.storageServ.updateTransactionHistoryList(item);
                 this.pendingtransactions.splice(i, 1);
                 this.closetransactions.unshift(item);
                 break;
@@ -137,33 +138,9 @@ export class HeaderComponent implements OnInit {
       }
     );
 
-    this.storageServ.getTransactionHistoryList().subscribe(
-      (transactionHistory: TransactionItem[]) => {
-        if (transactionHistory) {
-          let hasPending = false;
-          const subArray = transactionHistory.reverse().slice(0, 5);
-          for (let i = 0; i < subArray.length; i++) {
-            const item = subArray[i];
-            // console.log('item.status=', item.status);
-            if (item.status === 'pending') {
-              this.pendingtransactions.push(item);
-              this.timerServ.checkTransactionStatus(item, 60);
-
-              hasPending = true;
-            } else {
-              this.closetransactions.push(item);
-            }
-          }
-
-        }
-
-      });
-
-
     this.currentLang = 'English';
     this.translate.setDefaultLang('en');
     this.setLan();
-
 
     this.background = 'dark-back';
     const path = this.location.path();
@@ -174,8 +151,8 @@ export class HeaderComponent implements OnInit {
 
   linkTo(url: string) {
     this.showCollapse = false;
-    if(url == '/manual') {
-      if(this.currentLang != 'English') {
+    if (url == '/manual') {
+      if (this.currentLang != 'English') {
         url = '/manual/sc'
       }
     }
@@ -207,8 +184,6 @@ export class HeaderComponent implements OnInit {
       this.currentLang = '中文';
       this._userAuth.language = '简体中文';
       this.lanData.changeMessage('zh');
-
-
     } else if (lang === 'en') {
       this.currentLang = 'English';
       this._userAuth.language = 'English';
@@ -269,8 +244,8 @@ export class HeaderComponent implements OnInit {
   getUrgentAnnouncements(currentLan: string) {
     if (currentLan === 'zh') currentLan = 'sc';
     const query = { lanCode: currentLan, active: true, urgent: true };
-    this.announceServ.find(query).subscribe(ret => {
-      if (ret['success']) {
+    this.announceServ.find(query).subscribe((ret: any) => {
+      if (ret.success) {
         this.urgentAnnouncementsList = ret['body'] as Announcement[];
         alert(this.urgentAnnouncementsList[0].title)
       } else {

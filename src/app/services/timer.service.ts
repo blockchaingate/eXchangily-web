@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { timer, BehaviorSubject } from 'rxjs';
-import { KanbanService } from './kanban.service';
+import { KanbanV2Service } from './kanban-v2.service';
 import { TransactionItem } from '../models/transaction-item';
 import { ApiService } from './api.service';
 
@@ -19,7 +19,7 @@ export class TimerService {
     public canceledOrders: BehaviorSubject<any> = new BehaviorSubject([]);
     public tokens: BehaviorSubject<any> = new BehaviorSubject([]);
 
-    constructor(public kanbanServ: KanbanService, private apiServ: ApiService) { 
+    constructor(public kanbanV2Serv: KanbanV2Service, private apiServ: ApiService) {
         this.transactionStatusSubscribe = [];
         this.orderStatusSubscribe = [];
         this.tokenSubscribe = [];
@@ -62,11 +62,14 @@ export class TimerService {
 
                 this.unCheckTokens(address);
             }
-            this.kanbanServ.getBalance(address).subscribe((resp) => {
-                this.tokens.next(resp);
-            });          
-        });   
-        
+            this.kanbanV2Serv.getBalance(address).subscribe((resp: any) => {
+                if (resp.success) {
+                    this.tokens.next(resp.data);
+                }
+
+            });
+        });
+
         this.tokenSubscribe.push(
             {
                 address: address,
@@ -89,10 +92,10 @@ export class TimerService {
     checkOrderStatus(address: string, maxTimes = 160) {
         if (this.maxTimes > 0) {
             maxTimes = this.maxTimes;
-        }      
+        }
         if (!this.timerEnabled) {
             return;
-        }       
+        }
         // console.log('begin checkint');
         for (let i = 0; i < this.orderStatusSubscribe.length; i++) {
             const item = this.orderStatusSubscribe[i];
@@ -100,36 +103,46 @@ export class TimerService {
                 return;
             }
         }
-        const source = timer(1000, 1000);
+        const source = timer(2000, 2000);
         const subscribeItem = source.subscribe(val => {
             if ((maxTimes > 0) && (val >= maxTimes - 1)) {
                 this.unCheckOrderStatus(address);
             }
-            this.kanbanServ.getOrdersByAddressStatus(address, 'open')
-            .subscribe(
-                (orders: any) => { 
-                    // console.log('ordersssssssssssssssssss=', orders);
-                    this.openOrders.next(orders);
-                }
-            );   
+            this.kanbanV2Serv.getOrdersByAddressStatus(address, 'open')
+                .subscribe(
+                    (ret: any) => {
+                        // console.log('ordersssssssssssssssssss=', orders);
+                        if (ret.success) {
+                            const orders = ret.data;
+                            this.openOrders.next(orders);
+                        }
 
-            this.kanbanServ.getOrdersByAddressStatus(address, 'closed')
-            .subscribe(
-                (orders: any) => { 
-                    // console.log('ordersssssssssssssssssss=', orders);
-                    this.closedOrders.next(orders);
-                }
-            );   
-            
-            this.kanbanServ.getOrdersByAddressStatus(address, 'canceled')
-            .subscribe(
-                (orders: any) => { 
-                    // console.log('ordersssssssssssssssssss=', orders);
-                    this.canceledOrders.next(orders);
-                }
-            );             
-        });   
-        
+                    }
+                );
+
+            this.kanbanV2Serv.getOrdersByAddressStatus(address, 'closed')
+                .subscribe(
+                    (ret: any) => {
+                        if (ret.success) {
+                            const orders = ret.data;
+                            this.closedOrders.next(orders);
+                        }
+
+                    }
+                );
+
+            this.kanbanV2Serv.getOrdersByAddressStatus(address, 'canceled')
+                .subscribe(
+                    (ret: any) => {
+                        if (ret.success) {
+                            const orders = ret.data;
+                            this.canceledOrders.next(orders);
+                        }
+
+                    }
+                );
+        });
+
         this.orderStatusSubscribe.push(
             {
                 address: address,
@@ -144,7 +157,7 @@ export class TimerService {
             item.subscribeItem.unsubscribe();
         }
     }
-   
+
     unCheckAllTransactionStatus() {
         for (let i = 0; i < this.transactionStatusSubscribe.length; i++) {
             const item = this.transactionStatusSubscribe[i];
@@ -166,12 +179,12 @@ export class TimerService {
     checkTransactionStatus(item: TransactionItem, maxTimes = 160) {
         if (this.maxTimes > 0) {
             maxTimes = this.maxTimes;
-        }        
+        }
         if (!this.timerEnabled) {
             return;
         }
         const txid = item.txid;
-        if(!txid) {
+        if (!txid) {
             return;
         }
         const type = item.type;
@@ -183,7 +196,7 @@ export class TimerService {
             if (itemS.txid === txid) {
                 return;
             }
-        }    
+        }
 
         const source = timer(10000, 20000);
         const subscribeItem = source.subscribe(async val => {
@@ -191,7 +204,7 @@ export class TimerService {
                 this.unCheckTransactionStatus(txid);
             }
             if (type === 'Withdraw') {
-                this.kanbanServ.getTransactionStatusSync(txid).subscribe(
+                this.kanbanV2Serv.getTransactionStatusSync(txid).subscribe(
                     (res: any) => {
                         if (res && res.transactionReceipt) {
                             let status = 'failed';
@@ -205,22 +218,20 @@ export class TimerService {
                                 }
                             );
                             this.unCheckTransactionStatus(txid);
-                        }                      
+                        }
                     }
                 );
             } else if (type === 'Deposit') {
                 console.log('check deposit status');
-                this.kanbanServ.getDepositStatusSync(txid).subscribe((res: any) => {
+                this.kanbanV2Serv.getDepositStatusSync(txid).subscribe((res: any) => {
                     if (res && res.code !== undefined) {
                         const code = res.code;
                         let status = '';
                         if (code === 0) {
                             status = 'confirmed';
-                        } else
-                        if (code === 2) {
+                        } else if (code === 2) {
                             status = 'failed';
-                        } else
-                        if (code === 3) {
+                        } else if (code === 3) {
                             status = 'claim';
                         }
                         if (status) {
@@ -234,12 +245,12 @@ export class TimerService {
                             this.unCheckTransactionStatus(txid);
                         }
                     }
-                }, (error) => {
+                }, (error: any) => {
                     // console.log('error', error);
                 });
             } else if (type === 'Send' || type === 'Add Gas') {
                 if (coin === 'BTC') {
-                    this.apiServ.getBtcTransactionSync(txid).subscribe( (res: any) => {
+                    this.apiServ.getBtcTransactionSync(txid).subscribe((res: any) => {
                         if (res.confirmations && res.confirmations >= 1) {
                             this.transactionStatus.next(
                                 {
@@ -247,11 +258,11 @@ export class TimerService {
                                     status: status
                                 }
                             );
-                            this.unCheckTransactionStatus(txid);                        
+                            this.unCheckTransactionStatus(txid);
                         }
                     });
                 } else if (coin === 'ETH' || tokenType === 'ETH') {
-                    this.apiServ.getEthTransactionSync(txid).subscribe( (res: any) => {
+                    this.apiServ.getEthTransactionSync(txid).subscribe((res: any) => {
                         if (res) {
                             let confirmations = 0;
                             if (res.blockNumber) {
@@ -270,7 +281,7 @@ export class TimerService {
                                                 status: status
                                             }
                                         );
-                                        this.unCheckTransactionStatus(txid);                                        
+                                        this.unCheckTransactionStatus(txid);
                                     }
                                 );
                             }
@@ -291,7 +302,7 @@ export class TimerService {
                                         status: status
                                     }
                                 );
-                                this.unCheckTransactionStatus(txid);                                 
+                                this.unCheckTransactionStatus(txid);
                             }
                         },
                         (error: any) => {
@@ -303,36 +314,36 @@ export class TimerService {
                                     status: status
                                 }
                             );
-                            this.unCheckTransactionStatus(txid);   
-                        } 
-                    );
-                } else 
-                if(coin == 'TRX' || tokenType == 'TRX') {
-                    const status = await this.apiServ.getTrxTransactionStatus(txid);
-                    this.transactionStatus.next(
-                        {
-                            txid: txid,
-                            status: status
+                            this.unCheckTransactionStatus(txid);
                         }
                     );
-                    if(status == 'confirmed' || status == 'failed') {
-                        this.unCheckTransactionStatus(txid); 
-                    }
                 } else
-                if(coin == 'BNB' || tokenType == 'BNB') {
-                    const status = await this.apiServ.getBnbTransactionStatus(txid);
-                    this.transactionStatus.next(
-                        {
-                            txid: txid,
-                            status: status
+                    if (coin == 'TRX' || tokenType == 'TRX') {
+                        const status = await this.apiServ.getTrxTransactionStatus(txid);
+                        this.transactionStatus.next(
+                            {
+                                txid: txid,
+                                status: status
+                            }
+                        );
+                        if (status == 'confirmed' || status == 'failed') {
+                            this.unCheckTransactionStatus(txid);
                         }
-                    );
-                    if(status == 'confirmed' || status == 'failed') {
-                        this.unCheckTransactionStatus(txid); 
-                    }
-                }
-            }                
-        }); 
+                    } else
+                        if (coin == 'BNB' || tokenType == 'BNB') {
+                            const status = await this.apiServ.getBnbTransactionStatus(txid);
+                            this.transactionStatus.next(
+                                {
+                                    txid: txid,
+                                    status: status
+                                }
+                            );
+                            if (status == 'confirmed' || status == 'failed') {
+                                this.unCheckTransactionStatus(txid);
+                            }
+                        }
+            }
+        });
 
         this.transactionStatusSubscribe.push(
             {
@@ -340,6 +351,6 @@ export class TimerService {
                 subscribeItem: subscribeItem
             }
         );
-       
+
     }
 }

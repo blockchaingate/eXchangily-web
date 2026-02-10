@@ -173,8 +173,8 @@
 .mat-form-field {
     font-size: inherit;
     font-weight: 400;
-    line-height: 1.125;
-    font-family: Verdana,sans-serif,SimHei,Microsoft YaHei
+    line-height: 1;
+   font-family: Verdana,sans-serif,SimHei,Microsoft YaHei
 }
 
 .mat-form-field-wrapper {
@@ -1921,7 +1921,7 @@ mat-footer-row,mat-header-row,mat-row,td.mat-cell,td.mat-footer-cell,th.mat-head
 }
 
 .mat-select-value {
-    color: #fff
+    color: grey;
 }
 
 .mat-select-placeholder {

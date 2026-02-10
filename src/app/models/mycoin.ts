@@ -5,17 +5,17 @@ export class MyCoin extends Coin {
     new: boolean;
     encryptedPrivateKey: any;
     balance: number;
-    logo: string;
-    unconfirmedBalance: number;
+    logo = '';
+    unconfirmedBalance = 0;
     lockedBalance: number;
     lockers: any;
     receiveAdds: Address[];
     changeAdds: Address[];
     tokenType: string;
-    baseCoin: MyCoin;
+    baseCoin: MyCoin | null;
     usdPrice: number;
-    redeposit: any[];
-    depositErr: any[];
+    redeposit: any[] = [];
+    depositErr: any[] = [];
     contractAddr: string;
 
     constructor(name: string) {

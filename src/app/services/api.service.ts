@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
-import {Balance,  EthTransactionRes
-    , FabTransactionResponse, CoinsPrice, BtcUtxo, KEthBalance, FabUtxo, EthTransactionStatusRes, GasPrice,
-    FabTokenBalance, FabTransactionJson, BtcTransactionResponse, BtcTransaction, JsonResult} from '../interfaces/balance.interface';
+import {
+    Balance, EthTransactionRes, FabTransactionResponse, CoinsPrice, BtcUtxo, KEthBalance, FabUtxo, EthTransactionStatusRes, GasPrice,
+    FabTokenBalance, FabTransactionJson, BtcTransactionResponse, BtcTransaction, JsonResult
+} from '../models/balance.interface';
 
-import {Web3Service} from './web3.service';
-import {UtilService} from './util.service';
-import {AlertService} from './alert.service';
+import { Web3Service } from './web3.service';
+import { UtilService } from './util.service';
+import { AlertService } from './alert.service';
 import BigNumber from 'bignumber.js';
-import { environment } from '../../environments/environment';
-import TronWeb from 'tronweb';
+import { environment } from '../environments/environment';
+import { TronWeb, providers } from 'tronweb';
+import { Observable } from 'rxjs';
 
-const HttpProvider = TronWeb.providers.HttpProvider;
+const HttpProvider = providers.HttpProvider;
 const fullNode = new HttpProvider(environment.chains.TRX.fullNode);
 const solidityNode = new HttpProvider(environment.chains.TRX.solidityNode);
 const eventServer = new HttpProvider(environment.chains.TRX.eventServer);
@@ -24,11 +26,340 @@ const tronWeb = new TronWeb(
     eventServer
 );
 
-@Injectable() 
+@Injectable()
 export class ApiService {
-    
+
     constructor(private http: HttpClient, private web3Serv: Web3Service, private utilServ: UtilService, private alertServ: AlertService) { }
-    
+
+    checkCountry() {
+        const observable = new Observable((subscriber) => {
+            let url = 'https://ipv4.myexternalip.com/json';
+            this.http.get(url).subscribe(
+                {
+                    next: (ret: any) => {
+                        if (ret.ip) {
+                            url = environment.endpoints.api + 'common/checkip/' + ret.ip;
+
+                            this.http.get(url).subscribe(
+                                {
+                                    next: (ret: any) => {
+                                        if (ret.success) {
+                                            const data = ret.data;
+                                            const countryCode = data.countryCode;
+                                            subscriber.next(countryCode);
+                                        }
+                                    }
+                                }
+                            );
+                        }
+                    }
+                }
+            );
+
+
+        });
+        return observable;
+    }
+
+    getTransactionHistory(chain: string, native: string, contractAddress: string) {
+        const observable = new Observable((subscriber) => {
+            const data = {
+                pageNum: 0,
+                pageSize: 100,
+                chain,
+                native,
+                contractAddress
+            };
+
+            const url = environment.endpoints.api + 'v3/transaction/history';
+
+            this.http.post(url, data).subscribe(
+                {
+                    next: (ret: any) => {
+                        if (ret.success) {
+                            const data = ret.data;
+                            subscriber.next(data);
+                        }
+                    }
+                }
+            );
+        });
+        return observable;
+    }
+
+    getTransactionHistoryForChain(chain: string, native: string) {
+        const observable = new Observable((subscriber) => {
+            const data = {
+                pageNum: 0,
+                pageSize: 100,
+                chain,
+                native
+            };
+
+            const url = environment.endpoints.api + 'v3/transaction/history';
+
+            this.http.post(url, data).subscribe(
+                {
+                    next: (ret: any) => {
+                        if (ret.success) {
+                            const data = ret.data;
+                            subscriber.next(data);
+                        }
+                    }
+                }
+            );
+        });
+        return observable;
+    }
+
+    getExchangilyExchangeTrades(pageSize: number, pageNum: number) {
+        const observable = new Observable((subscriber) => {
+            const url = environment.endpoints.api + 'v3/exchangily/exchangeTrade/' + pageSize + '/' + pageNum;
+
+            this.http.get(url).subscribe(
+                {
+                    next: (ret: any) => {
+                        if (ret.success) {
+                            const data = ret.data;
+                            subscriber.next(data);
+                        }
+                    }
+                }
+            );
+        });
+        return observable;
+    }
+
+    getExchangilyExchangeTradesTotalCount() {
+        const observable = new Observable((subscriber) => {
+            const url = environment.endpoints.api + 'v3/exchangily/exchangeTrade/totalCount';
+
+            this.http.get(url).subscribe(
+                {
+                    next: (ret: any) => {
+                        if (ret.success) {
+                            const data = ret.data;
+                            subscriber.next(data);
+                        }
+                    }
+                }
+            );
+        });
+        return observable;
+    }
+
+
+    getExchangilyCreateOrders(pageSize: number, pageNum: number) {
+        const observable = new Observable((subscriber) => {
+            const url = environment.endpoints.api + 'v3/exchangily/createOrder/' + pageSize + '/' + pageNum;
+
+            this.http.get(url).subscribe(
+                {
+                    next: (ret: any) => {
+                        if (ret.success) {
+                            const data = ret.data;
+                            subscriber.next(data);
+                        }
+                    }
+                }
+            );
+        });
+        return observable;
+    }
+
+    getExchangilyCreateOrdersTotalCount() {
+        const observable = new Observable((subscriber) => {
+            const url = environment.endpoints.api + 'v3/exchangily/createOrder/totalCount';
+
+            this.http.get(url).subscribe(
+                {
+                    next: (ret: any) => {
+                        if (ret.success) {
+                            const data = ret.data;
+                            subscriber.next(data);
+                        }
+                    }
+                }
+            );
+        });
+        return observable;
+    }
+
+    getExchangilyCancelledOrders(pageSize: number, pageNum: number) {
+        const observable = new Observable((subscriber) => {
+            const url = environment.endpoints.api + 'v3/exchangily/createOrder/cancelled/' + pageSize + '/' + pageNum;
+
+            this.http.get(url).subscribe(
+                {
+                    next: (ret: any) => {
+                        if (ret.success) {
+                            const data = ret.data;
+                            subscriber.next(data);
+                        }
+                    }
+                }
+            );
+        });
+        return observable;
+    }
+
+    getExchangilyCancelledOrdersTotalCount() {
+        const observable = new Observable((subscriber) => {
+            const url = environment.endpoints.api + 'v3/exchangily/createOrder/cancelled/totalCount';
+
+            this.http.get(url).subscribe(
+                {
+                    next: (ret: any) => {
+                        if (ret.success) {
+                            const data = ret.data;
+                            subscriber.next(data);
+                        }
+                    }
+                }
+            );
+        });
+        return observable;
+    }
+
+    getKanbanTokens() {
+        const observable = new Observable((subscriber) => {
+            const url = environment.endpoints.api + 'v3/token/erc20/1000/0';
+
+            this.http.get(url).subscribe(
+                {
+                    next: (ret: any) => {
+                        if (ret.success) {
+                            const data = ret.data;
+                            subscriber.next(data);
+                        }
+                    }
+                }
+            );
+        });
+        return observable;
+    }
+
+    claimWithdraw(rawtxs: any) {
+        const observable = new Observable((subscriber) => {
+            const url = environment.endpoints.api + 'v3/bridge/claimWithdraw';
+            const data = {
+                rawtxs
+            };
+            this.http.post(url, data).subscribe(
+                {
+                    next: (ret: any) => {
+                        if (ret.success) {
+                            const data = ret.data;
+                            subscriber.next(data);
+                        }
+                    }
+                }
+            );
+        });
+        return observable;
+    }
+
+    withdrawFee(srcChain: string) {
+        const url = environment.endpoints.api + 'v3/bridge/withdrawFee';
+        const data = {
+            srcChain
+        };
+        return this.http.post(url, data);
+    }
+
+    withdrawQuote(address: string, recipient: string, destId: string, srcChain: string, amount: number) {
+        const url = environment.endpoints.api + 'v3/bridge/withdrawQuote';
+        const data = {
+            address,
+            recipient,
+            destId,
+            srcChain,
+            amount
+        };
+        return this.http.post(url, data);
+    }
+
+    async getPairDecimals(pairName: string): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            const url = environment.endpoints.api + 'v3/exchangily/pair/' + pairName + '/decimals';
+
+            this.http.get(url).subscribe(
+                {
+                    next: (ret: any) => {
+                        if (ret.success) {
+                            const data = ret.data;
+                            resolve(data);
+                        } else {
+                            resolve(null);
+                        }
+
+                    }
+                }
+            );
+        });
+
+    }
+
+    async getPair(symbol: string): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            const url = environment.endpoints.api + 'v3/exchangily/pair/' + symbol;
+
+            console.log('url===', url);
+            this.http.get(url).subscribe(
+                {
+                    next: (ret: any) => {
+                        if (ret.success) {
+                            const data = ret.data;
+                            resolve(data);
+                        } else {
+                            resolve(null);
+                        }
+
+                    }
+                }
+            );
+        });
+
+    }
+
+    async getTsWalletBalance(chain: string, tokenId: string): Promise<number> {
+        return new Promise<number>((resolve, reject) => {
+            const url = environment.endpoints.api + 'v3/bridge/tsWalletBalance/' + chain + '/' + tokenId;
+
+            this.http.get(url).subscribe(
+                {
+                    next: (ret: any) => {
+                        if (ret.success) {
+                            const data = ret.data;
+                            resolve(data);
+                        }
+                    }
+                }
+            );
+        });
+
+    }
+
+    async getTSWalletAddress(chain: string): Promise<string> {
+        return new Promise<string>((resolve, reject) => {
+            const url = environment.endpoints.api + 'v3/bridge/tsWalletAddress';
+            const data = {
+                chain
+            };
+            this.http.post(url, data).subscribe(
+                {
+                    next: (ret: any) => {
+                        if (ret.success) {
+                            const data = ret.data;
+                            resolve(data);
+                        }
+                    }
+                }
+            );
+        });
+
+    }
+
     getExTransaction(code: string) {
         const url = environment.endpoints.blockchaingate + 'payment/gateway/code/' + code;
         return this.http.get(url);
@@ -38,12 +369,13 @@ export class ApiService {
         const url = environment.endpoints.FAB.exchangily + 'getblockcount';
         return this.http.get(url);
     }
+
     async getTrxTransactionStatus(txid: string) {
         const transactionInfo = await tronWeb.trx.getTransactionInfo(txid);
-        if(transactionInfo && transactionInfo.receipt) {
-            if(transactionInfo.receipt.result == 'SUCCESS') {
+        if (transactionInfo && transactionInfo.receipt) {
+            if (transactionInfo.receipt.result == 'SUCCESS') {
                 return 'confirmed';
-            } 
+            }
             return 'failed';
         }
         return 'pending';
@@ -55,27 +387,27 @@ export class ApiService {
         let status = '';
         try {
             const data = {
-                "jsonrpc":"2.0",
-                "method":"eth_getTransactionReceipt",
-                "params":[
+                "jsonrpc": "2.0",
+                "method": "eth_getTransactionReceipt",
+                "params": [
                     txid
                 ],
-                "id":1
+                "id": 1
             };
             const response = await this.http.post(url, data).toPromise() as JsonResult;
             const receipt = response.result;
-            if(!receipt) {
+            if (!receipt) {
                 return status;
             }
             const receiptStatus = receipt.status;
-            if(receiptStatus == '0x1') {
+            if (receiptStatus == '0x1') {
                 status = 'confirmed';
             } else
-            if(receiptStatus == '0x0') {
-                status = 'failed';
-            }
+                if (receiptStatus == '0x0') {
+                    status = 'failed';
+                }
 
-        } catch (e) {console.log (e); }
+        } catch (e) { console.log(e); }
         return status;
     }
 
@@ -84,19 +416,23 @@ export class ApiService {
         const url = environment.endpoints.blockchaingate + 'orders/code/' + code;
         return this.http.get(url);
     }
-    
+
     getEXGLockerDetail(fabAddress: string) {
         const url = environment.endpoints.kanban + 'getLockerHashesByAccount/' + fabAddress;
         return this.http.get(url);
     }
 
-    issueToken(data) {
-        const url = environment.endpoints.blockchaingate + 'issuetoken/Create' ;
+    issueToken(data: any) {
+        console.log('data===', data);
+
+        const url = environment.endpoints.blockchaingate + 'issuetoken/Create';
+
+        console.log('url===', url);
         return this.http.post(url, data);
     }
-    
-    updateIssueToken(data) {
-        const url = environment.endpoints.blockchaingate + 'issuetoken/Update' ;
+
+    updateIssueToken(data: any) {
+        const url = environment.endpoints.blockchaingate + 'issuetoken/Update';
         return this.http.post(url, data);
     }
 
@@ -106,17 +442,20 @@ export class ApiService {
     }
 
     getIssueTokens() {
-        const url = environment.endpoints.blockchaingate + 'issuetoken' ;
+        const url = environment.endpoints.blockchaingate + 'issuetoken';
         return this.http.get(url);
     }
+
     getIssueTokensOwnedBy(address: string) {
-        const url = environment.endpoints.blockchaingate + 'issuetoken/ownedBy/' + address ;
+        const url = environment.endpoints.blockchaingate + 'issuetoken/ownedBy/' + address;
         return this.http.get(url);
     }
+
     async getIssueToken(tokenId: string) {
-        const url = environment.endpoints.blockchaingate + 'issuetoken/' +  tokenId;
+        const url = environment.endpoints.blockchaingate + 'issuetoken/' + tokenId;
         return await this.http.get(url).toPromise();
     }
+
     getAllCoins() {
         const url = environment.endpoints.kanban + 'coins/';
         return this.http.get(url).toPromise();
@@ -124,16 +463,17 @@ export class ApiService {
 
     getEpayHash(paymentAmount: number, paymentUnit: string) {
         const url = environment.endpoints.blockchaingate + 'epay/hash/' + paymentAmount + '/' + paymentUnit;
-        return this.http.get(url);       
+        return this.http.get(url);
     }
+
     /// hash/:payeeAccount/:paymentAmount/:paymentUnit
-    chargeOrder(orderID, txhex: string) {
-        const url = environment.endpoints.blockchaingate + 'orders/' + orderID + '/charge' ;
+    chargeOrder(orderID: string, txhex: string) {
+        const url = environment.endpoints.blockchaingate + 'orders/' + orderID + '/charge';
 
         const data = {
             rawTransaction: txhex
-        };   
-        
+        };
+
         return this.http.post(url, data);
     }
 
@@ -146,19 +486,17 @@ export class ApiService {
         return this.http.post(url, data);
     }
 
-    
-
     getSmartContractABI(address: string) {
         if (!address.startsWith('0x')) {
             address = '0x' + address;
         }
-        if(
+        if (
             (address == environment.addresses.smartContract.DSC.FAB)
             || (address == environment.addresses.smartContract.BST.FAB)
         ) {
             address = environment.addresses.smartContract.EXG.FAB;
         }
-        let url = environment.endpoints.FAB.exchangily + 'getabiforcontract/' + address; 
+        let url = environment.endpoints.FAB.exchangily + 'getabiforcontract/' + address;
         /*
         if(address == environment.addresses.smartContract.EXG.FAB) {
             url = 'https://fabprod.fabcoinapi.com/' + 'getabiforcontract/' + '0xa3e26671a38978e8204b8a37f1c2897042783b00'; 
@@ -166,17 +504,18 @@ export class ApiService {
         */
         return this.http.get(url);
     }
+
     async getCoinsPrice() {
         const url = environment.endpoints.coingecko + 'api/v3/simple/price?ids=bitcoin,ethereum,fabcoin,tether&vs_currencies=usd';
-        const response = await this.http.get(url).toPromise() as CoinsPrice;  
-        return response;        
+        const response = await this.http.get(url).toPromise() as CoinsPrice;
+        return response;
     }
 
     getUSDValues() {
         const url = 'https://kanbanprod.fabcoinapi.com/getexgprice';
         return this.http.get(url);
     }
-    
+
     getBtcTransFeeEstimate() {
         const url = environment.endpoints.BTC.exchangily + 'getfeeestimate';
         return this.http.get(url);
@@ -188,18 +527,18 @@ export class ApiService {
         let response: any = null;
         try {
             response = await this.http.get(url).toPromise() as [BtcUtxo];
-        } catch (e) {console.log (e); }
+        } catch (e) { console.log(e); }
         return response;
     }
 
     async getUtxos(coin: string, address: string): Promise<[BtcUtxo]> {
-        const url = environment.endpoints[coin].exchangily + 'getutxos/' + address;
-        
+        const url = (environment.endpoints[coin as keyof typeof environment.endpoints] as any).exchangily + 'getutxos/' + address;
+
         console.log('url in getBtcUtxos' + url);
         let response: any = null;
         try {
             response = await this.http.get(url).toPromise() as [BtcUtxo];
-        } catch (e) {console.log (e); }
+        } catch (e) { console.log(e); }
         return response;
     }
 
@@ -209,37 +548,43 @@ export class ApiService {
         let response: any = null;
         try {
             response = await this.http.get(url).toPromise() as [BtcUtxo];
-        } catch (e) {console.log (e); }
+        } catch (e) { console.log(e); }
         return response;
     }
 
-    async getEthereumCompatibleTokenBalance(chainName: string, smartContractAddress: string, address: string) {
-        const url = environment.chains[chainName].rpcEndpoint;
+    async getEthereumCompatibleTokenBalance(chainName: keyof typeof environment.chains, smartContractAddress: string, address: string) {
+        const chain = environment.chains[chainName];
+        let url = ''
+        if ('rpcEndpoint' in chain) {
+            url = chain.rpcEndpoint;
+        } else {
+            throw new Error(`rpcEndpoint is not available for chain: ${chainName}`);
+        }
 
-        if(address.indexOf('0x') == 0) {
+        if (address.indexOf('0x') == 0) {
             address = address.substring(2);
         }
         let balance = '';
         try {
             const dataParam = '0x70a08231'
-            + '000000000000000000000000'
-            + address;
+                + '000000000000000000000000'
+                + address;
             const data = {
-                "jsonrpc":"2.0",
-                "method":"eth_call",
-                "params":[
+                "jsonrpc": "2.0",
+                "method": "eth_call",
+                "params": [
                     {
-                        "to": smartContractAddress, 
+                        "to": smartContractAddress,
                         "data": dataParam
-                    }, 
+                    },
                     "latest"
                 ],
-                "id":1
+                "id": 1
             };
             const response = await this.http.post(url, data).toPromise() as JsonResult;
-            
+
             balance = response.result;
-        } catch (e) {console.log (e); }
+        } catch (e) { console.log(e); }
         return balance;
 
     }
@@ -250,38 +595,44 @@ export class ApiService {
         try {
             const response = await this.http.get(url).toPromise() as GasPrice;
             gasPrice = response.gasprice;
-        } catch (e) {console.log (e); }
+        } catch (e) { console.log(e); }
         return gasPrice;
     }
 
-    async getEtheruemCompatibleGasPrice(coinName: string) : Promise<number> {
-        const url = environment.chains[coinName].rpcEndpoint;
+    async getEtheruemCompatibleGasPrice(coinName: string): Promise<number> {
+        const chain = environment.chains[coinName as keyof typeof environment.chains];
+        let url = '';
+        if ('rpcEndpoint' in chain) {
+            url = chain.rpcEndpoint;
+        } else {
+            throw new Error(`rpcEndpoint is not available for chain: ${coinName}`);
+        }
         let gasPrice = 0;
         try {
 
-            const data = {"jsonrpc":"2.0","method":"eth_gasPrice","params": [],"id":1};
+            const data = { "jsonrpc": "2.0", "method": "eth_gasPrice", "params": [], "id": 1 };
             const response = await this.http.post(url, data).toPromise() as JsonResult;
-            
+
             gasPrice = new BigNumber(response.result, 16).toNumber();
-        } catch (e) {console.log (e); }
+        } catch (e) { console.log(e); }
         return gasPrice;
     }
 
-    async getEtheruemCompatibleDecimals(chain: string, smartContractAddress: string) : Promise<number> {
+    async getEtheruemCompatibleDecimals(chain: string, smartContractAddress: string): Promise<number> {
         const abi = {
             "constant": true,
             "inputs": [],
             "name": "decimals",
             "outputs": [
-              {
-                "name": "",
-                "type": "uint8"
-              }
+                {
+                    "name": "",
+                    "type": "uint8"
+                }
             ],
             "payable": false,
             "type": "function"
         };
-        const args = [];
+        const args: any = [];
         const abiHex = this.web3Serv.getGeneralFunctionABI(abi, args);
         console.log('abiHex===', abiHex);
         const result = await this.getEtheruemCompatibleEthCall(chain, smartContractAddress, abiHex);
@@ -289,8 +640,7 @@ export class ApiService {
         return decimals;
     }
 
-
-    async getEtheruemCompatibleName(chain: string, smartContractAddress: string) : Promise<string> {
+    async getEtheruemCompatibleName(chain: string, smartContractAddress: string): Promise<string> {
         const abi = {
             "constant": true,
             "inputs": [],
@@ -305,45 +655,45 @@ export class ApiService {
             "stateMutability": "view",
             "type": "function"
         };
-        const args = [];
+        const args: any = [];
         const abiHex = this.web3Serv.getGeneralFunctionABI(abi, args);
-    
+
         const result = await this.getEtheruemCompatibleEthCall(chain, smartContractAddress, abiHex);
-        const name =this.web3Serv.toAscii(result);
+        const name = this.web3Serv.toAscii(result);
         console.log('result for name=====', name);
         return name;
     }
-  
-    async getEtheruemCompatibleSymbol(chain: string, smartContractAddress: string) : Promise<string> {
+
+    async getEtheruemCompatibleSymbol(chain: string, smartContractAddress: string): Promise<string> {
         const abi = {
             "constant": true,
             "inputs": [],
             "name": "symbol",
             "outputs": [
-              {
-                "name": "",
-                "type": "string"
-              }
+                {
+                    "name": "",
+                    "type": "string"
+                }
             ],
             "payable": false,
             "stateMutability": "view",
             "type": "function"
-          };
-        const args = [];
+        };
+        const args: any = [];
         const abiHex = this.web3Serv.getGeneralFunctionABI(abi, args);
-    
+
         const result = await this.getEtheruemCompatibleEthCall(chain, smartContractAddress, abiHex);
 
-        const symbol =this.web3Serv.toAscii(result);
+        const symbol = this.web3Serv.toAscii(result);
         console.log('result for symbol=====', symbol);
 
         return symbol;
-    }    
+    }
 
-    async getEtheruemCompatibleEthCall(chain: string, smartContractAddress: string, dataParam: string) : Promise<string> {
+    async getEtheruemCompatibleEthCall(chain: string, smartContractAddress: string, dataParam: string): Promise<string> {
         let result = '';
 
-        if(chain == 'ETH') {
+        if (chain == 'ETH') {
             const url = 'https://eth' + (environment.production ? 'prod' : 'test') + '.fabcoinapi.com/call';
             const data = {
                 transactionOptions: {
@@ -355,51 +705,58 @@ export class ApiService {
             console.log('response from ETH ====', response);
             result = response.result;
 
-        } if(chain == 'TRX') {
+        } if (chain == 'TRX') {
             const url = environment.chains[chain].fullNode;
             console.log('dataParam===', dataParam);
             try {
                 const data = {
-                    "jsonrpc":"2.0",
-                    "method":"eth_call",
-                    "params":[
+                    "jsonrpc": "2.0",
+                    "method": "eth_call",
+                    "params": [
                         {
-                            "to": smartContractAddress, 
+                            "to": smartContractAddress,
                             "data": dataParam
-                        }, 
+                        },
                         "latest"
                     ],
-                    "id":1
+                    "id": 1
                 };
                 const response = await this.http.post(url, data).toPromise() as JsonResult;
                 console.log('response===', response);
                 result = response.result;
-            } catch (e) {console.log (e); }
+            } catch (e) { console.log(e); }
         }
         else {
-            const url = environment.chains[chain].rpcEndpoint;
+            const chainConfig = environment.chains[chain as keyof typeof environment.chains];
+            let url = '';
+            if ('rpcEndpoint' in chainConfig) {
+                url = chainConfig.rpcEndpoint;
+                // Use the url variable here
+            } else {
+                throw new Error(`rpcEndpoint is not available for chain: ${chain}`);
+            }
 
             try {
                 const data = {
-                    "jsonrpc":"2.0",
-                    "method":"eth_call",
-                    "params":[
+                    "jsonrpc": "2.0",
+                    "method": "eth_call",
+                    "params": [
                         {
-                            "to": smartContractAddress, 
+                            "to": smartContractAddress,
                             "data": dataParam
-                        }, 
+                        },
                         "latest"
                     ],
-                    "id":1
+                    "id": 1
                 };
                 const response = await this.http.post(url, data).toPromise() as JsonResult;
-                
+
                 result = response.result;
-            } catch (e) {console.log (e); }
+            } catch (e) { console.log(e); }
         }
 
         return result;
-    }    
+    }
 
     async getDogeUtxos(address: string): Promise<[BtcUtxo]> {
         const url = environment.endpoints.DOGE.exchangily + 'getutxos/' + address;
@@ -407,7 +764,7 @@ export class ApiService {
         let response: any = null;
         try {
             response = await this.http.get(url).toPromise() as [BtcUtxo];
-        } catch (e) {console.log (e); }
+        } catch (e) { console.log(e); }
         return response;
     }
 
@@ -417,7 +774,7 @@ export class ApiService {
         let response: any = null;
         try {
             response = await this.http.get(url).toPromise() as [BtcUtxo];
-        } catch (e) {console.log (e); }
+        } catch (e) { console.log(e); }
         return response;
     }
 
@@ -428,23 +785,24 @@ export class ApiService {
         try {
             response = await this.http.get(url).toPromise() as BtcTransaction;
             console.log('response=', response);
-        } catch (e) {console.log (e); }
-        return response;        
+        } catch (e) { console.log(e); }
+        return response;
     }
 
     getBtcTransactionSync(txid: string) {
         txid = this.utilServ.stripHexPrefix(txid);
         const url = environment.endpoints.BTC.exchangily + 'gettransactionjson/' + txid;
-        return this.http.get(url);        
+        return this.http.get(url);
     }
+
     async getEthTransaction(txid: string) {
         const url = environment.endpoints.ETH.exchangily + 'gettransaction/' + txid;
         // console.log('url=' + url);
         let response: any = null;
         try {
             response = await this.http.get(url).toPromise() as EthTransactionRes;
-        } catch (e) {console.log (e); }
-        return response; 
+        } catch (e) { console.log(e); }
+        return response;
     }
 
     getEthTransactionSync(txid: string) {
@@ -458,8 +816,8 @@ export class ApiService {
         let response: any = null;
         try {
             response = await this.http.get(url).toPromise() as EthTransactionStatusRes;
-        } catch (e) {console.log (e); }
-        return response;         
+        } catch (e) { console.log(e); }
+        return response;
     }
 
     getEthTransactionStatusSync(txid: string) {
@@ -473,9 +831,9 @@ export class ApiService {
         try {
             const response = await this.http.get(url).toPromise() as number;
             balance = response;
-        } catch (e) {console.log (e); }
+        } catch (e) { console.log(e); }
         const lockbalance = 0;
-        return {balance, lockbalance};
+        return { balance, lockbalance };
     }
 
     async getFabTransactionJson(txid: string): Promise<FabTransactionJson> {
@@ -492,7 +850,7 @@ export class ApiService {
     }
 
     async isFabTransactionLocked(txid: string, idx: number): Promise<boolean> {
-        
+
         const response = await this.getFabTransactionJson(txid);
         // console.log('response in isFabTransactionLocked=', response);
         if (response.vin && response.vin.length > 0) {
@@ -513,54 +871,62 @@ export class ApiService {
         const response = await this.http.get(url).toPromise() as [FabUtxo];
         return response;
     }
+
     async getFabBalance(address: string): Promise<Balance> {
 
-       let balance = 0;
-       let lockbalance = 0;
-       const utxos = await this.getFabUtxos(address);
-       if (utxos) {
-        for (let i = 0; i < utxos.length; i++) {
-            const utxo = utxos[i];
-            const value = utxo.value;
-            const txid = utxo.txid;
-            const idx = utxo.idx;
-            /*
-            const isLock = await this.isFabTransactionLocked(txid, idx);
-            if (isLock) {
-                lockbalance += value;
-            } else {
+        let balance = 0;
+        let lockbalance = 0;
+        const utxos = await this.getFabUtxos(address);
+        if (utxos) {
+            for (let i = 0; i < utxos.length; i++) {
+                const utxo = utxos[i];
+                const value = utxo.value;
+                const txid = utxo.txid;
+                const idx = utxo.idx;
+                /*
+                const isLock = await this.isFabTransactionLocked(txid, idx);
+                if (isLock) {
+                    lockbalance += value;
+                } else {
+                    balance += value;
+                }
+                */
                 balance += value;
             }
-            */
-           balance += value;
         }
-       }
 
-       lockbalance = await this.getFabLockBalance(address);
-       // console.log('balance=', balance);
-       // console.log('lockbalance=', lockbalance);
-       return {balance, lockbalance};
+        lockbalance = await this.getFabLockBalance(address);
+        // console.log('balance=', balance);
+        // console.log('lockbalance=', lockbalance);
+        return { balance, lockbalance };
 
     }
 
-    async getEthNonce (address: string) {
+    async getEthNonce(address: string) {
         const url = environment.endpoints.ETH.exchangily + 'getnonce/' + address + '/latest';
         const response = await this.http.get(url).toPromise() as string;
-        return Number (response);
+        return Number(response);
     }
 
-    async getEtheruemCampatibleNonce (coinName: string, address: string) {
-        const url = environment.chains[coinName].rpcEndpoint;
+    async getEtheruemCampatibleNonce(coinName: string, address: string) {
+        const chain = environment.chains[coinName as keyof typeof environment.chains];
+        let url = '';
+        if ('rpcEndpoint' in chain) {
+            url = chain.rpcEndpoint;
+            // Use the url variable here
+        } else {
+            throw new Error(`rpcEndpoint is not available for chain: ${coinName}`);
+        }
         const data = {
             "method":
-            "eth_getTransactionCount",
-            "params":[address, "latest"],
-            "id":1,
-            "jsonrpc":"2.0"
+                "eth_getTransactionCount",
+            "params": [address, "latest"],
+            "id": 1,
+            "jsonrpc": "2.0"
         };
         const response = await this.http.post(url, data).toPromise() as JsonResult;
         const result = response.result;
-        return parseInt (result, 16);
+        return parseInt(result, 16);
     }
 
     async postEthTx(txHex: string) {
@@ -573,44 +939,50 @@ export class ApiService {
         };
         if (txHex) {
             try {
-                txHash = await this.http.post(url, data, {responseType: 'text'}).toPromise() as string;
+                txHash = await this.http.post(url, data, { responseType: 'text' }).toPromise() as string;
             } catch (err: any) {
                 console.log('errqqq=', err);
                 if (err.error) {
-                 errMsg = err.error;
+                    errMsg = err.error;
                 }
- 
-            }          
-        }    
 
-        return {txHash, errMsg};
+            }
+        }
+
+        return { txHash, errMsg };
     }
 
     async postEtheruemCompatibleTx(coinName: string, txHex: string) {
-
         let txHash = '';
         let errMsg = '';
-        const url = environment.chains[coinName].rpcEndpoint;
+        const chain = environment.chains[coinName as keyof typeof environment.chains];
+        let url = '';
+        if ('rpcEndpoint' in chain) {
+            url = chain.rpcEndpoint;
+            // Use the url variable here
+        } else {
+            throw new Error(`rpcEndpoint is not available for chain: ${coinName}`);
+        }
         const data = {
-            "jsonrpc":"2.0",
-            "method":"eth_sendRawTransaction",
-            "params":[txHex],
-            "id":1
+            "jsonrpc": "2.0",
+            "method": "eth_sendRawTransaction",
+            "params": [txHex],
+            "id": 1
         };
         if (txHex) {
             try {
                 const result = await this.http.post(url, data).toPromise() as JsonResult;
-                if(result) {
+                if (result) {
                     txHash = result.result;
                 }
             } catch (err: any) {
                 if (err.error) {
-                 errMsg = err.error;
+                    errMsg = err.error;
                 }
-            }          
-        }    
+            }
+        }
 
-        return {txHash, errMsg};
+        return { txHash, errMsg };
     }
 
     async getFabLockBalance(address: string) {
@@ -621,38 +993,39 @@ export class ApiService {
             address: this.utilServ.stripHexPrefix(fabSmartContractAddress),
             data: this.utilServ.stripHexPrefix(getLockedInfoABI),
             sender: address
-        };  
-        const response = await this.http.post(url, data, {responseType: 'text'}).toPromise() as string;
+        };
+        const response = await this.http.post(url, data, { responseType: 'text' }).toPromise() as string;
         const json = JSON.parse(response);
         let balance = 0;
         if (json && json.executionResult && json.executionResult.output) {
             const balanceHex = json.executionResult.output;
             // console.log('balanceHex=', balanceHex);
-            const decoded = this.web3Serv.decodeParameters(['uint256[]','uint256[]'], balanceHex);
+            const decoded = this.web3Serv.decodeParameters(['uint256[]', 'uint256[]'], balanceHex);
             // console.log('decoded', decoded);
             // console.log('decoded.1', decoded[1]);
             if (decoded && decoded[1]) {
                 // console.log('got it,decoded[1.length=', decoded[1].length);
-                for (let i = 0; i < decoded[1].length; i++) {
-                    const value = decoded[1][i];
+                for (let i = 0; i < (decoded[1] as any[]).length; i++) {
+                    const value = (decoded[1] as number[])[i];
                     balance += Number(value);
                 }
             }
         }
         return balance;
     }
+
     callFabSmartContract(address: string, abiHex: string, sender: string) {
         const url = environment.endpoints.FAB.exchangily + 'callcontract';
         const data = {
             address: address,
             data: abiHex,
             sender: sender
-        };   
-        return this.http.post(url, data);     
+        };
+        return this.http.post(url, data);
     }
 
     async postFabTx(txHex: string) {
-        
+
         /*
         const url = 'http://fabtest.info:9001/fabapi/' + '/sendrawtransaction/' + txHex;
         console.log('txHex=' + txHex);
@@ -670,195 +1043,283 @@ export class ApiService {
         console.log('ret from postFabTx=' + ret);
         return ret;
         */
-       const url = environment.endpoints.FAB.exchangily + 'postrawtransaction';
+        const primaryUrls = [
+            environment.apiUrl + 'fab/postrawtransaction',
+            environment.apiUrl + 'FAB/postrawtransaction'
+        ];
+        const directFabUrl = environment.endpoints.FAB.exchangily + 'postrawtransaction';
 
-       // console.log('url here we go:', url);
-       let txHash = '';
-       let errMsg = '';
-       const data = {
-        rawtx: txHex
-       };
-       if (txHex) {
-           try {
-            const json = await this.http.post(url, data).toPromise() as FabTransactionResponse;
-            console.log('json there we go=', json);
-            if (json) {
-                if (json.txid) {
-                    txHash = json.txid;
-                } else 
-                if (json.Error) {
-                    errMsg = json.Error;
-                } 
+        // console.log('url here we go:', url);
+        let txHash = '';
+        let errMsg = '';
+        const data = {
+            rawtx: txHex
+        };
+        const looksLikeTxid = (value: string) => /^(0x)?[0-9a-fA-F]{64}$/.test(value);
+        const parseFabPostResponse = (json: any) => {
+            if (!json) {
+                return;
             }
-           } catch (err: any) {
-               if (err.error && err.error.Error) {
-                errMsg = err.error.Error;
-                console.log('err there we go', err.error.Error);
-               }
+            if (json.txid) {
+                const candidate = (json.txid + '').trim();
+                if (looksLikeTxid(candidate)) {
+                    txHash = candidate;
+                } else if (!errMsg) {
+                    errMsg = candidate;
+                }
+                return;
+            }
+            if (json.Error) {
+                errMsg = json.Error;
+                return;
+            }
+            if (json.success && json.data) {
+                if (typeof json.data === 'string') {
+                    const candidate = json.data.trim();
+                    if (looksLikeTxid(candidate)) {
+                        txHash = candidate;
+                    } else if (!errMsg) {
+                        errMsg = candidate;
+                    }
+                } else if (json.data.txid) {
+                    const candidate = (json.data.txid + '').trim();
+                    if (looksLikeTxid(candidate)) {
+                        txHash = candidate;
+                    } else if (!errMsg) {
+                        errMsg = candidate;
+                    }
+                }
+                return;
+            }
+            if (json.success === false) {
+                if (typeof json.data === 'string' && !errMsg) {
+                    errMsg = json.data;
+                } else if (json.data?.error && !errMsg) {
+                    errMsg = json.data.error;
+                } else if (json.data?.message && !errMsg) {
+                    errMsg = json.data.message;
+                }
+            }
+            if (json.message && !errMsg) {
+                errMsg = json.message;
+            }
+        };
 
-           }
-
-       }       
-
-       return {txHash, errMsg};
+        if (txHex) {
+            console.log('[fab] postrawtransaction txHex prefix/len', txHex.slice(0, 12), txHex.length);
+            for (const url of primaryUrls) {
+                try {
+                    console.log('[fab] primary postrawtransaction via api', url);
+                    const json = await this.http.post(url, data).toPromise() as FabTransactionResponse;
+                    parseFabPostResponse(json);
+                    if (txHash) {
+                        break;
+                    }
+                } catch (err: any) {
+                    console.log('[fab] primary failed', url, err?.status, err?.error || err?.message);
+                    if (err.error && err.error.Error) {
+                        errMsg = err.error.Error;
+                    } else if (err.error && typeof err.error === 'string') {
+                        errMsg = err.error;
+                    } else if (err.message) {
+                        errMsg = err.message;
+                    }
+                }
+            }
+            if (!txHash) {
+                try {
+                    console.log('[fab] fallback direct postrawtransaction', directFabUrl);
+                    const json = await this.http.post(directFabUrl, data).toPromise() as FabTransactionResponse;
+                    parseFabPostResponse(json);
+                } catch (err: any) {
+                    console.log('[fab] fallback direct failed', directFabUrl, err?.status, err?.error || err?.message);
+                    if (err.error && err.error.Error) {
+                        errMsg = err.error.Error;
+                        console.log('err there we go', err.error.Error);
+                    } else if (err.error && typeof err.error === 'string') {
+                        errMsg = err.error;
+                    } else if (err.message) {
+                        errMsg = err.message;
+                    } else if (!errMsg) {
+                        errMsg = 'postrawtransaction failed';
+                    }
+                }
+            }
+        }
+        console.log('[fab] postrawtransaction result', { txHash, errMsg });
+        return { txHash, errMsg };
     }
 
     async postBtcTx(txHex: string) {
-       let txHash = '';
-       let errMsg = '';
-       const url = environment.endpoints.BTC.exchangily + 'postrawtransaction';
-       let response: any = null;
+        let txHash = '';
+        let errMsg = '';
+        const url = environment.endpoints.BTC.exchangily + 'postrawtransaction';
+        let response: any = null;
 
-       const data = {
-        rawtx: txHex
-       };
+        const data = {
+            rawtx: txHex
+        };
 
-       try {
+        try {
             if (txHex) {
                 response = await this.http.post(url, data).toPromise() as BtcTransactionResponse;
             }
             if (response && response.txid) {
-            txHash = '0x' + response.txid;
+                txHash = '0x' + response.txid;
             }
-       } catch (err: any) {
-            if (err.error && err.error.Error) {
-            errMsg = err.error.Error;
-            console.log('err there we go', err.error.Error);
-           }
-       }
-
-       //return ret;
-       return {txHash, errMsg};
-    }
-
-    async postTx(coin, txHex: string) {
-        let txHash = '';
-        let errMsg = '';
-        const url = environment.endpoints[coin].exchangily + 'postrawtransaction';
-        let response: any = null;
- 
-        const data = {
-         rawtx: txHex
-        };
- 
-        try {
-             if (txHex) {
-                 response = await this.http.post(url, data).toPromise() as BtcTransactionResponse;
-             }
-             if (response && response.txid) {
-             txHash = '0x' + response.txid;
-             }
         } catch (err: any) {
-             if (err.error && err.error.Error) {
-             errMsg = err.error.Error;
-             console.log('err there we go', err.error.Error);
+            if (err.error && err.error.Error) {
+                errMsg = err.error.Error;
+                console.log('err there we go', err.error.Error);
             }
         }
- 
+
         //return ret;
-        return {txHash, errMsg};
-     }
+        return { txHash, errMsg };
+    }
+
+    async postTx(coin: keyof typeof environment.endpoints, txHex: string) {
+        let txHash = '';
+        let errMsg = '';
+        const endpoint = environment.endpoints[coin];
+        let url = '';
+        if (typeof endpoint === 'object' && 'exchangily' in endpoint) {
+            url = endpoint.exchangily + 'postrawtransaction';
+        } else {
+            throw new Error(`Invalid endpoint configuration for coin: ${coin}`);
+        }
+        let response: any = null;
+
+        const data = {
+            rawtx: txHex
+        };
+
+        try {
+            if (txHex) {
+                response = await this.http.post(url, data).toPromise() as BtcTransactionResponse;
+            }
+            if (response && response.txid) {
+                txHash = '0x' + response.txid;
+            }
+        } catch (err: any) {
+            if (err.error && err.error.Error) {
+                errMsg = err.error.Error;
+                console.log('err there we go', err.error.Error);
+            }
+        }
+
+        //return ret;
+        return { txHash, errMsg };
+    }
 
     async postBchTx(txHex: string) {
         let txHash = '';
         let errMsg = '';
         const url = environment.endpoints.BCH.exchangily + 'postrawtransaction';
         let response: any = null;
- 
+
         const data = {
-         rawtx: txHex
+            rawtx: txHex
         };
- 
+
         try {
-             if (txHex) {
-                 response = await this.http.post(url, data).toPromise() as BtcTransactionResponse;
-             }
-             if (response && response.txid) {
-             txHash = '0x' + response.txid;
-             }
+            if (txHex) {
+                response = await this.http.post(url, data).toPromise() as BtcTransactionResponse;
+            }
+            if (response && response.txid) {
+                txHash = '0x' + response.txid;
+            }
         } catch (err: any) {
-             if (err.error && err.error.Error) {
-             errMsg = err.error.Error;
-             console.log('err there we go', err.error.Error);
+            if (err.error && err.error.Error) {
+                errMsg = err.error.Error;
+                console.log('err there we go', err.error.Error);
             }
         }
- 
-        //return ret;
-        return {txHash, errMsg};
-     }
 
-     async postDogeTx(txHex: string) {
+        //return ret;
+        return { txHash, errMsg };
+    }
+
+    async postDogeTx(txHex: string) {
         let txHash = '';
         let errMsg = '';
         const url = environment.endpoints.DOGE.exchangily + 'postrawtransaction';
         let response: any = null;
- 
+
         const data = {
-         rawtx: txHex
+            rawtx: txHex
         };
- 
+
         try {
-             if (txHex) {
-                 response = await this.http.post(url, data).toPromise() as BtcTransactionResponse;
-             }
-             if (response && response.txid) {
-             txHash = '0x' + response.txid;
-             }
+            if (txHex) {
+                response = await this.http.post(url, data).toPromise() as BtcTransactionResponse;
+            }
+            if (response && response.txid) {
+                txHash = '0x' + response.txid;
+            }
         } catch (err: any) {
-             if (err.error && err.error.Error) {
-             errMsg = err.error.Error;
-             console.log('err there we go', err.error.Error);
+            if (err.error && err.error.Error) {
+                errMsg = err.error.Error;
+                console.log('err there we go', err.error.Error);
             }
         }
- 
-        //return ret;
-        return {txHash, errMsg};
-     }
 
-     async postLtcTx(txHex: string) {
+        //return ret;
+        return { txHash, errMsg };
+    }
+
+    async postLtcTx(txHex: string) {
         let txHash = '';
         let errMsg = '';
         const url = environment.endpoints.LTC.exchangily + 'postrawtransaction';
         let response: any = null;
- 
+
         const data = {
-         rawtx: txHex
+            rawtx: txHex
         };
- 
+
         try {
-             if (txHex) {
-                 response = await this.http.post(url, data).toPromise() as BtcTransactionResponse;
-             }
-             if (response && response.txid) {
-             txHash = '0x' + response.txid;
-             }
+            if (txHex) {
+                response = await this.http.post(url, data).toPromise() as BtcTransactionResponse;
+            }
+            if (response && response.txid) {
+                txHash = '0x' + response.txid;
+            }
         } catch (err: any) {
-             if (err.error && err.error.Error) {
-             errMsg = err.error.Error;
-             console.log('err there we go', err.error.Error);
+            if (err.error && err.error.Error) {
+                errMsg = err.error.Error;
+                console.log('err there we go', err.error.Error);
             }
         }
- 
+
         //return ret;
-        return {txHash, errMsg};
-     }     
+        return { txHash, errMsg };
+    }
+
     async getEthBalance(address: string): Promise<Balance> {
-       const url = environment.endpoints.ETH.exchangily + 'getbalance/' + address;
-       const response = await this.http.get(url).toPromise()  as KEthBalance;
-       const balance = response.balance;
-       const lockbalance = 0;
-       return {balance, lockbalance};  
+        const url = environment.endpoints.ETH.exchangily + 'getbalance/' + address;
+        const response = await this.http.get(url).toPromise() as KEthBalance;
+        const balance = response.balance;
+        const lockbalance = 0;
+        return { balance, lockbalance };
     }
 
     async getEthereumCompatibleBalance(chain: string, address: string): Promise<any> {
-        const url = environment.chains[chain].rpcEndpoint;
+        const chainConfig = environment.chains[chain as keyof typeof environment.chains];
+        let url = '';
+        if ('rpcEndpoint' in chainConfig) {
+            url = chainConfig.rpcEndpoint;
+            // Use the url variable here
+        } else {
+            throw new Error(`rpcEndpoint is not available for chain: ${chain}`);
+        }
         console.log('url==', url);
         console.log('address==', address);
         const data = {
-            "jsonrpc":"2.0",
-            "method":"eth_getBalance",
-            "params":[address, "latest"],
-            "id":1
+            "jsonrpc": "2.0",
+            "method": "eth_getBalance",
+            "params": [address, "latest"],
+            "id": 1
         };
         const response = await this.http.post(url, data).toPromise() as JsonResult;
         const result = response.result;
@@ -875,11 +1336,11 @@ export class ApiService {
 
     async getBchBalance(address: string): Promise<Balance> {
         const url = environment.endpoints.BCH.exchangily + 'getbalance/' + address;
-        const response = await this.http.get(url).toPromise()  as number;
+        const response = await this.http.get(url).toPromise() as number;
         const balance = response;
         const lockbalance = 0;
-        return {balance, lockbalance};  
-     }
+        return { balance, lockbalance };
+    }
 
     async getEthTokenBalance(name: string, contractAddress: string, address: string) {
         /*
@@ -889,29 +1350,29 @@ export class ApiService {
         const response = await this.http.get(url).toPromise()  as EthBalance;
         const balance = response.result;
         */
-       if (name === 'USDT') {
-        contractAddress = environment.addresses.smartContract.USDT.ETH;
-       }
-       let balance = 0;
-       try {
-        const url = environment.endpoints.ETH.exchangily + 'callcontract/' + contractAddress + '/' + address;
-        const response = await this.http.get(url).toPromise()  as KEthBalance;
-        balance = response.balance; 
-       } catch(e) {
-           
-       }
-      
+        if (name === 'USDT') {
+            contractAddress = environment.addresses.smartContract.USDT.ETH;
+        }
+        let balance = 0;
+        try {
+            const url = environment.endpoints.ETH.exchangily + 'callcontract/' + contractAddress + '/' + address;
+            const response = await this.http.get(url).toPromise() as KEthBalance;
+            balance = response.balance;
+        } catch (e) {
+
+        }
+
         const lockbalance = 0;
-        return {balance, lockbalance}; 
+        return { balance, lockbalance };
     }
 
-    getWalletBalance(data) {
+    getWalletBalance(data: any) {
         const url = environment.endpoints.kanban + 'walletBalances';
         return this.http.post(url, data);
     }
 
-    getTransactionHistoryEvents(data) {
-        const url = environment.endpoints.kanban + 'getTransactionHistoryEvents';
+    getTransactionHistoryEvents(data: any) {
+        const url = environment.endpoints.api + 'v3/transaction/history';
         return this.http.post(url, data);
     }
 
@@ -922,50 +1383,50 @@ export class ApiService {
     }
 
     async fabCallContract(contractAddress: string, fxnCallHex: string) {
-        if(!contractAddress) {
+        if (!contractAddress) {
             return '';
         }
         const url = environment.endpoints.FAB.exchangily + 'callcontract';
 
-        contractAddress = this.utilServ.stripHexPrefix(contractAddress);     
-        const data = {address: contractAddress, data: fxnCallHex};
+        contractAddress = this.utilServ.stripHexPrefix(contractAddress);
+        const data = { address: contractAddress, data: fxnCallHex };
 
-        const formData: FormData = new FormData(); 
-        formData.append('address', contractAddress); 
-        formData.append('data', fxnCallHex); 
+        const formData: FormData = new FormData();
+        formData.append('address', contractAddress);
+        formData.append('data', fxnCallHex);
 
         const response = await this.http.post(url, formData).toPromise() as FabTokenBalance;
         return response;
     }
 
     async getFabTokenBalance(name: string, address: string, contractAddress?: string | undefined) {
-        if(!contractAddress) {
-            contractAddress = environment.addresses.smartContract[name];
+        if (!contractAddress) {
+            contractAddress = environment.addresses.smartContract[name as keyof typeof environment.addresses.smartContract] as any;
         }
-        if(typeof contractAddress != 'string' && contractAddress) {
-            
+        if (typeof contractAddress != 'string' && contractAddress) {
+
             contractAddress = contractAddress['FAB'];
         }
         let fxnCallHex = this.web3Serv.getFabTokenBalanceOfABI([address]);
 
-        fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex); 
-        if(!contractAddress) {
-            return {balance: -1, lockbalance: -1}; 
+        fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
+        if (!contractAddress) {
+            return { balance: -1, lockbalance: -1 };
         }
-        const response = await this.fabCallContract(contractAddress, fxnCallHex);    
+        const response = await this.fabCallContract(contractAddress, fxnCallHex);
         let balance = 0;
         const lockbalance = 0;
         if (response && response.executionResult && response.executionResult.output) {
             const balanceHex = response.executionResult.output;
             balance = parseInt(balanceHex, 16);
         }
-        return {balance, lockbalance};    
+        return { balance, lockbalance };
     }
     async getExgBalance(address: string) {
         const contractAddress = environment.addresses.smartContract.EXG.FAB;
         // console.log('contractAddress=' + contractAddress + ',address=' + address);
         let fxnCallHex = this.web3Serv.getFabBalanceOfABI([address]);
-        fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex); 
+        fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
 
         //console.log('fxnCallHex for EXGA', fxnCallHex);
         let response: any = await this.fabCallContract(contractAddress, fxnCallHex);
@@ -977,28 +1438,26 @@ export class ApiService {
             balance = parseInt(balanceHex, 16);
         }
 
-
-
         fxnCallHex = this.web3Serv.getFabFrozenBalanceABI([address]);
         fxnCallHex = this.utilServ.stripHexPrefix(fxnCallHex);
-        
+
         response = await this.fabCallContract(contractAddress, fxnCallHex);
 
         let lockbalance = 0;
         if (response && response.executionResult && response.executionResult.output) {
             const balanceHex = response.executionResult.output;
             // console.log('response here we go:', response);
-            
+
             if (balanceHex) {
                 lockbalance = parseInt(balanceHex, 16);
             }
         }
-        return {balance, lockbalance};
+        return { balance, lockbalance };
     }
 
     postCampaignSingleDetail(id: string) {
         const url = environment.endpoints.kanban + 'kanban/getCampaignSingle';
-        const data = {"id":id};
+        const data = { "id": id };
         return this.http.post(url, data);
     }
 }

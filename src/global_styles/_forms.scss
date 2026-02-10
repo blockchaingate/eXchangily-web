@@ -1,5 +1,4 @@
-@import 'fonts';
-@import 'colours';
+@use 'colours' as *;
 $input-border: #d3dce6;
 .form-input {
     box-shadow: 2px 4px 4px 0px rgba(0, 0, 0, 0.26);

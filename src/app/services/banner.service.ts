@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import Config from '../../data/config.json';
+import { environment } from '../environments/environment';
+import Config from '../data/config.json';
 
 @Injectable()
 export class BannerService {

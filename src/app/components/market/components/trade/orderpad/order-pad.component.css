@@ -1,0 +1,199 @@
+.outwraper {
+    width: 100%;
+    height: 100%;
+}
+
+.upper {
+    display: flex;
+    height: 490px;
+}
+
+.transacs {
+    width: 100%;
+    flex-grow: 1;
+}
+
+.middle {
+    display: flex;
+}
+
+.lower {
+    display: flex;
+}
+
+.headerl {
+    padding-left: 4px;
+    color: white;
+}
+
+.headerr {
+    padding-left: 4px;
+    color: white;
+}
+
+.selllist {
+    height: calc(50% - 60px);
+    overflow: hidden;
+    position: relative;
+}
+
+.selllist-wrapper {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.buylist {
+    height: calc(50% - 54px);
+    overflow: hidden;
+}
+
+.orderbookitem {
+    display: flex;
+    position: relative;
+}
+
+.smallfont {
+    font-size: 9pt;
+}
+
+.text-info {
+    width: 24%;
+    text-align: right;
+    font-size: larger;
+}
+
+.title {
+    display: flex;
+    background-color: #2c2c4d;
+    color: #afb7db;
+}
+
+.price {
+    width: 24%;
+    padding-left: 0.6em;
+    text-align: right;
+}
+
+.quantity {
+    width: 38%;
+    text-align: right;
+    padding-right: 0.6em;
+}
+
+.time,
+.total {
+    width: 38%;
+    text-align: right;
+    padding-right: 0.6em;
+}
+
+.current-price-box {
+    display: flex;
+    margin: 0.5em 0.6em;
+    position: relative;
+}
+
+.btn {
+    width: 100%;
+}
+
+.aspace {
+    margin-top: 0.6em;
+}
+
+.buyorder,
+.sellorder {
+    width: 50%;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.limitorder {
+    height: 2em;
+    padding-top: 0.25em;
+}
+
+.marketorder {
+    height: 2em;
+    padding-top: 0.25em;
+}
+
+.selected {
+    color: white;
+}
+
+.lower input {
+    color: white;
+    background: transparent;
+    border: 1px solid #424257;
+}
+
+.percentage-bar {
+    opacity: 0.2;
+    display: inline-block;
+    justify-content: flex-end;
+    text-align: right;
+    position: absolute;
+    right: 0;
+    z-index: 100;
+}
+
+.percentage-bar-red {
+    background-color: rgba(228, 218, 218, 0.1);
+}
+
+.percentage-bar-green {
+    background-color: rgba(175, 207, 175, 0.1);
+}
+
+.orderbookitem:hover {
+    background-color: rgba(228, 218, 218, 0.2);
+}
+
+.percent-text {
+    border: 1px solid grey;
+}
+
+.percent-text:hover {
+    border: 1px solid lightcoral;
+    color: lightcoral;
+}
+
+.trades,
+.orderbook {
+    width: 50%;
+}
+
+.pnum {
+    flex: 1;
+}
+
+.percent-text.py-1.px-2.d-inline-block {
+    width: 90%;
+}
+
+@media (max-width: 767px) {
+    .upper {
+        display: block;
+        height: auto;
+    }
+    .trades,
+    .orderbook {
+        width: 100%;
+        height: 490px !important;
+    }
+    .pnum .px-2 {
+        padding: 3px !important;
+    }
+    .pnum small {
+        font-size: 12px;
+    }
+}
+
+
+/* @media (max-width: 600px) {
+    .pnum .px-2{
+        padding: 0.5rem !important;
+    }
+} */

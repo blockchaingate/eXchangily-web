@@ -1,0 +1,60 @@
+.card-top {
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.txtAlignCenter {
+    text-align: center;
+}
+
+.toggletop {
+    line-height: 2em;
+    margin: 10px;
+}
+
+.m10 {
+    margin: 10px;
+}
+
+.w100per {
+    width: 100%;
+}
+
+.graycolor {
+    color: white;
+}
+
+th {
+    color: white;
+    font-size: 1em;
+}
+
+td {
+    color: lightgray;
+    font-size: small;
+}
+
+a {
+    color: #8f9fff;
+}
+
+.blockControl {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media (max-width: 1620px) {
+    .blockControl {
+        display: block;
+        justify-content: space-between;
+        text-align: center;
+    }
+
+    .blockControlBtn {
+        /* display: flex; */
+        margin: 0 auto;
+        text-align: center;
+        align-self: center;
+        align-items: center;
+    }
+}

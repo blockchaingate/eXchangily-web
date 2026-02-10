@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="row text-white menu">
+    {{'Restore Wallet Old' | translate }}
+  </div>
+  <div class="row panel">
+    <div class="col-md-3 col-sm-12"></div>
+    <div class="col-md-6 col-sm-12 text-white">
+      <form class="user-form" [formGroup]="userForm" (submit)="onSubmit()">
+        <div class="form-group">
+          <label for="exampleInputEmail1">{{'Wallet Name' | translate }}</label>
+          <input type="text" class="form-control transparent-input" formControlName="name" id="name" aria-describedby="emailHelp" placeholder="{{ 'Type wallet name' | translate }}">
+          @if (!userForm.get('name')?.valid && userForm.get('name')?.touched) {
+            <div class="error text-danger smallfont">
+              {{"Wnvalid" | translate}}.
+            </div>
+          }
+        </div>
+
+
+        <div class="form-group">
+          <label for="exampleInputPassword1">{{'Wallet Password' | translate }}</label>
+          <input type="password" autocomplete="off" class="form-control transparent-input" formControlName="password" id="password" placeholder="{{ 'Type wallet password' | translate }}">
+          @if (!userForm.get('password')?.valid && userForm.get('password')?.touched) {
+            <div class="error text-danger smallfont">
+              {{"Pwdvalid" | translate}}
+            </div>
+          }
+        </div>
+
+
+        <div class="form-group">
+          <label for="exampleInputPassword2">{{'Confirm Wallet Password' | translate }}</label>
+          <input type="password" autocomplete="off" class="form-control transparent-input" formControlName="pwdconfirm" id="pwdconfirm" placeholder="{{'Type wallet password' | translate }}">
+          @if (userForm.get('pwdconfirm')?.touched && userForm.hasError('notSame')) {
+            <div class="error text-danger smallfont">
+              {{"Password doesn't match" | translate }}!
+            </div>
+          }
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">{{'Seed phrase, seperated by space' | translate }}</label>
+          <textarea class="form-control transparent-input" (input)="autoGrowEvent($event)" formControlName="seedphrase" id="seedphrase" name="seedphrase" id="exampleFormControlTextarea1" rows="5" placeholder="{{ 'Enter seed phrase separated by space' | translate }}"></textarea>
+          @if (seedPhraseInvalid) {
+            <div class="error text-danger smallfont">
+              {{"Seed Phrase is invalid" | translate }}!
+            </div>
+          }
+        </div>
+
+        <div class="row words">
+          @if (userForm.get('password')?.valid && userForm.get('password')?.valid && !userForm.hasError('notSame') && userForm.get('seedphrase')?.valid && !seedPhraseInvalid) {
+            <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+              <button class="btn btn-gradient text-white btn-lg-fixed-width" type="submit">{{"Import Wallet"|translate}}</button>
+            </div>
+          }
+        </div>
+      </form>
+    </div>
+    <div class="col-md-3 col-sm-12"></div>
+  </div>
+
+</div>

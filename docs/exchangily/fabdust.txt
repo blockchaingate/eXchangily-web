@@ -1,0 +1,22 @@
+fab:0x20d9cacf41b67029d3378e16fa67fbe1aec4ac3d
+dusd:0xe64cc3901d82127d6cbff405b7337c07ba0be13d
+
+pair:0xf7e645d53931a56a7efc54824b252ec2c8411008
+
+fab/dusd
+
+    constructor(
+        address _exchangeFactory,
+        address _kycContract,
+        uint8 _requiredKycLevel,
+        address _tokenLeft,
+        address _tokenRight,
+        address _tradeFeePool
+    ) PairManagement(_exchangeFactory, _kycContract, _requiredKycLevel) {
+        tokenLeft = _tokenLeft;
+        tokenRight = _tokenRight;
+        TRADE_FEE_POOL = _tradeFeePool;
+    }
+
+["0xd1f547c210e59e10a9e66c73671c15e4d487b7c6","0x0000000000000000000000000000000000000000",0,"0x20d9cacf41b67029d3378e16fa67fbe1aec4ac3d","0xe64cc3901d82127d6cbff405b7337c07ba0be13d","0x0000000000000000000000000000000000000000"]
+

@@ -1,0 +1,490 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { KanbanGetBanalceResponse, KanbanNonceResponse, DepositStatusResp, TransactionAccountResponse } from '../models/kanban.interface';
+import { environment } from '../environments/environment';
+import { UtilService } from './util.service';
+import { TransactionReceiptResp } from '../models/kanban.interface';
+import { Web3Service } from './web3.service';
+import { throwError } from 'rxjs';
+
+@Injectable()
+export class KanbanV2Service {
+    // getCoinPoolAddress
+    // getExchangeAddress
+    nonce: number;
+    endpoint = environment.endpoints.kanban;
+    api = environment.endpoints.api;
+    
+    constructor(
+        private web3Serv: Web3Service,
+        private http: HttpClient,
+        private utilServ: UtilService) { this.nonce = 0; }
+
+    async getCoinPoolAddress() {
+        const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
+        let path = 'exchangily/getCoinPoolAddress';
+        path = this.endpoint + path;
+        let addr = '';
+        try {
+            addr = await this.http.get(path, { headers, responseType: 'text' }).toPromise() as string;
+        } catch (e) {
+        }
+
+        return addr;
+    }
+
+    getKanbanStatus() {
+        return this.get('status');
+    }
+
+    getTransactionHistory(address: string) {
+        const data = {
+            fabAddress: address,
+            timestamp: 0
+        };
+        return this.post('getTransferHistoryEvents', data);
+    }
+
+    getTransactionHistoryOnProduction(address: string) {
+        const data = {
+            fabAddress: address,
+            timestamp: 0
+        };
+        const httpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache'
+        });
+        const options = {
+            headers: httpHeaders
+        };
+        const path = 'https://kanbanprod.fabcoinapi.com/getTransferHistoryEvents';
+        // console.log('path=' + path);
+        // console.log(data);
+        return this.http.post(path, data, options);
+    }
+
+    getAccounts() {
+        const path = 'kanban/getAccounts';
+        const res = this.get(path);
+        return res;
+    }
+
+    getBlock(blockNumber: string) {
+        const path = 'kanban/getBlock/' + blockNumber;
+        // console.log('path for getBlock=' + path);
+        const res = this.get(path);
+        return res;
+    }
+
+    getLatestBlocks() {
+        const path = environment.endpoints.kanban + 'kanban/explorer/getlatestblocks/10';
+        const res = this.http.get(path);
+        return res;
+    }
+
+    getBlocks(blockNum: number, num: number) {
+        const path = environment.endpoints.kanban + 'kanban/explorer/getblocks/' + blockNum + '/' + num;
+        const res = this.http.get(path);
+        return res;
+    }
+
+    getLatestTransactions(block: string, address: string, num: number) {
+        let path = '';
+        if (block) {
+
+        } else
+            if (address) {
+                path = environment.endpoints.kanban + 'kanban/explorer/getaddresstxsall/' + address;
+
+            } else {
+                path = environment.endpoints.kanban + 'kanban/explorer/transactions/' + num;
+            }
+
+        // console.log('path in getLatestTransactions=' + path);
+        const res = this.http.get(path);
+        return res;
+    }
+
+    getTransactions(blockNum: number, num: number) {
+        const path = environment.endpoints.kanban + 'kanban/explorer/transactions/' + blockNum + '/' + num;
+        const res = this.http.get(path);
+        return res;
+    }
+
+    getTokenList() {
+        const path = environment.endpoints.kanban + 'exchangily/getTokenList';
+        const res = this.http.get(path);
+        return res;
+    }
+
+    async getTransactionCount(address: string) {
+        // Match pay.cool-v3-app: use api/kanban/getTransactionCount/{address}
+        try {
+            const path = this.api + 'kanban/getTransactionCount/' + address;
+            const res = await this.http.get(path).toPromise() as any;
+            const nonce = this.parseNonce(res?.transactionCount ?? res?.data);
+            if (nonce > 0 || nonce === 0) {
+                return nonce;
+            }
+        } catch { }
+        // Fallback to pending/latest explorer endpoints
+        try {
+            const pending = await this.getPendingNonce(address);
+            if (pending > 0) {
+                return pending;
+            }
+        } catch { }
+        try {
+            const latest = await this.getLatestNonce(address);
+            if (latest > 0) {
+                return latest;
+            }
+        } catch { }
+        // Last resort: legacy endpoint
+        const path = environment.endpoints.api + 'kanban/nonce';
+        const data = { native: address };
+        const res = await this.http.post(path, data).toPromise() as TransactionAccountResponse;
+        return this.parseNonce(res?.data);
+    }
+
+
+    async getPendingNonce(address: string) {
+        const path = 'kanban/explorer/getnonce/' + address + '/pending';
+        const res = await this.get(path).toPromise() as KanbanNonceResponse;
+        return this.parseNonce(res?.nonce);
+    }
+
+    async kanbanCall(to: string, abiData: string) {
+        const data = {
+            transactionOptions: {
+                to: to,
+                data: abiData
+            }
+        };
+        const path = 'kanban/call';
+        const res = await this.post(path, data).toPromise();
+        return res;
+    }
+
+    async getLatestNonce(address: string) {
+        const path = 'kanban/explorer/getnonce/' + address + '/latest';
+        const res = await this.get(path).toPromise() as KanbanNonceResponse;
+        return this.parseNonce(res?.nonce);
+    }
+
+    async getNonce(address: string) {
+        let nonce = this.nonce;
+        if (!nonce || (nonce == 0)) {
+            nonce = await this.getLatestNonce(address);
+            this.nonce = nonce;
+        }
+        console.log('final nonce=', nonce);
+        return nonce;
+    }
+
+    private parseNonce(value: any): number {
+        if (typeof value === 'number' && Number.isFinite(value)) {
+            return value;
+        }
+        if (typeof value === 'string') {
+            const v = value.trim();
+            if (v.startsWith('0x') || v.startsWith('0X')) {
+                const n = parseInt(v, 16);
+                return Number.isFinite(n) ? n : 0;
+            }
+            const n = parseInt(v, 10);
+            return Number.isFinite(n) ? n : 0;
+        }
+        return 0;
+    }
+
+    incNonce() {
+        this.nonce++;
+    }
+
+    getOrdersByAddress(address: string) {
+        let path = 'ordersbyaddress/' + address;
+        path = environment.endpoints.kanban + path;
+        // console.log('path for getOrdersByAddress=' + path);
+        const res = this.http.get(path);
+        return res;
+    }
+
+    getLatestBlocksMetainfo() {
+        return this.http.get(environment.endpoints.kanban + `getblocksmetainfo/latest/10`);
+    }
+
+    createPairDecimals(tokenLeft: any, tokenRight: any, priceDecimals: number, quantityDecimals: number) {
+        const body = {
+            tokenA: tokenLeft,
+            tokenB: tokenRight,
+            price: priceDecimals,
+            quantity: quantityDecimals
+        };
+        return this.http.post(environment.endpoints.api + `v3/exchangily/pair/decimals`, body);
+    }
+
+    getOrdersByAddressStatus(address: string, status: string, start: number = 0, count: number = 200) {
+        let path = 'v3/exchangily/order/from/' + address + '/' + count + '/' + start + '/' + status;
+        path = environment.endpoints.api + path;
+        const res = this.http.get(path);
+        return res;
+    }
+
+    async getExchangeAddress() {
+        const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
+        let path = 'exchangily/getExchangeAddress';
+        path = this.endpoint + path;
+        const addr = await this.http.get(path, { headers, responseType: 'text' }).toPromise() as string;
+        return addr;
+    }
+
+    async getScarAddress() {
+        const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
+        let path = 'kanban/getScarAddress';
+        path = this.endpoint + path;
+        const addr = await this.http.get(path, { headers, responseType: 'text' }).toPromise() as string;
+        return addr;
+    }
+
+    sendRawSignedTransaction(txhex: string, expectedFrom?: string) {
+        if (!txhex || typeof txhex !== 'string') {
+            return throwError(() => new Error('Invalid raw transaction hex: empty or non-string'));
+        }
+        const hex = txhex.startsWith('0x') ? txhex.slice(2) : txhex;
+        if (!hex || hex.length % 2 !== 0 || !/^[0-9a-fA-F]+$/.test(hex)) {
+            return throwError(() => new Error(`Invalid raw transaction hex: length=${hex.length}`));
+        }
+        const recovered = this.web3Serv.recoverSenderFromRawTx(txhex);
+        if (!recovered) {
+            return throwError(() => new Error('Invalid raw transaction hex: cannot recover sender'));
+        }
+        if (expectedFrom) {
+            const exp = expectedFrom.toLowerCase();
+            const got = recovered.sender.toLowerCase();
+            if (exp !== got) {
+                return throwError(() => new Error(`Raw tx sender mismatch: ${got} != ${exp} (recovered chainId ${recovered.chainId})`));
+            }
+        }
+        // Warn if recovered chainId doesn't match configured one
+        if (recovered.chainId !== environment.chains.KANBAN.chain.chainId) {
+            console.warn(`Recovered sender using chainId ${recovered.chainId}, but configured chainId is ${environment.chains.KANBAN.chain.chainId}`);
+        }
+        const data = {
+            signedTransactionData: txhex
+        };
+        const url = environment.endpoints.api + 'kanban/sendRawTransaction';
+        return this.http.post(url, data);
+    }
+
+    async sendRawSignedTransactionPromise(txhex: string): Promise<any> {
+        const data = {
+            signedTransactionData: txhex
+        };
+        try {
+            const url = environment.endpoints.api + 'kanban/sendRawTransaction';
+            const res = await this.http.post(url, data).toPromise();
+            return res;
+        } catch (e: any) {
+            let errMsg = e;
+            if (e.error) {
+                errMsg = e.error;
+            }
+            return { errMsg };
+        }
+
+    }
+
+    signJsonData(privateKey: any, data: any) {
+        var queryString = Object.keys(data).filter((k) => (data[k] != null) && (data[k] != undefined))
+            .map(key => key + '=' + (typeof data[key] === 'string' ? data[key] : JSON.stringify(data[key]))).sort().join('&');
+
+        console.log('queryString===', queryString);
+        //const test = this.web3Serv.signMessageTest(queryString, privateKey);
+        const signature = this.web3Serv.signKanbanMessageWithPrivateKey(queryString, privateKey);
+        //console.log('signature here=', signature);
+        return signature;
+    }
+
+    submitReDeposit(rawKanbanTransaction: string) {
+        const data = {
+            'rawKanbanTransaction': rawKanbanTransaction
+        };
+        const httpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache'
+        });
+        const options = {
+            headers: httpHeaders
+        };
+        // console.log('data for resubmitDeposit=', data);       
+        const path = this.endpoint + 'resubmitDeposit';
+        return this.http.post(path, data, options);
+    }
+
+    submitDeposit(proof: string) {
+        const data = {
+            'proof': proof
+        };
+        const httpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache'
+        });
+        const options = {
+            headers: httpHeaders
+        };
+        // console.log('data for submitDeposit=', data);       
+        const path = this.api + 'v3/bridge/claimDeposit';
+        return this.http.post(path, data, options);
+    }
+
+    /*
+                const url = environment.api + '/v3/bridge/claimDeposit';
+            const data = {
+                proof
+            };
+
+    */
+    getBalance(address: string) {
+        const url = 'kanban/balance';
+
+        const data = {
+            native: address
+        };
+        return this.postNewKanban(url, data);
+    }
+
+    withdrawQuote(address: string, recipient: string, destId: string, srcChain: string, amount: number) {
+        const url = this.api + 'v3/bridge/withdrawQuote';
+        const data = {
+            address,
+            recipient,
+            destId,
+            srcChain,
+            amount
+        };
+        return this.http.post(url, data);
+    }
+
+    getTokenMaps(descAddress: string) {
+        const url = this.api + 'v3/bridge/tokenMap/' + descAddress;
+        return this.http.get(url);
+    }
+
+    getLocker(address: string) {
+        const url = environment.endpoints.explorerapi + '/kanban/locker/user/' + address + '/50/0';
+        return this.http.get(url);
+    }
+
+    async getGas(address: string) {
+        const path = 'kanban/getBalance/' + address;
+        // console.log('path2=' + path);
+        let gas = 0;
+        try {
+            const ret = await this.get(path).toPromise() as KanbanGetBanalceResponse;
+            // gas = Number(BigInt(ret.balance.FAB).toString(10)) / 1e18;
+
+            const fab = this.utilServ.stripHexPrefix(ret.balance.FAB);
+            gas = this.utilServ.hexToDec(fab) / 1e18;
+        } catch (e) { }
+        return gas;
+    }
+
+    getKanbanBalance(address: string) {
+        let path = 'kanban/nativeBalance';
+        path = this.api + path;
+        const body = {
+            native: address
+        }
+        return this.http.post(path, body);
+    }
+
+    getDepositErr(address: string) {
+        const path = 'depositerr/' + address;
+        // console.log('path1=' + path);
+        return this.get(path);
+    }
+
+    post(path: string, data: any) {
+        const httpHeaders = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache'
+        });
+        const options = {
+            headers: httpHeaders
+        };
+        path = this.endpoint + path;
+        // console.log('path=' + path);
+        // console.log(data);
+        return this.http.post(path, data, options);
+    }
+    get(path: string) {
+        path = this.endpoint + path;
+        return this.http.get(path);
+    }
+
+    postNewKanban(path: string, body: any) {
+        path = this.api + path;
+        return this.http.post(path, body);
+    }
+
+    getAllOrders() {
+        return this.get('exchangily/getAllOrderData');
+    }
+
+    getWithdrawTransactions(address: string) {
+        return this.get('withdrawrequestsbyaddress/' + address);
+    }
+
+    async getDepositStatus(txid: string) {
+        let response: any = null;
+        let status = 'pending';
+        if (!txid) {
+            return 'undefined';
+        }
+        try {
+            response = await this.get('checkstatus/' + txid).toPromise() as DepositStatusResp;
+            if (response && response.code) {
+                console.log('rensponse.code=', response.code);
+                if (response.code === 0) {
+                    status = 'confirmed';
+                } else if (response.code === 2) {
+                    status = 'failed';
+                } else if (response.code === 3) {
+                    status = 'claim';
+                }
+            }
+
+        } catch (e) { }
+        return status;
+    }
+
+    getTransactionReceipt(txid: string) {
+        const path = this.api + 'kanban/gettransactionreceipt/' + txid;
+        return this.http.get(path);
+    }
+
+    async getTransactionStatus(txid: string) {
+        let response: any = null;
+        let status = 'failed';
+        try {
+            response = await this.http.get(this.api + 'kanban/gettransactionreceipt/' + txid).toPromise() as TransactionReceiptResp;
+            // console.log('response.transactionReceipt=', response.transactionReceipt);
+            // console.log('response.transactionReceipt.status=', response.transactionReceipt.status);
+            if (response && response.transactionReceipt && response.transactionReceipt.status === '0x1') {
+                status = 'confirmed';
+            }
+        } catch (e) { console.log(e); }
+
+        return status;
+    }
+
+    getTransactionStatusSync(txid: string) {
+        return this.http.get(this.api + 'kanban/gettransactionreceipt/' + txid);
+    }
+
+    getDepositStatusSync(txid: string) {
+        txid = this.utilServ.stripHexPrefix(txid);
+        return this.get('checkstatus/' + txid);
+    }
+}

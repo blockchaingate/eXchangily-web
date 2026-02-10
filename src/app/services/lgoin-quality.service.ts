@@ -4,10 +4,7 @@ import { StorageService } from './storage.service';
 
 @Injectable()
 export class LoginQualifyService implements OnInit {
-
-
     private isQualify = new BehaviorSubject(false);
-    private storageServ: StorageService;
     currentMessage = this.isQualify.asObservable();
 
     constructor() { }
@@ -23,7 +20,6 @@ export class LoginQualifyService implements OnInit {
         //         }
         //     })
     }
-
 
     changeMessage(isQualify: boolean) {
         this.isQualify.next(isQualify);

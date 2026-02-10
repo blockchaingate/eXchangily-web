@@ -1,16 +1,20 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap, RouterModule } from '@angular/router';
 import { Coin } from '../../models/coin';
-import { ApiService } from 'src/app/services/api.service';
+import { ApiService } from '../../services/api.service';
+
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-coininfo',
+    standalone: true,
+    imports: [RouterModule, TranslateModule],
     templateUrl: './coins.component.html',
     styleUrls: ['./coins.component.css']
 })
 export class CoinsComponent implements OnInit {
-    coins: Coin[];
-    selected: number;
+    coins: Coin[] = [];
+    selected = 0;
     errMsg = '';
 
     constructor(private _router: Router, private api: ApiService) { }

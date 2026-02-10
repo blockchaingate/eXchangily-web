@@ -3,7 +3,7 @@ import { Observable, Observer, interval, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BTC_PRICE_LIST } from '../components/mock/btc-181123_2006-181124_0105';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from '../environments/environment';
 
 interface BarData {
   t: number;
@@ -23,7 +23,7 @@ export class MockService {
   static dataLength = BTC_PRICE_LIST.length;
   gotHistoryList: boolean;
 
-  lastBarTimestamp: number;
+  lastBarTimestamp = 0;
 
   static dataGenerator(time = +new Date()): BarData {
     const obj: any = {};
@@ -37,47 +37,12 @@ export class MockService {
   }
 
 
-  getHistoryListSync(param) {
+  getHistoryListSync(param: any): Observable<any> {
     this.gotHistoryList = true;
     const inter = param.interval;
     const symbol = param.symbol;
-    const url = environment.endpoints.kanban + 'v2/klinedata/' + symbol + '/' + inter;
-    return this.http.get(url);    
-  }
-  async getHistoryList(param): Promise<BarData[]> {
-    //console.log('getting history');
-
-    const list = [];
-    const inter = param.interval;
-    const symbol = param.symbol;
-    //console.log('interval=' + interval);
-    /*
-    let timePoint = +new Date(param.startTime * 1e3).setSeconds(0, 0);
-    const now = +new Date();
-    while (timePoint < now) {
-      this.lastBarTimestamp = timePoint;
-      list.push(MockService.dataGenerator(timePoint));
-      timePoint += param.granularity * 1e3;
-    }
-    console.log(list[list.length - 1]);
-    */
-    // intervals array('1h','30m','15m','5m', '1m')
-    const url = environment.endpoints.kanban + 'klinedata/' + symbol + '/' + inter;
-
-    // console.log('url for getHistoryList=', url);
-    const res = await this.http.get(url).toPromise() as [BarData];
-    if (res && res.length > 0) {
-      for (let i = 0; i < res.length; i++) {
-        res[i].o = res[i].o;
-        res[i].c = res[i].c;
-        res[i].v = res[i].v;
-        res[i].h = res[i].h;
-        res[i].l = res[i].l;
-        res[i].t = res[i].t * 1000;
-      }
-    }
-    this.gotHistoryList = true;
-    return res;
+    const url = environment.endpoints.api + 'v3/exchangily/pair/' + symbol + '/klinedata/' + inter;
+    return this.http.get(url);
   }
 
   fakeWebSocket() {

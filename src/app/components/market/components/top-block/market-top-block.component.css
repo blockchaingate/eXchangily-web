@@ -1,0 +1,53 @@
+
+
+.text-color-grey {
+    color: #8f95b2;
+}
+
+.text-color-purple {
+    color: #7c7cbf;
+}
+
+.text-color-green {
+    color: #7ed321;
+}
+
+.text-color-red {
+    color: #ef5556;
+}
+
+@media (max-width: 1023px) {
+    .coin-detail{
+        padding-bottom: 10px;
+    }
+
+    .title {
+        padding: 5px 0;
+        margin-bottom: 5px;
+    }
+
+
+}
+
+
+@media (max-width: 767px) {
+
+    .title {
+        background-color: #3d4bab;
+        
+    }
+
+    .title .text-muted{
+        color: #f7f7f7 !important;
+    }
+
+
+}
+/* 
+@media (max-width: 575px) {
+    .title {
+        background-color: #412896;
+    }
+
+
+} */

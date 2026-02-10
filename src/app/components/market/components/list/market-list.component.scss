@@ -1,0 +1,232 @@
+.market-panel {
+    min-height: 600px;
+    padding: 1.4em 0 2em 0;
+}
+
+.mktmenu {
+    margin-right: 0;
+    padding-right: 0;
+}
+
+.nav-item {
+    /* width: 16em; */
+    /* height: 2.4em; */
+    /* margin-top: 1em; */
+    margin-bottom: -0.6em;
+    // margin-left: -1px;
+    padding: 6px 10px 10px 10px;
+    text-align: center;
+    color: silver;
+}
+
+.pricelist {
+    font-size: 0.9em;
+    width: 100%;
+    min-height: 600px;
+    border: 1px solid #353655;
+    margin-top: -9px;
+    background-color: #151755;
+}
+
+.orderlist {
+    font-family: Verdana, sans-serif, SimHei, "Microsoft YaHei";
+    border-collapse: collapse;
+    color: white;
+    border: 1px solid white;
+    /*width: 100%;*/
+}
+
+.orderlist td,
+th {
+    border: 1px solid black;
+    text-align: center;
+    padding: 8px;
+}
+
+.orderlist tr:nth-child(even) {
+    background-color: rgb(0, 0, 0);
+}
+
+.orderlist tr:nth-child(odd) {
+    background-color: rgb(30, 30, 30);
+}
+
+.orderlist td:nth-child(1) {
+    color: rgb(255, 50, 50);
+}
+
+.orderlist.selllist td:nth-child(1) {
+    color: rgb(100, 255, 100);
+}
+
+.hand {
+    cursor: pointer;
+}
+
+.apair {
+    display: flex;
+    margin-left: 1em;
+    margin-right: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    // margin-bottom: 0.5em;
+    border-bottom: 1px dashed #484969;
+    color: silver;
+    font-size: small;
+}
+
+.dataline {
+    transition: all 200ms ease-in-out;
+}
+
+.dataline:hover {
+    // background-color: #3a3b5a;
+    transform: scale(1.02);
+    background: #4a52aa;
+    border-radius: 5px;
+}
+
+.header {
+    font-weight: bold;
+    height: 2em;
+    padding-top: 4px;
+    background-color: #4a52aa;
+    color: white;
+}
+
+.selected {
+    background-color: #4a52aa;
+    color: white;
+    font-weight: bold;
+    border-top: 2px solid #2277ff;
+    border-bottom: none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    // border-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'><defs><linearGradient id='redgradient' x1='100%' x2='0%' y1='0%' y2='0%'><stop offset='0%' stop-color='rgb(122,28,229)' stop-opacity='1' /> <stop offset='100%' stop-color='rgb(229,159,18)' stop-opacity='1' /></linearGradient></defs><g id='Layer_1'><path d='M0,0 L50,0 L50,50 L0,50 L0,0 z' fill='url(%23redgradient)' width='100%' height='100%'/></g></svg>")
+    //     10% stretch;
+}
+
+.redcolor {
+    color: #ef555666;
+    background-color: #3c2d42;
+    border-radius: 5px;
+}
+
+.greencolor {
+    color: #7ed32166;
+    background-color: #253548;
+    border-radius: 5px;
+}
+
+.text-coin {
+    color: #f1f1f2;
+}
+
+.text-base-coin {
+    color: #7c7cbf;
+}
+
+.form-control {
+    background-color: transparent;
+    border: 1px solid #53566e;
+    color: white;
+}
+
+.form-control:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 1px grey;
+}
+
+.chart {
+    width: 48%;
+    float: left;
+}
+
+.input-group-sm {
+    display: flex;
+    width: 360px;
+    /* height: 28px; */
+    font-size: x-small;
+    padding: 8px 15px;
+    /* margin-right: 1.5em; */
+    /* right: 15px;
+    position: absolute; */
+}
+
+.mat-icon-button {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+}
+
+.pricelist .row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.coin-logo {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+}
+
+.hand {
+    vertical-align: middle;
+}
+
+.align-middle {
+    vertical-align: middle;
+    line-height: 16px;
+}
+
+@media only screen and (max-width: 767px) {
+    .market-panel {
+        padding: 0 15px;
+
+        .pricelist {
+            border-radius: 20px;
+        }
+    }
+
+    .navbar-expand-sm {
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-flow: wrap !important;
+        flex-flow: wrap !important;
+        -webkit-box-pack: start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+        text-align: center;
+    }
+
+    .input-group-sm {
+        margin: 15px auto 0 auto;
+    }
+
+    .mktmenu {
+        margin-right: 0;
+        padding-right: 15px;
+    }
+
+    .nav-item {
+        width: 6em;
+        padding: 6px 0px 10px 0px;
+        margin-top: 10px;
+        flex: 0 0 33.3333333333%;
+        max-width: 33.3333333333%;
+    }
+
+    .selected {
+        background-color: #4e4ea9;
+        border-radius: 28px;
+        border-top: none;
+    }
+
+    .apair > .col-5,
+    .apair > .col-4,
+    .apair > .col-3 {
+        background-color: #654aca;
+        line-height: 28px;
+        border-radius: 0;
+    }
+}

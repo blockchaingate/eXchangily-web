@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="row apair header header-tiny apair-no-margin">
+    <div class="col col-md-5 col-12 fxHide-sm">
+      {{"Address" | translate}}
+    </div>
+    <div class="col col-md-7 col-12">
+      {{"Private Key" | translate}}
+    </div>
+  </div>
+  @for (addr of addsPagination; track addr) {
+    <div class="row apair dataline apair-no-margin">
+      <div class="col col-12 col-md-5 fxHide-sm">
+        <small>{{addr.address}}</small>
+      </div>
+      <div class="col col-12 col-md-7">
+        <small>{{addr.privateKey}}</small>
+        <button mat-icon-button type="button" (click)="copyPrivateKey(addr.privateKey)" title="{{'Copy private key'|translate}}">
+          <mat-icon svgIcon="copy"></mat-icon>
+        </button>
+      </div>
+    </div>
+  }
+  @if (addsArraylength > pageSize) {
+    <div>
+      <mat-paginator [length]="addsArraylength" [pageSize]="pageSize" (page)="pageChanged($event)"></mat-paginator>
+    </div>
+  }
+</div>

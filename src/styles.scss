@@ -1,19 +1,16 @@
-// Bootstrap
-// @import "~bootstrap/scss/bootstrap-reboot";
-// @import "~bootstrap/scss/bootstrap-grid";
-@import "colours";
-@import "fonts";
-@import "sizing";
-@import "forms";
+/* You can add global styles to this file, and also import other style files */
+
+@use "./global_styles/index" as *;
 @import "./styles/margin.css";
 @import "./styles/padding.css";
 @import "./styles/size.css";
 @import "./styles/color.css";
 @import "./styles/style.css";
-html,
+
+html, body { height: 100%; }
 body {
     color: $secondary-light;
-    font-family: Verdana, sans-serif, SimHei, "Microsoft YaHei";
+    font-family: Verdana, Roboto, "Helvetica Neue", sans-serif, SimHei, "Microsoft YaHei";
     height: 100%;
     margin: 0;
     padding: 0;
@@ -84,6 +81,10 @@ fieldset {
     text-align: justify;
 }
 
+.fullwidth {
+    width: 100%;
+}
+
 // vimeo screen
 .custom-vimeo-screen {
     background-color: rgba(0, 0, 0, 0.75);
@@ -107,8 +108,6 @@ fieldset {
             margin-top: 7em;
             width: calc(100% - 4em);
         }
-        height: 100%;
-        width: 100%;
     }
 }
 

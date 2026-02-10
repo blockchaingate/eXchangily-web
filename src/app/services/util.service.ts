@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import * as CryptoJS from 'crypto-js';
+import CryptoJS from 'crypto-js';
 import { MyCoin } from '../models/mycoin';
-import * as createHash from 'create-hash';
+import createHash from 'create-hash';
 import BigNumber from "bignumber.js";
 import * as Btc from 'bitcoinjs-lib';
 import * as bs58 from 'bs58';
 import * as ecies from 'eth-ecies';
-import { environment } from 'src/environments/environment';
+import { environment } from '../environments/environment';
+
 @Injectable()
 export class UtilService {
     auth_code = 'encrypted by crypto-js|';
@@ -29,7 +30,7 @@ export class UtilService {
         return '';
     }
 
-    encrypt(publicKey, data) {
+    encrypt(publicKey: any, data: any) {
         console.log('publicKey==', publicKey);
         console.log('data==', data);
         const userPublicKey = Buffer.from(publicKey, 'hex');
@@ -40,7 +41,7 @@ export class UtilService {
         return encryptedData.toString('base64')
     }
 
-    decrypt(privateKey, encryptedData) {
+    decrypt(privateKey: any, encryptedData: any) {
         const userPrivateKey = Buffer.from(privateKey, 'hex');
         const bufferEncryptedData = Buffer.from(encryptedData, 'base64');
 
@@ -66,7 +67,7 @@ export class UtilService {
         return parseInt(hexChar, 16);
     }
 
-    hexToDec(hex: string) {
+    hexToDec(hex: string): number {
         if (hex.length === 1) {
             return this.hexCharToDec(hex);
         }
@@ -96,7 +97,7 @@ export class UtilService {
         document.body.removeChild(selBox);
     }
 
-    arraysEqual(a1, a2) {
+    arraysEqual(a1: any, a2: any) {
         /* WARNING: arrays must not contain {objects} or behavior may be undefined */
         return JSON.stringify(a1) === JSON.stringify(a2);
     }
@@ -183,7 +184,7 @@ export class UtilService {
     }
 
     /* Randomize array in-place using Durstenfeld shuffle algorithm */
-    shuffleArray(array) {
+    shuffleArray(array: any) {
         for (var i = array.length - 1; i > 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
             var temp = array[i];
@@ -193,6 +194,9 @@ export class UtilService {
     }
 
     fixedLengh(obj: any, length: number) {
+        if (obj === null || obj === undefined) {
+            return '';
+        }
         let str = obj.toString();
         const strLength = str.length;
         if (strLength >= length) {
@@ -206,8 +210,8 @@ export class UtilService {
         return str;
     }
 
-    stripHexPrefix(str) {
-        if(!str) {
+    stripHexPrefix(str: string) {
+        if (!str) {
             return '';
         }
         if (str && (str.length > 2) && (str[0] === '0') && (str[1] === 'x')) {
@@ -216,11 +220,40 @@ export class UtilService {
         return str;
     }
 
-    showAddAmount(amount1, amount2, decimal: number) {
+    normalizeEvmAddress(address: string) {
+        if (!address) {
+            return '';
+        }
+        let addr = address.trim();
+
+        if (/^0x[0-9a-fA-F]{40}$/.test(addr)) {
+            return '0x' + addr.slice(2).toLowerCase();
+        }
+        if (/^[0-9a-fA-F]{40}$/.test(addr)) {
+            return '0x' + addr.toLowerCase();
+        }
+
+        // Handle comma-separated byte strings like "0x142,206,51,..."
+        if (addr.indexOf(',') >= 0) {
+            if (addr.startsWith('0x')) {
+                addr = addr.slice(2);
+            }
+            const parts = addr.split(',').map(p => p.trim()).filter(Boolean);
+            const bytes = parts.map(p => Number(p));
+            if (bytes.length === 20 && bytes.every(b => Number.isFinite(b) && b >= 0 && b <= 255)) {
+                const hex = bytes.map(b => b.toString(16).padStart(2, '0')).join('');
+                return '0x' + hex;
+            }
+        }
+
+        return address;
+    }
+
+    showAddAmount(amount1: number, amount2: number, decimal: number) {
         const amount1BigNumber = new BigNumber(amount1);
         const amount2BigNumber = new BigNumber(amount2);
         const total = amount1BigNumber.plus(amount2BigNumber);
-        return this.showAmount(total.toFixed(decimal), decimal);
+        return this.showAmount(Number(total.toFixed(decimal)), decimal);
         /*
         const amount1Show = this.showAmount(amount1);
         const amount2Show = this.showAmount(amount2);
@@ -235,18 +268,16 @@ export class UtilService {
         */
     }
 
-    showAmountArr(amountArr, decimal: number) {
+    showAmountArr(amountArr: any, decimal: number) {
         let amount = new BigNumber(0);
 
         for (let i = 0; i < amountArr.length; i++) {
-            if (amountArr.length > 1) {
-            }
             amount = amount.plus(this.showAmount(amountArr[i], decimal));
         }
         return amount.toFixed(decimal);
     }
 
-    toBigNumber(amount, decimal: number) {
+    toBigNumber(amount: any, decimal: number) {
         if (amount === 0 || amount === '0') {
             return '0';
         }
@@ -288,13 +319,13 @@ export class UtilService {
         return amountStrFull;
     }
 
-    showAmount(amount, decimal: number) {
+    showAmount(amount: any, decimal: number) {
 
         if (!amount || amount.toString() === '0') {
             return '0';
         }
 
-        const bigN = new BigNumber(amount).dividedBy(new BigNumber(1e18));
+        const bigN = new BigNumber(amount).shiftedBy(-decimal);
         /*
         let numStr = amount.toString();
  
@@ -331,12 +362,12 @@ export class UtilService {
         return fixN;
     }
 
-    convertLiuToFabcoin(amount) {
+    convertLiuToFabcoin(amount: any) {
 
         return Number(Number(amount * 1e-8).toFixed(8));
     }
 
-    number2Buffer(num) {
+    number2Buffer(num: number) {
         const buffer: any = [];
         const neg = (num < 0);
         num = Math.abs(num);
@@ -354,7 +385,7 @@ export class UtilService {
         return Buffer.from(buffer);
     }
 
-    toNumber(num) {
+    toNumber(num: any) {
         const arr = num.split('.');
         if (arr.length <= 1) {
             return Number(arr);
@@ -362,7 +393,7 @@ export class UtilService {
         return Number(arr[0] + '.' + arr[1].substring(0, 7));
     }
 
-    hex2Buffer(hexString) {
+    hex2Buffer(hexString: string) {
         const buffer: any = [];
         for (let i = 0; i < hexString.length; i += 2) {
             buffer[buffer.length] = (parseInt(hexString[i], 16) << 4) | parseInt(hexString[i + 1], 16);
@@ -372,7 +403,7 @@ export class UtilService {
 
     fabToExgAddress(address: string) {
         try {
-            const bytes: any = Buffer.from(bs58.decode(address));
+            const bytes: any = Buffer.from(bs58.default.decode(address));
             //console.log('bytes===', bytes);
             const addressInWallet = bytes.toString('hex');
             //console.log('addressInWallet===', addressInWallet);
@@ -401,7 +432,7 @@ export class UtilService {
             const hash2 = createHash('sha256').update(Buffer.from(hash1, 'hex')).digest().toString('hex');
 
             buf = Buffer.from(address + hash2.substring(0, 8), 'hex');
-            address = bs58.encode(buf);
+            address = bs58.default.encode(buf);
             return address;
         } catch (e) { }
 
