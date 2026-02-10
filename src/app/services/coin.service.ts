@@ -7,7 +7,7 @@ import { BIP32Factory } from 'bip32';
 import { ECPairFactory } from 'ecpair';
 const BIP32 = BIP32Factory(ecc);
 const ECPair = ECPairFactory(ecc);
-import * as bitcoinMessage from 'bitcoinjs-message';
+import { encode as encodeVaruint } from 'varuint-bitcoin';
 // import { hdkey } from 'ethereumjs-wallet/dist'; // v1.0.1 version, not working?
 import { hdkey } from '@ethereumjs/wallet';
 import * as bchaddr from 'bchaddrjs';
@@ -944,13 +944,16 @@ export class CoinService {
         const path = 'm/44\'/' + 1150 + '\'/0\'/' + 0 + '/' + 0;
         const root2 = BIP32.fromSeed(seed, environment.chains['FAB']['network']);
         const childNode = root2.derivePath(path);
-        return childNode.privateKey;
+        return childNode.privateKey ? Buffer.from(childNode.privateKey) : undefined;
     }
 
     getDepositClaimSigningKeyPair(coin: MyCoin, seed: Buffer) {
         const chainName = ((coin.tokenType && coin.tokenType.length > 0) ? coin.tokenType : coin.name).toUpperCase();
         if (chainName === 'FAB') {
             const privateKey = this.getFabPrivateKey(seed);
+            if (!privateKey) {
+                return this.getKeyPairs(coin, seed, 0, 0);
+            }
             return {
                 name: coin.name,
                 tokenType: coin.tokenType,
@@ -966,7 +969,11 @@ export class CoinService {
         if (!message) {
             throw new Error('Missing message for claim signing');
         }
+        // console.log('signDepositClaimMessage: coin=', coin);
+        // console.log('signDepositClaimMessage: seed=', seed.toString('hex'));
         const keyPair = this.getDepositClaimSigningKeyPair(coin, seed);
+        // console.log('signDepositClaimMessage: keyPair=', keyPair);
+
         return this.signedMessage(message, keyPair);
     }
 
@@ -1154,23 +1161,15 @@ export class CoinService {
             signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
             // console.log('signature in signed is ');
             // console.log(signature);
-        } else
-            if (
-                name == 'BNB' || tokenType === 'BNB' ||
-                name == 'MATIC' || tokenType === 'MATIC'
-            ) {
-                signature = this.web3Serv.signEtheruemCompatibleMessageWithPrivateKey(originalMessage, keyPair) as Signature;
-            } else
-                if (name === 'TRX' || tokenType === 'TRX') {
-                    const priKeyDisp = keyPair.privateKey.toString('hex');
-                    signature = this.signStringTron(originalMessage, priKeyDisp);
-                }
-                else if (
-                    name === 'BTC' || name === 'DOGE' || name === 'LTC' || name === 'BCH' ||
-                    (name === 'FAB' && !tokenType) || tokenType === 'FAB'
-                ) {
+        } else if (name == 'BNB' || tokenType === 'BNB' || name == 'MATIC' || tokenType === 'MATIC') {
+            signature = this.web3Serv.signEtheruemCompatibleMessageWithPrivateKey(originalMessage, keyPair) as Signature;
+        } else if (name === 'TRX' || tokenType === 'TRX') {
+            const priKeyDisp = keyPair.privateKey.toString('hex');
+            signature = this.signStringTron(originalMessage, priKeyDisp);
+        } else if (name === 'BTC' || name === 'DOGE' || name === 'LTC' || name === 'BCH' ||
+            name === 'FAB' || tokenType === 'FAB') {
 
-                    let signBuffer: Buffer;
+            let signBuffer: Buffer;
                     // Mirror pay.cool-v3-app: FAB/BTC/BCH use Bitcoin prefix;
                     // LTC and DOGE use their own network prefixes.
                     const chainName = (tokenType ? tokenType : name).toUpperCase();
@@ -1181,21 +1180,35 @@ export class CoinService {
                         network = environment.chains.DOGE.network;
                     }
 
-                    const messagePrefix = network && (network as any).messagePrefix
+                    const rawMessagePrefix = network && (network as any).messagePrefix
                         ? (network as any).messagePrefix
                         : '\x18Bitcoin Signed Message:\n';
+                    const messagePrefix = Buffer.isBuffer(rawMessagePrefix)
+                        ? rawMessagePrefix.toString('utf8')
+                        : (typeof rawMessagePrefix === 'string' && rawMessagePrefix.length > 0
+                            ? rawMessagePrefix
+                            : '\x18Bitcoin Signed Message:\n');
 
                     let v = '';
                     let r = '';
                     let s = '';
-
                     let privKeyBuf: any = keyPair?.privateKeyBuffer;
                     if (privKeyBuf && privKeyBuf.privateKey) {
                         privKeyBuf = privKeyBuf.privateKey;
                     }
+                    if (!Buffer.isBuffer(privKeyBuf) && privKeyBuf instanceof Uint8Array) {
+                        privKeyBuf = Buffer.from(privKeyBuf);
+                    }
                     if (!Buffer.isBuffer(privKeyBuf)) {
                         if (keyPair?.privateKey) {
-                            privKeyBuf = Buffer.isBuffer(keyPair.privateKey) ? keyPair.privateKey : Buffer.from(keyPair.privateKey, 'hex');
+                            if (Buffer.isBuffer(keyPair.privateKey)) {
+                                privKeyBuf = keyPair.privateKey;
+                            } else if (keyPair.privateKey instanceof Uint8Array) {
+                                privKeyBuf = Buffer.from(keyPair.privateKey);
+                            } else if (typeof keyPair.privateKey === 'string') {
+                                const hex = keyPair.privateKey.startsWith('0x') ? keyPair.privateKey.slice(2) : keyPair.privateKey;
+                                privKeyBuf = Buffer.from(hex, 'hex');
+                            }
                         } else if (keyPair?.privateKeyHex) {
                             const hex = keyPair.privateKeyHex.startsWith('0x') ? keyPair.privateKeyHex.slice(2) : keyPair.privateKeyHex;
                             privKeyBuf = Buffer.from(hex, 'hex');
@@ -1204,15 +1217,32 @@ export class CoinService {
                     if (!Buffer.isBuffer(privKeyBuf)) {
                         throw new Error('Missing private key buffer for signing');
                     }
-                    signBuffer = bitcoinMessage.sign(originalMessage, privKeyBuf, true, messagePrefix);
+
+                    const signMessage = typeof originalMessage === 'string' ? originalMessage : String(originalMessage || '');
+                    if (!signMessage) {
+                        throw new Error('Missing message for signing');
+                    }
+
+                    signBuffer = this.signBitcoinStyleMessage(signMessage, Buffer.from(privKeyBuf), messagePrefix);
+
                     v = `0x${signBuffer.slice(0, 1).toString('hex')}`;
                     r = `0x${signBuffer.slice(1, 33).toString('hex')}`;
                     s = `0x${signBuffer.slice(33, 65).toString('hex')}`;
-
                     signature = { r: r, s: s, v: v };
                 }
 
         return signature;
+    }
+
+    private signBitcoinStyleMessage(message: string, privKeyBuf: Buffer, messagePrefix: string): Buffer {
+        const messageBuffer = Buffer.from(message, 'utf8');
+        const prefixBuffer = Buffer.from(messagePrefix, 'utf8');
+        const lengthBuffer = Buffer.from(encodeVaruint(messageBuffer.length));
+        const payload = Buffer.concat([prefixBuffer, lengthBuffer, messageBuffer]);
+        const hash = Btc.crypto.hash256(payload);
+        const signed = ecc.signRecoverable(Uint8Array.from(hash), Uint8Array.from(privKeyBuf));
+        const header = 27 + 4 + signed.recoveryId; // compact + compressed public key
+        return Buffer.concat([Buffer.from([header]), Buffer.from(signed.signature)]);
     }
 
     formCoinType(v: string, coinType: number) {

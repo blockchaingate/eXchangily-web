@@ -443,6 +443,10 @@ export class WalletDashboardComponent implements OnInit, OnDestroy {
                 if (resp && resp.success && (!bridgeError || !isPendingBridgeTx)) {
                     this.stopClaimStatusPolling();
                     this.setClaimStatus('confirmed', currentCoin.name, '', 'Move to DEX confirmed.');
+                    if (bridgeError) {
+                        const warnMsg = typeof bridgeError === 'string' ? bridgeError : JSON.stringify(bridgeError);
+                        this.alertServ.openSnackBar('Bridge warning: ' + warnMsg, 'Ok');
+                    }
                     this.loadBalance(false);
                     this.refreshGas();
                     if (this.lan === 'zh') {
@@ -1878,7 +1882,7 @@ export class WalletDashboardComponent implements OnInit, OnDestroy {
             signedMessage = await this.coinServ.signDepositClaimMessage(originalMessage, currentCoin, seed);
             console.log('signedMessage:', signedMessage);
         } catch (e: any) {
-            this.alertServ.openSnackBar(e?.message || 'Failed to sign claim message.', 'Ok');
+            this.alertServ.openSnackBar('Error on sign deposit claim msg: ' + e?.message || 'Failed to sign claim message.', 'Ok');
             return;
         }
 
@@ -1890,7 +1894,7 @@ export class WalletDashboardComponent implements OnInit, OnDestroy {
             this.alertServ.openSnackBar('Invalid claim payload generated for Move To DEX.', 'Ok');
             return;
         }
-
+ 
         // return 0;
         const cruuentCoinName = environment.depositMinimumConfirmations[currentCoin.name as keyof typeof environment.depositMinimumConfirmations];
         this.kanbanV2Serv.submitDeposit(proof).subscribe((resp: any) => {
@@ -1904,7 +1908,7 @@ export class WalletDashboardComponent implements OnInit, OnDestroy {
             const bridgeError = bridgeResult?.error || bridgeResult?.message || resp?.error || resp?.message;
             const bridgeErrorText = (typeof bridgeError === 'string' ? bridgeError : JSON.stringify(bridgeError || '')).toLowerCase();
             const isPendingBridgeTx = bridgeErrorText.includes('pending transaction');
-            if (resp && resp.success && (!bridgeError || isPendingBridgeTx)) {
+            if (resp && resp.success) {
                 this.kanbanV2Serv.incNonce();
                 this.setClaimStatus('pending', currentCoin.name, txHash, isPendingBridgeTx ? 'Move to DEX pending on bridge.' : 'Move to DEX submitted for confirmations.');
                 if (this.lan === 'zh') {
@@ -1917,6 +1921,10 @@ export class WalletDashboardComponent implements OnInit, OnDestroy {
                         ? 'Moving fund to DEX was submitted (pending), please wait for ' + cruuentCoinName + ' confirmations.'
                         : 'Moving fund to DEX was submitted, please wait for ' + cruuentCoinName + ' confirmations.';
                     this.alertServ.openSnackBarSuccess(msg, 'Ok');
+                }
+                if (bridgeError) {
+                    const warnMsg = typeof bridgeError === 'string' ? bridgeError : JSON.stringify(bridgeError);
+                    this.alertServ.openSnackBar('Bridge warning: ' + warnMsg, 'Ok');
                 }
                 if (isPendingBridgeTx) {
                     this.startClaimStatusPolling(proof, currentCoin, cruuentCoinName);
