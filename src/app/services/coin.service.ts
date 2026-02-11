@@ -1145,6 +1145,24 @@ export class CoinService {
         const messageDigest = utils.ethersUtils.keccak256(new Uint8Array(messageBytes));
         const signature = signingKey.sign(messageDigest);
 
+        // Normalize TRX recovery id to canonical 27/28.
+        // Some runtimes may return non-canonical values (e.g. 40 / 0x28),
+        // while bridge verification expects legacy recovery values.
+        let vNum = Number((signature as any).v);
+        if (!Number.isFinite(vNum)) {
+            const vRaw = ((signature as any).v ?? '').toString();
+            vNum = vRaw.startsWith('0x') ? parseInt(vRaw.substring(2), 16) : parseInt(vRaw, 10);
+        }
+        if (vNum === 0 || vNum === 1) {
+            vNum += 27;
+        } else if (vNum > 30) {
+            // Collapse EIP-155-style/non-canonical values to parity + 27.
+            vNum = ((vNum - 1) % 2) + 27;
+        }
+        const r = (signature as any).r?.toString() || '';
+        const s = (signature as any).s?.toString() || '';
+        const vHex = '0x' + vNum.toString(16);
+
         /*
         const signatureHex = [
             '0x',
@@ -1154,9 +1172,9 @@ export class CoinService {
         ].join('');
         */
         // console.log('signatureHex=', signatureHex);
-        signature.v = '0x' + Number(signature.v).toString(16);
-        console.log('signature=', signature);
-        return signature;
+        const normalizedSignature = { r, s, v: vHex };
+        console.log('signature=', normalizedSignature);
+        return normalizedSignature;
     }
 
     async signedMessage(originalMessage: string, keyPair: any) {
