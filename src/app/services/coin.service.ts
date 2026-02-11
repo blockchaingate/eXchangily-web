@@ -1173,7 +1173,10 @@ export class CoinService {
             signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
             // console.log('signature in signed is ');
             // console.log(signature);
-        } else if (name == 'BNB' || tokenType === 'BNB' || name == 'MATIC' || tokenType === 'MATIC') {
+        } else if (name == 'BNB' || tokenType === 'BNB') {
+            // BNB claim proof must match bridge's Ethereum personal-sign verifier.
+            signature = this.web3Serv.signMessageWithPrivateKey(originalMessage, keyPair) as Signature;
+        } else if (name == 'MATIC' || tokenType === 'MATIC' || name === 'HT' || tokenType === 'HT') {
             signature = this.web3Serv.signEtheruemCompatibleMessageWithPrivateKey(originalMessage, keyPair) as Signature;
         } else if (name === 'TRX' || tokenType === 'TRX') {
             signature = this.signStringTron(originalMessage, keyPair.privateKey);
@@ -3295,7 +3298,7 @@ MATIC: 0x0009
                     }
                 }
             }
-        txHash = txHash.trim();
+        txHash = (typeof txHash === 'string') ? txHash.trim() : txHash;
         const ret = { txHex: txHex, txHash: txHash, errMsg: errMsg, transFee: transFee, amountInTx: amountInTx, txids: txids };
         return ret;
     }

@@ -411,6 +411,25 @@ export class ApiService {
         return status;
     }
 
+    async getEthereumCompatibleTransaction(coinName: string, txid: string): Promise<any> {
+        const chain = environment.chains[coinName as keyof typeof environment.chains] as any;
+        if (!chain || !chain.rpcEndpoint) {
+            return null;
+        }
+        const data = {
+            jsonrpc: '2.0',
+            method: 'eth_getTransactionByHash',
+            params: [txid],
+            id: 1
+        };
+        try {
+            const response = await this.http.post(chain.rpcEndpoint, data).toPromise() as JsonResult;
+            return response?.result || null;
+        } catch (e) {
+            return null;
+        }
+    }
+
     getOrderByCode(code: string) {
 
         const url = environment.endpoints.blockchaingate + 'orders/code/' + code;
@@ -973,11 +992,29 @@ export class ApiService {
             try {
                 const result = await this.http.post(url, data).toPromise() as JsonResult;
                 if (result) {
-                    txHash = result.result;
+                    const candidate = result.result;
+                    if (typeof candidate === 'string') {
+                        txHash = candidate;
+                    } else if ((result as any).error) {
+                        const rpcError = (result as any).error;
+                        if (typeof rpcError === 'string') {
+                            errMsg = rpcError;
+                        } else if (rpcError.message) {
+                            errMsg = rpcError.message;
+                        } else {
+                            errMsg = JSON.stringify(rpcError);
+                        }
+                    }
                 }
             } catch (err: any) {
                 if (err.error) {
-                    errMsg = err.error;
+                    if (typeof err.error === 'string') {
+                        errMsg = err.error;
+                    } else if (err.error.message) {
+                        errMsg = err.error.message;
+                    } else {
+                        errMsg = JSON.stringify(err.error);
+                    }
                 }
             }
         }

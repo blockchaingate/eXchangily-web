@@ -1051,6 +1051,9 @@ export class WalletDashboardComponent implements OnInit, OnDestroy {
     }
 
     redeposit(currentCoin: MyCoin) {
+        // Redeposit should default to normal deposit proof path.
+        // Keep add-gas flow isolated to addGasDo/depositdo.
+        this.depositGas = false;
         this.currentCoin = currentCoin;
         // this.opType = 'redeposit';
         // this.pinModal.show();
@@ -1843,6 +1846,9 @@ export class WalletDashboardComponent implements OnInit, OnDestroy {
             }
 
             tokenContract = this.utilServ.stripHexPrefix(tokenContract).toLowerCase();
+        } else if (currentCoin.name === 'BNB' && !currentCoin.tokenType) {
+            // Native BNB deposit proof must use chain coin contract id 0x...0001.
+            tokenContract = '0000000000000000000000000000000000000001';
         }
 
         const tokenType = '0000000000000000000000000000000000000000'; //ERC20
@@ -1884,6 +1890,59 @@ export class WalletDashboardComponent implements OnInit, OnDestroy {
         } catch (e: any) {
             this.alertServ.openSnackBar('Error on sign deposit claim msg: ' + e?.message || 'Failed to sign claim message.', 'Ok');
             return;
+        }
+
+        // BNB-only precheck: recover signer and compare with source tx sender.
+        if (currentCoin.name === 'BNB' || currentCoin.tokenType === 'BNB') {
+            try {
+                const normalizedV = this.utilServ.fixedLengh(
+                    this.utilServ.stripHexPrefix((signedMessage.v || '').toString()),
+                    2
+                );
+                const signatureHex = '0x'
+                    + this.utilServ.stripHexPrefix((signedMessage.r || '').toString())
+                    + this.utilServ.stripHexPrefix((signedMessage.s || '').toString())
+                    + normalizedV;
+                const web3 = this.web3Serv.getWeb3Provider();
+                const recovered = web3.eth.accounts.recover(originalMessage, signatureHex);
+                const txObj = await this.apiServ.getEthereumCompatibleTransaction('BNB', txHash);
+                const txFrom = (txObj?.from || '').toLowerCase();
+                const recoveredFrom = (recovered || '').toLowerCase();
+                if (!txFrom || !recoveredFrom || txFrom !== recoveredFrom) {
+                    this.alertServ.openSnackBar(
+                        `BNB claim signer mismatch. tx.from=${txObj?.from || ''}, recovered=${recovered || ''}`,
+                        'Ok'
+                    );
+                    return;
+                }
+                // For BNB token deposits, source tx must target the token contract.
+                if (currentCoin.tokenType === 'BNB' && !!currentCoin.contractAddr) {
+                    const txTo = (txObj?.to || '').toLowerCase();
+                    const expectedContract = ('0x' + this.utilServ.stripHexPrefix(currentCoin.contractAddr)).toLowerCase();
+                    if (!txTo || txTo !== expectedContract) {
+                        this.alertServ.openSnackBar(
+                            `BNB token tx contract mismatch. tx.to=${txObj?.to || ''}, expected=${expectedContract}`,
+                            'Ok'
+                        );
+                        return;
+                    }
+                }
+                // For native BNB deposits, source tx must be sent to TS wallet.
+                if (currentCoin.name === 'BNB' && !currentCoin.tokenType) {
+                    const tsWallet = (await this.apiServ.getTSWalletAddress('BNB') || '').toLowerCase();
+                    const txTo = (txObj?.to || '').toLowerCase();
+                    if (tsWallet && txTo && tsWallet !== txTo) {
+                        this.alertServ.openSnackBar(
+                            `BNB tx recipient mismatch. tx.to=${txObj?.to || ''}, tsWallet=${tsWallet}`,
+                            'Ok'
+                        );
+                        return;
+                    }
+                }
+            } catch (e: any) {
+                this.alertServ.openSnackBar('BNB proof precheck failed: ' + (e?.message || e || ''), 'Ok');
+                return;
+            }
         }
 
         const proof = this.coinServ.getProof(signedMessage, chainType, tokenContract, tokenType, this.utilServ.stripHexPrefix(addressInKanban), this.utilServ.stripHexPrefix(txHash));

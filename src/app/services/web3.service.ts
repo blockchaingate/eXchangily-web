@@ -21,6 +21,44 @@ export class Web3Service {
   constructor(private utilServ: UtilService) {
   }
 
+  private getPrivateKeyBufferFromKeyPair(keyPair: any): Buffer | null {
+    if (!keyPair) {
+      return null;
+    }
+    const normalizeHexKey = (value: string) => {
+      const key = value.startsWith('0x') ? value.substring(2) : value;
+      if (/^[0-9a-fA-F]{64}$/.test(key)) {
+        return Buffer.from(key, 'hex');
+      }
+      return null;
+    };
+    if (Buffer.isBuffer(keyPair.privateKeyBuffer)) {
+      return keyPair.privateKeyBuffer;
+    }
+    if (keyPair.privateKeyBuffer instanceof Uint8Array) {
+      return Buffer.from(keyPair.privateKeyBuffer);
+    }
+    if (keyPair.privateKeyBuffer?.privateKey && Buffer.isBuffer(keyPair.privateKeyBuffer.privateKey)) {
+      return keyPair.privateKeyBuffer.privateKey;
+    }
+    if (keyPair.privateKeyBuffer?.privateKey instanceof Uint8Array) {
+      return Buffer.from(keyPair.privateKeyBuffer.privateKey);
+    }
+    if (Buffer.isBuffer(keyPair.privateKey)) {
+      return keyPair.privateKey;
+    }
+    if (keyPair.privateKey instanceof Uint8Array) {
+      return Buffer.from(keyPair.privateKey);
+    }
+    if (typeof keyPair.privateKey === 'string') {
+      return normalizeHexKey(keyPair.privateKey);
+    }
+    if (typeof keyPair.privateKeyHex === 'string') {
+      return normalizeHexKey(keyPair.privateKeyHex);
+    }
+    return null;
+  }
+
   private toHex(bytes: Uint8Array): string {
     return '0x' + Buffer.from(bytes).toString('hex');
   }
@@ -52,7 +90,11 @@ export class Web3Service {
   }
 
   signMessageWithPrivateKey(message: string, keyPair: any) {
-    const privateKey = `0x${keyPair.privateKey.toString('hex')}`;
+    const privateKeyBuffer = this.getPrivateKeyBufferFromKeyPair(keyPair);
+    if (!privateKeyBuffer) {
+      throw new Error('Missing private key for ETH message signing');
+    }
+    const privateKey = `0x${privateKeyBuffer.toString('hex')}`;
     const web3 = this.getWeb3Provider();
 
     const signMess = web3.eth.accounts.sign(message, privateKey);
@@ -61,24 +103,7 @@ export class Web3Service {
   }
 
   signEtheruemCompatibleMessageWithPrivateKey(message: string, keyPair: any) {
-    let privateKeyBuffer: Buffer | null = null;
-    if (keyPair?.privateKeyBuffer && Buffer.isBuffer(keyPair.privateKeyBuffer)) {
-      privateKeyBuffer = keyPair.privateKeyBuffer;
-    } else if (keyPair?.privateKeyBuffer?.privateKey && Buffer.isBuffer(keyPair.privateKeyBuffer.privateKey)) {
-      privateKeyBuffer = keyPair.privateKeyBuffer.privateKey;
-    } else if (Buffer.isBuffer(keyPair?.privateKey)) {
-      privateKeyBuffer = keyPair.privateKey;
-    } else if (typeof keyPair?.privateKey === 'string') {
-      const key = keyPair.privateKey.startsWith('0x') ? keyPair.privateKey.substring(2) : keyPair.privateKey;
-      if (/^[0-9a-fA-F]{64}$/.test(key)) {
-        privateKeyBuffer = Buffer.from(key, 'hex');
-      }
-    } else if (typeof keyPair?.privateKeyHex === 'string') {
-      const key = keyPair.privateKeyHex.startsWith('0x') ? keyPair.privateKeyHex.substring(2) : keyPair.privateKeyHex;
-      if (/^[0-9a-fA-F]{64}$/.test(key)) {
-        privateKeyBuffer = Buffer.from(key, 'hex');
-      }
-    }
+    const privateKeyBuffer = this.getPrivateKeyBufferFromKeyPair(keyPair);
     if (!privateKeyBuffer) {
       throw new Error('Missing private key for EVM-compatible message signing');
     }
@@ -133,11 +158,27 @@ export class Web3Service {
     console.log('coinName');
     const privKey = keyPair.privateKeyBuffer;
     const EthereumTx = Eth.TransactionFactory;
+    const chainConfig = environment.chains[coinName];
+    if (!chainConfig) {
+      throw new Error(`Missing chain config for ${coinName}`);
+    }
+    const chainName = typeof (chainConfig as any).chain === 'string'
+      ? (chainConfig as any).chain
+      : ((chainConfig as any).chain?.name || 'mainnet');
+    const networkId = typeof (chainConfig as any).chainId === 'number'
+      ? (chainConfig as any).chainId
+      : (chainConfig as any).chain?.networkId;
+    const chainId = typeof (chainConfig as any).chainId === 'number'
+      ? (chainConfig as any).chainId
+      : (chainConfig as any).chain?.chainId;
+    if (typeof networkId !== 'number' || typeof chainId !== 'number') {
+      throw new Error(`Invalid EVM chain config for ${coinName}: missing chainId/networkId`);
+    }
     const customCommon = Common.custom(
       {
-        name: environment.chains.ETH.chain,
-        networkId: environment.chains.ETH.chainId,
-        chainId: environment.chains.ETH.chainId
+        name: chainName,
+        networkId: networkId,
+        chainId: chainId
       }, {
       hardfork: 'petersburg',
     }
@@ -548,29 +589,13 @@ export class Web3Service {
   }
 
   hashEtherumMessage(data: any) {
-    const web3 = this.getWeb3Provider();
-    // Ensure we have a hex string
-    var messageHex = web3.utils.isHexStrict(data) ? data : web3.utils.utf8ToHex(data);
-
-    // CRITICAL FIX: Match pay.cool-v3-app's signPersonalMessageWith implementation
-    // The mobile app treats the hex message as a UTF-8 string, not as hex bytes!
-    // See signature_service.dart lines 133-154:
-    //   - StringUtil.stringToUint8(originalMessage) converts the hex string to UTF-8 bytes
-    //   - prefix = messagePrefix + payload.length.toString()
-    //   - concat = prefixBytes + payload
-    //   - hash = keccak256(concat)
-
-    // Convert the hex string to UTF-8 bytes (treating each character as UTF-8)
-    const messageUtf8Bytes = Buffer.from(messageHex, 'utf8');
-
-    // Construct prefix with the UTF-8 byte length
+    // Bridge proof signing expects Ethereum personal-sign over the raw message string
+    // (hex-like message treated as plain UTF-8 characters, not decoded hex bytes).
+    const rawMessage = typeof data === 'string' ? data : String(data || '');
+    const messageUtf8Bytes = Buffer.from(rawMessage, 'utf8');
     const prefix = '\x19Ethereum Signed Message:\n' + messageUtf8Bytes.length;
     const prefixBuffer = Buffer.from(prefix, 'utf8');
-
-    // Concatenate prefix + message bytes
     const ethMessage = Buffer.concat([prefixBuffer, messageUtf8Bytes]);
-
-    // Hash the concatenated message
     const hash = Hash.keccak256s(ethMessage.toString('hex'));
     console.log('hash1=', hash);
     return hash;
