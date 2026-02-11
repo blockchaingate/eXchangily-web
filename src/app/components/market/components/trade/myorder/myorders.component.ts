@@ -74,33 +74,59 @@ export class MyordersComponent implements OnInit, OnDestroy {
     destId = '';
     _chain = '';
     tsWalletBalance = 0;
-    set chain(val: string) {
-        this._chain = val;
-        if (val) {
+    chainNativeBalance = 0;
+    private normalizeWithdrawChain(chain: string) {
+        return chain === 'POLYGON' ? 'MATIC' : chain;
+    }
 
-            this.apiServ.withdrawFee(val).subscribe(
+    private getKanbanBalanceBySymbol(symbol: string) {
+        if (!symbol || !this.mytokens || !this.mytokens.symbols) {
+            return 0;
+        }
+        const target = this.normalizeWithdrawChain(symbol).toUpperCase();
+        for (let i = 0; i < this.mytokens.symbols.length; i++) {
+            const current = (this.mytokens.symbols[i] || '').toUpperCase();
+            if (current === target) {
+                return this.showBalance(this.mytokens.balances[i], this.mytokens.decimals[i]);
+            }
+        }
+        return 0;
+    }
+
+    private isNativeWithdraw() {
+        return this.normalizeWithdrawChain(this.coinName) === this.normalizeWithdrawChain(this.chain);
+    }
+
+    private getTokenMapByChain(chain: string) {
+        if (!this.tokenMaps || this.tokenMaps.length === 0) {
+            return null;
+        }
+        const normalizedChain = this.normalizeWithdrawChain(chain);
+        return this.tokenMaps.find((tokenMap: any) => this.web3Serv.getChainName(tokenMap.srcChain) === normalizedChain) || null;
+    }
+
+    set chain(val: string) {
+        const normalizedChain = this.normalizeWithdrawChain(val);
+        this._chain = normalizedChain;
+        if (normalizedChain) {
+
+            this.apiServ.withdrawFee(normalizedChain).subscribe(
                 (ret: any) => {
                     if (ret.success) {
                         const data = ret.data;
-                        this.withdrawFee = this.formatGasFee(val, data.gasFee);
+                        this.withdrawFee = this.formatGasFee(normalizedChain, data.gasFee);
                     }
                     console.log('ret===', ret);
                 }
-            )
-            for (let i = 0; i < this.tokenMaps.length; i++) {
-                const tokenMap = this.tokenMaps[i];
-                const chain = this.web3Serv.getChainName(tokenMap.srcChain);
-                if (chain == val) {
-                    this.srcId = tokenMap.srcId;
-                    break;
-                }
-            }
+            );
 
-            this.apiServ.getTsWalletBalance(val, this.srcId).then(
-                balance => {
-                    this.tsWalletBalance = balance;
-                }
-            )
+            const selectedTokenMap = this.getTokenMapByChain(normalizedChain);
+            if (selectedTokenMap) {
+                this.srcId = selectedTokenMap.srcId;
+                this.destId = selectedTokenMap.destId;
+            }
+            this.chainNativeBalance = this.getKanbanBalanceBySymbol(normalizedChain);
+            this.tsWalletBalance = this.chainNativeBalance;
         }
 
     }
@@ -410,7 +436,10 @@ export class MyordersComponent implements OnInit, OnDestroy {
             addressInWallet = Buffer.from(bytes).toString('hex');
         }
 
-        const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 1, 0);
+        // Use the funded Kanban receive address (mobile app behavior).
+        // chain=1 derives change branch and can point to an unfunded address,
+        // which causes backend withdrawQuote checks to fail with "Not enough ...".
+        const keyPairsKanban = this._coinServ.getKeyPairs(this.wallet.excoin, seed, 0, 0);
 
         let nonce = await this.kanbanServ.getTransactionCount(keyPairsKanban.address);
         this.gasPrice = Number(this.gasPrice);
@@ -428,7 +457,15 @@ export class MyordersComponent implements OnInit, OnDestroy {
             gasLimit: this.gasLimit
         };
 
-        this.apiServ.withdrawQuote(keyPairsKanban.address, addressInWallet, this.destId, this.chain, amount).subscribe(
+        const selectedChain = this.normalizeWithdrawChain(this.chain);
+        const selectedTokenMap = this.getTokenMapByChain(selectedChain);
+        const destId = selectedTokenMap?.destId || this.destId;
+        if (!destId) {
+            this.alertServ.openSnackBar('Withdraw destination is invalid.', 'Ok');
+            return;
+        }
+
+        this.apiServ.withdrawQuote(keyPairsKanban.address, addressInWallet, destId, selectedChain, amount).subscribe(
             (ret: any) => {
                 console.log('ret===', ret);
                 if (ret.success) {
@@ -669,20 +706,8 @@ export class MyordersComponent implements OnInit, OnDestroy {
             this.minimumWithdrawAmount = typeof withdrawConfig === 'number' ? withdrawConfig : withdrawConfig[this.chain as keyof typeof withdrawConfig];
         }
 
-        const coinTypeId = this.coinServ.getCoinTypeIdByName(coinNameInKanban);
-        this.kanbanServ.getTokenList().subscribe(
-            (ret: any) => {
-                const tokenList = ret.data.tokenList;
-                for (let i = 0; i < tokenList.length; i++) {
-                    const token = tokenList[i];
-                    const type = token.type;
-                    if (type == coinTypeId) {
-                        this.withdrawFee = token.feeWithdraw;
-                        break;
-                    }
-                }
-            }
-        );
+        // Keep withdraw fee from /v3/bridge/withdrawFee (selected destination chain),
+        // which matches pay.cool mobile flow.
     }
 
     selectOrder(ord: number) {
@@ -733,29 +758,68 @@ export class MyordersComponent implements OnInit, OnDestroy {
 
         this.coinName = this.mytokens.symbols[index];
         this.kanbanBalance = this.utilServ.toNumber(this.utilServ.showAmount(this.mytokens.balances[index], this.mytokens.decimals[index]));
+        this.tokenMaps = [];
+        this.srcId = '';
+        this.destId = '';
+        this.tsWalletBalance = 0;
+        this.chainNativeBalance = 0;
+        this.withdrawAmount = 0;
 
+        this.opType = 'withdraw';
         const tokenId = this.mytokens.ids[index];
-        this.kanbanServ.getTokenMaps(tokenId).subscribe(
+        this.loadTokenMapsAndOpenWithdrawModal(withdrawModal, tokenId);
+    }
+
+    private loadTokenMapsAndOpenWithdrawModal(withdrawModal: TemplateRef<any>, tokenId: string) {
+        const id = tokenId || '';
+        const fallbackId = id.startsWith('0x') ? id.toLowerCase() : id;
+        this.kanbanServ.getTokenMaps(id).subscribe(
             (res: any) => {
                 console.log('res of tokenMaps = ', res);
-                if (res.success) {
+                const hasData = res && res.success && res.data && res.data.length > 0;
+                if (hasData) {
                     this.tokenMaps = res.data;
-                    const tokenMap = this.tokenMaps[0];
-                    console.log('this.srcId===', this.srcId);
-                    //this.srcId = tokenMap.srcId;
-                    this.destId = tokenMap.destId;
-                    this.chain = this.web3Serv.getChainName(tokenMap.srcChain);
+                    const currentSelectedMap = this.getTokenMapByChain(this.chain);
+                    const tokenMap = currentSelectedMap || this.tokenMaps[0];
+                    if (tokenMap) {
+                        this.chain = this.web3Serv.getChainName(tokenMap.srcChain);
+                    }
+                    this.openWithdrawModal(withdrawModal);
+                    return;
                 }
+
+                if (fallbackId && fallbackId !== id) {
+                    this.kanbanServ.getTokenMaps(fallbackId).subscribe(
+                        (fallbackRes: any) => {
+                            const hasFallbackData = fallbackRes && fallbackRes.success && fallbackRes.data && fallbackRes.data.length > 0;
+                            if (hasFallbackData) {
+                                this.tokenMaps = fallbackRes.data;
+                                const currentSelectedMap = this.getTokenMapByChain(this.chain);
+                                const tokenMap = currentSelectedMap || this.tokenMaps[0];
+                                if (tokenMap) {
+                                    this.chain = this.web3Serv.getChainName(tokenMap.srcChain);
+                                }
+                            } else {
+                                this.tokenMaps = [];
+                            }
+                            this.openWithdrawModal(withdrawModal);
+                        },
+                        () => {
+                            this.tokenMaps = [];
+                            this.openWithdrawModal(withdrawModal);
+                        }
+                    );
+                    return;
+                }
+
+                this.tokenMaps = [];
+                this.openWithdrawModal(withdrawModal);
+            },
+            () => {
+                this.tokenMaps = [];
+                this.openWithdrawModal(withdrawModal);
             }
         );
-        this.opType = 'withdraw';
-        // this.pin = sessionStorage.getItem('pin');
-        // if (this.pin) {  
-        this.openWithdrawModal(withdrawModal);
-
-        // } else {
-        //    this.withdrawModal = withdrawModal;
-        // }         
     }
 
     onConfirmedWithdrawAmount() {
@@ -768,14 +832,27 @@ export class MyordersComponent implements OnInit, OnDestroy {
             }
             return;
         }
-        if (amount > this.tsWalletBalance) {
+
+        const requiredNativeForGas = this.withdrawFee || 0;
+        const availableNative = this.chainNativeBalance || 0;
+        if (this.isNativeWithdraw()) {
+            if ((amount + requiredNativeForGas) > availableNative) {
+                if (this.lan === 'zh') {
+                    this.alertServ.openSnackBar('目标链原生币余额不足（需保留Gas）。', 'Ok');
+                } else {
+                    this.alertServ.openSnackBar('Insufficient native coin balance for gas after withdraw amount.', 'Ok');
+                }
+                return;
+            }
+        } else if (requiredNativeForGas > availableNative) {
             if (this.lan === 'zh') {
-                this.alertServ.openSnackBar('TS钱包余额不足。', 'Ok');
+                this.alertServ.openSnackBar('目标链原生币余额不足（用于Gas）。', 'Ok');
             } else {
-                this.alertServ.openSnackBar('Withdraw amount is over ts balance.', 'Ok');
+                this.alertServ.openSnackBar('Insufficient destination native coin balance for gas.', 'Ok');
             }
             return;
         }
+
         this.modalWithdrawRef.hide();
         this.pinModal.show();
     }

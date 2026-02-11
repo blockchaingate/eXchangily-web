@@ -254,8 +254,8 @@
           </mat-radio-group>
         </div>
         <div>
-          {{chain}} -  {{'TS Wallet Balance' | translate}}:
-          <span>{{tsWalletBalance}}</span>
+          {{chain}} - {{'Native balance on Kanban' | translate}}:
+          <span>{{chainNativeBalance}}</span>
         </div>
       </div>
       <div class="d-flex justify-content-between py-1">
@@ -291,7 +291,7 @@
   }
   @if (!tokenMaps || (tokenMaps.length == 0)) {
     <div class="modal-body">
-      Your token cannot be withdrawed
+      Your token cannot be withdrawn
     </div>
   }
 </ng-template>
