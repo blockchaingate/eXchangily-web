@@ -1,23 +1,22 @@
 <div bsModal #pinModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-bg-grey">
-        <form class="example-form" [formGroup]="pinForm" (ngSubmit)="onSubmit()">
-            <div class="modal-content">
-                <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 text-dark">{{'Password' | translate }}</h4>
-                    <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+    <div class="modal-dialog modal-sm pin-modal-dialog">
+        <form class="pin-form" [formGroup]="pinForm" (ngSubmit)="onSubmit()">
+            <div class="modal-content pin-modal-content">
+                <div class="modal-header pin-modal-header text-center">
+                    <h4 class="modal-title w-100 pin-modal-title">{{'Password' | translate }}</h4>
+                    <button type="button" class="close pin-modal-close" aria-label="Close" (click)="hide()">
                         <span aria-hidden="true">&times;</span>
-                      </button>
+                    </button>
                 </div>
-                <div class="modal-body">
-                    <mat-form-field class="example-full-width">
-                        <label for="inputSendTo" class="text-dark">{{'Password' | translate }}</label>
-                        <input type="password" aria-label="Password" class="form-control" matInput [matAutocomplete]="auto" formControlName="pin">
-                        <mat-autocomplete #auto="matAutocomplete">
-                        </mat-autocomplete>
+                <div class="modal-body pin-modal-body">
+                    <p class="pin-modal-hint">{{'Pin Modal Hint' | translate }}</p>
+                    <mat-form-field class="pin-field" appearance="outline" subscriptSizing="dynamic">
+                        <mat-label>{{'Password' | translate }}</mat-label>
+                        <input type="password" aria-label="Password" autocomplete="off" matInput [matAutocomplete]="auto" formControlName="pin" placeholder="••••••••">
+                        <mat-autocomplete #auto="matAutocomplete"></mat-autocomplete>
                     </mat-form-field>
-
-                    <div class="modal-footer justify-content-center">
-                        <button class="btn btn-gradient text-white py-2 px-5 btn-lg-fixed-width" type="submit"> {{'Confirm' | translate }} </button>
+                    <div class="modal-footer pin-modal-footer justify-content-center">
+                        <button class="btn pin-confirm-btn py-2 px-5 btn-lg-fixed-width" type="submit">{{'Confirm' | translate }}</button>
                     </div>
                 </div>
             </div>

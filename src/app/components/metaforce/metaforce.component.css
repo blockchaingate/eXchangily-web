@@ -1,0 +1,269 @@
+.metaforce-page {
+  position: relative;
+  min-height: calc(100vh - 56px);
+  padding: 1.5rem 1rem 2.25rem;
+  background: linear-gradient(170deg, #f8fbff 0%, #f1f7ff 46%, #f8fafc 100%);
+  overflow: hidden;
+}
+
+.metaforce-wrap {
+  position: relative;
+  z-index: 2;
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  gap: 1rem;
+}
+
+.metaforce-bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(2px);
+  opacity: 0.6;
+  z-index: 1;
+}
+
+.orb-a {
+  width: 340px;
+  height: 340px;
+  top: -120px;
+  left: -90px;
+  background: radial-gradient(circle at 30% 30%, rgba(14, 165, 233, 0.2), rgba(14, 165, 233, 0));
+}
+
+.orb-b {
+  width: 420px;
+  height: 420px;
+  right: -140px;
+  top: 180px;
+  background: radial-gradient(circle at 45% 45%, rgba(37, 99, 235, 0.16), rgba(37, 99, 235, 0));
+}
+
+.hero-card,
+.stake-card,
+.history-card {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 18px 36px -28px rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(4px);
+}
+
+.hero-card {
+  padding: 1.05rem 1.25rem;
+}
+
+.hero-card h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.stake-card {
+  padding: 1rem 1.25rem 1.2rem;
+}
+
+.stake-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.wallet-stats {
+  margin-top: 0.25rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.stat-item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: baseline;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+  font-weight: 700;
+}
+
+.stat-value {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.mono {
+  font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.8rem;
+  word-break: break-all;
+}
+
+.stake-actions {
+  margin-top: 0.95rem;
+}
+
+.stake-btn,
+.withdraw-btn {
+  border: 0;
+  border-radius: 999px;
+  color: #f8fafc;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: linear-gradient(120deg, #0ea5e9 0%, #2563eb 100%);
+  box-shadow: 0 12px 22px -14px rgba(37, 99, 235, 0.9);
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+
+.stake-btn {
+  width: 100%;
+  padding: 0.65rem 1rem;
+}
+
+.withdraw-btn {
+  padding: 0.38rem 0.85rem;
+  font-size: 0.82rem;
+}
+
+.stake-btn:hover,
+.withdraw-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 24px -14px rgba(14, 165, 233, 0.9);
+}
+
+.result-box,
+.error-box {
+  margin-top: 0.85rem;
+  border-radius: 10px;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.86rem;
+}
+
+.result-box {
+  background: #ecfeff;
+  color: #0f172a;
+  border: 1px solid #bae6fd;
+}
+
+.result-label {
+  font-weight: 700;
+  margin-right: 0.25rem;
+}
+
+.result-box a {
+  color: #0369a1;
+  word-break: break-all;
+}
+
+.error-box {
+  background: #fff1f2;
+  color: #9f1239;
+  border: 1px solid #fecdd3;
+}
+
+.history-card {
+  padding: 0.85rem 0;
+}
+
+.history-head {
+  padding: 0 1.25rem 0.7rem;
+}
+
+.history-head h4 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.history-scroll {
+  overflow-x: auto;
+}
+
+.stake-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+}
+
+.stake-table thead th {
+  text-align: left;
+  color: #64748b;
+  background: #f1f5f9;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  padding: 0.7rem 1.25rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.stake-table tbody td {
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid #eef2f7;
+  color: #1e293b;
+  font-size: 0.93rem;
+}
+
+.stake-table tbody tr:nth-child(even) {
+  background: rgba(248, 250, 252, 0.78);
+}
+
+.stake-table tbody tr:hover {
+  background: rgba(224, 242, 254, 0.5);
+}
+
+.amount-col {
+  font-weight: 700;
+}
+
+.coin-pill,
+.lock-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.coin-pill {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.lock-pill {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.action-col {
+  text-align: right;
+}
+
+:host ::ng-deep .mat-mdc-form-field {
+  --mdc-outlined-text-field-outline-color: #cbd5e1;
+  --mdc-outlined-text-field-focus-outline-color: #0ea5e9;
+  --mdc-outlined-text-field-hover-outline-color: #94a3b8;
+  --mdc-outlined-text-field-label-text-color: #64748b;
+}
+
+:host ::ng-deep .mat-mdc-text-field-wrapper {
+  background: #ffffff;
+  border-radius: 12px;
+}
+
+@media (max-width: 920px) {
+  .stake-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .action-col {
+    text-align: left;
+  }
+}

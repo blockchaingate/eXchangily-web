@@ -1,23 +1,51 @@
+.explorer-dashboard {
+    position: relative;
+}
+
+.hero-band {
+    margin: 0.2rem 0 0.75rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    background: linear-gradient(130deg, #ffffff 0%, #f6faff 100%);
+    box-shadow: 0 18px 34px -28px rgba(15, 23, 42, 0.4);
+}
+
+.hero-band h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+:host ::ng-deep app-search-box .mat-mdc-card,
+:host ::ng-deep app-kanban-stats .mat-mdc-card,
+:host ::ng-deep app-latest-orders .mat-mdc-card,
+:host ::ng-deep app-latest-trades .mat-mdc-card,
+:host ::ng-deep app-blocks .mat-mdc-card {
+    height: 100%;
+}
+
 @media (max-width: 991px) and (min-width: 768px) {
     .blocks {
-        margin-top: 20px;
+        margin-top: 0;
     }
 }
 
 @media (max-width: 767px) {
     .stats {
-        margin-top: 20px;
+        margin-top: 0;
     }
 
     .kanbanBottom {
-        margin-top: 5px;
+        margin-top: 0;
     }
 
     .trades {
-        margin-top: 20px;
+        margin-top: 0;
     }
 
     .blocks {
-        margin-top: 20px;
+        margin-top: 0;
     }
 }

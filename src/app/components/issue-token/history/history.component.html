@@ -1,50 +1,73 @@
-<table class="custom-table">
-    <thead>
-        <tr>
-            <th>{{'Project name' | translate}}</th>  
-            <th>{{'Token symbol' | translate}}</th>     
-            <th>{{'Token decimals' | translate}}</th> 
-            <th>{{'Total supply' | translate}}</th>                
-            <th>{{'TxID' | translate}}</th>
-            <th>{{'Smart Contract Address' | translate}}</th>   
-            <th>{{'Status' | translate}}</th>                   
-        </tr>
-    </thead>
-    <tbody>
-        @for(tx of txs.reverse(); track tx) {
-        <tr>
-            <td>
-                {{tx.name}}
-            </td>
-            <td>
-                {{tx.symbol}}
-            </td>
-            <td>
-                {{tx.decimals}}
-            </td>
-            <td>
-                {{tx.totalSupply}}
-            </td>            
-            <td>
-                @if(tx.txid) {
-                    {{showLongString(tx.txid)}}            
-                    <button mat-icon-button (click)="copy(tx.txid)">
-                        <mat-icon svgIcon="copy"></mat-icon>
-                    </button>
-            }
-            </td>
-            <td>
-                @if(tx.smartContractAddress) {
-                    {{showLongString(tx.smartContractAddress)}}
-                    <button mat-icon-button (click)="copy(tx.smartContractAddress)">
-                        <mat-icon svgIcon="copy"></mat-icon>
-                    </button>
-            }
-            </td>   
-            <td>
-                {{tx.status}}
-            </td>                     
-        </tr>
-    }
-    </tbody>
-</table>
+<div class="history-table-shell">
+    <div class="history-table-scroll">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>{{'Project name' | translate}}</th>
+                    <th>{{'Token symbol' | translate}}</th>
+                    <th>{{'Token decimals' | translate}}</th>
+                    <th>{{'Total supply' | translate}}</th>
+                    <th>{{'TxID' | translate}}</th>
+                    <th>{{'Smart Contract Address' | translate}}</th>
+                    <th>{{'Status' | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(tx of txs.slice().reverse(); track tx) {
+                <tr>
+                    <td class="value-strong">
+                        {{tx.name}}
+                    </td>
+                    <td>
+                        <span class="token-symbol">{{tx.symbol}}</span>
+                    </td>
+                    <td>
+                        {{tx.decimals}}
+                    </td>
+                    <td class="value-strong">
+                        {{tx.totalSupply}}
+                    </td>
+                    <td>
+                        @if(tx.txid) {
+                            <span class="hash-chip">{{showLongString(tx.txid)}}</span>
+                            <mat-icon
+                                class="copy-icon"
+                                svgIcon="copy"
+                                role="button"
+                                tabindex="0"
+                                aria-label="Copy TxID"
+                                (click)="copy(tx.txid)"
+                                (keydown.enter)="copy(tx.txid)"
+                                (keydown.space)="copy(tx.txid)">
+                            </mat-icon>
+                        }
+                    </td>
+                    <td>
+                        @if(tx.smartContractAddress) {
+                            <span class="hash-chip">{{showLongString(tx.smartContractAddress)}}</span>
+                            <mat-icon
+                                class="copy-icon"
+                                svgIcon="copy"
+                                role="button"
+                                tabindex="0"
+                                aria-label="Copy Smart Contract Address"
+                                (click)="copy(tx.smartContractAddress)"
+                                (keydown.enter)="copy(tx.smartContractAddress)"
+                                (keydown.space)="copy(tx.smartContractAddress)">
+                            </mat-icon>
+                        }
+                    </td>
+                    <td>
+                        <span
+                            class="status-pill"
+                            [class.status-ok]="(tx.status || '').toLowerCase().includes('success') || (tx.status || '').toLowerCase().includes('done') || (tx.status || '').toLowerCase().includes('confirmed')"
+                            [class.status-wait]="(tx.status || '').toLowerCase().includes('pending') || (tx.status || '').toLowerCase().includes('processing')">
+                            {{tx.status}}
+                        </span>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

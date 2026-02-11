@@ -1,9 +1,100 @@
-.example-full-width {
+.redeposit-modal-dialog {
+    margin-top: 10vh;
+}
+
+.redeposit-modal-content {
+    border: 0;
+    border-radius: 18px;
+    overflow: hidden;
+    background: linear-gradient(155deg, #f7fbff 0%, #eef6ff 48%, #f8fafc 100%);
+    box-shadow: 0 24px 44px -22px rgba(15, 23, 42, 0.55);
+}
+
+.redeposit-modal-header {
+    border-bottom: 0;
+    padding: 1.15rem 1.25rem 0.5rem;
+}
+
+.redeposit-modal-title {
+    margin: 0;
+    color: #0f172a;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.redeposit-modal-close {
+    margin-top: -2px;
+    color: #334155;
+    text-shadow: none;
+    opacity: 0.75;
+}
+
+.redeposit-modal-close:hover {
+    opacity: 1;
+}
+
+.redeposit-modal-body {
+    padding: 0.8rem 1.25rem 1rem;
+}
+
+.redeposit-field {
     width: 100%;
 }
 
+.redeposit-field ::ng-deep .mdc-text-field--outlined {
+    background: #ffffff;
+    border-radius: 12px;
+}
 
-  .mat-input-element {
-    color: black;
-    text-decoration: none;
-  }
+.redeposit-field ::ng-deep .mdc-notched-outline__leading,
+.redeposit-field ::ng-deep .mdc-notched-outline__notch,
+.redeposit-field ::ng-deep .mdc-notched-outline__trailing {
+    border-color: #cbd5e1;
+}
+
+.redeposit-field ::ng-deep .mdc-text-field--focused .mdc-notched-outline__leading,
+.redeposit-field ::ng-deep .mdc-text-field--focused .mdc-notched-outline__notch,
+.redeposit-field ::ng-deep .mdc-text-field--focused .mdc-notched-outline__trailing {
+    border-width: 2px;
+    border-color: #0ea5e9;
+}
+
+.redeposit-field ::ng-deep .mdc-text-field__input {
+    color: #0f172a;
+}
+
+.redeposit-modal-footer {
+    border: 0;
+    padding: 0.35rem 1.25rem 1.2rem;
+    justify-content: center;
+}
+
+.redeposit-confirm-btn {
+    border: 0;
+    border-radius: 999px;
+    font-weight: 600;
+    padding: 0.55rem 2.2rem;
+    background: linear-gradient(120deg, #0ea5e9 0%, #2563eb 100%);
+    box-shadow: 0 10px 18px -10px rgba(37, 99, 235, 0.9);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.redeposit-confirm-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 20px -10px rgba(14, 165, 233, 0.85);
+}
+
+.redeposit-confirm-btn:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(14, 165, 233, 0.28), 0 12px 20px -10px rgba(14, 165, 233, 0.85);
+}
+
+@media (max-width: 768px) {
+    .redeposit-modal-dialog {
+        margin: 1rem;
+    }
+
+    .redeposit-modal-content {
+        border-radius: 16px;
+    }
+}

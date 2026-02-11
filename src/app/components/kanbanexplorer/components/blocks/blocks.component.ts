@@ -4,6 +4,7 @@ import { KanbanService } from '../../services/kanban.service';
 import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
@@ -11,7 +12,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-blocks',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatSlideToggleModule, MatTableModule, RouterLink, TranslateModule],
+  imports: [CommonModule, MatCardModule, MatButtonModule, MatSlideToggleModule, MatTableModule, RouterLink, TranslateModule],
   templateUrl: './blocks.component.html',
   styleUrls: ['./blocks.component.css']
 })

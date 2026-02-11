@@ -5,12 +5,13 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-latest-orders',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatTableModule, RouterModule, TranslateModule],
+  imports: [CommonModule, MatCardModule, MatTableModule, MatButtonModule, RouterModule, TranslateModule],
   templateUrl: './latest-orders.component.html',
   styleUrls: ['./latest-orders.component.css']
 })

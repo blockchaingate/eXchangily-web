@@ -1,6 +1,21 @@
+.explorer-card {
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    background: linear-gradient(140deg, #ffffff 0%, #f8fbff 100%);
+    box-shadow: 0 18px 34px -28px rgba(15, 23, 42, 0.45);
+}
+
 .card-top {
     padding: 10px;
     overflow-y: auto;
+}
+
+.card-title {
+    margin: 0 0 0.7rem;
+    color: #0f172a;
+    font-size: 1.02rem;
+    font-weight: 700;
+    text-align: left;
 }
 
 .txtAlignCenter {
@@ -20,22 +35,26 @@
     width: 100%;
 }
 
-.graycolor {
-    color: white;
+.explorer-table {
+    background: transparent;
 }
 
 th {
-    color: white;
-    font-size: 1em;
+    color: #64748b;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
 }
 
 td {
-    color: lightgray;
-    font-size: small;
+    color: #1e293b;
+    font-size: 0.83rem;
 }
 
 a {
-    color: #8f9fff;
+    color: #0369a1;
+    font-weight: 600;
 }
 
 .blockControl {

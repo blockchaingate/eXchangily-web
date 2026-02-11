@@ -5,11 +5,12 @@ import { KanbanStatsComponent } from '../kanban-stats/kanban-stats.component';
 import { LatestOrdersComponent } from '../latest-orders/latest-orders.component';
 import { LatestTradesComponent } from '../latest-trades/latest-trades.component';
 import { BlocksComponent } from '../blocks/blocks.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [SearchBoxComponent, KanbanStatsComponent, LatestOrdersComponent, LatestTradesComponent, BlocksComponent],
+  imports: [TranslateModule, SearchBoxComponent, KanbanStatsComponent, LatestOrdersComponent, LatestTradesComponent, BlocksComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })

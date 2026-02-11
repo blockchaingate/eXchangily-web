@@ -1,6 +1,12 @@
-<!--<div class="toolbar" role="banner">
-  <h1 style=" margin: auto; ">Kanban Explorer</h1>
-</div>-->
-<mat-toolbar color="primary"> <a [routerLink]="['/']"><span class="white">{{"Kanban Explorer" | translate}}</span></a>
-</mat-toolbar>
-<router-outlet></router-outlet>
+<div class="explorer-shell">
+  <div class="explorer-orb orb-left"></div>
+  <div class="explorer-orb orb-right"></div>
+
+  <div class="explorer-topbar">
+    <a [routerLink]="['/']" class="explorer-home-link">{{"Kanban Explorer" | translate}}</a>
+  </div>
+
+  <div class="explorer-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

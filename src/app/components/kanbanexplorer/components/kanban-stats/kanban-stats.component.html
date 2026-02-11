@@ -1,19 +1,33 @@
-<mat-card class="mat-elevation-z6">
-  <h5 class="text-center">{{"Kanban Quick Stats"|translate}}</h5>
+<mat-card class="stats-card">
+  <h5>{{"Kanban Quick Stats"|translate}}</h5>
   @if (kanbanStats) {
-    <div class="small text-center">
-      {{"Blocks"|translate}} : {{ kanbanStats.lastBlockCrawled }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{"Orders"|translate}} : {{ kanbanStats.totalOrders}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{"Trades"|translate}} : {{ kanbanStats.totalTrades }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <br> {{"Deposits"|translate}} : {{kanbanStats.totalDepositRequests}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{"Withdraw Requests"|translate}} : {{kanbanStats.totalWithdrawRequests}}
-        <!--
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        {{"Cancel Orders"|translate}} : {{kanbanStats.totalCancelOrders}}
-        -->
-        @if (dividends) {
-          <span>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            {{"Dividends"|translate}} : {{dividends.USDTOTAL}}
-          </span>
-        }
+    <div class="stats-grid">
+      <div class="stat-item">
+        <span class="label">{{"Blocks"|translate}}</span>
+        <span class="value">{{kanbanStats.lastBlockCrawled}}</span>
       </div>
-    }
-  </mat-card>
+      <div class="stat-item">
+        <span class="label">{{"Orders"|translate}}</span>
+        <span class="value">{{kanbanStats.totalOrders}}</span>
+      </div>
+      <div class="stat-item">
+        <span class="label">{{"Trades"|translate}}</span>
+        <span class="value">{{kanbanStats.totalTrades}}</span>
+      </div>
+      <div class="stat-item">
+        <span class="label">{{"Deposits"|translate}}</span>
+        <span class="value">{{kanbanStats.totalDepositRequests}}</span>
+      </div>
+      <div class="stat-item">
+        <span class="label">{{"Withdraw Requests"|translate}}</span>
+        <span class="value">{{kanbanStats.totalWithdrawRequests}}</span>
+      </div>
+      @if (dividends) {
+        <div class="stat-item">
+          <span class="label">{{"Dividends"|translate}}</span>
+          <span class="value">{{dividends.USDTOTAL}}</span>
+        </div>
+      }
+    </div>
+  }
+</mat-card>

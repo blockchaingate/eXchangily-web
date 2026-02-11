@@ -1,0 +1,95 @@
+<div class="metaforce-page">
+  <div class="metaforce-bg-orb orb-a"></div>
+  <div class="metaforce-bg-orb orb-b"></div>
+
+  <div class="metaforce-wrap">
+    <section class="hero-card">
+      <h2>{{'stakeFabExg' | translate}}</h2>
+    </section>
+
+    <section class="stake-card">
+      <div class="stake-form-grid">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>{{'Coin' | translate}}</mat-label>
+          <mat-select [(ngModel)]="coin" (selectionChange)="changeCoin($event.value)">
+            <mat-option value="FAB">FAB</mat-option>
+            <mat-option value="EXG">EXG</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>{{'Amount' | translate}}</mat-label>
+          <input matInput title="amount" [(ngModel)]="amount">
+        </mat-form-field>
+      </div>
+
+      <div class="wallet-stats">
+        <div class="stat-item">
+          <span class="stat-label">{{'Wallet address' | translate}}</span>
+          <span class="stat-value mono">{{address}}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">{{'Balance' | translate}}</span>
+          <span class="stat-value">{{balance}} {{coin}}</span>
+        </div>
+      </div>
+
+      <div class="stake-actions">
+        <button class="btn stake-btn" (click)="stake()">{{'Deposit Stake' | translate }}</button>
+      </div>
+
+      @if(result) {
+      <div class="result-box">
+        <span class="result-label">{{'TxID' | translate}}:</span>
+        <a target="_blank" [href]="gettxid(result)">{{result}}</a>
+      </div>
+      }
+
+      @if(error) {
+      <div class="error-box">{{error | translate}}</div>
+      }
+    </section>
+
+    <section class="history-card">
+      <div class="history-head">
+        <h4>{{'Stake Block' | translate}} / {{'Release Block' | translate}}</h4>
+      </div>
+
+      <div class="history-scroll">
+        <table class="stake-table">
+          <thead>
+            <tr>
+              <th>{{'Amount' | translate}}</th>
+              <th>{{'Stake Block' | translate}}</th>
+              <th>{{'Release Block' | translate}}</th>
+              <th>{{'Coin' | translate}}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for(item of stakeInfo; track item.hash) {
+            <tr>
+              <td class="amount-col">{{getAmount(item)}}</td>
+              <td>{{item.blocknumber1}}</td>
+              <td>{{item.blocknumber2}}</td>
+              <td><span class="coin-pill">{{getCoin(item.type)}}</span></td>
+              <td class="action-col">
+                @if(withdrawable(item.blocknumber2)) {
+                <button
+                  type="button"
+                  class="btn withdraw-btn"
+                  (click)="withdraw(item.hash)">{{'Withdraw Stake' | translate }}</button>
+                } @else {
+                <span class="lock-pill">{{'Locked' | translate}}</span>
+                }
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>
+
+<pin-number-modal #pinModal (confirmedPin)="onConfirmedPin($event)"></pin-number-modal>

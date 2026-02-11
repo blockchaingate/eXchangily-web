@@ -1,35 +1,125 @@
+.history-table-shell {
+    border-radius: 16px;
+    background: linear-gradient(160deg, #f8fbff 0%, #f3f8ff 48%, #f7fafc 100%);
+    box-shadow: 0 20px 40px -28px rgba(15, 23, 42, 0.55);
+    border: 1px solid #e2e8f0;
+}
+
+.history-table-scroll {
+    overflow-x: auto;
+    border-radius: 16px;
+}
+
 .custom-table {
-    font-weight: 400;
     width: 100%;
-    padding: 16px 32px;
+    min-width: 920px;
+    border-collapse: collapse;
 }
 
 .custom-table thead>tr>th {
-    color: #7b8293;
-    font-size: 10px;
-    font-weight: 500;
-    line-height: 16px;
-    font-weight: 400;
-    padding-top: 24px;
-    padding-bottom: 8px;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background-color: rgba(226, 232, 240, 0.55);
+    padding: 14px 16px;
+    white-space: nowrap;
+    border-bottom: 1px solid #e2e8f0;
 }
 
 .custom-table tbody>tr {
-    border-bottom: 1px solid #f4f5f8;
+    border-bottom: 1px solid #edf2f7;
 }
 
 .custom-table tbody tr td {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
-    color: #3f475a;
-    line-height: 20px;
+    color: #1e293b;
+    line-height: 1.4;
+    padding: 14px 16px;
+    vertical-align: middle;
 }
 
-.custom-table tbody>tr>td {
-    padding: 18px 0;
+.custom-table tbody tr:nth-child(even) {
+    background-color: rgba(248, 250, 252, 0.7);
 }
 
 .custom-table tbody tr:hover {
+    background-color: rgba(224, 242, 254, 0.55);
+}
+
+.value-strong {
+    font-weight: 600;
+}
+
+.token-symbol {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: #dbeafe;
+    color: #1e40af;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+}
+
+.hash-chip {
+    display: inline-flex;
+    align-items: center;
+    font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 12px;
+    color: #0f172a;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: #e2e8f0;
+    border: 1px solid #cbd5e1;
+}
+
+.copy-icon {
+    width: 16px;
+    height: 16px;
+    margin-left: 6px;
+    vertical-align: middle;
+    color: #475569;
     cursor: pointer;
-    background-color: #f7f9fc;
+    transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.copy-icon:hover,
+.copy-icon:focus {
+    color: #0ea5e9;
+    outline: none;
+    transform: translateY(-1px);
+}
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #e2e8f0;
+    color: #334155;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.status-pill.status-ok {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-pill.status-wait {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+@media (max-width: 992px) {
+    .custom-table {
+        min-width: 860px;
+    }
 }

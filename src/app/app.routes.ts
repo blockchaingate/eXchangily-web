@@ -68,6 +68,7 @@ export const routes: Routes = [
     { path: 'tickets', loadComponent: () => import('./components/support/ticket/ticket.component').then((m) => m.TicketComponent) },
     { path: 'ticket-add', loadComponent: () => import('./components/support/ticket-add/ticket-add.component').then((m) => m.TicketAddComponent) },
     { path: 'news', loadComponent: () => import('./components/news/news.component').then((m) => m.NewsComponent) },
+    { path: 'metaforce', loadComponent: () => import('./components/metaforce/metaforce.component').then((m) => m.MetaforceComponent) },
     { path: 'announcements', loadComponent: () => import('./components/help/announcement/announcement-list/announcement-list.component').then((m) => m.AnnouncementListComponent) },
     { path: 'announcements/:lang', loadComponent: () => import('./components/help/announcement/announcement-list/announcement-list.component').then((m) => m.AnnouncementListComponent) },
     {

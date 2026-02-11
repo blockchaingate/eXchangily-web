@@ -2,6 +2,7 @@
     "stakeFabExg": "质押FAB或EXG获种子代币SEED空投",
     "Security": "安全",
     "Transfer": "转账",
+    "Pin Modal Hint": "继续此交易前需要进行安全确认。",
     "About": "关于",
     "Fee Limit": "费用限额",
     "Header": {

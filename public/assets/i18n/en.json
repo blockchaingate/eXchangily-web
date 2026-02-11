@@ -2,6 +2,8 @@
     "stakeFabExg": "Stake FAB or EXG for SEED airdrop",
     "Security": "Security",
     "Transfer": "Transfer",
+    "Locked": "Locked",
+    "Pin Modal Hint": "Secure confirmation is required to continue this transaction.",
     "Mint Token": "Mint Token",
     "Update Token": "Update Token",
     "Blog": "Blog",

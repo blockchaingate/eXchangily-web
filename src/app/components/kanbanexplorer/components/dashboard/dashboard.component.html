@@ -1,25 +1,28 @@
-<div class="container-fluid">
-    <div class="row py-3 kanbanTop">
-        <div class="col-md-6 search">
-            <app-search-box></app-search-box>
-        </div>
-        <div class="col-md-6 stats">
-            <app-kanban-stats></app-kanban-stats>
-        </div>        
+<div class="explorer-dashboard">
+    <div class="hero-band">
+        <h2>{{"Kanban Explorer" | translate}}</h2>
     </div>
 
-    <div class="row kanbanBottom">
+    <div class="row g-3 py-2 explorer-top">
+        <div class="col-lg-6 col-md-12 search">
+            <app-search-box></app-search-box>
+        </div>
+        <div class="col-lg-6 col-md-12 stats">
+            <app-kanban-stats></app-kanban-stats>
+        </div>
+    </div>
+
+    <div class="row g-3 explorer-bottom">
         <div class="col-lg-4 col-md-6 orders">
             <app-latest-orders></app-latest-orders>
         </div>
         <div class="col-lg-4 col-md-6 trades">
             <app-latest-trades></app-latest-trades>
-        </div>   
-        
+        </div>
         <div class="col-lg-4 col-md-12 blocks">
             <app-blocks></app-blocks>
-        </div>          
-    </div>    
+        </div>
+    </div>
 </div>
 
 <!--

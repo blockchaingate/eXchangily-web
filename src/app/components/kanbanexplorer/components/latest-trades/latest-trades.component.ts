@@ -7,11 +7,12 @@ import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-latest-trades',
   standalone: true,
-  imports: [MatCardModule, RouterModule, MatTableModule, TranslateModule],
+  imports: [MatCardModule, RouterModule, MatTableModule, MatButtonModule, TranslateModule],
   templateUrl: './latest-trades.component.html',
   styleUrls: ['./latest-trades.component.css']
 })

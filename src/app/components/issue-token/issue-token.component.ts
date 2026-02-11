@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { UtilService } from '../../services/util.service';
 import { PinNumberModal } from '../shared/modals/pin-number/pin-number.modal';
 import * as Btc from 'bitcoinjs-lib';
@@ -18,6 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 import { IssueTokenHistoryComponent } from './history/history.component';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { FormsModule } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-issue-token',
@@ -52,7 +53,9 @@ export class IssueTokenComponent implements OnInit {
     private apiServ: ApiService,
     private translateServ: TranslateService,
     private coinServ: CoinService,
-    private web3Serv: Web3Service) { }
+    private web3Serv: Web3Service,
+    private ngZone: NgZone,
+    private cdr: ChangeDetectorRef) { }
 
   async ngOnInit() {
     this.wallet = await this.storageService.getCurrentWallet();
@@ -73,62 +76,37 @@ export class IssueTokenComponent implements OnInit {
       }
     }
     this.txs = [];
-    this.apiServ.getIssueTokensOwnedBy(this.address).subscribe(
-      (ret: any) => {
-        for (let i = 0; i < ret.length; i++) {
-          const item = ret[i];
-          item.smartContractAddress = item.tokenId;
-          this.txs.push(item);
-        }
-
-        this.storageService.getIssueTokenTransactions().subscribe(
-          async (res: any) => {
-            if (res) {
-              for (let j = 0; j < res.length; j++) {
-                const itemInStorage = res[j];
-                let existed = false;
-                for (let i = 0; i < this.txs.length; i++) {
-                  if (this.txs[i].txid == itemInStorage.txid) {
-                    existed = true;
-                    break;
-                  }
-                }
-                if (!existed) {
-                  this.txs.push(itemInStorage);
-                }
-              }
-              /*
-              this.txs = res;
-              let updated = false;
-              for (let i = 0; i < this.txs.length; i++) {
-                const tx = this.txs[i];
-                if (tx.status == 'pending') {
-                  const txid = tx.txid;
-                  const receipts: any = await this.coinServ.getFabTransactionReceipt(txid);
-                  console.log('receipts==', receipts);
-                  if (receipts && receipts.length > 0) {
-                    const receipt = receipts[0];
-                    if (receipt.contractAddress) {
-                      tx.status = 'confirmed';
-                      tx.smartContractAddress = receipt.contractAddress;
-                    } else {
-                      tx.status = 'failed';
-                    }
-                    updated = true;
-                  }
-                }
-    
-                if (updated) {
-                  this.storageService.storeIssueTokenTransactions(this.txs);
-                }
-              }
-              */
-            }
-          }
-        );
-
+    try {
+      const ownedTokens = await firstValueFrom(this.apiServ.getIssueTokensOwnedBy(this.address)) as any[] || [];
+      const mergedTxs: IssueToken[] = [];
+      for (let i = 0; i < ownedTokens.length; i++) {
+        const item = ownedTokens[i];
+        item.smartContractAddress = item.tokenId;
+        mergedTxs.push(item);
       }
-    );
+
+      const txsInStorage = await firstValueFrom(this.storageService.getIssueTokenTransactions()) as IssueToken[] || [];
+      for (let j = 0; j < txsInStorage.length; j++) {
+        const itemInStorage = txsInStorage[j];
+        let existed = false;
+        for (let i = 0; i < mergedTxs.length; i++) {
+          if (mergedTxs[i].txid == itemInStorage.txid) {
+            existed = true;
+            break;
+          }
+        }
+        if (!existed) {
+          mergedTxs.push(itemInStorage);
+        }
+      }
+
+      this.ngZone.run(() => {
+        this.txs = mergedTxs;
+        this.cdr.detectChanges();
+      });
+    } catch (e) {
+      console.log('load issue token history failed', e);
+    }
 
   }
 

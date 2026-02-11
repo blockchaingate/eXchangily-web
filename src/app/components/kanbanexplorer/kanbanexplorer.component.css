@@ -1,0 +1,62 @@
+.explorer-shell {
+    position: relative;
+    min-height: calc(100vh - 56px);
+    background: linear-gradient(170deg, #f8fbff 0%, #f2f7ff 52%, #f8fafc 100%);
+    overflow: hidden;
+}
+
+.explorer-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0.9rem 1rem 1.25rem;
+}
+
+.explorer-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    min-height: 56px;
+    padding: 0 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid #e2e8f0;
+    backdrop-filter: blur(8px);
+}
+
+.explorer-home-link {
+    color: #0f172a;
+    text-decoration: none;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.explorer-home-link:hover {
+    color: #0369a1;
+}
+
+.explorer-orb {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.orb-left {
+    width: 380px;
+    height: 380px;
+    top: -140px;
+    left: -90px;
+    background: radial-gradient(circle, rgba(14, 165, 233, 0.18) 0%, rgba(14, 165, 233, 0) 70%);
+}
+
+.orb-right {
+    width: 460px;
+    height: 460px;
+    top: 180px;
+    right: -180px;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.14) 0%, rgba(37, 99, 235, 0) 70%);
+}

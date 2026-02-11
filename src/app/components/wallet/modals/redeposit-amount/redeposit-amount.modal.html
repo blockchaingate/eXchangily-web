@@ -1,22 +1,22 @@
 <div bsModal #depositModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   @if (coin) {
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header text-center">
-          <h4 class="modal-title w-100 text-dark">{{"Redeposit" | translate}} {{coin.name}}</h4>
-          <button type="button" class="close pull-right" aria-label="Close" (click)="hide()">
+    <div class="modal-dialog modal-lg redeposit-modal-dialog">
+      <div class="modal-content redeposit-modal-content">
+        <div class="modal-header redeposit-modal-header text-center">
+          <h4 class="modal-title w-100 redeposit-modal-title">{{"Redeposit" | translate}} {{coin.name}}</h4>
+          <button type="button" class="close redeposit-modal-close" aria-label="Close" (click)="hide()">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
-          <mat-form-field class="example-full-width">
-            <mat-label>Transaction ID</mat-label>
-            <input matInput [(ngModel)]="transactionID">
+        <div class="modal-body redeposit-modal-body">
+          <mat-form-field class="redeposit-field" appearance="outline" subscriptSizing="dynamic">
+            <mat-label>{{"Transaction ID" | translate}}</mat-label>
+            <input matInput autocomplete="off" [(ngModel)]="transactionID" placeholder="0x...">
           </mat-form-field>
         </div>
-        <div class="modal-footer">
-          <div class="pull-left">
-            <button type="button" class="btn btn-gradient text-white" (click)="onSubmit()"> {{"Confirm"|translate}} </button>
+        <div class="modal-footer redeposit-modal-footer">
+          <div>
+            <button type="button" class="btn redeposit-confirm-btn text-white" (click)="onSubmit()"> {{"Confirm"|translate}} </button>
           </div>
         </div>
       </div>

@@ -1121,8 +1121,20 @@ export class CoinService {
     }
 
     signStringTron(message: any, privateKey: any) {
-        message = message.replace(/^0x/, '');
-        const signingKey = new utils.ethersUtils.SigningKey(privateKey);
+        const rawMessage = typeof message === 'string' ? message : String(message || '');
+        message = rawMessage.replace(/^0x/, '');
+
+        let normalizedPrivateKey = '';
+        if (Buffer.isBuffer(privateKey) || privateKey instanceof Uint8Array) {
+            normalizedPrivateKey = `0x${Buffer.from(privateKey).toString('hex')}`;
+        } else if (typeof privateKey === 'string') {
+            const hex = privateKey.trim().replace(/^0x/, '');
+            normalizedPrivateKey = `0x${hex}`;
+        } else {
+            throw new Error('Missing private key for TRX claim signing');
+        }
+
+        const signingKey = new utils.ethersUtils.SigningKey(normalizedPrivateKey);
 
         const messageBytes = [
             ...utils.ethersUtils.toUtf8Bytes(environment.chains.TRX.network.messagePrefix),
@@ -1164,8 +1176,7 @@ export class CoinService {
         } else if (name == 'BNB' || tokenType === 'BNB' || name == 'MATIC' || tokenType === 'MATIC') {
             signature = this.web3Serv.signEtheruemCompatibleMessageWithPrivateKey(originalMessage, keyPair) as Signature;
         } else if (name === 'TRX' || tokenType === 'TRX') {
-            const priKeyDisp = keyPair.privateKey.toString('hex');
-            signature = this.signStringTron(originalMessage, priKeyDisp);
+            signature = this.signStringTron(originalMessage, keyPair.privateKey);
         } else if (name === 'BTC' || name === 'DOGE' || name === 'LTC' || name === 'BCH' ||
             name === 'FAB' || tokenType === 'FAB') {
 
